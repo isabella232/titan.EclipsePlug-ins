@@ -630,7 +630,7 @@ public final class Assignment_Statement extends Statement {
 					String temp;
 					IType type = getType(CompilationTimeStamp.getBaseTimestamp(), assignment);
 					type = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference, 1, Expected_Value_type.EXPECTED_TEMPLATE, false);
-					
+
 					//if (value.getValuetype() != Value_type.OMIT_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
 					if (value.getValuetype() != Value_type.OMIT_VALUE && value.getValuetype() != Value_type.REFERENCED_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
 						temp = MessageFormat.format("new {0}({1})", value.getMyGovernor().getGenNameValue(aData, source, myScope), value.generateSingleExpression(aData));

@@ -257,7 +257,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 
 	/**
 	 * Add generated java code for the list of select cases.
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param name the name to compare the branch variables to (expression or temporary name)

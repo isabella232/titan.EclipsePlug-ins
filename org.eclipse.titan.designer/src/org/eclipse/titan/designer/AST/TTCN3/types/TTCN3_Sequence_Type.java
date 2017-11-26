@@ -877,7 +877,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			expression.expression.append("FATAL_ERROR encountered");
 			return true;
 		}
-  
+
 		final Identifier fieldId = ((FieldSubReference) subReference).getId();
 		final CompField compField = getComponentByName(fieldId.getName());
 		if (compField.isOptional()) {

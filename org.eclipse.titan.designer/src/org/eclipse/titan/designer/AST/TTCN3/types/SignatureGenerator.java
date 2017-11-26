@@ -9,7 +9,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 /**
  * Utility class for generating the value and template classes for signature types.
  *
- * 
+ *
  * @author Kristof Szabados
  * */
 public class SignatureGenerator {
@@ -673,7 +673,7 @@ public class SignatureGenerator {
 
 		source.append("// FIXME implement encode_text\n");
 		source.append("// FIXME implement decode_text\n");
-	
+
 		source.append("public void log() {\n");
 		boolean isFirst = true;
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
@@ -728,7 +728,7 @@ public class SignatureGenerator {
 			source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
 		}
 		source.append("}\n");
-		
+
 		source.append("}\n");
 	}
 }

@@ -1163,9 +1163,9 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 	/** Generates the Java equivalent of the formal parameter list.
 	 *  The names of unused parameters are not displayed (unless forced).
-	 *  
+	 *
 	 *  @param aData the structure to put imports into and get temporal variable names from.
-	 *  
+	 *
 	 *  originally generate_code(char *str, size_t display_unused)
 	 */
 	public StringBuilder generateCode(final JavaGenData aData) {
@@ -1192,12 +1192,12 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			parameters.get(i).generateCodeDefaultValue(aData, source);
 		}
 	}
-	
+
 	/**
 	 * Generate code for actual parameter list with the provided prefix.
-	 * 
+	 *
 	 * @param prefix teh prefix to use
-	 * 
+	 *
 	 * originally: generate_code_actual_parlist
 	 * */
 	public StringBuilder generateCodeActualParlist(final String prefix) {

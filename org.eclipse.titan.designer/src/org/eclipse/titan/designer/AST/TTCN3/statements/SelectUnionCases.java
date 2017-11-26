@@ -295,7 +295,7 @@ public final class SelectUnionCases extends ASTNode implements IIncrementallyUpd
 
 	/**
 	 * Add generated java code for the list of select union cases.
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */

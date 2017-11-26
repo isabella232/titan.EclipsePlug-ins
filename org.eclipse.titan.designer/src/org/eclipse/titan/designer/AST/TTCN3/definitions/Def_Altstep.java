@@ -595,7 +595,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		source.append(body);
 		source.append("}\n\n");
 
-		
+
 
 		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 			source.append( "private" );

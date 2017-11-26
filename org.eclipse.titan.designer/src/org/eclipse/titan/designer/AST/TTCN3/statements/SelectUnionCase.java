@@ -381,7 +381,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 
 	/**
 	 * Add generated java code for a single select union case.
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions

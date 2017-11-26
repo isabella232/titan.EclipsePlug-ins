@@ -1548,7 +1548,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 * 
+	 *
 	 * FIXME the implementation only serves as a minimal testing setup
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {

@@ -268,7 +268,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 
 	/**
 	 * Add generated java code for a single select case.
-	 * 
+	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param name the name to compare the branch variables to (expression or temporary name)

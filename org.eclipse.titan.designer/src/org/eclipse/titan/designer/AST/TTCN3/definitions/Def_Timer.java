@@ -268,12 +268,12 @@ public final class Def_Timer extends Definition {
 
 		lastTimeChecked = timestamp;
 	}
-	
+
 	private void checkSingleDuration(final CompilationTimeStamp timestamp, final IValue duration){
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
 		referenceChain.release();
-		
+
 		if (v.getValuetype() == Value_type.REAL_VALUE) {
 			final Real_Value value = (Real_Value) v;
 			final double valueReal = value.getValue();
@@ -334,7 +334,7 @@ public final class Def_Timer extends Definition {
 				// Indexed-notation.
 				final boolean last_dim = startDimension + 1 >= dimensions.size();
 				final Map<Integer, Integer> indexMap = new HashMap<Integer, Integer>();
-				
+
 				for (int i = 0; i < nofComp; ++i) {
 					final IValue array_v = value.getValueByIndex(i);
 					if (array_v.getValuetype() == Value_type.NOTUSED_VALUE) {

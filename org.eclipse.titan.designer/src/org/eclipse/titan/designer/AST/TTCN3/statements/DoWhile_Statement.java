@@ -307,7 +307,7 @@ public final class DoWhile_Statement extends Statement {
 		source.append("break;\n");
 		source.append("}\n");
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {

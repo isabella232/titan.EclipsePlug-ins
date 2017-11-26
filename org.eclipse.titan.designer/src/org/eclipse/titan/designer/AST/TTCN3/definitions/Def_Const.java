@@ -530,7 +530,7 @@ public final class Def_Const extends Definition {
 			}
 		} else {
 			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
-			last.generateCodeInit(aData, source, genName );	
+			last.generateCodeInit(aData, source, genName );
 		}
 	}
 

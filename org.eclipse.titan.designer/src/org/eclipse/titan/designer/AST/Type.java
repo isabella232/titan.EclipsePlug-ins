@@ -1798,7 +1798,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Helper function used in generateCodeIspresentbound() for the
 	 * ispresent() function in case of template parameter.
-	 * 
+	 *
 	 * @param expression the expression to generate code to (error messages if needed).
 	 * @param subreferences the subreferences to check.
 	 * @param beginIndex the index at which index the checking of subreferences should start.

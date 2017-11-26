@@ -791,7 +791,7 @@ public final class Sequence_Value extends Value {
 					final IValue v= values.getNamedValueByIndex(i).getValue();
 					if (v!=null){
 						v.setGenNameRecursive(embeddedName.toString());
-					} 
+					}
 				}
 			}
 		}

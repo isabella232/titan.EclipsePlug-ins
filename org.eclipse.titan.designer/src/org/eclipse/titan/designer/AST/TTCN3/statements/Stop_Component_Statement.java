@@ -147,7 +147,7 @@ public final class Stop_Component_Statement extends Statement {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
 		final ExpressionStruct expression = new ExpressionStruct();
-		
+
 		if (componentReference == null) {
 			aData.addBuiltinTypeImport("TitanComponent");
 

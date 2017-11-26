@@ -374,7 +374,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName, 
+	public boolean chkRestrictionNamedListBaseTemplate(final CompilationTimeStamp timestamp, final String definitionName,
 			final boolean omitAllowed,
 			final Set<String> checkedNames, final int neededCheckedCnt, final Location usageLocation) {
 		boolean needsRuntimeCheck = false;
@@ -393,7 +393,7 @@ public final class Named_Template_List extends TTCN3Template {
 			}
 		}
 		if (baseTemplate instanceof Named_Template_List) {
-			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName, 
+			if (((Named_Template_List) baseTemplate).chkRestrictionNamedListBaseTemplate(timestamp, definitionName,
 					omitAllowed,checkedNames, neededCheckedCnt, usageLocation)) {
 				needsRuntimeCheck = true;
 			}
@@ -715,7 +715,7 @@ public final class Named_Template_List extends TTCN3Template {
 				template.generateCodeInit(aData, source, tempId);
 				source.append("}\n");
 			} else {
-				final String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName); 
+				final String embeddedName = MessageFormat.format("{0}.get{1}()", name, generatedFieldName);
 				template.generateCodeInit(aData, source, embeddedName);
 			}
 		}

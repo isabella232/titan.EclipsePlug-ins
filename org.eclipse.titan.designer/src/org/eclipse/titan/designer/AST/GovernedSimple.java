@@ -20,19 +20,19 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		CS_UNKNOWN,
 		/**
 		 * Initialized before processing the configuration file.
-		 * 
+		 *
 		 * Example: constants, default value for module parameters.
 		 */
 		CS_PRE_INIT,
 		/**
 		 * Initialized after processing the configuration file.
-		 * 
+		 *
 		 * Example: non-parameterized templates.
 		 */
 		CS_POST_INIT,
 		/**
 		 * Initialized with the component entities.
-		 * 
+		 *
 		 * Example: initial value for component variables, default
 		 * duration for timers.
 		 */
@@ -40,7 +40,7 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 		/**
 		 * Initialized immediately at the place of definition.
 		 * Applicable to local definitions only.
-		 * 
+		 *
 		 * Example: initial value for a local variable.
 		 */
 		CS_INLINE

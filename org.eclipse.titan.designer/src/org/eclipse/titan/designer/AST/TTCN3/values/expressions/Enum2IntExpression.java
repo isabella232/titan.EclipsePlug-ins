@@ -288,7 +288,7 @@ public final class Enum2IntExpression extends Expression_Value {
 		if (governor == null) {
 			governor = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		}
-		if (governor == null) { 
+		if (governor == null) {
 			governor = myLastSetGovernor;
 		}
 		if (governor == null ) {

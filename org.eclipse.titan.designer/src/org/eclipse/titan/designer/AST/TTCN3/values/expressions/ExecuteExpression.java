@@ -269,7 +269,7 @@ public final class ExecuteExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return reference.hasSingleExpression() && 
+		return reference.hasSingleExpression() &&
 				(timerValue == null || timerValue.canGenerateSingleExpression());
 	}
 

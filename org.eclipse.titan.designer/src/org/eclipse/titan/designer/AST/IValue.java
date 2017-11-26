@@ -480,9 +480,9 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 	 * may appear in the actual parameter list of parameterized value
 	 * references (e.g. function calls) and in operands of valueof or match
 	 * operations.
-	 * 
+	 *
 	 * rearrange_init_code in the compiler
-	 * 
+	 *
 	 * @param aData
 	 *                the structure to put imports into and get temporal
 	 *                variable names from.

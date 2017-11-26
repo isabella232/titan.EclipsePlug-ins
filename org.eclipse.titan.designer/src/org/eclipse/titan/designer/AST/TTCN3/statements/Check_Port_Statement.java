@@ -246,7 +246,7 @@ public final class Check_Port_Statement extends Statement {
 
 	/**
 	 * helper to generate the from part.
-	 * 
+	 *
 	 * originally generate_code_expr_fromclause
 	 * */
 	private void generateCodeExprFromclause(final JavaGenData aData, final ExpressionStruct expression) {

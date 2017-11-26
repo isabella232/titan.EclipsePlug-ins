@@ -27,10 +27,10 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * This class represents the ASN.1 type any.
- * 
+ *
  * This type has been deprecated in the standard.
  * Limited support is provided
- * 
+ *
  * @author Kristof Szabados
  * */
 //FIXME implement value checking

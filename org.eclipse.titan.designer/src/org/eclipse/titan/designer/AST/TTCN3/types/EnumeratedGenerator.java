@@ -132,13 +132,13 @@ public class EnumeratedGenerator {
 
 		//== functions ==
 		source.append("//===Methods===;\n");
-		generateValueAssign(source, e_defs.name); 
+		generateValueAssign(source, e_defs.name);
 		generateValueOperatorEquals(source, e_defs.name, e_defs.displayName);
 		generateValueOperatorNotEquals(source, e_defs.name);
 		generateValueIsLessThan(source, e_defs.name);
 		generateValueIsLessThanOrEqual(source, e_defs.name);
 		generateValueIsGreaterThan(source, e_defs.name);
-		generateValueIsGreaterThanOrEqual(source, e_defs.name); 
+		generateValueIsGreaterThanOrEqual(source, e_defs.name);
 		generateValueIsPresent(source);
 		generateValueIsBound(source);
 		generateMustBound(source);
@@ -191,7 +191,7 @@ public class EnumeratedGenerator {
 		//FIXME implement encode
 		//FIXME implement decode
 		//FIXME implement set_param
-		//FIXME implement check_restriction		
+		//FIXME implement check_restriction
 		source.append("}\n");
 	}
 
@@ -362,14 +362,14 @@ public class EnumeratedGenerator {
 		//Arg type: own type
 		source.append("//originally operator==\n");
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return enum_value == otherValue.enum_value;\n", aName)); 
+		source.append(MessageFormat.format("return enum_value == otherValue.enum_value;\n", aName));
 		source.append("}\n\n");
 
 		//Arg: Base_Type
 		source.append("//originally operator==\n");
 		source.append("public boolean operatorEquals(final Base_Type otherValue){\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", aName));
-		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName)); 
+		source.append(MessageFormat.format("return operatorEquals( ({0}) otherValue);\n", aName));
 		source.append("} else {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", displayName));
 		source.append("}\n");
@@ -378,7 +378,7 @@ public class EnumeratedGenerator {
 		//Arg: enum_type
 		source.append("//originally operator==\n");
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return enum_value == otherValue;\n", aName)); 
+		source.append(MessageFormat.format("return enum_value == otherValue;\n", aName));
 		source.append("}\n\n");
 	}
 
@@ -386,19 +386,19 @@ public class EnumeratedGenerator {
 		//Arg type: own type
 		source.append("//originally operator!=\n");
 		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0} otherValue)'{'\n", aName));
-		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName)); 
+		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
 		source.append("}\n\n");
 
 		//Arg: Base_Type
 		source.append("//originally operator!=\n");
 		source.append("public boolean operatorNotEquals(final Base_Type otherValue){\n");
-		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName)); 
+		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
 		source.append("}\n\n");
 
 		//Arg: enum_type
 		source.append("//originally operator!=\n");
 		source.append(MessageFormat.format("public boolean operatorNotEquals(final {0}.enum_type otherValue)'{'\n",aName));
-		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName)); 
+		source.append(MessageFormat.format("return !operatorEquals(otherValue);\n", aName));
 		source.append("}\n\n");
 	}
 
@@ -548,7 +548,7 @@ public class EnumeratedGenerator {
 	private static void generateTemplateDeclaration(final StringBuilder source, final String name) {
 		source.append("// single_value\n");
 		source.append(MessageFormat.format("private {0}.enum_type single_value;\n",name));
-		source.append("// value_list part\n");	
+		source.append("// value_list part\n");
 		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", name));
 	}
 
@@ -557,13 +557,13 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("public {0}_template() '{'\n", name));
 		source.append("}\n\n");
 
-		// template_sel 
+		// template_sel
 		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", name));
 		source.append("super(otherValue);\n");
 		source.append("checkSingleSelection(otherValue);\n");
 		source.append("}\n\n");
 
-		// int 
+		// int
 		source.append(MessageFormat.format("public {0}_template(final int otherValue) '{'\n", name));
 		source.append("super(template_sel.SPECIFIC_VALUE);\n");
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
@@ -601,7 +601,7 @@ public class EnumeratedGenerator {
 		source.append("switch (otherValue.templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value = otherValue.single_value;\n");
-		source.append("break;\n");	
+		source.append("break;\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -611,7 +611,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(otherValue.value_list.size());\n", name));
 		source.append("for(int i = 0; i < otherValue.value_list.size(); i++) {\n");
 		source.append(MessageFormat.format("final {0}_template temp = new {0}_template(otherValue.value_list.get(i));\n", name));
-		source.append("value_list.add(temp);\n");	
+		source.append("value_list.add(temp);\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("default:\n");
@@ -621,7 +621,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateAssign(final StringBuilder source, final String name) {
-		// arg: template_sel 
+		// arg: template_sel
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue) '{'\n", name));
 		source.append("checkSingleSelection(otherValue);\n");
@@ -630,7 +630,7 @@ public class EnumeratedGenerator {
 		source.append("return this;\n");
 		source.append("}\n\n");
 
-		// arg: int 
+		// arg: int
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0}_template assign(final int otherValue) '{'\n", name));
 		source.append(MessageFormat.format("if (!{0}.isValidEnum(otherValue)) '{'\n", name));
@@ -730,7 +730,7 @@ public class EnumeratedGenerator {
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return true;\n");
-		source.append("}\n\n");	
+		source.append("}\n\n");
 	}
 
 	private static void generateTemplateIsValue(final StringBuilder source, final String name) {

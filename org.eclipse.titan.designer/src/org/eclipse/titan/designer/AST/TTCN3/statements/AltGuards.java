@@ -480,7 +480,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				}
 				if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
 					source.append("break;\n");
-				} 
+				}
 				// do not generate code for further branches
 				break;
 			} else {

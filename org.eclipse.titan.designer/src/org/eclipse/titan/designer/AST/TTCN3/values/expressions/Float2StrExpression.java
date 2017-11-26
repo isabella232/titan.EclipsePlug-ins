@@ -38,7 +38,7 @@ public final class Float2StrExpression extends Expression_Value {
 	//see also TitanFloat.java
 	public static final double MIN_DECIMAL_FLOAT = 1.0E-4;
 	public static final double MAX_DECIMAL_FLOAT = 1.0E+10;
-	
+
 	private final Value value;
 
 	public Float2StrExpression(final Value value) {
@@ -154,9 +154,9 @@ public final class Float2StrExpression extends Expression_Value {
 		}
 	}
 
-	//This function converts a float value to a String. 
-	//If the input is zero or its absolute value is between 10^-4 and 10^10 
-	//the decimal dot notation is used in the output with 6 digits in the fraction part. 
+	//This function converts a float value to a String.
+	//If the input is zero or its absolute value is between 10^-4 and 10^10
+	//the decimal dot notation is used in the output with 6 digits in the fraction part.
 	//Otherwise the exponential notation is used with automatic (at most 6) digits precision in the mantissa.
 	//See also TitanFloat.java/log_float() and the reference guide
 	private String float2str(final double float_val){

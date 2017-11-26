@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * Utility class for generating the value and template classes for function/altstep/testcase types.
  *
  * starting/activating/executing is not yet supported
- * 
+ *
  * @author Kristof Szabados
  * */
 public class FunctionReferenceGenerator {

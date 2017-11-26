@@ -29,7 +29,7 @@ public class RecordSetCodeGenerator {
 
 		/** Field variable name in TTCN-3 and java */
 		private String mVarName;
-	
+
 		/** The user readable name of the field, typically used in error messages */
 		private String mDisplayName;
 
@@ -483,7 +483,7 @@ public class RecordSetCodeGenerator {
 
 	/**
 	 * Generating encode_text/decode_text
-	 * 
+	 *
 	 * @param aSb the output, where the java code is written
 	 * @param aNamesList sequence field variable and type names
 	 */

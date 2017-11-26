@@ -61,7 +61,7 @@ public final class Continue_Statement extends Statement {
 		if (myStatementBlock == null || !myStatementBlock.hasEnclosingLoop()) {
 			location.reportSemanticError(INCORRECTUSAGE);
 		}
-		
+
 		if (loop_stmt != null) {
 			// FIXME:
 			// loop_stmt->loop.has_cnt=true;
@@ -72,7 +72,7 @@ public final class Continue_Statement extends Statement {
 		} else {
 			location.reportSemanticError(INCORRECTUSAGE);
 		}
-		
+
 		lastTimeChecked = timestamp;
 	}
 
@@ -98,7 +98,7 @@ public final class Continue_Statement extends Statement {
 			//FIXME: implement case of interlive
 			//if (altGuards != null && iterate_once && is_ilt)
 			//	source.append("break;\n");
-			//} else 
+			//} else
 			if (loop_stmt instanceof For_Statement) {
 				For_Statement forStatment = (For_Statement) loop_stmt;
 				forStatment.generateCodeStepAssigment(aData, source);

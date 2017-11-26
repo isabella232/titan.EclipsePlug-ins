@@ -1078,7 +1078,7 @@ public final class FormalParameter extends Definition {
 
 	/**
 	 * Generates the formal parameter.
-	 * 
+	 *
 	 * @param aData only used to update imports if needed
 	 *
 	 * originally generate_code_fpar and had a boolean parameter,

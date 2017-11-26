@@ -185,7 +185,7 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	/**
 	 * Returns the Java type expression that represents the equivalent value
 	 * class at runtime viewed from the module of the scope .
-	 * 
+	 *
 	 * get_genname_value in titan.core
 	 *
 	 * @param aData only used to update imports if needed
@@ -199,7 +199,7 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	/**
 	 * Returns the Java type expression that represents the equivalent template
 	 * class at runtime viewed from the module of the scope .
-	 * 
+	 *
 	 * get_genname_value in titan.core
 	 *
 	 * @param aData only used to update imports if needed

@@ -967,7 +967,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			formalParameterList = null;
 			break;
 		}
-	
+
 		if (subReferences.get(0) instanceof ParameterisedSubReference) {
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
@@ -1321,7 +1321,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for reference `" + getFullName() + "''");
 				break;
 			}
-			
+
 		}
 	}
 }

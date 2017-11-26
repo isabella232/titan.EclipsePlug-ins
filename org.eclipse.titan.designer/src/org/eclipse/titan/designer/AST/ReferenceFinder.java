@@ -82,9 +82,9 @@ public final class ReferenceFinder {
 	 *
 	 * @param aAssignment
 	 *                The assignment
-	 * @param aFieldId 
+	 * @param aFieldId
 	 *                The field identifier
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *                 if the type of the assignment can not be determined
 	 */

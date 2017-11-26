@@ -376,7 +376,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * It can be used only after a successful
 	 * semantic check (e.g. during code generation) or the behaviour will be
 	 * unpredictable.
-	 * 
+	 *
 	 * @param subReferences the subreferences to walk
 	 * */
 	boolean fieldIsOptional(final List<ISubReference> subReferences);
@@ -799,7 +799,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Helper function used in generateCodeIspresentbound() for the
 	 * ispresent() function in case of template parameter.
-	 * 
+	 *
 	 * @return true if the referenced field which is embedded into a "?" is always present,
 	 * otherwise returns false.
 	 * */

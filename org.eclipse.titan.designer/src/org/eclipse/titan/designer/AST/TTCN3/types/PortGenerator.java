@@ -13,7 +13,7 @@ public class PortGenerator {
 
 	/**
 	 * Structure to describe in and out messages.
-	 * 
+	 *
 	 * originally port_msg_type is something like this
 	 * */
 	public static class messageTypeInfo {
@@ -40,7 +40,7 @@ public class PortGenerator {
 
 	/**
 	 * Structure to describe in and out messages.
-	 * 
+	 *
 	 * originally port_proc_signature is something like this
 	 * */
 	public static final class procedureSignatureInfo {
@@ -61,7 +61,7 @@ public class PortGenerator {
 
 	/**
 	 * Structure describing all data needed to generate the port.
-	 * 
+	 *
 	 * originally port_def
 	 * */
 	public static class PortDefinition {
@@ -814,7 +814,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.end_event();\n");
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));	
+		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
 		source.append(MessageFormat.format("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMUNSUCC : TtcnLogger.Severity.MATCHING_MCUNSUCC, \"Matching on port '{'0'}' failed: Type of the first message in the queue is not {0}.\", getName());\n", typeValueName));
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
@@ -970,7 +970,7 @@ public class PortGenerator {
 		source.append("protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
 		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
 			final messageTypeInfo inType = portDefinition.inMessages.get(i);
-			
+
 			source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 			source.append(MessageFormat.format("{0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
@@ -1609,7 +1609,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.log_char(' '),");
 		source.append(" incoming_par.log(), TtcnLogger.end_event_log2str()));\n");
 		source.append("}\n");
-		
+
 		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.CALL_{0};\n", index));
 		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
@@ -1844,7 +1844,7 @@ public class PortGenerator {
 	 * A utility function for generating code for the standalone version of
 	 *  receive/trigger/getcall/getreply/catch/check/check-receive/check-getcall/check-getreply/check-catch/timeout/done/killed
 	 *  statements.
-	 * 
+	 *
 	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param statement the code generated for the statement as an expression.
