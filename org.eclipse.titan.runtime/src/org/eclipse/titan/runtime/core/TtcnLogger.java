@@ -384,7 +384,7 @@ public final class TtcnLogger {
 		final long hours = timestamp % 24;
 //		timestamp = timestamp / 24; //not used yet
 		final StringBuilder temp = new StringBuilder(20 + message.length());
-		temp.append(hours).append(':').append(minutes).append(':').append(secs).append('.').append(millisec).append("000");
+		temp.append(String.format("%02d", hours)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
 		temp.append(' ').append(message);
 
 		System.out.println(temp);
