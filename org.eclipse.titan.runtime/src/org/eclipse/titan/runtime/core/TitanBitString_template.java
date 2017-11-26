@@ -44,7 +44,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	/** reference counter for dec_match */
 	private int dec_match_ref_count;
-	
+
 	public TitanBitString_template () {
 		//do nothing
 	}
@@ -83,7 +83,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			throw new TtcnError("Creating a bitstring template from an unbound optional field.");
 		}
 	}
-	
+
 	public TitanBitString_template( final TitanBitString_template otherValue ) {
 		copyTemplate(otherValue);
 	}
@@ -210,7 +210,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
 		return this;
-		
+
 	}
 
 	//originally operator=

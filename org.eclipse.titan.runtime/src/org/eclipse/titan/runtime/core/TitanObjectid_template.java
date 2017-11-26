@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * objid template
- * 
+ *
  * @author Gergo Ujhelyi
  * @author Andrea Palfi
  *

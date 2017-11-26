@@ -176,7 +176,7 @@ public class TitanBoolean extends Base_Type {
 
 		return boolean_value == otherValue;
 	}
-	
+
 
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
@@ -193,7 +193,7 @@ public class TitanBoolean extends Base_Type {
 
 		return !operatorEquals(otherValue);
 	}
-	
+
 	//originally operator!=
 	public boolean operatorNotEquals( final TitanBoolean aOtherValue ) {
 		return !operatorEquals( aOtherValue );
@@ -262,7 +262,7 @@ public class TitanBoolean extends Base_Type {
 
 		return new TitanBoolean(otherValue.boolean_value);
 	}
-	
+
 	//static or
 	public static TitanBoolean or(final boolean boolValue, final TitanBoolean otherValue){
 		if(boolValue){
@@ -272,21 +272,21 @@ public class TitanBoolean extends Base_Type {
 
 		return new TitanBoolean(otherValue.boolean_value);
 	}
-	
+
 	//static xor
 	public static TitanBoolean xor(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
 
 		return new TitanBoolean(boolValue != otherValue.boolean_value);
 	}
-	
+
 	//static equals
 	public static boolean operatorEquals(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
 
 		return boolValue == otherValue.boolean_value;
 	}
-	
+
 	//static notEquals
 	public static boolean opeatorNotEquals(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");

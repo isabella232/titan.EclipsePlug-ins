@@ -9,7 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 /**
  * Module_Param_Length_Restriction in titan.core
- * 
+ *
  * @author Arpad Lovassy
  */
 public class Module_Param_Length_Restriction {

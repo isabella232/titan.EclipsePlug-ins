@@ -71,7 +71,7 @@ public class TitanBoolean_template extends Base_Template {
 		if (otherValue instanceof TitanBoolean) {
 			return assign((TitanBoolean) otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
@@ -80,7 +80,7 @@ public class TitanBoolean_template extends Base_Template {
 		if (otherValue instanceof TitanBoolean_template) {
 			return assign((TitanBoolean_template) otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 

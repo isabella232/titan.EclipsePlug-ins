@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 /**
  * ASN.1 NULL type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanAsn_Null extends Base_Type {
@@ -145,7 +145,7 @@ public class TitanAsn_Null extends Base_Type {
 		if (!otherValue.isBound()) {
 			throw new TtcnError("The right operand of comparison is an unbound ASN.1 NULL value.");
 		}
-	
+
 		return true;
 	}
 

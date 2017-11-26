@@ -11,9 +11,9 @@ import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 
 /**
  * The class handling single mode operations.
- * 
+ *
  * TODO: lots to implement
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Runtime_Single_main {

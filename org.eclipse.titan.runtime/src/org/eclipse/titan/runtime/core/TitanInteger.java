@@ -66,7 +66,7 @@ public class TitanInteger extends Base_Type {
 		} catch (NumberFormatException e) {
 			return false;
 		}
-		
+
 	}
 
 	public TitanInteger(final String otherValue) {

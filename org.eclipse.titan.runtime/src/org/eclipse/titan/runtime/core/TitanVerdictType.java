@@ -19,7 +19,7 @@ public class TitanVerdictType extends Base_Type {
 	//originally Types.hh/verdicttype
 	public enum VerdictTypeEnum {
 		NONE(0, "none"), PASS(1, "pass"), INCONC(2, "inconc"), FAIL(3, "fail"), ERROR(4, "error"), UNBOUND(5, "unbound");
-		
+
 		private int index;
 		private String name;
 		VerdictTypeEnum(final int index, final String name) {

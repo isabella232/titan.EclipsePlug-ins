@@ -30,7 +30,7 @@ public class TitanUniversalCharString_Element {
 		return bound_flag;
 	}
 
-	public boolean isPresent() { 
+	public boolean isPresent() {
 		return bound_flag;
 	}
 

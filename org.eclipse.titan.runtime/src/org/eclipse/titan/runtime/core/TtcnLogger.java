@@ -564,14 +564,14 @@ public final class TtcnLogger {
 
 		return file_log_mask.mask.bits.contains(sev);
 	}
-	
+
 	public static boolean should_log_to_console(final Severity sev) {
 		if (sev == Severity.EXECUTOR_EXTCOMMAND) {
 			return true;
 		}
 		return console_log_mask.mask.bits.contains(sev);
 	}
-	
+
 	/*
 	 * public static boolean should_log_to_emergency(final Severity sev) {
 	 * return emergency_log_mask.mask.bits.contains(sev); }

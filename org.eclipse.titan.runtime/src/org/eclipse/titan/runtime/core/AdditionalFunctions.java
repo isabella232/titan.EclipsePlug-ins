@@ -16,12 +16,12 @@ import java.util.Random;
 
 /**
  * Additional (predefined) functions
- * 
+ *
  * @author Kristof Szabados
  * @author Gergo Ujhelyi
- * 
+ *
  * originally in Addfunc.{hh,cc}
- * 
+ *
  * FIXME implement rest
  */
 public final class AdditionalFunctions {
@@ -1635,12 +1635,12 @@ public final class AdditionalFunctions {
 
 		return subString(value.valueOf(), idx, returncount);
 	}
-	
+
 	public static TitanCharString subString(final TitanCharString_template value, final int idx, final int returncount) {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1648,7 +1648,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1656,7 +1656,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1664,15 +1664,15 @@ public final class AdditionalFunctions {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
-	
+
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final int returncount) {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1680,7 +1680,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1688,7 +1688,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1696,7 +1696,7 @@ public final class AdditionalFunctions {
 		if(!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
-		
+
 		return subString(value.valueOf(), idx, returncount);
 	}
 
@@ -1707,7 +1707,7 @@ public final class AdditionalFunctions {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace() is a negative integer value: {0}.", idx));
 		}
 		if(idx > value_length) {
-			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace(), which is {0}, is greater than the length of the {1} value: {2}.",  
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace(), which is {0}, is greater than the length of the {1} value: {2}.",
 					idx, string_type, value_length));
 		}
 		if(len < 0) {
@@ -2313,7 +2313,7 @@ public final class AdditionalFunctions {
 				if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
 					//TODO: Initial implementation
 					throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. "
-							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}." , 
+							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}." ,
 							uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row(),i));
 				}
 				ret_val.append((char) uchar.getUc_cell());
@@ -2329,7 +2329,7 @@ public final class AdditionalFunctions {
 		final TitanUniversalChar uchar = value.get_char();
 		if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
 			// TODO: Initial implementation
-			throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. char(0, 0, 0, 127), " 
+			throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. char(0, 0, 0, 127), "
 					+ "but the given universal charstring element contains the quadruple char({0}, {1}, {2}, {3})." , uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row()));
 		}
 
@@ -2343,7 +2343,7 @@ public final class AdditionalFunctions {
 	//TODO update with Java 1.7 to ThreadLocalRandom
 	static boolean rndSeedSet = false;
 	private final static Random random = new Random();
-	
+
 	public static void setRndSeed(final double floatSeed) {
 		TitanFloat.checkNumeric(floatSeed,"The seed value of function rnd()");
 		// FIXME: method caste double from long

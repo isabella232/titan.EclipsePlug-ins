@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_template extends Base_Template {

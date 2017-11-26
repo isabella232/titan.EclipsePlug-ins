@@ -12,9 +12,9 @@ import java.util.LinkedList;
 
 /**
  * TTCN-3 timer
- * 
+ *
  * TODO: the destructor can be a problem.
- * 
+ *
  * @author Kristof Szabados
  * @author Farkas Izabella Ingrid
  */
@@ -34,9 +34,9 @@ public class TitanTimer {
 	private static boolean controlTimerSaved = false;
 
 	protected TitanTimer(){
-		
+
 	}
-	
+
 	TitanTimer assign(final TitanTimer otherValue) {
 		timerName = otherValue.timerName;
 		hasDefault = otherValue.hasDefault;
@@ -63,7 +63,7 @@ public class TitanTimer {
 
 		return this;
 	}
-	
+
 	public TitanTimer(final String name) {
 		if (name == null) {
 			timerName = "<unknown>";
@@ -234,7 +234,7 @@ public class TitanTimer {
 
 	/**
 	 * originally read
-	 * 
+	 *
 	 * @return the number of seconds until the timer expires.
 	 * */
 	public TitanFloat read() {
@@ -258,7 +258,7 @@ public class TitanTimer {
 	/**
 	 * @return true if is_started and not yet expired, false otherwise.
 	 *
-	 * originally running(Index_Redirect* = null) 
+	 * originally running(Index_Redirect* = null)
 	 */
 	public boolean running() {
 		return running(null);
@@ -267,7 +267,7 @@ public class TitanTimer {
 	/**
 	 * @return true if is_started and not yet expired, false otherwise.
 	 *
-	 * originally running(Index_Redirect*) 
+	 * originally running(Index_Redirect*)
 	 */
 	public boolean running(final Index_Redirect index_redirect) {
 		//FIXME handle redirection
@@ -380,7 +380,7 @@ public class TitanTimer {
 	/**
 	 * Get the earliest expiration time for the running timers.
 	 * Includes the testcase's guard timer.
-	 * 
+	 *
 	 * @param minValue will return the expiration time if one is found.
 	 * @return true if an active timer was found, false otherwise.
 	 * */

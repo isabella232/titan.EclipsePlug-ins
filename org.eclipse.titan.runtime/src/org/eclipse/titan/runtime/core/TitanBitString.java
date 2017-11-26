@@ -23,7 +23,7 @@ public class TitanBitString extends Base_Type {
 	 *
 	 * Packed storage of bits, filled from LSB.
 	 * Each element only stores 8 bits.
-	 * //TODO check if using more bits would have better performance. 
+	 * //TODO check if using more bits would have better performance.
 	 */
 	private List<Integer> bits_ptr;
 
@@ -146,7 +146,7 @@ public class TitanBitString extends Base_Type {
 //		this.n_bits = aNoBits;
 //		clear_unused_bits();
 //	}
-	
+
 	//originally operator=
 	public TitanBitString assign(final TitanBitString_Element otherValue){
 		otherValue.mustBound("Assignment of an unbound bitstring element to a bitstring.");
@@ -159,7 +159,7 @@ public class TitanBitString extends Base_Type {
 
 		return this;
 	}
-	
+
 
 	//originally operator=
 	public TitanBitString assign( final TitanBitString aOtherValue ) {
@@ -300,7 +300,7 @@ public class TitanBitString extends Base_Type {
 
 		return new TitanBitString(dest_ptr, resultBits);
 	}
-	
+
 	//originally operator+
 	public TitanBitString concatenate(final TitanBitString_Element otherValue){
 		mustBound("Unbound left operand of bitstring concatenation.");
@@ -332,7 +332,7 @@ public class TitanBitString extends Base_Type {
 
 		return ret_val;
 	}
-	
+
 	//originally operator&
 	public TitanBitString and4b(final TitanBitString otherValue){
 		mustBound("Left operand of operator and4b is an unbound bitstring value.");

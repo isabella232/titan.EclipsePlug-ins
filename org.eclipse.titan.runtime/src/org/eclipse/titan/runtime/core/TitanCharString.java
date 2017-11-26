@@ -274,7 +274,7 @@ public class TitanCharString extends Base_Type {
 		return this;
 	}
 
-	//originally operator+= 
+	//originally operator+=
 	// append for charstring_element
 	public TitanCharString append(final TitanCharString_Element aOtherValue) {
 		mustBound("Appending a charstring value to an unbound charstring value.");
@@ -326,7 +326,7 @@ public class TitanCharString extends Base_Type {
 	{
 		mustBound("The left operand of concatenation is an unbound charstring value.");
 		aOtherValue.mustBound("The right operand of concatenation is an unbound universal charstring element.");
-		
+
 	}*/
 
 	// originally operator==

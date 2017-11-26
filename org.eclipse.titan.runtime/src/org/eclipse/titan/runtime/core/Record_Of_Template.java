@@ -13,13 +13,13 @@ import java.util.List;
 
 /**
  * Record_Of_Template in titan.core
- * 
+ *
  * @author Arpad Lovassy
  */
 public abstract class Record_Of_Template extends Restricted_Length_Template {
 
 	/**
-	 * permutation interval 
+	 * permutation interval
 	 */
 	class Pair_of_elements {
 		//beginning and ending index

@@ -12,10 +12,10 @@ import java.util.ArrayList;
 
 /**
  * TTCN-3 component variable
- * 
- * //FIXME a lot to implement 
+ *
+ * //FIXME a lot to implement
  * The component type from the compiler is represented as int.
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanComponent extends Base_Type {

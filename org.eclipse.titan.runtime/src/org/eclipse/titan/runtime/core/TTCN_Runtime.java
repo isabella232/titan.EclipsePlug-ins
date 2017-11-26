@@ -14,10 +14,10 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 /**
  * TTCN-3 runtime class
- * 
+ *
  * TODO: lots to implement
  * TODO: reorganize according to .hh
- * 
+ *
  * @author Kristof Szabados
  */
 public final class TTCN_Runtime {
@@ -735,7 +735,7 @@ public final class TTCN_Runtime {
 				verdictCount[VerdictTypeEnum.FAIL.getValue()], (100.0 * verdictCount[VerdictTypeEnum.FAIL.getValue()])/ totalTestcases,
 				verdictCount[VerdictTypeEnum.ERROR.getValue()], (100.0 * verdictCount[VerdictTypeEnum.ERROR.getValue()])/ totalTestcases));
 		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were":" was", overallVerdict.getName()));
-		
+
 		verdictCount[VerdictTypeEnum.NONE.getValue()] = 0;
 		verdictCount[VerdictTypeEnum.PASS.getValue()] = 0;
 		verdictCount[VerdictTypeEnum.INCONC.getValue()] = 0;

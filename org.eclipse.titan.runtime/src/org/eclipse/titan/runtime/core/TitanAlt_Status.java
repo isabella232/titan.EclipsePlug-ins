@@ -9,9 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 /**
  * Enumeration indicating the status of an altstep branch.
- * 
+ *
  * originally alt_status in Types.h
- * 
+ *
  * @author Kristof Szabados
  */
 public enum TitanAlt_Status {

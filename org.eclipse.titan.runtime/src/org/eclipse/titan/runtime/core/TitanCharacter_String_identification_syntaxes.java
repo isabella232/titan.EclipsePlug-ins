@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 /**
  * Part of the representation of the ASN.1 unrestricted string (CHARACTER STRING) type.
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {

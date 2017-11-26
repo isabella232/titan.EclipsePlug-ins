@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 /**
  * Part of the representation of the ASN.1 EMBEDDED PDV type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {

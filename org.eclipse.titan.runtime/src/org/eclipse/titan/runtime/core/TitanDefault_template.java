@@ -15,7 +15,7 @@ import java.util.ArrayList;
  *
  * @author Kristof Szabados
  * @author Andrea Pálfi
- * 
+ *
  */
 public class TitanDefault_template extends Base_Template {
 	private Default_Base single_value;

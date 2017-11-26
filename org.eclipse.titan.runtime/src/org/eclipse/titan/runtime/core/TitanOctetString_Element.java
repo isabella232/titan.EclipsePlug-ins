@@ -71,7 +71,7 @@ public class TitanOctetString_Element {
 		str_val.set_nibble(nibble_pos, other_value.get_nibble(0));
 		return this;
 	}
-	
+
 	// originally operator==
 	public boolean operatorEquals( final TitanOctetString_Element other_value ) {
 		mustBound("Unbound left operand of octetstring element comparison.");
@@ -101,7 +101,7 @@ public class TitanOctetString_Element {
 	public boolean operatorNotEquals( final TitanOctetString aOtherValue ) {
 		return !operatorEquals( aOtherValue );
 	}
-	
+
 	// originally operator+
 	public TitanOctetString concatenate( final TitanOctetString other_value ) {
 		mustBound("Unbound left operand of octetstring element concatenation.");

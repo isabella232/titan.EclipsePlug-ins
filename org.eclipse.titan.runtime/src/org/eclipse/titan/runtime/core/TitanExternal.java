@@ -13,7 +13,7 @@ import org.eclipse.titan.runtime.core.Optional.optional_sel;
 
 /**
  * Part of the representation of the ASN.1 EXTERNAL type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanExternal extends Base_Type {

@@ -22,7 +22,7 @@ import org.eclipse.titan.runtime.core.Record_Of_Template.Pair_of_elements;
  * @author Andrea Pálfi
  *
  * TODO recursive_permutation_match might not need to be here
- * 
+ *
  */
 public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_Template> extends Restricted_Length_Template {
 
@@ -41,7 +41,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	private int listSize;
 
 	/**
-	 * permutation interval 
+	 * permutation interval
 	 */
 	class Pair_of_elements {
 		//beginning and ending index
@@ -90,7 +90,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	@Override
 	protected void setSelection(final template_sel otherValue) {
 		super.setSelection(otherValue);
-		clean_up_intervals();		
+		clean_up_intervals();
 	}
 
 	protected void setSelection(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
@@ -428,7 +428,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
 			setSize(listSize);
-			break; 
+			break;
 		default:
 			setSize(index + 1);
 		}
@@ -466,7 +466,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	public Ttemplate constGetAt(final TitanInteger index) {
 		index.mustBound("Using an unbound integer value for indexing an array template.");
 
-		return constGetAt(index.getInt());	
+		return constGetAt(index.getInt());
 	}
 
 	public int n_elem() {
@@ -1139,7 +1139,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		}
 	}
 
-	boolean match_permutation_array(final Base_Type value_ptr, final int value_size, 
+	boolean match_permutation_array(final Base_Type value_ptr, final int value_size,
 			final TitanTemplateArray<Tvalue, Ttemplate> template_ptr, final int template_size,
 			final match_function_t match_function, final boolean legacy) {
 

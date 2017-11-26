@@ -9,9 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 /**
  * An experimental base class for a module.
- * 
+ *
  * TODO: lots to implement
- * 
+ *
  * @author Kristof Szabados
  */
 public class TTCN_Module {

@@ -476,7 +476,7 @@ public class TitanOctetString extends Base_Type {
 	//originally operator<<
 	public TitanOctetString shiftLeft(int shiftCount) {
 		mustBound("Unbound octetstring operand of shift left operator.");
-		
+
 		if (shiftCount > 0) {
 			if (val_ptr.isEmpty()) {
 				return this;
@@ -487,11 +487,11 @@ public class TitanOctetString extends Base_Type {
 			if (shiftCount > val_ptr.size()) {
 				shiftCount = val_ptr.size();
 			}
-		
+
 			for (int i = 0; i < val_ptr.size() - shiftCount; i++) {
 				result.val_ptr.add(i, val_ptr.get(i+shiftCount));
 			}
-		
+
 			for (int i = val_ptr.size() - shiftCount; i < val_ptr.size(); i++) {
 				result.val_ptr.add(i, (char) 0);
 			}
@@ -543,14 +543,14 @@ public class TitanOctetString extends Base_Type {
 
 	public TitanOctetString shiftRight(final TitanInteger otherValue){
 		mustBound("Unbound right operand of octetstring shift right operator.");
-		
+
 		return shiftRight(otherValue.getInt());
 	}
-	
+
 	// originally operator<<=
 	public TitanOctetString rotateLeft(int rotateCount) {
 		mustBound("Unbound octetstring operand of rotate left operator.");
-		
+
 		if (val_ptr.isEmpty()) {
 			return this;
 		}
@@ -574,17 +574,17 @@ public class TitanOctetString extends Base_Type {
 			return rotateRight(-rotateCount);
 		}
 	}
-	
+
 	public TitanOctetString rotateLeft(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound right operand of octetstring rotate left operator.");
-		
+
 		return rotateLeft(rotateCount.getInt());
 	}
-	
+
 	// originally operator>>=
 	public TitanOctetString rotateRight(int rotateCount) {
 		mustBound("Unbound octetstring operand of rotate right operator.");
-		
+
 		if (val_ptr.isEmpty()) {
 			return this;
 		}
@@ -609,10 +609,10 @@ public class TitanOctetString extends Base_Type {
 			return rotateLeft(-rotateCount);
 		}
 	}
-	
+
 	public TitanOctetString rotateRight(final TitanInteger rotateCount) {
 		rotateCount.mustBound("Unbound right operand of octetstring rotate left operator.");
-		
+
 		return rotateRight(rotateCount.getInt());
 	}
 }

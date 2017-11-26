@@ -80,7 +80,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		if (otherValue instanceof TitanCharString) {
 			return assign((TitanCharString) otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring", otherValue));
 	}
 
@@ -89,7 +89,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		if (otherValue instanceof TitanCharString_template) {
 			return assign((TitanCharString_template) otherValue);
 		}
-		
+
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to charstring template", otherValue));
 	}
 
@@ -525,7 +525,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		max_is_exclusive = maxExclusive;
 	}
-	
+
 	public void log() {
 		switch (templateSelection) {
 		case STRING_PATTERN:
@@ -537,7 +537,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		case COMPLEMENTED_LIST:
 			TtcnLogger.log_event_str("complement");
-		case VALUE_LIST: 
+		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
 				if (i > 0) {
@@ -557,7 +557,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 					TtcnLogger.log_char('"');
 					TtcnLogger.logCharEscaped(min_value.getValue().charAt( 0 ));
 					TtcnLogger.log_char('"');
-					
+
 				} else {
 					TtcnLogger.log_event_str(MessageFormat.format("char(0, 0, 0, 0)", (int)min_value.getValue().charAt( 0 )));
 				}

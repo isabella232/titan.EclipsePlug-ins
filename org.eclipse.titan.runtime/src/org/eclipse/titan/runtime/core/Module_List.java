@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 /**
  * The base class of handling modules
- * 
+ *
  * TODO: lots to implement
- * 
+ *
  * @author Kristof Szabados
  */
 public final class Module_List {

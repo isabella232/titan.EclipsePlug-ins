@@ -92,7 +92,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 				}
 				patternValue *= 16;
 				patternValue += octetDigit2( patternString.charAt( i ) );
-				
+
 			}
 			result.add( (char) patternValue );
 		}
@@ -569,7 +569,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		default:
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported octetstring template.");
 		}
-		
+
 		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "an", "octetstring template"));
 	}
 

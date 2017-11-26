@@ -10,7 +10,7 @@ package org.eclipse.titan.runtime.core;
 
 /**
  * Part of the representation of the ASN.1 EXTERNAL type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanExternal_identification extends Base_Type {

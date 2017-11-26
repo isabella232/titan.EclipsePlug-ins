@@ -581,7 +581,7 @@ public class TitanHexString extends Base_Type {
 			return this.shiftLeft(rotateCount).or4b(this.shiftRight(nibbles_ptr.size() - rotateCount));
 		} else {
 			return this.rotateRight(-rotateCount);
-		}	
+		}
 	}
 	//originally operator<<=
 	public TitanHexString rotateLeft(final TitanInteger rotateCount){

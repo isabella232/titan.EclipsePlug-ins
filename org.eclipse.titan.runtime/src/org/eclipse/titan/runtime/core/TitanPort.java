@@ -18,9 +18,9 @@ import java.util.Set;
 
 /**
  * The base class of test ports
- * 
+ *
  * TODO: lots to implement
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanPort {
@@ -146,7 +146,7 @@ public class TitanPort {
 		}
 		if (!is_started && !is_halted) {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing clear operation on port {0}, which is already stopped. The operation has no effect.", portName));
-			
+
 		}
 		clearQueue();
 		//TODO: TTCN_Logger::log_port_misc

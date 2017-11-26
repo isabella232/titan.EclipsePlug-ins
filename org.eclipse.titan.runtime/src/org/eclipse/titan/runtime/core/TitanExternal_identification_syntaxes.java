@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 /**
  * Part of the representation of the ASN.1 EXTERNAL type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanExternal_identification_syntaxes extends Base_Type {

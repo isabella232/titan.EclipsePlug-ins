@@ -11,7 +11,7 @@ package org.eclipse.titan.runtime.core;
  * TTCN-3 default (base)
  *
  * @author Kristof Szabados
- * 
+ *
  * FIXME implement rest
  */
 public class Default_Base {

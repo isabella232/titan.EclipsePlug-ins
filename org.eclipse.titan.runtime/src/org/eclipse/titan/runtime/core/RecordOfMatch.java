@@ -411,7 +411,7 @@ public class RecordOfMatch {
 		}
 
 		private List_elem head; // not null
-		private List_elem current; 
+		private List_elem current;
 
 		public Tree_list(final int head_data) {
 			head = new List_elem();

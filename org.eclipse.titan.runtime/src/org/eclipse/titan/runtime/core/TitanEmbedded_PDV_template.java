@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Part of the representation of the ASN.1 EMBEDDED PDV type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV_template extends Base_Template {

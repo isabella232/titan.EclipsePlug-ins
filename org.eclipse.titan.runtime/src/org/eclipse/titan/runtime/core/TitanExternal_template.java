@@ -13,7 +13,7 @@ import java.util.List;
 
 /**
  * Part of the representation of the ASN.1 EXTERNAL type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanExternal_template extends Base_Template {

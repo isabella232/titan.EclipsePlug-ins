@@ -376,7 +376,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			if ( pattern_element < 16 ) {
 				/*
 				In titan core hexdigit is stored in 2 bytes:
-				
+
 				octet = string_value.get_nibble( value_index / 2 );
 				if (value_index % 2) {
 					hex_digit = octet >> 4;

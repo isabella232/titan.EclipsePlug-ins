@@ -17,9 +17,9 @@ package org.eclipse.titan.runtime.core;
 *
 * List of operations in question: receive, check-receive, trigger, getcall,
 * check-getcall, getreply, check-getreply, catch, check-catch, check, timeout,
-* running (for both components and timers), done, killed and alive. 
-* 
-* 
+* running (for both components and timers), done, killed and alive.
+*
+*
 * @author Gergo Ujhelyi
 **/
 
@@ -31,22 +31,22 @@ public class Index_Redirect {
 	    * if the indices are being redirected to an integer array or record of
 	    * integer. If the index is redirected to a single integer, then this member
 	    * is ignored. *
-	    * 
+	    *
 	    * */
 	protected int pos;
-	
+
 	public Index_Redirect() {
 		pos = -1;
 	}
-	
+
 	public void incrPos() {
 		++pos;
 	}
-	
+
 	public void decrPos() {
 		--pos;
 	}
-	
+
 	public void addIndex(final int p_index) {
 		pos = p_index;
 	}

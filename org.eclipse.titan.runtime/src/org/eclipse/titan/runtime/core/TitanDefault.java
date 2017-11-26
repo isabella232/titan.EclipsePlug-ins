@@ -13,7 +13,7 @@ import java.text.MessageFormat;
  * TTCN-3 default
  *
  * @author Kristof Szabados
- * 
+ *
  */
 public class TitanDefault extends Base_Type {
 	// TODO check if we could use null instead of this object

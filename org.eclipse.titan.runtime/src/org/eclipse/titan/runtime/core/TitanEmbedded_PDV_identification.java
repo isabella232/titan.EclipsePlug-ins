@@ -12,7 +12,7 @@ package org.eclipse.titan.runtime.core;
 
 /**
  * Part of the representation of the ASN.1 EMBEDDED PDV type
- * 
+ *
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV_identification extends Base_Type {

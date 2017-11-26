@@ -10,7 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 /**
  * @author Farkas Izabella Ingrid
- * 
+ *
  * TODO check if we need to extend TitanTimer
  * */
 public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
@@ -118,7 +118,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final int index) {
-		return (T)array_elements[index]; 
+		return (T)array_elements[index];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -127,7 +127,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 
-		return (T)array_elements[index.getInt()]; 
+		return (T)array_elements[index.getInt()];
 	}
 
 	public int n_elem() {

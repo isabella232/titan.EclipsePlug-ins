@@ -16,7 +16,7 @@ import java.util.Set;
 
 /**
  * Utility class to help working with snapshots
- * 
+ *
  * @author Kristof Szabados
  */
 public final class TTCN_Snapshot {
@@ -43,7 +43,7 @@ public final class TTCN_Snapshot {
 		try{
 			selector = Selector.open();
 		} catch (IOException exception) {
-			
+
 		}
 
 		else_branch_found = false;

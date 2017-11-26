@@ -12,9 +12,9 @@ import java.util.ArrayList;
 
 /**
  * TTCN-3 component template
- * 
- *  //FIXME a lot to implement 
- *  
+ *
+ *  //FIXME a lot to implement
+ *
  * @author Kristof Szabados
  * @author Andrea Pálfi
  */
@@ -102,7 +102,7 @@ public class TitanComponent_template extends Base_Template {
 
 		return this;
 	}
-	
+
 	@Override
 	public TitanComponent_template assign(final Base_Type otherValue) {
 		if (otherValue instanceof TitanComponent) {

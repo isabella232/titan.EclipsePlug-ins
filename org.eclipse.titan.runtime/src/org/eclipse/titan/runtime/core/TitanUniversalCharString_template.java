@@ -87,14 +87,14 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		if (selValue != template_sel.STRING_PATTERN) {
 			throw new TtcnError("Internal error: Initializing a universal charstring pattern template with invalid selection.");
 		}
-		//TODO implement string pattern 
+		//TODO implement string pattern
 	}
 
 	public TitanUniversalCharString_template(final template_sel selValue, final TitanCharString otherValue, final boolean nocase) {
 		if (selValue != template_sel.STRING_PATTERN) {
 			throw new TtcnError("Internal error: Initializing a universal charstring pattern template with invalid selection.");
 		}
-		//TODO implement string pattern 
+		//TODO implement string pattern
 	}
 
 	//originally clean_up
@@ -547,7 +547,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("The upper bound in a universal charstring value range template is smaller than the lower bound.");
 		}
 	}
-	
+
 	public void setMin(final String minValue) {
 		if (templateSelection != template_sel.VALUE_RANGE) {
 			throw new TtcnError("Setting the lower bound for a non-range universal charstring template.");
@@ -642,7 +642,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		max_is_exclusive = maxExclusive;
 	}
-	
+
 	public void log() {
 		switch (templateSelection) {
 		case STRING_PATTERN:
@@ -654,7 +654,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 		case COMPLEMENTED_LIST:
 			TtcnLogger.log_event_str("complement");
-		case VALUE_LIST: 
+		case VALUE_LIST:
 			TtcnLogger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
 				if (i > 0) {
@@ -674,7 +674,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 					TtcnLogger.log_char('"');
 					TtcnLogger.logCharEscaped(min_value.getUc_cell());
 					TtcnLogger.log_char('"');
-					
+
 				} else {
 					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)min_value.getUc_group(), (int)min_value.getUc_plane(), (int)min_value.getUc_row(), (int)min_value.getUc_cell()));
 				}
@@ -690,7 +690,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 					TtcnLogger.log_char('"');
 					TtcnLogger.logCharEscaped(max_value.getUc_cell());
 					TtcnLogger.log_char('"');
-					
+
 				} else {
 					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)max_value.getUc_group(), (int)max_value.getUc_plane(), (int)max_value.getUc_row(), (int)max_value.getUc_cell()));
 				}

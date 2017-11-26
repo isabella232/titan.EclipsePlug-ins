@@ -124,7 +124,7 @@ public class TitanRecordOf extends Base_Type {
 		mustBound("The left operand of comparison is an unbound value of type record of " + getOfTypeName() + ".");
 		otherValue.mustBound("The right operand of comparison is an unbound value of type" + otherValue.getOfTypeName() + ".");
 
-		final int size = valueElements.size(); 
+		final int size = valueElements.size();
 		if ( size != otherValue.valueElements.size() ) {
 			return false;
 		}

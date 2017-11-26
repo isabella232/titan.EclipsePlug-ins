@@ -26,13 +26,13 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		this.clazz = clazz;
 		array_elements = new ArrayList<T>();
 	}*/
-	
+
 	public TitanValueArray(final TitanValueArray<T> otherValue) {
 		clazz = otherValue.clazz;
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		array_elements = new Base_Type[array_size];
-		
+
 		for (int i = 0; i < array_size ; ++i) {
 			try {
 				final T helper = clazz.newInstance();
@@ -45,7 +45,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			}
 		}
 	}
-	
+
 	public TitanValueArray(final Class<T> clazz, final int size, final int offset) {
 		this.clazz = clazz;
 		indexOffset = offset;
@@ -63,7 +63,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			}
 		}
 	}
-	
+
 	//FIXME: implement
 /*	public void setSize(final int length) {
 		for (int i = array_size; i < length; ++i) {
@@ -96,7 +96,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
 
@@ -151,7 +151,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			return this;
 		}
 	}
-	
+
 	public TitanValueArray<T> assign(final TitanValueArray<T> otherValue) {
 		cleanUp();
 		array_size = otherValue.array_size;
@@ -307,7 +307,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@SuppressWarnings("unchecked")
 	public T array_element(final int index) {
-		return (T)array_elements[index]; 
+		return (T)array_elements[index];
 	}
 
 	@SuppressWarnings("unchecked")
@@ -316,7 +316,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			throw new TtcnError("Accessing an element of an array using an unbound index.");
 		}
 
-		return (T)array_elements[index.getInt()]; 
+		return (T)array_elements[index.getInt()];
 	}
 
 	//TODO: void set_implicit_omit()
@@ -347,7 +347,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		str.append('}');
 		return str.toString();
 	}
-	
+
 	//static method
 
 	public static int getArrayIndex(final int index, final int arraySize, final int indexofset) {

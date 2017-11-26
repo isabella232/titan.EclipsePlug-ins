@@ -12,7 +12,7 @@ import java.util.ArrayList;
 
 /**
  * TTCN-3 float template
- * @author Farkas Izabella Ingrid  
+ * @author Farkas Izabella Ingrid
  * @author Andrea Pálfi
  *
  * Not yet complete rewrite

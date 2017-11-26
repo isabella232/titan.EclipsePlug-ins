@@ -14,7 +14,7 @@ import org.eclipse.titan.runtime.core.TitanAsn_Null.Asn_Null_Type;
 
 /**
  * ASN.1 NULL type template
- * 
+ *
  * @author Kristof Szabados
  * @author Andrea Pálfi
  */

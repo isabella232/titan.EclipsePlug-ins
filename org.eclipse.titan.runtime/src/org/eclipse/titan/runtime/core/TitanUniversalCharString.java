@@ -132,7 +132,7 @@ public class TitanUniversalCharString extends Base_Type {
 	// originally operator universal_char*
 	public List<TitanUniversalChar> getValue() {
 		mustBound("Casting an unbound universal charstring value to const universal_char*.");
-		
+
 		if (charstring) {
 			convertCstrToUni();
 		}
@@ -273,7 +273,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public void mustBound(final String aErrorMessage) {
 		if (charstring && cstr == null) {
 			throw new TtcnError(aErrorMessage);
-		} 
+		}
 		if (!charstring && val_ptr == null) {
 			throw new TtcnError(aErrorMessage);
 		}
@@ -302,16 +302,16 @@ public class TitanUniversalCharString extends Base_Type {
 				if (cstr.length() != aOtherValue.val_ptr.size()) {
 					return false;
 				}
-				
+
 				for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
 					if (!aOtherValue.val_ptr.get(i).is_char() || aOtherValue.val_ptr.get(i).getUc_cell() != cstr.charAt(i)){
 						return false;
 					}
 				}
-				
+
 				return true;
 			}
-			
+
 		}
 		if (val_ptr.size() != aOtherValue.val_ptr.size()) {
 			return false;
@@ -391,8 +391,8 @@ public class TitanUniversalCharString extends Base_Type {
 		mustBound("The left operand of comparison is an unbound universal charstring value.");
 
 		if (charstring) {
-			return cstr.length() == 1 && aOtherValue.getUc_group() == 0 && 
-					aOtherValue.getUc_plane() == 0 && aOtherValue.getUc_row() == 0 && 
+			return cstr.length() == 1 && aOtherValue.getUc_group() == 0 &&
+					aOtherValue.getUc_plane() == 0 && aOtherValue.getUc_row() == 0 &&
 					cstr.charAt(0) == aOtherValue.getUc_cell();
 		}
 		if (val_ptr.size() != 1) {
@@ -702,9 +702,9 @@ public class TitanUniversalCharString extends Base_Type {
 		if (val_ptr != null) {
 			States state = States.INIT;
 			final StringBuilder buffer = new StringBuilder();
-			for (int i = 0; i < val_ptr.size(); i++) { 
+			for (int i = 0; i < val_ptr.size(); i++) {
 				final TitanUniversalChar uchar = val_ptr.get(i);
-				if (isPrintable(uchar)) { 
+				if (isPrintable(uchar)) {
 					switch (state) {
 					case UCHAR:
 						buffer.append(" & ");

@@ -14,7 +14,7 @@ package org.eclipse.titan.runtime.core;
  * this one and implements its virtual functions. An instance of the new class
  * is stored in the template object, which calls the appropriate virtual
  * functions when the template object's match() or log() functions are called.
- * 
+ *
  * originally Dec_Match_Interface
  * @author Arpad Lovassy
  */

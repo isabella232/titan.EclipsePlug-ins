@@ -45,7 +45,7 @@ public class Ttcn3Float {
 		this.value = d.value;
 		return this;
 	}
-	
+
 
 	// originally operator+
 	// this + d

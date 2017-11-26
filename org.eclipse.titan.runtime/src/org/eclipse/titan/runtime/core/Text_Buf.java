@@ -192,7 +192,7 @@ public final class Text_Buf {
 
 	/**
 	 * Extract an integer if it's safe to do so.
-	 * 
+	 *
 	 * @param value the value to be set when successful.
 	 * @return true if an integer could be extracted, false otherwise
 	 * */

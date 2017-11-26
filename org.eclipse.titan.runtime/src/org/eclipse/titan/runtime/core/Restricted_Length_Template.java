@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 
 /**
  * Restricted_Length_Template in titan.core
- * 
+ *
  * @author Arpad Lovassy
  */
 public abstract class Restricted_Length_Template extends Base_Template {
