@@ -377,6 +377,11 @@ public final class TtcnLogger {
 	}
 
 	private static void log_line(final Severity msg_severity, final String message) {
+		//// TODO this is a temporal implementation to display only console logs, until file logging is also supported.
+		if (!should_log_to_console(msg_severity)) {
+			return;
+		}
+
 		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
 		final long millisec = timestamp % 1000;
 		timestamp = timestamp / 1000;
