@@ -319,14 +319,14 @@ public final class TtcnLogger {
 		if (!log_this_event(msg_severity)) {
 			return;
 		}
-		log_line(string == null ? "<NULL pointer>": string);
+		log_line(msg_severity, string == null ? "<NULL pointer>": string);
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
 		if (!log_this_event(msg_severity)) {
 			return;
 		}
-		log_line(String.format(Locale.US, formatString, args));
+		log_line(msg_severity, String.format(Locale.US, formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
@@ -344,7 +344,7 @@ public final class TtcnLogger {
 		if (current_event != null) {
 			//TODO temporary solution for filtering
 			if (log_this_event(current_event.severity)) {
-				log_line(current_event.buffer.toString());
+				log_line(current_event.severity, current_event.buffer.toString());
 			}
 
 			events.pop();
@@ -373,7 +373,7 @@ public final class TtcnLogger {
 		return new TitanCharString();
 	}
 
-	private static void log_line(final String message) {
+	private static void log_line(final Severity msg_severity, final String message) {
 		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
 		final long millisec = timestamp % 1000;
 		timestamp = timestamp / 1000;
@@ -610,7 +610,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(MessageFormat.format("Read timer {0}: {1} s", timer_name, timeout_val));
+		log_line(Severity.TIMEROP_READ, MessageFormat.format("Read timer {0}: {1} s", timer_name, timeout_val));
 	}
 
 	public static void log_timer_start(final String timer_name, final double start_val) {
@@ -619,7 +619,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(MessageFormat.format("Start timer {0}: {1} s", timer_name, start_val));
+		log_line(Severity.TIMEROP_START, MessageFormat.format("Start timer {0}: {1} s", timer_name, start_val));
 
 	}
 
@@ -629,7 +629,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(MessageFormat.format("Test case guard timer was set to {0} s", start_val));
+		log_line(Severity.TIMEROP_GUARD, MessageFormat.format("Test case guard timer was set to {0} s", start_val));
 
 	}
 
@@ -639,7 +639,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(MessageFormat.format("Stop timer {0}: {1} s", timer_name, stop_val));
+		log_line(Severity.TIMEROP_STOP, MessageFormat.format("Stop timer {0}: {1} s", timer_name, stop_val));
 
 	}
 
@@ -649,7 +649,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(MessageFormat.format("Timeout {0}: {1} s", timer_name, timeout_val));
+		log_line(Severity.TIMEROP_TIMEOUT, MessageFormat.format("Timeout {0}: {1} s", timer_name, timeout_val));
 
 	}
 
@@ -659,7 +659,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line("Operation `any timer.timeout' was successful.");
+		log_line(Severity.TIMEROP_TIMEOUT, "Operation `any timer.timeout' was successful.");
 
 	}
 
@@ -669,7 +669,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(message);
+		log_line(Severity.TIMEROP_UNQUALIFIED, message);
 
 	}
 
@@ -680,9 +680,9 @@ public final class TtcnLogger {
 		}
 
 		if (timer_name == null) {
-			log_line("Operation `any timer.timeout' failed: The test component does not have active timers.");
+			log_line(Severity.MATCHING_PROBLEM, "Operation `any timer.timeout' failed: The test component does not have active timers.");
 		} else {
-			log_line(MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", timer_name));
+			log_line(Severity.MATCHING_PROBLEM, MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", timer_name));
 		}
 	}
 
