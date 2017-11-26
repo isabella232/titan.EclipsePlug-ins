@@ -209,8 +209,8 @@ public final class TableConstraint extends Constraint {
 				switch (tempType.getTypetype()) {
 				case TYPE_ASN1_CHOICE: {
 					final ASN1_Choice_Type temp2 = (ASN1_Choice_Type) tempType;
-					final CompField cf = temp2.getComponentByName(identifier);
-					if (cf!=null && null!=(tempType = cf.getType())) {
+					if ( temp2.hasComponentWithName(identifier) ) {
+						final CompField cf = temp2.getComponentByName(identifier);
 						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
@@ -234,8 +234,8 @@ public final class TableConstraint extends Constraint {
 				}
 				case TYPE_OPENTYPE: {
 					final Open_Type temp2 = (Open_Type) tempType;
-					final CompField cf = temp2.getComponentByName(identifier);
-					if (cf !=null) {
+					if (temp2.hasComponentWithName(identifier)) {
+						final CompField cf = temp2.getComponentByName(identifier);
 						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
@@ -247,8 +247,8 @@ public final class TableConstraint extends Constraint {
 				}
 				case TYPE_ASN1_SEQUENCE: {
 					final ASN1_Sequence_Type temp2 = (ASN1_Sequence_Type) tempType;
-					final CompField cf = temp2.getComponentByName(identifier);
-					if (cf!=null && null != (tempType = cf.getType())) {
+					if (temp2.hasComponentWithName(identifier)) {
+						final CompField cf = temp2.getComponentByName(identifier);
 						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
@@ -272,8 +272,8 @@ public final class TableConstraint extends Constraint {
 				}
 				case TYPE_ASN1_SET: {
 					final ASN1_Set_Type temp2 = (ASN1_Set_Type) tempType;
-					final CompField cf = temp2.getComponentByName(identifier);
-					if (cf!=null) {
+					if (temp2.hasComponentWithName(identifier)) {
+						final CompField cf = temp2.getComponentByName(identifier);
 						tempType = cf.getType();
 					} else {
 						myType.getLocation().reportSemanticError(
