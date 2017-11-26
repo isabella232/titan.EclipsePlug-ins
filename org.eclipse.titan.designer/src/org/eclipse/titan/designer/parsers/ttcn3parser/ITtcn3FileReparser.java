@@ -12,7 +12,7 @@ public interface ITtcn3FileReparser {
 	/**
 	 * Runs the reparsing process
 	 * @return true if syntactically outdated
-	 *         false otherwise 
+	 *         false otherwise
 	 */
 	public boolean parse();
 }

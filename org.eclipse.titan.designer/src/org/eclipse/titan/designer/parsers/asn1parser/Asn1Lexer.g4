@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.AST.Location;
 	public void setActualFile(IFile file){
       actualFile = file;
     }
-  
+
   protected String id_replace_underscores(String param) {
   	String temp = param.replace('_', '-');
   	if(!temp.equals(param)) {
@@ -44,7 +44,7 @@ BLOCK //THE great block token
 WS:
 (  ' '
 |  '\t'
-|  '\n' 
+|  '\n'
 |  '\r'
 |  '\u000B'
 |  '\u000C'
@@ -110,14 +110,14 @@ NUMBER:
 )
 ;
 
-REALNUMBER: 
+REALNUMBER:
 (
 	NUMBER ([\.] [0-9]+)? ([eE][+\-]? NUMBER)?
 );
 
 SINGLELINECOMMENT:
 ( // TODO, FIXME not handled yet
-	'--' .*? 
+	'--' .*?
 	(
 		'--'
 	|	NEWLINE
@@ -137,21 +137,21 @@ fragment BIN:
 );
 
 fragment HEX:
-(  
+(
 	[0-9A-Fa-f]
 |	WS
 )
 ;
 
 BSTRING:
-(  
-	'\'' (BIN)* '\'' 'B'  
-	  
+(
+	'\'' (BIN)* '\'' 'B'
+
 );
 
 HSTRING:
-(  
-	'\'' (HEX)* '\'' 'H' 
+(
+	'\'' (HEX)* '\'' 'H'
 );
 
 CSTRING:
@@ -184,7 +184,7 @@ RIGHTVERSIONBRACKETS:	']]'
 
 BEGINCHAR:				'{'
 ;
-        
+
 ENDCHAR:				'}'
 ;
 

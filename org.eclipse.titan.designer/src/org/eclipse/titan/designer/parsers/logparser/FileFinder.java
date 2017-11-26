@@ -13,7 +13,7 @@ import org.eclipse.core.resources.IResourceVisitor;
 
 /**
  * This class merely servers as the locator of file with a given name.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class FileFinder implements IResourceVisitor {
@@ -33,7 +33,7 @@ public class FileFinder implements IResourceVisitor {
 
 	/**
 	 * Visits the provided resource and all of it's children to find the specified file.
-	 * 
+	 *
 	 * @param resource the resource to start searching at
 	 * */
 	@Override

@@ -53,7 +53,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * Helper class to separate the responsibility of the source parser into smaller
  * parts. This class is responsible for handling the semantic checking of the
  * source code of the projects
- * 
+ *
  * @author Kristof Szabados
  * */
 public class ProjectSourceSemanticAnalyzer {
@@ -68,20 +68,20 @@ public class ProjectSourceSemanticAnalyzer {
 
 	/**
 	 * module name to module mapping to speed up searching in the list of uptodate modules.
-	 * 
+	 *
 	 * Calculated during semantic check, maintained in-between semantic checks.
 	 * */
 	private Map<String, Module> moduleMap;
 	/**
 	 * module name to module mapping to speed up searching in the list of outdated modules.
-	 * 
+	 *
 	 * Cleared during semantic check, maintained in-between semantic checks.
 	 * */
 	private Map<String, Module> outdatedModuleMap;
 
 	/**
 	 * The names of the modules, which were checked at the last semantic check.
-	 * 
+	 *
 	 * Caculated during the semantic check, maintained in-between semantic checks.
 	 * */
 	private Set<String> semanticallyUptodateModules;
@@ -97,10 +97,10 @@ public class ProjectSourceSemanticAnalyzer {
 	/**
 	 * Checks whether the internal data belonging to the provided file is
 	 * semantically out-dated.
-	 * 
+	 *
 	 * @param file
 	 *            the file to check.
-	 * 
+	 *
 	 * @return true if the data was reported to be out-dated since the last
 	 *         analysis.
 	 * */
@@ -112,12 +112,12 @@ public class ProjectSourceSemanticAnalyzer {
 
 	/**
 	 * Returns the module with the provided name, or null.
-	 * 
+	 *
 	 * @param name
 	 *            the name of the module to return.
 	 * @param uptodateOnly
 	 *            allow finding only the up-to-date modules.
-	 * 
+	 *
 	 * @return the module having the provided name
 	 * */
 	Module internalGetModuleByName(final String name, final boolean uptodateOnly) {
@@ -134,7 +134,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 	/**
 	 * Returns the actually known module's names.
-	 * 
+	 *
 	 * @return a set of the module names known in this project or in the
 	 *         ones referenced.
 	 * */
@@ -158,11 +158,11 @@ public class ProjectSourceSemanticAnalyzer {
 	 * <p>
 	 * Stores that this file is out of date for later
 	 * <p>
-	 * 
+	 *
 	 * <p>
 	 * Files which are excluded from the build should not be reported.
 	 * </p>
-	 * 
+	 *
 	 * @param outdatedFile
 	 *            the file which seems to have changed
 	 * @param useOnTheFlyParsing
@@ -202,7 +202,7 @@ public class ProjectSourceSemanticAnalyzer {
 	 * <p>
 	 * Stores that this file is semantically out of date for later
 	 * <p>
-	 * 
+	 *
 	 * @param outdatedFile
 	 *            the file which seems to have changed
 	 * */
@@ -226,7 +226,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 	/**
 	 * Removes data related to modules, that were deleted or moved.
-	 * 
+	 *
 	 * @param file
 	 *            the file that was changed.
 	 * @param moduleName
@@ -246,7 +246,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 	/**
 	 * Removes a module from the set of semantically analyzed modules.
-	 * 
+	 *
 	 * @param moduleName
 	 *            the name of the module to be removed.
 	 * */
@@ -266,7 +266,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 	/**
 	 * Adds a module to the set of semantically analyzed modules.
-	 * 
+	 *
 	 * @param module
 	 *            the module to be added.
 	 * @return true if it was successfully added, false otherwise.
@@ -282,14 +282,14 @@ public class ProjectSourceSemanticAnalyzer {
 	 * It is important to call this function after the
 	 * {@link #internalDoAnalyzeSyntactically(IProgressMonitor, CompilationTimeStamp)}
 	 * function was executed on all involved projects, as the out-dated markers will be cleared here.
-	 * 
+	 *
 	 * @param tobeSemanticallyAnalyzed the list of projects to be analyzed.
 	 * @param monitor
 	 *                the progress monitor to provide feedback to the user
 	 *                about the progress.
 	 * @param compilationCounter
 	 *            the timestamp of the actual build cycle.
-	 * 
+	 *
 	 * @return the status of the operation when it finished.
 	 * */
 	static IStatus analyzeMultipleProjectsSemantically(final List<IProject> tobeSemanticallyAnalyzed, final IProgressMonitor monitor, final CompilationTimeStamp compilationCounter) {
@@ -329,7 +329,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 			//remove module name duplication markers. It shall be done before starting the next for-loop!
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-				final ProjectSourceSemanticAnalyzer semanticAnalyzer = 
+				final ProjectSourceSemanticAnalyzer semanticAnalyzer =
 						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
 				for (Module module: semanticAnalyzer.fileModuleMap.values()) {
 					if(module instanceof TTCN3Module){
@@ -339,7 +339,7 @@ public class ProjectSourceSemanticAnalyzer {
 			}
 
 			for (int i = 0; i < tobeSemanticallyAnalyzed.size(); i++) {
-				final ProjectSourceSemanticAnalyzer semanticAnalyzer = 
+				final ProjectSourceSemanticAnalyzer semanticAnalyzer =
 						GlobalParser.getProjectSourceParser(tobeSemanticallyAnalyzed.get(i)).getSemanticAnalyzer();
 				for (Module module: semanticAnalyzer.fileModuleMap.values()) {
 					final String name = module.getIdentifier().getName();
@@ -378,7 +378,7 @@ public class ProjectSourceSemanticAnalyzer {
 						for(ImportModule imp : imports) {
 							MarkerHandler.markAllSemanticMarkersForRemoval(imp.getLocation());
 						}
-					} 
+					}
 					// markers are removed in one step in ASN1 modules
 				}
 

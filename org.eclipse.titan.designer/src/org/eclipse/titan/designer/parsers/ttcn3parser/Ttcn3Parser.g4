@@ -22,7 +22,7 @@ NOTE:
  as lexer cannot remove them as it was done in the ANTLR V2 Parser.
  Do NOT use CSTRING in any rule, use this instead.
 
--------------------------- 
+--------------------------
 Precedence of Operators with precedence levels (higher number is higher precedence)
 
 15 ( ... )
@@ -277,15 +277,15 @@ public Token getStopToken() {
 
 /**
  * Gets the last visible token of the current rule.
- * 
+ *
  * This is used inside the rule, because \$stop is filled only
  * in the finally block in the generated java code, so it does
  * NOT have the correct value in @after and @finally actions.
- * 
+ *
  * This method can be used in any part of the rule.
- * 
+ *
  * Please note that visible means that the token is not on the hidden channel!
- * 
+ *
  * @return last consumed token
  */
 public Token getLastVisibleToken() {
@@ -317,7 +317,7 @@ private Location getLocation(final Token aToken) {
  *                  NOTE: end position is the column index after the token's last character.
  */
 private Location getLocation(final Token aStartToken, final Token aEndToken) {
-	final Token endToken = (aEndToken != null) ? aEndToken : aStartToken; 
+	final Token endToken = (aEndToken != null) ? aEndToken : aStartToken;
 	return new Location(actualFile, line - 1 + aStartToken.getLine(), offset + aStartToken.getStartIndex(), offset + endToken.getStopIndex() + 1);
 }
 
@@ -330,12 +330,12 @@ private Location getLocation(final Token aStartToken, final Token aEndToken) {
  *                  NOTE: end position is the column index after the token's last character.
  */
 private LargeLocation getLargeLocation(final Token aStartToken, final Token aEndToken) {
-	final Token endToken = (aEndToken != null) ? aEndToken : aStartToken; 
+	final Token endToken = (aEndToken != null) ? aEndToken : aStartToken;
 	return new LargeLocation(actualFile, line - 1 + aStartToken.getLine(), line - 1 + endToken.getLine(), offset + aStartToken.getStartIndex(), offset + endToken.getStopIndex() + 1);
 }
 
 /**
- * Create new location, which modified by the parser offset and line 
+ * Create new location, which modified by the parser offset and line
  * @param aBaseLocation location of the start token, location is already modified by offset and line
  * @param aEndToken end token, NOT null, not modified by offset and line yet
  */
@@ -347,7 +347,7 @@ private Location getLocation(final Location aBaseLocation, final Token aEndToken
  * Gets the location of the comments before a token.
  * Last comment location cannot be handled in the lexer, because lexer and parser are not always synchronized,
  * lexer reads more, than the parser, because  when the parser reaches a point, the tokens must be already tokenized
- * at least until that point. 
+ * at least until that point.
  * @param aToken the token, this will NOT be printed
  * @return location, which contains all of the comments before the given token
  */
@@ -2298,7 +2298,7 @@ pr_MatchingSymbol returns[TTCN3Template template]
 |	p2 = pr_HexStringMatch { $template = new HexString_Pattern_Template($p2.pattern); }
 |	p3 = pr_OctetStringMatch { $template = new OctetString_Pattern_Template($p3.pattern); }
 |	csm = pr_CharStringMatch
-		{	final PatternString ps = $csm.patternString; 
+		{	final PatternString ps = $csm.patternString;
 			if (ps.getPatterntype() == PatternType.UNIVCHARSTRING_PATTERN) {
 				$template = new UnivCharString_Pattern_Template(ps);
 			} else {
@@ -5196,7 +5196,7 @@ pr_ValueSpec returns[Reference reference]
 @init {
 	$reference = null;
 }:
-	vss = pr_ValueStoreSpec { $reference = $vss.reference; } 
+	vss = pr_ValueStoreSpec { $reference = $vss.reference; }
 |	pr_ValueKeyword
 	pr_LParen
 	svs = pr_SingleValueSpecList
@@ -7882,7 +7882,7 @@ pr_SelectUnionCase returns[ SelectUnionCase selectUnionCase ]
 
 pr_SelectUnionCaseHeader[ List<Identifier> items ]:
 (	i = pr_Identifier		{ if ( $i.identifier != null ) { $items.add( $i.identifier ); } }
-|	t = pr_PredefinedType	{ if ( $t.type != null ) { 
+|	t = pr_PredefinedType	{ if ( $t.type != null ) {
 								Identifier identifier = new Identifier(Identifier_type.ID_TTCN, $t.type.getTypename(), getLocation( $t.start, $t.stop));
 								$items.add( identifier );
 							  }

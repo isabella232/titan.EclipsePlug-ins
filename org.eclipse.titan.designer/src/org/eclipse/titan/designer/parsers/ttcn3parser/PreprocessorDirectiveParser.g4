@@ -91,7 +91,7 @@ pr_Directive returns [PreprocessorDirective ppDirective]
 |	l = pr_LineMarker	{ $ppDirective = $l.ppDirective; }
 |	m = pr_LineControl	{ $ppDirective = $m.ppDirective; }
 |	n = pr_Pragma		{ $ppDirective = $n.ppDirective; }
-|	{ 
+|	{
 		$ppDirective = new PreprocessorDirective(PreprocessorDirective.Directive_type.NULL);
 	}
 )
@@ -102,7 +102,7 @@ pr_Ifdef returns [PreprocessorDirective ppDirective]
 @init { $ppDirective = null; }:
 (
 	DIRECTIVE_IFDEF id = IDENTIFIER
-) 
+)
 {
 	boolean condition = macros != null && macros.containsKey($id.getText());
 	$ppDirective = new PreprocessorDirective(PreprocessorDirective.Directive_type.IFDEF, condition);
@@ -147,17 +147,17 @@ pr_Integer returns [long value]
 		try {
 			$value = Long.parseLong($h.getText().substring(2), 16); // omit leading 0x
 		} catch (NumberFormatException e) {
-			TITANMarker marker = new TITANMarker(MessageFormat.format("Invalid hexadecimal integer value: {0}", e.getMessage()), 
+			TITANMarker marker = new TITANMarker(MessageFormat.format("Invalid hexadecimal integer value: {0}", e.getMessage()),
 					line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 			reportUnsupportedConstruct(marker);
-		} 
+		}
 	}
 
 |	o = OCTINT {
 		try {
 			$value = Long.parseLong($o.getText(), 8);
 		} catch (NumberFormatException e) {
-			TITANMarker marker = new TITANMarker(MessageFormat.format("Invalid octal integer value: {0}", e.getMessage()), 
+			TITANMarker marker = new TITANMarker(MessageFormat.format("Invalid octal integer value: {0}", e.getMessage()),
 					line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 			reportUnsupportedConstruct(marker);
 		}
@@ -166,7 +166,7 @@ pr_Integer returns [long value]
 		try {
 			$value = Long.parseLong($d.getText(), 10);
 		} catch (NumberFormatException e) {
-			TITANMarker marker = new TITANMarker(MessageFormat.format("Invalid integer value: {0}", e.getMessage()), 
+			TITANMarker marker = new TITANMarker(MessageFormat.format("Invalid integer value: {0}", e.getMessage()),
 					line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 			reportUnsupportedConstruct(marker);
 		}
@@ -178,22 +178,22 @@ pr_PrimaryExpression returns [long value]
 @init { $value = 0; }:
 (
 	v1 = pr_Integer { $value = $v1.value; }
-|	id = IDENTIFIER { 
+|	id = IDENTIFIER {
 		if (macros != null && macros.containsKey($id.getText())) {
 			try{
 				$value = Long.parseLong(macros.get($id.getText()));
 			}
 			catch (NumberFormatException e) {
 				TITANMarker marker = new TITANMarker(MessageFormat.format(
-					"Macro {0} has value `{1}'' which is not valid in preprocessor conditional expressions", $id.getText(), macros.get($id.getText())), 
+					"Macro {0} has value `{1}'' which is not valid in preprocessor conditional expressions", $id.getText(), macros.get($id.getText())),
 					line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 				reportUnsupportedConstruct(marker);
-			} 
-		} 
+			}
+		}
 	}
 |	(
-		LPAREN 
-		v2 = pr_Expression { $value = $v2.value; } 
+		LPAREN
+		v2 = pr_Expression { $value = $v2.value; }
 		RPAREN
 	)
 )
@@ -206,7 +206,7 @@ pr_UnaryExpression returns [long value]
 |	(
 		(	OP_NOT
 		|	NOT
-			{	TITANMarker marker = new TITANMarker("Some compiler versions cannot accept keyword `not', use `!' instead", 
+			{	TITANMarker marker = new TITANMarker("Some compiler versions cannot accept keyword `not', use `!' instead",
 					line, -1, -1, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL);
 				reportUnsupportedConstruct(marker);
 			}
@@ -214,7 +214,7 @@ pr_UnaryExpression returns [long value]
 		v2 = pr_UnaryExpression
 	)
 	{
-		$value = $v2.value; 
+		$value = $v2.value;
 		if ($value == 0) { $value = 1; } else { $value = 0; }
 	}
 |	(
@@ -261,7 +261,7 @@ locals [long value2]
 			if ($value2 == 0) {
 				TITANMarker marker = new TITANMarker("Division by zero", line, -1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 				reportUnsupportedConstruct(marker);
-			} else { $value /= $value2; } 
+			} else { $value /= $value2; }
 		}
 	|	OP_MOD v4 = pr_UnaryExpression {
 			$value2 = $v4.value;
@@ -270,7 +270,7 @@ locals [long value2]
 				reportUnsupportedConstruct(marker);
 			} else {
 				$value %= $value2;
-			} 
+			}
 		}
 	)*
 )
@@ -386,8 +386,8 @@ locals [long value2, long value3]
 (
 	v1 = pr_OrExpression { $value = $v1.value; }
 	(
-		QUESTIONMARK 
-		v2 = pr_Expression COLON 
+		QUESTIONMARK
+		v2 = pr_Expression COLON
 		v3 = pr_TernaryConditionalExpression
 		{
 			$value2 = $v2.value;
@@ -431,13 +431,13 @@ pr_Define returns [PreprocessorDirective ppDirective]
 locals [long value, String macro_value]
 @init { $ppDirective = null; $value = 0; $macro_value = ""; }:
 (
-	DIRECTIVE_DEFINE id = IDENTIFIER 
+	DIRECTIVE_DEFINE id = IDENTIFIER
 	(
 		v = pr_Expression
 		{
 			$value = $v.value;
 			$macro_value = String.valueOf($value);
-		} 
+		}
 	)?
 )
 {
@@ -464,7 +464,7 @@ pr_Undef returns [PreprocessorDirective ppDirective]
 pr_Include returns [PreprocessorDirective ppDirective]
 @init { $ppDirective = null; }:
 (
-	DIRECTIVE_INCLUDE 
+	DIRECTIVE_INCLUDE
 	str = CSTRING
 )
 {

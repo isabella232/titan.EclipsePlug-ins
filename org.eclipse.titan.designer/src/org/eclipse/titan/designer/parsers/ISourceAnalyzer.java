@@ -18,7 +18,7 @@ import org.eclipse.titan.designer.AST.Module;
 
 /**
  * An interface for source code analyzers.
- * 
+ *
  * @author Kristof Szabados
  * */
 public interface ISourceAnalyzer {

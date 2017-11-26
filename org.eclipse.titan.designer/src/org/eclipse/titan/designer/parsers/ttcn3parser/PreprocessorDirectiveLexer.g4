@@ -23,7 +23,7 @@ DIRECTIVE_LINECONTROL : 'line';
 WS:
 (  ' '
 |  '\t'
-|  '\n' 
+|  '\n'
 |  '\u000B'
 |  '\u000C'
 ) -> channel(HIDDEN);
@@ -60,8 +60,8 @@ HEXINT:
 '0x' [0-9a-fA-F]+
 ;
 
-DIRECTIVE_PRAGMA : 'pragma' .*? EOF; 
-DIRECTIVE_ERROR : 'error' .*? EOF; 
+DIRECTIVE_PRAGMA : 'pragma' .*? EOF;
+DIRECTIVE_ERROR : 'error' .*? EOF;
 DIRECTIVE_WARNING :	'warning' .*? EOF;
 
 NOT :	'not'|'NOT';

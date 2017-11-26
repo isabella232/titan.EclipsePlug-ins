@@ -150,7 +150,7 @@ public class ParserUtilities {
 	 * Get comments before a token (TTCN-3)
 	 * @param aToken the token, this will NOT be printed
 	 * @param aParser parser to get the token list tokenized by the lexer
-	 * @param aFile parsed file 
+	 * @param aFile parsed file
 	 * @return location, which contains all of the comments before the given token
 	 */
 	public static Location getCommentsBefore( final Token aToken,
@@ -165,7 +165,7 @@ public class ParserUtilities {
 			ErrorReporter.INTERNAL_ERROR("tokenStream is not CommonTokenStream");
 			return null;
 		}
-		final CommonTokenStream commonTokenStream = (CommonTokenStream)tokenStream; 
+		final CommonTokenStream commonTokenStream = (CommonTokenStream)tokenStream;
 		final List<Token> tokens = commonTokenStream.getTokens();
 
 		List<Token> comments = new ArrayList<Token>();

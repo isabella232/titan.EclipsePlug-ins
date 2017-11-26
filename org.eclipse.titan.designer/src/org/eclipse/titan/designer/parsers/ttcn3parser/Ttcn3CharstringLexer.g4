@@ -80,11 +80,11 @@ BACKSLASHESCAPED:  '\\' ( '\'' | '"' | '?' | '\\' ) { stringBuilder.append(getTe
 /* TODO: add all escape stuff */
 
 IGNORE:
-    ( '\r\n' | '\r' | '\n' ) 
-    { 
+    ( '\r\n' | '\r' | '\n' )
+    {
     	Location location = new Location(actualFile, getLine(), offset - getText().length(), offset);
         location.reportSyntacticWarning("Unescaped newline character");
-    	stringBuilder.append(getText()); 
+    	stringBuilder.append(getText());
     }
 |   . { stringBuilder.append(getText()); }
 ;

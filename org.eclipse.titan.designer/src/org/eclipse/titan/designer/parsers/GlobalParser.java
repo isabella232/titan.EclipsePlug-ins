@@ -18,7 +18,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 /**
  * General parsing related static class. Provides a common root for such
  * hierarchies
- * 
+ *
  * @author Kristof Szabados
  */
 // FIXME if ttcnpp is handled as ttcn file, this should be extended as well
@@ -45,10 +45,10 @@ public final class GlobalParser {
 	/**
 	 * Decides whether a string is a supported file extension for TTCN-3
 	 * files or not.
-	 * 
+	 *
 	 * @param extension
 	 *                the string to check
-	 * 
+	 *
 	 * @return true if it is a supported TTCN-3 file extension, false
 	 *         otherwise
 	 **/
@@ -66,10 +66,10 @@ public final class GlobalParser {
 
 	/**
 	 * Decides whether a string is a supported file extension or not.
-	 * 
+	 *
 	 * @param extension
 	 *                the string to check
-	 * 
+	 *
 	 * @return true if it is a supported file extension, false otherwise
 	 **/
 	public static boolean isSupportedExtension(final String extension) {
@@ -100,10 +100,10 @@ public final class GlobalParser {
 	/**
 	 * Creates a parser that handles the parsing related jobs of the given
 	 * project.
-	 * 
+	 *
 	 * @param project
 	 *                the project to create a parser for
-	 * 
+	 *
 	 * @return the parser which handles the parsing of the provided project
 	 * */
 	public static ProjectSourceParser getProjectSourceParser(final IProject project) {
@@ -120,10 +120,10 @@ public final class GlobalParser {
 	/**
 	 * Creates a parser that handles the parsing related jobs of the given
 	 * project.
-	 * 
+	 *
 	 * @param project
 	 *                the project to create a parser for
-	 * 
+	 *
 	 * @return the parser which handles the parsing of the provided project
 	 * */
 	public static ProjectConfigurationParser getConfigSourceParser(final IProject project) {
@@ -139,7 +139,7 @@ public final class GlobalParser {
 
 	/**
 	 * Clears all on-the-fly information stored about the project.
-	 * 
+	 *
 	 * @param project
 	 *                the project whose information is to be cleared.
 	 * */

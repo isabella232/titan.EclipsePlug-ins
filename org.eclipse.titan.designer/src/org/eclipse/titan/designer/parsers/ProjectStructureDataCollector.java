@@ -22,7 +22,7 @@ import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
  * It stores the known modules, and for each of them, all the modules they
  * import + a list of missing modules, if they are imported, but not known by
  * the project itself.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ProjectStructureDataCollector {

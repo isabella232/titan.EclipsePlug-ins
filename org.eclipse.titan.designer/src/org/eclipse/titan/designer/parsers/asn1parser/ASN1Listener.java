@@ -13,11 +13,11 @@ import org.eclipse.titan.common.parsers.TitanListener;
 public class ASN1Listener extends TitanListener {
 
 	public ASN1Listener() {
-		super(); 
+		super();
 	}
 
 	public ASN1Listener(final Asn1Parser parser) {
-		super.errorsStored = parser.getErrorStorage(); 
+		super.errorsStored = parser.getErrorStorage();
 	}
 
 }

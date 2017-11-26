@@ -129,7 +129,7 @@ pr_reparse_ImportDef [Group parent_group, List<ImportModule> all_imports, List<I
 	(	pr_AllWithExcepts { if ( impmod != null ) { impmod.setHasNormalImports(); } }
 	|	pr_BeginChar
 		pr_ImportSpec[impmod]
-		pr_EndChar { selective = true; } 
+		pr_EndChar { selective = true; }
 	)
 	(	a = pr_WithStatement { attributes = $a.attributes; }	)?
 )

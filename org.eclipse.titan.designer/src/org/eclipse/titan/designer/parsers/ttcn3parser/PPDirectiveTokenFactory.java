@@ -28,7 +28,7 @@ public class PPDirectiveTokenFactory implements TokenFactory<CommonToken>{
 		this.token = new CommonToken(Token.EOF);
 	}
 
-	public PPDirectiveTokenFactory (final boolean copyText, final Token token) { 
+	public PPDirectiveTokenFactory (final boolean copyText, final Token token) {
 		this.copyText = copyText;
 		this.token = token;
 	}

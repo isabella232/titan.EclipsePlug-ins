@@ -37,7 +37,7 @@ import org.eclipse.titan.designer.parsers.ParserUtilities;
 /**
  * This class directs the incremental parsing. Stores all information about the nature and size of the damage done to the system, helps in reparsing
  * only the needed part of the file. And also takes care of cleaning and reporting errors inside the damaged area.
- * 
+ *
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */

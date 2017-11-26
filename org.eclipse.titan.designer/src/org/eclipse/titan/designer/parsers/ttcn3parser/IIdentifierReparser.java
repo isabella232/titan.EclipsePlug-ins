@@ -14,7 +14,7 @@ public interface IIdentifierReparser {
 	/**
 	 * Runs the reparsing process
 	 * @return 0 on success
-	 *         failure otherwise, where the value indicates the number of tokens we need to read back 
+	 *         failure otherwise, where the value indicates the number of tokens we need to read back
 	 */
 	public int parse();
 
@@ -22,7 +22,7 @@ public interface IIdentifierReparser {
 	 * Runs the reparsing process
 	 * Also runs default code (reparser.setNameChanged(true);) on success
 	 * @return 0 on success
-	 *         failure otherwise, where the value indicates the number of tokens we need to read back 
+	 *         failure otherwise, where the value indicates the number of tokens we need to read back
 	 */
 	public int parseAndSetNameChanged();
 

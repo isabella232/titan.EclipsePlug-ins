@@ -12,7 +12,7 @@ import java.util.List;
 
 /**
  * This class serves the purpose to create frequently used list of token types.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ReparseUtilities {

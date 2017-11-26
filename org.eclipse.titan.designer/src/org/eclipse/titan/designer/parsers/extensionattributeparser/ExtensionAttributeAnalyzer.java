@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
- * Extension attribute parser analyzer 
+ * Extension attribute parser analyzer
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */

@@ -21,11 +21,11 @@ import org.eclipse.core.runtime.IProgressMonitor;
 /**
  * This class is a resource visitor collecting every configuration file in the
  * project.
- * 
+ *
  * Should be started only on a project.
- * 
+ *
  * @see #internalDoAnalyzeSyntactically(IProgressMonitor)
- * 
+ *
  * @author Kristof Szabados
  */
 public class OutdatedConfigFileCollector implements IResourceVisitor {

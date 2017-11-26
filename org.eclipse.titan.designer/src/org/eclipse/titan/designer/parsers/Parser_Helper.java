@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.parsers;
 /**
  * Indicates that the annotated element is used to transport certain data inside
  * the parser, but is not represented in the Abstract Syntax Tree.
- * 
+ *
  * @author Kristof Szabados
  * */
 public @interface Parser_Helper {

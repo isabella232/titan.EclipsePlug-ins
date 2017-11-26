@@ -29,7 +29,7 @@ public class Ttcn3FileReparser implements ITtcn3FileReparser {
 	private final Map<IFile, String> mFileMap;
 	private final Map<IFile, String> mUptodateFiles;
 	private final Set<IFile> mHighlySyntaxErroneousFiles;
-	 
+
 	private boolean mSyntacticallyOutdated = false;
 
 	public Ttcn3FileReparser( final TTCN3ReparseUpdater aReparser,

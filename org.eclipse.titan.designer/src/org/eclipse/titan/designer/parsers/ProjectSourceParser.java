@@ -72,12 +72,12 @@ import org.eclipse.ui.progress.IProgressConstants;
  * In not noted elsewhere all operations that modify the internal states are
  * executed in a parallel WorkspaceJob, which will have scheduling rules
  * required to access related resources.
- * 
+ *
  * TODO: I believe it would be enough to store a single workspacejob which was
  * last started (whether full analysis, syntax analysis, or outdate report).
  * Beside the immediately returned workspacejob the users should only need that
  * one to synchronize to, if they need to synchronize to something.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class ProjectSourceParser {
@@ -140,7 +140,7 @@ public final class ProjectSourceParser {
 	/**
 	 * Basic constructor initializing the class's members, for the given
 	 * project.
-	 * 
+	 *
 	 * @param project
 	 *                the project for which this instance will be
 	 *                responsible for.
@@ -170,10 +170,10 @@ public final class ProjectSourceParser {
 	/**
 	 * Checks whether the internal data belonging to the provided file is
 	 * out-dated.
-	 * 
+	 *
 	 * @param file
 	 *                the file to check.
-	 * 
+	 *
 	 * @return true if the data was reported to be out-dated since the last
 	 *         analysis.
 	 * */
@@ -185,10 +185,10 @@ public final class ProjectSourceParser {
 	 * Returns the module with the provided name, or null
 	 * <p>
 	 * Does check not only the actual project, but all referenced ones too.
-	 * 
+	 *
 	 * @param name
 	 *                the name of the module to return
-	 * 
+	 *
 	 * @return the module having the provided name
 	 * */
 	public Module getModuleByName(final String name) {
@@ -203,12 +203,12 @@ public final class ProjectSourceParser {
 	 * Returns the TTCN-3 include file with the provided name, or null
 	 * <p>
 	 * Does check not only the actual project, but all referenced ones too.
-	 * 
+	 *
 	 * @param name
 	 *                the name of the include file to return
 	 * @param uptodateOnly
 	 *                allow finding only the up-to-date modules.
-	 * 
+	 *
 	 * @return the TTCN-3 include file having the provided name
 	 * */
 	public IFile getTTCN3IncludeFileByName(final String name) {
@@ -221,7 +221,7 @@ public final class ProjectSourceParser {
 
 	/**
 	 * Returns the TTCN-3 include file with the provided name, or null.
-	 * 
+	 *
 	 * @param name
 	 *                the name of the inlude file to return.
 	 * @param visitedprojects
@@ -229,7 +229,7 @@ public final class ProjectSourceParser {
 	 *                loops.
 	 * @param uptodateOnly
 	 *                allow finding only the up-to-date modules.
-	 * 
+	 *
 	 * @return the TTCN-3 include file having the provided name
 	 * */
 	private IFile internalTTCN3IncludeFileByName(final String name, final List<IProject> visitedprojects) {
@@ -263,7 +263,7 @@ public final class ProjectSourceParser {
 
 	/**
 	 * Returns the module with the provided name, or null.
-	 * 
+	 *
 	 * @param name
 	 *                the name of the module to return.
 	 * @param visitedprojects
@@ -271,7 +271,7 @@ public final class ProjectSourceParser {
 	 *                loops.
 	 * @param uptodateOnly
 	 *                allow finding only the up-to-date modules.
-	 * 
+	 *
 	 * @return the module having the provided name
 	 * */
 	private Module internalGetModuleByName(final String name, final List<IProject> visitedprojects, final boolean uptodateOnly) {
@@ -303,7 +303,7 @@ public final class ProjectSourceParser {
 	 * Returns the actually known module's names.
 	 * <p>
 	 * Does check not only the actual project, but all referenced ones too.
-	 * 
+	 *
 	 * @return a set of the module names known in this project or in the
 	 *         ones referenced.
 	 * */
@@ -315,11 +315,11 @@ public final class ProjectSourceParser {
 	 * Returns the actually known module's names.
 	 * <p>
 	 * Does check not only the actual project, but all referenced ones too.
-	 * 
+	 *
 	 * @param visitedprojects
 	 *                the list of project already visited, to break infinite
 	 *                loops.
-	 * 
+	 *
 	 * @return a set of the module names known in this project or in the
 	 *         ones referenced.
 	 * */
@@ -344,10 +344,10 @@ public final class ProjectSourceParser {
 	/**
 	 * Returns the name of the module contained in the provided file, or
 	 * null.
-	 * 
+	 *
 	 * @param file
 	 *                the file whose module we are interested in
-	 * 
+	 *
 	 * @return the name of the module found in the file, or null
 	 * */
 	public String containedModuleName(final IFile file) {
@@ -362,10 +362,10 @@ public final class ProjectSourceParser {
 	/**
 	 * Returns the module contained in the provided file, or
 	 * null.
-	 * 
+	 *
 	 * @param file
 	 *                the file whose module we are interested in
-	 * 
+	 *
 	 * @return the module found in the file, or null
 	 * */
 	public Module containedModule(final IFile file) {
@@ -378,10 +378,10 @@ public final class ProjectSourceParser {
 	 * <p>
 	 * Stores that this file is out of date for later
 	 * <p>
-	 * 
+	 *
 	 * @param outdatedFile
 	 *                the file which seems to have changed
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final IFile outdatedFile) {
@@ -420,10 +420,10 @@ public final class ProjectSourceParser {
 	 * <p>
 	 * Stores that this file is out of date for later usage
 	 * <p>
-	 * 
+	 *
 	 * @param outdatedFile
 	 *                the file which seems to have changed
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportSyntacticOutdatingOnly(final IFile outdatedFile) {
@@ -460,10 +460,10 @@ public final class ProjectSourceParser {
 	 * <p>
 	 * Stores that this file is out of date for later
 	 * <p>
-	 * 
+	 *
 	 * @param outdatedFiles
 	 *                the file which seems to have changed
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final List<IFile> outdatedFiles) {
@@ -502,10 +502,10 @@ public final class ProjectSourceParser {
 	 * <p>
 	 * Stores that this file is semantically out of date for later
 	 * <p>
-	 * 
+	 *
 	 * @param outdatedFile
 	 *                the file which seems to have changed
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportSemanticOutdating(final List<IFile> outdatedFiles) {
@@ -540,7 +540,7 @@ public final class ProjectSourceParser {
 
 	/**
 	 * Force the next semantic analyzation to reanalyze everything.
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob clearSemanticInformation() {
@@ -577,10 +577,10 @@ public final class ProjectSourceParser {
 	 * <p>
 	 * Stores that every file in this folder is out of date for later
 	 * <p>
-	 * 
+	 *
 	 * @param outdatedFolder
 	 *                the folder whose files seems to have changed
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob reportOutdating(final IFolder outdatedFolder) {
@@ -617,12 +617,12 @@ public final class ProjectSourceParser {
 	 * Handles the data storages, calls the module level incremental parser
 	 * on the file, and if everything fails does a full parsing to correct
 	 * possibly invalid states.
-	 * 
+	 *
 	 * @param file
 	 *                the edited file
 	 * @param reparser
 	 *                the parser doing the incremental parsing.
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob updateSyntax(final IFile file, final TTCN3ReparseUpdater reparser) {
@@ -657,11 +657,11 @@ public final class ProjectSourceParser {
 	 * <p>
 	 * Builds the walking order of the projects from their referencing
 	 * graph, and analyzes all found to be related to the actual.
-	 * 
+	 *
 	 * @param monitor
 	 *                the progress monitor to provide feedback to the user
 	 *                about the progress.
-	 * 
+	 *
 	 * @return status information on exit.
 	 * */
 	private IStatus internalDoAnalyzeWithReferences(final SubMonitor monitor) {
@@ -791,7 +791,7 @@ public final class ProjectSourceParser {
 	 * this list
 	 * <li>the files left in the list are analyzed in a new workspace job
 	 * </ul>
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob analyzeAllOnlySyntactically() {
@@ -897,7 +897,7 @@ public final class ProjectSourceParser {
 	 * this list
 	 * <li>the files left in the list are analyzed in a new workspace job
 	 * </ul>
-	 * 
+	 *
 	 * @return the WorkspaceJob in which the operation is running
 	 * */
 	public WorkspaceJob analyzeAll() {
@@ -912,7 +912,7 @@ public final class ProjectSourceParser {
 	 * this list
 	 * <li>the files left in the list are analyzed in a new workspace job
 	 * </ul>
-	 * 
+	 *
 	 * @param allowQuickExit
 	 *                if set to true and there is an analysis going on
 	 *                already for the same project, the new analysis will
@@ -1121,12 +1121,12 @@ public final class ProjectSourceParser {
 	/**
 	 * Checks that all directly referenced projects are using the
 	 * configuration required by the actual one, if set.
-	 * 
+	 *
 	 * @param project
 	 *                the actual project.
 	 * @param markerType
 	 *                the type of the marker to report the error with.
-	 * 
+	 *
 	 * @return true if there were not error, false otherwise.
 	 * */
 	public static boolean checkConfigurationRequirements(final IProject project, final String markerType) {

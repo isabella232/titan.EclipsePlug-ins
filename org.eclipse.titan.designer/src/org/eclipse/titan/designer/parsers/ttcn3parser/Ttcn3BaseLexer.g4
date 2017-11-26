@@ -44,20 +44,20 @@ import org.eclipse.titan.designer.AST.Location;
   }
 
   private IFile actualFile = null;
-  
+
   public void setActualFile(IFile file) {
     actualFile = file;
   }
-  
+
   private int actualLine = 1;
-  
+
   public void setActualLine(int line) {
     actualLine = line;
   }
 
   /**
    * Creates and places a task marker on the provided location.
-   * 
+   *
    * @param taskMarker the data of the marker needed for this operation
    * */
   public void createTaskMarker(TITANMarker taskMarker){
@@ -67,10 +67,10 @@ import org.eclipse.titan.designer.AST.Location;
 
     ParserMarkerSupport.createTaskMarker(actualFile, taskMarker);
   }
-  
+
   /**
    * Creates and places a task marker on the provided location.
-   * 
+   *
    * @param taskMarker the data of the marker needed for this operation
    */
   public void createWarningMarker(TITANMarker warningMarker) {
@@ -92,18 +92,18 @@ import org.eclipse.titan.designer.AST.Location;
   }
 
   private Location lastPPDirectiveLocation = null;
-  
+
   public Location getLastPPDirectiveLocation() {
   	return lastPPDirectiveLocation;
   }
-  
+
   /**
    * true, if todo/fixme markers can be placed by the lexer,
    *       typically it is set if full parsing is done
    * false otherwise
    */
   private boolean mCommentTodo = false;
-  
+
   public void setCommentTodo( boolean aCommentTodo ) {
     mCommentTodo = aCommentTodo;
   }
@@ -112,7 +112,7 @@ import org.eclipse.titan.designer.AST.Location;
   /** Used to preload the class, also loading the TTCN-3 lexer. */
   public static void preLoad() {
   }
-  
+
 	/** pattern for matching todo/fixme in a comment line */
 	final static Pattern PATTERN_TODO_FIXME = Pattern.compile("((TODO|FIXME).*?)\\s*(?=(TODO|FIXME|$))");
 
@@ -156,7 +156,7 @@ tokens {
   ALTSTEP,                    AND,                        AND4B,
   ANY,                        ANYTYPE,                    ANY2UNISTR,
   APPLY,
-  
+
   BITSTRING,                  BOOLEAN,                    BREAK,
 
   CALL,                       CASE,                       CATCH,
@@ -351,7 +351,7 @@ OSTRINGMATCH:	'\'' WS? ( OCTORMATCH WS? )* '\'O';
 // Tokens for erroneous cases for [BHO]STRING(MATCH)? rules
 //  - wrong character between the quotes
 //  - odd number of hex digits in case of OSTRING(MATCH)?)
-// These tokens are not used in any parser rules, but these cases must be parser errors instead of lexer errors 
+// These tokens are not used in any parser rules, but these cases must be parser errors instead of lexer errors
 BHOSTRING_WRONG:		'\'' ~( '\'' )* '\'' [BHO];
 
 // Macros

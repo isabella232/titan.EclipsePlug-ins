@@ -26,7 +26,7 @@ import org.eclipse.titan.designer.AST.Location;
 
 /**
  * Special class to support the parsers in putting out their markers on the resources.
- * 
+ *
  * @author Kristof Szabados
  */
 public final class ParserMarkerSupport {
@@ -38,7 +38,7 @@ public final class ParserMarkerSupport {
 
 	/**
 	 * Creates and places a task marker on the provided location.
-	 * 
+	 *
 	 * @param file
 	 *                the file to put the task marker on
 	 * @param taskMarker
@@ -56,7 +56,7 @@ public final class ParserMarkerSupport {
 
 	/**
 	 * Creates and places a warning marker on the provided location.
-	 * 
+	 *
 	 * @param file
 	 *                the file to put the task marker on
 	 * @param warningkMarker
@@ -73,7 +73,7 @@ public final class ParserMarkerSupport {
 
 	/**
 	 * Deletes every supported marker from the provided resource.
-	 * 
+	 *
 	 * @param resource
 	 *                the resource whose markers should be removed
 	 * @return the list of all compiler markers on the resource.
@@ -198,14 +198,14 @@ public final class ParserMarkerSupport {
 	 * this form it is possible to provide a location as a region that was
 	 * originally housing the erroneous location. This is used as syntactic marker
 	 * but placed during semantic check
-	 * 
+	 *
 	 * @param file
 	 *                the file which seems to be erroneous
 	 * @param errorStorage
 	 *                the info extracted from the caught exception(s)
 	 * @param severity
 	 *                the severity level of the error
-	 * 
+	 *
 	 * */
 	public static void createOnTheFlyMixedMarker(final IFile file, final SyntacticErrorStorage errorStorage, final int severity) {
 		if (!file.isAccessible()) {

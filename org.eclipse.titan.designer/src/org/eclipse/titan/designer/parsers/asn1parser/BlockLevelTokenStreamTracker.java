@@ -23,7 +23,7 @@ public class BlockLevelTokenStreamTracker extends CommonTokenStream {
 	private List<Token> oldList;
 
 	protected BlockLevelTokenStreamTracker(final Block aBlock, final int aStartIndex) {
-		super(aBlock); 
+		super(aBlock);
 		this.index = aStartIndex;
 		this.oldList = aBlock.getTokenList();
 	}

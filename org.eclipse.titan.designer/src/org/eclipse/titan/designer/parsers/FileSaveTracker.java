@@ -14,11 +14,11 @@ import org.eclipse.core.resources.IFile;
 
 /**
  * Singleton class storing the list of files being saved at any point in time.
- * 
+ *
  * Can be used by change listeners to know if a change in the file system
  *  is triggered by external factors or the saving of our editors.
  *  In the first case the file needs to be re-analyzed to know its contents.
- *  
+ *
  *  @author Kristof Szabados
  * */
 public final class FileSaveTracker {
@@ -37,7 +37,7 @@ public final class FileSaveTracker {
 	/**
 	 * Adds a file to the set of files, that will be saved from our editors.
 	 * So that we can handle them specially in event handling.
-	 * 
+	 *
 	 * @param file
 	 *                the file being saved.
 	 * */
@@ -47,10 +47,10 @@ public final class FileSaveTracker {
 
 	/**
 	 * Checks whether the provided file is being saved.
-	 * 
+	 *
 	 * @param file
 	 *                the file to check.
-	 * 
+	 *
 	 * @return true if the file is being saved, false otherwise.
 	 * */
 	public static boolean isFileBeingSaved(final IFile file) {
@@ -59,7 +59,7 @@ public final class FileSaveTracker {
 
 	/**
 	 * Reports that the provided file has been saved.
-	 * 
+	 *
 	 * @param file
 	 *                the file saved.
 	 * */

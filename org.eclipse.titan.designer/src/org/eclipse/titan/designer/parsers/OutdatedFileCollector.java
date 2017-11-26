@@ -24,16 +24,16 @@ import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3Editor;
 /**
  * This class is a resource visitor collecting every file in the project which
  * is not:
- * 
+ *
  * <ul>
  * <li>under the working directory.
  * <li>excluded from build.
  * <li>uptodate.
  * </ul>
  * Should be started only on a project.
- * 
+ *
  * @see #analyzeAll(IFile, TTCN3Editor, IProgressMonitor)
- * 
+ *
  * @author Kristof Szabados
  */
 public final class OutdatedFileCollector implements IResourceVisitor {

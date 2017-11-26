@@ -26,11 +26,11 @@ import org.eclipse.titan.designer.AST.TTCN3.types.*;
   private IFile actualFile = null;
   private int line = 0;
   private int offset = 0;
-  
+
   public void setActualFile(final IFile file) {
   	actualFile = file;
   }
-  
+
   public void setLine(final int line) {
   	this.line = line;
   }
@@ -38,11 +38,11 @@ import org.eclipse.titan.designer.AST.TTCN3.types.*;
   public void setOffset(final int offset) {
   	this.offset = offset;
   }
-  
+
   private Location getLocation(final Token token) {
   	return new Location(actualFile, line + token.getLine() - 1, offset + token.getStartIndex(), offset + token.getStopIndex() + 1);
   }
-  
+
   private Location getLocation(final Token startToken, final Token endToken) {
   	if (endToken == null) {
   		return getLocation(startToken);
@@ -54,13 +54,13 @@ import org.eclipse.titan.designer.AST.TTCN3.types.*;
 
 /*
  * @author Kristof Szabados
- * 
+ *
  * FIXME location information is incorrect yet
  * */
 options {
 tokenVocab=ExtensionAttributeLexer;
 }
- 
+
 pr_ExtensionAttributeRoot returns[ArrayList<ExtensionAttribute> list]
 @init { $list = new ArrayList<ExtensionAttribute>(); }:
 (
@@ -137,12 +137,12 @@ pr_TitanVersionAttribute returns[TitanVersionAttribute attribute]
 pr_Version returns [Identifier identifier]
 	locals[String temp, Token endCol]
 	:
-(  
+(
 	a = IDENTIFIER	{$temp = $a.getText(); $endCol = $a;}
-	(  
+	(
    		b = NUMBER	{$temp += " " + $b.getText();}
       	c = NUMBER	{$temp += " " + $c.getText();}
-    	( 
+    	(
       		SLASH
         	d = NUMBER	{$temp += "/" + $d.getText();}
       	)?
@@ -164,7 +164,7 @@ pr_PrototypeAttribute returns[PrototypeAttribute attribute]
 @init { $attribute = null;}:
 (
 	PROTOTYPE
-	LPAREN 
+	LPAREN
 	type = pr_PrototypeSetting
 	RPAREN
 )
@@ -448,7 +448,7 @@ pr_TypeMappingTarget returns[TypeMappingTarget mappingTarget]
 (
 	DASH
 	COLON
-	DISCARD		{$mappingTarget = new DiscardTypeMappingTarget(); $endCol = $DISCARD;} 
+	DISCARD		{$mappingTarget = new DiscardTypeMappingTarget(); $endCol = $DISCARD;}
 |	pr_Type
 	COLON
 	(
@@ -525,7 +525,7 @@ pr_ExtendsAttribute returns[ExtensionsAttribute attribute]
 };
 
 pr_ExtensionList returns[Types types]
-	: 
+	:
 	{$types = new Types();}
 (
 	pr_ReferencedType	{ if ($pr_ReferencedType.type != null) { $types.addType($pr_ReferencedType.type); } }
@@ -549,7 +549,7 @@ pr_AnyTypeAttribute returns[AnytypeAttribute attribute]
 };
 
 pr_TypeList returns[Types types]
-	: 
+	:
 	{$types = new Types();}
 (
 	pr_Type	{ if ($pr_Type.type != null) { $types.addType($pr_Type.type); } }

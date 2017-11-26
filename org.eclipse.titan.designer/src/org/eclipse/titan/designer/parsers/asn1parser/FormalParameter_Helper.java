@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.parsers.Parser_Helper;
 
 /**
- * Data structure for ASN1Parser/pr_FormalParameter 
+ * Data structure for ASN1Parser/pr_FormalParameter
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */

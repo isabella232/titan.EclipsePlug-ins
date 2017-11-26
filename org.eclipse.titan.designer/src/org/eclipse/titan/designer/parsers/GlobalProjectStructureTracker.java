@@ -17,7 +17,7 @@ import org.eclipse.core.resources.IProject;
 /**
  * This class tries whether a project underwent such changes between 2 build
  * operations that might require a dependency update or not.
- * 
+ *
  * @author Kristof Szabados
  * */
 public final class GlobalProjectStructureTracker {
@@ -34,7 +34,7 @@ public final class GlobalProjectStructureTracker {
 	 * <p>
 	 * Compares the actually known information to the ones known to be
 	 * saved, and if a difference exists the dependency changes is noted.
-	 * 
+	 *
 	 * @param file
 	 *                the file the was just now saved.
 	 * */
@@ -96,7 +96,7 @@ public final class GlobalProjectStructureTracker {
 	 * <p>
 	 * Compares the actually known information to the ones known to be
 	 * saved, and if a difference exists the dependency changes is noted.
-	 * 
+	 *
 	 * @param file
 	 *                the file the was just now saved.
 	 * */
@@ -111,10 +111,10 @@ public final class GlobalProjectStructureTracker {
 
 	/**
 	 * Returns a project structure data collector for the given project.
-	 * 
+	 *
 	 * @param project
 	 *                the project that is to be analyzed
-	 * 
+	 *
 	 * @return a project structure data collector related to the project
 	 *         (might be new or might need update only)
 	 * */
@@ -131,10 +131,10 @@ public final class GlobalProjectStructureTracker {
 	/**
 	 * Returns a project structure data collector for the given project with
 	 * information about the saved state of the project.
-	 * 
+	 *
 	 * @param project
 	 *                the project whose information is requested.
-	 * 
+	 *
 	 * @return a project structure data collector related to the project
 	 *         (might be null)
 	 * */
@@ -149,10 +149,10 @@ public final class GlobalProjectStructureTracker {
 	/**
 	 * Returns whether the project provided has changed its dependency since
 	 * the last time or not.
-	 * 
+	 *
 	 * @param project
 	 *                the project in question.
-	 * 
+	 *
 	 * @return false if the dependencies of the project did not change for
 	 *         sure, true otherwise.
 	 * */

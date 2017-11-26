@@ -51,7 +51,7 @@ import org.eclipse.titan.designer.parsers.preprocess.PreprocessorDirective;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 /**
  * Directive types for state machine transitions
- * 
+ *
  */
 enum ConditionalTransition {
 	ELIF, ELSE, ENDIF;
@@ -121,7 +121,7 @@ enum ConditionalState {
 	/**
 	 * Given the actual state and the incoming directive return the
 	 * resulting state
-	 * 
+	 *
 	 * @param transition
 	 *                the incoming directive
 	 * @return resulting state or null if invalid state transition
@@ -140,7 +140,7 @@ class ConditionalStateMachine {
 	/**
 	 * Creates a new state for for the #IF stuff, the evaluated conditional
 	 * is true or false
-	 * 
+	 *
 	 * @param if_condition
 	 *                the evaluated condition of the initial #IF part of the
 	 *                construct
@@ -192,7 +192,7 @@ class ConditionalStateMachine {
 	/**
 	 * Returns true if this is not a filtering state, this is a passing
 	 * state if no previous states were passing states.
-	 * 
+	 *
 	 * @return true if tokens can be passed on
 	 */
 	public boolean isPassing() {
@@ -215,7 +215,7 @@ class ConditionalStateStack {
 	/**
 	 * Changes the state of the stack according to the directive. Creates
 	 * error/warning markers if the directive is invalid in this state.
-	 * 
+	 *
 	 * @param ppDirective
 	 *                the directive parsed
 	 */
@@ -253,7 +253,7 @@ class ConditionalStateStack {
 	/**
 	 * Check if the tokens can be passed on or must be filtered out from the
 	 * stream
-	 * 
+	 *
 	 * @return true to not filter
 	 */
 	public boolean isPassing() {
@@ -371,7 +371,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 	/**
 	 * Adds a new lexer to the lexer stack to read tokens from the included
 	 * file
-	 * 
+	 *
 	 * @param fileName
 	 *                the file name paramtere of the #include directive
 	 */
@@ -521,7 +521,7 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 						boolean preIsPassing = condStateStack.isPassing();
 						condStateStack.processDirective(ppDirective);
 						boolean postIsPassing = condStateStack.isPassing();
-						if (preIsPassing != postIsPassing && tokenStreamStack.isEmpty() && getTokenSource() instanceof Ttcn3Lexer) { 
+						if (preIsPassing != postIsPassing && tokenStreamStack.isEmpty() && getTokenSource() instanceof Ttcn3Lexer) {
 							// included files are ignored because of ambiguity
 							Location ppLocation = lastPPDirectiveLocation;
 							if (ppLocation != null) {

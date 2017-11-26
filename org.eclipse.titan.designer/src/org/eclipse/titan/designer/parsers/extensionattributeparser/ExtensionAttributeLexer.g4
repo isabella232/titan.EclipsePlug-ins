@@ -24,7 +24,7 @@ WS:
 [ \t\r\n\f]+ -> channel(HIDDEN);
 
 LINE_COMMENT:
-(	'//' ~[\r\n]* 
+(	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
 ) ->channel(HIDDEN)
 ;

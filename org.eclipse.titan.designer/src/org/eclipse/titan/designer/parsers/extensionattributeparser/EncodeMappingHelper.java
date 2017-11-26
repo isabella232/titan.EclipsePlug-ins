@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute;
 
 /**
  * Just a helper class to store information
- * 
+ *
  * @author Kristof Szabados
  * */
 public class EncodeMappingHelper {

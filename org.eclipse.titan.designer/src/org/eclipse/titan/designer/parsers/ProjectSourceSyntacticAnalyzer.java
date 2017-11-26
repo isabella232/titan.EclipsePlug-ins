@@ -67,7 +67,7 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * Helper class to separate the responsibility of the source parser into smaller
  * parts. This class is responsible for handling the syntactic checking of the
  * source code of the projects
- * 
+ *
  * @author Kristof Szabados
  * @author Jeno Attila Balasko
  * */
@@ -615,7 +615,7 @@ public final class ProjectSourceSyntacticAnalyzer {
 			// remove all markers from the files that need to be
 			// parsed
 			boolean useIncrementalParsing = preferenceService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
-					PreferenceConstants.USEINCREMENTALPARSING, false, null); 
+					PreferenceConstants.USEINCREMENTALPARSING, false, null);
 
 			for (IFile file : ttcn3FilesToCheck) {
 				//if not incremental parsing applied then all the markers should be marked for removal
@@ -950,12 +950,12 @@ public final class ProjectSourceSyntacticAnalyzer {
 
 	/**
 	 * Returns the TTCN-3 include file with the provided name, or null.
-	 * 
+	 *
 	 * @param name
 	 *                the file name to return.
 	 * @param uptodateOnly
 	 *                allow finding only the up-to-date modules.
-	 * 
+	 *
 	 * @return the file handler having the provided name
 	 * */
 	IFile internalGetTTCN3IncludeFileByName(final String name) {

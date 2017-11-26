@@ -35,7 +35,7 @@ public final class CompilationTimeStamp {
 	 * always returns a unique value.
 	 * <p>
 	 * The values returned are always positive..
-	 * 
+	 *
 	 * @return a new compilationCounter.
 	 * */
 	public static CompilationTimeStamp getNewCompilationCounter() {
@@ -49,7 +49,7 @@ public final class CompilationTimeStamp {
 	/**
 	 * Returns a base timestamp that can be used to visit AST nodes, that
 	 * require a timestamp, without activating the checking functionalities.
-	 * 
+	 *
 	 * @return the base timestamp.
 	 * */
 	public static CompilationTimeStamp getBaseTimestamp() {
@@ -59,7 +59,7 @@ public final class CompilationTimeStamp {
 	/**
 	 * Returns true if this timestamp is smaller / earlier that the one
 	 * provided as parameter.
-	 * 
+	 *
 	 * @param other
 	 *                the other timestamp to compare to.
 	 * @return true if the provided timestamp is newer that the actual.
