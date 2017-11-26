@@ -291,6 +291,9 @@ public final class TtcnLogger {
 	static boolean logMatchPrinted = false;
 	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
 
+	// length of the emergencylogging buffer
+	static int emergency_logging = 0;;
+
 	private static log_event_struct current_event = null;
 	private static Stack<log_event_struct> events = new Stack<TtcnLogger.log_event_struct>();
 
@@ -605,8 +608,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_read(final String timer_name, final double timeout_val) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_READ)) {
+		if (!log_this_event(Severity.TIMEROP_READ) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -614,8 +616,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_start(final String timer_name, final double start_val) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_START)) {
+		if (!log_this_event(Severity.TIMEROP_START) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -624,8 +625,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_guard(final double start_val) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_GUARD)) {
+		if (!log_this_event(Severity.TIMEROP_GUARD) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -634,8 +634,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_stop(final String timer_name, final double stop_val) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_STOP)) {
+		if (!log_this_event(Severity.TIMEROP_STOP) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -644,8 +643,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_timeout(final String timer_name, final double timeout_val) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_TIMEOUT)) {
+		if (!log_this_event(Severity.TIMEROP_TIMEOUT) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -654,8 +652,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_any_timeout() {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_TIMEOUT)) {
+		if (!log_this_event(Severity.TIMEROP_TIMEOUT) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -664,8 +661,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_timer_unqualified(final String message) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.TIMEROP_UNQUALIFIED)) {
+		if (!log_this_event(Severity.TIMEROP_UNQUALIFIED) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -674,8 +670,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_matching_timeout(final String timer_name) {
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.MATCHING_PROBLEM) /* && get_emergency_logging()<=0 */) {
+		if (!log_this_event(Severity.MATCHING_PROBLEM) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -703,8 +698,8 @@ public final class TtcnLogger {
 		default:
 			throw new TtcnError("Invalid operation");
 		}
-		//FIXME also needs to check emergency logging
-		if (!log_this_event(sev)) {
+
+		if (!log_this_event(sev) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -752,6 +747,14 @@ public final class TtcnLogger {
 		}
 	}
 
+	public static void set_emergency_logging(final int size) {
+		emergency_logging = size;
+	}
+
+	public static int get_emergency_logging() {
+		return emergency_logging;
+	}
+
 	public static void log_port_state(final Port_State_operation operation, final String portname) {
 		if (!log_this_event(Severity.PORTEVENT_STATE)) {
 			return;
@@ -776,8 +779,7 @@ public final class TtcnLogger {
 
 	public static void log_procport_send(final String portname, final Port_oper operation, final int componentReference, final TitanCharString system, final TitanCharString parameter) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_PMOUT : Severity.PORTEVENT_PCOUT;
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(severity)) {
+		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -800,8 +802,7 @@ public final class TtcnLogger {
 
 	public static void log_procport_recv(final String portname, final Port_oper operation, final int componentReference, final boolean check, final TitanCharString parameter, final int id) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_PMIN : Severity.PORTEVENT_PCIN;
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(severity)) {
+		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -827,8 +828,7 @@ public final class TtcnLogger {
 
 	public static void log_msgport_send(final String portname, final int componentReference, final TitanCharString parameter) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMSEND : Severity.PORTEVENT_MCSEND;
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(severity)) {
+		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -838,8 +838,7 @@ public final class TtcnLogger {
 
 	public static void log_msgport_recv(final String portname, final Msg_port_recv_operation operation, final int componentReference, final TitanCharString system, final TitanCharString parameter, final int id) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMRECV : Severity.PORTEVENT_MCRECV;
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(severity)) {
+		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -864,8 +863,7 @@ public final class TtcnLogger {
 
 	public static void log_dualport_map(final boolean incoming, final String target_type, final TitanCharString value, final int id) {
 		final Severity severity = incoming ? Severity.PORTEVENT_DUALRECV : Severity.PORTEVENT_DUALSEND;
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(severity)) {
+		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -877,8 +875,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.STATISTICS_UNQUALIFIED)) {
+		if (!log_this_event(Severity.STATISTICS_UNQUALIFIED) && get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -890,8 +887,7 @@ public final class TtcnLogger {
 	}
 
 	public static void log_defaultop_activate(final String name, final int id) {
-		// FIXME also needs to check emergency logging
-		if (!log_this_event(Severity.DEFAULTOP_ACTIVATE)) {
+		if (!log_this_event(Severity.DEFAULTOP_ACTIVATE) && get_emergency_logging() <= 0) {
 			return;
 		}
 
