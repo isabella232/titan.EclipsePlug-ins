@@ -19,7 +19,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * This preference page hold the controls and functionality to set the TITAN
  * related options.
- * 
+ *
  */
 public final class TitaniumPreferencePage extends PreferencePage implements IWorkbenchPreferencePage {
 	private static final String DESCRIPTION = "These are the preference pages of Titanium.";

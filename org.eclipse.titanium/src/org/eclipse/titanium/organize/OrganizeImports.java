@@ -52,9 +52,9 @@ import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
 /**
  * Some methods to make convenient organizing import statements.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class OrganizeImports {
 	private static final String NEWLINE;
@@ -81,7 +81,7 @@ public final class OrganizeImports {
 	 * dialog is displayed to the user to choose one. If none found, or the user
 	 * cancels the dialog, <code>null</code> is returned.
 	 * </p>
-	 * 
+	 *
 	 * @param reference
 	 *            The (missing) reference we are searching for.
 	 * @param project
@@ -130,7 +130,7 @@ public final class OrganizeImports {
 	/**
 	 * Organize the import statements of a file. The necessary changes are
 	 * collected and returned in a <code>TextFileChange</code> object.
-	 * 
+	 *
 	 * @param file
 	 *            The file to organize.
 	 * @return The change to perform.
@@ -181,12 +181,12 @@ public final class OrganizeImports {
 	 * <link>MultiTextEdit</link>, which is then returned.
 	 * </p>
 	 * TODO: notice and handle ambiguous references
-	 * 
+	 *
 	 * @param module
 	 *            The module which import statements are to organize.
 	 * @param document
 	 *            The document that contains the module.
-	 * 
+	 *
 	 * @return The edit, which contains the proper changes.
 	 */
 	private static MultiTextEdit organizeImportsEdit(final TTCN3Module module, final IDocument document) throws BadLocationException {
@@ -283,7 +283,7 @@ public final class OrganizeImports {
 					if (importChangeMethod.equals(OrganizeImportPreferencePage.COMMENT_THEM)) {
 						removeEdit.addChild(new InsertEdit(m.getLocation().getOffset(), "/*"));
 						// hack to handle the semicolon
-						removeEdit.addChild(new InsertEdit(m.getLocation().getEndOffset() + 1, "*/")); 
+						removeEdit.addChild(new InsertEdit(m.getLocation().getEndOffset() + 1, "*/"));
 					} else {
 						removeEdit.addChild(new DeleteEdit(startLineRegion.getOffset(),
 								(endLineRegion.getOffset() - startLineRegion.getOffset()) + endLineRegion.getLength()
@@ -391,7 +391,7 @@ class ImportSelectionDialog implements Runnable {
 		final OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
 		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(new Shell(Display.getCurrent()), labelProvider);
 		dialog.setTitle("Add Import");
-		dialog.setMessage("For the missing reference: " + reference.getDisplayName() 
+		dialog.setMessage("For the missing reference: " + reference.getDisplayName()
 				+ " in " + source.getProjectRelativePath().toString() + ".");
 		dialog.setElements(collected.toArray());
 		dialog.setHelpAvailable(false);

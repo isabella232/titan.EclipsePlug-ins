@@ -21,7 +21,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class partitions a module graph according to the folders the represented
  * modules are located in.
- * 
+ *
  * @author Gobor Daniel
  */
 public class ModuleLocationCluster extends FolderNameCluster {
@@ -45,7 +45,7 @@ public class ModuleLocationCluster extends FolderNameCluster {
 
 	/**
 	 * Checks a linked file.
-	 * 
+	 *
 	 * @param filename
 	 *            The name of the file
 	 * @param clustername

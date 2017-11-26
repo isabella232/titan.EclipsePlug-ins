@@ -44,5 +44,5 @@ public class MetricLayout<E> extends BaseHierarchicalLayout<NodeDescriptor, E> {
 	protected Collection<NodeDescriptor> getNeighbours(final NodeDescriptor v) {
 		return graph.getPredecessors(v);
 	}
-	
+
 }

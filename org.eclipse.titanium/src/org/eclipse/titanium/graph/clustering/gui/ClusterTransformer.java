@@ -24,7 +24,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class provides a layout-like environment for clusters. It transforms
  * node names into their place on the canvas.
- * 
+ *
  * @author Gabor Jenei
  */
 public final class ClusterTransformer implements Function<NodeDescriptor, Point2D> {
@@ -33,7 +33,7 @@ public final class ClusterTransformer implements Function<NodeDescriptor, Point2
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param subLayouts
 	 *            : the layout style used inside the clusters
 	 * @param clusters
@@ -53,7 +53,7 @@ public final class ClusterTransformer implements Function<NodeDescriptor, Point2
 
 	/**
 	 * Calculate positions for one cluster
-	 * 
+	 *
 	 * @param vertices
 	 *            : the set of vertices inside the cluster
 	 */
@@ -78,7 +78,7 @@ public final class ClusterTransformer implements Function<NodeDescriptor, Point2
 
 	/**
 	 * This method is inherited from {@link Transformer} class
-	 * 
+	 *
 	 * @param v
 	 *            : the node to transform to coordinates
 	 */

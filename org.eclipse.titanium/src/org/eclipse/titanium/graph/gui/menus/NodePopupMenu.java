@@ -38,7 +38,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 /**
  * This class implements the popup menu shown upon graph node click by right
  * mouse button
- * 
+ *
  * @author Gabor Jenei
  * @author Bianka Bekefi
  */
@@ -50,7 +50,7 @@ public class NodePopupMenu extends JPopupMenu {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handler
 	 *            : The handler of the analyzed graph
 	 */
@@ -184,11 +184,11 @@ public class NodePopupMenu extends JPopupMenu {
 					index = dependentNodes.size() - 1;
 					while(index >= 0) {
 						final NodeDescriptor neighbor = dependentNodes.get(index);
-						if (!cdn.isDependent(neighbor, dependentNodes) && !neighbor.equals(node)) { 
+						if (!cdn.isDependent(neighbor, dependentNodes) && !neighbor.equals(node)) {
 							changed = true;
 							dependentNodes.remove(index);
 						}
-						index--;						
+						index--;
 					}
 				}
 
@@ -201,7 +201,7 @@ public class NodePopupMenu extends JPopupMenu {
 						for (final EdgeDescriptor edge : edges3) {
 							actVisualisator.getPickedEdgeState().pick(edge, true);
 						}
-						
+
 						final List<EdgeDescriptor> edges4 = new ArrayList<EdgeDescriptor>(graph.getOutEdges(neighbor));
 						for (final EdgeDescriptor edge : edges4) {
 							if (dependentNodes.contains(graph.getDest(edge))) {
@@ -245,7 +245,7 @@ public class NodePopupMenu extends JPopupMenu {
 
 	/**
 	 * Show the popup menu
-	 * 
+	 *
 	 * @param node
 	 *            : The node where we show the menu
 	 * @param x
@@ -260,7 +260,7 @@ public class NodePopupMenu extends JPopupMenu {
 
 	/**
 	 * Adds a new menu entry to the popup menu
-	 * 
+	 *
 	 * @param title
 	 *            : The entry's title
 	 * @param listener
@@ -274,7 +274,7 @@ public class NodePopupMenu extends JPopupMenu {
 
 	/**
 	 * Enables/disables the go to definition menu entry
-	 * 
+	 *
 	 * @param value
 	 *            : True if entry should be enabled
 	 */

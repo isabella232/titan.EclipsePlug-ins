@@ -15,14 +15,14 @@ import org.eclipse.titanium.graph.components.NodeDescriptor;
 /**
  * This class represents a cluster of the module graph. It is the subclass of
  * {@link NodeDescriptor}
- * 
+ *
  * @author Gobor Daniel
  */
 public class ClusterNode extends NodeDescriptor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 *            : The cluster's name
 	 */
@@ -33,7 +33,7 @@ public class ClusterNode extends NodeDescriptor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 *            : The cluster's name
 	 * @param cluster

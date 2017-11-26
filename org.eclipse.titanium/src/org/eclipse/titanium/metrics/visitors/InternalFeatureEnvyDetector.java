@@ -18,9 +18,9 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * <p>
  * Counts the number of references to entities that are defined inside a given
  * module.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class InternalFeatureEnvyDetector extends CounterVisitor {
 	private final Module ownModule;

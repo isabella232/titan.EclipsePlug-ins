@@ -15,7 +15,7 @@ import org.eclipse.titanium.metrics.IMetricEnum;
  * A child class of {@link JRadioButtonMenuItem}, it stores also a
  * {@link MetricsEnum} to handle metric changes more easily. These items are
  * used inside the graph window
- * 
+ *
  * @author Gabor Jenei
  */
 public class MetricsEntry extends JRadioButtonMenuItem {
@@ -24,7 +24,7 @@ public class MetricsEntry extends JRadioButtonMenuItem {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 *            : The name to show in the menu
 	 * @param metric

@@ -18,9 +18,9 @@ import org.eclipse.titanium.metrics.risk.IRisk;
  * <p>
  * This class is provides statistics about a metric in a module or in the whole
  * project.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class Statistics {
 	private final Map<StatColumn, Double> columns;
@@ -33,7 +33,7 @@ public class Statistics {
 	 * statistics to calculate, and how to display them (integer or double), and
 	 * <code>risk</code> is used to decide which value represents the highest
 	 * risk.
-	 * 
+	 *
 	 * @param nums
 	 *            The data for calculations (e.g. to calculate module
 	 *            statistics, provide the metric results of all entity in the
@@ -116,10 +116,10 @@ public class Statistics {
 	 * NOTE: the returned value is <code>null</code> if the requested column is
 	 * not chosen at construction by the metric.
 	 * </p>
-	 * 
+	 *
 	 * @param column
 	 *            The enum value for that statistic.
-	 * 
+	 *
 	 * @return The value of the statistic, or <code>null</code> if the column is
 	 *         omitted.
 	 */
@@ -133,7 +133,7 @@ public class Statistics {
 	 * If the stat was constructed with linear risk, it is just the max of the
 	 * numbers, but for example {@link ModuleMetric#INSTABILITY} uses different
 	 * risk dimension.
-	 * 
+	 *
 	 * @return the value with the highest risk
 	 */
 	public Number getHighestRisk() {

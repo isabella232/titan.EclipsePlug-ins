@@ -9,9 +9,9 @@ package org.eclipse.titanium.metrics.preferences;
 
 /**
  * The method for classifying risk levels
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public enum RiskMethod {
 	/** This risk is 'weak' to say to some code that 'this is wrong' */

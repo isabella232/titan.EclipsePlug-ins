@@ -13,9 +13,9 @@ import org.eclipse.titanium.metrics.MetricData;
 
 /**
  * A base implementation of {@link IMetric}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 abstract class BaseMetric<ENTITY, METRIC extends IMetricEnum> implements IMetric<ENTITY, METRIC> {
 	private final METRIC metric;

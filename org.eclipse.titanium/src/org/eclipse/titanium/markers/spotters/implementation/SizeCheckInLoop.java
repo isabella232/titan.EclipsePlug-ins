@@ -23,11 +23,11 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 public class SizeCheckInLoop extends BaseModuleCodeSmellSpotter {
 	private static final String ERROR_MESSAGE = "Length check operation in loop condition";
-	
+
 	public SizeCheckInLoop() {
 		super(CodeSmellType.SIZECHECK_IN_LOOP);
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof For_Statement) {
@@ -43,7 +43,7 @@ public class SizeCheckInLoop extends BaseModuleCodeSmellSpotter {
 			return;
 		}
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(3);
@@ -52,8 +52,8 @@ public class SizeCheckInLoop extends BaseModuleCodeSmellSpotter {
 		ret.add(DoWhile_Statement.class);
 		return ret;
 	}
-	
-	
+
+
 	protected static class LoopVisitor extends ASTVisitor {
 		private final Problems problems;
 
@@ -75,5 +75,5 @@ public class SizeCheckInLoop extends BaseModuleCodeSmellSpotter {
 			return V_SKIP;
 		}
 	}
-	
+
 }

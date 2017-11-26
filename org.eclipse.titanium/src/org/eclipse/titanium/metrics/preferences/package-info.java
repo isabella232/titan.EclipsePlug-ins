@@ -11,6 +11,6 @@
  * This package contains classes that are used by the value metrics to provide the users a widget
  * (available on the {@link org.eclipse.titanium.preferences.pages.MetricsLimitPreferencePage}),
  * where a user can set the warn method and limits of a metric.
- * </p> 
+ * </p>
  */
 package org.eclipse.titanium.metrics.preferences;

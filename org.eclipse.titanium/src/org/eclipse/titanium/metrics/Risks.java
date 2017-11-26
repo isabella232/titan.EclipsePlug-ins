@@ -17,9 +17,9 @@ import org.eclipse.titanium.metrics.risk.TriangleRisk;
 /**
  * Encapsulates a mapping from metric enums to {@link IRisk}
  * implementations.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class Risks {
 	final Map<IMetricEnum, IRisk> risks;

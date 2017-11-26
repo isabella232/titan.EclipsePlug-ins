@@ -83,7 +83,7 @@ public class RiskFactorPreferencePage extends PreferencePage implements IWorkben
 	private final List<String> markers;
 	private final List<Combo> impacts;
 	private final List<Text> baselines;
-	
+
 
 	public RiskFactorPreferencePage() {
 		super("Risk factor parameters");
@@ -92,12 +92,12 @@ public class RiskFactorPreferencePage extends PreferencePage implements IWorkben
 		impacts = new ArrayList<Combo>();
 		baselines = new ArrayList<Text>();
 	}
-	
+
 	@Override
 	public void init(final IWorkbench sworkbench) {
 		setDescription(DESCRIPTION);
 	}
-	
+
 	@Override
 	protected Control createContents(final Composite parent) {
 		final Composite tmpParent = new Composite(parent, 0);

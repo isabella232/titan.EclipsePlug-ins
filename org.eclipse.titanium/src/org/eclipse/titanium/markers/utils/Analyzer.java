@@ -42,9 +42,9 @@ import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
  * For performance reasons the {@link #withAll()} and {@link #withPreference()}
  * methods can also be used to obtain <code>Analyzer</code> instances. These are
  * cached instances, updated on preference setting changes.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class Analyzer {
 	private final Map<Class<? extends IVisitableNode>, Set<BaseModuleCodeSmellSpotter>> actions;
@@ -102,25 +102,25 @@ public class Analyzer {
 	 * the <code>Analyzer</code> uses project-scoped code smell spotters, then
 	 * those are executed, too, on the project of the module). Locking the
 	 * project to prevent modification of the AST is handled internally.
-	 * 
+	 *
 	 * @param monitor
 	 *            shows progress and makes it interruptable
 	 * @param module
 	 *            the ttcn3 module to analyze
-	 * 
+	 *
 	 * @return the code smells found in the given module
 	 */
 	public MarkerHandler analyzeModule(final IProgressMonitor monitor, final Module module) {
 		final SubMonitor progress = SubMonitor.convert(monitor, 100);
 		final IResource res = module.getLocation().getFile();
-		
+
 		final Map<IResource, List<Marker>> markers = new HashMap<IResource, List<Marker>>();
 		markers.put(res, internalAnalyzeModule(module));
 		progress.worked(80);
 		if (progress.isCanceled()) {
 			throw new OperationCanceledException();
 		}
-		
+
 		final IProject project = module.getProject();
 		markers.put(project, internalAnalyzeProject(project));
 		progress.worked(20);
@@ -132,12 +132,12 @@ public class Analyzer {
 	 * <p>
 	 * Executes the configured code smell spotters on the given project. Locking
 	 * the project to prevent modification of the AST is handled internally.
-	 * 
+	 *
 	 * @param monitor
 	 *            shows progress and makes it interruptable
 	 * @param module
 	 *            the ttcn3 project to analyze
-	 * 
+	 *
 	 * @return the code smells found in the given project
 	 */
 	public MarkerHandler analyzeProject(final IProgressMonitor monitor, final IProject project) {
@@ -169,7 +169,7 @@ public class Analyzer {
 	 * method, configure the builder appropriately and let the builder construct
 	 * the <code>Analyzer</code> itself. This is cruical to ensure the
 	 * immutability, thus thread-safety of this class.
-	 * 
+	 *
 	 * @return a new {@link AnalyzerBuilder} instance
 	 */
 	public static AnalyzerBuilder builder() {

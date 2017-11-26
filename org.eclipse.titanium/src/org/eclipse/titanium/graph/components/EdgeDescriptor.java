@@ -12,7 +12,7 @@ import java.awt.Color;
 /**
  * This class describes an edge of the module graph, it stores colour, name and
  * weight
- * 
+ *
  * @author Gabor Jenei
  */
 public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
@@ -22,7 +22,7 @@ public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
 
 	/**
 	 * Creates an edge that can be added to the module graph
-	 * 
+	 *
 	 * @param name
 	 *            : The edge name
 	 * @param colour
@@ -39,7 +39,7 @@ public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
 	/**
 	 * Creates an edge that can be added to the module graph, the weight is
 	 * default 1
-	 * 
+	 *
 	 * @param name
 	 *            : The edge name
 	 * @param colour
@@ -52,7 +52,7 @@ public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
 	/**
 	 * Creates an edge that can be added to the module graph, the weight is
 	 * default 1, and the colour is black.
-	 * 
+	 *
 	 * @param name
 	 *            :
 	 */
@@ -62,7 +62,7 @@ public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
 
 	/**
 	 * Changes the edge's colour
-	 * 
+	 *
 	 * @param col
 	 *            : The colour to set
 	 */
@@ -86,7 +86,7 @@ public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
 
 	/**
 	 * Sets the edge's weight
-	 * 
+	 *
 	 * @param weight
 	 *            : The weight to set
 	 */
@@ -114,7 +114,7 @@ public class EdgeDescriptor implements Comparable<EdgeDescriptor>{
 	/**
 	 * Overrides the {@link Object#equals(Object)} method, it implements a
 	 * comparison of two instances.
-	 * 
+	 *
 	 * @param obj
 	 *            : The other instance to compare with
 	 * @return A boolean that indicates whether the two objects represent the

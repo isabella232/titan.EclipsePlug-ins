@@ -17,21 +17,21 @@ import org.eclipse.ui.dialogs.PreferencesUtil;
  * This class only has static methods that pop up an Eclipse error message with
  * its two parameters. They may be called from any thread (not
  * only from UI threads)
- * 
+ *
  * @author Gabor
- * 
+ *
  */
 public final class ErrorMessage {
-	
+
 	public static final String LOG_ENTRY_NOTE = " (see error log for further information)";
-	
+
 	private ErrorMessage() {
 		// disable constructor in utility class
 	}
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param windowTitle
 	 *            : the window's title
 	 * @param message

@@ -20,7 +20,7 @@
  * static factory method {@link MetricData#measure(org.eclipse.core.resources.IProject)}.
  * After creation, one can query any value measured on entities, statistics of them,
  * or the so-called risk of an entity (according to a given metric).
- * <p> 
+ * <p>
  * Concrete implementations of the metrics are found in the packages, categorized by
  * the subject they measure.
  */

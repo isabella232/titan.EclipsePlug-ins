@@ -28,24 +28,24 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
  * This class marks the following code smell:
- * Select statements used with an expression that is not of 
+ * Select statements used with an expression that is not of
  * enumerated type.
- * 
+ *
  * @author Viktor Varga
  */
 public class ConvertToEnum extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERROR_MSG_SELECT = "Select should be used with enumerations. Branch coverage can not be calculated on {0} types.";
 	private static final String ERROR_MSG_CASE = "Select cases should be described by enumeration items.";
-	
-	
+
+
 	private final CompilationTimeStamp timestamp;
 
 	public ConvertToEnum() {
 		super(CodeSmellType.CONVERT_TO_ENUM);
 		timestamp = CompilationTimeStamp.getBaseTimestamp();
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (!(node instanceof SelectCase_Statement)) {
@@ -82,11 +82,11 @@ public class ConvertToEnum extends BaseModuleCodeSmellSpotter {
 		ret.add(SelectCase_Statement.class);
 		return ret;
 	}
-	
+
 	private final class CaseVisitor extends ASTVisitor {
-		
+
 		private final Problems problems;
-		
+
 		public CaseVisitor(final Problems problems) {
 			this.problems = problems;
 		}
@@ -107,6 +107,6 @@ public class ConvertToEnum extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-		
+
 	}
 }

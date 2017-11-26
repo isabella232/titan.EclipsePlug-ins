@@ -16,7 +16,7 @@ import org.eclipse.titanium.metrics.IMetricEnum;
 /**
  * The instability risk field editor is a simple risk field editor.
  * With the only difference, that values are between 0 and 1.
- *   
+ *
  *   @see SimpleRiskFieldEditor
  * */
 public class InstabilityRiskFieldEditor extends SimpleRiskFieldEditor {

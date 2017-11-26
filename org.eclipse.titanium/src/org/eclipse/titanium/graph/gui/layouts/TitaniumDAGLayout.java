@@ -44,5 +44,5 @@ public class TitaniumDAGLayout<V,E> extends BaseHierarchicalLayout<V, E> {
 	}
 
 
-	
+
 }

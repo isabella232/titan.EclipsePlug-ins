@@ -16,7 +16,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This class implements a factory for clusterer algorithms
- * 
+ *
  * @author Gabor Jenei
  */
 public class ClustererBuilder {
@@ -27,7 +27,7 @@ public class ClustererBuilder {
 	public ClustererBuilder() {
 		// Do nothing
 	}
-	
+
 	/**
 	 * Sets the clusterer algorithm's name
 	 * @param algorithm : The algorithm name
@@ -37,7 +37,7 @@ public class ClustererBuilder {
 		clusterName=algorithm;
 		return this;
 	}
-	
+
 	/**
 	 * Sets the graph to be clustered
 	 * @param graph : The graph to be clustered
@@ -47,7 +47,7 @@ public class ClustererBuilder {
 		originalGraph=graph;
 		return this;
 	}
-	
+
 	/**
 	 * Sets the project of the graph nodes
 	 * @param project : The project to set
@@ -57,7 +57,7 @@ public class ClustererBuilder {
 		this.project=project;
 		return this;
 	}
-	
+
 	/**
 	 * This method builds up the convenient clusterer object
 	 * @return The built object
@@ -67,10 +67,10 @@ public class ClustererBuilder {
 		if(originalGraph==null){
 			throw new IllegalArgumentException("The graph parameter wasn't set for the builder");
 		}
-		
+
 		final ConsoleErrorHandler errorHandler = new ConsoleErrorHandler();
 		BaseCluster clusterer=null;
-		
+
 		if ("modulelocation".equalsIgnoreCase(clusterName)) {
 			clusterer = new ModuleLocationCluster(originalGraph, project);
 		} else if ("foldername".equalsIgnoreCase(clusterName)) {
@@ -94,9 +94,9 @@ public class ClustererBuilder {
 					+ "\tFullModuleNameTree\n\tSparseModuleNameTree");
 			throw new IllegalArgumentException("The algorithm doesn't exist!");
 		}
-		
+
 		return clusterer;
 	}
-	
-	
+
+
 }

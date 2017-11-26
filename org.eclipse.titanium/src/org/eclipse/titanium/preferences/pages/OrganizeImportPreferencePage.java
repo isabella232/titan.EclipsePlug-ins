@@ -25,7 +25,7 @@ import org.eclipse.ui.IWorkbenchPreferencePage;
 /**
  * On this preference page settings of module import organization can be
  * changed.
- * 
+ *
  */
 public final class OrganizeImportPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 	private static final String DESCRIPTION = "Preferences for organizing imports of a module";

@@ -33,27 +33,27 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * and the else branch of the if statement is not present.
  * If the isBound/... statement is inside an odd number of Not_Expressions,
  * the statement will not be marked as a smell.
- * 
+ *
  * @author Viktor Varga
  */
 public class IsBoundWithoutElse extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERR_MSG = "Only the positive branch of `{0}'' check is used." +
 			" In tests it is advised to log the reason of failure in the else branch.";
-	
+
 	private static final Map<Class<?>, String> NAMES;
-	
+
 	static {
 		NAMES = new HashMap<Class<?>, String>();
 		NAMES.put(IsBoundExpression.class, "isBound");
 		NAMES.put(IsPresentExpression.class, "isPresent");
 		NAMES.put(IsChoosenExpression.class, "isChosen");
 	}
-	
+
 	protected IsBoundWithoutElse() {
 		super(CodeSmellType.ISBOUND_WITHOUT_ELSE);
 	}
-		
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (!(node instanceof If_Statement)) {
@@ -78,22 +78,22 @@ public class IsBoundWithoutElse extends BaseModuleCodeSmellSpotter {
 			ifc.accept(visitor);
 		}
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(3);
 		ret.add(If_Statement.class);
 		return ret;
 	}
-	
-	
+
+
 	//call on IfClause (if condition); recursively calls itself on NotExpressions
 	private static class IfConditionVisitor extends ASTVisitor {
-		
+
 		private final int negationsNumber;
 		private final Problems problems;
 		private boolean insideNotExpr = false;	//true if last visited node was a NotExpression
-		
+
 		public IfConditionVisitor(final Problems problems) {
 			this(0, problems);
 		}
@@ -101,7 +101,7 @@ public class IsBoundWithoutElse extends BaseModuleCodeSmellSpotter {
 			this.negationsNumber = negationsNumber;
 			this.problems = problems;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			//do not enter another if statements: it would cause duplicate visits
@@ -117,7 +117,7 @@ public class IsBoundWithoutElse extends BaseModuleCodeSmellSpotter {
 			}
 			if (node instanceof NotExpression) {
 				insideNotExpr = true;
-			} else if (node instanceof IsBoundExpression || 
+			} else if (node instanceof IsBoundExpression ||
 					node instanceof IsPresentExpression ||
 					node instanceof IsChoosenExpression) {
 				final Expression_Value ev = (Expression_Value)node;
@@ -128,8 +128,8 @@ public class IsBoundWithoutElse extends BaseModuleCodeSmellSpotter {
 			}
 			return V_CONTINUE;
 		}
-		
-		
+
+
 	}
 
 }

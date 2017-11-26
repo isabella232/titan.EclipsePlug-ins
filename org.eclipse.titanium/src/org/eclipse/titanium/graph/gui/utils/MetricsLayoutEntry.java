@@ -26,7 +26,7 @@ public class MetricsLayoutEntry extends LayoutEntry {
 		super(Layouts.METRIC_LAYOUT_CODE, metric.getName());
 		this.metric = metric;
 	}
-	
+
 	/**
 	 * @return The used metric object
 	 */

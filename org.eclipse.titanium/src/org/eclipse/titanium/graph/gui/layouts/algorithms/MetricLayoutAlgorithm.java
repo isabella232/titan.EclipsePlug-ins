@@ -26,14 +26,14 @@ import org.eclipse.titanium.metrics.utils.WrapperStore;
 /**
  * This class implements the ordering of graph nodes needed to
  * generate a layout using metric values measured on TTCN3 modules
- * 
+ *
  * @author Gabor Jenei
  */
 public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDescriptor> {
-	
+
 	private static final int LEVELS = 10;
 	private static final double EPSILON = Math.pow(10, -6);
-	
+
 	private Map<NodeDescriptor, Double> values;
 	private Map<NodeDescriptor, Integer> levels;
 	private final Collection<NodeDescriptor> nodes;
@@ -43,7 +43,7 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 	private Double maxValue;
 	private int filledLevels;
 	private int[] nodeCount;
-	
+
 	/**
 	 * Constructor. It does the initialization and also the needed calculations
 	 * @param metric : The chosen metric
@@ -53,7 +53,7 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 		this.nodes = new HashSet<NodeDescriptor>(nodes);
 		chosenMetric = metric;
 	}
-	
+
 	private void init() {
 		values = new HashMap<NodeDescriptor, Double>();
 		levels = new HashMap<NodeDescriptor, Integer>();
@@ -61,15 +61,15 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 		minValue = Double.POSITIVE_INFINITY;
 		maxValue = Double.NEGATIVE_INFINITY;
 		filledLevels = 0;
-		
+
 		if (!PreferenceManager.isEnabledOnModuleGraph(chosenMetric)) {
-			ErrorReporter.logError("Error during metric layout generating: The requested metric is not" + 
+			ErrorReporter.logError("Error during metric layout generating: The requested metric is not" +
 								" enabled. Only enabled metrics can be chosen!");
-			ErrorMessage.show("Error", "The chosen metric must be enabled for calculation in the properties." + 
+			ErrorMessage.show("Error", "The chosen metric must be enabled for calculation in the properties." +
 								"Have you enabled it?", MessageDialog.ERROR);
 			return;
 		}
-		
+
 		final Iterator<NodeDescriptor> it = nodes.iterator();
 		while (it.hasNext()) {
 			final NodeDescriptor node = it.next();
@@ -85,7 +85,7 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 					if (minValue > tempVal) {
 						minValue = tempVal;
 					}
-					
+
 					if (maxValue < tempVal) {
 						maxValue = tempVal;
 					}
@@ -93,7 +93,7 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 			}
 		}
 	}
-	
+
 	private void genLevels() {
 		filledLevels = badNodes.isEmpty() ? 0 : 1;
 		final double step = (maxValue - minValue) / LEVELS;
@@ -115,22 +115,22 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 			}
 			actBound += step;
 		}
-		
+
 		genLevelNumbers();
 	}
-	
+
 	private void genLevelNumbers() {
 		nodeCount = new int[filledLevels];
-		
+
 		for (int i = 0; i < filledLevels; ++i) {
 			nodeCount[i] = 0;
 		}
-		
+
 		final int badNodeCount = badNodes.size();
 		if (badNodeCount != 0) {
 			nodeCount[0] = badNodeCount;
 		}
-		
+
 		for (final int actIndex : levels.values()) {
 			++nodeCount[actIndex];
 		}
@@ -140,7 +140,7 @@ public class MetricLayoutAlgorithm implements HierarcicalLayoutAlgorithm<NodeDes
 	public int getNumberOfLevels() {
 		return filledLevels;
 	}
-	
+
 	@Override
 	public Map<NodeDescriptor, Integer> getLevels() {
 		return levels;

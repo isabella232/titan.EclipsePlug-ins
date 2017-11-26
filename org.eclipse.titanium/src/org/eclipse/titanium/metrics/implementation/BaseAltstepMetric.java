@@ -12,9 +12,9 @@ import org.eclipse.titanium.metrics.AltstepMetric;
 
 /**
  * Specific interface for metrics working on altsteps.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 abstract class BaseAltstepMetric extends BaseMetric<Def_Altstep, AltstepMetric> {
 	BaseAltstepMetric(final AltstepMetric metric) {

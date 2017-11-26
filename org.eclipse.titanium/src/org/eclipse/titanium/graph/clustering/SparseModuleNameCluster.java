@@ -14,7 +14,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This version of the module name cluster only shows the non empty clustres as nodes in the cluster graph.
- * 
+ *
  * @author Gobor Daniel
  *
  */

@@ -12,13 +12,13 @@ import org.eclipse.titanium.graph.components.EdgeDescriptor;
 /**
  * This class represents a set of edges that connect two clusters. It is the
  * subclass of {@link EdgeDescriptor}
- * 
+ *
  * @author Gobor Daniel
  */
 public class ClusterEdge extends EdgeDescriptor {
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 *            : The name to set (in order to make difference among distinct
 	 *            edges)
@@ -29,7 +29,7 @@ public class ClusterEdge extends EdgeDescriptor {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param name
 	 *            : The name to set (in order to make difference among distinct
 	 *            edges)

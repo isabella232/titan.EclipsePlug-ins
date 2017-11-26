@@ -19,9 +19,9 @@ package org.eclipse.titanium.metrics;
  * <p>
  * Metrics store any information collected during the measurement in the
  * <code>MetricData</code> objects.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public interface IMetric<ENTITY, METRIC extends IMetricEnum> {
 	METRIC getMetric();
@@ -33,11 +33,11 @@ public interface IMetric<ENTITY, METRIC extends IMetricEnum> {
 
 	/**
 	 * Measure an entity.
-	 * 
+	 *
 	 * During the measuring, the metric can use the values measured by the
 	 * previously used metrics to save computing those results themselves. Those
 	 * values can be accessed via the supplied {@link MetricData} instance.
-	 * 
+	 *
 	 * @param data
 	 *            measured values of previous metrics
 	 * @param entity

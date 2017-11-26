@@ -15,9 +15,9 @@ import java.util.Set;
  * <p>
  * They serve as a light weight, globally accessible handle for concrete metric
  * implementations.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public interface IMetricEnum {
 	/**
@@ -25,9 +25,9 @@ public interface IMetricEnum {
 	 * <p>
 	 * This ID is used in the <code>PreferenceStore</code> to access persistent
 	 * data of the represented metric (is it enabled in the view, etc.).
-	 * 
+	 *
 	 * @return The unique ID.
-	 * 
+	 *
 	 * @see org.eclipse.titan.designer.preferences.PreferenceConstants
 	 */
 	String id();

@@ -13,9 +13,9 @@ import java.util.List;
 
 /**
  * A grouping of metrics working on the same entity.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public enum MetricGroup {
 	PROJECT("Project", Arrays.asList(ProjectMetric.values())),

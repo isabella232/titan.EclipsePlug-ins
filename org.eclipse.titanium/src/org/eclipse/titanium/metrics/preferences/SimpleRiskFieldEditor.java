@@ -40,9 +40,9 @@ import org.eclipse.titanium.metrics.IMetricEnum;
  * be considered to bear no risk, while when it exceeds this limit, it will be
  * considered to bear high risk.
  * </p>
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class SimpleRiskFieldEditor implements IRiskFieldEditor {
 	protected final IMetricEnum owner;

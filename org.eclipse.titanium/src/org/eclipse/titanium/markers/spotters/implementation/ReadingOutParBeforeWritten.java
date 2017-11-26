@@ -34,19 +34,19 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
  * This class marks the following code smell:
- * An out parameter of a function might be uninitialized before 
- * its first assignment. Reading the parameter before that, can 
+ * An out parameter of a function might be uninitialized before
+ * its first assignment. Reading the parameter before that, can
  * cause problems.
- * 
+ *
  * @author Viktor Varga
  */
 public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERR_MSG = "The out parameter `{0}'' is read before it is written.";
 
 	private Definition toFind;
 	private Problems problems;
-	
+
 	public ReadingOutParBeforeWritten() {
 		super(CodeSmellType.READING_OUT_PAR_BEFORE_WRITTEN);
 	}
@@ -67,7 +67,7 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 		final NewFuncVisitor visitor = new NewFuncVisitor();
 		//call visitor on function in which the out parameter was found
 		d.accept(visitor);
-		
+
 
 	}
 
@@ -77,11 +77,11 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 		ret.add(FormalParameter.class);
 		return ret;
 	}
-	
-	
+
+
 	//call on Def_Function -> finds the StatementBlock of the function and starts a StatementBlockVisitor on it
 	private final class NewFuncVisitor extends ASTVisitor {
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof StatementBlock) {
@@ -91,21 +91,21 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 			}
 			return V_CONTINUE;
 		}
-		
+
 	}
-	
+
 	//call on StatementBlocks (recursive with StatementVisitor)
 	private final class StatementBlockVisitor extends ASTVisitor {
-		
+
 		private boolean written = false;
-		
+
 		public boolean isWritten() {
 			return written;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
-			
+
 			//start a new statement visitor for all statements
 			if (node instanceof Statement) {
 				//ignore log statements
@@ -148,30 +148,30 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 				}
 				return V_SKIP;
 			}
-			
-			
+
+
 			return V_CONTINUE;
 		}
-		
-		
+
+
 	}
-	
+
 	//call on Statements (recursive with StatementBlockVisitor)
 	private final class StatementVisitor extends ASTVisitor {
-		
+
 		private boolean written = false;
 		private boolean allBlocksWritten = true;
 		private boolean continueOne = false;
 		private boolean refFoundInsideIsBound = false;
 		private boolean isInsideIsBound = false;
-		
+
 		public boolean isWritten() {
 			return written;
 		}
 		public boolean isAllBlocksWritten() {
 			return allBlocksWritten;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (continueOne) {
@@ -228,9 +228,9 @@ public class ReadingOutParBeforeWritten extends BaseModuleCodeSmellSpotter {
 			}
 			return V_CONTINUE;
 		}
-		
-		
+
+
 	}
-	
+
 
 }

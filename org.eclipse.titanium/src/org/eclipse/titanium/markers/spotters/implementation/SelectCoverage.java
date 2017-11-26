@@ -39,21 +39,21 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * does not have all the enum items covered in its case branches.
  * Those select statements are ignored which have an else branch
  * or contain an unfoldable value in one of their case expressions.
- * 
+ *
  * @author Viktor Varga
  */
 public class SelectCoverage extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERR_MSG = "Missing select branch. The enumeration `{0}'' has {1} enumeration items, but only {2} are covered. Items not covered: {3} ";
-	
+
 	private final CompilationTimeStamp timestamp;
-	
+
 
 	public SelectCoverage() {
 		super(CodeSmellType.SELECT_COVERAGE);
 		timestamp = CompilationTimeStamp.getBaseTimestamp();
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (!(node instanceof SelectCase_Statement)) {
@@ -102,7 +102,7 @@ public class SelectCoverage extends BaseModuleCodeSmellSpotter {
 			final String itemsNotCovered = getItemsNotCovered(allEnumItems, usedEnumItems);
 			problems.report(v.getLocation(), MessageFormat.format(ERR_MSG, enumName, enumSize, casesSize, itemsNotCovered));
 		}
-		
+
 	}
 
 	private String getItemsNotCovered(final List<Identifier> allEnumItems, final List<Identifier> usedEnumItems) {
@@ -119,7 +119,7 @@ public class SelectCoverage extends BaseModuleCodeSmellSpotter {
 					ret.append(", ");
 					start = false;
 				}
-				
+
 				ret.append(id.toString());
 			}
 		}
@@ -132,24 +132,24 @@ public class SelectCoverage extends BaseModuleCodeSmellSpotter {
 		ret.add(SelectCase_Statement.class);
 		return ret;
 	}
-	
+
 	private final class CaseVisitor extends ASTVisitor {
 
 		private final List<Identifier> itemsUsed = new ArrayList<Identifier>();
 		private int count = 0;
 		private boolean containsUnfoldable = false;
-		
+
 		public int getCount() {
 			return count;
 		}
 		public List<Identifier> getItemsUsed() {
 			return itemsUsed;
 		}
-		
+
 		public boolean isContainsUnfoldable() {
 			return containsUnfoldable;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof SelectCases) {
@@ -178,20 +178,20 @@ public class SelectCoverage extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-		
+
 	}
 	private static final class EnumItemVisitor extends ASTVisitor {
 
 		private final List<Identifier> itemsFound = new ArrayList<Identifier>();
 		private int count = 0;
-		
+
 		public int getCount() {
 			return count;
 		}
 		public List<Identifier> getItemsFound() {
 			return itemsFound;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof TTCN3_Enumerated_Type) {
@@ -205,7 +205,7 @@ public class SelectCoverage extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-		
+
 	}
-	
+
 }

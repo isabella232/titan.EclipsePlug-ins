@@ -28,7 +28,7 @@ import org.eclipse.titanium.graph.components.NodeDescriptor;
 import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
- * @author Gabor Jenei 
+ * @author Gabor Jenei
  * 			This class implements {@link #createGraph()} for module
  *         graph.
  * @see GraphGenerator
@@ -37,7 +37,7 @@ public class ModuleGraphGenerator extends GraphGenerator {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param project
 	 *            : The project to create graph for
 	 * @param eHandler

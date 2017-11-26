@@ -33,7 +33,7 @@ public final class AnalyzerCache {
 	 * synchronized for further preference changes. The preferences are read
 	 * from the plugin preference store, configured by the user on
 	 * {@link MarkersPreferencePage}.
-	 * 
+	 *
 	 * @return the <code>Analyzer</code> that uses code smells as the user
 	 *         prefers
 	 */
@@ -48,7 +48,7 @@ public final class AnalyzerCache {
 	 * smells mirrors settings at the time of the method call. Here it is not a
 	 * question which code smells are used, but any code smells can have some
 	 * own setting.
-	 * 
+	 *
 	 * @return the <code>Analyzer</code> that uses all code smells
 	 */
 	public static Analyzer withAll() {

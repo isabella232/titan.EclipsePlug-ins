@@ -37,7 +37,7 @@ import org.eclipse.ui.part.FileEditorInput;
  * This class does the generation and show of component graph, it is the
  * superclass of {@link IAction}. Basically it only should be instanced by mouse
  * click on the menu item.
- * 
+ *
  * @author Gabor Jenei
  */
 public class ComponentGraphAction extends AbstractHandler implements IObjectActionDelegate {
@@ -66,9 +66,9 @@ public class ComponentGraphAction extends AbstractHandler implements IObjectActi
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-		
+
 		doOpenComponentGraphForSelected();
-		
+
 		return null;
 	}
 

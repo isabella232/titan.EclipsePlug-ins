@@ -17,9 +17,9 @@ import org.eclipse.titanium.metrics.utils.ModuleMetricsWrapper;
 
 /**
  * Comparator class for the {@link TopView}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class Comparator extends ViewerComparator {
 	private final ModuleMetricsWrapper mw;
@@ -44,7 +44,7 @@ class Comparator extends ViewerComparator {
 			risk1 += mw.getRiskValue(m, m1.getName());
 			risk2 += mw.getRiskValue(m, m2.getName());
 		}
-		
+
 		final double r = risk2 - risk1;
 		if (r < 0.0001) {
 			return -1;

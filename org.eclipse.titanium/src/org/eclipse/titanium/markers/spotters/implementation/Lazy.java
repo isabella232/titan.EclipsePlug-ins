@@ -50,9 +50,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * such it is only useful if it is not used on every possible execution path.
  * Also ... if an "in" parameter is not used on every possible execution path,
  * the code might become faster if it is set as @lazy.
- * 
+ *
  * @author Peter Olah, Istvan Bohm
- * 
+ *
  * TODO: does not check if the parameter is used as an actual parameter to a lazy formal parameter.
  */
 public class Lazy extends BaseModuleCodeSmellSpotter {
@@ -118,7 +118,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 	 * StatementBlock or a Statement or an AltGuard. On initializing, we set
 	 * Def_Altstep or Def_Function or Def_Testcase as root because it is the
 	 * StartNode.
-	 * 
+	 *
 	 * @author Peter Olah
 	 */
 	public class RelevantNodeBuilder extends ASTVisitor {
@@ -134,14 +134,14 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 
 		// If this is a lazy formal parameter transmission, then the formal parameter is not relevant unless it is in some expression
 		private boolean nextFormalParameterIsNotRelevant = false;
-		
+
 		public RelevantNodeBuilder(final IVisitableNode node) {
 			root = node;
 			referencedFormalParameters = new HashSet<FormalParameter>();
 			strictFormalParameters = new HashSet<FormalParameter>();
 			nodes = new ArrayList<RelevantNodeBuilder>();
 		}
-		
+
 		public RelevantNodeBuilder(final IVisitableNode node, final boolean skipNextFormalParameter) {
 			this(node);
 			this.nextFormalParameterIsNotRelevant = skipNextFormalParameter;
@@ -149,7 +149,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 
 		@Override
 		public int visit(final IVisitableNode node) {
-			
+
 			if(nextFormalParameterIsNotRelevant) {
 				if(node instanceof Expression_Value) {
 					nextFormalParameterIsNotRelevant = false;
@@ -157,7 +157,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 					return V_SKIP;
 				}
 			}
-			
+
 			if ((node instanceof StatementBlock || node instanceof Statement || node instanceof AltGuard) && !node.equals(root)) {
 				final RelevantNodeBuilder statementBlockCollector = new RelevantNodeBuilder(node,nextFormalParameterIsNotRelevant);
 
@@ -186,7 +186,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 
 					final ParameterisedSubReference subref = (ParameterisedSubReference)((Reference) node).getSubreferences().get(0);
 					final ParsedActualParameters parsedActualParameters = subref.getParsedParameters();
-					
+
 					final FormalParameterList formalParameterList=((Def_Function)assignment).getFormalParameterList();
 					final ActualParameterList nonLazyActualParameters = new ActualParameterList();
 					final ActualParameterList lazyActualParameters = new ActualParameterList();
@@ -207,7 +207,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 					}
 					return V_SKIP;
 				}
-				
+
 				if (assignment instanceof FormalParameter) {
 					if(nextFormalParameterIsNotRelevant) {
 						return V_CONTINUE;
@@ -269,7 +269,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 
 	/**
 	 * This class collects default and in FormalParameters.
-	 * 
+	 *
 	 * @author Peter Olah
 	 */
 	public class RelevantFormalParameterCollector extends ASTVisitor {

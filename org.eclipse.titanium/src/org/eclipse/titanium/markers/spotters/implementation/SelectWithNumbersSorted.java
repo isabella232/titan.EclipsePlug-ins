@@ -35,14 +35,14 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * the succeeding cases are not incremental ordered.
  * Those select statements are ignored which have an else branch
  * or contain an unfoldable value in one of their case expressions.
- * 
- * @author Ilyes Eniko 
+ *
+ * @author Ilyes Eniko
  */
 public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 	private static final String ERR_MSG = "Select cases are not listed in incremental order.";
-	
+
 	private final CompilationTimeStamp timestamp;
-	
+
 
 	public SelectWithNumbersSorted() {
 		super(CodeSmellType.SELECT_WITH_NUMBERS_SORTED);
@@ -61,29 +61,29 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 		if (v == null || v.getIsErroneous(timestamp)) {
 			return;
 		}
-		
+
 		final SelectCases scs = s.getSelectCases();
 		if (scs == null || scs.getSelectCaseArray() == null) {
 			return;
 		}
-		
+
 		//if there is an else branch, no smell will be reported
 		for (final SelectCase sc: scs.getSelectCaseArray()) {
 			if (sc.hasElse()) {
 				return;
 			}
 		}
-		
+
 		IType itype = v.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
 		// TODO Kristof: az ellenorzes folosleges.
 		if (itype instanceof Referenced_Type) {
 			itype = itype.getTypeRefdLast(timestamp);
 		}
-		
+
 		if (itype == null || !(itype instanceof Integer_Type)) {
 			return;
 		}
-		
+
 		//count number of cases in select, get used integer type case-items
 		final CaseVisitorInteger caseVisitorInteger = new CaseVisitorInteger();
 		scs.accept(caseVisitorInteger);
@@ -93,18 +93,18 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 
 		final List<Long> usedIntegerItems = caseVisitorInteger.getItemsUsed();
 		if (!checkIfIntegerCasesSorted(usedIntegerItems)) {
-			problems.report(s.getLocation(), ERR_MSG);	
-			
+			problems.report(s.getLocation(), ERR_MSG);
+
 		}
 
 	}
 
 	private Boolean checkIfIntegerCasesSorted(final List<Long> usedIntegerItems){
-		for (int i=0; i < usedIntegerItems.size()-1; ++i) {	
+		for (int i=0; i < usedIntegerItems.size()-1; ++i) {
 			if (usedIntegerItems.get(i) > usedIntegerItems.get(i+1)) {
 				return false;
-			} 
-		} 
+			}
+		}
 		return true;
 	}
 
@@ -114,12 +114,12 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 		ret.add(SelectCase_Statement.class);
 		return ret;
 	}
-	
+
 	private final class CaseVisitorInteger extends ASTVisitor {
 
 		private final List<Long> itemsUsed = new ArrayList<Long>();
 		private boolean foundUnfoldable = false;
-		
+
 		public List<Long> getItemsUsed() {
 			return itemsUsed;
 		}
@@ -127,7 +127,7 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 		public boolean containsUnfoldable() {
 			return foundUnfoldable;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof SelectCases) {
@@ -148,13 +148,13 @@ public class SelectWithNumbersSorted extends  BaseModuleCodeSmellSpotter {
 					final Long id = ((Integer_Value)val).getValue();
 					itemsUsed.add(id);
 				}
-				
+
 				return V_SKIP;
 			}
 			return V_SKIP;
 		}
-		
+
 	}
 
-	
+
 }

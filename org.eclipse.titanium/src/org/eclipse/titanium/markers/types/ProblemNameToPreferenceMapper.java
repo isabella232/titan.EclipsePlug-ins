@@ -10,9 +10,9 @@ package org.eclipse.titanium.markers.types;
 /**
  * Helper class that can convert problem type names into preference names,
  * to retrieve the cost of correction values associated with the problem type.
- * 
+ *
  * @author ekrisza
- * 
+ *
  */
 public class ProblemNameToPreferenceMapper {
 	private static final String IMPACT = ".IMPACT";
@@ -21,19 +21,19 @@ public class ProblemNameToPreferenceMapper {
 	private static final String MIN = ".MIN";
 	private static final String MAX = ".MAX";
 	private static final String TIME= " .TIME";
-	
+
 	public static String nameSmellAvgTime(final String smellName) {
 		return smellName + AVG + TIME;
 	}
-	
+
 	public static String nameSmellMinTime(final String smellName) {
 		return smellName + MIN +TIME;
 	}
-	
+
 	public static String nameSmellMaxTime(final String smellName) {
 		return smellName + MAX +TIME;
 	}
-	
+
 	// Some aid method to make accessing code smell data easier:
 	public static String nameSmellImpact(final String smellName) {
 		return smellName + IMPACT;

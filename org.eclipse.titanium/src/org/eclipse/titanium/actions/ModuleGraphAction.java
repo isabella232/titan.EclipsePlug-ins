@@ -37,9 +37,9 @@ import org.eclipse.ui.part.FileEditorInput;
 
 /**
  * This class implements the Action to do on Project dependency graph drawing
- * 
+ *
  * @author Gabor Jenei
- * 
+ *
  */
 public class ModuleGraphAction extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
@@ -75,7 +75,7 @@ public class ModuleGraphAction extends AbstractHandler implements IObjectActionD
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
-		
+
 		doOpenModuleGraph();
 
 		return null;
@@ -110,7 +110,7 @@ public class ModuleGraphAction extends AbstractHandler implements IObjectActionD
 			super("Generator");
 			this.project = project;
 		}
-		
+
 		@Override
 		protected IStatus run(final IProgressMonitor monitor) {
 			monitor.beginTask("Parsing project", 30);
@@ -130,7 +130,7 @@ public class ModuleGraphAction extends AbstractHandler implements IObjectActionD
 				final ErrorHandler errorHandler = new GUIErrorHandler();
 				errorHandler.reportException("Error while parsing the project", ce);
 			}
-			
+
 			final IFile finalInput = input;
 			Display.getDefault().asyncExec(new Runnable() {
 				@Override

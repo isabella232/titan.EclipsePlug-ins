@@ -27,9 +27,9 @@ import edu.uci.ics.jung.visualization.transform.MutableTransformer;
 /**
  * This class implements a custom satellite view, to be able to resize it as we
  * need. This class is the subclass of {@link SatelliteVisualizationViewer}
- * 
+ *
  * Satellite view is the small view that always shows the whole graph
- * 
+ *
  * @author Gabor Jenei
  */
 public class CustomSatelliteViewer extends SatelliteVisualizationViewer<NodeDescriptor, EdgeDescriptor> {
@@ -111,7 +111,7 @@ public class CustomSatelliteViewer extends SatelliteVisualizationViewer<NodeDesc
 	/**
 	 * This method sets a new size for the view, it does also the needed
 	 * zooming.
-	 * 
+	 *
 	 * @param size
 	 *            : The size to set
 	 */

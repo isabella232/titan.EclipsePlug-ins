@@ -22,14 +22,14 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * The base class for the clustering algorithms.
- * 
+ *
  * @author Gobor Daniel
  */
 public abstract class BaseCluster {
 
 	protected static final String ERRORTITLE = "Clustering failure";
 	protected static final String ERRORBUTTON = "Open Clustering Preferences";
-	
+
 	/**
 	 * The module graph to be clustered
 	 */
@@ -59,7 +59,7 @@ public abstract class BaseCluster {
 
 	/**
 	 * Create the clusters.
-	 * 
+	 *
 	 * @return True if the partitioning was successful, false otherwise
 	 */
 	public abstract boolean createClusters(IProgressMonitor monitor);
@@ -89,7 +89,7 @@ public abstract class BaseCluster {
 
 	/**
 	 * Runs the algorithm.
-	 * 
+	 *
 	 * @param monitor
 	 *            The progress monitor of the Job
 	 * @param group
@@ -130,7 +130,7 @@ public abstract class BaseCluster {
 	/**
 	 * Prevent the creation of the cluster graph, e.g. because of user
 	 * interruption.
-	 * 
+	 *
 	 * @param msg
 	 *            The string to display in an error message.
 	 */
@@ -138,33 +138,33 @@ public abstract class BaseCluster {
 		successful = false;
 		this.msg = msg;
 	}
-	
+
 	/**
 	 * Should be overridden for the specific clusterer to show a dialog.
 	 */
 	protected abstract void reportError();
-	
+
 	/**
 	 * @return The string that will be written on the process monitor
 	 */
 	protected String getType() {
 		return "Clustering";
 	}
-	
+
 	/**
 	 * @return The total amount of work. Default is 3.
 	 */
 	protected int getTotalWork() {
 		return 3;
 	}
-	
+
 	/**
 	 * @return Amount of work to create the clusters. Default is 1.
 	 */
 	protected int getClusteringWork() {
 		return 1;
 	}
-	
+
 	/**
 	 * @return True, if the clustering was successful
 	 */

@@ -18,9 +18,9 @@ package org.eclipse.titanium.graph.visualization;
  * <li>INVALID_SAVE_MODE</li>
  * <li>IO_ERROR</li>
  * </ul>
- * 
+ *
  * @author Gabor Jenei
- * 
+ *
  */
 public enum ErrorType {
 	NOT_EXISITING_LAYOUT, NO_OBJECT, CYCLIC_GRAPH, EMPTY_GRAPH, INVALID_SAVE_MODE, IO_ERROR

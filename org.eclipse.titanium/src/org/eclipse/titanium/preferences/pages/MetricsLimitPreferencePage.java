@@ -70,7 +70,7 @@ public class MetricsLimitPreferencePage extends PreferencePage implements IWorkb
 				}
 			};
 			final IRiskEditorPropertyListener propertyListener = new IRiskEditorPropertyListener() {
-				
+
 				@Override
 				public void propertyChange(final boolean valid) {
 					if (!valid) {

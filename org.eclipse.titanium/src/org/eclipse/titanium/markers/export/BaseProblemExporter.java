@@ -30,13 +30,13 @@ import org.eclipse.titanium.markers.types.TaskType;
 /**
  * This class provides a skeleton for code smell exporting.
  * It is independent from output file format.
- * 
+ *
  * @author Gabor Jenei
  */
 public abstract class BaseProblemExporter {
 	protected IProject project;
 	protected boolean reportDebugInformation;
-	
+
 	/**
 	 * Constructor
 	 * @param proj : The project to export markers from
@@ -46,10 +46,10 @@ public abstract class BaseProblemExporter {
 		reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				DISPLAYDEBUGINFORMATION, true, null);
 	}
-	
+
 	/**
 	 * Collect the markers from the selected project.
-	 * 
+	 *
 	 * @return the list of markers collected.
 	 * @throws CoreException
 	 */
@@ -73,14 +73,14 @@ public abstract class BaseProblemExporter {
 
 		return markers;
 	}
-	
+
 	/**
 	 * This method should implement the export to the given file format
-	 * 
+	 *
 	 * @param monitor : The monitor where we show the current state of the process
 	 * @param path : The file's path where we export
 	 * @param date : The time stamp to write on the summary page (null if we use present time)
-	 * 
+	 *
 	 * @throws IOException On IO error
 	 */
 	public abstract void exportMarkers(IProgressMonitor monitor, String path, Date date) throws IOException;

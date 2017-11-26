@@ -45,7 +45,7 @@ import edu.uci.ics.jung.visualization.renderers.Renderer.VertexLabel.Position;
 
 /**
  * This class provides tools for jung graph visualization
- * 
+ *
  * @author Gabor Jenei
  */
 public class GraphHandler {
@@ -67,7 +67,7 @@ public class GraphHandler {
 			return o.toString();
 		}
 	};
-	
+
 	private CustomVisualizationViewer actVisualisator;
 	private Layout<NodeDescriptor, EdgeDescriptor> layout;
 	private GraphRenderer<NodeDescriptor, EdgeDescriptor> renderer;
@@ -82,7 +82,7 @@ public class GraphHandler {
 	 * This method creates an empty GraphHandler, it can be used to oversee the
 	 * graph drawing mechanism, like Layout changes, storing graph on the disk,
 	 * colorize and etc.
-	 * 
+	 *
 	 * @see The public methods of {@link GraphHandler}
 	 */
 	public GraphHandler() {
@@ -92,7 +92,7 @@ public class GraphHandler {
 	/**
 	 * This function changes the layout for the graph set in the
 	 * {@link GraphHandler} class
-	 * 
+	 *
 	 * @param newLayout
 	 *            : The chosen layout's code
 	 * @param newWindowSize
@@ -111,9 +111,9 @@ public class GraphHandler {
 		} else {
 			extSize = newWindowSize;
 		}
-		
+
 		layout = new LayoutBuilder(g, newLayout, extSize).clusters(clusters).build();
-		
+
 		actVisualisator = new CustomVisualizationViewer(layout, popupMenu);
 		actVisualisator.setPreferredSize(new Dimension(newWindowSize.width, newWindowSize.height));
 		actVisualisator.getRenderContext().setVertexLabelTransformer(NODE_LABELER);
@@ -131,7 +131,7 @@ public class GraphHandler {
 
 	/**
 	 * This method makes displayable components from a memory stored graph.
-	 * 
+	 *
 	 * @param g
 	 *            : A Jung graph to draw
 	 * @param NODE_LABELER
@@ -143,7 +143,7 @@ public class GraphHandler {
 	 * @return A {@link Component} containing the graph parameter graph drawn.
 	 * @throws Exception
 	 */
-	public void drawGraph(final DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> g, final Dimension windowSize, final LayoutEntry layout) 
+	public void drawGraph(final DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> g, final Dimension windowSize, final LayoutEntry layout)
 			throws BadLayoutException {
 		if (g == null) {
 			throw new BadLayoutException("There is no graph (it is set null)", ErrorType.NO_OBJECT);
@@ -157,7 +157,7 @@ public class GraphHandler {
 
 	/**
 	 * Saves a Jung graph to a Pajek .net file
-	 * 
+	 *
 	 * @param g
 	 *            : The graph to save
 	 * @param path
@@ -177,7 +177,7 @@ public class GraphHandler {
 				return e.getWeight();
 			}
 		};
-		
+
 		try{
 			final PajekNetWriter<NodeDescriptor, EdgeDescriptor> writer = new PajekNetWriter<NodeDescriptor, EdgeDescriptor>();
 			writer.save(g, path, NODE_LABELER, edgeWeights);
@@ -185,10 +185,10 @@ public class GraphHandler {
 			throw new BadLayoutException("An error occured during writing to the output file.", ErrorType.IO_ERROR, e);
 		}
 	}
-	
+
 	/**
 	 * Saves a Jung graph to a .dot file
-	 * 
+	 *
 	 * @param g
 	 *            : The graph to save
 	 * @param path
@@ -198,9 +198,9 @@ public class GraphHandler {
 	 * @throws Exception
 	 *             on file handling error
 	 */
-	public static void saveGraphToDot(final Graph<NodeDescriptor, EdgeDescriptor> g, final String path, 
+	public static void saveGraphToDot(final Graph<NodeDescriptor, EdgeDescriptor> g, final String path,
 			final String graphName) throws BadLayoutException {
-		
+
 		if (g == null) {
 			throw new BadLayoutException("You must draw a graph before!", ErrorType.NO_OBJECT);
 		}
@@ -214,7 +214,7 @@ public class GraphHandler {
 
 	/**
 	 * Exports the graph set for this class to a PNG file
-	 * 
+	 *
 	 * @param path
 	 *            : The PNG file's path
 	 * @param mode
@@ -244,20 +244,20 @@ public class GraphHandler {
 			if (size == null) {
 				size = new Dimension(layout.getSize().width, layout.getSize().height);
 			}
-			
+
 			final Function<NodeDescriptor, Point2D> trf = new Function<NodeDescriptor, Point2D>() {
 				@Override
 				public Point2D apply(final NodeDescriptor v) {
 					return layout.apply(v);
 				}
 			};
-			
+
 			tempVisualisator = new VisualizationViewer<NodeDescriptor, EdgeDescriptor>(
 					new LayoutBuilder(g, Layouts.LAYOUT_STATIC, size).transformer(trf).build());
 			tempVisualisator.setPreferredSize(size);
 			tempVisualisator.setSize(size);
 			tempVisualisator.getRenderContext().setVertexLabelTransformer(NODE_LABELER);
-			
+
 			final GraphRenderer<NodeDescriptor, EdgeDescriptor> rnd = new GraphRenderer<NodeDescriptor, EdgeDescriptor>(NODE_LABELER,
 					tempVisualisator.getPickedVertexState(), tempVisualisator.getPickedEdgeState());
 			setNodeRenderer(rnd, tempVisualisator);
@@ -290,7 +290,7 @@ public class GraphHandler {
 			} else {
 				temp = needed / 1024 / 1024 + " Mbytes";
 			}
-			final String errorText = "Could not save an image of " + size.width + "*" + size.height + 
+			final String errorText = "Could not save an image of " + size.width + "*" + size.height +
 					" size as there was not enough free memory (" + temp + ")";
 			errorHandler.reportErrorMessage(errorText);
 			ErrorReporter.logExceptionStackTrace(errorText, e);
@@ -312,7 +312,7 @@ public class GraphHandler {
 	/**
 	 * This function can set a custom shape, colour etc. for the graph nodes and
 	 * edges on a given {@link VisualizationViewer}
-	 * 
+	 *
 	 * @param rnd
 	 *            - the shape, colour etc. describing class's instance
 	 * @param visualisator
@@ -331,14 +331,14 @@ public class GraphHandler {
 		visualisator.getRenderContext().setEdgeDrawPaintTransformer(rnd.getEdgeColour());
 		visualisator.getRenderContext().setArrowFillPaintTransformer(rnd.getEdgeColour());
 		visualisator.getRenderContext().setArrowDrawPaintTransformer(rnd.getEdgeColour());
-		
+
 		final EdgeStroke<EdgeDescriptor> stroke = new EdgeStroke<EdgeDescriptor>();
 		visualisator.getRenderContext().setEdgeStrokeTransformer(stroke);
 	}
 
 	/**
 	 * Changes the visualizers' size
-	 * 
+	 *
 	 * @param newSize
 	 *            : the new window size to set
 	 */
@@ -376,7 +376,7 @@ public class GraphHandler {
 
 	/**
 	 * This function does zooming on the graph (both satellite and main views).
-	 * 
+	 *
 	 * @param scale
 	 *            : The zooming multiplier (zoom out if <1 and zoom in if >1, no
 	 *            change in case of 1)
@@ -392,7 +392,7 @@ public class GraphHandler {
 	/**
 	 * This method sets a clustering for the stored graph. This modification
 	 * will not be automatically shown on the screen.
-	 * 
+	 *
 	 * @param clusters
 	 */
 	public void setClusters(final Set<Set<NodeDescriptor>> clusters) {
@@ -401,7 +401,7 @@ public class GraphHandler {
 
 	/**
 	 * Sets node menu entries that are not used in clustering mode
-	 * 
+	 *
 	 * @param value
 	 *            : True if the menu entries should be enabled
 	 */

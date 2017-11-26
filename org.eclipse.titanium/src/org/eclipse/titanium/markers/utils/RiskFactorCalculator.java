@@ -64,8 +64,8 @@ public class RiskFactorCalculator {
 		CodeSmellType.MAGIC_STRINGS,
 		CodeSmellType.LOGIC_INVERSION,
 		CodeSmellType.UNNECESSARY_CONTROLS };
-	
-	
+
+
 	public RiskFactorCalculator() {
 	}
 
@@ -77,15 +77,15 @@ public class RiskFactorCalculator {
 	 * {@link TaskType#getMarkerObject()} and {@link CodeSmellType#getMarkerObject()}). Exactly the
 	 * code smells enumerated in {@link #USED_MARKERS} are taken in account:
 	 * other keys are ignored; upon missing ones an exception is thrown.
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             when a key is missing from <code>smellCount</code>
-	 * 
+	 *
 	 * @param project
 	 *            the project to measure
 	 * @param smellCount
 	 *            the number of occurrences for the code smells
-	 * 
+	 *
 	 * @return the quality assignment of the project
 	 */
 	// TODO: it worth reconsidering to refactor, i.e. the smell counting as a
@@ -135,13 +135,13 @@ public class RiskFactorCalculator {
 	 * {@link TaskType#getMarkerObject()} and {@link CodeSmellType#getMarkerObject()}). Exactly the
 	 * code smells enumerated in {@link #USED_MARKERS} are taken in account:
 	 * other keys are ignored; upon missing ones an exception is thrown.
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             when a key is missing from <code>smellCount</code>
-	 * 
+	 *
 	 * @param riskFactor
 	 *            the riskFactor measured
-	 * 
+	 *
 	 * @return the quality assignment of the project
 	 */
 	public ProjectQualityLevel calculate(final int riskFactor) {

@@ -61,9 +61,9 @@ public class IfInsteadReceiveTemplate extends BaseModuleCodeSmellSpotter {
  * operation is performed on the reference, that is obtained by value
  * redirection. This effect should be achieved by template matching in the
  * receive statement.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 final class SuspiciouslyUsedIf extends ASTVisitor {
 	private final Reference redirectValue;
@@ -108,9 +108,9 @@ final class SuspiciouslyUsedIf extends ASTVisitor {
 /**
  * This class helps to tell whether the condition of the if clause uses a given
  * reference in a matching expression.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 final class RefUsedInMatching extends ASTVisitor {
 	private final Reference ref;

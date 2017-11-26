@@ -34,16 +34,16 @@ import org.eclipse.titanium.Activator;
  * {@link #doPreWork()} is called, then the analyzer job is joined, then
  * {@link #doPostWork()} is called.
  * </p>
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class ProjectAnalyzerJob extends WorkspaceJob {
 	private IProject project;
 
 	/**
 	 * Constructs a project analyzer workspace job
-	 * 
+	 *
 	 * @param name
 	 *            the name of the job
 	 */
@@ -104,7 +104,7 @@ public class ProjectAnalyzerJob extends WorkspaceJob {
 	 * If you need it, override to do what you want. The default implementation
 	 * does nothing, and returns {@link Status.OK_STATUS}
 	 * </p>
-	 * 
+	 *
 	 * @return the result of running the operation
 	 */
 	public IStatus doPreWork(final IProgressMonitor monitor) {
@@ -117,7 +117,7 @@ public class ProjectAnalyzerJob extends WorkspaceJob {
 	 * If you need it, override to do what you want. The default implementation
 	 * does nothing, and returns {@link Status.OK_STATUS}
 	 * </p>
-	 * 
+	 *
 	 * @return the result of running the operation
 	 */
 	public IStatus doPostWork(final IProgressMonitor monitor) {
@@ -126,7 +126,7 @@ public class ProjectAnalyzerJob extends WorkspaceJob {
 
 	/**
 	 * Get the project on which the analysis will be executed.
-	 * 
+	 *
 	 * @return the specified project
 	 */
 	public IProject getProject() {
@@ -140,7 +140,7 @@ public class ProjectAnalyzerJob extends WorkspaceJob {
 	 * must use this method to specify a valid project to work on, or else an
 	 * error will occur.
 	 * </p>
-	 * 
+	 *
 	 * @param p
 	 *            the project to analyze
 	 */
@@ -156,10 +156,10 @@ public class ProjectAnalyzerJob extends WorkspaceJob {
 	 * <li>system = false</li>
 	 * <li>user = true</li>
 	 * </ul>
-	 * 
+	 *
 	 * Using this method, you can also omit explicitly setting the project (by
 	 * {@link #setProject(IProject)}).
-	 * 
+	 *
 	 * @param project
 	 */
 	public ProjectAnalyzerJob quickSchedule(final IProject project) {

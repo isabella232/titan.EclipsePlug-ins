@@ -29,7 +29,7 @@ import org.eclipse.titanium.preferences.PreferenceConstants;
  * Consecutive assignment statements to the fields of the same object
  * in the same statement block.
  * Minimum consecutive assignments limit can be set in Preferences.
- * 
+ *
  * @author Viktor Varga
  */
 public class ConsecutiveAssignments extends BaseModuleCodeSmellSpotter {
@@ -38,10 +38,10 @@ public class ConsecutiveAssignments extends BaseModuleCodeSmellSpotter {
 	/* the minimum number of consecutive assignments to mark as a smell */
 	private final int minCountToMark;
 	private static final int DEFAULT_MIN_COUNT_TO_MARK = 4;
-	
+
 	public ConsecutiveAssignments() {
 		super(CodeSmellType.CONSECUTIVE_ASSIGNMENTS);
-		minCountToMark = Platform.getPreferencesService().getInt(Activator.PLUGIN_ID, 
+		minCountToMark = Platform.getPreferencesService().getInt(Activator.PLUGIN_ID,
 				PreferenceConstants.TOO_MANY_CONSECUTIVE_ASSIGNMENTS_SIZE, DEFAULT_MIN_COUNT_TO_MARK, null);
 	}
 

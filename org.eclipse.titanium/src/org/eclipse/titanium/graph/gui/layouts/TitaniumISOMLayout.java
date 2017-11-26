@@ -27,7 +27,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 /**
  * The ISOM layout of Jung optimized for performance.
- * 
+ *
  * @author Kristof Szabados
  * */
 public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements IterativeContext {
@@ -65,7 +65,7 @@ public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements It
 	/**
 	 * Creates an <code>ISOMLayout</code> instance for the specified graph
 	 * <code>g</code>.
-	 * 
+	 *
 	 * @param g
 	 */
 	public TitaniumISOMLayout(final Graph<V, E> g) {
@@ -187,7 +187,7 @@ public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements It
 
 	/**
 	 * This one is an incremental visualization.
-	 * 
+	 *
 	 * @return <code>true</code> is the layout algorithm is incremental,
 	 *         <code>false</code> otherwise
 	 */
@@ -199,7 +199,7 @@ public class TitaniumISOMLayout<V, E> extends AbstractLayout<V, E> implements It
 	 * Returns <code>true</code> if the vertex positions are no longer being
 	 * updated. Currently <code>ISOMLayout</code> stops updating vertex
 	 * positions after a certain number of iterations have taken place.
-	 * 
+	 *
 	 * @return <code>true</code> if the vertex position updates have stopped,
 	 *         <code>false</code> otherwise
 	 */

@@ -70,7 +70,7 @@ public class UnnecessaryControl {
 
 			final IValue lastValue = finalExpression.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 			final Type_type temp = lastValue.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-			
+
 			if (Type_type.TYPE_BOOL == temp && !lastValue.isUnfoldable(timestamp)) {
 				if (((Boolean_Value) lastValue).getValue()) {
 					problems.report(finalExpression.getLocation(), ALWAYS_TRUE);

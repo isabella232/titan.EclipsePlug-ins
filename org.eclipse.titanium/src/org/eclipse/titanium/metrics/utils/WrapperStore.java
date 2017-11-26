@@ -21,7 +21,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
  * implements a strange singleton, as the objects are global and unique only for
  * one project. But more objects for several projects may exist (only one per
  * project)
- * 
+ *
  * @author Gabor Jenei
  */
 public final class WrapperStore {
@@ -56,7 +56,7 @@ public final class WrapperStore {
 
 	/**
 	 * Gets the {@link ModuleMetricsWrapper} object of project.
-	 * 
+	 *
 	 * @param project
 	 *                The project where we should calculate (or simply
 	 *                return) metrics values
@@ -73,7 +73,7 @@ public final class WrapperStore {
 
 		return ret;
 	}
-	
+
 	/**
 	 * This method clears the store, so all the metrics will be recalculated
 	 * upon the first request
@@ -81,10 +81,10 @@ public final class WrapperStore {
 	public static void clearStore() {
 		wrappers = new HashMap<IProject, ModuleMetricsWrapper>();
 	}
-	
+
 	/**
 	 * This method destroys the wrapper object for a given project
-	 * 
+	 *
 	 * @param project
 	 *                The project to be deleted from the store
 	 */

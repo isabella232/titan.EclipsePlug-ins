@@ -29,13 +29,13 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This class contains functions used in other clustering tools.
- * 
+ *
  * @author Gobor Daniel
  */
 public final class ClusteringTools {
 
 	private static List<String> prefixes = createPrefix();
-	
+
 	static {
 		final Activator activator = Activator.getDefault();
 		if (activator != null) {
@@ -54,10 +54,10 @@ public final class ClusteringTools {
 
 	private ClusteringTools() {
 	}
-	
+
 	/**
 	 * Creates the list of prefixes from the settings.
-	 * 
+	 *
 	 * @return The list of prefixes
 	 */
 	private static List<String> createPrefix() {
@@ -93,7 +93,7 @@ public final class ClusteringTools {
 	/**
 	 * It creates the cluster graph from a module graph and the clusters with
 	 * their names.
-	 * 
+	 *
 	 * @param moduleGraph
 	 *            The module graph
 	 * @param mapNameCluster
@@ -105,7 +105,7 @@ public final class ClusteringTools {
 
 		final Map<Set<NodeDescriptor>, ClusterNode> mapClusterNode = new HashMap<Set<NodeDescriptor>, ClusterNode>();
 		final DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> clusterGraph = new DirectedSparseGraph<NodeDescriptor, EdgeDescriptor>();
-		for (final Entry<String, Set<NodeDescriptor>> entry : mapNameCluster.entrySet()) {  
+		for (final Entry<String, Set<NodeDescriptor>> entry : mapNameCluster.entrySet()) {
 			final String name = entry.getKey();
 			final Set<NodeDescriptor> cluster = entry.getValue();
 			for (final NodeDescriptor v : cluster) {
@@ -146,7 +146,7 @@ public final class ClusteringTools {
 	/**
 	 * It creates the cluster graph from a module graph and a given clustering.
 	 * It will create numeric values for the cluster names.
-	 * 
+	 *
 	 * @param moduleGraph
 	 *            The module graph
 	 * @param clusters
@@ -165,5 +165,5 @@ public final class ClusteringTools {
 
 		return generateClusterGraph(moduleGraph, mapNameCluster);
 	}
-	
+
 }

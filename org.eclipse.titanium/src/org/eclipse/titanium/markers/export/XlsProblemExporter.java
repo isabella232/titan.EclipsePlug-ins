@@ -41,15 +41,15 @@ import org.eclipse.titanium.markers.utils.RiskFactorCalculator;
 
 /**
  * Export problem markers of a project to an xls.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class XlsProblemExporter extends BaseProblemExporter {
 
 	/**
 	 * Creates a problem exporter on the given project
-	 * 
+	 *
 	 * @param project
 	 *            candidate whose code smell markers are to save
 	 */
@@ -69,12 +69,12 @@ public class XlsProblemExporter extends BaseProblemExporter {
 	 * Note: All code smell types are used in the analysis and are written in
 	 * the output. Some code smells use external settings, which can be fine
 	 * tuned on the preference page.
-	 * 
+	 *
 	 * @param filename
 	 *            the file to save the xls
 	 * @param date
 	 *            the time stamp to write on the summary page
-	 * 
+	 *
 	 * @throws IOException
 	 *             when writing the file fails
 	 */
@@ -170,7 +170,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			}
 			final Row row0 = summarySheet.createRow(0);
 			row0.createCell(0).setCellValue(nameBuilder.toString());
-			
+
 
 			final Row row1 = summarySheet.createRow(1);
 			row1.createCell(0).setCellValue("Code smell \\ date");
@@ -204,26 +204,26 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			}
 		}
 	}
-	
+
 	/**
 	 * Create the summary sheet in the exported document.
-	 * 
+	 *
 	 * @param workbook the workbook to work in.
 	 * */
 	private void createTimeSheet(final HSSFWorkbook workbook) {
 		final HSSFSheet timeSheet = workbook.createSheet("Repair times");
 		workbook.setSheetOrder("Repair times", 1);
-		
-		final Row headerRow = timeSheet.createRow(0);	
+
+		final Row headerRow = timeSheet.createRow(0);
 		headerRow.createCell(1).setCellValue("Minimal repair time");
 		headerRow.createCell(2).setCellValue("Average repair time");
 		headerRow.createCell(3).setCellValue("Maximal repair time");
-		
+
 		int summaryRow = 4;
 		Cell label;
 		for (final TaskType t : TaskType.values()) {
-			final Row row2 = timeSheet.createRow(summaryRow);	
-			label = row2.createCell(0);		
+			final Row row2 = timeSheet.createRow(summaryRow);
+			label = row2.createCell(0);
 			label.setCellValue(t.getHumanReadableName());
 			final Cell minTimeCell = row2.createCell(1);
 			minTimeCell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
@@ -235,10 +235,10 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			maxTimeCell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 			maxTimeCell.setCellFormula(t.getMaxRepairTime() + "*Summary!$B" + (++summaryRow));
 		}
-		
+
 		for (final CodeSmellType t : CodeSmellType.values()) {
-			final Row row2 = timeSheet.createRow(summaryRow);	
-			label = row2.createCell(0);		
+			final Row row2 = timeSheet.createRow(summaryRow);
+			label = row2.createCell(0);
 			label.setCellValue(t.getHumanReadableName());
 			final Cell minTimeCell = row2.createCell(1);
 			minTimeCell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
@@ -250,18 +250,18 @@ public class XlsProblemExporter extends BaseProblemExporter {
 			maxTimeCell.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 			maxTimeCell.setCellFormula(t.getMaxRepairTime() + "*Summary!$B" + (++summaryRow));
 		}
-		
-		final Row totalRow = timeSheet.createRow(1);	
+
+		final Row totalRow = timeSheet.createRow(1);
 		totalRow.createCell(0).setCellValue("Total");
-		
+
 		final Cell cell1 = totalRow.createCell(1);
 		cell1.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 		cell1.setCellFormula("SUM($B4:$B" + summaryRow + ")");
-		
+
 		final Cell cell2 = totalRow.createCell(2);
 		cell2.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 		cell2.setCellFormula("SUM($C4:$C" + summaryRow + ")");
-		
+
 		final Cell cell3 = totalRow.createCell(3);
 		cell3.setCellType(HSSFCell.CELL_TYPE_FORMULA);
 		cell3.setCellFormula("SUM($D4:$D" + summaryRow + ")");
@@ -271,10 +271,10 @@ public class XlsProblemExporter extends BaseProblemExporter {
 		timeSheet.autoSizeColumn(2);
 		timeSheet.autoSizeColumn(3);
 	}
-	
+
 	/**
 	 * Create a page for a task type.
-	 * 
+	 *
 	 * @param workbook the workbook to work in.
 	 * @param t the task type to export.
 	 * @param markers the list of markers.
@@ -325,10 +325,10 @@ public class XlsProblemExporter extends BaseProblemExporter {
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);
 	}
-	
+
 	/**
 	 * Create a page for a code smell.
-	 * 
+	 *
 	 * @param workbook the workbook to work in.
 	 * @param mh the markerhandler object knowing the occurences of the given code smell
 	 * @param t the codesmell type to export
@@ -342,7 +342,7 @@ public class XlsProblemExporter extends BaseProblemExporter {
 		final String sheetName = t.name();
 		final HSSFSheet sheet = workbook.createSheet(sheetName);
 
-		Row row = sheet.createRow(0);	
+		Row row = sheet.createRow(0);
 		row.createCell(0).setCellValue("Description");
 		row.createCell(1).setCellValue("Resource");
 		row.createCell(2).setCellValue("Location");

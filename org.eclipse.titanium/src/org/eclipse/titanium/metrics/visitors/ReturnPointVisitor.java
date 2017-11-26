@@ -17,9 +17,9 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
  * <p>
  * Counts the return points of function (the visit should start at a
  * Def_Function node).
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class ReturnPointVisitor extends CounterVisitor {
 	private int depth;

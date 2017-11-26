@@ -47,7 +47,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class implements the specialties of ModuleGraph editor window. It is a
  * child class of {@link GraphEditor}
- * 
+ *
  * @author Gabor Jenei
  * @see GraphEditor
  */
@@ -127,7 +127,7 @@ public class ModuleGraphEditor extends GraphEditor {
 		rtdag.addActionListener(layoutListener);
 		dagMenu.add(rtdag);
 		layoutGroup.add(rtdag);
-		
+
 		layoutMenu.add(metricLayoutMenu);
 
 		final ActionListener changeMetrics = new ActionListener() {
@@ -225,7 +225,7 @@ public class ModuleGraphEditor extends GraphEditor {
 			layoutGroup.add(layoutItem);
 			actLayoutMenu.add(layoutItem);
 		}
-		
+
 		final JMenuItem recalcItem = new JMenuItem("Recalculate metrics");
 		recalcItem.addActionListener(new ActionListener() {
 			@Override
@@ -269,10 +269,10 @@ public class ModuleGraphEditor extends GraphEditor {
 
 		nameGraphCluster.addActionListener(new ClusteringAction("modulename", false));
 		nameClusteringMenu.add(nameGraphCluster);
-		
+
 		fullNameGraphCluster.addActionListener(new ClusteringAction("fullmodulenametree", false, (LayoutEntry) tdag));
 		nameClusteringMenu.add(fullNameGraphCluster);
-		
+
 		sparseNameGraphCluster.addActionListener(new ClusteringAction("sparsemodulenametree", false, (LayoutEntry) tdag));
 		nameClusteringMenu.add(sparseNameGraphCluster);
 
@@ -336,17 +336,17 @@ public class ModuleGraphEditor extends GraphEditor {
 		handler = new MeasureableGraphHandler(parent.getShell());
 		generator = new ModuleGraphGenerator(((IFileEditorInput) getEditorInput()).getFile().getProject(), errorHandler);
 	}
-	
+
 	protected class ClusteringAction implements ActionListener {
-		
+
 		private String algorithm;
 		private boolean grouping;
 		private LayoutEntry layout;
-		
+
 		public ClusteringAction(final String algorithm, final boolean grouping) {
 			this(algorithm, grouping, null);
 		}
-		
+
 		public ClusteringAction(final String algorithm, final boolean grouping, final LayoutEntry layout) {
 			this.algorithm = algorithm;
 			this.grouping = grouping;
@@ -362,14 +362,14 @@ public class ModuleGraphEditor extends GraphEditor {
 			job.schedule();
 		}
 	}
-	
+
 	protected class ClusteringJob extends Job {
 
 		private final BaseCluster clusterer;
 		private final boolean grouping;
 		private final ActionEvent event;
 		private final LayoutEntry layout;
-		
+
 		public ClusteringJob(final String name, final BaseCluster clusterer, final boolean grouping, final ActionEvent event, final LayoutEntry layout) {
 			super(name);
 			this.clusterer = clusterer;
@@ -402,6 +402,6 @@ public class ModuleGraphEditor extends GraphEditor {
 			}
 			return Status.OK_STATUS;
 		}
-		
+
 	}
 }

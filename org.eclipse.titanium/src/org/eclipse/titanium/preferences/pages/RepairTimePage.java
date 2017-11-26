@@ -32,7 +32,7 @@ class TimeDataEntry{
 	public double minTime;
 	public double avgTime;
 	public double maxTime;
-	
+
 	public TimeDataEntry(final Double minTime, final Double avgTime, final Double maxTime){
 		this.minTime = minTime;
 		this.avgTime = avgTime;
@@ -44,7 +44,7 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 	private static final String DESCRIPTION = "Here we can set the repair times for code smells";
 	private final IPreferenceStore prefStore;
 	private Map<ProblemType, TimeDataEntry> storedValues;
-	
+
 	public RepairTimePage() {
 		prefStore = Activator.getDefault().getPreferenceStore();
 		storedValues = new HashMap<ProblemType, TimeDataEntry>();
@@ -59,26 +59,26 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 	protected Control createContents(final Composite parent) {
 		final Composite ret = new Composite(parent,0);
 		ret.setLayout(new GridLayout(4, false));
-		
+
 		new Label(ret, SWT.NONE).setText("");
 		new Label(ret, SWT.NONE).setText("Minimal");
 		new Label(ret, SWT.NONE).setText("Average");
 		new Label(ret, SWT.NONE).setText("Maximal");
-		
+
 		for (final TaskType actSmell : TaskType.values()) {
 			makeNewRow(ret, actSmell);
 		}
-		
+
 		for (final CodeSmellType actSmell : CodeSmellType.values()) {
 			makeNewRow(ret, actSmell);
 		}
-		
+
 		return ret;
 	}
-	
+
 	@Override
 	public boolean performOk() {
-		
+
 		for (final TaskType actSmell : TaskType.values()) {
 			final TimeDataEntry value = storedValues.get(actSmell);
 			if (value != null) {
@@ -87,7 +87,7 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 				setMaxValue(actSmell, value.maxTime);
 			}
 		}
-		
+
 		for (final CodeSmellType actSmell : CodeSmellType.values()) {
 			final TimeDataEntry value = storedValues.get(actSmell);
 			if (value != null) {
@@ -96,46 +96,46 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 				setMaxValue(actSmell, value.maxTime);
 			}
 		}
-		
+
 		return super.performOk();
 	}
-	
+
 	@Override
 	protected void performDefaults() {
-		
+
 		for (final TaskType actSmell : TaskType.values()) {
 			setAvgValue(actSmell, actSmell.getAvgDefaultTime());
 			setMinValue(actSmell, actSmell.getMinDefaultTime());
 			setMaxValue(actSmell, actSmell.getMaxDefaultTime());
 		}
-		
+
 		for (final CodeSmellType actSmell : CodeSmellType.values()) {
 			setAvgValue(actSmell, actSmell.getAvgDefaultTime());
 			setMinValue(actSmell, actSmell.getMinDefaultTime());
 			setMaxValue(actSmell, actSmell.getMaxDefaultTime());
 		}
-		
+
 		refresh();
 		super.performDefaults();
 	}
-	
+
 	private void refresh() {
 		storedValues = new HashMap<ProblemType, TimeDataEntry>();
 		createContents(getShell().getParent());
 	}
-	
+
 	private void setAvgValue(final ProblemType smell, final Double value) {
 		prefStore.setValue(ProblemNameToPreferenceMapper.nameSmellAvgTime(smell.toString()), value);
 	}
-	
+
 	private void setMinValue(final ProblemType smell, final Double value) {
 		prefStore.setValue(ProblemNameToPreferenceMapper.nameSmellMinTime(smell.toString()), value);
 	}
-	
+
 	private void setMaxValue(final ProblemType smell, final Double value) {
 		prefStore.setValue(ProblemNameToPreferenceMapper.nameSmellMaxTime(smell.toString()), value);
 	}
-	
+
 	private void makeNewRow(final Composite parent,final ProblemType codeSmell) {
 		final Label lblValue = new Label(parent, SWT.NONE);
 		lblValue.setText(codeSmell.getHumanReadableName()+": ");
@@ -143,11 +143,11 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 		final double avgTime = codeSmell.getAvgRepairTime();
 		final double maxTime = codeSmell.getMaxRepairTime();
 		storedValues.put(codeSmell, new TimeDataEntry(minTime, avgTime, maxTime));
-		
+
 		final Text minText = new Text (parent, SWT.BORDER);
 		try{
 			minText.setText(String.valueOf(minTime));
-			
+
 		} catch(NumberFormatException e) {
 			minText.setText("0.0");
 		}
@@ -164,7 +164,7 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 				}
 			}
 		});
-		
+
 		final Text avgText = new Text (parent, SWT.BORDER);
 		try{
 			avgText.setText(String.valueOf(avgTime));
@@ -184,7 +184,7 @@ public class RepairTimePage extends PreferencePage implements IWorkbenchPreferen
 				}
 			}
 		});
-		
+
 		final Text maxText = new Text (parent, SWT.BORDER);
 		try{
 			maxText.setText(String.valueOf(maxTime));

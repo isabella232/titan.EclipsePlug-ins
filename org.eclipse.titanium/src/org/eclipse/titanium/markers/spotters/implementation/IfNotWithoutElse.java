@@ -20,7 +20,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * This class marks the following code smell:
  * The function has only one direct statement,
  * which is an if statement with a negated condition (not(x)).
- * 
+ *
  * @author Kristof Szabados
  */
 public class IfNotWithoutElse extends BaseModuleCodeSmellSpotter {

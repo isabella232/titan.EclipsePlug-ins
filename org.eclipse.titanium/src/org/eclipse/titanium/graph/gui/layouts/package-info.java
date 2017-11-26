@@ -7,7 +7,7 @@
  ******************************************************************************/
 /**
  * @author Gabor Jenei
- * This package contains the self implemented layout algorithms. 
+ * This package contains the self implemented layout algorithms.
  * Some are just simply a more efficient version of the original algorithms.
  * Others were created on our own
  */

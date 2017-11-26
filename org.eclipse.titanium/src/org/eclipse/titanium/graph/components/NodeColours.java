@@ -12,7 +12,7 @@ import java.awt.Color;
 /**
  * This class stores the possible module graph node colours, they are all
  * <code>public static</code> attributes. This class cannot have any instance
- * 
+ *
  * @author Gabor Jenei
  */
 public final class NodeColours {

@@ -31,9 +31,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 /**
  * A utility class that solves exporting the content of the {@link MetricsView}
  * to an excel file.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class XLSExporter {
 	private File file;
@@ -75,18 +75,18 @@ public class XLSExporter {
 			ErrorReporter.logExceptionStackTrace("Error while exporting to excel",e);
 		}
 	}
-	
+
 	/**
 	 * Creates and returns the Excel sheet name belonging to the parameter.
 	 * This text has to be unique and less than 32 characters long.
-	 * 
+	 *
 	 * @param metric the metric
 	 * @return the sheet name of the provided metric
 	 * */
 	private String getSheetName(final IMetricEnum metric) {
 		final StringBuilder builder = new StringBuilder(metric.getName());
 		builder.append(" (").append(metric.groupName()).append(")");
-		return builder.length() > 31 ? builder.substring(0, 31): builder.toString(); 
+		return builder.length() > 31 ? builder.substring(0, 31): builder.toString();
 	}
 
 	protected int printChildren(final Sheet sheet, final IContentNode n, final int col, final int line) {

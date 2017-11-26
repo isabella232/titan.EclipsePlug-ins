@@ -53,9 +53,9 @@ import org.eclipse.ui.forms.widgets.ExpandableComposite;
 
 /**
  * Preference page of code smells.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class MarkersPreferencePage extends FieldEditorPreferencePage implements IWorkbenchPreferencePage {
 	private static final String REPORT_TOO_COMPLEX_EXPRESSIONS_SIZE = "The amount of operators that should not be exceed";
@@ -120,7 +120,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				+ "But makes it longer");
 		m.put(ProblemTypePreference.LAZY,
 				"When an in parameter evaluation not sure under code execution it should be a @lazy parameter, "
-				+ "otherwise not.");		
+				+ "otherwise not.");
 		m.put(ProblemTypePreference.LOGIC_INVERSION,
 				"When an if statement has negated condition, and consists only an if- and an else branch,"
 						+ " the negation can be left simply by swapping the two branches.");
@@ -259,7 +259,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.SIZECHECK_IN_LOOP);
 			createField(comp, ProblemTypePreference.CONSECUTIVE_ASSIGNMENTS);
 			createIntegerEditor(comp, PreferenceConstants.TOO_MANY_CONSECUTIVE_ASSIGNMENTS_SIZE, REPORT_TOO_MANY_CONSECUTIVE_ASSIGNMENTS_SIZE);
-			createField(comp, ProblemTypePreference.LAZY);	
+			createField(comp, ProblemTypePreference.LAZY);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(false);
@@ -383,7 +383,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		// change,
 		// the others should be checked too.
 		if (changed) {
-			
+
 			ErrorReporter.parallelWarningDisplayInMessageDialog(
 				"Code smell markers",
 				"Settings of the code smell analyzer have changed," +

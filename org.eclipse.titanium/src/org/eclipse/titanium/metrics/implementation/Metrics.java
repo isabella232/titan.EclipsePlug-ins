@@ -24,7 +24,7 @@ import org.eclipse.titanium.metrics.TestcaseMetric;
 
 /**
  * Encapsulates a mapping from metric enums concrete metric implementations.
- * 
+ *
  * @author poroszd
  */
 public class Metrics {

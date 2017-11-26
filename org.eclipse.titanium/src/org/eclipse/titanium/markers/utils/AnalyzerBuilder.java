@@ -32,9 +32,9 @@ import org.eclipse.titanium.preferences.ProblemTypePreference;
  * This class is used to configure and construct an immutable
  * <code>Analyzer</code>. Instances of this class are acquired via
  * {@link Analyzer#builder()}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class AnalyzerBuilder {
 
@@ -59,7 +59,7 @@ public class AnalyzerBuilder {
 	 * instance, and no further methods are permitted to be called. Calling
 	 * any modifier method of an exhausted <code>AnalyzerBuilder</code> will
 	 * throw an <code>IllegalStateException</code>.
-	 * 
+	 *
 	 * @return
 	 */
 	public Analyzer build() {
@@ -94,7 +94,7 @@ public class AnalyzerBuilder {
 	 * Add the set of code smells to the under-construction
 	 * <code>Analyzer</code>, that is associated with this preference
 	 * problem type.
-	 * 
+	 *
 	 * @param preferenceProblem
 	 *            the analyzer will use its code smells
 	 * @return this for method chaining

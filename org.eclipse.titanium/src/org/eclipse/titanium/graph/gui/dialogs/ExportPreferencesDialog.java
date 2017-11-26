@@ -33,7 +33,7 @@ public class ExportPreferencesDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parent
 	 * @param style
 	 */
@@ -44,7 +44,7 @@ public class ExportPreferencesDialog extends Dialog {
 
 	/**
 	 * Open the dialog.
-	 * 
+	 *
 	 * @return The set preferences in a string array
 	 */
 	public ImageExportType open() {
@@ -99,7 +99,7 @@ public class ExportPreferencesDialog extends Dialog {
 					result = ImageExportType.EXPORT_SEEN_GRAPH;
 					break;
 				}
-				
+
 
 				if (!shlExportGraph.isDisposed()) {
 					shlExportGraph.close();

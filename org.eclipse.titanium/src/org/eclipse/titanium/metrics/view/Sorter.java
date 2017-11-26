@@ -13,9 +13,9 @@ import org.eclipse.titanium.metrics.MetricData;
 
 /**
  * A comparator for the {@link MetricsView}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class Sorter extends ViewerComparator {
 	private final MetricData data;

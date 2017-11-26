@@ -22,9 +22,9 @@ import org.eclipse.titanium.metrics.MetricGroup;
  * tree is built up, which has {@link INode} nodes. These nodes store any
  * information that is necessary for displaying, and also to get its children.
  * </p>
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class ContentProvider implements ITreeContentProvider {
 	private MetricData data;

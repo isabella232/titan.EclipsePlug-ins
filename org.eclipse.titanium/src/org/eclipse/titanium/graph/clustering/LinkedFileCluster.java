@@ -22,7 +22,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class partitions a module graph according to the folders the represented
  * modules are located in.
- * 
+ *
  * @author Gobor Daniel
  */
 public class LinkedFileCluster extends ModuleLocationCluster {
@@ -42,7 +42,7 @@ public class LinkedFileCluster extends ModuleLocationCluster {
 
 	/**
 	 * Checks the given file for containing modules.
-	 * 
+	 *
 	 * @param file
 	 *            The file to search
 	 */
@@ -71,7 +71,7 @@ public class LinkedFileCluster extends ModuleLocationCluster {
 	 * Checks the give IResource. If it is a file, the node that represents its
 	 * module is added to the given set. If it is a folder, checks the
 	 * IResources in that folder.
-	 * 
+	 *
 	 * @param content
 	 *            The IResource to be checked
 	 * @param monitor

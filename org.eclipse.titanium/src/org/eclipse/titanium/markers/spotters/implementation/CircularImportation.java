@@ -105,7 +105,7 @@ class CycleCheck {
 	 * After construction, the <code>cycles</code> field is available,
 	 * initialized with (some) cycles in the graph.
 	 * </p>
-	 * 
+	 *
 	 * @param modules
 	 *            The modules of a project.
 	 */
@@ -160,7 +160,7 @@ class CycleCheck {
 
 	/**
 	 * This class provides data for the modules during traversal.
-	 * 
+	 *
 	 * @author poroszd
 	 */
 	static class Node {

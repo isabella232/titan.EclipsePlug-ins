@@ -37,7 +37,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.plugin.AbstractUIPlugin#stop(org.osgi.framework.BundleContext
 	 * )
@@ -51,7 +51,7 @@ public class Activator extends AbstractUIPlugin {
 	/**
 	 * Sets the default singleton instance of this plug-in,
 	 * that later can be used to access plug-in specific preference settings.
-	 * 
+	 *
 	 * @param activator the single instance of this plug-in class.
 	 * */
 	private static void setDefault(final Activator activator) {
@@ -62,7 +62,7 @@ public class Activator extends AbstractUIPlugin {
 
 	/**
 	 * Returns the shared instance
-	 * 
+	 *
 	 * @return the shared instance
 	 */
 	public static Activator getDefault() {

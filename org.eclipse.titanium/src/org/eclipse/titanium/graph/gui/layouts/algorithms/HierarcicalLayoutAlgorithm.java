@@ -16,27 +16,27 @@ import java.util.Set;
  * @param <V> The node type
  */
 public interface HierarcicalLayoutAlgorithm<V> {
-	
+
 	/**
 	 * @return A map that tells the level for each node
 	 */
 	public Map<V, Integer> getLevels();
-	
+
 	/**
 	 * @return The number of hierarchical levels
 	 */
 	public int getNumberOfLevels();
-	
+
 	/**
 	 * @return An array that tells how many nodes are there on a certain level
 	 */
 	public int[] getNumberOfNodesPerLevel();
-	
+
 	/**
 	 * @return The set of isolate nodes
 	 */
 	public Set<V> getIsolateNodes();
-	
+
 	/**
 	 * This method runs the actual calculations needed to perform the ordering
 	 */

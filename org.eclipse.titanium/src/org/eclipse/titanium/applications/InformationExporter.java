@@ -27,14 +27,14 @@ import org.eclipse.titanium.utils.ProjectAnalyzerJob;
  * Generic application for extracting the contents of the problems view into
  * a file in headless mode. It will analyze every project in the
  * workspace, and save the reports for each project into a file.
- * 
+ *
  * Should be extended to provide the actual export functionality
  * */
 public abstract class InformationExporter implements IApplication {
 
 	/**
 	 * Checks the command line provided parameters for validity.
-	 * 
+	 *
 	 * @param args the command line arguments the application received to be checked
 	 * @return true if the arguments are ok, false if the application must quit.
 	 */
@@ -42,13 +42,13 @@ public abstract class InformationExporter implements IApplication {
 
 	/**
 	 * Exports the ode smells reported on a project, in the export format specific way.
-	 * 
+	 *
 	 * @param args the command line arguments passed to the application
 	 * @param project the project whose code smells are to be extracted
 	 * @param monitor a monitor object for progress reporting.
 	 */
 	protected abstract void exportInformationForProject(final String[] args, final IProject project, IProgressMonitor monitor);
-	
+
 	@Override
 	public Object start(final IApplicationContext context) throws Exception {
 		if (!GeneralConstants.DEBUG) {
@@ -60,7 +60,7 @@ public abstract class InformationExporter implements IApplication {
 		if(!checkParameters(args)) {
 			return Integer.valueOf(-1);
 		}
-		
+
 		if (args.length >= 1){
 			final File path = new File(args[0].substring(0, args[0].lastIndexOf(File.separator)));
 			if (!path.exists() && !path.mkdirs()) {

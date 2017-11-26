@@ -25,7 +25,7 @@ import edu.uci.ics.jung.visualization.VisualizationViewer;
 
 /**
  * This class implements the popup menu on a graph that has metrics
- * 
+ *
  * @author Gabor Jenei
  */
 public class MeasureableNodePopupMenu extends NodePopupMenu {
@@ -35,7 +35,7 @@ public class MeasureableNodePopupMenu extends NodePopupMenu {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param handler
 	 *            : The graph handler of a graph that has metrics (the
 	 *            associated graph)
@@ -80,7 +80,7 @@ public class MeasureableNodePopupMenu extends NodePopupMenu {
 
 	/**
 	 * Sets the Info Window menu item enabled or disabled
-	 * 
+	 *
 	 * @param value
 	 *            : the <code>boolean</code> value to set
 	 */

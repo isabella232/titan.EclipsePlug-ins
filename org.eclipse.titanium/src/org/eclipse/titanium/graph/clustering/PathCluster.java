@@ -33,7 +33,7 @@ public abstract class PathCluster extends BaseCluster {
 
 	/**
 	 * Initialize the variables for the clustering.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph to be partitioned
 	 * @param project
@@ -110,7 +110,7 @@ public abstract class PathCluster extends BaseCluster {
 
 	/**
 	 * Adds the node to the given cluster.
-	 * 
+	 *
 	 * @param name
 	 *            The name of the node
 	 * @param cluster
@@ -129,7 +129,7 @@ public abstract class PathCluster extends BaseCluster {
 
 	/**
 	 * Begins the recursive search from the project folder.
-	 * 
+	 *
 	 * @param progress
 	 *            A progress monitor
 	 * @throws CoreException

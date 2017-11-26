@@ -14,9 +14,9 @@ import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
  * Helper visitor class, used by the metrics.
  * <p>
  * Counts the depth of nesting of the code.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class DepthVisitor extends CounterVisitor {
 	private int currentDepth;

@@ -32,9 +32,9 @@ import org.eclipse.titanium.metrics.TestcaseMetric;
 /**
  * A popup dialog, which is displayed to the user when she starts the analysis
  * on a TTCN3 project on the {@link TopView}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class MetricSelectorDialog implements Runnable {
 	private final Set<IMetricEnum> used;

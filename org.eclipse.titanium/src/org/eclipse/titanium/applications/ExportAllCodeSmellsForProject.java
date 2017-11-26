@@ -25,7 +25,7 @@ import org.eclipse.titanium.markers.export.XlsProblemExporter;
  * It will analyze the project provided as parameter in the
  * workspace, and save the reports for into an excel file with the
  * name <project_name>.xls
- * 
+ *
  * It awaits one single parameter, the folder to place to excel files into.
  * */
 public class ExportAllCodeSmellsForProject extends InformationExporter {
@@ -41,7 +41,7 @@ public class ExportAllCodeSmellsForProject extends InformationExporter {
 		}
 
 		projectName = args[1];
-		
+
 		return true;
 	}
 
@@ -67,7 +67,7 @@ public class ExportAllCodeSmellsForProject extends InformationExporter {
 		if (projectName == null) {
 			return new ArrayList<IProject>();
 		}
-		
+
 		final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
 		IProject foundProject = null;
 		for (final IProject project : projects) {
@@ -75,12 +75,12 @@ public class ExportAllCodeSmellsForProject extends InformationExporter {
 				foundProject = project;
 			}
 		}
-		
+
 		if (foundProject == null) {
 			System.out.println("There is no project with name `" + projectName + "' in the workspace.");
 			return new ArrayList<IProject>();
 		}
-		
+
 		if (!foundProject.isAccessible()) {
 			System.out.println("There project `" + projectName + "' is not accessible.");
 			return new ArrayList<IProject>();
@@ -90,6 +90,6 @@ public class ExportAllCodeSmellsForProject extends InformationExporter {
 		result.add(foundProject);
 		return result;
 	}
-	
-	
+
+
 }

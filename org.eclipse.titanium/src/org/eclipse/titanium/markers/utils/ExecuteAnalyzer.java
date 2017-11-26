@@ -23,9 +23,9 @@ import org.eclipse.titanium.preferences.PreferenceConstants;
  * Its purpose is to execute code smells (if the user asked so), and show up the
  * found code smell markers after the semantic analysis of the project done by
  * the titan.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class ExecuteAnalyzer implements IProjectProcesser {
 	private static boolean onTheFlyEnabled;

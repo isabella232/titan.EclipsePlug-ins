@@ -17,7 +17,7 @@ import org.eclipse.titanium.markers.export.ExportedProblemMerger;
 
 /**
  * @author Gobor Daniel
- * 
+ *
  *         An application to merge the exported code smell tables. It generates
  *         an excel file given in the arguments after the -o flag or a default
  *         one. Accepts the .xls files as arguments, where the exported code
@@ -73,7 +73,7 @@ public class MergeExportedMarkerTables implements IApplication {
 
 	/**
 	 * Merges the given excel files containing the exported code smells.
-	 * 
+	 *
 	 * @param files
 	 *            A list of File objects
 	 * @param outfileName

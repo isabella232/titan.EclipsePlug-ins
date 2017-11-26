@@ -10,7 +10,7 @@ package org.eclipse.titanium.error;
 /**
  * This interface describes a primitive error handler. All classes that can
  * handle error should implement these methods.
- * 
+ *
  * @author Gabor Jenei
  */
 public interface ErrorHandler {
@@ -25,7 +25,7 @@ public interface ErrorHandler {
 
 	/**
 	 * Reports an error to the user
-	 * 
+	 *
 	 * @param text
 	 *            : The cause of error
 	 */
@@ -33,7 +33,7 @@ public interface ErrorHandler {
 
 	/**
 	 * Reports a warning to the user
-	 * 
+	 *
 	 * @param text
 	 *            : The cause of warning
 	 */
@@ -41,7 +41,7 @@ public interface ErrorHandler {
 
 	/**
 	 * Reports an information to the user
-	 * 
+	 *
 	 * @param text
 	 *            : The information to report
 	 */
@@ -50,7 +50,7 @@ public interface ErrorHandler {
 	/**
 	 * This method logs and error inside the class. But writing it out is only
 	 * done after calling {@link #writeMessageToLog()}
-	 * 
+	 *
 	 * @param message
 	 */
 	void logError(String message);
@@ -58,7 +58,7 @@ public interface ErrorHandler {
 	/**
 	 * This method logs an exception to the inner log of this class. You need to
 	 * call {@link #writeMessageToLog()} to make this message appear somewhere.
-	 * 
+	 *
 	 * @param exception
 	 *            : The exception to log.
 	 */

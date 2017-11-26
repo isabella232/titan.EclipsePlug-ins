@@ -13,9 +13,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree for a project in a project-metric subtree.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class ProjectNode implements IContentNode {
 	private final ProjectMetric metric;

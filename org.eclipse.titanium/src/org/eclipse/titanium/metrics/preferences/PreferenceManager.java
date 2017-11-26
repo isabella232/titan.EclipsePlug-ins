@@ -18,13 +18,13 @@ import org.eclipse.titanium.preferences.pages.MetricsViewPreferencePage;
 /**
  * This is a convenience class to ease the access to values stored in the
  * preference stores.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class PreferenceManager {
 	private static IPreferenceStore store = null;
-	
+
 	private PreferenceManager() {
 		// disabled constructor
 	}
@@ -33,13 +33,13 @@ public final class PreferenceManager {
 		if (store == null) {
 			store = Activator.getDefault().getPreferenceStore();
 		}
-		
+
 		return store;
 	}
 
 	/**
 	 * Query if a metric is checked on the {@link MetricsViewPreferencePage}.
-	 * 
+	 *
 	 * @param metric
 	 *            the metric in question
 	 * @param def
@@ -64,7 +64,7 @@ public final class PreferenceManager {
 	 * <li>2 - {@link RiskMethod#NO_HIGH}</li>
 	 * <li>3 - {@link RiskMethod#NO_LOW_HIGH}</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param metric
 	 *            the metric in question
 	 * @param def
@@ -91,7 +91,7 @@ public final class PreferenceManager {
 	 * {@link RiskMethod#NO_HIGH}</li>
 	 * <li>contains two elements for {@link RiskMethod#NO_LOW_HIGH}.</li>
 	 * </ul>
-	 * 
+	 *
 	 * @param metric
 	 *            the metric in question
 	 * @param def
@@ -125,7 +125,7 @@ public final class PreferenceManager {
 	/**
 	 * Store the limits of a metric. Much like the dual of
 	 * {@link #getLimits(MetricsEnum, boolean) getLimits}.
-	 * 
+	 *
 	 * @param metric
 	 *            the metric in question
 	 * @param method
@@ -151,7 +151,7 @@ public final class PreferenceManager {
 
 	/**
 	 * Queries the metrics that are checked on the {@link GraphMetricsPage}.
-	 * 
+	 *
 	 * @return a set of metrics that should be displayed in the module graph
 	 *         view.
 	 */
@@ -162,7 +162,7 @@ public final class PreferenceManager {
 	/**
 	 * Queries the metrics that are checked on the
 	 * {@link MetricsViewPreferencePage}.
-	 * 
+	 *
 	 * @return a set of metrics that should be displayed in the metrics view.
 	 */
 	public static boolean isEnabledOnView(final IMetricEnum metric) {

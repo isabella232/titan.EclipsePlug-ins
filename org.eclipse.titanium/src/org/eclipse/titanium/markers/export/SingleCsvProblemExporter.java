@@ -30,7 +30,7 @@ import org.eclipse.titanium.markers.utils.AnalyzerCache;
  * @author Gabor Jenei
  */
 public class SingleCsvProblemExporter extends CsvProblemExporter {
-	
+
 	/**
 	 * Constructor
 	 * @param proj : The project to be analyzed
@@ -43,7 +43,7 @@ public class SingleCsvProblemExporter extends CsvProblemExporter {
 	 * @param monitor : The monitor that we use for feedback
 	 * @param path : The path of the file to be saved
 	 * @param date : The time stamp (not used currently)
-	 * 
+	 *
 	 * @see BaseProblemExporter#exportMarkers(IProgressMonitor, String, Date)
 	 */
 	@Override
@@ -65,7 +65,7 @@ public class SingleCsvProblemExporter extends CsvProblemExporter {
 					summaryFile.write(SEPARATOR);
 					summaryFile.write(marker.getProblemType().name());
 					summaryFile.write(SEPARATOR);
-					
+
 					summaryFile.write(SEPARATOR);
 					summaryFile.write(SEPARATOR);
 					summaryFile.newLine();

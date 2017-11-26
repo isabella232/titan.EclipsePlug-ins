@@ -35,7 +35,7 @@ import org.eclipse.titanium.sonar.metrics.SonarMetricsExporter;
 
 /**
  * A class providing data exporting features for sonar input
- *  
+ *
  * @author eszabre
  */
 public class SonarDataExporter {

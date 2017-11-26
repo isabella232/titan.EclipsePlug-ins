@@ -75,7 +75,7 @@ public class ReceiveAnyTemplate extends BaseModuleCodeSmellSpotter {
  * <li>an any value template of the only type the given port can receive (e.g.
  * <code>integer:?</code>)</li>
  * </ul>
- * 
+ *
  * @author poroszd
  */
 final class SuperfluousTemplate extends ASTVisitor {

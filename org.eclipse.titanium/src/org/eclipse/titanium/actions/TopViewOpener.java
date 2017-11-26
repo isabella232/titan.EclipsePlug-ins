@@ -46,10 +46,10 @@ public class TopViewOpener extends AbstractHandler implements IObjectActionDeleg
 		selection = HandlerUtil.getActiveWorkbenchWindow(event).getActivePage().getSelection();
 
 		doOpenTopView();
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Open the view of the top metrics.
 	 * */

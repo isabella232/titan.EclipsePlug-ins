@@ -13,9 +13,9 @@ import javax.swing.JRadioButtonMenuItem;
  * This is a subclass of {@link JRadioButtonMenuItem}, it makes possible for the
  * menu entries to have a separate name to display (long name) and a shorter
  * code
- * 
+ *
  * @author Gabor Jenei
- * 
+ *
  */
 public class LayoutEntry extends JRadioButtonMenuItem {
 	private static final long serialVersionUID = 753825087884977221L;
@@ -24,7 +24,7 @@ public class LayoutEntry extends JRadioButtonMenuItem {
 
 	/**
 	 * Constructs a layout entry with a given short and display name
-	 * 
+	 *
 	 * @param code
 	 *            : the short name to use inside the source code
 	 * @param name

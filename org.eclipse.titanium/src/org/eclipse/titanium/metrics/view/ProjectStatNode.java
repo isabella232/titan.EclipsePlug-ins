@@ -23,9 +23,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree for a project, with child nodes.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class ProjectStatNode implements IContentNode {
 	private final IMetricEnum metric;
@@ -135,7 +135,7 @@ class ProjectStatNode implements IContentNode {
 				s = data.getStatistics((ModuleMetric) metric);
 			} else {
 				throw new IllegalArgumentException(metric.getName() + " is not a subproject metric");
-			} 
+			}
 
 			final Number n = s.get(c);
 			return n == null ? null : n.toString();

@@ -83,7 +83,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
  * <b>Important note: </b> You must set the {@link #handler} and
  * {@link #generator} attributes in the {@link #createPartControl(Composite)}
  * method of subclasses, otherwise <b>you may have null pointer exceptions</b>
- * 
+ *
  * @author Gabor Jenei
  */
 public abstract class GraphEditor extends EditorPart implements Searchable<NodeDescriptor>{
@@ -182,7 +182,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 
 	/**
 	 * We just store the input and site to catch events
-	 * 
+	 *
 	 * @param input
 	 *            : the input to set
 	 * @param site
@@ -322,14 +322,14 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 						try {
 							QualifiedName name = new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "Graph_Save_Path");
 							project.setPersistentProperty(name, newPath);
-							
+
 							if ("dot".equals(graphFilePath.substring(graphFilePath.lastIndexOf('.') + 1,
 									graphFilePath.length()))) {
 								GraphHandler.saveGraphToDot(graph, graphFilePath, project.getName());
 							} else {
 								GraphHandler.saveGraphToPajek(graph, graphFilePath);
 							}
-							
+
 						} catch (BadLayoutException be) {
 							ErrorReporter.logExceptionStackTrace("Error while saving image to " + newPath, be);
 							errorHandler.reportErrorMessage("Bad layout\n\n" + be.getMessage());
@@ -514,7 +514,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 						if (graph == null) {
 							return null;
 						}
-						CircleCheck<NodeDescriptor, EdgeDescriptor> checker = 
+						CircleCheck<NodeDescriptor, EdgeDescriptor> checker =
 								new CircleCheck<NodeDescriptor, EdgeDescriptor>(graph);
 						if (checker.isCyclic()) {
 							for (EdgeDescriptor e : graph.getEdges()) {
@@ -594,7 +594,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 		 * RefreshAction=new ActionListener() { public void
 		 * actionPerformed(ActionEvent ev) { GraphGenerator.schedule(); } };
 		 * RefreshMenu.addActionListener(RefreshAction);
-		 * 
+		 *
 		 * menuBar.add(RefreshMenu);
 		 */
 
@@ -637,7 +637,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 
 	/**
 	 * This method is used to set the initial graph, or set the refreshed graph
-	 * 
+	 *
 	 * @param g
 	 *            : The graph to set
 	 */
@@ -670,7 +670,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 
 	/**
 	 * sets a new labeler
-	 * 
+	 *
 	 * @param labeler
 	 *            : the labeler to set
 	 */
@@ -681,7 +681,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	/**
 	 * This method is called to set the {@link SatelliteView}, this is needed to
 	 * be able to run modifying actions.
-	 * 
+	 *
 	 * @param sat
 	 *            : The satellite viewer (<b>this should be unique in every
 	 *            workspace</b>)
@@ -747,41 +747,41 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	public GraphHandler getHandler() {
 		return handler;
 	}
-	
+
 	@Override
 	public void setResults(final Collection<NodeDescriptor> results){
 		clearResults();
 		addResults(results);
 	}
-	
+
 	@Override
 	public void clearResults(){
 		recolour(graph.getVertices());
 	}
-	
+
 	@Override
 	public void addResults(final Collection<NodeDescriptor> results){
 		for (final NodeDescriptor node : results) {
 			node.setNodeColour(NodeColours.RESULT_COLOUR);
 		}
 	}
-	
+
 	@Override
 	public void elemChosen(final NodeDescriptor element){
 		final CustomVisualizationViewer visualisator = handler.getVisualizator();
 		visualisator.jumpToPlace(visualisator.getGraphLayout().apply(element));
-		
+
 		for (final NodeDescriptor node : graph.getVertices()) {
 			node.setNodeColour(NodeColours.NOT_RESULT_COLOUR);
 		}
 		element.setNodeColour(NodeColours.RESULT_COLOUR);
 	}
-	
-	
+
+
 
 	/**
 	 * This method recolours a given set of nodes inside the graph
-	 * 
+	 *
 	 * @param nodeSet
 	 *            : The set of nodes
 	 */
@@ -791,7 +791,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 	 * This method implements the initialization of generator and handler
 	 * attributes, for further details see {@link GraphGenerator} and
 	 * {@link GraphHandler}
-	 * 
+	 *
 	 * @param parent
 	 *            : A reference to the parent shell
 	 */

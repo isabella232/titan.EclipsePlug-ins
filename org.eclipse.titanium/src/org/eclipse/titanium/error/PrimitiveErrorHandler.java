@@ -17,7 +17,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
  * This class implements the most primitive error handling capability. We
  * provide that such kind of error handling is <b>ALWAYS</b> available,
  * independently from the environment
- * 
+ *
  * @author Gabor Jenei
  */
 public class PrimitiveErrorHandler implements ErrorHandler {

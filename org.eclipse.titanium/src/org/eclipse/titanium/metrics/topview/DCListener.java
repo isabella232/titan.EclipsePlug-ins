@@ -16,9 +16,9 @@ import org.eclipse.titanium.utils.LocationHighlighter;
 
 /**
  * Double click listener for the {@link TopView}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class DCListener implements IDoubleClickListener {
 	@Override

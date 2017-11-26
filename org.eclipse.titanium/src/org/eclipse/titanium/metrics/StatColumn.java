@@ -12,9 +12,9 @@ package org.eclipse.titanium.metrics;
  * <p>
  * These enum values represents a part of the whole statistical data calculated
  * on <code>IMetric</code>s.
- * 
+ *
  * @see Statistics
- * 
+ *
  * @author poroszd
  */
 public enum StatColumn {

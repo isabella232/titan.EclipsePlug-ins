@@ -12,14 +12,14 @@ import org.eclipse.titanium.metrics.MetricData;
 /**
  * The common interface of the nodes in the tree, displayed in the
  * {@link MetricsView}'s TreeViewer.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 interface INode {
 	/**
 	 * Get the text of a column.
-	 * 
+	 *
 	 * @param data
 	 *            object storing the metrics data
 	 * @param i
@@ -30,7 +30,7 @@ interface INode {
 
 	/**
 	 * Get the children nodes.
-	 * 
+	 *
 	 * @param data
 	 *            object storing the metrics data
 	 * @return the children
@@ -39,7 +39,7 @@ interface INode {
 
 	/**
 	 * Is this node a leaf of the tree or not
-	 * 
+	 *
 	 * @param data
 	 *            object storing the metrics data
 	 * @return <code>false</code> if leaf node.

@@ -15,9 +15,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree corresponding to a testcase.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class TestcaseNode implements IContentNode, IOpenable {
 	private final Def_Testcase t;

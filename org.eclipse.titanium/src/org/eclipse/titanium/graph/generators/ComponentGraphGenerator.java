@@ -36,7 +36,7 @@ import edu.uci.ics.jung.graph.util.EdgeType;
 
 /**
  * This is a {@link GraphGenerator} class for the component graph
- * 
+ *
  * @see GraphGenerator
  * @author Gabor Jenei
  */
@@ -44,7 +44,7 @@ public class ComponentGraphGenerator extends GraphGenerator {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param project
 	 *            : The project to create graph for
 	 * @param editor

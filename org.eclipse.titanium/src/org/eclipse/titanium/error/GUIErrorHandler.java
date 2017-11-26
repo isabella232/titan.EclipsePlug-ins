@@ -15,7 +15,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
  * in console environments (for eg. headless mode) this way of error handling
  * will not work. You may only provide an instance of this class if you are sure
  * that your class will be run from graphical environment.
- * 
+ *
  * @author Gabor Jenei
  */
 public class GUIErrorHandler implements ErrorHandler {
@@ -52,7 +52,7 @@ public class GUIErrorHandler implements ErrorHandler {
 	/**
 	 * This method reports a possibly bad setting, it also provides a button to
 	 * set this setting to a correct value.
-	 * 
+	 *
 	 * @param windowTitle
 	 *            : The title of error window to show
 	 * @param message
@@ -72,7 +72,7 @@ public class GUIErrorHandler implements ErrorHandler {
 	 * This method writes to a message log that is stored inside the class. This
 	 * message isn't written anywhere without calling
 	 * {@link #writeMessageToLog()}
-	 * 
+	 *
 	 * @param message
 	 *            : The message to add
 	 */

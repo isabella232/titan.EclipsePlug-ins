@@ -24,10 +24,10 @@ import org.eclipse.titanium.metrics.TestcaseMetric;
 
 /**
  * A wrapper class on {@link MetricData}.
- * 
+ *
  * This class supplies similar functionality as that, but is cleaner, simpler,
  * dumber.
- * 
+ *
  * @author poroszd
  */
 public class ModuleMetricsWrapper {
@@ -41,7 +41,7 @@ public class ModuleMetricsWrapper {
 	 * it locks the project. Beware deadlocks.
 	 * <p>
 	 * NOTE: Creating this object is costly. Cache when you can.
-	 * 
+	 *
 	 * @param project
 	 *            the target project of the metrics
 	 * @param user_metrics
@@ -64,15 +64,15 @@ public class ModuleMetricsWrapper {
 	 * IllegalArgumentException is thrown. Also note, that the returned
 	 * Statistics contains only those {@link StatColumn}s that are requested by
 	 * the metric.
-	 * 
+	 *
 	 * @param metric
 	 *            the metric of which you need statistics.
 	 * @param moduleName
 	 *            The name of the module in question.
-	 * 
+	 *
 	 * @return The stats of the metric measured on entities of the module, or
 	 *         null.
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             if metric is a {@link ProjectMetric}
 	 */
@@ -109,15 +109,15 @@ public class ModuleMetricsWrapper {
 	 * this method will return the highest result for the functions in that
 	 * module, or <code>null</code> if the module doesn't contain any function
 	 * definitions.
-	 * 
+	 *
 	 * @param metric
 	 *            the metric from which you need an indicator
 	 * @param moduleName
 	 *            the name of the module in question.
-	 * 
+	 *
 	 * @return the measured value for module metrics, or the max value in the
 	 *         module for submodule metrics, or <code>null</code>
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             if metric is a {@link ProjectMetric}
 	 */
@@ -146,14 +146,14 @@ public class ModuleMetricsWrapper {
 	 * This method is guaranteed not to return <code>null</code>. If something
 	 * fails (e.g. module_name is not a module in the target project), then
 	 * {@link RiskLevel}.UNKNOWN is returned.
-	 * 
+	 *
 	 * @param metric
 	 *            subproject metric
 	 * @param moduleName
 	 *            a name of a module in the target project
-	 * 
+	 *
 	 * @return the level of risk in the module according to the metric
-	 * 
+	 *
 	 * @throws IllegalArgumentException
 	 *             if metric is a {@link ProjectMetric}
 	 */
@@ -193,7 +193,7 @@ public class ModuleMetricsWrapper {
 	 * <li>greater or equals to 2.0 corresponds to {@link RiskLevel#HIGH}</li>
 	 * </ul>
 	 * </p>
-	 * 
+	 *
 	 * @param metric
 	 *            a metric, requested at construction time
 	 * @param moduleName

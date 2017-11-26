@@ -22,9 +22,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * {@link Analyzer}, the <code>Analyzer</code> will call the
  * {@link #checkNode(IVisitableNode)} method every time it visits a node of this
  * type.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public abstract class BaseModuleCodeSmellSpotter extends BaseCodeSmellSpotter {
 	public BaseModuleCodeSmellSpotter(final CodeSmellType type) {
@@ -36,7 +36,7 @@ public abstract class BaseModuleCodeSmellSpotter extends BaseCodeSmellSpotter {
 	 * <p>
 	 * The spotter checks the node, searching for the kind of problem that it
 	 * can spot.
-	 * 
+	 *
 	 * @param node
 	 *            the node to process.
 	 * @return the list of found problems
@@ -60,7 +60,7 @@ public abstract class BaseModuleCodeSmellSpotter extends BaseCodeSmellSpotter {
 	 * absence of such location
 	 * {@link Problems#report(org.eclipse.core.resources.IResource, String)}
 	 * should be called with the analyzed module's associated resource.
-	 * 
+	 *
 	 * @param node
 	 *            the node to process
 	 * @param problems

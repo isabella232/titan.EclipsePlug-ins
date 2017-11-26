@@ -15,9 +15,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree, which corresponds to a module in a module-metric subtree.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class ModuleNode implements IContentNode, IOpenable {
 	private final Module module;

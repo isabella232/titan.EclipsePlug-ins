@@ -16,9 +16,9 @@ import org.eclipse.titanium.graph.visualization.GraphHandler;
 
 /**
  * This class implements the interface for component graph headless export
- * 
+ *
  * @author Gabor Jenei
- * 
+ *
  */
 public class SaveComponentNet extends InformationExporter {
 	@Override
@@ -30,7 +30,7 @@ public class SaveComponentNet extends InformationExporter {
 
 		return true;
 	}
-	
+
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
 		final ErrorHandler errorHandler = new ConsoleErrorHandler();

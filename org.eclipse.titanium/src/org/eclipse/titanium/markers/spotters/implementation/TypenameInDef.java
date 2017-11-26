@@ -32,12 +32,12 @@ public class TypenameInDef extends BaseModuleCodeSmellSpotter {
 	private static final String REPORT = "The name `{1}'' of the {0} contains it''s type''s name `{2}''";
 
 	protected final CompilationTimeStamp timestamp;
-	
+
 	public TypenameInDef() {
 		super(CodeSmellType.TYPENAME_IN_DEFINITION);
 		timestamp = CompilationTimeStamp.getBaseTimestamp();
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (!(node instanceof Def_Const) &&
@@ -53,7 +53,7 @@ public class TypenameInDef extends BaseModuleCodeSmellSpotter {
 		final Definition s = (Definition)node;
 		check(s.getIdentifier(), s.getType(timestamp), s.getDescription(), problems);
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(8);

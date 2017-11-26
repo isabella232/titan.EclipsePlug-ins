@@ -21,7 +21,7 @@ import org.eclipse.titanium.metrics.utils.WrapperStore;
 /**
  * This class implements additional features for graphs that can have measured
  * informations (for eg. metrics)
- * 
+ *
  * @author Gabor Jenei
  */
 public class MeasureableGraphHandler extends GraphHandler {
@@ -35,7 +35,7 @@ public class MeasureableGraphHandler extends GraphHandler {
 	/**
 	 * This method calculates the colour of a given node according to a given
 	 * metric.
-	 * 
+	 *
 	 * @param node
 	 *            : The node that you want to colour
 	 * @param metric
@@ -73,7 +73,7 @@ public class MeasureableGraphHandler extends GraphHandler {
 	/**
 	 * Enables or disables the Info Window menu item according the provided
 	 * value
-	 * 
+	 *
 	 * @param value
 	 */
 	public void enableInfoWindow(final boolean value) {

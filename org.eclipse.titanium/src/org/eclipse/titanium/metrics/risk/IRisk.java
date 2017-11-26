@@ -14,26 +14,26 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
  * <p>
  * Implementations are responsible for telling what does a value measured by a
  * metric means for the project quality.
- * 
+ *
  * @author poroszd
  */
 public interface IRisk {
 	/**
 	 * The risk on a [0.0 - 3.0) scale.
-	 * 
+	 *
 	 * @param value
 	 *            the value measured by a metric
-	 * 
+	 *
 	 * @return the normalized risk
 	 */
 	double getRiskValue(final Number value);
 
 	/**
 	 * The discrete risk.
-	 * 
+	 *
 	 * @param value
 	 *            the value measured by a metric
-	 * 
+	 *
 	 * @return the discretized risk
 	 */
 	RiskLevel getRiskLevel(final Number value);

@@ -20,9 +20,9 @@ import org.eclipse.titanium.metrics.preferences.PreferenceManager;
 /**
  * One of the root nodes of the tree, corresponding to a metric type (project,
  * module, function, etc.).
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class RootNode implements INode {
 	private final MetricGroup type;

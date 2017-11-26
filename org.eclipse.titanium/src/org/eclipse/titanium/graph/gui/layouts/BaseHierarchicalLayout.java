@@ -31,7 +31,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 /**
  * This is the base class of hierarchical layouts (reverse and normal)
- * 
+ *
  * @author Gabor Jenei
  * @param <V>
  *            The node type
@@ -41,7 +41,7 @@ import edu.uci.ics.jung.graph.Graph;
 public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	private static final Double INNER_NODE_POSITION_RATIO_Y = 0.5;
 	private static final Double INNER_NODE_POSITION_RATIO_X = 0.5;
-	
+
 	public static final String MAX_DISTANCE_ALGORITHM = "MAX";
 	public static final String SUM_DISTANCE_ALGORITHM = "SUM";
 
@@ -63,7 +63,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param g
 	 *            : The graph to lay out
 	 * @param size
@@ -78,7 +78,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 		initAlg();
 		initialize();
 	}
-	
+
 	public BaseHierarchicalLayout(final Graph<V, E> g, final Dimension size, final IMetricEnum metric){
 		chosenMetric = metric;
 		graph = g;
@@ -89,7 +89,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 		initAlg();
 		initialize();
 	}
-	
+
 	/**
 	 * This method implements the initialization of algorithm.
 	 * We should initialize the <code>protected</code> {@link #alg}
@@ -139,7 +139,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	/**
 	 * As there is no locking option in this class this method returns constant
 	 * <code>false</code>
-	 * 
+	 *
 	 * @param v
 	 *            : The node to check
 	 */
@@ -150,7 +150,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 
 	/**
 	 * This method is not used, therefore it does not make any change.
-	 * 
+	 *
 	 * @param v
 	 *            : the node to set
 	 * @param lock
@@ -171,7 +171,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 
 	/**
 	 * This method changes the graph to lay out
-	 * 
+	 *
 	 * @param g
 	 *            : the graph to set
 	 */
@@ -183,7 +183,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	/**
 	 * It is <b>discouraged</b> to use this method. It changes the transformer
 	 * used in the layout. After this change we cannot provide tree like view.
-	 * 
+	 *
 	 * @param trf
 	 *            : The transformer to use
 	 */
@@ -195,7 +195,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	/**
 	 * Set one node's place on the canvas. This position maybe overwritten while
 	 * the algorithm is running (see {@link #initialize()})
-	 * 
+	 *
 	 * @param v
 	 *            : The node to set position for
 	 * @param p
@@ -209,7 +209,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	/**
 	 * Set the draw area's (canvas) size. This attribute will determine the
 	 * width and height of the area used for drawing the whole graph.
-	 * 
+	 *
 	 * @param size
 	 *            : the size to use
 	 */
@@ -267,7 +267,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 		if (baseLevel >= noLevels && noPlacedElems != 0) {
 			return;
 		}
-		
+
 		// place the initial first row's nodes
 		noPlacedElems = 0;
 		for (final V v : levels[baseLevel]) {
@@ -317,7 +317,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 
 	/**
 	 * Calculates the optimal X position for a given node
-	 * 
+	 *
 	 * @param v
 	 *            : The node to calculate the optimal position for
 	 * @param freePlaces
@@ -354,12 +354,12 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 		freePlaces.remove(givenCell);
 		return position;
 	}
-	
+
 	/**
 	 * This method is used to return the nodes belonging to the next level
 	 * of DAG layout, these can be the predecessors or oppositely the
 	 * successors depending on the used algorithm
-	 * 
+	 *
 	 * @param v : The source node
 	 * @return The nodes that should be placed on the next level compared to v
 	 */
@@ -368,7 +368,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	/**
 	 * Implementation of sum distance. This distance is defined as the sum of
 	 * individual distances to the predecessor nodes
-	 * 
+	 *
 	 * @param pos
 	 *            : The suspected position of the node
 	 * @param neighbours
@@ -392,7 +392,7 @@ public abstract class BaseHierarchicalLayout<V, E> implements Layout<V, E> {
 	/**
 	 * Implementation of max distance This distance is defined as the maximum of
 	 * the distances to the predecessor nodes
-	 * 
+	 *
 	 * @param pos
 	 *            : The suspected position of the node
 	 * @param neighbours

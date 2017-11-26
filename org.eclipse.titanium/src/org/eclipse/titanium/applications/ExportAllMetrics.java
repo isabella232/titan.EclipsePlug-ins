@@ -13,7 +13,7 @@ import org.eclipse.titanium.metrics.view.XLSExporter;
  * an excel file in headless mode. It will analyze every project in the
  * workspace, and save the reports for each project into an excel file with the
  * name <project_name>.xls
- * 
+ *
  * It awaits one single parameter, the folder to place to excel files into.
  * */
 public class ExportAllMetrics extends InformationExporter {
@@ -31,7 +31,7 @@ public class ExportAllMetrics extends InformationExporter {
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
 		final MetricData data = MetricData.measure(project);
-		
+
 		final RiskLevel r = RiskLevel.NO;
 		final String fn = args[0] + project.getName() + ".xls";
 		final File file = new File(fn);

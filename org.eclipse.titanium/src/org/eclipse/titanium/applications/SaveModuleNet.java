@@ -26,12 +26,12 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class <code>implements {@link IApplication}</code>, it is used to export
  * pajek graph without loading the visual features.
- * 
+ *
  * @author Gabor Jenei
  */
 public class SaveModuleNet extends InformationExporter {
 	private DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> graph=null;
-	
+
 	@Override
 	protected boolean checkParameters(final String[] args) {
 		if (args.length < 1) {
@@ -48,7 +48,7 @@ public class SaveModuleNet extends InformationExporter {
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
 		final ErrorHandler errorHandler = new ConsoleErrorHandler();
 		final ModuleGraphGenerator generator = new ModuleGraphGenerator(project, errorHandler);
-		
+
 		try {
 			generator.generateGraph();
 			String clusterName="";
@@ -57,7 +57,7 @@ public class SaveModuleNet extends InformationExporter {
 					clusterName=args[i].substring(2);
 				}
 			}
-			
+
 			if(clusterName.isEmpty()){
 				graph = generator.getGraph();
 			} else {

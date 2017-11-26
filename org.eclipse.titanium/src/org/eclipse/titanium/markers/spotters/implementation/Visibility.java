@@ -27,7 +27,7 @@ public class Visibility extends BaseModuleCodeSmellSpotter {
 	public Visibility() {
 		super(CodeSmellType.VISIBILITY_IN_DEFINITION);
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof FormalParameter) {
@@ -44,7 +44,7 @@ public class Visibility extends BaseModuleCodeSmellSpotter {
 			return;
 		}
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(2);
@@ -52,7 +52,7 @@ public class Visibility extends BaseModuleCodeSmellSpotter {
 		ret.add(Group.class);
 		return ret;
 	}
-	
+
 
 	protected void check(final Identifier identifier, final String description, final Problems problems) {
 		final String displayName = identifier.getDisplayName();

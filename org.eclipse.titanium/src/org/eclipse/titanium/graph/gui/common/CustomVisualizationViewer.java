@@ -37,7 +37,7 @@ public class CustomVisualizationViewer extends VisualizationViewer<NodeDescripto
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param layout
 	 *            : the graph layout to use
 	 * @param popupMenu
@@ -48,7 +48,7 @@ public class CustomVisualizationViewer extends VisualizationViewer<NodeDescripto
 		super(layout);
 
 		final GraphMouseListener<NodeDescriptor> nodeMouseEvents = new GraphMouseListener<NodeDescriptor>() {
-			
+
 			// nothing to do on this action
 			@Override
 			public void graphReleased(final NodeDescriptor arg0, final MouseEvent arg1) {
@@ -98,7 +98,7 @@ public class CustomVisualizationViewer extends VisualizationViewer<NodeDescripto
 		mouse.add(pickingMouse);
 
 		final KeyListener keyboardEvents = new KeyListener() {
-			
+
 			//nothing to do on this action
 			@Override
 			public void keyTyped(final KeyEvent e) {
@@ -137,7 +137,7 @@ public class CustomVisualizationViewer extends VisualizationViewer<NodeDescripto
 	/**
 	 * Makes the given place to be in the center of the screen (jumps to a
 	 * selected place on the canvas)
-	 * 
+	 *
 	 * @param place
 	 *            : The destination place
 	 */

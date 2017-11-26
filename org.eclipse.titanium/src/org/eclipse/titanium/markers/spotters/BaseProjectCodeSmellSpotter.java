@@ -19,9 +19,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * <p>
  * A code smell should be derived from this class when it is necessary to see
  * the whole project to spot a kind of code smell.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public abstract class BaseProjectCodeSmellSpotter extends BaseCodeSmellSpotter {
 	public BaseProjectCodeSmellSpotter(final CodeSmellType type) {
@@ -32,7 +32,7 @@ public abstract class BaseProjectCodeSmellSpotter extends BaseCodeSmellSpotter {
 	 * Processing the node.
 	 * <p>
 	 * This method is called by the {@link Analyzer} during analysis.
-	 * 
+	 *
 	 * @param project
 	 *            the project to check with your code smell
 	 */
@@ -56,7 +56,7 @@ public abstract class BaseProjectCodeSmellSpotter extends BaseCodeSmellSpotter {
 	 * the location of the processed node), or in the absence of such location
 	 * {@link Problems#report(org.eclipse.core.resources.IResource, String)}
 	 * should be called with the analyzed module's associated resource.
-	 * 
+	 *
 	 * @param project
 	 *            the project to process
 	 * @param problems

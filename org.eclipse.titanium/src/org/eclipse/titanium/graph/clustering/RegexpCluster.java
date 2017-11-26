@@ -35,7 +35,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class partitions a module graph by matching module names to given
  * patterns.
- * 
+ *
  * @author Gobor Daniel
  */
 public class RegexpCluster extends BaseCluster {
@@ -46,7 +46,7 @@ public class RegexpCluster extends BaseCluster {
 
 	/**
 	 * Initialize the variables for the clustering.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph to be partitioned
 	 */
@@ -60,7 +60,7 @@ public class RegexpCluster extends BaseCluster {
 
 	/**
 	 * Creates the matcher objects.
-	 * 
+	 *
 	 * @return True if the regular expressions are correct.
 	 */
 	private boolean createMatchers() {
@@ -104,7 +104,7 @@ public class RegexpCluster extends BaseCluster {
 
 	/**
 	 * Collects the nodes belonging to the matchers.
-	 * 
+	 *
 	 * @param progress
 	 *            A progress monitor
 	 */
@@ -136,7 +136,7 @@ public class RegexpCluster extends BaseCluster {
 
 	/**
 	 * Creates the clusters.
-	 * 
+	 *
 	 * @return True if a node has more than one matching pattern.
 	 */
 	private boolean fillClusters() {

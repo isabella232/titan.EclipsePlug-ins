@@ -43,37 +43,37 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * check_getcall/check_getreply/check_catch/getreply/done/killed statement
  * is used inside a function, testcase, or altstep without the 'runs on'
  * clause, except for when the statement is located inside an alt statement.
- * 
+ *
  * @author Viktor Varga
  */
 public class Shorthand extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERROR_MESSAGE_PREFIX = "The shorthand ";
 	private static final String ERROR_MESSAGE_SUFFIX = " statement should not be used, an activated default can change its behaviour";
-	
+
 	private static final String NAME_TIMEOUT = "timeout";
 	private static final String NAME_RECEIVE = "receive";
 	private static final String NAME_TRIGGER = "trigger";
 	private static final String NAME_GETCALL = "getcall";
 	private static final String NAME_CATCH = "catch";
 	private static final String NAME_CHECK = "check";
-	private static final String NAME_CHECK_RECEIVE = "check-receive"; 
+	private static final String NAME_CHECK_RECEIVE = "check-receive";
 	private static final String NAME_CHECK_GETCALL = "check-getcall";
 	private static final String NAME_CHECK_GETREPLY = "check-getreply";
 	private static final String NAME_CHECK_CATCH = "check-catch";
 	private static final String NAME_GETREPLY = "getreply";
 	private static final String NAME_DONE = "done";
 	private static final String NAME_KILLED = "killed";
-	
+
 	private String typename = "";
-	
+
 	private final CompilationTimeStamp timestamp;
-	
+
 	protected Shorthand() {
 		super(CodeSmellType.SHORTHAND);
 		timestamp = CompilationTimeStamp.getBaseTimestamp();
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Timeout_Statement) {
@@ -108,7 +108,7 @@ public class Shorthand extends BaseModuleCodeSmellSpotter {
 		final Statement s = (Statement)node;
 		check(s, problems);
 	}
-	
+
 	protected void check(final Statement s, final Problems problems) {
 		if (s == null) {
 			return;
@@ -138,7 +138,7 @@ public class Shorthand extends BaseModuleCodeSmellSpotter {
 			problems.report(s.getLocation(), ERROR_MESSAGE_PREFIX + typename + ERROR_MESSAGE_SUFFIX);
 		}
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(13);
@@ -157,6 +157,6 @@ public class Shorthand extends BaseModuleCodeSmellSpotter {
 		ret.add(Killed_Statement.class);
 		return ret;
 	}
-	
+
 
 }

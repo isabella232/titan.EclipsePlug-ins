@@ -13,9 +13,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 /**
  * A node, which is not a root node of any tree, meaning it is part of a
  * metric-subtree (so it is sensible to query the risk corresponding this node).
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 interface IContentNode extends INode {
 	RiskLevel getRiskLevel(MetricData data);

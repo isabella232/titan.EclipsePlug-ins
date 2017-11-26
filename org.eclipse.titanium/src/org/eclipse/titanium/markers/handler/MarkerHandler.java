@@ -30,9 +30,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * analyzing a ttcn3 resource (project or module) with an {@link Analyzer}. The
  * returned <code>MarkerHandler</code> is capable of handling the markers on the
  * related resources.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class MarkerHandler {
 	private final Map<IResource, List<Marker>> markersByResource;
@@ -59,7 +59,7 @@ public final class MarkerHandler {
 	/**
 	 * Query the markers of an {@link IResource}, popped up during the analysis
 	 * that created this <code>MarkerHandler</code> instance.
-	 * 
+	 *
 	 * @param res
 	 *            the resource
 	 * @return the list of markers (never <code>null</code>)
@@ -72,7 +72,7 @@ public final class MarkerHandler {
 	/**
 	 * Query all the markers of a given code smell type, popped up during the
 	 * analysis that created this <code>MarkerHandler</code> instance.
-	 * 
+	 *
 	 * @param type
 	 *            the code smell type
 	 * @return the list of markers (never <code>null</code>)
@@ -84,7 +84,7 @@ public final class MarkerHandler {
 
 		return Collections.unmodifiableList(markersByType.get(type));
 	}
-	
+
 	/**
 	 * Query the number of occurrences of a given code smell type.
 	 * @param type
@@ -95,7 +95,7 @@ public final class MarkerHandler {
 		if (markersByType.isEmpty()) {
 			lazyInit();
 		}
-		
+
 		return markersByType.get(type).size();
 	}
 

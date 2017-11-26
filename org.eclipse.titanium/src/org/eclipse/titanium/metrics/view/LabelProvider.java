@@ -18,9 +18,9 @@ import org.eclipse.titanium.metrics.MetricData;
 
 /**
  * A label provider for the {@link MetricsView}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class LabelProvider implements ITableLabelProvider, IColorProvider {
 	private final MetricData data;

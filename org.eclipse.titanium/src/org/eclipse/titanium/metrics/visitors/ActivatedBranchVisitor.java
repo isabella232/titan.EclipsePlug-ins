@@ -18,9 +18,9 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ActivateExpressio
  * <p>
  * This counts the number of default branches, that might be activated from a
  * start node (think of function definitions, testcase definitions, etc).
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class ActivatedBranchVisitor extends CounterVisitor {
 	public ActivatedBranchVisitor(final Counter n) {

@@ -49,9 +49,9 @@ import org.eclipse.ui.part.ViewPart;
  * metrics for the analysis. After running, the view will show each module of
  * the project, ordered by the cumulative risk of the selected metrics on these
  * modules.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class TopView extends ViewPart {
 	private static final String REFRESH_TOOLTIP = "Start measuring";

@@ -18,9 +18,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * <code>Marker</code> is an immutable value class, encapsulating any
  * information that is required to create and show an {@link IMarker} with a
  * code smell problem.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class Marker {
 	/** The location where the marker indicates the problem */
@@ -34,7 +34,7 @@ public class Marker {
 
 	/**
 	 * Creates a marker on a given exact location.
-	 * 
+	 *
 	 * @param loc
 	 *            might not be null, but can be {@link NULL_Location}
 	 * @param message
@@ -55,7 +55,7 @@ public class Marker {
 
 	/**
 	 * Creates a marker without exact location.
-	 * 
+	 *
 	 * @param res
 	 *            the associated {@link IResource}
 	 * @param message

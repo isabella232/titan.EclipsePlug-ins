@@ -14,9 +14,9 @@ package org.eclipse.titanium.metrics.preferences;
  * Implementing classes should be widgets, that can be displayed on the
  * Preference pages. Implementing classes should use the
  * {@link PreferenceManager} static object to access the preference store.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public interface IRiskFieldEditor {
 	/**
@@ -36,7 +36,7 @@ public interface IRiskFieldEditor {
 
 	/**
 	 * Check whether the currently set values on the widget are valid.
-	 * 
+	 *
 	 * @return <code>true</code> if values do not confront.
 	 */
 	boolean isValid();
@@ -44,7 +44,7 @@ public interface IRiskFieldEditor {
 	/**
 	 * Set the listener. This listener should be noted any time something is
 	 * changed by the user on the widget, so it can be updated.
-	 * 
+	 *
 	 * @param page
 	 *            The page on which the widget resides.
 	 */
@@ -52,7 +52,7 @@ public interface IRiskFieldEditor {
 
 	/**
 	 * Listener will be notified when risk method changes.
-	 * 
+	 *
 	 * @param listener
 	 *            this should react (typically with <code>layout()</code>
 	 */

@@ -48,7 +48,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
 		final List<Module> modules = new ArrayList<Module>();
 		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-			Module module = projectSourceParser.getModuleByName(moduleName); 
+			Module module = projectSourceParser.getModuleByName(moduleName);
 			modules.add(module);
 		}
 
@@ -57,7 +57,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 		for (Module module : modules) {
 			setOfImportedModules.clear();
 			setOfImportedModules.addAll( module.getImportedModules());
-			
+
 			ImportsCheck check = new ImportsCheck();
 			module.accept(check);
 
@@ -66,7 +66,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 			if (module instanceof TTCN3Module) {
 				for (ImportModule mod : ((TTCN3Module)module).getImports()){
 					for (Module m : setOfImportedModules) {
-						if(m.getIdentifier().equals(mod.getIdentifier())) { 
+						if(m.getIdentifier().equals(mod.getIdentifier())) {
 							problems.report(mod.getIdentifier().getLocation(), "Possibly unused importation");
 						}
 					}
@@ -76,11 +76,11 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 				module.accept(importsCheck);
 				for (ModuleImportation im : importsCheck.getImports()) {
 					for (Module m : setOfImportedModules) {
-						if(m.getIdentifier().equals(im.getIdentifier())) { 
+						if(m.getIdentifier().equals(im.getIdentifier())) {
 							problems.report(im.getIdentifier().getLocation(), "Possibly unused importation");
 						}
 					}
-				}	
+				}
 			}
 		}
 	}
@@ -100,14 +100,14 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Reference) {
-				if(((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {	
+				if(((Reference) node).getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 					return V_CONTINUE;
 				}
 
 				final Assignment assignment = ((Reference) node).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
 				if(assignment != null ) {
 					final Scope scope =  assignment.getMyScope();
-					if (scope != null) {			
+					if (scope != null) {
 						setOfModules.add(scope.getModuleScope());
 					}
 					return V_CONTINUE;

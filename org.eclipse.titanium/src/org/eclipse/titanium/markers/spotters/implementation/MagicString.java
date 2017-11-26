@@ -60,5 +60,5 @@ public class MagicString extends BaseModuleCodeSmellSpotter {
 		ret.add(ControlPart.class);
 		return ret;
 	}
-	
+
 }

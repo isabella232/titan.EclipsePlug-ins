@@ -32,7 +32,7 @@ import org.eclipse.titanium.markers.utils.AnalyzerCache;
  */
 public class CsvProblemExporter extends BaseProblemExporter {
 	protected static final String SEPARATOR = ";";
-	
+
 	/**
 	 * Constructor
 	 * @param proj : The project to export markers from
@@ -40,7 +40,7 @@ public class CsvProblemExporter extends BaseProblemExporter {
 	public CsvProblemExporter(final IProject proj) {
 		super(proj);
 	}
-	
+
 	/**
 	 * Export the code smells of a project to CSV files.
 	 * <p>
@@ -49,16 +49,16 @@ public class CsvProblemExporter extends BaseProblemExporter {
 	 * code smell, where at least 1 occurrence was present a separate CSV is
 	 * created too. In this CSV the reported error messages, the path of the
 	 * resources and the line number in which the smell was found is listed.
-	 * 
+	 *
 	 * Note: All code smell types are used in the analysis and are written in
 	 * the output. Some code smells use external settings, which can be fine
 	 * tuned on the preference page.
-	 * 
+	 *
 	 * @param filenamePrefix
 	 *            the filename prefix to be used in creating the CSV files.
 	 * @param date
 	 *            the time stamp to be used (currently unused)
-	 * 
+	 *
 	 * @throws IOException
 	 *             when writing the file fails
 	 */
@@ -115,7 +115,7 @@ public class CsvProblemExporter extends BaseProblemExporter {
 					actualSmellFile.close();
 					actualSmellFile = null;
 				}
-				
+
 				summaryFile.println(actSmell.getHumanReadableName() + SEPARATOR + row + SEPARATOR + row * actSmell.getMinRepairTime()
 						+ SEPARATOR + row * actSmell.getAvgRepairTime() + SEPARATOR + row * actSmell.getMaxRepairTime());
 				timesFile.println(actSmell.getHumanReadableName() + SEPARATOR + row * actSmell.getMinRepairTime()

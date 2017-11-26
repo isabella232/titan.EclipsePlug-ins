@@ -26,11 +26,11 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree of a module, with child nodes.
- * 
+ *
  * @TODO: should be split to three separate class for altstep, function and
  *        testcase metrics
  * @author poroszd
- * 
+ *
  */
 class ModuleStatNode implements IContentNode, IOpenable {
 	private final Module module;

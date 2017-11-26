@@ -24,7 +24,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This class partitions a module graph by patterns in the module names. Creates the whole "package" tree.
- * 
+ *
  * @author Gobor Daniel
  */
 public class FullModuleNameCluster extends ModuleNameCluster {
@@ -69,7 +69,7 @@ public class FullModuleNameCluster extends ModuleNameCluster {
 
 	/**
 	 * Finds the parent of the node belonging to the given name.
-	 * 
+	 *
 	 * @param name
 	 *            The cluster / node name
 	 */
@@ -92,7 +92,7 @@ public class FullModuleNameCluster extends ModuleNameCluster {
 
 	/**
 	 * Grows the tree.
-	 * 
+	 *
 	 * @param prev
 	 *            Name of the parent node
 	 * @param next

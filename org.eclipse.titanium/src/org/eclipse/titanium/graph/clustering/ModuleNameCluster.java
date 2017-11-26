@@ -24,7 +24,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * The base class for the other module name clusters. If this one is used to create the cluster graph, the edges will represent the import hierarchy.
- * 
+ *
  * @author Gobor Daniel
  *
  */
@@ -125,7 +125,7 @@ public class ModuleNameCluster extends BaseCluster {
 
 	/**
 	 * Create a cluster belonging to a slice.
-	 * 
+	 *
 	 * @param name
 	 *            The module name
 	 * @param i
@@ -138,7 +138,7 @@ public class ModuleNameCluster extends BaseCluster {
 
 	/**
 	 * Create a cluster for the segment.
-	 * 
+	 *
 	 * @param word
 	 *            The segment the cluster belongs to
 	 */

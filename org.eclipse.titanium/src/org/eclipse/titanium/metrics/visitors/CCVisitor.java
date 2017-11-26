@@ -27,9 +27,9 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.XorExpression;
  * <p>
  * Calculates the cyclomatic complexity of the code, starting at a node (given
  * in the constructor).
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class CCVisitor extends CounterVisitor {
 	private static class ExpressionComplexityVisitor extends CounterVisitor {

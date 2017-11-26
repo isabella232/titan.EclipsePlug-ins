@@ -15,9 +15,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree corresponding to an altstep.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class AltstepNode implements IContentNode, IOpenable {
 	private final Def_Altstep a;

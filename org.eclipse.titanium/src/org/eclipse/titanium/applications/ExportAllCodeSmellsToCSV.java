@@ -17,7 +17,7 @@ import org.eclipse.titanium.markers.export.CsvProblemExporter;
  * Prototype application for extracting the contents of the problems view into
  * CSV files in headless mode. It will analyze every project in the workspace,
  * and save the reports for each project into CSV files.
- * 
+ *
  * It awaits one single parameter, the path prefix where the files should be
  * created.
  * */

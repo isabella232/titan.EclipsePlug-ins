@@ -25,9 +25,9 @@ import org.eclipse.ui.PlatformUI;
 
 /**
  * The organize imports action, which can be called while editing a ttcn3 file.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class OrganizeFromEditor extends AbstractHandler {
 

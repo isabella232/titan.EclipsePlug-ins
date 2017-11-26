@@ -14,7 +14,7 @@ import edu.uci.ics.jung.graph.Graph;
 /**
  * This class runs the DAG Layout algorithm on the reverse graph to get a
  * different layout.
- * 
+ *
  * @author Gobor Daniel
  * @param <V>
  *            node type
@@ -27,7 +27,7 @@ public class DAGLayoutReverseAlgorithm<V, E> extends
 
 	/**
 	 * Initialize the variables.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph whose layout we want to construct
 	 */

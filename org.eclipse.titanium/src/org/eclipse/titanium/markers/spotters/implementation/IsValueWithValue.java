@@ -23,17 +23,17 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
 /**
  * This class marks the following code smell:
  * isvalue expressions used with a value as parameter.
- * 
+ *
  * @author Viktor Varga
  */
 public class IsValueWithValue extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERR_MSG = "Isvalue check on value always returns true. 'isbound' should be used to check existence. ";
-	
+
 	public IsValueWithValue() {
 		super(CodeSmellType.ISVALUE_WITH_VALUE);
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (!(node instanceof IsValueExpression)) {
@@ -52,13 +52,13 @@ public class IsValueWithValue extends BaseModuleCodeSmellSpotter {
 	}
 
 	private static final class ExpressionVisitor extends ASTVisitor {
-		
-		private final Problems problems; 
-		
+
+		private final Problems problems;
+
 		public ExpressionVisitor(final Problems problems) {
 			this.problems = problems;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof IsValueExpression) {
@@ -75,7 +75,7 @@ public class IsValueWithValue extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-		
+
 	}
 
 }

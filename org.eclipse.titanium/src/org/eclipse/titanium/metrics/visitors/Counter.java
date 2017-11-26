@@ -9,9 +9,9 @@ package org.eclipse.titanium.metrics.visitors;
 
 /**
  * This class implements a mutable integer type.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class Counter {
 	private int val;

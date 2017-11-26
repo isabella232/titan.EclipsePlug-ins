@@ -11,9 +11,9 @@ package org.eclipse.titanium.graph.visualization;
  * This exception is thrown in case of layout problems (not existing layout, the
  * provided graph is <code>null</code> or the graph contains a circle (this is
  * not acceptable for DAG layout))
- * 
+ *
  * @author Gabor Jenei
- * 
+ *
  */
 public class BadLayoutException extends Exception {
 	private static final long serialVersionUID = -869670176586448172L;

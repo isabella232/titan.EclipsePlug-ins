@@ -49,9 +49,9 @@ import org.eclipse.ui.PlatformUI;
  * <p>
  * If a project is selected, an analyzer job is scheduled for the project as a
  * whole, while for single files, only those files are analyzed.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class CheckCodeSmells extends AbstractHandler {
 	@Override

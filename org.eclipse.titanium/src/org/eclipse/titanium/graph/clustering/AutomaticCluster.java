@@ -30,11 +30,11 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This class partitions a module graph automatically.
- * 
+ *
  * @see The <a
  *      href="http://www.mcs.drexel.edu/~bmitchel/research/iwpc98.pdf">The
  *      article </a> the algorithm is based on.
- * 
+ *
  * @author Gobor Daniel
  */
 public class AutomaticCluster extends BaseCluster {
@@ -119,7 +119,7 @@ public class AutomaticCluster extends BaseCluster {
 		mapIndexCluster = new HashMap<Integer, Set<NodeDescriptor>>();
 		mapClusterIndex = new HashMap<NodeDescriptor, Integer>();
 		size = new HashMap<Integer, Integer>();
-		
+
 		index = 0;
 		clusternum = 0;
 
@@ -164,7 +164,7 @@ public class AutomaticCluster extends BaseCluster {
 
 	/**
 	 * Increases the cell (i,j) by k. The order of i,j does not matter.
-	 * 
+	 *
 	 * @param i
 	 *            The "row"
 	 * @param j
@@ -175,7 +175,7 @@ public class AutomaticCluster extends BaseCluster {
 	private void changeCell(final int i, final int j, final int k) {
 		final int row = i <= j ? i : j;
         final int column = i <= j ? j : i;
-		
+
 		int a = mapBetweenArcs.get(row).get(column);
 		a += k;
 		mapBetweenArcs.get(row).put(column, a);
@@ -183,7 +183,7 @@ public class AutomaticCluster extends BaseCluster {
 
 	/**
 	 * Update the size of the cluster.
-	 * 
+	 *
 	 * @param i
 	 *            Which cluster
 	 * @param k
@@ -214,20 +214,20 @@ public class AutomaticCluster extends BaseCluster {
 				}
 			}
 		});
-		
+
 		for (final NodeDescriptor v : moduleGraph.getVertices()) {
 			final int prio = calculatePriority(v);
 			priority.put(v, prio);
 			queue.offer(v);
 		}
-		
+
 		return queue;
 	}
 
 	/**
 	 * Calculate the priority of the node. The lower it is, the higher change is
 	 * possible in the MQ.
-	 * 
+	 *
 	 * @param v
 	 *            The node
 	 */
@@ -250,7 +250,7 @@ public class AutomaticCluster extends BaseCluster {
 	 * The intra-connectivity of the ith cluster.<br>
 	 * Number of edges inside / possible edge number inside the cluster.<br>
 	 * See pages 3-4 in the article for more information.
-	 * 
+	 *
 	 * @param i
 	 *            The index of the cluster
 	 * @return The intra-connectivity of the cluster
@@ -270,7 +270,7 @@ public class AutomaticCluster extends BaseCluster {
 	 * Number of edges between cluster i and cluster j / possible edge number.<br>
 	 * Should be called with i,j and j,i and the result summed.<br>
 	 * See page 4 in the article for more information.
-	 * 
+	 *
 	 * @param i
 	 *            First cluster
 	 * @param j
@@ -287,7 +287,7 @@ public class AutomaticCluster extends BaseCluster {
 	 * This is the measure we need to maximize.<br>
 	 * The connectivity measures are weighted to discourage very small clusters
 	 * in contrast to the algorithm described in the article.
-	 * 
+	 *
 	 * @return The MQ value
 	 */
 	private double MQ() {
@@ -323,7 +323,7 @@ public class AutomaticCluster extends BaseCluster {
 	/**
 	 * Moves v from its original cluster to the one indexed by 'to'. It is much
 	 * faster than calculating the whole matrix again.
-	 * 
+	 *
 	 * @param v
 	 *            The node to be moved
 	 * @param to
@@ -359,7 +359,7 @@ public class AutomaticCluster extends BaseCluster {
 
 	/**
 	 * Finds a better cluster for the given node.
-	 * 
+	 *
 	 * @param v
 	 *            The node to be moved for better clustering
 	 * @return True if the clustering did not change
@@ -428,7 +428,7 @@ public class AutomaticCluster extends BaseCluster {
 
 	/**
 	 * Tries to improve the current clustering by iterating over all nodes.
-	 * 
+	 *
 	 * @return false if there was a change
 	 */
 	private boolean improve() {
@@ -456,7 +456,7 @@ public class AutomaticCluster extends BaseCluster {
 
 	/**
 	 * Check the given clustering tool.
-	 * 
+	 *
 	 * @param ct
 	 *            The clustering tool
 	 * @param progress
@@ -613,7 +613,7 @@ public class AutomaticCluster extends BaseCluster {
 	 * Merges two clusters which have the most edges between them.
 	 * {@link #createCurrentClusters()} should be called after to create the new
 	 * clusters.
-	 * 
+	 *
 	 * @return
 	 */
 	private boolean mergeBest() {

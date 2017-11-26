@@ -31,7 +31,7 @@ import org.eclipse.titanium.swt.SWTResourceManager;
 /**
  * This class implements a node searching Eclipse window, it is inherited from
  * {@link Dialog}
- * 
+ *
  * @author Gabor Jenei
  */
 @SuppressWarnings("rawtypes")
@@ -50,7 +50,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 * 
+	 *
 	 * @param parent
 	 *            : The parent shell
 	 * @param view
@@ -67,7 +67,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		if (totalList==null) {
 			throw new IllegalArgumentException("The totalList parameter of FindWindow's constructor mustn't be null!");
 		}
-		
+
 		this.view = view;
 		treeItems = new TreeSet<T>();
 		this.totalSet = totalList;
@@ -138,11 +138,11 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		final Button btnExactMatch = new Button(shlFind, SWT.CHECK);
 		btnExactMatch.setBounds(10, 50, 93, 16);
 		btnExactMatch.setText("Exact match");
-		
+
 		final Button btnCaseSensitive = new Button(shlFind, SWT.CHECK);
 		btnCaseSensitive.setBounds(10, 72, 93, 16);
 		btnCaseSensitive.setText("Case sensitive");
-		
+
 		final Button btnFind = new Button(shlFind, SWT.NONE);
 		btnFind.setBounds(258, 68, 75, 25);
 		btnFind.addSelectionListener(new SelectionAdapter() {
@@ -152,7 +152,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 				final boolean exactMatch = btnExactMatch.getSelection();
 				final boolean caseSensitive = btnCaseSensitive.getSelection();
 				boolean noResult = true;
-				
+
 				if (!caseSensitive) {
 					name = name.toLowerCase();
 				}
@@ -162,14 +162,14 @@ public class FindWindow<T extends Comparable> extends Dialog {
 					if (!caseSensitive) {
 						elemName = elemName.toLowerCase();
 					}
-					
+
 					if (!exactMatch && elemName.contains(name)) {
 						treeItems.add(actElem);
 					} else if (exactMatch && elemName.equals(name)) {
 						treeItems.add(actElem);
 					}
 				}
-				
+
 				for (final T actElem : treeItems) {
 					final TreeItem item = new TreeItem(tree, SWT.NONE);
 					item.setText(actElem.toString());

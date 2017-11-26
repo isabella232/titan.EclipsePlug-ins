@@ -12,9 +12,9 @@ import org.eclipse.titanium.Activator;
 
 /**
  * Types of the code smell markers.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public enum CodeSmellType implements ProblemType{
 	ALTSTEP_COVERAGE("Altstep coverage", 1.0, 5.0, 76.0),
@@ -80,7 +80,7 @@ public enum CodeSmellType implements ProblemType{
 	private double defaultMaxTime;
 	private String innerName;
 	private String readableName;
-	
+
 	private CodeSmellType(final String name, final Double minTime, final Double avgTime, final Double maxTime) {
 		this.defaultMinTime = minTime;
 		this.defaultAvgTime = avgTime;
@@ -93,53 +93,53 @@ public enum CodeSmellType implements ProblemType{
 	public int getBaseLine() {
 		return getInt(ProblemNameToPreferenceMapper.nameSmellBaseLine(innerName), 43);
 	}
-	
+
 	@Override
 	public int getImpact() {
 		return getInt(ProblemNameToPreferenceMapper.nameSmellImpact(innerName), 43);
 	}
-	
+
 	@Override
 	public double getAvgRepairTime() {
 		return getDouble(ProblemNameToPreferenceMapper.nameSmellAvgTime(innerName), defaultAvgTime);
 	}
-	
+
 	@Override
 	public double getMinRepairTime() {
 		return getDouble(ProblemNameToPreferenceMapper.nameSmellMinTime(innerName), defaultMinTime);
 	}
-	
+
 	@Override
 	public double getMaxRepairTime() {
 		return getDouble(ProblemNameToPreferenceMapper.nameSmellMaxTime(innerName), defaultMaxTime);
 	}
-	
+
 	 @Override
 	public double getAvgDefaultTime() {
 		 return defaultAvgTime;
 	 }
-	
+
 	 @Override
 	public double getMinDefaultTime() {
 		 return defaultMinTime;
 	 }
-	
+
 	 @Override
 	public double getMaxDefaultTime() {
 		 return defaultMaxTime;
 	 }
-	
+
 	@Override
 	public String getHumanReadableName() {
 		return readableName;
 	}
-	
+
 	@Override
 	public String toString() {
 		return innerName;
 	}
-	
-	
+
+
 	private int getInt(final String id, final int defaultValue) {
 		final int val = Platform.getPreferencesService().getInt(Activator.PLUGIN_ID, id, -1, null);
 		if (val == -1) {
@@ -149,7 +149,7 @@ public enum CodeSmellType implements ProblemType{
 			return val;
 		}
 	}
-	
+
 	private double getDouble(final String id, final double defaultValue) {
 		return Platform.getPreferencesService().getDouble(Activator.PLUGIN_ID, id, defaultValue, null);
 	}

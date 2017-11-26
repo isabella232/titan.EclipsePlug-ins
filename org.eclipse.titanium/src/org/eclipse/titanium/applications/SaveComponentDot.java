@@ -16,9 +16,9 @@ import org.eclipse.titanium.graph.visualization.GraphHandler;
 
 /**
  * This class implements the interface for component graph headless export to GraphViz .dot format
- * 
+ *
  * @author Gabor Jenei
- * 
+ *
  */
 public class SaveComponentDot extends InformationExporter {
 	@Override
@@ -30,7 +30,7 @@ public class SaveComponentDot extends InformationExporter {
 
 		return true;
 	}
-	
+
 	@Override
 	protected void exportInformationForProject(final String[] args, final IProject project, final IProgressMonitor monitor) {
 		final ErrorHandler errorHandler = new ConsoleErrorHandler();

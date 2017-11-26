@@ -15,7 +15,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 /**
  * This class checks for dependent nodes in a Jung graph.
- * 
+ *
  * @author Bianka Bekefi
  * @param <V>
  *            node type

@@ -37,7 +37,7 @@ import org.eclipse.titanium.swt.SWTResourceManager;
 /**
  * This class makes a {@link Dialog} and shows the informations of a selected
  * node of module graph
- * 
+ *
  * @author Gabor Jenei
  * @see GraphView
  */
@@ -56,7 +56,7 @@ public class InfoWindow extends Dialog {
 	/**
 	 * Creates a small dialog that is used to show information about a certain
 	 * graph node.
-	 * 
+	 *
 	 * @param node
 	 *            : The node to show information about (it should be a node ID)
 	 * @param chosenMetric
@@ -106,7 +106,7 @@ public class InfoWindow extends Dialog {
 
 	/**
 	 * Fills the table with metrics data, and shows the InfoWindow
-	 * 
+	 *
 	 * @param node
 	 *            : The module to show info about.
 	 */
@@ -173,7 +173,7 @@ public class InfoWindow extends Dialog {
 
 	/**
 	 * Open the dialog.
-	 * 
+	 *
 	 * @return constant null
 	 */
 	private Object open() {
@@ -191,7 +191,7 @@ public class InfoWindow extends Dialog {
 
 	/**
 	 * Adds a new row to the table
-	 * 
+	 *
 	 * @param rowData
 	 *            : A string containing the cells
 	 * @param rowColour

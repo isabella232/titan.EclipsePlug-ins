@@ -17,7 +17,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This class checks for circle in a given Jung graph
- * 
+ *
  * @author Gabor Jenei
  * @param <V>
  *            node type
@@ -33,7 +33,7 @@ public class CircleCheck<V, E> {
 
 	/**
 	 * This class checks whether a graph is cyclic or non-cyclic
-	 * 
+	 *
 	 * @param graph
 	 *            : The tested graph
 	 */
@@ -88,7 +88,7 @@ public class CircleCheck<V, E> {
 	/**
 	 * This function should be called after calling
 	 * {@link CircleCheck#isCyclic()}, it returns a list of cycles
-	 * 
+	 *
 	 * @return the list of cycles found in the graph
 	 */
 	public List<Deque<E>> getCircles() {

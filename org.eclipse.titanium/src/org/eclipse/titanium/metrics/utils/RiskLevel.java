@@ -13,9 +13,9 @@ package org.eclipse.titanium.metrics.utils;
  * A <code>RiskColor</code> value is usually associated with a metric and an
  * entity measured by that metric. In this case, this value gives a hint, that
  * how risky this entity is considered by the metric.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public enum RiskLevel {
 	/** No information is available about the metric values */

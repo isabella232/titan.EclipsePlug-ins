@@ -26,12 +26,12 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class <code>implements {@link IApplication}</code>, it is used to export
  * pajek graph without loading the visual features.
- * 
+ *
  * @author Gabor Jenei
  */
 public class SaveModuleDot extends InformationExporter {
 	private DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> graph=null;
-	
+
 	@Override
 	protected boolean checkParameters(final String[] args) {
 		if (args.length < 1) {
@@ -51,14 +51,14 @@ public class SaveModuleDot extends InformationExporter {
 
 		try {
 			generator.generateGraph();
-			
+
 			String clusterName="";
 			for (int i = 1;i < args.length;++i) {
 				if (args[i].startsWith("-c")) {
 					clusterName=args[i].substring(2);
 				}
 			}
-			
+
 			if(clusterName.isEmpty()){
 				graph = generator.getGraph();
 			} else {
@@ -67,7 +67,7 @@ public class SaveModuleDot extends InformationExporter {
 				clusterer.run(monitor, false);
 				graph = clusterer.getGraph();
 			}
-			
+
 			final String fileName=args[0] + project.getName() + ".dot";
 			GraphHandler.saveGraphToDot(graph, fileName, project.getName());
 			errorHandler.reportInformation("The graphs have been successfully saved. See results at "+

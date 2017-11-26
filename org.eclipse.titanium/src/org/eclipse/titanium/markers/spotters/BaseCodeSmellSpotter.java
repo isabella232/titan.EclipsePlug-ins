@@ -42,9 +42,9 @@ import org.eclipse.titanium.preferences.CodeSmellTypeToPreferenceTypeMapper;
  * </ul>
  * Code smell spotters should be immutable; any required user preference setting
  * should be read at construction time.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 abstract class BaseCodeSmellSpotter {
 	/** The code smell that this spotter can spot */
@@ -78,16 +78,16 @@ abstract class BaseCodeSmellSpotter {
 	/**
 	 * A utility class to make code smell reporting in the spotter subclasses
 	 * more straightforward.
-	 * 
+	 *
 	 * @author poroszd
-	 * 
+	 *
 	 */
 	protected class Problems {
 		private final List<Marker> reports = new ArrayList<Marker>();
 
 		/**
 		 * Create a problem marker at a specific location.
-		 * 
+		 *
 		 * @param loc
 		 *            The location to marker
 		 * @param message
@@ -99,7 +99,7 @@ abstract class BaseCodeSmellSpotter {
 
 		/**
 		 * Create a problem marker without specific location.
-		 * 
+		 *
 		 * @param res
 		 *            the resource the marker belongs to
 		 * @param message

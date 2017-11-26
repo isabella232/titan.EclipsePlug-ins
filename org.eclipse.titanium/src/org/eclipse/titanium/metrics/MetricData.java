@@ -34,9 +34,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
  * project, gathers the results of the measurements, computes the necessary
  * statistics and risks. Once created, all these information can be queried via
  * this instance.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class MetricData {
 	final IProject project;
@@ -247,10 +247,10 @@ public class MetricData {
 	 * Execute the metrics on the project and compose the results.
 	 * <p>
 	 * Note that internally the project is locked.
-	 * 
+	 *
 	 * @param project
 	 *            the project to analyze
-	 * 
+	 *
 	 * @return the composed result of the measurements
 	 */
 	public static MetricData measure(final IProject project) {
@@ -356,7 +356,7 @@ public class MetricData {
 	static <ENTITY, METRIC extends IMetricEnum> Statistics measureEntities(final Map<Module, List<ENTITY>> entities, final IMetric<ENTITY, METRIC> metric,
 			final MetricData currentData, final Map<METRIC, Map<ENTITY, Number>> metricResults, final Map<METRIC, Map<Module, Statistics>> moduleStats) {
 		int numberOfEntities = 0;
-		
+
 		for (final List<ENTITY> entitylist : entities.values()) {
 			numberOfEntities += entitylist.size();
 		}

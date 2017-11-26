@@ -35,7 +35,7 @@ import edu.uci.ics.jung.visualization.control.SatelliteVisualizationViewer;
  * This class extends an Eclipse {@link ViewPart}, it implements the behaviour
  * of the SatelliteGraph view. <b>This class can be constructed only once in a
  * wokrspace, in the meaning that the instance is totally unique</b>
- * 
+ *
  * @author Gabor Jenei
  */
 public class SatelliteView extends ViewPart {
@@ -144,7 +144,7 @@ public class SatelliteView extends ViewPart {
 	 * This is an AWT-like method, it adds a
 	 * {@link SatelliteVisualizationViewer} to the view, and makes the
 	 * components to refresh
-	 * 
+	 *
 	 * @param satGraph
 	 *            : The satellite graph to add
 	 */
@@ -165,7 +165,7 @@ public class SatelliteView extends ViewPart {
 
 	/**
 	 * This method returns the currently set view size.
-	 * 
+	 *
 	 * @return The set size
 	 */
 	public Dimension getSize() {
@@ -175,7 +175,7 @@ public class SatelliteView extends ViewPart {
 	/**
 	 * This method sets a new editor size, and refreshes all the belonging
 	 * components as it's needed.
-	 * 
+	 *
 	 * @param size
 	 *            : The new size
 	 */
@@ -207,7 +207,7 @@ public class SatelliteView extends ViewPart {
 
 	/**
 	 * This method sets the current editor that handles the view.
-	 * 
+	 *
 	 * @param editor
 	 *            : The editor to set
 	 */

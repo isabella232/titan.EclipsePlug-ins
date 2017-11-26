@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.AST.Location;
 
 /**
  * This class describes a module graph node (vertex)
- * 
+ *
  * @author Gabor Jenei
  */
 public class NodeDescriptor implements Comparable<NodeDescriptor> {
@@ -32,7 +32,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 
 	/**
 	 * It constructs a new graph node that can be added to the module graph.
-	 * 
+	 *
 	 * @param displayName
 	 *            : The node title to display
 	 * @param name
@@ -70,7 +70,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 	/**
 	 * It constructs a new graph node that can be added to the module graph, the
 	 * node's colour will be {@link NodeColours#NO_VALUE_COLOUR}
-	 * 
+	 *
 	 * @param displayName
 	 *            : The node title to display
 	 * @param name
@@ -92,7 +92,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 	 * will be unknown <code>null</code>. <b>It is not recommended, as metrics
 	 * will not be calculated on such modules. It can only be a non-missing
 	 * module</b>
-	 * 
+	 *
 	 * @param displayName
 	 *            : The node title to display
 	 * @param name
@@ -108,7 +108,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 	 * will be unknown <code>null</code>, the name to be displayed will be the
 	 * Vertex ID. <b>It is not recommended, as metrics will not be calculated on
 	 * such modules. It can only be a non-missing module</b>
-	 * 
+	 *
 	 * @param name
 	 *            : The node's ID
 	 */
@@ -149,7 +149,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 
 	/**
 	 * Sets the node's colour to a new one
-	 * 
+	 *
 	 * @param c
 	 *            : the new colour
 	 */
@@ -159,7 +159,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 
 	/**
 	 * Change font colour for the represented node
-	 * 
+	 *
 	 * @param c
 	 */
 	public void setFontColour(final Color c) {
@@ -175,7 +175,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 
 	/**
 	 * Sets the font type
-	 * 
+	 *
 	 * @param font
 	 *            : The font type to set
 	 */
@@ -185,7 +185,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 
 	/**
 	 * Returns the font type of the represented node
-	 * 
+	 *
 	 * @return the set font type
 	 */
 	public Font getFontType() {
@@ -203,7 +203,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 	/**
 	 * Overrides the {@link Object#toString()} method, it is only for debugging
 	 * purposes.
-	 * 
+	 *
 	 * @return The name to display
 	 */
 	@Override
@@ -214,7 +214,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 	/**
 	 * Overrides the {@link Object#equals(Object)} method, it implements a
 	 * comparison of two instances.
-	 * 
+	 *
 	 * @param obj
 	 *            : The other instance to compare with
 	 * @return A boolean that indicates whether the two objects represent the
@@ -244,7 +244,7 @@ public class NodeDescriptor implements Comparable<NodeDescriptor> {
 
 	/**
 	 * Setter for the cluster of this node.
-	 * 
+	 *
 	 * @param cluster
 	 *            The set of nodes this one belongs to
 	 */

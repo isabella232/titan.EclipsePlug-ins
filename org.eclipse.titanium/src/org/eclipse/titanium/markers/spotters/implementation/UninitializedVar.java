@@ -23,7 +23,7 @@ public class UninitializedVar extends BaseModuleCodeSmellSpotter {
 	public UninitializedVar() {
 		super(CodeSmellType.UNINITIALIZED_VARIABLE);
 	}
-	
+
 	@Override
 	protected void process(final IVisitableNode node, final Problems problems) {
 		if (node instanceof Def_Var_Template) {
@@ -40,7 +40,7 @@ public class UninitializedVar extends BaseModuleCodeSmellSpotter {
 			return;
 		}
 	}
-	
+
 	@Override
 	public List<Class<? extends IVisitableNode>> getStartNode() {
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(2);
@@ -48,5 +48,5 @@ public class UninitializedVar extends BaseModuleCodeSmellSpotter {
 		ret.add(Def_Var.class);
 		return ret;
 	}
-	
+
 }

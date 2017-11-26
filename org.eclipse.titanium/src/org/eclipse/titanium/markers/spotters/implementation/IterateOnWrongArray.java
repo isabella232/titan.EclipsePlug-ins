@@ -36,14 +36,14 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * The loop parameter of a for loop indexes an array in the StatementBlock
  * of the loop which differs from the array inside the finalExpression of
  * the for loop
- * 
+ *
  * @author Viktor Varga
  */
 public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
-	
+
 	private static final String ERR_MSG = "The loop parameter `{0}'' might be used to index the wrong list.";
-	
-	
+
+
 	public IterateOnWrongArray() {
 		super(CodeSmellType.ITERATE_ON_WRONG_ARRAY);
 	}
@@ -54,7 +54,7 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 			return;
 		}
 		final For_Statement fs = (For_Statement) node;
-		
+
 		//find the loop variable
 		final LoopVariableFinder lvVisitor = new LoopVariableFinder();
 		fs.accept(lvVisitor);
@@ -101,12 +101,12 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 		ret.add(For_Statement.class);
 		return ret;
 	}
-	
+
 	//call on Value (final expression of For_Statement)
 	private static final class FinalExprVisitor extends ASTVisitor {
-		
+
 		private final List<Reference> arraysIterated = new ArrayList<Reference>();
-		
+
 		public List<Reference> getArraysIterated() {
 			return arraysIterated;
 		}
@@ -122,16 +122,16 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 			return V_CONTINUE;
 		}
 	}
-	
+
 	//call on LengthofExpression or Sizeof_Expression
 	private static final class IteratedArrayFinder extends ASTVisitor {
-		
+
 		private Reference arrayIterated;
-		
+
 		public Reference getArrayIterated() {
 			return arrayIterated;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof LengthofExpression || node instanceof SizeOfExpression) {
@@ -153,28 +153,28 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 			}
 			return V_CONTINUE;
 		}
-		
+
 	}
 
 	//call on StatementBlocks
 	private static final class StatementBlockVisitor extends ASTVisitor {
-		
+
 		private final Reference loopVariable;
 		private final List<Reference> arraysIterated;
 		private final List<Reference> matchingReferences;
-		
+
 		private Reference parentReference;
-		
+
 		public StatementBlockVisitor(final Reference loopVariable, final List<Reference> arraysIterated) {
 			this.loopVariable = loopVariable;
 			this.arraysIterated = arraysIterated;
 			matchingReferences = new ArrayList<Reference>();
 		}
-		
+
 		public List<Reference> getMatchingReferences() {
 			return matchingReferences;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			//avoid access to nested For_Statements: Analyzer.CodeSmellVisitor will visit them directly
@@ -218,9 +218,9 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 			}
 			return V_CONTINUE;
 		}
-		
+
 		/*
-		 * Returns true if the list of SubReferences of 'prefix' is a prefix of the list of 
+		 * Returns true if the list of SubReferences of 'prefix' is a prefix of the list of
 		 * SubReferences of 'toTest';
 		 * SubReferences are compared by their String representation.
 		 * */
@@ -256,18 +256,18 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 			//'prefix' cannot be longer than 'toTest'
 			return !itPrefix.hasNext();
 		}
-		
+
 	}
-	
+
 	//call on For_Statements
 	private static final class LoopVariableFinder extends ASTVisitor {
-		
+
 		private Reference loopVariable;
-		
+
 		public Reference getLoopVariable() {
 			return loopVariable;
 		}
-		
+
 		@Override
 		public int visit(final IVisitableNode node) {
 			if (node instanceof For_Statement) {
@@ -279,7 +279,7 @@ public class IterateOnWrongArray extends BaseModuleCodeSmellSpotter {
 			}
 			return V_SKIP;
 		}
-		
+
 	}
-	
+
 }

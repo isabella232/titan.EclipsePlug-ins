@@ -32,7 +32,7 @@ public class IncorrectShift {
 	private IncorrectShift() {
 		throw new AssertionError("Noninstantiable");
 	}
-	
+
 	private abstract static class ShiftChecker extends BaseModuleCodeSmellSpotter {
 		private static final String NEGATIVESHIFTPROBLEM =
 				"Shifting to the {1} should be used instead of shifting to the {0} with a negative value";

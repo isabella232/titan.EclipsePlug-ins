@@ -45,5 +45,5 @@ public class UncommentedDefinition extends BaseModuleCodeSmellSpotter {
 		ret.add(Def_Testcase.class);
 		return ret;
 	}
-	
+
 }

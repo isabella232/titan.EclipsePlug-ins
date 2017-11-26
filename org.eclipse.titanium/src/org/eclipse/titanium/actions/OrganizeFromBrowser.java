@@ -48,9 +48,9 @@ import org.eclipse.ui.handlers.HandlerUtil;
 
 /**
  * The organize imports action, which can be called on files and folders.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class OrganizeFromBrowser extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
@@ -62,7 +62,7 @@ public final class OrganizeFromBrowser extends AbstractHandler implements IObjec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
@@ -74,7 +74,7 @@ public final class OrganizeFromBrowser extends AbstractHandler implements IObjec
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.
 	 * action.IAction, org.eclipse.ui.IWorkbenchPart)
@@ -144,7 +144,7 @@ public final class OrganizeFromBrowser extends AbstractHandler implements IObjec
 				}
 			}
 		}
- 
+
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 		if (reportDebugInformation) {

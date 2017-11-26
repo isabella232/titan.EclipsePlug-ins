@@ -36,17 +36,17 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 
 /**
  * This class can create jung Layouts via a builder pattern aspect.
- * 
+ *
  * @author Gabor Jenei
  */
 public class LayoutBuilder {
 	private final DirectedSparseGraph<NodeDescriptor, EdgeDescriptor> g;
 	private final LayoutEntry layoutEntry;
 	private final Dimension size;
-	
+
 	private Set<Set<NodeDescriptor>> clusters;
 	private Function<NodeDescriptor, Point2D> pointTransformer;
-	
+
 	/**
 	 * Constructor
 	 * @param graph : The graph to be shown
@@ -58,7 +58,7 @@ public class LayoutBuilder {
 		layoutEntry = entry;
 		this.size = size;
 	}
-	
+
 	/**
 	 * This method sets a clustering in the layout, it should be used when the user claimed
 	 * a clustering layout
@@ -69,7 +69,7 @@ public class LayoutBuilder {
 		this.clusters = clusters;
 		return this;
 	}
-	
+
 	/**
 	 * This method sets a point transformer, it is needed when a clustering layout is used
 	 * @param trf : The transformer to set
@@ -79,7 +79,7 @@ public class LayoutBuilder {
 		pointTransformer = trf;
 		return this;
 	}
-	
+
 	/**
 	 * This method implements the building of the chosen layout with chosen parameters
 	 * @return The built layout
@@ -87,7 +87,7 @@ public class LayoutBuilder {
 	 */
 	public Layout<NodeDescriptor, EdgeDescriptor> build() throws BadLayoutException {
 		Layout<NodeDescriptor, EdgeDescriptor> layout;
-		
+
 		final String layoutCode = layoutEntry.getCode();
 		if (layoutCode.equals(Layouts.LAYOUT_ISOM.getCode())) {
 			layout = new TitaniumISOMLayout<NodeDescriptor, EdgeDescriptor>(g);
@@ -131,7 +131,7 @@ public class LayoutBuilder {
 			throw new BadLayoutException("There is no such layout! (Layout=" + layoutCode + ")", ErrorType.NOT_EXISITING_LAYOUT);
 		}
 		layout.setSize(size);
-		
+
 		return layout;
 	}
 }

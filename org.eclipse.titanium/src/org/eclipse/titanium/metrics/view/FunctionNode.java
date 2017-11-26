@@ -15,9 +15,9 @@ import org.eclipse.titanium.metrics.utils.RiskLevel;
 
 /**
  * A node in the tree corresponding to a function definition.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 class FunctionNode implements IContentNode, IOpenable {
 	private final Def_Function f;

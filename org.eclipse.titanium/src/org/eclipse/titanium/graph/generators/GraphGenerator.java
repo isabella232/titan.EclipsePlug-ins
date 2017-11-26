@@ -28,7 +28,7 @@ import edu.uci.ics.jung.graph.DirectedSparseGraph;
 /**
  * This class represents an abstract frame. It also can be used to generate a graph (see
  * {@link SaveModuleNet})
- * 
+ *
  * @author Gabor Jenei
  */
 public abstract class GraphGenerator {
@@ -44,7 +44,7 @@ public abstract class GraphGenerator {
 	 * Constructor, note that after this method you must call
 	 * {@link #generateGraph()} to make the graph. The constructor only does
 	 * initialization.
-	 * 
+	 *
 	 * @param project
 	 *            : The project to generate graph for
 	 * @param eHandler
@@ -85,7 +85,7 @@ public abstract class GraphGenerator {
 	 * of possible new edges/vertices) It only does refresh in the inner
 	 * representation, you can obtain the newly generated graph by calling
 	 * {@link #getGraph()}
-	 * 
+	 *
 	 * @throws InterruptedException
 	 */
 	public void generateGraph() throws InterruptedException {
@@ -99,7 +99,7 @@ public abstract class GraphGenerator {
 	 * This method returns the generated graph, it's useful if you use this
 	 * class without the visual features. This method first synchronizes with
 	 * the generating thread, therefore it may take longer to return.
-	 * 
+	 *
 	 * @return The generated graph
 	 * @throws InterruptedException
 	 */
@@ -113,7 +113,7 @@ public abstract class GraphGenerator {
 	 * you use this class without the visual features. This method first
 	 * synchronizes with the generating thread, therefore it may take longer to
 	 * return.
-	 * 
+	 *
 	 * @return A {@link NodeLabeler} that transforms node IDs into node names.
 	 * @throws InterruptedException
 	 */
@@ -128,7 +128,7 @@ public abstract class GraphGenerator {
 	 * edges/nodes. In the end a complete graph should be generated to the
 	 * {@link #graph} attribute, that represents the current state of the
 	 * project.
-	 * 
+	 *
 	 */
 	protected abstract void createGraph();
 }

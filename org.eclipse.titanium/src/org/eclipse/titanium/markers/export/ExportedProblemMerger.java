@@ -36,14 +36,14 @@ import org.eclipse.titan.common.utils.IOUtils;
 
 /**
  * A class used for merging code smell tables.
- * 
+ *
  * @author Gobor Daniel
  */
 public class ExportedProblemMerger {
 
 	private final List<File> files;
 	private final File outfile;
-	
+
 	private String msg;
 
 	private HSSFWorkbook outbook;
@@ -73,14 +73,14 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Creates a workbook with the output file given in the constructor.
-	 * 
+	 *
 	 * @return A new workbook on the outfile
 	 */
 	private HSSFWorkbook createWorkbook() {
 		HSSFWorkbook workbook = null;
-		try {		
+		try {
 			final InputStream in = ExportedProblemMerger.class.getResourceAsStream("ProblemMarkers.xlt");
-			
+
 			if (in == null) {
 				if (!outfile.exists()){
 					outfile.createNewFile();
@@ -100,30 +100,30 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Find the project name in the given sheet.
-	 * 
+	 *
 	 * @param sheet
 	 *            The sheet
 	 * @return The project name contained in the sheet
 	 */
 	private String getProjectName(final HSSFSheet sheet) {
-		final Cell cell = sheet.getRow(0).getCell(0);    
+		final Cell cell = sheet.getRow(0).getCell(0);
 		return cell.getStringCellValue();
 	}
 
 	/**
 	 * Collect the dates contained in a sheet.
-	 * 
+	 *
 	 * @param file
 	 *            The file that the date belongs to
 	 * @param sheet
 	 *            The sheet being processed
 	 */
 	private void collectDates(final File file, final HSSFSheet sheet) {
-		
+
 		final int cols = sheet.getRow(1).getLastCellNum();
-		
+
 		for (int col = 1; col < cols; ++col) {
-			
+
 			final Cell cell = sheet.getRow(1).getCell(col);
 			// if not a deleted column
 			if (cell.getCellType() != HSSFCell.CELL_TYPE_BLANK && cell.getCellType() == HSSFCell.CELL_TYPE_NUMERIC) {
@@ -142,7 +142,7 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Collect the smell names contained in a sheet.
-	 * 
+	 *
 	 * @param sheet
 	 *            The sheet to process
 	 */
@@ -202,28 +202,28 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Write the project name and decoration.
-	 * 
+	 *
 	 * @throws RowsExceededException
 	 * @throws WriteException
 	 */
 	private void writeBasics() {
 		final Row row0 = summarysheet.createRow(0);
 		row0.createCell(0).setCellValue(project);
-		
+
 		final Row row1 = summarysheet.createRow(1);
 		row1.createCell(0).setCellValue("Code smell \\ date");
 	}
 	/**
 	 * Write the dates and smell data.
-	 * @throws FileNotFoundException 
-	 * 
+	 * @throws FileNotFoundException
+	 *
 	 * @throws RowsExceededException
 	 * @throws WriteException
 	 * @throws BiffException
 	 * @throws IOException
 	 */
 	private void writeData() throws FileNotFoundException, IOException {
-		
+
 		int col = 1;
 		for (final Date date : dates) {
 			if (col > 250) {
@@ -233,7 +233,7 @@ public class ExportedProblemMerger {
 				System.out.println("Processing file: " + file.getName() + " | date: " + new SimpleDateFormat("yyyy.MM.dd").format(date));
 				HSSFWorkbook workbook = new HSSFWorkbook(new FileInputStream(file));
 				final HSSFSheet sheet = workbook.getSheetAt(0);
-				
+
 				// add date
 				final CellStyle cellStyle = outbook.createCellStyle();
 				cellStyle.setDataFormat(outbook.getCreationHelper().createDataFormat().getFormat("yyyy.mm.dd"));
@@ -244,7 +244,7 @@ public class ExportedProblemMerger {
 				writeSmellData(sheet, date, col);
 
 				++col;
-								
+
 				workbook = null;
 			}
 		}
@@ -252,7 +252,7 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Write the smell data.
-	 * 
+	 *
 	 * @param sheet
 	 *            The sheet from which to read the data
 	 * @param date
@@ -274,19 +274,19 @@ public class ExportedProblemMerger {
 			Cell cell = actualRow.getCell(0);
 			final String name = cell.getStringCellValue();
 			// the number of smells
-			cell = actualRow.getCell(colinfile);		
+			cell = actualRow.getCell(colinfile);
 			if (cell.getCellType() != HSSFCell.CELL_TYPE_BLANK) {
-				final double value = cell.getNumericCellValue();				
-				final Row r = summarysheet.getRow(smellrow.get(name));	
+				final double value = cell.getNumericCellValue();
+				final Row r = summarysheet.getRow(smellrow.get(name));
 				final Cell number = r.createCell(col);
-				number.setCellValue(value);	
+				number.setCellValue(value);
 			}
 		}
 	}
 
 	/**
 	 * Write the smell names.
-	 * 
+	 *
 	 * @throws RowsExceededException
 	 * @throws WriteException
 	 */
@@ -297,13 +297,13 @@ public class ExportedProblemMerger {
 			label.setCellValue(name);
 		}
 	}
-	
+
 	/**
 	 * Autosize all columns in summarysheet.
-	 * 
+	 *
 	 */
 	private void resizeColumns() {
-		
+
 		final int numberOfColumns = datecol.size() + 1;
 		for (int i = 0; i < numberOfColumns; ++i)
 		{
@@ -313,7 +313,7 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Close the output workbook.
-	 * @throws FileNotFoundException 
+	 * @throws FileNotFoundException
 	 * @throws IOException
 	 */
 	private void close() throws FileNotFoundException, IOException {
@@ -326,7 +326,7 @@ public class ExportedProblemMerger {
 
 	/**
 	 * Run the algorithm which merges the given tables.
-	 * 
+	 *
 	 * @return True if no exceptions occurred
 	 */
 	public boolean run() {
@@ -336,7 +336,7 @@ public class ExportedProblemMerger {
 		}
 
 		summarysheet = outbook.getSheetAt(0);
-		
+
 		collectData();
 
 		try {

@@ -18,7 +18,7 @@ import edu.uci.ics.jung.graph.Graph;
 
 /**
  * This class checks for parallel paths in a Jung graph.
- * 
+ *
  * @author Gobor Daniel
  * @param <V>
  *            node type
@@ -34,7 +34,7 @@ public class CheckParallelPaths<V, E> {
 
 	/**
 	 * Initialize the data to find all parallel paths.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph to be tested
 	 */
@@ -46,7 +46,7 @@ public class CheckParallelPaths<V, E> {
 
 	/**
 	 * Initialize the date to find all parallel paths from s.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph to be tested
 	 * @param s
@@ -58,7 +58,7 @@ public class CheckParallelPaths<V, E> {
 		root = s;
 		hasRoot = true;
 	}
-	
+
 	/**
 	 * Initializes one dfs search.
 	 */
@@ -71,7 +71,7 @@ public class CheckParallelPaths<V, E> {
 
 	/**
 	 * Checks if the graph contains parallel paths.
-	 * 
+	 *
 	 * @return True if there are parallel paths in the graph
 	 */
 	public boolean hasParallelPaths() {
@@ -89,7 +89,7 @@ public class CheckParallelPaths<V, E> {
 
 	/**
 	 * Performs a dfs algorithm to find the parallel paths.
-	 * 
+	 *
 	 * @param source
 	 *            The starting node
 	 */
@@ -116,7 +116,7 @@ public class CheckParallelPaths<V, E> {
 	/**
 	 * Checks if the found paths are indeed parallel. Trims the paths to
 	 * appropriate size if needed. Add the paths to the set if they are correct.
-	 * 
+	 *
 	 * @param v
 	 *            End node of the parallel path
 	 * @param w
@@ -155,7 +155,7 @@ public class CheckParallelPaths<V, E> {
 
 	/**
 	 * Creates the path from the root to s recursively.
-	 * 
+	 *
 	 * @param s
 	 *            The current node
 	 * @param path
@@ -173,7 +173,7 @@ public class CheckParallelPaths<V, E> {
 	 * The function should be called after calling
 	 * {@link CheckParallelPaths#hasParallelPaths()}. Returns the set of found
 	 * parallel paths.
-	 * 
+	 *
 	 * @return The found paths, which have a parallel path
 	 */
 	public Set<Deque<E>> getPaths() {

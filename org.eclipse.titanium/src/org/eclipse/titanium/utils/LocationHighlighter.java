@@ -19,14 +19,14 @@ import org.eclipse.ui.part.FileEditorInput;
 import org.eclipse.ui.texteditor.AbstractTextEditor;
 
 /**
- * Helper class: helps in converting a location object into an open editor, where the location is highlighted. 
+ * Helper class: helps in converting a location object into an open editor, where the location is highlighted.
  **/
 public final class LocationHighlighter {
 
 	private LocationHighlighter() {
 		//private constructor to disable instantiation
 	}
-	
+
 	/***
 	 * Jump to the provided location and highlight it.
 	 */

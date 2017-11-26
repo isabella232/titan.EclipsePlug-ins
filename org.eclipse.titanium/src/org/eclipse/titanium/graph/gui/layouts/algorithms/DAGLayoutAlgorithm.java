@@ -23,7 +23,7 @@ import edu.uci.ics.jung.graph.Graph;
  * This class assigns a level for the nodes of a graph for the DAG layout.<br>
  * If the graph contains circles, the nodes of the circles will be grouped
  * together.
- * 
+ *
  * @author Gobor Daniel
  * @param <V>
  *            node type
@@ -59,7 +59,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 
 	/**
 	 * Initialize the variables.
-	 * 
+	 *
 	 * @param graph
 	 *            The graph whose layout we want to construct
 	 */
@@ -157,7 +157,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 	 * connected component.<br>
 	 * If the node has in-arcs, we can be sure there is a circle in the
 	 * remaining graph.
-	 * 
+	 *
 	 * @see #checkNonCircle(Object)
 	 * @see #checkCircle(Object)
 	 */
@@ -188,7 +188,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 	/**
 	 * Check a node that does not belong to a circle.<br>
 	 * The node will be finalized, and its neighbors updated.
-	 * 
+	 *
 	 * @param v
 	 *            The node to be checked
 	 * @see #updateNode(Object, int)
@@ -206,7 +206,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 	 * Start a dfs from v. Check every seen node if there is a path back to v.<br>
 	 * Assume the found strongly connected component to be a node.<br>
 	 * Calculate the in-arcs of the component. If it is 0, finalize the circle.
-	 * 
+	 *
 	 * @param v
 	 *            The node to be checked
 	 * @see #finalizeCircle(Set, int)
@@ -249,7 +249,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 
 	/**
 	 * Detects all of the circles the parameter is a part of.
-	 * 
+	 *
 	 * @param v
 	 *            The node to be checked
 	 */
@@ -270,7 +270,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 	/**
 	 * Finalizes the circle on the given level.<br>
 	 * Update the out-neighbors of the circle.
-	 * 
+	 *
 	 * @param circle
 	 *            The set of nodes belonging to the circle
 	 * @param circleLevel
@@ -292,7 +292,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 	 * Update the values of a node.<br>
 	 * Increase the level of the node, if necessary.<br>
 	 * Decrease in-arcs of the node by one.
-	 * 
+	 *
 	 * @param w
 	 *            The node whose values will be updated
 	 * @param parentLevel
@@ -336,7 +336,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 	/**
 	 * A dfs algorithm to traverse the graph from the given node, and collect
 	 * the reachable nodes in the set.
-	 * 
+	 *
 	 * @param source
 	 *            The source node
 	 * @param set
@@ -361,7 +361,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 
 	/**
 	 * Find the reachable nodes from a start node in the graph.
-	 * 
+	 *
 	 * @param source
 	 *            The start node
 	 * @param set
@@ -373,7 +373,7 @@ public class DAGLayoutAlgorithm<V, E> implements HierarcicalLayoutAlgorithm<V> {
 
 	/**
 	 * Find the reachable nodes from a start node in the reverse graph.
-	 * 
+	 *
 	 * @param source
 	 *            The start node
 	 * @param set

@@ -45,9 +45,9 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * <p>
  * This class handles only the action, the real work is done in
  * {@link XlsProblemExporter}.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public final class ExportProblems extends AbstractHandler implements IObjectActionDelegate {
 	private ISelection selection;
@@ -59,7 +59,7 @@ public final class ExportProblems extends AbstractHandler implements IObjectActi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IActionDelegate#selectionChanged(org.eclipse.jface.action
 	 * .IAction, org.eclipse.jface.viewers.ISelection)
@@ -71,7 +71,7 @@ public final class ExportProblems extends AbstractHandler implements IObjectActi
 
 	/*
 	 * (non-Javadoc)
-	 * 
+	 *
 	 * @see
 	 * org.eclipse.ui.IObjectActionDelegate#setActivePart(org.eclipse.jface.
 	 * action.IAction, org.eclipse.ui.IWorkbenchPart)
@@ -88,7 +88,7 @@ public final class ExportProblems extends AbstractHandler implements IObjectActi
 
 		return null;
 	}
-	
+
 	private void doExportProblems() {
 		if (!(selection instanceof IStructuredSelection)) {
 			return;
@@ -109,7 +109,7 @@ public final class ExportProblems extends AbstractHandler implements IObjectActi
 		final IProject project = (IProject) firstElement;
 
 		final IPreferencesService preferencesService = Platform.getPreferencesService();
-		final boolean reportDebugInformation = 
+		final boolean reportDebugInformation =
 				preferencesService.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 		if (reportDebugInformation) {
 			TITANDebugConsole.println("Problem markers are to export from " + project.getName());

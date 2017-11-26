@@ -46,7 +46,7 @@ public enum AltstepMetric implements IMetricEnum {
 
 
 	public static final String GROUP_NAME = "Altstep";
-	
+
 	private String displayName;
 	private String hint;
 	private Set<StatColumn> requestedStatistics;

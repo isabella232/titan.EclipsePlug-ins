@@ -23,7 +23,7 @@ import org.eclipse.ui.IFileEditorInput;
 /**
  * This class is a subclass of {@link GraphEditor}. It implements the
  * specialties needed for component graph editor window
- * 
+ *
  * @author Gabor Jenei
  * @see GraphEditor
  */

@@ -12,7 +12,7 @@ import java.io.PrintStream;
 /**
  * This class implements a console error handling. It needs streams where
  * messages can be written in order
- * 
+ *
  * @author Gabor Jenei
  */
 public class ConsoleErrorHandler implements ErrorHandler {
@@ -31,7 +31,7 @@ public class ConsoleErrorHandler implements ErrorHandler {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param errorStream
 	 *            : The stream of error messages (including exception traces)
 	 * @param warningStream

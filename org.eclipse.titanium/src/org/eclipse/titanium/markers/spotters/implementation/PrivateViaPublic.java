@@ -40,7 +40,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * otherwise should be invisible for the actual module. It has got two main
  * parts. PrivateViaPublic.Field class marks references and explicit field
  * assignments. PrivateViaPublic.Value class marks value of private field assignments.
- * 
+ *
  * @author Peter Olah
  */
 public class PrivateViaPublic {
@@ -92,7 +92,7 @@ public class PrivateViaPublic {
 			private final List<Reference> references;
 
 			private final List<NamedValue> namedValues;
-						
+
 			public FieldCollector() {
 				references = new ArrayList<Reference>();
 				namedValues = new ArrayList<NamedValue>();
@@ -137,7 +137,7 @@ public class PrivateViaPublic {
 
 					if (subReference.getReferenceType() == Subreference_type.fieldSubReference) {
 						final Declaration declaration = actualReference.getReferencedDeclaration(subReference);
-		
+
 						// Have to check null if no visible elements found
 						// if(declaration instanceof FieldDeclaration) {
 						if(declaration != null)	{
@@ -247,7 +247,7 @@ public class PrivateViaPublic {
 	public static class Value extends Base {
 
 		private static final String ERROR_MESSAGE = "The parametrization of {0} field is private but it is accessible because of wrapping into public type.";
-		
+
 		public Value() {
 			super(CodeSmellType.PRIVATE_VALUE_VIA_PUBLIC);
 		}
@@ -263,7 +263,7 @@ public class PrivateViaPublic {
 		private class ValueCollector extends ASTVisitor {
 
 			private final List<SequenceOf_Value> sequenceOfValues;
-			
+
 			public ValueCollector() {
 				sequenceOfValues = new ArrayList<SequenceOf_Value>();
 			}

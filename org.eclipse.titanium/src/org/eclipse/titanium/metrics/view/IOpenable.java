@@ -12,9 +12,9 @@ import org.eclipse.titan.designer.AST.Location;
 /**
  * A node that corresponds to an entity in the TTCN3 code, so it can be opened
  * in an eclipse editor.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 interface IOpenable {
 	/**

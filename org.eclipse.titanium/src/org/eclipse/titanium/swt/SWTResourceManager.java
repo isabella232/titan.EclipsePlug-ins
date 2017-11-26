@@ -32,7 +32,7 @@ public final class SWTResourceManager {
 
 	/**
 	 * Returns a {@link Color} given its RGB value.
-	 * 
+	 *
 	 * @param rgb
 	 *            the {@link RGB} value of the color
 	 * @return the {@link Color} matching the RGB value

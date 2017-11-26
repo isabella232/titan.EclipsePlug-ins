@@ -9,7 +9,7 @@
  * This package contains GUI components that are
  * totally independent from titanium, they could be
  * used in any GUI application.
- * 
+ *
  * @author Gabor Jenei
  */
 package org.eclipse.titanium.gui;

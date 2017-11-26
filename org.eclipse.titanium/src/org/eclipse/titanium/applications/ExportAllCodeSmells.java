@@ -21,7 +21,7 @@ import org.eclipse.titanium.markers.export.XlsProblemExporter;
  * an excel file in headless mode. It will analyze every project in the
  * workspace, and save the reports for each project into an excel file with the
  * name <project_name>.xls
- * 
+ *
  * It awaits one single parameter, the folder to place to excel files into.
  * */
 public class ExportAllCodeSmells extends InformationExporter {

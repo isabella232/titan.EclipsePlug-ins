@@ -14,7 +14,7 @@ import com.google.common.base.Function;
 
 /**
  * This class can makes edges colored red more emphasized, by doubling their width.
- * 
+ *
  * @author Kristof Szabados
  */
 public 	class EdgeStroke<E> implements Function<E, Stroke> {
@@ -27,5 +27,5 @@ public 	class EdgeStroke<E> implements Function<E, Stroke> {
 
 		return new BasicStroke(1.0f);
 	}
-	
+
 }

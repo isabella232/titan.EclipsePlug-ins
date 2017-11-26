@@ -19,9 +19,9 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * Each enum is mapped to one or more {@link CodeSmellType}, and determines
  * their behavior.
  * </p>
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public enum ProblemTypePreference {
 	ALTSTEP_COVERAGE("Report insufficient altstep coverage", EnumSet.of(CodeSmellType.ALTSTEP_COVERAGE)),

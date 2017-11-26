@@ -52,12 +52,12 @@ import org.eclipse.titanium.utils.ProjectAnalyzerJob;
 
 /**
  * The metrics view viewpart.
- * 
+ *
  * This view displays metric information of a desired project. Users can set the
  * regarded preferences on preference page.
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class MetricsView extends ViewPart {
 	private static final String COLUMN_HEADER_1 = "Metrics";
@@ -106,7 +106,7 @@ public class MetricsView extends ViewPart {
 	public void setFocus() {
 		parent.setFocus();
 	}
-	
+
 	private void refreshData() {
 		Display.getDefault().syncExec(new Runnable() {
 			@Override
@@ -218,7 +218,7 @@ public class MetricsView extends ViewPart {
 		});
 
 		createExportToXlsButton(head);
-		
+
 		final IResourceChangeListener PROJECT_CLOSE_LISTENER = new IResourceChangeListener() {
 			@Override
 			public void resourceChanged(final IResourceChangeEvent event) {
@@ -257,7 +257,7 @@ public class MetricsView extends ViewPart {
 	}
 
 	private void createExportToXlsButton(final Composite head) {
-		
+
 		export = new Button(head, SWT.NONE);
 		export.setImage(Activator.imageDescriptorFromPlugin(Activator.PLUGIN_ID, "resources/icons/metrics_export_csv.gif").createImage());
 		export.setToolTipText(EXPORT_TOOLTIP);
@@ -289,7 +289,7 @@ public class MetricsView extends ViewPart {
 				xlsWriter.write(r);
 			}
 		});
-		
+
 	}
 
 	private void createTree(final Tree inner) {

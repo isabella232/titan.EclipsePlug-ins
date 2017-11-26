@@ -20,24 +20,24 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
  * <p>
  * A normal use case is like:<br>
  * {@code Counter n = new Counter(0);
- * 
+ *
  * module.accept(new CounterVisitor(n) <br>
  * <code>@Override</code><br>
  * public visit(IVisitableNode node) {<br>
- * 
+ *
  * <pre>
  * if (node instanceof Def_Function)
  * 	n.inc();
  * </pre>
- * 
+ *
  * <br>
  * }<br>
  * });<br>
  * // now n.val() is the number of function definitions in module.<br>
  * }
- * 
+ *
  * @author poroszd
- * 
+ *
  */
 public class CounterVisitor extends ASTVisitor {
 	protected final Counter count;

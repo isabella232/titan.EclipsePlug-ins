@@ -28,7 +28,7 @@ import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
 
 /**
  * This class sets round rectangle as node's shape
- * 
+ *
  * @author Gabor Jenei
  * @param <V>
  *            the node's type
@@ -44,7 +44,7 @@ class NodeShape<V> implements Function<V, Shape> {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param labeller
 	 *            : the node name -> node's shown name converter
 	 */
@@ -75,7 +75,7 @@ class NodeShape<V> implements Function<V, Shape> {
  * This class returns the node coloour set in the node, or
  * {@link NodeColours#LIGHT_GREEN} if there is no colour attribute of the node
  * describing class
- * 
+ *
  * @author Gabor Jenei
  * @param <V>
  *            the node's type
@@ -86,7 +86,7 @@ class NodeColour<V> implements Function<V, Paint> {
 	/**
 	 * Constructor, we need to store a reference of the class which tells us the
 	 * currently chosen nodes
-	 * 
+	 *
 	 * @param p
 	 *            : the describing class's instance
 	 */
@@ -113,7 +113,7 @@ class NodeColour<V> implements Function<V, Paint> {
 
 /**
  * A class that sets the edge's colour
- * 
+ *
  * @author Gabor Jenei
  * @param <E>
  *            edge's type
@@ -123,7 +123,7 @@ class EdgeColour<E> implements Function<E, Paint> {
 
 	/**
 	 * We need to store a reference to the currently chosen edges
-	 * 
+	 *
 	 * @param p
 	 *            : the class describing currently chosen edges
 	 */
@@ -156,7 +156,7 @@ class EdgeColour<E> implements Function<E, Paint> {
 /**
  * A class describing the font type to use on the graph nodes (actually it
  * controls all the rendering of label texts)
- * 
+ *
  * @author Gabor Jenei
  * @param <V>
  */
@@ -165,7 +165,7 @@ class NodeFont<V> extends DefaultVertexLabelRenderer {
 
 	/**
 	 * Constructor
-	 * 
+	 *
 	 * @param pickedVertexLabelColor
 	 *            : The colour of selected nodes
 	 */
@@ -176,7 +176,7 @@ class NodeFont<V> extends DefaultVertexLabelRenderer {
 	/**
 	 * <b>Important: </b> This method is normally never called from our code,
 	 * Jung itself calls it inside while rendering graph.
-	 * 
+	 *
 	 * @param vv
 	 *            : The current context of visualizing (see
 	 *            {@link CustomVisualizationViewer})
@@ -211,7 +211,7 @@ class NodeFont<V> extends DefaultVertexLabelRenderer {
  * This class stores a custom display for graph, it provides a specific node
  * shape, node colour and edge colour the customization works for both selected
  * and unselected nodes/edges differently.
- * 
+ *
  * @author Gabor Jenei
  * @param <V>
  *            The vertex type
@@ -227,7 +227,7 @@ public class GraphRenderer<V, E> {
 
 	/**
 	 * The constructor
-	 * 
+	 *
 	 * @param labeller
 	 *            : A graph node ID -> graph node name converter
 	 * @param vertexPicked
