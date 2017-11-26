@@ -319,14 +319,14 @@ public final class TtcnLogger {
 		if (!log_this_event(msg_severity)) {
 			return;
 		}
-		log_line(msg_severity, string == null ? "<NULL pointer>": string);
+		log_line(string == null ? "<NULL pointer>": string);
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
 		if (!log_this_event(msg_severity)) {
 			return;
 		}
-		log_line(msg_severity, String.format(Locale.US, formatString, args));
+		log_line(String.format(Locale.US, formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
@@ -344,7 +344,7 @@ public final class TtcnLogger {
 		if (current_event != null) {
 			//TODO temporary solution for filtering
 			if (log_this_event(current_event.severity)) {
-				log_line(current_event.severity, current_event.buffer.toString());
+				log_line(current_event.buffer.toString());
 			}
 
 			events.pop();
@@ -373,7 +373,7 @@ public final class TtcnLogger {
 		return new TitanCharString();
 	}
 
-	private static void log_line(final Severity event_severity, final String message) {
+	private static void log_line(final String message) {
 		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
 		final long millisec = timestamp % 1000;
 		timestamp = timestamp / 1000;
@@ -602,6 +602,88 @@ public final class TtcnLogger {
 
 	public static int get_logmatch_buffer_len() {
 		return logMatchBuffer.length();
+	}
+
+	public static void log_timer_read(final String timer_name, final double timeout_val) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_READ)) {
+			return;
+		}
+
+		log_line(MessageFormat.format("Read timer {0}: {1} s", timer_name, timeout_val));
+	}
+
+	public static void log_timer_start(final String timer_name, final double start_val) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_START)) {
+			return;
+		}
+
+		log_line(MessageFormat.format("Start timer {0}: {1} s", timer_name, start_val));
+
+	}
+
+	public static void log_timer_guard(final double start_val) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_GUARD)) {
+			return;
+		}
+
+		log_line(MessageFormat.format("Test case guard timer was set to {0} s", start_val));
+
+	}
+
+	public static void log_timer_stop(final String timer_name, final double stop_val) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_STOP)) {
+			return;
+		}
+
+		log_line(MessageFormat.format("Stop timer {0}: {1} s", timer_name, stop_val));
+
+	}
+
+	public static void log_timer_timeout(final String timer_name, final double timeout_val) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_TIMEOUT)) {
+			return;
+		}
+
+		log_line(MessageFormat.format("Timeout {0}: {1} s", timer_name, timeout_val));
+
+	}
+
+	public static void log_timer_any_timeout() {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_TIMEOUT)) {
+			return;
+		}
+
+		log_line("Operation `any timer.timeout' was successful.");
+
+	}
+
+	public static void log_timer_unqualified(final String message) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.TIMEROP_UNQUALIFIED)) {
+			return;
+		}
+
+		log_line(message);
+
+	}
+
+	public static void log_matching_timeout(final String timer_name) {
+		//FIXME also needs to check emergency logging
+		if (!log_this_event(Severity.MATCHING_PROBLEM) /* && get_emergency_logging()<=0 */) {
+			return;
+		}
+
+		if (timer_name == null) {
+			log_line("Operation `any timer.timeout' failed: The test component does not have active timers.");
+		} else {
+			log_line(MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", timer_name));
+		}
 	}
 
 	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, final int componentReference, final int id, final TitanCharString address, final TitanCharString parameter) {

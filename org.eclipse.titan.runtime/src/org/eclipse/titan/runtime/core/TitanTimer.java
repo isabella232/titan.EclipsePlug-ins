@@ -185,7 +185,8 @@ public class TitanTimer {
 			} else {
 				isStarted = true;
 			}
-			// TODO logging
+
+			TtcnLogger.log_timer_start(timerName, startValue);
 			addToList();
 		} else {
 			if (startValue < 0.0) {
@@ -198,7 +199,7 @@ public class TitanTimer {
 			}
 
 			isStarted = true;
-			//TODO logging
+			TtcnLogger.log_timer_guard(startValue);
 		}
 
 		timeStarted = TTCN_Snapshot.timeNow();
@@ -222,7 +223,7 @@ public class TitanTimer {
 		if (this != testcaseTimer) {
 			if (isStarted) {
 				isStarted = false;
-				// TODO log
+				TtcnLogger.log_timer_stop(timerName, timeExpires - timeStarted);
 				removeFromList();
 			} else {
 				TtcnError.TtcnWarning(MessageFormat.format("Stopping inactive timer {0}.", timerName));
@@ -251,7 +252,8 @@ public class TitanTimer {
 			returnValue = 0.0;
 		}
 
-		//TODO log
+		TtcnLogger.log_timer_read(timerName, returnValue);
+
 		return new TitanFloat(returnValue);
 	}
 
@@ -308,14 +310,14 @@ public class TitanTimer {
 
 			isStarted = false;
 			if (this != testcaseTimer) {
-				// TODO log
+				TtcnLogger.log_timer_timeout(timerName, timeExpires - timeStarted);
 				removeFromList();
 			}
 
 			return TitanAlt_Status.ALT_YES;
 		} else {
 			if (this != testcaseTimer) {
-				// TODO log
+				TtcnLogger.log_matching_timeout(timerName);
 			}
 
 			return TitanAlt_Status.ALT_NO;
@@ -361,7 +363,7 @@ public class TitanTimer {
 		for (final TitanTimer timer : TIMERS) {
 			switch(timer.timeout(null)) {
 			case ALT_YES:
-				//TODO log
+				TtcnLogger.log_timer_any_timeout();
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
@@ -372,7 +374,9 @@ public class TitanTimer {
 			}
 		}
 
-		//TODO log
+		if (returnValue == TitanAlt_Status.ALT_NO) {
+			TtcnLogger.log_matching_timeout(null);
+		}
 
 		return returnValue;
 	}
