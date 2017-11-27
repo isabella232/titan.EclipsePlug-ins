@@ -1244,36 +1244,53 @@ public class PortGenerator {
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
 		source.append("} else {\n");
-		source.append("//FIXME logging\n");
+		source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PROBLEM, \"Matching on port {0} failed: Port is not started and the queue is empty.\", getName());\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
-			source.append("//FIXME logging\n");
+			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
-			source.append("//FIXME logging\n");
+			source.append("if (TtcnLogger.log_this_event(TTCN_Logger::MATCHING_PMUNSUCC)) {\n");
+			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_address, false));\n");
+			source.append("TtcnLogger.end_event_log2str();\n");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
 			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
-			source.append("//FIXME logging\n");
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.begin_event(log_sev);\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append("TtcnLogger.end_event_log2str();\n");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.CALL_{0}) '{'\n", index));
-		source.append("//FIXME logging\n");
+		source.append(MessageFormat.format("TtcnLogger.log({0}, \"Matching on port '{'0'}' failed: The first entity in the queue is not a call for signature %s.\", getName());\n", isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC", portDefinition.displayName));
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!getcall_template.match_call(head.call_{0}, true)) '{'\n", index));
-		source.append("//FIXME logging\n");
+		source.append(MessageFormat.format("final TtcnLogger.Severity log_sev = {0};\n", isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC"));
+		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+		source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+		source.append("TtcnLogger.begin_event(log_sev);\n");
+		source.append(MessageFormat.format("getcall_template.log_match_call(head.call_{0}, false);\n", index));
+		source.append("TtcnLogger.end_event_log2str();\n");
+		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
-		source.append("//FIXME set param_ref and logging\n");
+		source.append("//FIXME set param_ref\n");
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
 			source.append("sender_pointer.assign(head.sender_address);\n");
@@ -1343,7 +1360,7 @@ public class PortGenerator {
 		source.append("switch(head.item_selection) {\n");
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (!portDefinition.outProcedures.get(i).isNoBlock) {
-				source.append(MessageFormat.format("case CALL_{0}:\n", i));
+				source.append(MessageFormat.format("case REPLY_{0}:\n", i));
 			}
 		}
 
@@ -1355,14 +1372,24 @@ public class PortGenerator {
 			source.append("sender_pointer.assign(head.sender_component);\n");
 		}
 		source.append("}\n");
-		source.append("//FIXME logging\n");
+		if(isAddress) {
+			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMSUCCESS, \"Matching on port {0} succeeded.\", getName());\n");
+			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
+			source.append("TtcnLogger.log_procport_recv(getName(), TtcnLogger.Port_oper.REPLY_OP, head.sender_component, new TitanCharString(), msg_head_count+1);\n");
+		} else {
+			source.append("TtcnLogger.log(head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS, \"Matching on port {0} succeeded.\", getName());\n");
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component ==  TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_PMIN : TtcnLogger.Severity.PORTEVENT_PCIN;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(getName(), TtcnLogger.Port_oper.REPLY_OP, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append("}\n");
+		}
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
 		}
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("default:\n");
-		source.append("//FIXME logging\n");
+		source.append(MessageFormat.format("TtcnLogger.log({0}, \"Matching on port '{'0'}' failed: First entity in the queue is not a reply.\", getName());\n", isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC"));
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -1394,36 +1421,54 @@ public class PortGenerator {
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
 		source.append("} else {\n");
-		source.append("//FIXME logging\n");
+		source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PROBLEM, \"Matching on port {0} failed: Port is not started and the queue is empty.\", getName());\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
-			source.append("//FIXME logging\n");
+			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMUNSUCC, \"Matching on port {0} failed: Sender of the first entity in the queue is not the system.\", getName());\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
-			source.append("//FIXME logging\n");
+			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
+			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_address), false);\n");
+			source.append("TtcnLogger.end_event_log2str();\n");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
 			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
-			source.append("//FIXME logging\n");
+			
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+			source.append("TtcnLogger.begin_event(log_sev);\n");
+			source.append("TtcnLogger.log_event(\"Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: \", getName());\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append("TtcnLogger.end_event();\n");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.REPLY_{0}) '{'\n", index));
-		source.append("//FIXME logging\n");
+		source.append(MessageFormat.format("TtcnLogger.log({0}, \"Matching on port '{'0'}' failed: The first entity in the queue is not a reply for signature {1}.\", getName());\n ",  isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC",portDefinition.displayName));
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!getreply_template.match_reply(head.reply_{0}, true)) '{'\n", index));
-		source.append("//FIXME logging\n");
+		source.append(MessageFormat.format("final TtcnLogger.Severity log_sev = {0};\n", isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC"));
+		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+		source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+		source.append("TtcnLogger.begin_event(log_sev);\n");
+		source.append(MessageFormat.format("getreply_template.log_match_reply(head.reply_{0}, false);\n", index));
+		source.append("TtcnLogger.end_event_log2str();\n");
+		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
-		source.append("//FIXME set param_ref and logging\n");
+		source.append("//FIXME set param_ref\n");
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
 			source.append("sender_pointer.assign(head.sender_address);\n");
@@ -1457,14 +1502,14 @@ public class PortGenerator {
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
 		source.append("} else {\n");
-		source.append("//FIXME logging\n");
+		source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PROBLEM, \"Matching on port {0} failed: Port is not started and the queue is empty.\", getName());\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
-			source.append("//FIXME logging\n");
+			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMUNSUCC, \"Matching on port {0} failed: Sender of the first entity in the queue is not the system.\", getName());\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
@@ -1475,7 +1520,13 @@ public class PortGenerator {
 			source.append("}\n");
 		} else {
 			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
-			source.append("//FIXME logging\n");
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+			source.append("TtcnLogger.begin_event(log_sev);\n");
+			source.append("TtcnLogger.log_event(\"Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: \", getName());\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append("TtcnLogger.end_event();\n");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
 		}
@@ -1494,14 +1545,24 @@ public class PortGenerator {
 			source.append("sender_pointer.assign(head.sender_component);\n");
 		}
 		source.append("}\n");
-		source.append("//FIXME logging\n");
+		if(isAddress) {
+			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMSUCCESS, \"Matching on port {0} succeeded.\", getName());\n");
+			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
+			source.append("TtcnLogger.log_procport_recv(getName(), TtcnLogger.Port_oper.EXCEPTION_OP, head.sender_component, new TitanCharString(), msg_head_count+1);\n");
+		} else {
+			source.append("TtcnLogger.log(head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS, \"Matching on port {0} succeeded.\", getName());\n");
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component ==  TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_PMIN : TtcnLogger.Severity.PORTEVENT_PCIN;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(getName(), TtcnLogger.Port_oper.EXCEPTION_OP, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append("}\n");
+		}
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
 		}
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
 		source.append("default:\n");
-		source.append("//FIXME logging\n");
+		source.append(MessageFormat.format("TtcnLogger.log({0}, \"Matching on port '{'0'}' failed: First entity in the queue is not an exception.\", getName());\n", isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC"));
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n\n");
@@ -1533,33 +1594,54 @@ public class PortGenerator {
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
 		source.append("} else {\n");
-		source.append("//FIXME logging\n");
+		source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PROBLEM, \"Matching on port {0} failed: Port is not started and the queue is empty.\", getName());\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
 		source.append("ProcedureQueueItem head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
-			source.append("//FIXME logging\n");
+			source.append("//FIXME TTCN_Logger::log_matching_failure() missing\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", getName()));\n", printedFunctionName));
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
-			source.append("//FIXME logging\n");
+			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
+			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_address), false);\n");
+			source.append("TtcnLogger.end_event_log2str();\n");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		} else {
 			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
-			source.append("//FIXME logging\n");
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.begin_event(log_sev);\n");
+			source.append("sender_template.log_match(new TitanComponent(head.sender_component), false);\n");
+			source.append("TtcnLogger.end_event_log2str();");
+			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
-		source.append("//FIXME logging\n");
+		source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!catch_template.match(head.exception_{0}, true)) '{'\n", index));
-		source.append("//FIXME logging\n");
+		if(isAddress) {
+			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
+		} else {
+			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
+			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+		}
+		source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+		source.append(MessageFormat.format("TtcnLogger.begin_event({0});\n", isAddress ? "TtcnLogger.Severity.MATCHING_PMUNSUCC" : "log_sev"));
+		source.append(MessageFormat.format("catch_template.log_match(head.exception_{0}, false);\n", index));
+		source.append("TtcnLogger.end_event_log2str();\n");
+		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
 		source.append("//FIXME set param_ref and logging\n");
@@ -1569,7 +1651,7 @@ public class PortGenerator {
 		} else {
 			source.append("sender_pointer.assign(head.sender_component);\n");
 		}
-		source.append("}\n");
+		source.append("}\n"); 
 		if (!isCheck) {
 			source.append("remove_proc_queue_head();\n");
 		}
@@ -1595,21 +1677,24 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n" );
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a call has arrived on it.\", getName()));\n");
 		source.append("}\n" );
-
 		source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PQUEUE)) {\n");
-		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_CALL, port_name, sender_component ,proc_tail_count,\n");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("sender_address ?");
-			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_PQUEUE),");
-			source.append("TtcnLogger.log_char('('), sender_address.log(), ");
-			source.append("TtcnLogger.log_char(')'), TtcnLogger.end_event_log2str() :");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
+			source.append("TtcnLogger.log_char('(');\n");
+			source.append("sender_address.log();\n");
+			source.append("TtcnLogger.log_char(')');\n");
+			source.append("TitanCharString tempLog = TtcnLogger.end_event_log2str();\n");
 		}
-		source.append("new TitanCharString(),\n");
-		source.append("(TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE),");
-		source.append("TtcnLogger.log_char(' '),");
-		source.append(" incoming_par.log(), TtcnLogger.end_event_log2str()));\n");
+		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
+		source.append("TtcnLogger.log_char(' ');\n");
+		source.append("incoming_par.log();\n");
+		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_CALL, getName(), sender_component, proc_tail_count, ");
+		if(portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("tempLog, tcnLogger.end_event_log2str());\n");
+		} else {
+			source.append("new TitanCharString(), TtcnLogger.end_event_log2str());\n");
+		}
 		source.append("}\n");
-
 		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.CALL_{0};\n", index));
 		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
@@ -1652,19 +1737,23 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n" );
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a reply has arrived on it.\", getName()));\n");
 		source.append("}\n" );
-
 		source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PQUEUE)) {\n");
-		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_REPLY, port_name, sender_component ,proc_tail_count,\n");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("sender_address ?");
-			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_PQUEUE),");
-			source.append("TtcnLogger.log_char('('), sender_address.log(), ");
-			source.append("TtcnLogger.log_char(')'), TtcnLogger.end_event_log2str() :");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
+			source.append("TtcnLogger.log_char('(');\n");
+			source.append("sender_address.log();\n");
+			source.append("TtcnLogger.log_char(')');\n");
+			source.append("TitanCharString tempLog = TtcnLogger.end_event_log2str();\n");
 		}
-		source.append("new TitanCharString(),\n");
-		source.append("(TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE),");
-		source.append("TtcnLogger.log_char(' '),");
-		source.append(" incoming_par.log(), TtcnLogger.end_event_log2str()));\n");
+		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
+		source.append("TtcnLogger.log_char(' ');\n");
+		source.append("incoming_par.log();\n");
+		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_REPLY, getName(), sender_component, proc_tail_count, ");
+		if(portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("tempLog, tcnLogger.end_event_log2str());\n");
+		} else {
+			source.append("new TitanCharString(), TtcnLogger.end_event_log2str());\n");
+		}
 		source.append("}\n");
 		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.REPLY_{0};\n", index));
@@ -1709,19 +1798,23 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n" );
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but an exception has arrived on it.\", getName()));\n");
 		source.append("}\n" );
-
 		source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PQUEUE)) {\n");
-		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_EXCEPTION, getName(), sender_component ,proc_tail_count,");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("sender_address ?");
-			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_PQUEUE),");
-			source.append("TtcnLogger.log_char('('), sender_address.log(), ");
-			source.append("TtcnLogger.log_char(')'), TtcnLogger.end_event_log2str() :");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
+			source.append("TtcnLogger.log_char('(');\n");
+			source.append("sender_address.log();\n");
+			source.append("TtcnLogger.log_char(')');\n"); 
+			source.append("TitanCharString tempLog = TtcnLogger.end_event_log2str();\n");
 		}
-		source.append("new TitanCharString(),");
-		source.append("(TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE),");
-		source.append("TtcnLogger.log_char(' '),");
-		source.append(" incoming_par.log(), TtcnLogger.end_event_log2str()));\n");
+		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
+		source.append("TtcnLogger.log_char(' ');\n");
+		source.append("incoming_par.log();\n");
+		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_EXCEPTION, getName(), sender_component, proc_tail_count, ");
+		if(portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("tempLog, tcnLogger.end_event_log2str());\n");
+		} else {
+			source.append("new TitanCharString(), TtcnLogger.end_event_log2str());\n");
+		}
 		source.append("}\n");
 		source.append("ProcedureQueueItem newItem = new ProcedureQueueItem();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.EXCEPTION_{0};\n", index));
@@ -1844,7 +1937,7 @@ public class PortGenerator {
 	 * A utility function for generating code for the standalone version of
 	 *  receive/trigger/getcall/getreply/catch/check/check-receive/check-getcall/check-getreply/check-catch/timeout/done/killed
 	 *  statements.
-	 *
+	 * 
 	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param statement the code generated for the statement as an expression.
