@@ -197,10 +197,24 @@ public final class Hexstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		if (myGovernor != null) {
+			switch (myGovernor.getTypetype()) {
+			case TYPE_BITSTRING:
+				aData.addBuiltinTypeImport( "TitanBitString" );
+				source.append(MessageFormat.format("{0}.assign(new TitanBitString(\"{1}\"));\n", name, value));
+				return source;
+			case TYPE_OCTETSTRING:
+				aData.addBuiltinTypeImport( "TitanOctetString" );
+				source.append(MessageFormat.format("{0}.assign(new TitanOctetString(\"{1}\"));\n", name, value));
+				return source;
+			default:
+				break;
+			}
+		}
+
 		aData.addBuiltinTypeImport( "TitanHexString" );
 
 		source.append(MessageFormat.format("{0}.assign(new TitanHexString(\"{1}\"));\n", name, value));
-
 		return source;
 	}
 
@@ -213,9 +227,24 @@ public final class Hexstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanHexString" );
-
 		final StringBuilder result = new StringBuilder();
+
+		if (myGovernor != null) {
+			switch (myGovernor.getTypetype()) {
+			case TYPE_BITSTRING:
+				aData.addBuiltinTypeImport( "TitanBitString" );
+				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", value));
+				return result;
+			case TYPE_OCTETSTRING:
+				aData.addBuiltinTypeImport( "TitanOctetString" );
+				result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", value));
+				return result;
+			default:
+				break;
+			}
+		}
+
+		aData.addBuiltinTypeImport( "TitanHexString" );
 		result.append(MessageFormat.format("new TitanHexString(\"{0}\")", value));
 
 		return result;
