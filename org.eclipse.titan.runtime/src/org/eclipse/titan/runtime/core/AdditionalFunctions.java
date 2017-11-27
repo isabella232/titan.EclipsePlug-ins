@@ -2352,14 +2352,14 @@ public final class AdditionalFunctions {
 		rndSeedSet = true;
 	}
 
-	public static double rndGenerate() {
+	public static TitanFloat rndGenerate() {
 		final double returnValue;
 		returnValue = random.nextDouble();
 		// FIXME: TTCN_Logger::log_random(TitanLoggerApi::RandomAction::read__out, ret_val, 0);
-		return returnValue;
+		return new TitanFloat(returnValue);
 	}
 
-	public static double rnd() {
+	public static TitanFloat rnd() {
 		if (!rndSeedSet) {
 			setRndSeed(TTCN_Snapshot.timeNow());
 		}
@@ -2367,13 +2367,13 @@ public final class AdditionalFunctions {
 		return rndGenerate();
 	}
 
-	public static double rnd(final double seed) {
+	public static TitanFloat rnd(final double seed) {
 		setRndSeed(seed);
 
 		return rndGenerate();
 	}
 
-	public static double rnd(final TitanFloat seed) {
+	public static TitanFloat rnd(final TitanFloat seed) {
 		seed.mustBound("Initializing the random number generator with an unbound float value as seed.");
 
 		setRndSeed(seed.getValue());
