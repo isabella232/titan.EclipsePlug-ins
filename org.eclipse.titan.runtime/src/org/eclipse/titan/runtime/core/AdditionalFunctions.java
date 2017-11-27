@@ -2263,7 +2263,7 @@ public final class AdditionalFunctions {
 		for (int i = 0; i < value_length; i++) {
 			final char c = chars_ptr.charAt(i);
 			final byte hexdigit = charToHexDigit(c);
-			if (hexdigit > 0x0F) {
+			if (hexdigit < 0x00) {
 				// TODO: Initial implementation
 				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
 			}
@@ -2279,7 +2279,7 @@ public final class AdditionalFunctions {
 		final char c = value.get_char();
 		final byte hexdigit = charToHexDigit(c);
 
-		if (hexdigit > 0x0F) {
+		if (hexdigit < 0x00) {
 			// TODO: Initial implementation
 			throw new TtcnError(MessageFormat.format( "The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character {0} .", c));
 		}

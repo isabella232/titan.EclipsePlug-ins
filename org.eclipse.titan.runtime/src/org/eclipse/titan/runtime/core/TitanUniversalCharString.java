@@ -302,7 +302,7 @@ public class TitanUniversalCharString extends Base_Type {
 				if (cstr.length() != aOtherValue.val_ptr.size()) {
 					return false;
 				}
-
+				
 				for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
 					if (!aOtherValue.val_ptr.get(i).is_char() || aOtherValue.val_ptr.get(i).getUc_cell() != cstr.charAt(i)){
 						return false;
@@ -696,7 +696,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public void log(){
 		if(charstring){
-			TtcnLogger.log_event_str(cstr.toString());
+			new TitanCharString(cstr).log();
 			return;
 		}
 		if (val_ptr != null) {
