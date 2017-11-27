@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.parsers.asn1parser;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
@@ -114,5 +115,10 @@ public class ASN1Analyzer implements ISourceAnalyzer {
 		actualAsn1Module = parser.getModule();
 		warnings = parser.getWarnings();
 		unsupportedConstructs = parser.getUnsupportedConstructs();
+
+		try {
+			reader.close();
+		} catch (IOException e) {
+		}
 	}
 }
