@@ -93,63 +93,63 @@ public class TitanBoolean extends Base_Type {
 	 * this or aOtherValue
 	 * originally operator or
 	 */
-	public TitanBoolean or( final boolean aOtherValue ) {
+	public boolean or( final boolean aOtherValue ) {
 		mustBound( "The left operand of or operator is an unbound boolean value." );
 
-		return new TitanBoolean( boolean_value || aOtherValue );
+		return boolean_value || aOtherValue;
 	}
 
 	/**
 	 * this or aOtherValue
 	 * originally operator or
 	 */
-	public TitanBoolean or( final TitanBoolean aOtherValue ) {
+	public boolean or( final TitanBoolean aOtherValue ) {
 		mustBound( "The left operand of or operator is an unbound boolean value." );
 		aOtherValue.mustBound( "The right operand of or operator is an unbound boolean value." );
 
-		return new TitanBoolean( boolean_value || aOtherValue.boolean_value );
+		return boolean_value || aOtherValue.boolean_value;
 	}
 
 	/**
 	 * this and aOtherValue
 	 * originally operator and
 	 */
-	public TitanBoolean and( final boolean aOtherValue ) {
+	public boolean and( final boolean aOtherValue ) {
 		mustBound( "The left operand of and operator is an unbound boolean value." );
 
-		return new TitanBoolean( boolean_value && aOtherValue );
+		return boolean_value && aOtherValue;
 	}
 
 	/**
 	 * this and aOtherValue
 	 * originally operator and
 	 */
-	public TitanBoolean and( final TitanBoolean aOtherValue ) {
+	public boolean and( final TitanBoolean aOtherValue ) {
 		mustBound( "The left operand of and operator is an unbound boolean value." );
 		aOtherValue.mustBound( "The right operand of and operator is an unbound boolean value." );
 
-		return new TitanBoolean( boolean_value && aOtherValue.boolean_value );
+		return boolean_value && aOtherValue.boolean_value;
 	}
 
 	/**
 	 * this xor aOtherValue
 	 * originally operator ^
 	 */
-	public TitanBoolean xor(final boolean aOtherValue) {
+	public boolean xor(final boolean aOtherValue) {
 		mustBound("The left operand of xor operator is an unbound boolean value.");
 
-		return new TitanBoolean( boolean_value.booleanValue() != aOtherValue);
+		return boolean_value.booleanValue() != aOtherValue;
 	}
 
 	/**
 	 * this xor aOtherValue
 	 * originally operator ^
 	 */
-	public TitanBoolean xor(final TitanBoolean aOtherValue) {
+	public boolean xor(final TitanBoolean aOtherValue) {
 		mustBound("The left operand of xor operator is an unbound boolean value.");
 		aOtherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
 
-		return new TitanBoolean( boolean_value.booleanValue() != aOtherValue.boolean_value.booleanValue());
+		return boolean_value.booleanValue() != aOtherValue.boolean_value.booleanValue();
 	}
 
 	/**
@@ -254,30 +254,30 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	//static and
-	public static TitanBoolean and(final boolean boolValue, final TitanBoolean otherValue) {
+	public static boolean and(final boolean boolValue, final TitanBoolean otherValue) {
 		if(!boolValue){
-			return new TitanBoolean(false);
+			return false;
 		}
 		otherValue.mustBound("The right operand of and operator is an unbound boolean value.");
 
-		return new TitanBoolean(otherValue.boolean_value);
+		return otherValue.boolean_value;
 	}
 
 	//static or
-	public static TitanBoolean or(final boolean boolValue, final TitanBoolean otherValue){
+	public static boolean or(final boolean boolValue, final TitanBoolean otherValue){
 		if(boolValue){
-			return new TitanBoolean(true);
+			return true;
 		}
 		otherValue.mustBound("The right operand of or operator is an unbound boolean value.");
 
-		return new TitanBoolean(otherValue.boolean_value);
+		return otherValue.boolean_value;
 	}
 
 	//static xor
-	public static TitanBoolean xor(final boolean boolValue, final TitanBoolean otherValue){
+	public static boolean xor(final boolean boolValue, final TitanBoolean otherValue){
 		otherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
 
-		return new TitanBoolean(boolValue != otherValue.boolean_value);
+		return boolValue != otherValue.boolean_value;
 	}
 
 	//static equals
