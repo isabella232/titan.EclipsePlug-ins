@@ -75,7 +75,7 @@ public class ASN1Analyzer implements ISourceAnalyzer {
 	}
 
 	@Override
-	public void parse(IFile file, String code) throws FileNotFoundException {
+	public void parse(final IFile file, final String code) throws FileNotFoundException {
 		Reader reader = null;
 
 		if (code != null) {
@@ -91,20 +91,20 @@ public class ASN1Analyzer implements ISourceAnalyzer {
 			return;
 		}
 
-		CharStream charStream = new UnbufferedCharStream(reader);
-		Asn1Lexer lexer = new Asn1Lexer(charStream);
+		final CharStream charStream = new UnbufferedCharStream(reader);
+		final Asn1Lexer lexer = new Asn1Lexer(charStream);
 		lexer.setTokenFactory(new TokenWithIndexAndSubTokensFactory(true));
 		lexer.setActualFile(file);
 		lexerListener = new ASN1Listener();
 		lexer.removeErrorListeners(); // remove ConsoleErrorListener
 		lexer.addErrorListener(lexerListener);
 
-		ModuleLevelTokenStreamTracker tracker = new ModuleLevelTokenStreamTracker(lexer);
+		final ModuleLevelTokenStreamTracker tracker = new ModuleLevelTokenStreamTracker(lexer);
 		tracker.discard(Asn1Lexer.WS);
 		tracker.discard(Asn1Lexer.MULTILINECOMMENT);
 		tracker.discard(Asn1Lexer.SINGLELINECOMMENT);
 		tracker.setActualFile(file);
-		Asn1Parser parser = new Asn1Parser(tracker);
+		final Asn1Parser parser = new Asn1Parser(tracker);
 		parser.setProject(file.getProject());
 		parser.setActualFile(file);
 		parser.setBuildParseTree(false);
