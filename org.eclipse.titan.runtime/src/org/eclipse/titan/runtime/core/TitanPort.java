@@ -177,7 +177,7 @@ public class TitanPort {
 			userStart();
 			is_started = true;
 		}
-		//TODO: TTCN_Logger::log_port_state
+		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STARTED, portName);
 	}
 
 	public static void all_start() {
@@ -205,7 +205,7 @@ public class TitanPort {
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing stop operation on port {0}, which is already stopped. The operation has no effect.", portName));
 		}
-		//TODO: TTCN_Logger::log_port_state
+		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STOPPED, portName);
 	}
 
 	public static void all_stop() {
@@ -231,7 +231,7 @@ public class TitanPort {
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", portName));
 		}
-		//TODO: TTCN_Logger::log_port_state
+		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.HALTED, portName);
 	}
 
 	public static void all_halt() {
@@ -309,14 +309,14 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		// FIXME logging
+		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, false, portName);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.RECEIVE_, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -338,14 +338,14 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		// FIXME logging
+		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, true, portName);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.RECEIVE_, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -367,14 +367,14 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		// FIXME logging
+	    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.TRIGGER_, false, false, portName);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.TRIGGER_, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -402,7 +402,7 @@ public class TitanPort {
 	//originally any_getcall
 	public static TitanAlt_Status any_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETCALL_, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -430,7 +430,7 @@ public class TitanPort {
 	//originally any_check_getcall
 	public static TitanAlt_Status any_check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETCALL_, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -458,7 +458,7 @@ public class TitanPort {
 	//originally any_getreply
 	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETREPLY_, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -486,7 +486,7 @@ public class TitanPort {
 	//originally any_check_getreply
 	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETREPLY_, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -514,7 +514,7 @@ public class TitanPort {
 	//originally any_catch
 	public static TitanAlt_Status any_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.CATCH_, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -542,7 +542,7 @@ public class TitanPort {
 	//originally any_check_catch
 	public static TitanAlt_Status any_check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+		    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.CATCH_, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -621,7 +621,7 @@ public class TitanPort {
 	//originally any_check
 	public static TitanAlt_Status any_check(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			// FIXME log error
+			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.CHECK_, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
