@@ -516,11 +516,12 @@ public final class AdditionalFunctions {
 		for (int i = n_bits - 1; i >= 0; i--) {
 			sb.append(value.getBit(i) ? '1' : '0');
 		}
-
+		//FIXME: Add an unnecessary 0 , need to check
+		/*
 		if ((n_nibbles & 1) == 1) {
 			nibbles_ptr.add((byte) 0);
 		}
-
+		 */
 		final TitanBitString temp_val = new TitanBitString(sb.toString());//TODO does reversing need this object?
 		final List<Integer> bits_ptr =  temp_val.getValue();
 
@@ -532,6 +533,10 @@ public final class AdditionalFunctions {
 				nibbles_ptr.add((byte) ((bits_ptr.get(i) >> 4) & 0x0F));
 				nibbles_ptr.add((byte) (bits_ptr.get(i) & 0x0F));
 			}
+		}
+		
+		if(nibbles_ptr.size() == 1) {
+			nibbles_ptr.add(0, (byte)0);
 		}
 
 		// hex characters to octets
@@ -1038,6 +1043,15 @@ public final class AdditionalFunctions {
 		final int value_len = value.lengthOf().getInt();
 		if(value_len == 0) {
 			throw new TtcnError("The argument of function str2float() is an empty string, which does not represent a valid float value.");
+		}
+		if(value.operatorEquals("infinity")) {
+			return new TitanFloat(Double.POSITIVE_INFINITY);
+		}
+		if(value.operatorEquals("-infinity")) {
+			return new TitanFloat(Double.NEGATIVE_INFINITY);
+		}
+		if(value.operatorEquals("not_a_number")) {
+			return new TitanFloat(Double.NaN);
 		}
 		final StringBuilder value_str = new StringBuilder();
 		value_str.append(value.getValue().toString());
