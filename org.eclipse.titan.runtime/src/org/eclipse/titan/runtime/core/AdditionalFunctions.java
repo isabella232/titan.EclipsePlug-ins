@@ -469,32 +469,17 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function bit2hex() is an unbound bitstring value.");
 
 		final int n_bits = value.lengthOf().getInt();
-		final List<Byte> ret_val = new ArrayList<Byte>();
-		final StringBuilder sb = new StringBuilder();
-
-		// reverse the order
-		for (int i = n_bits - 1; i >= 0; i--) {
-			sb.append(value.getBit(i) ? '1' : '0');
-		}
-
-		final TitanBitString temp_val = new TitanBitString(sb.toString());//TODO does reversing need this object?
-		final List<Integer> bits_ptr = temp_val.getValue();
-		// do the conversion
-		for (int i = bits_ptr.size() - 1; i >= 0; i--) {
-			if (bits_ptr.get(i) > -1 && bits_ptr.get(i) < 16) {
-				ret_val.add(bits_ptr.get(i).byteValue());
-			} else {
-				ret_val.add((byte) ((bits_ptr.get(i) >> 4) & 0x0F));
-				ret_val.add((byte) (bits_ptr.get(i) & 0x0F));
+		final int n_nibbles = (n_bits + 3)/4;
+		final int padding_bits = 4 * n_nibbles - n_bits;
+		final List<Integer> bits_ptr = value.getValue();
+		final byte nibbles_ptr[] = new byte[n_nibbles];
+		for (int i = 0; i < n_bits; i++) {
+			if ((bits_ptr.get( i / 8 ) & ( 1 << ( i % 8 ) )) != 0) {
+				nibbles_ptr[(i + padding_bits) / 8] |= 0x80 >> ((i + padding_bits + 4) % 8);
 			}
 		}
 
-		final byte result[] = new byte[ret_val.size()];
-		for (int i = 0; i < ret_val.size(); i++) {
-			result[i] = ret_val.get(i);
-		}
-
-		return new TitanHexString(result);
+		return new TitanHexString(nibbles_ptr);
 	}
 
 	public static TitanHexString bit2hex(final TitanBitString_Element value) {
@@ -508,41 +493,22 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function bit2oct() is an unbound bitstring value.");
 
 		final int n_bits = value.lengthOf().getInt();
-		final int n_nibbles = (n_bits + 3) / 4;
-		final List<Byte> nibbles_ptr = new ArrayList<Byte>();
-		final StringBuilder sb = new StringBuilder();
-
-		// reverse the order
-		for (int i = n_bits - 1; i >= 0; i--) {
-			sb.append(value.getBit(i) ? '1' : '0');
-		}
-		//FIXME: Add an unnecessary 0 , need to check
-		/*
-		if ((n_nibbles & 1) == 1) {
-			nibbles_ptr.add((byte) 0);
-		}
-		 */
-		final TitanBitString temp_val = new TitanBitString(sb.toString());//TODO does reversing need this object?
-		final List<Integer> bits_ptr =  temp_val.getValue();
+		final int n_octets = (n_bits + 7) / 8;
+		final int padding_bits = 8 * n_octets - n_bits;
+		final byte octets_ptr[] = new byte[n_octets];
+		final List<Integer> bits_ptr =  value.getValue();
 
 		// bitstring conversion to hex characters
-		for (int i = bits_ptr.size() - 1; i >= 0; i--) {
-			if (bits_ptr.get(i) > -1 && bits_ptr.get(i) < 16) {
-				nibbles_ptr.add(bits_ptr.get(i).byteValue());
-			} else {
-				nibbles_ptr.add((byte) ((bits_ptr.get(i) >> 4) & 0x0F));
-				nibbles_ptr.add((byte) (bits_ptr.get(i) & 0x0F));
+		for (int i = 0; i < n_bits; i++) {
+			if ((bits_ptr.get(i / 8) & (1 << (i % 8))) != 0) {
+				octets_ptr[(i + padding_bits) / 8] |= 0x80 >> ((i + padding_bits)%8);
 			}
 		}
-		
-		if(nibbles_ptr.size() == 1) {
-			nibbles_ptr.add(0, (byte)0);
-		}
 
-		// hex characters to octets
+		// to please the constructor
 		final List<Character> ret_val = new ArrayList<Character>();
-		for (int i = 1; i < nibbles_ptr.size(); i += 2) {
-			ret_val.add((char) ((nibbles_ptr.get(i - 1) << 4) | nibbles_ptr.get(i)));
+		for (int i = 0; i < octets_ptr.length; i++) {
+			ret_val.add((char) octets_ptr[i]);
 		}
 
 		return new TitanOctetString(ret_val);
