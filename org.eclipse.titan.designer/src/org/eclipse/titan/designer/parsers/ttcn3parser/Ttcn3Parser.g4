@@ -2325,36 +2325,42 @@ pr_BitString returns[String string]:
 	BSTRING
 {
 	$string = $start.getText().replaceAll("^\'|\'B$", "");
+	$string = $string.replaceAll("\\s+","");
 };
 
 pr_HexString returns[String string]:
 	HSTRING
 {
 	$string = $start.getText().replaceAll("^\'|\'H$", "");
+	$string = $string.replaceAll("\\s+","");
 };
 
 pr_OctetString returns[String string]:
 	OSTRING
 {
 	$string = $start.getText().replaceAll("^\'|\'O$", "");
+	$string = $string.replaceAll("\\s+","");
 };
 
 pr_BitStringMatch returns[String pattern]:
 	BSTRINGMATCH
 {
 	$pattern = $start.getText().replaceAll("^\'|\'B$", "");
+	$pattern = $pattern.replaceAll("\\s+","");
 };
 
 pr_HexStringMatch returns[String pattern]:
 	HSTRINGMATCH
 {
 	$pattern = $start.getText().replaceAll("^\'|\'H$", "");
+	$pattern = $pattern.replaceAll("\\s+","");
 };
 
 pr_OctetStringMatch returns[String pattern]:
 	OSTRINGMATCH
 {
 	$pattern = $start.getText().replaceAll("^\'|\'O$", "");
+	$pattern = $pattern.replaceAll("\\s+","");
 };
 
 pr_SubsetMatch returns[ListOfTemplates templates]
