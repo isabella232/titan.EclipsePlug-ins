@@ -946,7 +946,7 @@ public final class AdditionalFunctions {
 
 		final char c = value.get_char();
 		if (c < '0' || c > '9') {
-			// TODO: Initial implementation
+			// TODO: Reimplement once TTCN_error_begin is available
 			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character {0}, does not represent a valid integer value.", c));
 		}
 		return new TitanInteger(Integer.valueOf(c - '0'));
@@ -978,7 +978,7 @@ public final class AdditionalFunctions {
 			final char c = chars_ptr.charAt(i);
 			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit > 0x0F) {
-				// TODO: Initial implementation
+				// TODO: Reimplement once TTCN_error_begin is available
 				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
 			}
 			if (i % 2 != 0) {
@@ -1147,7 +1147,7 @@ public final class AdditionalFunctions {
 				break;
 			}
 			if(state == str2floatState.S_ERR) {
-				//TODO: Initial implementation
+				// TODO: Reimplement once TTCN_error_begin is available
 				throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Invalid character {1} was found at index {2}. ", value_str.toString(),c,i));
 			}
 		}
@@ -1165,11 +1165,11 @@ public final class AdditionalFunctions {
 			// OK now (fraction part missing)
 			break;
 		default:
-			//TODO: Initial implementation
+			// TODO: Reimplement once TTCN_error_begin is available
 			throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Premature end of the string.",value_str.toString()));
 		}
 		if(leading_ws) {
-			//TODO: Initial implementation
+			// TODO: Reimplement once TTCN_warning_begin is available
 			TtcnError.TtcnWarning(MessageFormat.format("Leading whitespace was detected in the argument of function str2float(): {0}." , value_str.toString()));
 		}
 		if(leading_zero) {
@@ -1177,7 +1177,7 @@ public final class AdditionalFunctions {
 			TtcnError.TtcnWarning(MessageFormat.format("Leading zero digit was detected in the argument of function str2float(): {0}.", value_str.toString()));
 		}
 		if(state == str2floatState.S_END) {
-			//TODO: Initial implementation
+			// TODO: Reimplement once TTCN_warning_begin is available
 			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2float(): {0}.", value_str.toString()));
 		}
 		return new TitanFloat(Double.valueOf(value_str.toString()));
@@ -2214,7 +2214,7 @@ public final class AdditionalFunctions {
 				ret_val.append('1');
 				break;
 			default:
-				// TODO: Initial implementation
+				// TODO: Reimplement once TTCN_error_begin is available
 				throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters '0' and '1' only, but character {0} was found at index {1}.", c, i));
 			}
 		}
@@ -2227,7 +2227,7 @@ public final class AdditionalFunctions {
 
 		final char c = value.get_char();
 		if (c != '0' && c != '1') {
-			// TODO: Initial implementation
+			// TODO: Reimplement once TTCN_error_begin is available
 			throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters `0' and `1' only, but the given charstring element contains the character {0}.", c));
 		}
 
@@ -2255,7 +2255,7 @@ public final class AdditionalFunctions {
 			final char c = chars_ptr.charAt(i);
 			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit < 0x00) {
-				// TODO: Initial implementation
+				// TODO: Reimplement once TTCN_error_begin is available
 				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
 			}
 			ret_val[i] = hexdigit;
@@ -2271,7 +2271,7 @@ public final class AdditionalFunctions {
 		final byte hexdigit = charToHexDigit(c);
 
 		if (hexdigit < 0x00) {
-			// TODO: Initial implementation
+			// TODO: Reimplement once TTCN_error_begin is available
 			throw new TtcnError(MessageFormat.format( "The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character {0} .", c));
 		}
 
@@ -2302,7 +2302,6 @@ public final class AdditionalFunctions {
 			for (int i = 0; i < value_length; i++) {
 				final TitanUniversalChar uchar = uchars_ptr.get(i);
 				if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
-					//TODO: Initial implementation
 					throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. "
 							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}." ,
 							uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row(),i));
@@ -2319,7 +2318,6 @@ public final class AdditionalFunctions {
 
 		final TitanUniversalChar uchar = value.get_char();
 		if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
-			// TODO: Initial implementation
 			throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. char(0, 0, 0, 127), "
 					+ "but the given universal charstring element contains the quadruple char({0}, {1}, {2}, {3})." , uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row()));
 		}
