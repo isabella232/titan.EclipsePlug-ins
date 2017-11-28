@@ -297,7 +297,7 @@ public final class TtcnLogger {
 		EXCEPTION_DOES_NOT_MATCH_TEMPLATE,
 		NOT_AN_EXCEPTION_FOR_SIGNATURE
 	}
-	
+
 	//temporary enum, original: TitanLoggerApi::MatchingProblemType.reason
 	public static enum MatchingProblemType_reason {
 		PORT_NOT_STARTED_AND_QUEUE_EMPTY,
@@ -929,19 +929,19 @@ public final class TtcnLogger {
 
 		log_event_str(MessageFormat.format("Altstep {0} was activated as default, id {1}", name, id));
 	}
-	
-	
+
+
 	public static void log_matching_problem(final MatchingProblemType_reason reason, final MatchingProblemType_operation operation, final boolean check, final boolean anyport, final String port_name) {
 		if (!log_this_event(TtcnLogger.Severity.MATCHING_PROBLEM) && (get_emergency_logging() <= 0)) {
 			return;
 		}
 		StringBuilder ret_val = new StringBuilder();
 		ret_val.append("Operation `");
-		if(anyport) {
+		if (anyport) {
 			ret_val.append("any port.");
 		}
-		
-		if(check) {
+
+		if (check) {
 			ret_val.append("check(");
 		}
 		switch (operation) {
@@ -966,18 +966,18 @@ public final class TtcnLogger {
 		default:
 			break;
 		}
-		if(check) {
+		if (check) {
 			ret_val.append(")");
 		}
 		ret_val.append("' ");
-		
-		if(port_name != null) {
+
+		if (port_name != null) {
 			ret_val.append(MessageFormat.format("on port {0} ", port_name));
 		}
 		// we could also check that any__port is false
-		
+
 		ret_val.append("failed: ");
-		
+
 		switch (reason) {
 		case COMPONENT_HAS_NO_PORTS:
 			ret_val.append("The test component does not have ports.");
