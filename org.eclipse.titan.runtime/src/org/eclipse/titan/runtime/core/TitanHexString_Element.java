@@ -7,7 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.util.List;
+
 
 public class TitanHexString_Element {
 	private boolean bound_flag;
@@ -41,8 +41,9 @@ public class TitanHexString_Element {
 		}
 
 		final StringBuilder sb = new StringBuilder();
-			final Byte digit = str_val.get_nibble(nibble_pos);
-			sb.append(TitanHexString.HEX_DIGITS.charAt(digit));
+		final Byte digit = str_val.get_nibble(nibble_pos);
+		sb.append(TitanHexString.HEX_DIGITS.charAt(digit));
+
 		return sb.toString();
 	}
 
@@ -59,7 +60,7 @@ public class TitanHexString_Element {
 	public TitanHexString_Element assign( final TitanHexString other_value ) {
 		other_value.mustBound("Assignment of unbound hexstring value.");
 
-		if (other_value.getValue().size() != 1) {
+		if (other_value.getValue().length != 1) {
 			throw new TtcnError( "Assignment of a hexstring value " +
 					"with length other than 1 to a hexstring element." );
 		}
@@ -82,7 +83,7 @@ public class TitanHexString_Element {
 		mustBound("Unbound left operand of hexstring element comparison.");
 		other_value.mustBound("Unbound right operand of hexstring element comparison.");
 
-		if (other_value.getValue().size() != 1) {
+		if (other_value.getValue().length != 1) {
 			return false;
 		}
 
@@ -94,15 +95,13 @@ public class TitanHexString_Element {
 		mustBound("Unbound left operand of hexstring element concatenation.");
 		other_value.mustBound("Unbound right operand of hexstring concatenation.");
 
-		final List<Byte> src_ptr = other_value.getValue();
-		final int n_nibbles = src_ptr.size();
-		final TitanHexString ret_val = new TitanHexString();
-		final List<Byte> dest_ptr = ret_val.getValue();
-		dest_ptr.set(0, str_val.get_nibble(nibble_pos) );
-		// bytes in the result minus 1
-		for (int i = 0; i < n_nibbles; i++) {
-			dest_ptr.set( i, src_ptr.get( i ) );
-		}
+		final byte src_ptr[] = other_value.getValue();
+		final int n_nibbles = src_ptr.length;
+		final byte dest_ptr[] = new byte[1 + n_nibbles];
+		dest_ptr[0] = str_val.get_nibble(nibble_pos);
+		System.arraycopy(src_ptr, 0, dest_ptr, 1, n_nibbles);
+
+		final TitanHexString ret_val = new TitanHexString(dest_ptr);
 		return ret_val;
 	}
 
@@ -127,7 +126,7 @@ public class TitanHexString_Element {
 		mustBound("Left operand of operator and4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator and4b is an unbound hexstring value.");
 
-		if (other_value.getValue().size() != 1) {
+		if (other_value.getValue().length != 1) {
 			throw new TtcnError("The hexstring operands of operator and4b must have the same length.");
 		}
 
@@ -149,7 +148,7 @@ public class TitanHexString_Element {
 		mustBound("Left operand of operator or4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator or4b is an unbound hexstring value.");
 
-		if (other_value.getValue().size() != 1) {
+		if (other_value.getValue().length != 1) {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
 
@@ -171,7 +170,7 @@ public class TitanHexString_Element {
 		mustBound("Left operand of operator xor4b is an unbound hexstring element.");
 		other_value.mustBound("Right operand of operator xor4b is an unbound hexstring value.");
 
-		if (other_value.getValue().size() != 1) {
+		if (other_value.getValue().length != 1) {
 			throw new TtcnError("The hexstring operands of operator xor4b must have the same length.");
 		}
 

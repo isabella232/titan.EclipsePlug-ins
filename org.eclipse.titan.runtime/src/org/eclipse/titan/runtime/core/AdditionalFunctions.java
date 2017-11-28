@@ -186,12 +186,9 @@ public final class AdditionalFunctions {
 		}
 		if (value.isNative()) {
 			int tmp_value = value.getInt();
-			final ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
-			for (int i = 0; i < length; i++) {
-				nibbles_ptr.add((byte) 0);
-			}
+			final byte nibbles_ptr[] = new byte[length];
 			for (int i = length - 1; i >= 0; i--) {
-				nibbles_ptr.set(i, (byte) (tmp_value & 0xF));
+				nibbles_ptr[i] = (byte) (tmp_value & 0xF);
 				tmp_value = tmp_value >> 4;
 			}
 
@@ -206,13 +203,10 @@ public final class AdditionalFunctions {
 			return new TitanHexString(nibbles_ptr);
 		} else {
 			BigInteger tmp_value = value.getBigInteger();
-			final ArrayList<Byte> nibbles_ptr = new ArrayList<Byte>(length);
-			for (int i = 0; i < length; i++) {
-				nibbles_ptr.add((byte) 0);
-			}
+			final byte nibbles_ptr[] = new byte[length];
 			for (int i = length - 1; i >= 0; i--) {
 				final BigInteger temp = tmp_value.and(BigInteger.valueOf(0xF));
-				nibbles_ptr.set(i, temp.byteValue());
+				nibbles_ptr[i] = temp.byteValue();
 				tmp_value = tmp_value.shiftRight(4);
 			}
 
@@ -483,7 +477,7 @@ public final class AdditionalFunctions {
 			sb.append(value.getBit(i) ? '1' : '0');
 		}
 
-		final TitanBitString temp_val = new TitanBitString(sb.toString());
+		final TitanBitString temp_val = new TitanBitString(sb.toString());//TODO does reversing need this object?
 		final List<Integer> bits_ptr = temp_val.getValue();
 		// do the conversion
 		for (int i = bits_ptr.size() - 1; i >= 0; i--) {
@@ -495,7 +489,12 @@ public final class AdditionalFunctions {
 			}
 		}
 
-		return new TitanHexString(ret_val);
+		final byte result[] = new byte[ret_val.size()];
+		for (int i = 0; i < ret_val.size(); i++) {
+			result[i] = ret_val.get(i);
+		}
+
+		return new TitanHexString(result);
 	}
 
 	public static TitanHexString bit2hex(final TitanBitString_Element value) {
@@ -522,7 +521,7 @@ public final class AdditionalFunctions {
 			nibbles_ptr.add((byte) 0);
 		}
 
-		final TitanBitString temp_val = new TitanBitString(sb.toString());
+		final TitanBitString temp_val = new TitanBitString(sb.toString());//TODO does reversing need this object?
 		final List<Integer> bits_ptr =  temp_val.getValue();
 
 		// bitstring conversion to hex characters
@@ -593,15 +592,26 @@ public final class AdditionalFunctions {
 		}
 
 		// do the conversion
-		BigInteger ret_val = BigInteger.ZERO;
-		for (int i = start_index; i < n_nibbles; i++) {
-			ret_val = ret_val.shiftLeft(4);
-			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+		if (n_nibbles - start_index < 8) {
+			//fits into native
+			int ret_val = 0;
+			for (int i = start_index; i < n_nibbles; i++) {
+				ret_val = ret_val << 4;
+				ret_val += value.get_nibble(i) & 0x0F;
+			}
+
+			return new TitanInteger(ret_val);
+		} else {
+			BigInteger ret_val = BigInteger.ZERO;
+			for (int i = start_index; i < n_nibbles; i++) {
+				ret_val = ret_val.shiftLeft(4);
+				ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+			}
+			if (ret_val.compareTo(BigInteger.valueOf((long) Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1) {
+				return new TitanInteger(ret_val.intValue());
+			}
+			return new TitanInteger(ret_val);
 		}
-		if (ret_val.compareTo(BigInteger.valueOf((long) Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1) {
-			return new TitanInteger(ret_val.intValue());
-		}
-		return new TitanInteger(ret_val);
 	}
 
 	public static TitanInteger hex2int(final TitanHexString_Element value) {
@@ -667,15 +677,16 @@ public final class AdditionalFunctions {
 
 		final int n_nibbles = value.lengthOf().getInt();
 		final int n_octets = (n_nibbles + 1) / 2;
+		final int n_padding_nibble = n_nibbles % 2;
 		final List<Character> octet_ptr = new ArrayList<Character>(n_octets);
-		final List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		final byte nibbles_ptr[] = new byte[n_nibbles + n_padding_nibble];
 
 		if ((n_nibbles & 1) == 1) {
-			nibbles_ptr.add((byte) 0);
+			nibbles_ptr[0] = (byte) 0;
 		}
-		nibbles_ptr.addAll(value.getValue());
-		for (int i = 1; i < nibbles_ptr.size(); i += 2) {
-			octet_ptr.add((char) ((nibbles_ptr.get(i - 1) << 4) | nibbles_ptr.get(i)));
+		System.arraycopy(value.getValue(), 0, nibbles_ptr, n_padding_nibble, value.getValue().length);
+		for (int i = 1; i < nibbles_ptr.length; i += 2) {
+			octet_ptr.add((char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]));
 		}
 
 		return new TitanOctetString(octet_ptr);
@@ -781,13 +792,13 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function oct2hex() is an unbound octetstring value.");
 
 		final int n_octets = value.lengthOf().getInt();
-		final List<Byte> ret_val = new ArrayList<Byte>();
+		final byte ret_val[] = new byte[n_octets * 2];
 		final List<Character> octets_ptr = new ArrayList<Character>();
 		octets_ptr.addAll(value.getValue());
 
 		for (int i = 0; i < n_octets; i++) {
-			ret_val.add((byte) ((octets_ptr.get(i) & 0xF0) >> 4));
-			ret_val.add((byte) (octets_ptr.get(i) & 0x0F));
+			ret_val[i*2] = (byte) ((octets_ptr.get(i) & 0xF0) >> 4);
+			ret_val[i*2 + 1] = (byte) (octets_ptr.get(i) & 0x0F);
 		}
 
 		return new TitanHexString(ret_val);
@@ -796,9 +807,9 @@ public final class AdditionalFunctions {
 	public static TitanHexString oct2hex(final TitanOctetString_Element value) {
 		value.mustBound("The argument of function oct2hex() is an unbound octetstring element.");
 
-		final List<Byte> ret_val = new ArrayList<Byte>();
-		ret_val.add((byte) ((value.get_nibble() & 0xF0) >> 4));
-		ret_val.add((byte) (value.get_nibble() & 0x0F));
+		final byte ret_val[] = new byte[2];
+		ret_val[0] = (byte) ((value.get_nibble() & 0xF0) >> 4);
+		ret_val[1] = (byte) (value.get_nibble() & 0x0F);
 
 		return new TitanHexString(ret_val);
 	}
@@ -1298,11 +1309,11 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound hexstring value.");
 
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "hexstring", "hexadecimal digi");
-		final List<Byte> src_ptr = value.getValue();
-		final List<Byte> ret_val = new ArrayList<Byte>();
+		final byte src_ptr[] = value.getValue();
+		final byte ret_val[] = new byte[returncount];
 
 		for (int i = 0; i < returncount; i++) {
-			ret_val.add(src_ptr.get(i + idx));
+			ret_val[i] = src_ptr[i + idx];
 		}
 
 		return new TitanHexString(ret_val);
@@ -1777,16 +1788,16 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "hexstring", "hexadecimal digit");
 
 		final int repl_len = repl.lengthOf().getInt();
-		final List<Byte> ret_val = new ArrayList<Byte>(value_len + repl_len - len);
+		final byte ret_val[] = new byte[value_len + repl_len - len];
 
 		for (int i = 0; i < idx; i++) {
-			ret_val.add(i, value.get_nibble(i));
+			ret_val[i] = value.get_nibble(i);
 		}
 		for (int i = 0; i < repl_len; i++) {
-			ret_val.add(idx + i, repl.get_nibble(i));
+			ret_val[idx + i] = repl.get_nibble(i);
 		}
 		for (int i = 0; i < value_len - idx - len; i++) {
-			ret_val.add(idx + i + repl_len, value.get_nibble(idx + i + len));
+			ret_val[idx + i + repl_len] = value.get_nibble(idx + i + len);
 		}
 
 		return new TitanHexString(ret_val);
@@ -2258,7 +2269,7 @@ public final class AdditionalFunctions {
 		final int value_length = value.lengthOf().getInt();
 		final StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.getValue().toString());
-		final List<Byte> ret_val = new ArrayList<Byte>(value_length);
+		final byte ret_val[] = new byte[value_length];
 
 		for (int i = 0; i < value_length; i++) {
 			final char c = chars_ptr.charAt(i);
@@ -2267,7 +2278,7 @@ public final class AdditionalFunctions {
 				// TODO: Initial implementation
 				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
 			}
-			ret_val.add(hexdigit);
+			ret_val[i] = hexdigit;
 		}
 
 		return new TitanHexString(ret_val);

@@ -9,7 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TTCN-3 hexstring template
@@ -31,7 +30,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 .. 15 -> 0 .. F, 16 -> ?, 17 -> *
 	 */
-	private List<Byte> pattern_value;
+	private byte pattern_value[];
 
 	/** reference counter for pattern_value */
 	private int pattern_value_ref_count;
@@ -66,7 +65,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		single_value = new TitanHexString(otherValue);
 	}
 
-	public TitanHexString_template( final List<Byte> pattern_elements ) {
+	public TitanHexString_template( final byte pattern_elements[] ) {
 		super( template_sel.STRING_PATTERN );
 		pattern_value = TitanStringUtils.copyByteList( pattern_elements );
 	}
@@ -76,14 +75,15 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		pattern_value = patternString2List( patternString );
 	}
 
-	private static List<Byte> patternString2List( final String patternString ) {
+	private static byte[] patternString2List( final String patternString ) {
 		if ( patternString == null ) {
 			throw new TtcnError("Internal error: hexstring pattern is null.");
 		}
-		final List<Byte> result = new ArrayList<Byte>();
+
+		final byte result[] = new byte[patternString.length()];
 		for ( int i = 0; i < patternString.length(); i++ ) {
 			final char patternChar = patternString.charAt(i);
-			result.add( patternChar2byte( patternChar ) );
+			result[i] = patternChar2byte( patternChar );
 		}
 		return result;
 	}
@@ -132,7 +132,6 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			if (pattern_value_ref_count > 1) {
 				pattern_value_ref_count--;
 			} else if (pattern_value_ref_count == 1) {
-				pattern_value.clear();
 				pattern_value = null;
 			} else {
 				throw new TtcnError("Internal error: Invalid reference counter in a hexstring pattern.");
@@ -183,7 +182,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	}
 
 	//originally operator=
-	public TitanHexString_template assign( final List<Byte> otherValue ) {
+	public TitanHexString_template assign( final byte otherValue[] ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
@@ -355,9 +354,9 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * The only differences are: how two elements are matched and
 	 * how an asterisk or ? is identified in the template
 	 */
-	private boolean match_pattern( final List<Byte> string_pattern, final TitanHexString string_value ) {
-		final int stringPatternSize = string_pattern.size();
-		final int stringValueNNibbles = string_value.getValue().size();
+	private boolean match_pattern( final byte string_pattern[], final TitanHexString string_value ) {
+		final int stringPatternSize = string_pattern.length;
+		final int stringValueNNibbles = string_value.getValue().length;
 		// the empty pattern matches the empty hexstring only
 		if (stringPatternSize == 0) {
 			return stringValueNNibbles == 0;
@@ -372,7 +371,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		byte hex_digit;
 
 		for (;;) {
-			pattern_element = string_pattern.get( template_index );
+			pattern_element = string_pattern[ template_index ];
 			if ( pattern_element < 16 ) {
 				/*
 				In titan core hexdigit is stored in 2 bytes:
@@ -410,7 +409,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			if ( value_index == stringValueNNibbles && template_index == stringPatternSize ) {
 				return true;
 			} else if ( template_index == stringPatternSize ) {
-				if ( string_pattern.get( template_index - 1 ) == 17 ) {
+				if ( string_pattern[ template_index - 1 ] == 17 ) {
 					return true;
 				} else if ( last_asterisk == -1) {
 					return false;
@@ -420,7 +419,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 				}
 			} else if ( value_index == stringValueNNibbles ) {
 				while ( template_index < stringPatternSize
-						&& string_pattern.get( template_index ) == 17 ) {
+						&& string_pattern[ template_index ] == 17 ) {
 					template_index++;
 				}
 
@@ -473,8 +472,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			throw new TtcnError("Performing lengthof() operation on a hexstring template containing complemented list.");
 		case STRING_PATTERN:
 			has_any_or_none = false; // TRUE if * chars in the pattern
-			for (int i = 0; i < pattern_value.size(); i++) {
-				if (pattern_value.get(i) < 17) {
+			for (int i = 0; i < pattern_value.length; i++) {
+				if (pattern_value[i] < 17) {
 					min_length++; // case of 0-F, ?
 				} else {
 					has_any_or_none = true; // case of * character
@@ -538,8 +537,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
-			for (int i = 0; i < pattern_value.size(); i++) {
-				final byte pattern = pattern_value.get(i);
+			for (int i = 0; i < pattern_value.length; i++) {
+				final byte pattern = pattern_value[i];
 				if (pattern < 16) {
 					TtcnLogger.log_hex(pattern);
 				} else if (pattern == 16) {
@@ -646,12 +645,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			}
 			break;
 		case STRING_PATTERN:
-			text_buf.push_int(pattern_value.size());
-			byte[] temp = new byte[pattern_value.size()];
-			for (int i = 0; i < pattern_value.size(); i++) {
-				temp[i] = pattern_value.get(i).byteValue();
-			}
-			text_buf.push_raw((pattern_value.size() + 7) / 8, temp);
+			text_buf.push_int(pattern_value.length);
+			text_buf.push_raw((pattern_value.length + 7) / 8, pattern_value);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported hexstring template.");
@@ -683,12 +678,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN: {
 			final int n_elements = text_buf.pull_int().getInt();
-			pattern_value = new ArrayList<Byte>(n_elements);
-			final byte[] temp = new byte[n_elements];
-			text_buf.pull_raw(n_elements, temp);
-			for (int i = 0; i < n_elements; i++) {
-				pattern_value.add(temp[i]);
-			}
+			pattern_value = new byte[n_elements];
+			text_buf.pull_raw(n_elements, pattern_value);
 			break;
 		}
 		default:

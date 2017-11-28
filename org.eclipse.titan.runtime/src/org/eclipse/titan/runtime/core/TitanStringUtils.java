@@ -21,15 +21,14 @@ public class TitanStringUtils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	static final List<Byte> copyByteList( final List<Byte> srcList ) {
-		if ( srcList == null ) {
+	static final byte[] copyByteList(final byte srcList[]) {
+		if (srcList == null) {
 			return null;
 		}
 
-		final List<Byte> newList = new ArrayList<Byte>( srcList.size() );
-		for (final Byte uc : srcList) {
-			newList.add( Byte.valueOf( uc ) );
-		}
+		final byte newList[] = new byte[srcList.length];
+		System.arraycopy(srcList, 0, newList, 0, srcList.length);
+
 		return newList;
 	}
 
