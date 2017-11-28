@@ -744,7 +744,7 @@ public class TitanPort {
 	}
 
 	// FIXME handle translation ports
-	private final void map(final String systemPort) {
+	private final void map(final String systemPort, final boolean translation) {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", portName));
 		}
@@ -768,7 +768,7 @@ public class TitanPort {
 	}
 
 	// FIXME handle translation ports
-	private final void unmap(final String systemPort) {
+	private final void unmap(final String systemPort, final boolean translation) {
 		int deletionPosition;
 		for (deletionPosition = 0; deletionPosition < systemMappings.size(); deletionPosition++) {
 			if (systemPort.equals(systemMappings.get(deletionPosition))) {
@@ -790,23 +790,37 @@ public class TitanPort {
 	}
 
 	public static void mapPort(final String componentPort, final String systemPort, final boolean translation) {
-		//FIXME this is actually more complex
-		final TitanPort port = lookupByName(componentPort, false);
+		final String port_name = translation ? systemPort : componentPort;
+		final TitanPort port = lookupByName(port_name, translation);
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Map operation refers to non-existent port {0}.", componentPort));
 		}
-		//FIXME add support for translation and single mode check
-		port.map(componentPort);
+		//FIXME this is actually more complex
+		if (translation) {
+			port.map(componentPort, translation);
+		} else {
+			port.map(systemPort, translation);
+		}
+		if (!TTCN_Runtime.isSingle()) {
+			//FIXME add send_mapped
+		}
 	}
 
 	public static void unmapPort(final String componentPort, final String systemPort, final boolean translation) {
-		//FIXME this is actually more complex
-		final TitanPort port = lookupByName(componentPort, false);
+		final String port_name = translation ? systemPort : componentPort;
+		final TitanPort port = lookupByName(port_name, translation);
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", componentPort));
 		}
-		//FIXME add support for translation and single mode check
-		port.unmap(componentPort);
+		//FIXME this is actually more complex
+		if (translation) {
+			port.unmap(componentPort, translation);
+		} else {
+			port.unmap(systemPort, translation);
+		}
+		if (!TTCN_Runtime.isSingle()) {
+			//FIXME add send_unmapped
+		}
 	}
 
 	public void setName(final String name) {
