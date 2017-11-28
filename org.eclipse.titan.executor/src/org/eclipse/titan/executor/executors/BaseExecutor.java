@@ -336,13 +336,20 @@ public abstract class BaseExecutor {
 	 * @param notificationList the list of notification to add
 	 * */
 	protected final void addNotifications(final List<Notification> notificationList) {
-		if (0 != maximumNotificationCount && notifications.size() + notificationList.size() > maximumNotificationCount * 1.2f) {
-			if (notificationList.size() > maximumNotificationCount) {
-				notifications.clear();
-			} else {
-				while (notifications.size() + notificationList.size() > maximumNotificationCount - 1) {
-					notifications.removeFirst();
-				}
+		if (maximumNotificationCount <= 0) {
+			return;
+		}
+
+		if (notificationList.size() > maximumNotificationCount * 1.2f) {
+			notifications.clear();
+			final List<Notification> subList = notificationList.subList(notificationList.size() - maximumNotificationCount - 1, notificationList.size() - 1);
+			notifications.addAll(subList);
+			return;
+		}
+
+		if (notifications.size() + notificationList.size() > maximumNotificationCount * 1.2f) {
+			while (notifications.size() + notificationList.size() > maximumNotificationCount) {
+				notifications.removeFirst();
 			}
 		}
 		notifications.addAll(notificationList);
@@ -354,9 +361,13 @@ public abstract class BaseExecutor {
 	 * @param notification the notification to add
 	 * */
 	protected final void addNotification(final Notification notification) {
+		if (maximumNotificationCount <= 0) {
+			return;
+		}
+
 		notifications.add(notification);
-		if (maximumNotificationCount != 0 && notifications.size() > maximumNotificationCount * 1.2f) {
-			while (notifications.size() > maximumNotificationCount - 1) {
+		if (notifications.size() > maximumNotificationCount * 1.2f) {
+			while (notifications.size() > maximumNotificationCount) {
 				notifications.removeFirst();
 			}
 		}

@@ -146,7 +146,7 @@ public abstract class BasePerformanceSettingsTab extends AbstractLaunchConfigura
 
 		lineCountSpinner = new Spinner(lineCountComposite, SWT.NONE);
 		lineCountSpinner.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
-		lineCountSpinner.setMinimum(0);
+		lineCountSpinner.setMinimum(10);
 		lineCountSpinner.setMaximum(1000000);
 		lineCountSpinner.setIncrement(100);
 		lineCountSpinner.setPageIncrement(10000);
