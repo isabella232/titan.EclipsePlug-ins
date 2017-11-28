@@ -475,7 +475,7 @@ public final class AdditionalFunctions {
 		final byte nibbles_ptr[] = new byte[n_nibbles];
 		for (int i = 0; i < n_bits; i++) {
 			if ((bits_ptr.get( i / 8 ) & ( 1 << ( i % 8 ) )) != 0) {
-				nibbles_ptr[(i + padding_bits) / 8] |= 0x80 >> ((i + padding_bits + 4) % 8);
+				nibbles_ptr[(i + padding_bits) / 4] |= 1 << (3 - ((i + padding_bits) % 4));
 			}
 		}
 
@@ -495,13 +495,13 @@ public final class AdditionalFunctions {
 		final int n_bits = value.lengthOf().getInt();
 		final int n_octets = (n_bits + 7) / 8;
 		final int padding_bits = 8 * n_octets - n_bits;
-		final byte octets_ptr[] = new byte[n_octets];
+		final int octets_ptr[] = new int[n_octets];
 		final List<Integer> bits_ptr =  value.getValue();
 
 		// bitstring conversion to hex characters
 		for (int i = 0; i < n_bits; i++) {
 			if ((bits_ptr.get(i / 8) & (1 << (i % 8))) != 0) {
-				octets_ptr[(i + padding_bits) / 8] |= 0x80 >> ((i + padding_bits)%8);
+				octets_ptr[(i + padding_bits) / 8] |= 1 << (7 - ((i + padding_bits) % 8));
 			}
 		}
 
