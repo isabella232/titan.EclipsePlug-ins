@@ -286,6 +286,37 @@ public final class TtcnLogger {
 		CHECK_RECEIVE_OP,
 		TRIGGER_OP
 	}
+	
+	//temporary enum, original: TitanLoggerApi::MatchingFailureType.reason
+	public static enum MatchingFailureType_reason {
+		SENDER_DOES_NOT_MATCH_FROM_CLAUSE,
+		SENDER_IS_NOT_SYSTEM,
+		MESSAGE_DOES_NOT_MATCH_TEMPLATE,
+		PARAMETERS_OF_CALL_DO_NOT_MATCH_TEMPLATE,
+		PARAMETERS_OF_REPLY_DO_NOT_MATCH_TEMPLATE,
+		EXCEPTION_DOES_NOT_MATCH_TEMPLATE,
+		NOT_AN_EXCEPTION_FOR_SIGNATURE
+	}
+	
+	//temporary enum, original: TitanLoggerApi::MatchingProblemType.reason
+	public static enum MatchingProblemType_reason {
+		PORT_NOT_STARTED_AND_QUEUE_EMPTY,
+		NO_INCOMING_TYPES,
+		NO_INCOMING_SIGNATURES,
+		NO_OUTGOING_BLOCKING_SIGNATURES,
+		NO_OUTGOING_BLOCKING_SIGNATURES_THAT_SUPPORT_EXCEPTIONS,
+		COMPONENT_HAS_NO_PORTS
+	}
+	
+	//temporary enum, original: TitanLoggerApi::MatchingProblemType.operation
+	public static enum MatchingProblemType_operation {
+		RECEIVE_,
+		TRIGGER_,
+		GETCALL_,
+		GETREPLY_,
+		CATCH_,
+		CHECK_
+	}
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
@@ -897,5 +928,78 @@ public final class TtcnLogger {
 		}
 
 		log_event_str(MessageFormat.format("Altstep {0} was activated as default, id {1}", name, id));
+	}
+	
+	
+	public static void log_matching_problem(final MatchingProblemType_reason reason, final MatchingProblemType_operation operation, final boolean check, final boolean anyport, final String port_name) {
+		if (!log_this_event(TtcnLogger.Severity.MATCHING_PROBLEM) && (get_emergency_logging() <= 0)) {
+			return;
+		}
+		StringBuilder ret_val = new StringBuilder();
+		ret_val.append("Operation `");
+		if(anyport) {
+			ret_val.append("any port.");
+		}
+		
+		if(check) {
+			ret_val.append("check(");
+		}
+		switch (operation) {
+		case RECEIVE_:
+			ret_val.append("receive");
+			break;
+		case TRIGGER_:
+			ret_val.append("trigger");
+			break;
+		case GETCALL_:
+			ret_val.append("getcall");
+			break;
+		case GETREPLY_:
+			ret_val.append("getreply");
+			break;
+		case CATCH_:
+			ret_val.append("catch");
+			break;
+		case CHECK_:
+			ret_val.append("check");
+			break;
+		default:
+			break;
+		}
+		if(check) {
+			ret_val.append(")");
+		}
+		ret_val.append("' ");
+		
+		if(port_name != null) {
+			ret_val.append(MessageFormat.format("on port {0} ", port_name));
+		}
+		// we could also check that any__port is false
+		
+		ret_val.append("failed: ");
+		
+		switch (reason) {
+		case COMPONENT_HAS_NO_PORTS:
+			ret_val.append("The test component does not have ports.");
+			break;
+		case NO_INCOMING_SIGNATURES:
+			ret_val.append("The port type does not have any incoming signatures.");
+			break;
+		case NO_INCOMING_TYPES:
+			ret_val.append("The port type does not have any incoming message types.");
+			break;
+		case NO_OUTGOING_BLOCKING_SIGNATURES:
+			ret_val.append("The port type does not have any outgoing blocking signatures.");
+			break;
+		case NO_OUTGOING_BLOCKING_SIGNATURES_THAT_SUPPORT_EXCEPTIONS:
+			ret_val.append("The port type does not have any outgoing blocking signatures that support exceptions.");
+			break;
+		case PORT_NOT_STARTED_AND_QUEUE_EMPTY:
+			ret_val.append("Port is not started and the queue is empty.");
+			break;
+		default:
+			break;
+		}
+		log_event_str(ret_val.toString());
 	}
 }
