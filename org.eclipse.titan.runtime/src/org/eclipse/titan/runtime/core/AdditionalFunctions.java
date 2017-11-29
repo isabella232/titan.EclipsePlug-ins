@@ -380,7 +380,7 @@ public final class AdditionalFunctions {
 	// C.10 - char2oct
 	public static TitanOctetString char2oct(final String value) {
 		if (value == null || value.length() <= 0) {
-			return new TitanOctetString("0");
+			return new TitanOctetString("");
 		}
 
 		final List<Character> octets_ptr = new ArrayList<Character>();
