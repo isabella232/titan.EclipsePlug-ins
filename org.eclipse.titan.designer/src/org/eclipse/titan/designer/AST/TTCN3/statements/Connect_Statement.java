@@ -229,13 +229,13 @@ public final class Connect_Statement extends Statement {
 		expression.expression.append(", ");
 		//FIXME actually _portref and based on component type
 		portReference1.generateCode(aData, expression);
-		expression.expression.append(".getName(), ");
+		expression.expression.append(".get_name(), ");
 
 		componentReference2.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
 		//FIXME actually _portref and based on component type
 		portReference2.generateCode(aData, expression);
-		expression.expression.append(".getName()");
+		expression.expression.append(".get_name()");
 		expression.expression.append(")");
 
 		expression.mergeExpression(source);

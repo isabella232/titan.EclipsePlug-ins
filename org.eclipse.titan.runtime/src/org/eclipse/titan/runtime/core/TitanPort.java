@@ -29,7 +29,7 @@ public class TitanPort {
 	// originally the list stored in system_list_head and system_list_tail
 	private static final LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
-	protected String portName;
+	protected String port_name;
 	protected int msg_head_count;
 	protected int proc_head_count;
 	//temporary variable
@@ -38,29 +38,29 @@ public class TitanPort {
 	protected boolean is_started;
 	protected boolean is_halted;
 
-	private ArrayList<String> systemMappings = new ArrayList<String>();
+	private ArrayList<String> system_mappings = new ArrayList<String>();
 
 	public TitanPort(final String portName) {
-		this.portName = portName;
+		this.port_name = portName;
 		is_active = false;
 		is_started = false;
 	}
 
 	protected TitanPort() {}
 
-	public String getName() {
-		return portName;
+	public String get_name() {
+		return port_name;
 	}
 
 	//originally PORT::add_to_list
-	private void addToList(final boolean system) {
+	private void add_to_list(final boolean system) {
 		if (system) {
 			for (TitanPort port : SYSTEM_PORTS) {
 				if (port == this) {
 					return;
 				}
-				if (port.portName.equals(portName)) {
-					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name {0}.", portName));
+				if (port.port_name.equals(port_name)) {
+					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name {0}.", port_name));
 				}
 			}
 
@@ -70,8 +70,8 @@ public class TitanPort {
 				if (port == this) {
 					return;
 				}
-				if (port.portName.equals(portName)) {
-					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name {0}.", portName));
+				if (port.port_name.equals(port_name)) {
+					throw new TtcnError(MessageFormat.format("Internal error: There are more than one ports with name {0}.", port_name));
 				}
 			}
 
@@ -80,7 +80,7 @@ public class TitanPort {
 	}
 
 	//originally PORT::remove_from_list
-	private void removeFromList(final boolean system) {
+	private void remove_from_list(final boolean system) {
 		if (system) {
 			SYSTEM_PORTS.remove(this);
 		} else {
@@ -89,16 +89,16 @@ public class TitanPort {
 	}
 
 	//originally PORT::lookup_by_name
-	private static TitanPort lookupByName(final String parameterPortName, final boolean system) {
+	private static TitanPort lookup_by_name(final String parameter_port_name, final boolean system) {
 		if (system) {
 			for (TitanPort port : SYSTEM_PORTS) {
-				if (port.portName.equals(parameterPortName)) {
+				if (port.port_name.equals(parameter_port_name)) {
 					return port;
 				}
 			}
 		} else {
 			for (TitanPort port : PORTS) {
-				if (port.portName.equals(parameterPortName)) {
+				if (port.port_name.equals(parameter_port_name)) {
 					return port;
 				}
 			}
@@ -108,9 +108,9 @@ public class TitanPort {
 	}
 
 	//originally PORT::activate_port
-	public void activatePort(final boolean system) {
+	public void activate_port(final boolean system) {
 		if (!is_active) {
-			addToList(system);
+			add_to_list(system);
 			is_active = true;
 			msg_head_count = 0;
 			proc_head_count = 0;
@@ -119,36 +119,36 @@ public class TitanPort {
 	}
 
 	//originally PORT::deactivate_port
-	public void deActivatePort(final boolean system) {
+	public void deactivate_port(final boolean system) {
 		if (is_active) {
 			//FIXME implement
-			removeFromList(system);
+			remove_from_list(system);
 			is_active = false;
 		}
 	}
 
 	// originally PORT::deactivate_all
-	public static void deactivateAll() {
+	public static void deactivate_all() {
 		final LinkedList<TitanPort> temp = new LinkedList<TitanPort>(PORTS);
 		for (TitanPort port : temp) {
-			port.deActivatePort(false);
+			port.deactivate_port(false);
 		}
 		temp.clear();
 		temp.addAll(SYSTEM_PORTS);
 		for (TitanPort port : temp) {
-			port.deActivatePort(true);
+			port.deactivate_port(true);
 		}
 	}
 
 	public void clear() {
 		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be cleared.", portName));
+			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be cleared.", port_name));
 		}
 		if (!is_started && !is_halted) {
-			TtcnError.TtcnWarning(MessageFormat.format("Performing clear operation on port {0}, which is already stopped. The operation has no effect.", portName));
+			TtcnError.TtcnWarning(MessageFormat.format("Performing clear operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 
 		}
-		clearQueue();
+		clear_queue();
 		//TODO: TTCN_Logger::log_port_misc
 	}
 
@@ -163,21 +163,21 @@ public class TitanPort {
 
 	public void start() {
 		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be started.", portName));
+			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be started.", port_name));
 		}
 		if (is_started) {
-			TtcnError.TtcnWarning(MessageFormat.format("Performing start operation on port {0}, which is already started. The operation will clear the incoming queue.", portName));
-			clearQueue();
+			TtcnError.TtcnWarning(MessageFormat.format("Performing start operation on port {0}, which is already started. The operation will clear the incoming queue.", port_name));
+			clear_queue();
 		} else {
 			if(is_halted) {
 				// the queue might contain old messages which has to be discarded
-				clearQueue();
+				clear_queue();
 				is_halted = false;
 			}
-			userStart();
+			user_start();
 			is_started = true;
 		}
-		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STARTED, portName);
+		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STARTED, port_name);
 	}
 
 	public static void all_start() {
@@ -191,21 +191,21 @@ public class TitanPort {
 
 	public void stop() {
 		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be stopped.", portName));
+			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be stopped.", port_name));
 		}
 		if(is_started) {
 			is_started = false;
 			is_halted = false;
-			userStop();
+			user_stop();
 			// dropping all messages from the queue because they cannot be extracted by receiving operations anymore
-			clearQueue();
+			clear_queue();
 		} else if(is_halted) {
 			is_halted = false;
-			clearQueue();
+			clear_queue();
 		} else {
-			TtcnError.TtcnWarning(MessageFormat.format("Performing stop operation on port {0}, which is already stopped. The operation has no effect.", portName));
+			TtcnError.TtcnWarning(MessageFormat.format("Performing stop operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 		}
-		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STOPPED, portName);
+		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STOPPED, port_name);
 	}
 
 	public static void all_stop() {
@@ -219,19 +219,19 @@ public class TitanPort {
 
 	public void halt() {
 		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be halted.", portName));
+			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be halted.", port_name));
 		}
 		if(is_started) {
 			is_started = false;
 			is_halted = true;
-			userStop();
+			user_stop();
 			// keep the messages in the queue
 		} else if(is_halted) {
-			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already halted. The operation has no effect.", portName));
+			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already halted. The operation has no effect.", port_name));
 		} else {
-			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", portName));
+			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 		}
-		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.HALTED, portName);
+		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.HALTED, port_name);
 	}
 
 	public static void all_halt() {
@@ -244,7 +244,7 @@ public class TitanPort {
 	}
 
 	//originally check_port_state
-	public boolean checkPortState(final String type) {
+	public boolean check_port_state(final String type) {
 		if ("Started".equals(type)) {
 			return is_started;
 		} else if ("Halted".equals(type)) {
@@ -254,27 +254,27 @@ public class TitanPort {
 		} else if ("Connected".equals(type)) {
 			return false;//FIXME connection_list_head
 		} else if ("Mapped".equals(type)) {
-			return !systemMappings.isEmpty();
+			return !system_mappings.isEmpty();
 		} else if ("Linked".equals(type)) {
-			return !systemMappings.isEmpty();//FIXME connection_list_head
+			return !system_mappings.isEmpty();//FIXME connection_list_head
 		}
 		throw new TtcnError(MessageFormat.format("{0} is not an allowed parameter of checkstate().", type));
 	}
 
 	//originally check_port_state
-	public boolean checkPortState(final TitanCharString type) {
-		return checkPortState(type.getValue().toString());
+	public boolean check_port_state(final TitanCharString type) {
+		return check_port_state(type.getValue().toString());
 	}
 
 	// originally any_check_port_state
-	public static boolean any_checkPortState(final String type) {
+	public static boolean any_check_port_state(final String type) {
 		for (TitanPort port : PORTS) {
-			if (port.checkPortState(type)) {
+			if (port.check_port_state(type)) {
 				return true;
 			}
 		}
 		for (TitanPort port : SYSTEM_PORTS) {
-			if (port.checkPortState(type)) {
+			if (port.check_port_state(type)) {
 				return true;
 			}
 		}
@@ -283,19 +283,19 @@ public class TitanPort {
 	}
 
 	// originally any_check_port_state
-	public static boolean any_checkPortState(final TitanCharString type) {
-		return any_checkPortState(type.getValue().toString());
+	public static boolean any_check_port_state(final TitanCharString type) {
+		return any_check_port_state(type.getValue().toString());
 	}
 
 	//originally all_check_port_state
-	public static boolean all_checkPortState(final String type) {
+	public static boolean all_check_port_state(final String type) {
 		for (TitanPort port : PORTS) {
-			if (!port.checkPortState(type)) {
+			if (!port.check_port_state(type)) {
 				return false;
 			}
 		}
 		for (TitanPort port : SYSTEM_PORTS) {
-			if (!port.checkPortState(type)) {
+			if (!port.check_port_state(type)) {
 				return false;
 			}
 		}
@@ -304,12 +304,12 @@ public class TitanPort {
 	}
 
 	//originally all_check_port_state
-	public static boolean all_checkPortState(final TitanCharString type) {
-		return all_checkPortState(type.getValue().toString());
+	public static boolean all_check_port_state(final TitanCharString type) {
+		return all_check_port_state(type.getValue().toString());
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, false, portName);
+		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, false, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
@@ -330,7 +330,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Receive operation returned unexpected status code on port {0} while evaluating `any port.receive'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Receive operation returned unexpected status code on port {0} while evaluating `any port.receive'.", port.port_name));
 			}
 		}
 
@@ -338,7 +338,7 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, true, portName);
+		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, true, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
@@ -359,7 +359,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check-receive operation returned unexpected status code on port {0} while evaluating `any port.check(receive)'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check-receive operation returned unexpected status code on port {0} while evaluating `any port.check(receive)'.", port.port_name));
 			}
 		}
 
@@ -367,7 +367,7 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-	    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.TRIGGER_, false, false, portName);
+	    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.TRIGGER_, false, false, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
@@ -388,7 +388,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Trigger operation returned unexpected status code on port {0} while evaluating `any port.trigger'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Trigger operation returned unexpected status code on port {0} while evaluating `any port.trigger'.", port.port_name));
 			}
 		}
 
@@ -416,7 +416,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Getcall operation returned unexpected status code on port {0} while evaluating `any port.getcall'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Getcall operation returned unexpected status code on port {0} while evaluating `any port.getcall'.", port.port_name));
 			}
 		}
 
@@ -444,7 +444,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check-getcall operation returned unexpected status code on port {0} while evaluating `any port.check(getcall)'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getcall operation returned unexpected status code on port {0} while evaluating `any port.check(getcall)'.", port.port_name));
 			}
 		}
 
@@ -472,7 +472,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Getreply operation returned unexpected status code on port {0} while evaluating `any port.getreply'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Getreply operation returned unexpected status code on port {0} while evaluating `any port.getreply'.", port.port_name));
 			}
 		}
 
@@ -500,7 +500,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0} while evaluating `any port.check(getreply)'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0} while evaluating `any port.check(getreply)'.", port.port_name));
 			}
 		}
 
@@ -528,7 +528,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Catch operation returned unexpected status code on port {0} while evaluating `any port.catch'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Catch operation returned unexpected status code on port {0} while evaluating `any port.catch'.", port.port_name));
 			}
 		}
 
@@ -556,7 +556,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0} while evaluating `any port.check(catch)'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0} while evaluating `any port.check(catch)'.", port.port_name));
 			}
 		}
 
@@ -574,7 +574,7 @@ public class TitanPort {
 		case ALT_NO:
 			break;
 		default:
-			throw new TtcnError(MessageFormat.format("Internal error: Check-getcall operation returned unexpected status code on port {0}.", portName));
+			throw new TtcnError(MessageFormat.format("Internal error: Check-getcall operation returned unexpected status code on port {0}.", port_name));
 		}
 		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
 			// don't try getreply if the procedure-based queue is empty
@@ -587,7 +587,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0}.", portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check-getreply operation returned unexpected status code on port {0}.", port_name));
 			}
 		}
 		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
@@ -601,7 +601,7 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0}.", portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0}.", port_name));
 			}
 		}
 		switch(check_receive(sender_template, sender_pointer, null)) {
@@ -612,7 +612,7 @@ public class TitanPort {
 		case ALT_NO:
 			break;
 		default:
-			throw new TtcnError(MessageFormat.format("Internal error: Check-receive operation returned unexpected status code on port {0}.", portName));
+			throw new TtcnError(MessageFormat.format("Internal error: Check-receive operation returned unexpected status code on port {0}.", port_name));
 		}
 
 		return returnValue;
@@ -635,21 +635,21 @@ public class TitanPort {
 			case ALT_NO:
 				break;
 			default:
-				throw new TtcnError(MessageFormat.format("Internal error: Check operation returned unexpected status code on port {0} while evaluating `any port.check'.", port.portName));
+				throw new TtcnError(MessageFormat.format("Internal error: Check operation returned unexpected status code on port {0} while evaluating `any port.check'.", port.port_name));
 			}
 		}
 
 		return returnValue;
 	}
 
-	protected void Install_Handler(final Set<SelectableChannel> readChannels, final Set<SelectableChannel> writeChannels, final double callInterval) throws IOException {
+	protected void Install_Handler(final Set<SelectableChannel> read_channels, final Set<SelectableChannel> write_channels, final double call_interval) throws IOException {
 		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Event handler cannot be installed for inactive port {0}.", portName));
+			throw new TtcnError(MessageFormat.format("Event handler cannot be installed for inactive port {0}.", port_name));
 		}
 
 		//FIXME register handler
-		if (readChannels != null) {
-			for(SelectableChannel channel : readChannels) {
+		if (read_channels != null) {
+			for(SelectableChannel channel : read_channels) {
 				channel.configureBlocking(false);
 				TTCN_Snapshot.channelMap.put(channel, this);
 				channel.register(TTCN_Snapshot.selector, SelectionKey.OP_READ);
@@ -671,37 +671,37 @@ public class TitanPort {
 		}
 	}
 
-	public void Handle_Event(final SelectableChannel channel, final boolean isReadable, final boolean isWriteable) {
+	public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
 		//FIXME implement default
 	}
 
-	protected void userMap(final String systemPort) {
+	protected void user_map(final String system_port) {
 		//default implementation is empty
 	}
 
-	protected void userUnmap(final String systemPort) {
+	protected void user_unmap(final String system_port) {
 		//default implementation is empty
 	}
 
-	protected void userStart(){
+	protected void user_start(){
 		//default implementation is empty
 	}
 
-	protected void userStop() {
+	protected void user_stop() {
 		//default implementation is empty
 	}
 
-	protected void clearQueue() {
+	protected void clear_queue() {
 		//default implementation is empty
 	}
 
 	//originally get_default_destination
-	protected int getDefaultDestination() {
+	protected int get_default_destination() {
 		//FIXME implement connection checks
-		if (systemMappings.size() > 1) {
-			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", portName));
-		} else if (systemMappings.isEmpty()) {
-			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", portName));
+		if (system_mappings.size() > 1) {
+			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", port_name));
+		} else if (system_mappings.isEmpty()) {
+			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", port_name));
 		}
 
 		return TitanComponent.SYSTEM_COMPREF;
@@ -724,7 +724,7 @@ public class TitanPort {
 	}
 
 	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
-		throw new TtcnError(MessageFormat.format("Sending messages on port {0}, is not yet supported.", getName()));
+		throw new TtcnError(MessageFormat.format("Sending messages on port {0}, is not yet supported.", get_name()));
 	}
 
 	protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
@@ -744,79 +744,79 @@ public class TitanPort {
 	}
 
 	// FIXME handle translation ports
-	private final void map(final String systemPort, final boolean translation) {
+	private final void map(final String system_port, final boolean translation) {
 		if (!is_active) {
-			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", portName));
+			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", port_name));
 		}
 
-		for (int i = 0; i < systemMappings.size(); i++) {
-			if (systemPort.equals(systemMappings.get(i))) {
+		for (int i = 0; i < system_mappings.size(); i++) {
+			if (system_port.equals(system_mappings.get(i))) {
 				TtcnError.TtcnWarning(MessageFormat.format("Port {0} is already mapped to system:{1}.\n Map operation was ignored.",
-						portName, systemPort));
+						port_name, system_port));
 				return;
 			}
 		}
 
-		userMap(systemPort);
+		user_map(system_port);
 
 		// the mapping shall be registered in the table only if user_map() was successful
-		systemMappings.add(systemPort);
-		if (systemMappings.size() > 1) {
+		system_mappings.add(system_port);
+		if (system_mappings.size() > 1) {
 			TtcnError.TtcnWarning(MessageFormat.format("Port {0} has now more than one mappings."
-					+ " Message cannot be sent on it to system even with explicit addressing.", portName));
+					+ " Message cannot be sent on it to system even with explicit addressing.", port_name));
 		}
 	}
 
 	// FIXME handle translation ports
-	private final void unmap(final String systemPort, final boolean translation) {
-		int deletionPosition;
-		for (deletionPosition = 0; deletionPosition < systemMappings.size(); deletionPosition++) {
-			if (systemPort.equals(systemMappings.get(deletionPosition))) {
+	private final void unmap(final String system_port, final boolean translation) {
+		int deletion_position;
+		for (deletion_position = 0; deletion_position < system_mappings.size(); deletion_position++) {
+			if (system_port.equals(system_mappings.get(deletion_position))) {
 				break;
 			}
 		}
 
-		if (deletionPosition >= systemMappings.size()) {
+		if (deletion_position >= system_mappings.size()) {
 			TtcnError.TtcnWarning(MessageFormat.format("Port {0} is not mapped to system:{1}. " + "Unmap operation was ignored.",
-					portName, systemPort));
+					port_name, system_port));
 			return;
 		}
 
-		systemMappings.remove(deletionPosition);
+		system_mappings.remove(deletion_position);
 
-		userUnmap(systemPort);
+		user_unmap(system_port);
 
 		// FIXME implement
 	}
 
-	public static void mapPort(final String componentPort, final String systemPort, final boolean translation) {
-		final String port_name = translation ? systemPort : componentPort;
-		final TitanPort port = lookupByName(port_name, translation);
+	public static void map_port(final String component_port, final String system_port, final boolean translation) {
+		final String port_name = translation ? system_port : component_port;
+		final TitanPort port = lookup_by_name(port_name, translation);
 		if (port == null) {
-			throw new TtcnError(MessageFormat.format("Map operation refers to non-existent port {0}.", componentPort));
+			throw new TtcnError(MessageFormat.format("Map operation refers to non-existent port {0}.", component_port));
 		}
 		//FIXME this is actually more complex
 		if (translation) {
-			port.map(componentPort, translation);
+			port.map(component_port, translation);
 		} else {
-			port.map(systemPort, translation);
+			port.map(system_port, translation);
 		}
 		if (!TTCN_Runtime.isSingle()) {
 			//FIXME add send_mapped
 		}
 	}
 
-	public static void unmapPort(final String componentPort, final String systemPort, final boolean translation) {
-		final String port_name = translation ? systemPort : componentPort;
-		final TitanPort port = lookupByName(port_name, translation);
+	public static void unmap_port(final String component_port, final String system_port, final boolean translation) {
+		final String port_name = translation ? system_port : component_port;
+		final TitanPort port = lookup_by_name(port_name, translation);
 		if (port == null) {
-			throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", componentPort));
+			throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", component_port));
 		}
 		//FIXME this is actually more complex
 		if (translation) {
-			port.unmap(componentPort, translation);
+			port.unmap(component_port, translation);
 		} else {
-			port.unmap(systemPort, translation);
+			port.unmap(system_port, translation);
 		}
 		if (!TTCN_Runtime.isSingle()) {
 			//FIXME add send_unmapped
@@ -827,10 +827,10 @@ public class TitanPort {
 		if(name == null) {
 			throw new TtcnError("Internal error: Setting an invalid name for a single element of a port array.");
 		}
-		portName = name;
+		port_name = name;
 	}
 
 	public void log() {
-		TtcnLogger.log_event("port %s", portName);
+		TtcnLogger.log_event("port %s", port_name);
 	}
 }

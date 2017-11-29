@@ -331,7 +331,7 @@ public final class TTCN_Runtime {
 		//TODO add check
 		TTCN_Default.deactivateAll();
 		TitanTimer.allStop();
-		TitanPort.deactivateAll();
+		TitanPort.deactivate_all();
 		//TODO add log
 
 		component_type_module = null;
@@ -448,7 +448,7 @@ public final class TTCN_Runtime {
 		}
 
 		//FIXME implement
-		TitanPort.mapPort(componentPort, systemPort, false);
+		TitanPort.map_port(componentPort, systemPort, false);
 	}
 
 	//originally unmap_port
@@ -491,7 +491,7 @@ public final class TTCN_Runtime {
 		}
 
 		//FIXME implement
-		TitanPort.unmapPort(componentPort, systemPort, false);
+		TitanPort.unmap_port(componentPort, systemPort, false);
 	}
 
 	public static void connectPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {

@@ -392,13 +392,13 @@ public final class Def_Port extends Definition {
 
 		sb.append(source);
 
-		aData.getInitComp().append(MessageFormat.format("{0}.activatePort(false);\n", genName));
+		aData.getInitComp().append(MessageFormat.format("{0}.activate_port(false);\n", genName));
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInitComp(final JavaGenData aData, final StringBuilder initComp, final Definition definition) {
 		initComp.append(definition.getGenNameFromScope(aData, initComp, myScope, ""));
-		initComp.append(".activatePort(false);\n");
+		initComp.append(".activate_port(false);\n");
 	}
 }

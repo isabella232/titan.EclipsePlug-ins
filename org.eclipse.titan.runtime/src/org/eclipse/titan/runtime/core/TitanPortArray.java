@@ -130,7 +130,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	public void activatePort() {
 		for (int v_index = 0; v_index < array_size; v_index++) {
 			//FIXME: TitanPort.activatePort()
-			array_elements[v_index].activatePort(false);
+			array_elements[v_index].activate_port(false);
 		}
 	}
 

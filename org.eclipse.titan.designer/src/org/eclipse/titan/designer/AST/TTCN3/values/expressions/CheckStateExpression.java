@@ -298,7 +298,7 @@ public final class CheckStateExpression extends Expression_Value {
 			expression.expression.append('.');
 		}
 
-		expression.expression.append("checkPortState(");
+		expression.expression.append("check_port_state(");
 		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(')');
 	}

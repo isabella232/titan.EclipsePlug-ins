@@ -268,7 +268,7 @@ public class AnyPortCheckStateExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanPort");
 
-		expression.expression.append("TitanPort.any_checkPortState(");
+		expression.expression.append("TitanPort.any_check_port_state(");
 		value.generateCodeExpressionMandatory(aData, expression, false);
 		expression.expression.append(')');
 	}
