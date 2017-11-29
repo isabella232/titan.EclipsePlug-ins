@@ -84,6 +84,8 @@ public class PortGenerator {
 
 		public ArrayList<procedureSignatureInfo> outProcedures = new ArrayList<PortGenerator.procedureSignatureInfo>();
 
+		public StringBuilder varDefs;
+		public StringBuilder varInit;
 
 		/** The type of the testport */
 		public TestportType testportType;
@@ -459,6 +461,16 @@ public class PortGenerator {
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
 			source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.EXTRACT_OP, portName, 0 , ++proc_head_count, new TitanCharString(), new TitanCharString());");
+			source.append("}\n\n");
+		}
+
+		if (portDefinition.varDefs != null) {
+			source.append(portDefinition.varDefs);
+		}
+		if (portDefinition.varInit != null) {
+			source.append("\n");
+			source.append("private void init_port_variables() {\n");
+			source.append(portDefinition.varInit);
 			source.append("}\n\n");
 		}
 

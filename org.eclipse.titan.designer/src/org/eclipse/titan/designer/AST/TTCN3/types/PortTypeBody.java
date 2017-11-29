@@ -44,6 +44,10 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.TypeMapping;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.TypeMappings;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.UserPortTypeAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortDefinition;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.TestportType;
@@ -121,6 +125,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private TypeMappings inMappings;
 	private TypeMappings outMappings;
 
+	private Definitions vardefs;
+
 	/** the time when this assignment was checked the last time. */
 	private CompilationTimeStamp lastTimeChecked;
 	private CompilationTimeStamp lastTimeAttributesChecked;
@@ -186,6 +192,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (outMappings == child) {
 			return builder.append(".<outMappings>");
 		}
+		if (vardefs == child) {
+			return builder.append(".<port_var>");
+		}
 
 		return builder;
 	}
@@ -235,6 +244,16 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 	}
 
+	public void addDefinitions(final List<Definition> definitions) {
+		if (vardefs == null) {
+			vardefs = new Definitions();
+		}
+
+		for (Definition def : definitions) {
+			vardefs.addDefinition(def);
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
@@ -261,6 +280,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (outMappings != null) {
 			outMappings.setMyScope(scope);
+		}
+		if (vardefs != null) {
+			vardefs.setParentScope(scope);
 		}
 	}
 
@@ -420,6 +442,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (inoutTypes != null) {
 			checkList(timestamp, inoutTypes, true, true);
+		}
+		if (vardefs != null) {
+			vardefs.check(timestamp);
 		}
 	}
 
@@ -1608,6 +1633,42 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		default:
 			portDefinition.testportType = TestportType.NORMAL;
 			//FIXME fatal error
+		}
+
+		if (vardefs != null) {
+			portDefinition.varDefs = new StringBuilder();
+			portDefinition.varInit = new StringBuilder();
+			for (int i = 0; i < vardefs.getNofAssignments(); i++) {
+				final Definition def = vardefs.getAssignmentByIndex(i);
+				String type = "";
+				switch (def.getAssignmentType()) {
+				case A_VAR:
+					type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
+					if(((Def_Var)def).getInitialValue() == null) {
+						portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
+					} else {
+						def.generateCodeInitComp(aData, portDefinition.varInit, def);
+					}
+					break;
+				case A_CONST:
+					type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
+					def.generateCodeInitComp(aData, portDefinition.varInit, def);
+					break;
+				case A_VAR_TEMPLATE:
+					type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source, myScope);
+					if(((Def_Var_Template)def).getInitialValue() == null) {
+						portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
+					} else {
+						def.generateCodeInitComp(aData, portDefinition.varInit, def);
+					}
+					break;
+				default:
+					//FATAL ERROR
+					break;
+				}
+
+				portDefinition.varDefs.append(MessageFormat.format("private {0} {1} = new {0}();\n", type, def.getGenName()));
+			}
 		}
 
 		PortGenerator.generateClass(aData, source, portDefinition);

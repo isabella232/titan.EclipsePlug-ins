@@ -1482,7 +1482,7 @@ pr_MessageAttribs returns[PortTypeBody body]
 	)?
 	pr_BeginChar
 	(	pr_MessageList[$body]
-		pr_SemiColon?
+		 
 	)+
 	pr_EndChar
 );
@@ -1503,6 +1503,7 @@ pr_MessageList[PortTypeBody body]:
 	(	pr_Comma
 		pr_MessageListInOut[body]
 	)*
+|	pr_PortElementVarDef[body] pr_SemiColon?
 );
 
 pr_MessageListIn[PortTypeBody body]:
@@ -1655,6 +1656,11 @@ pr_MixedList[PortTypeBody body]:
 (  IN		t = pr_AllOrTypeList{ $body.addInTypes($t.types); }
 |  OUT		t = pr_AllOrTypeList{ $body.addOutTypes($t.types); }
 |  INOUT	t = pr_AllOrTypeList{ $body.addInoutTypes($t.types); }
+);
+
+pr_PortElementVarDef[PortTypeBody body]:
+(  d2 = pr_VarInstance { body.addDefinitions($d2.definitions); }
+|  d4 = pr_ConstDef { body.addDefinitions($d4.array); }
 );
 
 pr_ComponentDef returns[Def_Type def_type]
