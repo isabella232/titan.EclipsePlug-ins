@@ -1002,4 +1002,35 @@ public final class TtcnLogger {
 		}
 		log_event_str(ret_val.toString());
 	}
+	
+	//temporary enum, original: TitanLoggerApi::RandomAction
+	public static enum RandomAction {
+		seed,
+		read_out,
+		UNBOUND_VALUE,
+		UNKNOWN_VALUE
+	}
+	
+	public static void log_random(final RandomAction rndAction, double value, long seed) {
+		if (!log_this_event(Severity.FUNCTION_RND) && get_emergency_logging() <= 0) {
+			return;
+		}
+		
+		StringBuilder ret_val = new StringBuilder();
+		
+		switch (rndAction) {
+		case seed:
+			ret_val.append(MessageFormat.format( "Random number generator was initialized with seed {0}: {1}",value,seed));
+			break;
+		case read_out:
+			ret_val.append(MessageFormat.format("Function rnd() returned {0}.", value));
+			break;
+		case UNBOUND_VALUE:
+		case UNKNOWN_VALUE:
+		default:
+			break;
+		}
+		
+		log_line(Severity.FUNCTION_RND,ret_val.toString());
+	}
 }
