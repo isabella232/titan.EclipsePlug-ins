@@ -1482,7 +1482,7 @@ pr_MessageAttribs returns[PortTypeBody body]
 	)?
 	pr_BeginChar
 	(	pr_MessageList[$body]
-		 
+		pr_SemiColon?
 	)+
 	pr_EndChar
 );
@@ -1503,7 +1503,7 @@ pr_MessageList[PortTypeBody body]:
 	(	pr_Comma
 		pr_MessageListInOut[body]
 	)*
-|	pr_PortElementVarDef[body] pr_SemiColon?
+|	pr_PortElementVarDef[body]
 );
 
 pr_MessageListIn[PortTypeBody body]:
