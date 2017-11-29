@@ -597,7 +597,7 @@ public final class AdditionalFunctions {
 
 		final int n_nibbles = value.lengthOf().getInt();
 		final List<Integer> bits_ptr = new ArrayList<Integer>();
-		final List<Byte> nibbles_ptr = new ArrayList<Byte>();
+		final List<Byte> nibbles_ptr = new ArrayList<Byte>(n_nibbles);
 		for (int i = n_nibbles; i > 0; i--) {
 			nibbles_ptr.add(value.get_nibble(n_nibbles - i));
 		}
@@ -636,7 +636,7 @@ public final class AdditionalFunctions {
 
 		bits = (byte) ((bits & 0xCC) >> 2 | (bits & 0x33) << 2);
 		bits = (byte) ((bits & 0xAA) >> 1 | (bits & 0x55) << 1);
-		final List<Integer> bits_ptr = new ArrayList<Integer>();
+		final List<Integer> bits_ptr = new ArrayList<Integer>(1);
 		bits_ptr.add((int)bits);
 
 		return new TitanBitString(bits_ptr, 4);
@@ -727,8 +727,8 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function oct2bit() is an unbound octetstring value.");
 
 		final int n_octets = value.lengthOf().getInt();
-		final List<Integer> bits_ptr = new ArrayList<Integer>();
-		final List<Character> octets_ptr = new ArrayList<Character>();
+		final List<Integer> bits_ptr = new ArrayList<Integer>(n_octets);
+		final List<Character> octets_ptr = new ArrayList<Character>(n_octets);
 		octets_ptr.addAll(value.getValue());
 
 		for (int i = 0; i < n_octets; i++) {
