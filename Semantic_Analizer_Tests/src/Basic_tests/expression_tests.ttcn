@@ -2159,8 +2159,9 @@ function f_str2floatOperationTests()
   const charstring cl_charstring4 := "-5.5";
   const charstring cl_charstring5 := "-0.0";
   const charstring cl_charstring6 := "5.5e2";
-  const charstring cl_charstring7 := " INF ";
-  const charstring cl_charstring8 := " -INF ";
+  const charstring cl_charstring7 := "infinity";
+  const charstring cl_charstring8 := "-infinity";
+  const charstring cl_charstring9 := "not_a_number";
 
   {const float	cl_i := str2float("0101");}
   {const float	cl_i := str2float("5.5");}
@@ -2168,8 +2169,8 @@ function f_str2floatOperationTests()
   {const float	cl_i := str2float("-5.5");}
   {const float	cl_i := str2float("-0.0");}
   {const float	cl_i := str2float("5.5e2");}
-  {const float	cl_i := str2float(" INF ");}
-  {const float	cl_i := str2float(" -INF ");}
+  {const float	cl_i := str2float("infinity");}
+  {const float	cl_i := str2float("-infinity");}
   {const float	cl_i := str2float("1");}
   {const float	cl_i := str2float("-1");}
   {const float	cl_i := str2float("-1.");}
@@ -2191,14 +2192,16 @@ function f_str2floatOperationTests()
   {const float	cl_i := str2float(cl_charstring6);}
   {const float	cl_i := str2float(cl_charstring7);}
   {const float	cl_i := str2float(cl_charstring8);}
-
+  {const float	cl_i := str2float(cl_charstring9);}
+  
   {if (str2float("0101") == 101.0) {}
    if (str2float("5.5") == 5.5) {}
    if (str2float("5.") == 5.0) {}
    if (str2float("+5.5") == 5.5) {}
    if (str2float("-5.5") == -5.5) {}
-   if (str2float("INF") == infinity) {}
-   if (str2float("-INF") == -infinity) {}
+   if (str2float("infinity") == infinity) {}
+   if (str2float("-infinity") == -infinity) {}
+   if (str2float("not_a_number") == not_a_number) {}
   }
 
   {var float 	vl_i := str2float( omit );}
