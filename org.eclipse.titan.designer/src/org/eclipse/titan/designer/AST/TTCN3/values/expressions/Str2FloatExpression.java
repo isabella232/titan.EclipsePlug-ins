@@ -140,7 +140,7 @@ public final class Str2FloatExpression extends Expression_Value {
 			if (!last.isUnfoldable(timestamp)) {
 				String string = ((Charstring_Value) last).getValue();
 				string = string.trim();
-				if (!"-INF".equals(string) && !"INF".equals(string)) {
+				if (!"-infinity".equals(string) && !"infinity".equals(string) && !"not_a_number".equals(string)){
 					try {
 						Double.parseDouble(string);
 					} catch (NumberFormatException e) {

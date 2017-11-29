@@ -373,7 +373,8 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	//expression_tests_ttcn
+	
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1491);
@@ -1461,7 +1462,7 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2bit' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("The operand of the `str2bit' operation can contain only binary digits",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 54;
+		lineNum += 57;
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2float' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1878,7 +1879,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> negativeTesting_ttcn_initializer() {
 		//negativeTesting.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(73);
