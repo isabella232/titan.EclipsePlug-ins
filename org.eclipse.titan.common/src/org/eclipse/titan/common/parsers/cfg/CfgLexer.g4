@@ -1046,6 +1046,7 @@ NULLKeyword9:		'null' | 'NULL';
 MTCKeyword9:		'mtc';
 SYSTEMKeyword9:		'system';
 INFINITYKeyword9:	'infinity';
+NANKeyword9:		'not_a_number';
 IFPRESENTKeyword9:	'ifpresent';
 LENGTHKeyword9:		'length';
 COMPLEMENTKEYWORD9:	'complement';
