@@ -66,7 +66,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for type `integer''";
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for type `integer''";
 	private static final String INCORRECTBOUNDARIES = "The lower boundary is higher than the upper boundary";
-	private static final String INCORRECTLOWERBOUNDARY = "The lower boundary cannot be +infinity";
+	private static final String INCORRECTLOWERBOUNDARY = "The lower boundary cannot be infinity";
 	private static final String INCORRECTUPPERBOUNDARY = "The upper boundary cannot be -infinity";
 
 	private final Block mBlock;

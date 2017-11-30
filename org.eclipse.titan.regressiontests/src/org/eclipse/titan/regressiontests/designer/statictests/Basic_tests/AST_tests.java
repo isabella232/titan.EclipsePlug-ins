@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1499);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1491);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1461,18 +1461,7 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2bit' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("The operand of the `str2bit' operation can contain only binary digits",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 21;
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is infinity, does not represent a valid float value. Invalid character i was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is -infinity, does not represent a valid float value. Invalid character i was found at index 1. ",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 20;
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is infinity, does not represent a valid float value. Invalid character i was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is -infinity, does not represent a valid float value. Invalid character i was found at index 1. ",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is not_a_number, does not represent a valid float value. Invalid character n was found at index 0. ",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 7;
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is infinity, does not represent a valid float value. Invalid character i was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is -infinity, does not represent a valid float value. Invalid character i was found at index 1. ",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is not_a_number, does not represent a valid float value. Invalid character n was found at index 0. ",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 4;
+		lineNum += 57;
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2float' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -7450,7 +7439,7 @@ public class AST_tests {
 		}
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("The lower boundary is higher than the upper boundary",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("The lower boundary cannot be +infinity",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The lower boundary cannot be infinity",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The upper boundary cannot be -infinity",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 1;
 		for (i = 0; i < 4; i++) {
@@ -11451,7 +11440,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template `@value_tests2.t_f'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type mismatch: a value of type `integer' was expected instead of `float'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("The lower boundary cannot be +infinity",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The lower boundary cannot be infinity",  lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("The upper boundary cannot be -infinity", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -11460,7 +11449,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template `@value_tests2.t_f'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type mismatch: a value of type `integer' was expected instead of `float'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("The lower boundary cannot be +infinity",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The lower boundary cannot be infinity",  lineNum, IMarker.SEVERITY_ERROR));
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("The upper boundary cannot be -infinity", lineNum++, IMarker.SEVERITY_ERROR));
 		}

@@ -138,7 +138,7 @@ public class Ttcn3Float {
 			return "not_a_number";
 		} else if (Double.isInfinite(value)) {
 			if( Double.compare(value,0)>0) {
-				return "+infinity";
+				return "infinity";
 			} else {
 				return "-infinity";
 			}

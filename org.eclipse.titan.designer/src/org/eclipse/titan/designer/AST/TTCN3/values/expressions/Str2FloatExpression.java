@@ -144,6 +144,9 @@ public final class Str2FloatExpression extends Expression_Value {
 			if (!last.isUnfoldable(timestamp)) {
 				String string = ((Charstring_Value) last).getValue();
 				string = string.trim();
+				if (string.equals("infinity") || string.equals("-infinity") ||string.equals("not_a_number")){
+					return;
+				}
 				str2floatState state = str2floatState.S_INITIAL;
 				// state: expected characters
 				// S_INITIAL: +, -, first digit of integer part in mantissa,

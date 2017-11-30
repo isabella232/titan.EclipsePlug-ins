@@ -27,7 +27,7 @@ public final class TTCN3Keywords {
 		"break", "case", "component", "const", "continue", "control", "deactivate", "display", "do", "else", "encode", "enumerated",
 		"except", "exception", "execute", "extends", "extension", "external", "for", "from", "function", "goto", "group", "if",
 		"import", "in", "infinity", "inout", "interleave", "label", "language", "length", "log", "log2str", "match", "message",
-		"mixed", "mod", "modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "nowait", "of", "on", "optional", "or",
+		"mixed", "mod", "modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "not_a_number", "nowait", "of", "on", "optional", "or",
 		"or4b", "out", "override", "param", "pattern", "port", "procedure", "record", "recursive", "rem", "repeat", "return", "runs",
 		"select", "self", "sender", "set", "signature", "system", "template", "testcase", "to", "type", "union", "value", "valueof",
 		"var", "variant", "while", "with", "xor", "xor4b", "complement", "ifpresent", "subset", "superset", "permutation", "anytype",
@@ -58,7 +58,7 @@ public final class TTCN3Keywords {
 	public static final String[] COMPONENT_SCOPE = new String[] { "const", "template", "var", "port", };
 
 	public static final String[] GENERALLY_USABLE = new String[] { "address", "and", "and4b", "infinity", "ifpresent", "length", "lengthof",
-		"mod", "not", "not4b", "or", "or4b", "xor", "xor4b", "pattern", "rem", "valueof", "subset", "superset", "permutation",
+		"mod", "not", "not4b", "not_a_number","or", "or4b", "xor", "xor4b", "pattern", "rem", "valueof", "subset", "superset", "permutation",
 		"anytype", "bitstring", "boolean", "char", "charstring", "default", "float", "hexstring", "integer", "objid", "octetstring",
 		"universal", "verdicttype", "timer", "apply", "derefers", "refers", "ischosen", "ispresent", "regexp", "replace", "rnd",
 		"sizeof", "substr", "true", "false", "none", "pass", "inconc", "fail", "error", "null", "NULL", "omit", "bit2hex", "bit2int",

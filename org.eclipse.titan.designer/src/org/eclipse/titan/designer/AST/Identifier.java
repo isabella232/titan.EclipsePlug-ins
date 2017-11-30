@@ -492,6 +492,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 		{"noblock__", "noblock", "noblock_"},
 		{"none__", "none", "none_"},
 		{"not4b__", "not4b", "not4b_"},
+		{"not__a__number__","not-a-number","not_a_number_"},
 		{"nowait__", "nowait", "nowait_"},
 		{"null__", "null", "null_"},
 		{"objid__", "objid", "objid_"},
