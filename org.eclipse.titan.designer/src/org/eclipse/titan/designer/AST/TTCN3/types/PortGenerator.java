@@ -833,7 +833,12 @@ public class PortGenerator {
 		source.append("//FIXME report error \n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
-		source.append("//FIXME implement\n");
+		source.append("final TtcnLogger.Severity log_sev = TtcnLogger.Severity.MATCHING_MMUNSUCC;\n");
+		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
+		source.append("TtcnLogger.begin_event(log_sev);\n");
+		source.append("value_template.log_match(my_head.message, false);\n");
+		source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.MESSAGE_, get_name(), my_head.sender_component, TtcnLogger.MatchingFailureType_reason.MESSAGE_DOES_NOT_MATCH_TEMPLATE, TtcnLogger.end_event_log2str());\n");
+		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
 		source.append("if (value_redirect != null) {\n");
@@ -903,10 +908,9 @@ public class PortGenerator {
 		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
 		source.append("final TtcnLogger.Severity log_sev = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMUNSUCC : TtcnLogger.Severity.MATCHING_MCUNSUCC;\n");
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
-		source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
 		source.append("TtcnLogger.begin_event(log_sev);\n");
 		source.append(MessageFormat.format("value_template.log_match(my_head.message, false);\n", index));
-		source.append("TtcnLogger.end_event_log2str();\n");
+		source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.MESSAGE_, get_name(), my_head.sender_component, TtcnLogger.MatchingFailureType_reason.MESSAGE_DOES_NOT_MATCH_TEMPLATE, TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
