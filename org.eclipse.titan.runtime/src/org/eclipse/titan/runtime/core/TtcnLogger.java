@@ -319,6 +319,12 @@ public final class TtcnLogger {
 		CATCH_,
 		CHECK_
 	}
+	
+	//temporary enum, original: TitanLoggerApi::PortType
+	public static enum PortType {
+		MESSAGE_,
+		PROCEDURE_
+	}
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
@@ -1004,6 +1010,7 @@ public final class TtcnLogger {
 		}
 		log_event_str(ret_val.toString());
 	}
+
 	
 	//temporary enum, original: TitanLoggerApi::RandomAction
 	public static enum RandomAction {
@@ -1034,5 +1041,45 @@ public final class TtcnLogger {
 		}
 		
 		log_line(Severity.FUNCTION_RND,ret_val.toString());
+	}
+	
+	public static void log_matching_failure(final PortType port_type, final String port_name, final int compref, final MatchingFailureType_reason reason, final TitanCharString info) {
+		Severity sev;
+		boolean is_call = false;
+		if(compref == TitanComponent.SYSTEM_COMPREF) {
+			sev = (port_type == PortType.MESSAGE_) ? Severity.MATCHING_MMUNSUCC : Severity.MATCHING_PMUNSUCC;
+		} else {
+			sev = (port_type == PortType.MESSAGE_) ? Severity.MATCHING_MCUNSUCC : Severity.MATCHING_PCUNSUCC;
+		}
+		if(!log_this_event(sev) && (get_emergency_logging() <= 0)) {
+			return;
+		}
+		
+		StringBuilder ret_val = new StringBuilder();
+		switch (reason) {
+		case MESSAGE_DOES_NOT_MATCH_TEMPLATE:
+			ret_val.append(MessageFormat.format("Matching on port {0} {1}: First message in the queue does not match the template: ", port_name, info.toString()));
+			break;
+		case EXCEPTION_DOES_NOT_MATCH_TEMPLATE:
+			ret_val.append(MessageFormat.format("Matching on port {0} failed: The first exception in the queue does not match the template: {1}", port_name, info.toString()));
+			break;
+		case PARAMETERS_OF_CALL_DO_NOT_MATCH_TEMPLATE:
+			is_call = true; // fall through
+		case PARAMETERS_OF_REPLY_DO_NOT_MATCH_TEMPLATE:
+			ret_val.append(MessageFormat.format("Matching on port {0} failed: The parameters of the first {1} in the queue do not match the template: {2}", port_name, is_call ? "call" : "reply", info.toString()));
+			break;
+		case SENDER_DOES_NOT_MATCH_FROM_CLAUSE:
+			ret_val.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: {1}", port_name, info.toString()));
+			break;
+		case SENDER_IS_NOT_SYSTEM:
+			ret_val.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue is not the system.", port_name));
+			break;
+		case NOT_AN_EXCEPTION_FOR_SIGNATURE:
+			ret_val.append(MessageFormat.format("Matching on port {0} failed: The first entity in the queue is not an exception for signature {1}.", port_name, info.toString()));
+			break;
+		default:
+			break;
+		}
+		log_event_str(ret_val.toString());
 	}
 }
