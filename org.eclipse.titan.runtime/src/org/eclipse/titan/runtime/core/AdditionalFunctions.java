@@ -715,16 +715,28 @@ public final class AdditionalFunctions {
 		}
 
 		// do the conversion
-		BigInteger ret_val = BigInteger.ZERO;
-		for (int i = start_index; i < n_octets; i++) {
-			ret_val = ret_val.shiftLeft(8);
-			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
-			ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+		if (n_octets - start_index < 4) {
+			//fits into native
+			int ret_val = 0;
+			for (int i = start_index; i < n_octets; i++) {
+				ret_val = ret_val << 8;
+				ret_val += value.get_nibble(i) & 0xF0;
+				ret_val += value.get_nibble(i) & 0x0F;
+			}
+
+			return new TitanInteger(ret_val);
+		} else {
+			BigInteger ret_val = BigInteger.ZERO;
+			for (int i = start_index; i < n_octets; i++) {
+				ret_val = ret_val.shiftLeft(8);
+				ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
+				ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+			}
+			if (ret_val.compareTo(BigInteger.valueOf((long) Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1) {
+				return new TitanInteger(ret_val.intValue());
+			}
+			return new TitanInteger(ret_val);
 		}
-		if (ret_val.compareTo(BigInteger.valueOf((long) Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1) {
-			return new TitanInteger(ret_val.intValue());
-		}
-		return new TitanInteger(ret_val);
 	}
 
 	public static TitanInteger oct2int(final TitanOctetString_Element value) {
