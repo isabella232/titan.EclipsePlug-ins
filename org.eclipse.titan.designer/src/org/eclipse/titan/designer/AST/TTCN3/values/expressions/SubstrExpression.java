@@ -615,11 +615,17 @@ public final class SubstrExpression extends Expression_Value {
 		case TYPE_HEXSTRING:
 		case TYPE_OCTETSTRING:
 		case TYPE_CHARSTRING:
-		case TYPE_UCHARSTRING:
+		case TYPE_UCHARSTRING: {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
 			expression.expression.append("AdditionalFunctions.subString( ");
-			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			final ITTCN3Template temp = templateInstance1.getTemplateBody();
+			if (temp.isValue(CompilationTimeStamp.getBaseTimestamp())) {
+				final IValue value = temp.getValue();
+				value.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			}
 			expression.expression.append(", ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
 				lastValue2.generateCodeExpressionMandatory(aData, expression, true);
@@ -636,6 +642,7 @@ public final class SubstrExpression extends Expression_Value {
 			}
 			expression.expression.append(')');
 			break;
+		}
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
 			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
