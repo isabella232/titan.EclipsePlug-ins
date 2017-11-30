@@ -110,14 +110,14 @@ public final class AdditionalFunctions {
 
 		if (value.isNative()) {
 			int tempValue = value.getInt();
-			final ArrayList<Integer> bits_ptr = new ArrayList<Integer>((length + 7) / 8);
+			final int bits_ptr[] = new int[(length + 7) / 8];
 			for (int i = 0; i < (length + 7) / 8; i++) {
-				bits_ptr.add(Integer.valueOf((int)0));
+				bits_ptr[i] = 0;
 			}
 			for (int i = length - 1; tempValue != 0 && i >= 0; i--) {
-				if((tempValue & 1) > 0) {
-					final int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
-					bits_ptr.set(i / 8, Integer.valueOf((int) temp));
+				if ((tempValue & 1) > 0) {
+					final int temp = bits_ptr[i / 8] | (1 << (i % 8));
+					bits_ptr[i / 8] = temp;
 				}
 				tempValue = tempValue >> 1;
 			}
@@ -133,14 +133,14 @@ public final class AdditionalFunctions {
 			return new TitanBitString(bits_ptr, length);
 		} else {
 			BigInteger tempValue = value.getBigInteger();
-			final ArrayList<Integer> bits_ptr = new ArrayList<Integer>((length + 7) / 8);
+			final int bits_ptr[] = new int[(length + 7) / 8];
 			for (int i = 0; i < (length + 7) / 8; i++) {
-				bits_ptr.add(Integer.valueOf((int)0));
+				bits_ptr[i] = 0;
 			}
 			for (int i = length - 1; tempValue.compareTo(BigInteger.ZERO) == 1 && i >= 0; i--) {
-				if((tempValue.and(BigInteger.ONE)).compareTo(BigInteger.ZERO) == 1) {
-					final int temp = bits_ptr.get(i / 8) | (1 << (i % 8));
-					bits_ptr.set(i / 8, Integer.valueOf((int) temp));
+				if ((tempValue.and(BigInteger.ONE)).compareTo(BigInteger.ZERO) == 1) {
+					final int temp = bits_ptr[i / 8] | (1 << (i % 8));
+					bits_ptr[i / 8] = temp;
 				}
 				tempValue = tempValue.shiftRight(1);
 			}
@@ -435,27 +435,41 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");
 
 		final int n_bits = value.lengthOf().getInt();
-		final List<Integer> temp = value.getValue();
+		final int temp[] = value.getValue();
 
 		// skip the leading zero bits
 		int start_index = 0;
 		for (; start_index < n_bits; start_index++) {
-			if ((temp.get(start_index / 8) & (1 << (start_index % 8))) != 0) {
+			if ((temp[start_index / 8] & (1 << (start_index % 8))) != 0) {
 				break;
 			}
 		}
+
 		// do the conversion
-		BigInteger ret_val = BigInteger.ZERO;
-		for (int i = start_index; i < n_bits; i++) {
-			ret_val = ret_val.shiftLeft(1);
-			if ((temp.get(i / 8) & (1 << (i % 8))) != 0) {
-				ret_val = ret_val.add(BigInteger.ONE);
+		if (n_bits - start_index < 32) {
+			//fits into native
+			int ret_val = 0;
+			for (int i = start_index; i < n_bits; i++) {
+				ret_val = ret_val << 1;
+				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
+					ret_val += 1;
+				}
 			}
+
+			return new TitanInteger(ret_val);
+		} else {
+			BigInteger ret_val = BigInteger.ZERO;
+			for (int i = start_index; i < n_bits; i++) {
+				ret_val = ret_val.shiftLeft(1);
+				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
+					ret_val = ret_val.add(BigInteger.ONE);
+				}
+			}
+			if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
+				return new TitanInteger(ret_val.intValue());
+			}
+			return new TitanInteger(ret_val);
 		}
-		if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
-			return new TitanInteger(ret_val.intValue());
-		}
-		return new TitanInteger(ret_val);
 	}
 
 	public static TitanInteger bit2int(final TitanBitString_Element value) {
@@ -469,12 +483,12 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function bit2hex() is an unbound bitstring value.");
 
 		final int n_bits = value.lengthOf().getInt();
-		final int n_nibbles = (n_bits + 3)/4;
+		final int n_nibbles = (n_bits + 3) / 4;
 		final int padding_bits = 4 * n_nibbles - n_bits;
-		final List<Integer> bits_ptr = value.getValue();
+		final int bits_ptr[] = value.getValue();
 		final byte nibbles_ptr[] = new byte[n_nibbles];
 		for (int i = 0; i < n_bits; i++) {
-			if ((bits_ptr.get( i / 8 ) & ( 1 << ( i % 8 ) )) != 0) {
+			if ((bits_ptr[i / 8] & (1 << (i % 8))) != 0) {
 				nibbles_ptr[(i + padding_bits) / 4] |= 1 << (3 - ((i + padding_bits) % 4));
 			}
 		}
@@ -496,17 +510,17 @@ public final class AdditionalFunctions {
 		final int n_octets = (n_bits + 7) / 8;
 		final int padding_bits = 8 * n_octets - n_bits;
 		final int octets_ptr[] = new int[n_octets];
-		final List<Integer> bits_ptr =  value.getValue();
+		final int bits_ptr[] =  value.getValue();
 
 		// bitstring conversion to hex characters
 		for (int i = 0; i < n_bits; i++) {
-			if ((bits_ptr.get(i / 8) & (1 << (i % 8))) != 0) {
+			if ((bits_ptr[i / 8] & (1 << (i % 8))) != 0) {
 				octets_ptr[(i + padding_bits) / 8] |= 1 << (7 - ((i + padding_bits) % 8));
 			}
 		}
 
 		// to please the constructor
-		final List<Character> ret_val = new ArrayList<Character>();
+		final List<Character> ret_val = new ArrayList<Character>(octets_ptr.length);
 		for (int i = 0; i < octets_ptr.length; i++) {
 			ret_val.add((char) octets_ptr[i]);
 		}
@@ -596,14 +610,14 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function hex2bit() is an unbound hexstring value.");
 
 		final int n_nibbles = value.lengthOf().getInt();
-		final List<Integer> bits_ptr = new ArrayList<Integer>();
+		final int bits_ptr[] = new int[(n_nibbles + 1) / 2];
 
 		if (n_nibbles == 1) {
 			int temp = value.get_nibble(0);
 			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
 			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
 
-			bits_ptr.add(temp);
+			bits_ptr[0] = temp;
 
 			return new TitanBitString(bits_ptr, 4);
 		}
@@ -614,16 +628,16 @@ public final class AdditionalFunctions {
 			temp = (int) (temp << 4);
 			temp = (int) (temp | nibbles_ptr[i + 1]);
 
-			bits_ptr.add(temp);
+			bits_ptr[i / 2] = temp;
 		}
 
-		for (int i = 0; i < n_nibbles/2; i++) {
-			int temp = bits_ptr.get(i);
+		for (int i = 0; i < n_nibbles / 2; i++) {
+			int temp = bits_ptr[i];
 			temp = (int) ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
 			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
 			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
 
-			bits_ptr.set(i, temp);
+			bits_ptr[i] = temp;
 		}
 
 		return new TitanBitString(bits_ptr, 4 * n_nibbles);
@@ -633,11 +647,11 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function hex2bit() is an unbound hexstring element.");
 
 		byte bits = (byte) value.get_nibble();
-
 		bits = (byte) ((bits & 0xCC) >> 2 | (bits & 0x33) << 2);
 		bits = (byte) ((bits & 0xAA) >> 1 | (bits & 0x55) << 1);
-		final List<Integer> bits_ptr = new ArrayList<Integer>(1);
-		bits_ptr.add((int)bits);
+
+		final int bits_ptr[] = new int[1];
+		bits_ptr[0] = (int) bits;
 
 		return new TitanBitString(bits_ptr, 4);
 	}
@@ -727,7 +741,7 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function oct2bit() is an unbound octetstring value.");
 
 		final int n_octets = value.lengthOf().getInt();
-		final List<Integer> bits_ptr = new ArrayList<Integer>(n_octets);
+		final int bits_ptr[] = new int[n_octets];
 		final List<Character> octets_ptr = new ArrayList<Character>(n_octets);
 		octets_ptr.addAll(value.getValue());
 
@@ -736,16 +750,16 @@ public final class AdditionalFunctions {
 			temp = (int) (temp << 4);
 			temp = (int) (temp | octets_ptr.get(i) & 0x0F);
 
-			bits_ptr.add(temp);
+			bits_ptr[i] = temp;
 		}
 
-		for (int i = 0; i < bits_ptr.size(); i++) {
-			int temp = bits_ptr.get(i);
+		for (int i = 0; i < bits_ptr.length; i++) {
+			int temp = bits_ptr[i];
 			temp = (int) ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
 			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
 			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
 
-			bits_ptr.set(i, temp);
+			bits_ptr[i] = temp;
 		}
 
 		return new TitanBitString(bits_ptr, 8 * n_octets);
@@ -1229,10 +1243,10 @@ public final class AdditionalFunctions {
 			}
 			return new TitanBitString(sb.toString());
 		} else {
-			final List<Integer> bits_ptr = value.getValue();
-			final List<Integer> ret_val = new ArrayList<Integer>();
+			final int bits_ptr[] = value.getValue();
+			final int ret_val[] = new int[(returncount + 7) / 8];
 			for (int i = 0; i < (returncount + 7) / 8; i++) {
-				ret_val.add(bits_ptr.get(i + idx/8));
+				ret_val[i] = bits_ptr[i + idx / 8];
 			}
 			return new TitanBitString(ret_val, returncount);
 		}

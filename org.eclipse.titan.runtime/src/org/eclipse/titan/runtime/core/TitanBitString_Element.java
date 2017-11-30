@@ -7,8 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.util.ArrayList;
-import java.util.List;
 
 public class TitanBitString_Element {
 	private boolean bound_flag;
@@ -96,21 +94,21 @@ public class TitanBitString_Element {
 
 		final int n_bits = otherValue.lengthOf().getInt();
 		final int n_bytes = (n_bits + 7) / 8;
-		final List<Integer> result = new ArrayList<Integer>(n_bytes);
-		final List<Integer> temp = new ArrayList<Integer>(otherValue.getValue());
+		final int result[] = new int[n_bytes];
+		final int temp[] = otherValue.getValue();
 
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
-			result.add(0);
+			result[byte_count] = 0;
 		}
-		result.set(0,get_bit() ? 1 : 0);
+		result[0] = get_bit() ? 1 : 0;
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
-			result.set(byte_count, (result.get(byte_count) | temp.get(byte_count) << 1) & 0xFF);
-			if(n_bits > byte_count * 8 + 7){
-				result.set(byte_count+1, (temp.get(byte_count) & 128) >> 7);
+			result[byte_count] = (result[byte_count] | temp[byte_count] << 1) & 0xFF;
+			if (n_bits > byte_count * 8 + 7) {
+				result[byte_count + 1] = (temp[byte_count] & 128) >> 7;
 			}
 		}
 
-		return new TitanBitString(result, n_bits+1);
+		return new TitanBitString(result, n_bits + 1);
 	}
 
 	//originally operator+
@@ -122,9 +120,9 @@ public class TitanBitString_Element {
 		if (otherValue.get_bit()) {
 			result = result | 2;
 		}
-		final ArrayList<Integer> temp_ptr = new ArrayList<Integer>();
-		temp_ptr.add(result);
-		return new TitanBitString( temp_ptr, 2 );
+		final int temp_ptr[] = new int[1];
+		temp_ptr[0] = result;
+		return new TitanBitString(temp_ptr, 2);
 	}
 
 	//originally operator~
@@ -132,10 +130,9 @@ public class TitanBitString_Element {
 		mustBound("Unbound bitstring element operand of operator not4b.");
 
 		final int result = str_val.getBit(bit_pos) ? 0 : 1;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	//originally operator&
@@ -149,10 +146,9 @@ public class TitanBitString_Element {
 
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.getBit(0);
 		final int result = temp ? 1 : 0;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	//originally operator&
@@ -162,10 +158,9 @@ public class TitanBitString_Element {
 
 		final boolean temp = str_val.getBit(bit_pos) & otherValue.get_bit();
 		final int result = temp ? 1 : 0;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	//originally operator|
@@ -179,10 +174,9 @@ public class TitanBitString_Element {
 
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.getBit(0);
 		final int result = temp ? 1 : 0;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	//originally operator|
@@ -192,10 +186,9 @@ public class TitanBitString_Element {
 
 		final boolean temp = str_val.getBit(bit_pos) | otherValue.get_bit();
 		final int result = temp ? 1 : 0;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	//originally operator^
@@ -209,10 +202,9 @@ public class TitanBitString_Element {
 
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.getBit(0);
 		final int result = temp ? 1 : 0;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	//originally operator^
@@ -222,10 +214,9 @@ public class TitanBitString_Element {
 
 		final boolean temp = str_val.getBit(bit_pos) ^ otherValue.get_bit();
 		final int result = temp ? 1 : 0;
-		//FIXME: can be faster
-		final List<Integer> dest_ptr = new ArrayList<Integer>();
-		dest_ptr.add(result);
-		return new TitanBitString( dest_ptr,1 );
+		final int dest_ptr[] = new int[1];
+		dest_ptr[0] = result;
+		return new TitanBitString(dest_ptr, 1);
 	}
 
 	public boolean get_bit() {
