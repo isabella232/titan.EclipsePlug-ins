@@ -349,6 +349,13 @@ public class TitanOctetString extends Base_Type {
 		mustBound( "Unbound left operand of octetstring concatenation." );
 		otherValue.mustBound( "Unbound right operand of octetstring concatenation." );
 
+		if(val_ptr.length == 0) {
+			return new TitanOctetString(otherValue);
+		}
+		if (otherValue.val_ptr.length == 0) {
+			return new TitanOctetString(this);
+		}
+
 		final char temp[] = new char[val_ptr.length + otherValue.val_ptr.length];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		System.arraycopy(otherValue.val_ptr, 0, temp, val_ptr.length, otherValue.val_ptr.length);

@@ -348,6 +348,13 @@ public class TitanHexString extends Base_Type {
 		mustBound("Unbound left operand of hexstring concatenation.");
 		otherValue.mustBound("Unbound right operand of hexstring concatenation.");
 
+		if(nibbles_ptr.length == 0) {
+			return new TitanHexString(otherValue);
+		}
+		if (otherValue.nibbles_ptr.length == 0) {
+			return new TitanHexString(this);
+		}
+
 		final byte temp[] = new byte[nibbles_ptr.length + otherValue.nibbles_ptr.length];
 		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
 		System.arraycopy(otherValue.nibbles_ptr, 0, temp, nibbles_ptr.length, otherValue.nibbles_ptr.length);
