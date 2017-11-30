@@ -455,17 +455,23 @@ public final class AdditionalFunctions {
 
 			return new TitanInteger(ret_val);
 		} else {
-			BigInteger ret_val = BigInteger.ZERO;
-			for (int i = start_index; i < n_bits; i++) {
-				ret_val = ret_val.shiftLeft(1);
+			int ret_val = 0;
+			for (int i = start_index; i < start_index + 31; i++) {
+				ret_val = ret_val << 1;
 				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
-					ret_val = ret_val.add(BigInteger.ONE);
+					ret_val += 1;
 				}
 			}
-			if(ret_val.compareTo(BigInteger.valueOf((long)Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1 ){
-				return new TitanInteger(ret_val.intValue());
+
+			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
+			for (int i = start_index + 32; i < n_bits; i++) {
+				ret_val2 = ret_val2.shiftLeft(1);
+				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
+					ret_val2 = ret_val2.add(BigInteger.ONE);
+				}
 			}
-			return new TitanInteger(ret_val);
+
+			return new TitanInteger(ret_val2);
 		}
 	}
 
@@ -584,15 +590,19 @@ public final class AdditionalFunctions {
 
 			return new TitanInteger(ret_val);
 		} else {
-			BigInteger ret_val = BigInteger.ZERO;
-			for (int i = start_index; i < n_nibbles; i++) {
-				ret_val = ret_val.shiftLeft(4);
-				ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+			int ret_val = 0;
+			for (int i = start_index; i < start_index + 7; i++) {
+				ret_val = ret_val << 4;
+				ret_val += value.get_nibble(i) & 0x0F;
 			}
-			if (ret_val.compareTo(BigInteger.valueOf((long) Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1) {
-				return new TitanInteger(ret_val.intValue());
+
+			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
+			for (int i = start_index + 8; i < n_nibbles; i++) {
+				ret_val2 = ret_val2.shiftLeft(4);
+				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
 			}
-			return new TitanInteger(ret_val);
+
+			return new TitanInteger(ret_val2);
 		}
 	}
 
@@ -726,16 +736,21 @@ public final class AdditionalFunctions {
 
 			return new TitanInteger(ret_val);
 		} else {
-			BigInteger ret_val = BigInteger.ZERO;
-			for (int i = start_index; i < n_octets; i++) {
-				ret_val = ret_val.shiftLeft(8);
-				ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
-				ret_val = ret_val.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+			int ret_val = 0;
+			for (int i = start_index; i < start_index + 3; i++) {
+				ret_val = ret_val << 8;
+				ret_val += value.get_nibble(i) & 0xF0;
+				ret_val += value.get_nibble(i) & 0x0F;
 			}
-			if (ret_val.compareTo(BigInteger.valueOf((long) Integer.MIN_VALUE)) == 1 && ret_val.compareTo(BigInteger.valueOf((long) Integer.MAX_VALUE)) == -1) {
-				return new TitanInteger(ret_val.intValue());
+
+			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
+			for (int i = start_index + 4; i < n_octets; i++) {
+				ret_val2 = ret_val2.shiftLeft(8);
+				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
+				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
 			}
-			return new TitanInteger(ret_val);
+
+			return new TitanInteger(ret_val2);
 		}
 	}
 
