@@ -31,7 +31,7 @@ public final class CodeScanner extends RuleBasedScanner {
 		"break", "case", "component", "const", "continue", "control", "deactivate", "display", "do", "else", "encode", "enumerated",
 		"except", "exception", "execute", "extends", "extension", "external", "for", "from", "function", "goto", "group", "if",
 		"import", "in", "infinity", "inout", "interleave", "label", "language", "length", "log", "match", "message", "mixed", "mod",
-		"modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "nowait", "of", "omit", "on", "optional", "or", "or4b", "out",
+		"modifies", "module", "modulepar", "mtc", "noblock", "not", "not4b", "not_a_number", "nowait", "of", "omit", "on", "optional", "or", "or4b", "out",
 		"override", "param", "pattern", "port", "present", "procedure", "record", "recursive", "rem", "repeat", "return", "runs", "select",
 		"self", "sender", "set", "signature", "system", "template", "testcase", "to", "type", "union", "value", "valueof", "var",
 		"variant", "while", "with", "xor", "xor4b" };
