@@ -402,8 +402,7 @@ public class TitanHexString extends Base_Type {
 			return this;
 		}
 
-		final int n_bytes = (nibbles_ptr.length + 1) / 2;
-		final byte result[] = new byte[n_bytes];
+		final byte result[] = new byte[nibbles_ptr.length];
 		for (int i = 0; i < nibbles_ptr.length; i++) {
 			result[i] = (byte) (nibbles_ptr[i] & otherValue.nibbles_ptr[i]);
 		}
@@ -475,8 +474,7 @@ public class TitanHexString extends Base_Type {
 			return this;
 		}
 
-		final int n_bytes = (nibbles_ptr.length + 1) / 2;
-		final byte result[] = new byte[n_bytes];
+		final byte result[] = new byte[nibbles_ptr.length];
 		for (int i = 0; i < nibbles_ptr.length; i++) {
 			result[i] = (byte) (nibbles_ptr[i] ^ otherValue.nibbles_ptr[i]);
 		}
