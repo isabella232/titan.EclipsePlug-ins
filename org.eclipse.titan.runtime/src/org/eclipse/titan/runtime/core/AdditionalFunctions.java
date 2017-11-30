@@ -269,9 +269,6 @@ public final class AdditionalFunctions {
 			if (length < 0) {
 				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
-			if ((tmp_val.bitCount() + 7) / 4 > length) {
-				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" : ""));
-			}
 
 			final char octets_ptr[] = new char[length];
 			final BigInteger helper = new BigInteger("255");
@@ -279,6 +276,15 @@ public final class AdditionalFunctions {
 				octets_ptr[i] = (char) (tmp_val.and(helper).intValue());
 				tmp_val = tmp_val.shiftRight(8);
 			}
+			if (tmp_val.compareTo(BigInteger.ZERO) != 0) {
+				int i = 0;
+				while (tmp_val.compareTo(BigInteger.ZERO) == 1) {
+					tmp_val = tmp_val.shiftRight(1);
+					i++;
+				}
+				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}, needs at least {3}.", value, length, length > 1 ? "s" :"", length + i));
+			}
+
 			return new TitanOctetString(octets_ptr);
 		}
 	}
@@ -464,7 +470,7 @@ public final class AdditionalFunctions {
 			}
 
 			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
-			for (int i = start_index + 32; i < n_bits; i++) {
+			for (int i = start_index + 31; i < n_bits; i++) {
 				ret_val2 = ret_val2.shiftLeft(1);
 				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
 					ret_val2 = ret_val2.add(BigInteger.ONE);
@@ -597,7 +603,7 @@ public final class AdditionalFunctions {
 			}
 
 			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
-			for (int i = start_index + 8; i < n_nibbles; i++) {
+			for (int i = start_index + 7; i < n_nibbles; i++) {
 				ret_val2 = ret_val2.shiftLeft(4);
 				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
 			}
@@ -744,7 +750,7 @@ public final class AdditionalFunctions {
 			}
 
 			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
-			for (int i = start_index + 4; i < n_octets; i++) {
+			for (int i = start_index + 3; i < n_octets; i++) {
 				ret_val2 = ret_val2.shiftLeft(8);
 				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
 				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
