@@ -373,11 +373,10 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-	//expression_tests_ttcn
-	
+
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1491);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1499);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1462,7 +1461,18 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2bit' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("The operand of the `str2bit' operation can contain only binary digits",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 57;
+		lineNum += 21;
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is infinity, does not represent a valid float value. Invalid character i was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is -infinity, does not represent a valid float value. Invalid character i was found at index 1. ",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 20;
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is infinity, does not represent a valid float value. Invalid character i was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is -infinity, does not represent a valid float value. Invalid character i was found at index 1. ",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is not_a_number, does not represent a valid float value. Invalid character n was found at index 0. ",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is infinity, does not represent a valid float value. Invalid character i was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is -infinity, does not represent a valid float value. Invalid character i was found at index 1. ",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is not_a_number, does not represent a valid float value. Invalid character n was found at index 0. ",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 4;
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2float' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1471,7 +1481,7 @@ public class AST_tests {
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2float' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		markersToCheck.add(new MarkerToCheck("The operand of the `str2float' operation should be a string containing a valid float value",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The argument of function str2float(), which is akarmi, does not represent a valid float value. Invalid character a was found at index 0. ",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 19;
 		for (i = 0; i < 6; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `str2hex' operation should be a charstring value", lineNum++, IMarker.SEVERITY_ERROR));

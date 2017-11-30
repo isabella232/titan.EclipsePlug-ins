@@ -495,10 +495,10 @@ public class AST_warnings_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(481);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(487);
 		int lineNum = 118;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 53;
@@ -875,7 +875,16 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 63;
+		lineNum += 32;
+		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 13;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''", lineNum++, IMarker.SEVERITY_WARNING));
+		}
+		lineNum += 6;
+		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 10;
+		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
 		}
@@ -1262,14 +1271,18 @@ public class AST_warnings_tests {
 	
 	private ArrayList<MarkerToCheck> subtype_tests_ttcn_initializer() {
 		//subtype_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(4);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(6);
 		int lineNum = 21;
 		markersToCheck.add(new MarkerToCheck("The subtype of type `boolean' is a full set, it does not constrain the root type.",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 54;
 		markersToCheck.add(new MarkerToCheck("The subtype of type `integer' is a full set, it does not constrain the root type.",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("The subtype of type `integer' is a full set, it does not constrain the root type.",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 1040;
+		lineNum += 82;
+		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 11;
+		markersToCheck.add(new MarkerToCheck("Leading zero digit was detected and ignored in the operand of operation `str2float''",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 947;
 		markersToCheck.add(new MarkerToCheck("The subtype of type `float' is a full set, it does not constrain the root type.",  lineNum, IMarker.SEVERITY_WARNING));
 
 		return markersToCheck;
