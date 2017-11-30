@@ -35,7 +35,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 -> 0, 1 -> 1, 2 -> ?, 3 -> *
 	 */
-	private List<Integer> pattern_value;
+	private int pattern_value[];
 
 	/** reference counter for pattern_value */
 	private int pattern_value_ref_count;
@@ -54,7 +54,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanBitString_template (final List<Integer> otherValue, final int aNoBits) {
+	public TitanBitString_template (final int otherValue[], final int aNoBits) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
 	}
@@ -88,7 +88,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		copyTemplate(otherValue);
 	}
 
-	public TitanBitString_template( final List<Integer> pattern_elements ) {
+	public TitanBitString_template( final int pattern_elements[] ) {
 		super( template_sel.STRING_PATTERN );
 		pattern_value = TitanStringUtils.copyIntegerList( pattern_elements );
 	}
@@ -98,14 +98,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		pattern_value = patternString2List( patternString );
 	}
 
-	private static List<Integer> patternString2List( final String patternString ) {
+	private static int[] patternString2List( final String patternString ) {
 		if ( patternString == null ) {
 			throw new TtcnError("Internal error: bitstring pattern is null.");
 		}
-		final List<Integer> result = new ArrayList<Integer>();
+		final int result[] = new int[patternString.length()];
 		for ( int i = 0; i < patternString.length(); i++ ) {
 			final char patternChar = patternString.charAt(i);
-			result.add( patternChar2byte( patternChar ) );
+			result[i] = patternChar2byte( patternChar );
 		}
 		return result;
 	}
@@ -133,7 +133,6 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			if (pattern_value_ref_count > 1) {
 				pattern_value_ref_count--;
 			} else if (pattern_value_ref_count == 1) {
-				pattern_value.clear();
 				pattern_value = null;
 			} else {
 				throw new TtcnError("Internal error: Invalid reference counter in a bitstring pattern.");
@@ -184,7 +183,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	}
 
 	//originally operator=
-	public TitanBitString_template assign( final List<Integer> otherValue, final int aNoBits ) {
+	public TitanBitString_template assign( final int otherValue[], final int aNoBits ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
@@ -372,10 +371,10 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * The only differences are: how two elements are matched and
 	 * how an asterisk or ? is identified in the template
 	 */
-	private boolean match_pattern( final List<Integer> string_pattern, final TitanBitString string_value )	{
-		final int stringPatternSize = string_pattern.size();
+	private boolean match_pattern( final int string_pattern[], final TitanBitString string_value )	{
+		final int stringPatternSize = string_pattern.length;
 		final int stringValueNBits = string_value.getNBits();
-		if ( stringPatternSize == 0 ) {
+		if (stringPatternSize == 0) {
 			return stringValueNBits == 0;
 		}
 
@@ -384,14 +383,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		int last_asterisk = -1;
 		int last_value_to_asterisk = -1;
 
-		for(;;) {
-			switch ( string_pattern.get( template_index ) ) {
+		for (;;) {
+			switch (string_pattern[template_index]) {
 			case 0:
-				if ( !string_value.getBit( value_index ) ) {
+				if (!string_value.getBit(value_index)) {
 					value_index++;
 					template_index++;
 				} else {
-					if ( last_asterisk == -1 ) {
+					if (last_asterisk == -1) {
 						return false;
 					}
 					template_index = last_asterisk + 1;
@@ -399,11 +398,11 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				}
 				break;
 			case 1:
-				if ( string_value.getBit( value_index ) ) {
+				if (string_value.getBit(value_index)) {
 					value_index++;
 					template_index++;
 				} else {
-					if ( last_asterisk == -1 ) {
+					if (last_asterisk == -1) {
 						return false;
 					}
 					template_index = last_asterisk + 1;
@@ -411,12 +410,12 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				}
 				break;
 			case 2:
-				//we found a ? element, it matches anything
+				// we found a ? element, it matches anything
 				value_index++;
 				template_index++;
 				break;
 			case 3:
-				//we found an asterisk
+				// we found an asterisk
 				last_asterisk = template_index++;
 				last_value_to_asterisk = value_index;
 				break;
@@ -424,19 +423,19 @@ public class TitanBitString_template extends Restricted_Length_Template {
 				throw new TtcnError("Internal error: invalid element in bitstring pattern.");
 			}
 
-			if ( value_index == stringValueNBits && template_index == stringPatternSize ) {
+			if (value_index == stringValueNBits && template_index == stringPatternSize) {
 				return true;
-			} else if ( template_index == stringPatternSize ) {
-				if ( string_pattern.get( template_index - 1 ) == 3 ) {
+			} else if (template_index == stringPatternSize) {
+				if (string_pattern[template_index - 1] == 3) {
 					return true;
-				} else if ( last_asterisk == -1 ) {
+				} else if (last_asterisk == -1) {
 					return false;
 				} else {
 					template_index = last_asterisk + 1;
 					value_index = ++last_value_to_asterisk;
 				}
-			} else if ( value_index == stringValueNBits ) {
-				while ( template_index < stringPatternSize && string_pattern.get( template_index ) == 3 ) {
+			} else if (value_index == stringValueNBits) {
+				while (template_index < stringPatternSize && string_pattern[template_index] == 3) {
 					template_index++;
 				}
 				return template_index == stringPatternSize;
@@ -491,8 +490,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			min_length = 0;
 			has_any_or_none = false;
-			for (int i = 0; i < pattern_value.size(); i++) {
-				if (pattern_value.get(i) < 3) { // case of 1, 0, ?
+			for (int i = 0; i < pattern_value.length; i++) {
+				if (pattern_value[i] < 3) { // case of 1, 0, ?
 					min_length++;
 				} else {
 					has_any_or_none = true;
@@ -556,8 +555,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
-			for (int i = 0; i < pattern_value.size(); i++) {
-				final int pattern = pattern_value.get(i);
+			for (int i = 0; i < pattern_value.length; i++) {
+				final int pattern = pattern_value[i];
 				if (pattern < 4) {
 					TtcnLogger.log_char(patterns[pattern]);
 				} else {
@@ -657,12 +656,12 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			}
 			break;
 		case STRING_PATTERN:
-			text_buf.push_int(pattern_value.size());
-			byte[] temp = new byte[pattern_value.size()];
-			for (int i = 0; i < pattern_value.size(); i++) {
-				temp[i] = pattern_value.get(i).byteValue();
+			text_buf.push_int(pattern_value.length);
+			byte[] temp = new byte[pattern_value.length];
+			for (int i = 0; i < pattern_value.length; i++) {
+				temp[i] = (byte) pattern_value[i];
 			}
-			text_buf.push_raw((pattern_value.size() + 7) / 8, temp);
+			text_buf.push_raw((pattern_value.length + 7) / 8, temp);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported bitstring template.");
@@ -694,11 +693,11 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN: {
 			final int n_elements = text_buf.pull_int().getInt();
-			pattern_value = new ArrayList<Integer>(n_elements);
+			pattern_value = new int[n_elements];
 			final byte[] temp = new byte[n_elements];
 			text_buf.pull_raw(n_elements, temp);
 			for (int i = 0; i < n_elements; i++) {
-				pattern_value.add((int) temp[i]);
+				pattern_value[i] = (int) temp[i];
 			}
 			break;
 		}
