@@ -155,6 +155,7 @@ public class PortGenerator {
 
 		if (portDefinition.inMessages.size() > 0) {
 			aData.addBuiltinTypeImport("TitanCharString");
+			aData.addBuiltinTypeImport("TitanComponent_template");
 
 			generateGenericReceive(source, portDefinition, false, false);
 			generateGenericReceive(source, portDefinition, true, false);
