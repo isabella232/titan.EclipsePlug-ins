@@ -7,15 +7,16 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -37,6 +38,9 @@ public final class Str2FloatExpression extends Expression_Value {
 	private static final String OPERANDERROR2 = "The operand of the `str2float' operation should be a string containing a valid float value";
 
 	private final Value value;
+
+	private static enum str2floatState { S_INITIAL, S_FIRST_M, S_ZERO_M, S_MORE_M, S_FIRST_F, S_MORE_F,
+		S_INITIAL_E, S_FIRST_E, S_ZERO_E, S_MORE_E, S_END, S_ERR }
 
 	public Str2FloatExpression(final Value value) {
 		this.value = value;
@@ -140,12 +144,161 @@ public final class Str2FloatExpression extends Expression_Value {
 			if (!last.isUnfoldable(timestamp)) {
 				String string = ((Charstring_Value) last).getValue();
 				string = string.trim();
-				if (!"-infinity".equals(string) && !"infinity".equals(string) && !"not_a_number".equals(string)){
-					try {
-						Double.parseDouble(string);
-					} catch (NumberFormatException e) {
-						value.getLocation().reportSemanticError(OPERANDERROR2);
+				str2floatState state = str2floatState.S_INITIAL;
+				// state: expected characters
+				// S_INITIAL: +, -, first digit of integer part in mantissa,
+				//            leading whitespace
+				// S_FIRST_M: first digit of integer part in mantissa
+				// S_ZERO_M, S_MORE_M: more digits of mantissa, decimal dot, E
+				// S_FIRST_F: first digit of fraction
+				// S_MORE_F: more digits of fraction, E, trailing whitespace
+				// S_INITIAL_E: +, -, first digit of exponent
+				// S_FIRST_E: first digit of exponent
+				// S_ZERO_E, S_MORE_E: more digits of exponent, trailing whitespace
+				// S_END: trailing whitespace
+				// S_ERR: error was found, stop
+				for (int i = 0; i < string.length(); i++) {
+					final char c = string.charAt(i);
+					switch (state) {
+					case S_INITIAL:
+						if(c == '+' || c == '-') {
+							state = str2floatState.S_FIRST_M;
+						} else if(c == '0') {
+							state = str2floatState.S_ZERO_M;
+						} else if(c >= '1' && c <= '9') {
+							state = str2floatState.S_MORE_M;
+						} else if(Character.isWhitespace(c)) {
+							value.getLocation().reportSemanticWarning("Leading whitespace was detected and ignored in the operand of operation `str2float''");
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_FIRST_M:  // first mantissa digit
+						if(c == '0') {
+							state = str2floatState.S_ZERO_M;
+						} else if(c >= '1' && c <= '9') {
+							state = str2floatState.S_MORE_M;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_ZERO_M: // leading mantissa zero
+						if(c == '.') {
+							state = str2floatState.S_FIRST_F;
+						} else if (c == 'E' || c == 'e'){
+							state = str2floatState.S_INITIAL_E;
+						} else if (c >= '0' && c <= '9') {
+							value.getLocation().reportSemanticWarning("Leading zero digit was detected and ignored in the operand of operation `str2float''");
+							state = str2floatState.S_MORE_M;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_MORE_M:
+						if(c == '.') {
+							state = str2floatState.S_FIRST_F;
+						} else if (c == 'E' || c == 'e') {
+							state = str2floatState.S_INITIAL_E;
+						} else if(c >= '0' && c <= '9') {}
+						else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_FIRST_F:
+						if(c >= '0' && c <= '9') {
+							state = str2floatState.S_MORE_F;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_MORE_F:
+						if (c == 'E' || c == 'e') {
+							state = str2floatState.S_INITIAL_E;
+						} else if (c >= '0' && c <= '9') {}
+						else if(Character.isWhitespace(c)) {
+							state = str2floatState.S_END;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_INITIAL_E:
+						if (c == '+' || c == '-') {
+							state = str2floatState.S_FIRST_E;
+						} else if(c == '0') {
+							state = str2floatState.S_ZERO_E;
+						} else if(c >= '1' && c <= '9') {
+							state = str2floatState.S_MORE_E;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_FIRST_E:
+						if(c == '0') {
+							state = str2floatState.S_ZERO_E;
+						} else if(c >= '1' && c <= '9') {
+							state = str2floatState.S_MORE_E;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_ZERO_E:
+						if (c >= '0' && c <= '9') {
+							value.getLocation().reportSemanticWarning("Leading zero digit was detected and ignored in the exponent of the operation `str2float''");
+							state = str2floatState.S_MORE_E;
+						} else if(Character.isWhitespace(c)) {
+							state = str2floatState.S_END;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_MORE_E:
+						if (c >= '0' && c <= '9') {}
+						else if(Character.isWhitespace(c)) {
+							state = str2floatState.S_END;
+						} else {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					case S_END:
+						if(Character.isWhitespace(c)) {
+							state = str2floatState.S_ERR;
+						}
+						break;
+					default:
+						break;
 					}
+					if(state == str2floatState.S_ERR) {
+						value.getLocation().reportSemanticError(MessageFormat.format("The argument of function str2float(), which is {0}, does not represent a valid float value. Invalid character {1} was found at index {2}. ", string,c,i));
+						setIsErroneous(true);
+						break;
+					}
+				}
+				switch (state) {
+				case S_INITIAL:
+					value.getLocation().reportSemanticError(MessageFormat.format("The argument of function str2float(), which is {0}, should be a string containing a valid float value instead of an empty string.", string));
+					setIsErroneous(true);
+					break;
+				case S_FIRST_M:
+					value.getLocation().reportSemanticError(MessageFormat.format("The argument of function str2float(), which is {0}, should be a string containing a valid float value, but only a sign character was detected.", string));
+					setIsErroneous(true);
+					break;
+				case S_ZERO_M:
+				case S_MORE_M:
+					// OK now (decimal dot missing after mantissa)
+					break;
+				case S_FIRST_F:
+					// OK now (fraction part missing)
+					break;
+				case S_INITIAL_E:
+				case S_FIRST_E:
+					value.getLocation().reportSemanticError(MessageFormat.format("The argument of function str2float(), which is {0}, should be a string containing a valid float value, but the exponent is missing after the `E' sign.", string));
+					setIsErroneous(true);
+					break;
+				case S_END:
+					// trailing whitespace is ok.
+					break;
+				default:
+					break;
 				}
 			}
 			return;
@@ -198,6 +351,8 @@ public final class Str2FloatExpression extends Expression_Value {
 				number = Float.NEGATIVE_INFINITY;
 			} else if ("INF".equals(string)) {
 				number = Float.POSITIVE_INFINITY;
+			} else if ("NaN".equals(string)) {
+				number = Float.NaN;
 			} else {
 				try {
 					number = Double.parseDouble(string);
