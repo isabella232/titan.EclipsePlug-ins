@@ -38,6 +38,8 @@ public final class TtcnLogger {
 			default_console_mask.bits.add(Severity.STATISTICS_UNQUALIFIED);
 			default_console_mask.bits.add(Severity.STATISTICS_VERDICT);
 			default_console_mask.bits.add(Severity.WARNING_UNQUALIFIED);
+			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
+			default_console_mask.bits.add(Severity.USER_UNQUALIFIED);
 
 			log_all.bits.add(Severity.ACTION_UNQUALIFIED);
 			log_all.bits.add(Severity.DEFAULTOP_UNQUALIFIED);
