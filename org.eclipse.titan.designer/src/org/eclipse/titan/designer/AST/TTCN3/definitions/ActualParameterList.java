@@ -213,4 +213,22 @@ public final class ActualParameterList extends ASTNode implements IIncrementally
 			parameters.get(i).reArrangeInitCode(aData, source, usageModule);
 		}
 	}
+
+	/**
+	 * @return true if the actual parameterlist can be generated into a single expression
+	 * */
+	public boolean hasSingleExpression() {
+		if (parameters == null) {
+			return true;
+		}
+
+		for (int i = 0; i < parameters.size(); i++) {
+			final ActualParameter actualParameter = parameters.get(i);
+			if(!actualParameter.hasSingleExpression()) {
+				return false;
+			}
+		}
+
+		return true;
+	}
 }
