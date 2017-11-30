@@ -237,13 +237,11 @@ public final class AdditionalFunctions {
 		if (length < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value:", length));
 		}
-		final List<Character> octets_ptr = new ArrayList<Character>(length);
-		for (int i = 0; i < length; i++) {
-			octets_ptr.add((char) 0);
-		}
+
+		final char octets_ptr[] = new char[length];
 		int tmp_value = value;
 		for (int i = length - 1; i >= 0; i--) {
-			octets_ptr.set(i, (char) (tmp_value & 0xFF));
+			octets_ptr[i] = (char) (tmp_value & 0xFF);
 			tmp_value = tmp_value >> 8;
 		}
 		if (tmp_value != 0) {
@@ -274,12 +272,11 @@ public final class AdditionalFunctions {
 			if ((tmp_val.bitCount() + 7) / 4 > length) {
 				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" : ""));
 			}
-			final List<Character> octets_ptr = new ArrayList<Character>(length);
-			for (int i = 0; i < length; i++) {
-				octets_ptr.add((char) 0);
-			}
+
+			final char octets_ptr[] = new char[length];
+			final BigInteger helper = new BigInteger("255");
 			for (int i = length - 1; i >= 0; i--) {
-				octets_ptr.set(i, (char) (tmp_val.and(new BigInteger("255")).intValue()));
+				octets_ptr[i] = (char) (tmp_val.and(helper).intValue());
 				tmp_val = tmp_val.shiftRight(8);
 			}
 			return new TitanOctetString(octets_ptr);
@@ -383,9 +380,9 @@ public final class AdditionalFunctions {
 			return new TitanOctetString("");
 		}
 
-		final List<Character> octets_ptr = new ArrayList<Character>();
+		final char octets_ptr[] = new char[value.length()];
 		for (int i = 0; i < value.length(); i++) {
-			octets_ptr.add(int2oct((int) value.charAt(i), 1).get_nibble(0));
+			octets_ptr[i] = int2oct((int) value.charAt(i), 1).get_nibble(0);
 		}
 
 		return new TitanOctetString(octets_ptr);
@@ -520,9 +517,9 @@ public final class AdditionalFunctions {
 		}
 
 		// to please the constructor
-		final List<Character> ret_val = new ArrayList<Character>(octets_ptr.length);
+		final char ret_val[] = new char[octets_ptr.length];
 		for (int i = 0; i < octets_ptr.length; i++) {
-			ret_val.add((char) octets_ptr[i]);
+			ret_val[i] = (char) octets_ptr[i];
 		}
 
 		return new TitanOctetString(ret_val);
@@ -663,7 +660,7 @@ public final class AdditionalFunctions {
 		final int n_nibbles = value.lengthOf().getInt();
 		final int n_octets = (n_nibbles + 1) / 2;
 		final int n_padding_nibble = n_nibbles % 2;
-		final List<Character> octet_ptr = new ArrayList<Character>(n_octets);
+		final char octet_ptr[] = new char[n_octets];
 		final byte nibbles_ptr[] = new byte[n_nibbles + n_padding_nibble];
 
 		if ((n_nibbles & 1) == 1) {
@@ -671,7 +668,7 @@ public final class AdditionalFunctions {
 		}
 		System.arraycopy(value.getValue(), 0, nibbles_ptr, n_padding_nibble, value.getValue().length);
 		for (int i = 1; i < nibbles_ptr.length; i += 2) {
-			octet_ptr.add((char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]));
+			octet_ptr[i-1] = (char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
 		}
 
 		return new TitanOctetString(octet_ptr);
@@ -742,13 +739,12 @@ public final class AdditionalFunctions {
 
 		final int n_octets = value.lengthOf().getInt();
 		final int bits_ptr[] = new int[n_octets];
-		final List<Character> octets_ptr = new ArrayList<Character>(n_octets);
-		octets_ptr.addAll(value.getValue());
+		final char octets_ptr[] = value.getValue();
 
 		for (int i = 0; i < n_octets; i++) {
-			int temp = (int) ((octets_ptr.get(i) & 0xF0) >> 4);
+			int temp = (int) ((octets_ptr[i] & 0xF0) >> 4);
 			temp = (int) (temp << 4);
-			temp = (int) (temp | octets_ptr.get(i) & 0x0F);
+			temp = (int) (temp | octets_ptr[i] & 0x0F);
 
 			bits_ptr[i] = temp;
 		}
@@ -781,12 +777,11 @@ public final class AdditionalFunctions {
 
 		final int n_octets = value.lengthOf().getInt();
 		final byte ret_val[] = new byte[n_octets * 2];
-		final List<Character> octets_ptr = new ArrayList<Character>();
-		octets_ptr.addAll(value.getValue());
+		final char octets_ptr[] = value.getValue();
 
 		for (int i = 0; i < n_octets; i++) {
-			ret_val[i*2] = (byte) ((octets_ptr.get(i) & 0xF0) >> 4);
-			ret_val[i*2 + 1] = (byte) (octets_ptr.get(i) & 0x0F);
+			ret_val[i * 2] = (byte) ((octets_ptr[i] & 0xF0) >> 4);
+			ret_val[i * 2 + 1] = (byte) (octets_ptr[i] & 0x0F);
 		}
 
 		return new TitanHexString(ret_val);
@@ -985,10 +980,8 @@ public final class AdditionalFunctions {
 		if (value_len % 2 != 0) {
 			throw new TtcnError(MessageFormat.format("The argument of function str2oct() must have even number of characters containing hexadecimal digits, but the length of the string is odd: {0}.", value_len));
 		}
-		final List<Character> octets_ptr = new ArrayList<Character>(value_len / 2);
-		for (int i = 0; i < value_len / 2; i++) {
-			octets_ptr.add((char) 0);
-		}
+
+		final char octets_ptr[] = new char[value_len / 2];
 		final StringBuilder chars_ptr = new StringBuilder();
 		chars_ptr.append(value.getValue().toString());
 		for (int i = 0; i < value_len; i++) {
@@ -999,9 +992,9 @@ public final class AdditionalFunctions {
 				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
 			}
 			if (i % 2 != 0) {
-				octets_ptr.set(i / 2, (char) (octets_ptr.get(i / 2) | hexdigit));
+				octets_ptr[i / 2] = (char) (octets_ptr[i / 2] | hexdigit);
 			} else {
-				octets_ptr.set(i / 2, (char) (hexdigit << 4));
+				octets_ptr[i / 2] = (char) (hexdigit << 4);
 			}
 		}
 
@@ -1368,11 +1361,9 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function substr() is an unbound octetstring value.");
 
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "octetstring", "octet");
-		final List<Character> ret_val = new ArrayList<Character>();
-		final List<Character> src_ptr = value.getValue();
-		for (int i = 0; i < returncount; i++) {
-			ret_val.add(src_ptr.get(i + idx));
-		}
+		final char ret_val[] = new char[returncount];
+		final char src_ptr[] = value.getValue();
+		System.arraycopy(src_ptr, idx, ret_val, 0, returncount);
 
 		return new TitanOctetString(ret_val);
 	}
@@ -1827,16 +1818,16 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "octetstring", "octet");
 
 		final int repl_len = repl.lengthOf().getInt();
-		final List<Character> ret_val = new ArrayList<Character>(value_len + repl_len - len);
+		final char ret_val[] = new char[value_len + repl_len - len];
 
 		for (int i = 0; i < idx; i++) {
-			ret_val.add(i, value.get_nibble(i));
+			ret_val[i] = value.get_nibble(i);
 		}
 		for (int i = 0; i < repl_len; i++) {
-			ret_val.add(idx + i, repl.get_nibble(i));
+			ret_val[idx + i] = repl.get_nibble(i);
 		}
 		for (int i = 0; i < value_len - idx - len; i++) {
-			ret_val.add(idx + i + repl_len, value.get_nibble(idx + i + len));
+			ret_val[idx + i + repl_len] = value.get_nibble(idx + i + len);
 		}
 
 		return new TitanOctetString(ret_val);

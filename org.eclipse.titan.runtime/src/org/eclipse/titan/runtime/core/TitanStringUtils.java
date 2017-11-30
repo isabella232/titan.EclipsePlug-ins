@@ -7,8 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Utility functions for (bit|hex|octet)string
@@ -52,15 +50,13 @@ public class TitanStringUtils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	static List<Character> copyCharList(final List<Character> srcList) {
-		if ( srcList == null ) {
+	static char[] copyCharList(final char srcList[]) {
+		if (srcList == null) {
 			return null;
 		}
 
-		final List<Character> newList = new ArrayList<Character>( srcList.size() );
-		for (final Character uc : srcList) {
-			newList.add( new Character( uc ) );
-		}
+		final char newList[] = new char[srcList.length];
+		System.arraycopy(srcList, 0, newList, 0, srcList.length);
 
 		return newList;
 	}

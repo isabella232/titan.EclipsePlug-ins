@@ -9,7 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
-import java.util.List;
 
 /**
  * TTCN-3 octetstring template
@@ -30,7 +29,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * Each element is represented as an unsigned short. Meaning of values:
 	 * 0 .. 255 -> 00 .. FF, 256 -> ?, 257 -> *
 	 */
-	private List<Character> pattern_value;
+	private char pattern_value[];
 
 	/** reference counter for pattern_value */
 	private int pattern_value_ref_count;
@@ -67,7 +66,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		copyTemplate(otherValue);
 	}
 
-	public TitanOctetString_template( final List<Character> pattern_elements ) {
+	public TitanOctetString_template( final char pattern_elements[] ) {
 		super( template_sel.STRING_PATTERN );
 		pattern_value = TitanStringUtils.copyCharList( pattern_elements );
 	}
@@ -77,24 +76,25 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		pattern_value = patternString2List( patternString );
 	}
 
-	private static List<Character> patternString2List( final String patternString ) {
+	private static char[] patternString2List( final String patternString ) {
 		if ( patternString == null ) {
 			throw new TtcnError("Internal error: octetstring pattern is null.");
 		}
-		final List<Character> result = new ArrayList<Character>();
+
 		final int patternLength = patternString.length();
-		for ( int i = 0; i < patternLength; i++ ) {
-			int patternValue = octetDigit1( patternString.charAt( i ) );
-			if ( patternValue < 16 ) {
-				//there is an other digit, which is not ? or *
-				if ( ++i == patternLength ) {
+		final char result[] = new char[patternLength];
+		for (int i = 0; i < patternLength; i++) {
+			int patternValue = octetDigit1(patternString.charAt(i));
+			if (patternValue < 16) {
+				// there is an other digit, which is not ? or *
+				if (++i == patternLength) {
 					throw new TtcnError("Internal error: last octet is incomplete.");
 				}
 				patternValue *= 16;
-				patternValue += octetDigit2( patternString.charAt( i ) );
+				patternValue += octetDigit2(patternString.charAt(i));
 
 			}
-			result.add( (char) patternValue );
+			result[i] = (char) patternValue;
 		}
 		return result;
 	}
@@ -169,7 +169,6 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			if (pattern_value_ref_count > 1) {
 				pattern_value_ref_count--;
 			} else if (pattern_value_ref_count == 1) {
-				pattern_value.clear();
 				pattern_value = null;
 			} else {
 				throw new TtcnError("Internal error: Invalid reference counter in a octetstring pattern.");
@@ -220,7 +219,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	}
 
 	//originally operator=
-	public TitanOctetString_template assign( final List<Character> otherValue ) {
+	public TitanOctetString_template assign( final char[] otherValue ) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
@@ -391,9 +390,9 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	 * The only differences are: how two elements are matched and
 	 * how an asterisk or ? is identified in the template
 	 */
-	private boolean match_pattern( final List<Character> string_pattern, final TitanOctetString string_value )	{
-		final int stringPatternSize = string_pattern.size();
-		final int stringValueNOctets = string_value.getValue().size();
+	private boolean match_pattern( final char string_pattern[], final TitanOctetString string_value )	{
+		final int stringPatternSize = string_pattern.length;
+		final int stringValueNOctets = string_value.getValue().length;
 		// the empty pattern matches the empty octetstring only
 		if (stringPatternSize == 0) {
 			return stringValueNOctets == 0;
@@ -407,43 +406,43 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		char pattern_element;
 
 		for(;;) {
-			pattern_element = string_pattern.get( template_index );
-			if ( pattern_element < 256 ) {
-				if ( string_value.get_nibble( value_index ) == pattern_element ) {
+			pattern_element = string_pattern[template_index];
+			if (pattern_element < 256) {
+				if (string_value.get_nibble(value_index) == pattern_element) {
 					value_index++;
 					template_index++;
 				} else {
-					if ( last_asterisk == -1 ) {
+					if (last_asterisk == -1) {
 						return false;
 					}
 					template_index = last_asterisk + 1;
 					value_index = ++last_value_to_asterisk;
 				}
-			} else if ( pattern_element == 256 ) {
-				//? found
+			} else if (pattern_element == 256) {
+				// ? found
 				value_index++;
 				template_index++;
-			} else if ( pattern_element == 257 ) {
-				//* found
+			} else if (pattern_element == 257) {
+				// * found
 				last_asterisk = template_index++;
 				last_value_to_asterisk = value_index;
 			} else {
 				throw new TtcnError("Internal error: invalid element in an octetstring pattern.");
 			}
 
-			if ( value_index == stringValueNOctets && template_index == stringPatternSize ) {
+			if (value_index == stringValueNOctets && template_index == stringPatternSize) {
 				return true;
 			} else if (template_index == stringPatternSize) {
-				if ( string_pattern.get( template_index - 1 ) == 257 ) {
+				if (string_pattern[template_index - 1] == 257) {
 					return true;
-				} else if ( last_asterisk == -1 ) {
+				} else if (last_asterisk == -1) {
 					return false;
 				} else {
 					template_index = last_asterisk + 1;
 					value_index = ++last_value_to_asterisk;
 				}
-			} else if ( value_index == stringValueNOctets ) {
-				while ( template_index < stringPatternSize && string_pattern.get( template_index ) == 257 ) {
+			} else if (value_index == stringValueNOctets) {
+				while (template_index < stringPatternSize && string_pattern[template_index] == 257) {
 					template_index++;
 				}
 				return template_index == stringPatternSize;
@@ -466,9 +465,9 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			return single_value.toString();
 		case COMPLEMENTED_LIST:
 		case VALUE_LIST:
-		{
+ {
 			final StringBuilder builder = new StringBuilder();
-			if(templateSelection == template_sel.COMPLEMENTED_LIST) {
+			if (templateSelection == template_sel.COMPLEMENTED_LIST) {
 				builder.append("complement");
 			}
 			builder.append('(');
@@ -485,16 +484,16 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		{
 			final StringBuilder sb = new StringBuilder();
 			sb.append('\'');
-			final int size = pattern_value.size();
-			for ( int i = 0; i < size; i++ ) {
-				final Character digit = pattern_value.get( i );
-				if ( digit == 256 ) {
-					sb.append( '?' );
-				} else if ( digit == 257 ) {
-					sb.append( '*' );
+			final int size = pattern_value.length;
+			for (int i = 0; i < size; i++) {
+				final Character digit = pattern_value[i];
+				if (digit == 256) {
+					sb.append('?');
+				} else if (digit == 257) {
+					sb.append('*');
 				} else {
-					sb.append( TitanHexString.HEX_DIGITS.charAt( digit >> 4 ) );
-					sb.append( TitanHexString.HEX_DIGITS.charAt( digit % 16 ) );
+					sb.append(TitanHexString.HEX_DIGITS.charAt(digit >> 4));
+					sb.append(TitanHexString.HEX_DIGITS.charAt(digit % 16));
 				}
 			}
 			sb.append("\'O");
@@ -557,8 +556,8 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			min_length = 0;
 			has_any_or_none = false; // true if * chars in the pattern
-			for (int i = 0; i < pattern_value.size(); i++) {
-				if (pattern_value.get(i) < 257) {
+			for (int i = 0; i < pattern_value.length; i++) {
+				if (pattern_value[i] < 257) {
 					min_length++;
 				} else {
 					// case of * character
@@ -640,8 +639,8 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN:
 			TtcnLogger.log_char('\'');
-			for (int i = 0; i < pattern_value.size(); i++) {
-				final char pattern = pattern_value.get(i);
+			for (int i = 0; i < pattern_value.length; i++) {
+				final char pattern = pattern_value[i];
 				if (pattern < 256) {
 					TtcnLogger.log_octet(pattern);
 				} else if (pattern == 256) {
@@ -734,12 +733,12 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			}
 			break;
 		case STRING_PATTERN:
-			text_buf.push_int(pattern_value.size());
-			byte[] temp = new byte[pattern_value.size()];
-			for (int i = 0; i < pattern_value.size(); i++) {
-				temp[i] = (byte)pattern_value.get(i).charValue();
+			text_buf.push_int(pattern_value.length);
+			byte[] temp = new byte[pattern_value.length];
+			for (int i = 0; i < pattern_value.length; i++) {
+				temp[i] = (byte)pattern_value[i];
 			}
-			text_buf.push_raw((pattern_value.size() + 7) / 8, temp);
+			text_buf.push_raw((pattern_value.length + 7) / 8, temp);
 			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported octetstring template.");
@@ -771,11 +770,11 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			break;
 		case STRING_PATTERN: {
 			final int n_elements = text_buf.pull_int().getInt();
-			pattern_value = new ArrayList<Character>(n_elements);
+			pattern_value = new char[n_elements];
 			final byte[] temp = new byte[n_elements];
 			text_buf.pull_raw(n_elements, temp);
 			for (int i = 0; i < n_elements; i++) {
-				pattern_value.add((char)temp[i]);
+				pattern_value[i] = (char)temp[i];
 			}
 			break;
 		}
