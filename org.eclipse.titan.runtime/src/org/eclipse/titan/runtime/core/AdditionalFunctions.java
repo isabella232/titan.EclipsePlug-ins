@@ -597,33 +597,33 @@ public final class AdditionalFunctions {
 
 		final int n_nibbles = value.lengthOf().getInt();
 		final List<Integer> bits_ptr = new ArrayList<Integer>();
-		final List<Byte> nibbles_ptr = new ArrayList<Byte>(n_nibbles);
-		for (int i = n_nibbles; i > 0; i--) {
-			nibbles_ptr.add(value.get_nibble(n_nibbles - i));
-		}
 
 		if (n_nibbles == 1) {
-			bits_ptr.add(nibbles_ptr.get(0).intValue());
-			bits_ptr.set(0, (int) ((bits_ptr.get(0) & 0xCC) >> 2 | (bits_ptr.get(0) & 0x33) << 2));
-			bits_ptr.set(0, (int) ((bits_ptr.get(0) & 0xAA) >> 1 | (bits_ptr.get(0) & 0x55) << 1));
+			int temp = value.get_nibble(0);
+			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
+			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
+
+			bits_ptr.add(temp);
 
 			return new TitanBitString(bits_ptr, 4);
 		}
 
-		int j = 0;
+		final byte nibbles_ptr[] = value.getValue();
 		for (int i = 0; i < n_nibbles; i += 2) {
-			bits_ptr.add(nibbles_ptr.get(i).intValue());
-			bits_ptr.set(j, (int) (bits_ptr.get(j) << 4));
-			bits_ptr.set(j, (int) (bits_ptr.get(j) | nibbles_ptr.get(i + 1)));
-			j++;
+			int temp = nibbles_ptr[i];
+			temp = (int) (temp << 4);
+			temp = (int) (temp | nibbles_ptr[i + 1]);
+
+			bits_ptr.add(temp);
 		}
 
-		// FIXME:can be simple
-		// reverse the order of bits
-		for (int i = 0; i < bits_ptr.size(); i++) {
-			bits_ptr.set(i, (int) ((bits_ptr.get(i) & 0xF0) >> 4 | (bits_ptr.get(i) & 0x0F) << 4));
-			bits_ptr.set(i, (int) ((bits_ptr.get(i) & 0xCC) >> 2 | (bits_ptr.get(i) & 0x33) << 2));
-			bits_ptr.set(i, (int) ((bits_ptr.get(i) & 0xAA) >> 1 | (bits_ptr.get(i) & 0x55) << 1));
+		for (int i = 0; i < n_nibbles/2; i++) {
+			int temp = bits_ptr.get(i);
+			temp = (int) ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
+			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
+			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
+
+			bits_ptr.set(i, temp);
 		}
 
 		return new TitanBitString(bits_ptr, 4 * n_nibbles);
@@ -732,17 +732,20 @@ public final class AdditionalFunctions {
 		octets_ptr.addAll(value.getValue());
 
 		for (int i = 0; i < n_octets; i++) {
-			bits_ptr.add((int) ((octets_ptr.get(i) & 0xF0) >> 4));
-			bits_ptr.set(i, (int) (bits_ptr.get(i) << 4));
-			bits_ptr.set(i, (int) (bits_ptr.get(i) | octets_ptr.get(i) & 0x0F));
+			int temp = (int) ((octets_ptr.get(i) & 0xF0) >> 4);
+			temp = (int) (temp << 4);
+			temp = (int) (temp | octets_ptr.get(i) & 0x0F);
+
+			bits_ptr.add(temp);
 		}
 
-		// FIXME:can be simple
-		// reverse the order of bits
 		for (int i = 0; i < bits_ptr.size(); i++) {
-			bits_ptr.set(i, (int) ((bits_ptr.get(i) & 0xF0) >> 4 | (bits_ptr.get(i) & 0x0F) << 4));
-			bits_ptr.set(i, (int) ((bits_ptr.get(i) & 0xCC) >> 2 | (bits_ptr.get(i) & 0x33) << 2));
-			bits_ptr.set(i, (int) ((bits_ptr.get(i) & 0xAA) >> 1 | (bits_ptr.get(i) & 0x55) << 1));
+			int temp = bits_ptr.get(i);
+			temp = (int) ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
+			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
+			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
+
+			bits_ptr.set(i, temp);
 		}
 
 		return new TitanBitString(bits_ptr, 8 * n_octets);
@@ -1019,8 +1022,7 @@ public final class AdditionalFunctions {
 		if(value.operatorEquals("not_a_number")) {
 			return new TitanFloat(Double.NaN);
 		}
-		final StringBuilder value_str = new StringBuilder();
-		value_str.append(value.getValue().toString());
+		final StringBuilder value_str = value.getValue();
 		str2floatState state = str2floatState.S_INITIAL;
 		// state: expected characters
 		// S_INITIAL: +, -, first digit of integer part in mantissa,
