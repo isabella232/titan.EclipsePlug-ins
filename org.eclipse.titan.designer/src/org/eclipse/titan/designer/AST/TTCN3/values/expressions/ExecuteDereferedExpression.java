@@ -17,17 +17,21 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Testcase_Reference_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -47,6 +51,8 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 	private final Value value;
 	private final ParsedActualParameters actualParameterList;
 	private final Value timerValue;
+
+	private ActualParameterList actualParameters;
 
 	public ExecuteDereferedExpression(final Value value, final ParsedActualParameters actualParameterList, final Value timerValue) {
 		this.value = value;
@@ -191,8 +197,8 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 				setIsErroneous(true);
 			} else if (Type_type.TYPE_TESTCASE.equals(type.getTypetype())) {
 				final FormalParameterList formalParameters = ((Testcase_Type) type).getFormalParameters();
-				final ActualParameterList tempParameterList = new ActualParameterList();
-				final boolean isErroneous = formalParameters.checkActualParameterList(timestamp, actualParameterList, tempParameterList);
+				actualParameters = new ActualParameterList();
+				final boolean isErroneous = formalParameters.checkActualParameterList(timestamp, actualParameterList, actualParameters);
 				if (isErroneous) {
 					setIsErroneous(true);
 				}
@@ -309,5 +315,44 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value.canGenerateSingleExpression() && actualParameters.hasSingleExpression() &&
+				(timerValue == null || timerValue.canGenerateSingleExpression());
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
+		chain.release();
+
+		if (last.getValuetype() == Value_type.TESTCASE_REFERENCE_VALUE) {
+			// the referred testcase is known
+			Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
+			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
+			actualParameters.generateCodeAlias(aData, expression);
+		} else {
+			// the referred testcase is unknown
+			value.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".execute(");
+			actualParameters.generateCodeAlias(aData, expression);
+		}
+
+		if (actualParameters.getNofParameters() > 0) {
+			expression.expression.append(", ");
+		}
+
+		if (timerValue != null) {
+			expression.expression.append("true, ");
+			timerValue.generateCodeExpression(aData, expression, true);
+			expression.expression.append(')');
+		} else {
+			expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");
+		}
 	}
 }

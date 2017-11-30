@@ -17,16 +17,20 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Testcase_Reference_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -43,6 +47,8 @@ public final class ActivateDereferedExpression extends Expression_Value {
 
 	private final Value value;
 	private final ParsedActualParameters actualParameterList;
+
+	private ActualParameterList actualParameters;
 
 	public ActivateDereferedExpression(final Value value, final ParsedActualParameters actualParameterList) {
 		this.value = value;
@@ -170,16 +176,16 @@ public final class ActivateDereferedExpression extends Expression_Value {
 			return;
 		}
 
-		final ActualParameterList tempActualParameters = new ActualParameterList();
+		actualParameters = new ActualParameterList();
 		final FormalParameterList formalParameterList = ((Altstep_Type) type).getFormalParameters();
-		if (formalParameterList.checkActualParameterList(timestamp, actualParameterList, tempActualParameters)) {
+		if (formalParameterList.checkActualParameterList(timestamp, actualParameterList, actualParameters)) {
 			setIsErroneous(true);
 			return;
 		}
 
-		tempActualParameters.setFullNameParent(this);
-		tempActualParameters.setMyScope(getMyScope());
-		if (!formalParameterList.checkActivateArgument(timestamp, tempActualParameters, createStringRepresentation())) {
+		actualParameters.setFullNameParent(this);
+		actualParameters.setMyScope(getMyScope());
+		if (!formalParameterList.checkActivateArgument(timestamp, actualParameters, createStringRepresentation())) {
 			setIsErroneous(true);
 		}
 
@@ -245,5 +251,48 @@ public final class ActivateDereferedExpression extends Expression_Value {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value.canGenerateSingleExpression() && actualParameters.hasSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport("TitanDefault");
+
+		final StringBuilder result = new StringBuilder();
+		result.append("new TitanDefault(");
+		ExpressionStruct expression = new ExpressionStruct();
+		generateCodeExpressionExpression(aData, expression);
+		result.append(expression.expression);
+		result.append(')');
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
+		chain.release();
+
+		if (last.getValuetype() == Value_type.ALTSTEP_REFERENCE_VALUE) {
+			// the referred testcase is known
+			Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
+			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "activate_")));
+			
+		} else {
+			// the referred testcase is unknown
+			value.generateCodeExpressionMandatory(aData, expression, true);
+			expression.expression.append(".activate(");
+		}
+
+		actualParameters.generateCodeAlias(aData, expression);
+		expression.expression.append(')');
 	}
 }

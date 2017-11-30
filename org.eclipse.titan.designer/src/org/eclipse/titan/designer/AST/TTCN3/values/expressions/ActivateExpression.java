@@ -190,22 +190,22 @@ public final class ActivateExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return false;
+		return reference.hasSingleExpression();
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		final ExpressionStruct expression = new ExpressionStruct();
-		expression.expression.append(name);
-		expression.expression.append(".assign(");
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+		aData.addBuiltinTypeImport("TitanDefault");
 
+		final StringBuilder result = new StringBuilder();
+		result.append("new TitanDefault(");
+		ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpressionExpression(aData, expression);
+		result.append(expression.expression);
+		result.append(')');
 
-		expression.expression.append(')');
-		expression.mergeExpression(source);
-
-		return source;
+		return result;
 	}
 
 	@Override
