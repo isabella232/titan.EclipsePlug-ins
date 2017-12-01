@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * TTCN-3 universal charstring template
@@ -22,6 +23,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	private TitanUniversalCharString single_value;
 
+	private TitanCharString pattern_string;
+
 	// value_list part
 	private ArrayList<TitanUniversalCharString_template> value_list;
 
@@ -30,7 +33,17 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	private boolean min_is_exclusive, max_is_exclusive;
 	private TitanUniversalChar min_value, max_value;
 
-	//TODO: implement: pattern_value part for STRING_PATTERN case
+	/** originally pattern_value/regexp_init */
+	private boolean pattern_value_regexp_init;
+
+	/**
+	 * java/perl style pattern converted from TTCN-3 charstring pattern
+	 * originally pattern_value/posix_regexp
+	 */
+	private Pattern pattern_value_posix_regexp;
+
+	/** originally pattern_value/nocase */
+	private boolean pattern_value_nocase;
 
 	public TitanUniversalCharString_template () {
 		//do nothing
@@ -84,17 +97,18 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public TitanUniversalCharString_template (final template_sel selValue, final TitanCharString otherValue) {
-		if (selValue != template_sel.STRING_PATTERN) {
-			throw new TtcnError("Internal error: Initializing a universal charstring pattern template with invalid selection.");
-		}
-		//TODO implement string pattern
+		this( selValue, otherValue, false );
 	}
 
 	public TitanUniversalCharString_template(final template_sel selValue, final TitanCharString otherValue, final boolean nocase) {
-		if (selValue != template_sel.STRING_PATTERN) {
+		super( template_sel.STRING_PATTERN );
+		if ( selValue != template_sel.STRING_PATTERN ) {
 			throw new TtcnError("Internal error: Initializing a universal charstring pattern template with invalid selection.");
 		}
-		//TODO implement string pattern
+
+		pattern_string = new TitanCharString( otherValue );
+		pattern_value_regexp_init = false;
+		pattern_value_nocase = nocase;
 	}
 
 	//originally clean_up
@@ -107,9 +121,20 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+			break;
 		case VALUE_RANGE:
 			min_value = null;
 			max_value = null;
+			break;
+		case STRING_PATTERN:
+			if ( pattern_value_regexp_init ) {
+				//TODO
+				//regfree( pattern_value_posix_regexp );
+			}
+			break;
+		case DECODE_MATCH:
+			//TODO
+			break;
 		default:
 			break;
 		}
@@ -381,7 +406,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
-		case VALUE_RANGE:{
+
+		case VALUE_RANGE:
 			if (!min_is_set) {
 				throw new TtcnError("The lower bound is not set when " +
 						"matching with a universal charstring value range template.");
@@ -399,10 +425,16 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 				}
 			}
 			return true;
-		}
-		case STRING_PATTERN:{
-			//TODO: implement
-		}
+
+		case STRING_PATTERN:
+			if ( !pattern_value_regexp_init ) {
+				pattern_value_posix_regexp = TtcnPattern.convertPattern( pattern_string.toString(), pattern_value_nocase );
+			}
+			if ( pattern_value_posix_regexp != null ) {
+				return TtcnPattern.match( otherValue.toString(), pattern_value_posix_regexp, pattern_value_nocase );
+			}
+			throw new TtcnError( MessageFormat.format( "Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.toString() ) );
+
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported universal charstring template.");
 		}
@@ -646,7 +678,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public void log() {
 		switch (templateSelection) {
 		case STRING_PATTERN:
-			//FIXME: implement string pattern
+			TitanCharString_template.log_pattern( pattern_string.lengthOf().getInt(), pattern_string.getValue().toString(), pattern_value_nocase );
 			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();

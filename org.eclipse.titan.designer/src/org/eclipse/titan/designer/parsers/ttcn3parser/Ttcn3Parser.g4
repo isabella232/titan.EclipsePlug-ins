@@ -2441,7 +2441,10 @@ pr_CharStringMatch returns[PatternString patternString]
 	(	STRINGOP
 		pr_PatternChunk[builder, uni, noCase]
 	)*
-);
+)
+{
+	$patternString.setContent(builder.toString());
+};
 
 pr_PatternKeyword:
 	PATTERNKEYWORD

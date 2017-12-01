@@ -9,17 +9,20 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.regex.Pattern;
 
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 charstring template
  *
  * @author Arpad Lovassy
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanCharString_template extends Restricted_Length_Template {
 
 	TitanCharString single_value;
+
+	private TitanCharString pattern_string;
 
 	// value_list part
 	ArrayList<TitanCharString_template> value_list;
@@ -29,31 +32,59 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	boolean min_is_exclusive, max_is_exclusive;
 	TitanCharString min_value, max_value;
 
-	//TODO: implement: pattern_value part for STRING_PATTERN case
+	/** originally pattern_value/regexp_init */
+	private boolean pattern_value_regexp_init;
 
-	public TitanCharString_template () {
+	/**
+	 * java/perl style pattern converted from TTCN-3 charstring pattern
+	 * originally pattern_value/posix_regexp
+	 */
+	private Pattern pattern_value_posix_regexp;
+
+	/** originally pattern_value/nocase */
+	private boolean pattern_value_nocase;
+
+	//TODO: implement
+	//private unichar_decmatch_struct dec_match;
+
+	public TitanCharString_template() {
 		//do nothing
 	}
 
-	public TitanCharString_template (final template_sel otherValue) {
+	public TitanCharString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanCharString_template (final String otherValue) {
+	public TitanCharString_template(final String otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
 	}
 
-	public TitanCharString_template (final TitanCharString otherValue) {
+	public TitanCharString_template(final TitanCharString otherValue ) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound charstring value.");
 
 		single_value = new TitanCharString(otherValue);
 	}
 
-	public TitanCharString_template (final TitanCharString_template otherValue) {
+	public TitanCharString_template(final TitanCharString_template otherValue) {
 		copyTemplate(otherValue);
+	}
+
+	public TitanCharString_template( template_sel p_sel, final TitanCharString p_str ) {
+		this( p_sel, p_str, false );
+	}
+
+	public TitanCharString_template( template_sel p_sel, final TitanCharString p_str, boolean p_nocase ) {
+		super( template_sel.STRING_PATTERN );
+		single_value = new TitanCharString( p_str );
+		if ( p_sel != template_sel.STRING_PATTERN ) {
+			throw new TtcnError("Internal error: Initializing a charstring pattern template with invalid selection.");
+		}
+		pattern_string = new TitanCharString( p_str );
+		pattern_value_regexp_init = false;
+		pattern_value_nocase = p_nocase;
 	}
 
 	//originally clean_up
@@ -66,9 +97,19 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case COMPLEMENTED_LIST:
 			value_list.clear();
 			value_list = null;
+			break;
 		case VALUE_RANGE:
 			min_value = null;
 			max_value = null;
+			break;
+		case STRING_PATTERN:
+			pattern_value_regexp_init = false;
+			pattern_value_posix_regexp = null;
+			pattern_string = null;
+			break;
+		case DECODE_MATCH:
+			//TODO
+			break;
 		default:
 			break;
 		}
@@ -134,6 +175,10 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 	private void copyTemplate(final TitanCharString_template otherValue) {
 		switch (otherValue.templateSelection) {
+		case STRING_PATTERN:
+			pattern_value_regexp_init = false;
+			pattern_value_nocase = otherValue.pattern_value_nocase;
+			// no break
 		case SPECIFIC_VALUE:
 			single_value = new TitanCharString(otherValue.single_value);
 			break;
@@ -160,6 +205,11 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			if(max_is_set) {
 				max_value = new TitanCharString(otherValue.max_value);
 			}
+			break;
+		case DECODE_MATCH:
+			//TODO: implement
+			//dec_match = other_value.dec_match;
+			//dec_match->ref_count++;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported charstring template.");
@@ -297,9 +347,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			}
 			return true;
 		}
-		case STRING_PATTERN:{
-			//TODO: implement
-		}
+		case STRING_PATTERN:
+			if ( !pattern_value_regexp_init ) {
+				pattern_value_posix_regexp = TtcnPattern.convertPattern( pattern_string.toString(), pattern_value_nocase );
+			}
+			if ( pattern_value_posix_regexp != null ) {
+				return TtcnPattern.match( otherValue.toString(), pattern_value_posix_regexp, pattern_value_nocase );
+			}
+			throw new TtcnError( MessageFormat.format( "Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.toString() ) );
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported charstring template.");
 		}
@@ -529,7 +584,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	public void log() {
 		switch (templateSelection) {
 		case STRING_PATTERN:
-			//FIXME: implement string pattern
+			log_pattern( single_value.lengthOf().getInt(), single_value.getValue().toString(), pattern_value_nocase );
 			break;
 		case SPECIFIC_VALUE: {
 			single_value.log();
@@ -591,6 +646,149 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		log_restricted();
 		log_ifpresent();
+	}
+
+	private enum LogPatternState { INITIAL, BACKSLASH, BACKSLASH_Q, QUADRUPLE, HASHMARK, REPETITIONS };
+
+	static void log_pattern( final int n_chars, final String chars_ptr, final boolean nocase ) {
+		TtcnLogger.log_event_str("pattern ");
+		if ( nocase ) {
+			TtcnLogger.log_event_str("@nocase ");
+		}
+		TtcnLogger.log_event_str("\"");
+		LogPatternState state = LogPatternState.INITIAL;
+		for (int i = 0; i < n_chars; i++) {
+			char c = chars_ptr.charAt( i );
+			// print the character
+			if ( 32 <= c ) {
+				// printable character
+				switch ( c ) {
+				case '"':
+					TtcnLogger.log_event_str("\\\"");
+					break;
+				case '{':
+					if (state == LogPatternState.BACKSLASH || state == LogPatternState.BACKSLASH_Q) {
+						TtcnLogger.log_char('{');
+					} else {
+						TtcnLogger.log_event_str("\\{");
+					}
+					break;
+				case '}':
+					if (state == LogPatternState.BACKSLASH || state == LogPatternState.QUADRUPLE) {
+						TtcnLogger.log_char('}');
+					} else {
+						TtcnLogger.log_event_str("\\}");
+					}
+					break;
+				case ' ':
+					if (state != LogPatternState.INITIAL && state != LogPatternState.BACKSLASH) {
+						break;
+					}
+					// no break
+				default:
+					TtcnLogger.log_char(c);
+					break;
+				}
+			} else {
+				switch (c) {
+				case '\t':
+					if (state == LogPatternState.INITIAL || state == LogPatternState.BACKSLASH) {
+						TtcnLogger.log_event_str("\\t");
+					}
+					break;
+				case '\r':
+					if (state == LogPatternState.INITIAL || state == LogPatternState.BACKSLASH) {
+						TtcnLogger.log_event_str("\\r");
+					}
+					break;
+				case '\n':
+				case '\u000b': // \v
+				case '\f':
+					if (state != LogPatternState.INITIAL && state != LogPatternState.BACKSLASH) {
+						break;
+					}
+					// no break
+				default:
+					TtcnLogger.log_event("\\q{0,0,0,%u}", c);
+					break;
+				}
+			}
+			// update the state
+			switch (state) {
+			case INITIAL:
+				switch (c) {
+				case '\\':
+					state = LogPatternState.BACKSLASH;
+					break;
+				case '#':
+					state = LogPatternState.HASHMARK;
+					break;
+				default:
+					break;
+				}
+				break;
+			case BACKSLASH:
+				if (c == 'q') {
+					state = LogPatternState.BACKSLASH_Q;
+				} else {
+					state = LogPatternState.INITIAL;
+				}
+				break;
+			case BACKSLASH_Q:
+				switch (c) {
+				case '{':
+					state = LogPatternState.QUADRUPLE;
+					break;
+				case ' ':
+				case '\t':
+				case '\r':
+				case '\n':
+				case '\u000b': // \v
+				case '\f':
+					break;
+				default:
+					state = LogPatternState.INITIAL;
+					break;
+				}
+				break;
+			case HASHMARK:
+				switch (c) {
+				case '(':
+					state = LogPatternState.REPETITIONS;
+					break;
+				case ' ':
+				case '\t':
+				case '\r':
+				case '\n':
+				case '\u000b': // \v
+				case '\f':
+					break;
+				default:
+					state = LogPatternState.INITIAL;
+					break;
+				}
+				break;
+			case QUADRUPLE:
+			case REPETITIONS:
+				switch (c) {
+				case ' ':
+				case '\t':
+				case '\r':
+				case '\n':
+				case '\u000b': // \v
+				case '\f':
+				case ',':
+					break;
+				default:
+					if (!Character.isDigit(c)) {
+						state = LogPatternState.INITIAL;
+					}
+					break;
+				}
+				break;
+			}
+		}
+		TtcnLogger.log_char('"');
 	}
 
 	public void log_match(final TitanCharString match_value, final boolean legacy) {
