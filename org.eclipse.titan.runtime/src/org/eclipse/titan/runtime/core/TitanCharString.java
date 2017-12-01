@@ -149,6 +149,18 @@ public class TitanCharString extends Base_Type {
 		return new TitanInteger(val_ptr.length());
 	}
 
+	public static enum CharCoding {
+		UNKNOWN,
+	    ASCII,
+	    UTF_8,
+	    UTF16,
+	    UTF16BE,
+	    UTF16LE,
+	    UTF32,
+	    UTF32BE,
+	    UTF32LE
+	}
+
 	private static enum States {
 		INIT, PCHAR, NPCHAR;
 	}
