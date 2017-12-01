@@ -22,8 +22,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 	TitanCharString single_value;
 
-	private TitanCharString pattern_string;
-
 	// value_list part
 	ArrayList<TitanCharString_template> value_list;
 
@@ -42,7 +40,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	private Pattern pattern_value_posix_regexp;
 
 	/** originally pattern_value/nocase */
-	private boolean pattern_value_nocase;
+	boolean pattern_value_nocase;
 
 	//TODO: implement
 	//private unichar_decmatch_struct dec_match;
@@ -82,7 +80,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		if ( p_sel != template_sel.STRING_PATTERN ) {
 			throw new TtcnError("Internal error: Initializing a charstring pattern template with invalid selection.");
 		}
-		pattern_string = new TitanCharString( p_str );
 		pattern_value_regexp_init = false;
 		pattern_value_nocase = p_nocase;
 	}
@@ -105,7 +102,6 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			pattern_value_regexp_init = false;
 			pattern_value_posix_regexp = null;
-			pattern_string = null;
 			break;
 		case DECODE_MATCH:
 			//TODO
@@ -349,12 +345,12 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		}
 		case STRING_PATTERN:
 			if ( !pattern_value_regexp_init ) {
-				pattern_value_posix_regexp = TtcnPattern.convertPattern( pattern_string.toString(), pattern_value_nocase );
+				pattern_value_posix_regexp = TtcnPattern.convertPattern( single_value.toString(), pattern_value_nocase );
 			}
 			if ( pattern_value_posix_regexp != null ) {
 				return TtcnPattern.match( otherValue.toString(), pattern_value_posix_regexp, pattern_value_nocase );
 			}
-			throw new TtcnError( MessageFormat.format( "Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.toString() ) );
+			throw new TtcnError( MessageFormat.format( "Cannot convert pattern \"{0}\" to POSIX-equivalent.", single_value.toString() ) );
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported charstring template.");
 		}
