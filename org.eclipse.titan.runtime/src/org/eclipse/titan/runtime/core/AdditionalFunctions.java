@@ -736,8 +736,7 @@ public final class AdditionalFunctions {
 			int ret_val = 0;
 			for (int i = start_index; i < n_octets; i++) {
 				ret_val = ret_val << 8;
-				ret_val += value.get_nibble(i) & 0xF0;
-				ret_val += value.get_nibble(i) & 0x0F;
+				ret_val += value.get_nibble(i) & 0xFF;
 			}
 
 			return new TitanInteger(ret_val);
@@ -745,15 +744,13 @@ public final class AdditionalFunctions {
 			int ret_val = 0;
 			for (int i = start_index; i < start_index + 3; i++) {
 				ret_val = ret_val << 8;
-				ret_val += value.get_nibble(i) & 0xF0;
-				ret_val += value.get_nibble(i) & 0x0F;
+				ret_val += value.get_nibble(i) & 0xFF;
 			}
 
 			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
 			for (int i = start_index + 3; i < n_octets; i++) {
 				ret_val2 = ret_val2.shiftLeft(8);
-				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0xF0));
-				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0x0F));
+				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0xFF));
 			}
 
 			return new TitanInteger(ret_val2);
