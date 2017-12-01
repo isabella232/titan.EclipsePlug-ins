@@ -269,15 +269,20 @@ public final class AdditionalFunctions {
 			if (length < 0) {
 				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
-			if ((tmp_val.bitCount() + 7) / 4 > length) {
-				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" : ""));
-			}
 
 			final char octets_ptr[] = new char[length];
 			final BigInteger helper = new BigInteger("255");
 			for (int i = length - 1; i >= 0; i--) {
 				octets_ptr[i] = (char) (tmp_val.and(helper).intValue());
 				tmp_val = tmp_val.shiftRight(8);
+			}
+			if (tmp_val.compareTo(BigInteger.ZERO) != 0) {
+				int i = 0;
+				while (tmp_val.compareTo(BigInteger.ZERO) == 1) {
+					tmp_val = tmp_val.shiftRight(1);
+					i++;
+				}
+				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}, needs at least {3}.", value, length, length > 1 ? "s" :"", length + i));
 			}
 
 			return new TitanOctetString(octets_ptr);
@@ -458,7 +463,7 @@ public final class AdditionalFunctions {
 		} else {
 			int ret_val = 0;
 			for (int i = start_index; i < start_index + 31; i++) {
-				ret_val = ret_val << 1;
+				ret_val <<= 1;
 				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
 					ret_val += 1;
 				}
@@ -1264,9 +1269,7 @@ public final class AdditionalFunctions {
 		} else {
 			final int bits_ptr[] = value.getValue();
 			final int ret_val[] = new int[(returncount + 7) / 8];
-			for (int i = 0; i < (returncount + 7) / 8; i++) {
-				ret_val[i] = bits_ptr[i + idx / 8];
-			}
+			System.arraycopy(bits_ptr, idx / 8, ret_val, 0, (returncount + 7) / 8);
 			return new TitanBitString(ret_val, returncount);
 		}
 	}
@@ -1326,10 +1329,7 @@ public final class AdditionalFunctions {
 		check_substr_arguments(value.lengthOf().getInt(), idx, returncount, "hexstring", "hexadecimal digi");
 		final byte src_ptr[] = value.getValue();
 		final byte ret_val[] = new byte[returncount];
-
-		for (int i = 0; i < returncount; i++) {
-			ret_val[i] = src_ptr[i + idx];
-		}
+		System.arraycopy(src_ptr, idx, ret_val, 0, returncount);
 
 		return new TitanHexString(ret_val);
 	}
@@ -1755,7 +1755,7 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "bitstring", "bit");
 
 		final int repl_len = repl.lengthOf().getInt();
-		final StringBuilder temp_sb = new StringBuilder();
+		final StringBuilder temp_sb = new StringBuilder(value_len);
 		for (int i = 0; i < value_len; i++) {
 			temp_sb.append('0');
 		}
@@ -1801,17 +1801,13 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "hexstring", "hexadecimal digit");
 
 		final int repl_len = repl.lengthOf().getInt();
+		final byte src_ptr[] = value.getValue();
+		final byte repl_ptr[] = repl.getValue();
 		final byte ret_val[] = new byte[value_len + repl_len - len];
 
-		for (int i = 0; i < idx; i++) {
-			ret_val[i] = value.get_nibble(i);
-		}
-		for (int i = 0; i < repl_len; i++) {
-			ret_val[idx + i] = repl.get_nibble(i);
-		}
-		for (int i = 0; i < value_len - idx - len; i++) {
-			ret_val[idx + i + repl_len] = value.get_nibble(idx + i + len);
-		}
+		System.arraycopy(src_ptr, 0, ret_val, 0, idx);
+		System.arraycopy(repl_ptr, 0, ret_val, idx, repl_len);
+		System.arraycopy(src_ptr, idx + len, ret_val, idx + repl_len, value_len - idx - len);
 
 		return new TitanHexString(ret_val);
 	}
@@ -1844,17 +1840,13 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "octetstring", "octet");
 
 		final int repl_len = repl.lengthOf().getInt();
+		final char src_ptr[] = value.getValue();
+		final char repl_ptr[] = repl.getValue();
 		final char ret_val[] = new char[value_len + repl_len - len];
 
-		for (int i = 0; i < idx; i++) {
-			ret_val[i] = value.get_nibble(i);
-		}
-		for (int i = 0; i < repl_len; i++) {
-			ret_val[idx + i] = repl.get_nibble(i);
-		}
-		for (int i = 0; i < value_len - idx - len; i++) {
-			ret_val[idx + i + repl_len] = value.get_nibble(idx + i + len);
-		}
+		System.arraycopy(src_ptr, 0, ret_val, 0, idx);
+		System.arraycopy(repl_ptr, 0, ret_val, idx, repl_len);
+		System.arraycopy(src_ptr, idx + len, ret_val, idx + repl_len, value_len - idx - len);
 
 		return new TitanOctetString(ret_val);
 	}
@@ -1887,7 +1879,7 @@ public final class AdditionalFunctions {
 		check_replace_arguments(value_len, idx, len, "charstring", "character");
 
 		final StringBuilder ret_val = new StringBuilder();
-		ret_val.append(value.getValue().toString());
+		ret_val.append(value.getValue());
 
 		ret_val.replace(idx, idx + len, repl.getValue().toString());
 
