@@ -127,10 +127,9 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			max_value = null;
 			break;
 		case STRING_PATTERN:
-			if ( pattern_value_regexp_init ) {
-				//TODO
-				//regfree( pattern_value_posix_regexp );
-			}
+			pattern_value_regexp_init = false;
+			pattern_value_posix_regexp = null;
+			pattern_string = null;
 			break;
 		case DECODE_MATCH:
 			//TODO
@@ -283,8 +282,10 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			max_value =  new TitanUniversalChar((char) 0, (char) 0, (char) 0, otherValue.max_value.getAt(0).get_char());
 			break;
 		case STRING_PATTERN:
-			// TODO: implement
-			break;
+		    pattern_string = new TitanCharString( otherValue.single_value );
+		    pattern_value_regexp_init = false;
+		    pattern_value_nocase = otherValue.pattern_value_nocase;
+		    break;
 		case DECODE_MATCH:
 
 			break;
