@@ -350,11 +350,11 @@ public final class Str2FloatExpression extends Expression_Value {
 			string = string.trim();
 
 			double number;
-			if ("-INF".equals(string)) {
+			if ("-infinity".equals(string)) {
 				number = Float.NEGATIVE_INFINITY;
-			} else if ("INF".equals(string)) {
+			} else if ("infinity".equals(string)) {
 				number = Float.POSITIVE_INFINITY;
-			} else if ("NaN".equals(string)) {
+			} else if ("not_a_number".equals(string)) {
 				number = Float.NaN;
 			} else {
 				try {

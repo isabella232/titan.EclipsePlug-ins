@@ -1011,7 +1011,6 @@ public final class TtcnLogger {
 		log_event_str(ret_val.toString());
 	}
 
-	
 	//temporary enum, original: TitanLoggerApi::RandomAction
 	public static enum RandomAction {
 		seed,
@@ -1019,14 +1018,14 @@ public final class TtcnLogger {
 		UNBOUND_VALUE,
 		UNKNOWN_VALUE
 	}
-	
+
 	public static void log_random(final RandomAction rndAction, double value, long seed) {
 		if (!log_this_event(Severity.FUNCTION_RND) && get_emergency_logging() <= 0) {
 			return;
 		}
-		
+
 		StringBuilder ret_val = new StringBuilder();
-		
+
 		switch (rndAction) {
 		case seed:
 			ret_val.append(MessageFormat.format( "Random number generator was initialized with seed {0}: {1}",value,seed));
@@ -1039,22 +1038,22 @@ public final class TtcnLogger {
 		default:
 			break;
 		}
-		
+
 		log_line(Severity.FUNCTION_RND,ret_val.toString());
 	}
-	
+
 	public static void log_matching_failure(final PortType port_type, final String port_name, final int compref, final MatchingFailureType_reason reason, final TitanCharString info) {
 		Severity sev;
 		boolean is_call = false;
-		if(compref == TitanComponent.SYSTEM_COMPREF) {
+		if (compref == TitanComponent.SYSTEM_COMPREF) {
 			sev = (port_type == PortType.MESSAGE_) ? Severity.MATCHING_MMUNSUCC : Severity.MATCHING_PMUNSUCC;
 		} else {
 			sev = (port_type == PortType.MESSAGE_) ? Severity.MATCHING_MCUNSUCC : Severity.MATCHING_PCUNSUCC;
 		}
-		if(!log_this_event(sev) && (get_emergency_logging() <= 0)) {
+		if (!log_this_event(sev) && (get_emergency_logging() <= 0)) {
 			return;
 		}
-		
+
 		StringBuilder ret_val = new StringBuilder();
 		switch (reason) {
 		case MESSAGE_DOES_NOT_MATCH_TEMPLATE:
