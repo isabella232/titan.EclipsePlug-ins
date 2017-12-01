@@ -119,12 +119,12 @@ public final class AdditionalFunctions {
 					final int temp = bits_ptr[i / 8] | (1 << (i % 8));
 					bits_ptr[i / 8] = temp;
 				}
-				tempValue = tempValue >> 1;
+				tempValue >>= 1;
 			}
 			if (tempValue != 0) {
 				int i = 0;
 				while (tempValue != 0) {
-					tempValue = tempValue >> 1;
+					tempValue >>= 1;
 					i++;
 				}
 				throw new TtcnError(MessageFormat.format("The first argument of function int2bit(), which is {0}, does not fit in {1} bit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
@@ -189,13 +189,13 @@ public final class AdditionalFunctions {
 			final byte nibbles_ptr[] = new byte[length];
 			for (int i = length - 1; i >= 0; i--) {
 				nibbles_ptr[i] = (byte) (tmp_value & 0xF);
-				tmp_value = tmp_value >> 4;
+				tmp_value >>= 4;
 			}
 
 			if (tmp_value != 0) {
 				int i = 0;
 				while (tmp_value != 0) {
-					tmp_value = tmp_value >> 4;
+					tmp_value >>= 4;
 					i++;
 				}
 				throw new TtcnError(MessageFormat.format("The first argument of function int2hex(), which is {0}, does not fit in {1} hexadecimal digit{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
@@ -242,7 +242,7 @@ public final class AdditionalFunctions {
 		int tmp_value = value;
 		for (int i = length - 1; i >= 0; i--) {
 			octets_ptr[i] = (char) (tmp_value & 0xFF);
-			tmp_value = tmp_value >> 8;
+			tmp_value >>= 8;
 		}
 		if (tmp_value != 0) {
 			throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" :""));
@@ -269,20 +269,15 @@ public final class AdditionalFunctions {
 			if (length < 0) {
 				throw new TtcnError(MessageFormat.format("The second argument (length) of function int2oct() is a negative integer value: {0}.", length));
 			}
+			if ((tmp_val.bitCount() + 7) / 4 > length) {
+				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" : ""));
+			}
 
 			final char octets_ptr[] = new char[length];
 			final BigInteger helper = new BigInteger("255");
 			for (int i = length - 1; i >= 0; i--) {
 				octets_ptr[i] = (char) (tmp_val.and(helper).intValue());
 				tmp_val = tmp_val.shiftRight(8);
-			}
-			if (tmp_val.compareTo(BigInteger.ZERO) != 0) {
-				int i = 0;
-				while (tmp_val.compareTo(BigInteger.ZERO) == 1) {
-					tmp_val = tmp_val.shiftRight(1);
-					i++;
-				}
-				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}, needs at least {3}.", value, length, length > 1 ? "s" :"", length + i));
 			}
 
 			return new TitanOctetString(octets_ptr);
@@ -453,7 +448,7 @@ public final class AdditionalFunctions {
 			//fits into native
 			int ret_val = 0;
 			for (int i = start_index; i < n_bits; i++) {
-				ret_val = ret_val << 1;
+				ret_val <<= 1;
 				if ((temp[i / 8] & (1 << (i % 8))) != 0) {
 					ret_val += 1;
 				}
@@ -590,7 +585,7 @@ public final class AdditionalFunctions {
 			//fits into native
 			int ret_val = 0;
 			for (int i = start_index; i < n_nibbles; i++) {
-				ret_val = ret_val << 4;
+				ret_val <<= 4;
 				ret_val += value.get_nibble(i) & 0x0F;
 			}
 
@@ -598,7 +593,7 @@ public final class AdditionalFunctions {
 		} else {
 			int ret_val = 0;
 			for (int i = start_index; i < start_index + 7; i++) {
-				ret_val = ret_val << 4;
+				ret_val <<= 4;
 				ret_val += value.get_nibble(i) & 0x0F;
 			}
 
@@ -638,7 +633,7 @@ public final class AdditionalFunctions {
 		final byte nibbles_ptr[] = value.getValue();
 		for (int i = 0; i < n_nibbles; i += 2) {
 			int temp = nibbles_ptr[i];
-			temp = (int) (temp << 4);
+			temp <<= 4;
 			temp = (int) (temp | nibbles_ptr[i + 1]);
 
 			bits_ptr[i / 2] = temp;
@@ -646,9 +641,9 @@ public final class AdditionalFunctions {
 
 		for (int i = 0; i < n_nibbles / 2; i++) {
 			int temp = bits_ptr[i];
-			temp = (int) ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
-			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
-			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
+			temp = ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
+			temp = ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
+			temp = ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
 
 			bits_ptr[i] = temp;
 		}
@@ -720,12 +715,13 @@ public final class AdditionalFunctions {
 	public static TitanInteger oct2int(final TitanOctetString value) {
 		value.mustBound("The argument of function oct2int() is an unbound octetstring value.");
 
-		final int n_octets = value.lengthOf().getInt();
+		final char octets_ptr[] = value.getValue();
+		final int n_octets = octets_ptr.length;
 
 		// skip the leading zero hex digits
 		int start_index = 0;
 		for (start_index = 0; start_index < n_octets; start_index++) {
-			if (value.get_nibble(start_index) != 0) {
+			if (octets_ptr[start_index] != 0) {
 				break;
 			}
 		}
@@ -735,22 +731,22 @@ public final class AdditionalFunctions {
 			//fits into native
 			int ret_val = 0;
 			for (int i = start_index; i < n_octets; i++) {
-				ret_val = ret_val << 8;
-				ret_val += value.get_nibble(i) & 0xFF;
+				ret_val <<= 8;
+				ret_val += octets_ptr[i] & 0xFF;
 			}
 
 			return new TitanInteger(ret_val);
 		} else {
 			int ret_val = 0;
 			for (int i = start_index; i < start_index + 3; i++) {
-				ret_val = ret_val << 8;
-				ret_val += value.get_nibble(i) & 0xFF;
+				ret_val <<= 8;
+				ret_val += octets_ptr[i] & 0xFF;
 			}
 
 			BigInteger ret_val2 = BigInteger.valueOf(ret_val);
 			for (int i = start_index + 3; i < n_octets; i++) {
 				ret_val2 = ret_val2.shiftLeft(8);
-				ret_val2 = ret_val2.add(BigInteger.valueOf(value.get_nibble(i) & 0xFF));
+				ret_val2 = ret_val2.add(BigInteger.valueOf(octets_ptr[i] & 0xFF));
 			}
 
 			return new TitanInteger(ret_val2);
@@ -773,17 +769,17 @@ public final class AdditionalFunctions {
 
 		for (int i = 0; i < n_octets; i++) {
 			int temp = (int) ((octets_ptr[i] & 0xF0) >> 4);
-			temp = (int) (temp << 4);
-			temp = (int) (temp | octets_ptr[i] & 0x0F);
+			temp <<= 4;
+			temp = (temp | octets_ptr[i] & 0x0F);
 
 			bits_ptr[i] = temp;
 		}
 
 		for (int i = 0; i < bits_ptr.length; i++) {
 			int temp = bits_ptr[i];
-			temp = (int) ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
-			temp = (int) ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
-			temp = (int) ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
+			temp = ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
+			temp = ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
+			temp = ((temp & 0xAA) >> 1 | (temp & 0x55) << 1);
 
 			bits_ptr[i] = temp;
 		}
