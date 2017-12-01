@@ -15,7 +15,8 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 // FIXME: implement
 /**
  * @author Balazs Andor Zalanyi
- * */
+ * @author Arpad Lovassy
+ */
 public final class PatternString implements IVisitableNode {
 
 	public enum PatternType {
@@ -23,6 +24,11 @@ public final class PatternString implements IVisitableNode {
 	}
 
 	private PatternType patterntype;
+
+	/**
+	 * The string content of the pattern
+	 */
+	private String content;
 
 	public PatternString() {
 		patterntype = PatternType.CHARSTRING_PATTERN;
@@ -40,8 +46,12 @@ public final class PatternString implements IVisitableNode {
 		patterntype = pt;
 	}
 
+	public void setContent(String s) {
+		content = s;
+	}
+	
 	public String getFullString() {
-		return "";
+		return content;
 	}
 
 	/**
@@ -72,4 +82,5 @@ public final class PatternString implements IVisitableNode {
 		}
 		return true;
 	}
+
 }
