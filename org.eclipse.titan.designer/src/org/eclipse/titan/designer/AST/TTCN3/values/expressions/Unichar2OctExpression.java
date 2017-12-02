@@ -251,4 +251,14 @@ public final class Unichar2OctExpression extends Expression_Value {
 			value.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.unichar2oct(");
+		value.generateCodeExpressionMandatory(aData, expression, true);
+		expression.expression.append(')');
+	}
 }
