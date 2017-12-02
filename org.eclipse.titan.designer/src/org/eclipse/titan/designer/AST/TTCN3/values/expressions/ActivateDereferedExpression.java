@@ -266,7 +266,7 @@ public final class ActivateDereferedExpression extends Expression_Value {
 
 		final StringBuilder result = new StringBuilder();
 		result.append("new TitanDefault(");
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpressionExpression(aData, expression);
 		result.append(expression.expression);
 		result.append(')');
@@ -276,14 +276,14 @@ public final class ActivateDereferedExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
 		chain.release();
 
 		if (last.getValuetype() == Value_type.ALTSTEP_REFERENCE_VALUE) {
 			// the referred testcase is known
-			Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
+			final Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
 			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "activate_")));
 			
 		} else {

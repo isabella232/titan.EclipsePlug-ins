@@ -326,14 +326,14 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpressionExpression(JavaGenData aData, ExpressionStruct expression) {
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
+		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), chain);
 		chain.release();
 
 		if (last.getValuetype() == Value_type.TESTCASE_REFERENCE_VALUE) {
 			// the referred testcase is known
-			Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
+			final Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
 			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
 			actualParameters.generateCodeAlias(aData, expression);
 		} else {

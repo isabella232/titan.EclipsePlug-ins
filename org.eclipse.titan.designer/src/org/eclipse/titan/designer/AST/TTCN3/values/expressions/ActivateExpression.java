@@ -200,7 +200,7 @@ public final class ActivateExpression extends Expression_Value {
 
 		final StringBuilder result = new StringBuilder();
 		result.append("new TitanDefault(");
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpressionExpression(aData, expression);
 		result.append(expression.expression);
 		result.append(')');
