@@ -153,7 +153,7 @@ public abstract class Base_Template {
 		is_ifPresent = text_buf.pull_int().getInt() == 1;
 	}
 
-	protected boolean get_istemplate_kind(final String type) {
+	public boolean get_istemplate_kind(final String type) {
 		if("value".equals(type)) {
 			return isValue();
 		} else if ("list".equals(type)) {
@@ -177,12 +177,17 @@ public abstract class Base_Template {
 		} else if ("ifpresent".equals(type)) {
 			return is_ifPresent;
 		} else if ("pattern".equals(type)) {
-			return templateSelection == template_sel.STRING_PATTERN;
+			throw new TtcnError("Pattenr support is not yet implement!");
+//			return templateSelection == template_sel.STRING_PATTERN;
 		} else if ("AnyElement".equals(type) || "AnyElementsOrNone".equals(type) ||
 				"permutation".equals(type) || "length".equals(type)) {
 			return false;
 		}
 		throw new TtcnError( MessageFormat.format( "Incorrect second parameter ({0}) was passed to istemplatekind.", type ) );
+	}
+
+	protected boolean get_istemplate_kind(final TitanCharString type) {
+		return get_istemplate_kind(type.getValue().toString());
 	}
 
 	public boolean isOmit() {

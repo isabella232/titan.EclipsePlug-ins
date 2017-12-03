@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
@@ -43,18 +44,18 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 	private static final String OPERAND2_ERROR1 = "The 2nd operand of the `istemplatekind' operation should be a charstring value";
 
-	private final TemplateInstance templateInstance1;
-	private final Value value2;
+	private final TemplateInstance templateInstance;
+	private final Value value;
 
-	public IsTemplateKindExpression(final TemplateInstance templateInstance1, final Value value2) {
-		this.templateInstance1 = templateInstance1;
-		this.value2 = value2;
+	public IsTemplateKindExpression(final TemplateInstance templateInstance, final Value value) {
+		this.templateInstance = templateInstance;
+		this.value = value;
 
-		if (templateInstance1 != null) {
-			templateInstance1.setFullNameParent(this);
+		if (templateInstance != null) {
+			templateInstance.setFullNameParent(this);
 		}
-		if (value2 != null) {
-			value2.setFullNameParent(this);
+		if (value != null) {
+			value.setFullNameParent(this);
 		}
 	}
 
@@ -67,10 +68,10 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (templateInstance1 != null && templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+		if (templateInstance != null && templateInstance.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
-		if (value2 != null & value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (value != null & value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 
@@ -81,9 +82,9 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("istemplatekind(");
-		builder.append(templateInstance1.createStringRepresentation());
+		builder.append(templateInstance.createStringRepresentation());
 		builder.append(", ");
-		builder.append(value2 == null ? "null" : value2.createStringRepresentation());
+		builder.append(value == null ? "null" : value.createStringRepresentation());
 		builder.append(')');
 		return builder.toString();
 	}
@@ -92,11 +93,11 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		if (templateInstance1 != null) {
-			templateInstance1.setMyScope(scope);
+		if (templateInstance != null) {
+			templateInstance.setMyScope(scope);
 		}
-		if (value2 != null) {
-			value2.setMyScope(scope);
+		if (value != null) {
+			value.setMyScope(scope);
 		}
 	}
 
@@ -105,11 +106,11 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	public void setCodeSection(final CodeSectionType codeSection) {
 		super.setCodeSection(codeSection);
 
-		if (templateInstance1 != null) {
-			templateInstance1.setCodeSection(codeSection);
+		if (templateInstance != null) {
+			templateInstance.setCodeSection(codeSection);
 		}
-		if (value2 != null) {
-			value2.setCodeSection(codeSection);
+		if (value != null) {
+			value.setCodeSection(codeSection);
 		}
 	}
 
@@ -118,9 +119,9 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (templateInstance1 == child) {
+		if (templateInstance == child) {
 			return builder.append(OPERAND1);
-		} else if (value2 == child) {
+		} else if (value == child) {
 			return builder.append(OPERAND2);
 		}
 
@@ -173,15 +174,15 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
 			final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain ) {
-		if (templateInstance1 == null) {
+		if (templateInstance == null) {
 			setIsErroneous(true);
 			return;
 		}
 
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
-		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
-		ITTCN3Template template = templateInstance1.getTemplateBody();
+		IType type = templateInstance.getExpressionGovernor(timestamp, internalExpectation);
+		ITTCN3Template template = templateInstance.getTemplateBody();
 		if (type == null) {
 			template = template.setLoweridToReference(timestamp);
 			type = template.getExpressionGovernor(timestamp, internalExpectation);
@@ -189,13 +190,13 @@ public final class IsTemplateKindExpression extends Expression_Value {
 
 		if (type == null) {
 			if (!template.getIsErroneous(timestamp)) {
-				templateInstance1.getLocation().reportSemanticError(OPERAND1_ERROR1);
+				templateInstance.getLocation().reportSemanticError(OPERAND1_ERROR1);
 			}
 			setIsErroneous(true);
 			return;
 		}
 
-		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance1, type, referenceChain, expectedValue);
+		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance, type, referenceChain, expectedValue);
 
 		if (getIsErroneous(timestamp)) {
 			return;
@@ -239,22 +240,22 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	private void checkExpressionOperand2( final CompilationTimeStamp timestamp,
 			final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain ) {
-		if (value2 == null) {
+		if (value == null) {
 			setIsErroneous(true);
 			return;
 		}
 
-		value2.setLoweridToReference(timestamp);
-		final Type_type tempType = value2.getExpressionReturntype(timestamp, expectedValue);
+		value.setLoweridToReference(timestamp);
+		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (tempType) {
 		case TYPE_CHARSTRING:
-			final IValue last = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
+			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
 				final CharstringExtractor cs = new CharstringExtractor( originalString );
 				if ( cs.isErrorneous() ) {
-					value2.getLocation().reportSemanticError( cs.getErrorMessage() );
+					value.getLocation().reportSemanticError( cs.getErrorMessage() );
 					setIsErroneous(true);
 				}
 			}
@@ -284,9 +285,11 @@ public final class IsTemplateKindExpression extends Expression_Value {
 		lastTimeChecked = timestamp;
 		lastValue = this;
 
-		if (templateInstance1 != null) {
+		if (templateInstance != null) {
 			checkExpressionOperands(timestamp, expectedValue, referenceChain);
 		}
+
+		//TODO could be optimized for templates
 
 		return lastValue;
 	}
@@ -295,14 +298,14 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
-			if (templateInstance1 != null) {
+			if (templateInstance != null) {
 				referenceChain.markState();
-				templateInstance1.checkRecursions(timestamp, referenceChain);
+				templateInstance.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
-			if (value2 != null) {
+			if (value != null) {
 				referenceChain.markState();
-				value2.checkRecursions(timestamp, referenceChain);
+				value.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
 		}
@@ -315,35 +318,35 @@ public final class IsTemplateKindExpression extends Expression_Value {
 			throw new ReParseException();
 		}
 
-		if (templateInstance1 != null) {
-			templateInstance1.updateSyntax(reparser, false);
-			reparser.updateLocation(templateInstance1.getLocation());
+		if (templateInstance != null) {
+			templateInstance.updateSyntax(reparser, false);
+			reparser.updateLocation(templateInstance.getLocation());
 		}
 
-		if (value2 != null) {
-			value2.updateSyntax(reparser, false);
-			reparser.updateLocation(value2.getLocation());
+		if (value != null) {
+			value.updateSyntax(reparser, false);
+			reparser.updateLocation(value.getLocation());
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (templateInstance1 != null) {
-			templateInstance1.findReferences(referenceFinder, foundIdentifiers);
+		if (templateInstance != null) {
+			templateInstance.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (value2 != null) {
-			value2.findReferences(referenceFinder, foundIdentifiers);
+		if (value != null) {
+			value.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (templateInstance1 != null && !templateInstance1.accept(v)) {
+		if (templateInstance != null && !templateInstance.accept(v)) {
 			return false;
 		}
-		if (value2 != null && !value2.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;
@@ -352,11 +355,41 @@ public final class IsTemplateKindExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
-		if (templateInstance1 != null) {
-			templateInstance1.reArrangeInitCode(aData, source, usageModule);
+		if (templateInstance != null) {
+			templateInstance.reArrangeInitCode(aData, source, usageModule);
 		}
-		if (value2 != null) {
-			value2.reArrangeInitCode(aData, source, usageModule);
+		if (value != null) {
+			value.reArrangeInitCode(aData, source, usageModule);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return value.canGenerateSingleExpression() && templateInstance.hasSingleExpression();
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		final ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append(name);
+		expression.expression.append(".assign(");
+		generateCodeExpressionExpression(aData, expression);
+		expression.expression.append(")");
+
+		expression.mergeExpression(source);
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		//TODO actually a bit more complicated
+		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
+		expression.expression.append( ".get_istemplate_kind( " );
+		value.generateCodeExpression(aData, expression, false);
+		expression.expression.append( ')' );
 	}
 }

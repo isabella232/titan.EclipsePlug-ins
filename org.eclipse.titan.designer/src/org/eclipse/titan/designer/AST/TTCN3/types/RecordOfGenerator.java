@@ -2058,7 +2058,7 @@ public class RecordOfGenerator {
 	private static void generateTemplateGetIstemplateKind(final StringBuilder source, final String genName) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tprotected boolean get_istemplate_kind(final String type) {\n");
+		source.append("\tpublic boolean get_istemplate_kind(final String type) {\n");
 		source.append("\t\tif (\"AnyElement\".equals(type)) {\n");
 		source.append("\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\treturn false;\n");
