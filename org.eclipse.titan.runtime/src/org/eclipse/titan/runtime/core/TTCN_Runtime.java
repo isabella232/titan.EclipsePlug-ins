@@ -55,6 +55,9 @@ public final class TTCN_Runtime {
 	private static int controlErrorCount = 0;
 	private static String verdictReason = "";
 
+	//in the compiler in_ttcn_try_block
+	private static int ttcn_try_block_counter = 0;
+
 	private TTCN_Runtime() {
 		// private constructor to disable accidental instantiation
 	}
@@ -186,6 +189,18 @@ public final class TTCN_Runtime {
 		default:
 			return false;
 		}
+	}
+
+	public static void increase_try_catch_counter() {
+		ttcn_try_block_counter++;
+	}
+
+	public static void decrease_try_catch_counter() {
+		ttcn_try_block_counter--;
+	}
+
+	public static boolean is_in_ttcn_try_block() {
+		return ttcn_try_block_counter > 0;
 	}
 
 	//originally in_controlpart
