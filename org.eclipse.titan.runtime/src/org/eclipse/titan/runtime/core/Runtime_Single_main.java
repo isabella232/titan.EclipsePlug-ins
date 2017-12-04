@@ -28,6 +28,7 @@ public final class Runtime_Single_main {
 		TTCN_Runtime.setState(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
 		TtcnLogger.initialize_logger();
+		TtcnLogger.set_start_time();
 
 		Module_List.pre_init_modules();
 

@@ -777,6 +777,10 @@ public final class TtcnLogger {
 		}
 	}
 
+	public static void set_start_time() {
+		//FIXME implement
+	}
+
 	public static void set_console_mask(final component_id_t cmpt,
 			final Logging_Bits new_console_mask) {
 		if (console_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
