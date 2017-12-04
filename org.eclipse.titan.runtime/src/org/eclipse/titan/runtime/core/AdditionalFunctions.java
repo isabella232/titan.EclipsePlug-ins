@@ -636,15 +636,19 @@ public final class AdditionalFunctions {
 		}
 
 		final byte nibbles_ptr[] = value.getValue();
-		for (int i = 0; i < n_nibbles; i += 2) {
+		for (int i = 0; i < n_nibbles - 1; i += 2) {
 			int temp = nibbles_ptr[i];
 			temp <<= 4;
 			temp = (int) (temp | nibbles_ptr[i + 1]);
 
 			bits_ptr[i / 2] = temp;
 		}
+		if((n_nibbles & 1) == 1) {
+			bits_ptr[n_nibbles / 2] = nibbles_ptr[n_nibbles - 1] << 4;
+		}
 
-		for (int i = 0; i < n_nibbles / 2; i++) {
+		//revert the bit order
+		for (int i = 0; i < (n_nibbles + 1) / 2; i++) {
 			int temp = bits_ptr[i];
 			temp = ((temp & 0xF0) >> 4 | (temp & 0x0F) << 4);
 			temp = ((temp & 0xCC) >> 2 | (temp & 0x33) << 2);
