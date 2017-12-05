@@ -16,6 +16,7 @@ import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.TextFileChange;
+import org.eclipse.text.edits.MalformedTreeException;
 import org.eclipse.text.edits.MultiTextEdit;
 import org.eclipse.text.edits.ReplaceEdit;
 import org.eclipse.titan.common.logging.ErrorReporter;
@@ -196,7 +197,12 @@ class ChangeCreator {
 
 		int seqStartOffset = sequence_Value.getLocation().getOffset() + 1;
 		int seqEndOffset = sequence_Value.getLocation().getEndOffset() - 1;
-		rootEdit.addChild(new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString()));
+		final ReplaceEdit newEdit = new ReplaceEdit(seqStartOffset, seqEndOffset - seqStartOffset, builder.toString());
+		try {
+			rootEdit.addChild(newEdit);
+		} catch (MalformedTreeException e) {
+			//FIXME log and continue
+		}
 	}
 	
 	private static void orderSequenceOf_Value(final String fileContents, final SequenceOf_Value sequenceOf_Value, final MultiTextEdit rootEdit) {
@@ -315,40 +321,76 @@ class ChangeCreator {
 				TTCN3_Set_Type setType = (TTCN3_Set_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
-				for (int i = 0; i < setType.getNofComponents() && inOrder; ++i) {
-					Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				int typeIndex = 0;
+				for (int i = 0; i < sequence_Value.getNofComponents(); ++i) {
 					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
-					inOrder = identifier.equals(namedValue.getName());
+					boolean found = false;
+					while (typeIndex < setType.getNofComponents()) {
+						Identifier identifier = setType.getComponentIdentifierByIndex(typeIndex);
+						typeIndex++;
+						if (identifier.equals(namedValue.getName())) {
+							found = true;
+							break;
+						}
+					}
+					inOrder = found;
 				}
 				return !inOrder;
 			} else if (refType instanceof TTCN3_Sequence_Type) {
 				TTCN3_Sequence_Type sequenceType = (TTCN3_Sequence_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
-				for (int i = 0; i < sequenceType.getNofComponents() && inOrder; ++i) {
-					Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+				int typeIndex = 0;
+				for (int i = 0; i < sequence_Value.getNofComponents() && inOrder; ++i) {
 					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
-					inOrder = identifier.equals(namedValue.getName());
+					boolean found = false;
+					while (typeIndex < sequenceType.getNofComponents()) {
+						Identifier identifier = sequenceType.getComponentIdentifierByIndex(typeIndex);
+						typeIndex++;
+						if (identifier.equals(namedValue.getName())) {
+							found = true;
+							break;
+						}
+					}
+					inOrder = found;
 				}
 				return !inOrder;
 			} else if (refType instanceof ASN1_Set_Type) {
 				ASN1_Set_Type setType = (ASN1_Set_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
-				for (int i = 0; i < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()) && inOrder; ++i) {
-					Identifier identifier = setType.getComponentIdentifierByIndex(i);
+				int typeIndex = 0;
+				for (int i = 0; i < sequence_Value.getNofComponents() && inOrder; ++i) {
 					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
-					inOrder = identifier.equals(namedValue.getName());
+					boolean found = false;
+					while (typeIndex < setType.getNofComponents(CompilationTimeStamp.getBaseTimestamp())) {
+						Identifier identifier = setType.getComponentIdentifierByIndex(typeIndex);
+						typeIndex++;
+						if (identifier.equals(namedValue.getName())) {
+							found = true;
+							break;
+						}
+					}
+					inOrder = found;
 				}
 				return !inOrder;
 			} else if (refType instanceof ASN1_Sequence_Type) {
 				ASN1_Sequence_Type sequenceType = (ASN1_Sequence_Type) refType;
 				//check if already in order
 				boolean inOrder = true;
-				for (int i = 0; i < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp()) && inOrder; ++i) {
-					Identifier identifier = sequenceType.getComponentIdentifierByIndex(i);
+				int typeIndex = 0;
+				for (int i = 0; i < sequence_Value.getNofComponents() && inOrder; ++i) {
 					NamedValue namedValue = sequence_Value.getSeqValueByIndex(i);
-					inOrder = identifier.equals(namedValue.getName());
+					boolean found = false;
+					while (typeIndex < sequenceType.getNofComponents(CompilationTimeStamp.getBaseTimestamp())) {
+						Identifier identifier = sequenceType.getComponentIdentifierByIndex(typeIndex);
+						typeIndex++;
+						if (identifier.equals(namedValue.getName())) {
+							found = true;
+							break;
+						}
+					}
+					inOrder = found;
 				}
 				return !inOrder;
 			}
