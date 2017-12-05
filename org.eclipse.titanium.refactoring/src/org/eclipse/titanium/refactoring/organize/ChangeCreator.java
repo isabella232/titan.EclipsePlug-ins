@@ -114,7 +114,11 @@ public class ChangeCreator {
 		
 		try {
 			doc = tfc.getCurrentDocument(null);
-			tfc.setEdit(organizeImportsEdit(tModule, doc));
+			final MultiTextEdit resultEdit = organizeImportsEdit(tModule, doc);
+			if (!resultEdit.hasChildren()) {
+				return null;
+			}
+			tfc.setEdit(resultEdit);
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace("Error while organizing imports", e);
 		} catch (CoreException e1) {
@@ -336,8 +340,12 @@ public class ChangeCreator {
 		}
 
 		final MultiTextEdit resultEdit = new MultiTextEdit();
-		resultEdit.addChild(insertEdit);
-		resultEdit.addChild(removeEdit);
+		if (insertEdit.hasChildren()) {
+			resultEdit.addChild(insertEdit);
+		}
+		if (removeEdit.hasChildren()) {
+			resultEdit.addChild(removeEdit);
+		}
 		return resultEdit;
 	}
 }
