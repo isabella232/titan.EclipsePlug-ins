@@ -41,7 +41,11 @@ public final class Default_ActualParameter extends ActualParameter {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		return true;
+		if (defaultActualParameter != null) {
+			return defaultActualParameter.hasSingleExpression();
+		}
+
+		return false;
 	}
 
 	@Override
