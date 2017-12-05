@@ -744,7 +744,7 @@ public final class AdditionalFunctions {
 		}
 		System.arraycopy(value.getValue(), 0, nibbles_ptr, n_padding_nibble, value.getValue().length);
 		for (int i = 1; i < nibbles_ptr.length; i += 2) {
-			octet_ptr[i-1] = (char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
+			octet_ptr[i / 2] = (char) ((nibbles_ptr[i - 1] << 4) | nibbles_ptr[i]);
 		}
 
 		return new TitanOctetString(octet_ptr);
