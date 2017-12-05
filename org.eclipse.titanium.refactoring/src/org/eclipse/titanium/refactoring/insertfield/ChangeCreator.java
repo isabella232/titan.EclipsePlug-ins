@@ -111,7 +111,6 @@ class ChangeCreator {
 
 		final TextFileChange tfc = new TextFileChange(toVisit.getName(), toVisit);
 		final MultiTextEdit rootEdit = new MultiTextEdit();
-		tfc.setEdit(rootEdit);
 
 		try {
 			final WorkspaceJob job1 = calculateEditLocations(nodes, toVisit, rootEdit);
@@ -123,6 +122,12 @@ class ChangeCreator {
 					+ "CoreException while calculating edit locations. ");
 			ErrorReporter.logExceptionStackTrace(ce);
 		}
+
+		if (!rootEdit.hasChildren()) {
+			return null;
+		}
+
+		tfc.setEdit(rootEdit);
 		return tfc;
 	}
 
