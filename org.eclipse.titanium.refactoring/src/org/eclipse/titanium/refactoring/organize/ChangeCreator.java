@@ -103,7 +103,7 @@ public class ChangeCreator {
 				
 		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(toVisit.getProject());
 		final Module module = sourceParser.containedModule(toVisit);
-		if(module == null) {
+		if(module == null || !(module instanceof TTCN3Module)) {
 			return null;
 		}
 		
