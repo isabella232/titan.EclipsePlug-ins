@@ -2059,12 +2059,12 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMSUCCESS)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMSUCCESS);\n");
 			source.append(MessageFormat.format("{0}(head.{1}_{2},false);\n", matchStr, opStr, index));
-			source.append("TtcnLogger.log_matching_success(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
+			source.append("TtcnLogger.log_matching_success(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMIN);\n");
 			source.append(MessageFormat.format("head.{0}_{1}.log();\n", opStr, index));
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.{0}_OP head.sender_component, {1}, TtcnLogger.end_event_log2str());\n", procOp, isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.{0}_OP, head.sender_component, {1}, TtcnLogger.end_event_log2str(), msg_head_count+1);\n", procOp, isCheck ? "true" : "false"));
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS;\n");
