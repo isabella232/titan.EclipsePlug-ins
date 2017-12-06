@@ -596,6 +596,14 @@ public class SignatureGenerator {
 			source.append(MessageFormat.format("param_{0} = new {1}(template_sel.ANY_VALUE);\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
 		source.append("}\n\n");
+		if (def.formalParameters.isEmpty()) {
+			source.append(MessageFormat.format("public {0}_template(final TitanNull_Type otherValue) '{'\n", def.genName));
+			if (def.returnType != null) {
+				source.append(MessageFormat.format("reply_value = new {0}(template_sel.ANY_VALUE);\n", def.returnType.mJavaTemplateName));
+			}
+			source.append("}\n\n");
+		}
+
 		source.append(MessageFormat.format("public {0}_template(final {0}_template otherValue) '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
@@ -603,6 +611,12 @@ public class SignatureGenerator {
 			source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{0}());\n", formalPar.mJavaName, formalPar.mJavaTemplateName));
 		}
 		source.append("}\n\n");
+
+		if (def.formalParameters.isEmpty()) {
+			source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type otherValue) '{'\n", def.genName));
+			source.append("return this;\n");
+			source.append("}\n\n");
+		}
 
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
@@ -748,26 +762,37 @@ public class SignatureGenerator {
 		source.append("TtcnLogger.log_event_str(\" }\");\n");
 		source.append("}\n");
 
-		source.append(MessageFormat.format("public void log_match_reply(final {0}_reply match_value, final boolean legacy) '{'\n", def.genName));
-		isFirst = true;
-		for (int i = 0 ; i < def.formalParameters.size(); i++) {
-			final SignatureParameter formalPar = def.formalParameters.get(i);
+		if(!def.isNoBlock) {
+			source.append(MessageFormat.format("public void log_match_reply(final {0}_reply match_value, final boolean legacy) '{'\n", def.genName));
+			if (def.formalParameters.size() > 0) {
+				isFirst = true;
+				for (int i = 0 ; i < def.formalParameters.size(); i++) {
+					final SignatureParameter formalPar = def.formalParameters.get(i);
 
-			if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-				if (isFirst) {
-					source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
-					isFirst = false;
-				} else {
-					source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
+					if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+						if (isFirst) {
+							source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
+							isFirst = false;
+						} else {
+							source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
+						}
+						source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+					}
 				}
-				source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
+				if (def.returnType != null) {
+					source.append("TtcnLogger.log_event_str(\" } value \");\n");
+					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+				}
+			} else {
+				if (def.returnType == null) {
+					source.append("TtcnLogger.log_event_str(\"{ } with {} matched\");\n");
+				} else {
+					source.append("TtcnLogger.log_event_str(\"{ } with {} matched value \");\n");
+					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
+				}
 			}
+			source.append("}\n");
 		}
-		if (def.returnType != null) {
-			source.append("TtcnLogger.log_event_str(\" } value \");\n");
-			source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
-		}
-		source.append("}\n");
 
 		source.append("}\n");
 	}
