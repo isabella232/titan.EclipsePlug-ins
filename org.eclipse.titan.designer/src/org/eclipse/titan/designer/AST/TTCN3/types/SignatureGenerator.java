@@ -434,12 +434,35 @@ public class SignatureGenerator {
 			source.append("return exception_selection;\n");
 			source.append("}\n");
 
-			source.append("public void encode_text(final Text_Buf text_buf) {");
-			source.append("// FIXME implement encode_text\n");
+			source.append("public void encode_text(final Text_Buf text_buf) {\n");
+			source.append("switch(exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				final SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("text_buf.push_int({0});\n", i));
+				source.append("field.encode_text(text_buf);\n");
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized exception of signature {0}.\");\n", def.displayName));
+			source.append("}\n");
 			source.append("}\n");
 
-			source.append("public void decode_text(final Text_Buf text_buf) {");
-			source.append("// FIXME implement decode_text\n");
+			source.append("public void decode_text(final Text_Buf text_buf) {\n");
+			source.append("final TitanInteger temp = text_buf.pull_int();\n");
+			source.append("switch (temp.getInt()) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				final SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case {0}:\n", i));
+				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
+				source.append(MessageFormat.format("get{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized selector was received for an exception of signature {0}.\");\n", def.displayName));
+			source.append("}\n");
 			source.append("}\n");
 
 			source.append("public void log() {\n");
@@ -671,8 +694,25 @@ public class SignatureGenerator {
 			source.append("}\n");
 		}
 
-		source.append("// FIXME implement encode_text\n");
-		source.append("// FIXME implement decode_text\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("param_{0}.encode_text(text_buf);\n", formalPar.mJavaName ));
+			}
+		}
+		source.append("}\n");
+
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("param_{0}.decode_text(text_buf);\n", formalPar.mJavaName ));
+			}
+		}
+		source.append("}\n");
 
 		source.append("public void log() {\n");
 		boolean isFirst = true;
