@@ -2350,13 +2350,43 @@ public final class AdditionalFunctions {
 
 	// float2str
 	public static TitanCharString float2str(final Ttcn3Float value) {
-		return new TitanCharString(value.toString());
+		//differnce between java and c++
+		if(Double.isNaN(value.getValue())) {
+			return new TitanCharString("not_a_number");
+		}
+		if(value.getValue() == Double.NEGATIVE_INFINITY) {
+			return new TitanCharString("-infinity");
+		}
+		if(value.getValue() == Double.POSITIVE_INFINITY) {
+			return new TitanCharString("infinity");
+		}
+		
+		if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
+			return new TitanCharString(String.format("%f", value.getValue()));
+		} else {
+			return new TitanCharString(String.format("%e", value.getValue()));
+		}
 	}
 
 	public static TitanCharString float2str(final TitanFloat value) {
 		value.mustBound("The argument of function float2str() is an unbound float value.");
-
-		return new TitanCharString(value.toString());
+		
+		//differnce between java and c++
+		if(value.getValue().isNaN()) {
+			return new TitanCharString("not_a_number");
+		}
+		if(value.getValue() == Double.NEGATIVE_INFINITY) {
+			return new TitanCharString("-infinity");
+		}
+		if(value.getValue() == Double.POSITIVE_INFINITY) {
+			return new TitanCharString("infinity");
+		}
+		
+		if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
+			return new TitanCharString(String.format("%f", value.getValue()));
+		} else {
+			return new TitanCharString(String.format("%e", value.getValue()));
+		}
 	}
 
 	// unichar2char
