@@ -2353,15 +2353,11 @@ public final class AdditionalFunctions {
 		//differnce between java and c++
 		if(Double.isNaN(value.getValue())) {
 			return new TitanCharString("not_a_number");
-		}
-		if(value.getValue() == Double.NEGATIVE_INFINITY) {
+		} else if(value.getValue() == Double.NEGATIVE_INFINITY) {
 			return new TitanCharString("-infinity");
-		}
-		if(value.getValue() == Double.POSITIVE_INFINITY) {
+		} else if(value.getValue() == Double.POSITIVE_INFINITY) {
 			return new TitanCharString("infinity");
-		}
-		
-		if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
+		} else if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
 			return new TitanCharString(String.format("%f", value.getValue()));
 		} else {
 			return new TitanCharString(String.format("%e", value.getValue()));
@@ -2370,19 +2366,15 @@ public final class AdditionalFunctions {
 
 	public static TitanCharString float2str(final TitanFloat value) {
 		value.mustBound("The argument of function float2str() is an unbound float value.");
-		
+
 		//differnce between java and c++
 		if(value.getValue().isNaN()) {
 			return new TitanCharString("not_a_number");
-		}
-		if(value.getValue() == Double.NEGATIVE_INFINITY) {
+		} else if(value.getValue() == Double.NEGATIVE_INFINITY) {
 			return new TitanCharString("-infinity");
-		}
-		if(value.getValue() == Double.POSITIVE_INFINITY) {
+		} else if(value.getValue() == Double.POSITIVE_INFINITY) {
 			return new TitanCharString("infinity");
-		}
-		
-		if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
+		} else if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
 			return new TitanCharString(String.format("%f", value.getValue()));
 		} else {
 			return new TitanCharString(String.format("%e", value.getValue()));

@@ -1085,7 +1085,7 @@ public final class TtcnLogger {
 		}
 		log_event_str(ret_val.toString());
 	}
-	
+
 	public static void log_matching_success(final PortType port_type, final String port_name, final int compref, final TitanCharString info) {
 		Severity sev;
 		if(compref == TitanComponent.SYSTEM_COMPREF) {
@@ -1093,6 +1093,7 @@ public final class TtcnLogger {
 		} else {
 			sev = port_type == PortType.MESSAGE_ ? Severity.MATCHING_MCSUCCESS : Severity.MATCHING_PCSUCCESS;
 		}
+
 		if(log_this_event(sev) && get_emergency_logging() <= 0) {
 			return;
 		}

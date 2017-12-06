@@ -1017,7 +1017,6 @@ public class PortGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
-		
 		source.append("final TtcnLogger.Severity log_sev = destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF) ? TtcnLogger.Severity.PORTEVENT_PMOUT : TtcnLogger.Severity.PORTEVENT_PCOUT;\n");
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
@@ -1144,7 +1143,7 @@ public class PortGenerator {
 			source.append("if (!destination_component.isBound()) {\n");
 			source.append("throw new TtcnError(\"Unbound component reference in the to clause of raise operation.\");\n");
 			source.append("}\n\n");
-			
+
 			source.append("final TtcnLogger.Severity log_sev = destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF) ? TtcnLogger.Severity.PORTEVENT_PMOUT : TtcnLogger.Severity.PORTEVENT_PCOUT;\n");
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
@@ -1495,6 +1494,7 @@ public class PortGenerator {
 			source.append('}');
 		} else {
 			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
+			
 			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(log_sev);\n");
@@ -2033,7 +2033,7 @@ public class PortGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 	}
-	
+
 	/** 
 	 * Generate code for logging
 	 *
@@ -2046,20 +2046,14 @@ public class PortGenerator {
 	 * @param isCheck generate the check or the non-checking version.
 	 * @param index the index this signature type has in the selector.
 	 */
-	
 	private static void generate_proc_incoming_data_logging(final StringBuilder source, final String opStr, final String matchStr, final boolean isAddress, final boolean isCheck, final int index) {
 		String procOp = "";
-		switch (opStr) {
-		case "call":
+		if ("call".equals(opStr)) {
 			procOp = "CALL";
-			break;
-		case "reply":
+		} else if("reply".equals(opStr)) {
 			procOp = "REPLY";
-			break;
-		case "exception":
+		} else if("exception".equals(opStr)) {
 			procOp = "EXCEPTION";
-		default:
-			break;
 		}
 		if(isAddress) {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMSUCCESS)) {\n");
@@ -2088,5 +2082,4 @@ public class PortGenerator {
 			source.append("}\n");
 		}
 	}
-	
 }
