@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.values;
 import java.text.MessageFormat;
 import java.util.List;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -23,6 +24,8 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -117,5 +120,21 @@ public final class Charsymbols_Value extends Value {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		ErrorReporter.INTERNAL_ERROR("Not yet supported code generation of charsymbol values encountered in code generation of " + getFullName());
+		source.append("/* fatal error code generation for charsymbols is not yet supported */");
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
+		ErrorReporter.INTERNAL_ERROR("Not yet supported code generation of charsymbol values encountered in code generation of " + getFullName());
+		expression.expression.append("/* fatal error code generation for charsymbols is not yet supported */");
 	}
 }
