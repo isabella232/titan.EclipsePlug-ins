@@ -180,9 +180,9 @@ public final class Kill_Statement extends Statement {
 					}
 				}
 				if (refers_to_self) {
-					expression.expression.append("TTCN_Runtime.killExecution()");
+					expression.expression.append("TTCN_Runtime.kill_execution()");
 				} else {
-					expression.expression.append("TTCN_Runtime.killComponent(");
+					expression.expression.append("TTCN_Runtime.kill_component(");
 					last.generateCodeExpression(aData, expression, false);
 					expression.expression.append(')');
 				}

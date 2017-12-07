@@ -180,9 +180,9 @@ public final class Stop_Component_Statement extends Statement {
 					}
 				}
 				if (refers_to_self) {
-					expression.expression.append("TTCN_Runtime.stopExecution()");
+					expression.expression.append("TTCN_Runtime.stop_execution()");
 				} else {
-					expression.expression.append("TTCN_Runtime.stopComponent(");
+					expression.expression.append("TTCN_Runtime.stop_component(");
 					last.generateCodeExpression(aData, expression, false);
 					expression.expression.append(')');
 				}

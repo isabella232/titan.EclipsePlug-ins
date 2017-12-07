@@ -68,6 +68,6 @@ public final class Stop_Execution_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
-		source.append("TTCN_Runtime.stopExecution();\n");
+		source.append("TTCN_Runtime.stop_execution();\n");
 	}
 }

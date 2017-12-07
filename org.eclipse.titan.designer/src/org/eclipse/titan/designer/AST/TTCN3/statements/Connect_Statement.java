@@ -224,7 +224,7 @@ public final class Connect_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 
 		//FIXME generate code for translation
-		expression.expression.append("TTCN_Runtime.connectPort(");
+		expression.expression.append("TTCN_Runtime.connect_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
 		//FIXME actually _portref and based on component type

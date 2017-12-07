@@ -25,7 +25,7 @@ public final class Runtime_Single_main {
 	//FIXME this is much more complicated
 	public static void singleMain() {
 		TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
-		TTCN_Runtime.setState(executorStateEnum.SINGLE_CONTROLPART);
+		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
 		TtcnLogger.initialize_logger();
 		TtcnLogger.set_start_time();
@@ -38,7 +38,7 @@ public final class Runtime_Single_main {
 			module.control();
 		}
 
-		TTCN_Runtime.logVerdictStatistics();
+		TTCN_Runtime.log_verdict_statistics();
 		TtcnLogger.terminate_logger();
 		TTCN_Snapshot.terminate();
 	}

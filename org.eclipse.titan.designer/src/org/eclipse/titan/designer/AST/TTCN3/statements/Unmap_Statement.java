@@ -292,7 +292,7 @@ public final class Unmap_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 
 		//FIXME generate code for translation
-		expression.expression.append("TTCN_Runtime.unmapPort(");
+		expression.expression.append("TTCN_Runtime.unmap_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
 		//FIXME actually _portref and based on component type

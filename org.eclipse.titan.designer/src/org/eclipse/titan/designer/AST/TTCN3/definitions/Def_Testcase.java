@@ -581,7 +581,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", has_timer, timer_value);\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
-		source.append("TTCN_Runtime.setErrorVerdict(); \n");
+		source.append("TTCN_Runtime.set_error_verdict(); \n");
 		source.append("System.out.println(error);\n");
 		source.append(MessageFormat.format("TtcnLogger.log_str(Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
 		source.append("}\n");

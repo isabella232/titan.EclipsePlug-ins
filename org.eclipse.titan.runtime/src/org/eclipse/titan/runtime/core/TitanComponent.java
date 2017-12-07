@@ -203,7 +203,7 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("Performing stop operation on an unbound component reference.");
 		}
 
-		TTCN_Runtime.stopComponent(componentValue);
+		TTCN_Runtime.stop_component(componentValue);
 	}
 
 	public void kill() {
@@ -211,7 +211,7 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("Performing kill operation on an unbound component reference.");
 		}
 
-		TTCN_Runtime.killComponent(componentValue);
+		TTCN_Runtime.kill_component(componentValue);
 	}
 
 	private static void log_component_reference(final TitanComponent component_reference) {

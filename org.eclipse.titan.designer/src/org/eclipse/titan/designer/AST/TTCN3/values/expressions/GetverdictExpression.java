@@ -115,6 +115,6 @@ public final class GetverdictExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
-		expression.expression.append("TTCN_Runtime.getVerdict()");
+		expression.expression.append("TTCN_Runtime.get_verdict()");
 	}
 }

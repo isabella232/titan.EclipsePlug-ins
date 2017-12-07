@@ -63,17 +63,17 @@ public final class TTCN_Runtime {
 	}
 
 	//originally get_state
-	public static executorStateEnum getState() {
+	public static executorStateEnum get_state() {
 		return executorState;
 	}
 
 	// originally set_state
-	public static void setState(final executorStateEnum newState) {
+	public static void set_state(final executorStateEnum newState) {
 		executorState = newState;
 	}
 
 	//originally is_hc
-	public static boolean isHc() {
+	public static boolean is_hc() {
 		switch (executorState) {
 		case HC_INITIAL:
 		case HC_IDLE:
@@ -89,7 +89,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally is_mtc
-	public static boolean isMtc() {
+	public static boolean is_mtc() {
 		switch (executorState) {
 		case MTC_INITIAL:
 		case MTC_IDLE:
@@ -119,7 +119,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally is_ptc
-	public static boolean isPtc() {
+	public static boolean is_ptc() {
 		switch (executorState) {
 		case PTC_INITIAL:
 		case PTC_IDLE:
@@ -145,12 +145,12 @@ public final class TTCN_Runtime {
 	}
 
 	//originally is_tc
-	public static boolean isTc() {
-		return isMtc() || isPtc();
+	public static boolean is_tc() {
+		return is_mtc() || is_ptc();
 	}
 
 	//originally is_single
-	public static boolean isSingle() {
+	public static boolean is_single() {
 		switch (executorState) {
 		case SINGLE_CONTROLPART:
 		case SINGLE_TESTCASE:
@@ -161,12 +161,12 @@ public final class TTCN_Runtime {
 	}
 
 	//originally is_undefined
-	public static boolean isUndefined() {
+	public static boolean is_undefined() {
 		return executorState == executorStateEnum.UNDEFINED_STATE;
 	}
 
 	//originally is_idle
-	public static boolean isIdle() {
+	public static boolean is_idle() {
 		switch (executorState) {
 		case HC_IDLE:
 		case HC_ACTIVE:
@@ -181,7 +181,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally is_overloaded
-	public static boolean isOverloaded() {
+	public static boolean is_overloaded() {
 		switch(executorState) {
 		case HC_OVERLOADED:
 		case HC_OVERLOADED_TIMEOUT:
@@ -204,13 +204,13 @@ public final class TTCN_Runtime {
 	}
 
 	//originally in_controlpart
-	private static boolean inControlPart() {
+	private static boolean in_controlPart() {
 		return executorState == executorStateEnum.SINGLE_CONTROLPART || executorState == executorStateEnum.MTC_CONTROLPART;
 	}
 
 	//originally verdict_enabled
-	private static boolean verdictEnabled() {
-		return executorState == executorStateEnum.SINGLE_TESTCASE || isMtc() || isPtc();
+	private static boolean verdict_enabled() {
+		return executorState == executorStateEnum.SINGLE_TESTCASE || is_mtc() || is_ptc();
 	}
 
 	public static void begin_controlpart(final String moduleName) {
@@ -253,7 +253,7 @@ public final class TTCN_Runtime {
 		}
 		TitanTimer.saveControlTimers();
 		TTCN_Default.save_control_defaults();
-		setTestcaseName(moduleName, testcaseName);
+		set_testcase_name(moduleName, testcaseName);
 		//FIXME this is much more complex
 
 		TtcnLogger.log(Severity.TESTCASE_START, "Test case %s started.", testcaseName);
@@ -370,7 +370,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally set_testcase_name
-	private static void setTestcaseName(final String parModuleName, final String parTestcaseName) {
+	private static void set_testcase_name(final String parModuleName, final String parTestcaseName) {
 		if (parModuleName == null || parModuleName.length() == 0 ||
 				parTestcaseName == null || parTestcaseName.length() == 0) {
 			throw new TtcnError("Internal error: TTCN_Runtime::set_testcase_name: Trying to set an invalid testcase name.");
@@ -398,8 +398,8 @@ public final class TTCN_Runtime {
 	}
 
 	//originally get_testcase_id_macro
-	public static TitanCharString getTestcaseIdMacro() {
-		if (inControlPart()) {
+	public static TitanCharString get_testcase_id_macro() {
+		if (in_controlPart()) {
 			throw new TtcnError("Macro %%testcaseId cannot be used from the control part outside test cases.");
 		}
 
@@ -412,7 +412,7 @@ public final class TTCN_Runtime {
 
 	//originally get_testcasename
 	public static TitanCharString get_testcasename() {
-		if (inControlPart() || isHc()) {
+		if (in_controlPart() || is_hc()) {
 			return new TitanCharString("");
 		}
 
@@ -424,7 +424,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally map_port
-	public static void mapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
+	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement
 		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
@@ -467,7 +467,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally unmap_port
-	public static void unmapPort(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
+	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
 		//FIXME implement
 		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
@@ -509,18 +509,18 @@ public final class TTCN_Runtime {
 		TitanPort.unmap_port(componentPort, systemPort, false);
 	}
 
-	public static void connectPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+	public static void connect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
 		//FIXME implement
 		throw new TtcnError("Connecting components is not yet supported!");
 	}
 
-	public static void disconnectPort(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
 		//FIXME implement
 		throw new TtcnError("Disconnecting components is not yet supported!");
 	}
 
 	//originally create_component
-	public static int createComponent(final String createdComponentTypeModule, final String createdComponentTypeName,
+	public static int create_component(final String createdComponentTypeModule, final String createdComponentTypeName,
 			final String createdComponentName, final String createdComponentLocation, final boolean createdComponentAlive) {
 		//FIXME implement
 		throw new TtcnError("Creating component is not yet supported!");
@@ -528,7 +528,7 @@ public final class TTCN_Runtime {
 
 	//originally component_done, with component parameter
 	public static TitanAlt_Status component_done(final int component_reference) {
-		if (inControlPart()) {
+		if (in_controlPart()) {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
 
@@ -548,7 +548,7 @@ public final class TTCN_Runtime {
 	//FIXME needs text_buffer parameter once decoding is available
 	//originally component_done, with component parameter
 	public static TitanAlt_Status component_done(final int component_reference, final String return_type) {
-		if (inControlPart()) {
+		if (in_controlPart()) {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
 
@@ -567,7 +567,7 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (isSingle()) {
+		if (is_single()) {
 			throw new TtcnError("Done operation on a component reference cannot be performed in single mode.");
 		}
 		//FIXME implement
@@ -576,7 +576,7 @@ public final class TTCN_Runtime {
 
 	//originally component_killed, with component parameter
 	public static TitanAlt_Status component_killed(final int component_reference) {
-		if (inControlPart()) {
+		if (in_controlPart()) {
 			throw new TtcnError("Killed operation cannot be performed in the control part.");
 		}
 
@@ -595,7 +595,7 @@ public final class TTCN_Runtime {
 
 	//originally component_running, with component parameter
 	public static boolean component_running(final int component_reference) {
-		if (inControlPart()) {
+		if (in_controlPart()) {
 			throw new TtcnError("Component running operation cannot be performed in the control part.");
 		}
 
@@ -614,7 +614,7 @@ public final class TTCN_Runtime {
 
 	//originally component_alive, with component parameter
 	public static boolean component_alive(final int component_reference) {
-		if (inControlPart()) {
+		if (in_controlPart()) {
 			throw new TtcnError("Alive operation cannot be performed in the control part.");
 		}
 
@@ -632,25 +632,25 @@ public final class TTCN_Runtime {
 	}
 
 	//originally stop_component
-	public static void stopComponent(final int component_reference) {
+	public static void stop_component(final int component_reference) {
 		//FIXME implement
 		throw new TtcnError("Stoping a component is not yet supported!");
 	}
 
 	//originally stop_execution
-	public static void stopExecution() {
+	public static void stop_execution() {
 		//FIXME implement
 		throw new TtcnError("Stoping execution is not yet supported!");
 	}
 
 	//originally kill_component
-	public static void killComponent(final int component_reference) {
+	public static void kill_component(final int component_reference) {
 		//FIXME implement
 		throw new TtcnError("Killing a component is not yet supported!");
 	}
 
 	//originally kill_execution
-	public static void killExecution() {
+	public static void kill_execution() {
 		//FIXME implement
 		throw new TtcnError("Killing execution is not yet supported!");
 	}
@@ -660,13 +660,13 @@ public final class TTCN_Runtime {
 	}
 
 	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue, final String reason) {
-		if (verdictEnabled()) {
+		if (verdict_enabled()) {
 			if (VerdictTypeEnum.ERROR.equals(newValue)) {
 				throw new TtcnError("Error verdict cannot be set explicitly.");
 			}
 
-			setverdictInternal(newValue, reason);
-		} else if (inControlPart()) {
+			setverdict_internal(newValue, reason);
+		} else if (in_controlPart()) {
 			throw new TtcnError("Verdict cannot be set in the control part.");
 		} else {
 			throw new TtcnError("Internal error: Setting the verdict in invalid state.");
@@ -686,18 +686,18 @@ public final class TTCN_Runtime {
 	}
 
 	//originally set_error_verdict
-	public static void setErrorVerdict() {
-		if (verdictEnabled()) {
-			setverdictInternal(VerdictTypeEnum.ERROR, "");
+	public static void set_error_verdict() {
+		if (verdict_enabled()) {
+			setverdict_internal(VerdictTypeEnum.ERROR, "");
 		}
 		//FIXME implement else
 	}
 
 	//originally getverdict
-	public static TitanVerdictType getVerdict() {
-		if (verdictEnabled()) {
+	public static TitanVerdictType get_verdict() {
+		if (verdict_enabled()) {
 			//FIXME logging
-		} else if (inControlPart()) {
+		} else if (in_controlPart()) {
 			throw new TtcnError("Getverdict operation cannot be performed in the control part.");
 		} else {
 			throw new TtcnError("Internal error: Performing getverdict operation in invalid state.");
@@ -707,7 +707,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally setverdict_internal
-	private static void setverdictInternal(final TitanVerdictType.VerdictTypeEnum newValue, final String reason) {
+	private static void setverdict_internal(final TitanVerdictType.VerdictTypeEnum newValue, final String reason) {
 		if (newValue.getValue() < VerdictTypeEnum.NONE.getValue() || newValue.getValue() > VerdictTypeEnum.ERROR.getValue()) {
 			throw new TtcnError(MessageFormat.format("Internal error: setting an invalid verdict value ({0}).", newValue.getValue()));
 		}
@@ -725,7 +725,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originially log_verdict_statistics
-	public static void logVerdictStatistics() {
+	public static void log_verdict_statistics() {
 		final int totalTestcases = verdictCount[VerdictTypeEnum.NONE.getValue()] + verdictCount[VerdictTypeEnum.PASS.getValue()]
 				+ verdictCount[VerdictTypeEnum.INCONC.getValue()] + verdictCount[VerdictTypeEnum.FAIL.getValue()]
 						+ verdictCount[VerdictTypeEnum.ERROR.getValue()];

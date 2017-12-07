@@ -366,7 +366,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
-		expression.expression.append("TTCN_Runtime.createComponent(");
+		expression.expression.append("TTCN_Runtime.create_component(");
 
 		// the type of the component (module name and identifier)
 		final Assignment assignment = componentReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);

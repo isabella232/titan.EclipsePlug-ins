@@ -803,7 +803,7 @@ public class TitanPort {
 		} else {
 			port.map(system_port, translation);
 		}
-		if (!TTCN_Runtime.isSingle()) {
+		if (!TTCN_Runtime.is_single()) {
 			//FIXME add send_mapped
 		}
 	}
@@ -820,7 +820,7 @@ public class TitanPort {
 		} else {
 			port.unmap(system_port, translation);
 		}
-		if (!TTCN_Runtime.isSingle()) {
+		if (!TTCN_Runtime.is_single()) {
 			//FIXME add send_unmapped
 		}
 	}
