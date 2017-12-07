@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * */
 public abstract class Constraint extends ASTNode {
 
+	//FIXME plenty more constraint kinds are not yet supported.
 	public enum Constraint_type {
 		/** table constraint */
 		CT_TABLE,
