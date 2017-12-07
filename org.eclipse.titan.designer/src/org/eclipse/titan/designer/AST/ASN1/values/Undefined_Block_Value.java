@@ -162,7 +162,6 @@ public final class Undefined_Block_Value extends Value {
 		return realValue.getValueRefdLast(timestamp, expectedValue, referenceChain);
 	}
 
-	// FIXME can be converted to: charsyms
 	@Override
 	/** {@inheritDoc} */
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
@@ -247,6 +246,13 @@ public final class Undefined_Block_Value extends Value {
 			value.setFullNameParent(getNameParent());
 			value.copyGeneralProperties(this);
 			realValue = value;
+			break;
+		}
+		case CHARSYMBOLS_VALUE: {
+			//FIXME actually parse charsymbols
+			realValue = new Charsymbols_Value();
+			realValue.setFullNameParent(getNameParent());
+			realValue.copyGeneralProperties(this);
 			break;
 		}
 		default:
@@ -487,7 +493,7 @@ public final class Undefined_Block_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		if (realValue != null) {
+		if (realValue != null && realValue != this) {
 			return realValue.generateCodeInit(aData, source, name);
 		}
 
