@@ -49,7 +49,7 @@ public class PermittedAlphabetConstraint extends Constraint {
 	/** {@inheritDoc} */
 	public void check(CompilationTimeStamp timestamp) {
 		//Not Yet supported
-		myType.getLocation().reportSemanticError("Permitted alpabet constraint not yet supported");
+		myType.getLocation().reportSemanticError("Permitted alphabet constraint not yet supported");
 	}
 
 	@Override
