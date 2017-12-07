@@ -94,7 +94,7 @@ public class Semantic_errors_tests {
 
 	private ArrayList<MarkerToCheck> SemanticErrors1_asn_initializer() {
 		//SemanticErrors1.asn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(17);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(32);
 		int lineNum = 7;
 		markersToCheck.add(new MarkerToCheck("Duplicate symbol with name `Duplicate-symbol' was declared here again",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate symbol with name `Duplicate-symbol' was first declared here",  lineNum, IMarker.SEVERITY_ERROR));
@@ -108,7 +108,37 @@ public class Semantic_errors_tests {
 		markersToCheck.add(new MarkerToCheck("There is no assignment or imported symbol with name `nonexi' in module `SemanticErrors1'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 16;
 		markersToCheck.add(new MarkerToCheck("There is no assignment or imported symbol with name `nonexi' in module `SemanticErrors1'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 136;
+		lineNum += 27;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 13;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alpabet constraint not yet supported",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("There is no assignment or imported symbol with name `NONEXI' in module `SemanticErrors1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no assignment or imported symbol with name `nonexi' in module `SemanticErrors1'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no assignment or imported symbol with name `NONEXI' in module `SemanticErrors1'",  ++lineNum, IMarker.SEVERITY_ERROR));
