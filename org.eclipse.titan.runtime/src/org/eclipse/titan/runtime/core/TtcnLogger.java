@@ -325,7 +325,7 @@ public final class TtcnLogger {
 		MESSAGE_,
 		PROCEDURE_
 	}
-	
+
 	//temporary enum, original TitanLoggerApi::Port_Misc.reason
 	public static enum Port_Misc_reason {
 		REMOVING_UNTERMINATED_CONNECTION,
@@ -1123,12 +1123,13 @@ public final class TtcnLogger {
 		}
 		log_event_str(MessageFormat.format("Matching on port {0} succeeded: {1}", port_name, info.toString()));
 	}
-	
+
 	public static void log_port_misc(final Port_Misc_reason reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
 		if (!log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (get_emergency_logging()<=0)) {
 			return;
 		}
-		StringBuilder ret_val = new StringBuilder();
+
+		final StringBuilder ret_val = new StringBuilder();
 		final String comp_str = TitanComponent.get_component_string(remote_component);
 		switch (reason) {
 		case REMOVING_UNTERMINATED_CONNECTION:
@@ -1194,5 +1195,7 @@ public final class TtcnLogger {
 		default:
 			break;
 		}
+
+		log_line(Severity.PORTEVENT_UNQUALIFIED, ret_val.toString());
 	}
 }
