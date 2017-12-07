@@ -827,11 +827,8 @@ public class PortGenerator {
 		source.append("TtcnLogger.end_event();\n");
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
+		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0} || !(my_head.message instanceof {1})) '{'\n", index, typeValueName));
 		source.append(MessageFormat.format("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMUNSUCC : TtcnLogger.Severity.MATCHING_MCUNSUCC, \"Matching on port '{'0'}' failed: Type of the first message in the queue is not {0}.\", get_name());\n", typeValueName));
-		source.append("return TitanAlt_Status.ALT_NO;\n");
-		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
-		source.append("//FIXME report error \n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
 		source.append("final TtcnLogger.Severity log_sev = TtcnLogger.Severity.MATCHING_MMUNSUCC;\n");
@@ -897,13 +894,9 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0}) '{'\n", index));
+		source.append(MessageFormat.format("} else if (my_head.item_selection != message_selection.MESSAGE_{0} || !(my_head.message instanceof {1})) '{'\n", index, typeValueName));
 		source.append("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMUNSUCC : TtcnLogger.Severity.MATCHING_MCUNSUCC, \"Matching on port {0} will drop a message: ");
 		source.append(MessageFormat.format("Type of the first message in the queue is not {0}.\", get_name());\n", typeValueName) );
-		source.append("remove_msg_queue_head();\n");
-		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
-		source.append(MessageFormat.format("'}' else if (!(my_head.message instanceof {0})) '{'\n", typeValueName));
-		source.append("//FIXME logging\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		source.append(MessageFormat.format("'}' else if (!value_template.match(({0}) my_head.message)) '{'\n", typeValueName));
