@@ -325,6 +325,30 @@ public final class TtcnLogger {
 		MESSAGE_,
 		PROCEDURE_
 	}
+	
+	//temporary enum, original TitanLoggerApi::Port_Misc.reason
+	public static enum Port_Misc_reason {
+		REMOVING_UNTERMINATED_CONNECTION,
+		REMOVING_UNTERMINATED_MAPPING,
+		PORT_WAS_CLEARED,
+		LOCAL_CONNECTION_ESTABLISHED,
+		LOCAL_CONNECTION_TERMINATED,
+		PORT_IS_WAITING_FOR_CONNECTION_TCP,
+		PORT_IS_WAITING_FOR_CONNECTION_UNIX,
+		CONNECTION_ESTABLISHED,
+		DESTROYING_UNESTABLISHED_CONNECTION,
+		TERMINATING_CONNECTION,
+		SENDING_TERMINATION_REQUEST_FAILED,
+		TERMINATION_REQUEST_RECEIVED,
+		ACKNOWLEDGING_TERMINATION_REQUEST_FAILED,
+		SENDING_WOULD_BLOCK,
+		CONNECTION_ACCEPTED,
+		CONNECTION_RESET_BY_PEER,
+		CONNECTION_CLOSED_BY_PEER,
+		PORT_DISCONNECTED,
+		PORT_WAS_MAPPED_TO_SYSTEM,
+		PORT_WAS_UNMAPPED_FROM_SYSTEM
+	}
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
@@ -1098,5 +1122,77 @@ public final class TtcnLogger {
 			return;
 		}
 		log_event_str(MessageFormat.format("Matching on port {0} succeeded: {1}", port_name, info.toString()));
+	}
+	
+	public static void log_port_misc(final Port_Misc_reason reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
+		if (!log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (get_emergency_logging()<=0)) {
+			return;
+		}
+		StringBuilder ret_val = new StringBuilder();
+		final String comp_str = TitanComponent.get_component_string(remote_component);
+		switch (reason) {
+		case REMOVING_UNTERMINATED_CONNECTION:
+			ret_val.append(MessageFormat.format("Removing unterminated connection between port {0} and {1}:{2}.", port_name, comp_str, remote_port));
+			break;
+		case REMOVING_UNTERMINATED_MAPPING:
+			ret_val.append(MessageFormat.format("Removing unterminated mapping between port {0} and system:{1}.", port_name, remote_port));
+			break;
+		case PORT_WAS_CLEARED:
+			ret_val.append(MessageFormat.format("Port {0} was cleared.", port_name));
+			break;
+		case LOCAL_CONNECTION_ESTABLISHED:
+			ret_val.append(MessageFormat.format("Port {0} has established the connection with local port {1}.", port_name, remote_port));
+			break;
+		case LOCAL_CONNECTION_TERMINATED:
+			ret_val.append(MessageFormat.format("Port {0} has terminated the connection with local port {1}.", port_name, remote_port));
+			break;
+		case PORT_IS_WAITING_FOR_CONNECTION_TCP:
+			ret_val.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on TCP port {3}:{4}.", port_name, comp_str, remote_port, ip_address, tcp_port));
+			break;
+		case PORT_IS_WAITING_FOR_CONNECTION_UNIX:
+			ret_val.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on UNIX pathname {3}.", port_name, comp_str, remote_port, ip_address));
+			break;
+		case CONNECTION_ESTABLISHED:
+			ret_val.append(MessageFormat.format("Port {0} has established the connection with {1}:{2} using transport type {3}.", port_name, comp_str, remote_port, ip_address));
+			break;
+		case DESTROYING_UNESTABLISHED_CONNECTION:
+			ret_val.append(MessageFormat.format("Destroying unestablished connection of port {0} to {1}:{2} because the other endpoint has terminated.", port_name, comp_str, remote_port));
+			break;
+		case TERMINATING_CONNECTION:
+			ret_val.append(MessageFormat.format("Terminating the connection of port {0} to {1}:{2}. No more messages can be sent through this connection.", port_name, comp_str, remote_port));
+			break;
+		case SENDING_TERMINATION_REQUEST_FAILED:
+			ret_val.append(MessageFormat.format("Sending the connection termination request on port {0} to remote endpoint {1}:}{2} failed.", port_name, comp_str, remote_port));
+			break;
+		case TERMINATION_REQUEST_RECEIVED:
+			ret_val.append(MessageFormat.format("Connection termination request was received on port {0} from {1}:{2}. No more data can be sent or received through this connection.", port_name, comp_str, remote_port));
+			break;
+		case ACKNOWLEDGING_TERMINATION_REQUEST_FAILED:
+			ret_val.append(MessageFormat.format("Sending the acknowledgment for connection termination request on port {0} to remote endpoint {1}:{2} failed.", port_name, comp_str, remote_port));
+			break;
+		case SENDING_WOULD_BLOCK:
+			ret_val.append(MessageFormat.format("Sending data on the connection of port {0} to {1}:{2} would block execution. The size of the outgoing buffer was increased from {3} to {4} bytes.", port_name, comp_str, remote_port, tcp_port, new_size));
+			break;
+		case CONNECTION_ACCEPTED:
+			ret_val.append(MessageFormat.format("Port {0} has accepted the connection from {1}:{2}.", port_name, comp_str, remote_port));
+			break;
+		case CONNECTION_RESET_BY_PEER:
+			ret_val.append(MessageFormat.format("Connection of port {0} to {1}:{2} was reset by the peer.", port_name, comp_str, remote_port));
+			break;
+		case CONNECTION_CLOSED_BY_PEER:
+			ret_val.append(MessageFormat.format("Connection of port {0} to {1}:{2} was closed unexpectedly by the peer.", port_name, comp_str, remote_port));
+			break;
+		case PORT_DISCONNECTED:
+			ret_val.append(MessageFormat.format("Port {0} was disconnected from {1}:{2}.", port_name, comp_str, remote_port));
+			break;
+		case PORT_WAS_MAPPED_TO_SYSTEM:
+			ret_val.append(MessageFormat.format("Port {0} was mapped to system:{1}.", port_name, remote_port));
+			break;
+		case PORT_WAS_UNMAPPED_FROM_SYSTEM:
+			ret_val.append(MessageFormat.format("Port {0} was unmapped from system:{1}.", port_name, remote_port));
+			break;
+		default:
+			break;
+		}
 	}
 }

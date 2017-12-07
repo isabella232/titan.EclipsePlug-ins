@@ -16,6 +16,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.titan.runtime.core.TtcnLogger.Port_Misc_reason;
+
 /**
  * The base class of test ports
  *
@@ -149,7 +151,7 @@ public class TitanPort {
 
 		}
 		clear_queue();
-		//TODO: TTCN_Logger::log_port_misc
+		TtcnLogger.log_port_misc(Port_Misc_reason.PORT_WAS_CLEARED, port_name, 0, "", "", 0, 0);
 	}
 
 	public static void all_clear() {
