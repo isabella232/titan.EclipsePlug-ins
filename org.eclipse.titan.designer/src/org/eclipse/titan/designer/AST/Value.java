@@ -452,6 +452,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 		final StringBuilder source = new StringBuilder();
 		//default implementation
 		//TODO this might be a good location to check for the need of conversion
+		ErrorReporter.INTERNAL_ERROR(getClass().getSimpleName() + ".generateSingleExpression() is not implemented!");
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
 		source.append( ".generateSingleExpression() is not implemented!\n" );
@@ -480,15 +481,7 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	 *  @param source the source to be updated
 	 *  @param name the name to be used for initialization
 	 * */
-	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		//default implementation
-		//TODO this is a good location to check for the need of conversion
-		source.append( "\t//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCodeInit() is not implemented!\n" );
-
-		return source;
-	}
+	public abstract StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name);
 
 	/**
 	 * Generates a Java code sequence, which initializes the Java
