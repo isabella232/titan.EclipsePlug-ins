@@ -2412,7 +2412,7 @@ locals [Token col]
 |	b = pr_TypeConstraint		{ $col = $b.start; }
 |	c = pr_SingleValue			{ $col = $c.start; $constraint = $c.constraint; }
 |	d = pr_ContainedSubtype		{ $col = $d.start; }
-|	e = pr_PermittedAlphabet	{ $col = $e.start; }
+|	e = pr_PermittedAlphabet	{ $col = $e.start;  $constraint = $e.constraint; }
 |	f = pr_SizeConstraint		{ $col = $f.start; }
 |	g = pr_InnerTypeConstraints	{ $col = $g.start; }
 |	h = pr_PatternConstraint	{ $col = $h.start; }
@@ -2448,10 +2448,10 @@ pr_ContainedSubtype:
 	pr_Type
 );
 
-pr_PermittedAlphabet:
+pr_PermittedAlphabet returns[PermittedAlphabetConstraint constraint]:
 (
 	FROM
-	pr_Constraint
+	c = pr_Constraint	{$constraint = new PermittedAlphabetConstraint($c.constraint);}
 );
 
 pr_InnerTypeConstraints:
