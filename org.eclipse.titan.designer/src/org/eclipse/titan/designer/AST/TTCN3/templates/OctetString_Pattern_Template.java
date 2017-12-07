@@ -143,7 +143,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 		aData.addBuiltinTypeImport( "TitanOctetString_template" );
 
 		final StringBuilder result = new StringBuilder();
-		result.append( MessageFormat.format( "new TitanOctetString_template(\"{0}\");\n", pattern ) );
+		result.append( MessageFormat.format( "new TitanOctetString_template(\"{0}\")", pattern ) );
 
 		//TODO handle cast needed
 
