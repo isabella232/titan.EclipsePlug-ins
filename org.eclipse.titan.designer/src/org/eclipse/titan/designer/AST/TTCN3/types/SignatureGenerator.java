@@ -410,7 +410,7 @@ public class SignatureGenerator {
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
-				source.append("//originally {0}_field\n");
+				source.append(MessageFormat.format("//originally {0}_field\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("public {0} get{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
 				source.append("cleanUp();\n");
@@ -420,7 +420,7 @@ public class SignatureGenerator {
 				source.append(MessageFormat.format("return ({0})field;\n", exception.mJavaTypeName));
 				source.append("}\n");
 
-				source.append("//originally const {0}_field\n");
+				source.append(MessageFormat.format("//originally const {0}_field\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("public {0} constGet{0}() '{'\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("if (exception_selection != exception_selection_type.ALT_{0}) '{'\n", exception.mJavaTypeName));
 
