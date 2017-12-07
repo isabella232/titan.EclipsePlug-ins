@@ -26,6 +26,8 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Char2OctExpression;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -169,5 +171,57 @@ public final class ISO2022String_Value extends Value {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
+		source.append(name);
+		source.append(".assign( ");
+		source.append(generateSingleExpression(aData));
+		source.append( " );\n" );
+
+		return source;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder generateSingleExpression(final JavaGenData aData) {
+
+
+		final StringBuilder result = new StringBuilder();
+
+		if (myGovernor != null) {
+			switch (myGovernor.getTypetype()) {
+			case TYPE_TELETEXSTRING:
+				aData.addBuiltinTypeImport( "TitanTeletexString" );
+				result.append(MessageFormat.format("TitanTeletexString.TTCN_ISO2022_2_TeletexString(new TitanOctetString(\"{0}\"))\n", Char2OctExpression.char2oct(value)));
+				return result;
+			case TYPE_VIDEOTEXSTRING:
+				aData.addBuiltinTypeImport( "TitanVideotexString" );
+				result.append(MessageFormat.format("TitanVideotexString.TTCN_ISO2022_2_VideotexString(new TitanOctetString(\"{0}\"))", Char2OctExpression.char2oct(value)));
+				return result;
+			case TYPE_GRAPHICSTRING:
+			case TYPE_OBJECTDESCRIPTOR:
+				aData.addBuiltinTypeImport( "TitanGraphicString" );
+				result.append(MessageFormat.format("TitanGraphicString.TTCN_ISO2022_2_GraphicString(new TitanOctetString(\"{0}\"))", Char2OctExpression.char2oct(value)));
+				return result;
+			case TYPE_GENERALSTRING:
+				aData.addBuiltinTypeImport( "TitanGeneralString" );
+				result.append(MessageFormat.format("TitanGeneralString.TTCN_ISO2022_2_GeneralString(new TitanOctetString(\"{0}\"))", Char2OctExpression.char2oct(value)));
+				return result;
+			default:
+				//FATAL error
+				break;
+			}
+		}
+
+		return result;
 	}
 }
