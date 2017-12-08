@@ -104,7 +104,7 @@ public final class TtcnLogger {
 
 	static log_mask_struct console_log_mask = new log_mask_struct();
 	static log_mask_struct file_log_mask = new log_mask_struct();
-	//static log_mask_struct emergency_log_mask = new log_mask_struct();
+	static log_mask_struct emergency_log_mask = new log_mask_struct();
 
 	public static enum component_id_selector_enum {
 		COMPONENT_ID_NAME,
@@ -369,6 +369,10 @@ public final class TtcnLogger {
 		file_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 		file_log_mask.component_id.id_compref = TitanComponent.ALL_COMPREF;
 		file_log_mask.mask = new Logging_Bits(Logging_Bits.log_all);
+		
+		emergency_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
+		emergency_log_mask.component_id.id_compref=TitanComponent.ANY_COMPREF;
+		emergency_log_mask.mask = new Logging_Bits(Logging_Bits.log_all);		
 
 		// TODO initialize emergency buffer too.
 	}
@@ -622,11 +626,9 @@ public final class TtcnLogger {
 			return true;
 		} else if (should_log_to_console(event_severity)) {
 			return true;
-		}/*
-		 * else if(should_log_to_emergency(event_severity) &&
-		 * (get_emergency_logging()>0)){ return true; }
-		 */
-		else {
+		} else if (should_log_to_emergency(event_severity) && (get_emergency_logging() > 0)) {
+			return true;
+		} else {
 			return false;
 		}
 	}
@@ -643,10 +645,9 @@ public final class TtcnLogger {
 		return console_log_mask.mask.bits.contains(sev);
 	}
 
-	/*
-	 * public static boolean should_log_to_emergency(final Severity sev) {
-	 * return emergency_log_mask.mask.bits.contains(sev); }
-	 */
+	public static boolean should_log_to_emergency(final Severity sev) {
+		return emergency_log_mask.mask.bits.contains(sev);
+	}
 
 	public static void print_logmatch_buffer() {
 		if (logMatchPrinted) {
@@ -816,6 +817,22 @@ public final class TtcnLogger {
 			console_log_mask.component_id.id_name = cmpt.id_name;
 		} else {
 			console_log_mask.component_id = cmpt;
+		}
+	}
+	
+	public static void set_emergency_logging_mask(final component_id_t cmpt,
+			final Logging_Bits new_logging_mask) {
+		// If Emergency Logging Mask was set with a component-specific value,
+		// do not allow overwriting with a generic value.
+		if (emergency_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
+			return;
+		}
+		emergency_log_mask.mask = new_logging_mask;
+		if (cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_NAME) {
+			emergency_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
+			emergency_log_mask.component_id.id_name = cmpt.id_name;
+		} else {
+			emergency_log_mask.component_id = cmpt;
 		}
 	}
 
