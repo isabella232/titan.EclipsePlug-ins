@@ -389,14 +389,14 @@ public final class TtcnLogger {
 		if (!log_this_event(msg_severity)) {
 			return;
 		}
-		log_line(msg_severity, string == null ? "<NULL pointer>": string);
+		log(msg_severity, string == null ? "<NULL pointer>": string);
 	}
 
 	public static void log_va_list(final Severity msg_severity, final String formatString, final Object... args) {
 		if (!log_this_event(msg_severity)) {
 			return;
 		}
-		log_line(msg_severity, String.format(Locale.US, formatString, args));
+		log(msg_severity, String.format(Locale.US, formatString, args));
 	}
 
 	public static void begin_event(final Severity msg_severity) {
@@ -414,7 +414,7 @@ public final class TtcnLogger {
 		if (current_event != null) {
 			//TODO temporary solution for filtering
 			if (log_this_event(current_event.severity)) {
-				log_line(current_event.severity, current_event.buffer.toString());
+				log(current_event.severity, current_event.buffer.toString());
 			}
 
 			events.pop();
@@ -443,27 +443,27 @@ public final class TtcnLogger {
 		return new TitanCharString();
 	}
 
-	private static void log_line(final Severity msg_severity, final String message) {
-		//// TODO this is a temporal implementation to display only console logs, until file logging is also supported.
-		if (!should_log_to_console(msg_severity)) {
-			return;
-		}
-
-		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
-		final long millisec = timestamp % 1000;
-		timestamp = timestamp / 1000;
-		final long secs = timestamp % 60;
-		timestamp = timestamp / 60;
-		final long minutes = timestamp % 60;
-		timestamp = timestamp / 60;
-		final long hours = timestamp % 24;
-//		timestamp = timestamp / 24; //not used yet
-		final StringBuilder temp = new StringBuilder(20 + message.length());
-		temp.append(String.format("%02d", hours)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
-		temp.append(' ').append(message);
-
-		System.out.println(temp);
-	}
+//	private static void log_line(final Severity msg_severity, final String message) {
+//		//// TODO this is a temporal implementation to display only console logs, until file logging is also supported.
+//		if (!should_log_to_console(msg_severity)) {
+//			return;
+//		}
+//
+//		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
+//		final long millisec = timestamp % 1000;
+//		timestamp = timestamp / 1000;
+//		final long secs = timestamp % 60;
+//		timestamp = timestamp / 60;
+//		final long minutes = timestamp % 60;
+//		timestamp = timestamp / 60;
+//		final long hours = timestamp % 24;
+////		timestamp = timestamp / 24; //not used yet
+//		final StringBuilder temp = new StringBuilder(20 + message.length());
+//		temp.append(String.format("%02d", hours)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
+//		temp.append(' ').append(message);
+//
+//		System.out.println(temp);
+//	}
 
 	public static void finish_event() {
 		if (current_event != null) {
@@ -649,6 +649,65 @@ public final class TtcnLogger {
 		return emergency_log_mask.mask.bits.contains(sev);
 	}
 
+	/**
+	 * The internal logging function representing the interface between the logger and the loggerPluginManager.
+	 * 
+	 * log(const API::TitanLogEvent& event) in the LoggerPluginManager
+	 * not yet using the event objects to save on complexity and runtime cost.
+	 *
+	 * */
+	private static void log(final Severity msg_severity, final String message) {
+		//FIXME more complicated
+		internal_log_to_all(msg_severity, message, false, false, false);
+	}
+
+	/**
+	 * The internal logging function of the LoggerPluginManager towards the plugins themselves.
+	 *
+	 * This will be sending of the event to be logged to the logger plugins later,
+	 * Right now we only have one (legacy) logger simulated within this same class.
+	 * */
+	private static void internal_log_to_all(final Severity msg_severity, final String message, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
+		//right now it behaves as if we have only the legacy logger installed
+		//FIXME more complicated
+		log(msg_severity, message, log_buffered, separate_file, use_emergency_mask);
+	}
+
+	/**
+	 * This function represents the entry point for the legacy style logger plugin.
+	 * (still embedded in this generic class while transitioning the design)
+	 * */
+	private static void log(final Severity msg_severity, final String message, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
+		//FIXME a bit more complicated
+		if (should_log_to_console(msg_severity)) {
+			log_console(msg_severity, message);
+		}
+	}
+
+	/**
+	 * The log_console function from the legacy logger.
+	 *
+	 * Not the final implementation though.
+	 * */
+	private static void log_console(final Severity msg_severity, final String message) {
+		//FIXME once we have objects calculating the time will have to be moved earlier.
+		//FIXME a bit more complicated in reality
+		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
+		final long millisec = timestamp % 1000;
+		timestamp = timestamp / 1000;
+		final long secs = timestamp % 60;
+		timestamp = timestamp / 60;
+		final long minutes = timestamp % 60;
+		timestamp = timestamp / 60;
+		final long hours = timestamp % 24;
+//		timestamp = timestamp / 24; //not used yet
+		final StringBuilder temp = new StringBuilder(20 + message.length());
+		temp.append(String.format("%02d", hours)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
+		temp.append(' ').append(message);
+
+		System.out.println(temp);
+	}
+
 	public static void print_logmatch_buffer() {
 		if (logMatchPrinted) {
 			log_event_str(" , ");
@@ -681,7 +740,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_READ, MessageFormat.format("Read timer {0}: {1} s", timer_name, timeout_val));
+		log(Severity.TIMEROP_READ, MessageFormat.format("Read timer {0}: {1} s", timer_name, timeout_val));
 	}
 
 	public static void log_timer_start(final String timer_name, final double start_val) {
@@ -689,7 +748,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_START, MessageFormat.format("Start timer {0}: {1} s", timer_name, start_val));
+		log(Severity.TIMEROP_START, MessageFormat.format("Start timer {0}: {1} s", timer_name, start_val));
 
 	}
 
@@ -698,7 +757,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_GUARD, MessageFormat.format("Test case guard timer was set to {0} s", start_val));
+		log(Severity.TIMEROP_GUARD, MessageFormat.format("Test case guard timer was set to {0} s", start_val));
 
 	}
 
@@ -707,7 +766,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_STOP, MessageFormat.format("Stop timer {0}: {1} s", timer_name, stop_val));
+		log(Severity.TIMEROP_STOP, MessageFormat.format("Stop timer {0}: {1} s", timer_name, stop_val));
 
 	}
 
@@ -716,7 +775,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_TIMEOUT, MessageFormat.format("Timeout {0}: {1} s", timer_name, timeout_val));
+		log(Severity.TIMEROP_TIMEOUT, MessageFormat.format("Timeout {0}: {1} s", timer_name, timeout_val));
 
 	}
 
@@ -725,7 +784,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_TIMEOUT, "Operation `any timer.timeout' was successful.");
+		log(Severity.TIMEROP_TIMEOUT, "Operation `any timer.timeout' was successful.");
 
 	}
 
@@ -734,7 +793,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		log_line(Severity.TIMEROP_UNQUALIFIED, message);
+		log(Severity.TIMEROP_UNQUALIFIED, message);
 
 	}
 
@@ -744,9 +803,9 @@ public final class TtcnLogger {
 		}
 
 		if (timer_name == null) {
-			log_line(Severity.MATCHING_PROBLEM, "Operation `any timer.timeout' failed: The test component does not have active timers.");
+			log(Severity.MATCHING_PROBLEM, "Operation `any timer.timeout' failed: The test component does not have active timers.");
 		} else {
-			log_line(Severity.MATCHING_PROBLEM, MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", timer_name));
+			log(Severity.MATCHING_PROBLEM, MessageFormat.format("Timeout operation on timer {0} failed: The timer is not started.", timer_name));
 		}
 	}
 
@@ -1100,7 +1159,7 @@ public final class TtcnLogger {
 			break;
 		}
 
-		log_line(Severity.FUNCTION_RND,ret_val.toString());
+		log(Severity.FUNCTION_RND,ret_val.toString());
 	}
 
 	public static void log_matching_failure(final PortType port_type, final String port_name, final int compref, final MatchingFailureType_reason reason, final TitanCharString info) {
@@ -1229,6 +1288,6 @@ public final class TtcnLogger {
 			break;
 		}
 
-		log_line(Severity.PORTEVENT_UNQUALIFIED, ret_val.toString());
+		log(Severity.PORTEVENT_UNQUALIFIED, ret_val.toString());
 	}
 }
