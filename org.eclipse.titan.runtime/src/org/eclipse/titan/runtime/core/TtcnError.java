@@ -37,7 +37,7 @@ public class TtcnError extends Error {
 	//FIXME comment
 	public static void TtcnErrorEnd() {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			TitanCharString error_str = TtcnLogger.end_event_log2str();
+			final TitanCharString error_str = TtcnLogger.end_event_log2str();
 			throw new TtcnError(error_str.getValue().toString());
 		} else {
 			//FIXME implement

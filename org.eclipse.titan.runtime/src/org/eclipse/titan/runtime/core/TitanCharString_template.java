@@ -654,7 +654,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		TtcnLogger.log_event_str("\"");
 		LogPatternState state = LogPatternState.INITIAL;
 		for (int i = 0; i < n_chars; i++) {
-			char c = chars_ptr.charAt( i );
+			final char c = chars_ptr.charAt( i );
 			// print the character
 			if ( 32 <= c ) {
 				// printable character

@@ -699,7 +699,7 @@ public final class AdditionalFunctions {
 		final int bits_ptr[] = new int[(n_nibbles + 1) / 2];
 
 		if (n_nibbles == 1) {
-			int temp = value.get_nibble(0);
+			final int temp = value.get_nibble(0);
 
 			bits_ptr[0] = nibble_reverse_table[temp];
 
@@ -842,7 +842,7 @@ public final class AdditionalFunctions {
 	public static TitanBitString oct2bit(final TitanOctetString_Element value) {
 		value.mustBound("The argument of function oct2bit() is an unbound octetstring value.");
 
-		int bits = bit_reverse_table[value.get_nibble()];
+		final int bits = bit_reverse_table[value.get_nibble()];
 		return new TitanBitString((byte) bits);
 	}
 

@@ -112,7 +112,7 @@ public final class TTCN_Snapshot {
 					final boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
 					if (isTimerTimeout) {
 						timeout = timerTimeout.getValue();
-						double currentTime = timeNow();
+						final double currentTime = timeNow();
 						final double blockTime = timeout - currentTime;
 						if (blockTime > 0.0) {
 							if (blockTime < MAX_BLOCK_TIME) {
@@ -179,7 +179,7 @@ public final class TTCN_Snapshot {
 					// do an other round if it has to wait much,
 					// or do a busy wait if only a few cycles are needed
 					if (pollTimeout > 0) {
-						double difference = timeNow() - timeout;
+						final double difference = timeNow() - timeout;
 						if (difference < 0) {
 							continue again;
 						}

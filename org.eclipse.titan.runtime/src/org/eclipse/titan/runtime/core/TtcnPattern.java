@@ -76,7 +76,7 @@ public class TtcnPattern {
 	public static boolean match(final String s, final Pattern javaPattern, final boolean nocase ) {
 		boolean result = false;
 		try {
-			Matcher m = javaPattern.matcher( nocase ? s.toLowerCase() : s);
+			final Matcher m = javaPattern.matcher( nocase ? s.toLowerCase() : s);
 			result = m.matches();
 		} catch (Exception e) {
 			throw new TtcnError( MessageFormat.format( "Pattern matching error: {0}", e.toString() ) );
@@ -299,10 +299,10 @@ public class TtcnPattern {
 			pos.getAndAdd(offset);
 			final String ucharlist = m.group(1);
 			final String[] uchars = ucharlist.split("\\s*,\\s*");
-			for (String uchar : uchars) {
+			for (final String uchar : uchars) {
 				final String hexstr = uchar.substring(1);
 				final int hex = Integer.parseInt(hexstr, 16);
-			    javaPattern.append((char) hex);
+				javaPattern.append((char) hex);
 			}
 		} else {
 			m = PATTERN_UNICHAR_QUADRUPLE.matcher(input);

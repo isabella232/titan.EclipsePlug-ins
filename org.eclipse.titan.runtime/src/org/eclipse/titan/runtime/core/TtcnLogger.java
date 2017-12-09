@@ -1003,7 +1003,8 @@ public final class TtcnLogger {
 		if (!log_this_event(TtcnLogger.Severity.MATCHING_PROBLEM) && (get_emergency_logging() <= 0)) {
 			return;
 		}
-		StringBuilder ret_val = new StringBuilder();
+
+		final StringBuilder ret_val = new StringBuilder();
 		ret_val.append("Operation `");
 		if (anyport) {
 			ret_val.append("any port.");
@@ -1084,7 +1085,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		StringBuilder ret_val = new StringBuilder();
+		final StringBuilder ret_val = new StringBuilder();
 
 		switch (rndAction) {
 		case seed:
@@ -1114,7 +1115,7 @@ public final class TtcnLogger {
 			return;
 		}
 
-		StringBuilder ret_val = new StringBuilder();
+		final StringBuilder ret_val = new StringBuilder();
 		switch (reason) {
 		case MESSAGE_DOES_NOT_MATCH_TEMPLATE:
 			ret_val.append(MessageFormat.format("Matching on port {0} {1}: First message in the queue does not match the template: ", port_name, info.toString()));

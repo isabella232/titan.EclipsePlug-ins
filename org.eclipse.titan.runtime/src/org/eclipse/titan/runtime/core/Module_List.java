@@ -45,7 +45,7 @@ public final class Module_List {
 	}
 
 	public static void pre_init_module(final String module_name) {
-		TTCN_Module module = lookup_module(module_name);
+		final TTCN_Module module = lookup_module(module_name);
 		module.pre_init_module();
 	}
 
@@ -56,7 +56,7 @@ public final class Module_List {
 	}
 
 	public static void post_init_module(final String module_name) {
-		TTCN_Module module = lookup_module(module_name);
+		final TTCN_Module module = lookup_module(module_name);
 		module.post_init_module();
 	}
 
