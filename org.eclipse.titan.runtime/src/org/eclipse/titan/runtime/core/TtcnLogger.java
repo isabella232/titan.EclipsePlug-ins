@@ -1036,7 +1036,7 @@ public final class TtcnLogger {
 			break;
 		}
 		if (check) {
-			ret_val.append(")");
+			ret_val.append(')');
 		}
 		ret_val.append("' ");
 

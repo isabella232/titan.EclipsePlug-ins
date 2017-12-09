@@ -271,12 +271,12 @@ public class TtcnPattern {
 				final String commaWithMaxStr = m.group(2);
 				//maxStr is null if there is no comma
 				final String maxStr = m.group(3);
-				javaPattern.append( "{" );
+				javaPattern.append( '{' );
 				javaPattern.append( minStr.isEmpty() ? '0' : minStr );
 				if ( commaWithMaxStr != null && !commaWithMaxStr.isEmpty() ) {
 					javaPattern.append( "," + maxStr );
 				}
-				javaPattern.append( "}" );
+				javaPattern.append( '}' );
 			} else {
 				//TODO: error
 			}
