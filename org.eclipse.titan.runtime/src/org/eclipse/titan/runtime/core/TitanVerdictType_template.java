@@ -298,7 +298,7 @@ public class TitanVerdictType_template extends Base_Template {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			if ( TitanVerdictType.isValid( single_value.getValue() ) ) {
-				TtcnLogger.log_event("" + TitanVerdictType.verdict_name[ single_value.getValue().ordinal() ]);
+				TtcnLogger.log_event(TitanVerdictType.verdict_name[ single_value.getValue().ordinal() ]);
 			} else {
 				TtcnLogger.log_event("<unknown verdict value: " + single_value + ">");
 			}
