@@ -70,11 +70,11 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		copyTemplate(otherValue);
 	}
 
-	public TitanCharString_template( template_sel p_sel, final TitanCharString p_str ) {
+	public TitanCharString_template(final template_sel p_sel, final TitanCharString p_str ) {
 		this( p_sel, p_str, false );
 	}
 
-	public TitanCharString_template( template_sel p_sel, final TitanCharString p_str, boolean p_nocase ) {
+	public TitanCharString_template(final template_sel p_sel, final TitanCharString p_str, final boolean p_nocase ) {
 		super( template_sel.STRING_PATTERN );
 		single_value = new TitanCharString( p_str );
 		if ( p_sel != template_sel.STRING_PATTERN ) {

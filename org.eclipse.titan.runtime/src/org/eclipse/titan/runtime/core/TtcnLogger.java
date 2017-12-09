@@ -135,7 +135,7 @@ public final class TtcnLogger {
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
 
-	public static void set_matching_verbosity(matching_verbosity_t v) {
+	public static void set_matching_verbosity(final matching_verbosity_t v) {
 		matching_verbosity = v;
 	}
 
@@ -1079,7 +1079,7 @@ public final class TtcnLogger {
 		UNKNOWN_VALUE
 	}
 
-	public static void log_random(final RandomAction rndAction, double value, long seed) {
+	public static void log_random(final RandomAction rndAction, final double value, final long seed) {
 		if (!log_this_event(Severity.FUNCTION_RND) && get_emergency_logging() <= 0) {
 			return;
 		}

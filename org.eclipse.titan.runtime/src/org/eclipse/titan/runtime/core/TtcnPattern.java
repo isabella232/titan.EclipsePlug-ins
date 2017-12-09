@@ -73,7 +73,7 @@ public class TtcnPattern {
 	 * @param nocase true for case insensitive matching
 	 * @return match result
 	 */
-	public static boolean match( String s, final Pattern javaPattern, final boolean nocase ) {
+	public static boolean match(final String s, final Pattern javaPattern, final boolean nocase ) {
 		boolean result = false;
 		try {
 			Matcher m = javaPattern.matcher( nocase ? s.toLowerCase() : s);
@@ -153,7 +153,7 @@ public class TtcnPattern {
 	 * @param javaPattern converted java pattern
 	 * @param isSet true inside a set
 	 */
-	private static void convertEscaped(String ttcnPattern, AtomicInteger pos, StringBuilder javaPattern, final boolean isSet) {
+	private static void convertEscaped(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern, final boolean isSet) {
 		final char c = ttcnPattern.charAt(pos.getAndIncrement());
 		switch ( c ) {
 		case '\\':
@@ -213,7 +213,7 @@ public class TtcnPattern {
 	 * @param pos character position in ttcnPattern
 	 * @param javaPattern converted java pattern
 	 */
-	private static void convertSet(String ttcnPattern, AtomicInteger pos, StringBuilder javaPattern) {
+	private static void convertSet(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
 		char c = ttcnPattern.charAt(pos.getAndIncrement());
 		if ( c == '^' ) {
 			javaPattern.append('^');
@@ -252,7 +252,7 @@ public class TtcnPattern {
 	 * @param pos character position in ttcnPattern
 	 * @param javaPattern converted java pattern
 	 */
-	private static void convertRepetition(String ttcnPattern, AtomicInteger pos, StringBuilder javaPattern) {
+	private static void convertRepetition(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
 		//TODO: add try-catch, and return error
 		final String input = ttcnPattern.substring(pos.get());
 		Matcher m = PATTERN_REPETITION_SINGLE.matcher(input);
@@ -290,7 +290,7 @@ public class TtcnPattern {
 	 * @param pos character position in ttcnPattern
 	 * @param javaPattern converted java pattern
 	 */
-	private static void convertUnicharList(String ttcnPattern, AtomicInteger pos, StringBuilder javaPattern) {
+	private static void convertUnicharList(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
 		//TODO: add try-catch, and return error
 		final String input = ttcnPattern.substring(pos.get());
 		Matcher m = PATTERN_UNICHAR_USI_LIST.matcher(input);
