@@ -81,9 +81,9 @@ public class TitanExternal extends Base_Type {
 	}
 
 	public boolean isBound() {
-		if ( identification.isBound() ) return true;
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound() ) return true;
-		if ( data__value.isBound() ) return true;
+		if ( identification.isBound() ) { return true; }
+		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound() ) { return true; }
+		if ( data__value.isBound() ) { return true; }
 		return false;
 	}
 
@@ -92,16 +92,16 @@ public class TitanExternal extends Base_Type {
 	}
 
 	public boolean isValue() {
-		if ( !identification.isValue() ) return false;
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue() ) return false;
-		if ( !data__value.isValue() ) return false;
+		if ( !identification.isValue() ) { return false; }
+		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue() ) { return false; }
+		if ( !data__value.isValue() ) { return false; }
 		return true;
 	}
 
 	public boolean operatorEquals( final TitanExternal aOtherValue ) {
-		if ( !this.identification.operatorEquals( aOtherValue.identification ) ) return false;
-		if ( !this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor ) ) return false;
-		if ( ! this.data__value.operatorEquals( aOtherValue.data__value ) ) return false;
+		if ( !this.identification.operatorEquals( aOtherValue.identification ) ) { return false; }
+		if ( !this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor ) ) { return false; }
+		if ( !this.data__value.operatorEquals( aOtherValue.data__value ) ) { return false; }
 		return true;
 	}
 
