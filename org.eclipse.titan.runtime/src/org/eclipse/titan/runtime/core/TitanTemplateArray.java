@@ -1186,9 +1186,9 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 					}
 				}
 				TtcnLogger.log_event_str(" }");
-			}
-			else
+			} else {
 				TtcnLogger.log_event_str("{ }");
+			}
 			break;
 		case COMPLEMENTED_LIST:
 			TtcnLogger.log_event_str("complement");
