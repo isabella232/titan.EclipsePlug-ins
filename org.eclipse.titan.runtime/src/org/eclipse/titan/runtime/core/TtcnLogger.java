@@ -806,6 +806,20 @@ public final class TtcnLogger {
 		//FIXME implement
 	}
 
+	public static void set_file_mask(final component_id_t cmpt,
+			final Logging_Bits new_file_mask) {
+		if (file_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
+			return;
+		}
+		file_log_mask.mask = new_file_mask;
+		if (cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_NAME) {
+			file_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
+			file_log_mask.component_id.id_name = cmpt.id_name;
+		} else {
+			file_log_mask.component_id = cmpt;
+		}
+	}
+		
 	public static void set_console_mask(final component_id_t cmpt,
 			final Logging_Bits new_console_mask) {
 		if (console_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
