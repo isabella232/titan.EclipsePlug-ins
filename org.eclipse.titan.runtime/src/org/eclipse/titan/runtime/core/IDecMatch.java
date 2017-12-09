@@ -35,4 +35,4 @@ interface IDecMatch {
 	 * be decoded into the same type as the type used in this decmatch template */
 	//TODO
 	//public final TTCN_Typedescriptor_t get_type_descr();
-};
+}
