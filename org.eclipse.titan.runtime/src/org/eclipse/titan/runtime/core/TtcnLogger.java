@@ -369,7 +369,7 @@ public final class TtcnLogger {
 		file_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 		file_log_mask.component_id.id_compref = TitanComponent.ALL_COMPREF;
 		file_log_mask.mask = new Logging_Bits(Logging_Bits.log_all);
-		
+
 		emergency_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 		emergency_log_mask.component_id.id_compref=TitanComponent.ANY_COMPREF;
 		emergency_log_mask.mask = new Logging_Bits(Logging_Bits.log_all);		
@@ -811,6 +811,7 @@ public final class TtcnLogger {
 		if (file_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
 			return;
 		}
+
 		file_log_mask.mask = new_file_mask;
 		if (cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_NAME) {
 			file_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
@@ -819,7 +820,7 @@ public final class TtcnLogger {
 			file_log_mask.component_id = cmpt;
 		}
 	}
-		
+
 	public static void set_console_mask(final component_id_t cmpt,
 			final Logging_Bits new_console_mask) {
 		if (console_log_mask.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_COMPREF && cmpt.id_selector == component_id_selector_enum.COMPONENT_ID_ALL) {
@@ -833,7 +834,7 @@ public final class TtcnLogger {
 			console_log_mask.component_id = cmpt;
 		}
 	}
-	
+
 	public static void set_emergency_logging_mask(final component_id_t cmpt,
 			final Logging_Bits new_logging_mask) {
 		// If Emergency Logging Mask was set with a component-specific value,
