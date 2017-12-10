@@ -12,6 +12,8 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Stack;
 
+import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+
 /**
  * originally TTCN_Logger
  * @author Arpad Lovassy
@@ -1037,15 +1039,36 @@ public final class TtcnLogger {
 		log_event_str(ret_val);
 	}
 
+	public static void log_setverdict(final VerdictTypeEnum newVerdict, final VerdictTypeEnum oldVerdict, final VerdictTypeEnum localVerdict,
+			final String oldReason, final String newReason) {
+		if (!log_this_event(Severity.VERDICTOP_SETVERDICT) && get_emergency_logging() <= 0) {
+			return;
+		}
+
+		if (newVerdict.getValue() > oldVerdict.getValue()) {
+			if (oldReason == null || newReason == null) {
+				TtcnLogger.log(Severity.VERDICTOP_SETVERDICT, MessageFormat.format("setverdict({0}): {1} -> {2}", newVerdict.getName(), oldVerdict.getName(), localVerdict.getName()));
+			} else {
+				TtcnLogger.log(Severity.VERDICTOP_SETVERDICT, MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", new component reason: \"{4}\"", newVerdict.getName(), oldVerdict.getName(), localVerdict.getName(), oldReason, newReason));
+			}
+		} else {
+			if (oldReason == null || newReason == null) {
+				TtcnLogger.log(Severity.VERDICTOP_SETVERDICT, MessageFormat.format("setverdict({0}): {1} -> {2} component reason not changed", newVerdict.getName(), oldVerdict.getName(), localVerdict.getName()));
+			} else {
+				TtcnLogger.log(Severity.VERDICTOP_SETVERDICT, MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdict.getName(), oldVerdict.getName(), localVerdict.getName(), oldReason));
+			}
+		}
+	}
+
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
 		if (!log_this_event(Severity.STATISTICS_UNQUALIFIED) && get_emergency_logging() <= 0) {
 			return;
 		}
 
 		if (finished) {
-			TtcnLogger.log(Severity.TESTCASE_FINISH, "Execution of control part in module %s finished.", moduleName);
+			TtcnLogger.log(Severity.STATISTICS_UNQUALIFIED, "Execution of control part in module %s finished.", moduleName);
 		} else {
-			TtcnLogger.log(Severity.TESTCASE_START, "Execution of control part in module %s started.", moduleName);
+			TtcnLogger.log(Severity.STATISTICS_UNQUALIFIED, "Execution of control part in module %s started.", moduleName);
 		}
 	}
 

@@ -716,9 +716,17 @@ public final class TTCN_Runtime {
 		if (localVerdict.getValue() < newValue.getValue()) {
 			verdictReason = reason;
 			localVerdict = newValue;
-			//FIXME implement logging
+			if (reason == null || reason.length() == 0) {
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, null, null);
+			} else {
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, reason, reason);
+			}
 		} else if (localVerdict.getValue() == newValue.getValue()) {
-			//FIXME implement logging
+			if (reason == null || reason.length() == 0) {
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, null, null);
+			} else {
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, reason, reason);
+			}
 		}
 
 		//FIXME handle debugger breakpoints
