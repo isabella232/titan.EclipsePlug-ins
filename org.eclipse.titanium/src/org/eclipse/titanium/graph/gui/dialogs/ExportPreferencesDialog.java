@@ -70,10 +70,10 @@ public class ExportPreferencesDialog extends Dialog {
 	private void createContents() {
 		shlExportGraph = new Shell(getParent(), SWT.BORDER | SWT.TITLE | SWT.PRIMARY_MODAL);
 		shlExportGraph.setImage(SWTResourceManager.getImage("resources/icons/sample.gif"));
-		shlExportGraph.setLayout(new GridLayout(1,false));
+		shlExportGraph.setLayout(new GridLayout(1, false));
 		shlExportGraph.setMinimumSize(100, 50);
 		shlExportGraph.setText("Export Preferences");
-		
+
 		Composite selectWhatToSave = new Composite(shlExportGraph, SWT.NONE);
 		selectWhatToSave.setLayout(new FillLayout());
 		final Label lblPartToExport = new Label(selectWhatToSave, SWT.NONE);
@@ -82,13 +82,13 @@ public class ExportPreferencesDialog extends Dialog {
 		mode = new Combo(selectWhatToSave, SWT.READ_ONLY);
 		mode.setItems(new String[] { "Whole graph", "Only the seen part", "The satellite view" });
 		mode.select(0);
-		
+
 		final Button btnOk = new Button(shlExportGraph, SWT.PUSH);
-		
+
 		btnOk.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				switch(mode.getSelectionIndex()) {
+				switch (mode.getSelectionIndex()) {
 				case 0:
 					result = ImageExportType.EXPORT_WHOLE_GRAPH;
 					break;
@@ -103,7 +103,7 @@ public class ExportPreferencesDialog extends Dialog {
 					result = ImageExportType.EXPORT_SEEN_GRAPH;
 					break;
 				}
-				
+
 				if (!shlExportGraph.isDisposed()) {
 					shlExportGraph.close();
 				}

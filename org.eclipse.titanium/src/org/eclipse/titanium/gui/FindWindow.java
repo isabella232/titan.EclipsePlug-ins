@@ -111,46 +111,45 @@ public class FindWindow<T extends Comparable> extends Dialog {
 	 * Create contents of the dialog.
 	 */
 	private void createContents() {
-		
 		shlFind = new Shell(getParent(), SWT.CLOSE | SWT.TITLE | SWT.RESIZE);
 		shlFind.setModified(true);
 		shlFind.setImage(SWTResourceManager.getImage("resources/icons/search_src.gif"));
 		shlFind.setSize(FIND_DIALOG_DEFAULT_SIZE.width, FIND_DIALOG_DEFAULT_SIZE.height);
 		shlFind.setText("Find");
 		shlFind.setMaximized(true);
-		shlFind.setLayout(new GridLayout(1,false));
-		
-		shlFind.setMinimumSize(FIND_DIALOG_DEFAULT_SIZE.width,FIND_DIALOG_DEFAULT_SIZE.height);
-		
+		shlFind.setLayout(new GridLayout(1, false));
+
+		shlFind.setMinimumSize(FIND_DIALOG_DEFAULT_SIZE.width, FIND_DIALOG_DEFAULT_SIZE.height);
+
 		final Label nameLabel = new Label(shlFind, SWT.NONE);
 		nameLabel.setText("Name: ");
-		
+
 		final Text text = new Text(shlFind, SWT.BORDER);
-		text.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false));
+		text.setLayoutData(new GridData(SWT.FILL, SWT.NONE, false, false));
 		text.setSize(120, 10);
-		
+
 		FillLayout fl = new FillLayout();
-		
+
 		Composite buttonsAndCheckBoxes = new Composite(shlFind, SWT.NONE);
 		buttonsAndCheckBoxes.setLayout(fl);
-		buttonsAndCheckBoxes.setLayoutData(new GridData(SWT.FILL,SWT.NONE, true, false));		
-		
+		buttonsAndCheckBoxes.setLayoutData(new GridData(SWT.FILL, SWT.NONE, true, false));
+
 		Composite checkBoxes = new Composite(buttonsAndCheckBoxes, SWT.NONE);
-	    GridLayout cbLayout = new GridLayout(1, false);
-	    cbLayout.verticalSpacing = 15;
+		GridLayout cbLayout = new GridLayout(1, false);
+		cbLayout.verticalSpacing = 15;
 		Composite buttons = new Composite(buttonsAndCheckBoxes, SWT.RIGHT_TO_LEFT);
-	    GridLayout btLayout = new GridLayout(1, false);
-	    btLayout.verticalSpacing = 5;
-	    
-		checkBoxes.setLayout(cbLayout);	
+		GridLayout btLayout = new GridLayout(1, false);
+		btLayout.verticalSpacing = 5;
+
+		checkBoxes.setLayout(cbLayout);
 		buttons.setLayout(btLayout);
 
 		final Button btnExactMatch = new Button(checkBoxes, SWT.CHECK);
 		btnExactMatch.setText("Exact match");
-		
+
 		final Button btnCaseSensitive = new Button(checkBoxes, SWT.CHECK);
 		btnCaseSensitive.setText("Case sensitive");
-		
+
 		final Button btnFind = new Button(buttons, SWT.PUSH);
 		btnFind.setText("Find");
 
@@ -158,10 +157,10 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		btnClearResult.setText("Clear result");
 		lblResults = new Label(shlFind, SWT.NONE);
 		lblResults.setText("Results:");
-		
+
 		tree = new Tree(shlFind, SWT.BORDER);
-		tree.setLayoutData(new GridData(SWT.FILL,SWT.FILL, true, true));
-		
+		tree.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+
 		tree.addSelectionListener(new SelectionAdapter() {
 			@SuppressWarnings("unchecked")
 			@Override
@@ -169,16 +168,16 @@ public class FindWindow<T extends Comparable> extends Dialog {
 				view.elemChosen((T) tree.getSelection()[0].getData());
 			}
 		});
-		
+
 		btnFind.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				
+
 				String name = text.getText();
 				final boolean exactMatch = btnExactMatch.getSelection();
 				final boolean caseSensitive = btnCaseSensitive.getSelection();
 				boolean noResult = true;
-				
+
 				if (!caseSensitive) {
 					name = name.toLowerCase();
 				}
@@ -188,14 +187,14 @@ public class FindWindow<T extends Comparable> extends Dialog {
 					if (!caseSensitive) {
 						elemName = elemName.toLowerCase();
 					}
-					
+
 					if (!exactMatch && elemName.contains(name)) {
 						treeItems.add(actElem);
 					} else if (exactMatch && elemName.equals(name)) {
 						treeItems.add(actElem);
 					}
 				}
-				
+
 				for (final T actElem : treeItems) {
 					final TreeItem item = new TreeItem(tree, SWT.NONE);
 					item.setText(actElem.toString());
@@ -217,7 +216,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 				view.clearResults();
 			}
 		});
-		
+
 		shlFind.pack();
 	}
 }
