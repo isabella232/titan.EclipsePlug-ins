@@ -22,14 +22,14 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titanium.graph.visualization.GraphHandler.ImageExportType;
 import org.eclipse.titanium.swt.SWTResourceManager;
-//TODO
+
 /**
  * This class implements the export window to be shown on exporting graph to an image file
+ *
  * @author Gabor Jenei
  * @author Balazs Maitz
  */
-// FIXME misleading class name: we are not exporting preferences
-public class ExportPreferencesDialog extends Dialog {
+public class ExportImagePreferencesDialog extends Dialog {
 
 	protected ImageExportType result = ImageExportType.EXPORT_SEEN_GRAPH;
 	protected Shell shlExportGraph;
@@ -41,7 +41,7 @@ public class ExportPreferencesDialog extends Dialog {
 	 * @param parent
 	 * @param style
 	 */
-	public ExportPreferencesDialog(final Shell parent) {
+	public ExportImagePreferencesDialog(final Shell parent) {
 		super(parent);
 		setText("Export Graph");
 	}

@@ -52,7 +52,7 @@ import org.eclipse.titanium.graph.components.NodeDescriptor;
 import org.eclipse.titanium.graph.generators.GraphGenerator;
 import org.eclipse.titanium.graph.gui.common.CustomVisualizationViewer;
 import org.eclipse.titanium.graph.gui.common.Layouts;
-import org.eclipse.titanium.graph.gui.dialogs.ExportPreferencesDialog;
+import org.eclipse.titanium.graph.gui.dialogs.ExportImagePreferencesDialog;
 import org.eclipse.titanium.graph.gui.utils.LayoutEntry;
 import org.eclipse.titanium.graph.utils.CheckParallelPaths;
 import org.eclipse.titanium.graph.utils.CircleCheck;
@@ -360,7 +360,7 @@ public abstract class GraphEditor extends EditorPart implements Searchable<NodeD
 				Display.getDefault().asyncExec(new Runnable() {
 					@Override
 					public void run() {
-						ExportPreferencesDialog prefDialog = new ExportPreferencesDialog(editorComposite.getShell());
+						ExportImagePreferencesDialog prefDialog = new ExportImagePreferencesDialog(editorComposite.getShell());
 						ImageExportType mode = prefDialog.open();
 
 						FileDialog dialog = new FileDialog(editorComposite.getShell(), SWT.SAVE);
