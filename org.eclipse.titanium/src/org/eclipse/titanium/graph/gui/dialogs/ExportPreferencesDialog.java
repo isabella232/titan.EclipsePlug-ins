@@ -10,8 +10,11 @@ package org.eclipse.titanium.graph.gui.dialogs;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Combo;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -19,10 +22,11 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titanium.graph.visualization.GraphHandler.ImageExportType;
 import org.eclipse.titanium.swt.SWTResourceManager;
-
+//TODO
 /**
  * This class implements the export window to be shown on exporting graph to an image file
  * @author Gabor Jenei
+ * @author Balazs Maitz
  */
 // FIXME misleading class name: we are not exporting preferences
 public class ExportPreferencesDialog extends Dialog {
@@ -33,7 +37,7 @@ public class ExportPreferencesDialog extends Dialog {
 
 	/**
 	 * Create the dialog.
-	 *
+	 * 
 	 * @param parent
 	 * @param style
 	 */
@@ -44,13 +48,13 @@ public class ExportPreferencesDialog extends Dialog {
 
 	/**
 	 * Open the dialog.
-	 *
+	 * 
 	 * @return The set preferences in a string array
 	 */
 	public ImageExportType open() {
 		createContents();
 		shlExportGraph.open();
-		shlExportGraph.layout();
+		//shlExportGraph.layout();
 		final Display display = getParent().getDisplay();
 		while (!shlExportGraph.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -66,21 +70,21 @@ public class ExportPreferencesDialog extends Dialog {
 	private void createContents() {
 		shlExportGraph = new Shell(getParent(), SWT.BORDER | SWT.TITLE | SWT.PRIMARY_MODAL);
 		shlExportGraph.setImage(SWTResourceManager.getImage("resources/icons/sample.gif"));
-		shlExportGraph.setSize(226, 130);
+		shlExportGraph.setLayout(new GridLayout(1,false));
+		shlExportGraph.setMinimumSize(100, 50);
 		shlExportGraph.setText("Export Preferences");
+		
+		Composite selectWhatToSave = new Composite(shlExportGraph, SWT.NONE);
+		selectWhatToSave.setLayout(new FillLayout());
+		final Label lblPartToExport = new Label(selectWhatToSave, SWT.NONE);
+		lblPartToExport.setText("Part to export:");
 
-		mode = new Combo(shlExportGraph, SWT.READ_ONLY);
+		mode = new Combo(selectWhatToSave, SWT.READ_ONLY);
 		mode.setItems(new String[] { "Whole graph", "Only the seen part", "The satellite view" });
-		mode.setBounds(10, 31, 200, 23);
 		mode.select(0);
-
-		final Label lblPartToExport = new Label(shlExportGraph, SWT.NONE);
-		lblPartToExport.setBounds(10, 10, 94, 15);
-		lblPartToExport.setText("Part to export");
-
-		shlExportGraph.setLocation(100, 100);
-
-		final Button btnOk = new Button(shlExportGraph, SWT.NONE);
+		
+		final Button btnOk = new Button(shlExportGraph, SWT.PUSH);
+		
 		btnOk.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
@@ -99,16 +103,15 @@ public class ExportPreferencesDialog extends Dialog {
 					result = ImageExportType.EXPORT_SEEN_GRAPH;
 					break;
 				}
-
-
+				
 				if (!shlExportGraph.isDisposed()) {
 					shlExportGraph.close();
 				}
 			}
 		});
-		btnOk.setBounds(64, 60, 75, 25);
+
 		btnOk.setText("OK");
 		btnOk.setFocus();
-
+		shlExportGraph.pack();
 	}
 }

@@ -17,7 +17,11 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.graphics.Point;
+import org.eclipse.swt.layout.FillLayout;
+import org.eclipse.swt.layout.GridData;
+import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Button;
+import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Dialog;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -31,26 +35,25 @@ import org.eclipse.titanium.swt.SWTResourceManager;
 /**
  * This class implements a node searching Eclipse window, it is inherited from
  * {@link Dialog}
- *
+ * 
  * @author Gabor Jenei
+ * @author Balazs Maitz
  */
 @SuppressWarnings("rawtypes")
 public class FindWindow<T extends Comparable> extends Dialog {
 
 	protected Shell shlFind;
-	private static final Dimension EXT_SIZE = new Dimension(344, 317);
-	private static final Dimension NORM_SIZE = new Dimension(344, 135);
+	private static final Dimension FIND_DIALOG_DEFAULT_SIZE = new Dimension(490, 265); // min size
 	private final Searchable<T> view;
 	private final Collection<T> totalSet;
-	private Label label;
 	private Label lblResults;
 	private Tree tree;
 	private final SortedSet<T> treeItems;
-	protected final GUIErrorHandler errorHandler = new GUIErrorHandler();
+	protected final GUIErrorHandler errorHandler = new GUIErrorHandler(); 
 
 	/**
 	 * Create the dialog.
-	 *
+	 * 
 	 * @param parent
 	 *            : The parent shell
 	 * @param view
@@ -67,7 +70,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		if (totalList==null) {
 			throw new IllegalArgumentException("The totalList parameter of FindWindow's constructor mustn't be null!");
 		}
-
+		
 		this.view = view;
 		treeItems = new TreeSet<T>();
 		this.totalSet = totalList;
@@ -80,27 +83,9 @@ public class FindWindow<T extends Comparable> extends Dialog {
 	public void open() {
 		createContents();
 		shlFind.open();
-		shlFind.layout();
+		
 		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		shlFind.setLocation(new Point(screenSize.width / 2, 20));
-
-		lblResults = new Label(shlFind, SWT.NONE);
-		lblResults.setBounds(10, 108, 40, 15);
-		lblResults.setText("Results:");
-
-		label = new Label(shlFind, SWT.SEPARATOR | SWT.HORIZONTAL | SWT.CENTER);
-		label.setBounds(10, 94, 323, 21);
-
-		tree = new Tree(shlFind, SWT.BORDER);
-		tree.addSelectionListener(new SelectionAdapter() {
-			@SuppressWarnings("unchecked")
-			@Override
-			public void widgetSelected(final SelectionEvent e) {
-				view.elemChosen((T) tree.getSelection()[0].getData());
-			}
-		});
-		tree.setBounds(10, 129, 318, 149);
-		showResultTable(false);
 
 		final Display display = getParent().getDisplay();
 		while (!shlFind.isDisposed()) {
@@ -109,6 +94,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 			}
 		}
 		view.clearResults();
+		shlFind.pack();
 	}
 
 	/**
@@ -125,34 +111,74 @@ public class FindWindow<T extends Comparable> extends Dialog {
 	 * Create contents of the dialog.
 	 */
 	private void createContents() {
-		shlFind = new Shell(getParent(), SWT.CLOSE | SWT.TITLE);
+		
+		shlFind = new Shell(getParent(), SWT.CLOSE | SWT.TITLE | SWT.RESIZE);
 		shlFind.setModified(true);
 		shlFind.setImage(SWTResourceManager.getImage("resources/icons/search_src.gif"));
-		shlFind.setSize(EXT_SIZE.width, EXT_SIZE.height);
+		shlFind.setSize(FIND_DIALOG_DEFAULT_SIZE.width, FIND_DIALOG_DEFAULT_SIZE.height);
 		shlFind.setText("Find");
-		shlFind.setLayout(null);
-
+		shlFind.setMaximized(true);
+		shlFind.setLayout(new GridLayout(1,false));
+		
+		shlFind.setMinimumSize(FIND_DIALOG_DEFAULT_SIZE.width,FIND_DIALOG_DEFAULT_SIZE.height);
+		
+		final Label nameLabel = new Label(shlFind, SWT.NONE);
+		nameLabel.setText("Name: ");
+		
 		final Text text = new Text(shlFind, SWT.BORDER);
-		text.setBounds(10, 23, 323, 21);
+		text.setLayoutData(new GridData(SWT.FILL,SWT.NONE, false, false));
+		text.setSize(120, 10);
+		
+		FillLayout fl = new FillLayout();
+		
+		Composite buttonsAndCheckBoxes = new Composite(shlFind, SWT.NONE);
+		buttonsAndCheckBoxes.setLayout(fl);
+		buttonsAndCheckBoxes.setLayoutData(new GridData(SWT.FILL,SWT.NONE, true, false));		
+		
+		Composite checkBoxes = new Composite(buttonsAndCheckBoxes, SWT.NONE);
+	    GridLayout cbLayout = new GridLayout(1, false);
+	    cbLayout.verticalSpacing = 15;
+		Composite buttons = new Composite(buttonsAndCheckBoxes, SWT.RIGHT_TO_LEFT);
+	    GridLayout btLayout = new GridLayout(1, false);
+	    btLayout.verticalSpacing = 5;
+	    
+		checkBoxes.setLayout(cbLayout);	
+		buttons.setLayout(btLayout);
 
-		final Button btnExactMatch = new Button(shlFind, SWT.CHECK);
-		btnExactMatch.setBounds(10, 50, 93, 16);
+		final Button btnExactMatch = new Button(checkBoxes, SWT.CHECK);
 		btnExactMatch.setText("Exact match");
-
-		final Button btnCaseSensitive = new Button(shlFind, SWT.CHECK);
-		btnCaseSensitive.setBounds(10, 72, 93, 16);
+		
+		final Button btnCaseSensitive = new Button(checkBoxes, SWT.CHECK);
 		btnCaseSensitive.setText("Case sensitive");
+		
+		final Button btnFind = new Button(buttons, SWT.PUSH);
+		btnFind.setText("Find");
 
-		final Button btnFind = new Button(shlFind, SWT.NONE);
-		btnFind.setBounds(258, 68, 75, 25);
+		final Button btnClearResult = new Button(buttons, SWT.PUSH);
+		btnClearResult.setText("Clear result");
+		lblResults = new Label(shlFind, SWT.NONE);
+		lblResults.setText("Results:");
+		
+		tree = new Tree(shlFind, SWT.BORDER);
+		tree.setLayoutData(new GridData(SWT.FILL,SWT.FILL, true, true));
+		
+		tree.addSelectionListener(new SelectionAdapter() {
+			@SuppressWarnings("unchecked")
+			@Override
+			public void widgetSelected(final SelectionEvent e) {
+				view.elemChosen((T) tree.getSelection()[0].getData());
+			}
+		});
+		
 		btnFind.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
+				
 				String name = text.getText();
 				final boolean exactMatch = btnExactMatch.getSelection();
 				final boolean caseSensitive = btnCaseSensitive.getSelection();
 				boolean noResult = true;
-
+				
 				if (!caseSensitive) {
 					name = name.toLowerCase();
 				}
@@ -162,14 +188,14 @@ public class FindWindow<T extends Comparable> extends Dialog {
 					if (!caseSensitive) {
 						elemName = elemName.toLowerCase();
 					}
-
+					
 					if (!exactMatch && elemName.contains(name)) {
 						treeItems.add(actElem);
 					} else if (exactMatch && elemName.equals(name)) {
 						treeItems.add(actElem);
 					}
 				}
-
+				
 				for (final T actElem : treeItems) {
 					final TreeItem item = new TreeItem(tree, SWT.NONE);
 					item.setText(actElem.toString());
@@ -179,41 +205,19 @@ public class FindWindow<T extends Comparable> extends Dialog {
 
 				if (noResult) {
 					errorHandler.reportInformation("The search hasn't found such node!");
-				} else {
-					showResultTable(true);
 				}
 			}
 		});
-		btnFind.setText("Find");
 
-		final Label nameLabel = new Label(shlFind, SWT.NONE);
-		nameLabel.setBounds(10, 2, 283, 15);
-		nameLabel.setText("Name: ");
-
-		final Button btnClearResult = new Button(shlFind, SWT.NONE);
-		btnClearResult.setBounds(177, 68, 75, 25);
 		btnClearResult.addSelectionListener(new SelectionAdapter() {
 			@Override
 			public void widgetSelected(final SelectionEvent e) {
-				showResultTable(false);
+				tree.removeAll();
+				treeItems.clear();
 				view.clearResults();
 			}
 		});
-		btnClearResult.setText("Clear result");
-
-	}
-
-	private void showResultTable(final boolean show) {
-		if (show) {
-			shlFind.setSize(EXT_SIZE.width, EXT_SIZE.height);
-		} else {
-			shlFind.setSize(NORM_SIZE.width, NORM_SIZE.height);
-			tree.removeAll();
-			treeItems.clear();
-		}
-
-		tree.setVisible(show);
-		lblResults.setVisible(show);
-		label.setVisible(show);
+		
+		shlFind.pack();
 	}
 }
