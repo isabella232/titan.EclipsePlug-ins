@@ -7,8 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titanium.gui;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.util.Collection;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -16,7 +14,6 @@ import java.util.TreeSet;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
 import org.eclipse.swt.events.SelectionEvent;
-import org.eclipse.swt.graphics.Point;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -43,7 +40,6 @@ import org.eclipse.titanium.swt.SWTResourceManager;
 public class FindWindow<T extends Comparable> extends Dialog {
 
 	protected Shell shlFind;
-	private static final Dimension FIND_DIALOG_DEFAULT_SIZE = new Dimension(490, 265); // min size
 	private final Searchable<T> view;
 	private final Collection<T> totalSet;
 	private Label lblResults;
@@ -84,9 +80,6 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		createContents();
 		shlFind.open();
 
-		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		shlFind.setLocation(new Point(screenSize.width / 2, 20));
-
 		final Display display = getParent().getDisplay();
 		while (!shlFind.isDisposed()) {
 			if (!display.readAndDispatch()) {
@@ -113,12 +106,9 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		shlFind = new Shell(getParent(), SWT.CLOSE | SWT.TITLE | SWT.RESIZE);
 		shlFind.setModified(true);
 		shlFind.setImage(SWTResourceManager.getImage("resources/icons/search_src.gif"));
-		shlFind.setSize(FIND_DIALOG_DEFAULT_SIZE.width, FIND_DIALOG_DEFAULT_SIZE.height);
 		shlFind.setText("Find");
 		shlFind.setMaximized(true);
 		shlFind.setLayout(new GridLayout(1, false));
-
-		shlFind.setMinimumSize(FIND_DIALOG_DEFAULT_SIZE.width, FIND_DIALOG_DEFAULT_SIZE.height);
 
 		final Label nameLabel = new Label(shlFind, SWT.NONE);
 		nameLabel.setText("Name: ");
@@ -136,18 +126,18 @@ public class FindWindow<T extends Comparable> extends Dialog {
 		Composite checkBoxes = new Composite(buttonsAndCheckBoxes, SWT.NONE);
 		GridLayout cbLayout = new GridLayout(1, false);
 		cbLayout.verticalSpacing = 15;
-		Composite buttons = new Composite(buttonsAndCheckBoxes, SWT.RIGHT_TO_LEFT);
-		GridLayout btLayout = new GridLayout(1, false);
-		btLayout.verticalSpacing = 5;
-
 		checkBoxes.setLayout(cbLayout);
-		buttons.setLayout(btLayout);
 
 		final Button btnExactMatch = new Button(checkBoxes, SWT.CHECK);
 		btnExactMatch.setText("Exact match");
 
 		final Button btnCaseSensitive = new Button(checkBoxes, SWT.CHECK);
 		btnCaseSensitive.setText("Case sensitive");
+
+		Composite buttons = new Composite(buttonsAndCheckBoxes, SWT.RIGHT_TO_LEFT);
+		GridLayout btLayout = new GridLayout(1, false);
+		btLayout.verticalSpacing = 5;
+		buttons.setLayout(btLayout);
 
 		final Button btnFind = new Button(buttons, SWT.PUSH);
 		btnFind.setText("Find");

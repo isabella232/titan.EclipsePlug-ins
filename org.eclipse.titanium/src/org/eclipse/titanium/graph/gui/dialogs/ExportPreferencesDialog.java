@@ -71,7 +71,6 @@ public class ExportPreferencesDialog extends Dialog {
 		shlExportGraph = new Shell(getParent(), SWT.BORDER | SWT.TITLE | SWT.PRIMARY_MODAL);
 		shlExportGraph.setImage(SWTResourceManager.getImage("resources/icons/sample.gif"));
 		shlExportGraph.setLayout(new GridLayout(1, false));
-		shlExportGraph.setMinimumSize(100, 50);
 		shlExportGraph.setText("Export Preferences");
 
 		Composite selectWhatToSave = new Composite(shlExportGraph, SWT.NONE);
