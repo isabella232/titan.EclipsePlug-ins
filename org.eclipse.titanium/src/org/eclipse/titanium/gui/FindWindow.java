@@ -83,7 +83,7 @@ public class FindWindow<T extends Comparable> extends Dialog {
 	public void open() {
 		createContents();
 		shlFind.open();
-		
+
 		final Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		shlFind.setLocation(new Point(screenSize.width / 2, 20));
 
@@ -94,7 +94,6 @@ public class FindWindow<T extends Comparable> extends Dialog {
 			}
 		}
 		view.clearResults();
-		shlFind.pack();
 	}
 
 	/**
