@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
+import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
+
 /**
  * Additional (predefined) functions
  *
@@ -506,6 +508,28 @@ public final class AdditionalFunctions {
 		return unichar2int(value.get_char());
 	}
 
+	//FIXME: implement
+	public static TitanOctetString unichar2oct(TitanUniversalCharString value) {
+		// no encoding parameter is default UTF-8
+		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
+
+		// TODO: TTCN_EncDec
+		final Text_Buf text_buf = new Text_Buf();
+		value.encode_utf8(text_buf, false);
+
+		return new TitanOctetString(text_buf.pull_string());
+	}
+	
+	public static TitanOctetString unichar2oct(TitanUniversalCharString value, final TitanCharString stringEncoding) {
+		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
+		
+		final Text_Buf text_buf = new Text_Buf();
+		//TODO: TTCN_EncDec
+		//final boolean b = stringEncoding.operatorEquals("");
+		//value.encode_utf8(text_buf, false);
+		return new TitanOctetString( value.toString()/*text_buf.pull_string()*/ /*FIXME: search text_buf.get_data()*/);
+	}
+
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");
@@ -916,6 +940,25 @@ public final class AdditionalFunctions {
 		}
 
 		return new TitanCharString(String.valueOf(octet));
+	}
+
+	// FIXME: implement
+	public static TitanUniversalCharString oct2unichar(final TitanOctetString value) {
+		//  default encoding is UTF-8
+		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
+		// TODO: TTCN_EncDec
+		unicharStr.decode_utf8(value.lengthOf().getInt(),value.toString(), CharCoding.UTF_8, true);
+		return unicharStr;
+	}
+
+	public static TitanUniversalCharString oct2unichar(final TitanOctetString value, final TitanCharString encodeStr) {
+		//  default encoding is UTF-8
+		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
+		// TODO: TTCN_EncDec
+		// ...
+		unicharStr.decode_utf8(value.lengthOf().getInt(),value.toString(), CharCoding.UTF_8, true);
+		// .... 
+		return unicharStr;
 	}
 
 	// C.25 - str2int
