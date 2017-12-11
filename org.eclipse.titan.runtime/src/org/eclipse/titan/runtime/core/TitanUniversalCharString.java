@@ -11,6 +11,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
+
 /**
  * TTCN-3 Universal_charstring
  * @author Arpad Lovassy
@@ -1009,5 +1011,17 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 		ret_val.val_ptr.addAll(rightValue.val_ptr);
 		return ret_val;
+	}
+
+	// decode 
+
+	public void decode_utf8(final int lenghtOctets, final String valueStr, final CharCoding code, final boolean checkBOM) {
+		//FIXME: implement
+	}
+
+	// encode 
+
+	public static void encode_utf8(final Text_Buf text_buf, final boolean addBOM) {
+		 // FIXME: implement
 	}
 }
