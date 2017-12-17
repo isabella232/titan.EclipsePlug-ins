@@ -358,8 +358,8 @@ public final class TtcnLogger {
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
 	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
-	static emergency_logging_behaviour_t emergency_logging_behavior = emergency_logging_behaviour_t.BUFFER_MASKED;
-	static emergency_logging_behaviour_t emergency_logging_behaviour;
+	static emergency_logging_behaviour_t emergency_logging_behaviour = emergency_logging_behaviour_t.BUFFER_MASKED;
+	//static emergency_logging_behaviour_t emergency_logging_behaviour;
 
 	// length of the emergency logging buffer
 	static int emergency_logging = 0;;
