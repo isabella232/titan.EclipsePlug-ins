@@ -48,7 +48,7 @@ public class UnusedLocalDefinition extends BaseModuleCodeSmellSpotter {
 	}
 
 	@Override
-	public List<Class<? extends IVisitableNode>> getStartNode() {
+	public List<Class<? extends IVisitableNode>> getStartNode() { 
 		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(1);
 		ret.add(Definition.class);
 		return ret;
