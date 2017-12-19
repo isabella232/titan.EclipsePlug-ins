@@ -129,14 +129,17 @@ public class TitanCharString extends Base_Type {
 			return assign(aOtherValue.cstr.toString());
 		} else {
 			cleanUp();
+			StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
 				final TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
 				if (uc.getUc_group() != 0 || uc.getUc_plane() != 0 || uc.getUc_row() != 0) {
 					throw new TtcnError(MessageFormat.format("Multiple-byte characters cannot be assigned to a charstring, invalid character char({0},{1}, {2}, {3}) at index {4}.", aOtherValue));
 				} else {
-					val_ptr.append(uc.getUc_cell());
+					sb.append(uc.getUc_cell());
 				}
 			}
+			//if every char was ok, it can be pass to the charstring
+			val_ptr = sb;
 		}
 
 		return this;
