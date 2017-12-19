@@ -135,9 +135,9 @@ public final class TtcnLogger {
 		}
 	}
 	public static enum emergency_logging_behaviour_t { BUFFER_ALL, BUFFER_MASKED };
-	
+
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
-	
+
 	//public static void set_timestamp_format(timestamp_format_t = new timestamp_format);
 	//public static timestamp_format_t timestamp_format = TIMESTAMP_TIME;
 	public static void set_matching_verbosity(final matching_verbosity_t v) {
@@ -359,7 +359,6 @@ public final class TtcnLogger {
 	static boolean logMatchPrinted = false;
 	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
 	static emergency_logging_behaviour_t emergency_logging_behaviour = emergency_logging_behaviour_t.BUFFER_MASKED;
-	//static emergency_logging_behaviour_t emergency_logging_behaviour;
 
 	// length of the emergency logging buffer
 	static int emergency_logging = 0;;
@@ -655,7 +654,7 @@ public final class TtcnLogger {
 	public static boolean should_log_to_emergency(final Severity sev) {
 		return emergency_log_mask.mask.bits.contains(sev);
 	}
-	
+
 	/*public static void set_timestamp_format(timestamp_format_t new_timestamp_format){
 		timestamp_format = new_timestamp_format;
 	}*/
@@ -924,15 +923,15 @@ public final class TtcnLogger {
 	public static void set_emergency_logging_behaviour(emergency_logging_behaviour_t behaviour){
 		emergency_logging_behaviour=behaviour;
 	}
-	
+
 	public static emergency_logging_behaviour_t get_emergency_logging_behaviour(){
 		return emergency_logging_behaviour;
 	}
-	
+
 	public static int get_emergency_logging() {
 		return emergency_logging;
 	}
-	
+
 	public static void set_emergency_logging(final int size) {
 		emergency_logging = size;
 	}
