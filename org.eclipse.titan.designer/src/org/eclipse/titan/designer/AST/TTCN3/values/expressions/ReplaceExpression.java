@@ -64,7 +64,7 @@ public final class ReplaceExpression extends Expression_Value {
 			+ " is greater than the length of the first operand ({2})";
 	private static final String OPERANDERROR11 = "Using a large integer value ({0}) as the second operand of operation `replace'' is not allowed";
 	private static final String OPERANDERROR12 = "Using a large integer value ({0}) as the third operand of operation `replace'' is not allowed'";
-
+	private static final String OPERANDERROR13 = "Cannot determine the type of the operand in the `replace()' operation";
 	private final TemplateInstance templateInstance1;
 	private final Value value2;
 	private final Value value3;
@@ -315,11 +315,21 @@ public final class ReplaceExpression extends Expression_Value {
 
 		if (templateInstance1 != null) {
 			final ITTCN3Template temp = templateInstance1.getTemplateBody();
-			if (!Template_type.SPECIFIC_VALUE.equals(temp.getTemplatetype())) {
-				location.reportSemanticError(OPERANDERROR5);
+			switch( temp.getTemplatetype() ) {
+			case SPECIFIC_VALUE:
+				break;
+			case TEMPLATE_LIST:
+			case NAMED_TEMPLATE_LIST:
+			case INDEXED_TEMPLATE_LIST:
+				templateInstance1.getLocation().reportSemanticError(OPERANDERROR13);
+				setIsErroneous(true);
+				return;
+			default:
+				templateInstance1.getLocation().reportSemanticError(OPERANDERROR5);
 				setIsErroneous(true);
 				return;
 			}
+			// temp is specific value:
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
 			value1.setLoweridToReference(timestamp);
 			tempType1 = value1.getExpressionReturntype(timestamp, internalExpectation);
@@ -338,7 +348,7 @@ public final class ReplaceExpression extends Expression_Value {
 				setIsErroneous(true);
 				break;
 			default:
-				location.reportSemanticError(OPERANDERROR5);
+				templateInstance1.getLocation().reportSemanticError(OPERANDERROR5);
 				setIsErroneous(true);
 				break;
 			}
@@ -368,7 +378,7 @@ public final class ReplaceExpression extends Expression_Value {
 				setIsErroneous(true);
 				break;
 			default:
-				location.reportSemanticError(OPERANDERROR1);
+				value2.getLocation().reportSemanticError(OPERANDERROR1);
 				setIsErroneous(true);
 				break;
 			}
@@ -398,7 +408,7 @@ public final class ReplaceExpression extends Expression_Value {
 				setIsErroneous(true);
 				break;
 			default:
-				location.reportSemanticError(OPERANDERROR2);
+				value3.getLocation().reportSemanticError(OPERANDERROR2);
 				setIsErroneous(true);
 				break;
 			}
@@ -415,15 +425,19 @@ public final class ReplaceExpression extends Expression_Value {
 				break;
 			case TEMPLATE_LIST:
 				if( !((Template_List) temp).isValue(timestamp) ) {
-					location.reportSemanticError(OPERANDERROR6);
+					templateInstance4.getLocation().reportSemanticError(OPERANDERROR6);
 					setIsErroneous(true);
 					return;
 				}
 			case NAMED_TEMPLATE_LIST:
 			case INDEXED_TEMPLATE_LIST:
+				tempType4 = templateInstance4.getExpressionReturntype(timestamp, expectedValue);
+				if (Type_type.TYPE_UNDEFINED.equals(tempType4)){
+					templateInstance4.getLocation().reportSemanticError(OPERANDERROR13);
+				}
 				return;
 			default:
-				location.reportSemanticError(OPERANDERROR6);
+				templateInstance4.getLocation().reportSemanticError(OPERANDERROR6);
 				setIsErroneous(true);
 				return;
 			}

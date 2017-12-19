@@ -376,7 +376,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> expression_tests_ttcn_initializer() {
 		//expression_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1491);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1495);
 		int lineNum = 122;
 		int i = 0;
 		for (i = 0; i < 8; i++) {
@@ -1594,7 +1594,11 @@ public class AST_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Built-in function `decomp' is not yet supported", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 35;
+		lineNum += 22;
+		for (i = 0; i < 4; i++) {
+			markersToCheck.add(new MarkerToCheck("Cannot determine the type of the operand in the `replace()' operation", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		lineNum += 12;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `expression_tests'", lineNum, IMarker.SEVERITY_ERROR));
 		}
@@ -1617,7 +1621,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (6) and the third operand (1) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The sum of the second operand (2) and the third operand (6) of operation `replace' is greater than the length of the first operand (4)",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 10;
+		lineNum += 11;
 		for (i = 0; i < 9; i++) {
 			markersToCheck.add(new MarkerToCheck("The operand of the `rnd' operation should be a float value", lineNum++, IMarker.SEVERITY_ERROR));
 		}
@@ -1878,7 +1882,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
-
+	
 	private ArrayList<MarkerToCheck> negativeTesting_ttcn_initializer() {
 		//negativeTesting.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(73);
