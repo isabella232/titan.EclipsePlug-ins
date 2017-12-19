@@ -32,7 +32,8 @@ public class FunctionReferenceGenerator {
 		public boolean isStartable;
 		public String formalParList;
 		public String actualParList;
-		public ArrayList<String> parameters;
+		public ArrayList<String> parameterTypeNames;
+		public ArrayList<String> parameterNames;
 
 		public FunctionReferenceDefinition(final String genName, final String displayName) {
 			this.genName = genName;
@@ -56,18 +57,25 @@ public class FunctionReferenceGenerator {
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addCommonLibraryImport("TtcnError");
+		aData.addCommonLibraryImport("Module_List");
+		aData.addImport("java.lang.reflect.Method");
+		aData.addImport("java.lang.reflect.InvocationTargetException");
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", def.genName));
 		switch (def.type) {
 		case FUNCTION:
 			source.append("public interface function_pointer {\n");
-			source.append("String getId();\n");
+			source.append("String getModuleName();\n");
+			source.append("String getDefinitionName();\n");
 			source.append(MessageFormat.format("{0} invoke({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			source.append("}\n");
 			break;
 		case ALTSTEP:
+			aData.addBuiltinTypeImport("Default_Base");
+
 			source.append("public interface function_pointer {\n");
-			source.append("String getId();\n");
+			source.append("String getModuleName();\n");
+			source.append("String getDefinitionName();\n");
 			source.append(MessageFormat.format("{0} invoke_standalone({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			source.append(MessageFormat.format("Default_Base activate({0});\n", def.formalParList));
 			source.append(MessageFormat.format("TitanAlt_Status invoke({0});\n", def.formalParList));
@@ -75,7 +83,8 @@ public class FunctionReferenceGenerator {
 			break;
 		case TESTCASE:
 			source.append("public interface function_pointer {\n");
-			source.append("String getId();\n");
+			source.append("String getModuleName();\n");
+			source.append("String getDefinitionName();\n");
 			source.append(MessageFormat.format("TitanVerdictType execute({0});\n", def.formalParList));
 			source.append("}\n");
 			break;
@@ -84,7 +93,11 @@ public class FunctionReferenceGenerator {
 
 		source.append("public static final function_pointer nullValue = new function_pointer() {\n");
 		source.append("@Override\n");
-		source.append("public String getId() {\n");
+		source.append("public String getModuleName() {\n");
+		source.append("return \"null\";\n");
+		source.append("}\n");
+		source.append("@Override\n");
+		source.append("public String getDefinitionName() {\n");
 		source.append("return \"null\";\n");
 		source.append("}\n");
 		switch (def.type) {
@@ -149,13 +162,13 @@ public class FunctionReferenceGenerator {
 
 		source.append("public boolean operatorEquals(final function_pointer otherValue) {\n");
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n\n", def.displayName));
-		source.append("return referred_function.getId().equals(otherValue.getId());\n");
+		source.append("return referred_function.getModuleName().equals(otherValue.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.getDefinitionName());\n");
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public boolean operatorEquals(final {0} otherValue) '{'\n", def.genName));
 		source.append(MessageFormat.format("mustBound(\"Unbound left operand of {0} comparison.\");\n", def.displayName));
 		source.append(MessageFormat.format("otherValue.mustBound(\"Unbound right operand of {0} comparison.\");\n\n", def.displayName));
-		source.append("return referred_function.getId().equals(otherValue.referred_function.getId());\n");
+		source.append("return referred_function.getModuleName().equals(otherValue.referred_function.getModuleName()) && referred_function.getDefinitionName().equals(otherValue.referred_function.getDefinitionName());\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
@@ -246,21 +259,215 @@ public class FunctionReferenceGenerator {
 		source.append("if(referred_function == null) {\n");
 		source.append("TtcnLogger.log_event_unbound();\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event(\"refers(%s)\", referred_function.getId());\n");
+		source.append("TtcnLogger.log_event(\"refers(%s)\", referred_function.getDefinitionName());\n");
 		source.append("}\n");
 		source.append("}\n");
 
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		//FIXME implement
-		source.append("//FIXME Not yet implemented!\n");
+		source.append("if (referred_function == null) {\n");
+		switch (def.type) {
+		case FUNCTION:
+			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound function reference.\");\n");
+			break;
+		case ALTSTEP:
+			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound altstep reference.\");\n");
+			break;
+		case TESTCASE:
+			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound testcase reference.\");\n");
+			break;
+		}
+		source.append("}\n");
+		source.append("if (referred_function == nullValue) {\n");
+		source.append("text_buf.push_string(\"\");\n");
+		source.append("} else {\n");
+		source.append("final String moduleName = referred_function.getModuleName();\n");
+		source.append("final String definitionName = referred_function.getDefinitionName();\n");
+		source.append("text_buf.push_string(moduleName);\n");
+		source.append("text_buf.push_string(definitionName);\n");
+		source.append("}\n");
 		source.append("}\n\n");
 
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		//FIXME implement
-		source.append("//FIXME Not yet implemented!\n");
+		generateDecodeTextInternal(aData, source, def, "referred_function");
 		source.append("}\n\n");
 
 		source.append("}\n\n");
+	}
+
+	private static void generateDecodeTextInternal(final JavaGenData aData, final StringBuilder source, final FunctionReferenceDefinition def, final String memberName) {
+		source.append("final String moduleName = text_buf.pull_string();\n");
+		source.append("if (moduleName == \"\") {\n");
+		source.append(MessageFormat.format("{0} = {1}.nullValue;\n", memberName, def.genName));
+		source.append("return;\n");
+		source.append("}\n");
+
+		source.append("final TTCN_Module module = Module_List.lookup_module(moduleName);\n");
+		source.append("if (module == null) {\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Module {0} does not exist when trying to decode a function reference.\", moduleName));\n");
+		source.append("}\n");
+		source.append("final String definitionName = text_buf.pull_string();\n");
+		
+		switch (def.type) {
+		case FUNCTION:
+			source.append("try{\n");
+			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
+			for(String name : def.parameterTypeNames) {
+				source.append(MessageFormat.format(", {0}.class", name));
+			}
+			source.append(");\n");
+			source.append(MessageFormat.format("{0} = new {1}.function_pointer() '{'\n", memberName, def.genName));
+			source.append("@Override\n");
+			source.append("public String getModuleName() {\n");
+			source.append("return moduleName;\n");
+			source.append("}\n");
+			source.append("@Override\n");
+			source.append("public String getDefinitionName() {\n");
+			source.append("return definitionName;\n");
+			source.append("}\n");
+			source.append("public ");
+			if (def.returnType == null) {
+				source.append("void");
+			} else {
+				source.append(def.returnType);
+			}
+			source.append(MessageFormat.format(" invoke({0}) '{'\n", def.formalParList));
+			source.append("try{\n");
+			if (def.returnType != null) {
+				source.append(MessageFormat.format("return ({0})", def.returnType));
+			}
+			source.append("m.invoke(null");
+			for(String name : def.parameterNames) {
+				source.append(MessageFormat.format(", {0}", name));
+			}
+			source.append(");\n");
+			source.append("} catch(IllegalAccessException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("} catch (InvocationTargetException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			source.append("}\n");
+			source.append("};\n");
+			source.append("} catch (NoSuchMethodException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			break;
+		case ALTSTEP:
+			source.append(MessageFormat.format("{0} = new {1}.function_pointer() '{'\n", memberName, def.genName));
+			source.append("@Override\n");
+			source.append("public String getModuleName() {\n");
+			source.append("return moduleName;\n");
+			source.append("}\n");
+			source.append("@Override\n");
+			source.append("public String getDefinitionName() {\n");
+			source.append("return definitionName;\n");
+			source.append("}\n");
+			source.append("@Override\n");
+			source.append(MessageFormat.format(" public void invoke_standalone({0}) '{'\n", def.formalParList));
+			source.append("try{\n");
+			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
+			for(String name : def.parameterTypeNames) {
+				source.append(MessageFormat.format(", {0}.class", name));
+			}
+			source.append(");\n");
+			source.append("m.invoke(null");
+			for(String name : def.parameterNames) {
+				source.append(MessageFormat.format(", {0}", name));
+			}
+			source.append(");\n");
+			source.append("} catch (NoSuchMethodException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("} catch(IllegalAccessException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("} catch (InvocationTargetException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			source.append("}\n");
+
+			source.append("@Override\n");
+			source.append(MessageFormat.format("public Default_Base activate({0}) '{'\n", def.formalParList));
+			source.append("try{\n");
+			source.append("final Method m = module.getClass().getDeclaredMethod(\"activate_\" + definitionName");
+			for(String name : def.parameterTypeNames) {
+				source.append(MessageFormat.format(", {0}.class", name));
+			}
+			source.append(");\n");
+			source.append("return (Default_Base)m.invoke(null");
+			for(String name : def.parameterNames) {
+				source.append(MessageFormat.format(", {0}", name));
+			}
+			source.append(");\n");
+			source.append("} catch (NoSuchMethodException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("} catch(IllegalAccessException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("} catch (InvocationTargetException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			source.append("}\n");
+
+			source.append("@Override\n");
+			source.append(MessageFormat.format("public TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
+			source.append("try{\n");
+			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName + \"_instance\"");
+			for(String name : def.parameterTypeNames) {
+				source.append(MessageFormat.format(", {0}.class", name));
+			}
+			source.append(");\n");
+			source.append("return (TitanAlt_Status)m.invoke(null");
+			for(String name : def.parameterNames) {
+				source.append(MessageFormat.format(", {0}", name));
+			}
+			source.append(");\n");
+			source.append("} catch (NoSuchMethodException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("} catch(IllegalAccessException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("} catch (InvocationTargetException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			source.append("}\n");
+			source.append("};\n");
+			break;
+		case TESTCASE:
+			source.append("try{\n");
+			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
+			for(String name : def.parameterTypeNames) {
+				source.append(MessageFormat.format(", {0}.class", name));
+			}
+			source.append(", boolean.class, TitanFloat.class);\n");
+			source.append(MessageFormat.format("{0} = new {1}.function_pointer() '{'\n", memberName, def.genName));
+			source.append("@Override\n");
+			source.append("public String getModuleName() {\n");
+			source.append("return moduleName;\n");
+			source.append("}\n");
+			source.append("@Override\n");
+			source.append("public String getDefinitionName() {\n");
+			source.append("return definitionName;\n");
+			source.append("}\n");
+			source.append("@Override\n");
+			source.append("public TitanVerdictType execute(");
+			source.append(def.formalParList);
+			source.append(") {\n");
+			source.append("try{\n");
+			source.append("return (TitanVerdictType)");
+			source.append("m.invoke(null");
+			for(String name : def.parameterNames) {
+				source.append(MessageFormat.format(", {0}", name));
+			}
+			source.append(", has_timer, timer_value");
+			source.append(");\n");
+			source.append("} catch(IllegalAccessException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not execute testcase {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("} catch (InvocationTargetException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not execute testcase {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			source.append("}\n");
+			source.append("};\n");
+			source.append("} catch (NoSuchMethodException e) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("}\n");
+			break;
+		}
 	}
 
 	/**
@@ -416,7 +623,7 @@ public class FunctionReferenceGenerator {
 		source.append("case OMIT_VALUE:\n");
 		source.append("return false;\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("return single_value.getId().equals(other_value.getId());\n");
+		source.append("return single_value.getDefinitionName().equals(other_value.getDefinitionName());\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("for(int i = 0 ; i < value_list.size(); i++) {\n");
@@ -526,7 +733,7 @@ public class FunctionReferenceGenerator {
 		source.append("if(single_value == null) {\n");
 		source.append("TtcnLogger.log_event_unbound();\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event(\"refers(%s)\", single_value.getId());\n");
+		source.append("TtcnLogger.log_event(\"refers(%s)\", single_value.getDefinitionName());\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
@@ -570,14 +777,70 @@ public class FunctionReferenceGenerator {
 
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		//FIXME implement
-		source.append("//FIXME Not yet implemented!\n");
+		source.append("encode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		source.append("if (single_value == null) {\n");
+		switch (def.type) {
+		case FUNCTION:
+			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound function reference.\");\n");
+			break;
+		case ALTSTEP:
+			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound altstep reference.\");\n");
+			break;
+		case TESTCASE:
+			source.append("throw new TtcnError(\"Text encoder: Encoding an unbound testcase reference.\");\n");
+			break;
+		}
+		source.append("}\n");
+		source.append(MessageFormat.format("if (single_value == {0}.nullValue) '{'\n", def.genName));
+		source.append("text_buf.push_string(\"\");\n");
+		source.append("} else {\n");
+		source.append("final String moduleName = single_value.getModuleName();\n");
+		source.append("final String definitionName = single_value.getDefinitionName();\n");
+		source.append("text_buf.push_string(moduleName);\n");
+		source.append("text_buf.push_string(definitionName);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append("text_buf.push_int(value_list.size());\n");
+		source.append("for (int i = 0; i < value_list.size(); i++) {\n");
+		source.append("value_list.get(i).encode_text(text_buf);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", def.displayName));
+		source.append("}\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
-		//FIXME implement
-		source.append("//FIXME Not yet implemented!\n");
+		source.append("decode_text_base(text_buf);\n");
+		source.append("switch (templateSelection) {\n");
+		source.append("case OMIT_VALUE:\n");
+		source.append("case ANY_VALUE:\n");
+		source.append("case ANY_OR_OMIT:\n");
+		source.append("break;\n");
+		source.append("case SPECIFIC_VALUE:\n");
+		generateDecodeTextInternal(aData, source, def, "single_value");
+		source.append("break;\n");
+		source.append("case VALUE_LIST:\n");
+		source.append("case COMPLEMENTED_LIST:\n");
+		source.append( MessageFormat.format( "value_list = new ArrayList<{0}_template>(text_buf.pull_int().getInt());\n", def.genName));
+		source.append("for(int i = 0; i < value_list.size(); i++) {\n");
+		source.append( MessageFormat.format( "final {0}_template temp = new {0}_template();\n", def.genName));
+		source.append("temp.decode_text(text_buf);\n");
+		source.append("value_list.add(temp);\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("default:\n");
+		source.append( MessageFormat.format( "throw new TtcnError(\"Text decoder: An unknown/unsupported selection was received in a template of type {0}.\");\n", def.displayName));
+		source.append("}\n");
 		source.append("}\n");
 
 		source.append("}\n\n");

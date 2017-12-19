@@ -170,8 +170,12 @@ public final class Altstep_Reference_Value extends Value {
 		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
-		result.append("public String getId() {\n");
-		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getFullName()));
+		result.append("public String getModuleName() {\n");
+		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getMyScope().getModuleScope().getIdentifier().getName()));
+		result.append("}\n");
+		result.append("@Override\n");
+		result.append("public String getDefinitionName() {\n");
+		result.append(MessageFormat.format("return \"{0}\";\n", referredAltstep.getIdentifier().getName()));
 		result.append("}\n");
 
 		final Altstep_Type altstepType = (Altstep_Type) lastGovernor;

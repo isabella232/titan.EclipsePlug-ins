@@ -291,8 +291,12 @@ public final class RefersExpression extends Expression_Value {
 
 		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));
 		expression.expression.append("@Override\n");
-		expression.expression.append("public String getId() {\n");
-		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getFullName()));
+		expression.expression.append("public String getModuleName() {\n");
+		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getMyScope().getModuleScope().getIdentifier().getName()));
+		expression.expression.append("}\n");
+		expression.expression.append("@Override\n");
+		expression.expression.append("public String getDefinitionName() {\n");
+		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getIdentifier().getName()));
 		expression.expression.append("}\n");
 		if (lastGovernor.getTypetype().equals(Type_type.TYPE_FUNCTION)) {
 			expression.expression.append("@Override\n");
