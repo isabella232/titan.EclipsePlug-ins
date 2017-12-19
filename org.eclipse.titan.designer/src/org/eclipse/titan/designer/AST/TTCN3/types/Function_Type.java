@@ -39,6 +39,7 @@ import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.RunsOnScope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -713,9 +714,26 @@ public final class Function_Type extends Type {
 		def.isStartable = isStartable;
 		def.formalParList = formalParList.generateCode(aData).toString();
 		def.actualParList = formalParList.generateCodeActualParlist("").toString();
-		def.parameters = new ArrayList<String>(formalParList.getNofParameters());
+		def.parameterTypeNames = new ArrayList<String>(formalParList.getNofParameters());
+		def.parameterNames = new ArrayList<String>(formalParList.getNofParameters());
 		for ( int i = 0; i < formalParList.getNofParameters(); i++) {
-			def.parameters.add(formalParList.getParameterByIndex(i).getIdentifier().getName());
+			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+			switch (formalParameter.getAssignmentType()) {
+			case A_PAR_VAL:
+			case A_PAR_VAL_IN:
+			case A_PAR_VAL_INOUT:
+			case A_PAR_VAL_OUT:
+				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue( aData, source, getMyScope() ) );
+				break;
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_INOUT:
+			case A_PAR_TEMP_OUT:
+				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate( aData, source, getMyScope() ) );
+				break;
+			default:
+				break;
+			}
+			def.parameterNames.add(formalParameter.getIdentifier().getName());
 		}
 
 		FunctionReferenceGenerator.generateValueClass(aData, source, def);

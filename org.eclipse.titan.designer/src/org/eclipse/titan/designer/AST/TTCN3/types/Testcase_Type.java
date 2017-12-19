@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.RunsOnScope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -482,7 +483,8 @@ public final class Testcase_Type extends Type {
 		def.isStartable = false;
 		def.formalParList = formalParList.generateCode(aData).toString();
 		def.actualParList = formalParList.generateCodeActualParlist("").toString();
-		def.parameters = new ArrayList<String>(formalParList.getNofParameters());
+		def.parameterTypeNames = new ArrayList<String>(formalParList.getNofParameters());
+		def.parameterNames = new ArrayList<String>(formalParList.getNofParameters());
 		if (formalParList.getNofParameters() > 0) {
 			def.formalParList = def.formalParList + ", ";
 			def.actualParList = def.actualParList + ", ";
@@ -491,7 +493,23 @@ public final class Testcase_Type extends Type {
 		def.actualParList = def.actualParList + "has_timer, timer_value";
 
 		for ( int i = 0; i < formalParList.getNofParameters(); i++) {
-			def.parameters.add(formalParList.getParameterByIndex(i).getIdentifier().getName());
+			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+			switch (formalParameter.getAssignmentType()) {
+			case A_PAR_VAL:
+			case A_PAR_VAL_IN:
+			case A_PAR_VAL_INOUT:
+			case A_PAR_VAL_OUT:
+				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue( aData, source, getMyScope() ) );
+				break;
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_INOUT:
+			case A_PAR_TEMP_OUT:
+				def.parameterTypeNames.add( formalParameter.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate( aData, source, getMyScope() ) );
+				break;
+			default:
+				break;
+			}
+			def.parameterNames.add(formalParameter.getIdentifier().getName());
 		}
 
 		FunctionReferenceGenerator.generateValueClass(aData, source, def);

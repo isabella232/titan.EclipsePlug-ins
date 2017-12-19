@@ -73,9 +73,9 @@ public enum ProblemTypePreference {
 	UNUSED_FUNTION_RETURN_VALUES("Report unused function return values", EnumSet.of(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES,
 			CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES)),
 	UNUSED_GLOBAL_DEFINITION("Report unused module level definitions", EnumSet.of(CodeSmellType.UNUSED_GLOBAL_DEFINITION)),
-	UNUSED_GLOBAL_DEFINITION_PROJECT("Report unused module level definitions", EnumSet.of(CodeSmellType.UNUSED_GLOBAL_DEFINITION_PROJECT)),
 	UNUSED_IMPORT("Report unused module importation", EnumSet.of(CodeSmellType.UNUSED_IMPORT)),
 	UNUSED_LOCAL_DEFINITION("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION)),
+	UNUSED_LOCAL_DEFINITION_NEW("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION_NEW)),
 	VISIBILITY_IN_DEFINITION("Report visibility settings mentioned in the name of definitions", EnumSet.of(CodeSmellType.VISIBILITY_IN_DEFINITION));
 
 	public static final String PREFIX = "CODE_SMELL.";

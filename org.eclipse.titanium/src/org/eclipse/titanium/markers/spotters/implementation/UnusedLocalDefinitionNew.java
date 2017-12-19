@@ -12,67 +12,62 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeSet;
 
-import org.eclipse.core.resources.IProject;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IVisitableNode;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
-import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
-import org.eclipse.titan.designer.consoles.TITANDebugConsole;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.ControlPart;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
-import org.eclipse.titan.designer.parsers.GlobalParser;
-import org.eclipse.titan.designer.parsers.ProjectSourceParser;
-import org.eclipse.titanium.markers.spotters.BaseProjectCodeSmellSpotter;
+import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
 *
 * @author Farkas Izabella Ingrid
 */
-public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
-
-	public UnusedGlobalDefinitionProject() {
-		super(CodeSmellType.UNUSED_GLOBAL_DEFINITION_PROJECT);
+public class UnusedLocalDefinitionNew extends BaseModuleCodeSmellSpotter {
+	public UnusedLocalDefinitionNew() {
+		super(CodeSmellType.UNUSED_LOCAL_DEFINITION);
 	}
 
 	@Override
-	protected void process(IProject project, Problems problems) {
-		TITANDebugConsole.println("Unused global definition");
-
-		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
-		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
-		final List<Module> modules = new ArrayList<Module>();
+	public void process(final IVisitableNode node, final Problems problems) {
 		final Set<Assignment> unused = new HashSet<Assignment>();
 
-		for (final String moduleName : new TreeSet<String>(knownModuleNames)) {
-			Module module = projectSourceParser.getModuleByName(moduleName);
-			modules.add(module);
-			final GlobalDefinitionCheck chek = new GlobalDefinitionCheck();
-			module.accept(chek);
-			unused.addAll(chek.getDefinitions());
-		}
-
-		for (Module module : modules) {
-			final GlobalUsedDefinitionCheck chekUsed = new GlobalUsedDefinitionCheck();
-			module.accept(chekUsed);
-			unused.removeAll(chekUsed.getDefinitions());
-		}
-
+		final LocalDefinitionCheck chek = new LocalDefinitionCheck();
+		node.accept(chek);
+		unused.addAll(chek.getDefinitions());
+		
+		final LocalUsedDefinitionCheck chekUsed = new LocalUsedDefinitionCheck();
+		node.accept(chekUsed);
+		unused.removeAll(chekUsed.getDefinitions());
+		
 		for (Assignment ass : unused) {
 			final String name = ass.getIdentifier().getDisplayName();
-			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used globally (project)", ass.getAssignmentName(), name);
+			final String msg = MessageFormat.format("The {0} `{1}'' seems to be never used locally (new)", ass.getAssignmentName(), name);
 			problems.report(ass.getIdentifier().getLocation(), msg);
 		}
 	}
 
-	class GlobalDefinitionCheck extends ASTVisitor {
+	@Override
+	public List<Class<? extends IVisitableNode>> getStartNode() { 
+		final List<Class<? extends IVisitableNode>> ret = new ArrayList<Class<? extends IVisitableNode>>(4);
+		ret.add(Def_Altstep.class); 
+		ret.add(Def_Function.class);
+		ret.add(Def_Testcase.class);
+		ret.add(ControlPart.class);
+		return ret;
+	}
+	
+	class LocalDefinitionCheck extends ASTVisitor {
 
 		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
-		public GlobalDefinitionCheck() {
+		public LocalDefinitionCheck() {
 			setOfDefinition.clear();
 		}
 
@@ -84,7 +79,7 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 		public int visit(final IVisitableNode node) {
 			if (node instanceof Assignment) {
 				final Assignment assignment = (Assignment) node;
-				if (!assignment.isLocal() && !(assignment.getMyScope() instanceof ComponentTypeBody)) {
+				if (assignment.isLocal()) {
 					setOfDefinition.add(assignment);
 				}
 			}
@@ -92,11 +87,11 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 		}
 	}
 
-	class GlobalUsedDefinitionCheck extends ASTVisitor {
+	class LocalUsedDefinitionCheck extends ASTVisitor {
 
 		private Set<Assignment> setOfDefinition = new HashSet<Assignment>();
 
-		public GlobalUsedDefinitionCheck() {
+		public LocalUsedDefinitionCheck() {
 			setOfDefinition.clear();
 		}
 
@@ -112,7 +107,7 @@ public class UnusedGlobalDefinitionProject extends BaseProjectCodeSmellSpotter {
 				}
 
 				final Assignment assignment = ((Reference) node).getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false, null);
-				if (assignment != null && !assignment.isLocal()) {
+				if (assignment != null && assignment.isLocal()) {
 					setOfDefinition.add(assignment);
 				}
 			}
