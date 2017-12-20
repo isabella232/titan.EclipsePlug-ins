@@ -354,7 +354,7 @@ public final class AdditionalFunctions {
 			if (tmp_val.compareTo(BigInteger.ZERO) != 0) {
 				int i = 0;
 				while (tmp_val.compareTo(BigInteger.ZERO) == 1) {
-					tmp_val = tmp_val.shiftRight(1);
+					tmp_val = tmp_val.shiftRight(8);
 					i++;
 				}
 				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}, needs at least {3}.", value, length, length > 1 ? "s" :"", length + i));
