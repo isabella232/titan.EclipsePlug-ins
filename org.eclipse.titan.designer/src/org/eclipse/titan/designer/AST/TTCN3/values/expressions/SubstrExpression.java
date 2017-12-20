@@ -60,7 +60,7 @@ public final class SubstrExpression extends Expression_Value {
 			+ " is greater than the length of the first operand ({2})";
 	private static final String OPERANDERROR9 = "Using a large integer value ({0}) as the second operand of operation `substr'' is not allowed";
 	private static final String OPERANDERROR10 = "Using a large integer value ({0}) as the third operand of operation `substr'' is not allowed";
-
+	private static final String OPERANDERROR11 = "The first operand of operation `substr' cannot be an empty list";
 	private final TemplateInstance templateInstance1;
 	private final Value value2;
 	private final Value value3;
@@ -282,7 +282,7 @@ public final class SubstrExpression extends Expression_Value {
 		if (templateInstance1 != null) {
 			final ITTCN3Template temp = templateInstance1.getTemplateBody();
 			if (!Template_type.SPECIFIC_VALUE.equals(temp.getTemplatetype())) {
-				location.reportSemanticError(OPERANDERROR1);
+				templateInstance1.getLocation().reportSemanticError(OPERANDERROR1);
 				setIsErroneous(true);
 			}
 			value1 = ((SpecificValue_Template) temp).getSpecificValue();
@@ -303,7 +303,7 @@ public final class SubstrExpression extends Expression_Value {
 				setIsErroneous(true);
 				break;
 			default:
-				location.reportSemanticError(OPERANDERROR1);
+				templateInstance1.getLocation().reportSemanticError(OPERANDERROR1);
 				setIsErroneous(true);
 				break;
 			}
@@ -401,9 +401,15 @@ public final class SubstrExpression extends Expression_Value {
 				break;
 			case SEQUENCEOF_VALUE:
 				valueSize = ((SequenceOf_Value) temp).getNofComponents();
+				if(valueSize==0){
+					templateInstance1.getLocation().reportSemanticError(OPERANDERROR11);
+				}
 				break;
 			case SETOF_VALUE:
 				valueSize = ((SetOf_Value) temp).getNofComponents();
+				if(valueSize==0){
+					templateInstance1.getLocation().reportSemanticError(OPERANDERROR11);
+				}
 				break;
 			default:
 				break;
