@@ -679,7 +679,8 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn ret_val;\n");
 		source.append("\t}\n");
-
+		
+		//int index,int len:
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!repl.isValue()) {\n");
@@ -687,6 +688,31 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn replace(index, len, repl.valueOf());\n");
 		source.append("\t}\n");
+		//int,TitanInteger
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0} replace(int index, TitanInteger len, final {0}_template repl) '{'\n", genName ) );
+		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn replace(index, len.getInt(), repl.valueOf());\n");
+		source.append("\t}\n");
+		//TitanInteger,int
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, int len, final {0}_template repl) '{'\n", genName ) );
+		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn replace(index.getInt(), len, repl.valueOf());\n");
+		source.append("\t}\n");
+		//TitanInteger,TitanInteger
+		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, TitanInteger len, final {0}_template repl) '{'\n", genName ) );
+		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn replace(index.getInt(), len.getInt(), repl.valueOf());\n");
+		source.append("\t}\n");
+		//===
 	}
 
 	/**
@@ -1169,7 +1195,8 @@ public class RecordOfGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateTemplateReplace(final StringBuilder source, final String genName, final String displayName) {
- 		source.append('\n');
+ 		//int,int
+		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
@@ -1179,7 +1206,19 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index, len, repl.valueOf());\n");
 		source.append("\t}\n");
+		//TitanInteger, TitanInteger
+ 		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, TitanInteger len, final {0}_template repl) '{'\n", genName ) );
+		source.append("\t\tif (!isValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\tif (!repl.isValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());\n");
+		source.append("\t}\n");
 
+		//int,int
  		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0} repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue()) {\n");
@@ -1187,6 +1226,16 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index, len, repl);\n");
 		source.append("\t}\n");
+		//TitanInteger, TitanInteger
+ 		source.append('\n');
+		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, TitanInteger len, final {0} repl) '{'\n", genName ) );
+		source.append("\t\tif (!isValue()) {\n");
+		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
+		source.append("\t\t}\n");
+		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl);\n");
+		source.append("\t}\n");
+		
+		//TODO: perhaps one case is enough, if it is rethought
 	}
 
 	/**
