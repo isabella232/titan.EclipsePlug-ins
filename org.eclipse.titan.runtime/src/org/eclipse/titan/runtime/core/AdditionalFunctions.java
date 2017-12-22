@@ -1833,6 +1833,7 @@ public final class AdditionalFunctions {
 				    value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
 		}
 	}
+
 	public static TitanBitString replace(final TitanBitString value, final int idx, final int len, final TitanBitString repl) {
 		value.mustBound("The first argument (value) of function replace() is an unbound bitstring value.");
 		repl.mustBound("The fourth argument (repl) of function replace() is an unbound bitstring value.");
@@ -1843,10 +1844,10 @@ public final class AdditionalFunctions {
 
 		final int repl_len = repl.lengthOf().getInt();
 		final StringBuilder temp_sb = new StringBuilder(value_len);
-		
+
 		for (int i = 0; i < idx; i++) {
 			temp_sb.append(value.getBit(i) ? '1' : '0');
-		} 
+		}
 		for (int i = 0; i < repl_len; i++) {
 			temp_sb.append(repl.getBit(i) ? '1' : '0');
 		}
@@ -1855,7 +1856,7 @@ public final class AdditionalFunctions {
 		}
 		return new TitanBitString(temp_sb.toString());
 	}
-	
+
 	public static TitanBitString replace(final TitanBitString value, final int idx, final TitanInteger len, final TitanBitString repl) {
 		len.mustBound("The third argument (len) of function replace() is an unbound integer value.");
 
