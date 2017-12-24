@@ -61,6 +61,7 @@ public final class SubstrExpression extends Expression_Value {
 	private static final String OPERANDERROR9 = "Using a large integer value ({0}) as the second operand of operation `substr'' is not allowed";
 	private static final String OPERANDERROR10 = "Using a large integer value ({0}) as the third operand of operation `substr'' is not allowed";
 	private static final String OPERANDERROR11 = "The first operand of operation `substr' cannot be an empty list";
+
 	private final TemplateInstance templateInstance1;
 	private final Value value2;
 	private final Value value3;
