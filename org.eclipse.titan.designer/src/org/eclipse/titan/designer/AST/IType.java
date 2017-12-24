@@ -156,19 +156,29 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/** Encoding types. */
 	public enum Encoding_type {
 		/** not yet defined */
-		UNDEFINED,
+		UNDEFINED("<unknown encoding>"),
 		/** ber encoding. */
-		BER,
+		BER("BER"),
 		/** per encoding. */
-		PER,
+		PER("PER"),
 		/** xer encoding. */
-		XER,
+		XER("XER"),
 		/** raw encoding. */
-		RAW,
+		RAW("RAW"),
 		/** text encoding. */
-		TEXT,
+		TEXT("TEXT"),
 		/** json encoding. */
-		JSON
+		JSON("JSON");
+	
+		private String name;
+
+		Encoding_type(final String name) {
+			this.name = name;
+		}
+
+		public String getEncodingName() {
+			return name;
+		}
 	}
 
 	/**
