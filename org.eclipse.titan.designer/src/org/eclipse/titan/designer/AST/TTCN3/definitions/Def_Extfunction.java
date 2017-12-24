@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.jface.text.templates.Template;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -747,8 +748,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	public String getGenName() {
 		final StringBuilder returnValue = new StringBuilder();
 
-		returnValue.append(myScope.getModuleScope().getIdentifier().getName());
-		returnValue.append("_externalfunctions.");
+		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL) {
+			returnValue.append(myScope.getModuleScope().getIdentifier().getName());
+			returnValue.append("_externalfunctions.");
+		}
 		returnValue.append(identifier.getName());
 
 		return returnValue.toString();
@@ -757,21 +760,112 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
-		final StringBuilder returnValue = new StringBuilder();
+		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL) {
+			final StringBuilder returnValue = new StringBuilder();
 
-		returnValue.append(myScope.getModuleScope().getIdentifier().getName());
-		returnValue.append("_externalfunctions.");
-		returnValue.append(identifier.getName());
+			returnValue.append(myScope.getModuleScope().getIdentifier().getName());
+			returnValue.append("_externalfunctions");
+			returnValue.append('.');
+			returnValue.append(identifier.getName());
 
-		return returnValue.toString();
+			return returnValue.toString();
+		} else {
+			return super.getGenNameFromScope(aData, source, scope, prefix);
+		}
+		
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
-		aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalfunctions");
-		// external functions are implemented elsewhere
+		final String genName = getGenName();
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
+		}
+
+		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL) {
+			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalfunctions");
+			// external functions are implemented elsewhere
+			return;
+		}
+
+		final StringBuilder sb = aData.getSrc();
+		final StringBuilder source = new StringBuilder();
+		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+			source.append( "private" );
+		} else {
+			source.append( "public" );
+		}
+		source.append( " static final " );
+
+		// return value
+		switch (assignmentType) {
+		case A_EXT_FUNCTION:
+			source.append( "void" );
+			break;
+		case A_EXT_FUNCTION_RVAL:
+			source.append( returnType.getGenNameValue( aData, source, getMyScope() ) );
+			break;
+		case A_EXT_FUNCTION_RTEMP:
+			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
+			break;
+		default:
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+			return;
+		}
+
+		source.append( ' ' );
+
+		// function name
+		source.append( genName );
+
+		// arguments
+		source.append( '(' );
+		if ( formalParList != null ) {
+			formalParList.generateCode( aData, source );
+		}
+		source.append( ") {\n" );
+		switch(functionEncodingType) {
+		case ENCODE:
+			generate_code_encode(aData, source);
+			break;
+		case DECODE:
+			//FIXME implement
+			source.append( "throw new TtcnError(\"generateCodeString() for decoding style external functions is not implemented!\");\n" );
+			break;
+		default:
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+			return;
+		}
+		source.append( "}\n" );
+
+		sb.append(source);
 	}
 
+	/**
+	 * Generate Java code for the bodz of an external function with an encoding prototype.
+	 *
+	 * generate_code_encode in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the stringbuilder to generate the code to.
+	 */
+	private void generate_code_encode(final JavaGenData aData, final StringBuilder source) {
+//		aData.addCommonLibraryImport("TTCN_Buffer");
+//		aData.addCommonLibraryImport("TTCN_EncDec");
 
+		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
+
+		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Encoding {1}: \");\n", identifier.getDisplayName(), inputType.getTypename()));
+		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
+		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "}\n" );
+
+//		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
+//		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2});\n", firstParName, inputType.getGenNameTypedescriptor(aData, source, myScope), encodingType.getEncodingName()) );
+		//FIXME implement
+		source.append( "throw new TtcnError(\"generateCodeString() for encoding style external functions is not implemented!\");\n" );
+	}
 }
