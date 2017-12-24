@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Stack;
 
+import org.eclipse.titan.runtime.core.TitanLoggerApi.PortType.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
 /**
@@ -261,98 +262,6 @@ public final class TtcnLogger {
 		StringBuilder buffer;
 		Severity severity;
 		//event_destination, etc...
-	}
-
-	//temporary enum, original: TitanLoggerApi::Port_Queue.operation
-	public static enum Port_Queue_operation {
-		ENQUEUE_MSG,
-		ENQUEUE_CALL,
-		ENQUEUE_REPLY,
-		ENQUEUE_EXCEPTION,
-		EXTRACT_MSG,
-		EXTRACT_OP
-	}
-
-	//temporary enum, original: TitanLoggerApi::Port_State.operation
-	public static enum Port_State_operation {
-		STARTED,
-		STOPPED,
-		HALTED
-	}
-
-	//temporary enum, original:TitanLoggerApi::Port_oper
-	public static enum Port_oper {
-		CALL_OP,
-		EXCEPTION_OP,
-		REPLY_OP
-	}
-
-	//temporary enum, original:TitanLoggerApi::Msg_port_recv.operation
-	public static enum Msg_port_recv_operation {
-		RECEIVE_OP,
-		CHECK_RECEIVE_OP,
-		TRIGGER_OP
-	}
-	
-	//temporary enum, original: TitanLoggerApi::MatchingFailureType.reason
-	public static enum MatchingFailureType_reason {
-		SENDER_DOES_NOT_MATCH_FROM_CLAUSE,
-		SENDER_IS_NOT_SYSTEM,
-		MESSAGE_DOES_NOT_MATCH_TEMPLATE,
-		PARAMETERS_OF_CALL_DO_NOT_MATCH_TEMPLATE,
-		PARAMETERS_OF_REPLY_DO_NOT_MATCH_TEMPLATE,
-		EXCEPTION_DOES_NOT_MATCH_TEMPLATE,
-		NOT_AN_EXCEPTION_FOR_SIGNATURE
-	}
-
-	//temporary enum, original: TitanLoggerApi::MatchingProblemType.reason
-	public static enum MatchingProblemType_reason {
-		PORT_NOT_STARTED_AND_QUEUE_EMPTY,
-		NO_INCOMING_TYPES,
-		NO_INCOMING_SIGNATURES,
-		NO_OUTGOING_BLOCKING_SIGNATURES,
-		NO_OUTGOING_BLOCKING_SIGNATURES_THAT_SUPPORT_EXCEPTIONS,
-		COMPONENT_HAS_NO_PORTS
-	}
-	
-	//temporary enum, original: TitanLoggerApi::MatchingProblemType.operation
-	public static enum MatchingProblemType_operation {
-		RECEIVE_,
-		TRIGGER_,
-		GETCALL_,
-		GETREPLY_,
-		CATCH_,
-		CHECK_
-	}
-	
-	//temporary enum, original: TitanLoggerApi::PortType
-	public static enum PortType {
-		MESSAGE_,
-		PROCEDURE_
-	}
-
-	//temporary enum, original TitanLoggerApi::Port_Misc.reason
-	public static enum Port_Misc_reason {
-		REMOVING_UNTERMINATED_CONNECTION,
-		REMOVING_UNTERMINATED_MAPPING,
-		PORT_WAS_CLEARED,
-		LOCAL_CONNECTION_ESTABLISHED,
-		LOCAL_CONNECTION_TERMINATED,
-		PORT_IS_WAITING_FOR_CONNECTION_TCP,
-		PORT_IS_WAITING_FOR_CONNECTION_UNIX,
-		CONNECTION_ESTABLISHED,
-		DESTROYING_UNESTABLISHED_CONNECTION,
-		TERMINATING_CONNECTION,
-		SENDING_TERMINATION_REQUEST_FAILED,
-		TERMINATION_REQUEST_RECEIVED,
-		ACKNOWLEDGING_TERMINATION_REQUEST_FAILED,
-		SENDING_WOULD_BLOCK,
-		CONNECTION_ACCEPTED,
-		CONNECTION_RESET_BY_PEER,
-		CONNECTION_CLOSED_BY_PEER,
-		PORT_DISCONNECTED,
-		PORT_WAS_MAPPED_TO_SYSTEM,
-		PORT_WAS_UNMAPPED_FROM_SYSTEM
 	}
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
@@ -819,19 +728,19 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void log_port_queue(final Port_Queue_operation operation, final String port_name, final int componentReference, final int id, final TitanCharString address, final TitanCharString parameter) {
+	public static void log_port_queue(final TitanLoggerApi.Port__Queue_operation.enum_type operation, final String port_name, final int componentReference, final int id, final TitanCharString address, final TitanCharString parameter) {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
 		Severity sev;
 		switch (operation) {
-		case ENQUEUE_MSG:
-		case EXTRACT_MSG:
+		case enqueue__msg:
+		case extract__msg:
 			sev = Severity.PORTEVENT_MQUEUE;
 			break;
-		case ENQUEUE_CALL:
-		case ENQUEUE_REPLY:
-		case ENQUEUE_EXCEPTION:
-		case EXTRACT_OP:
+		case enqueue__call:
+		case enqueue__reply:
+		case enqueue__exception:
+		case extract__op:
 			sev = Severity.PORTEVENT_PQUEUE;
 		default:
 			throw new TtcnError("Invalid operation");
@@ -842,27 +751,27 @@ public final class TtcnLogger {
 		}
 
 		switch (operation) {
-		case ENQUEUE_MSG:
+		case enqueue__msg:
 			ret_val = "Message";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
 			break;
-		case ENQUEUE_CALL:
+		case enqueue__call:
 			ret_val = "Call";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
 			break;
-		case ENQUEUE_REPLY:
+		case enqueue__reply:
 			ret_val = "Reply";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
 			break;
-		case ENQUEUE_EXCEPTION:
+		case enqueue__exception:
 			ret_val = "Exception";
 			log_event_str(MessageFormat.format("{0} enqueued on {1} from {2}{3}{4} id {5}", ret_val, port_name , dest, address, parameter, id));
 			break;
-		case EXTRACT_MSG:
+		case extract__msg:
 			ret_val = "Message";
 			log_event_str(MessageFormat.format("{0} with id {1} was extracted from the queue of {2}.", ret_val, id, port_name));
 			break;
-		case EXTRACT_OP:
+		case extract__op:
 			ret_val = "Operation";
 			log_event_str(MessageFormat.format("{0} with id {1} was extracted from the queue of {2}.", ret_val, id, port_name));
 			break;
@@ -936,20 +845,20 @@ public final class TtcnLogger {
 		emergency_logging = size;
 	}
 
-	public static void log_port_state(final Port_State_operation operation, final String portname) {
+	public static void log_port_state(final TitanLoggerApi.Port__State_operation.enum_type operation, final String portname) {
 		if (!log_this_event(Severity.PORTEVENT_STATE)) {
 			return;
 		}
 
 		String what = "";
 		switch (operation) {
-		case STARTED:
+		case started:
 			what = "started";
 			break;
-		case STOPPED:
+		case stopped:
 			what = "stopped";
 			break;
-		case HALTED:
+		case halted:
 			what = "halted";
 			break;
 		default:
@@ -958,7 +867,7 @@ public final class TtcnLogger {
 		log_event_str(MessageFormat.format("Port {0} was {1}.", portname, what));
 	}
 
-	public static void log_procport_send(final String portname, final Port_oper operation, final int componentReference, final TitanCharString system, final TitanCharString parameter) {
+	public static void log_procport_send(final String portname, final TitanLoggerApi.Port__oper.enum_type operation, final int componentReference, final TitanCharString system, final TitanCharString parameter) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_PMOUT : Severity.PORTEVENT_PCOUT;
 		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
@@ -967,13 +876,13 @@ public final class TtcnLogger {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
 		switch (operation) {
-		case CALL_OP:
+		case call__op:
 			ret_val = "Called";
 			break;
-		case REPLY_OP:
+		case reply__op:
 			ret_val = "Replied";
 			break;
-		case EXCEPTION_OP:
+		case exception__op:
 			ret_val = "Raised";
 		default:
 			return;
@@ -981,7 +890,7 @@ public final class TtcnLogger {
 		log_event_str(MessageFormat.format("{0} on {1} to {2} {3}", ret_val, portname, dest, parameter.getValue()));
 	}
 
-	public static void log_procport_recv(final String portname, final Port_oper operation, final int componentReference, final boolean check, final TitanCharString parameter, final int id) {
+	public static void log_procport_recv(final String portname, final TitanLoggerApi.Port__oper.enum_type operation, final int componentReference, final boolean check, final TitanCharString parameter, final int id) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_PMIN : Severity.PORTEVENT_PCIN;
 		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
@@ -991,14 +900,14 @@ public final class TtcnLogger {
 		String ret_val = "";
 		String op2 = "";
 		switch (operation) {
-		case CALL_OP:
+		case call__op:
 			ret_val = (check ? "Check-getcall" : "Getcall");
 			op2 = "call";
 			break;
-		case REPLY_OP:
+		case reply__op:
 			ret_val = (check ? "Check-getreply" : "Getreply");
 			op2 = "reply";
-		case EXCEPTION_OP:
+		case exception__op:
 			ret_val = (check ? "Check-catch" : "Catch");
 			op2 = "exception";
 		default:
@@ -1017,7 +926,7 @@ public final class TtcnLogger {
 		log_event_str(MessageFormat.format("Sent on {0} to {1}{2}", portname, dest, parameter.getValue()));
 	}
 
-	public static void log_msgport_recv(final String portname, final Msg_port_recv_operation operation, final int componentReference, final TitanCharString system, final TitanCharString parameter, final int id) {
+	public static void log_msgport_recv(final String portname, final TitanLoggerApi.Msg__port__recv_operation.enum_type operation, final int componentReference, final TitanCharString system, final TitanCharString parameter, final int id) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMRECV : Severity.PORTEVENT_MCRECV;
 		if (!log_this_event(severity) && get_emergency_logging() <= 0) {
 			return;
@@ -1026,13 +935,13 @@ public final class TtcnLogger {
 		final String dest = TitanComponent.get_component_string(componentReference);
 		String ret_val = "";
 		switch (operation) {
-		case RECEIVE_OP:
+		case receive__op:
 			ret_val = "Receive";
 			break;
-		case CHECK_RECEIVE_OP:
+		case check__receive__op:
 			ret_val = "Check-receive";
 			break;
-		case TRIGGER_OP:
+		case trigger__op:
 			ret_val = "Trigger";
 			break;
 		default:
@@ -1097,7 +1006,7 @@ public final class TtcnLogger {
 	}
 
 
-	public static void log_matching_problem(final MatchingProblemType_reason reason, final MatchingProblemType_operation operation, final boolean check, final boolean anyport, final String port_name) {
+	public static void log_matching_problem(final TitanLoggerApi.MatchingProblemType_reason.enum_type reason, final TitanLoggerApi.MatchingProblemType_operation.enum_type operation, final boolean check, final boolean anyport, final String port_name) {
 		if (!log_this_event(TtcnLogger.Severity.MATCHING_PROBLEM) && (get_emergency_logging() <= 0)) {
 			return;
 		}
@@ -1112,22 +1021,22 @@ public final class TtcnLogger {
 			ret_val.append("check(");
 		}
 		switch (operation) {
-		case RECEIVE_:
+		case receive__:
 			ret_val.append("receive");
 			break;
-		case TRIGGER_:
+		case trigger__:
 			ret_val.append("trigger");
 			break;
-		case GETCALL_:
+		case getcall__:
 			ret_val.append("getcall");
 			break;
-		case GETREPLY_:
+		case getreply__:
 			ret_val.append("getreply");
 			break;
-		case CATCH_:
+		case catch__:
 			ret_val.append("catch");
 			break;
-		case CHECK_:
+		case check__:
 			ret_val.append("check");
 			break;
 		default:
@@ -1146,22 +1055,22 @@ public final class TtcnLogger {
 		ret_val.append("failed: ");
 
 		switch (reason) {
-		case COMPONENT_HAS_NO_PORTS:
+		case component__has__no__ports:
 			ret_val.append("The test component does not have ports.");
 			break;
-		case NO_INCOMING_SIGNATURES:
+		case no__incoming__signatures:
 			ret_val.append("The port type does not have any incoming signatures.");
 			break;
-		case NO_INCOMING_TYPES:
+		case no__incoming__types:
 			ret_val.append("The port type does not have any incoming message types.");
 			break;
-		case NO_OUTGOING_BLOCKING_SIGNATURES:
+		case no__outgoing__blocking__signatures:
 			ret_val.append("The port type does not have any outgoing blocking signatures.");
 			break;
-		case NO_OUTGOING_BLOCKING_SIGNATURES_THAT_SUPPORT_EXCEPTIONS:
+		case no__outgoing__blocking__signatures__that__support__exceptions:
 			ret_val.append("The port type does not have any outgoing blocking signatures that support exceptions.");
 			break;
-		case PORT_NOT_STARTED_AND_QUEUE_EMPTY:
+		case port__not__started__and__queue__empty:
 			ret_val.append("Port is not started and the queue is empty.");
 			break;
 		default:
@@ -1201,13 +1110,13 @@ public final class TtcnLogger {
 		log(Severity.FUNCTION_RND,ret_val.toString());
 	}
 
-	public static void log_matching_failure(final PortType port_type, final String port_name, final int compref, final MatchingFailureType_reason reason, final TitanCharString info) {
+	public static void log_matching_failure(final TitanLoggerApi.PortType.enum_type port_type, final String port_name, final int compref, final TitanLoggerApi.MatchingFailureType_reason.enum_type reason, final TitanCharString info) {
 		Severity sev;
 		boolean is_call = false;
 		if (compref == TitanComponent.SYSTEM_COMPREF) {
-			sev = (port_type == PortType.MESSAGE_) ? Severity.MATCHING_MMUNSUCC : Severity.MATCHING_PMUNSUCC;
+			sev = (port_type == enum_type.message__) ? Severity.MATCHING_MMUNSUCC : Severity.MATCHING_PMUNSUCC;
 		} else {
-			sev = (port_type == PortType.MESSAGE_) ? Severity.MATCHING_MCUNSUCC : Severity.MATCHING_PCUNSUCC;
+			sev = (port_type == enum_type.message__) ? Severity.MATCHING_MCUNSUCC : Severity.MATCHING_PCUNSUCC;
 		}
 		if (!log_this_event(sev) && (get_emergency_logging() <= 0)) {
 			return;
@@ -1215,24 +1124,24 @@ public final class TtcnLogger {
 
 		final StringBuilder ret_val = new StringBuilder();
 		switch (reason) {
-		case MESSAGE_DOES_NOT_MATCH_TEMPLATE:
+		case message__does__not__match__template:
 			ret_val.append(MessageFormat.format("Matching on port {0} {1}: First message in the queue does not match the template: ", port_name, info.toString()));
 			break;
-		case EXCEPTION_DOES_NOT_MATCH_TEMPLATE:
+		case exception__does__not__match__template:
 			ret_val.append(MessageFormat.format("Matching on port {0} failed: The first exception in the queue does not match the template: {1}", port_name, info.toString()));
 			break;
-		case PARAMETERS_OF_CALL_DO_NOT_MATCH_TEMPLATE:
+		case parameters__of__call__do__not__match__template:
 			is_call = true; // fall through
-		case PARAMETERS_OF_REPLY_DO_NOT_MATCH_TEMPLATE:
+		case parameters__of__reply__do__not__match__template:
 			ret_val.append(MessageFormat.format("Matching on port {0} failed: The parameters of the first {1} in the queue do not match the template: {2}", port_name, is_call ? "call" : "reply", info.toString()));
 			break;
-		case SENDER_DOES_NOT_MATCH_FROM_CLAUSE:
+		case sender__does__not__match__from__clause:
 			ret_val.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue does not match the from clause: {1}", port_name, info.toString()));
 			break;
-		case SENDER_IS_NOT_SYSTEM:
+		case sender__is__not__system:
 			ret_val.append(MessageFormat.format("Matching on port {0} failed: Sender of the first entity in the queue is not the system.", port_name));
 			break;
-		case NOT_AN_EXCEPTION_FOR_SIGNATURE:
+		case not__an__exception__for__signature:
 			ret_val.append(MessageFormat.format("Matching on port {0} failed: The first entity in the queue is not an exception for signature {1}.", port_name, info.toString()));
 			break;
 		default:
@@ -1241,12 +1150,12 @@ public final class TtcnLogger {
 		log_event_str(ret_val.toString());
 	}
 
-	public static void log_matching_success(final PortType port_type, final String port_name, final int compref, final TitanCharString info) {
+	public static void log_matching_success(final TitanLoggerApi.PortType.enum_type port_type, final String port_name, final int compref, final TitanCharString info) {
 		Severity sev;
 		if(compref == TitanComponent.SYSTEM_COMPREF) {
-			sev = port_type == PortType.MESSAGE_ ? Severity.MATCHING_MMSUCCESS : Severity.MATCHING_PMSUCCESS;
+			sev = port_type == enum_type.message__ ? Severity.MATCHING_MMSUCCESS : Severity.MATCHING_PMSUCCESS;
 		} else {
-			sev = port_type == PortType.MESSAGE_ ? Severity.MATCHING_MCSUCCESS : Severity.MATCHING_PCSUCCESS;
+			sev = port_type == enum_type.message__ ? Severity.MATCHING_MCSUCCESS : Severity.MATCHING_PCSUCCESS;
 		}
 
 		if(log_this_event(sev) && get_emergency_logging() <= 0) {
@@ -1255,7 +1164,7 @@ public final class TtcnLogger {
 		log_event_str(MessageFormat.format("Matching on port {0} succeeded: {1}", port_name, info.toString()));
 	}
 
-	public static void log_port_misc(final Port_Misc_reason reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
+	public static void log_port_misc(final TitanLoggerApi.Port__Misc_reason.enum_type reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
 		if (!log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (get_emergency_logging()<=0)) {
 			return;
 		}
@@ -1263,64 +1172,64 @@ public final class TtcnLogger {
 		final StringBuilder ret_val = new StringBuilder();
 		final String comp_str = TitanComponent.get_component_string(remote_component);
 		switch (reason) {
-		case REMOVING_UNTERMINATED_CONNECTION:
+		case removing__unterminated__connection:
 			ret_val.append(MessageFormat.format("Removing unterminated connection between port {0} and {1}:{2}.", port_name, comp_str, remote_port));
 			break;
-		case REMOVING_UNTERMINATED_MAPPING:
+		case removing__unterminated__mapping:
 			ret_val.append(MessageFormat.format("Removing unterminated mapping between port {0} and system:{1}.", port_name, remote_port));
 			break;
-		case PORT_WAS_CLEARED:
+		case port__was__cleared:
 			ret_val.append(MessageFormat.format("Port {0} was cleared.", port_name));
 			break;
-		case LOCAL_CONNECTION_ESTABLISHED:
+		case local__connection__established:
 			ret_val.append(MessageFormat.format("Port {0} has established the connection with local port {1}.", port_name, remote_port));
 			break;
-		case LOCAL_CONNECTION_TERMINATED:
+		case local__connection__terminated:
 			ret_val.append(MessageFormat.format("Port {0} has terminated the connection with local port {1}.", port_name, remote_port));
 			break;
-		case PORT_IS_WAITING_FOR_CONNECTION_TCP:
+		case port__is__waiting__for__connection__tcp:
 			ret_val.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on TCP port {3}:{4}.", port_name, comp_str, remote_port, ip_address, tcp_port));
 			break;
-		case PORT_IS_WAITING_FOR_CONNECTION_UNIX:
+		case port__is__waiting__for__connection__unix:
 			ret_val.append(MessageFormat.format("Port {0} is waiting for connection from {1}:{2} on UNIX pathname {3}.", port_name, comp_str, remote_port, ip_address));
 			break;
-		case CONNECTION_ESTABLISHED:
+		case connection__established:
 			ret_val.append(MessageFormat.format("Port {0} has established the connection with {1}:{2} using transport type {3}.", port_name, comp_str, remote_port, ip_address));
 			break;
-		case DESTROYING_UNESTABLISHED_CONNECTION:
+		case destroying__unestablished__connection:
 			ret_val.append(MessageFormat.format("Destroying unestablished connection of port {0} to {1}:{2} because the other endpoint has terminated.", port_name, comp_str, remote_port));
 			break;
-		case TERMINATING_CONNECTION:
+		case terminating__connection:
 			ret_val.append(MessageFormat.format("Terminating the connection of port {0} to {1}:{2}. No more messages can be sent through this connection.", port_name, comp_str, remote_port));
 			break;
-		case SENDING_TERMINATION_REQUEST_FAILED:
+		case sending__termination__request__failed:
 			ret_val.append(MessageFormat.format("Sending the connection termination request on port {0} to remote endpoint {1}:}{2} failed.", port_name, comp_str, remote_port));
 			break;
-		case TERMINATION_REQUEST_RECEIVED:
+		case termination__request__received:
 			ret_val.append(MessageFormat.format("Connection termination request was received on port {0} from {1}:{2}. No more data can be sent or received through this connection.", port_name, comp_str, remote_port));
 			break;
-		case ACKNOWLEDGING_TERMINATION_REQUEST_FAILED:
+		case acknowledging__termination__request__failed:
 			ret_val.append(MessageFormat.format("Sending the acknowledgment for connection termination request on port {0} to remote endpoint {1}:{2} failed.", port_name, comp_str, remote_port));
 			break;
-		case SENDING_WOULD_BLOCK:
+		case sending__would__block:
 			ret_val.append(MessageFormat.format("Sending data on the connection of port {0} to {1}:{2} would block execution. The size of the outgoing buffer was increased from {3} to {4} bytes.", port_name, comp_str, remote_port, tcp_port, new_size));
 			break;
-		case CONNECTION_ACCEPTED:
+		case connection__accepted:
 			ret_val.append(MessageFormat.format("Port {0} has accepted the connection from {1}:{2}.", port_name, comp_str, remote_port));
 			break;
-		case CONNECTION_RESET_BY_PEER:
+		case connection__reset__by__peer:
 			ret_val.append(MessageFormat.format("Connection of port {0} to {1}:{2} was reset by the peer.", port_name, comp_str, remote_port));
 			break;
-		case CONNECTION_CLOSED_BY_PEER:
+		case connection__closed__by__peer:
 			ret_val.append(MessageFormat.format("Connection of port {0} to {1}:{2} was closed unexpectedly by the peer.", port_name, comp_str, remote_port));
 			break;
-		case PORT_DISCONNECTED:
+		case port__disconnected:
 			ret_val.append(MessageFormat.format("Port {0} was disconnected from {1}:{2}.", port_name, comp_str, remote_port));
 			break;
-		case PORT_WAS_MAPPED_TO_SYSTEM:
+		case port__was__mapped__to__system:
 			ret_val.append(MessageFormat.format("Port {0} was mapped to system:{1}.", port_name, remote_port));
 			break;
-		case PORT_WAS_UNMAPPED_FROM_SYSTEM:
+		case port__was__unmapped__from__system:
 			ret_val.append(MessageFormat.format("Port {0} was unmapped from system:{1}.", port_name, remote_port));
 			break;
 		default:

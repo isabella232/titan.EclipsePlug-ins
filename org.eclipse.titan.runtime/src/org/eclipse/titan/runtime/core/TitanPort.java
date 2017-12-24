@@ -16,8 +16,6 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
-import org.eclipse.titan.runtime.core.TtcnLogger.Port_Misc_reason;
-
 /**
  * The base class of test ports
  *
@@ -151,7 +149,7 @@ public class TitanPort {
 
 		}
 		clear_queue();
-		TtcnLogger.log_port_misc(Port_Misc_reason.PORT_WAS_CLEARED, port_name, 0, "", "", 0, 0);
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__cleared, port_name, 0, "", "", 0, 0);
 	}
 
 	public static void all_clear() {
@@ -179,7 +177,7 @@ public class TitanPort {
 			user_start();
 			is_started = true;
 		}
-		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STARTED, port_name);
+		TtcnLogger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.started, port_name);
 	}
 
 	public static void all_start() {
@@ -207,7 +205,7 @@ public class TitanPort {
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing stop operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 		}
-		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.STOPPED, port_name);
+		TtcnLogger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.stopped, port_name);
 	}
 
 	public static void all_stop() {
@@ -233,7 +231,7 @@ public class TitanPort {
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 		}
-		TtcnLogger.log_port_state(TtcnLogger.Port_State_operation.HALTED, port_name);
+		TtcnLogger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.halted, port_name);
 	}
 
 	public static void all_halt() {
@@ -311,14 +309,14 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, false, port_name);
+		TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, false, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.RECEIVE_, true, false, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -340,14 +338,14 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.RECEIVE_, false, true, port_name);
+		TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, true, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.RECEIVE_, true, true, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -369,14 +367,14 @@ public class TitanPort {
 	}
 
 	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-	    TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.NO_INCOMING_TYPES, TtcnLogger.MatchingProblemType_operation.TRIGGER_, false, false, port_name);
+	    TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, false, false, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.TRIGGER_, true, false, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -404,7 +402,7 @@ public class TitanPort {
 	//originally any_getcall
 	public static TitanAlt_Status any_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETCALL_, true, false, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -432,7 +430,7 @@ public class TitanPort {
 	//originally any_check_getcall
 	public static TitanAlt_Status any_check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETCALL_, true, true, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -460,7 +458,7 @@ public class TitanPort {
 	//originally any_getreply
 	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETREPLY_, true, false, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -488,7 +486,7 @@ public class TitanPort {
 	//originally any_check_getreply
 	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.GETREPLY_, true, true, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -516,7 +514,7 @@ public class TitanPort {
 	//originally any_catch
 	public static TitanAlt_Status any_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.CATCH_, true, false, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -544,7 +542,7 @@ public class TitanPort {
 	//originally any_check_catch
 	public static TitanAlt_Status any_check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.CATCH_, true, true, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -623,7 +621,7 @@ public class TitanPort {
 	//originally any_check
 	public static TitanAlt_Status any_check(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.isEmpty()) {
-			TtcnLogger.log_matching_problem(TtcnLogger.MatchingProblemType_reason.COMPONENT_HAS_NO_PORTS, TtcnLogger.MatchingProblemType_operation.CHECK_, true, false, null);
+			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.check__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 

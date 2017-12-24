@@ -120,7 +120,7 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		aData.addBuiltinTypeImport("TtcnLogger");
-		aData.addBuiltinTypeImport("TtcnLogger.Port_Queue_operation");
+		aData.addBuiltinTypeImport("TitanLoggerApi");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		if (portDefinition.testportType != TestportType.INTERNAL) {
@@ -461,7 +461,7 @@ public class PortGenerator {
 			source.append("private LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
-			source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.EXTRACT_OP, get_name(), 0 , ++proc_head_count, new TitanCharString(), new TitanCharString());");
+			source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.extract__op, get_name(), 0 , ++proc_head_count, new TitanCharString(), new TitanCharString());");
 			source.append("}\n\n");
 		}
 
@@ -585,7 +585,7 @@ public class PortGenerator {
 	private static void generateGenericReceive(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
 		final String functionName = isCheck ? "check_receive" : "receive";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
-		final String logger_operation = isCheck ? "CHECK_RECEIVE_OP" : "RECEIVE_OP";
+		final String logger_operation = isCheck ? "check__receive__op" : "receive__op";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template sender_template, final {1} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, senderType));
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -647,7 +647,7 @@ public class PortGenerator {
 		if(isAddress) {
 			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_MMSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_MMRECV)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(get_name(), TtcnLogger.Msg_port_recv_operation.{0} , TitanComponent.SYSTEM_COMPREF, new TitanCharString() ,", logger_operation));
+			source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.{0} , TitanComponent.SYSTEM_COMPREF, new TitanCharString() ,", logger_operation));
 			source.append("(TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_MMRECV), my_head.sender_adress.log(), TtcnLogger.end_event_log2str()), ");
 			source.append("msg_head_count+1);\n");
 			source.append("}\n");
@@ -663,7 +663,7 @@ public class PortGenerator {
 				source.append("TtcnLogger.begin_event(log_sev);\n");
 				source.append(MessageFormat.format("TtcnLogger.log_event_str(\": {0}: \");\n", message_type.mDisplayName));
 				source.append("my_head.message.log();\n");
-				source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(get_name(), TtcnLogger.Msg_port_recv_operation.{0}, ", logger_operation));
+				source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.{0}, ", logger_operation));
 				source.append("my_head.sender_component, new TitanCharString(),");
 				source.append(MessageFormat.format("TtcnLogger.end_event_log2str(), msg_head_count+1);\n", msg_idx));
 				source.append("break;\n");
@@ -757,7 +757,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_MMRECV)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_MMRECV);\n");
 			source.append("my_head.sender_address.log();\n");
-			source.append("TtcnLogger.log_msgport_recv(get_name(), TtcnLogger.Msg_port_recv_operation.TRIGGER_OP, TitanComponent.SYSTEM_COMPREF, new TitanCharString()), TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
+			source.append("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, TitanComponent.SYSTEM_COMPREF, new TitanCharString()), TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
 		} else {
 			source.append("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMSUCCESS : TtcnLogger.Severity.MATCHING_MCSUCCESS, ");
 			source.append("\"Matching on port {0} succeeded.\", get_name());\n");
@@ -770,7 +770,7 @@ public class PortGenerator {
 				source.append("TtcnLogger.begin_event(log_sev);\n");
 				source.append(MessageFormat.format("TtcnLogger.log_event_str(\": {0}: \");\n", message_type.mDisplayName));
 				source.append("my_head.message.log();\n");
-				source.append("TtcnLogger.log_msgport_recv(get_name(), TtcnLogger.Msg_port_recv_operation.TRIGGER_OP, ");
+				source.append("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, ");
 				source.append("my_head.sender_component, new TitanCharString(),");
 				source.append(MessageFormat.format("TtcnLogger.end_event_log2str(), msg_head_count+1);\n", msg_idx));
 				source.append("break;\n");
@@ -835,7 +835,7 @@ public class PortGenerator {
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 		source.append("TtcnLogger.begin_event(log_sev);\n");
 		source.append("value_template.log_match(my_head.message, false);\n");
-		source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.MESSAGE_, get_name(), my_head.sender_component, TtcnLogger.MatchingFailureType_reason.MESSAGE_DOES_NOT_MATCH_TEMPLATE, TtcnLogger.end_event_log2str());\n");
+		source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, get_name(), my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(" } else {\n");
@@ -904,7 +904,7 @@ public class PortGenerator {
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 		source.append("TtcnLogger.begin_event(log_sev);\n");
 		source.append(MessageFormat.format("value_template.log_match(my_head.message, false);\n", index));
-		source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.MESSAGE_, get_name(), my_head.sender_component, TtcnLogger.MatchingFailureType_reason.MESSAGE_DOES_NOT_MATCH_TEMPLATE, TtcnLogger.end_event_log2str());\n");
+		source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, get_name(), my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_REPEAT;\n");
@@ -1014,7 +1014,7 @@ public class PortGenerator {
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
 		source.append("call_temp.log();\n");
-		source.append("TtcnLogger.log_procport_send(get_name(), TtcnLogger.Port_oper.CALL_OP, destination_component.getComponent(), new TitanCharString(), TtcnLogger.end_event_log2str());\n");
+		source.append("TtcnLogger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, destination_component.getComponent(), new TitanCharString(), TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 		if (portDefinition.testportType == TestportType.INTERNAL) {
@@ -1044,7 +1044,7 @@ public class PortGenerator {
 			source.append("TitanCharString log_temp = TtcnLogger.end_event_log2str();\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("call_template.log();\n");
-			source.append("TtcnLogger.log_procport_send(get_name(), TtcnLogger.Port_oper.CALL_OP, TitanComponent.SYSTEM_COMPREF, log_temp, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, TitanComponent.SYSTEM_COMPREF, log_temp, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append(MessageFormat.format("final {0}_call call_temp = call_template.create_call();\n", info.mJavaTypeName));
 			source.append("outgoing_call(call_temp, destination_address);\n");
@@ -1078,7 +1078,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("reply_temp.log();\n");
-			source.append("TtcnLogger.log_procport_send(get_name(), TtcnLogger.Port_oper.REPLY_OP, destination_component.getComponent(), new TitanCharString(), TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, destination_component.getComponent(), new TitanCharString(), TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
@@ -1107,7 +1107,7 @@ public class PortGenerator {
 				source.append("TitanCharString log_temp = TtcnLogger.end_event_log2str();\n");
 				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
 				source.append("reply_template.log();\n");
-				source.append("TtcnLogger.log_procport_send(get_name(), TtcnLogger.Port_oper.REPLY_OP, TitanComponent.SYSTEM_COMPREF, log_temp, TtcnLogger.end_event_log2str());\n");
+				source.append("TtcnLogger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, TitanComponent.SYSTEM_COMPREF, log_temp, TtcnLogger.end_event_log2str());\n");
 				source.append("}\n");
 				source.append(MessageFormat.format("final {0}_reply reply_temp = reply_template.create_reply();\n", info.mJavaTypeName));
 				source.append("outgoing_reply(reply_temp, destination_address);\n");
@@ -1141,7 +1141,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
 			source.append("raise_exception.log();\n");
-			source.append("TtcnLogger.log_procport_send(get_name(), TtcnLogger.Port_oper.EXCEPTION_OP, destination_component.getComponent(), new TitanCharString(), TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, destination_component.getComponent(), new TitanCharString(), TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			if (portDefinition.testportType == TestportType.INTERNAL) {
@@ -1170,7 +1170,7 @@ public class PortGenerator {
 				source.append("TitanCharString log_temp = TtcnLogger.end_event_log2str();\n");
 				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMOUT);\n");
 				source.append("raise_exception.log();\n");
-				source.append("TtcnLogger.log_procport_send(get_name(), TtcnLogger.Port_oper.EXCEPTION_OP, TitanComponent.SYSTEM_COMPREF, log_temp, TtcnLogger.end_event_log2str());\n");
+				source.append("TtcnLogger.log_procport_send(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, TitanComponent.SYSTEM_COMPREF, log_temp, TtcnLogger.end_event_log2str());\n");
 				source.append("}\n");
 				source.append("outgoing_raise(raise_exception, destination_address);\n");
 				source.append("}\n\n");
@@ -1216,7 +1216,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
 			source.append("sender_template.log_match(head.sender_address, false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1248,13 +1248,13 @@ public class PortGenerator {
 		if(isAddress) {
 			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.CALL_OP, head.sender_component, {0}, new TitanCharString(), msg_head_count+1);\n", isCheck ? "true":"false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, head.sender_component, {0}, new TitanCharString(), msg_head_count+1);\n", isCheck ? "true":"false"));
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.log(head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("final TtcnLogger.Severity log_sev = head.sender_component ==  TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_PMIN : TtcnLogger.Severity.PORTEVENT_PCIN;\n");
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.CALL_OP, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.call__op, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
 			source.append("}\n");
 		}
 		if (!isCheck) {
@@ -1297,7 +1297,7 @@ public class PortGenerator {
 		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.SENDER_IS_NOT_SYSTEM, new TitanCharString());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__is__not__system, new TitanCharString());\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
@@ -1306,7 +1306,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
 			source.append("sender_template.log_match(head.sender_address, false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1316,7 +1316,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(log_sev);\n");
 			source.append("sender_template.log_match(new TitanComponent(head.sender_component), false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1329,7 +1329,7 @@ public class PortGenerator {
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 		source.append("TtcnLogger.begin_event(log_sev);\n");
 		source.append(MessageFormat.format("getcall_template.log_match_call(head.call_{0}, false);\n", index));
-		source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.PARAMETERS_OF_CALL_DO_NOT_MATCH_TEMPLATE, TtcnLogger.end_event_log2str());\n");
+		source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.parameters__of__call__do__not__match__template, TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
@@ -1384,7 +1384,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
 			source.append("sender_template.log_match(head.sender_address, false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
@@ -1418,13 +1418,13 @@ public class PortGenerator {
 		if(isAddress) {
 			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.REPLY_OP, head.sender_component, {0}, new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, head.sender_component, {0}, new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.log(head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("final TtcnLogger.Severity log_sev = head.sender_component ==  TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_PMIN : TtcnLogger.Severity.PORTEVENT_PCIN;\n");
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.REPLY_OP, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.reply__op, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
 			source.append("}\n");
 		}
 		if (!isCheck) {
@@ -1481,7 +1481,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
 			source.append("sender_template.log_match(head.sender_address, false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1506,7 +1506,7 @@ public class PortGenerator {
 		source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 		source.append("TtcnLogger.begin_event(log_sev);\n");
 		source.append(MessageFormat.format("getreply_template.log_match_reply(head.reply_{0}, false);\n", index));
-		source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.PARAMETERS_OF_REPLY_DO_NOT_MATCH_TEMPLATE, TtcnLogger.end_event_log2str());\n");
+		source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.parameters__of__reply__do__not__match__template, TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
@@ -1561,7 +1561,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
 			source.append("sender_template.log_match(head.sender_address, false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
@@ -1595,13 +1595,13 @@ public class PortGenerator {
 		if(isAddress) {
 			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PMSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.EXCEPTION_OP, head.sender_component, {0}, new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, head.sender_component, {0}, new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.log(head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS, \"Matching on port {0} succeeded.\", get_name());\n");
 			source.append("final TtcnLogger.Severity log_sev = head.sender_component ==  TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.PORTEVENT_PMIN : TtcnLogger.Severity.PORTEVENT_PCIN;\n");
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.EXCEPTION_OP, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.exception__op, head.sender_component, {0} ,new TitanCharString(), msg_head_count+1);\n", isCheck ? "true" : "false"));
 			source.append("}\n");
 		}
 		if (!isCheck) {
@@ -1649,7 +1649,7 @@ public class PortGenerator {
 		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.SENDER_IS_NOT_SYSTEM, new TitanCharString());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__is__not__system, new TitanCharString());\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
@@ -1658,7 +1658,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
 			source.append("sender_template.log_match(head.sender_address, false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -1668,13 +1668,13 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(log_sev);\n");
 			source.append("sender_template.log_match(new TitanComponent(head.sender_component), false);\n");
-			source.append("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), head.sender_component, TtcnLogger.MatchingFailureType_reason.SENDER_DOES_NOT_MATCH_FROM_CLAUSE, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__does__not__match__from__clause, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
 		}
 		source.append(MessageFormat.format(" else if (head.item_selection != proc_selection.EXCEPTION_{0}) '{'\n", index));
-		source.append(MessageFormat.format("TtcnLogger.log_matching_failure(TtcnLogger.PortType.PROCEDURE_, get_name(), {0}, TtcnLogger.MatchingFailureType_reason.NOT_AN_EXCEPTION_FOR_SIGNATURE, new TitanCharString(\"{1} \"));\n", isAddress ? "TitanComponent.SYSTEM_COMPREF" : "head.sender_component", info.mDisplayName));
+		source.append(MessageFormat.format("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), {0}, TitanLoggerApi.MatchingFailureType_reason.enum_type.not__an__exception__for__signature, new TitanCharString(\"{1} \"));\n", isAddress ? "TitanComponent.SYSTEM_COMPREF" : "head.sender_component", info.mDisplayName));
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append(MessageFormat.format("'}' else if (!catch_template.match(head.exception_{0}, true)) '{'\n", index));
 		if(isAddress) {
@@ -1734,7 +1734,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
 		source.append("TtcnLogger.log_char(' ');\n");
 		source.append("incoming_par.log();\n");
-		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_CALL, get_name(), sender_component, proc_tail_count, ");
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__call, get_name(), sender_component, proc_tail_count, ");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("tempLog, TtcnLogger.end_event_log2str());\n");
 		} else {
@@ -1794,7 +1794,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
 		source.append("TtcnLogger.log_char(' ');\n");
 		source.append("incoming_par.log();\n");
-		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_REPLY, get_name(), sender_component, proc_tail_count, ");
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__reply, get_name(), sender_component, proc_tail_count, ");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("tempLog, TtcnLogger.end_event_log2str());\n");
 		} else {
@@ -1855,7 +1855,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
 		source.append("TtcnLogger.log_char(' ');\n");
 		source.append("incoming_par.log();\n");
-		source.append("TtcnLogger.log_port_queue(TtcnLogger.Port_Queue_operation.ENQUEUE_EXCEPTION, get_name(), sender_component, proc_tail_count, ");
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__exception, get_name(), sender_component, proc_tail_count, ");
 		if(portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("tempLog, TtcnLogger.end_event_log2str());\n");
 		} else {
@@ -2042,22 +2042,22 @@ public class PortGenerator {
 	private static void generate_proc_incoming_data_logging(final StringBuilder source, final String opStr, final String matchStr, final boolean isAddress, final boolean isCheck, final int index) {
 		String procOp = "";
 		if ("call".equals(opStr)) {
-			procOp = "CALL";
+			procOp = "call";
 		} else if("reply".equals(opStr)) {
-			procOp = "REPLY";
+			procOp = "reply";
 		} else if("exception".equals(opStr)) {
-			procOp = "EXCEPTION";
+			procOp = "exception";
 		}
 		if(isAddress) {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMSUCCESS)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMSUCCESS);\n");
 			source.append(MessageFormat.format("{0}(head.{1}_{2},false);\n", matchStr, opStr, index));
-			source.append("TtcnLogger.log_matching_success(TtcnLogger.PortType.PROCEDURE_, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.end_event_log2str());\n");
+			source.append("TtcnLogger.log_matching_success(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), TitanComponent.SYSTEM_COMPREF, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_PMIN)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PMIN);\n");
 			source.append(MessageFormat.format("head.{0}_{1}.log();\n", opStr, index));
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.{0}_OP, head.sender_component, {1}, TtcnLogger.end_event_log2str(), msg_head_count+1);\n", procOp, isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.{0}__op, head.sender_component, {1}, TtcnLogger.end_event_log2str(), msg_head_count+1);\n", procOp, isCheck ? "true" : "false"));
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMSUCCESS : TtcnLogger.Severity.MATCHING_PCSUCCESS;\n");
@@ -2071,7 +2071,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(log_sev);\n");
 			source.append(MessageFormat.format("head.{0}_{1}.log();\n", opStr, index));
-			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TtcnLogger.Port_oper.{0}_OP, head.sender_component, {1} ,TtcnLogger.end_event_log2str(), msg_head_count+1);\n", procOp, isCheck ? "true" : "false"));
+			source.append(MessageFormat.format("TtcnLogger.log_procport_recv(get_name(), TitanLoggerApi.Port__oper.enum_type.{0}__op, head.sender_component, {1} ,TtcnLogger.end_event_log2str(), msg_head_count+1);\n", procOp, isCheck ? "true" : "false"));
 			source.append("}\n");
 		}
 	}
