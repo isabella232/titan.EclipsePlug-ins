@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
 /**
  * @author Gergo Ujhelyi
  * 
@@ -19,67 +21,67 @@ package org.eclipse.titan.runtime.core;
 public final class TTCN_EncDec {
 
 	/** Last error value */
-	private error_type last_error_type = error_type.ET_NONE;
+	private static error_type last_error_type = error_type.ET_NONE;
 
 	/** Error string for the last error */
-	private String error_str;
+	private static String error_str;
 
 	/** Default error behaviours for all error types */
-	private final error_behavior_type[] default_error_behavior = {
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_IGNORE,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR
+	private static final error_behavior_type[] default_error_behavior = {
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_IGNORE,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR
 	};
 
 	/** Current error behaviours for all error types */
-	private final error_behavior_type[] error_behavior  = {
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_IGNORE,
-			error_behavior_type.EB_WARNING,
-			error_behavior_type.EB_ERROR,
-			error_behavior_type.EB_ERROR
+	private static final error_behavior_type[] error_behavior  = {
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_IGNORE,
+		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR
 	};
 
 	/** Endianness indicator */
@@ -150,14 +152,102 @@ public final class TTCN_EncDec {
 		EB_WARNING, /**< Logs the error but continues the activity. */
 		EB_IGNORE   /**< Totally ignores the error. */
 	}
-	
+
 	/** @brief Set the error behaviour for encoding/decoding functions
 	 *
 	 *  @param p_et error type
 	 *  @param p_eb error behaviour
 	 */
-	public static void set_error_behavior(error_type p_et, error_type p_eb) {
-		//FIXME: implement
+	public static void set_error_behavior(error_type p_et, error_behavior_type p_eb) {
+		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() > error_type.ET_ALL.ordinal() || p_eb.ordinal() < error_behavior_type.EB_DEFAULT.ordinal() || p_eb.ordinal() > error_behavior_type.EB_IGNORE.ordinal() ) {
+			throw new TtcnError("EncDec::set_error_behavior(): Invalid parameter.");
+		}
+		if(p_eb == error_behavior_type.EB_DEFAULT) {
+			if(p_et == error_type.ET_ALL) {
+				for (int i = error_type.ET_UNDEF.ordinal(); i < error_type.ET_ALL.ordinal(); i++) {
+					error_behavior[i] = default_error_behavior[i]; 
+				}
+			} else {
+				error_behavior[p_et.ordinal()] = default_error_behavior[p_et.ordinal()];
+			}
+		} else {
+			if(p_et == error_type.ET_ALL) {
+				for (int i = error_type.ET_UNDEF.ordinal(); i < error_type.ET_ALL.ordinal(); i++) {
+					error_behavior[i] = p_eb;
+				}
+			} else {
+				error_behavior[p_et.ordinal()] = p_eb;
+			}
+		} 
 	}
+
+	/** @brief Get the current error behaviour
+	 *
+	 *  @param p_et error type
+	 *  @return error behaviour for the supplied error type
+	 */
+	public static error_behavior_type get_error_behavior(error_type p_et) {
+		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
+			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
+		}
+		return error_behavior[p_et.ordinal()];
+	}
+
+	/** @brief Get the default error behaviour
+	 *
+	 *  @param p_et error type
+	 *  @return default error behaviour for the supplied error type
+	 */
+	public static error_behavior_type get_default_error_behavior(error_type p_et) {
+		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
+			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
+		}
+		return default_error_behavior[p_et.ordinal()];
+	}
+
+	/** @brief Get the last error code.
+	 *
+	 *  @return last_error_type
+	 */
+	public static error_type get_last_error_type() {
+		return last_error_type; 
+	}
+
+	/** @brief Get the error string corresponding to the last error.
+	 *
+	 *  @return error_str
+	 */
+	public static String get_error_str() {
+		return error_str;
+	}
+
+	/** @brief Set a clean slate
+	 *
+	 *  Sets last_error_type to ET_NONE.
+	 *  Frees error_str.
+	 */
+	public static void clear_error() {
+		last_error_type = error_type.ET_NONE;
+		error_str = null;
+	}
+
+	/* The stuff below this line is for internal use only */
+	public static void error(error_type p_et, String msg) {
+		last_error_type = p_et;
+		error_str = "";
+		error_str = msg;
+		if(p_et.ordinal() >= error_type.ET_UNDEF.ordinal() && p_et.ordinal() < error_type.ET_ALL.ordinal()) {
+			switch (error_behavior[p_et.ordinal()]) {
+			case EB_ERROR:
+				throw new TtcnError(error_str);
+			case EB_WARNING:
+				TtcnError.TtcnWarning(error_str);
+				break;
+			default:
+				break;
+			} // switch
+		}
+	}
+	//TODO:get_coding_from_str()
 	//FIXME lots to implement
 }
