@@ -7,8 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.text.MessageFormat;
-
 /**
  * @author Gergo Ujhelyi
  * 
@@ -90,6 +88,13 @@ public final class TTCN_EncDec {
 		ORDER_LSB
 	};
 	public enum coding_type{
+		CT_BER,  /**< BER */
+		CT_PER,  /**< PER */
+		CT_RAW,  /**< RAW */
+		CT_TEXT, /**< TEXT */
+		CT_XER,  /**< XER */
+		CT_JSON, /**< JSON */
+		CT_OER   /**< OER */
 		//FIXME add missing enum elements as they get supported
 	};
 	public enum error_type {
@@ -248,6 +253,10 @@ public final class TTCN_EncDec {
 			} // switch
 		}
 	}
-	//TODO:get_coding_from_str()
-	//FIXME lots to implement
+
+	/** Extract the parameters (coding type and extra settings) from the dynamic
+	 * coding string of coding predefined functions. */
+	public static void get_coding_from_str(final TitanUniversalCharString coding_str, coding_type coding, int extra, boolean encode) {
+		//FIXME: implement
+	}
 }
