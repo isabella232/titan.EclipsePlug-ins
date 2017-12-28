@@ -88,13 +88,6 @@ public final class TTCN_EncDec {
 		ORDER_LSB
 	};
 	public enum coding_type{
-		CT_BER,  /**< BER */
-		CT_PER,  /**< PER */
-		CT_RAW,  /**< RAW */
-		CT_TEXT, /**< TEXT */
-		CT_XER,  /**< XER */
-		CT_JSON, /**< JSON */
-		CT_OER   /**< OER */
 		//FIXME add missing enum elements as they get supported
 	};
 	public enum error_type {
