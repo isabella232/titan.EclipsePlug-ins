@@ -7,7 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.DateFormat;
 import java.text.MessageFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Locale;
 import java.util.Stack;
@@ -609,9 +612,10 @@ public final class TtcnLogger {
 	 * Not the final implementation though.
 	 * */
 	private static void log_console(final Severity msg_severity, final String message) {
-		//FIXME once we have objects calculating the time will have to be moved earlier.
-		//FIXME a bit more complicated in reality
-		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
+		// FIXME once we have objects calculating the time will have to be moved
+		// earlier.
+		// FIXME a bit more complicated in reality
+		long timestamp = System.currentTimeMillis(); // TODO: time zone is not handled yet!
 		final long millisec = timestamp % 1000;
 		timestamp = timestamp / 1000;
 		final long secs = timestamp % 60;
@@ -619,11 +623,21 @@ public final class TtcnLogger {
 		final long minutes = timestamp % 60;
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
-//		timestamp = timestamp / 24; //not used yet
+		// timestamp = timestamp / 24; //not used yet
+		//Time
 		final StringBuilder temp = new StringBuilder(20 + message.length());
 		temp.append(String.format("%02d", hours)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
 		temp.append(' ').append(message);
+		
+		// DateTime
+		// TODO: SECONDS ARE NOT HANDLED YET
+		//final Date datum = new Date();
+		//final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MMM/dd" + " " + "HH:mm:ss.SSSSSS");
 
+		// TODO: Seconds
+		// final SimpleDateFormat sdf2 = new SimpleDateFormat("SSS");
+		
+		//temp.append(sdf.format(datum));
 		System.out.println(temp);
 	}
 
