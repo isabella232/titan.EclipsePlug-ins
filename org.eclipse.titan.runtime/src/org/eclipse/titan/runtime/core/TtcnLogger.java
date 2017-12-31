@@ -374,6 +374,7 @@ public final class TtcnLogger {
 				current_event = null;
 			}
 		}
+		logMatchPrinted = false;
 	}
 
 	public static TitanCharString end_event_log2str() {
@@ -387,8 +388,12 @@ public final class TtcnLogger {
 				current_event = null;
 			}
 
+			logMatchPrinted = false;
+
 			return ret_val;
 		}
+
+		logMatchPrinted = false;
 
 		return new TitanCharString();
 	}
@@ -430,12 +435,14 @@ public final class TtcnLogger {
 		if (current_event != null) {
 			current_event.buffer.append(string);
 		}
+		logMatchPrinted = false;
 	}
 
 	public static void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
 			current_event.buffer.append(String.format(Locale.US, formatString, args));
 		}
+		logMatchPrinted = false;
 	}
 
 	public static void log_char(final char c) {
@@ -443,6 +450,7 @@ public final class TtcnLogger {
 		if (current_event != null) {
 			current_event.buffer.append(c);
 		}
+		logMatchPrinted = false;
 	}
 
 	public static void log_event_uninitialized() {
