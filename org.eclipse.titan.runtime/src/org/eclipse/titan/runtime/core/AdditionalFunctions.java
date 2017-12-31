@@ -2468,14 +2468,14 @@ public final class AdditionalFunctions {
 		TitanFloat.checkNumeric(floatSeed,"The seed value of function rnd()");
 		// FIXME: method caste double from long
 		random.setSeed((long)floatSeed);
-		TtcnLogger.log_random(TtcnLogger.RandomAction.seed, floatSeed, (long)floatSeed);
+		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
 		rndSeedSet = true;
 	}
 
 	public static TitanFloat rndGenerate() {
 		final double returnValue;
 		returnValue = random.nextDouble();
-		TtcnLogger.log_random(TtcnLogger.RandomAction.read_out, returnValue, 0);
+		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
 
 		return new TitanFloat(returnValue);
 	}

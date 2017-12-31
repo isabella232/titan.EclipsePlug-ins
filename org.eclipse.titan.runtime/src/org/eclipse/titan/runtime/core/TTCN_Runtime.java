@@ -256,7 +256,7 @@ public final class TTCN_Runtime {
 		set_testcase_name(moduleName, testcaseName);
 		//FIXME this is much more complex
 
-		TtcnLogger.log(Severity.TESTCASE_START, "Test case %s started.", testcaseName);
+		TtcnLogger.log_testcase_started(moduleName, testcaseName);
 		if (hasTimer) {
 			TitanTimer.testcaseTimer.start(timerValue.getValue());
 		}
@@ -301,11 +301,7 @@ public final class TTCN_Runtime {
 			// FIXME implement
 		}
 
-		if (verdictReason == null || verdictReason.length() == 0) {
-			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict: %s", testcaseDefinitionName, localVerdict.getName());
-		} else {
-			TtcnLogger.log(Severity.TESTCASE_FINISH,"Test case %s finished. Verdict: %s, reason: %s", testcaseDefinitionName, localVerdict.getName(), verdictReason);
-		}
+		TtcnLogger.log_testcase_finished(testcaseModuleName, testcaseDefinitionName, localVerdict, verdictReason);
 
 		verdictCount[localVerdict.getValue()]++;
 
