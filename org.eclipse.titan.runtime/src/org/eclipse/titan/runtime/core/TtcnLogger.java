@@ -59,73 +59,72 @@ public final class TtcnLogger {
 		public static final Logging_Bits log_all = new Logging_Bits();
 		public static final Logging_Bits default_console_mask = new Logging_Bits();
 
-		//TODO optimize to use final public boolean bits[] = new boolean[Severity.values().length]; instead
-		final public HashSet<Severity> bits = new HashSet<Severity>();
+		final public boolean bits[] = new boolean[Severity.values().length];
 
 		// static initializer
 		static {
 			// TTCN_ERROR | TTCN_WARNING | TTCN_ACTION | TTCN_TESTCASE | TTCN_STATISTICS
-			default_console_mask.bits.add(Severity.ACTION_UNQUALIFIED);
-			default_console_mask.bits.add(Severity.ERROR_UNQUALIFIED);
-			default_console_mask.bits.add(Severity.TESTCASE_UNQUALIFIED);
-			default_console_mask.bits.add(Severity.TESTCASE_START);
-			default_console_mask.bits.add(Severity.TESTCASE_FINISH);
-			default_console_mask.bits.add(Severity.STATISTICS_UNQUALIFIED);
-			default_console_mask.bits.add(Severity.STATISTICS_VERDICT);
-			default_console_mask.bits.add(Severity.WARNING_UNQUALIFIED);
+			default_console_mask.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
+			default_console_mask.bits[Severity.ERROR_UNQUALIFIED.ordinal()] = true;
+			default_console_mask.bits[Severity.TESTCASE_UNQUALIFIED.ordinal()] = true;
+			default_console_mask.bits[Severity.TESTCASE_START.ordinal()] = true;
+			default_console_mask.bits[Severity.TESTCASE_FINISH.ordinal()] = true;
+			default_console_mask.bits[Severity.STATISTICS_UNQUALIFIED.ordinal()] = true;
+			default_console_mask.bits[Severity.STATISTICS_VERDICT.ordinal()] = true;
+			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
-			default_console_mask.bits.add(Severity.USER_UNQUALIFIED);
+			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
 
-			log_all.bits.add(Severity.ACTION_UNQUALIFIED);
-			log_all.bits.add(Severity.DEFAULTOP_UNQUALIFIED);
-			log_all.bits.add(Severity.DEFAULTOP_ACTIVATE);
-			log_all.bits.add(Severity.DEFAULTOP_DEACTIVATE);
-			log_all.bits.add(Severity.DEFAULTOP_EXIT);
-			log_all.bits.add(Severity.ERROR_UNQUALIFIED);
-			log_all.bits.add(Severity.EXECUTOR_UNQUALIFIED);
-			log_all.bits.add(Severity.EXECUTOR_COMPONENT);
-			log_all.bits.add(Severity.EXECUTOR_CONFIGDATA);
-			log_all.bits.add(Severity.EXECUTOR_EXTCOMMAND);
-			log_all.bits.add(Severity.EXECUTOR_LOGOPTIONS);
-			log_all.bits.add(Severity.EXECUTOR_RUNTIME);
-			log_all.bits.add(Severity.FUNCTION_UNQUALIFIED);
-			log_all.bits.add(Severity.FUNCTION_RND);
-			log_all.bits.add(Severity.PARALLEL_UNQUALIFIED);
-			log_all.bits.add(Severity.PARALLEL_PORTCONN);
-			log_all.bits.add(Severity.PARALLEL_PORTMAP);
-			log_all.bits.add(Severity.PARALLEL_PTC);
-			log_all.bits.add(Severity.TESTCASE_UNQUALIFIED);
-			log_all.bits.add(Severity.TESTCASE_START);
-			log_all.bits.add(Severity.TESTCASE_FINISH);
-			log_all.bits.add(Severity.PORTEVENT_UNQUALIFIED);
-			log_all.bits.add(Severity.PORTEVENT_DUALRECV);
-			log_all.bits.add(Severity.PORTEVENT_DUALSEND);
-			log_all.bits.add(Severity.PORTEVENT_MCRECV);
-			log_all.bits.add(Severity.PORTEVENT_MCSEND);
-			log_all.bits.add(Severity.PORTEVENT_MMRECV);
-			log_all.bits.add(Severity.PORTEVENT_MMSEND);
-			log_all.bits.add(Severity.PORTEVENT_MQUEUE);
-			log_all.bits.add(Severity.PORTEVENT_PCIN);
-			log_all.bits.add(Severity.PORTEVENT_PCOUT);
-			log_all.bits.add(Severity.PORTEVENT_PMIN);
-			log_all.bits.add(Severity.PORTEVENT_PMOUT);
-			log_all.bits.add(Severity.PORTEVENT_PQUEUE);
-			log_all.bits.add(Severity.PORTEVENT_SETSTATE);
-			log_all.bits.add(Severity.PORTEVENT_STATE);
-			log_all.bits.add(Severity.STATISTICS_UNQUALIFIED);
-			log_all.bits.add(Severity.STATISTICS_VERDICT);
-			log_all.bits.add(Severity.TIMEROP_UNQUALIFIED);
-			log_all.bits.add(Severity.TIMEROP_GUARD);
-			log_all.bits.add(Severity.TIMEROP_READ);
-			log_all.bits.add(Severity.TIMEROP_START);
-			log_all.bits.add(Severity.TIMEROP_STOP);
-			log_all.bits.add(Severity.TIMEROP_TIMEOUT);
-			log_all.bits.add(Severity.USER_UNQUALIFIED);
-			log_all.bits.add(Severity.VERDICTOP_UNQUALIFIED);
-			log_all.bits.add(Severity.VERDICTOP_FINAL);
-			log_all.bits.add(Severity.VERDICTOP_GETVERDICT);
-			log_all.bits.add(Severity.VERDICTOP_SETVERDICT);
-			log_all.bits.add(Severity.WARNING_UNQUALIFIED);
+			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.DEFAULTOP_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.DEFAULTOP_ACTIVATE.ordinal()] = true;
+			log_all.bits[Severity.DEFAULTOP_DEACTIVATE.ordinal()] = true;
+			log_all.bits[Severity.DEFAULTOP_EXIT.ordinal()] = true;
+			log_all.bits[Severity.ERROR_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.EXECUTOR_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.EXECUTOR_COMPONENT.ordinal()] = true;
+			log_all.bits[Severity.EXECUTOR_CONFIGDATA.ordinal()] = true;
+			log_all.bits[Severity.EXECUTOR_EXTCOMMAND.ordinal()] = true;
+			log_all.bits[Severity.EXECUTOR_LOGOPTIONS.ordinal()] = true;
+			log_all.bits[Severity.EXECUTOR_RUNTIME.ordinal()] = true;
+			log_all.bits[Severity.FUNCTION_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.FUNCTION_RND.ordinal()] = true;
+			log_all.bits[Severity.PARALLEL_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.PARALLEL_PORTCONN.ordinal()] = true;
+			log_all.bits[Severity.PARALLEL_PORTMAP.ordinal()] = true;
+			log_all.bits[Severity.PARALLEL_PTC.ordinal()] = true;
+			log_all.bits[Severity.TESTCASE_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.TESTCASE_START.ordinal()] = true;
+			log_all.bits[Severity.TESTCASE_FINISH.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_DUALRECV.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_DUALSEND.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_MCRECV.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_MCSEND.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_MMRECV.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_MMSEND.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_MQUEUE.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_PCIN.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_PCOUT.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_PMIN.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_PMOUT.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_PQUEUE.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_SETSTATE.ordinal()] = true;
+			log_all.bits[Severity.PORTEVENT_STATE.ordinal()] = true;
+			log_all.bits[Severity.STATISTICS_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.STATISTICS_VERDICT.ordinal()] = true;
+			log_all.bits[Severity.TIMEROP_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.TIMEROP_GUARD.ordinal()] = true;
+			log_all.bits[Severity.TIMEROP_READ.ordinal()] = true;
+			log_all.bits[Severity.TIMEROP_START.ordinal()] = true;
+			log_all.bits[Severity.TIMEROP_STOP.ordinal()] = true;
+			log_all.bits[Severity.TIMEROP_TIMEOUT.ordinal()] = true;
+			log_all.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.VERDICTOP_UNQUALIFIED.ordinal()] = true;
+			log_all.bits[Severity.VERDICTOP_FINAL.ordinal()] = true;
+			log_all.bits[Severity.VERDICTOP_GETVERDICT.ordinal()] = true;
+			log_all.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
+			log_all.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 		}
 
 		public Logging_Bits() {
@@ -133,7 +132,7 @@ public final class TtcnLogger {
 		}
 
 		public Logging_Bits(final Logging_Bits other) {
-			bits.addAll(other.bits);
+			System.arraycopy(other.bits, 0, bits, 0, other.bits.length);
 		}
 	}
 
@@ -585,19 +584,19 @@ public final class TtcnLogger {
 	}
 
 	public static boolean should_log_to_file(final Severity sev) {
-
-		return file_log_mask.mask.bits.contains(sev);
+		return file_log_mask.mask.bits[sev.ordinal()];
 	}
 
 	public static boolean should_log_to_console(final Severity sev) {
 		if (sev == Severity.EXECUTOR_EXTCOMMAND) {
 			return true;
 		}
-		return console_log_mask.mask.bits.contains(sev);
+
+		return console_log_mask.mask.bits[sev.ordinal()];
 	}
 
 	public static boolean should_log_to_emergency(final Severity sev) {
-		return emergency_log_mask.mask.bits.contains(sev);
+		return emergency_log_mask.mask.bits[sev.ordinal()];
 	}
 
 	/*public static void set_timestamp_format(timestamp_format_t new_timestamp_format){
