@@ -271,6 +271,7 @@ public class TpdImporter {
 					}
 				}
 			}
+
 			Element mainElement = actualDocument.getDocumentElement();
 			//=== Get the copyright text ===
 			Node node = mainElement.getFirstChild();
