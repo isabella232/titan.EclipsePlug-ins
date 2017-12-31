@@ -8,11 +8,11 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
-import java.util.HashSet;
 import java.util.Locale;
 import java.util.Stack;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
@@ -27,7 +27,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__recv;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__send;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.PortEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.PortType.enum_type;
-import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Misc;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Queue;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__State;
