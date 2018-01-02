@@ -63,7 +63,7 @@ public class RAW {
 		public RAW_enc_pointer  pointerto; /**< calc is CALC_POINTER */
 		public int num_of_nodes;
 		public RAW_enc_tree nodes;
-		public char data_ptr;  /**< data_ptr_used==true */
+		//public char data_ptr;  /**< data_ptr_used==true */
 		public char data_array[] = new char[RAW_INT_ENC_LENGTH];  /**< false */
 		
 		public RAW_enc_tree(boolean is_leaf, RAW_enc_tree par, RAW_enc_tr_pos par_pos, int my_pos, final TTCN_RAWdescriptor raw_attr) {
