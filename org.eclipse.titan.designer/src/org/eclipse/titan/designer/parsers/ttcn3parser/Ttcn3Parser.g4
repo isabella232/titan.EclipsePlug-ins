@@ -5967,10 +5967,14 @@ pr_Quadruple returns[UniversalCharstring string]
 	pr_RParen
 )
 {
-	$string = new UniversalCharstring( new UniversalChar(	Integer.parseInt($group.getText()),
-															Integer.parseInt($plane.getText()),
-															Integer.parseInt($row.getText()),
-															Integer.parseInt($cell.getText())	) );
+	try {
+		$string = new UniversalCharstring( new UniversalChar(	Integer.parseInt($group.getText()),
+																Integer.parseInt($plane.getText()),
+																Integer.parseInt($row.getText()),
+																Integer.parseInt($cell.getText())	) );
+	} catch ( Exception e ) {
+		// do nothing
+	}
 };
 
 pr_ReferencedValue returns[Value value]
