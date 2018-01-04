@@ -64,7 +64,7 @@ public class TTCN_EncDec_ErrorContext {
 		}
 		for (int i = 0; i < args.length; i++) {
 			//FIXME: Initial implement
-			err_msg.concat(args.toString() + " ");
+			err_msg.concat(args[i].toString() + " ");
 		}
 		TTCN_EncDec.error(p_et, err_msg);
 	}
@@ -77,7 +77,7 @@ public class TTCN_EncDec_ErrorContext {
 		}
 		for (int i = 0; i < args.length; i++) {
 			//FIXME: Initial implement
-			err_msg.concat(args.toString() + " ");
+			err_msg.concat(args[i].toString() + " ");
 		}
 		TTCN_EncDec.error(TTCN_EncDec.error_type.ET_INTERNAL, err_msg);
 		throw new TtcnError(TTCN_EncDec.get_error_str());
@@ -91,7 +91,7 @@ public class TTCN_EncDec_ErrorContext {
 		}
 		for (int i = 0; i < args.length; i++) {
 			//FIXME: Initial implement
-			warn_msg.concat(args.toString() + " ");
+			warn_msg.concat(args[i].toString() + " ");
 		}
 		TtcnError.TtcnWarning(warn_msg);
 	}
