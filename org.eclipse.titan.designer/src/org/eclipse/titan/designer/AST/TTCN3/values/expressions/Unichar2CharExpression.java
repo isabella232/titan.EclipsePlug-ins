@@ -146,8 +146,13 @@ public final class Unichar2CharExpression extends Expression_Value {
 					return; //check not necessary, trivial case
 				} else if( last instanceof UniversalCharstring_Value ) {
 					string = ((UniversalCharstring_Value) last).getValue();
+					if (string == null) {
+						setIsErroneous(true);
+						return;
+					}
 				} else {
 					value.getLocation().reportSemanticError(OPERANDERROR1);
+					setIsErroneous(true);
 					return;
 				}
 
@@ -156,6 +161,7 @@ public final class Unichar2CharExpression extends Expression_Value {
 					if (uchar.group() != 0 || uchar.plane() != 0 || uchar.row() != 0 || uchar.cell() > 127) {
 						value.getLocation().reportSemanticError(OPERANDERROR2);
 						setIsErroneous(true);
+						return;
 					}
 				}
 			}
