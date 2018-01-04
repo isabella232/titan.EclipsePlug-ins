@@ -15,13 +15,6 @@ package org.eclipse.titan.runtime.core;
  */
 
 import java.util.LinkedList;
-/** @brief Error context
- *
- *  Maintains a list of linked TTCN_EncDec_ErrorContext objects
- *  
- *  @author Gergo Ujhelyi
- *
- */
 import java.util.List;
 
 public class TTCN_EncDec_ErrorContext {
