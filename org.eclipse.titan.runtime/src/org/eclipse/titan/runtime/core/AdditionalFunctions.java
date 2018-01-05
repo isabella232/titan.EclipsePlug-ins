@@ -1010,7 +1010,7 @@ public final class AdditionalFunctions {
 				}
 				break;
 			case S_ZERO:
-				if (c >= '1' && c <= '9') {
+				if (c >= '0' && c <= '9') {
 					leading_zero = true;
 					state = str2intState.S_MORE;
 				} else if (Character.isWhitespace(c)) {
