@@ -496,7 +496,7 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function unichar2int() is an unbound universal charstring value.");
 
 		if (value.lengthOf().getInt() != 1) {
-			throw new TtcnError(MessageFormat.format("The length of the argument in function unichar2int() must be exactly 1 instead of %d.", value.lengthOf().getInt()));
+			throw new TtcnError(MessageFormat.format("The length of the argument in function unichar2int() must be exactly 1 instead of {0}.", value.lengthOf().getInt()));
 		}
 
 		return unichar2int(value.getValue().get(0));
