@@ -666,6 +666,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final List<EnumItem> items = new ArrayList<EnumItem>();
 		if (enumerations != null) {
 			if (enumerations.enumItems1 != null) {

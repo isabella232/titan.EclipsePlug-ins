@@ -14,4 +14,12 @@ package org.eclipse.titan.runtime.core;
  * */
 public class TTCN_Buffer {
 	//FIXME a lot to implement here
+	 /** 
+	  * Stores the current contents of the buffer to variable p_os.
+	  * 
+	  * @param p_os the variable to store the contents of the buffer into.
+	  * */
+	public void get_string(final TitanOctetString p_os) {
+		throw new TtcnError("get_string() for TTCN_Buffer is not implemented!");
+	}
 }

@@ -699,6 +699,8 @@ public final class Function_Type extends Type {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
 		if (returnType == null) {
 			def.returnType = null;

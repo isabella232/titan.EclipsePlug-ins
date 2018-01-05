@@ -843,7 +843,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	}
 
 	/**
-	 * Generate Java code for the bodz of an external function with an encoding prototype.
+	 * Generate Java code for the body of an external function with an encoding prototype.
 	 *
 	 * generate_code_encode in the compiler
 	 *
@@ -851,9 +851,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	 * @param source the stringbuilder to generate the code to.
 	 */
 	private void generate_code_encode(final JavaGenData aData, final StringBuilder source) {
-//		aData.addCommonLibraryImport("TTCN_Buffer");
-//		aData.addCommonLibraryImport("TTCN_EncDec");
+		aData.addCommonLibraryImport("TTCN_Buffer");
+		aData.addCommonLibraryImport("TTCN_EncDec");
 
+		//FIXME implement get_string, error handling and other variants
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
@@ -862,10 +863,18 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
-
-//		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
-//		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2});\n", firstParName, inputType.getGenNameTypedescriptor(aData, source, myScope), encodingType.getEncodingName()) );
-		//FIXME implement
+		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
+		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2});\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
+		source.append(MessageFormat.format("{0} ret_val = new {0}();\n", returnType.getGenNameValue( aData, source, getMyScope() )));
+		source.append( "ttcn_buffer.get_string(ret_val);\n" );
 		source.append( "throw new TtcnError(\"generateCodeString() for encoding style external functions is not implemented!\");\n" );
+		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
+		source.append( "ret_val.log();\n" );
+		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "}\n" );
+		source.append( "return ret_val;\n" );
 	}
 }

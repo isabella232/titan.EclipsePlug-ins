@@ -521,6 +521,8 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( int i = 0 ; i < components.getNofComps(); i++ ) {

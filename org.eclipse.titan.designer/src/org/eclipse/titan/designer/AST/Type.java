@@ -1609,6 +1609,41 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public abstract void generateCode( final JavaGenData aData, final StringBuilder source );
 
+	//FIXME comment
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
+		//FIXME implement: actually more complicated
+		final String genname = getGenNameOwn();
+		final String gennameTypeDescriptor = getGenNameTypeDescriptor(aData, source, myScope);
+		/* genname{type,ber,raw,text,xer,json,oer}descriptor == gennameown is true if
+		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
+		 * and can't use the descriptor of one of the built-in types.
+		 */
+		if (genname.equals(gennameTypeDescriptor)) {
+			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			//check and generate the needed type descriptors
+			//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
+			final boolean generate_raw = true;
+			final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
+			if (generate_raw && genname.equals(gennameRawDescriptor)) {
+				generateCodeRawDescriptor(aData, source);
+			}
+		}
+
+		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
+		final StringBuilder globalVariables = aData.getGlobalVariables();
+		globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\");\n", genname, getFullName()));
+	}
+
+	//FIXME comment
+	public void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		//FIXME implement
+		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
+
+		final String genname = getGenNameOwn();
+		final StringBuilder globalVariables = aData.getGlobalVariables();
+		globalVariables.append(MessageFormat.format("//public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(\"{0}\");\n", genname, getFullName()));
+	}
+
 	/**
 	 * Returns whether the type needs an explicit Java alias and/or
 	 * an alias to a type descriptor of another type. It returns true for those
@@ -1656,6 +1691,81 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public abstract String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
+
+	/**
+	 * Returns the name of the type descriptor (- the _descr_ postfix).
+	 *
+	 * get_genname_typedescriptor in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java variable in the generated code.
+	 */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		//FIXME implement the handling of attribute checks
+		if (hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+			return getGenNameOwn(scope);
+		}
+		if (this instanceof IReferencingType) {
+			//FIXME check for XER
+			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
+			refChain.release();
+
+			if (t != null && t != this) {
+				return t.getGenNameTypeDescriptor(aData, source, scope);
+			}
+		}
+
+		return getGenNameTypeName(aData, source, scope);
+	}
+
+	/**
+	 * Returns the name of the RAW type descriptor (- the _descr_ postfix).
+	 *
+	 * get_genname_rawdescriptor in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @return The name of the Java variable in the generated code.
+	 */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		//FIXME implement the handling of attribute checks
+		if (hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+			return getGenNameOwn(myScope);
+		}
+		if (this instanceof IReferencingType) {
+			//FIXME check for XER
+			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
+			refChain.release();
+
+			if (t != null && t != this) {
+				return t.getGenNameRawDescriptor(aData, source);
+			}
+		}
+
+		return getGenNameTypeName(aData, source, myScope);
+	}
+
+	/**
+	 * Returns the name prefix of type descriptors, etc. that belong to the
+	 * equivalent Java class referenced from the module of scope \a p_scope.
+	 * It differs from \a get_genname() only in case of special ASN.1 types
+	 * like RELATIVE-OID or various string types.
+	 *
+	 * get_genname_value in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java value class in the generated code.
+	 */
+	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		//FIXME implement everywhere
+		return getGenNameValue(aData, source, scope);
+	}
 
 	/**
 	 * Generates the module level done statement for a type with the "done" attribute.

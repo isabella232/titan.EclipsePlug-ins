@@ -212,6 +212,8 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
 
+		generateCodeTypedescriptor(aData, source);
+
 		if(needsAlias()) {
 			source.append( "\tpublic static class " );
 			source.append( getGenNameOwn() );

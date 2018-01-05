@@ -819,6 +819,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 		final StringBuilder tempSource = aData.getCodeForType(ofType.getGenNameOwn());
 		ofType.generateCode(aData, tempSource);
 
+		generateCodeTypedescriptor(aData, source);
+
 		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, false );
 		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 

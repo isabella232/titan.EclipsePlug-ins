@@ -1012,6 +1012,8 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final List<FieldInfo> namesList =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( int i = 0; i < components.getNofComps(); i++) {

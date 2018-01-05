@@ -778,6 +778,44 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
 	/**
+	 * Returns the name of the type descriptor (- the _descr_ postfix).
+	 *
+	 * get_genname_typedescriptor in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java variable in the generated code.
+	 */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope);
+
+	/**
+	 * Returns the name of the RAW type descriptor (- the _descr_ postfix).
+	 *
+	 * get_genname_rawdescriptor in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @return The name of the Java variable in the generated code.
+	 */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source);
+
+	/**
+	 * Returns the name prefix of type descriptors, etc. that belong to the
+	 * equivalent Java class referenced from the module of scope \a p_scope.
+	 * It differs from \a get_genname() only in case of special ASN.1 types
+	 * like RELATIVE-OID or various string types.
+	 *
+	 * get_genname_value in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope into which the name needs to be generated
+	 * @return The name of the Java value class in the generated code.
+	 */
+	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source, final Scope scope);
+
+	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated

@@ -993,6 +993,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final String templateName = dimension.getTemplateType(aData, source, elementType, myScope);
 		final String elementName = elementType.getGenNameValue(aData, source, myScope);
 
+		generateCodeTypedescriptor(aData, source);
+
 		source.append(MessageFormat.format("public static class {0} extends {1} '{' \n", ownName, valueName));
 		source.append(MessageFormat.format("public {0}() '{'\n", ownName));
 		source.append(MessageFormat.format("super({0}.class, {1},{2});\n",elementName,dimension.getSize(), dimension.getOffset()));

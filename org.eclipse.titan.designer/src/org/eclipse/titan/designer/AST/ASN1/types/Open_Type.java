@@ -603,6 +603,8 @@ public final class Open_Type extends ASN1Type {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());

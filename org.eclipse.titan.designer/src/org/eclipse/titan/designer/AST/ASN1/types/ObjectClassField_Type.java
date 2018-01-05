@@ -358,6 +358,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());

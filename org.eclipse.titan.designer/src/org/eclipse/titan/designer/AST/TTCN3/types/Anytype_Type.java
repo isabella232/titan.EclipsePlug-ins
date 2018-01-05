@@ -723,6 +723,8 @@ public final class Anytype_Type extends Type {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final List<FieldInfo> fieldInfos =  new ArrayList<FieldInfo>();
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {

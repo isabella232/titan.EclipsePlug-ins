@@ -718,6 +718,8 @@ public final class Signature_Type extends Type {
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String genName = getGenNameOwn();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final ArrayList<SignatureParameter> parameters = new ArrayList<SignatureParameter>();
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++) {
 			final SignatureFormalParameter formalPar = formalParList.getParameterByIndex(i);

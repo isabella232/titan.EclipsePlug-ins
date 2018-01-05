@@ -495,6 +495,8 @@ public final class Altstep_Type extends Type {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 
+		generateCodeTypedescriptor(aData, source);
+
 		final FunctionReferenceDefinition def = new FunctionReferenceDefinition(genName, displayName);
 		def.returnType = null;
 		def.type = fatType.ALTSTEP;
