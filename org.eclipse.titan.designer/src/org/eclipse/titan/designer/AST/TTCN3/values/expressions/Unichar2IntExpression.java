@@ -142,34 +142,41 @@ public final class Unichar2IntExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_UCHARSTRING:
-			last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			if (!last.isUnfoldable(timestamp)) {
-				final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
-				if ( string.isErrorneous() ) {
-					value.getLocation().reportSemanticError( string.getErrorMessage() );
-					setIsErroneous(true);
-				} else if ( string.length() != 1 ) {
-					value.getLocation().reportSemanticError(OPERANDERROR2);
-					setIsErroneous(true);
-				}
-			}
-			break;
 		case TYPE_CHARSTRING:
 			last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
-				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor( originalString );
-				if ( cs.isErrorneous() ) {
-					value.getLocation().reportSemanticError( cs.getErrorMessage() );
-					setIsErroneous(true);
-				} else {
-					final String string = cs.getExtractedString();
-					if (string != null && string.length() != 1) {
+				final Value_type tempType1 = last.getValuetype();
+				//				UniversalCharstring string; // = ((UniversalCharstring_Value) last).getValue();
+				switch (tempType1) {
+				case UNIVERSALCHARSTRING_VALUE: {
+					final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
+					if (string.isErrorneous()) {
+						value.getLocation().reportSemanticError( string.getErrorMessage() );
+						setIsErroneous(true);
+					} else if ( string.length() != 1 ) {
 						value.getLocation().reportSemanticError(OPERANDERROR2);
 						setIsErroneous(true);
 					}
+					break;
 				}
-			}
+				case CHARSTRING_VALUE: {
+					final String originalString = ((Charstring_Value) last).getValue();
+					final CharstringExtractor cs = new CharstringExtractor( originalString );
+					if ( cs.isErrorneous() ) {
+						value.getLocation().reportSemanticError( cs.getErrorMessage() );
+						setIsErroneous(true);
+					} else {
+						final String string = cs.getExtractedString();
+						if (string != null && string.length() != 1) {
+							value.getLocation().reportSemanticError(OPERANDERROR2);
+							setIsErroneous(true);
+						}
+					}
+				}
+				default:
+					break; //error???
+				} //switch
+			}//if
 			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
