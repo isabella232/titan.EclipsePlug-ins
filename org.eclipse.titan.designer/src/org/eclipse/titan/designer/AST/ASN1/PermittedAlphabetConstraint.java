@@ -7,10 +7,15 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1;
 
+import org.eclipse.core.runtime.Platform;
+import org.eclipse.core.runtime.preferences.IPreferencesService;
+import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Constraint;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.preferences.PreferenceConstants;
+import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
 /**
  * Represents a permitted alphabet constraint
@@ -49,7 +54,9 @@ public class PermittedAlphabetConstraint extends Constraint {
 	/** {@inheritDoc} */
 	public void check(CompilationTimeStamp timestamp) {
 		//Not Yet supported
-		myType.getLocation().reportSemanticError("Permitted alphabet constraint not yet supported");
+		final IPreferencesService preferenceService = Platform.getPreferencesService();
+		final String option = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING, null);
+		myType.getLocation().reportConfigurableSemanticProblem(option, "Permitted alphabet constraint not yet supported");
 	}
 
 	@Override
