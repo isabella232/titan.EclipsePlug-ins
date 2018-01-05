@@ -355,6 +355,7 @@ public final class SizeOfExpression extends Expression_Value {
 				}
 				break;
 			case A_VAR:
+			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
 			case A_PAR_VAL_OUT:
 			case A_PAR_VAL_INOUT:
