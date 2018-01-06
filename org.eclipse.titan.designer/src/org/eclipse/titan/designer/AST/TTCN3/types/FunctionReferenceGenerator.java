@@ -172,7 +172,7 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public boolean operatorEquals(Base_Type otherValue) {\n");
+		source.append("public boolean operatorEquals(final Base_Type otherValue) {\n");
 		source.append(MessageFormat.format("if (otherValue instanceof {0}) '{'\n", def.genName));
 		source.append(MessageFormat.format("return operatorEquals(({0})otherValue);\n", def.genName));
 		source.append("}\n");

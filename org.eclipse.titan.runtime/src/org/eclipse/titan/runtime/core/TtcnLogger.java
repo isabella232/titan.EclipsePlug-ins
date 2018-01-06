@@ -1421,7 +1421,7 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void set_emergency_logging_behaviour(emergency_logging_behaviour_t behaviour){
+	public static void set_emergency_logging_behaviour(final emergency_logging_behaviour_t behaviour){
 		emergency_logging_behaviour=behaviour;
 	}
 

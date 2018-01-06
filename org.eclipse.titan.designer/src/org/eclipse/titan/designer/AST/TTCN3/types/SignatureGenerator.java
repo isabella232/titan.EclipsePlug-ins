@@ -498,7 +498,7 @@ public class SignatureGenerator {
 				source.append("}\n");
 			}
 
-			source.append(MessageFormat.format("public boolean match(final {0}_exception other_value, boolean legacy) '{'\n", def.genName));
+			source.append(MessageFormat.format("public boolean match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
 			source.append("if (exception_selection != other_value.get_selection()) {\n");
 			source.append("return false;\n");
 			source.append("}\n");

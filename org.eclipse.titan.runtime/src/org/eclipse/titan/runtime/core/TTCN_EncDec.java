@@ -156,7 +156,7 @@ public final class TTCN_EncDec {
 	 *  @param p_et error type
 	 *  @param p_eb error behaviour
 	 */
-	public static void set_error_behavior(error_type p_et, error_behavior_type p_eb) {
+	public static void set_error_behavior(final error_type p_et, final error_behavior_type p_eb) {
 		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() > error_type.ET_ALL.ordinal() || p_eb.ordinal() < error_behavior_type.EB_DEFAULT.ordinal() || p_eb.ordinal() > error_behavior_type.EB_IGNORE.ordinal() ) {
 			throw new TtcnError("EncDec::set_error_behavior(): Invalid parameter.");
 		}
@@ -184,7 +184,7 @@ public final class TTCN_EncDec {
 	 *  @param p_et error type
 	 *  @return error behaviour for the supplied error type
 	 */
-	public static error_behavior_type get_error_behavior(error_type p_et) {
+	public static error_behavior_type get_error_behavior(final error_type p_et) {
 		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
 			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
 		}
@@ -196,7 +196,7 @@ public final class TTCN_EncDec {
 	 *  @param p_et error type
 	 *  @return default error behaviour for the supplied error type
 	 */
-	public static error_behavior_type get_default_error_behavior(error_type p_et) {
+	public static error_behavior_type get_default_error_behavior(final error_type p_et) {
 		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
 			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
 		}
@@ -230,7 +230,7 @@ public final class TTCN_EncDec {
 	}
 
 	/* The stuff below this line is for internal use only */
-	public static void error(error_type p_et, String msg) {
+	public static void error(final error_type p_et, final String msg) {
 		last_error_type = p_et;
 		error_str = "";
 		error_str = msg;
@@ -249,7 +249,7 @@ public final class TTCN_EncDec {
 
 	/** Extract the parameters (coding type and extra settings) from the dynamic
 	 * coding string of coding predefined functions. */
-	public static void get_coding_from_str(final TitanUniversalCharString coding_str, coding_type coding, int extra, boolean encode) {
+	public static void get_coding_from_str(final TitanUniversalCharString coding_str, final coding_type coding, final int extra, final boolean encode) {
 		//FIXME: implement
 	}
 }

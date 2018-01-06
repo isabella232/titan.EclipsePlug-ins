@@ -642,7 +642,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.DefaultOp.");
 		}
 
-		public void log_match(final DefaultOp match_value, boolean legacy) {
+		public void log_match(final DefaultOp match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -1460,7 +1460,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -1483,7 +1483,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -2456,7 +2456,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.FinalVerdictInfo.");
 		}
 
-		public void log_match(final FinalVerdictInfo match_value, boolean legacy) {
+		public void log_match(final FinalVerdictInfo match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -3074,7 +3074,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TimerEvent.");
 		}
 
-		public void log_match(final TimerEvent match_value, boolean legacy) {
+		public void log_match(final TimerEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -3776,7 +3776,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.MatchingSuccessType.");
 		}
 
-		public void log_match(final MatchingSuccessType match_value, boolean legacy) {
+		public void log_match(final MatchingSuccessType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -4634,7 +4634,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Proc_port_out.");
 		}
 
-		public void log_match(final Proc__port__out match_value, boolean legacy) {
+		public void log_match(final Proc__port__out match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -4768,7 +4768,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			valueElements = copyList( otherValue.valueElements );
 		}
 
-		public Strings_str__list(TitanNull_Type nullValue) {
+		public Strings_str__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanCharString>();
 		}
 
@@ -4820,7 +4820,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 
 		@Override
-		public boolean operatorEquals(Base_Type otherValue) {
+		public boolean operatorEquals(final Base_Type otherValue) {
 			if (otherValue instanceof Strings_str__list) {
 				return operatorEquals((Strings_str__list)otherValue);
 			}
@@ -4873,7 +4873,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return this;
 		}
 
-		public Strings_str__list assign(TitanNull_Type nullValue) {
+		public Strings_str__list assign(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanCharString>();
 			return this;
 		}
@@ -5067,7 +5067,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sb.toString();
 		}
 
-		public Strings_str__list substr(int index, int returncount) {
+		public Strings_str__list substr(final int index, final int returncount) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.Strings.str_list.");
 			}
@@ -5081,7 +5081,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public Strings_str__list replace(int index, int len, final Strings_str__list repl) {
+		public Strings_str__list replace(final int index, final int len, final Strings_str__list repl) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of replace() is an unbound value of type @TitanLoggerApi.Strings.str_list.");
 			}
@@ -5111,28 +5111,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public Strings_str__list replace(int index, int len, final Strings_str__list_template repl) {
+		public Strings_str__list replace(final int index, final int len, final Strings_str__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len, repl.valueOf());
 		}
 
-		public Strings_str__list replace(int index, TitanInteger len, final Strings_str__list_template repl) {
+		public Strings_str__list replace(final int index, final TitanInteger len, final Strings_str__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len.getInt(), repl.valueOf());
 		}
 
-		public Strings_str__list replace(TitanInteger index, int len, final Strings_str__list_template repl) {
+		public Strings_str__list replace(final TitanInteger index, final int len, final Strings_str__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index.getInt(), len, repl.valueOf());
 		}
 
-		public Strings_str__list replace(TitanInteger index, TitanInteger len, final Strings_str__list_template repl) {
+		public Strings_str__list replace(final TitanInteger index, final TitanInteger len, final Strings_str__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
@@ -5183,7 +5183,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private match_function_t match_function_specific = new match_function_t() {
 			@Override
-			public boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {
+			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_index((Strings_str__list)value_ptr, value_index, (Strings_str__list_template)template_ptr, template_index, legacy);
 			}
 		};
@@ -5315,7 +5315,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		private boolean match_index(final Strings_str__list value_ptr, int value_index, Strings_str__list_template template_ptr, int template_index, boolean legacy) {
+		private boolean match_index(final Strings_str__list value_ptr, final int value_index, final Strings_str__list_template template_ptr, final int template_index, final boolean legacy) {
 			if (value_index >= 0) {
 				return template_ptr.value_elements.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);
 			} else {
@@ -5431,7 +5431,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
-		public Strings_str__list replace(int index, int len, final Strings_str__list_template repl) {
+		public Strings_str__list replace(final int index, final int len, final Strings_str__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -5441,7 +5441,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index, len, repl.valueOf());
 		}
 
-		public Strings_str__list replace(TitanInteger index, TitanInteger len, final Strings_str__list_template repl) {
+		public Strings_str__list replace(final TitanInteger index, final TitanInteger len, final Strings_str__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -5451,21 +5451,21 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
 
-		public Strings_str__list replace(int index, int len, final Strings_str__list repl) {
+		public Strings_str__list replace(final int index, final int len, final Strings_str__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index, len, repl);
 		}
 
-		public Strings_str__list replace(TitanInteger index, TitanInteger len, final Strings_str__list repl) {
+		public Strings_str__list replace(final TitanInteger index, final TitanInteger len, final Strings_str__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index.getInt(), len.getInt(), repl);
 		}
 
-		public TitanCharString_template getAt(int index_value) {
+		public TitanCharString_template getAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.Strings.str_list using a negative index: {0}.", index_value ) );
 			}
@@ -5494,7 +5494,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return getAt(index_value.getInt());
 		}
 
-		public TitanCharString_template constGetAt(int index_value) {
+		public TitanCharString_template constGetAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.Strings.str_list using a negative index: {0}.", index_value ) );
 			}
@@ -5518,7 +5518,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return constGetAt(index_value.getInt());
 		}
 
-		private int get_length_for_concat(AtomicBoolean is_any_value) {
+		private int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -5553,7 +5553,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 
-		private int get_length_for_concat(template_sel operand) {
+		private int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -5562,7 +5562,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(AtomicInteger pos, final Strings_str__list_template operand) {
+		private void concat(final AtomicInteger pos, final Strings_str__list_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -5597,7 +5597,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public void setSize(int new_size) {
+		public void setSize(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.Strings.str_list.");
 			}
@@ -5636,7 +5636,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sizeOf(false);
 		}
 
-		public TitanInteger sizeOf(boolean is_size) {
+		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			int min_size;
 			boolean has_any_or_none;
@@ -5718,7 +5718,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type Strings_str__list.");
 		}
 
-		private boolean matchv(final Strings_str__list other_value, boolean legacy) {
+		private boolean matchv(final Strings_str__list other_value, final boolean legacy) {
 			if (!other_value.isBound()) {
 				return false;
 			}
@@ -5758,7 +5758,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
-		public void setType(template_sel template_type, int list_length) {
+		public void setType(final template_sel template_type, final int list_length) {
 			cleanUp();
 			switch (template_type) {
 			case VALUE_LIST:
@@ -5774,7 +5774,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			setSelection(template_type);
 		}
 
-		public Strings_str__list_template listItem(int list_index) {
+		public Strings_str__list_template listItem(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.Strings.str_list.");
 			}
@@ -5784,7 +5784,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
-		public Strings_str__list_template get_list_item(int list_index) {
+		public Strings_str__list_template get_list_item(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @TitanLoggerApi.Strings.str_list.");
 			}
@@ -5810,7 +5810,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public Strings_str__list substr(int index, int returncount) {
+		public Strings_str__list substr(final int index, final int returncount) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 			}
@@ -5870,7 +5870,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Strings.str_list.");
 		}
 
-		public void log_match(final Strings_str__list match_value, boolean legacy) {
+		public void log_match(final Strings_str__list match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -7061,7 +7061,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -7084,7 +7084,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -7546,7 +7546,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TimerAnyTimeoutType.");
 		}
 
-		public void log_match(final TimerAnyTimeoutType match_value, boolean legacy) {
+		public void log_match(final TimerAnyTimeoutType match_value, final boolean legacy) {
 			match_value.log();
 			TtcnLogger.log_event_str(" with ");
 			log();
@@ -8383,7 +8383,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.SetVerdictType.");
 		}
 
-		public void log_match(final SetVerdictType match_value, boolean legacy) {
+		public void log_match(final SetVerdictType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -8530,7 +8530,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(20);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -8538,7 +8538,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return creating__new__ptc;
 				case 1:  return function__stopped;
@@ -8574,15 +8574,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Parallel_reason(Parallel_reason otherValue) {
+		public Parallel_reason(final Parallel_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Parallel_reason(Parallel_reason.enum_type otherValue ) {
+		public Parallel_reason(final Parallel_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Parallel_reason(int otherValue) {
+		public Parallel_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Parallel_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -8744,7 +8744,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -8758,40 +8758,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Parallel_reason.enum_type enumPar) {
+		public static int enum2int(final Parallel_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Parallel_reason enumPar) {
+		public static int enum2int(final Parallel_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -8800,7 +8800,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -8809,7 +8809,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -8999,7 +8999,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Parallel_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Parallel_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -9027,7 +9027,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Parallel_reason otherValue, boolean legacy ) {
+		public boolean match(final Parallel_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -9047,7 +9047,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Parallel_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Parallel_reason.");
 			}
@@ -9059,7 +9059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Parallel_reason_template listItem(int list_index)  {
+		public Parallel_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Parallel_reason.");
 			}
@@ -9213,7 +9213,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(3);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -9221,7 +9221,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return message__;
 				case 1:  return procedure__;
@@ -9240,15 +9240,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public PortType(PortType otherValue) {
+		public PortType(final PortType otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public PortType(PortType.enum_type otherValue ) {
+		public PortType(final PortType.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public PortType(int otherValue) {
+		public PortType(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `PortType' with invalid numeric value {1} .", otherValue));
 			}
@@ -9410,7 +9410,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -9424,40 +9424,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(PortType.enum_type enumPar) {
+		public static int enum2int(final PortType.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(PortType enumPar) {
+		public static int enum2int(final PortType enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -9466,7 +9466,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -9475,7 +9475,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -9665,7 +9665,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final PortType.enum_type otherValue, boolean legacy ) {
+		public boolean match(final PortType.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -9693,7 +9693,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final PortType otherValue, boolean legacy ) {
+		public boolean match(final PortType otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -9713,7 +9713,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new PortType(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type PortType.");
 			}
@@ -9725,7 +9725,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public PortType_template listItem(int list_index)  {
+		public PortType_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type PortType.");
 			}
@@ -10349,7 +10349,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.WarningEvent.");
 		}
 
-		public void log_match(final WarningEvent match_value, boolean legacy) {
+		public void log_match(final WarningEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -10445,7 +10445,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(5);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -10453,7 +10453,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return connect__;
 				case 1:  return disconnect__;
@@ -10474,15 +10474,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public ParPort_operation(ParPort_operation otherValue) {
+		public ParPort_operation(final ParPort_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public ParPort_operation(ParPort_operation.enum_type otherValue ) {
+		public ParPort_operation(final ParPort_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public ParPort_operation(int otherValue) {
+		public ParPort_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ParPort_operation' with invalid numeric value {1} .", otherValue));
 			}
@@ -10644,7 +10644,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -10658,40 +10658,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(ParPort_operation.enum_type enumPar) {
+		public static int enum2int(final ParPort_operation.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(ParPort_operation enumPar) {
+		public static int enum2int(final ParPort_operation enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -10700,7 +10700,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -10709,7 +10709,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -10899,7 +10899,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ParPort_operation.enum_type otherValue, boolean legacy ) {
+		public boolean match(final ParPort_operation.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -10927,7 +10927,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ParPort_operation otherValue, boolean legacy ) {
+		public boolean match(final ParPort_operation otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -10947,7 +10947,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new ParPort_operation(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ParPort_operation.");
 			}
@@ -10959,7 +10959,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public ParPort_operation_template listItem(int list_index)  {
+		public ParPort_operation_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type ParPort_operation.");
 			}
@@ -11652,7 +11652,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ComponentIDType.");
 		}
 
-		public void log_match(final ComponentIDType match_value, boolean legacy) {
+		public void log_match(final ComponentIDType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -11759,7 +11759,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			valueElements = copyList( otherValue.valueElements );
 		}
 
-		public TitanLog_sequence__list_0_event__list(TitanNull_Type nullValue) {
+		public TitanLog_sequence__list_0_event__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanLogEvent>();
 		}
 
@@ -11811,7 +11811,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 
 		@Override
-		public boolean operatorEquals(Base_Type otherValue) {
+		public boolean operatorEquals(final Base_Type otherValue) {
 			if (otherValue instanceof TitanLog_sequence__list_0_event__list) {
 				return operatorEquals((TitanLog_sequence__list_0_event__list)otherValue);
 			}
@@ -11864,7 +11864,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return this;
 		}
 
-		public TitanLog_sequence__list_0_event__list assign(TitanNull_Type nullValue) {
+		public TitanLog_sequence__list_0_event__list assign(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanLogEvent>();
 			return this;
 		}
@@ -12058,7 +12058,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sb.toString();
 		}
 
-		public TitanLog_sequence__list_0_event__list substr(int index, int returncount) {
+		public TitanLog_sequence__list_0_event__list substr(final int index, final int returncount) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
@@ -12072,7 +12072,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(int index, int len, final TitanLog_sequence__list_0_event__list repl) {
+		public TitanLog_sequence__list_0_event__list replace(final int index, final int len, final TitanLog_sequence__list_0_event__list repl) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of replace() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
@@ -12102,28 +12102,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(int index, int len, final TitanLog_sequence__list_0_event__list_template repl) {
+		public TitanLog_sequence__list_0_event__list replace(final int index, final int len, final TitanLog_sequence__list_0_event__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len, repl.valueOf());
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(int index, TitanInteger len, final TitanLog_sequence__list_0_event__list_template repl) {
+		public TitanLog_sequence__list_0_event__list replace(final int index, final TitanInteger len, final TitanLog_sequence__list_0_event__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len.getInt(), repl.valueOf());
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(TitanInteger index, int len, final TitanLog_sequence__list_0_event__list_template repl) {
+		public TitanLog_sequence__list_0_event__list replace(final TitanInteger index, final int len, final TitanLog_sequence__list_0_event__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index.getInt(), len, repl.valueOf());
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(TitanInteger index, TitanInteger len, final TitanLog_sequence__list_0_event__list_template repl) {
+		public TitanLog_sequence__list_0_event__list replace(final TitanInteger index, final TitanInteger len, final TitanLog_sequence__list_0_event__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
@@ -12174,7 +12174,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private match_function_t match_function_specific = new match_function_t() {
 			@Override
-			public boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {
+			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_index((TitanLog_sequence__list_0_event__list)value_ptr, value_index, (TitanLog_sequence__list_0_event__list_template)template_ptr, template_index, legacy);
 			}
 		};
@@ -12306,7 +12306,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		private boolean match_index(final TitanLog_sequence__list_0_event__list value_ptr, int value_index, TitanLog_sequence__list_0_event__list_template template_ptr, int template_index, boolean legacy) {
+		private boolean match_index(final TitanLog_sequence__list_0_event__list value_ptr, final int value_index, final TitanLog_sequence__list_0_event__list_template template_ptr, final int template_index, final boolean legacy) {
 			if (value_index >= 0) {
 				return template_ptr.value_elements.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);
 			} else {
@@ -12422,7 +12422,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(int index, int len, final TitanLog_sequence__list_0_event__list_template repl) {
+		public TitanLog_sequence__list_0_event__list replace(final int index, final int len, final TitanLog_sequence__list_0_event__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -12432,7 +12432,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index, len, repl.valueOf());
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(TitanInteger index, TitanInteger len, final TitanLog_sequence__list_0_event__list_template repl) {
+		public TitanLog_sequence__list_0_event__list replace(final TitanInteger index, final TitanInteger len, final TitanLog_sequence__list_0_event__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -12442,21 +12442,21 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(int index, int len, final TitanLog_sequence__list_0_event__list repl) {
+		public TitanLog_sequence__list_0_event__list replace(final int index, final int len, final TitanLog_sequence__list_0_event__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index, len, repl);
 		}
 
-		public TitanLog_sequence__list_0_event__list replace(TitanInteger index, TitanInteger len, final TitanLog_sequence__list_0_event__list repl) {
+		public TitanLog_sequence__list_0_event__list replace(final TitanInteger index, final TitanInteger len, final TitanLog_sequence__list_0_event__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index.getInt(), len.getInt(), repl);
 		}
 
-		public TitanLogEvent_template getAt(int index_value) {
+		public TitanLogEvent_template getAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list using a negative index: {0}.", index_value ) );
 			}
@@ -12485,7 +12485,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return getAt(index_value.getInt());
 		}
 
-		public TitanLogEvent_template constGetAt(int index_value) {
+		public TitanLogEvent_template constGetAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list using a negative index: {0}.", index_value ) );
 			}
@@ -12509,7 +12509,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return constGetAt(index_value.getInt());
 		}
 
-		private int get_length_for_concat(AtomicBoolean is_any_value) {
+		private int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -12544,7 +12544,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 
-		private int get_length_for_concat(template_sel operand) {
+		private int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -12553,7 +12553,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(AtomicInteger pos, final TitanLog_sequence__list_0_event__list_template operand) {
+		private void concat(final AtomicInteger pos, final TitanLog_sequence__list_0_event__list_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -12588,7 +12588,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public void setSize(int new_size) {
+		public void setSize(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
@@ -12627,7 +12627,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sizeOf(false);
 		}
 
-		public TitanInteger sizeOf(boolean is_size) {
+		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			int min_size;
 			boolean has_any_or_none;
@@ -12709,7 +12709,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type TitanLog_sequence__list_0_event__list.");
 		}
 
-		private boolean matchv(final TitanLog_sequence__list_0_event__list other_value, boolean legacy) {
+		private boolean matchv(final TitanLog_sequence__list_0_event__list other_value, final boolean legacy) {
 			if (!other_value.isBound()) {
 				return false;
 			}
@@ -12749,7 +12749,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
-		public void setType(template_sel template_type, int list_length) {
+		public void setType(final template_sel template_type, final int list_length) {
 			cleanUp();
 			switch (template_type) {
 			case VALUE_LIST:
@@ -12765,7 +12765,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			setSelection(template_type);
 		}
 
-		public TitanLog_sequence__list_0_event__list_template listItem(int list_index) {
+		public TitanLog_sequence__list_0_event__list_template listItem(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
@@ -12775,7 +12775,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
-		public TitanLog_sequence__list_0_event__list_template get_list_item(int list_index) {
+		public TitanLog_sequence__list_0_event__list_template get_list_item(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
@@ -12801,7 +12801,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLog_sequence__list_0_event__list substr(int index, int returncount) {
+		public TitanLog_sequence__list_0_event__list substr(final int index, final int returncount) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 			}
@@ -12861,7 +12861,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 		}
 
-		public void log_match(final TitanLog_sequence__list_0_event__list match_value, boolean legacy) {
+		public void log_match(final TitanLog_sequence__list_0_event__list match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -14892,7 +14892,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -14915,7 +14915,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -15727,7 +15727,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -15750,7 +15750,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -16422,7 +16422,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -16445,7 +16445,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -16497,7 +16497,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(9);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -16505,7 +16505,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return done__failed__wrong__return__type;
 				case 1:  return done__failed__no__return;
@@ -16530,15 +16530,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public MatchingDoneType_reason(MatchingDoneType_reason otherValue) {
+		public MatchingDoneType_reason(final MatchingDoneType_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public MatchingDoneType_reason(MatchingDoneType_reason.enum_type otherValue ) {
+		public MatchingDoneType_reason(final MatchingDoneType_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public MatchingDoneType_reason(int otherValue) {
+		public MatchingDoneType_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingDoneType_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -16700,7 +16700,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -16714,40 +16714,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(MatchingDoneType_reason.enum_type enumPar) {
+		public static int enum2int(final MatchingDoneType_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(MatchingDoneType_reason enumPar) {
+		public static int enum2int(final MatchingDoneType_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -16756,7 +16756,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -16765,7 +16765,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -16955,7 +16955,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingDoneType_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final MatchingDoneType_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -16983,7 +16983,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingDoneType_reason otherValue, boolean legacy ) {
+		public boolean match(final MatchingDoneType_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -17003,7 +17003,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new MatchingDoneType_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingDoneType_reason.");
 			}
@@ -17015,7 +17015,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public MatchingDoneType_reason_template listItem(int list_index)  {
+		public MatchingDoneType_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type MatchingDoneType_reason.");
 			}
@@ -17721,7 +17721,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ExecutorConfigdata.");
 		}
 
-		public void log_match(final ExecutorConfigdata match_value, boolean legacy) {
+		public void log_match(final ExecutorConfigdata match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -18501,7 +18501,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.LocationInfo.");
 		}
 
-		public void log_match(final LocationInfo match_value, boolean legacy) {
+		public void log_match(final LocationInfo match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -19092,7 +19092,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TestcaseEvent.");
 		}
 
-		public void log_match(final TestcaseEvent match_value, boolean legacy) {
+		public void log_match(final TestcaseEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -20228,7 +20228,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -20251,7 +20251,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -21107,7 +21107,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -21130,7 +21130,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -22068,7 +22068,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Port_Misc.");
 		}
 
-		public void log_match(final Port__Misc match_value, boolean legacy) {
+		public void log_match(final Port__Misc match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -23169,7 +23169,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ParallelPTC.");
 		}
 
-		public void log_match(final ParallelPTC match_value, boolean legacy) {
+		public void log_match(final ParallelPTC match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -23331,7 +23331,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(8);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -23339,7 +23339,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return unknown;
 				case 1:  return controlpart;
@@ -23363,15 +23363,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public LocationInfo_ent__type(LocationInfo_ent__type otherValue) {
+		public LocationInfo_ent__type(final LocationInfo_ent__type otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public LocationInfo_ent__type(LocationInfo_ent__type.enum_type otherValue ) {
+		public LocationInfo_ent__type(final LocationInfo_ent__type.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public LocationInfo_ent__type(int otherValue) {
+		public LocationInfo_ent__type(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `LocationInfo_ent__type' with invalid numeric value {1} .", otherValue));
 			}
@@ -23533,7 +23533,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -23547,40 +23547,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(LocationInfo_ent__type.enum_type enumPar) {
+		public static int enum2int(final LocationInfo_ent__type.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(LocationInfo_ent__type enumPar) {
+		public static int enum2int(final LocationInfo_ent__type enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -23589,7 +23589,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -23598,7 +23598,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -23788,7 +23788,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final LocationInfo_ent__type.enum_type otherValue, boolean legacy ) {
+		public boolean match(final LocationInfo_ent__type.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -23816,7 +23816,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final LocationInfo_ent__type otherValue, boolean legacy ) {
+		public boolean match(final LocationInfo_ent__type otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -23836,7 +23836,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new LocationInfo_ent__type(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type LocationInfo_ent__type.");
 			}
@@ -23848,7 +23848,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public LocationInfo_ent__type_template listItem(int list_index)  {
+		public LocationInfo_ent__type_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type LocationInfo_ent__type.");
 			}
@@ -24485,7 +24485,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.MatchingTimeout.");
 		}
 
-		public void log_match(final MatchingTimeout match_value, boolean legacy) {
+		public void log_match(final MatchingTimeout match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -25049,7 +25049,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.VerdictOp.");
 		}
 
-		public void log_match(final VerdictOp match_value, boolean legacy) {
+		public void log_match(final VerdictOp match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -25147,7 +25147,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(7);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -25155,7 +25155,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return port__not__started__and__queue__empty;
 				case 1:  return no__incoming__types;
@@ -25178,15 +25178,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public MatchingProblemType_reason(MatchingProblemType_reason otherValue) {
+		public MatchingProblemType_reason(final MatchingProblemType_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public MatchingProblemType_reason(MatchingProblemType_reason.enum_type otherValue ) {
+		public MatchingProblemType_reason(final MatchingProblemType_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public MatchingProblemType_reason(int otherValue) {
+		public MatchingProblemType_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingProblemType_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -25348,7 +25348,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -25362,40 +25362,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(MatchingProblemType_reason.enum_type enumPar) {
+		public static int enum2int(final MatchingProblemType_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(MatchingProblemType_reason enumPar) {
+		public static int enum2int(final MatchingProblemType_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -25404,7 +25404,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -25413,7 +25413,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -25603,7 +25603,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingProblemType_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final MatchingProblemType_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -25631,7 +25631,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingProblemType_reason otherValue, boolean legacy ) {
+		public boolean match(final MatchingProblemType_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -25651,7 +25651,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new MatchingProblemType_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingProblemType_reason.");
 			}
@@ -25663,7 +25663,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public MatchingProblemType_reason_template listItem(int list_index)  {
+		public MatchingProblemType_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type MatchingProblemType_reason.");
 			}
@@ -25844,7 +25844,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(30);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -25852,7 +25852,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return connected__to__mc;
 				case 1:  return disconnected__from__mc;
@@ -25898,15 +25898,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public ExecutorRuntime_reason(ExecutorRuntime_reason otherValue) {
+		public ExecutorRuntime_reason(final ExecutorRuntime_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public ExecutorRuntime_reason(ExecutorRuntime_reason.enum_type otherValue ) {
+		public ExecutorRuntime_reason(final ExecutorRuntime_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public ExecutorRuntime_reason(int otherValue) {
+		public ExecutorRuntime_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorRuntime_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -26068,7 +26068,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -26082,40 +26082,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(ExecutorRuntime_reason.enum_type enumPar) {
+		public static int enum2int(final ExecutorRuntime_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(ExecutorRuntime_reason enumPar) {
+		public static int enum2int(final ExecutorRuntime_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -26124,7 +26124,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -26133,7 +26133,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -26323,7 +26323,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorRuntime_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final ExecutorRuntime_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -26351,7 +26351,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorRuntime_reason otherValue, boolean legacy ) {
+		public boolean match(final ExecutorRuntime_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -26371,7 +26371,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new ExecutorRuntime_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorRuntime_reason.");
 			}
@@ -26383,7 +26383,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public ExecutorRuntime_reason_template listItem(int list_index)  {
+		public ExecutorRuntime_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type ExecutorRuntime_reason.");
 			}
@@ -26542,7 +26542,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(8);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -26550,7 +26550,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return sender__does__not__match__from__clause;
 				case 1:  return sender__is__not__system;
@@ -26574,15 +26574,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public MatchingFailureType_reason(MatchingFailureType_reason otherValue) {
+		public MatchingFailureType_reason(final MatchingFailureType_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public MatchingFailureType_reason(MatchingFailureType_reason.enum_type otherValue ) {
+		public MatchingFailureType_reason(final MatchingFailureType_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public MatchingFailureType_reason(int otherValue) {
+		public MatchingFailureType_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingFailureType_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -26744,7 +26744,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -26758,40 +26758,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(MatchingFailureType_reason.enum_type enumPar) {
+		public static int enum2int(final MatchingFailureType_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(MatchingFailureType_reason enumPar) {
+		public static int enum2int(final MatchingFailureType_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -26800,7 +26800,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -26809,7 +26809,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -26999,7 +26999,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingFailureType_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final MatchingFailureType_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -27027,7 +27027,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingFailureType_reason otherValue, boolean legacy ) {
+		public boolean match(final MatchingFailureType_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -27047,7 +27047,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new MatchingFailureType_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingFailureType_reason.");
 			}
@@ -27059,7 +27059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public MatchingFailureType_reason_template listItem(int list_index)  {
+		public MatchingFailureType_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type MatchingFailureType_reason.");
 			}
@@ -27752,7 +27752,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanSingleLogEvent.");
 		}
 
-		public void log_match(final TitanSingleLogEvent match_value, boolean legacy) {
+		public void log_match(final TitanSingleLogEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -27859,7 +27859,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(7);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -27867,7 +27867,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return receive__;
 				case 1:  return trigger__;
@@ -27890,15 +27890,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public MatchingProblemType_operation(MatchingProblemType_operation otherValue) {
+		public MatchingProblemType_operation(final MatchingProblemType_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public MatchingProblemType_operation(MatchingProblemType_operation.enum_type otherValue ) {
+		public MatchingProblemType_operation(final MatchingProblemType_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public MatchingProblemType_operation(int otherValue) {
+		public MatchingProblemType_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `MatchingProblemType_operation' with invalid numeric value {1} .", otherValue));
 			}
@@ -28060,7 +28060,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -28074,40 +28074,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(MatchingProblemType_operation.enum_type enumPar) {
+		public static int enum2int(final MatchingProblemType_operation.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(MatchingProblemType_operation enumPar) {
+		public static int enum2int(final MatchingProblemType_operation enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -28116,7 +28116,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -28125,7 +28125,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -28315,7 +28315,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingProblemType_operation.enum_type otherValue, boolean legacy ) {
+		public boolean match(final MatchingProblemType_operation.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -28343,7 +28343,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final MatchingProblemType_operation otherValue, boolean legacy ) {
+		public boolean match(final MatchingProblemType_operation otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -28363,7 +28363,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new MatchingProblemType_operation(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingProblemType_operation.");
 			}
@@ -28375,7 +28375,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public MatchingProblemType_operation_template listItem(int list_index)  {
+		public MatchingProblemType_operation_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type MatchingProblemType_operation.");
 			}
@@ -29151,7 +29151,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -29174,7 +29174,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -29224,7 +29224,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(7);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -29232,7 +29232,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return received__from__mc;
 				case 1:  return processing__failed;
@@ -29255,15 +29255,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public ExecutorConfigdata_reason(ExecutorConfigdata_reason otherValue) {
+		public ExecutorConfigdata_reason(final ExecutorConfigdata_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public ExecutorConfigdata_reason(ExecutorConfigdata_reason.enum_type otherValue ) {
+		public ExecutorConfigdata_reason(final ExecutorConfigdata_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public ExecutorConfigdata_reason(int otherValue) {
+		public ExecutorConfigdata_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorConfigdata_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -29425,7 +29425,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -29439,40 +29439,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(ExecutorConfigdata_reason.enum_type enumPar) {
+		public static int enum2int(final ExecutorConfigdata_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(ExecutorConfigdata_reason enumPar) {
+		public static int enum2int(final ExecutorConfigdata_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -29481,7 +29481,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -29490,7 +29490,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -29680,7 +29680,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorConfigdata_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final ExecutorConfigdata_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -29708,7 +29708,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorConfigdata_reason otherValue, boolean legacy ) {
+		public boolean match(final ExecutorConfigdata_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -29728,7 +29728,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new ExecutorConfigdata_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorConfigdata_reason.");
 			}
@@ -29740,7 +29740,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public ExecutorConfigdata_reason_template listItem(int list_index)  {
+		public ExecutorConfigdata_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type ExecutorConfigdata_reason.");
 			}
@@ -30433,7 +30433,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.QualifiedName.");
 		}
 
-		public void log_match(final QualifiedName match_value, boolean legacy) {
+		public void log_match(final QualifiedName match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -31144,7 +31144,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.FunctionEvent.choice.random.");
 		}
 
-		public void log_match(final FunctionEvent_choice_random match_value, boolean legacy) {
+		public void log_match(final FunctionEvent_choice_random match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -31933,7 +31933,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Dualface_mapped.");
 		}
 
-		public void log_match(final Dualface__mapped match_value, boolean legacy) {
+		public void log_match(final Dualface__mapped match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -32058,7 +32058,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			valueElements = copyList( otherValue.valueElements );
 		}
 
-		public TitanLogEvent_sourceInfo__list(TitanNull_Type nullValue) {
+		public TitanLogEvent_sourceInfo__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<LocationInfo>();
 		}
 
@@ -32110,7 +32110,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 
 		@Override
-		public boolean operatorEquals(Base_Type otherValue) {
+		public boolean operatorEquals(final Base_Type otherValue) {
 			if (otherValue instanceof TitanLogEvent_sourceInfo__list) {
 				return operatorEquals((TitanLogEvent_sourceInfo__list)otherValue);
 			}
@@ -32163,7 +32163,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return this;
 		}
 
-		public TitanLogEvent_sourceInfo__list assign(TitanNull_Type nullValue) {
+		public TitanLogEvent_sourceInfo__list assign(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<LocationInfo>();
 			return this;
 		}
@@ -32357,7 +32357,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sb.toString();
 		}
 
-		public TitanLogEvent_sourceInfo__list substr(int index, int returncount) {
+		public TitanLogEvent_sourceInfo__list substr(final int index, final int returncount) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
@@ -32371,7 +32371,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(int index, int len, final TitanLogEvent_sourceInfo__list repl) {
+		public TitanLogEvent_sourceInfo__list replace(final int index, final int len, final TitanLogEvent_sourceInfo__list repl) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of replace() is an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
@@ -32401,28 +32401,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(int index, int len, final TitanLogEvent_sourceInfo__list_template repl) {
+		public TitanLogEvent_sourceInfo__list replace(final int index, final int len, final TitanLogEvent_sourceInfo__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len, repl.valueOf());
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(int index, TitanInteger len, final TitanLogEvent_sourceInfo__list_template repl) {
+		public TitanLogEvent_sourceInfo__list replace(final int index, final TitanInteger len, final TitanLogEvent_sourceInfo__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len.getInt(), repl.valueOf());
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(TitanInteger index, int len, final TitanLogEvent_sourceInfo__list_template repl) {
+		public TitanLogEvent_sourceInfo__list replace(final TitanInteger index, final int len, final TitanLogEvent_sourceInfo__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index.getInt(), len, repl.valueOf());
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(TitanInteger index, TitanInteger len, final TitanLogEvent_sourceInfo__list_template repl) {
+		public TitanLogEvent_sourceInfo__list replace(final TitanInteger index, final TitanInteger len, final TitanLogEvent_sourceInfo__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
@@ -32473,7 +32473,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private match_function_t match_function_specific = new match_function_t() {
 			@Override
-			public boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {
+			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_index((TitanLogEvent_sourceInfo__list)value_ptr, value_index, (TitanLogEvent_sourceInfo__list_template)template_ptr, template_index, legacy);
 			}
 		};
@@ -32605,7 +32605,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		private boolean match_index(final TitanLogEvent_sourceInfo__list value_ptr, int value_index, TitanLogEvent_sourceInfo__list_template template_ptr, int template_index, boolean legacy) {
+		private boolean match_index(final TitanLogEvent_sourceInfo__list value_ptr, final int value_index, final TitanLogEvent_sourceInfo__list_template template_ptr, final int template_index, final boolean legacy) {
 			if (value_index >= 0) {
 				return template_ptr.value_elements.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);
 			} else {
@@ -32721,7 +32721,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(int index, int len, final TitanLogEvent_sourceInfo__list_template repl) {
+		public TitanLogEvent_sourceInfo__list replace(final int index, final int len, final TitanLogEvent_sourceInfo__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -32731,7 +32731,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index, len, repl.valueOf());
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(TitanInteger index, TitanInteger len, final TitanLogEvent_sourceInfo__list_template repl) {
+		public TitanLogEvent_sourceInfo__list replace(final TitanInteger index, final TitanInteger len, final TitanLogEvent_sourceInfo__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -32741,21 +32741,21 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(int index, int len, final TitanLogEvent_sourceInfo__list repl) {
+		public TitanLogEvent_sourceInfo__list replace(final int index, final int len, final TitanLogEvent_sourceInfo__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index, len, repl);
 		}
 
-		public TitanLogEvent_sourceInfo__list replace(TitanInteger index, TitanInteger len, final TitanLogEvent_sourceInfo__list repl) {
+		public TitanLogEvent_sourceInfo__list replace(final TitanInteger index, final TitanInteger len, final TitanLogEvent_sourceInfo__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index.getInt(), len.getInt(), repl);
 		}
 
-		public LocationInfo_template getAt(int index_value) {
+		public LocationInfo_template getAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.TitanLogEvent.sourceInfo_list using a negative index: {0}.", index_value ) );
 			}
@@ -32784,7 +32784,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return getAt(index_value.getInt());
 		}
 
-		public LocationInfo_template constGetAt(int index_value) {
+		public LocationInfo_template constGetAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.TitanLogEvent.sourceInfo_list using a negative index: {0}.", index_value ) );
 			}
@@ -32808,7 +32808,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return constGetAt(index_value.getInt());
 		}
 
-		private int get_length_for_concat(AtomicBoolean is_any_value) {
+		private int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -32843,7 +32843,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 
-		private int get_length_for_concat(template_sel operand) {
+		private int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -32852,7 +32852,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(AtomicInteger pos, final TitanLogEvent_sourceInfo__list_template operand) {
+		private void concat(final AtomicInteger pos, final TitanLogEvent_sourceInfo__list_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -32887,7 +32887,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public void setSize(int new_size) {
+		public void setSize(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
@@ -32926,7 +32926,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sizeOf(false);
 		}
 
-		public TitanInteger sizeOf(boolean is_size) {
+		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			int min_size;
 			boolean has_any_or_none;
@@ -33008,7 +33008,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type TitanLogEvent_sourceInfo__list.");
 		}
 
-		private boolean matchv(final TitanLogEvent_sourceInfo__list other_value, boolean legacy) {
+		private boolean matchv(final TitanLogEvent_sourceInfo__list other_value, final boolean legacy) {
 			if (!other_value.isBound()) {
 				return false;
 			}
@@ -33048,7 +33048,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
-		public void setType(template_sel template_type, int list_length) {
+		public void setType(final template_sel template_type, final int list_length) {
 			cleanUp();
 			switch (template_type) {
 			case VALUE_LIST:
@@ -33064,7 +33064,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			setSelection(template_type);
 		}
 
-		public TitanLogEvent_sourceInfo__list_template listItem(int list_index) {
+		public TitanLogEvent_sourceInfo__list_template listItem(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
@@ -33074,7 +33074,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
-		public TitanLogEvent_sourceInfo__list_template get_list_item(int list_index) {
+		public TitanLogEvent_sourceInfo__list_template get_list_item(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
@@ -33100,7 +33100,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLogEvent_sourceInfo__list substr(int index, int returncount) {
+		public TitanLogEvent_sourceInfo__list substr(final int index, final int returncount) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 			}
@@ -33160,7 +33160,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 		}
 
-		public void log_match(final TitanLogEvent_sourceInfo__list match_value, boolean legacy) {
+		public void log_match(final TitanLogEvent_sourceInfo__list match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -33930,7 +33930,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.VerdictType.");
 		}
 
-		public void log_match(final VerdictType match_value, boolean legacy) {
+		public void log_match(final VerdictType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -34043,7 +34043,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(4);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -34051,7 +34051,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return started;
 				case 1:  return stopped;
@@ -34071,15 +34071,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Port__State_operation(Port__State_operation otherValue) {
+		public Port__State_operation(final Port__State_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Port__State_operation(Port__State_operation.enum_type otherValue ) {
+		public Port__State_operation(final Port__State_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Port__State_operation(int otherValue) {
+		public Port__State_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__State_operation' with invalid numeric value {1} .", otherValue));
 			}
@@ -34241,7 +34241,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -34255,40 +34255,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Port__State_operation.enum_type enumPar) {
+		public static int enum2int(final Port__State_operation.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Port__State_operation enumPar) {
+		public static int enum2int(final Port__State_operation enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -34297,7 +34297,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -34306,7 +34306,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -34496,7 +34496,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__State_operation.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Port__State_operation.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -34524,7 +34524,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__State_operation otherValue, boolean legacy ) {
+		public boolean match(final Port__State_operation otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -34544,7 +34544,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Port__State_operation(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__State_operation.");
 			}
@@ -34556,7 +34556,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Port__State_operation_template listItem(int list_index)  {
+		public Port__State_operation_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Port__State_operation.");
 			}
@@ -34711,7 +34711,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(4);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -34719,7 +34719,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return call__op;
 				case 1:  return exception__op;
@@ -34739,15 +34739,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Port__oper(Port__oper otherValue) {
+		public Port__oper(final Port__oper otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Port__oper(Port__oper.enum_type otherValue ) {
+		public Port__oper(final Port__oper.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Port__oper(int otherValue) {
+		public Port__oper(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__oper' with invalid numeric value {1} .", otherValue));
 			}
@@ -34909,7 +34909,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -34923,40 +34923,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Port__oper.enum_type enumPar) {
+		public static int enum2int(final Port__oper.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Port__oper enumPar) {
+		public static int enum2int(final Port__oper enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -34965,7 +34965,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -34974,7 +34974,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -35164,7 +35164,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__oper.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Port__oper.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -35192,7 +35192,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__oper otherValue, boolean legacy ) {
+		public boolean match(final Port__oper otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -35212,7 +35212,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Port__oper(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__oper.");
 			}
@@ -35224,7 +35224,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Port__oper_template listItem(int list_index)  {
+		public Port__oper_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Port__oper.");
 			}
@@ -35917,7 +35917,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TimestampType.");
 		}
 
-		public void log_match(final TimestampType match_value, boolean legacy) {
+		public void log_match(final TimestampType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -36628,7 +36628,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Setstate.");
 		}
 
-		public void log_match(final Setstate match_value, boolean legacy) {
+		public void log_match(final Setstate match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -37555,7 +37555,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Proc_port_in.");
 		}
 
-		public void log_match(final Proc__port__in match_value, boolean legacy) {
+		public void log_match(final Proc__port__in match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -38371,7 +38371,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanLogEvent.");
 		}
 
-		public void log_match(final TitanLogEvent match_value, boolean legacy) {
+		public void log_match(final TitanLogEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -39583,7 +39583,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 		}
 
-		public void log_match(final StatisticsType_choice_verdictStatistics match_value, boolean legacy) {
+		public void log_match(final StatisticsType_choice_verdictStatistics match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -40228,7 +40228,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.LogEventType.");
 		}
 
-		public void log_match(final LogEventType match_value, boolean legacy) {
+		public void log_match(final LogEventType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -40861,7 +40861,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Port_State.");
 		}
 
-		public void log_match(final Port__State match_value, boolean legacy) {
+		public void log_match(final Port__State match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -41572,7 +41572,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TestcaseType.");
 		}
 
-		public void log_match(final TestcaseType match_value, boolean legacy) {
+		public void log_match(final TestcaseType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -42390,7 +42390,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -42413,7 +42413,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -42898,7 +42898,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -42921,7 +42921,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -43429,7 +43429,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.PortEvent.");
 		}
 
-		public void log_match(final PortEvent match_value, boolean legacy) {
+		public void log_match(final PortEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -44817,7 +44817,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -44840,7 +44840,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -45526,7 +45526,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Msg_port_send.");
 		}
 
-		public void log_match(final Msg__port__send match_value, boolean legacy) {
+		public void log_match(final Msg__port__send match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -46108,7 +46108,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.FunctionEvent.");
 		}
 
-		public void log_match(final FunctionEvent match_value, boolean legacy) {
+		public void log_match(final FunctionEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -46948,7 +46948,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.MatchingFailureType.");
 		}
 
-		public void log_match(final MatchingFailureType match_value, boolean legacy) {
+		public void log_match(final MatchingFailureType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -47824,7 +47824,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ParPort.");
 		}
 
-		public void log_match(final ParPort match_value, boolean legacy) {
+		public void log_match(final ParPort match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -48631,7 +48631,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.MatchingDoneType.");
 		}
 
-		public void log_match(final MatchingDoneType match_value, boolean legacy) {
+		public void log_match(final MatchingDoneType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -49567,7 +49567,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Port_Queue.");
 		}
 
-		public void log_match(final Port__Queue match_value, boolean legacy) {
+		public void log_match(final Port__Queue match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -50176,7 +50176,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ParallelEvent.");
 		}
 
-		public void log_match(final ParallelEvent match_value, boolean legacy) {
+		public void log_match(final ParallelEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -50892,7 +50892,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -50915,7 +50915,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -50965,7 +50965,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			valueElements = copyList( otherValue.valueElements );
 		}
 
-		public StartFunction_parameter__list(TitanNull_Type nullValue) {
+		public StartFunction_parameter__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanCharString>();
 		}
 
@@ -51017,7 +51017,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 
 		@Override
-		public boolean operatorEquals(Base_Type otherValue) {
+		public boolean operatorEquals(final Base_Type otherValue) {
 			if (otherValue instanceof StartFunction_parameter__list) {
 				return operatorEquals((StartFunction_parameter__list)otherValue);
 			}
@@ -51070,7 +51070,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return this;
 		}
 
-		public StartFunction_parameter__list assign(TitanNull_Type nullValue) {
+		public StartFunction_parameter__list assign(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanCharString>();
 			return this;
 		}
@@ -51264,7 +51264,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sb.toString();
 		}
 
-		public StartFunction_parameter__list substr(int index, int returncount) {
+		public StartFunction_parameter__list substr(final int index, final int returncount) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
@@ -51278,7 +51278,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public StartFunction_parameter__list replace(int index, int len, final StartFunction_parameter__list repl) {
+		public StartFunction_parameter__list replace(final int index, final int len, final StartFunction_parameter__list repl) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of replace() is an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
@@ -51308,28 +51308,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public StartFunction_parameter__list replace(int index, int len, final StartFunction_parameter__list_template repl) {
+		public StartFunction_parameter__list replace(final int index, final int len, final StartFunction_parameter__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len, repl.valueOf());
 		}
 
-		public StartFunction_parameter__list replace(int index, TitanInteger len, final StartFunction_parameter__list_template repl) {
+		public StartFunction_parameter__list replace(final int index, final TitanInteger len, final StartFunction_parameter__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len.getInt(), repl.valueOf());
 		}
 
-		public StartFunction_parameter__list replace(TitanInteger index, int len, final StartFunction_parameter__list_template repl) {
+		public StartFunction_parameter__list replace(final TitanInteger index, final int len, final StartFunction_parameter__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index.getInt(), len, repl.valueOf());
 		}
 
-		public StartFunction_parameter__list replace(TitanInteger index, TitanInteger len, final StartFunction_parameter__list_template repl) {
+		public StartFunction_parameter__list replace(final TitanInteger index, final TitanInteger len, final StartFunction_parameter__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
@@ -51380,7 +51380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private match_function_t match_function_specific = new match_function_t() {
 			@Override
-			public boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {
+			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_index((StartFunction_parameter__list)value_ptr, value_index, (StartFunction_parameter__list_template)template_ptr, template_index, legacy);
 			}
 		};
@@ -51512,7 +51512,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		private boolean match_index(final StartFunction_parameter__list value_ptr, int value_index, StartFunction_parameter__list_template template_ptr, int template_index, boolean legacy) {
+		private boolean match_index(final StartFunction_parameter__list value_ptr, final int value_index, final StartFunction_parameter__list_template template_ptr, final int template_index, final boolean legacy) {
 			if (value_index >= 0) {
 				return template_ptr.value_elements.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);
 			} else {
@@ -51628,7 +51628,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
-		public StartFunction_parameter__list replace(int index, int len, final StartFunction_parameter__list_template repl) {
+		public StartFunction_parameter__list replace(final int index, final int len, final StartFunction_parameter__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -51638,7 +51638,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index, len, repl.valueOf());
 		}
 
-		public StartFunction_parameter__list replace(TitanInteger index, TitanInteger len, final StartFunction_parameter__list_template repl) {
+		public StartFunction_parameter__list replace(final TitanInteger index, final TitanInteger len, final StartFunction_parameter__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -51648,21 +51648,21 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
 
-		public StartFunction_parameter__list replace(int index, int len, final StartFunction_parameter__list repl) {
+		public StartFunction_parameter__list replace(final int index, final int len, final StartFunction_parameter__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index, len, repl);
 		}
 
-		public StartFunction_parameter__list replace(TitanInteger index, TitanInteger len, final StartFunction_parameter__list repl) {
+		public StartFunction_parameter__list replace(final TitanInteger index, final TitanInteger len, final StartFunction_parameter__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index.getInt(), len.getInt(), repl);
 		}
 
-		public TitanCharString_template getAt(int index_value) {
+		public TitanCharString_template getAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.StartFunction.parameter_list using a negative index: {0}.", index_value ) );
 			}
@@ -51691,7 +51691,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return getAt(index_value.getInt());
 		}
 
-		public TitanCharString_template constGetAt(int index_value) {
+		public TitanCharString_template constGetAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.StartFunction.parameter_list using a negative index: {0}.", index_value ) );
 			}
@@ -51715,7 +51715,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return constGetAt(index_value.getInt());
 		}
 
-		private int get_length_for_concat(AtomicBoolean is_any_value) {
+		private int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -51750,7 +51750,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 
-		private int get_length_for_concat(template_sel operand) {
+		private int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -51759,7 +51759,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(AtomicInteger pos, final StartFunction_parameter__list_template operand) {
+		private void concat(final AtomicInteger pos, final StartFunction_parameter__list_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -51794,7 +51794,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public void setSize(int new_size) {
+		public void setSize(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
@@ -51833,7 +51833,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sizeOf(false);
 		}
 
-		public TitanInteger sizeOf(boolean is_size) {
+		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			int min_size;
 			boolean has_any_or_none;
@@ -51915,7 +51915,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type StartFunction_parameter__list.");
 		}
 
-		private boolean matchv(final StartFunction_parameter__list other_value, boolean legacy) {
+		private boolean matchv(final StartFunction_parameter__list other_value, final boolean legacy) {
 			if (!other_value.isBound()) {
 				return false;
 			}
@@ -51955,7 +51955,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
-		public void setType(template_sel template_type, int list_length) {
+		public void setType(final template_sel template_type, final int list_length) {
 			cleanUp();
 			switch (template_type) {
 			case VALUE_LIST:
@@ -51971,7 +51971,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			setSelection(template_type);
 		}
 
-		public StartFunction_parameter__list_template listItem(int list_index) {
+		public StartFunction_parameter__list_template listItem(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
@@ -51981,7 +51981,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
-		public StartFunction_parameter__list_template get_list_item(int list_index) {
+		public StartFunction_parameter__list_template get_list_item(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
@@ -52007,7 +52007,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public StartFunction_parameter__list substr(int index, int returncount) {
+		public StartFunction_parameter__list substr(final int index, final int returncount) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 			}
@@ -52067,7 +52067,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.StartFunction.parameter_list.");
 		}
 
-		public void log_match(final StartFunction_parameter__list match_value, boolean legacy) {
+		public void log_match(final StartFunction_parameter__list match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -53031,7 +53031,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Msg_port_recv.");
 		}
 
-		public void log_match(final Msg__port__recv match_value, boolean legacy) {
+		public void log_match(final Msg__port__recv match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -53709,7 +53709,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TimerType.");
 		}
 
-		public void log_match(final TimerType match_value, boolean legacy) {
+		public void log_match(final TimerType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -54282,7 +54282,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.DefaultEvent.");
 		}
 
-		public void log_match(final DefaultEvent match_value, boolean legacy) {
+		public void log_match(final DefaultEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -54380,7 +54380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(7);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -54388,7 +54388,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return enqueue__msg;
 				case 1:  return enqueue__call;
@@ -54411,15 +54411,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Port__Queue_operation(Port__Queue_operation otherValue) {
+		public Port__Queue_operation(final Port__Queue_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Port__Queue_operation(Port__Queue_operation.enum_type otherValue ) {
+		public Port__Queue_operation(final Port__Queue_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Port__Queue_operation(int otherValue) {
+		public Port__Queue_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__Queue_operation' with invalid numeric value {1} .", otherValue));
 			}
@@ -54581,7 +54581,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -54595,40 +54595,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Port__Queue_operation.enum_type enumPar) {
+		public static int enum2int(final Port__Queue_operation.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Port__Queue_operation enumPar) {
+		public static int enum2int(final Port__Queue_operation enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -54637,7 +54637,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -54646,7 +54646,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -54836,7 +54836,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__Queue_operation.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Port__Queue_operation.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -54864,7 +54864,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__Queue_operation otherValue, boolean legacy ) {
+		public boolean match(final Port__Queue_operation otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -54884,7 +54884,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Port__Queue_operation(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__Queue_operation.");
 			}
@@ -54896,7 +54896,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Port__Queue_operation_template listItem(int list_index)  {
+		public Port__Queue_operation_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Port__Queue_operation.");
 			}
@@ -55796,7 +55796,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.MatchingProblemType.");
 		}
 
-		public void log_match(final MatchingProblemType match_value, boolean legacy) {
+		public void log_match(final MatchingProblemType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -56396,7 +56396,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Strings.");
 		}
 
-		public void log_match(final Strings match_value, boolean legacy) {
+		public void log_match(final Strings match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -57098,7 +57098,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.PTC_exit.");
 		}
 
-		public void log_match(final PTC__exit match_value, boolean legacy) {
+		public void log_match(final PTC__exit match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -57228,7 +57228,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(21);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -57236,7 +57236,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return removing__unterminated__connection;
 				case 1:  return removing__unterminated__mapping;
@@ -57273,15 +57273,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Port__Misc_reason(Port__Misc_reason otherValue) {
+		public Port__Misc_reason(final Port__Misc_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Port__Misc_reason(Port__Misc_reason.enum_type otherValue ) {
+		public Port__Misc_reason(final Port__Misc_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Port__Misc_reason(int otherValue) {
+		public Port__Misc_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Port__Misc_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -57443,7 +57443,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -57457,40 +57457,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Port__Misc_reason.enum_type enumPar) {
+		public static int enum2int(final Port__Misc_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Port__Misc_reason enumPar) {
+		public static int enum2int(final Port__Misc_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -57499,7 +57499,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -57508,7 +57508,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -57698,7 +57698,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__Misc_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Port__Misc_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -57726,7 +57726,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Port__Misc_reason otherValue, boolean legacy ) {
+		public boolean match(final Port__Misc_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -57746,7 +57746,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Port__Misc_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__Misc_reason.");
 			}
@@ -57758,7 +57758,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Port__Misc_reason_template listItem(int list_index)  {
+		public Port__Misc_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Port__Misc_reason.");
 			}
@@ -58382,7 +58382,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanLog.");
 		}
 
-		public void log_match(final TitanLog match_value, boolean legacy) {
+		public void log_match(final TitanLog match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -58946,7 +58946,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ErrorEvent.");
 		}
 
-		public void log_match(final ErrorEvent match_value, boolean legacy) {
+		public void log_match(final ErrorEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -59510,7 +59510,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ExecutorEvent.");
 		}
 
-		public void log_match(final ExecutorEvent match_value, boolean legacy) {
+		public void log_match(final ExecutorEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -60488,7 +60488,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Parallel.");
 		}
 
-		public void log_match(final Parallel match_value, boolean legacy) {
+		public void log_match(final Parallel match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -61434,7 +61434,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ExecutorRuntime.");
 		}
 
-		public void log_match(final ExecutorRuntime match_value, boolean legacy) {
+		public void log_match(final ExecutorRuntime match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -62034,7 +62034,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.FinalVerdictType.");
 		}
 
-		public void log_match(final FinalVerdictType match_value, boolean legacy) {
+		public void log_match(final FinalVerdictType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -62128,7 +62128,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(3);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -62136,7 +62136,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return setting__final__verdict__of__the__test__case;
 				case 1:  return no__ptcs__were__created;
@@ -62155,15 +62155,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public FinalVerdictType_choice_notification(FinalVerdictType_choice_notification otherValue) {
+		public FinalVerdictType_choice_notification(final FinalVerdictType_choice_notification otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public FinalVerdictType_choice_notification(FinalVerdictType_choice_notification.enum_type otherValue ) {
+		public FinalVerdictType_choice_notification(final FinalVerdictType_choice_notification.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public FinalVerdictType_choice_notification(int otherValue) {
+		public FinalVerdictType_choice_notification(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `FinalVerdictType_choice_notification' with invalid numeric value {1} .", otherValue));
 			}
@@ -62325,7 +62325,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -62339,40 +62339,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(FinalVerdictType_choice_notification.enum_type enumPar) {
+		public static int enum2int(final FinalVerdictType_choice_notification.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(FinalVerdictType_choice_notification enumPar) {
+		public static int enum2int(final FinalVerdictType_choice_notification enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -62381,7 +62381,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -62390,7 +62390,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -62580,7 +62580,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final FinalVerdictType_choice_notification.enum_type otherValue, boolean legacy ) {
+		public boolean match(final FinalVerdictType_choice_notification.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -62608,7 +62608,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final FinalVerdictType_choice_notification otherValue, boolean legacy ) {
+		public boolean match(final FinalVerdictType_choice_notification otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -62628,7 +62628,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new FinalVerdictType_choice_notification(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type FinalVerdictType_choice_notification.");
 			}
@@ -62640,7 +62640,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public FinalVerdictType_choice_notification_template listItem(int list_index)  {
+		public FinalVerdictType_choice_notification_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type FinalVerdictType_choice_notification.");
 			}
@@ -62796,7 +62796,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(5);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -62804,7 +62804,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return local__address__was__set;
 				case 1:  return address__of__mc__was__set;
@@ -62825,15 +62825,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public ExecutorUnqualified_reason(ExecutorUnqualified_reason otherValue) {
+		public ExecutorUnqualified_reason(final ExecutorUnqualified_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public ExecutorUnqualified_reason(ExecutorUnqualified_reason.enum_type otherValue ) {
+		public ExecutorUnqualified_reason(final ExecutorUnqualified_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public ExecutorUnqualified_reason(int otherValue) {
+		public ExecutorUnqualified_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorUnqualified_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -62995,7 +62995,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -63009,40 +63009,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(ExecutorUnqualified_reason.enum_type enumPar) {
+		public static int enum2int(final ExecutorUnqualified_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(ExecutorUnqualified_reason enumPar) {
+		public static int enum2int(final ExecutorUnqualified_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -63051,7 +63051,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -63060,7 +63060,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -63250,7 +63250,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorUnqualified_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final ExecutorUnqualified_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -63278,7 +63278,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorUnqualified_reason otherValue, boolean legacy ) {
+		public boolean match(final ExecutorUnqualified_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -63298,7 +63298,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new ExecutorUnqualified_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorUnqualified_reason.");
 			}
@@ -63310,7 +63310,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public ExecutorUnqualified_reason_template listItem(int list_index)  {
+		public ExecutorUnqualified_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type ExecutorUnqualified_reason.");
 			}
@@ -63465,7 +63465,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(4);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -63473,7 +63473,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return receive__op;
 				case 1:  return check__receive__op;
@@ -63493,15 +63493,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Msg__port__recv_operation(Msg__port__recv_operation otherValue) {
+		public Msg__port__recv_operation(final Msg__port__recv_operation otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Msg__port__recv_operation(Msg__port__recv_operation.enum_type otherValue ) {
+		public Msg__port__recv_operation(final Msg__port__recv_operation.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Msg__port__recv_operation(int otherValue) {
+		public Msg__port__recv_operation(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Msg__port__recv_operation' with invalid numeric value {1} .", otherValue));
 			}
@@ -63663,7 +63663,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -63677,40 +63677,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Msg__port__recv_operation.enum_type enumPar) {
+		public static int enum2int(final Msg__port__recv_operation.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Msg__port__recv_operation enumPar) {
+		public static int enum2int(final Msg__port__recv_operation enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -63719,7 +63719,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -63728,7 +63728,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -63918,7 +63918,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Msg__port__recv_operation.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Msg__port__recv_operation.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -63946,7 +63946,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Msg__port__recv_operation otherValue, boolean legacy ) {
+		public boolean match(final Msg__port__recv_operation otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -63966,7 +63966,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Msg__port__recv_operation(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Msg__port__recv_operation.");
 			}
@@ -63978,7 +63978,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Msg__port__recv_operation_template listItem(int list_index)  {
+		public Msg__port__recv_operation_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Msg__port__recv_operation.");
 			}
@@ -64135,7 +64135,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(6);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -64143,7 +64143,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return v0none;
 				case 1:  return v1pass;
@@ -64165,15 +64165,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public Verdict(Verdict otherValue) {
+		public Verdict(final Verdict otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public Verdict(Verdict.enum_type otherValue ) {
+		public Verdict(final Verdict.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public Verdict(int otherValue) {
+		public Verdict(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `Verdict' with invalid numeric value {1} .", otherValue));
 			}
@@ -64335,7 +64335,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -64349,40 +64349,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(Verdict.enum_type enumPar) {
+		public static int enum2int(final Verdict.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(Verdict enumPar) {
+		public static int enum2int(final Verdict enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -64391,7 +64391,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -64400,7 +64400,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -64590,7 +64590,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Verdict.enum_type otherValue, boolean legacy ) {
+		public boolean match(final Verdict.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -64618,7 +64618,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final Verdict otherValue, boolean legacy ) {
+		public boolean match(final Verdict otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -64638,7 +64638,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new Verdict(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Verdict.");
 			}
@@ -64650,7 +64650,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public Verdict_template listItem(int list_index)  {
+		public Verdict_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type Verdict.");
 			}
@@ -64824,7 +64824,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(23);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -64832,7 +64832,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return init__component__start;
 				case 1:  return init__component__finish;
@@ -64871,15 +64871,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public ParallelPTC_reason(ParallelPTC_reason otherValue) {
+		public ParallelPTC_reason(final ParallelPTC_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public ParallelPTC_reason(ParallelPTC_reason.enum_type otherValue ) {
+		public ParallelPTC_reason(final ParallelPTC_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public ParallelPTC_reason(int otherValue) {
+		public ParallelPTC_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ParallelPTC_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -65041,7 +65041,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -65055,40 +65055,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(ParallelPTC_reason.enum_type enumPar) {
+		public static int enum2int(final ParallelPTC_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(ParallelPTC_reason enumPar) {
+		public static int enum2int(final ParallelPTC_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -65097,7 +65097,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -65106,7 +65106,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -65296,7 +65296,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ParallelPTC_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final ParallelPTC_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -65324,7 +65324,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ParallelPTC_reason otherValue, boolean legacy ) {
+		public boolean match(final ParallelPTC_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -65344,7 +65344,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new ParallelPTC_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ParallelPTC_reason.");
 			}
@@ -65356,7 +65356,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public ParallelPTC_reason_template listItem(int list_index)  {
+		public ParallelPTC_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type ParallelPTC_reason.");
 			}
@@ -65980,7 +65980,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TimerGuardType.");
 		}
 
-		public void log_match(final TimerGuardType match_value, boolean legacy) {
+		public void log_match(final TimerGuardType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -66682,7 +66682,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.StartFunction.");
 		}
 
-		public void log_match(final StartFunction match_value, boolean legacy) {
+		public void log_match(final StartFunction match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -67471,7 +67471,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ExecutorUnqualified.");
 		}
 
-		public void log_match(final ExecutorUnqualified match_value, boolean legacy) {
+		public void log_match(final ExecutorUnqualified match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -67593,7 +67593,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(4);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -67601,7 +67601,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return break__;
 				case 1:  return finish;
@@ -67621,15 +67621,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public DefaultEnd(DefaultEnd otherValue) {
+		public DefaultEnd(final DefaultEnd otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public DefaultEnd(DefaultEnd.enum_type otherValue ) {
+		public DefaultEnd(final DefaultEnd.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public DefaultEnd(int otherValue) {
+		public DefaultEnd(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `DefaultEnd' with invalid numeric value {1} .", otherValue));
 			}
@@ -67791,7 +67791,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -67805,40 +67805,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(DefaultEnd.enum_type enumPar) {
+		public static int enum2int(final DefaultEnd.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(DefaultEnd enumPar) {
+		public static int enum2int(final DefaultEnd enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -67847,7 +67847,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -67856,7 +67856,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -68046,7 +68046,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final DefaultEnd.enum_type otherValue, boolean legacy ) {
+		public boolean match(final DefaultEnd.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -68074,7 +68074,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final DefaultEnd otherValue, boolean legacy ) {
+		public boolean match(final DefaultEnd otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -68094,7 +68094,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new DefaultEnd(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type DefaultEnd.");
 			}
@@ -68106,7 +68106,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public DefaultEnd_template listItem(int list_index)  {
+		public DefaultEnd_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type DefaultEnd.");
 			}
@@ -68799,7 +68799,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Categorized.");
 		}
 
-		public void log_match(final Categorized match_value, boolean legacy) {
+		public void log_match(final Categorized match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -68906,7 +68906,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			valueElements = copyList( otherValue.valueElements );
 		}
 
-		public TitanLog_sequence__list(TitanNull_Type nullValue) {
+		public TitanLog_sequence__list(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanLog_sequence__list_0>();
 		}
 
@@ -68958,7 +68958,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 
 		@Override
-		public boolean operatorEquals(Base_Type otherValue) {
+		public boolean operatorEquals(final Base_Type otherValue) {
 			if (otherValue instanceof TitanLog_sequence__list) {
 				return operatorEquals((TitanLog_sequence__list)otherValue);
 			}
@@ -69011,7 +69011,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return this;
 		}
 
-		public TitanLog_sequence__list assign(TitanNull_Type nullValue) {
+		public TitanLog_sequence__list assign(final TitanNull_Type nullValue) {
 			valueElements = new ArrayList<TitanLog_sequence__list_0>();
 			return this;
 		}
@@ -69205,7 +69205,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sb.toString();
 		}
 
-		public TitanLog_sequence__list substr(int index, int returncount) {
+		public TitanLog_sequence__list substr(final int index, final int returncount) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
@@ -69219,7 +69219,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLog_sequence__list replace(int index, int len, final TitanLog_sequence__list repl) {
+		public TitanLog_sequence__list replace(final int index, final int len, final TitanLog_sequence__list repl) {
 			if (valueElements == null) {
 				throw new TtcnError("The first argument of replace() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
@@ -69249,28 +69249,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLog_sequence__list replace(int index, int len, final TitanLog_sequence__list_template repl) {
+		public TitanLog_sequence__list replace(final int index, final int len, final TitanLog_sequence__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len, repl.valueOf());
 		}
 
-		public TitanLog_sequence__list replace(int index, TitanInteger len, final TitanLog_sequence__list_template repl) {
+		public TitanLog_sequence__list replace(final int index, final TitanInteger len, final TitanLog_sequence__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index, len.getInt(), repl.valueOf());
 		}
 
-		public TitanLog_sequence__list replace(TitanInteger index, int len, final TitanLog_sequence__list_template repl) {
+		public TitanLog_sequence__list replace(final TitanInteger index, final int len, final TitanLog_sequence__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
 			return replace(index.getInt(), len, repl.valueOf());
 		}
 
-		public TitanLog_sequence__list replace(TitanInteger index, TitanInteger len, final TitanLog_sequence__list_template repl) {
+		public TitanLog_sequence__list replace(final TitanInteger index, final TitanInteger len, final TitanLog_sequence__list_template repl) {
 			if (!repl.isValue()) {
 				throw new TtcnError("The fourth argument of function replace() is a template with non-specific value.");
 			}
@@ -69321,7 +69321,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private match_function_t match_function_specific = new match_function_t() {
 			@Override
-			public boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {
+			public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 				return match_index((TitanLog_sequence__list)value_ptr, value_index, (TitanLog_sequence__list_template)template_ptr, template_index, legacy);
 			}
 		};
@@ -69453,7 +69453,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		private boolean match_index(final TitanLog_sequence__list value_ptr, int value_index, TitanLog_sequence__list_template template_ptr, int template_index, boolean legacy) {
+		private boolean match_index(final TitanLog_sequence__list value_ptr, final int value_index, final TitanLog_sequence__list_template template_ptr, final int template_index, final boolean legacy) {
 			if (value_index >= 0) {
 				return template_ptr.value_elements.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);
 			} else {
@@ -69569,7 +69569,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 		}
 
-		public TitanLog_sequence__list replace(int index, int len, final TitanLog_sequence__list_template repl) {
+		public TitanLog_sequence__list replace(final int index, final int len, final TitanLog_sequence__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -69579,7 +69579,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index, len, repl.valueOf());
 		}
 
-		public TitanLog_sequence__list replace(TitanInteger index, TitanInteger len, final TitanLog_sequence__list_template repl) {
+		public TitanLog_sequence__list replace(final TitanInteger index, final TitanInteger len, final TitanLog_sequence__list_template repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
@@ -69589,21 +69589,21 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return valueOf().replace(index.getInt(), len.getInt(), repl.valueOf());
 		}
 
-		public TitanLog_sequence__list replace(int index, int len, final TitanLog_sequence__list repl) {
+		public TitanLog_sequence__list replace(final int index, final int len, final TitanLog_sequence__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index, len, repl);
 		}
 
-		public TitanLog_sequence__list replace(TitanInteger index, TitanInteger len, final TitanLog_sequence__list repl) {
+		public TitanLog_sequence__list replace(final TitanInteger index, final TitanInteger len, final TitanLog_sequence__list repl) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function replace() is a template with non-specific value.");
 			}
 			return valueOf().replace(index.getInt(), len.getInt(), repl);
 		}
 
-		public TitanLog_sequence__list_0_template getAt(int index_value) {
+		public TitanLog_sequence__list_0_template getAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.TitanLog.sequence_list using a negative index: {0}.", index_value ) );
 			}
@@ -69632,7 +69632,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return getAt(index_value.getInt());
 		}
 
-		public TitanLog_sequence__list_0_template constGetAt(int index_value) {
+		public TitanLog_sequence__list_0_template constGetAt(final int index_value) {
 			if (index_value < 0) {
 				throw new TtcnError( MessageFormat.format( "Accessing an element of a template for type @TitanLoggerApi.TitanLog.sequence_list using a negative index: {0}.", index_value ) );
 			}
@@ -69656,7 +69656,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return constGetAt(index_value.getInt());
 		}
 
-		private int get_length_for_concat(AtomicBoolean is_any_value) {
+		private int get_length_for_concat(final AtomicBoolean is_any_value) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return value_elements.size();
@@ -69691,7 +69691,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 
-		private int get_length_for_concat(template_sel operand) {
+		private int get_length_for_concat(final template_sel operand) {
 			if (operand == template_sel.ANY_VALUE) {
 				// ? => { * }
 				return 1;
@@ -69700,7 +69700,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		//TODO: simplify, just use value_elements.add()
-		private void concat(AtomicInteger pos, final TitanLog_sequence__list_template operand) {
+		private void concat(final AtomicInteger pos, final TitanLog_sequence__list_template operand) {
 			// all errors should have already been caught by the operand's
 			// get_length_for_concat() call;
 			// the result template (this) should already be set to SPECIFIC_VALUE and
@@ -69735,7 +69735,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public void setSize(int new_size) {
+		public void setSize(final int new_size) {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
@@ -69774,7 +69774,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return sizeOf(false);
 		}
 
-		public TitanInteger sizeOf(boolean is_size) {
+		public TitanInteger sizeOf(final boolean is_size) {
 			final String op_name = is_size ? "size" : "length";
 			int min_size;
 			boolean has_any_or_none;
@@ -69856,7 +69856,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Performing n_elem() operation on an uninitialized/unsupported template of type TitanLog_sequence__list.");
 		}
 
-		private boolean matchv(final TitanLog_sequence__list other_value, boolean legacy) {
+		private boolean matchv(final TitanLog_sequence__list other_value, final boolean legacy) {
 			if (!other_value.isBound()) {
 				return false;
 			}
@@ -69896,7 +69896,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return true;
 		}
 
-		public void setType(template_sel template_type, int list_length) {
+		public void setType(final template_sel template_type, final int list_length) {
 			cleanUp();
 			switch (template_type) {
 			case VALUE_LIST:
@@ -69912,7 +69912,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			setSelection(template_type);
 		}
 
-		public TitanLog_sequence__list_template listItem(int list_index) {
+		public TitanLog_sequence__list_template listItem(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
@@ -69922,7 +69922,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return list_value.get(list_index);
 		}
 
-		public TitanLog_sequence__list_template get_list_item(int list_index) {
+		public TitanLog_sequence__list_template get_list_item(final int list_index) {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Internal error: Accessing a list element of a non-list template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
@@ -69948,7 +69948,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return ret_val;
 		}
 
-		public TitanLog_sequence__list substr(int index, int returncount) {
+		public TitanLog_sequence__list substr(final int index, final int returncount) {
 			if (!isValue()) {
 				throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 			}
@@ -70008,7 +70008,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanLog.sequence_list.");
 		}
 
-		public void log_match(final TitanLog_sequence__list match_value, boolean legacy) {
+		public void log_match(final TitanLog_sequence__list match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -70696,7 +70696,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ExecutionSummaryType.");
 		}
 
-		public void log_match(final ExecutionSummaryType match_value, boolean legacy) {
+		public void log_match(final ExecutionSummaryType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -71269,7 +71269,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.MatchingEvent.");
 		}
 
-		public void log_match(final MatchingEvent match_value, boolean legacy) {
+		public void log_match(final MatchingEvent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -71833,7 +71833,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.StatisticsType.");
 		}
 
-		public void log_match(final StatisticsType match_value, boolean legacy) {
+		public void log_match(final StatisticsType match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -72604,7 +72604,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Dualface_discard.");
 		}
 
-		public void log_match(final Dualface__discard match_value, boolean legacy) {
+		public void log_match(final Dualface__discard match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -73599,7 +73599,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -73622,7 +73622,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -74302,7 +74302,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		@Override
-		public void encode_text(Text_Buf text_buf) {
+		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
 			switch(templateSelection) {
 			case OMIT_VALUE:
@@ -74325,7 +74325,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 		@Override
-		public void decode_text(Text_Buf text_buf) {
+		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_base(text_buf);
 			switch(templateSelection) {
@@ -74371,7 +74371,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(3);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -74379,7 +74379,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return read__out;
 				case 1:  return seed;
@@ -74398,15 +74398,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public RandomAction(RandomAction otherValue) {
+		public RandomAction(final RandomAction otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public RandomAction(RandomAction.enum_type otherValue ) {
+		public RandomAction(final RandomAction.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public RandomAction(int otherValue) {
+		public RandomAction(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `RandomAction' with invalid numeric value {1} .", otherValue));
 			}
@@ -74568,7 +74568,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -74582,40 +74582,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(RandomAction.enum_type enumPar) {
+		public static int enum2int(final RandomAction.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(RandomAction enumPar) {
+		public static int enum2int(final RandomAction enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -74624,7 +74624,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -74633,7 +74633,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -74823,7 +74823,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final RandomAction.enum_type otherValue, boolean legacy ) {
+		public boolean match(final RandomAction.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -74851,7 +74851,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final RandomAction otherValue, boolean legacy ) {
+		public boolean match(final RandomAction otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -74871,7 +74871,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new RandomAction(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type RandomAction.");
 			}
@@ -74883,7 +74883,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public RandomAction_template listItem(int list_index)  {
+		public RandomAction_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type RandomAction.");
 			}
@@ -75589,7 +75589,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.ExecutorComponent.");
 		}
 
-		public void log_match(final ExecutorComponent match_value, boolean legacy) {
+		public void log_match(final ExecutorComponent match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -76231,7 +76231,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 		}
 
-		public void log_match(final TitanLog_sequence__list_0 match_value, boolean legacy) {
+		public void log_match(final TitanLog_sequence__list_0 match_value, final boolean legacy) {
 			if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
 				if(match(match_value, legacy)) {
 					TtcnLogger.print_logmatch_buffer();
@@ -76337,7 +76337,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			UNBOUND_VALUE(6);
 
 			private int enum_num;
-			enum_type(int num) {
+			enum_type(final int num) {
 				this.enum_num = num;
 			}
 
@@ -76345,7 +76345,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return enum_num;
 			}
 
-			public static enum_type getValue(int index) {
+			public static enum_type getValue(final int index) {
 				switch (index) {
 				case 0:  return mtc__started;
 				case 1:  return mtc__finished;
@@ -76367,15 +76367,15 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public ExecutorComponent_reason(ExecutorComponent_reason otherValue) {
+		public ExecutorComponent_reason(final ExecutorComponent_reason otherValue) {
 			enum_value = otherValue.enum_value;
 		}
 
-		public ExecutorComponent_reason(ExecutorComponent_reason.enum_type otherValue ) {
+		public ExecutorComponent_reason(final ExecutorComponent_reason.enum_type otherValue ) {
 			enum_value = otherValue;
 		}
 
-		public ExecutorComponent_reason(int otherValue) {
+		public ExecutorComponent_reason(final int otherValue) {
 			if (!isValidEnum(otherValue)) {
 				throw new TtcnError(MessageFormat.format("Initializing a variable of enumerated type `ExecutorComponent_reason' with invalid numeric value {1} .", otherValue));
 			}
@@ -76537,7 +76537,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum_value != enum_type.UNBOUND_VALUE;
 		}
 
-		public void mustBound( String errorMessage) {
+		public void mustBound(final String errorMessage) {
 			if ( !isBound() ) {
 				throw new TtcnError( errorMessage );
 			}
@@ -76551,40 +76551,40 @@ public final class TitanLoggerApi extends TTCN_Module {
 			enum_value = enum_type.UNBOUND_VALUE;
 		}
 
-		public static boolean isValidEnum(int otherValue) {
+		public static boolean isValidEnum(final int otherValue) {
 			final enum_type helper =  enum_type.getValue(otherValue);
 			return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;
 		}
 
-		public void int2enum(int intValue) {
+		public void int2enum(final int intValue) {
 			if (!isValidEnum(intValue)) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue);
 		}
 
-		public void int2enum(TitanInteger intValue) {
+		public void int2enum(final TitanInteger intValue) {
 			if (!isValidEnum(intValue.getInt())) {
 				throw new TtcnError("Assigning invalid numeric value "+intValue.getInt()+" to a variable of enumerated type {}.");
 			}
 			enum_value = enum_type.getValue(intValue.getInt());
 		}
 
-		public static int enum2int(ExecutorComponent_reason.enum_type enumPar) {
+		public static int enum2int(final ExecutorComponent_reason.enum_type enumPar) {
 			if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_num;
 		}
 
-		public static int enum2int(ExecutorComponent_reason enumPar) {
+		public static int enum2int(final ExecutorComponent_reason enumPar) {
 			if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 				throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 			}
 			return enumPar.enum_value.enum_num;
 		}
 
-		public static enum_type str2enum(String strPar) {
+		public static enum_type str2enum(final String strPar) {
 			enum_type helper;try {
 				helper = enum_type.valueOf(strPar);
 			} catch(IllegalArgumentException e) {
@@ -76593,7 +76593,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return helper;
 		}
 
-		public static String enum2str(enum_type enumPar) {
+		public static String enum2str(final enum_type enumPar) {
 			return enumPar.name();
 		}
 
@@ -76602,7 +76602,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return enum2int(enum_value);
 		}
 
-		public void fromInt(int otherValue) {
+		public void fromInt(final int otherValue) {
 			enum_value = enum_type.getValue(otherValue);
 		}
 
@@ -76792,7 +76792,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorComponent_reason.enum_type otherValue, boolean legacy ) {
+		public boolean match(final ExecutorComponent_reason.enum_type otherValue, final boolean legacy) {
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
 				return single_value == otherValue;
@@ -76820,7 +76820,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		// originally match
-		public boolean match(final ExecutorComponent_reason otherValue, boolean legacy ) {
+		public boolean match(final ExecutorComponent_reason otherValue, final boolean legacy) {
 			return match(otherValue.enum_value, false);
 		}
 
@@ -76840,7 +76840,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			return new ExecutorComponent_reason(single_value);
 		}
 
-		public void setType(template_sel templateType, int list_length) {
+		public void setType(final template_sel templateType, final int list_length) {
 			if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorComponent_reason.");
 			}
@@ -76852,7 +76852,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 
-		public ExecutorComponent_reason_template listItem(int list_index)  {
+		public ExecutorComponent_reason_template listItem(final int list_index)  {
 			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 				throw new TtcnError("Accessing a list element of a non-list template of enumerated type ExecutorComponent_reason.");
 			}

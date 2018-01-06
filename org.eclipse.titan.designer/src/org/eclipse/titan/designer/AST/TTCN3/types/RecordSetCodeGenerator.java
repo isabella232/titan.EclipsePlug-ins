@@ -1180,7 +1180,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t}\n");
 
 		source.append('\n');
-		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
+		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
 		source.append("\t\t\t\tif(match(match_value, legacy)) {\n");
 		source.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
@@ -1731,7 +1731,7 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "throw new TtcnError(\"Internal Error: value can not be cast to {0}.\");\n", classDisplayName ) );
 		source.append("}\n\n");
 
-		source.append( MessageFormat.format( "public void log_match(final {0} match_value, boolean legacy) '{'\n", className ) );
+		source.append( MessageFormat.format( "public void log_match(final {0} match_value, final boolean legacy) '{'\n", className ) );
 		source.append("match_value.log();\n");
 		source.append("TtcnLogger.log_event_str(\" with \");\n");
 		source.append("log();\n");

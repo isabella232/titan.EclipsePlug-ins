@@ -187,7 +187,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}(TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t}\n");
 	}
@@ -286,7 +286,7 @@ public class RecordOfGenerator {
 													 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
 		source.append("\t@Override\n");
-		source.append("\tpublic boolean operatorEquals(Base_Type otherValue) {\n");
+		source.append("\tpublic boolean operatorEquals(final Base_Type otherValue) {\n");
 		source.append( MessageFormat.format( "\t\tif (otherValue instanceof {0}) '{'\n", genName) );
 		source.append( MessageFormat.format( "\t\t\treturn operatorEquals(({0})otherValue);\n", genName) );
 		source.append("\t\t}\n");
@@ -374,7 +374,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} assign(TitanNull_Type nullValue) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} assign(final TitanNull_Type nullValue) '{'\n", genName ) );
 		source.append( MessageFormat.format( "\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName ) );
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
@@ -635,7 +635,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateValueReplace( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} substr(int index, int returncount) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
 		source.append("\t\tif (valueElements == null) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of substr() is an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -650,7 +650,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0} repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0} repl) '{'\n", genName ) );
 		source.append("\t\tif (valueElements == null) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The first argument of replace() is an unbound value of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -682,7 +682,7 @@ public class RecordOfGenerator {
 		
 		//int index,int len:
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!repl.isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -690,7 +690,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		//int,TitanInteger
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(int index, TitanInteger len, final {0}_template repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!repl.isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -698,7 +698,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		//TitanInteger,int
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, int len, final {0}_template repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!repl.isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -706,7 +706,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		//TitanInteger,TitanInteger
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, TitanInteger len, final {0}_template repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!repl.isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The fourth argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -788,7 +788,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\tprivate match_function_t match_function_specific = new match_function_t() {\n");
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {\n");
+		source.append("\t\tpublic boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {\n");
 		source.append( MessageFormat.format( "\t\t\treturn match_index(({0})value_ptr, value_index, ({0}_template)template_ptr, template_index, legacy);\n", genName ) );
 		source.append("\t\t}\n");
 		source.append("\t};\n");
@@ -812,7 +812,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\tprivate match_function_t match_function_set = new match_function_t() {\n");
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy) {\n");
+		source.append("\t\tpublic boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {\n");
 		source.append( MessageFormat.format( "\t\t\treturn match_set(({0})value_ptr, value_index, ({0}_template)template_ptr, template_index, legacy);\n", genName ) );
 		source.append("\t\t}\n");
 		source.append("\t};\n");
@@ -820,7 +820,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\tprivate log_function_t log_function = new log_function_t() {\n");
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic void log(Base_Type value_ptr, Restricted_Length_Template template_ptr, int index_value, int index_template, boolean legacy) {\n");
+		source.append("\t\tpublic void log(Base_Type value_ptr, Restricted_Length_Template template_ptr, int index_value, int index_template, final boolean legacy) {\n");
 		source.append("\t\t\tif (value_ptr != null && template_ptr != null) {\n");
 		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log_match((({0})value_ptr).constGetAt(index_value), legacy);\n", genName ) );
 		source.append("\t\t\t} else if (value_ptr != null) {\n");
@@ -1030,7 +1030,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate boolean match_index(final {0} value_ptr, int value_index, {0}_template template_ptr, int template_index, boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tprivate boolean match_index(final {0} value_ptr, final int value_index, final {0}_template template_ptr, final int template_index, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif (value_index >= 0) {\n");
 		source.append("\t\t\treturn template_ptr.value_elements.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);\n");
 		source.append("\t\t} else {\n");
@@ -1040,7 +1040,7 @@ public class RecordOfGenerator {
 
 		if ( isSetOf ) {
 			source.append('\n');
-			source.append( MessageFormat.format( "\tprivate boolean match_set(final {0} value_ptr, int value_index, {0}_template template_ptr, int template_index, boolean legacy) '{'\n", genName ) );
+			source.append( MessageFormat.format( "\tprivate boolean match_set(final {0} value_ptr, int value_index, {0}_template template_ptr, int template_index, final boolean legacy) '{'\n", genName ) );
 			source.append("\t\tif (value_index >= 0) {\n");
 			source.append("\t\t\treturn template_ptr.set_items.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);\n");
 			source.append("\t\t} else {\n");
@@ -1248,7 +1248,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateGetterSetters(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} getAt(int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} getAt(final int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -1279,7 +1279,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} constGetAt(int index_value) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} constGetAt(final int index_value) '{'\n", ofTypeName ) );
 		source.append("\t\tif (index_value < 0) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Accessing an element of a template for type "+displayName+" using a negative index: {0}.\", index_value ) );\n");
 		source.append("\t\t}\n");
@@ -1337,7 +1337,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateConcat(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
-		source.append("\tprivate int get_length_for_concat(AtomicBoolean is_any_value) {\n");
+		source.append("\tprivate int get_length_for_concat(final AtomicBoolean is_any_value) {\n");
 		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\treturn value_elements.size();\n");
@@ -1373,7 +1373,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\n\tprivate int get_length_for_concat(template_sel operand) {\n");
+		source.append("\n\tprivate int get_length_for_concat(final template_sel operand) {\n");
 		source.append("\t\tif (operand == template_sel.ANY_VALUE) {\n");
 		source.append("\t\t\t// ? => { * }\n");
 		source.append("\t\t\treturn 1;\n");
@@ -1384,7 +1384,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		//TODO: simplify, just use value_elements.add()
 		source.append("\t\t\t//TODO: simplify, just use value_elements.add()\n");
-		source.append( MessageFormat.format( "\tprivate void concat(AtomicInteger pos, final {0}_template operand) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tprivate void concat(final AtomicInteger pos, final {0}_template operand) '{'\n", genName ) );
 		source.append("\t\t// all errors should have already been caught by the operand's\n");
 		source.append("\t\t// get_length_for_concat() call;\n");
 		source.append("\t\t// the result template (this) should already be set to SPECIFIC_VALUE and\n");
@@ -1435,7 +1435,7 @@ public class RecordOfGenerator {
 	private static void generateTemplateSetSize( final StringBuilder source, final String genName, final String ofTypeName,
 												 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
-		source.append("\tpublic void setSize(int new_size) {\n");
+		source.append("\tpublic void setSize(final int new_size) {\n");
 		source.append("\t\tif (new_size < 0) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting a negative size for a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -1477,7 +1477,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\tpublic TitanInteger sizeOf(boolean is_size) {\n");
+		source.append("\tpublic TitanInteger sizeOf(final boolean is_size) {\n");
 		source.append("\t\tfinal String op_name = is_size ? \"size\" : \"length\";\n");
 		source.append("\t\tint min_size;\n");
 		source.append("\t\tboolean has_any_or_none;\n");
@@ -1632,7 +1632,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateMatchv(final StringBuilder source, final String genName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tprivate boolean matchv(final {0} other_value, boolean legacy) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tprivate boolean matchv(final {0} other_value, final boolean legacy) '{'\n", genName ) );
 		source.append("\t\tif (!other_value.isBound()) {\n");
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
@@ -1694,7 +1694,7 @@ public class RecordOfGenerator {
 	private static void generateTemplateSetType( final StringBuilder source, final String genName, final String ofTypeName,
 												 final String displayName, final boolean isSetOf ) {
 		source.append('\n');
-		source.append("\tpublic void setType(template_sel template_type, int list_length) {\n");
+		source.append("\tpublic void setType(final template_sel template_type, final int list_length) {\n");
 		source.append("\t\tcleanUp();\n");
 		source.append("\t\tswitch (template_type) {\n");
 		source.append("\t\tcase VALUE_LIST:\n");
@@ -1728,7 +1728,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateListItem( final StringBuilder aSb, final String genName, final String displayName ) {
 		aSb.append('\n');
-		aSb.append( MessageFormat.format( "\t\tpublic {0}_template listItem(int list_index) '{'\n", genName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic {0}_template listItem(final int list_index) '{'\n", genName ) );
 		aSb.append("\t\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
@@ -1748,7 +1748,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateGetListItem(final StringBuilder source, final String genName, final String displayName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0}_template get_list_item(int list_index) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0}_template get_list_item(final int list_index) '{'\n", genName ) );
 		source.append("\t\tif (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a list element of a non-list template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -1880,7 +1880,7 @@ public class RecordOfGenerator {
 		aSb.append("\t}\n");
 
 		aSb.append('\n');
-		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, boolean legacy) '{'\n", genName ) );
+		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
 		if ( isSetOf ) {
 			aSb.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
 			aSb.append("\t\t\tif(match(match_value, legacy)) {\n");
@@ -2041,9 +2041,9 @@ public class RecordOfGenerator {
 		aSb.append("\t\t}\n");
 	}
 
-//TODO: implement void log_matchv(final Base_Type match_value, boolean legacy)
+//TODO: implement void log_matchv(final Base_Type match_value, final boolean legacy)
 /*
-	void log_matchv(final Base_Type match_value, boolean legacy)
+	void log_matchv(final Base_Type match_value, final boolean legacy)
 	{
 		if (TtcnLogger.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
 			if (matchv(match_value, legacy)) {
@@ -2151,7 +2151,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		source.append('\n');
-		source.append("\tpublic void check_restriction(template_res t_res, final String t_name, boolean legacy) {\n");
+		source.append("\tpublic void check_restriction(template_res t_res, final String t_name, final boolean legacy) {\n");
 		source.append("\t\tif (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");

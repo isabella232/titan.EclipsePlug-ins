@@ -66,7 +66,7 @@ public class RAW {
 		//public char data_ptr;  /**< data_ptr_used==true */
 		public char data_array[] = new char[RAW_INT_ENC_LENGTH];  /**< false */
 		
-		public RAW_enc_tree(boolean is_leaf, RAW_enc_tree par, RAW_enc_tr_pos par_pos, int my_pos, final TTCN_RAWdescriptor raw_attr) {
+		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;
 			this.isleaf = is_leaf;
 			must_free = false;
@@ -137,14 +137,14 @@ public class RAW {
 		public int length_restrition;
 		public CharCoding stringformat;
 		
-		public TTCN_RAWdescriptor(int fieldlength, raw_sign_t comp,
-				raw_order_t byteorder, raw_order_t endianness,
-				raw_order_t bitorderinfield, raw_order_t bitorderinoctet,
-				ext_bit_t extension_bit, raw_order_t hexorder,
-				raw_order_t fieldorder, top_bit_order_t top_bit_order,
-				int padding, int prepadding, int ptroffset, int unit,
-				int padding_pattern_length, String padding_pattern,
-				int length_restrition, CharCoding stringformat) {
+		public TTCN_RAWdescriptor(final int fieldlength, final raw_sign_t comp,
+				final raw_order_t byteorder, final raw_order_t endianness,
+				final raw_order_t bitorderinfield, final raw_order_t bitorderinoctet,
+				final ext_bit_t extension_bit, final raw_order_t hexorder,
+				final raw_order_t fieldorder, final top_bit_order_t top_bit_order,
+				final int padding, final int prepadding, final int ptroffset, final int unit,
+				final int padding_pattern_length, final String padding_pattern,
+				final int length_restrition, final CharCoding stringformat) {
 			this.fieldlength = fieldlength;
 			this.comp = comp;
 			this.byteorder = byteorder;
@@ -170,7 +170,7 @@ public class RAW {
 		public int level;
 		public int pos;
 		
-		public RAW_enc_tr_pos(int level, int pos) {
+		public RAW_enc_tr_pos(final int level, final int pos) {
 			this.level = level;
 			this.pos = pos;
 		}
@@ -182,7 +182,7 @@ public class RAW {
 		public int unit;
 		public int ptr_base;
 		
-		public RAW_enc_pointer(RAW_enc_tr_pos target, int ptr_offset, int unit, int ptr_base) {
+		public RAW_enc_pointer(final RAW_enc_tr_pos target, final int ptr_offset, final int unit, final int ptr_base) {
 			this.target = target;
 			this.ptr_offset = ptr_offset;
 			this.unit = unit;
@@ -196,7 +196,7 @@ public class RAW {
 		public int unit;
 		public int offset;
 		
-		public RAW_enc_lengthto(int num_of_fields, RAW_enc_tr_pos fields, int unit, int offset) {
+		public RAW_enc_lengthto(final int num_of_fields, final RAW_enc_tr_pos fields, final int unit, final int offset) {
 			this.num_of_fields = num_of_fields;
 			this.fields = fields;
 			this.unit = unit;
@@ -212,7 +212,7 @@ public class RAW {
 		public raw_order_t hexorder;
 		public raw_order_t fieldorder;
 		
-		public RAW_coding_par(raw_order_t bitorder, raw_order_t byteorder, raw_order_t hexorder, raw_order_t fieldorder) {
+		public RAW_coding_par(final raw_order_t bitorder, final raw_order_t byteorder, final raw_order_t hexorder, final raw_order_t fieldorder) {
 			this.bitorder = bitorder;
 			this.byteorder = byteorder;
 			this.hexorder = hexorder;

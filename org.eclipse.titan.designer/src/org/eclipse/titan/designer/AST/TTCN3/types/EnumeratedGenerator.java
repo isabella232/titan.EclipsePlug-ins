@@ -113,7 +113,7 @@ public class EnumeratedGenerator {
 
 		//== constructors for enum_type ==
 
-		source.append("enum_type(int num) {\n");
+		source.append("enum_type(final int num) {\n");
 		source.append("this.enum_num = num;\n");
 		source.append("}\n\n");
 
@@ -204,7 +204,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueEnumGetValue(final StringBuilder source, final StringBuilder helper) {
-		source.append("public static enum_type getValue(int index) {\n");
+		source.append("public static enum_type getValue(final int index) {\n");
 		source.append("switch (index) {\n");
 		source.append(helper);
 		source.append("default:\n");
@@ -220,17 +220,17 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// own type
-		source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", name));
+		source.append(MessageFormat.format("public {0}(final {0} otherValue) '{'\n", name));
 		source.append(MessageFormat.format("enum_value = otherValue.enum_value;\n", name));
 		source.append("}\n\n");
 
 		// enum_type
-		source.append(MessageFormat.format("public {0}({0}.enum_type otherValue ) '{'\n", name));
+		source.append(MessageFormat.format("public {0}(final {0}.enum_type otherValue ) '{'\n", name));
 		source.append("enum_value = otherValue;\n");
 		source.append("}\n\n");
 
 		//arg int
-		source.append(MessageFormat.format("public {0}(int otherValue) '{'\n", name));
+		source.append(MessageFormat.format("public {0}(final int otherValue) '{'\n", name));
 		source.append("if (!isValidEnum(otherValue)) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Initializing a variable of enumerated type `{0}'' with invalid numeric value {1} .\", otherValue));\n", name));
 		source.append("}\n\n");
@@ -239,14 +239,14 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueIsValidEnum(final StringBuilder source, final String name) {
-		source.append("public static boolean isValidEnum(int otherValue) {\n");
+		source.append("public static boolean isValidEnum(final int otherValue) {\n");
 		source.append("final enum_type helper =  enum_type.getValue(otherValue);\n");
 		source.append("return helper != null && helper != enum_type.UNKNOWN_VALUE && helper != enum_type.UNBOUND_VALUE ;\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueEnumToStr(final StringBuilder source) {
-		source.append("public static String enum2str(enum_type enumPar) {\n");
+		source.append("public static String enum2str(final enum_type enumPar) {\n");
 		source.append("	return enumPar.name();\n");
 		source.append("}\n\n");
 	}
@@ -279,7 +279,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueStrToEnum(final StringBuilder source) {
-		source.append("public static enum_type str2enum(String strPar) {\n");
+		source.append("public static enum_type str2enum(final String strPar) {\n");
 		source.append("enum_type helper;");
 		source.append("try {\n");
 		source.append("helper = enum_type.valueOf(strPar);\n");
@@ -298,14 +298,14 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueFromInt(final StringBuilder source) {
-		source.append("public void fromInt(int otherValue) {\n");
+		source.append("public void fromInt(final int otherValue) {\n");
 		source.append("enum_value = enum_type.getValue(otherValue);\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIntToEnum(final StringBuilder source) {
 		//arg: int
-		source.append("public void int2enum(int intValue) {\n");
+		source.append("public void int2enum(final int intValue) {\n");
 		source.append("if (!isValidEnum(intValue)) {\n");
 		source.append("throw new TtcnError(\"Assigning invalid numeric value \"+intValue+\" to a variable of enumerated type {}.\");\n");
 		source.append("	}\n");
@@ -313,7 +313,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		//arg: TitanInteger
-		source.append("public void int2enum(TitanInteger intValue) {\n");
+		source.append("public void int2enum(final TitanInteger intValue) {\n");
 		source.append("if (!isValidEnum(intValue.getInt())) {\n");
 		source.append("throw new TtcnError(\"Assigning invalid numeric value \"+intValue.getInt()+\" to a variable of enumerated type {}.\");\n");
 		source.append("	}\n");
@@ -323,7 +323,7 @@ public class EnumeratedGenerator {
 
 	private static void generateValueEnumToInt(final StringBuilder source, final String name) {
 		// arg: enum_type
-		source.append(MessageFormat.format("public static int enum2int({0}.enum_type enumPar) '{'\n", name));
+		source.append(MessageFormat.format("public static int enum2int(final {0}.enum_type enumPar) '{'\n", name));
 		source.append("if (enumPar == enum_type.UNBOUND_VALUE || enumPar == enum_type.UNKNOWN_VALUE) {\n");
 		source.append("throw new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
 		source.append("}\n");
@@ -403,7 +403,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateMustBound(final StringBuilder source ) {
-		source.append("public void mustBound( String errorMessage) {\n");
+		source.append("public void mustBound(final String errorMessage) {\n");
 		source.append("if ( !isBound() ) {\n");
 		source.append("throw new TtcnError( errorMessage );\n");
 		source.append("}\n");
@@ -711,7 +711,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateSetType(final StringBuilder source, final String name){
-		source.append("public void setType(template_sel templateType, int list_length) {\n");
+		source.append("public void setType(final template_sel templateType, final int list_length) {\n");
 		source.append("if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
@@ -763,7 +763,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue, boolean legacy ) '{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final {0}.enum_type otherValue, final boolean legacy) '{'\n", name));
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("return single_value == otherValue;\n");
@@ -792,7 +792,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		source.append("// originally match\n");
-		source.append(MessageFormat.format("public boolean match(final {0} otherValue, boolean legacy ) '{'\n", name));
+		source.append(MessageFormat.format("public boolean match(final {0} otherValue, final boolean legacy) '{'\n", name));
 		source.append("return match(otherValue.enum_value, false);\n");
 		source.append("}\n\n");
 
@@ -815,7 +815,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateTemplateListItem(final StringBuilder source, final String name) {
-		source.append(MessageFormat.format("public {0}_template listItem(int list_index)  '{'\n", name));
+		source.append(MessageFormat.format("public {0}_template listItem(final int list_index) '{'\n", name));
 		source.append("if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Accessing a list element of a non-list template of enumerated type {0}.\");\n", name));
 		source.append("}\n");

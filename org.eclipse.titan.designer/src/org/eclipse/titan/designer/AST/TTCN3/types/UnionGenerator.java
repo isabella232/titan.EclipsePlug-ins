@@ -1049,7 +1049,7 @@ public class UnionGenerator {
 	 * */
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
-		source.append("public void encode_text(Text_Buf text_buf) {\n");
+		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("encode_text_base(text_buf);\n");
 		source.append("switch(templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
@@ -1073,7 +1073,7 @@ public class UnionGenerator {
 		source.append("}\n");
 
 		source.append("@Override\n");
-		source.append("public void decode_text(Text_Buf text_buf) {\n");
+		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		source.append("cleanUp();\n");
 		source.append("decode_text_base(text_buf);\n");
 		source.append("switch(templateSelection) {\n");

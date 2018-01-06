@@ -509,7 +509,7 @@ public final class AdditionalFunctions {
 	}
 
 	//FIXME: implement
-	public static TitanOctetString unichar2oct(TitanUniversalCharString value) {
+	public static TitanOctetString unichar2oct(final TitanUniversalCharString value) {
 		// no encoding parameter is default UTF-8
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
 
@@ -520,7 +520,7 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(text_buf.pull_string());
 	}
 	
-	public static TitanOctetString unichar2oct(TitanUniversalCharString value, final TitanCharString stringEncoding) {
+	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final TitanCharString stringEncoding) {
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
 		
 		final Text_Buf text_buf = new Text_Buf();
