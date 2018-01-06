@@ -73,12 +73,12 @@ public class RAW {
 			data_ptr_used = false;
 			rec_of = false;
 			parent = par;
-			curr_pos.pos = par_pos.level+1;
-			if(par_pos.level != 0) {
-				//FIXME: implement memcpy
+			curr_pos.pos = new int[par_pos.level+1];
+			if(par_pos.level >= 0) {
+				System.arraycopy(par_pos.pos, 0, curr_pos.pos, 0, par_pos.pos.length);
 			}
 			curr_pos.level = par_pos.level + 1;
-			curr_pos.pos = my_pos;
+			curr_pos.pos[curr_pos.level - 1] = my_pos;
 			length = 0;
 			padding = raw_attr.padding;
 			prepadding = raw_attr.prepadding;
@@ -168,9 +168,9 @@ public class RAW {
 
 	public class RAW_enc_tr_pos{
 		public int level;
-		public int pos;
+		public int pos[];
 		
-		public RAW_enc_tr_pos(final int level, final int pos) {
+		public RAW_enc_tr_pos(final int level, final int pos[]) {
 			this.level = level;
 			this.pos = pos;
 		}
