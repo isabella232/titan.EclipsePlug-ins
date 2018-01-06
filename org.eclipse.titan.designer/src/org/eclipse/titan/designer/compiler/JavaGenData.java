@@ -24,6 +24,9 @@ public class JavaGenData {
 	/** the java source file without the import part */
 	private StringBuilder mSrc;
 
+	/** the extra module level variables (global in original, in java public static) */
+	private StringBuilder mGlobalVariables;
+
 	/** the contents of pre_init */
 	private StringBuilder preInit;
 
@@ -66,6 +69,7 @@ public class JavaGenData {
 		buildTimestamp = timestamp;
 
 		mSrc = new StringBuilder();
+		mGlobalVariables = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
@@ -119,6 +123,13 @@ public class JavaGenData {
 	 */
 	public StringBuilder getSrc() {
 		return mSrc;
+	}
+
+	/**
+	 * @return the string where the module level extra variables are written
+	 */
+	public StringBuilder getGlobalVariables() {
+		return mGlobalVariables;
 	}
 
 	/**
