@@ -894,7 +894,7 @@ public final class TtcnLogger {
 			break;
 		}
 		case ALT_MatchingProblem: {
-			MatchingProblemType mp = choice.getMatchingProblem();
+			final MatchingProblemType mp = choice.getMatchingProblem();
 			returnValue.append("Operation `");
 			if (mp.getAny__port().getValue()) {
 				returnValue.append("any port.");
@@ -1017,7 +1017,7 @@ public final class TtcnLogger {
 			break;
 		}
 		case ALT_ProcPortSend: {
-			Proc__port__out ps = choice.getProcPortSend();
+			final Proc__port__out ps = choice.getProcPortSend();
 			final String dest;
 			if (ps.getCompref().getInt() == TitanComponent.SYSTEM_COMPREF) {
 				dest = ps.getSys__name().getValue().toString();
@@ -1552,7 +1552,7 @@ public final class TtcnLogger {
 
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, Severity.VERDICTOP_SETVERDICT);
-		SetVerdictType set = event.getLogEvent().getChoice().getVerdictOp().getChoice().getSetVerdict();
+		final SetVerdictType set = event.getLogEvent().getChoice().getVerdictOp().getChoice().getSetVerdict();
 		set.getNewVerdict().assign(newVerdict.ordinal());
 		set.getOldVerdict().assign(oldVerdict.ordinal());
 		set.getLocalVerdict().assign(localVerdict.ordinal());

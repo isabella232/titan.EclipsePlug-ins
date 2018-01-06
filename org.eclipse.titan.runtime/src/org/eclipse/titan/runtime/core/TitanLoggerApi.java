@@ -4778,8 +4778,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			final List<TitanCharString> newList = new ArrayList<TitanCharString>( srcList.size() );
-			for (TitanCharString srcElem : srcList) {
-				TitanCharString newElem = getUnboundElem();
+			for (final TitanCharString srcElem : srcList) {
+				final TitanCharString newElem = getUnboundElem();
 				if (srcElem.isBound()) {
 					newElem.assign( srcElem );
 				}
@@ -4883,7 +4883,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @TitanLoggerApi.Strings.str_list concatenation.");
 			}
-			Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
+			final Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i < valueElements.size(); i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
@@ -4900,7 +4900,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Strings_str__list concatenate(final TitanNull_Type nullValue) {
-			Strings_str__list ret_val = new Strings_str__list(this);
+			final Strings_str__list ret_val = new Strings_str__list(this);
 			return ret_val;
 		}
 
@@ -4939,7 +4939,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (rc == 0) {
 				return new Strings_str__list(this);
 			}
-			Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
+			final Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
 			for (int i = size - rc; i < size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
@@ -4972,7 +4972,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			if ( valueElements.get( index_value ) == null ) {
-				TitanCharString newElem = getUnboundElem();
+				final TitanCharString newElem = getUnboundElem();
 				valueElements.set( index_value, newElem );
 			}
 			return valueElements.get( index_value );
@@ -5019,7 +5019,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanInteger lengthOf() {
 			mustBound("Performing lengthof operation on an unbound value of type @TitanLoggerApi.Strings.str_list.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
-				TitanCharString elem = valueElements.get( i );
+				final TitanCharString elem = valueElements.get( i );
 				if ( elem != null && elem.isBound() ) {
 					return new TitanInteger(i + 1);
 				}
@@ -5072,7 +5072,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.Strings.str_list.");
 			}
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@TitanLoggerApi.Strings.str_list","element");
-			Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
+			final Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
 				if (valueElements.get(i+index) != null) {
 					ret_val.valueElements.add(new TitanCharString(valueElements.get(i+index)));
@@ -5089,7 +5089,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The fourth argument of replace() is an unbound value of type @TitanLoggerApi.Strings.str_list.");
 			}
 			AdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, "@TitanLoggerApi.Strings.str_list","element");
-			Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
+			final Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
 			for (int i = 0; i < index; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
@@ -5167,7 +5167,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final int temp = text_buf.pull_int().getInt();
 			valueElements = new ArrayList<TitanCharString>(temp);
 			for (int i = 0; i < temp; i++) {
-				TitanCharString temp2 = new TitanCharString();
+				final TitanCharString temp2 = new TitanCharString();
 				temp2.decode_text(text_buf);
 				valueElements.add(temp2);
 			}
@@ -5585,7 +5585,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case RANGE_LENGTH_RESTRICTION:
 				case SINGLE_LENGTH_RESTRICTION: {
 					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
+					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
 					for (int i = 0; i < N; ++i) {
 						value_elements.set( pos.get() + i, new TitanCharString_template( template_sel.ANY_VALUE ) );
 					}
@@ -5601,7 +5601,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.Strings.str_list.");
 			}
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
 				setSelection(template_sel.SPECIFIC_VALUE);
@@ -5679,7 +5679,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			{
 				if (list_value.size()<1)
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.Strings.str_list containing an empty list.", op_name ) );
-				int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.Strings.str_list containing a value list with different sizes.", op_name ) );
@@ -5722,7 +5722,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (!other_value.isBound()) {
 				return false;
 			}
-			int value_length = other_value.sizeOf().getInt();
+			final int value_length = other_value.sizeOf().getInt();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -5801,7 +5801,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.Strings.str_list.");
 			}
-			Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
+			final Strings_str__list ret_val = new Strings_str__list(TitanNull_Type.NULL_VALUE);
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 				if (value_elements.get(elem_count).isBound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueOf() );
@@ -5958,7 +5958,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				value_elements = new ArrayList<TitanCharString_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanCharString_template temp2 = new TitanCharString_template();
+					final TitanCharString_template temp2 = new TitanCharString_template();
 					temp2.decode_text(text_buf);
 					value_elements.add(temp2);
 				}
@@ -5969,7 +5969,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				final int temp = text_buf.pull_int().getInt();
 				list_value = new ArrayList<Strings_str__list_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					Strings_str__list_template temp2 = new Strings_str__list_template();
+					final Strings_str__list_template temp2 = new Strings_str__list_template();
 					temp2.decode_text(text_buf);
 					list_value.add(temp2);
 				}
@@ -11769,8 +11769,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			final List<TitanLogEvent> newList = new ArrayList<TitanLogEvent>( srcList.size() );
-			for (TitanLogEvent srcElem : srcList) {
-				TitanLogEvent newElem = getUnboundElem();
+			for (final TitanLogEvent srcElem : srcList) {
+				final TitanLogEvent newElem = getUnboundElem();
 				if (srcElem.isBound()) {
 					newElem.assign( srcElem );
 				}
@@ -11874,7 +11874,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list concatenation.");
 			}
-			TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i < valueElements.size(); i++) {
 				final TitanLogEvent elem = valueElements.get(i);
 				if (elem != null) {
@@ -11891,7 +11891,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list_0_event__list concatenate(final TitanNull_Type nullValue) {
-			TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(this);
+			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(this);
 			return ret_val;
 		}
 
@@ -11930,7 +11930,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (rc == 0) {
 				return new TitanLog_sequence__list_0_event__list(this);
 			}
-			TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
 			for (int i = size - rc; i < size; i++) {
 				final TitanLogEvent elem = valueElements.get(i);
 				if (elem != null) {
@@ -11963,7 +11963,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			if ( valueElements.get( index_value ) == null ) {
-				TitanLogEvent newElem = getUnboundElem();
+				final TitanLogEvent newElem = getUnboundElem();
 				valueElements.set( index_value, newElem );
 			}
 			return valueElements.get( index_value );
@@ -12010,7 +12010,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanInteger lengthOf() {
 			mustBound("Performing lengthof operation on an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
-				TitanLogEvent elem = valueElements.get( i );
+				final TitanLogEvent elem = valueElements.get( i );
 				if ( elem != null && elem.isBound() ) {
 					return new TitanInteger(i + 1);
 				}
@@ -12063,7 +12063,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list","element");
-			TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
 				if (valueElements.get(i+index) != null) {
 					ret_val.valueElements.add(new TitanLogEvent(valueElements.get(i+index)));
@@ -12080,7 +12080,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The fourth argument of replace() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
 			AdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, "@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list","element");
-			TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
 			for (int i = 0; i < index; i++) {
 				final TitanLogEvent elem = valueElements.get(i);
 				if (elem != null) {
@@ -12158,7 +12158,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final int temp = text_buf.pull_int().getInt();
 			valueElements = new ArrayList<TitanLogEvent>(temp);
 			for (int i = 0; i < temp; i++) {
-				TitanLogEvent temp2 = new TitanLogEvent();
+				final TitanLogEvent temp2 = new TitanLogEvent();
 				temp2.decode_text(text_buf);
 				valueElements.add(temp2);
 			}
@@ -12576,7 +12576,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case RANGE_LENGTH_RESTRICTION:
 				case SINGLE_LENGTH_RESTRICTION: {
 					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
+					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
 					for (int i = 0; i < N; ++i) {
 						value_elements.set( pos.get() + i, new TitanLogEvent_template( template_sel.ANY_VALUE ) );
 					}
@@ -12592,7 +12592,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
 				setSelection(template_sel.SPECIFIC_VALUE);
@@ -12670,7 +12670,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			{
 				if (list_value.size()<1)
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list containing an empty list.", op_name ) );
-				int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list containing a value list with different sizes.", op_name ) );
@@ -12713,7 +12713,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (!other_value.isBound()) {
 				return false;
 			}
-			int value_length = other_value.sizeOf().getInt();
+			final int value_length = other_value.sizeOf().getInt();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -12792,7 +12792,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
-			TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(TitanNull_Type.NULL_VALUE);
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 				if (value_elements.get(elem_count).isBound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueOf() );
@@ -12949,7 +12949,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				value_elements = new ArrayList<TitanLogEvent_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanLogEvent_template temp2 = new TitanLogEvent_template();
+					final TitanLogEvent_template temp2 = new TitanLogEvent_template();
 					temp2.decode_text(text_buf);
 					value_elements.add(temp2);
 				}
@@ -12960,7 +12960,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				final int temp = text_buf.pull_int().getInt();
 				list_value = new ArrayList<TitanLog_sequence__list_0_event__list_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanLog_sequence__list_0_event__list_template temp2 = new TitanLog_sequence__list_0_event__list_template();
+					final TitanLog_sequence__list_0_event__list_template temp2 = new TitanLog_sequence__list_0_event__list_template();
 					temp2.decode_text(text_buf);
 					list_value.add(temp2);
 				}
@@ -32068,8 +32068,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			final List<LocationInfo> newList = new ArrayList<LocationInfo>( srcList.size() );
-			for (LocationInfo srcElem : srcList) {
-				LocationInfo newElem = getUnboundElem();
+			for (final LocationInfo srcElem : srcList) {
+				final LocationInfo newElem = getUnboundElem();
 				if (srcElem.isBound()) {
 					newElem.assign( srcElem );
 				}
@@ -32173,7 +32173,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @TitanLoggerApi.TitanLogEvent.sourceInfo_list concatenation.");
 			}
-			TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
+			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i < valueElements.size(); i++) {
 				final LocationInfo elem = valueElements.get(i);
 				if (elem != null) {
@@ -32190,7 +32190,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLogEvent_sourceInfo__list concatenate(final TitanNull_Type nullValue) {
-			TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(this);
+			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(this);
 			return ret_val;
 		}
 
@@ -32229,7 +32229,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (rc == 0) {
 				return new TitanLogEvent_sourceInfo__list(this);
 			}
-			TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
+			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
 			for (int i = size - rc; i < size; i++) {
 				final LocationInfo elem = valueElements.get(i);
 				if (elem != null) {
@@ -32262,7 +32262,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			if ( valueElements.get( index_value ) == null ) {
-				LocationInfo newElem = getUnboundElem();
+				final LocationInfo newElem = getUnboundElem();
 				valueElements.set( index_value, newElem );
 			}
 			return valueElements.get( index_value );
@@ -32309,7 +32309,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanInteger lengthOf() {
 			mustBound("Performing lengthof operation on an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
-				LocationInfo elem = valueElements.get( i );
+				final LocationInfo elem = valueElements.get( i );
 				if ( elem != null && elem.isBound() ) {
 					return new TitanInteger(i + 1);
 				}
@@ -32362,7 +32362,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@TitanLoggerApi.TitanLogEvent.sourceInfo_list","element");
-			TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
+			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
 				if (valueElements.get(i+index) != null) {
 					ret_val.valueElements.add(new LocationInfo(valueElements.get(i+index)));
@@ -32379,7 +32379,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The fourth argument of replace() is an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
 			AdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, "@TitanLoggerApi.TitanLogEvent.sourceInfo_list","element");
-			TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
+			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
 			for (int i = 0; i < index; i++) {
 				final LocationInfo elem = valueElements.get(i);
 				if (elem != null) {
@@ -32457,7 +32457,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final int temp = text_buf.pull_int().getInt();
 			valueElements = new ArrayList<LocationInfo>(temp);
 			for (int i = 0; i < temp; i++) {
-				LocationInfo temp2 = new LocationInfo();
+				final LocationInfo temp2 = new LocationInfo();
 				temp2.decode_text(text_buf);
 				valueElements.add(temp2);
 			}
@@ -32875,7 +32875,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case RANGE_LENGTH_RESTRICTION:
 				case SINGLE_LENGTH_RESTRICTION: {
 					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
+					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
 					for (int i = 0; i < N; ++i) {
 						value_elements.set( pos.get() + i, new LocationInfo_template( template_sel.ANY_VALUE ) );
 					}
@@ -32891,7 +32891,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
 				setSelection(template_sel.SPECIFIC_VALUE);
@@ -32969,7 +32969,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			{
 				if (list_value.size()<1)
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list containing an empty list.", op_name ) );
-				int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list containing a value list with different sizes.", op_name ) );
@@ -33012,7 +33012,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (!other_value.isBound()) {
 				return false;
 			}
-			int value_length = other_value.sizeOf().getInt();
+			final int value_length = other_value.sizeOf().getInt();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -33091,7 +33091,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
-			TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
+			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(TitanNull_Type.NULL_VALUE);
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 				if (value_elements.get(elem_count).isBound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueOf() );
@@ -33248,7 +33248,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				value_elements = new ArrayList<LocationInfo_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					LocationInfo_template temp2 = new LocationInfo_template();
+					final LocationInfo_template temp2 = new LocationInfo_template();
 					temp2.decode_text(text_buf);
 					value_elements.add(temp2);
 				}
@@ -33259,7 +33259,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				final int temp = text_buf.pull_int().getInt();
 				list_value = new ArrayList<TitanLogEvent_sourceInfo__list_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanLogEvent_sourceInfo__list_template temp2 = new TitanLogEvent_sourceInfo__list_template();
+					final TitanLogEvent_sourceInfo__list_template temp2 = new TitanLogEvent_sourceInfo__list_template();
 					temp2.decode_text(text_buf);
 					list_value.add(temp2);
 				}
@@ -50975,8 +50975,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			final List<TitanCharString> newList = new ArrayList<TitanCharString>( srcList.size() );
-			for (TitanCharString srcElem : srcList) {
-				TitanCharString newElem = getUnboundElem();
+			for (final TitanCharString srcElem : srcList) {
+				final TitanCharString newElem = getUnboundElem();
 				if (srcElem.isBound()) {
 					newElem.assign( srcElem );
 				}
@@ -51080,7 +51080,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @TitanLoggerApi.StartFunction.parameter_list concatenation.");
 			}
-			StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
+			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i < valueElements.size(); i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
@@ -51097,7 +51097,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public StartFunction_parameter__list concatenate(final TitanNull_Type nullValue) {
-			StartFunction_parameter__list ret_val = new StartFunction_parameter__list(this);
+			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(this);
 			return ret_val;
 		}
 
@@ -51136,7 +51136,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (rc == 0) {
 				return new StartFunction_parameter__list(this);
 			}
-			StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
+			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
 			for (int i = size - rc; i < size; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
@@ -51169,7 +51169,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			if ( valueElements.get( index_value ) == null ) {
-				TitanCharString newElem = getUnboundElem();
+				final TitanCharString newElem = getUnboundElem();
 				valueElements.set( index_value, newElem );
 			}
 			return valueElements.get( index_value );
@@ -51216,7 +51216,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanInteger lengthOf() {
 			mustBound("Performing lengthof operation on an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
-				TitanCharString elem = valueElements.get( i );
+				final TitanCharString elem = valueElements.get( i );
 				if ( elem != null && elem.isBound() ) {
 					return new TitanInteger(i + 1);
 				}
@@ -51269,7 +51269,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@TitanLoggerApi.StartFunction.parameter_list","element");
-			StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
+			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
 				if (valueElements.get(i+index) != null) {
 					ret_val.valueElements.add(new TitanCharString(valueElements.get(i+index)));
@@ -51286,7 +51286,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The fourth argument of replace() is an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
 			AdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, "@TitanLoggerApi.StartFunction.parameter_list","element");
-			StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
+			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
 			for (int i = 0; i < index; i++) {
 				final TitanCharString elem = valueElements.get(i);
 				if (elem != null) {
@@ -51364,7 +51364,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final int temp = text_buf.pull_int().getInt();
 			valueElements = new ArrayList<TitanCharString>(temp);
 			for (int i = 0; i < temp; i++) {
-				TitanCharString temp2 = new TitanCharString();
+				final TitanCharString temp2 = new TitanCharString();
 				temp2.decode_text(text_buf);
 				valueElements.add(temp2);
 			}
@@ -51782,7 +51782,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case RANGE_LENGTH_RESTRICTION:
 				case SINGLE_LENGTH_RESTRICTION: {
 					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
+					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
 					for (int i = 0; i < N; ++i) {
 						value_elements.set( pos.get() + i, new TitanCharString_template( template_sel.ANY_VALUE ) );
 					}
@@ -51798,7 +51798,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
 				setSelection(template_sel.SPECIFIC_VALUE);
@@ -51876,7 +51876,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			{
 				if (list_value.size()<1)
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.StartFunction.parameter_list containing an empty list.", op_name ) );
-				int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.StartFunction.parameter_list containing a value list with different sizes.", op_name ) );
@@ -51919,7 +51919,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (!other_value.isBound()) {
 				return false;
 			}
-			int value_length = other_value.sizeOf().getInt();
+			final int value_length = other_value.sizeOf().getInt();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -51998,7 +51998,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
-			StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
+			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(TitanNull_Type.NULL_VALUE);
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 				if (value_elements.get(elem_count).isBound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueOf() );
@@ -52155,7 +52155,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				value_elements = new ArrayList<TitanCharString_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanCharString_template temp2 = new TitanCharString_template();
+					final TitanCharString_template temp2 = new TitanCharString_template();
 					temp2.decode_text(text_buf);
 					value_elements.add(temp2);
 				}
@@ -52166,7 +52166,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				final int temp = text_buf.pull_int().getInt();
 				list_value = new ArrayList<StartFunction_parameter__list_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					StartFunction_parameter__list_template temp2 = new StartFunction_parameter__list_template();
+					final StartFunction_parameter__list_template temp2 = new StartFunction_parameter__list_template();
 					temp2.decode_text(text_buf);
 					list_value.add(temp2);
 				}
@@ -68916,8 +68916,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			final List<TitanLog_sequence__list_0> newList = new ArrayList<TitanLog_sequence__list_0>( srcList.size() );
-			for (TitanLog_sequence__list_0 srcElem : srcList) {
-				TitanLog_sequence__list_0 newElem = getUnboundElem();
+			for (final TitanLog_sequence__list_0 srcElem : srcList) {
+				final TitanLog_sequence__list_0 newElem = getUnboundElem();
 				if (srcElem.isBound()) {
 					newElem.assign( srcElem );
 				}
@@ -69021,7 +69021,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (valueElements == null || other_value.valueElements == null) {
 				throw new TtcnError("Unbound operand of @TitanLoggerApi.TitanLog.sequence_list concatenation.");
 			}
-			TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i < valueElements.size(); i++) {
 				final TitanLog_sequence__list_0 elem = valueElements.get(i);
 				if (elem != null) {
@@ -69038,7 +69038,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list concatenate(final TitanNull_Type nullValue) {
-			TitanLog_sequence__list ret_val = new TitanLog_sequence__list(this);
+			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(this);
 			return ret_val;
 		}
 
@@ -69077,7 +69077,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (rc == 0) {
 				return new TitanLog_sequence__list(this);
 			}
-			TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
 			for (int i = size - rc; i < size; i++) {
 				final TitanLog_sequence__list_0 elem = valueElements.get(i);
 				if (elem != null) {
@@ -69110,7 +69110,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 
 			if ( valueElements.get( index_value ) == null ) {
-				TitanLog_sequence__list_0 newElem = getUnboundElem();
+				final TitanLog_sequence__list_0 newElem = getUnboundElem();
 				valueElements.set( index_value, newElem );
 			}
 			return valueElements.get( index_value );
@@ -69157,7 +69157,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanInteger lengthOf() {
 			mustBound("Performing lengthof operation on an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
 			for ( int i = valueElements.size() - 1; i >= 0; i-- ) {
-				TitanLog_sequence__list_0 elem = valueElements.get( i );
+				final TitanLog_sequence__list_0 elem = valueElements.get( i );
 				if ( elem != null && elem.isBound() ) {
 					return new TitanInteger(i + 1);
 				}
@@ -69210,7 +69210,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The first argument of substr() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
 			AdditionalFunctions.check_substr_arguments(valueElements.size(), index, returncount, "@TitanLoggerApi.TitanLog.sequence_list","element");
-			TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
 			for (int i=0; i<returncount; i++) {
 				if (valueElements.get(i+index) != null) {
 					ret_val.valueElements.add(new TitanLog_sequence__list_0(valueElements.get(i+index)));
@@ -69227,7 +69227,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("The fourth argument of replace() is an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
 			AdditionalFunctions.check_replace_arguments(valueElements.size(), index, len, "@TitanLoggerApi.TitanLog.sequence_list","element");
-			TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
 			for (int i = 0; i < index; i++) {
 				final TitanLog_sequence__list_0 elem = valueElements.get(i);
 				if (elem != null) {
@@ -69305,7 +69305,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final int temp = text_buf.pull_int().getInt();
 			valueElements = new ArrayList<TitanLog_sequence__list_0>(temp);
 			for (int i = 0; i < temp; i++) {
-				TitanLog_sequence__list_0 temp2 = new TitanLog_sequence__list_0();
+				final TitanLog_sequence__list_0 temp2 = new TitanLog_sequence__list_0();
 				temp2.decode_text(text_buf);
 				valueElements.add(temp2);
 			}
@@ -69723,7 +69723,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				case RANGE_LENGTH_RESTRICTION:
 				case SINGLE_LENGTH_RESTRICTION: {
 					// ? length(N) or * length(N) => { ?, ?, ... ? } N times
-					int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
+					final int N = operand.length_restriction_type == length_restriction_type_t.SINGLE_LENGTH_RESTRICTION ? operand.single_length : operand.range_length_min_length;
 					for (int i = 0; i < N; ++i) {
 						value_elements.set( pos.get() + i, new TitanLog_sequence__list_0_template( template_sel.ANY_VALUE ) );
 					}
@@ -69739,7 +69739,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (new_size < 0) {
 				throw new TtcnError("Internal error: Setting a negative size for a template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
-			template_sel old_selection = templateSelection;
+			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
 				setSelection(template_sel.SPECIFIC_VALUE);
@@ -69817,7 +69817,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			{
 				if (list_value.size()<1)
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list containing an empty list.", op_name ) );
-				int item_size = list_value.get(0).sizeOf(is_size).getInt();
+				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list containing a value list with different sizes.", op_name ) );
@@ -69860,7 +69860,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (!other_value.isBound()) {
 				return false;
 			}
-			int value_length = other_value.sizeOf().getInt();
+			final int value_length = other_value.sizeOf().getInt();
 			if (!match_length(value_length)) {
 				return false;
 			}
@@ -69939,7 +69939,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
-			TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
+			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(TitanNull_Type.NULL_VALUE);
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
 				if (value_elements.get(elem_count).isBound()) {
 					ret_val.valueElements.add( value_elements.get(elem_count).valueOf() );
@@ -70096,7 +70096,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				value_elements = new ArrayList<TitanLog_sequence__list_0_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanLog_sequence__list_0_template temp2 = new TitanLog_sequence__list_0_template();
+					final TitanLog_sequence__list_0_template temp2 = new TitanLog_sequence__list_0_template();
 					temp2.decode_text(text_buf);
 					value_elements.add(temp2);
 				}
@@ -70107,7 +70107,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				final int temp = text_buf.pull_int().getInt();
 				list_value = new ArrayList<TitanLog_sequence__list_template>(temp);
 				for (int i = 0; i < temp; i++) {
-					TitanLog_sequence__list_template temp2 = new TitanLog_sequence__list_template();
+					final TitanLog_sequence__list_template temp2 = new TitanLog_sequence__list_template();
 					temp2.decode_text(text_buf);
 					list_value.add(temp2);
 				}
