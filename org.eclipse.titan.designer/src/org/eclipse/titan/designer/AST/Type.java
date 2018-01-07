@@ -1638,10 +1638,16 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
+		aData.addBuiltinTypeImport("RAW.ext_bit_t");
+		aData.addBuiltinTypeImport("RAW.raw_sign_t");
+		aData.addBuiltinTypeImport("RAW.top_bit_order_t");
+		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
+		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 		final String genname = getGenNameOwn();
 		final StringBuilder globalVariables = aData.getGlobalVariables();
-		globalVariables.append(MessageFormat.format("//public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(\"{0}\");\n", genname, getFullName()));
+		//FIXME this is just the default case with no variants taken into account
+		globalVariables.append(MessageFormat.format("public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN);\n", genname));
 	}
 
 	/**

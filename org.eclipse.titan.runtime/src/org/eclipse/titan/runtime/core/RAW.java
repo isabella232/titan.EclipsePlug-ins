@@ -117,7 +117,7 @@ public class RAW {
 		}
 	}
 
-	public class TTCN_RAWdescriptor {
+	public static final class TTCN_RAWdescriptor {
 		public int fieldlength; /**< length of field in \a unit s */
 		public raw_sign_t comp; /**< the method used for storing negative numbers */
 		public raw_order_t byteorder;
