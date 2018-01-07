@@ -1625,12 +1625,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
 		 * and can't use the descriptor of one of the built-in types.
 		 */
+		final boolean generate_raw = true;
+		final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
 		if (genname.equals(gennameTypeDescriptor)) {
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			//check and generate the needed type descriptors
 			//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
-			final boolean generate_raw = true;
-			final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
 			if (generate_raw && genname.equals(gennameRawDescriptor)) {
 				generateCodeRawDescriptor(aData, source);
 			}
@@ -1638,7 +1638,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 		final StringBuilder globalVariables = aData.getGlobalVariables();
-		globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\");\n", genname, getFullName()));
+		globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
+		if (generate_raw) {
+			//TODO the code works but the internal types don't have their raw descriptors yet, so results in lots of errors in the generated code.
+			//globalVariables.append(MessageFormat.format(",{0}_raw_", gennameRawDescriptor));
+			globalVariables.append(", null");
+		} else {
+			globalVariables.append(", null");
+		}
+		globalVariables.append(");\n");
 	}
 
 	/**

@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 /**
@@ -24,11 +25,15 @@ public abstract class Base_Type {
 	 *TODO: currently no encoding/decoding is supported yet!
 	 * */
 	public static class TTCN_Typedescriptor {
+		// name of the type
 		public final String name;
+		// information for RAW coding
+		public final TTCN_RAWdescriptor raw;
 		//FIXME the other encoding specific descriptors
 
-		public TTCN_Typedescriptor(final String name) {
+		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw) {
 			this.name = name;
+			this.raw = raw;
 		}
 	}
 
