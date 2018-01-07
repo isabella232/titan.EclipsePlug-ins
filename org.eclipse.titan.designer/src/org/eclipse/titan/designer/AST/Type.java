@@ -1609,7 +1609,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public abstract void generateCode( final JavaGenData aData, final StringBuilder source );
 
-	//FIXME comment
+	/**
+	 * Generates the type descriptor for this type.
+	 *
+	 * generate_code_typedescriptor in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * */
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement: actually more complicated
 		final String genname = getGenNameOwn();
@@ -1634,7 +1641,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\");\n", genname, getFullName()));
 	}
 
-	//FIXME comment
+	/**
+	 * Generates the raw descriptor for this type if it exists.
+	 *
+	 * generate_code_rawdescriptor in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * */
 	public void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
