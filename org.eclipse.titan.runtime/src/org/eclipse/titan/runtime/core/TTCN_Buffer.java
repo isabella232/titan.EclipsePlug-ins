@@ -11,18 +11,11 @@ package org.eclipse.titan.runtime.core;
  * Buffer used by the different encoders/decoders.
  * 
  * FIXME the current implementation is only a placeholder to mark the architectural borders.
+ *
  * @author Farkas Izabella Ingrid
  */
 public class TTCN_Buffer {
 	//FIXME a lot to implement here
-	/** 
-	 * Stores the current contents of the buffer to variable p_os.
-	 * 
-	 * @param p_os the variable to store the contents of the buffer into.
-	 * */
-	public void get_string(final TitanOctetString p_os) {
-		throw new TtcnError("get_string() for TTCN_Buffer is not implemented!");
-	}
 
 	final static private int INITIAL_SIZE = 1024;
 	/* The layout of this structure must match that of charstring_struct */
@@ -199,10 +192,7 @@ public class TTCN_Buffer {
 		return null;
 	}
 
-	public char[] put_string() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+
 
 	/** Appends single character \a c to the buffer. */
 	public void put_c(final char c) {
@@ -221,5 +211,19 @@ public class TTCN_Buffer {
 			}
 			buf_len += length; 
 		}
+	}
+
+	public char[] put_string() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	/** 
+	 * Stores the current contents of the buffer to variable p_os.
+	 * 
+	 * @param p_os the variable to store the contents of the buffer into.
+	 * */
+	public void get_string(final TitanOctetString p_os) {
+		throw new TtcnError("get_string() for TTCN_Buffer is not implemented!");
 	}
 }
