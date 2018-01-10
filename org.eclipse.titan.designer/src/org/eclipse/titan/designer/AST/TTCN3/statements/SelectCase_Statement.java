@@ -235,7 +235,12 @@ public final class SelectCase_Statement extends Statement {
 		final IType governor = expression.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 		final String type = governor.getGenNameValue(aData, source, myScope);
 		final String tmp = aData.getTemporaryVariableName();
-		source.append(MessageFormat.format("{0} {1} = {2};\n", type, tmp, name));
+
+		if (last.isUnfoldable(CompilationTimeStamp.getBaseTimestamp())) {
+			source.append(MessageFormat.format("{0} {1} = {2};\n", type, tmp, name));
+		} else {
+			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", type, tmp, name));
+		}
 
 		selectcases.generateCode(aData, source, tmp);
 	}
