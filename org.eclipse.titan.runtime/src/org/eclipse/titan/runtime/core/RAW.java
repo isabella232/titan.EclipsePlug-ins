@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.math.BigInteger;
+
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
@@ -62,10 +64,10 @@ public class RAW {
 		public RAW_enc_lengthto lengthto; /**< calc is CALC_LENGTH */
 		public RAW_enc_pointer  pointerto; /**< calc is CALC_POINTER */
 		public int num_of_nodes;
-		public RAW_enc_tree nodes;
-		//public char data_ptr;  /**< data_ptr_used==true */
+		public RAW_enc_tree nodes[];
+		public char data_ptr[];  /**< data_ptr_used==true */
 		public char data_array[] = new char[RAW_INT_ENC_LENGTH];  /**< false */
-		
+
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;
 			this.isleaf = is_leaf;
@@ -115,6 +117,119 @@ public class RAW {
 				nodes = null;
 			}
 		}
+
+		public void put_to_buf(TTCN_Buffer buf) {
+			calc_padding(0);
+			calc_fields();
+		}
+
+		private void calc_fields() {
+			if(isleaf) {
+				int szumm = 0;
+				RAW_enc_tree atm;
+				switch (calc) {
+				case CALC_LENGTH:
+					if(lengthto.unit != -1) {
+						for(int a = 0; a < lengthto.num_of_fields; a++) {
+							atm = get_node(lengthto.fields[a]);
+							if(atm != null) {
+								szumm += atm.length + atm.padlength + atm.prepadlength;
+							}
+						}
+						szumm = (szumm + lengthto.unit - 1) / lengthto.unit;
+					} else {
+						atm = get_node(lengthto.fields[0]);
+						if(atm != null) {
+							szumm = atm.num_of_nodes;
+						}
+					}
+					szumm += lengthto.offset;
+					TitanInteger temp = new TitanInteger(szumm);
+					temp.RAW_encode(coding_descr, this);
+					break;
+				case CALC_POINTER:
+					int cl = curr_pos.pos[curr_pos.level - 1];
+					curr_pos.pos[curr_pos.level - 1] = pointerto.ptr_base;
+					int base = pointerto.ptr_base;
+					RAW_enc_tree b = get_node(curr_pos);
+					while (b == null) {
+						base++;
+						curr_pos.pos[curr_pos.level - 1] = base;
+						b = get_node(curr_pos);
+					}
+					curr_pos.pos[curr_pos.level - 1] = cl;
+					atm = get_node(pointerto.target);
+					if(atm != null) {
+						szumm = (atm.startpos - b.startpos + pointerto.unit - 1 - pointerto.ptr_offset) / pointerto.unit;
+					}
+					TitanInteger temp2 = new TitanInteger(szumm);
+					temp2.RAW_encode(coding_descr, this);
+				default:
+					break;
+				}
+			} else {
+				for (int a = 0; a < num_of_nodes; a++) {
+					if (nodes[a] != null){
+						nodes[a].calc_fields();
+					}
+				}   
+			}
+		}
+
+		private int calc_padding(final int position) {
+			int current_pos = position;
+			startpos = position;
+			if(prepadding != 0) {
+				int new_pos = ((current_pos + prepadding - 1) / prepadding) * prepadding;
+				prepadlength = new_pos - position;
+				current_pos = new_pos;
+			}
+			if(!isleaf) {
+				for (int a = 0; a < num_of_nodes; a++) {
+					if(nodes[a] != null) {
+						current_pos = nodes[a].calc_padding(current_pos);
+					}
+				}
+				length = current_pos - position - prepadlength;
+			} else {
+				current_pos += length;
+			}
+			if(padding != 0) {
+				int new_pos = ((current_pos + padding - 1) / padding) * padding;
+				padlength = new_pos - length - position - prepadlength;
+				current_pos = new_pos;
+			}
+			return current_pos;
+		}
+
+		//TODO:void RAW_enc_tree::fill_buf(TTCN_Buffer &buf)
+
+		/**
+		 * Return the element at ``req_pos'' from the RAW encoding tree. At first get
+		 * the root of the whole tree at the first level. Then go down in the tree
+		 * following the route in the ``req_pos.pos'' array. If the element was not
+		 * found NULL is returned.
+		 *
+		 * @param req_pos the position of the element
+		 * @return the element at the given position
+		 */
+		public RAW_enc_tree get_node(final RAW_enc_tr_pos req_pos) {
+			if(req_pos.level == 0) {
+				return null;
+			}
+			RAW_enc_tree t = this;
+			int cur_level = curr_pos.level;
+			for(int b = 1; b < cur_level; b++) {
+				t = t.parent;
+			}
+			for(cur_level = 1; cur_level < req_pos.level; cur_level++) {
+				if(t == null || t.isleaf || num_of_nodes <= req_pos.pos[cur_level]) {
+					return null;
+				}
+				t = t.nodes[req_pos.pos[cur_level]];
+			}
+			return t;
+		}
 	}
 
 	public static final class TTCN_RAWdescriptor {
@@ -136,7 +251,7 @@ public class RAW {
 		public String padding_pattern;
 		public int length_restrition;
 		public CharCoding stringformat;
-		
+
 		public TTCN_RAWdescriptor(final int fieldlength, final raw_sign_t comp,
 				final raw_order_t byteorder, final raw_order_t endianness,
 				final raw_order_t bitorderinfield, final raw_order_t bitorderinoctet,
@@ -169,7 +284,7 @@ public class RAW {
 	public class RAW_enc_tr_pos{
 		public int level;
 		public int pos[];
-		
+
 		public RAW_enc_tr_pos(final int level, final int pos[]) {
 			this.level = level;
 			this.pos = pos;
@@ -181,7 +296,7 @@ public class RAW {
 		public int ptr_offset;
 		public int unit;
 		public int ptr_base;
-		
+
 		public RAW_enc_pointer(final RAW_enc_tr_pos target, final int ptr_offset, final int unit, final int ptr_base) {
 			this.target = target;
 			this.ptr_offset = ptr_offset;
@@ -192,18 +307,18 @@ public class RAW {
 
 	public class RAW_enc_lengthto{
 		public int num_of_fields;
-		public RAW_enc_tr_pos fields;
+		public RAW_enc_tr_pos fields[];
 		public int unit;
 		public int offset;
-		
-		public RAW_enc_lengthto(final int num_of_fields, final RAW_enc_tr_pos fields, final int unit, final int offset) {
+
+		public RAW_enc_lengthto(final int num_of_fields, final RAW_enc_tr_pos fields[], final int unit, final int offset) {
 			this.num_of_fields = num_of_fields;
 			this.fields = fields;
 			this.unit = unit;
 			this.offset = offset;
 		}
-		
-		
+
+
 	};
 
 	public class RAW_coding_par{
@@ -211,7 +326,7 @@ public class RAW {
 		public raw_order_t byteorder;
 		public raw_order_t hexorder;
 		public raw_order_t fieldorder;
-		
+
 		public RAW_coding_par(final raw_order_t bitorder, final raw_order_t byteorder, final raw_order_t hexorder, final raw_order_t fieldorder) {
 			this.bitorder = bitorder;
 			this.byteorder = byteorder;
@@ -284,4 +399,42 @@ public class RAW {
 		CALC_LENGTH, /**< calculated field for LENGTHTO */
 		CALC_POINTER /**< calculated field for POINTERTO */
 	};
+
+	/**
+	 * Return the number of bits needed to represent an integer value `a'.  The
+	 * sign bit is added for negative values.  It has a different implementation
+	 * for `BIGNUM' values.
+	 *
+	 * @param a the integer in question
+	 * @return the number of bits needed to represent the given integer
+	 * in sign+magnitude
+	 */
+	public static int min_bits(int a)
+	{
+		int bits = 0;
+		int tmp = a;
+		if (a < 0) {
+			bits = 1;
+			tmp = -a;
+		}
+		while (tmp != 0) {
+			bits++;
+			tmp /= 2;
+		}
+		return bits;
+	}
+
+	public static int min_bits(BigInteger a) {
+		int bits = 0;
+		BigInteger tmp = a;
+		if(a.signum() == -1) {
+			bits = 1;
+			tmp = a.negate();
+		}
+		while(tmp.equals(0)) {
+			bits++;
+			tmp = tmp.divide(new BigInteger("2"));
+		}
+		return bits;
+	}
 }
