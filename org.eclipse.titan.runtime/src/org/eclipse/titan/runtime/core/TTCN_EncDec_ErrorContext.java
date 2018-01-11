@@ -56,12 +56,13 @@ public class TTCN_EncDec_ErrorContext {
 		}
 	}
 
-	public void error(final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
-		String err_msg = null;
+	public static void error(final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
+		String err_msg = "";
 		for (int i = 0; i < errors.size(); i++) {
 			//FIXME: Initial implement
 			err_msg = errors.get(i).msg + " ";
 		}
+		err_msg.concat(fmt + " ");
 		for (int i = 0; i < args.length; i++) {
 			//FIXME: Initial implement
 			err_msg.concat(args[i].toString() + " ");
@@ -69,12 +70,13 @@ public class TTCN_EncDec_ErrorContext {
 		TTCN_EncDec.error(p_et, err_msg);
 	}
 
-	public void error_internal(final String fmt, final Object... args) {
+	public static void error_internal(final String fmt, final Object... args) {
 		String err_msg = "Internal error: ";
 		for (int i = 0; i < errors.size(); i++) {
 			//FIXME: Initial implement
 			err_msg = errors.get(i).msg + " ";
 		}
+		err_msg.concat(fmt + " ");
 		for (int i = 0; i < args.length; i++) {
 			//FIXME: Initial implement
 			err_msg.concat(args[i].toString() + " ");
