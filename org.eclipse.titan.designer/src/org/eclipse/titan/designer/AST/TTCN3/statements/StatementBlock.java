@@ -1084,6 +1084,9 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statements.get(i);
 			statement.generateCode( aData, source );
+			if( statement instanceof Break_Statement || statement instanceof Continue_Statement) {
+				break;
+			}
 		}
 	}
 }

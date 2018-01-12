@@ -484,6 +484,8 @@ public final class For_Statement extends Statement {
 		}
 
 		statementblock.generateCode(aData, source);
+		//TODO: do not generate stepAssignment if break or continue statement (without condition) occured.
+		//but this stepStatement is necessary if an earlier deeply wrapped continue occured (???)
 		stepAssignment.generateCode(aData, source);
 		source.append( "\t\t\t}\n" );
 		source.append( "\t\t}\n" );
