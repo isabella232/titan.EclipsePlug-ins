@@ -58,14 +58,45 @@ public class Semantic_warnings_tests {
 	public void Syntax_warnings2_ttcn() throws Exception {
 		Designer_plugin_tests.checkSemanticMarkersOnFile(Syntax_warnings2_ttcn_initializer(), "src/Unstructured_tests/Syntax_warnings2.ttcn");
 	}
-	
-	
+
 	private ArrayList<MarkerToCheck> SemanticErrors1_asn_initializer() {
 		//SemanticErrors1.asn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(1);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(17);
 		int lineNum = 8;
 		int i = 0;
-		for (i = 0; i < 2; i++) { markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING)); }
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Possibly unused importation", lineNum++, IMarker.SEVERITY_WARNING));
+		}
+		lineNum += 51;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 13;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 7;
+		markersToCheck.add(new MarkerToCheck("Permitted alphabet constraint not yet supported",  lineNum, IMarker.SEVERITY_WARNING));
 
 		return markersToCheck;
 	}
