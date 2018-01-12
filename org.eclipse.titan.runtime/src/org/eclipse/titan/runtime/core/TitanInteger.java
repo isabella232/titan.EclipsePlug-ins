@@ -10,6 +10,11 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+
+
 /**
  * TTCN-3 integer
  * @author Arpad Lovassy
@@ -797,5 +802,208 @@ public class TitanInteger extends Base_Type {
 	// static operator >=
 	public static boolean isGreaterThanOrEqual(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).isGreaterThanOrEqual(otherValue);
+	}
+	
+	/** Encodes the value of the variable according to the
+	 * TTCN_Typedescriptor_t.  It must be public because called by
+	 * another types during encoding.  Returns the length of encoded data.  */
+	
+	public static int INTX_MASKS[] = { 0 /*dummy*/, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
+	
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		if(!nativeFlag) {
+			return RAW_encode_openssl(p_td, myleaf);
+		}
+		char bc[];
+		int length; // total length, in bytes
+		int val_bits = 0; // only for IntX
+		int len_bits = 0; // only for IntX
+		int value = getInt();
+		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
+			value = 0;
+			neg_sgbit = false;
+		}
+		if((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
+			value = -value;
+		}
+		if(neg_sgbit) {
+			value = -value;
+		}
+		//myleaf.ext_bit=EXT_BIT_NO;
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		if(p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
+			val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
+			int v2 = value;
+			if(v2 < 0 && p_td.raw.comp == raw_sign_t.SG_2COMPL) {
+				v2 = ~v2;
+			}
+			do {
+				v2 >>= 1;
+			++val_bits;
+			} 
+			while(v2 != 0);
+			len_bits = 1 + val_bits / 8; // bits needed to store the length
+			if(val_bits % 8 + len_bits % 8 > 8) {
+				// the remainder of the value bits and the length bits do not fit into
+				// an octet => an extra octet is needed and the length must be increased
+				++len_bits;		
+			}
+			length = (len_bits + val_bits + 7) / 8;
+			if(len_bits % 8 == 0 && val_bits % 8 != 0) {
+				// special case: the value can be stored on 8k - 1 octets plus the partial octet
+				// - len_bits = 8k is not enough, since there's no partial octet in that case
+				// and the length would then be followed by 8k octets (and it only indicates
+				// 8k - 1 further octets)
+				// - len_bits = 8k + 1 is too much, since there are only 8k - 1 octets
+				// following the partial octet (and 8k are indicated)
+				// solution: len_bits = 8k + 1 and insert an extra empty octet
+				++len_bits;
+				++length;
+			}
+		} else { // not IntX, use the field length
+			length = (p_td.raw.fieldlength + 7) / 8;
+			if(RAW.min_bits(value) > p_td.raw.fieldlength) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode : ", p_td.name);
+				value = 0; // substitute with zero
+			}
+		}
+		if(length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
+			myleaf.data_ptr = bc = new char[length];
+			myleaf.must_free = true;
+			myleaf.data_ptr_used = true;
+		} else {
+			bc = myleaf.data_array;
+		}
+		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
+			int i = 0;
+			// treat the empty space between the value and the length as if it was part
+			// of the value, too
+			val_bits = length * 8 - len_bits;
+			// first, encode the value
+			do {
+				bc[i] =(char)(value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
+				++i;
+				value >>= 8;
+				val_bits -= 8;
+			}
+			while(val_bits > 0);
+			if(neg_sgbit) {
+				// the sign bit is the first bit after the length
+				char mask = (char)(0x80 >> len_bits & 8);
+				bc[i - 1] |= mask;
+			}
+			// second, encode the length (ignore the last zero)
+			--len_bits;
+			if(val_bits != 0) {
+				// the remainder of the length is in the same octet as the remainder of the
+				// value => step back onto it
+				--i;
+			} else {
+				// the remainder of the length is in a separate octet
+				bc[i] = 0;
+			}
+			// insert the length's partial octet
+			int mask = 0x80;
+			for (int j = 0; j < len_bits % 8; ++j) {
+				bc[i] |= mask;
+				mask >>= 1;
+			}
+			if (len_bits % 8 > 0 || val_bits != 0) {
+				// there was a partial octet => step onto the first full octet
+				++i;
+			}
+			// insert the length's full octets
+			while (len_bits >= 8) {
+				// octets containing only ones in the length
+				bc[i] = 0xFF;
+				++i;
+				len_bits -= 8;
+			}
+			myleaf.length = length * 8;
+		} else {
+			for (int a = 0; a < length; a++) {
+				bc[a] = (char)(value & 0xFF);
+				value >>= 8;
+			}
+			if (neg_sgbit) {
+				int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+				bc[length - 1] |= mask;
+			}
+			myleaf.length = p_td.raw.fieldlength;
+		}
+		return myleaf.length;
+	}
+	
+	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		char[] bc = null;
+		int length; // total length, in bytes
+		int val_bits = 0, len_bits = 0; // only for IntX
+		BigInteger D = new BigInteger(openSSL.toString());
+		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+			neg_sgbit = false;
+		}
+		if((D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
+			D = D.negate();
+			neg_sgbit = false;
+		}
+		// `if (neg_sgbit) tmp->neg = tmp->neg == 0;' is not needed, because the
+		// sign is stored separately from the number.  Default encoding of negative
+		// values in 2's complement form.
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
+			val_bits = D.bitCount() + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
+			len_bits = 1 + val_bits / 8; // bits needed to store the length
+			len_bits = 1 + val_bits / 8; // bits needed to store the length
+			if (val_bits % 8 + len_bits % 8 > 8) {
+				// the remainder of the value bits and the length bits do not fit into
+				// an octet => an extra octet is needed and the length must be increased
+				++len_bits;
+			}
+			length = (len_bits + val_bits + 7) / 8;
+			if (len_bits % 8 == 0 && val_bits % 8 != 0) {
+				// special case: the value can be stored on 8k - 1 octets plus the partial octet
+				// - len_bits = 8k is not enough, since there's no partial octet in that case
+				// and the length would then be followed by 8k octets (and it only indicates
+				// 8k - 1 further octets)
+				// - len_bits = 8k + 1 is too much, since there are only 8k - 1 octets
+				// following the partial octet (and 8k are indicated)
+				// solution: len_bits = 8k + 1 and insert an extra empty octet
+				++len_bits;
+				++length;
+			}
+		} else {
+			length = (p_td.raw.fieldlength + 7) / 8;
+			if(RAW.min_bits(D) > p_td.raw.fieldlength) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
+			      // `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
+			      // at all for negative values.  Just simply clear the value.
+				neg_sgbit = false;
+			}
+		}
+		if(length > RAW.RAW_INT_ENC_LENGTH) {
+			myleaf.data_ptr = bc = new char[length];
+			myleaf.must_free = true;
+			myleaf.data_ptr_used = true;
+		} else {
+			bc = myleaf.data_array;
+		}
+		boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
+		// Conversion to 2's complement.
+		if(twos_compl) {
+			D = D.negate();
+			int num_bytes = D.toByteArray().length;
+		}
+		//FIXME: openSSL.BN_bn2bin() missing, initial placeholder
+		return 0;
 	}
 }
