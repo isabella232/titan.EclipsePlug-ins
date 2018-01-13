@@ -10,6 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+
 /**
  * TTCN-3 bitstring
  * @author Arpad Lovassy
@@ -725,6 +729,48 @@ public class TitanBitString extends Base_Type {
 
 	public int getNBits() {
 		return n_bits;
+	}
+	
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+		}
+		int bl = n_bits;
+		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
+		if((bl + align_length) < n_bits) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: ", p_td.name);
+			bl = p_td.raw.fieldlength;
+			align_length = 0;
+		}
+		//  myleaf.ext_bit=EXT_BIT_NO;
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		myleaf.must_free = false;
+		myleaf.data_ptr_used = true;
+		myleaf.data_ptr = bits_ptr;
+		boolean orders = false;
+		if(p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if(p_td.raw.bitorderinfield == raw_order_t.ORDER_LSB) {
+			orders = !orders;
+		}
+		myleaf.coding_par.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		orders = false;
+		if(p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if(p_td.raw.bitorderinfield == raw_order_t.ORDER_LSB) {
+			orders = !orders;
+		}
+		myleaf.coding_par.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+			myleaf.align = align_length;
+		} else {
+			myleaf.align = -align_length;
+		}
+		return myleaf.length = bl + align_length;
 	}
 
 	//TODO: implement BITSTRING::int2bit as static

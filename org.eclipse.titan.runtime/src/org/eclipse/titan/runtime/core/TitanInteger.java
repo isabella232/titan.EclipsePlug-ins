@@ -814,7 +814,7 @@ public class TitanInteger extends Base_Type {
 		if(!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
 		}
-		char bc[];
+		int bc[];
 		int length; // total length, in bytes
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
@@ -873,7 +873,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if(length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
-			myleaf.data_ptr = bc = new char[length];
+			myleaf.data_ptr = bc = new int[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
@@ -940,7 +940,7 @@ public class TitanInteger extends Base_Type {
 	}
 	
 	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
-		char[] bc = null;
+		int[] bc = null;
 		int length; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
@@ -985,13 +985,13 @@ public class TitanInteger extends Base_Type {
 			length = (p_td.raw.fieldlength + 7) / 8;
 			if(RAW.min_bits(D) > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
-			      // `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
-			      // at all for negative values.  Just simply clear the value.
+				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
+				// at all for negative values.  Just simply clear the value.
 				neg_sgbit = false;
 			}
 		}
 		if(length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_ptr = bc = new char[length];
+			myleaf.data_ptr = bc = new int[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
@@ -1001,9 +1001,80 @@ public class TitanInteger extends Base_Type {
 		// Conversion to 2's complement.
 		if(twos_compl) {
 			D = D.negate();
-			int num_bytes = D.toByteArray().length;
+			byte[] tmp = D.toByteArray();
+			int num_bytes = tmp.length;
+			for (int a = 0; a < num_bytes; a++) {
+				tmp[a] = (byte)~tmp[a];
+			}
+			D = new BigInteger(tmp);
+			D = D.add(new BigInteger("1"));
 		}
-		//FIXME: openSSL.BN_bn2bin() missing, initial placeholder
-		return 0;
+		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
+			int i = 0;
+			// treat the empty space between the value and the length as if it was part
+			// of the value, too
+			val_bits = length * 8 - len_bits;
+			// first, encode the value
+			byte[] tmp = D.toByteArray();
+			int num_bytes = tmp.length;
+			bc = new int[(val_bits + 7) / 8];
+			do {
+				bc[i] = (num_bytes-i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits];
+				++i;
+				val_bits -=8;
+			}
+			while(val_bits > 0);
+			if(neg_sgbit) {
+				// the sign bit is the first bit after the length
+				int mask = 0x80 >> len_bits % 8;
+				bc[i - 1] |= mask;
+			}
+			// second, encode the length (ignore the last zero)
+			--len_bits;
+			if (val_bits != 0) {
+				// the remainder of the length is in the same octet as the remainder of the
+				// value => step back onto it
+				--i;
+			} else {
+				// the remainder of the length is in a separate octet
+				bc[i] = 0;
+			}
+			// insert the length's partial octet
+			int mask = 0x80;
+			for (int j = 0; j < len_bits % 8; ++j) {
+				bc[i] |= mask;
+				mask >>= 1;
+			}
+			if (len_bits % 8 > 0 || val_bits != 0) {
+				// there was a partial octet => step onto the first full octet
+				++i;
+			}
+			// insert the length's full octets
+			while (len_bits >= 8) {
+				// octets containing only ones in the length
+				bc[i] = 0xFF;
+				++i;
+				len_bits -= 8;
+			}
+			myleaf.length = length * 8;
+		} else {
+		    byte[] tmp = D.toByteArray();
+		    int num_bytes = tmp.length;
+		    for (int a = 0; a < length; a++) {
+		      if (twos_compl && num_bytes - 1 < a){
+		    	  bc[a] = 0xff;
+		      }
+		      else {
+		    	  bc[a] = (num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff;
+		      }
+		    }
+		    if (neg_sgbit) {
+		      int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+		      bc[length - 1] |= mask;
+		    }
+		    myleaf.length = p_td.raw.fieldlength;
+		  }
+		  return myleaf.length;
 	}
+	
 }

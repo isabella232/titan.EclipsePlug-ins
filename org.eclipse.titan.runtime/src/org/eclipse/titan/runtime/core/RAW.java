@@ -35,6 +35,65 @@ import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
  **/
 public class RAW {
 
+	public static final int[] BitReverseTable = {
+		0x00, 0x80, 0x40, 0xc0, 0x20, 0xa0, 0x60, 0xe0,
+		0x10, 0x90, 0x50, 0xd0, 0x30, 0xb0, 0x70, 0xf0,
+		0x08, 0x88, 0x48, 0xc8, 0x28, 0xa8, 0x68, 0xe8,
+		0x18, 0x98, 0x58, 0xd8, 0x38, 0xb8, 0x78, 0xf8,
+		0x04, 0x84, 0x44, 0xc4, 0x24, 0xa4, 0x64, 0xe4,
+		0x14, 0x94, 0x54, 0xd4, 0x34, 0xb4, 0x74, 0xf4,
+		0x0c, 0x8c, 0x4c, 0xcc, 0x2c, 0xac, 0x6c, 0xec,
+		0x1c, 0x9c, 0x5c, 0xdc, 0x3c, 0xbc, 0x7c, 0xfc,
+		0x02, 0x82, 0x42, 0xc2, 0x22, 0xa2, 0x62, 0xe2,
+		0x12, 0x92, 0x52, 0xd2, 0x32, 0xb2, 0x72, 0xf2,
+		0x0a, 0x8a, 0x4a, 0xca, 0x2a, 0xaa, 0x6a, 0xea,
+		0x1a, 0x9a, 0x5a, 0xda, 0x3a, 0xba, 0x7a, 0xfa,
+		0x06, 0x86, 0x46, 0xc6, 0x26, 0xa6, 0x66, 0xe6,
+		0x16, 0x96, 0x56, 0xd6, 0x36, 0xb6, 0x76, 0xf6,
+		0x0e, 0x8e, 0x4e, 0xce, 0x2e, 0xae, 0x6e, 0xee,
+		0x1e, 0x9e, 0x5e, 0xde, 0x3e, 0xbe, 0x7e, 0xfe,
+		0x01, 0x81, 0x41, 0xc1, 0x21, 0xa1, 0x61, 0xe1,
+		0x11, 0x91, 0x51, 0xd1, 0x31, 0xb1, 0x71, 0xf1,
+		0x09, 0x89, 0x49, 0xc9, 0x29, 0xa9, 0x69, 0xe9,
+		0x19, 0x99, 0x59, 0xd9, 0x39, 0xb9, 0x79, 0xf9,
+		0x05, 0x85, 0x45, 0xc5, 0x25, 0xa5, 0x65, 0xe5,
+		0x15, 0x95, 0x55, 0xd5, 0x35, 0xb5, 0x75, 0xf5,
+		0x0d, 0x8d, 0x4d, 0xcd, 0x2d, 0xad, 0x6d, 0xed,
+		0x1d, 0x9d, 0x5d, 0xdd, 0x3d, 0xbd, 0x7d, 0xfd,
+		0x03, 0x83, 0x43, 0xc3, 0x23, 0xa3, 0x63, 0xe3,
+		0x13, 0x93, 0x53, 0xd3, 0x33, 0xb3, 0x73, 0xf3,
+		0x0b, 0x8b, 0x4b, 0xcb, 0x2b, 0xab, 0x6b, 0xeb,
+		0x1b, 0x9b, 0x5b, 0xdb, 0x3b, 0xbb, 0x7b, 0xfb,
+		0x07, 0x87, 0x47, 0xc7, 0x27, 0xa7, 0x67, 0xe7,
+		0x17, 0x97, 0x57, 0xd7, 0x37, 0xb7, 0x77, 0xf7,
+		0x0f, 0x8f, 0x4f, 0xcf, 0x2f, 0xaf, 0x6f, 0xef,
+		0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
+	};
+
+	public static final int[] BitMaskTable = {
+		0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
+	};
+
+	public static final int RAW_INT_ENC_LENGTH = 4;
+	public static final int RAW_INTX = -1;
+
+	/**
+	 * Initialize the RAW encoding tree. The tree representations makes it easier
+	 * to encode/decode structured types with various attributes. Each node in the
+	 * tree stores information about the node's parent, position, attributes,
+	 * child nodes etc. The root of the tree is on the first level and its ``par''
+	 * is always NULL. That's why there's a ``par_pos'' parameter, but it could be
+	 * omitted. The first part of the position route in ``curr_pos.pos'' is
+	 * inherited from ``par''. The last element is the number of the current
+	 * element. Only the leaves carry data. Other nodes are just for construction
+	 * purposes.
+	 *
+	 * @param is_leaf true if it's a node with no children
+	 * @param par the parent of the current node
+	 * @param par_pos the parent's position
+	 * @param my_pos the child node's number of ``par''
+	 * @param raw_attr encoding attributes
+	 */
 	public class RAW_enc_tree {
 		/** indicates that the node is leaf (contains actual data) or not
 		 *  (contains pointers to other nodes) */
@@ -65,8 +124,8 @@ public class RAW {
 		public RAW_enc_pointer  pointerto; /**< calc is CALC_POINTER */
 		public int num_of_nodes;
 		public RAW_enc_tree nodes[];
-		public char data_ptr[];  /**< data_ptr_used==true */
-		public char data_array[] = new char[RAW_INT_ENC_LENGTH];  /**< false */
+		public int data_ptr[];  /**< data_ptr_used==true */
+		public int data_array[] = new int[RAW_INT_ENC_LENGTH];  /**< false */
 
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;
@@ -121,6 +180,7 @@ public class RAW {
 		public void put_to_buf(TTCN_Buffer buf) {
 			calc_padding(0);
 			calc_fields();
+			fill_buf(buf);
 		}
 
 		private void calc_fields() {
@@ -202,7 +262,9 @@ public class RAW {
 			return current_pos;
 		}
 
-		//TODO:void RAW_enc_tree::fill_buf(TTCN_Buffer &buf)
+		private void fill_buf(TTCN_Buffer buf) {
+			//TODO: implement
+		}
 
 		/**
 		 * Return the element at ``req_pos'' from the RAW encoding tree. At first get
@@ -279,6 +341,10 @@ public class RAW {
 			this.length_restrition = length_restrition;
 			this.stringformat = stringformat;
 		}
+
+		public TTCN_RAWdescriptor() {
+
+		}
 	}
 
 	public class RAW_enc_tr_pos{
@@ -335,48 +401,6 @@ public class RAW {
 		}
 	};
 
-	public static final int RAW_INT_ENC_LENGTH = 4;
-	public static final int RAW_INTX = -1;
-
-	public static final int[] BitReverseTable = {
-		0x00, 0x80, 0x40, 0xc0, 0x20, 0xa0, 0x60, 0xe0,
-		0x10, 0x90, 0x50, 0xd0, 0x30, 0xb0, 0x70, 0xf0,
-		0x08, 0x88, 0x48, 0xc8, 0x28, 0xa8, 0x68, 0xe8,
-		0x18, 0x98, 0x58, 0xd8, 0x38, 0xb8, 0x78, 0xf8,
-		0x04, 0x84, 0x44, 0xc4, 0x24, 0xa4, 0x64, 0xe4,
-		0x14, 0x94, 0x54, 0xd4, 0x34, 0xb4, 0x74, 0xf4,
-		0x0c, 0x8c, 0x4c, 0xcc, 0x2c, 0xac, 0x6c, 0xec,
-		0x1c, 0x9c, 0x5c, 0xdc, 0x3c, 0xbc, 0x7c, 0xfc,
-		0x02, 0x82, 0x42, 0xc2, 0x22, 0xa2, 0x62, 0xe2,
-		0x12, 0x92, 0x52, 0xd2, 0x32, 0xb2, 0x72, 0xf2,
-		0x0a, 0x8a, 0x4a, 0xca, 0x2a, 0xaa, 0x6a, 0xea,
-		0x1a, 0x9a, 0x5a, 0xda, 0x3a, 0xba, 0x7a, 0xfa,
-		0x06, 0x86, 0x46, 0xc6, 0x26, 0xa6, 0x66, 0xe6,
-		0x16, 0x96, 0x56, 0xd6, 0x36, 0xb6, 0x76, 0xf6,
-		0x0e, 0x8e, 0x4e, 0xce, 0x2e, 0xae, 0x6e, 0xee,
-		0x1e, 0x9e, 0x5e, 0xde, 0x3e, 0xbe, 0x7e, 0xfe,
-		0x01, 0x81, 0x41, 0xc1, 0x21, 0xa1, 0x61, 0xe1,
-		0x11, 0x91, 0x51, 0xd1, 0x31, 0xb1, 0x71, 0xf1,
-		0x09, 0x89, 0x49, 0xc9, 0x29, 0xa9, 0x69, 0xe9,
-		0x19, 0x99, 0x59, 0xd9, 0x39, 0xb9, 0x79, 0xf9,
-		0x05, 0x85, 0x45, 0xc5, 0x25, 0xa5, 0x65, 0xe5,
-		0x15, 0x95, 0x55, 0xd5, 0x35, 0xb5, 0x75, 0xf5,
-		0x0d, 0x8d, 0x4d, 0xcd, 0x2d, 0xad, 0x6d, 0xed,
-		0x1d, 0x9d, 0x5d, 0xdd, 0x3d, 0xbd, 0x7d, 0xfd,
-		0x03, 0x83, 0x43, 0xc3, 0x23, 0xa3, 0x63, 0xe3,
-		0x13, 0x93, 0x53, 0xd3, 0x33, 0xb3, 0x73, 0xf3,
-		0x0b, 0x8b, 0x4b, 0xcb, 0x2b, 0xab, 0x6b, 0xeb,
-		0x1b, 0x9b, 0x5b, 0xdb, 0x3b, 0xbb, 0x7b, 0xfb,
-		0x07, 0x87, 0x47, 0xc7, 0x27, 0xa7, 0x67, 0xe7,
-		0x17, 0x97, 0x57, 0xd7, 0x37, 0xb7, 0x77, 0xf7,
-		0x0f, 0x8f, 0x4f, 0xcf, 0x2f, 0xaf, 0x6f, 0xef,
-		0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
-	};
-
-	public static final int[] BitMaskTable = {
-		0x00, 0x01, 0x03, 0x07, 0x0f, 0x1f, 0x3f, 0x7f, 0xff
-	};
-
 	public static enum ext_bit_t{
 		EXT_BIT_NO,      /**< No extension bit */
 		EXT_BIT_YES,     /**< Extension bit used 0: more octets, 1: no more octets */
@@ -425,16 +449,52 @@ public class RAW {
 	}
 
 	public static int min_bits(BigInteger a) {
-		int bits = 0;
-		BigInteger tmp = a;
-		if(a.signum() == -1) {
-			bits = 1;
-			tmp = a.negate();
+		if(a == null) {
+			return 0;
 		}
-		while(tmp.equals(0)) {
-			bits++;
-			tmp = tmp.divide(new BigInteger("2"));
-		}
+		int bits = a.bitLength();
 		return bits;
 	}
+
+	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf, int integer_value, int min_bits_enum) {
+		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
+		TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
+		my_raw.fieldlength = fl;
+		my_raw.comp = p_td.raw.comp;
+		my_raw.byteorder = p_td.raw.byteorder;
+		my_raw.endianness = p_td.raw.endianness;
+		my_raw.bitorderinfield = p_td.raw.bitorderinfield;
+		my_raw.bitorderinoctet = p_td.raw.bitorderinoctet;
+		my_raw.extension_bit = p_td.raw.extension_bit;
+		my_raw.hexorder = p_td.raw.hexorder;
+		my_raw.fieldorder = p_td.raw.fieldorder;
+		my_raw.top_bit_order = p_td.raw.top_bit_order;
+		my_raw.padding = p_td.raw.padding;
+		my_raw.prepadding = p_td.raw.prepadding;
+		my_raw.ptroffset = p_td.raw.ptroffset;
+		my_raw.unit = p_td.raw.unit;
+		//FIXME: initial implementation of Typedescriptor
+		TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw);
+		TitanInteger i = new TitanInteger(integer_value);
+		i.RAW_encode(my_descr, myleaf);
+		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
+		return myleaf.length = fl;
+	}
+
+	//Default descriptors of RAW encoding for primitive types.     
+	public static final TTCN_RAWdescriptor INTEGER_raw_= new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor BOOLEAN_raw_= new TTCN_RAWdescriptor(1, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor BITSTRING_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor OCTETSTRING_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor HEXSTRING_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor CHARSTRING_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor FLOAT_raw_= new TTCN_RAWdescriptor(64, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor UNIVERSAL_CHARSTRING_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	
+	//TODO: int RAW_decode_enum_type(const TTCN_Typedescriptor_t&, TTCN_Buffer&, int, raw_order_t, int&, int, boolean no_err=FALSE);
+	//TODO: RAW_enc_tree** init_nodes_of_enc_tree(int nodes_num);
+	//TODO: RAW_enc_tr_pos* init_lengthto_fields_list(int num);
+	//TODO: int* init_new_tree_pos(RAW_enc_tr_pos &old_pos,int new_levels, int* new_pos);
+	//TODO: void free_tree_pos(int* ptr);
+	//TODO: int min_of_ints(unsigned num_of_int, ...);
 }
