@@ -703,4 +703,11 @@ public final class Component_Type extends Type {
 		aData.addBuiltinTypeImport( "TitanComponent_template" );
 		return "TitanComponent_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanComponent";
+	}
 }

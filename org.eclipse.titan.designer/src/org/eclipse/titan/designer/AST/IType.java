@@ -153,7 +153,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		TYPE_SELECTION
 	}
 
-	/** Encoding types. */
+	/** Encoding types. 
+	 * originally MessageEncodingTypes
+	 * */
 	public enum Encoding_type {
 		/** not yet defined */
 		UNDEFINED("<unknown encoding>"),
@@ -169,7 +171,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		TEXT("TEXT"),
 		/** json encoding. */
 		JSON("JSON");
-	
+
 		private String name;
 
 		Encoding_type(final String name) {

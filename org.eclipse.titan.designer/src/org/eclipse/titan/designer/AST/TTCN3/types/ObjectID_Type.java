@@ -263,4 +263,11 @@ public final class ObjectID_Type extends ASN1Type {
 
 		return "TitanObjectid_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanObjectid";
+	}
 }

@@ -206,4 +206,11 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 
 		return "TitanCharacter_String_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanCharacter_String";
+	}
 }

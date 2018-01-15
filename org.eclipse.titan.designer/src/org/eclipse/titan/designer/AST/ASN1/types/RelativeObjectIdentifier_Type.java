@@ -230,4 +230,11 @@ public final class RelativeObjectIdentifier_Type extends ASN1Type {
 
 		return "TitanAsn_Roid_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanAsn_Roid";
+	}
 }

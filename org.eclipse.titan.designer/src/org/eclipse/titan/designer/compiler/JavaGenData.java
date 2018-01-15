@@ -53,6 +53,12 @@ public class JavaGenData {
 	/** are omits allowed in value list (legacy mode) */
 	private boolean allowOmitInValueList = false;
 
+	/** is legacy codec handling needed */
+	private boolean legacyCodecHandling = false;
+
+	/** was raw encoding disabled for the runtime */
+	private boolean rawDisabled = false;
+
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
@@ -98,10 +104,15 @@ public class JavaGenData {
 			return;
 		}
 
-		final QualifiedName qn = new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY);
 		try {
-			final String s= project.getPersistentProperty(qn);
+			String s= project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY));
 			allowOmitInValueList = s == null || "true".equals(s);
+
+			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
+			rawDisabled = s == null || "true".equals(s);
+
+			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
+			legacyCodecHandling = s == null || "true".equals(s);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return;
@@ -250,5 +261,19 @@ public class JavaGenData {
 	 */
 	public boolean getAllowOmitInValueList() {
 		return allowOmitInValueList;
+	}
+
+	/**
+	 * @return true if raw encoding is enabled
+	 */
+	public boolean getEnableRaw() {
+		return !rawDisabled;
+	}
+
+	/**
+	 * @return true if leacy style codec handling was reqested (not yet supported)
+	 */
+	public boolean getLegacyCodecHandling() {
+		return legacyCodecHandling;
 	}
 }
