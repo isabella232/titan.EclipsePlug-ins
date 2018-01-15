@@ -51,7 +51,7 @@ public class JavaGenData {
 	private HashMap<String, StringBuilder> types;
 
 	/** are omits allowed in value list (legacy mode) */
-	private boolean allowOmitInValueList = true;
+	private boolean allowOmitInValueList = false;
 
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
@@ -248,7 +248,7 @@ public class JavaGenData {
 	/**
 	 * @return if omit is allowed in a value list.
 	 */
-	final public boolean allowOmitInValueList() {
+	public boolean getAllowOmitInValueList() {
 		return allowOmitInValueList;
 	}
 }

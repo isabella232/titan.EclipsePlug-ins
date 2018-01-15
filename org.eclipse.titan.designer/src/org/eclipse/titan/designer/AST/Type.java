@@ -1925,7 +1925,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					globalId, externalId, temporalIndexId));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.constGetAt({2}).{3}({4});\n",
-					globalId, externalId, temporalIndexId, (!isLast)?"isBound":"isPresent", isLast && isTemplate && aData.allowOmitInValueList()?"true":""));
+					globalId, externalId, temporalIndexId, (!isLast)?"isBound":"isPresent", isLast && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		}
 
 		generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId, isTemplate, optype, field);

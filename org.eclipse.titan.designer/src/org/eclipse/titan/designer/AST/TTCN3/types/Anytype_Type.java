@@ -825,7 +825,7 @@ public final class Anytype_Type extends Type {
 				if (optype == Operation_type.ISBOUND_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 				} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-					expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.allowOmitInValueList()?"true":""));
+					expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 				} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
 					expression.expression.append(MessageFormat.format("{0} = {1}.isChosen({2});\n", globalId, temporalId2, field));
 				}
@@ -866,7 +866,7 @@ public final class Anytype_Type extends Type {
 			if (optype == Operation_type.ISBOUND_OPERATION) {
 				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 			} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, subReferenceIndex!=subreferences.size()-1?"isBound":"isPresent", subReferenceIndex==subreferences.size()-1 && isTemplate && aData.allowOmitInValueList()?"true":""));
+				expression.expression.append(MessageFormat.format("{0} = {1}.{2}({3});\n", globalId, temporalId2, subReferenceIndex!=subreferences.size()-1?"isBound":"isPresent", subReferenceIndex==subreferences.size()-1 && isTemplate && aData.getAllowOmitInValueList()?"true":""));
 			} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
 				expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 				if (subReferenceIndex==subreferences.size()-1) {

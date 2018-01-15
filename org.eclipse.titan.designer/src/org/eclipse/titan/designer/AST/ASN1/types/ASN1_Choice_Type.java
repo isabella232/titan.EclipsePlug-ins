@@ -623,7 +623,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		if (optype == Operation_type.ISBOUND_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 		} else if (optype == Operation_type.ISPRESENT_OPERATION) {
-			expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.allowOmitInValueList()?"true":""));
+			expression.expression.append(MessageFormat.format("{0} = {1}.isPresent({2});\n", globalId, temporalId2, isTemplate && aData.getAllowOmitInValueList()?"true":""));
 		} else if (optype == Operation_type.ISCHOOSEN_OPERATION) {
 			expression.expression.append(MessageFormat.format("{0} = {1}.isBound();\n", globalId, temporalId2));
 			if (subReferenceIndex==subreferences.size()-1) {

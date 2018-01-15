@@ -324,7 +324,7 @@ public final class MatchExpression extends Expression_Value {
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".match( " );
 		value.generateCodeExpression(aData, expression, true);
-		if(aData.allowOmitInValueList()) {
+		if(aData.getAllowOmitInValueList()) {
 			expression.expression.append( ", true )" );
 		} else {
 			expression.expression.append( ", false )" );
@@ -336,7 +336,7 @@ public final class MatchExpression extends Expression_Value {
 		templateInstance.generateCode(aData, expression, Restriction_type.TR_NONE);
 		expression.expression.append( ".log_match( " );
 		value.generateCodeExpression(aData, expression, true);
-		if(aData.allowOmitInValueList()) {
+		if(aData.getAllowOmitInValueList()) {
 			expression.expression.append( ", true )" );
 		} else {
 			expression.expression.append( ", false )" );
