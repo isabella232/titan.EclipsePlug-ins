@@ -229,4 +229,11 @@ public final class External_Type extends ASN1Type implements IReferencingType {
 
 		return "TitanExternal_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanExternal";
+	}
 }

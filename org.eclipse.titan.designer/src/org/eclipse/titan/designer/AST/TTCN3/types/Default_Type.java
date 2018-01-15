@@ -230,4 +230,11 @@ public final class Default_Type extends Type {
 		aData.addBuiltinTypeImport( "TitanDefault_template" );
 		return "TitanDefault_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanDefault";
+	}
 }

@@ -230,4 +230,11 @@ public final class Embedded_PDV_Type extends ASN1Type implements IReferencingTyp
 
 		return "TitanEmbedded_PDV_template";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		aData.addBuiltinTypeImport( "Base_Type" );
+		return "Base_Type.TitanEmbedded_PDV";
+	}
 }
