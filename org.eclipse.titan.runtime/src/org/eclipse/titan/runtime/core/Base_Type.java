@@ -42,10 +42,10 @@ public abstract class Base_Type {
 	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", null);
 	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null);
 	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", null);
-	public static final TTCN_Typedescriptor TitanBitstring_descr_ = new TTCN_Typedescriptor("BIT STRING", null);
-	public static final TTCN_Typedescriptor TitanHexstring_descr_ = new TTCN_Typedescriptor("hexstring", null);
-	public static final TTCN_Typedescriptor TitanOctetstring_descr_ = new TTCN_Typedescriptor("OCTET STRING", null);
-	public static final TTCN_Typedescriptor TitanCharstring_descr_ = new TTCN_Typedescriptor("charstring", null);
+	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", null);
+	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", null);
+	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", null);
+	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", null);
 	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", null);
 	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null);
 	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null);
