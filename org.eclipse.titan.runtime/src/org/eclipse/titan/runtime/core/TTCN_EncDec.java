@@ -50,6 +50,7 @@ public final class TTCN_EncDec {
 		error_behavior_type.EB_IGNORE,
 		error_behavior_type.EB_WARNING,
 		error_behavior_type.EB_ERROR,
+		error_behavior_type.EB_ERROR,
 		error_behavior_type.EB_ERROR
 	};
 
@@ -78,6 +79,7 @@ public final class TTCN_EncDec {
 		error_behavior_type.EB_ERROR,
 		error_behavior_type.EB_IGNORE,
 		error_behavior_type.EB_WARNING,
+		error_behavior_type.EB_ERROR,
 		error_behavior_type.EB_ERROR,
 		error_behavior_type.EB_ERROR
 	};
@@ -138,7 +140,7 @@ public final class TTCN_EncDec {
 		ET_OMITTED_TAG,   /**< During encoding the key of a tag references
 				                           an optional field with omitted value */
 		ET_NEGTEST_CONFL, /**< Contradictory negative testing and RAW attributes. */
-		ET_ALL,           /**< Used only when setting error behavior. 25 */
+		ET_ALL,           /**< Used only when setting error behavior. 26 */
 		ET_INTERNAL,      /**< Internal error. Error behavior cannot be set
 				                           for this. */
 		ET_NONE           /**< There was no error. */
