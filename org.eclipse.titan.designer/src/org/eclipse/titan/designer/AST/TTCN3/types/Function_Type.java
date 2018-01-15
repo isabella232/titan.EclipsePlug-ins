@@ -290,6 +290,11 @@ public final class Function_Type extends Type {
 		}
 
 		checkSubtypeRestrictions(timestamp);
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

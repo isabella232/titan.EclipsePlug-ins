@@ -424,6 +424,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		if (dimension != null) {
 			dimension.check(timestamp);
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

@@ -135,6 +135,11 @@ public final class Embedded_PDV_Type extends ASN1Type implements IReferencingTyp
 		if (null != constraints) {
 			constraints.check(timestamp);
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

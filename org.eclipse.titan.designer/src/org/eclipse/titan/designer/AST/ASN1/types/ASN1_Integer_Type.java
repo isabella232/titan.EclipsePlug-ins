@@ -248,6 +248,11 @@ public final class ASN1_Integer_Type extends ASN1Type {
 		if (null != constraints) {
 			constraints.check(timestamp);
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override
@@ -576,7 +581,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanInteger";
 	}

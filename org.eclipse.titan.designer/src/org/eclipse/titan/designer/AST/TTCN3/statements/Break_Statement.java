@@ -94,7 +94,7 @@ public final class Break_Statement extends Statement {
 		if (altGuards != null && altGuards.getIsAltstep()) {
 			source.append("return TitanAlt_Status.ALT_BREAK;\n");
 		} else {
-			source.append("if (true) { break; }\n"); //simple break causes java semantic error
+			source.append("break;\n");
 		}
 	}
 }

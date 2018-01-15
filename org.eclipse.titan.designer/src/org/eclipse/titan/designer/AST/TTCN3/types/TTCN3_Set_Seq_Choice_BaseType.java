@@ -399,6 +399,11 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		}
 
 		checkSubtypeRestrictions(timestamp);
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

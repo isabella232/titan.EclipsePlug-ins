@@ -272,6 +272,11 @@ public final class Anytype_Type extends Type {
 		parseAttributes(timestamp);
 
 		compFieldMap.check(timestamp);
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	/**

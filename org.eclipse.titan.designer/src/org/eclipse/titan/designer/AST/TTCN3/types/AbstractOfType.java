@@ -347,6 +347,11 @@ public abstract class AbstractOfType extends ASN1Type {
 		}
 
 		checkSubtypeRestrictions(timestamp);
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override
