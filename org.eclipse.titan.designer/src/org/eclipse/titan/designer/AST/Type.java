@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -82,6 +83,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	// TODO as this is only used for TTCN-3 types maybe we could save some
 	// memory, by moving it ... but than we waste runtime.
 	protected WithAttributesPath withAttributesPath = null;
+	public ArrayList<Encoding_type> codersToGenerate = new ArrayList<IType.Encoding_type>();
+
 	private boolean hasDone = false;
 
 	/** The list of parsed sub-type restrictions before they are converted */
@@ -473,6 +476,42 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		lastTimeChecked = timestamp;
+	}
+
+	/**
+	 * Checks the encodings supported by the type (when using new codec handling).
+	 * TTCN-3 types need to have an 'encode' attribute to support an encoding.
+	 * ASN.1 types automatically support BER, PER and JSON encodings, and XER
+	 * encoding, if set by the compiler option.
+	 * */
+	public void checkEncode(final CompilationTimeStamp timestamp) {
+		//FIXME implement
+		//TODO currently using the real attribute mechanism, not the compiler one for prototype reason.
+		WithAttributesPath attributePath = getAttributePath();
+		if (attributePath != null) {
+			List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
+			for (int i = 0; i < realAttributes.size(); i++) {
+				SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+				if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
+					//FIXME also handle modifier
+					addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+				}
+			}
+		}
+	}
+
+	/**
+	 * Checks the type's variant attributes (when using the new codec handling).
+	 * */
+	public void checkVariants(final CompilationTimeStamp timestamp) {
+		//FIXME implement
+	}
+
+	//FIXME comment
+	private void addCoding(final String name, final boolean silent) {
+		//FIXME implement properly
+		Encoding_type builtInCoding = getEncodingType(name);
+		setGenerateCoderFunctions(builtInCoding);
 	}
 
 	@Override
@@ -1628,6 +1667,66 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
+	 * Returns whether this type can be encoded according to rules
+	 * encoding.
+	 * 
+	 * originally get_gen_coder_functions
+	 * 
+	 * @param encodingType the encoding type to check
+	 * @return true if the type has the provided encoding, false otherwise
+	 * */
+	private boolean getGenerateCoderFunctions(final Encoding_type encodingType) {
+		for (int i = 0; i < codersToGenerate.size(); i++) {
+			if (encodingType == codersToGenerate.get(i)) {
+				return true;
+			}
+		}
+		switch (getTypetype()) {
+		case TYPE_ASN1_SEQUENCE:
+		case TYPE_TTCN3_SEQUENCE:
+		case TYPE_ASN1_SET:
+		case TYPE_TTCN3_SET:
+		case TYPE_ASN1_CHOICE:
+		case TYPE_TTCN3_CHOICE:
+		case TYPE_ANYTYPE:
+		case TYPE_OPENTYPE:
+		case TYPE_SEQUENCE_OF:
+		case TYPE_SET_OF:
+		case TYPE_ARRAY:
+		case TYPE_ASN1_ENUMERATED:
+		case TYPE_TTCN3_ENUMERATED:
+			// no 'encode' attribute for this type or any types that reference it, so
+			// don't generate coder functions
+			return false;
+		default:
+			// no need to generate coder functions for basic types, but this function
+			// is also used to determine codec-specific descriptor generation
+			//FIXME implement can_have_coding(coding);
+			return false;
+		}
+	}
+
+	//FIXME comment
+	private void setGenerateCoderFunctions(final Encoding_type encodingType) {
+		switch(encodingType) {
+		case BER:
+		case RAW:
+		case TEXT:
+		case XER:
+			break;
+		default:
+			//TODO error
+			return;
+		}
+		if (getGenerateCoderFunctions(encodingType)) {
+			//already set
+			return;
+		}
+		codersToGenerate.add(encodingType);
+		//FIXME implement
+	}
+
+	/**
 	 * Add generated java code on this level.
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
@@ -1650,28 +1749,37 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		 * the type needs its own {type,ber,raw,text,xer,json}descriptor
 		 * and can't use the descriptor of one of the built-in types.
 		 */
-		final boolean generate_raw = true;
-		final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
+
 		if (genname.equals(gennameTypeDescriptor)) {
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			//check and generate the needed type descriptors
 			//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
+			final boolean generate_raw = aData.getEnableRaw() && aData.getLegacyCodecHandling() ? true: getGenerateCoderFunctions(Encoding_type.RAW);//FIXME implement legacy support if needed
+			final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
 			if (generate_raw && genname.equals(gennameRawDescriptor)) {
 				generateCodeRawDescriptor(aData, source);
 			}
-		}
 
-		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
-		final StringBuilder globalVariables = aData.getGlobalVariables();
-		globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
-		if (generate_raw) {
-			//TODO the code works but the internal types don't have their raw descriptors yet, so results in lots of errors in the generated code.
-			//globalVariables.append(MessageFormat.format(",{0}_raw_", gennameRawDescriptor));
-			globalVariables.append(", null");
+			aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
+			final StringBuilder globalVariables = aData.getGlobalVariables();
+			globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
+			if (generate_raw) {
+				//TODO the code works but the internal types don't have their raw descriptors yet, so results in lots of errors in the generated code.
+				//globalVariables.append(MessageFormat.format(",{0}_raw_", gennameRawDescriptor));
+				globalVariables.append(", null");
+			} else {
+				globalVariables.append(", null");
+			}
+			globalVariables.append(");\n");
 		} else {
-			globalVariables.append(", null");
+			// the type uses the type descriptor of another type
+			if (needsAlias()) {
+				// we need to generate an aliased type descriptor only if the type is
+				// directly accessible by the user
+				final StringBuilder globalVariables = aData.getGlobalVariables();
+				globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, gennameTypeDescriptor));
+			}
 		}
-		globalVariables.append(");\n");
 	}
 
 	/**
@@ -1684,6 +1792,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * */
 	public void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		//FIXME implement
+		aData.addBuiltinTypeImport("RAW");
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
