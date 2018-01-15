@@ -675,11 +675,15 @@ public final class TtcnLogger {
 		final long minutes = timestamp % 60;
 		timestamp = timestamp / 60;
 		final long hours = timestamp % 24;
-//		timestamp = timestamp / 24; //not used yet
+		timestamp = timestamp / 24;
+		final long microsec = timestamp % 1000000;
+		timestamp=timestamp/1000000;
+		
 		//Time
+		
 		final String event_str = event_to_string(event, true);
 		final StringBuilder temp = new StringBuilder(20 + event_str.length());
-		temp.append(String.format("%02d", hours)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
+		temp.append(String.format("%02d", hours+1)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
 		temp.append(' ').append(event_str);
 
 		// DateTime
