@@ -865,10 +865,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "}\n" );
 		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
-		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2});\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
+		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
 		source.append(MessageFormat.format("{0} ret_val = new {0}();\n", returnType.getGenNameValue( aData, source, getMyScope() )));
 		source.append( "ttcn_buffer.get_string(ret_val);\n" );
-		source.append( "throw new TtcnError(\"generateCodeString() for encoding style external functions is not implemented!\");\n" );
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
 		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
