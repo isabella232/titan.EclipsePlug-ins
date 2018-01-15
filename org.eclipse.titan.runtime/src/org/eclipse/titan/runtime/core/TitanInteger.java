@@ -809,7 +809,7 @@ public class TitanInteger extends Base_Type {
 	 * another types during encoding.  Returns the length of encoded data.  */
 	
 	public static int INTX_MASKS[] = { 0 /*dummy*/, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
-	
+
 	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		if(!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
@@ -938,7 +938,8 @@ public class TitanInteger extends Base_Type {
 		}
 		return myleaf.length;
 	}
-	
+
+	//TODO actually big integer
 	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		int[] bc = null;
 		int length; // total length, in bytes
@@ -1019,12 +1020,11 @@ public class TitanInteger extends Base_Type {
 			int num_bytes = tmp.length;
 			bc = new int[(val_bits + 7) / 8];
 			do {
-				bc[i] = (num_bytes-i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits];
+				bc[i] = (num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits];
 				++i;
-				val_bits -=8;
-			}
-			while(val_bits > 0);
-			if(neg_sgbit) {
+				val_bits -= 8;
+			} while (val_bits > 0);
+			if (neg_sgbit) {
 				// the sign bit is the first bit after the length
 				int mask = 0x80 >> len_bits % 8;
 				bc[i - 1] |= mask;
@@ -1058,23 +1058,22 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = length * 8;
 		} else {
-		    byte[] tmp = D.toByteArray();
-		    int num_bytes = tmp.length;
-		    for (int a = 0; a < length; a++) {
-		      if (twos_compl && num_bytes - 1 < a){
-		    	  bc[a] = 0xff;
-		      }
-		      else {
-		    	  bc[a] = (num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff;
-		      }
-		    }
-		    if (neg_sgbit) {
-		      int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
-		      bc[length - 1] |= mask;
-		    }
-		    myleaf.length = p_td.raw.fieldlength;
-		  }
-		  return myleaf.length;
+			byte[] tmp = D.toByteArray();
+			int num_bytes = tmp.length;
+			for (int a = 0; a < length; a++) {
+				if (twos_compl && num_bytes - 1 < a) {
+					bc[a] = 0xff;
+				} else {
+					bc[a] = (num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff;
+				}
+			}
+			if (neg_sgbit) {
+				int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+				bc[length - 1] |= mask;
+			}
+			myleaf.length = p_td.raw.fieldlength;
+		}
+		return myleaf.length;
 	}
-	
+
 }
