@@ -1274,6 +1274,31 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return getTypetypeTtcn3().equals(temp.getTypetypeTtcn3());
 	}
 
+	/**
+	 * Return the encoding belonging to the provided name.
+	 * 
+	 * @param encoding the name of the encoding to identify
+	 * @return the encoding identified by the name or undefined otherwise.
+	 * */
+	public static Encoding_type getEncodingType(final String encoding) {
+		//FIXME add oer and custom
+		if ("RAW".equals(encoding)) {
+			return Encoding_type.RAW;
+		} else if ("TEXT".equals(encoding)) {
+			return Encoding_type.TEXT;
+		} else if ("JSON".equals(encoding)) {
+			return Encoding_type.JSON;
+		} else if ("BER:2002".equals(encoding) || "CER:2002".equals(encoding) || "DER:2002".equals(encoding)) {
+			return Encoding_type.BER;
+		} else if ("XML".equals(encoding) || "XER".equals(encoding)) {
+			return Encoding_type.XER;
+		} else if ("PER".equals(encoding)) {
+			return Encoding_type.PER;
+		} else {
+			return Encoding_type.UNDEFINED;
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public abstract String getTypename();
