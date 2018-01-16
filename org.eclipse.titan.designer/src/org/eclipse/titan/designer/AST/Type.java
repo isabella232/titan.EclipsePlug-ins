@@ -1765,8 +1765,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
 			if (generate_raw) {
 				//TODO the code works but the internal types don't have their raw descriptors yet, so results in lots of errors in the generated code.
-				//globalVariables.append(MessageFormat.format(",{0}_raw_", gennameRawDescriptor));
-				globalVariables.append(", null");
+				globalVariables.append(MessageFormat.format(", {0}_raw_", gennameRawDescriptor));
 			} else {
 				globalVariables.append(", null");
 			}
@@ -1880,6 +1879,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		}
 
+		return internalGetGenNameTypeDescriptor(aData, source, scope);
+	}
+
+	//FIXME comment
+	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameTypeName(aData, source, scope);
 	}
 

@@ -255,6 +255,11 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		if (null != constraints) {
 			constraints.check(timestamp);
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	/**

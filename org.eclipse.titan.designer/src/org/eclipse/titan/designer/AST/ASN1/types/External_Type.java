@@ -134,6 +134,11 @@ public final class External_Type extends ASN1Type implements IReferencingType {
 		if (null != constraints) {
 			constraints.check(timestamp);
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

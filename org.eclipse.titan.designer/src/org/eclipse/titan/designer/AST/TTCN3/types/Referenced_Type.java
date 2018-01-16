@@ -294,6 +294,11 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		if (!typeLast.getIsErroneous(timestamp) && !typeParent.getIsErroneous(timestamp)) {
 			checkSubtypeRestrictions(timestamp, typeLast.getSubtypeType(), typeParent.getSubtype());
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

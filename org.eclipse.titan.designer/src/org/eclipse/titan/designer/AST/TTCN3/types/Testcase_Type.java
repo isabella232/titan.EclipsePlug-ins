@@ -232,6 +232,11 @@ public final class Testcase_Type extends Type {
 		formalParList.checkNoLazyParams();
 
 		checkSubtypeRestrictions(timestamp);
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override

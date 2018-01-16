@@ -106,6 +106,11 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 		if (null != constraints) {
 			constraints.check(timestamp);
 		}
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override
