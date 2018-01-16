@@ -94,7 +94,7 @@ public class RAW {
 	 * @param my_pos the child node's number of ``par''
 	 * @param raw_attr encoding attributes
 	 */
-	public class RAW_enc_tree {
+	public static class RAW_enc_tree {
 		/** indicates that the node is leaf (contains actual data) or not
 		 *  (contains pointers to other nodes) */
 		public boolean isleaf;
@@ -134,11 +134,10 @@ public class RAW {
 			data_ptr_used = false;
 			rec_of = false;
 			parent = par;
-			curr_pos.pos = new int[par_pos.level+1];
-			if(par_pos.level >= 0) {
+			curr_pos = new RAW_enc_tr_pos(par_pos.level + 1, new int[par_pos.level+1]);
+			if(par_pos.level > 0) {
 				System.arraycopy(par_pos.pos, 0, curr_pos.pos, 0, par_pos.pos.length);
 			}
-			curr_pos.level = par_pos.level + 1;
 			curr_pos.pos[curr_pos.level - 1] = my_pos;
 			length = 0;
 			padding = raw_attr.padding;
@@ -160,7 +159,8 @@ public class RAW {
 			if(raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
-			coding_par.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+
+			final raw_order_t tempbyteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			orders = false;
 			if(raw_attr.bitorderinoctet == raw_order_t.ORDER_MSB) {
 				orders = true;
@@ -168,9 +168,10 @@ public class RAW {
 			if(raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
-			coding_par.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-			coding_par.hexorder = raw_attr.hexorder;
-			coding_par.fieldorder = raw_attr.fieldorder;
+			final raw_order_t tempbitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			final raw_order_t temphexorder = raw_attr.hexorder;
+			final raw_order_t tempfieldorder = raw_attr.fieldorder;
+			coding_par = new RAW_coding_par(tempbitorder, tempbyteorder, temphexorder, tempfieldorder);
 			if(!is_leaf) {
 				num_of_nodes = 0;
 				nodes = null;
@@ -263,7 +264,7 @@ public class RAW {
 		}
 
 		private void fill_buf(TTCN_Buffer buf) {
-			//TODO: implement
+			throw new TtcnError("fill_buf() for RAW is not implemented!");
 		}
 
 		/**
@@ -347,7 +348,7 @@ public class RAW {
 		}
 	}
 
-	public class RAW_enc_tr_pos{
+	public static class RAW_enc_tr_pos{
 		public int level;
 		public int pos[];
 
@@ -387,7 +388,7 @@ public class RAW {
 
 	};
 
-	public class RAW_coding_par{
+	public static class RAW_coding_par{
 		public raw_order_t bitorder;
 		public raw_order_t byteorder;
 		public raw_order_t hexorder;
