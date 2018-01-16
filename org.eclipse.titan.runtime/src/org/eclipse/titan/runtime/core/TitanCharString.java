@@ -11,6 +11,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+
 
 /**
  * TTCN-3 charstring
@@ -636,4 +640,40 @@ public class TitanCharString extends Base_Type {
 		return ret_val.concatenate(aOtherValue);
 	}
 
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		int bl = val_ptr.length() * 8; // bit length
+		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+		}
+		if((bl + align_length) < val_ptr.length() * 8) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: ", p_td.name);
+			bl = p_td.raw.fieldlength;
+			align_length = 0;
+		}
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		if(p_td.raw.fieldlength >= 0) {
+			myleaf.must_free = false;
+			myleaf.data_ptr_used = true;
+			myleaf.data_ptr = val_ptr.toString().toCharArray();
+		} else {
+			// NULL terminated
+			myleaf.data_ptr = new char[val_ptr.length() + 1];
+			for (int i = 0; i < val_ptr.length(); i++) {
+				myleaf.data_ptr[i] = val_ptr.charAt(i);
+			}
+			myleaf.data_ptr[val_ptr.length()] = '0';
+			myleaf.must_free = true;
+			myleaf.data_ptr_used = true;
+			bl += 8;
+		}
+		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+			myleaf.align = -align_length;
+		} else {
+			myleaf.align = align_length;
+		}
+		return myleaf.length = bl + align_length;
+	}
 }
