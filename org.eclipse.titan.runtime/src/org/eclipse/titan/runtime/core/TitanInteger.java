@@ -10,8 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
 
@@ -621,6 +623,27 @@ public class TitanInteger extends Base_Type {
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
 		assign(text_buf.pull_int());
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+			//FIXME call errorContextDestructor
+			break;
+		}
+		default:
+			throw new TtcnError("encoding of integers is not yet completely implemented!");
+		}
 	}
 
 	// static operator+
