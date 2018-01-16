@@ -1750,7 +1750,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		 * and can't use the descriptor of one of the built-in types.
 		 */
 
-		if (genname.equals(gennameTypeDescriptor)) {
+		//TODO temporarily we generate more code, could be optimized later
+//		if (genname.equals(gennameTypeDescriptor)) {
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			//check and generate the needed type descriptors
 			//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
@@ -1770,15 +1771,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				globalVariables.append(", null");
 			}
 			globalVariables.append(");\n");
-		} else {
-			// the type uses the type descriptor of another type
-			if (needsAlias()) {
-				// we need to generate an aliased type descriptor only if the type is
-				// directly accessible by the user
-				final StringBuilder globalVariables = aData.getGlobalVariables();
-				globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, gennameTypeDescriptor));
-			}
-		}
+//		} else {
+//			// the type uses the type descriptor of another type
+//			if (needsAlias()) {
+//				// we need to generate an aliased type descriptor only if the type is
+//				// directly accessible by the user
+//				final StringBuilder globalVariables = aData.getGlobalVariables();
+//				globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, gennameTypeDescriptor));
+//			}
+//		}
 	}
 
 	/**
