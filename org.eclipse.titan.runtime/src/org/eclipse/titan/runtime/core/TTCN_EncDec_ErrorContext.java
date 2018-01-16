@@ -17,6 +17,7 @@ package org.eclipse.titan.runtime.core;
 import java.util.LinkedList;
 import java.util.List;
 
+//FIXME implement destructor
 public class TTCN_EncDec_ErrorContext {
 
 	private static List<TTCN_EncDec_ErrorContext> errors = new LinkedList<TTCN_EncDec_ErrorContext>();
