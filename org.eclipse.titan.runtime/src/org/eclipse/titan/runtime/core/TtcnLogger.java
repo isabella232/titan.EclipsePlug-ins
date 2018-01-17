@@ -286,8 +286,8 @@ public final class TtcnLogger {
 	public static void mputstr_timestamp(final StringBuilder str, final timestamp_format_t p_timestamp_format, final int seconds, final int microseconds) {
 		switch (p_timestamp_format) {
 		case TIMESTAMP_SECONDS: {
-			long newSeconds = seconds % 60;
-			long oldSeconds = (start_time / 1000) % 60;
+			long newSeconds = seconds;
+			long oldSeconds = start_time / 1000;
 			long oldMicroSeconds = start_time % 1000;
 			if (microseconds < oldMicroSeconds) {
 				str.append(String.format("%d", newSeconds - oldSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - oldMicroSeconds)));
