@@ -830,8 +830,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			generate_code_encode(aData, source);
 			break;
 		case DECODE:
-			//FIXME implement
-			source.append( "throw new TtcnError(\"generateCodeString() for decoding style external functions is not implemented!\");\n" );
+			generate_code_decode(aData, source);
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
@@ -853,6 +852,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	private void generate_code_encode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Buffer");
 		aData.addCommonLibraryImport("TTCN_EncDec");
+		aData.addCommonLibraryImport("TtcnLogger");
 
 		//FIXME implement get_string, error handling and other variants
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
@@ -875,5 +875,100 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
 		source.append( "return ret_val;\n" );
+	}
+
+	/**
+	 * Generate Java code for the body of an external function with an decoding prototype.
+	 *
+	 * generate_code_decode in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the stringbuilder to generate the code to.
+	 */
+	private void generate_code_decode(final JavaGenData aData, final StringBuilder source) {
+		aData.addCommonLibraryImport("TTCN_Buffer");
+		aData.addCommonLibraryImport("TTCN_EncDec");
+		aData.addCommonLibraryImport("TTCN_EncDec.error_type");
+		aData.addCommonLibraryImport("TtcnLogger");
+
+		//FIXME implement get_string, error handling and other variants
+		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
+
+		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream before decoding: \");\n", identifier.getDisplayName()));
+		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
+		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "}\n" );
+		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+		source.append( "TTCN_EncDec.clear_error();\n" );
+
+		// creating a buffer from the input stream
+		if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+			aData.addCommonLibraryImport("AdditionalFunctions");
+
+			source.append( MessageFormat.format( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer(AdditionalFunctions.bit2oct({0}));\n", firstParName) );
+		} else {
+			source.append( MessageFormat.format( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer({0});\n", firstParName) );
+		}
+
+		String resultName;
+		if (prototype == EncodingPrototype_type.CONVERT) {
+			source.append( "TitanInteger ret_val = new TitanInteger();\n" );
+			resultName = "ret_val";
+		} else {
+			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
+		}
+		if (encodingType == Encoding_type.TEXT) {
+			source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
+			source.append( "}\n" );
+		}
+		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName(), encodingOptions == null? "0": encodingOptions) );
+
+		// producing debug printout of the result PDU
+		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Decoded {1}: \");\n", identifier.getDisplayName(), outputType.getTypename()));
+		source.append( MessageFormat.format( "{0}.log();\n", resultName) );
+		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "}\n" );
+		if (prototype != EncodingPrototype_type.SLIDING) {
+			// checking for remaining data in the buffer if decoding was successful
+			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
+			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() -1 && TtcnLogger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
+			source.append( "ttcn_buffer.cut();\n" );
+			source.append( MessageFormat.format( "{0} remaining_stream = new {0}();\n", inputType.getGenNameValue(aData, source, myScope)) );
+			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
+				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
+				source.append( "remaining_stream = AdditionalFunctions.oct2bit(tmp_os);\n" );
+			} else {
+				source.append( "ttcn_buffer.get_string(remaining_stream);\n" );
+			}
+
+			source.append( "TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);\n" );
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Warning: Data remained at the end of the stream after successful decoding: \");\n", identifier.getDisplayName()));
+			source.append( "remaining_stream.log();\n" );
+			source.append( "TtcnLogger.end_event();\n" );
+			source.append( "}\n" );
+
+			// closing the block and returning the appropriate result or status code
+			if (prototype == EncodingPrototype_type.BACKTRACK) {
+				source.append( "return 0;\n" );
+				source.append( "} else {\n" );
+				source.append( "return 1;\n" );
+				source.append( "}\n" );
+			} else {
+				source.append( "}\n" );
+				if (prototype == EncodingPrototype_type.CONVERT) {
+					source.append( "return ret_val;\n" );
+				}
+			}
+		} else {
+			// result handling and debug printout for sliding decoders
+			//FIXME implement
+			source.append( "throw new TtcnError(\"sliding type decoding for decoding external functions is not implemented!\");\n" );
+		}
 	}
 }
