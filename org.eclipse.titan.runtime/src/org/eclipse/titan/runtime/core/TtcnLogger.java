@@ -105,15 +105,15 @@ public final class TtcnLogger {
 		}
 	}
 
-	static log_mask_struct console_log_mask = new log_mask_struct();
-	static log_mask_struct file_log_mask = new log_mask_struct();
-	static log_mask_struct emergency_log_mask = new log_mask_struct();
+	private static log_mask_struct console_log_mask = new log_mask_struct();
+	private static log_mask_struct file_log_mask = new log_mask_struct();
+	private static log_mask_struct emergency_log_mask = new log_mask_struct();
 
 	private static timestamp_format_t timestamp_format = timestamp_format_t.TIMESTAMP_TIME;
 	private static final Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
 	private static final String month_names[] = { "Jan", "Feb", "Mar",
 			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
-	static long start_time;
+	private static long start_time;
 
 	public static enum component_id_selector_enum {
 		COMPONENT_ID_NAME,
