@@ -85,7 +85,7 @@ public final class Text_Buf {
 	}
 
 	public int get_pos() {
-		return buf_pos - buf_len;
+		return buf_pos - buf_begin;
 	}
 
 	public void buf_seek(final int new_pos) {
