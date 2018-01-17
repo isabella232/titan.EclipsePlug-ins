@@ -125,7 +125,7 @@ public class RAW {
 		public int num_of_nodes;
 		public RAW_enc_tree nodes[];
 		public char data_ptr[];  /**< data_ptr_used==true */
-		public int data_array[] = new int[RAW_INT_ENC_LENGTH];  /**< false */
+		public char data_array[] = new char[RAW_INT_ENC_LENGTH];  /**< false */
 
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;

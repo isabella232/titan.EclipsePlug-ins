@@ -11,6 +11,11 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.regex.Pattern;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+
 /**
  * TTCN-3 octetstring
  * @author Arpad Lovassy
@@ -628,5 +633,47 @@ public class TitanOctetString extends Base_Type {
 		rotateCount.mustBound("Unbound right operand of octetstring rotate left operator.");
 
 		return rotateRight(rotateCount.getInt());
+	}
+
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+		}
+		char[] bc = new char[val_ptr.length];
+		int bl = val_ptr.length * 8;
+		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
+		int blength = val_ptr.length;
+		if((bl + align_length) < val_ptr.length * 8) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode {0}: ", p_td.name);
+			blength = p_td.raw.fieldlength / 8;
+			bl = p_td.raw.fieldlength;
+			align_length = 0;
+		}
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		myleaf.must_free = false;
+		myleaf.data_ptr_used = true;
+		if(p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && myleaf.coding_par.bitorder == raw_order_t.ORDER_MSB) {
+			if(blength > RAW.RAW_INT_ENC_LENGTH) {
+				myleaf.data_ptr = new char[blength];
+				myleaf.must_free = true;
+				myleaf.data_ptr_used = true;
+			} else {
+				bc = myleaf.data_array;
+				myleaf.data_ptr_used = false;
+			}
+			for (int a = 0; a < blength; a++){
+				bc[a] = (char) (val_ptr[a] << 1);
+			} 
+		} else {
+			myleaf.data_ptr = val_ptr;
+		}
+		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+			myleaf.align = -align_length; 
+		} else {
+			myleaf.align = -align_length;
+		}
+		return myleaf.length = bl + align_length;
 	}
 }
