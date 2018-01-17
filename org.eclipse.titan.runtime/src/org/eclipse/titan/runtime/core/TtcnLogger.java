@@ -7,7 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.Calendar;
 import java.util.Locale;
+import java.util.TimeZone;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -107,6 +109,12 @@ public final class TtcnLogger {
 	static log_mask_struct file_log_mask = new log_mask_struct();
 	static log_mask_struct emergency_log_mask = new log_mask_struct();
 
+	private static timestamp_format_t timestamp_format = timestamp_format_t.TIMESTAMP_TIME;
+	private static final Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
+	private static final String month_names[] = { "Jan", "Feb", "Mar",
+			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+	static long start_time;
+
 	public static enum component_id_selector_enum {
 		COMPONENT_ID_NAME,
 		COMPONENT_ID_COMPREF,
@@ -133,12 +141,12 @@ public final class TtcnLogger {
 			mask = new Logging_Bits();
 		}
 	}
+
+	public static enum timestamp_format_t {TIMESTAMP_TIME, TIMESTAMP_DATETIME, TIMESTAMP_SECONDS};
 	public static enum emergency_logging_behaviour_t { BUFFER_ALL, BUFFER_MASKED };
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
 
-	//public static void set_timestamp_format(timestamp_format_t = new timestamp_format);
-	//public static timestamp_format_t timestamp_format = TIMESTAMP_TIME;
 	public static void set_matching_verbosity(final matching_verbosity_t v) {
 		matching_verbosity = v;
 	}
@@ -273,6 +281,36 @@ public final class TtcnLogger {
 		}
 
 		return plugins_;
+	}
+
+	public static void mputstr_timestamp(final StringBuilder str, final timestamp_format_t p_timestamp_format, final int seconds, final int microseconds) {
+		switch (p_timestamp_format) {
+		case TIMESTAMP_SECONDS: {
+			long newSeconds = seconds % 60;
+			long oldSeconds = (start_time / 1000) % 60;
+			long oldMicroSeconds = start_time % 1000;
+			if (microseconds < oldMicroSeconds) {
+				str.append(String.format("%d", newSeconds - oldSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - oldMicroSeconds)));
+			} else {
+				str.append(String.format("%d", newSeconds - oldSeconds)).append('.').append(String.format("%03d", microseconds - oldMicroSeconds));
+			}
+			break;
+		}
+		case TIMESTAMP_TIME: {
+			long oldTimestamp = (long)seconds * 1000 + microseconds;
+			calendar.setTimeInMillis(oldTimestamp);
+			str.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds)).append("000");
+			break;
+		}
+		case TIMESTAMP_DATETIME: {
+			long oldTimestamp = (long)seconds * 1000 + microseconds;
+			calendar.setTimeInMillis(oldTimestamp);
+			str.append(String.format("%4d", calendar.get(Calendar.YEAR))).append('/').append(month_names[calendar.get(Calendar.MONTH)]).append('/').append(String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH)));
+			str.append(' ');
+			str.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds)).append("000");
+			break;
+		}
+		}
 	}
 
 	public static void initialize_logger() {
@@ -516,9 +554,13 @@ public final class TtcnLogger {
 		return emergency_log_mask.mask.bits[sev.ordinal()];
 	}
 
-	/*public static void set_timestamp_format(timestamp_format_t new_timestamp_format){
+	public static void set_timestamp_format(final timestamp_format_t new_timestamp_format){
 		timestamp_format = new_timestamp_format;
-	}*/
+	}
+
+	public static timestamp_format_t get_timestamp_format() {
+		return timestamp_format;
+	}
 
 	public static void print_logmatch_buffer() {
 		if (logMatchPrinted) {
@@ -588,7 +630,7 @@ public final class TtcnLogger {
 	}
 
 	public static void set_start_time() {
-		//FIXME implement
+		start_time = System.currentTimeMillis();
 	}
 
 	public static void set_file_mask(final component_id_t cmpt,

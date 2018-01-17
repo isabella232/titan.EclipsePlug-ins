@@ -33,6 +33,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.PortType.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -460,6 +461,9 @@ public class LoggerPluginManager {
 
 	private void fill_common_fields(final TitanLogEvent event, final Severity severity) {
 		//FIXME implement the rest
+		long timestamp = System.currentTimeMillis();
+		event.getTimestamp().assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
+
 		event.getSeverity().assign(severity.ordinal());
 	}
 

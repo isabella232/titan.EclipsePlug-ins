@@ -74,42 +74,35 @@ public class LegacyLogger implements ILoggerPlugin {
 	 *
 	 * Not the final implementation though.
 	 * */
-	private static void log_console(final TitanLoggerApi.TitanLogEvent event, final Severity msg_severity) {
+	private static boolean log_console(final TitanLoggerApi.TitanLogEvent event, final Severity msg_severity) {
 		//FIXME once we have objects calculating the time will have to be moved earlier.
 		//FIXME a bit more complicated in reality
-		long timestamp = System.currentTimeMillis(); //TODO: time zone is not handled yet!
-		final long millisec = timestamp % 1000;
-		timestamp = timestamp / 1000;
-		final long secs = timestamp % 60;
-		timestamp = timestamp / 60;
-		final long minutes = timestamp % 60;
-		timestamp = timestamp / 60;
-		final long hours = timestamp % 24;
-		timestamp = timestamp / 24;
-		final long microsec = timestamp % 1000000;
-		timestamp=timestamp/1000000;
-		
+
 		//Time
 		final String event_str = event_to_string(event, true);
-		final StringBuilder temp = new StringBuilder(20 + event_str.length());
-		temp.append(String.format("%02d", hours+1)).append(':').append(String.format("%02d", minutes)).append(':').append(String.format("%02d", secs)).append('.').append(String.format("%03d", millisec)).append("000");
-		temp.append(' ').append(event_str);
+		if (event_str == null) {
+			//FIXME write warning
+			return false;
+		}
 
-		// DateTime
-		// TODO: SECONDS ARE NOT HANDLED YET
-		//final Date datum = new Date();
-		//final SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MMM/dd" + " " + "HH:mm:ss.SSSSSS");
+		System.out.println(event_str);
 
-		// TODO: Seconds
-		// final SimpleDateFormat sdf2 = new SimpleDateFormat("SSS");
-		
-		//temp.append(sdf.format(datum));
-		System.out.println(temp);
+		return true;
+	}
+
+	private static void append_header(final StringBuilder returnValue, final int seconds, int microseconds) {
+		TtcnLogger.mputstr_timestamp(returnValue, TtcnLogger.get_timestamp_format(), seconds, microseconds);
+
+		returnValue.append(' ');
+		//FIXME implement rest of the header
 	}
 
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
-		//FIXME implement header handling
+		//FIXME implement proper header handling
 		final StringBuilder returnValue = new StringBuilder();
+
+		append_header(returnValue, event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt());
+
 		final LogEventType_choice choice = event.getLogEvent().getChoice();
 		switch(choice.get_selection()) {
 		case UNBOUND_VALUE:
