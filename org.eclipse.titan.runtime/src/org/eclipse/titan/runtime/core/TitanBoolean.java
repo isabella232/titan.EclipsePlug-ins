@@ -8,6 +8,9 @@
 package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+
 /**
  * TTCN-3 boolean
  * @author Arpad Lovassy
@@ -292,5 +295,41 @@ public class TitanBoolean extends Base_Type {
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
 
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
+	}
+	
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		char bc[];
+		int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
+		int length = (loc_length + 7) / 8;
+		int tmp;
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+			tmp = 0;
+		} else {
+			tmp = boolean_value ? 0xFF : 0x00;
+		}
+		//  myleaf.ext_bit=EXT_BIT_NO;
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		if(length > RAW.RAW_INT_ENC_LENGTH) {
+			myleaf.data_ptr = bc = new char[length];
+			myleaf.must_free = true;
+			myleaf.data_ptr_used = true;
+		} else {
+			bc = new char[myleaf.data_array.length];
+			for (int i = 0; i < myleaf.data_array.length; i++) {
+				bc[i] = (char)myleaf.data_array[i];
+			}
+		}
+		bc = new char[length];
+		for (int i = 0; i < bc.length; i++) {
+			bc[i] = (char)tmp;
+		}
+		if(boolean_value && loc_length % 8 != 0) {
+			// remove the extra ones from the last octet
+			bc[length - 1] &= RAW.BitMaskTable[loc_length % 8];
+		}
+		return myleaf.length = loc_length;
 	}
 }
