@@ -7,7 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.nio.ByteBuffer;
 import java.text.MessageFormat;
+
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
 /**
  * TTCN-3 float
@@ -515,5 +519,88 @@ public class TitanFloat extends Base_Type {
 		otherValue.mustBound("Unbound right operand of float comparison.");
 
 		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(doubleValue)));
+	}
+	
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+		char[] bc;
+		char[] dv;
+		int length = p_td.raw.fieldlength / 8;
+		double tmp = float_value.getValue();
+		if(!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+			tmp = 0.0;
+		}
+		if(Double.isNaN(tmp)) {
+			TTCN_EncDec_ErrorContext.error_internal("Value is NaN.");
+		}
+		if(myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		if(length > RAW.RAW_INT_ENC_LENGTH) {
+			myleaf.data_ptr = bc = new char[length];
+			myleaf.must_free = true;
+			myleaf.data_ptr_used = true;
+		} else {
+			bc = myleaf.data_array;
+		}
+		if(length == 8) {
+			final byte[] tmp_dv = new byte[8];
+			ByteBuffer.wrap(tmp_dv).putDouble(tmp);
+			dv = new char[8];
+			for (int i = 0; i < tmp_dv.length; i++) {
+				dv[i] = (char) tmp_dv[i];
+			}
+			for (int i = 0, k = 7; i < 8; i++, k--) {
+				bc[i] = dv[k];
+			}
+		} else if(length == 4) {
+			if(tmp == 0.0) {
+				for (int i = 0; i < 4; i++) {
+					bc[i] = 0;
+				}
+			} else if(tmp == -0.0) {
+				for (int i = 0; i < 4; i++) {
+					bc[i] = 0;
+				}
+				bc[0] |= 0x80;
+			} else {
+				int index = 7;
+				int adj = -1;
+
+				final byte[] tmp_dv = new byte[8];
+				ByteBuffer.wrap(tmp_dv).putDouble(tmp);
+				dv = new char[8];
+				for (int i = 0; i < tmp_dv.length; i++) {
+					dv[i] = (char) tmp_dv[i];
+				}
+				bc[0] = (char) (dv[index] & 0x80);
+				int exponent = dv[index] & 0x7F;
+				exponent <<= 4;
+				index += adj;
+				exponent += (dv[index] & 0xF0) >> 4;
+				exponent -= 1023;
+
+				if(exponent > 127) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,"The float value {0} is out of the range of the single precision: {1}", float_value.getValue(), p_td.name);
+					tmp = 0.0;
+					exponent = 0;
+				} else if(exponent < -127) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_FLOAT_TR, "The float value {0} is too small to represent it in single precision: {1}", float_value.getValue(), p_td.name);
+					tmp = 0.0;
+					exponent = 0;
+				} else {
+					exponent += 127;
+				}
+			      bc[0] |= (exponent >> 1) & 0x7F;
+			      bc[1] = (char) (((exponent << 7) & 0x80) | ((dv[index] & 0x0F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+			      index += adj;
+			      bc[2] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+			      index += adj;
+			      bc[3] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+			}
+		} else {
+			TTCN_EncDec_ErrorContext.error_internal("Invalid FLOAT length {0}", length);
+		}
+		return myleaf.length = p_td.raw.fieldlength;
 	}
 }
