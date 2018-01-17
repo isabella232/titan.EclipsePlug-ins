@@ -287,24 +287,24 @@ public final class TtcnLogger {
 		switch (p_timestamp_format) {
 		case TIMESTAMP_SECONDS: {
 			long newSeconds = seconds;
-			long oldSeconds = start_time / 1000;
-			long oldMicroSeconds = start_time % 1000;
-			if (microseconds < oldMicroSeconds) {
-				str.append(String.format("%d", newSeconds - oldSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - oldMicroSeconds)));
+			long startSeconds = start_time / 1000;
+			long startMicroSeconds = start_time % 1000;
+			if (microseconds < startMicroSeconds) {
+				str.append(String.format("%d", newSeconds - startSeconds - 1)).append('.').append(String.format("%03d", microseconds + ( 1000 - startMicroSeconds)));
 			} else {
-				str.append(String.format("%d", newSeconds - oldSeconds)).append('.').append(String.format("%03d", microseconds - oldMicroSeconds));
+				str.append(String.format("%d", newSeconds - startSeconds)).append('.').append(String.format("%03d", microseconds - startMicroSeconds));
 			}
 			break;
 		}
 		case TIMESTAMP_TIME: {
-			long oldTimestamp = (long)seconds * 1000 + microseconds;
-			calendar.setTimeInMillis(oldTimestamp);
+			long timestamp = (long)seconds * 1000 + microseconds;
+			calendar.setTimeInMillis(timestamp);
 			str.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds)).append("000");
 			break;
 		}
 		case TIMESTAMP_DATETIME: {
-			long oldTimestamp = (long)seconds * 1000 + microseconds;
-			calendar.setTimeInMillis(oldTimestamp);
+			long timestamp = (long)seconds * 1000 + microseconds;
+			calendar.setTimeInMillis(timestamp);
 			str.append(String.format("%4d", calendar.get(Calendar.YEAR))).append('/').append(month_names[calendar.get(Calendar.MONTH)]).append('/').append(String.format("%02d", calendar.get(Calendar.DAY_OF_MONTH)));
 			str.append(' ');
 			str.append(String.format("%02d", calendar.get(Calendar.HOUR_OF_DAY))).append(':').append(String.format("%02d", calendar.get(Calendar.MINUTE))).append(':').append(String.format("%02d", calendar.get(Calendar.SECOND))).append('.').append(String.format("%03d", microseconds)).append("000");
