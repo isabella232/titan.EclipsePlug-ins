@@ -837,7 +837,7 @@ public class TitanInteger extends Base_Type {
 		if(!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
 		}
-		int bc[];
+		char bc[];
 		int length; // total length, in bytes
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
@@ -896,11 +896,14 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if(length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
-			myleaf.data_ptr = bc = new int[length];
+			myleaf.data_ptr = bc = new char[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
-			bc = myleaf.data_array;
+			bc = new char[myleaf.data_array.length];
+			for (int i = 0; i < myleaf.data_array.length; i++) {
+				bc[i] = (char)myleaf.data_array[i];
+			}
 		}
 		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
@@ -964,7 +967,7 @@ public class TitanInteger extends Base_Type {
 
 	//TODO actually big integer
 	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
-		int[] bc = null;
+		char[] bc = null;
 		int length; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
@@ -1015,11 +1018,14 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if(length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_ptr = bc = new int[length];
+			myleaf.data_ptr = bc = new char[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
-			bc = myleaf.data_array;
+			bc = new char[myleaf.data_array.length];
+			for (int i = 0; i < myleaf.data_array.length; i++) {
+				bc[i] = (char)myleaf.data_array[i];
+			}
 		}
 		boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
 		// Conversion to 2's complement.
@@ -1041,9 +1047,9 @@ public class TitanInteger extends Base_Type {
 			// first, encode the value
 			byte[] tmp = D.toByteArray();
 			int num_bytes = tmp.length;
-			bc = new int[(val_bits + 7) / 8];
+			bc = new char[(val_bits + 7) / 8];
 			do {
-				bc[i] = (num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits];
+				bc[i] = (char) ((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
 				++i;
 				val_bits -= 8;
 			} while (val_bits > 0);
@@ -1087,7 +1093,7 @@ public class TitanInteger extends Base_Type {
 				if (twos_compl && num_bytes - 1 < a) {
 					bc[a] = 0xff;
 				} else {
-					bc[a] = (num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff;
+					bc[a] = (char) ((num_bytes - a > 0 ? tmp[num_bytes - (a + 1)] : 0) & 0xff);
 				}
 			}
 			if (neg_sgbit) {

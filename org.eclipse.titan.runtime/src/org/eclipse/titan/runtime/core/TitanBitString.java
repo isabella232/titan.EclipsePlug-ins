@@ -748,7 +748,10 @@ public class TitanBitString extends Base_Type {
 		}
 		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
-		myleaf.data_ptr = bits_ptr;
+		myleaf.data_ptr = new char[bits_ptr.length];
+		for (int i = 0; i < bits_ptr.length; i++) {
+			myleaf.data_ptr[i] = (char)bits_ptr[i]; 
+		}
 		boolean orders = false;
 		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
 			orders = true;
