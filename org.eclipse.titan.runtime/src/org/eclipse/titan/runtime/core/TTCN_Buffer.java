@@ -166,6 +166,13 @@ public class TTCN_Buffer {
 		reset_buffer();
 	}
 
+	/**
+	 * @return The number of bytes in the buffer.
+	 * */
+	public int get_len() {
+		return buf_len;
+	}
+
 	public char[] get_data() {
 		return data_ptr;
 	}
@@ -177,6 +184,13 @@ public class TTCN_Buffer {
 			return result;
 		}
 		return null;
+	}
+
+	/**
+	 * @return The (reading) position of the buffer.
+	 * */
+	public int get_pos() {
+		return buf_pos;
 	}
 
 	/** Appends single character \a c to the buffer. */
@@ -281,11 +295,18 @@ public class TTCN_Buffer {
 	/** Cuts the bytes between the beginning of the buffer and the read
 	 * position. After that the read position will point to the beginning
 	 * of the updated buffer. */
-	void cut() {}
+	public void cut() {
+		//FIXME implement
+		throw new TtcnError("cut in TTCN_Buffer is not implemented!");
+	}
+
 	/** Cuts the bytes between the read position and the end of the buffer.
 	 * The read position remains unchanged (i.e. it will point to the end
 	 * of the truncated buffer. */
-	void cut_end() {}
+	public void cut_end() {
+		throw new TtcnError("cut_end in TTCN_Buffer is not implemented!");
+	}
+
 	/** Returns whether the buffer (beginning from the read position)
 	 * contains a complete TLV. */
 	boolean contains_complete_TLV() {
