@@ -268,7 +268,7 @@ public class RAW {
 			if(top_bit_order != top_bit_order_t.TOP_BIT_INHERITED) {
 				buf.set_order(top_bit_order != top_bit_order_t.TOP_BIT_RIGHT);
 			}
-			buf.put_pad(prepadlength, padding_pattern.toCharArray(), padding_pattern_length, coding_par.fieldorder);
+			buf.put_pad(prepadlength, padding_pattern, padding_pattern_length, coding_par.fieldorder);
 			if(isleaf) {
 				int align_length = align < 0 ? -align : align;
 				if (ext_bit != ext_bit_t.EXT_BIT_NO) {
@@ -307,7 +307,7 @@ public class RAW {
 					buf.stop_ext_bit();
 				}
 			}
-			buf.put_pad(padlength, padding_pattern.toCharArray(),padding_pattern_length, coding_par.fieldorder);
+			buf.put_pad(padlength, padding_pattern,padding_pattern_length, coding_par.fieldorder);
 			buf.set_order(old_order);
 		}
 
