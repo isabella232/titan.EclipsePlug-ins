@@ -894,10 +894,12 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
 		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
-		source.append( "ret_val.log();\n" );
+		source.append(MessageFormat.format( "{0}.log();\n", resultName));
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
-		source.append( "return ret_val;\n" );
+		if (prototype == EncodingPrototype_type.CONVERT) {
+			source.append( "return ret_val;\n" );
+		}
 	}
 
 	/**
