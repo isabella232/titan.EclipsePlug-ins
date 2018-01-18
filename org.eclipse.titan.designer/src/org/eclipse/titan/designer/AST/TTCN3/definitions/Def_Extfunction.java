@@ -955,9 +955,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			// closing the block and returning the appropriate result or status code
 			if (prototype == EncodingPrototype_type.BACKTRACK) {
-				source.append( "return 0;\n" );
+				source.append( "return new TitanInteger(0);\n" );
 				source.append( "} else {\n" );
-				source.append( "return 1;\n" );
+				source.append( "return new TitanInteger(1);\n" );
 				source.append( "}\n" );
 			} else {
 				source.append( "}\n" );
