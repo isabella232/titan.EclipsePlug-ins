@@ -264,7 +264,51 @@ public class RAW {
 		}
 
 		private void fill_buf(TTCN_Buffer buf) {
-			throw new TtcnError("fill_buf() for RAW is not implemented!");
+			boolean old_order = buf.get_order();
+			if(top_bit_order != top_bit_order_t.TOP_BIT_INHERITED) {
+				buf.set_order(top_bit_order != top_bit_order_t.TOP_BIT_RIGHT);
+			}
+			buf.put_pad(prepadlength, padding_pattern.toCharArray(), padding_pattern_length, coding_par.fieldorder);
+			if(isleaf) {
+				int align_length = align < 0 ? -align : align;
+				if (ext_bit != ext_bit_t.EXT_BIT_NO) {
+					buf.start_ext_bit(ext_bit == ext_bit_t.EXT_BIT_REVERSE);
+				}
+				if (data_ptr_used) {
+					buf.put_b(length - align_length, data_ptr, coding_par, align);
+				} else {
+					buf.put_b(length - align_length, data_array, coding_par, align);
+				}
+				if(ext_bit_handling > 1) {
+					buf.stop_ext_bit();
+				} else if(ext_bit != ext_bit_t.EXT_BIT_NO && !(ext_bit_handling != 0)) {
+					buf.stop_ext_bit();
+				}
+				
+			} else {
+				if(ext_bit != ext_bit_t.EXT_BIT_NO && (!rec_of || ext_bit_handling % 2 != 0)) {
+					buf.start_ext_bit(ext_bit == ext_bit_t.EXT_BIT_REVERSE);
+				}
+				for (int a = 0; a < num_of_nodes; a++) {
+					if (nodes[a] != null) {
+						nodes[a].fill_buf(buf);
+					}
+					if (ext_bit != ext_bit_t.EXT_BIT_NO && rec_of && !(ext_bit_handling != 0)) {
+						buf.set_last_bit(ext_bit != ext_bit_t.EXT_BIT_YES);
+					}
+				}
+				if (!(ext_bit_handling != 0)) {
+					if (ext_bit != ext_bit_t.EXT_BIT_NO && !rec_of) {
+						buf.stop_ext_bit();
+					} else if (ext_bit != ext_bit_t.EXT_BIT_NO && rec_of) {
+						buf.set_last_bit(ext_bit == ext_bit_t.EXT_BIT_YES);
+					}
+				} else if (ext_bit_handling > 1) {
+					buf.stop_ext_bit();
+				}
+			}
+			buf.put_pad(padlength, padding_pattern.toCharArray(),padding_pattern_length, coding_par.fieldorder);
+			buf.set_order(old_order);
 		}
 
 		/**
