@@ -444,6 +444,10 @@ public class RAW {
 			this.hexorder = hexorder;
 			this.fieldorder = fieldorder;
 		}
+		
+		public RAW_coding_par() {
+			
+		}
 	};
 
 	public static enum ext_bit_t{
