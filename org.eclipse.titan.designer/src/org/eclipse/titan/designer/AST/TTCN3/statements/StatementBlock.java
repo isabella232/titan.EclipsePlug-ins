@@ -478,7 +478,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 			switch (statement.hasReturn(timestamp)) {
 			case RS_YES:
 				returnStatus = ReturnStatus_type.RS_YES;
-				break;
+				return returnStatus;
 			case RS_MAYBE:
 				returnStatus = ReturnStatus_type.RS_MAYBE;
 				break;
@@ -1084,9 +1084,17 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statements.get(i);
 			statement.generateCode( aData, source );
-			if( statement instanceof Break_Statement || statement instanceof Continue_Statement) {
-				break;
+
+			//FIXME: perhaps it would be better to remove this and handle the situation in semantic check (???)
+			switch (statement.getType()) {
+			case S_BREAK:
+			case S_CONTINUE:
+			case S_RETURN:
+				return;
+			default:
+				break;//only the switch
 			}
+
 		}
 	}
 }

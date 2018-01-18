@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.For_Loop_Definitions;
+import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -484,9 +485,13 @@ public final class For_Statement extends Statement {
 		}
 
 		statementblock.generateCode(aData, source);
-		//TODO: do not generate stepAssignment if break or continue statement (without condition) occured.
-		//but this stepStatement is necessary if an earlier deeply wrapped continue occured (???)
-		stepAssignment.generateCode(aData, source);
+		//TODO: do not generate stepAssignment if break or continue statement (without condition) occurred.
+		//but this stepStatement is necessary if an earlier deeply wrapped continue occurred (???)
+
+		//if the statement block always returns there is no need for code implementing stepAssignment
+		if (!ReturnStatus_type.RS_YES.equals(statementblock.hasReturn(CompilationTimeStamp.getBaseTimestamp()))) {
+			stepAssignment.generateCode(aData, source);
+		}
 		source.append( "\t\t\t}\n" );
 		source.append( "\t\t}\n" );
 	}
