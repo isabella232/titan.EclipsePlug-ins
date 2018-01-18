@@ -967,8 +967,29 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			}
 		} else {
 			// result handling and debug printout for sliding decoders
-			//FIXME implement
-			source.append( "throw new TtcnError(\"sliding type decoding for decoding external functions is not implemented!\");\n" );
+			source.append( "switch (TTCN_EncDec.get_last_error_type()) {\n" );
+			source.append( "case ET_NONE: {\n" );
+			source.append( "ttcn_buffer.cut();\n" );
+			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
+				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
+				source.append(MessageFormat.format( "{0} = AdditionalFunctions.oct2bit(tmp_os);\n", firstParName) );
+			} else {
+				source.append(MessageFormat.format( "ttcn_buffer.get_string({0});\n", firstParName) );
+			}
+			source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): stream after decoding: \");\n", identifier.getDisplayName()));
+			source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
+			source.append( "TtcnLogger.end_event();\n" );
+			source.append( "}\n" );
+			source.append( "return new TitanInteger(0); }\n" );
+			source.append( "case ET_INCOMPL_MSG:\n" );
+			source.append( "case ET_LEN_ERR:\n" );
+			source.append( "return new TitanInteger(2);\n" );
+			source.append( "default:\n" );
+			source.append( "return new TitanInteger(1);\n" );
+			source.append( "}\n" );
 		}
 	}
 }
