@@ -410,11 +410,17 @@ public class TTCN_Buffer {
 	/** Cuts the bytes between the beginning of the buffer and the read
 	 * position. After that the read position will point to the beginning
 	 * of the updated buffer. */
-	void cut() {}
+	public void cut() {
+		
+	}
+
 	/** Cuts the bytes between the read position and the end of the buffer.
 	 * The read position remains unchanged (i.e. it will point to the end
 	 * of the truncated buffer. */
-	void cut_end() {}
+	public void cut_end() {
+		
+	}
+
 	/** Returns whether the buffer (beginning from the read position)
 	 * contains a complete TLV. */
 	boolean contains_complete_TLV() {
@@ -496,6 +502,10 @@ public class TTCN_Buffer {
 	}
 
 	void put_pad(int len, final char[] s, int pat_len, raw_order_t fieldorder) {
+
+	}
+
+	void put_pad(int len, final String s, int pat_len, raw_order_t fieldorder) {
 
 	}
 
