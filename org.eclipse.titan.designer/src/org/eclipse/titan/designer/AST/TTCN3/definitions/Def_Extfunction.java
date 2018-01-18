@@ -854,7 +854,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("TtcnLogger");
 
-		//FIXME implement get_string, error handling and other variants
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
@@ -863,11 +862,35 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
+		//FIXME implement error handling
 		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
 		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
-		source.append(MessageFormat.format("{0} ret_val = new {0}();\n", returnType.getGenNameValue( aData, source, getMyScope() )));
-		source.append( "ttcn_buffer.get_string(ret_val);\n" );
+
+		//FIXME implement JSON and XER specific parts
+		String resultName;
+		switch (prototype) {
+		case CONVERT:
+			resultName = "ret_val";
+			// creating a local variable for the result stream
+			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", returnType.getGenNameValue( aData, source, getMyScope() )));
+			break;
+		case FAST:
+			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
+			break;
+		default:
+			resultName = "";
+			break;
+		}
+
+		// taking the result from the buffer and producing debug printout
+		if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+			source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
+			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
+			source.append( MessageFormat.format("{0} = AdditionalFunctions.oct2bit(tmp_os);\n", resultName));
+		} else {
+			source.append( MessageFormat.format("ttcn_buffer.get_string({0});\n", resultName));
+		}
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
 		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
