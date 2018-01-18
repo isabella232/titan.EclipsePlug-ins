@@ -900,10 +900,7 @@ public class TitanInteger extends Base_Type {
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
-			bc = new char[myleaf.data_array.length];
-			for (int i = 0; i < myleaf.data_array.length; i++) {
-				bc[i] = (char)myleaf.data_array[i];
-			}
+			bc = myleaf.data_array;
 		}
 		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
