@@ -222,12 +222,15 @@ public final class Return_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO more nuanced code generation
-		if (template == null) {
-			return;
-		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append("return ");
+
+		//No return value:
+		if ( template == null) {
+			expression.mergeExpression(source);
+			return;
+		}
 
 		final Definition definition = myStatementBlock.getMyDefinition();
 		if(definition.getAssignmentType() == Assignment_type.A_FUNCTION_RVAL && template.getTemplatetype() == Template_type.SPECIFIC_VALUE) {
