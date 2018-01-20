@@ -485,18 +485,48 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * encoding, if set by the compiler option.
 	 * */
 	public void checkEncode(final CompilationTimeStamp timestamp) {
-		//FIXME implement
-		//TODO currently using the real attribute mechanism, not the compiler one for prototype reason.
-		WithAttributesPath attributePath = getAttributePath();
-		if (attributePath != null) {
-			List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
-			for (int i = 0; i < realAttributes.size(); i++) {
-				SingleWithAttribute singleWithAttribute = realAttributes.get(i);
-				if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
-					//FIXME also handle modifier
-					addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+		switch (getTypeRefdLast(timestamp).getTypetypeTtcn3()) {
+		case TYPE_NULL:
+		case TYPE_BOOL:
+		case TYPE_INTEGER:
+		case TYPE_REAL:
+		case TYPE_TTCN3_ENUMERATED:
+		case TYPE_BITSTRING:
+		case TYPE_HEXSTRING:
+		case TYPE_OCTETSTRING:
+		case TYPE_CHARSTRING:
+		case TYPE_UCHARSTRING:
+		case TYPE_OBJECTID:
+		case TYPE_TTCN3_CHOICE:
+		case TYPE_SEQUENCE_OF:
+		case TYPE_SET_OF:
+		case TYPE_TTCN3_SEQUENCE:
+		case TYPE_TTCN3_SET:
+		case TYPE_VERDICT:
+		case TYPE_ARRAY:
+		case TYPE_ANYTYPE:
+			if (!isAsn()) {
+				//FIXME implement rest
+				//TODO currently using the real attribute mechanism, not the compiler one for prototype reason.
+				WithAttributesPath attributePath = getAttributePath();
+				if (attributePath != null) {
+					List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
+					for (int i = 0; i < realAttributes.size(); i++) {
+						SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+						if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
+							//FIXME also handle qualifier
+							addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+						}
+					}
 				}
+			} else {
+				// ASN.1 types automatically have BER, PER, XER, OER and JSON encoding
+				//FIXME implement
 			}
+			break;
+		default:
+			// the rest of the types can't have 'encode' attributes
+			break;
 		}
 	}
 
@@ -504,7 +534,25 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Checks the type's variant attributes (when using the new codec handling).
 	 * */
 	public void checkVariants(final CompilationTimeStamp timestamp) {
-		//FIXME implement
+		//FIXME implement rest
+		WithAttributesPath attributePath = getAttributePath();
+		if (attributePath != null) {
+			List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
+			for (int i = 0; i < realAttributes.size(); i++) {
+				SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+				if (singleWithAttribute.getAttributeType() == Attribute_Type.Variant_Attribute) {
+					//FIXME also handle qualifier
+					checkThisVariant(timestamp, singleWithAttribute);
+				}
+			}
+		}
+	}
+
+	//FIXME comment
+	//TODO check if we need to separate global or not
+	private void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute) {
+		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
+		//FIXME call parse_attributes to create the rawattrib from the variant attribute specification
 	}
 
 	//FIXME comment
