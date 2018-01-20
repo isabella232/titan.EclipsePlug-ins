@@ -11,7 +11,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
-import org.eclipse.titan.designer.AST.IType.Encoding_type;
+import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -60,12 +60,12 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 		return targetType;
 	}
 
-	public Encoding_type getCodingType() {
+	public MessageEncoding_type getCodingType() {
 		if (encodeAttribute != null) {
 			return encodeAttribute.getEncodingType();
 		}
 
-		return Encoding_type.UNDEFINED;
+		return MessageEncoding_type.UNDEFINED;
 	}
 
 	public boolean hasCodingOptions() {

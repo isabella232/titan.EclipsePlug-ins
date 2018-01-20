@@ -8,7 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
-import org.eclipse.titan.designer.AST.IType.Encoding_type;
+import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.IVisitableNode;
 
 /**
@@ -20,10 +20,10 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
  * */
 public final class EncodeAttribute extends ExtensionAttribute implements IVisitableNode {
 
-	private final Encoding_type encodingType;
+	private final MessageEncoding_type encodingType;
 	private final String options;
 
-	public EncodeAttribute(final Encoding_type encodingType, final String options) {
+	public EncodeAttribute(final MessageEncoding_type encodingType, final String options) {
 		this.encodingType = encodingType;
 		this.options = options;
 	}
@@ -34,7 +34,7 @@ public final class EncodeAttribute extends ExtensionAttribute implements IVisita
 		return ExtensionAttribute_type.ENCODE;
 	}
 
-	public Encoding_type getEncodingType() {
+	public MessageEncoding_type getEncodingType() {
 		return encodingType;
 	}
 

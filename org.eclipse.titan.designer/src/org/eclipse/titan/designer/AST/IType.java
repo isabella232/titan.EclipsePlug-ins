@@ -153,10 +153,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		TYPE_SELECTION
 	}
 
-	/** Encoding types. 
-	 * originally MessageEncodingTypes
+	/** 
+	 * Encoding types.
 	 * */
-	public enum Encoding_type {
+	public enum MessageEncoding_type {
 		/** not yet defined */
 		UNDEFINED("<unknown encoding>"),
 		/** ber encoding. */
@@ -174,7 +174,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 		private String name;
 
-		Encoding_type(final String name) {
+		MessageEncoding_type(final String name) {
 			this.name = name;
 		}
 

@@ -83,7 +83,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	// TODO as this is only used for TTCN-3 types maybe we could save some
 	// memory, by moving it ... but than we waste runtime.
 	protected WithAttributesPath withAttributesPath = null;
-	public ArrayList<Encoding_type> codersToGenerate = new ArrayList<IType.Encoding_type>();
+	public ArrayList<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
 
 	private boolean hasDone = false;
 
@@ -558,7 +558,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	//FIXME comment
 	private void addCoding(final String name, final boolean silent) {
 		//FIXME implement properly
-		Encoding_type builtInCoding = getEncodingType(name);
+		MessageEncoding_type builtInCoding = getEncodingType(name);
 		setGenerateCoderFunctions(builtInCoding);
 	}
 
@@ -1367,22 +1367,22 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param encoding the name of the encoding to identify
 	 * @return the encoding identified by the name or undefined otherwise.
 	 * */
-	public static Encoding_type getEncodingType(final String encoding) {
+	public static MessageEncoding_type getEncodingType(final String encoding) {
 		//FIXME add oer and custom
 		if ("RAW".equals(encoding)) {
-			return Encoding_type.RAW;
+			return MessageEncoding_type.RAW;
 		} else if ("TEXT".equals(encoding)) {
-			return Encoding_type.TEXT;
+			return MessageEncoding_type.TEXT;
 		} else if ("JSON".equals(encoding)) {
-			return Encoding_type.JSON;
+			return MessageEncoding_type.JSON;
 		} else if ("BER:2002".equals(encoding) || "CER:2002".equals(encoding) || "DER:2002".equals(encoding)) {
-			return Encoding_type.BER;
+			return MessageEncoding_type.BER;
 		} else if ("XML".equals(encoding) || "XER".equals(encoding)) {
-			return Encoding_type.XER;
+			return MessageEncoding_type.XER;
 		} else if ("PER".equals(encoding)) {
-			return Encoding_type.PER;
+			return MessageEncoding_type.PER;
 		} else {
-			return Encoding_type.UNDEFINED;
+			return MessageEncoding_type.UNDEFINED;
 		}
 	}
 
@@ -1723,7 +1723,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param encodingType the encoding type to check
 	 * @return true if the type has the provided encoding, false otherwise
 	 * */
-	private boolean getGenerateCoderFunctions(final Encoding_type encodingType) {
+	private boolean getGenerateCoderFunctions(final MessageEncoding_type encodingType) {
 		for (int i = 0; i < codersToGenerate.size(); i++) {
 			if (encodingType == codersToGenerate.get(i)) {
 				return true;
@@ -1755,7 +1755,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	//FIXME comment
-	private void setGenerateCoderFunctions(final Encoding_type encodingType) {
+	private void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case BER:
 		case RAW:
@@ -1803,7 +1803,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			//check and generate the needed type descriptors
 			//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
-			final boolean generate_raw = aData.getEnableRaw() && aData.getLegacyCodecHandling() ? true: getGenerateCoderFunctions(Encoding_type.RAW);//FIXME implement legacy support if needed
+			final boolean generate_raw = aData.getEnableRaw() && aData.getLegacyCodecHandling() ? true: getGenerateCoderFunctions(MessageEncoding_type.RAW);//FIXME implement legacy support if needed
 			final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
 			if (generate_raw && genname.equals(gennameRawDescriptor)) {
 				generateCodeRawDescriptor(aData, source);

@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.IType.Encoding_type;
+import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -85,7 +85,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	private Type inputType;
 	private Type outputType;
 	private ExternalFunctionEncodingType_type functionEncodingType;
-	private Encoding_type encodingType;
+	private MessageEncoding_type encodingType;
 	private String encodingOptions;
 	private ErrorBehaviorList errorBehaviorList;
 	private PrintingType printingType;
@@ -102,7 +102,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		this.templateRestriction = templateRestriction;
 		prototype = EncodingPrototype_type.NONE;
 		functionEncodingType = ExternalFunctionEncodingType_type.MANUAL;
-		encodingType = Encoding_type.UNDEFINED;
+		encodingType = MessageEncoding_type.UNDEFINED;
 		encodingOptions = null;
 		errorBehaviorList = null;
 		printingType = null;
@@ -211,7 +211,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		isUsed = false;
 		prototype = EncodingPrototype_type.NONE;
 		functionEncodingType = ExternalFunctionEncodingType_type.MANUAL;
-		encodingType = Encoding_type.UNDEFINED;
+		encodingType = MessageEncoding_type.UNDEFINED;
 		encodingOptions = null;
 		errorBehaviorList = null;
 		printingType = null;
@@ -541,7 +541,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		}
 
 		if (printingType != null && (functionEncodingType != ExternalFunctionEncodingType_type.ENCODE ||
-				encodingType != Encoding_type.JSON)) {
+				encodingType != MessageEncoding_type.JSON)) {
 			location.reportSemanticError("Attribute `printing' is only allowed for JSON encoding functions");
 		}
 	}
@@ -944,7 +944,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		} else {
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
 		}
-		if (encodingType == Encoding_type.TEXT) {
+		if (encodingType == MessageEncoding_type.TEXT) {
 			source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
 			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
 			source.append( "}\n" );
