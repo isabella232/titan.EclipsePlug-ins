@@ -1015,13 +1015,35 @@ public class TitanUniversalCharString extends Base_Type {
 
 	// decode 
 
-	public void decode_utf8(final int lenghtOctets, final String valueStr, final CharCoding code, final boolean checkBOM) {
+	public void decode_utf8(final char[] valueStr, final CharCoding code, final boolean checkBOM) {
 		//FIXME: implement
 	}
 
 	// encode 
 
-	public static void encode_utf8(final Text_Buf text_buf, final boolean addBOM) {
-		 // FIXME: implement
+	public void encode_utf8(final TTCN_Buffer text_buf) {
+		encode_utf8(text_buf, false);
+	}
+
+	public void encode_utf8(final TTCN_Buffer buf, final boolean addBOM) {
+		// FIXME: implement
+		System.out.println("encode_utf8");
+		// Add BOM
+		if (addBOM) {
+			buf.put_c((char)0xEF);
+			buf.put_c((char)0xBB);
+			buf.put_c((char)0xBF);
+		}
+		
+		if (charstring) {
+			final char[] bstr = new char[cstr.length()];
+			for (int i = 0; i < cstr.length(); i++) {
+				bstr[i] =  cstr.charAt(i);
+			}
+			buf.put_s(bstr);
+			// put_s avoids the check for boundness in put_cs
+		} else {
+			//FIXME implement
+		}
 	}
 }
