@@ -33,6 +33,10 @@ public class TitanUniversalChar {
 		this.uc_cell = uc.uc_cell;
 	}
 
+	public TitanUniversalChar() {
+		
+	}
+
 	public boolean is_char() {
 		return getUc_group() == 0 && getUc_plane() == 0 && getUc_row() == 0 && getUc_cell() < 128;
 	}

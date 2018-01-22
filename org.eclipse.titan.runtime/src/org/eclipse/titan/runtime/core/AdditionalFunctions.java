@@ -508,26 +508,42 @@ public final class AdditionalFunctions {
 		return unichar2int(value.get_char());
 	}
 
-	//FIXME: implement
 	public static TitanOctetString unichar2oct(final TitanUniversalCharString value) {
 		// no encoding parameter is default UTF-8
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
 
-		// TODO: TTCN_EncDec
-		final Text_Buf text_buf = new Text_Buf();
-		value.encode_utf8(text_buf, false);
+		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
-		return new TitanOctetString(text_buf.pull_string());
+		final TTCN_Buffer buf = new TTCN_Buffer();
+		value.encode_utf8(buf, false);
+
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
+
+		return new TitanOctetString(buf.get_data());
 	}
-	
+
+	//FIXME: implement
 	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final TitanCharString stringEncoding) {
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
-		
-		final Text_Buf text_buf = new Text_Buf();
-		//TODO: TTCN_EncDec
-		//final boolean b = stringEncoding.operatorEquals("");
-		//value.encode_utf8(text_buf, false);
-		return new TitanOctetString( value.toString()/*text_buf.pull_string()*/ /*FIXME: search text_buf.get_data()*/);
+
+		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
+
+		final TTCN_Buffer buf = new TTCN_Buffer();
+
+		if (stringEncoding.operatorEquals("UTF-8")) {
+			value.encode_utf8(buf, false);
+		} else if (stringEncoding.operatorEquals("UTF-8 BOM")) {
+			value.encode_utf8(buf, true);
+		} //TODO: added other coding type
+		else {
+			throw new TtcnError("unichar2oct: Invalid parameter: "+ stringEncoding);
+		}
+
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
+
+		return new TitanOctetString(buf.get_data());
 	}
 
 	// C.12 - bit2int
@@ -942,22 +958,36 @@ public final class AdditionalFunctions {
 		return new TitanCharString(String.valueOf(octet));
 	}
 
-	// FIXME: implement
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value) {
 		//  default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
-		// TODO: TTCN_EncDec
-		unicharStr.decode_utf8(value.lengthOf().getInt(),value.toString(), CharCoding.UTF_8, true);
+		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
+
+		unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
+
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
+
 		return unicharStr;
 	}
 
+	//FIXME: implement
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value, final TitanCharString encodeStr) {
 		//  default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
-		// TODO: TTCN_EncDec
-		// ...
-		unicharStr.decode_utf8(value.lengthOf().getInt(),value.toString(), CharCoding.UTF_8, true);
-		// .... 
+
+		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
+
+		if (encodeStr.operatorEquals("UTF-8")) {
+			unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
+		} // FIXME: implement other utf decode function 
+		else {
+			throw new TtcnError("oct2unichar: Invalid parameter: " +encodeStr);
+		}
+
+		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
+
 		return unicharStr;
 	}
 
