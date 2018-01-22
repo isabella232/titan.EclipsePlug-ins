@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.designer.AST.*;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
-import org.eclipse.titan.designer.AST.IType.Encoding_type;
+import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.*;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
@@ -232,15 +232,15 @@ pr_DecodeAttribute returns[DecodeAttribute attribute]
 	}
 };
 
-pr_EncodingType returns[Encoding_type type]
+pr_EncodingType returns[MessageEncoding_type type]
 	:
 (
-	BER		{$type = Encoding_type.BER;}
-|	PER		{$type = Encoding_type.PER;}
-|	XER		{$type = Encoding_type.XER;}
-|	RAW		{$type = Encoding_type.RAW;}
-|	TEXT	{$type = Encoding_type.TEXT;}
-|	JSON	{$type = Encoding_type.JSON;}
+	BER		{$type = MessageEncoding_type.BER;}
+|	PER		{$type = MessageEncoding_type.PER;}
+|	XER		{$type = MessageEncoding_type.XER;}
+|	RAW		{$type = MessageEncoding_type.RAW;}
+|	TEXT	{$type = MessageEncoding_type.TEXT;}
+|	JSON	{$type = MessageEncoding_type.JSON;}
 );
 
 pr_EncodingOptions returns[String text]
