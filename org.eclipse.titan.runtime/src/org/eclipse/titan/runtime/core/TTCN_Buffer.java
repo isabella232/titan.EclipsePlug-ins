@@ -112,7 +112,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Initializes the buffer with the contents of \a p_os.
-	 * @pre The argument must be bound. */
+	 * @param The argument must be bound. */
 	public  TTCN_Buffer(final TitanOctetString p_os) {
 		p_os.mustBound("Initializing a TTCN_Buffer with an unbound octetstring value.");
 
@@ -123,7 +123,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Initializes the buffer with the contents of \a p_cs.
-	 * @pre The argument must be bound. */
+	 * @param The argument must be bound. */
 	public TTCN_Buffer(final TitanCharString p_cs) {
 		p_cs.mustBound("Initializing a TTCN_Buffer with an unbound charstring value.");
 
@@ -275,7 +275,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Appends \a len bytes starting from address \a s to the buffer. */
-	public void put_s(char[] cstr) {
+	public void put_s(final char[] cstr) {
 		final int length = cstr.length;
 
 		if (length > 0) {
@@ -316,8 +316,6 @@ public class TTCN_Buffer {
 		if (n_chars > 0) { // there is something in the CHARSTRING
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(n_chars);
-				// memcpy(buf_ptr->data_ptr + buf_len, p_cs.val_ptr->chars_ptr,p_cs.val_ptr->n_chars);
-				//System.arraycopy(p_cs.getValue(), 0, data_ptr, buf_len, n_chars);
 				for (int i = 0; i < n_chars; i++ ) {
 					data_ptr[buf_len + i] = p_cs.getValue().charAt(i);
 				}
@@ -327,7 +325,6 @@ public class TTCN_Buffer {
 				for (int i = 0; i < n_chars; i++ ) {
 					data_ptr[i] = p_cs.getValue().charAt(i);
 				}
-				//System.arraycopy(p_cs.getValue(), 0, data_ptr, 0, n_chars);
 				buf_len = n_chars;
 			}
 		}
@@ -345,8 +342,7 @@ public class TTCN_Buffer {
 		if (p_buf.buf_len > 0) { // there is something in the other buffer
 			if (buf_len > 0) { // there is something in this buffer, append
 				increase_size(p_buf.buf_len);
-				// memcpy(buf_ptr->data_ptr + buf_len, p_buf.buf_ptr->data_ptr, p_buf.buf_len);
-				System.arraycopy(p_buf.data_ptr, 0, data_ptr, buf_len, p_buf.data_ptr.length);
+				System.arraycopy(p_buf.data_ptr, 0, data_ptr, buf_len, p_buf.buf_len);
 				buf_len += p_buf.buf_len;
 			}
 			else { // share the data
@@ -381,7 +377,6 @@ public class TTCN_Buffer {
 		} else {
 			p_os.cleanUp();
 		}
-		// throw new TtcnError("get_string() for TTCN_Buffer is not implemented!");
 	}
 
 	public void get_string(TitanCharString p_cs) {
@@ -502,7 +497,7 @@ public class TTCN_Buffer {
 	 * @param align alignment length (in ???)
 	 */
 	public void put_b(int len, char[] s, final RAW_coding_par coding_par, int align) {
-		// FIXME: not implement complete 		
+		// FIXME: this is wait for test
 		char[] st, st2;
 		int loc_align = align < 0 ? -align:align;
 		boolean must_align = false;
@@ -576,9 +571,7 @@ public class TTCN_Buffer {
 		} else {
 			// copy_memory();
 		}
-		// FIXME: data is useful?
-		// char[] data = data_ptr; 
-		// data = buf_ptr != NULL ? buf_ptr->data_ptr : NULL;
+ 
 		// System.out.println("buf_len: "+buf_len +" bit_pos: "+bit_pos+"\r\n");
 		// System.out.println("new_size: "+new_size+" new_bit_pos: "+new_bit_pos+"\r\n");
 
@@ -618,13 +611,166 @@ public class TTCN_Buffer {
 				}
 			}
 		} else if (bit_pos == 0 && (len%8) == 0) {  // octet aligned data
-			//FIXME: implement this case
+			if (coding_par.byteorder == raw_order_t.ORDER_LSB) {
+				if (local_bitorder ==raw_order_t.ORDER_LSB) {
+					System.arraycopy(s, 0, data_ptr, buf_len, len/8);
+				} else {
+					for(int a=0;a<len/8;a++) {
+						data_ptr[a+buf_len]=(char) RAW.REVERSE_BITS(s[a]);
+					}
+				}
+			} else {
+				if (local_bitorder==raw_order_t.ORDER_LSB) {
+					for (int a=0,b=len/8-1;a<len/8;a++,b--) {
+						data_ptr[a+buf_len]=s[b];
+					}
+				} else{
+					for(int a=0,b=len/8-1;a<len/8;a++,b--) {
+						data_ptr[a+buf_len]=(char) RAW.REVERSE_BITS(s[b]);
+					}
+				}
+			}
 		} else {
-			//FIXME: implement this case
+			int maxindex=new_size-1;
+			if (coding_par.byteorder == raw_order_t.ORDER_LSB) {
+				if (local_bitorder == raw_order_t.ORDER_LSB) {
+					if (bit_pos != 0) {
+						int mask1 = RAW.BitMaskTable[bit_pos];
+						final int offset =  buf_len==0?0:buf_len-1;
+						if (local_fieldorder == raw_order_t.ORDER_MSB) {
+							int num_bytes = (len+7) / 8;
+							int active_bits_in_last = len % 8;
+							if (active_bits_in_last == 0) {
+								active_bits_in_last=8;
+							}
+							for (int a=0; a < num_bytes; a++) {
+								data_ptr[a+offset] &= RAW.REVERSE_BITS(mask1);
+								char sa = s[a];
+								if (a == num_bytes - 1) { // last byte
+									sa <<= (8 - active_bits_in_last);
+									// push bits up so the first active bit is in MSB
+								}
+								data_ptr[a+offset] |= (sa>>bit_pos)&~RAW.REVERSE_BITS(mask1);
+								if(a < maxindex) {
+									data_ptr[a+offset + 1] = (char) (sa<<(8-bit_pos));
+								}
+							}
+						} else {
+							for (int a=0; a<(len+7)/8; a++) {
+								data_ptr[a+offset] &= mask1;
+								data_ptr[a+offset] |= s[a]<<bit_pos;
+								if (a < maxindex) {
+									data_ptr[a+offset + 1] = (char) (s[a]>>(8-bit_pos));
+								}
+							}
+						}
+					} else {  // start from octet boundary
+						System.arraycopy(s, 0, data_ptr, buf_len, (len+7)/8);
+						if(local_fieldorder == raw_order_t.ORDER_MSB  && new_bit_pos != 0) {
+							data_ptr[new_size-1] <<= (8-new_bit_pos);
+						}
+					}
+				} else { // bitorder==ORDER_MSB
+					if (bit_pos != 0) {
+						int mask1 = RAW.REVERSE_BITS(RAW.BitMaskTable[bit_pos]);
+						final int offset =  buf_len==0?0:buf_len-1;
+						if (local_fieldorder==raw_order_t.ORDER_MSB) {
+							data_ptr[offset] &= mask1;
+							data_ptr[offset] |= RAW.REVERSE_BITS(s[0])>>bit_pos;
+							data_ptr[offset + 1] = (char) (RAW.REVERSE_BITS(s[0])<<(8-bit_pos));
+						} else {
+							data_ptr[offset] &= RAW.REVERSE_BITS(mask1);
+							data_ptr[offset] |= RAW.REVERSE_BITS(s[0]) & ~RAW.REVERSE_BITS(mask1);
+							data_ptr[offset + 1] = (char) (RAW.REVERSE_BITS(s[0]) << (8-bit_pos));
+						}
+						for (int a=1; a<(len+7)/8; a++){
+							data_ptr[a+offset] &= mask1;
+							data_ptr[a+offset] |= RAW.REVERSE_BITS(s[a])>>bit_pos;
+							if (a < maxindex) {
+								data_ptr[a+offset + 1] = (char) (RAW.REVERSE_BITS(s[a])<<(8-bit_pos));
+							}
+						}
+					} else {  // start from octet boundary
+						for (int a=0; a<(len+7)/8; a++) {
+							data_ptr[a + buf_len] = (char) RAW.REVERSE_BITS(s[a]);
+						}
+					}
+
+					if(local_fieldorder == raw_order_t.ORDER_LSB && new_bit_pos != 0) {
+						data_ptr[new_size-1]>>=(8-new_bit_pos);
+					}
+				}
+			} else { // byteorder==ORDER_MSB
+				if (local_bitorder == raw_order_t.ORDER_LSB) {
+					if (bit_pos != 0) {
+						int mask1=RAW.BitMaskTable[bit_pos];
+						char ch = get_byte_rev(s,len,0);
+						final int offset =  buf_len==0?0:buf_len-1;
+						if (local_fieldorder == raw_order_t.ORDER_MSB) {
+							data_ptr[offset] &= RAW.REVERSE_BITS(mask1);
+							data_ptr[offset] |= ch >> bit_pos;
+								data_ptr[offset + 1] = (char) (ch << (8-bit_pos));
+						} else {
+							data_ptr[offset] &= mask1;
+							data_ptr[offset] |= ch&~mask1;
+							data_ptr[offset + 1] =(char) (ch << (8-bit_pos));
+						}
+
+						for(int a=1; a<(len+7)/8; a++) {
+							ch=get_byte_rev(s,len,a);
+							data_ptr[a+offset] &= RAW.REVERSE_BITS(mask1);
+							data_ptr[a+offset] |= ch>>bit_pos;
+							if (a < maxindex) {
+								data_ptr[a+offset + 1] = (char) (ch << (8-bit_pos));
+							}
+						}
+					} else {
+						for (int a=0; a<(len+7)/8; a++) {
+							data_ptr[a + buf_len]=get_byte_rev(s,len,a);
+						}
+					}
+					if (local_fieldorder == raw_order_t.ORDER_LSB && new_bit_pos != 0) {
+						data_ptr[new_size-1] >>= (8-new_bit_pos);
+					}
+				} else {  // bitorder==ORDER_MSB
+					if (bit_pos != 0) {
+						int mask1 = RAW.BitMaskTable[bit_pos];
+						char ch=get_byte_rev(s,len,0);
+						final int offset = buf_len==0 ? 0:buf_len-1;
+						if (local_fieldorder == raw_order_t.ORDER_MSB) {
+							data_ptr[offset] &= RAW.REVERSE_BITS(mask1);
+							data_ptr[offset] |= RAW.REVERSE_BITS(ch) & ~RAW.REVERSE_BITS(mask1);
+							data_ptr[offset + 1] = (char) (RAW.REVERSE_BITS(ch) >> (8-bit_pos));
+						} else {
+							data_ptr[offset] &= mask1;
+							data_ptr[offset] |= RAW.REVERSE_BITS(ch) << bit_pos;
+							data_ptr[offset + 1] = (char) (RAW.REVERSE_BITS(ch) >> (8-bit_pos));
+						}
+
+						for (int a=1; a<(len+7)/8; a++) {
+							ch=get_byte_rev(s,len,a);
+							data_ptr[offset + a] &= mask1;
+							data_ptr[offset + a] |= RAW.REVERSE_BITS(ch) << bit_pos;
+							if (a < maxindex) {
+								data_ptr[offset + a + 1] = (char) (RAW.REVERSE_BITS(ch) >> (8-bit_pos));
+							}
+						}
+					} else {  // start from octet boundary
+						for (int a=0; a<(len+7)/8; a++) {
+							data_ptr[a + buf_len] = (char) RAW.REVERSE_BITS(get_byte_rev(s,len,a));
+
+						}
+					}
+
+					if (local_fieldorder == raw_order_t.ORDER_MSB && new_bit_pos != 0) {
+						data_ptr[new_size-1] <<= (8-new_bit_pos);
+					}
+				}
+			}
 		}
 
-		buf_len=new_size;
-		bit_pos=new_bit_pos;
+		buf_len = new_size;
+		bit_pos = new_bit_pos;
 		if (bit_pos != 0) {
 			last_bit_pos = buf_len-1;
 			if (local_fieldorder == raw_order_t.ORDER_LSB) {
@@ -634,14 +780,14 @@ public class TTCN_Buffer {
 			}
 		} else {
 			last_bit_pos=buf_len-1;
-			if(local_fieldorder==raw_order_t.ORDER_LSB) {
-				last_bit_bitpos=7;
+			if (local_fieldorder == raw_order_t.ORDER_LSB) {
+				last_bit_bitpos = 7;
 			} else {
-				last_bit_bitpos=0;
+				last_bit_bitpos = 0;
 			}
 		}
 		if (must_align) {
-			put_zero(loc_align,local_fieldorder);
+			put_zero(loc_align, local_fieldorder);
 		}
 	}
 
@@ -671,8 +817,6 @@ public class TTCN_Buffer {
 			}
 		}
 
-		char[] data = data_ptr;
-
 		if (bit_pos+len <= 8) {  // the data is within 1 octet
 			if (local_bitorder == raw_order_t.ORDER_LSB) {
 				if (local_fieldorder == raw_order_t.ORDER_LSB) {
@@ -687,7 +831,7 @@ public class TTCN_Buffer {
 					s[0]=(char) (RAW.REVERSE_BITS(data_ptr[buf_pos])>>bit_pos);
 				}
 			}
-		} else if (bit_pos == 0 && (len%8) == 0) { // octet aligned data
+		} else if (bit_pos == 0 && (len % 8) == 0) { // octet aligned data
 			if (coding_par.byteorder == raw_order_t.ORDER_LSB) {
 				if (local_bitorder == raw_order_t.ORDER_LSB) {
 					System.arraycopy(data_ptr, buf_pos, s, 0, len/8);
@@ -770,7 +914,6 @@ public class TTCN_Buffer {
 					}
 				} else {  // bitorder==ORDER_MSB
 					if (new_bit_pos != 0) {
-						int mask1=RAW.BitMaskTable[new_bit_pos];
 						for (int a=0,b=(bit_pos+len)/8; a < num_bytes; a++,b--) {
 							s[a]=(char) RAW.REVERSE_BITS((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_MSB,b) << (8-new_bit_pos)) |
 									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_MSB,b-1) >> new_bit_pos));
@@ -818,14 +961,14 @@ public class TTCN_Buffer {
 			last_bit = false;
 		}
 
-		buf_pos=new_buf_pos;
-		bit_pos=new_bit_pos;
+		buf_pos = new_buf_pos;
+		bit_pos = new_bit_pos;
 	}
 
 	/** Puts 
 	 * @param len number of zeros in the buffer. 
 	 */
-	public void put_zero(int len, raw_order_t fieldorder) {
+	public void put_zero(final int len, final raw_order_t fieldorder) {
 		// FIXME: this is wait for test
 		if(len==0) {
 			return;
@@ -836,33 +979,25 @@ public class TTCN_Buffer {
 			increase_size(new_size - buf_len);
 		}
 
-		// FIXME use data ?
-		// char[] data = data_ptr;
-
 		if (bit_pos != 0) {
-			if (bit_pos+len > 8) { //FIXME: this case is useful?
+			if (bit_pos+len > 8) {
 				int mask1 = RAW.BitMaskTable[bit_pos];
-				char[] prt; // = data_ptr+(buf_len==0?0:buf_len-1);
-				if (buf_len == 0) {
-					prt = data_ptr;
-				} else {
-					prt = new char[data_ptr.length - buf_len + 1];
-					System.arraycopy(data_ptr, buf_len - 1, prt, 0, prt.length);
-				}
+				final int offset = buf_len==0 ? 0:buf_len-1;
+
 				if (fieldorder == raw_order_t.ORDER_LSB) {
-					prt[0] &= mask1;
+					data_ptr[offset] &= mask1;
 				} else {
-					prt[0] &= ~mask1;
+					data_ptr[offset] &= ~mask1;
 				}
 
 				for (int i = 1; i < (len-1+bit_pos)/8; i++) {
-					prt[i] = 0;
+					data_ptr[i + offset] = 0;
 				}
 			} else {
 				if (fieldorder == raw_order_t.ORDER_LSB) {
 					data_ptr[new_size-1] = (char) (data_ptr[new_size-1] & RAW.BitMaskTable[bit_pos]);
 				} else {
-					data_ptr[new_size-1]=(char) (data_ptr[new_size-1] & RAW.REVERSE_BITS(RAW.BitMaskTable[bit_pos]));
+					data_ptr[new_size-1] = (char) (data_ptr[new_size-1] & RAW.REVERSE_BITS(RAW.BitMaskTable[bit_pos]));
 				}
 
 			}
@@ -904,13 +1039,13 @@ public class TTCN_Buffer {
 
 	/** Sets the (reading) position to \a pos and the bit position to \a
 	 * bit_pos, or to the end of buffer, if pos > len. */
-	public void set_pos(int pos, int bitpos) {
+	public void set_pos(final int pos, final int bitpos) {
 		buf_pos = pos < buf_len ? pos:buf_len;
 		bit_pos = bitpos;
 	}
 
 	/** Sets the (reading) position to \a pos or to the end of buffer, if pos > len. */
-	public void set_pos_bit(int new_bit_pos) {
+	public void set_pos_bit(final int new_bit_pos) {
 		int new_pos = new_bit_pos / 8;
 		if (new_pos < buf_len) {
 			buf_pos = new_pos;
@@ -928,7 +1063,7 @@ public class TTCN_Buffer {
 
 	/** Increases the (reading) position by \a delta bits, or sets it to
 	 * the end of buffer, if get_pos() + delta > len. */
-	public void increase_pos_bit(int delta) {
+	public void increase_pos_bit(final int delta) {
 		int new_buf_pos = buf_pos+(bit_pos+delta)/8; // bytes
 		if (new_buf_pos<buf_pos || new_buf_pos>buf_len) {
 			buf_pos = buf_len;
@@ -942,7 +1077,7 @@ public class TTCN_Buffer {
 	/** Increases the (reading) position to a multiple of \p padding.
 	 *  @return the number of bits used up. 
 	 */
-	public int increase_pos_padd(int padding) {
+	public int increase_pos_padd(final int padding) {
 		if(padding != 0) { //         <---old bit pos--->
 			int new_bit_pos = ((buf_pos*8 + bit_pos + padding-1)/padding) * padding;
 			int padded = new_bit_pos - buf_pos * 8 - bit_pos;
@@ -960,7 +1095,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Mark the start of extension bit processing during encoding. */
-	public void start_ext_bit(boolean p_reverse) {
+	public void start_ext_bit(final boolean p_reverse) {
 		if (ext_level++ == 0) {
 			start_of_ext_bit = buf_len;
 			ext_bit_reverse = p_reverse;
@@ -977,17 +1112,17 @@ public class TTCN_Buffer {
 		if (--ext_level == 0) {
 			int one = current_bitorder ? 0x01 : 0x80;
 			int zero= ~one;
-			char[] data = data_ptr; // = buf_ptr != NULL ? buf_ptr->data_ptr : NULL;
+			
 			if (ext_bit_reverse) {
 				for (int a=start_of_ext_bit; a < buf_len-1; a++) {
-					data[a] |= one;
+					data_ptr[a] |= one;
 				}
-				data[buf_len-1] &= zero;
+				data_ptr[buf_len-1] &= zero;
 			} else {
 				for (int a=start_of_ext_bit; a<buf_len-1; a++) {
-					data[a] &= zero;
+					data_ptr[a] &= zero;
 				}
-				data[buf_len-1] |= one;
+				data_ptr[buf_len-1] |= one;
 			}
 		}
 	}
@@ -996,11 +1131,11 @@ public class TTCN_Buffer {
 		return current_bitorder;
 	}
 
-	public void set_order(boolean new_order) {
+	public void set_order(final boolean new_order) {
 		current_bitorder = new_order; 
 	}
 
-	public void put_pad(int len, final char[] s, int pat_len, raw_order_t fieldorder) {
+	public void put_pad(final int len, final char[] s, final int pat_len, final raw_order_t fieldorder) {
 		if (len == 0) {
 			return;
 		}
@@ -1017,7 +1152,7 @@ public class TTCN_Buffer {
 		}
 	}
 
-	public void put_pad(int len, final String s, int pat_len, raw_order_t fieldorder) {
+	public void put_pad(final int len, final String s, final int pat_len, final raw_order_t fieldorder) {
 		if (len == 0) {
 			return;
 		}
@@ -1040,13 +1175,13 @@ public class TTCN_Buffer {
 		}
 	}
 
-	public void set_last_bit(boolean p_last_bit) {
+	public void set_last_bit(final boolean p_last_bit) {
 		// FIXME: bitmask apply
 		char[] last_bit_ptr = new char[data_ptr.length]; //= buf_ptr->data_ptr + last_bit_pos;
 		System.arraycopy(data_ptr, last_bit_pos, last_bit_ptr, 0, buf_len-last_bit_pos);
 		int bitmask = 0x01 << last_bit_bitpos;
 		if (p_last_bit) {
-			// last_bit_ptr[0] |= bitmask;
+			 // last_bit_ptr |= bitmask;
 		}
 		else {
 			// last_bit_ptr &= ~bitmask;
@@ -1057,24 +1192,24 @@ public class TTCN_Buffer {
 		return last_bit;
 	}
 
-	private static char get_byte_rev(final char[] data, int len, int idx) {
+	private static char get_byte_rev(final char[] data,final int len,final int idx) {
 		char ch='\0';
-		int hossz=(len+7)/8-1;
-		int bit_limit=len%8;
-		if(idx>hossz) {
+		int hossz = (len+7)/8-1;
+		int bit_limit = len%8;
+		if (idx > hossz) {
 			return ch;
 		}
-		if(bit_limit==0) {
+		if (bit_limit == 0) {
 			return data[hossz-idx];
 		}
-		ch=(char) (data[hossz-idx]<<(8-bit_limit));
-		if((hossz-idx)>0) {
-			ch|=(data[hossz-idx-1]>>bit_limit) & RAW.BitMaskTable[8-bit_limit];
+		ch = (char) (data[hossz-idx] << (8-bit_limit));
+		if ((hossz-idx) > 0) {
+			ch |= (data[hossz-idx-1] >> bit_limit) & RAW.BitMaskTable[8-bit_limit];
 		}
 		return ch;
 	}
 
-	private char get_byte_align(int len, raw_order_t fieldorder, raw_order_t req_align ,int index) {
+	private char get_byte_align(final int len, final raw_order_t fieldorder, final raw_order_t req_align ,final int index) {
 		if (index > (bit_pos+len)/8) {
 			return '\0';
 		}
