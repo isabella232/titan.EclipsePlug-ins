@@ -7,9 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import java.text.MessageFormat;
+
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
@@ -142,7 +146,7 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 		}
 		lastTimeBuilt = aData.getBuildTimstamp();
 
-		//FIXME implement
+		source.append(MessageFormat.format("{0}.assign({1});\n", name, getSingleExpression(aData, false)));
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
@@ -155,5 +159,29 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 			source.append(name);
 			source.append(".set_ifPresent();\n");
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		final StringBuilder result = new StringBuilder();
+
+		if (castIsNeeded && (lengthRestriction != null || isIfpresent)) {
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing string pattern template `" + getFullName() + "''");
+			return result;
+		}
+
+		if (myGovernor == null ) {
+			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing string pattern template `" + getFullName() + "''");
+			return result;
+		}
+
+		aData.addBuiltinTypeImport( "TitanCharString" );
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result, myScope), patternstring.getFullString() ) );
+
+		//TODO handle cast needed
+
+		return result;
 	}
 }
