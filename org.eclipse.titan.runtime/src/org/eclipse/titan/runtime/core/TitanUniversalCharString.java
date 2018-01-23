@@ -767,6 +767,25 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
+	/**
+	 * @return unicode string representation
+	 */
+	public String toUtf() {
+		mustBound("Accessing an element of an unbound universal charstring value.");
+
+		if ( charstring ) {
+			return cstr.toString();
+		} else {
+			final StringBuilder str = new StringBuilder();
+
+			for (int i = 0; i < val_ptr.size(); ++i) {
+				str.append(val_ptr.get(i).toUtf());
+			}
+
+			return str.toString();
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {

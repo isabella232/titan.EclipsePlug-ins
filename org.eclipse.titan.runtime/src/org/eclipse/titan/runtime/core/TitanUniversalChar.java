@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.UnsupportedEncodingException;
+import java.text.MessageFormat;
+
 /**
  * originally universal_char
  * Represents UTF-32 character
@@ -109,5 +112,21 @@ public class TitanUniversalChar {
 	public String toString() {
 		return new StringBuilder("(").append((int) uc_group).append(",").append((int) uc_plane)
 				.append(",").append((int) uc_row).append(",").append((int) uc_cell).append(")").toString();
+	}
+
+	/**
+	 * @return decoded quadruple as unicode string
+	 */
+	public String toUtf() {
+		byte[] arr = new byte[4];
+		arr[0] = (byte)uc_group;
+		arr[1] = (byte)uc_plane;
+		arr[2] = (byte)uc_row;
+		arr[3] = (byte)uc_cell;
+		try {
+			return new String( arr, "UTF-32" );
+		} catch (UnsupportedEncodingException e) {
+			throw new TtcnError( MessageFormat.format( "Cannot decode quadruple: {0}, {1}, {2}, {3}", uc_group, uc_plane, uc_row, uc_cell ) );
+		}
 	}
 }

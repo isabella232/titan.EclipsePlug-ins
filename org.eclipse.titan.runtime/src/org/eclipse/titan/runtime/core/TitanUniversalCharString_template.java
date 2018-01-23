@@ -325,6 +325,11 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 				max_value = new TitanUniversalChar(otherValue.max_value);
 			}
 			break;
+		case STRING_PATTERN:
+		    pattern_string = new TitanCharString( otherValue.pattern_string );
+		    pattern_value_regexp_init = false;
+		    pattern_value_nocase = otherValue.pattern_value_nocase;
+		    break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported universal charstring template.");
 		}
@@ -432,7 +437,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 				pattern_value_posix_regexp = TtcnPattern.convertPattern( pattern_string.toString(), pattern_value_nocase );
 			}
 			if ( pattern_value_posix_regexp != null ) {
-				return TtcnPattern.match( otherValue.toString(), pattern_value_posix_regexp, pattern_value_nocase );
+				return TtcnPattern.match( otherValue.toUtf(), pattern_value_posix_regexp, pattern_value_nocase );
 			}
 			throw new TtcnError( MessageFormat.format( "Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.toString() ) );
 
