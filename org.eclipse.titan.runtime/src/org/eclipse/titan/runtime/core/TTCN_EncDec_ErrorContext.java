@@ -36,11 +36,7 @@ public class TTCN_EncDec_ErrorContext {
 	}
 
 	public TTCN_EncDec_ErrorContext(final String fmt, final Object... args) {
-		msg = fmt;
-		for (int i = 0; i < args.length; i++) {
-			//FIXME: Initial
-			msg.concat(args[i].toString() + " ");
-		}
+		msg = String.format(fmt, args);
 		if(!head) {
 			errors.add(0, this);
 		} else {
@@ -49,53 +45,37 @@ public class TTCN_EncDec_ErrorContext {
 	}
 
 	public void set_msg(final String fmt, final Object... args) {
-		msg = null;
-		msg = fmt;
-		for (int i = 0; i < args.length; i++) {
-			//FIXME: Initial implement
-			msg.concat(args[i].toString() + " ");
-		}
+		msg = String.format(fmt, args);
 	}
 
 	public static void error(final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
-		String err_msg = "";
+		final StringBuilder err_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
-			//FIXME: Initial implement
-			err_msg = errors.get(i).msg + " ";
+			err_msg.append(errors.get(i).msg).append(' ');
 		}
-		err_msg.concat(fmt + " ");
-		for (int i = 0; i < args.length; i++) {
-			//FIXME: Initial implement
-			err_msg.concat(args[i].toString() + " ");
-		}
-		TTCN_EncDec.error(p_et, err_msg);
+
+		err_msg.append(String.format(fmt, args));
+		TTCN_EncDec.error(p_et, err_msg.toString());
 	}
 
 	public static void error_internal(final String fmt, final Object... args) {
-		String err_msg = "Internal error: ";
+		final StringBuilder err_msg = new StringBuilder("Internal error: ");
 		for (int i = 0; i < errors.size(); i++) {
-			//FIXME: Initial implement
-			err_msg = errors.get(i).msg + " ";
+			err_msg.append(errors.get(i).msg).append(' ');
 		}
-		err_msg.concat(fmt + " ");
-		for (int i = 0; i < args.length; i++) {
-			//FIXME: Initial implement
-			err_msg.concat(args[i].toString() + " ");
-		}
-		TTCN_EncDec.error(TTCN_EncDec.error_type.ET_INTERNAL, err_msg);
+
+		err_msg.append(String.format(fmt, args));
+		TTCN_EncDec.error(TTCN_EncDec.error_type.ET_INTERNAL, err_msg.toString());
 		throw new TtcnError(TTCN_EncDec.get_error_str());
 	}
 
 	public void warning(final String fmt, final Object... args) {
-		String warn_msg = null;
+		final StringBuilder warn_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
-			//FIXME: Initial implement
-			warn_msg = errors.get(i).msg + " ";
+			warn_msg.append(errors.get(i).msg).append(' ');
 		}
-		for (int i = 0; i < args.length; i++) {
-			//FIXME: Initial implement
-			warn_msg.concat(args[i].toString() + " ");
-		}
-		TtcnError.TtcnWarning(warn_msg);
+
+		warn_msg.append(String.format(fmt, args));
+		TtcnError.TtcnWarning(warn_msg.toString());
 	}
 }
