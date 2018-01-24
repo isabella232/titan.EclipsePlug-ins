@@ -376,7 +376,7 @@ public final class AdditionalFunctions {
 
 	// C.6 - int2str
 	public static TitanCharString int2str(final int value) {
-		return new TitanCharString(Integer.valueOf(value).toString());
+		return new TitanCharString(Integer.toString(value));
 	}
 
 	public static TitanCharString int2str(final TitanInteger value) {
