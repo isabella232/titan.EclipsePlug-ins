@@ -306,7 +306,7 @@ public class FunctionReferenceGenerator {
 		source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Module {0} does not exist when trying to decode a function reference.\", moduleName));\n");
 		source.append("}\n");
 		source.append("final String definitionName = text_buf.pull_string();\n");
-		
+
 		switch (def.type) {
 		case FUNCTION:
 			source.append("try{\n");

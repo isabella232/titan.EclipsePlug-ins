@@ -187,8 +187,8 @@ public final class StringConcatenationExpression extends Expression_Value {
 		if( value2 != null ) {
 			value2.setLoweridToReference(timestamp);
 			v2_gov = value2.getExpressionGovernor(timestamp, expectedValue);
-		} 
-		
+		}
+
 		if (v1_gov != null) {
 			if (v2_gov != null) {
 				if (v1_gov.isCompatible(timestamp, v2_gov, null, null, null)) {

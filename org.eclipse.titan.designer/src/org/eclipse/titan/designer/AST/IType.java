@@ -153,7 +153,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		TYPE_SELECTION
 	}
 
-	/** 
+	/**
 	 * Encoding types.
 	 * */
 	public enum MessageEncoding_type {

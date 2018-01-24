@@ -49,7 +49,7 @@ public final class PatternString implements IVisitableNode {
 	public void setContent(String s) {
 		content = s;
 	}
-	
+
 	public String getFullString() {
 		return content;
 	}

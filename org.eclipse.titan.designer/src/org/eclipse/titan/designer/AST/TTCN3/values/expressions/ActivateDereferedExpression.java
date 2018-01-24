@@ -285,7 +285,6 @@ public final class ActivateDereferedExpression extends Expression_Value {
 			// the referred testcase is known
 			final Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
 			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "activate_")));
-			
 		} else {
 			// the referred testcase is unknown
 			value.generateCodeExpressionMandatory(aData, expression, true);

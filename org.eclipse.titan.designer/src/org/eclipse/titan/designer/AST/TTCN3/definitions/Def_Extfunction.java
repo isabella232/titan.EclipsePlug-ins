@@ -772,7 +772,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		} else {
 			return super.getGenNameFromScope(aData, source, scope, prefix);
 		}
-		
 	}
 
 	@Override

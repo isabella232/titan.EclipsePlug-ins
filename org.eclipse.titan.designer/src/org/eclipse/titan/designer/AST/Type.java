@@ -1366,7 +1366,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/**
 	 * Return the encoding belonging to the provided name.
-	 * 
+	 *
 	 * @param encoding the name of the encoding to identify
 	 * @return the encoding identified by the name or undefined otherwise.
 	 * */
@@ -1720,9 +1720,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/**
 	 * Returns whether this type can be encoded according to rules
 	 * encoding.
-	 * 
+	 *
 	 * originally get_gen_coder_functions
-	 * 
+	 *
 	 * @param encodingType the encoding type to check
 	 * @return true if the type has the provided encoding, false otherwise
 	 * */

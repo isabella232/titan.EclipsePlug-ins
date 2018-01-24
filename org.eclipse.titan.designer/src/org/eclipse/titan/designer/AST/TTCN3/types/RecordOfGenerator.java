@@ -679,7 +679,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn ret_val;\n");
 		source.append("\t}\n");
-		
+
 		//int index,int len:
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
@@ -1234,7 +1234,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\treturn valueOf().replace(index.getInt(), len.getInt(), repl);\n");
 		source.append("\t}\n");
-		
+
 		//TODO: perhaps one case is enough, if it is rethought
 	}
 

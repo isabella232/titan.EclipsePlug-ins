@@ -1487,7 +1487,7 @@ public class PortGenerator {
 			source.append('}');
 		} else {
 			source.append("if (!sender_template.match(head.sender_component, false)) {\n");
-			
+
 			source.append("final TtcnLogger.Severity log_sev = head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_PMUNSUCC : TtcnLogger.Severity.MATCHING_PCUNSUCC;\n");
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("TtcnLogger.begin_event(log_sev);\n");
@@ -1849,7 +1849,7 @@ public class PortGenerator {
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
 			source.append("TtcnLogger.log_char('(');\n");
 			source.append("sender_address.log();\n");
-			source.append("TtcnLogger.log_char(')');\n"); 
+			source.append("TtcnLogger.log_char(')');\n");
 			source.append("TitanCharString tempLog = TtcnLogger.end_event_log2str();\n");
 		}
 		source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_PQUEUE);\n");
@@ -1983,7 +1983,7 @@ public class PortGenerator {
 	 * A utility function for generating code for the standalone version of
 	 *  receive/trigger/getcall/getreply/catch/check/check-receive/check-getcall/check-getreply/check-catch/timeout/done/killed
 	 *  statements.
-	 * 
+	 *
 	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param statement the code generated for the statement as an expression.
@@ -2027,7 +2027,7 @@ public class PortGenerator {
 		source.append("}\n");
 	}
 
-	/** 
+	/**
 	 * Generate code for logging
 	 *
 	 * Called from generateTypedGetcall, generateTypedgetreply, generateTypedexception
