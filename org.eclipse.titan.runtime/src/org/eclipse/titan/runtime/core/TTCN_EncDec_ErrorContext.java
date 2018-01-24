@@ -49,33 +49,33 @@ public class TTCN_EncDec_ErrorContext {
 	}
 
 	public static void error(final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
-		String err_msg = "";
+		final StringBuilder err_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
-			//FIXME: Initial implement
-			err_msg = errors.get(i).msg + " ";
+			err_msg.append(errors.get(i).msg).append(' ');
 		}
-		err_msg = err_msg + String.format(fmt, args);
-		TTCN_EncDec.error(p_et, err_msg);
+
+		err_msg.append(String.format(fmt, args));
+		TTCN_EncDec.error(p_et, err_msg.toString());
 	}
 
 	public static void error_internal(final String fmt, final Object... args) {
-		String err_msg = "Internal error: ";
+		final StringBuilder err_msg = new StringBuilder("Internal error: ");
 		for (int i = 0; i < errors.size(); i++) {
-			//FIXME: Initial implement
-			err_msg = errors.get(i).msg + " ";
+			err_msg.append(errors.get(i).msg).append(' ');
 		}
-		err_msg = err_msg + String.format(fmt, args);
-		TTCN_EncDec.error(TTCN_EncDec.error_type.ET_INTERNAL, err_msg);
+
+		err_msg.append(String.format(fmt, args));
+		TTCN_EncDec.error(TTCN_EncDec.error_type.ET_INTERNAL, err_msg.toString());
 		throw new TtcnError(TTCN_EncDec.get_error_str());
 	}
 
 	public void warning(final String fmt, final Object... args) {
-		String warn_msg = null;
+		final StringBuilder warn_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
-			//FIXME: Initial implement
-			warn_msg = errors.get(i).msg + " ";
+			warn_msg.append(errors.get(i).msg).append(' ');
 		}
-		warn_msg = String.format(fmt, args);
-		TtcnError.TtcnWarning(warn_msg);
+
+		warn_msg.append(String.format(fmt, args));
+		TtcnError.TtcnWarning(warn_msg.toString());
 	}
 }
