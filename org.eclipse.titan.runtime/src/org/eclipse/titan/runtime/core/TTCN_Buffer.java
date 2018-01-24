@@ -197,7 +197,9 @@ public class TTCN_Buffer {
 	}
 
 	public char[] get_data() {
-		return data_ptr;
+		final char[] result = new char[buf_len];
+		System.arraycopy(data_ptr, buf_pos, result, 0, buf_len);
+		return result;
 	}
 
 	/** Returns how many bytes are in the buffer to read. */
@@ -1186,15 +1188,12 @@ public class TTCN_Buffer {
 	}
 
 	public void set_last_bit(final boolean p_last_bit) {
-		// FIXME: bitmask apply
-		char[] last_bit_ptr = new char[data_ptr.length]; //= buf_ptr->data_ptr + last_bit_pos;
-		System.arraycopy(data_ptr, last_bit_pos, last_bit_ptr, 0, buf_len-last_bit_pos);
 		int bitmask = 0x01 << last_bit_bitpos;
 		if (p_last_bit) {
-			 // last_bit_ptr |= bitmask;
+			data_ptr[last_bit_pos] |= bitmask;
 		}
 		else {
-			// last_bit_ptr &= ~bitmask;
+			data_ptr[last_bit_pos] &= ~bitmask;
 		}
 	}
 
@@ -1220,38 +1219,30 @@ public class TTCN_Buffer {
 	}
 
 	private char get_byte_align(final int len, final raw_order_t fieldorder, final raw_order_t req_align ,final int index) {
-		if (index > (bit_pos+len)/8) {
+		if (index > (bit_pos+len)/8 || data_ptr == null) {
 			return '\0';
-		}
-
-		final char[] data;
-		if (data_ptr != null) {
-			data = null;
-		} else {
-			data = new char[data_ptr.length];
-			System.arraycopy(data_ptr, 0, data, 0, data_ptr.length);
 		}
 
 		if (index == 0) { // first byte
 			if (fieldorder == req_align) {
 				if (fieldorder == raw_order_t.ORDER_LSB) {
-					return (char) (data[buf_pos]>>bit_pos);
+					return (char) (data_ptr[buf_pos] >> bit_pos);
 				}
-				return (char) (data[buf_pos]<<bit_pos);
+				return (char) (data_ptr[buf_pos] << bit_pos);
 			}
-			return data[buf_pos];
+			return data_ptr[buf_pos];
 		}
 
-		if (index == (bit_pos+len)/8) { // last byte
+		if (index == (bit_pos + len) / 8) { // last byte
 			if (fieldorder == req_align) {
 				if (fieldorder == raw_order_t.ORDER_LSB){
-					return (char) (data[buf_pos+index] << (8-(bit_pos+len)%8));
+					return (char) (data_ptr[buf_pos+index] << (8-(bit_pos+len)%8));
 				}
-				return (char) (data[buf_pos+index] >> (8-(bit_pos+len)%8));
+				return (char) (data_ptr[buf_pos+index] >> (8-(bit_pos+len)%8));
 			}
-			return data[buf_pos+index];
+			return data_ptr[buf_pos+index];
 		}
 
-		return data[buf_pos + index];
+		return data_ptr[buf_pos + index];
 	}
 }
