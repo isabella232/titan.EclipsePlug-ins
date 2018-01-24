@@ -365,7 +365,7 @@ public class TitanOctetString extends Base_Type {
 		final char temp[] = new char[val_ptr.length + otherValue.val_ptr.length];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		System.arraycopy(otherValue.val_ptr, 0, temp, val_ptr.length, otherValue.val_ptr.length);
-		
+
 		final TitanOctetString result = new TitanOctetString( temp );
 
 		return result;
@@ -666,18 +666,18 @@ public class TitanOctetString extends Base_Type {
 			}
 			for (int a = 0; a < blength; a++){
 				bc[a] = (char) (val_ptr[a] << 1);
-			} 
+			}
 		} else {
 			myleaf.data_ptr = val_ptr;
 		}
 		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
-			myleaf.align = -align_length; 
+			myleaf.align = -align_length;
 		} else {
 			myleaf.align = -align_length;
 		}
 		return myleaf.length = bl + align_length;
 	}
-	
+
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;

@@ -630,23 +630,23 @@ public class TitanHexString extends Base_Type {
 
 		return this.rotateRight(rotateCount.getInt());
 	}
-	
+
 	public int RAW_encoding(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		if(!isBound()) {
-		    TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 		int nbits = nibbles_ptr.length * 4;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - nbits : 0;
 		if((nbits + align_length) < nbits) {
-		    TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode {0}: ", p_td.name);
-		    nbits = p_td.raw.fieldlength;
-		    align_length = 0;
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode {0}: ", p_td.name);
+			nbits = p_td.raw.fieldlength;
+			align_length = 0;
 		}
-		
+
 		if(myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
-		
+
 		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
 		myleaf.data_ptr = new char[nibbles_ptr.length];
@@ -658,7 +658,7 @@ public class TitanHexString extends Base_Type {
 		} else {
 			myleaf.align = align_length;
 		}
-		
+
 		return myleaf.length = nbits + align_length;
 	}
 }

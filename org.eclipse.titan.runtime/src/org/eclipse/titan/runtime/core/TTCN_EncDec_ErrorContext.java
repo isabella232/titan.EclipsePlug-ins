@@ -85,7 +85,7 @@ public class TTCN_EncDec_ErrorContext {
 		TTCN_EncDec.error(TTCN_EncDec.error_type.ET_INTERNAL, err_msg);
 		throw new TtcnError(TTCN_EncDec.get_error_str());
 	}
-	
+
 	public void warning(final String fmt, final Object... args) {
 		String warn_msg = null;
 		for (int i = 0; i < errors.size(); i++) {

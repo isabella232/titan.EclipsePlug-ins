@@ -8505,7 +8505,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Parallel_reason extends Base_Type { 
+	public static class Parallel_reason extends Base_Type {
 		public enum enum_type {
 			creating__new__ptc(0),
 			function__stopped(1),
@@ -9205,7 +9205,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class PortType extends Base_Type { 
+	public static class PortType extends Base_Type {
 		public enum enum_type {
 			message__(0),
 			procedure__(1),
@@ -10435,7 +10435,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class ParPort_operation extends Base_Type { 
+	public static class ParPort_operation extends Base_Type {
 		public enum enum_type {
 			connect__(0),
 			disconnect__(1),
@@ -16483,7 +16483,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 		//TODO: implement set_param, encode, decode, check_restriction !
 	}
-	public static class MatchingDoneType_reason extends Base_Type { 
+	public static class MatchingDoneType_reason extends Base_Type {
 		public enum enum_type {
 			done__failed__wrong__return__type(0),
 			done__failed__no__return(1),
@@ -23318,7 +23318,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class LocationInfo_ent__type extends Base_Type { 
+	public static class LocationInfo_ent__type extends Base_Type {
 		public enum enum_type {
 			unknown(0),
 			controlpart(1),
@@ -25135,7 +25135,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class MatchingProblemType_reason extends Base_Type { 
+	public static class MatchingProblemType_reason extends Base_Type {
 		public enum enum_type {
 			port__not__started__and__queue__empty(0),
 			no__incoming__types(1),
@@ -25809,7 +25809,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class ExecutorRuntime_reason extends Base_Type { 
+	public static class ExecutorRuntime_reason extends Base_Type {
 		public enum enum_type {
 			connected__to__mc(0),
 			disconnected__from__mc(1),
@@ -26529,7 +26529,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class MatchingFailureType_reason extends Base_Type { 
+	public static class MatchingFailureType_reason extends Base_Type {
 		public enum enum_type {
 			sender__does__not__match__from__clause(0),
 			sender__is__not__system(1),
@@ -27847,7 +27847,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class MatchingProblemType_operation extends Base_Type { 
+	public static class MatchingProblemType_operation extends Base_Type {
 		public enum enum_type {
 			receive__(0),
 			trigger__(1),
@@ -29212,7 +29212,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 		//TODO: implement set_param, encode, decode, check_restriction !
 	}
-	public static class ExecutorConfigdata_reason extends Base_Type { 
+	public static class ExecutorConfigdata_reason extends Base_Type {
 		public enum enum_type {
 			received__from__mc(0),
 			processing__failed(1),
@@ -34034,7 +34034,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Port__State_operation extends Base_Type { 
+	public static class Port__State_operation extends Base_Type {
 		public enum enum_type {
 			started(0),
 			stopped(1),
@@ -34702,7 +34702,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Port__oper extends Base_Type { 
+	public static class Port__oper extends Base_Type {
 		public enum enum_type {
 			call__op(0),
 			exception__op(1),
@@ -54368,7 +54368,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Port__Queue_operation extends Base_Type { 
+	public static class Port__Queue_operation extends Base_Type {
 		public enum enum_type {
 			enqueue__msg(0),
 			enqueue__call(1),
@@ -57202,7 +57202,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Port__Misc_reason extends Base_Type { 
+	public static class Port__Misc_reason extends Base_Type {
 		public enum enum_type {
 			removing__unterminated__connection(0),
 			removing__unterminated__mapping(1),
@@ -62120,7 +62120,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class FinalVerdictType_choice_notification extends Base_Type { 
+	public static class FinalVerdictType_choice_notification extends Base_Type {
 		public enum enum_type {
 			setting__final__verdict__of__the__test__case(0),
 			no__ptcs__were__created(1),
@@ -62786,7 +62786,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class ExecutorUnqualified_reason extends Base_Type { 
+	public static class ExecutorUnqualified_reason extends Base_Type {
 		public enum enum_type {
 			local__address__was__set(0),
 			address__of__mc__was__set(1),
@@ -63456,7 +63456,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Msg__port__recv_operation extends Base_Type { 
+	public static class Msg__port__recv_operation extends Base_Type {
 		public enum enum_type {
 			receive__op(0),
 			check__receive__op(1),
@@ -64124,7 +64124,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class Verdict extends Base_Type { 
+	public static class Verdict extends Base_Type {
 		public enum enum_type {
 			v0none(0),
 			v1pass(1),
@@ -64796,7 +64796,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class ParallelPTC_reason extends Base_Type { 
+	public static class ParallelPTC_reason extends Base_Type {
 		public enum enum_type {
 			init__component__start(0),
 			init__component__finish(1),
@@ -67584,7 +67584,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class DefaultEnd extends Base_Type { 
+	public static class DefaultEnd extends Base_Type {
 		public enum enum_type {
 			break__(0),
 			finish(1),
@@ -74363,7 +74363,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 		//TODO: implement set_param, encode, decode, check_restriction !
 	}
-	public static class RandomAction extends Base_Type { 
+	public static class RandomAction extends Base_Type {
 		public enum enum_type {
 			read__out(0),
 			seed(1),
@@ -76326,7 +76326,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 		}
 	}
-	public static class ExecutorComponent_reason extends Base_Type { 
+	public static class ExecutorComponent_reason extends Base_Type {
 		public enum enum_type {
 			mtc__started(0),
 			mtc__finished(1),

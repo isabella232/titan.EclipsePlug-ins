@@ -254,7 +254,7 @@ public final class AdditionalFunctions {
 		value.mustBound("The first argument (value) of function int2hex() is an unbound integer value.");
 
 		if (value.isLessThan(0)) {
-			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2hex() is a  negative integer value: {0}.", value));
+			throw new TtcnError(MessageFormat.format("The first argument (value) of function int2hex() is a negative integer value: {0}.", value));
 		}
 		if (length < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (length) of function int2hex() is a negative integer value: {0}.", length));
@@ -632,7 +632,7 @@ public final class AdditionalFunctions {
 		final int n_octets = (n_bits + 7) / 8;
 		final int padding_bits = 8 * n_octets - n_bits;
 		final int octets_ptr[] = new int[n_octets];
-		final int bits_ptr[] =  value.getValue();
+		final int bits_ptr[] = value.getValue();
 
 		// bitstring conversion to hex characters
 		for (int i = 0; i < n_bits; i++) {
@@ -959,7 +959,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value) {
-		//  default encoding is UTF-8
+		// default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
 		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
@@ -973,7 +973,7 @@ public final class AdditionalFunctions {
 
 	//FIXME: implement
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value, final TitanCharString encodeStr) {
-		//  default encoding is UTF-8
+		// default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
 
 		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
@@ -981,7 +981,7 @@ public final class AdditionalFunctions {
 
 		if (encodeStr.operatorEquals("UTF-8")) {
 			unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
-		} // FIXME: implement other utf decode function 
+		} // FIXME: implement other utf decode function
 		else {
 			throw new TtcnError("oct2unichar: Invalid parameter: " +encodeStr);
 		}
@@ -1210,7 +1210,7 @@ public final class AdditionalFunctions {
 					state = str2floatState.S_ERR;
 				}
 				break;
-			case S_FIRST_M:  // first mantissa digit
+			case S_FIRST_M: // first mantissa digit
 				if(c == '0') {
 					state = str2floatState.S_ZERO_M;
 				} else if(c >= '1' && c <= '9') {
@@ -1370,7 +1370,7 @@ public final class AdditionalFunctions {
 		}
 		if(idx + returncount > 1) {
 			throw new TtcnError(MessageFormat.format("The first argument of function substr(), which is a{0} {1} element, does not have enough {2}s starting at index {3}: {4} {5}{6} needed, but there is only {7}.",
-					string_type.charAt(0) == 'o' ? "n" : "", string_type, element_name, idx, returncount, element_name, returncount > 1 ? "s are" : " is",  1 - idx));
+					string_type.charAt(0) == 'o' ? "n" : "", string_type, element_name, idx, returncount, element_name, returncount > 1 ? "s are" : " is", 1 - idx));
 		}
 	}
 
@@ -1860,7 +1860,7 @@ public final class AdditionalFunctions {
 		}
 		if(idx + len > value_length) {
 			throw new TtcnError(MessageFormat.format("The first argument of function replace(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
-				    value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
+					value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
 		}
 	}
 
@@ -2459,7 +2459,7 @@ public final class AdditionalFunctions {
 			return new TitanCharString(value.cstr);
 		} else {
 			final StringBuilder ret_val = new StringBuilder();
-			final List<TitanUniversalChar> uchars_ptr =  value.val_ptr;
+			final List<TitanUniversalChar> uchars_ptr = value.val_ptr;
 			for (int i = 0; i < value_length; i++) {
 				final TitanUniversalChar uchar = uchars_ptr.get(i);
 				if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {

@@ -1032,13 +1032,13 @@ public class TitanUniversalCharString extends Base_Type {
 		return ret_val;
 	}
 
-	// decode 
+	// decode
 
 	public void decode_utf8(final char[] valueStr, final CharCoding code, final boolean checkBOM) {
 		//FIXME: implement
 	}
 
-	// encode 
+	// encode
 
 	public void encode_utf8(final TTCN_Buffer text_buf) {
 		encode_utf8(text_buf, false);
@@ -1053,7 +1053,7 @@ public class TitanUniversalCharString extends Base_Type {
 			buf.put_c((char)0xBB);
 			buf.put_c((char)0xBF);
 		}
-		
+
 		if (charstring) {
 			final char[] bstr = new char[cstr.length()];
 			for (int i = 0; i < cstr.length(); i++) {

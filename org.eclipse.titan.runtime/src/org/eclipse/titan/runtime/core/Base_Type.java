@@ -21,7 +21,7 @@ public abstract class Base_Type {
 	 * There is one type descriptor object for each type. Descriptors for
 	 * built-in types are supplied by the runtime. Descriptors for
 	 * user-defined types are written by the compiler in the generated code.
-	 * 
+	 *
 	 *TODO: currently no encoding/decoding is supported yet!
 	 * */
 	public static class TTCN_Typedescriptor {

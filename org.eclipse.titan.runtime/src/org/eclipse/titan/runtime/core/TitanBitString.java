@@ -625,7 +625,7 @@ public class TitanBitString extends Base_Type {
 				final int temp[] = new int[(n_bits + 7) / 8];
 				System.arraycopy(bits_ptr, 0, temp, 0, bits_ptr.length);
 				bits_ptr = temp;
-				
+
 				return new TitanBitString_Element( false, this, index_value );
 			} else {
 				return new TitanBitString_Element( true, this, index_value );
@@ -751,7 +751,7 @@ public class TitanBitString extends Base_Type {
 		myleaf.data_ptr_used = true;
 		myleaf.data_ptr = new char[bits_ptr.length];
 		for (int i = 0; i < bits_ptr.length; i++) {
-			myleaf.data_ptr[i] = (char)bits_ptr[i]; 
+			myleaf.data_ptr[i] = (char)bits_ptr[i];
 		}
 		boolean orders = false;
 		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
@@ -776,7 +776,7 @@ public class TitanBitString extends Base_Type {
 		}
 		return myleaf.length = bl + align_length;
 	}
-	
+
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;

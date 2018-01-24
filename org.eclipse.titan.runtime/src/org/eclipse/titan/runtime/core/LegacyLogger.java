@@ -430,7 +430,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			} else {
 				dest = TitanComponent.get_component_string(ps.getCompref().getInt());
 			}
-			
+
 			switch (ps.getOperation().enum_value) {
 			case call__op:
 				returnValue.append("Called");

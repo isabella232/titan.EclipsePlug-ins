@@ -298,7 +298,7 @@ public class TitanBoolean extends Base_Type {
 
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
 	}
-	
+
 	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		char bc[];
 		int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
@@ -351,8 +351,8 @@ public class TitanBoolean extends Base_Type {
 			if(no_err) {
 				return -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();
 			}
-		    TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, nof_unread_bits);
-		    decode_length = nof_unread_bits;
+			TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, nof_unread_bits);
+			decode_length = nof_unread_bits;
 		}
 		if(decode_length < 0) {
 			return -1;
@@ -361,35 +361,35 @@ public class TitanBoolean extends Base_Type {
 		} else {
 			RAW_coding_par cp = new RAW_coding_par();
 			boolean orders = false;
-		    if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
-		    	orders = true;
-		    }
-		    if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-		    	orders = !orders;
-		    }
-		    cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		    orders = false;
-		    if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
-		    	orders = true;
-		    }
-		    if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
-		    	orders = !orders;
-		    }
-		    cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
-		    cp.fieldorder = p_td.raw.fieldorder;
-		    cp.hexorder = raw_order_t.ORDER_LSB;
-		    int length = (decode_length + 7) / 8;
-		    char[] data = new char[length];
-		    buff.get_b(decode_length, data, cp, top_bit_ord);
-		    if(decode_length % 8 != 0) {
-		    	data[length - 1] &= RAW.BitMaskTable[decode_length % 8];
-		    }
-		    char ch = '\0';
-		    for (int i = 0; i < length; i++) {
+			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			orders = false;
+			if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+				orders = true;
+			}
+			if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+				orders = !orders;
+			}
+			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+			cp.fieldorder = p_td.raw.fieldorder;
+			cp.hexorder = raw_order_t.ORDER_LSB;
+			int length = (decode_length + 7) / 8;
+			char[] data = new char[length];
+			buff.get_b(decode_length, data, cp, top_bit_ord);
+			if(decode_length % 8 != 0) {
+				data[length - 1] &= RAW.BitMaskTable[decode_length % 8];
+			}
+			char ch = '\0';
+			for (int i = 0; i < length; i++) {
 				ch |= data[i];
 			}
-		    data = null;
-		    boolean_value = (ch != '\0');
+			data = null;
+			boolean_value = (ch != '\0');
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		return decode_length + prepaddlength;

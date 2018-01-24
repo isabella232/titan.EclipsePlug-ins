@@ -64,7 +64,7 @@ public class LoggerPluginManager {
 
 	/**
 	 * The internal logging function representing the interface between the logger and the loggerPluginManager.
-	 * 
+	 *
 	 * log(const API::TitanLogEvent& event) in the LoggerPluginManager
 	 * not yet using the event objects to save on complexity and runtime cost.
 	 *

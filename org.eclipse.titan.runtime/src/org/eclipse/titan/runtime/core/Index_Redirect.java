@@ -25,14 +25,14 @@ package org.eclipse.titan.runtime.core;
 
 
 public class Index_Redirect {
-	 /** If the port, timer or component operation in question succeeds, then the
-	    * index in the current dimension of the port, timer or component array is
-	    * stored in the array/record of element indicated by this member. Only used
-	    * if the indices are being redirected to an integer array or record of
-	    * integer. If the index is redirected to a single integer, then this member
-	    * is ignored. *
-	    *
-	    * */
+	/** If the port, timer or component operation in question succeeds, then the
+	 * index in the current dimension of the port, timer or component array is
+	 * stored in the array/record of element indicated by this member. Only used
+	 * if the indices are being redirected to an integer array or record of
+	 * integer. If the index is redirected to a single integer, then this member
+	 * is ignored. *
+	 *
+	 **/
 	protected int pos;
 
 	public Index_Redirect() {

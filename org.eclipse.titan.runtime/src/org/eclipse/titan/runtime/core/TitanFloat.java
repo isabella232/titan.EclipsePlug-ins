@@ -520,7 +520,7 @@ public class TitanFloat extends Base_Type {
 
 		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(doubleValue)));
 	}
-	
+
 	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		char[] bc;
 		char[] dv;
@@ -591,12 +591,12 @@ public class TitanFloat extends Base_Type {
 				} else {
 					exponent += 127;
 				}
-			      bc[0] |= (exponent >> 1) & 0x7F;
-			      bc[1] = (char) (((exponent << 7) & 0x80) | ((dv[index] & 0x0F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
-			      index += adj;
-			      bc[2] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
-			      index += adj;
-			      bc[3] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+				bc[0] |= (exponent >> 1) & 0x7F;
+				bc[1] = (char) (((exponent << 7) & 0x80) | ((dv[index] & 0x0F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+				index += adj;
+				bc[2] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
+				index += adj;
+				bc[3] = (char) (((dv[index] & 0x1F) << 3) | ((dv[index + adj] & 0xE0) >> 5));
 			}
 		} else {
 			TTCN_EncDec_ErrorContext.error_internal("Invalid FLOAT length {0}", length);

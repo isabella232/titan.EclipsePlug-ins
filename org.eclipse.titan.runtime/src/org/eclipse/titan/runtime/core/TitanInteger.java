@@ -826,11 +826,11 @@ public class TitanInteger extends Base_Type {
 	public static boolean isGreaterThanOrEqual(final int intValue, final TitanInteger otherValue) {
 		return new TitanInteger(intValue).isGreaterThanOrEqual(otherValue);
 	}
-	
+
 	/** Encodes the value of the variable according to the
 	 * TTCN_Typedescriptor_t.  It must be public because called by
 	 * another types during encoding.  Returns the length of encoded data.  */
-	
+
 	public static int INTX_MASKS[] = { 0 /*dummy*/, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
@@ -868,13 +868,13 @@ public class TitanInteger extends Base_Type {
 			do {
 				v2 >>= 1;
 			++val_bits;
-			} 
+			}
 			while(v2 != 0);
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			if(val_bits % 8 + len_bits % 8 > 8) {
 				// the remainder of the value bits and the length bits do not fit into
 				// an octet => an extra octet is needed and the length must be increased
-				++len_bits;		
+				++len_bits;
 			}
 			length = (len_bits + val_bits + 7) / 8;
 			if(len_bits % 8 == 0 && val_bits % 8 != 0) {

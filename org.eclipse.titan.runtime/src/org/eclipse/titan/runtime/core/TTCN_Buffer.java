@@ -15,7 +15,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
 /**
  * Buffer used by the different encoders/decoders.
- * 
+ *
  * FIXME the current implementation is only a placeholder to mark the architectural borders.
  * @author Farkas Izabella Ingrid
  */
@@ -26,10 +26,10 @@ public class TTCN_Buffer {
 	private char data_ptr[];
 
 	// The number of bytes of memory used (buf_len <= buf_size)
-	private int buf_len; 
+	private int buf_len;
 
 	// Read offset in bytes in the buffer (buf_pos <= buf_len)
-	private int buf_pos; 
+	private int buf_pos;
 
 	// Read offset of the current bit inside the byte at buf_pos
 	private int bit_pos;
@@ -38,13 +38,13 @@ public class TTCN_Buffer {
 	private int start_of_ext_bit;
 
 	// the state of the "last bit" (only after get_b was called)
-	private boolean last_bit; 
+	private boolean last_bit;
 
 	// \c true for TOP_BIT_LEFT
-	private boolean current_bitorder; 
+	private boolean current_bitorder;
 
 	// \c true if 0 signals the end
-	private  boolean ext_bit_reverse; 
+	private  boolean ext_bit_reverse;
 	private int ext_level;
 
 	/** Resets all fields except the size and length indicators. */
@@ -63,7 +63,7 @@ public class TTCN_Buffer {
 	/**
 	 * Returns the smallest preferred size of the allocated memory area
 	 * that is at least target_size.
-	 * 
+	 *
 	 * @param target_size the amount of memory requested.
 	 * @return the amount of memory to be allocated.
 	 * */
@@ -137,7 +137,7 @@ public class TTCN_Buffer {
 
 		buf_len = p_cs.lengthOf().getInt();
 		data_ptr = new char[buf_len];
-		for (int i = 0; i < buf_len; i++) { 
+		for (int i = 0; i < buf_len; i++) {
 			data_ptr[i] =  p_cs.getAt(i).get_char();
 		}
 		reset_buffer();
@@ -173,7 +173,7 @@ public class TTCN_Buffer {
 
 		buf_len = p_cs.lengthOf().getInt();
 		data_ptr = new char[buf_len];
-		for (int i = 0; i < buf_len; i++) { 
+		for (int i = 0; i < buf_len; i++) {
 			data_ptr[i] =  p_cs.getAt(i).get_char();
 		}
 		reset_buffer();
@@ -265,8 +265,8 @@ public class TTCN_Buffer {
 		return end_ptr;
 	}
 
-	/** How many chars have you written after a get_end(), beginning from end_ptr. 
-	 * @see get_end() 
+	/** How many chars have you written after a get_end(), beginning from end_ptr.
+	 * @see get_end()
 	 */
 	public void increase_length(final int size_incr) {
 		if (data_ptr.length < buf_len + size_incr) {
@@ -289,7 +289,7 @@ public class TTCN_Buffer {
 		if (length > 0) {
 			increase_size(length);
 			System.arraycopy(cstr, 0, data_ptr, buf_len, length);
-			buf_len += length; 
+			buf_len += length;
 		}
 	}
 
@@ -302,7 +302,7 @@ public class TTCN_Buffer {
 			if (buf_len > 0) {
 				increase_size(n_octets);
 				System.arraycopy(p_os.getValue(), 0, data_ptr, buf_len, n_octets);
-				buf_len += n_octets; 
+				buf_len += n_octets;
 			} else {
 				data_ptr = new char[n_octets];
 				System.arraycopy(p_os.getValue(), 0, data_ptr, 0, n_octets);
@@ -312,7 +312,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Same as put_string(). Provided only for backward compatibility. */
-	public void put_os(final TitanOctetString p_os) { 
+	public void put_os(final TitanOctetString p_os) {
 		put_string(p_os);
 	}
 
@@ -339,7 +339,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Same as put_string(). Provided only for backward compatibility. */
-	public void put_cs(final TitanCharString p_cs) { 
+	public void put_cs(final TitanCharString p_cs) {
 		put_string(p_cs);
 	}
 	/** Appends the content of p_buf to the buffer */
@@ -371,9 +371,9 @@ public class TTCN_Buffer {
 		}
 	}
 
-	/** 
+	/**
 	 * Stores the current contents of the buffer to variable p_os.
-	 * 
+	 *
 	 * @param p_os the variable to store the contents of the buffer into.
 	 * */
 	public void get_string(TitanOctetString p_os) {
@@ -579,7 +579,7 @@ public class TTCN_Buffer {
 		} else {
 			// copy_memory();
 		}
- 
+
 		// System.out.println("buf_len: "+buf_len +" bit_pos: "+bit_pos+"\r\n");
 		// System.out.println("new_size: "+new_size+" new_bit_pos: "+new_bit_pos+"\r\n");
 
@@ -973,8 +973,8 @@ public class TTCN_Buffer {
 		bit_pos = new_bit_pos;
 	}
 
-	/** Puts 
-	 * @param len number of zeros in the buffer. 
+	/** Puts
+	 * @param len number of zeros in the buffer.
 	 */
 	public void put_zero(final int len, final raw_order_t fieldorder) {
 		// FIXME: this is wait for test
@@ -1065,7 +1065,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Returns the (reading) position of the buffer in bits. */
-	public int get_pos_bit() { 
+	public int get_pos_bit() {
 		return buf_pos * 8 + bit_pos;
 	}
 
@@ -1083,7 +1083,7 @@ public class TTCN_Buffer {
 	}
 
 	/** Increases the (reading) position to a multiple of \p padding.
-	 *  @return the number of bits used up. 
+	 *  @return the number of bits used up.
 	 */
 	public int increase_pos_padd(final int padding) {
 		if(padding != 0) { //         <---old bit pos--->
@@ -1120,7 +1120,7 @@ public class TTCN_Buffer {
 		if (--ext_level == 0) {
 			int one = current_bitorder ? 0x01 : 0x80;
 			int zero= ~one;
-			
+
 			if (ext_bit_reverse) {
 				for (int a=start_of_ext_bit; a < buf_len-1; a++) {
 					data_ptr[a] |= one;
@@ -1140,7 +1140,7 @@ public class TTCN_Buffer {
 	}
 
 	public void set_order(final boolean new_order) {
-		current_bitorder = new_order; 
+		current_bitorder = new_order;
 	}
 
 	public void put_pad(final int len, final char[] s, final int pat_len, final raw_order_t fieldorder) {
@@ -1196,7 +1196,7 @@ public class TTCN_Buffer {
 		}
 	}
 
-	public boolean get_last_bit() { 
+	public boolean get_last_bit() {
 		return last_bit;
 	}
 

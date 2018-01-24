@@ -14,7 +14,7 @@ import java.util.List;
  * ASN.1 teletex string
  *
  * @author Kristof Szabados
- * 
+ *
  * TODO this and template version might need to overwrite some functions
  */
 public class TitanTeletexString extends TitanUniversalCharString {

@@ -37,7 +37,7 @@ public class TitanUniversalChar {
 	}
 
 	public TitanUniversalChar() {
-		
+
 	}
 
 	public boolean is_char() {
