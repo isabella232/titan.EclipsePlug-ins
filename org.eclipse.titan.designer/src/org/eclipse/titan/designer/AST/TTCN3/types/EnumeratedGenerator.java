@@ -81,7 +81,7 @@ public class EnumeratedGenerator {
 		aData.addImport( "java.text.MessageFormat" );
 
 		//		if(needsAlias()) { ???
-		source.append(MessageFormat.format("public static class {0} extends Base_Type '{' \n", e_defs.name));
+		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", e_defs.name));
 		//== enum_type ==
 		source.append("public enum enum_type {\n");
 		final StringBuilder helper = new StringBuilder();
