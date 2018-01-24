@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -485,7 +486,7 @@ public class TTCN_Buffer {
 	}
 
 	public void log() {
-		TtcnLogger.log_event_str(String.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
+		TtcnLogger.log_event_str(MessageFormat.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
 		if (buf_len > 0) {
 			for (int i = 0; i < buf_pos; i++) {
 				TtcnLogger.log_octet(data_ptr[i]);
