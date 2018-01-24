@@ -205,6 +205,9 @@ public class TtcnPattern {
 			case '?':
 				javaPattern.append('.');
 				break;
+			case '*':
+				javaPattern.append(".*");
+				break;
 			case '+':
 				javaPattern.append('+');
 				break;
