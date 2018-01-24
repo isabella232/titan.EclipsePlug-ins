@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
@@ -1037,8 +1038,8 @@ public class TTCN_Buffer {
 
 	/** Returns a pointer which points to read position of data and the
 	 * starting position of the bitstring within first the octet. */
-	public char[] get_read_data(int bitpos) {
-		bitpos = bit_pos;
+	public char[] get_read_data(final AtomicInteger bitpos) {
+		bitpos.set(bit_pos);
 		if (data_ptr != null) {
 			return get_data();
 		}
