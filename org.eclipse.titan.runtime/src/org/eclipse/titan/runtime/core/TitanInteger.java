@@ -1034,7 +1034,7 @@ public class TitanInteger extends Base_Type {
 				tmp[a] = (byte)~tmp[a];
 			}
 			D = new BigInteger(tmp);
-			D = D.add(new BigInteger("1"));
+			D = D.add(BigInteger.ONE);
 		}
 		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
