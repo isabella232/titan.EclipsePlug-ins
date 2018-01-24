@@ -59,6 +59,7 @@ import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
+import org.eclipse.titan.designer.parsers.variantattributeparser.VariantAttributeAnalyzer;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
@@ -552,7 +553,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	//TODO check if we need to separate global or not
 	private void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute) {
 		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
-		//FIXME call parse_attributes to create the rawattrib from the variant attribute specification
+		//FIXME right now the parser is doing only syntactic checks, no information is extracted
+		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
+		analyzer.parse(singleWithAttribute.getAttributeSpecification());
 	}
 
 	//FIXME comment
