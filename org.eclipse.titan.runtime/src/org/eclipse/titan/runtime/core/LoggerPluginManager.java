@@ -291,6 +291,7 @@ public class LoggerPluginManager {
 		case enqueue__exception:
 		case extract__op:
 			sev = Severity.PORTEVENT_PQUEUE;
+			break;
 		default:
 			throw new TtcnError("Invalid operation");
 		}
