@@ -15,6 +15,7 @@
 	<property name="antlr.src.dir.ttcn3" location="src/org/eclipse/titan/designer/parsers/ttcn3parser"/>
 	<property name="antlr.src.dir.asn1" location="src/org/eclipse/titan/designer/parsers/asn1parser"/>
 	<property name="antlr.src.dir.extensionattribute" location="src/org/eclipse/titan/designer/parsers/extensionattributeparser"/>
+	<property name="antlr.src.dir.variantattribute" location="src/org/eclipse/titan/designer/parsers/variantattributeparser"/>
 	<property name="antlr.src.dir.log" location="src/org/eclipse/titan/designer/parsers/logparser"/>
 
     <target name="init">
@@ -88,6 +89,31 @@
 				<!-- TODO: add new g4 files here -->
 			</fileset>
 		</apply>
+		<apply executable="java" parallel="false" verbose="true" timeout="60000" failonerror="true">
+					<arg value="-classpath" />
+					<arg value="${antlr4.jar.location}" />
+					<arg value="org.antlr.v4.Tool" />
+					<srcfile/>
+					<arg value="-no-listener" />
+					<arg value="-no-visitor" />
+					<arg value="-encoding" />
+					<arg value="UTF-8" />
+					<arg value="-package" />
+					<arg value="org.eclipse.titan.designer.parsers.variantattributeparser" />
+					<!--
+					  Parsers are dependent to the *.token files (these are generated from  lexer),
+					  so the directory of the *.token file is added as lib
+					  NOTE: If parser g4 compilation is made from that directory, then -lib is not needed
+					-->
+					<arg value="-lib" />
+					<arg value="${antlr.src.dir.variantattribute}" />
+
+					<fileset dir="${antlr.src.dir}" >
+						<include name="variantattributeparser/VariantAttributeLexer.g4" />
+						<include name="variantattributeparser/VariantAttributeParser.g4" />
+						<!-- TODO: add new g4 files here -->
+					</fileset>
+				</apply>
 		<apply executable="java" parallel="false" verbose="true" timeout="60000" failonerror="true">
 			<arg value="-classpath" />
 			<arg value="${antlr4.jar.location}" />
