@@ -1035,7 +1035,225 @@ public class TitanUniversalCharString extends Base_Type {
 	// decode
 
 	public void decode_utf8(final char[] valueStr, final CharCoding code, final boolean checkBOM) {
-		//FIXME: implement
+		// approximate the number of characters
+		final int lenghtOctets = valueStr.length;
+		int lenghtUnichars = 0;
+		for (int i = 0; i < lenghtOctets; i++) {
+			// count all octets except the continuing octets (10xxxxxx)
+			if ((valueStr[i] & 0xC0) != 0x80) lenghtUnichars++;
+		}
+		// allocate enough memory, start from clean state
+		cleanUp();
+		charstring=false;
+		// FIXME: init_struct(lenghtUnichars)
+		val_ptr = new ArrayList<TitanUniversalChar>(lenghtUnichars);
+		for (int i = 0; i < lenghtUnichars; i++) {
+			val_ptr.add(new TitanUniversalChar());
+		}
+		lenghtUnichars = 0;
+
+		int start = checkBOM ? check_BOM(CharCoding.UTF_8, valueStr) : 0;
+		for (int i = start; i < lenghtOctets; ) {
+			// perform the decoding character by character
+			if (valueStr[i] <= 0x7F)  {
+				// character encoded on a single octet: 0xxxxxxx (7 useful bits)
+				val_ptr.add(lenghtUnichars, new TitanUniversalChar((char)0,(char) 0,(char) 0, valueStr[i]));
+				i++;
+				lenghtUnichars++;
+			} else if (valueStr[i] <= 0xBF)  {
+				// continuing octet (10xxxxxx) without leading octet ==> malformed
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR, MessageFormat.format(
+						"Malformed: At character position {0}, octet position {1}: continuing octet {0} without leading octet.",
+						lenghtUnichars, i, valueStr[i]));
+				i++;
+			} else if (valueStr[i] <= 0xDF)  {
+				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
+				char[] octets = new char[2];
+				int k = valueStr[i] & 0x1F;
+
+				fill_continuing_octets(1, octets, lenghtOctets, valueStr, i + 1, lenghtUnichars);
+				
+				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) 0,(char) (octets[0] >> 2), (char) ((octets[0] << 6) & 0xFF | octets[1])));
+
+				if (val_ptr.get(lenghtUnichars).getUc_row() == 0x00 && 
+						val_ptr.get(lenghtUnichars).getUc_cell() < 0x80) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR, MessageFormat.format(
+							"Overlong: At character position {0}, octet position {1}: 2-octet encoding for quadruple (0, 0, 0, {2}).", 
+							lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_cell()));
+				}
+				i += 2;
+				lenghtUnichars++;
+			} else if (valueStr[i] <= 0xEF) {
+				// character encoded on 3 octets: 1110xxxx 10xxxxxx 10xxxxxx
+				// (16 useful bits)
+				char[] octets = new char[3];
+				octets[0] = (char) (valueStr[i] & 0x0F);
+				fill_continuing_octets(2, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
+
+				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) 0,(char) ((octets[0] << 4) & 0xFF | octets[1] >> 2), (char) ((octets[1] << 6) & 0xFF | octets[2])));
+
+				if (val_ptr.get(lenghtUnichars).getUc_row() < 0x08) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 3-octet encoding for quadruple (0, 0, {2}, {3}).", 
+									lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_row(), val_ptr.get(lenghtUnichars).getUc_cell()));
+				}
+				i += 3;
+				lenghtUnichars++;
+			} else if (valueStr[i] <= 0xF7) {
+				// character encoded on 4 octets: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
+				// (21 useful bits)
+				char[] octets = new char[4];
+				octets[0] = (char) (valueStr[i] & 0x07);
+				fill_continuing_octets(3, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
+
+				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) ((octets[0] << 2) & 0xFF | octets[1] >> 4),(char) ((octets[1] << 4) & 0xFF | octets[2] >> 2), (char) ((octets[2] << 6) & 0xFF | octets[3])));
+
+				if (val_ptr.get(lenghtUnichars).getUc_plane() == 0x00) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 4-octet encoding for quadruple (0, 0, {2}, {3}).", 
+									lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_row(), val_ptr.get(lenghtUnichars).getUc_cell()));
+				}
+				i += 4;
+				lenghtUnichars++;
+			} else if (valueStr[i] <= 0xFB) {
+				// character encoded on 5 octets: 111110xx 10xxxxxx 10xxxxxx 10xxxxxx
+				// 10xxxxxx (26 useful bits)
+
+				char[] octets = new char[5];
+				octets[0] = (char) (valueStr[i] & 0x03);
+				fill_continuing_octets(4, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
+
+				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) ((octets[1] << 2) & 0xFF | octets[2] >> 4),(char) ((octets[2] << 4) & 0xFF | octets[3] >> 2), (char) ((octets[3] << 6) & 0xFF | octets[4])));
+
+				if (val_ptr.get(lenghtUnichars).getUc_group() == 0x00 && val_ptr.get(lenghtUnichars).getUc_plane() < 0x20) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 5-octet encoding for quadruple (0, {4}, {2}, {3}).", 
+									lenghtUnichars, i, val_ptr.get(lenghtUnichars).getUc_row(), val_ptr.get(lenghtUnichars).getUc_cell(),  val_ptr.get(lenghtUnichars).getUc_plane()));
+				}
+				i += 5;
+				lenghtUnichars++;
+			} else if (valueStr[i] <= 0xFD) {
+				// character encoded on 6 octets: 1111110x 10xxxxxx 10xxxxxx 10xxxxxx
+				// 10xxxxxx 10xxxxxx (31 useful bits)
+
+				char[] octets = new char[6];
+				octets[0] = (char) (valueStr[i] & 0x01);
+				fill_continuing_octets(5, octets, lenghtOctets, valueStr, i + 1, lenghtUnichars);
+
+				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) ((octets[0] << 6) & 0xFF | octets[1]), (char) ((octets[2] << 2) & 0xFF | octets[3] >> 4),(char) ((octets[3] << 4) & 0xFF | octets[4] >> 2), (char) ((octets[4] << 6) & 0xFF | octets[5])));
+
+				if (val_ptr.get(lenghtUnichars).getUc_group() < 0x04) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+							MessageFormat.format("Overlong: At character position {0}, octet position {1}: 6-octet encoding for quadruple {2}.", 
+									lenghtUnichars, i, val_ptr.get(lenghtUnichars).toString()));
+				}
+				i += 6;
+				lenghtUnichars++;
+			} else {
+				// not used code points: FE and FF => malformed
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+						MessageFormat.format("Malformed: At character position {0}, octet position {1}: unused/reserved octet {2}.", lenghtUnichars, i, valueStr[i]));
+				i++;
+			}
+		}
+
+		if (val_ptr.size() != lenghtUnichars) {
+			// truncate the memory and set the correct size in case of decoding errors
+			// (e.g. skipped octets)
+
+			if (lenghtUnichars > 0) {
+				List<TitanUniversalChar> helper = new ArrayList<TitanUniversalChar>(lenghtUnichars);
+				for (int i = 0; i < lenghtUnichars && i < val_ptr.size(); i++) {
+					helper.add(val_ptr.get(i));
+				}
+				val_ptr = helper;
+			} else {
+				cleanUp();
+			}
+		}
+	}
+
+	public int check_BOM(final CharCoding code, final char[] ostr) {
+		String coding_str;
+		//BOM indicates that the byte order is determined by a byte order mark, 
+		//if present at the beginning the length of BOM is returned.
+		int length = ostr.length;
+		switch (code) {
+		case UTF32BE:
+		case UTF32:
+			if (4 <= length && 0x00 == ostr[0] && 0x00 == ostr[1] &&
+			0xFE == ostr[2] && 0xFF == ostr[3]) {
+				return 4;
+			}
+			coding_str = "UTF-32BE";
+			break;
+		case UTF32LE:
+			if (4 <= length && 0xFF == ostr[0] && 0xFE == ostr[1] &&
+			0x00 == ostr[2] && 0x00 == ostr[3]) {
+				return 4;
+			}
+			coding_str = "UTF-32LE";
+			break;
+		case UTF16BE:
+		case UTF16:
+			if (2 <= length && 0xFE == ostr[0] && 0xFF == ostr[1]) {
+				return 2;
+			}
+			coding_str = "UTF-16BE";
+			break;
+		case UTF16LE:
+			if (2 <= length && 0xFF == ostr[0] && 0xFE == ostr[1]) {
+				return 2;
+			}
+			coding_str = "UTF-16LE";
+			break;
+		case UTF_8:
+			if (3 <= ostr.length && 0xEF == ostr[0] && 0xBB == ostr[1] && 0xBF == ostr[2]) {
+				return 3;
+			}
+			coding_str = "UTF-8";
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: invalid expected coding ({0})", code));
+		}
+
+		if (TtcnLogger.log_this_event(TtcnLogger.Severity.DEBUG_UNQUALIFIED)) {
+			TtcnLogger.begin_event(TtcnLogger.Severity.DEBUG_UNQUALIFIED);
+			TtcnLogger.log_event_str("Warning: No ");
+			TtcnLogger.log_event_str(coding_str);
+			TtcnLogger.log_event_str(" Byte Order Mark(BOM) detected. It may result decoding errors");
+			TtcnLogger.end_event();
+		}
+		return 0;
+	}
+
+	public static void fill_continuing_octets(int n_continuing, char[] continuing_ptr, int n_octets,
+			char[] octets_ptr, int start_pos, int uchar_pos) {
+		for (int i = 0; i < n_continuing; i++) {
+			if (start_pos + i < n_octets) {
+				char octet = octets_ptr[start_pos + i];
+				if ((octet & 0xC0) != 0x80) {
+					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+							MessageFormat.format("Malformed: At character position {0}, octet position {1}: {2} is not a valid continuing octet.", uchar_pos, start_pos + i, octet));
+				}
+				continuing_ptr[i + 1] = (char) (octet & 0x3F);
+			} else {
+				if (start_pos + i == n_octets) {
+					if (i > 0) {
+						// only a part of octets is missing
+						TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+								MessageFormat.format("Incomplete: At character position {0}, octet position {1}: {2} out of {3} continuing octets {4} missing from the end of the stream.",
+										uchar_pos, start_pos + i, n_continuing - i, n_continuing, n_continuing - i > 1 ? "are" : "is"));
+					} else {
+						// all octets are missing
+						TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
+								MessageFormat.format("Incomplete: At character position {0}, octet position {1}: {2} continuing octet{3} missing from the end of the stream.",
+										uchar_pos, start_pos, n_continuing, n_continuing > 1 ? "s are" : " is"));
+					}
+				}
+				continuing_ptr[i + 1] = 0;
+			}
+		}
 	}
 
 	// encode
@@ -1046,7 +1264,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public void encode_utf8(final TTCN_Buffer buf, final boolean addBOM) {
 		// FIXME: implement
-		System.out.println("encode_utf8");
+		System.out.println("encode_utf8: ");
 		// Add BOM
 		if (addBOM) {
 			buf.put_c((char)0xEF);
@@ -1058,11 +1276,60 @@ public class TitanUniversalCharString extends Base_Type {
 			final char[] bstr = new char[cstr.length()];
 			for (int i = 0; i < cstr.length(); i++) {
 				bstr[i] =  cstr.charAt(i);
+				System.out.println((int) bstr[i]);
 			}
 			buf.put_s(bstr);
 			// put_s avoids the check for boundness in put_cs
 		} else {
-			//FIXME implement
+			for (int i=0; i<val_ptr.size(); i++) {
+				char g = val_ptr.get(i).getUc_group();
+				char p = val_ptr.get(i).getUc_plane();
+				char r =val_ptr.get(i).getUc_row();
+				char c =val_ptr.get(i).getUc_cell();
+				if (g==0x00 && p<=0x1F) {
+					if (p==0x00) {
+						if (r==0x00 && c<=0x7F) {
+							// 1 octet
+							buf.put_c(c);
+						} // r
+						// 2 octets
+						else if (r<=0x07) {
+							buf.put_c((char)(0xC0|r<<2|c>>6));
+							buf.put_c((char)(0x80|(c&0x3F)));
+						} // r
+						// 3 octets
+						else {
+							buf.put_c((char) (0xE0|r>>4));
+							buf.put_c((char) (0x80|(r<<2&0x3C)|c>>6));
+							buf.put_c((char) (0x80|(c&0x3F)));
+						} // r
+					} // p
+					// 4 octets
+					else {
+						buf.put_c((char) (0xF0|p>>2));
+						buf.put_c((char) (0x80|(p<<4&0x30)|r>>4));
+						buf.put_c((char) (0x80|(r<<2&0x3C)|c>>6));
+						buf.put_c((char) (0x80|(c&0x3F)));
+					} // p
+				} //g
+				// 5 octets
+				else if (g<=0x03) {
+					buf.put_c((char) (0xF8|g));
+					buf.put_c((char) (0x80|p>>2));
+					buf.put_c((char) (0x80|(p<<4&0x30)|r>>4));
+					buf.put_c((char) (0x80|(r<<2&0x3C)|c>>6));
+					buf.put_c((char) (0x80|(c&0x3F)));
+				} // g
+				// 6 octets
+				else {
+					buf.put_c((char) (0xFC|g>>6));
+					buf.put_c((char) (0x80|(g&0x3F)));
+					buf.put_c((char) (0x80|p>>2));
+					buf.put_c((char) (0x80|(p<<4&0x30)|r>>4));
+					buf.put_c((char) (0x80|(r<<2&0x3C)|c>>6));
+					buf.put_c((char) (0x80|(c&0x3F)));
+				}
+			} // for i
 		}
 	}
 }
