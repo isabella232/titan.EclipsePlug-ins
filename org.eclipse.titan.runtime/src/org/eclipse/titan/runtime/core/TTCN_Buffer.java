@@ -1202,11 +1202,11 @@ public class TTCN_Buffer {
 
 	private static char get_byte_rev(final char[] data,final int len,final int idx) {
 		char ch='\0';
-		int hossz = (len+7)/8-1;
-		int bit_limit = len%8;
+		final int hossz = (len+7)/8-1;
 		if (idx > hossz) {
 			return ch;
 		}
+		final int bit_limit = len%8;
 		if (bit_limit == 0) {
 			return data[hossz-idx];
 		}
