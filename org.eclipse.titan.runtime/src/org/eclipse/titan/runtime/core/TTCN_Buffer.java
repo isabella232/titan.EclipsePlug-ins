@@ -251,18 +251,17 @@ public class TTCN_Buffer {
 	}
 
 	/** You can write up to end_len chars beginning from end_ptr;
-	 * after writing, you have to call also increase_length()! Useful
-	 * if you want to use memcpy.
-	 * @see increase_length(). \param end_ptr out. \param end_len inout. */
+	 * after writing, you have to call also increase_length()!
+	 * @see increase_length().
+	 * \param end_ptr out. \param end_len inout. */
 	public char[] get_end() {
-		final int end_len = data_ptr.length - buf_len;
 		final char[] end_ptr;
 
 		if (data_ptr != null) {
+			final int end_len = data_ptr.length - buf_len;
 			end_ptr = new char[end_len];
 			System.arraycopy(data_ptr, buf_pos, end_ptr, 0, end_len);
-		}
-		else {
+		} else {
 			end_ptr = null;
 		}
 
