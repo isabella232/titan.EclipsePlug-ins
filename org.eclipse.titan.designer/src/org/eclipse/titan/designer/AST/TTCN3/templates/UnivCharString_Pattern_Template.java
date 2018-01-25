@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -178,7 +179,7 @@ public final class UnivCharString_Pattern_Template extends TTCN3Template {
 
 		aData.addBuiltinTypeImport( "TitanCharString" );
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		final String escaped = patternstring.getFullString().replace("\\", "\\\\");
+		final String escaped = Charstring_Value.getEscapedValue(patternstring.getFullString());
 		result.append( MessageFormat.format( "new {0}(template_sel.STRING_PATTERN, new TitanCharString(\"{1}\"))", myGovernor.getGenNameTemplate(aData, result, myScope), escaped ) );
 
 		//TODO handle cast needed

@@ -262,7 +262,7 @@ public final class Charstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("\"{0}\"", value));
+		result.append(MessageFormat.format("\"{0}\"", getEscapedValue()));
 
 		return result;
 	}
@@ -273,5 +273,23 @@ public final class Charstring_Value extends Value {
 		source.append(MessageFormat.format("{0}.assign(\"{1}\");\n", name, value));
 
 		return source;
+	}
+
+	/**
+	 * Converts charstring content to its equivalent escaped java string.
+	 * The result will be a valid java string literal, which can be inserted to the generated java code.
+	 * It is typically used for charstring patterns.
+	 * @param s source string to convert
+	 * @return escaped java string
+	 */
+	public static String getEscapedValue( final String s ) {
+		if ( s == null ) {
+			return null;
+		}
+		return s.replace("\\", "\\\\").replace("\"", "\\\"");
+	}
+
+	private String getEscapedValue() {
+		return getEscapedValue( value );
 	}
 }
