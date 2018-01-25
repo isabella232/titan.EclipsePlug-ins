@@ -1123,7 +1123,7 @@ public class TitanUniversalCharString extends Base_Type {
 				octets[0] = (char) (valueStr[i] & 0x03);
 				fill_continuing_octets(4, octets /*+ 1*/, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 
-				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) ((octets[1] << 2) & 0xFF | octets[2] >> 4),(char) ((octets[2] << 4) & 0xFF | octets[3] >> 2), (char) ((octets[3] << 6) & 0xFF | octets[4])));
+				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) octets[0], (char) ((octets[1] << 2) & 0xFF | octets[2] >> 4),(char) ((octets[2] << 4) & 0xFF | octets[3] >> 2), (char) ((octets[3] << 6) & 0xFF | octets[4])));
 
 				if (val_ptr.get(lenghtUnichars).getUc_group() == 0x00 && val_ptr.get(lenghtUnichars).getUc_plane() < 0x20) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
