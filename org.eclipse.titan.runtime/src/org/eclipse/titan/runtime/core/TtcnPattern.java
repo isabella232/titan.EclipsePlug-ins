@@ -307,7 +307,13 @@ public class TtcnPattern {
 		case '^':
 			javaPattern.append("\\^");
 			break;
-		//TODO: #()|
+		case '(':
+			javaPattern.append("\\(");
+			break;
+		case ')':
+			javaPattern.append("\\)");
+			break;
+		//TODO: #|
 		case 'q':
 			convertUnicharList(ttcnPattern, pos, javaPattern);
 			break;
