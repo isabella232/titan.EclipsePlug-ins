@@ -1069,7 +1069,7 @@ public class TitanUniversalCharString extends Base_Type {
 			} else if (valueStr[i] <= 0xDF)  {
 				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
 				char[] octets = new char[2];
-				int k = valueStr[i] & 0x1F;
+				octets[0] = (char) (valueStr[i] & 0x1F);
 
 				fill_continuing_octets(1, octets, lenghtOctets, valueStr, i + 1, lenghtUnichars);
 				
