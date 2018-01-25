@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
@@ -675,5 +676,74 @@ public class TitanCharString extends Base_Type {
 			myleaf.align = align_length;
 		}
 		return myleaf.length = bl + align_length;
+	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		limit -= prepaddlength;
+		int decode_length = p_td.raw.fieldlength <= 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
+		if(decode_length > limit || decode_length > buff.unread_len_bit()) {
+			if(no_err) {
+				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
+			}
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
+			decode_length = ((limit > buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 8) * 8;
+		}
+		RAW_coding_par cp = new RAW_coding_par();
+		boolean orders = false;
+		if(p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if(p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+			orders = !orders;
+		}
+		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		orders = false;
+		if(p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if(p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+			orders = !orders;
+		}
+		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		cp.fieldorder = p_td.raw.fieldorder;
+		cp.hexorder = raw_order_t.ORDER_LSB;
+		if(p_td.raw.fieldlength >= 0) {
+			cleanUp();
+			val_ptr = new StringBuilder(decode_length / 8);
+			char[] val_tmp = new char[decode_length / 8];
+			buff.get_b(decode_length, val_tmp, cp, top_bit_ord);
+			val_ptr.append(val_tmp);
+		} else {
+			// NULL terminated
+			TTCN_Buffer temp_buff = new TTCN_Buffer();
+			//TODO: can be more simple
+			char[] ch = new char[1];
+			ch[0] = 0;
+			int str_len = 0;
+			int null_found = 0;
+			while(str_len < decode_length) {
+				buff.get_b(8, ch, cp, top_bit_ord);
+				if(ch[0] == 0) {
+					null_found = 1;
+					break;
+				}
+				temp_buff.put_c(ch[0]);
+				str_len += 8;
+			}
+			if(null_found == 0) {
+				return -1;
+			}
+			temp_buff.get_string(this);
+			decode_length = str_len + 8;
+		}
+		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
+			if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+				//TODO: need to check
+				val_ptr.insert(0, val_ptr.toString().toCharArray() , 0, val_ptr.length());
+			}
+		}
+		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		return decode_length + prepaddlength;
 	}
 }

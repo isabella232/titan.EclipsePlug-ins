@@ -10,8 +10,11 @@ package org.eclipse.titan.runtime.core;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
 /**
  * TTCN-3 float
@@ -602,5 +605,88 @@ public class TitanFloat extends Base_Type {
 			TTCN_EncDec_ErrorContext.error_internal("Invalid FLOAT length {0}", length);
 		}
 		return myleaf.length = p_td.raw.fieldlength;
+	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		limit -= prepaddlength;
+		int decode_length = p_td.raw.fieldlength;
+		if ( p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
+			if(no_err) {
+				return -1;
+			}
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
+			decode_length = limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit;
+			float_value = new Ttcn3Float(0.0);
+			decode_length += buff.increase_pos_padd(p_td.raw.padding);
+			return decode_length + prepaddlength;
+		}
+		double tmp = 0.0;
+		char[] data = new char[16];
+		RAW_coding_par cp = new RAW_coding_par();
+		boolean orders = false;
+		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+			orders = !orders;
+		}
+		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		orders = false;
+		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+			orders = !orders;
+		}
+		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		cp.fieldorder = p_td.raw.fieldorder;
+		cp.hexorder = raw_order_t.ORDER_LSB;
+		buff.get_b(decode_length, data, cp, top_bit_ord);
+		if (decode_length == 64) {
+			final byte[] tmp_dv = new byte[8];
+			ByteBuffer.wrap(tmp_dv).putDouble(tmp);
+			char[] dv = new char[8];
+			for (int i = 0; i < tmp_dv.length; i++) {
+				dv[i] = (char) tmp_dv[i];
+			}
+			for (int i = 0, k = 7; i < 8; i++, k--) {
+				dv[i] = data[k];
+			}
+			if(Double.isNaN(tmp)) {
+				if(no_err) {
+					return -1;
+				}
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
+				tmp = 0.0;
+			}
+		} else if(decode_length == 32) {
+			int sign = (data[0] & 0x80) >> 7;
+			int exponent = ((data[0] & 0x7F) << 1) | ((data[1] & 0x80) >> 7);
+			int fraction = ((data[1] & 0x7F) << 1) | ((data[2] & 0x80) >> 7);
+			fraction <<= 8;
+			fraction += ((data[2] & 0x7F) << 1) | ((data[3] & 0x80) >> 7);
+			fraction <<= 7;
+			fraction += data[3] & 0x7F;
+			if (exponent == 0 && fraction == 0) {
+				tmp = sign != 0 ? -0.0 : 0.0;
+			} else if (exponent == 0xFF && fraction != 0) {
+				if(no_err) {
+					return -1;
+				}
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
+				tmp = 0.0;
+			}  else if (exponent == 0 && fraction != 0) {
+				double sign_v = sign != 0 ? -1.0 : 1.0;
+				tmp = sign_v * ((double)(fraction) / 8388608.0) * Math.pow(2.0, -126.0);
+			} else {
+				double sign_v = sign != 0 ? -1.0 : 1.0;
+			    exponent -= 127;
+			    tmp = sign_v * (1.0 + (double)(fraction) / 8388608.0) * Math.pow(2.0,(double)(exponent));
+			}
+		}
+		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		float_value = new Ttcn3Float(tmp);
+		return decode_length + prepaddlength;
 	}
 }
