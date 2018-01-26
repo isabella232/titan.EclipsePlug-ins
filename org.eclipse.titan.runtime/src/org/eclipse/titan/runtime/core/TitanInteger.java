@@ -10,11 +10,13 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
 
 /**
@@ -1101,5 +1103,188 @@ public class TitanInteger extends Base_Type {
 		}
 		return myleaf.length;
 	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		limit -= prepaddlength;
+		RAW_coding_par cp = new RAW_coding_par();
+		boolean orders = false;
+		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+			orders = !orders;
+		}
+		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		orders = false;
+		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+			orders = true;
+		}
+		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+			orders = !orders;
+		}
+		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
+		cp.fieldorder = p_td.raw.fieldorder;
+		cp.hexorder = raw_order_t.ORDER_LSB;
+		int decode_length = 0;
+		int len_bits = 0; // only for IntX (amount of bits used to store the length)
+		char[] len_data = new char[1]; // only for IntX (an octet used to store the length)
+		len_data[0] = 0;
+		int partial_octet_bits = 0; // only for IntX (amount of value bits in the partial octet)
+		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
+			// extract the length
+			do {
+				// check if at least 8 bits are available in the buffer
+				if (8 > limit) {
+					if (!no_err) {
+						TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
+					}
+					return -error_type.ET_LEN_ERR.ordinal(); 
+				}
+				else {
+					limit -= 8;
+				}
+				int nof_unread_bits = buff.unread_len_bit();
+				if (nof_unread_bits < 8) {
+					if (!no_err) {
+						TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
+					}
+					return -error_type.ET_INCOMPL_MSG.ordinal();
+				}
 
+				// extract the next length octet (or partial length octet)
+				buff.get_b(8, len_data, cp, top_bit_ord);
+				int mask = 0x80;
+				do {
+					++len_bits;
+					if ((len_data[0] & mask) != 0) {
+						mask >>= 1;
+					}
+					else {
+						// the first zero signals the end of the length
+						// the rest of the bits in the octet are part of the value
+						partial_octet_bits = (8 - len_bits % 8) % 8;
+
+						// decode_length only stores the amount of bits in full octets needed
+						// by the value, the bits in the partial octet are stored by len_data
+						decode_length = 8 * (len_bits - 1);
+						break;
+					}
+				} 
+				while (len_bits % 8 != 0);
+			}
+			while (decode_length == 0 && partial_octet_bits == 0);
+		} else {
+			// not IntX, use the static field length
+			decode_length = p_td.raw.fieldlength;
+		}
+		if (decode_length > limit) {
+			if (!no_err) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,
+						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, limit);
+			}
+			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
+				return -error_type.ET_LEN_ERR.ordinal();
+			}
+			decode_length = limit;
+		}
+		int nof_unread_bits = buff.unread_len_bit();
+		if (decode_length > nof_unread_bits) {
+			if (!no_err) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
+						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
+			}
+			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
+				return error_type.ET_INCOMPL_MSG.ordinal();
+			}
+			decode_length = nof_unread_bits;
+		}
+		cleanUp();
+		if (decode_length < 0) {
+			return -1;
+		} else if (decode_length == 0 && partial_octet_bits == 0) {
+			nativeFlag = true;
+			nativeInt = 0;
+		} else {
+			int tmp = 0;
+			int twos_compl = 0;
+			char[] data = new char[ (decode_length + partial_octet_bits + 7) / 8];
+			buff.get_b( decode_length, data, cp, top_bit_ord);
+			if (partial_octet_bits != 0) {
+				// in case there are value bits in the last length octet (only for IntX),
+				// these need to be appended to the extracted data
+				data[decode_length / 8] = len_data[0];
+				decode_length += partial_octet_bits;
+			}
+			int end_pos = decode_length;
+			int idx = (end_pos - 1) / 8;
+			boolean negativ_num = false;
+			switch (p_td.raw.comp) {
+			case SG_2COMPL:
+				if ((data[idx] >> ((end_pos - 1) % 8) & 0x01) != 0) {
+					tmp = -1;
+					twos_compl = 1;
+				}
+				break;
+			case SG_NO:
+				break;
+			case SG_SG_BIT:
+				negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0 ? true : false;
+				end_pos--;
+				break;
+			default:
+				break;
+			}
+			if (end_pos < 9) {
+				tmp <<= end_pos;
+				tmp |= data[0] & RAW.BitMaskTable[end_pos];
+			} else {
+				idx = (end_pos - 1) / 8;
+				tmp <<= (end_pos - 1) % 8 + 1;
+				tmp |= data[idx--] & RAW.BitMaskTable[(end_pos - 1) % 8 + 1];
+				if (decode_length >  8 - 1) {
+					BigInteger D = BigInteger.valueOf(tmp);
+					int pad = tmp == 0 ? 1 : 0;
+					for (; idx >= 0; idx--) {
+						if (pad != 0 && data[idx] != 0) {
+							D = BigInteger.valueOf(data[idx] & 0xff);
+							pad = 0;
+							//TODO: need to check
+							continue;
+						}
+						if(pad != 0) {
+							continue;
+						}
+						D = D.shiftLeft(8);
+						D = D.add(BigInteger.valueOf(data[idx] & 0xff));
+					}
+					if(twos_compl != 0) {
+						BigInteger D_tmp = new BigInteger(D.toByteArray());
+						D = D.subtract(D_tmp);
+					} else if (negativ_num) {
+						D = D.negate();
+					}
+					//TODO: maybe D.bitCount()
+					if(D.bitLength() > 31) {
+						nativeFlag = false;
+						openSSL = D;
+					} else {
+						nativeFlag = true;
+						nativeInt = D.signum() == -1 ? -D.intValue() : D.intValue();
+					}
+					decode_length += buff.increase_pos_padd(p_td.raw.padding);
+					return decode_length + prepaddlength + len_bits;
+				} else {
+			        for (; idx >= 0; idx--) {
+			            tmp <<= 8;
+			            tmp |= data[idx] & 0xff;
+			          }
+				}
+			}
+			nativeFlag = true;
+			nativeInt = negativ_num ?  -tmp : tmp;
+		}
+		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		return decode_length + prepaddlength + len_bits;
+	}
 }
