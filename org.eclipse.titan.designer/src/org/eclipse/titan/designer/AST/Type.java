@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.core.runtime.preferences.IPreferencesService;
@@ -30,6 +31,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
@@ -42,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
@@ -85,6 +88,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	// memory, by moving it ... but than we waste runtime.
 	protected WithAttributesPath withAttributesPath = null;
 	public ArrayList<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
+	private RawAST rawAttribute = null;
 
 	private boolean hasDone = false;
 
@@ -567,7 +571,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
 		//FIXME right now the parser is doing only syntactic checks, no information is extracted
 		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
-		analyzer.parse(singleWithAttribute.getAttributeSpecification());
+		boolean newRaw = false;
+		final AtomicBoolean rawFoud = new AtomicBoolean(false);
+		if (rawAttribute == null) {
+			rawAttribute = new RawAST(getDefaultRawFieldLength());
+			newRaw = true;
+		}
+
+		analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFoud);
+
+		if (!rawFoud.get() && newRaw) {
+			rawAttribute = null;
+		}
 	}
 
 	//FIXME comment
@@ -1865,8 +1880,91 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final String genname = getGenNameOwn();
 		final StringBuilder globalVariables = aData.getGlobalVariables();
-		//FIXME this is just the default case with no variants taken into account
-		globalVariables.append(MessageFormat.format("public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN);\n", genname));
+		final StringBuilder str = new StringBuilder();
+		str.append(MessageFormat.format("public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
+
+		boolean dummyRaw = rawAttribute == null;
+		if (dummyRaw) {
+			rawAttribute = new RawAST(getDefaultRawFieldLength());
+		}
+		if (rawAttribute.intX) {
+			str.append("RAW.RAW_INTX,");
+		} else {
+			str.append(rawAttribute.fieldlength).append(',');
+		}
+		if (rawAttribute.comp == RawAST.XDEFCOMPL) {
+			str.append("raw_sign_t.SG_2COMPL,");
+		} else if (rawAttribute.comp == RawAST.XDEFSIGNBIT) {
+			str.append("raw_sign_t.SG_SG_BIT,");
+		} else {
+			str.append("raw_sign_t.SG_NO,");
+		}
+		if (rawAttribute.byteorder == RawAST.XDEFLAST) {
+			str.append("raw_order_t.ORDER_MSB,");
+		} else {
+			str.append("raw_order_t.ORDER_LSB,");
+		}
+		if (rawAttribute.align == RawAST.XDEFLEFT) {
+			str.append("raw_order_t.ORDER_MSB,");
+		} else {
+			str.append("raw_order_t.ORDER_LSB,");
+		}
+		if (rawAttribute.bitorderinfield == RawAST.XDEFMSB) {
+			str.append("raw_order_t.ORDER_MSB,");
+		} else {
+			str.append("raw_order_t.ORDER_LSB,");
+		}
+		if (rawAttribute.bitorderinoctet == RawAST.XDEFMSB) {
+			str.append("raw_order_t.ORDER_MSB,");
+		} else {
+			str.append("raw_order_t.ORDER_LSB,");
+		}
+		if (rawAttribute.extension_bit == RawAST.XDEFYES) {
+			str.append("ext_bit_t.EXT_BIT_YES,");
+		} else if (rawAttribute.extension_bit == RawAST.XDEFREVERSE) {
+			str.append("ext_bit_t.EXT_BIT_REVERSE,");
+		} else {
+			str.append("ext_bit_t.EXT_BIT_NO,");
+		}
+		if (rawAttribute.hexorder == RawAST.XDEFHIGH) {
+			str.append("raw_order_t.ORDER_MSB,");
+		} else {
+			str.append("raw_order_t.ORDER_LSB,");
+		}
+		if (rawAttribute.fieldorder == RawAST.XDEFMSB) {
+			str.append("raw_order_t.ORDER_MSB,");
+		} else {
+			str.append("raw_order_t.ORDER_LSB,");
+		}
+		if (rawAttribute.toplevelind > 0) {
+			if (rawAttribute.toplevel.bitorder == RawAST.XDEFLSB) {
+				str.append("top_bit_order_t.TOP_BIT_LEFT,");
+			} else {
+				str.append("top_bit_order_t.TOP_BIT_RIGHT,");
+			}
+		} else {
+			str.append("top_bit_order_t.TOP_BIT_INHERITED,");
+		}
+		str.append(rawAttribute.padding).append(',');
+		str.append(rawAttribute.prepadding).append(',');
+		str.append(rawAttribute.ptroffset).append(',');
+		str.append(rawAttribute.unit).append(',');
+		str.append(rawAttribute.padding_pattern_length).append(',');
+		if (rawAttribute.padding_pattern_length > 0 && rawAttribute.padding_pattern != null) {
+			str.append(rawAttribute.padding_pattern).append(',');//TODO add_padding_pattern
+		} else {
+			str.append("null,");
+		}
+		str.append(rawAttribute.length_restriction).append(',');
+		if (rawAttribute.stringformat == CharCoding.UTF_8) {
+			str.append("CharCoding.UTF_8);\n");
+		} else if (rawAttribute.stringformat == CharCoding.UTF16) {
+			str.append("CharCoding.UTF16);\n");
+		} else {
+			str.append("CharCoding.UNKNOWN);\n");
+		}
+
+		globalVariables.append(str);
 	}
 
 	/**

@@ -51,6 +51,18 @@ public final class CharString_Type extends Type {
 	private static final String INFINITEBOUNDARYERROR = "The {0} boundary must be a charstring value";
 	private static final String TOOLONGBOUNDARYERROR = "The {0} boundary must be a charstring value containing a single character.";
 
+	public static enum CharCoding {
+		UNKNOWN,
+		ASCII,
+		UTF_8,
+		UTF16,
+		UTF16BE,
+		UTF16LE,
+		UTF32,
+		UTF32BE,
+		UTF32LE
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public Type_type getTypetype() {

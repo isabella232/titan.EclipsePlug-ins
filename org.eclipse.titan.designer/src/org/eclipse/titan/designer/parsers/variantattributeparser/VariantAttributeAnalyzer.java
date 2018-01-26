@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.parsers.variantattributeparser;
 
 import java.io.StringReader;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
@@ -20,6 +21,7 @@ import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.AttributeSpecification;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
 
 /**
@@ -28,11 +30,11 @@ import org.eclipse.titan.designer.parsers.ParserMarkerSupport;
  * FIXME currently does only syntactic checking, no data structure is extracted
  *
  * @author Kristof Szabados
- * 
+ *
  */
 public class VariantAttributeAnalyzer {
 
-	public void parse(final AttributeSpecification specification) {
+	public void parse(final RawAST rawAST, final AttributeSpecification specification, final int lengthMultiplier, final AtomicBoolean raw_found) {
 		VariantAttributeLexer lexer;
 		Location location = specification.getLocation();
 
@@ -60,6 +62,8 @@ public class VariantAttributeAnalyzer {
 		MarkerHandler.markMarkersForRemoval(GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER, location.getFile(), location.getOffset(),
 				location.getEndOffset());
 
+		parser.setRawAST(rawAST);
+		parser.setLengthMultiplier(lengthMultiplier);
 		parser.pr_AttribSpec();
 
 		if (!lexerListener.getErrorsStored().isEmpty()) {
@@ -75,6 +79,10 @@ public class VariantAttributeAnalyzer {
 				temp.setOffset(temp.getOffset() + 1);
 				ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) location.getFile(), parserListener.getErrorsStored().get(i), IMarker.SEVERITY_ERROR, temp);
 			}
+		}
+
+		if (!raw_found.get()) {
+			raw_found.set(parser.getRawFound());
 		}
 	}
 }

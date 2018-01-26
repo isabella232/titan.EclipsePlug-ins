@@ -11,6 +11,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.Extens
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PrintingType.PrintingTypeEnum;
 import org.eclipse.titan.designer.AST.TTCN3.types.*;
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 }
 
 /*
@@ -26,6 +27,10 @@ import org.eclipse.titan.designer.AST.TTCN3.types.*;
   private IFile actualFile = null;
   private int line = 0;
   private int offset = 0;
+
+  private RawAST rawstruct;
+  private int lengthMultiplier;
+  private boolean raw_f = false;
 
   public void setActualFile(final IFile file) {
   	actualFile = file;
@@ -49,6 +54,19 @@ import org.eclipse.titan.designer.AST.TTCN3.types.*;
   	}
 
   	return new Location(actualFile, line - 1 + startToken.getLine(), offset + startToken.getStartIndex(), offset + endToken.getStopIndex() + 1);
+  }
+
+  public void setRawAST(final RawAST par) {
+    rawstruct = par;
+    raw_f = true;
+  }
+
+  public void setLengthMultiplier(final int lengthMultiplier) {
+    this.lengthMultiplier = lengthMultiplier;
+  }
+
+  public boolean getRawFound() {
+    return raw_f;
   }
 }
 
@@ -93,33 +111,34 @@ pr_XSingleEncodingDef:
 );
 
 pr_XSingleRAWEncodingDef:
-( pr_XPaddingDef
-| pr_XPrePaddingDef
-| pr_XPaddingPattern
+( padding = pr_XPaddingDef {rawstruct.padding = $padding.padding; raw_f = true;}
+| prepadding = pr_XPrePaddingDef {rawstruct.prepadding = $prepadding.prepadding; raw_f = true;}
+| pr_XPaddingPattern {raw_f = true;}
 | pr_XPaddAll
-| pr_XFieldOrderDef
-| pr_XExtensionBitDef
+| fieldorder = pr_XFieldOrderDef {rawstruct.fieldorder = $fieldorder.msbOrLsb; raw_f = true;}
+| extensionBit = pr_XExtensionBitDef {rawstruct.extension_bit = $extensionBit.YNR; raw_f = true;}
 | pr_XExtensionBitGroupDef
 | pr_XLengthToDef
 | pr_XPointerToDef
-| pr_XUnitDef
+| unit = pr_XUnitDef {rawstruct.extension_bit = $unit.value; raw_f = true;}
 | pr_XLengthIndexDef
 | pr_XTagDef
 | pr_XCrossTagDef
 | pr_XPresenceDef
-| pr_XFieldLengthDef
-| pr_XAlignDef
-| pr_XCompDef
-| pr_XByteOrderDef
-| pr_XBitOrderInFieldDef
-| pr_XBitOrderInOctetDef
-| pr_HexOrderDef
+| fieldlength = pr_XFieldLengthDef {rawstruct.fieldlength = $fieldlength.multiplier * lengthMultiplier; raw_f = true;}
+| pr_XPtrOffsetDef { raw_f = true;}
+| align = pr_XAlignDef {rawstruct.align = $align.leftOrRight; raw_f = true;}
+| comp = pr_XCompDef {rawstruct.comp = $comp.comp; raw_f = true;}
+| byteOrder = pr_XByteOrderDef {rawstruct.byteorder = $byteOrder.firstOrLast; raw_f = true;}
+| bitOrderInField = pr_XBitOrderInFieldDef {rawstruct.bitorderinfield = $bitOrderInField.msbOrLsb; raw_f = true;}
+| bitOrderInOctet = pr_XBitOrderInOctetDef {rawstruct.bitorderinoctet = $bitOrderInOctet.msbOrLsb; raw_f = true;}
+| hexOrder = pr_HexOrderDef {rawstruct.hexorder = $hexOrder.lowOrHigh; raw_f = true;}
 | pr_RepeatableDef
-| pr_XTopLevelDef
-| IntXKeyword
-| pr_BitDef
-| pr_XUTFDef
-| pr_XIEEE754Def
+| pr_XTopLevelDef {rawstruct.toplevelind = 1; raw_f = true;}
+| IntXKeyword  {rawstruct.intX = true; raw_f = true;}
+| pr_BitDef {raw_f = true;}
+| pr_XUTFDef {raw_f = true;}
+| pr_XIEEE754Def {raw_f = true;}
 );
 
 pr_XSingleTEXTEncodingDef:
@@ -131,37 +150,102 @@ pr_XSingleTEXTEncodingDef:
 
 pr_RepeatableDef: REPEATABLEKeyword LPAREN pr_XYesOrNo RPAREN;
 
-pr_XYesOrNo: (YES | NO);
+pr_XYesOrNo returns [int yesOrNo]:
+( YES {$yesOrNo = RawAST.XDEFYES;}
+| NO {$yesOrNo = RawAST.XDEFNO;}
+)
+;
 
-pr_XBits: (BIT | BITS);
+pr_XBits returns [int value]:
+( BIT
+| BITS
+)
+{$value = 1;};
 
-pr_XOctets: (OCTET | OCTETS | NIBBLE | WORD16 | DWORD32 | ELEMENTS);
-
-pr_XNumber: (NUMBER | VARIABLE | NULL_TERMINATED | IEEE754_duble | IEEE754_float);
-
-pr_XBitsOctets: (pr_XBits | pr_XOctets | pr_XNumber);
-
-pr_XPaddingDef:
-( PADDINGKeyword LPAREN ( pr_XYesOrNo | pr_XBitsOctets ) RPAREN
+pr_XOctets returns [int value]:
+( OCTET {$value = 8;}
+| OCTETS {$value = 8;}
+| NIBBLE {$value = 4;}
+| WORD16 {$value = 16;}
+| DWORD32 {$value = 32;}
+| ELEMENTS {$value = -1;}
 );
 
-pr_XPrePaddingDef:
-( PREPADDINGKeyword LPAREN ( pr_XYesOrNo | pr_XBitsOctets ) RPAREN
+pr_XNumber returns [int value]:
+( NUMBER {$value = Integer.valueOf($NUMBER.getText()).intValue();}
+| VARIABLE {$value = 0;}
+| NULL_TERMINATED {$value = -1;}
+| IEEE754_duble {$value = 64;}
+| IEEE754_float {$value = 32;}
 );
 
-pr_XPaddingPattern: PADDINGPATTERNKeyword LPAREN BSTRING RPAREN;
+pr_XBitsOctets returns [int value]:
+( a = pr_XBits {$value = $a.value;}
+| b = pr_XOctets {$value = $b.value;}
+| c = pr_XNumber {$value = $c.value;}
+);
+
+pr_XPaddingDef returns [int padding]:
+( PADDINGKeyword
+  LPAREN
+  ( a = pr_XYesOrNo {$padding = $a.yesOrNo == RawAST.XDEFYES ? 8:0;}
+  | b = pr_XBitsOctets {$padding = $b.value;}
+  )
+  RPAREN
+);
+
+pr_XPrePaddingDef returns [int prepadding]:
+( PREPADDINGKeyword
+  LPAREN
+  ( a = pr_XYesOrNo {$prepadding = $a.yesOrNo == RawAST.XDEFYES ? 8:0;}
+  | b = pr_XBitsOctets {$prepadding = $b.value;}
+  )
+  RPAREN
+);
+
+pr_XPaddingPattern:
+( PADDINGPATTERNKeyword
+  LPAREN
+  BSTRING
+  RPAREN
+)
+{
+  final String text = $BSTRING.text;
+  if (text != null) {
+    int len = text.length();
+    rawstruct.padding_pattern = text;
+    rawstruct.padding_pattern_length = len;
+    while ( rawstruct.padding_pattern_length % 8 != 0) {
+      rawstruct.padding_pattern = rawstruct.padding_pattern + text;
+      rawstruct.padding_pattern_length += len;
+    }
+  }
+};
 
 pr_XPaddAll: PADDALLKeyword;
 
-pr_XMsbOrLsb: (MSB | LSB);
+pr_XMsbOrLsb returns [int msbOrLsb]:
+( MSB {$msbOrLsb = RawAST.XDEFMSB;}
+| LSB {$msbOrLsb = RawAST.XDEFMSB;}
+);
 
-pr_XFieldOrderDef: FIELDORDERKeyword LPAREN pr_XMsbOrLsb RPAREN;
+pr_XFieldOrderDef returns [int msbOrLsb]:
+( FIELDORDERKeyword LPAREN v = pr_XMsbOrLsb RPAREN
+)
+{ $msbOrLsb = $v.msbOrLsb;};
 
-pr_XYesOrNoOrRevers: (YES | NO | REVERSE);
+pr_XYesOrNoOrReverse returns [int YNR]:
+( YES {$YNR = RawAST.XDEFYES;}
+| NO {$YNR = RawAST.XDEFNO;}
+| REVERSE {$YNR = RawAST.XDEFREVERSE;}
+);
 
-pr_XExtensionBitDef: EXTENSION_BITKeyword LPAREN pr_XYesOrNoOrRevers RPAREN;
+pr_XExtensionBitDef returns [int YNR]:
+( EXTENSION_BITKeyword LPAREN v = pr_XYesOrNoOrReverse RPAREN
+)
+{ $YNR = $v.YNR;};
 
-pr_XExtensionBitGroupDef: EXTENSION_BIT_GROUPKeyword LPAREN pr_XYesOrNoOrRevers COMMA IDENTIFIER COMMA IDENTIFIER RPAREN;
+pr_XExtensionBitGroupDef: EXTENSION_BIT_GROUPKeyword LPAREN pr_XYesOrNoOrReverse COMMA IDENTIFIER COMMA IDENTIFIER RPAREN;
 
 pr_XLengthToDef:
 ( LENGTHTOKeyword LPAREN pr_XRecordFieldRefList RPAREN
@@ -171,9 +255,9 @@ pr_XLengthToDef:
 
 pr_XPointerToDef: POINTERTOKeyword LPAREN pr_XRecordFieldRef RPAREN;
 
-pr_XUnitDef:
-( UNITKeyword LPAREN pr_XBitsOctets RPAREN
-| PTRUNITKeyword LPAREN pr_XBitsOctets RPAREN
+pr_XUnitDef returns [int value]:
+( UNITKeyword LPAREN a = pr_XBitsOctets RPAREN {$value = $a.value;}
+| PTRUNITKeyword LPAREN b = pr_XBitsOctets RPAREN {$value = $b.value;}
 );
 
 pr_XLengthIndexDef: LENGTHINDEXKeyword LPAREN pr_XStructFieldRef? RPAREN;
@@ -209,26 +293,60 @@ pr_XPresenceDef:
 ( PRESENCEKeyword LPAREN ( pr_XKeyIdList | pr_XMultiKeyId ) SEMICOLON? RPAREN
 );
 
-pr_XFieldLengthDef:
-FIELDLENGTHKeyword LPAREN NUMBER RPAREN;
+pr_XFieldLengthDef returns [int multiplier]:
+FIELDLENGTHKeyword LPAREN NUMBER RPAREN
+{
+	$multiplier = Integer.valueOf($NUMBER.getText()).intValue();
+};
 
-pr_XAlignDef: ALIGNKeyword LPAREN pr_XLeftOrRight RPAREN;
+pr_XPtrOffsetDef:
+( PTROFFSETKeyword LPAREN NUMBER RPAREN {rawstruct.ptroffset =Integer.valueOf($NUMBER.getText()).intValue();}
+| PTROFFSETKeyword LPAREN IDENTIFIER RPAREN {final String text = $IDENTIFIER.text;
+		if ( text != null) {
+			rawstruct.ptrbase = new Identifier( Identifier_type.ID_TTCN, text, getLocation( $IDENTIFIER ) );
+		};}
+);
 
-pr_XLeftOrRight: LEFT | RIGHT;
 
-pr_XCompDef: COMPKeyword LPAREN pr_XCompValues RPAREN;
+pr_XAlignDef returns [int leftOrRight]:
+( ALIGNKeyword LPAREN v = pr_XLeftOrRight RPAREN
+)
+{ $leftOrRight = $v.leftOrRight;};
 
-pr_XCompValues: (UNSIGNEDKeyword | COMPL | SIGNBIT);
+pr_XLeftOrRight returns [int leftOrRight]:
+( LEFT {$leftOrRight = RawAST.XDEFLEFT;}
+| RIGHT {$leftOrRight = RawAST.XDEFRIGHT;}
+);
 
-pr_XByteOrderDef: BYTEORDERKeyword LPAREN pr_XfirstOrLast RPAREN;
+pr_XCompDef returns [int comp]:
+( COMPKeyword LPAREN v = pr_XCompValues RPAREN
+)
+{$comp = $v.comp;};
 
-pr_XfirstOrLast: (FIRST | LAST);
+pr_XCompValues returns [int comp]:
+( UNSIGNEDKeyword {$comp = RawAST.XDEFUNSIGNED;}
+| COMPL {$comp = RawAST.XDEFCOMPL;}
+| SIGNBIT {$comp = RawAST.XDEFSIGNBIT;}
+);
 
-pr_XBitOrderInFieldDef: BITORDERINFIELDKeyword LPAREN pr_XMsbOrLsb RPAREN;
+pr_XByteOrderDef returns [int firstOrLast]:
+( BYTEORDERKeyword LPAREN v = pr_XfirstOrLast RPAREN
+)
+{$firstOrLast = $v.firstOrLast;};
 
-pr_XBitOrderInOctetDef:
-( BITORDERINOCTETKeyword LPAREN pr_XMsbOrLsb RPAREN
-| BITORDERKeyword LPAREN pr_XMsbOrLsb RPAREN
+pr_XfirstOrLast returns [int firstOrLast]:
+( FIRST {$firstOrLast = RawAST.XDEFFIRST;}
+| LAST {$firstOrLast = RawAST.XDEFLAST;}
+);
+
+pr_XBitOrderInFieldDef returns [int msbOrLsb]:
+( BITORDERINFIELDKeyword LPAREN v = pr_XMsbOrLsb RPAREN
+)
+{$msbOrLsb = $v.msbOrLsb;};
+
+pr_XBitOrderInOctetDef returns [int msbOrLsb]:
+( BITORDERINOCTETKeyword LPAREN v = pr_XMsbOrLsb RPAREN {$msbOrLsb = $v.msbOrLsb;}
+| BITORDERKeyword LPAREN v = pr_XMsbOrLsb RPAREN {$msbOrLsb = $v.msbOrLsb;}
 );
 
 pr_XTopLevelDef: TOPLEVELKeyword LPAREN pr_XTopDefList RPAREN;
@@ -238,13 +356,25 @@ pr_XTopDefList:
   (COMMA pr_XTopDef )*
 );
 
-pr_XTopDef: pr_XBitOrderDef;
+pr_XTopDef:
+( v = pr_XBitOrderDef
+)
+{rawstruct.toplevel.bitorder = $v.msbOrLsb; raw_f = true;};
 
-pr_XBitOrderDef: BITORDERKeyword LPAREN pr_XMsbOrLsb RPAREN;
+pr_XBitOrderDef returns [int msbOrLsb]:
+( BITORDERKeyword LPAREN v = pr_XMsbOrLsb RPAREN
+)
+{$msbOrLsb = $v.msbOrLsb;};
 
-pr_HexOrderDef: HEXORDERKeyword LPAREN pr_XLowOrHigh RPAREN;
+pr_HexOrderDef returns [int lowOrHigh]:
+( HEXORDERKeyword LPAREN v = pr_XLowOrHigh RPAREN
+)
+{$lowOrHigh = $v.lowOrHigh;};
 
-pr_XLowOrHigh: (LOW | HIGH);
+pr_XLowOrHigh returns [int lowOrHigh]:
+( LOW {$lowOrHigh = RawAST.XDEFLOW;}
+| HIGH {$lowOrHigh = RawAST.XDEFHIGH;}
+);
 
 pr_XRecordFieldRefList:
 ( pr_XRecordFieldRef
@@ -279,18 +409,22 @@ pr_XRValue:
 );
 
 pr_BitDef:
-( NUMBER BitKeyword
-| UNSIGNEDKeyword NUMBER BitKeyword
+( NUMBER BitKeyword {rawstruct.fieldlength = Integer.valueOf($NUMBER.getText()).intValue();
+			rawstruct.comp = RawAST.XDEFSIGNBIT;
+			rawstruct.byteorder = RawAST.XDEFLAST;}
+| UNSIGNEDKeyword NUMBER BitKeyword {rawstruct.fieldlength = Integer.valueOf($NUMBER.getText()).intValue();
+					rawstruct.comp = RawAST.XDEFUNSIGNED;
+					rawstruct.byteorder = RawAST.XDEFLAST;}
 );
 
 pr_XUTFDef:
-( UTF8Keyword
-| UTF16Keyword
+( UTF8Keyword {rawstruct.stringformat = CharCoding.UTF_8;}
+| UTF16Keyword {rawstruct.stringformat = CharCoding.UTF16;}
 );
 
 pr_XIEEE754Def:
-( IEEE754FLOATKeyword
-| IEEE754DOUBLEKeyword
+( IEEE754FLOATKeyword {rawstruct.fieldlength = 32;}
+| IEEE754DOUBLEKeyword {rawstruct.fieldlength = 64;}
 );
 
 // TEXT encoding rules
