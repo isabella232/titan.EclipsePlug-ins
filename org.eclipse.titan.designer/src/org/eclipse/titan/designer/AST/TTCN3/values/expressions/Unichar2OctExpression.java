@@ -40,7 +40,7 @@ public final class Unichar2OctExpression extends Expression_Value {
 	private final Value value;
 	//FIXME missing support for second parameter
 
-	public Unichar2OctExpression(final Value value) {
+	public Unichar2OctExpression(final Value value, final Value code_string) {
 		this.value = value;
 
 		if (value != null) {
