@@ -38,7 +38,7 @@ public final class Oct2UnicharExpression extends Expression_Value {
 	private final Value value;
 	//FIXME missing support for second parameter
 
-	public Oct2UnicharExpression(final Value value) {
+	public Oct2UnicharExpression(final Value value, final Value code_string) {
 		this.value = value;
 
 		if (value != null) {
