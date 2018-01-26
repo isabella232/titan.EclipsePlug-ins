@@ -1951,7 +1951,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		str.append(rawAttribute.unit).append(',');
 		str.append(rawAttribute.padding_pattern_length).append(',');
 		if (rawAttribute.padding_pattern_length > 0 && rawAttribute.padding_pattern != null) {
-			str.append(rawAttribute.padding_pattern).append(',');//TODO add_padding_pattern
+			str.append(MessageFormat.format("\"{0}\",", rawAttribute.padding_pattern)); //TODO could optimize with add_padding_pattern
 		} else {
 			str.append("null,");
 		}

@@ -212,11 +212,13 @@ pr_XPaddingPattern:
 {
   final String text = $BSTRING.text;
   if (text != null) {
-    int len = text.length();
-    rawstruct.padding_pattern = text;
+    String realText = text.replaceAll("^\'|\'B$", "");
+    realText = realText.replaceAll("\\s+","");
+    int len = realText.length();
+    rawstruct.padding_pattern = realText;
     rawstruct.padding_pattern_length = len;
     while ( rawstruct.padding_pattern_length % 8 != 0) {
-      rawstruct.padding_pattern = rawstruct.padding_pattern + text;
+      rawstruct.padding_pattern = rawstruct.padding_pattern + realText;
       rawstruct.padding_pattern_length += len;
     }
   }
