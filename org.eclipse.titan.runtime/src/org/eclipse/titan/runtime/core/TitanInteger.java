@@ -1141,6 +1141,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+		boundFlag = false;
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		RAW_coding_par cp = new RAW_coding_par();
@@ -1309,6 +1310,7 @@ public class TitanInteger extends Base_Type {
 						nativeInt = D.signum() == -1 ? -D.intValue() : D.intValue();
 					}
 					decode_length += buff.increase_pos_padd(p_td.raw.padding);
+					boundFlag = true;
 					return decode_length + prepaddlength + len_bits;
 				} else {
 			        for (; idx >= 0; idx--) {
@@ -1321,6 +1323,7 @@ public class TitanInteger extends Base_Type {
 			nativeInt = negativ_num ?  -tmp : tmp;
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		boundFlag = true;
 		return decode_length + prepaddlength + len_bits;
 	}
 }
