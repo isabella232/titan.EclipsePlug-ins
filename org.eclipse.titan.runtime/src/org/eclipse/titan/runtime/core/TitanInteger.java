@@ -998,7 +998,7 @@ public class TitanInteger extends Base_Type {
 
 	//TODO actually big integer
 	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
-		char[] bc = null;
+		char[] bc;
 		int length; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
@@ -1053,10 +1053,7 @@ public class TitanInteger extends Base_Type {
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
-			bc = new char[myleaf.data_array.length];
-			for (int i = 0; i < myleaf.data_array.length; i++) {
-				bc[i] = (char)myleaf.data_array[i];
-			}
+			bc = myleaf.data_array;
 		}
 		boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
 		// Conversion to 2's complement.
@@ -1078,7 +1075,6 @@ public class TitanInteger extends Base_Type {
 			// first, encode the value
 			byte[] tmp = D.toByteArray();
 			int num_bytes = tmp.length;
-			bc = new char[(val_bits + 7) / 8];
 			do {
 				bc[i] = (char) ((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
 				++i;
