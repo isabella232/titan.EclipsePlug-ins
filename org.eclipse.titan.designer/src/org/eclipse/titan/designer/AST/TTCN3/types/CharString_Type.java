@@ -32,7 +32,6 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.Value_Range_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
-import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -309,6 +308,12 @@ public final class CharString_Type extends Type {
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int getLengthMultiplier() {
+		return 8;
 	}
 
 	@Override

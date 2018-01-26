@@ -359,6 +359,12 @@ public final class UniversalCharstring_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getLengthMultiplier() {
+		return 8;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {

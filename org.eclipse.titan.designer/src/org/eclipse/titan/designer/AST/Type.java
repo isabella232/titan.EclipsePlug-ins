@@ -402,6 +402,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public int getDefaultRawFieldLength() {
+		return 0;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int getLengthMultiplier() {
+		return 1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public final boolean hasVariantAttributes(final CompilationTimeStamp timestamp) {
 		if (withAttributesPath == null) {
 			return false;

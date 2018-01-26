@@ -294,6 +294,12 @@ public final class Float_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getDefaultRawFieldLength() {
+		return 64;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("float");
 	}

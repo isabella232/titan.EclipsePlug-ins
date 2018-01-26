@@ -510,6 +510,26 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public int getDefaultRawFieldLength() {
+		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
+			return refdLast.getDefaultRawFieldLength();
+		}
+
+		return 0;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public int getLengthMultiplier() {
+		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
+			return refdLast.getLengthMultiplier();
+		}
+
+		return 1;
+	}
+
 	/**
 	 * Searches and adds a completion proposal to the provided collector if a
 	 * valid one is found.

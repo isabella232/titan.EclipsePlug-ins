@@ -394,6 +394,28 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	boolean fieldIsOptional(final List<ISubReference> subReferences);
 
 	/**
+	 * Returns the default field length of this type (in bits).
+	 * integer: 8
+	 * boolean: 0
+	 * float: 64
+	 * other: 0
+	 * 
+	 * @return the default field length of the type.
+	 * */
+	public int getDefaultRawFieldLength();
+
+	/**
+	 * Returns the default field length of this type (in bits).
+	 * hexstring: 4
+	 * octetstring, charstring, universalcharstring: 8
+	 * 
+	 * other: 1
+	 * 
+	 * @return the default field length of the type.
+	 * */
+	public int getLengthMultiplier();
+
+	/**
 	 * Calculates the list of field types traversed. Does not check if the
 	 * index values are valid. Does not give error messages, it just returns
 	 * with false.

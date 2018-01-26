@@ -257,6 +257,12 @@ public final class OctetString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getLengthMultiplier() {
+		return 8;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("octetstring");
 	}
