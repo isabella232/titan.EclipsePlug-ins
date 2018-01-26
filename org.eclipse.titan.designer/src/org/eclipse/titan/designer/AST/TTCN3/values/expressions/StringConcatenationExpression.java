@@ -180,8 +180,11 @@ public final class StringConcatenationExpression extends Expression_Value {
 				return myGovernor;
 			}
 		}
-		value1.setLoweridToReference(timestamp);
-		final IType v1_gov = value1.getExpressionGovernor(timestamp, expectedValue);
+		IType v1_gov = null;
+		if (value1!=null) {
+			value1.setLoweridToReference(timestamp);
+			v1_gov = value1.getExpressionGovernor(timestamp, expectedValue);
+		}
 
 		IType v2_gov = null;
 		if( value2 != null ) {
