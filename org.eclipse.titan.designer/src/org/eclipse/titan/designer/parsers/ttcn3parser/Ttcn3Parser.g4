@@ -7507,15 +7507,15 @@ pr_PredefinedOps1 returns[Value value]
 	pr_RParen	{	$value = new GetStringencodingExpression($v.value); }
 |	OCT2UNICHAR
 	pr_LParen	v = pr_SingleExpression
-	(pr_Comma code_string = pr_SingleExpression)?
-	pr_RParen	{	$value = new Oct2UnicharExpression($v.value, $code_string.value); }
+	(pr_Comma v2 = pr_SingleExpression { code_string = $v2.value; } )?
+	pr_RParen	{	$value = new Oct2UnicharExpression($v.value, code_string); }
 |	REMOVE_BOM
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new RemoveBomExpression($v.value); }
 |	UNICHAR2OCT
 	pr_LParen	v = pr_SingleExpression
-	(pr_Comma code_string = pr_SingleExpression)?
-	pr_RParen	{	$value = new Unichar2OctExpression($v.value, $code_string.value); }
+	(pr_Comma v2 = pr_SingleExpression { code_string = $v2.value; } )?
+	pr_RParen	{	$value = new Unichar2OctExpression($v.value, code_string); }
 |	ENCODE_BASE64
 	pr_LParen	v = pr_SingleExpression
 	(pr_Comma pr_BooleanExpression)?
