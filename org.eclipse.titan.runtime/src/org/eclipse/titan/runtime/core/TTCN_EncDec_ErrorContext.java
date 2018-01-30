@@ -12,6 +12,7 @@ package org.eclipse.titan.runtime.core;
  *  Maintains a list of linked TTCN_EncDec_ErrorContext objects
  *
  * @author Gergo Ujhelyi
+ * @author Kristof Szabados
  */
 
 import java.util.ArrayList;
@@ -27,15 +28,16 @@ import java.util.ArrayList;
 public class TTCN_EncDec_ErrorContext {
 
 	private static ArrayList<TTCN_EncDec_ErrorContext> errors = new ArrayList<TTCN_EncDec_ErrorContext>();
-	private String msg;
+	private String format;
+	private Object[] arguments;
 
 	public TTCN_EncDec_ErrorContext() {
-		msg = null;
 		errors.add(this);
 	}
 
 	public TTCN_EncDec_ErrorContext(final String fmt, final Object... args) {
-		msg = String.format(fmt, args);
+		format = fmt;
+		arguments = args;
 		errors.add(this);
 	}
 
@@ -47,13 +49,15 @@ public class TTCN_EncDec_ErrorContext {
 	}
 
 	public void set_msg(final String fmt, final Object... args) {
-		msg = String.format(fmt, args);
+		format = fmt;
+		arguments = args;
 	}
 
 	public static void error(final TTCN_EncDec.error_type p_et, final String fmt, final Object... args) {
 		final StringBuilder err_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
-			err_msg.append(errors.get(i).msg).append(' ');
+			final TTCN_EncDec_ErrorContext temp = errors.get(i);
+			err_msg.append(String.format(temp.format, temp.arguments)).append(' ');
 		}
 
 		err_msg.append(String.format(fmt, args));
@@ -63,7 +67,8 @@ public class TTCN_EncDec_ErrorContext {
 	public static void error_internal(final String fmt, final Object... args) {
 		final StringBuilder err_msg = new StringBuilder("Internal error: ");
 		for (int i = 0; i < errors.size(); i++) {
-			err_msg.append(errors.get(i).msg).append(' ');
+			final TTCN_EncDec_ErrorContext temp = errors.get(i);
+			err_msg.append(String.format(temp.format, temp.arguments)).append(' ');
 		}
 
 		err_msg.append(String.format(fmt, args));
@@ -74,7 +79,8 @@ public class TTCN_EncDec_ErrorContext {
 	public void warning(final String fmt, final Object... args) {
 		final StringBuilder warn_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
-			warn_msg.append(errors.get(i).msg).append(' ');
+			final TTCN_EncDec_ErrorContext temp = errors.get(i);
+			warn_msg.append(String.format(temp.format, temp.arguments)).append(' ');
 		}
 
 		warn_msg.append(String.format(fmt, args));
