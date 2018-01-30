@@ -95,17 +95,17 @@ public final class CliExecutor extends BaseExecutor {
 	// patterns to detect state changes based on the experienced output.
 
 	// MTC output matchers
-	private static final Pattern EXECUTION_FINISHED_PATTERN = Pattern.compile("^.*MTC@(.+): Test case (.*) finished\\. Verdict: (.*)$");
+	private static final Pattern EXECUTION_FINISHED_PATTERN = Pattern.compile("^.*?MTC@(.+): Test case (.*) finished\\. Verdict: (.*)$");
 	private final Matcher executionFinishedMatcher = EXECUTION_FINISHED_PATTERN.matcher("");
 
 	private static final Pattern REASON_PATTERN = Pattern.compile("^(.*) reason: (.*)$");
 	private final Matcher reasonMatcher = REASON_PATTERN.matcher("");
 
 	// MC output matchers
-	private static final Pattern SUCCESSFUL_STARTUP_PATTERN = Pattern.compile(".*(\\w+)@(.+): Listening on TCP port (\\d+).");
+	private static final Pattern SUCCESSFUL_STARTUP_PATTERN = Pattern.compile(".*?(\\w+)@(.+): Listening on TCP port (\\d+).");
 	private final Matcher successfulStartUpMatcher = SUCCESSFUL_STARTUP_PATTERN.matcher("");
 
-	private static final Pattern FULL_SUCCESSFUL_STARTUP_PATTERN = Pattern.compile(".*(\\w+)@(.+): Listening on IP address (.+) and TCP port (\\d+).");
+	private static final Pattern FULL_SUCCESSFUL_STARTUP_PATTERN = Pattern.compile(".*?(\\w+)@(.+): Listening on IP address (.+) and TCP port (\\d+).");
 	private final Matcher fullSuccessfulStartUpMatcher = FULL_SUCCESSFUL_STARTUP_PATTERN.matcher("");
 
 	private static final Pattern HC_CONNECTED_PATTERN = Pattern.compile(" New HC connected from (.+)");
