@@ -14,34 +14,36 @@ package org.eclipse.titan.runtime.core;
  * @author Gergo Ujhelyi
  */
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.ArrayList;
 
-//FIXME implement destructor
+/**
+ * This class represents an error context.
+ * When an error is encountered during encoding/decoding this allows us to write the stack of operations.
+ * On each level in this hierarchy a context starts when it's object is created,
+ *  and ends when the leaveContext function is called.
+ * 
+ * Please note the constructors and leaveContext function has to be called in pairs.
+ * */
 public class TTCN_EncDec_ErrorContext {
 
-	private static List<TTCN_EncDec_ErrorContext> errors = new LinkedList<TTCN_EncDec_ErrorContext>();
+	private static ArrayList<TTCN_EncDec_ErrorContext> errors = new ArrayList<TTCN_EncDec_ErrorContext>();
 	private String msg;
-
-	public static boolean head;
 
 	public TTCN_EncDec_ErrorContext() {
 		msg = null;
-		if(!head) {
-			errors.add(0, this);
-			head = true;
-		} else {
-			errors.add(this);
-		}
+		errors.add(this);
 	}
 
 	public TTCN_EncDec_ErrorContext(final String fmt, final Object... args) {
 		msg = String.format(fmt, args);
-		if(!head) {
-			errors.add(0, this);
-		} else {
-			errors.add(this);
+		errors.add(this);
+	}
+
+	public void leaveContext() {
+		if (errors.get(errors.size() - 1) != this) {
+			throw new TtcnError(" Internal error: TTCN_EncDec_ErrorContext.leaveContext()");
 		}
+		errors.remove(errors.size() - 1);
 	}
 
 	public void set_msg(final String fmt, final Object... args) {

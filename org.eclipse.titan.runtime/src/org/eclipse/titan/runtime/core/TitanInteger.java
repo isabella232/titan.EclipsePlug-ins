@@ -640,7 +640,8 @@ public class TitanInteger extends Base_Type {
 			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
-			//FIXME call errorContextDestructor
+
+			errorContext.leaveContext();
 			break;
 		}
 		default:
@@ -672,7 +673,7 @@ public class TitanInteger extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 	
-			//FIXME call errorContextDestructor
+			errorContext.leaveContext();
 			break;
 		}
 		default:
