@@ -6,12 +6,14 @@ import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.designer.AST.*;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
+import org.eclipse.titan.designer.AST.ASN1.values.ASN1_Null_Value;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.*;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PrintingType.PrintingTypeEnum;
 import org.eclipse.titan.designer.AST.TTCN3.types.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
+import org.eclipse.titan.designer.AST.TTCN3.values.*;
 }
 
 /*
@@ -114,17 +116,17 @@ pr_XSingleRAWEncodingDef:
 ( padding = pr_XPaddingDef {rawstruct.padding = $padding.padding; raw_f = true;}
 | prepadding = pr_XPrePaddingDef {rawstruct.prepadding = $prepadding.prepadding; raw_f = true;}
 | pr_XPaddingPattern {raw_f = true;}
-| pr_XPaddAll
+| pr_XPaddAll {rawstruct.paddall = RawAST.XDEFYES; raw_f = true;}
 | fieldorder = pr_XFieldOrderDef {rawstruct.fieldorder = $fieldorder.msbOrLsb; raw_f = true;}
 | extensionBit = pr_XExtensionBitDef {rawstruct.extension_bit = $extensionBit.YNR; raw_f = true;}
-| pr_XExtensionBitGroupDef
-| pr_XLengthToDef
-| pr_XPointerToDef
+| pr_XExtensionBitGroupDef { raw_f = true;}
+| pr_XLengthToDef { raw_f = true;}
+| pointerto = pr_XPointerToDef {rawstruct.pointerto = $pointerto.identifier; raw_f = true;}
 | unit = pr_XUnitDef {rawstruct.extension_bit = $unit.value; raw_f = true;}
-| pr_XLengthIndexDef
-| pr_XTagDef
-| pr_XCrossTagDef
-| pr_XPresenceDef
+| lengthindex = pr_XLengthIndexDef {rawstruct.lengthindex = new RawAST.rawAST_field_list(); rawstruct.lengthindex.names = $lengthindex.values; raw_f = true;}
+| pr_XTagDef {raw_f = true;}
+| pr_XCrossTagDef {raw_f = true;}
+| pr_XPresenceDef {raw_f = true;}
 | fieldlength = pr_XFieldLengthDef {rawstruct.fieldlength = $fieldlength.multiplier * lengthMultiplier; raw_f = true;}
 | pr_XPtrOffsetDef { raw_f = true;}
 | align = pr_XAlignDef {rawstruct.align = $align.leftOrRight; raw_f = true;}
@@ -133,7 +135,7 @@ pr_XSingleRAWEncodingDef:
 | bitOrderInField = pr_XBitOrderInFieldDef {rawstruct.bitorderinfield = $bitOrderInField.msbOrLsb; raw_f = true;}
 | bitOrderInOctet = pr_XBitOrderInOctetDef {rawstruct.bitorderinoctet = $bitOrderInOctet.msbOrLsb; raw_f = true;}
 | hexOrder = pr_HexOrderDef {rawstruct.hexorder = $hexOrder.lowOrHigh; raw_f = true;}
-| pr_RepeatableDef
+| repeatable = pr_RepeatableDef {rawstruct.repeatable = $repeatable.yesOrNo; raw_f = true;}
 | pr_XTopLevelDef {rawstruct.toplevelind = 1; raw_f = true;}
 | IntXKeyword  {rawstruct.intX = true; raw_f = true;}
 | pr_BitDef {raw_f = true;}
@@ -148,7 +150,13 @@ pr_XSingleTEXTEncodingDef:
 | pr_XCodingDef
 );
 
-pr_RepeatableDef: REPEATABLEKeyword LPAREN pr_XYesOrNo RPAREN;
+pr_RepeatableDef returns [int yesOrNo]:
+( REPEATABLEKeyword
+  LPAREN
+  v = pr_XYesOrNo
+  RPAREN
+)
+{ $yesOrNo = $v.yesOrNo;};
 
 pr_XYesOrNo returns [int yesOrNo]:
 ( YES {$yesOrNo = RawAST.XDEFYES;}
@@ -247,52 +255,143 @@ pr_XExtensionBitDef returns [int YNR]:
 )
 { $YNR = $v.YNR;};
 
-pr_XExtensionBitGroupDef: EXTENSION_BIT_GROUPKeyword LPAREN pr_XYesOrNoOrReverse COMMA IDENTIFIER COMMA IDENTIFIER RPAREN;
+pr_XExtensionBitGroupDef:
+( EXTENSION_BIT_GROUPKeyword
+  LPAREN
+  bit = pr_XYesOrNoOrReverse
+  COMMA
+  from = IDENTIFIER
+  COMMA
+  to = IDENTIFIER
+  RPAREN
+)
+{
+  if (rawstruct.ext_bit_groups == null) {
+    rawstruct.ext_bit_groups = new ArrayList<RawAST.rawAST_ext_bit_group>();
+  }
+  RawAST.rawAST_ext_bit_group temp = new RawAST.rawAST_ext_bit_group();
+  temp.ext_bit = $bit.YNR;
+  final String fromtext = $from.text;
+  if ( fromtext != null) {
+    temp.from = new Identifier( Identifier_type.ID_TTCN, fromtext, getLocation( $from ) );
+  };
+  final String totext = $to.text;
+  if ( totext != null) {
+    temp.to = new Identifier( Identifier_type.ID_TTCN, totext, getLocation( $to ) );
+  };
+  rawstruct.ext_bit_groups.add(temp);
+};
 
 pr_XLengthToDef:
 ( LENGTHTOKeyword LPAREN pr_XRecordFieldRefList RPAREN
-| LENGTHTOKeyword LPAREN pr_XRecordFieldRefList PLUS NUMBER RPAREN
-| LENGTHTOKeyword LPAREN pr_XRecordFieldRefList MINUS NUMBER RPAREN
+| LENGTHTOKeyword LPAREN pr_XRecordFieldRefList PLUS n1 = NUMBER RPAREN {rawstruct.lengthto_offset = Integer.valueOf($n1.getText()).intValue();}
+| LENGTHTOKeyword LPAREN pr_XRecordFieldRefList MINUS n2 = NUMBER RPAREN {rawstruct.lengthto_offset = (-1) * Integer.valueOf($n2.getText()).intValue();}
 );
 
-pr_XPointerToDef: POINTERTOKeyword LPAREN pr_XRecordFieldRef RPAREN;
+pr_XPointerToDef returns [Identifier identifier]:
+( POINTERTOKeyword
+  LPAREN
+  id = pr_XRecordFieldRef
+  RPAREN
+)
+{ $identifier = $id.identifier;
+};
 
 pr_XUnitDef returns [int value]:
 ( UNITKeyword LPAREN a = pr_XBitsOctets RPAREN {$value = $a.value;}
 | PTRUNITKeyword LPAREN b = pr_XBitsOctets RPAREN {$value = $b.value;}
 );
 
-pr_XLengthIndexDef: LENGTHINDEXKeyword LPAREN pr_XStructFieldRef? RPAREN;
-
-pr_XTagDef: TAGKeyword LPAREN pr_XAssocList RPAREN;
-
-pr_XCrossTagDef: CROSSTAGKeyword LPAREN pr_XAssocList RPAREN;
-
-pr_XAssocList:
-( pr_XAssocElement
-  ( SEMICOLON pr_XAssocElement)*
+pr_XLengthIndexDef returns [ArrayList<Identifier> values = null]:
+( LENGTHINDEXKeyword
+  LPAREN
+  ( fields = pr_XStructFieldRef {$values = $fields.values;}
+  )?
+  RPAREN
 );
 
-pr_XAssocElement:
-( IDENTIFIER COMMA ( pr_XkeyIdOrIdList | OTHERWISE )
+pr_XTagDef:
+( TAGKeyword
+  LPAREN
+  taglist = pr_XAssocList {rawstruct.taglist = $taglist.taglist;}
+  RPAREN
+  );
+
+pr_XCrossTagDef:
+( CROSSTAGKeyword
+  LPAREN
+  taglist = pr_XAssocList {rawstruct.crosstaglist = $taglist.taglist;}
+  RPAREN
 );
 
-pr_XkeyIdOrIdList:
-( pr_XKeyId
-| pr_XKeyIdList
+pr_XAssocList returns [RawAST.rawAST_tag_list taglist]:
+( element1 = pr_XAssocElement {$taglist = new RawAST.rawAST_tag_list();
+				$taglist.tag = new ArrayList<RawAST.rawAST_single_tag>();
+				$taglist.tag.add($element1.singleTag);}
+  ( SEMICOLON
+    element2 = pr_XAssocElement {//FIXME check for duplication
+				$taglist.tag.add($element2.singleTag);}
+  )*
 );
 
-pr_XKeyIdList: BEGINCHAR pr_XMultiKeyId ENDCHAR;
-
-pr_XMultiKeyId:
-( pr_XKeyId
-  ( COMMA pr_XKeyId )*
+pr_XAssocElement returns [RawAST.rawAST_single_tag singleTag]:
+( id = IDENTIFIER
+  COMMA
+  ( list = pr_XkeyIdOrIdList { $singleTag = new RawAST.rawAST_single_tag();
+				$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
+				$singleTag.keyList = $list.singleTag.keyList;}
+  | OTHERWISE {$singleTag = new RawAST.rawAST_single_tag();
+		$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
+		$singleTag.keyList = null;}
+  )
 );
 
-pr_XKeyId: pr_XStructFieldRef ASSIGN pr_XRValue;
+pr_XkeyIdOrIdList returns [RawAST.rawAST_single_tag singleTag]:
+( key = pr_XKeyId { $singleTag = new RawAST.rawAST_single_tag();
+			$singleTag.fieldName = null;
+			$singleTag.keyList = new ArrayList<RawAST.rawAST_tag_field_value>();
+			$singleTag.keyList.add($key.tagFieldValue);}
+| keys = pr_XKeyIdList {$singleTag = $keys.singleTag;}
+);
+
+pr_XKeyIdList returns [RawAST.rawAST_single_tag singleTag]:
+( BEGINCHAR
+  keys = pr_XMultiKeyId
+  ENDCHAR
+) {$singleTag = $keys.singleTag;};
+
+pr_XMultiKeyId returns [RawAST.rawAST_single_tag singleTag]:
+( key1 = pr_XKeyId { if ($key1.tagFieldValue != null) {
+			$singleTag = new RawAST.rawAST_single_tag();
+			$singleTag.fieldName = null;
+			$singleTag.keyList = new ArrayList<RawAST.rawAST_tag_field_value>();
+			$singleTag.keyList.add($key1.tagFieldValue);
+		}}
+  ( COMMA
+    key2 = pr_XKeyId { if ($key2.tagFieldValue != null) {$singleTag.keyList.add($key2.tagFieldValue);}}
+  )*
+);
+
+pr_XKeyId returns [RawAST.rawAST_tag_field_value tagFieldValue]:
+( fieldref = pr_XStructFieldRef
+  ASSIGN
+  value = pr_XRValue
+) {
+  $tagFieldValue = new RawAST.rawAST_tag_field_value();
+  $tagFieldValue.keyField = new RawAST.rawAST_field_list();
+  $tagFieldValue.keyField.names = $fieldref.values;
+  $tagFieldValue.value = $value.value;
+  $tagFieldValue.v_value = $value.v_value;
+};
 
 pr_XPresenceDef:
-( PRESENCEKeyword LPAREN ( pr_XKeyIdList | pr_XMultiKeyId ) SEMICOLON? RPAREN
+( PRESENCEKeyword
+  LPAREN
+  ( key = pr_XKeyIdList {rawstruct.presence = $key.singleTag;}
+  | keys = pr_XMultiKeyId {rawstruct.presence = $keys.singleTag;}
+  )
+  SEMICOLON?
+  RPAREN
 );
 
 pr_XFieldLengthDef returns [int multiplier]:
@@ -379,35 +478,126 @@ pr_XLowOrHigh returns [int lowOrHigh]:
 );
 
 pr_XRecordFieldRefList:
-( pr_XRecordFieldRef
-  ( COMMA pr_XRecordFieldRef )*
+( a = pr_XRecordFieldRef { rawstruct.lengthto = new ArrayList<Identifier>(); if ($a.identifier != null) {rawstruct.lengthto.add($a.identifier);}}
+  ( COMMA
+    b = pr_XRecordFieldRef { if ($b.identifier != null) {rawstruct.lengthto.add($b.identifier);}}
+  )*
 );
 
-pr_XRecordFieldRef: IDENTIFIER;
-
-pr_XStructFieldRef:
+pr_XRecordFieldRef returns [Identifier identifier]:
 ( IDENTIFIER
-  ( DOT IDENTIFIER )*
+)
+{ final String text = $IDENTIFIER.text;
+  if ( text != null) {
+    $identifier = new Identifier( Identifier_type.ID_TTCN, text, getLocation( $IDENTIFIER ) );
+  };
+};
+
+pr_XStructFieldRef returns [ArrayList<Identifier> values]:
+( id1 = IDENTIFIER {$values = new ArrayList<Identifier>(); if ($id1.text != null) {$values.add(new Identifier( Identifier_type.ID_TTCN, $id1.text, getLocation( $id1 ) ));}}
+  ( DOT
+    id2 = IDENTIFIER {if ($id2.text != null) {$values.add(new Identifier( Identifier_type.ID_TTCN, $id2.text, getLocation( $id2 ) ));}}
+  )*
 );
 
-pr_XRValue:
-( IDENTIFIER
-| BSTRING
-| HSTRING
-| OSTRING
-| CSTRING
-| FLOATVALUE
-| NUMBER
-| TRUE
-| FALSE
-| NONE
-| PASS
-| INCONC
-| FAIL
-| ERROR
-| Null
-| NULL
-| OMIT
+pr_XRValue returns [String value, Value v_value]:
+( IDENTIFIER {
+    $value = $IDENTIFIER.text;
+    $v_value = new Undefined_LowerIdentifier_Value(new Identifier( Identifier_type.ID_TTCN, $IDENTIFIER.text, getLocation( $IDENTIFIER ) ));
+    $v_value.setLocation(getLocation( $IDENTIFIER ));
+  }
+| BSTRING {final String text = $BSTRING.text;
+    if (text != null) {
+      String realText = text.replaceAll("^\'|\'B$", "");
+      realText = realText.replaceAll("\\s+","");
+      $value = realText;
+      $v_value = new Bitstring_Value(realText);
+      $v_value.setLocation(getLocation( $BSTRING ));
+    }}
+| HSTRING {final String text = $HSTRING.text;
+    if (text != null) {
+      String realText = text.replaceAll("^\'|\'H$", "");
+      realText = realText.replaceAll("\\s+","");
+      $value = realText;
+      $v_value = new Hexstring_Value(realText);
+      $v_value.setLocation(getLocation( $HSTRING ));
+    }}
+| OSTRING {final String text = $OSTRING.text;
+    if (text != null) {
+      String realText = text.replaceAll("^\'|\'O$", "");
+      realText = realText.replaceAll("\\s+","");
+      $value = realText;
+      $v_value = new Octetstring_Value(realText);
+      $v_value.setLocation(getLocation( $OSTRING ));
+    }}
+| CSTRING {final String text = $CSTRING.text;
+    if (text != null) {
+      $value = text;
+      $v_value = new Charstring_Value(text);
+      $v_value.setLocation(getLocation( $CSTRING ));
+    }}
+| FLOATVALUE {final String text = $FLOATVALUE.text;
+    if (text != null) {
+      $value = text;
+      $v_value = new Real_Value( Double.parseDouble( text ) );
+      $v_value.setLocation(getLocation( $FLOATVALUE ));
+    }}
+| NUMBER {final String text = $NUMBER.text;
+    if (text != null) {
+      $value = text;
+      $v_value = new Integer_Value( text );
+      $v_value.setLocation(getLocation( $NUMBER ));
+    }}
+| TRUE {
+      $value = "TRUE";
+      $v_value = new Boolean_Value( true );
+      $v_value.setLocation(getLocation( $TRUE ));
+    }
+| FALSE {
+      $value = "FALSE";
+      $v_value = new Boolean_Value( false );
+      $v_value.setLocation(getLocation( $FALSE ));
+    }
+| NONE {
+      $value = "none";
+      $v_value = new Verdict_Value( Verdict_Value.Verdict_type.NONE );
+      $v_value.setLocation(getLocation( $NONE ));
+    }
+| PASS {
+      $value = "pass";
+      $v_value = new Verdict_Value( Verdict_Value.Verdict_type.PASS );
+      $v_value.setLocation(getLocation( $PASS ));
+    }
+| INCONC {
+      $value = "inconc";
+      $v_value = new Verdict_Value( Verdict_Value.Verdict_type.INCONC );
+      $v_value.setLocation(getLocation( $INCONC ));
+    }
+| FAIL {
+      $value = "fail";
+      $v_value = new Verdict_Value( Verdict_Value.Verdict_type.FAIL );
+      $v_value.setLocation(getLocation( $FAIL ));
+    }
+| ERROR {
+      $value = "error";
+      $v_value = new Verdict_Value( Verdict_Value.Verdict_type.ERROR );
+      $v_value.setLocation(getLocation( $ERROR ));
+    }
+| Null {
+      $value = "NULL_COMPREF";
+      $v_value = new TTCN3_Null_Value( );
+      $v_value.setLocation(getLocation( $Null ));
+    }
+| NULL {
+      $value = "ASN_NULL_VALUE";
+      $v_value = new ASN1_Null_Value( );
+      $v_value.setLocation(getLocation( $NULL ));
+    }
+| OMIT {
+      $value = "OMIT";
+      $v_value = new Omit_Value( );
+      $v_value.setLocation(getLocation( $OMIT ));
+    }
 );
 
 pr_BitDef:
