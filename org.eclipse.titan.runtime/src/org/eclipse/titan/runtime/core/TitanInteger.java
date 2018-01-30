@@ -1020,7 +1020,7 @@ public class TitanInteger extends Base_Type {
 			myleaf.data_ptr = null;
 		}
 		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
-			val_bits = D.bitCount() + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
+			val_bits = D.bitLength(); // + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			if (val_bits % 8 + len_bits % 8 > 8) {
@@ -1077,7 +1077,7 @@ public class TitanInteger extends Base_Type {
 			byte[] tmp = D.toByteArray();
 			int num_bytes = tmp.length;
 			do {
-				bc[i] = (char) ((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
+				bc[i] = (char) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
 				++i;
 				val_bits -= 8;
 			} while (val_bits > 0);
@@ -1130,6 +1130,13 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
+		
+		//TODO: check to needed
+		char[] tmp = new char[bc.length];
+		for (int j = 0; j < tmp.length; j++) {
+			tmp[j] = bc[bc.length - j - 1];
+		}
+		myleaf.data_ptr = bc = tmp;
 		return myleaf.length;
 	}
 
