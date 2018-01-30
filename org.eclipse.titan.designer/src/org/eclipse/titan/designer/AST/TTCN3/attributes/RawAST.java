@@ -7,7 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
+import java.util.ArrayList;
+
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 
@@ -19,6 +22,32 @@ import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 public class RawAST {
 	public static class rawAST_toplevel {
 		public int bitorder;
+	}
+
+	public static class rawAST_ext_bit_group {
+		public int ext_bit;
+		public Identifier from;
+		public Identifier to;
+	}
+
+	// TODO there is no point in single field classes
+	public static class rawAST_field_list {
+		public ArrayList<Identifier> names;
+	}
+
+	public static class rawAST_tag_field_value {
+		public rawAST_field_list keyField;
+		public String value;
+		public Value v_value;
+	}
+
+	public static class rawAST_single_tag {
+		public Identifier fieldName;
+		public ArrayList<rawAST_tag_field_value> keyList;
+	}
+
+	public static class rawAST_tag_list {
+		public ArrayList<rawAST_single_tag> tag;
 	}
 
 	//Logic kept to be in-line with the compiler side
@@ -47,15 +76,19 @@ public class RawAST {
 	public int bitorderinfield; // XDEFMSB, XDEFLSB
 	public int bitorderinoctet; // XDEFMSB, XDEFLSB
 	public int extension_bit; // XDEFYES, XDEFNO
-	//..
+	//ext_bit_goup_num is not stored as it is the sie of ext_bit_groups
+	public ArrayList<rawAST_ext_bit_group> ext_bit_groups;
 	public int hexorder; //XDEFLOW, XDEFHIGH
 	public int padding;  // XDEFYES: next field starts at next octet
 	public int prepadding;
 	public int padding_pattern_length;
-	//..
+	public int paddall;
+	public int repeatable;
 	public String padding_pattern;
 	public int fieldorder; // XDEFMSB, XDEFLSB
-	//..
+	public ArrayList<Identifier> lengthto; //list of fields to generate length for
+	public int lengthto_offset;
+	public Identifier pointerto; //pointer to the specified field is contained in this field
 
 	/**< offset to the pointer value in bits
 	 Actual position will be:
@@ -63,7 +96,12 @@ public class RawAST {
 	public int ptroffset;
 	public Identifier ptrbase; //the identifier in PTROFFSET(identifier)
 	public int unit; //XDEFOCTETS, XDEFBITS
-	//..
+	public rawAST_field_list lengthindex; // stores subattribute of the lengthto attribute
+	// field IDs in form of [unionField.sub]field_N, keyField.subfield_M = tagValue multiple tagValues may be specified
+	public rawAST_tag_list crosstaglist = new rawAST_tag_list();
+	public rawAST_tag_list taglist = new rawAST_tag_list();
+	
+	public rawAST_single_tag presence = new rawAST_single_tag(); // Presence indicator expressions for an optional field
 	public int toplevelind;
 	public rawAST_toplevel toplevel = new rawAST_toplevel();
 	public int length_restriction;
@@ -95,15 +133,25 @@ public class RawAST {
 			bitorderinfield = other.bitorderinfield;
 			bitorderinoctet = other.bitorderinoctet;
 			extension_bit = other.extension_bit;
+			ext_bit_groups = null;
 			hexorder = other.hexorder;
 			padding = other.padding;
 			prepadding = other.prepadding;
 			padding_pattern_length = other.padding_pattern_length;
+			paddall = other.paddall;
+			repeatable = other.repeatable;
 			padding_pattern = other.padding_pattern;
 			fieldorder = other.fieldorder;
+			lengthto = null;
+			lengthto_offset = 0;
+			pointerto = null;
 			ptroffset = other.ptroffset;
-			ptrbase = other.ptrbase;
+			ptrbase = null;
 			unit = other.unit;
+			lengthindex = null;
+			crosstaglist = new rawAST_tag_list();
+			taglist = new rawAST_tag_list();
+			presence = new rawAST_single_tag();
 			toplevelind = other.toplevelind;
 			toplevel.bitorder = other.toplevel.bitorder;
 			length_restriction = other.length_restriction;
@@ -120,15 +168,25 @@ public class RawAST {
 		bitorderinfield = XDEFDEFAULT;
 		bitorderinoctet = XDEFDEFAULT;
 		extension_bit = XDEFDEFAULT;
+		ext_bit_groups = null;
 		hexorder = XDEFDEFAULT;
 		padding = 0;
 		prepadding = 0;
 		padding_pattern_length = 0;
+		paddall = XDEFDEFAULT;
+		repeatable = XDEFDEFAULT;
 		padding_pattern = null;
 		fieldorder = XDEFDEFAULT;
+		lengthto = null;
+		lengthto_offset = 0;
+		pointerto = null;
 		ptroffset = 0;
 		ptrbase = null;
 		unit = 8;
+		lengthindex = null;
+		crosstaglist = new rawAST_tag_list();
+		taglist = new rawAST_tag_list();
+		presence = new rawAST_single_tag();
 		toplevelind = 0;
 		toplevel.bitorder = XDEFDEFAULT;
 		length_restriction = -1;
