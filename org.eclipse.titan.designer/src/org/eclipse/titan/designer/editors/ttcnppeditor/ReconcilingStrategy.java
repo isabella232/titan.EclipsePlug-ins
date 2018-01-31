@@ -37,7 +37,6 @@ import org.eclipse.titan.designer.editors.GlobalIntervalHandler;
 import org.eclipse.titan.designer.editors.ttcn3editor.TTCN3FoldingSupport;
 import org.eclipse.titan.designer.graphics.ImageCache;
 import org.eclipse.titan.designer.parsers.GlobalParser;
-import org.eclipse.titan.designer.parsers.ProjectConfigurationParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
@@ -222,9 +221,6 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 		if (isInitial || !editor.isSemanticCheckingDelayed()) {
 			projectSourceParser.reportOutdating(editedFile);
 			projectSourceParser.analyzeAll();
-
-			ProjectConfigurationParser projectConfigurationParser = GlobalParser.getConfigSourceParser(project);
-			projectConfigurationParser.analyzeAll();
 
 			WorkspaceJob op = new WorkspaceJob(OUTLINEUPDATE) {
 				@Override

@@ -770,6 +770,9 @@ public final class ProjectSourceParser {
 			}
 
 			ProjectSourceSemanticAnalyzer.analyzeMultipleProjectsSemantically(tobeSemanticallyAnalyzed, progress.newChild(tobeAnalyzed.size()), compilationCounter);
+			
+			// semantic check for config file
+			// GlobalParser.getConfigSourceParser(project).doSemanticCheck();
 		} finally {
 			for (int i = 0; i < tobeAnalyzed.size(); i++) {
 				GlobalParser.getProjectSourceParser(tobeAnalyzed.get(i)).analyzesRunning = false;
@@ -925,6 +928,8 @@ public final class ProjectSourceParser {
 			return null;
 		}
 
+		WorkspaceJob configAnalyzes = GlobalParser.getConfigSourceParser(project).doSyntaticalAnalyze();
+
 		WorkspaceJob analyzes = new WorkspaceJob(SOURCE_ANALYSING) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
@@ -1012,6 +1017,7 @@ public final class ProjectSourceParser {
 		fullAnalyzersRunning.incrementAndGet();
 
 		final WorkspaceJob temp = analyzes;
+		final WorkspaceJob temp2 = configAnalyzes;
 
 		WorkspaceJob extensions = new WorkspaceJob("Executing Titan extensions") {
 			@Override
@@ -1026,7 +1032,7 @@ public final class ProjectSourceParser {
 
 					try {
 						temp.join();
-
+						temp2.join();
 					} catch (Exception e) {
 						ErrorReporter.logExceptionStackTrace(e);
 					}

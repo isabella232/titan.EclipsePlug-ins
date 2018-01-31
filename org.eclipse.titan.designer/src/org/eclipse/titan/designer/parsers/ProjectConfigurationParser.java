@@ -315,19 +315,7 @@ public final class ProjectConfigurationParser {
 		}
 	}
 
-	/**
-	 * Analyzes all of the files which are in the same project with the
-	 * provided file.
-	 * <ul>
-	 * <li>the files possibly needed to analyze are collected first
-	 * <li>those files, which are known to be up-to-date are filtered from
-	 * this list
-	 * <li>the files left in the list are analyzed in a new workspace job
-	 * </ul>
-	 *
-	 * @return the WorkspaceJob in which the operation is running
-	 * */
-	public WorkspaceJob analyzeAll() {
+	public WorkspaceJob doSyntaticalAnalyze() {
 		if (!project.isAccessible() || !TITANNature.hasTITANNature(project)) {
 			return null;
 		}
@@ -503,6 +491,15 @@ public final class ProjectConfigurationParser {
 				}
 			});
 		}
+	}
+
+	public void doSemanticCheck()
+	{
+		// TODO semantic checking is not yet supported for configuration files.
+		//for (Map.Entry<IFile,List<ModuleParameterSectionHandler.ModuleParameter>> entry : fileToModuleParameters.entrySet())
+		//{
+		//	doSemanticCheckForFile(entry.getKey());
+		//}
 	}
 
 	/**
