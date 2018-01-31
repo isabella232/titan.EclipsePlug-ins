@@ -33,18 +33,24 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * @author Kristof Szabados
+ * @author Farkas Izabella Ingrid
  * */
 public final class Unichar2OctExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The operand of the `unichar2oct' operation should be a universal charstring value";
-
+	private static final String OPERANDERROR2 = "Second operand of the `unichar2oct' operation should be a charstring value";
 	private final Value value;
-	//FIXME missing support for second parameter
+	private final Value code_string;
+	//TODO: possibility enum use for CharString_Type.CharCoding
 
 	public Unichar2OctExpression(final Value value, final Value code_string) {
 		this.value = value;
+		this.code_string = code_string;
 
 		if (value != null) {
 			value.setFullNameParent(this);
+		}
+		if (code_string != null) {
+			code_string.setFullNameParent(this);
 		}
 	}
 
@@ -61,6 +67,9 @@ public final class Unichar2OctExpression extends Expression_Value {
 		if (value != null && value.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
+		if (code_string != null && code_string.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
 
 		return false;
 	}
@@ -69,7 +78,11 @@ public final class Unichar2OctExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("unichar2oct(").append(value.createStringRepresentation()).append(')');
+		builder.append("unichar2oct(").append(value.createStringRepresentation());
+		if (code_string != null) {
+			builder.append(',').append(code_string.createStringRepresentation());
+		}
+		builder.append(')');
 		return builder.toString();
 	}
 
@@ -79,6 +92,9 @@ public final class Unichar2OctExpression extends Expression_Value {
 		super.setMyScope(scope);
 		if (value != null) {
 			value.setMyScope(scope);
+		}
+		if (code_string != null) {
+			code_string.setMyScope(scope);
 		}
 	}
 
@@ -90,6 +106,9 @@ public final class Unichar2OctExpression extends Expression_Value {
 		if (value != null) {
 			value.setCodeSection(codeSection);
 		}
+		if (code_string != null) {
+			code_string.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -98,7 +117,9 @@ public final class Unichar2OctExpression extends Expression_Value {
 		final StringBuilder builder = super.getFullName(child);
 
 		if (value == child) {
-			return builder.append(OPERAND);
+			return builder.append(OPERAND1);
+		} else if (code_string == child) {
+			return builder.append(OPERAND2);
 		}
 
 		return builder;
@@ -114,7 +135,7 @@ public final class Unichar2OctExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		if (value == null) {
+		if (value == null || code_string != null) {
 			return true;
 		}
 
@@ -144,13 +165,35 @@ public final class Unichar2OctExpression extends Expression_Value {
 		switch (tempType) {
 		case TYPE_UCHARSTRING:
 			//TODO: implement missing part if range check is needed
-			return;
+			break;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
 			break;
 		default:
-			if (!isErroneous) {
+			if (!value.getIsErroneous(timestamp)) {
 				location.reportSemanticError(OPERANDERROR1);
+				setIsErroneous(true);
+			}
+			break;
+		}
+
+		if (code_string == null) {
+			return;
+		}
+
+		code_string.setLoweridToReference(timestamp);
+		final Type_type tempType2 = code_string.getExpressionReturntype(timestamp, expectedValue);
+
+		switch (tempType2) {
+		case TYPE_CHARSTRING:
+			//TODO: implement missing part if range check is needed
+			return;
+		case TYPE_UNDEFINED:
+			setIsErroneous(true);
+			return;
+		default:
+			if (!code_string.getIsErroneous(timestamp)) {
+				location.reportSemanticError(OPERANDERROR2);
 				setIsErroneous(true);
 			}
 			return;
@@ -210,6 +253,12 @@ public final class Unichar2OctExpression extends Expression_Value {
 			value.checkRecursions(timestamp, referenceChain);
 			referenceChain.previousState();
 		}
+
+		if (code_string != null) {
+			referenceChain.markState();
+			code_string.checkRecursions(timestamp, referenceChain);
+			referenceChain.previousState();
+		}
 	}
 
 	@Override
@@ -223,6 +272,11 @@ public final class Unichar2OctExpression extends Expression_Value {
 			value.updateSyntax(reparser, false);
 			reparser.updateLocation(value.getLocation());
 		}
+
+		if (code_string != null) {
+			code_string.updateSyntax(reparser, false);
+			reparser.updateLocation(code_string.getLocation());
+		}
 	}
 
 	@Override
@@ -233,7 +287,11 @@ public final class Unichar2OctExpression extends Expression_Value {
 		}
 
 		value.findReferences(referenceFinder, foundIdentifiers);
-	}
+
+		if (code_string != null) {
+			code_string.findReferences(referenceFinder, foundIdentifiers);
+		}
+ 	}
 
 	@Override
 	/** {@inheritDoc} */
@@ -241,6 +299,11 @@ public final class Unichar2OctExpression extends Expression_Value {
 		if (value != null && !value.accept(v)) {
 			return false;
 		}
+		
+		if (code_string != null && !code_string.accept(v)) {
+			return false;
+		}
+		
 		return true;
 	}
 
@@ -249,6 +312,10 @@ public final class Unichar2OctExpression extends Expression_Value {
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value != null) {
 			value.reArrangeInitCode(aData, source, usageModule);
+		}
+
+		if (code_string != null) {
+			code_string.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 
@@ -259,6 +326,10 @@ public final class Unichar2OctExpression extends Expression_Value {
 
 		expression.expression.append("AdditionalFunctions.unichar2oct(");
 		value.generateCodeExpressionMandatory(aData, expression, true);
+		if (code_string != null) {
+			expression.expression.append(',');
+			code_string.generateCodeExpressionMandatory(aData, expression, true);
+		}
 		expression.expression.append(')');
 	}
 }
