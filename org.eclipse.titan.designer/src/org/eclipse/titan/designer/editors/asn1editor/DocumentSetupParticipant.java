@@ -96,8 +96,6 @@ public final class DocumentSetupParticipant implements IDocumentSetupParticipant
 
 		if (isInitial || !editor.isSemanticCheckingDelayed()) {
 			projectSourceParser.analyzeAll();
-			ProjectConfigurationParser projectConfigurationParser = GlobalParser.getConfigSourceParser(project);
-			projectConfigurationParser.analyzeAll();
 		} else {
 			projectSourceParser.reportSyntacticOutdatingOnly(editedFile);
 			projectSourceParser.analyzeAllOnlySyntactically();

@@ -16,7 +16,6 @@ import org.eclipse.core.resources.WorkspaceJob;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.parsers.GlobalParser;
-import org.eclipse.titan.designer.parsers.ProjectConfigurationParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 
 /**
@@ -72,30 +71,6 @@ public class ProjectHandlingLibrary {
 		}
 
 		LOGGER.info("Semantic analysis finished on: " + project.getName());
-
-		LOGGER.info("Analysis of configuration files started");
-		ProjectConfigurationParser configParser = GlobalParser.getConfigSourceParser(project);
-		job = configParser.analyzeAll();
-
-		for (int i = 0; i < 10 && job == null; ++i) {
-			try {
-				Thread.sleep(500);
-				job = configParser.analyzeAll();
-			} catch (InterruptedException e) {
-				ErrorReporter.logExceptionStackTrace("", e);
-			}
-		}
-		if (job != null) {
-			try {
-				job.join();
-			} catch (InterruptedException e) {
-				ErrorReporter.logExceptionStackTrace("", e);
-			}
-		} else {
-			LOGGER.severe("Couldn't analyze configuration files");
-		}
-
-		LOGGER.info("Analysis of configuration files finished");
 
 		try {
 			Thread.sleep(5000); // Wait for the markers to show up

@@ -24,6 +24,7 @@ import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.designer.editors.GlobalIntervalHandler;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectConfigurationParser;
+import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 
@@ -90,7 +91,9 @@ public final class ReconcilingStrategy implements IReconcilingStrategy, IReconci
 
 		ProjectConfigurationParser projectConfigurationParser = GlobalParser.getConfigSourceParser(project);
 		projectConfigurationParser.reportOutdating(file);
-		projectConfigurationParser.analyzeAll();
+
+		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+		projectSourceParser.analyzeAll(); 
 	}
 
 	@Override
