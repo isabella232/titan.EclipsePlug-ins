@@ -178,7 +178,7 @@ public final class GlobalParser {
 		}
 
 		for (ProjectConfigurationParser parser : CFG_PARSERS.values()) {
-			WorkspaceJob job = parser.analyzeAll();
+			WorkspaceJob job = parser.doSyntaticalAnalyze();
 
 			if (job != null) {
 				try {

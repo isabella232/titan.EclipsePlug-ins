@@ -43,31 +43,13 @@ public class ProjectHandlingLibrary {
 				ErrorReporter.logExceptionStackTrace(e);
 			}
 		}
-		
+
 		try {
 			job.join();
 		} catch (InterruptedException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
-		
-		ProjectConfigurationParser configParser = GlobalParser.getConfigSourceParser(project);
-		job = configParser.analyzeAll();
-		
-		while (job == null) {
-			try {
-				Thread.sleep(500);
-				job = configParser.analyzeAll();
-			} catch (InterruptedException e) {
-				ErrorReporter.logExceptionStackTrace(e);
-			}
-		}
-		
-		try {
-			job.join();
-		} catch (InterruptedException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-		}
-		
+
 		AnalyzerCache.withPreference().analyzeProject(new NullProgressMonitor(), project).showAll(project);
 		
 		try {
