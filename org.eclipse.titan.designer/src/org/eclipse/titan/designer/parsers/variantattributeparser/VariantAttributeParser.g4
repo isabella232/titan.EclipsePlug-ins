@@ -292,9 +292,14 @@ pr_XExtensionBitGroupDef:
 };
 
 pr_XLengthToDef:
-(	LENGTHTOKeyword LPAREN pr_XRecordFieldRefList RPAREN
-|	LENGTHTOKeyword LPAREN pr_XRecordFieldRefList PLUS n1 = NUMBER RPAREN {rawstruct.lengthto_offset = Integer.valueOf($n1.getText()).intValue();}
-|	LENGTHTOKeyword LPAREN pr_XRecordFieldRefList MINUS n2 = NUMBER RPAREN {rawstruct.lengthto_offset = (-1) * Integer.valueOf($n2.getText()).intValue();}
+(	LENGTHTOKeyword
+	LPAREN
+	pr_XRecordFieldRefList
+	(
+	|	PLUS n1 = NUMBER	{rawstruct.lengthto_offset = Integer.valueOf($n1.getText()).intValue();}
+	|	MINUS n2 = NUMBER	{rawstruct.lengthto_offset = (-1) * Integer.valueOf($n2.getText()).intValue();}
+	)
+	RPAREN
 );
 
 pr_XPointerToDef returns [Identifier identifier]:
@@ -413,11 +418,15 @@ pr_XFieldLengthDef returns [int multiplier]:
 };
 
 pr_XPtrOffsetDef:
-( PTROFFSETKeyword LPAREN NUMBER RPAREN		{rawstruct.ptroffset =Integer.valueOf($NUMBER.getText()).intValue();}
-| PTROFFSETKeyword LPAREN IDENTIFIER RPAREN	{final String text = $IDENTIFIER.text;
-		if ( text != null) {
-			rawstruct.ptrbase = new Identifier( Identifier_type.ID_TTCN, text, getLocation( $IDENTIFIER ) );
-		};}
+(	PTROFFSETKeyword
+	LPAREN
+	(	NUMBER		{rawstruct.ptroffset = Integer.valueOf($NUMBER.getText()).intValue();}
+	|	IDENTIFIER	{final String text = $IDENTIFIER.text;
+				if ( text != null) {
+					rawstruct.ptrbase = new Identifier( Identifier_type.ID_TTCN, text, getLocation( $IDENTIFIER ) );
+				};}
+	)
+	RPAREN
 );
 
 
@@ -1017,8 +1026,10 @@ pr_Default: DEFAULTKeyword pr_JsonValue;
 pr_Extend: EXTENDKeyword pr_JsonValue COLON pr_JsonValue;
 
 pr_JsonValue:
-(	JSONValueStart pr_JsonValueCore JSONValueEnd
-|	JSONValueStart JSONValueEnd
+(	JSONValueStart
+	(	pr_JsonValueCore
+	)?
+	JSONValueEnd
 );
 
 pr_JsonValueCore:
