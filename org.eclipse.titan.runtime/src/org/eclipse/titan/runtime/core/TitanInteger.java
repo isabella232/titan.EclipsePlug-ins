@@ -1169,9 +1169,9 @@ public class TitanInteger extends Base_Type {
 		cp.hexorder = raw_order_t.ORDER_LSB;
 		int decode_length = 0;
 		int len_bits = 0; // only for IntX (amount of bits used to store the length)
-		char[] len_data = new char[1]; // only for IntX (an octet used to store the length)
-		len_data[0] = 0;
+		char len_data = 0; // only for IntX (an octet used to store the length)
 		int partial_octet_bits = 0; // only for IntX (amount of value bits in the partial octet)
+		char[] tmp_len_data = new char[1];
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			// extract the length
 			do {
@@ -1181,8 +1181,7 @@ public class TitanInteger extends Base_Type {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
 					}
 					return -error_type.ET_LEN_ERR.ordinal(); 
-				}
-				else {
+				} else {
 					limit -= 8;
 				}
 				int nof_unread_bits = buff.unread_len_bit();
@@ -1192,13 +1191,14 @@ public class TitanInteger extends Base_Type {
 					}
 					return -error_type.ET_INCOMPL_MSG.ordinal();
 				}
-
+				
 				// extract the next length octet (or partial length octet)
-				buff.get_b(8, len_data, cp, top_bit_ord);
+				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
 				int mask = 0x80;
+				len_data += tmp_len_data[0];
 				do {
 					++len_bits;
-					if ((len_data[0] & mask) != 0) {
+					if ((tmp_len_data[0] & mask) != 0) {
 						mask >>= 1;
 					}
 					else {
@@ -1215,7 +1215,8 @@ public class TitanInteger extends Base_Type {
 				while (len_bits % 8 != 0);
 			}
 			while (decode_length == 0 && partial_octet_bits == 0);
-		} else {
+		}
+		else {
 			// not IntX, use the static field length
 			decode_length = p_td.raw.fieldlength;
 		}
@@ -1254,7 +1255,12 @@ public class TitanInteger extends Base_Type {
 			if (partial_octet_bits != 0) {
 				// in case there are value bits in the last length octet (only for IntX),
 				// these need to be appended to the extracted data
-				data[decode_length / 8] = len_data[0];
+				data[decode_length / 8] = len_data;
+				char[] data_tmp = new char[data.length];
+				for (int i = 0; i < data_tmp.length; i++) {
+					data_tmp[i] = data[data.length - i - 1];
+				}
+				data = data_tmp;
 				decode_length += partial_octet_bits;
 			}
 			int end_pos = decode_length;
@@ -1283,10 +1289,10 @@ public class TitanInteger extends Base_Type {
 				idx = (end_pos - 1) / 8;
 				tmp <<= (end_pos - 1) % 8 + 1;
 				tmp |= data[idx--] & RAW.BitMaskTable[(end_pos - 1) % 8 + 1];
-				if (decode_length >  8 - 1) {
+				if (decode_length >  32 - 1) {
 					BigInteger D = BigInteger.valueOf(tmp);
 					int pad = tmp == 0 ? 1 : 0;
-					for (; idx >= 0; idx--) {
+					for (; idx > 0; idx--) {
 						if (pad != 0 && data[idx] != 0) {
 							D = BigInteger.valueOf(data[idx] & 0xff);
 							pad = 0;
@@ -1305,7 +1311,6 @@ public class TitanInteger extends Base_Type {
 					} else if (negativ_num) {
 						D = D.negate();
 					}
-					//TODO: maybe D.bitCount()
 					if(D.bitLength() > 31) {
 						nativeFlag = false;
 						openSSL = D;
