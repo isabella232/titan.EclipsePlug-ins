@@ -108,8 +108,6 @@ public class RawAST {
 	public boolean intX; //IntX encoding for integers
 	public CharString_Type.CharCoding stringformat; //String serialization type for universal charstrings
 
-	//FIXME add rest of the fields
-
 	// disabled constructor
 	private RawAST() {
 		init_rawast(0);
