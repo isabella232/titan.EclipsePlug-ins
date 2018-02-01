@@ -88,6 +88,7 @@ public final class CliExecutor extends BaseExecutor {
 	private boolean executingConfigFile = false;
 
 	private ConfigFileHandler configHandler;
+	private int consoleTimeStampLength = 0;
 	//private File temporalConfigFile;
 
 	// ^ beginning of line
@@ -102,11 +103,13 @@ public final class CliExecutor extends BaseExecutor {
 	private final Matcher reasonMatcher = REASON_PATTERN.matcher("");
 
 	// MC output matchers
-	private static final Pattern SUCCESSFUL_STARTUP_PATTERN = Pattern.compile(".*?(\\w+)@(.+): Listening on TCP port (\\d+).");
+	private static final Pattern SUCCESSFUL_STARTUP_PATTERN = Pattern.compile("(.*?)(\\w+)@(.+): Listening on TCP port (\\d+).");
 	private final Matcher successfulStartUpMatcher = SUCCESSFUL_STARTUP_PATTERN.matcher("");
 
-	private static final Pattern FULL_SUCCESSFUL_STARTUP_PATTERN = Pattern.compile(".*?(\\w+)@(.+): Listening on IP address (.+) and TCP port (\\d+).");
+	private static final Pattern FULL_SUCCESSFUL_STARTUP_PATTERN = Pattern.compile("(.*?)(\\w+)@(.+): Listening on IP address (.+) and TCP port (\\d+).");
 	private final Matcher fullSuccessfulStartUpMatcher = FULL_SUCCESSFUL_STARTUP_PATTERN.matcher("");
+	
+	private static final Pattern COMPONENT_LOG_PATTERN = Pattern.compile("(.*?)(\\w+)@(.+): (.*)$");
 
 	private static final Pattern HC_CONNECTED_PATTERN = Pattern.compile(" New HC connected from (.+)");
 	private final Matcher hcConnectedMatcher = HC_CONNECTED_PATTERN.matcher("");
@@ -851,16 +854,24 @@ public final class CliExecutor extends BaseExecutor {
 				Matcher m = SUCCESSFUL_STARTUP_PATTERN.matcher(line);
 				if (m.matches()) {
 					started = true;
-					mcHost = m.group(2);
-					mcPort = m.group(3);
+					consoleTimeStampLength = m.group(1).length();
+					mcHost = m.group(3);
+					mcPort = m.group(4);
 					suspectedLastState = JniExecutor.MC_LISTENING;
+					if ( consoleTimeStampLength < line.length() ){
+						line = line.substring(consoleTimeStampLength);
+					}
 				} else {
 					m = FULL_SUCCESSFUL_STARTUP_PATTERN.matcher(line);
 					if (m.matches()) {
 						started = true;
-						mcHost = m.group(3);
-						mcPort = m.group(4);
+						consoleTimeStampLength = m.group(1).length();
+						mcHost = m.group(4);
+						mcPort = m.group(5);
 						suspectedLastState = JniExecutor.MC_LISTENING;
+						if ( consoleTimeStampLength < line.length() ){
+							line = line.substring(consoleTimeStampLength);
+						}
 					} else {
 						m = ERROR_STARTUP_PATTERN.matcher(line);
 						if (m.matches()) {
@@ -868,6 +879,7 @@ public final class CliExecutor extends BaseExecutor {
 							suspectedLastState = JniExecutor.MC_LISTENING;
 						} else {
 							line = stdout.readLine();
+							continue;
 						}
 					}
 				}
@@ -927,10 +939,14 @@ public final class CliExecutor extends BaseExecutor {
 				if (Activator.getMainView() != null) {
 					Activator.getMainView().refreshAll();
 				}
-			} else if (fastLine.startsWith("MTC@")) {
+			} else if (	consoleTimeStampLength < fastLine.length() && 
+					fastLine.substring(consoleTimeStampLength).startsWith("MTC@")) {
+				fastLine = fastLine.substring(consoleTimeStampLength);
 				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
 				testExecution();
-			} else if (fastLine.startsWith("MC@")) {
+			} else if (	consoleTimeStampLength < fastLine.length() && 
+					fastLine.substring(consoleTimeStampLength).startsWith("MC@")) {
+				fastLine = fastLine.substring(consoleTimeStampLength);
 				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
 				int index = fastLine.indexOf(':');
 				String shortversion = fastLine.substring(index + 1);
@@ -972,7 +988,17 @@ public final class CliExecutor extends BaseExecutor {
 					mcPort = fullSuccessfulStartUpMatcher.group(2);
 					suspectedLastState = JniExecutor.MC_LISTENING;
 				}
+			} else if (	consoleTimeStampLength < fastLine.length() && fastLine.substring(consoleTimeStampLength).startsWith("HC@")) {
+				fastLine = fastLine.substring(consoleTimeStampLength);
+				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
 			} else {
+				//to avoid expensive steps and using cheap comparisons instead, if possible:
+				if ( consoleTimeStampLength > 0 && consoleTimeStampLength < fastLine.length() ) {
+					Matcher m =  COMPONENT_LOG_PATTERN.matcher(fastLine);
+					if ( m.matches()) {
+						fastLine = fastLine.substring(consoleTimeStampLength);
+					}
+				}
 				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
 			}
 			builder.delete(0, fastOffset);
