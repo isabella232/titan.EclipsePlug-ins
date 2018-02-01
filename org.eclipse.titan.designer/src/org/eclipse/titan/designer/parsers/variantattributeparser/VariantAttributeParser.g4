@@ -82,7 +82,7 @@ tokenVocab=VariantAttributeLexer;
 }
 
 pr_AttribSpec:
-(
+(	/* empty */
 |	pr_XEncodingDefList
 |	pr_XERAttributes
 |	pr_XBERAttributes
@@ -380,7 +380,7 @@ pr_XMultiKeyId returns [RawAST.rawAST_single_tag singleTag]:
 				$singleTag.fieldName = null;
 				$singleTag.keyList = new ArrayList<RawAST.rawAST_tag_field_value>();
 				$singleTag.keyList.add($key1.tagFieldValue);
-		}}
+				}}
 	(	COMMA
 		key2 = pr_XKeyId	{ if ($key2.tagFieldValue != null) {$singleTag.keyList.add($key2.tagFieldValue);}}
 	)*
@@ -723,13 +723,13 @@ pr_XCodingDef:
 );
 
 pr_XCodingRule:
-(
+(	/* empty */
 |	pr_XAttrListEnc
 |	pr_XTokenDefList
 );
 
 pr_XDecodingRule:
-(
+(	/* empty */
 |	pr_XAttrList
 |	pr_XDecodingTokenDefList
 );
@@ -823,7 +823,7 @@ pr_XMatchDef:
 )?;
 
 pr_XModifierDef:
-(
+(	/* empty */
 |	SENSITIVEToken
 |	INSENSITIVEToken
 );
@@ -864,7 +864,7 @@ pr_anyAttributes: ANYATTRIBUTESKeyword pr_optNameSpaceRestriction;
 pr_anyElement: ANYELEMENTKeyword pr_optNameSpaceRestriction;
 
 pr_optNameSpaceRestriction:
-(
+(	/* empty */
 |	FROMKeyword pr_urilist
 |	EXCEPTKeyword pr_urilist
 );
@@ -904,13 +904,13 @@ pr_namespace: NAMESPACEKeyword pr_namespaceSpefication;
 pr_namespaceSpefication: ASKeyword XSTRING pr_optPrefix;
 
 pr_optPrefix:
-(
+(	/* empty */
 |	PREFIXKeyword XSTRING
 );
 
 pr_text:
 (	TEXTKeyword
-	(
+	(	/* empty */
 	|	XSTRING ASKeyword pr_newNameOrKeyword
 	|	ALLKeyword ASKeyword pr_newNameOrKeyword
 	)
