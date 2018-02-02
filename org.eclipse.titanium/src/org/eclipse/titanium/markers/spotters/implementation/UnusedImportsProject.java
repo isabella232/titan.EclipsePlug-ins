@@ -42,7 +42,7 @@ public class UnusedImportsProject extends BaseProjectCodeSmellSpotter{
 
 	@Override
 	protected void process(final IProject project, final Problems problems) {
-		TITANDebugConsole.print("Unused import");
+		TITANDebugConsole.println("Unused import");
 
 		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 		final Set<String> knownModuleNames = projectSourceParser.getKnownModuleNames();
