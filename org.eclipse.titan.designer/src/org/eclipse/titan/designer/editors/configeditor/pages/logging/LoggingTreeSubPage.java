@@ -441,6 +441,10 @@ public final class LoggingTreeSubPage {
 			logentry.setTimestampFormat(null);
 			ConfigTreeNodeUtilities.removeChild( lastSectionRoot, logentry.getTimestampFormatRoot() );
 		}
+		if (logentry.getConsoleTimestampFormat() != null && logentry.getConsoleTimestampFormatRoot() != null) {
+			logentry.setConsoleTimestampFormat(null);
+			ConfigTreeNodeUtilities.removeChild( lastSectionRoot, logentry.getConsoleTimestampFormatRoot() );
+		}
 		Iterator<PluginSpecificParam> pspit = logentry.getPluginSpecificParam().iterator();
 		while (pspit.hasNext()) {
 			PluginSpecificParam psp = pspit.next();
