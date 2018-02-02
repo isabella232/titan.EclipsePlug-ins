@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
  * */
 public class RawAST {
 	public static class rawAST_toplevel {
-		public int bitorder;
+		public int bitorder; /* Invert bitorder of the encoded data */
 	}
 
 	public static class rawAST_ext_bit_group {
@@ -30,7 +30,6 @@ public class RawAST {
 		public Identifier to;
 	}
 
-	// TODO there is no point in single field classes
 	public static class rawAST_field_list {
 		public ArrayList<Identifier> names;
 	}
@@ -46,9 +45,11 @@ public class RawAST {
 		public ArrayList<rawAST_tag_field_value> keyList;
 	}
 
-	public static class rawAST_tag_list {
-		public ArrayList<rawAST_single_tag> tag;
-	}
+	// rawAST_tag_list is needed in the compiler to store the pointer list head and size together
+	// not needed in the Designer
+//	public static class rawAST_tag_list {
+//		public ArrayList<rawAST_single_tag> tag;
+//	}
 
 	//Logic kept to be in-line with the compiler side
 	public static final int XDEFUNSIGNED = 1;
@@ -98,8 +99,8 @@ public class RawAST {
 	public int unit; //XDEFOCTETS, XDEFBITS
 	public rawAST_field_list lengthindex; // stores subattribute of the lengthto attribute
 	// field IDs in form of [unionField.sub]field_N, keyField.subfield_M = tagValue multiple tagValues may be specified
-	public rawAST_tag_list crosstaglist = new rawAST_tag_list();
-	public rawAST_tag_list taglist = new rawAST_tag_list();
+	public ArrayList<rawAST_single_tag> crosstaglist;
+	public ArrayList<rawAST_single_tag> taglist;
 	
 	public rawAST_single_tag presence = new rawAST_single_tag(); // Presence indicator expressions for an optional field
 	public int toplevelind;
@@ -147,8 +148,8 @@ public class RawAST {
 			ptrbase = null;
 			unit = other.unit;
 			lengthindex = null;
-			crosstaglist = new rawAST_tag_list();
-			taglist = new rawAST_tag_list();
+			crosstaglist = null;
+			taglist = null;
 			presence = new rawAST_single_tag();
 			toplevelind = other.toplevelind;
 			toplevel.bitorder = other.toplevel.bitorder;
@@ -182,8 +183,8 @@ public class RawAST {
 		ptrbase = null;
 		unit = 8;
 		lengthindex = null;
-		crosstaglist = new rawAST_tag_list();
-		taglist = new rawAST_tag_list();
+		crosstaglist = null;
+		taglist = null;
 		presence = new rawAST_single_tag();
 		toplevelind = 0;
 		toplevel.bitorder = XDEFDEFAULT;

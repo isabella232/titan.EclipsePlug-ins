@@ -338,13 +338,12 @@ pr_XCrossTagDef:
 	RPAREN
 );
 
-pr_XAssocList returns [RawAST.rawAST_tag_list taglist]:
-(	element1 = pr_XAssocElement	{$taglist = new RawAST.rawAST_tag_list();
-					$taglist.tag = new ArrayList<RawAST.rawAST_single_tag>();
-					$taglist.tag.add($element1.singleTag);}
+pr_XAssocList returns [ArrayList<RawAST.rawAST_single_tag> taglist]:
+(	element1 = pr_XAssocElement	{$taglist = new ArrayList<RawAST.rawAST_single_tag>();
+					$taglist.add($element1.singleTag);}
 	(	SEMICOLON
 		element2 = pr_XAssocElement {//FIXME check for duplication
-					$taglist.tag.add($element2.singleTag);}
+					$taglist.add($element2.singleTag);}
 	)*
 );
 
