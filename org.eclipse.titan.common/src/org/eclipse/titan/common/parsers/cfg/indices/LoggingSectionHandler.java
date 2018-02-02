@@ -100,6 +100,8 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 		private ParseTree appendFileRoot = null;
 		private ParseTree timestampFormat = null;
 		private ParseTree timestampFormatRoot = null;
+		private ParseTree consoleTimestampFormat = null;
+		private ParseTree consoleTimestampFormatRoot = null;
 		private ParseTree logeventTypes = null;
 		private ParseTree logeventTypesRoot = null;
 		private ParseTree sourceInfoFormat = null;
@@ -178,6 +180,22 @@ public final class LoggingSectionHandler extends ConfigSectionHandlerBase {
 
 		public void setTimestampFormatRoot(final ParseTree timestampFormatRoot) {
 			this.timestampFormatRoot = timestampFormatRoot;
+		}
+		
+		public ParseTree getConsoleTimestampFormat() {
+			return consoleTimestampFormat;
+		}
+
+		public void setConsoleTimestampFormat(final ParseTree timestampFormat) {
+			this.consoleTimestampFormat = timestampFormat;
+		}
+
+		public ParseTree getConsoleTimestampFormatRoot() {
+			return consoleTimestampFormatRoot;
+		}
+
+		public void setConsoleTimestampFormatRoot(final ParseTree timestampFormatRoot) {
+			this.consoleTimestampFormatRoot = timestampFormatRoot;
 		}
 
 		public ParseTree getLogeventTypes() {

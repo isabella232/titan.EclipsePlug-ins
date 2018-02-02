@@ -50,6 +50,7 @@ public final class GeneralOptionsSubPage {
 
 	private Text logFileText;
 	private CCombo timeStampFormat;
+	private CCombo consoleTimeStampFormat;
 	private CCombo sourceInfoFormat;
 	private CCombo appendFile;
 	private CCombo logEventTypes;
@@ -181,6 +182,47 @@ public final class GeneralOptionsSubPage {
 		if (selectedLogEntry != null && selectedLogEntry.getTimestampFormat() != null) {
 			String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getTimestampFormat()).trim();
 			timeStampFormat.setText(temp);
+		}
+
+		toolkit.createLabel(generalOptions, "ConsoleTimeStampFormat:");
+		consoleTimeStampFormat = new CCombo(generalOptions, SWT.FLAT);
+		consoleTimeStampFormat.setEnabled(false);
+		consoleTimeStampFormat.setLayoutData(new GridData(100, SWT.DEFAULT));
+		consoleTimeStampFormat.add("Time");
+		consoleTimeStampFormat.add("DateTime");
+		consoleTimeStampFormat.add("Seconds");
+		consoleTimeStampFormat.addModifyListener(new ModifyListener() {
+			@Override
+			public void modifyText(final ModifyEvent e) {
+				if (valueChanged || loggingSectionHandler == null) {
+					return;
+				}
+
+				editor.setDirty();
+
+				String temp = consoleTimeStampFormat.getText();
+				if (temp == null || temp.length() == 0) {
+					// remove the node
+					if (selectedLogEntry.getConsoleTimestampFormatRoot() != null) {
+						ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), selectedLogEntry
+								.getConsoleTimestampFormatRoot());
+					}
+					selectedLogEntry.setConsoleTimestampFormat(null);
+					selectedLogEntry.setConsoleTimestampFormatRoot(null);
+
+					// loggingPage.removeLoggingSection();
+				} else if (selectedLogEntry.getConsoleTimestampFormat() == null) {
+					// create the node
+					createConsoleTimeStampFormatNode(loggingPage.getSelectedTreeElement(), selectedLogEntry, temp.trim());
+				} else {
+					// simple modification
+					ConfigTreeNodeUtilities.setText( selectedLogEntry.getConsoleTimestampFormat(), temp.trim() );
+				}
+			}
+		});
+		if (selectedLogEntry != null && selectedLogEntry.getConsoleTimestampFormat() != null) {
+			String temp = ConfigTreeNodeUtilities.toString(selectedLogEntry.getConsoleTimestampFormat()).trim();
+			consoleTimeStampFormat.setText(temp);
 		}
 
 		toolkit.createLabel(generalOptions, "SourceInfoFormat:");
@@ -665,6 +707,12 @@ public final class GeneralOptionsSubPage {
 		createNode( lte, logentry, value, "TimeStampFormat", logentry.getTimestampFormatRoot(), logentry.getTimestampFormat() );
 	}
 
+	private void createConsoleTimeStampFormatNode(final LoggingSectionHandler.LoggerTreeElement lte, final LogParamEntry logentry, final String value) {
+		logentry.setConsoleTimestampFormatRoot( new ParserRuleContext() );
+		logentry.setConsoleTimestampFormat( new AddedParseTree( value ) );
+		createNode( lte, logentry, value, "ConsoleTimeStampFormat", logentry.getConsoleTimestampFormatRoot(), logentry.getConsoleTimestampFormat() );
+	}
+
 	private void createSourceInfoFormatNode(final LoggingSectionHandler.LoggerTreeElement lte, final LogParamEntry logentry, final String value) {
 		logentry.setSourceInfoFormatRoot( new ParserRuleContext() );
 		logentry.setSourceInfoFormat( new AddedParseTree( value ) );
@@ -737,6 +785,7 @@ public final class GeneralOptionsSubPage {
 		if (selectedLogEntry == null) {
 			logFileText.setEnabled(false);
 			timeStampFormat.setEnabled(false);
+			consoleTimeStampFormat.setEnabled(false);
 			sourceInfoFormat.setEnabled(false);
 			appendFile.setEnabled(false);
 			logEventTypes.setEnabled(false);
@@ -776,6 +825,15 @@ public final class GeneralOptionsSubPage {
 				timeStampFormat.setText(ConfigTreeNodeUtilities.toString(selectedLogEntry.getTimestampFormat()).trim());
 			}
 			timeStampFormat.setEnabled(true);
+		}
+		
+		if (consoleTimeStampFormat != null) {
+			if (selectedLogEntry.getConsoleTimestampFormat() == null) {
+				consoleTimeStampFormat.setText("");
+			} else {
+				consoleTimeStampFormat.setText(ConfigTreeNodeUtilities.toString(selectedLogEntry.getConsoleTimestampFormat()).trim());
+			}
+			consoleTimeStampFormat.setEnabled(true);
 		}
 
 		if (sourceInfoFormat != null) {
@@ -865,6 +923,7 @@ public final class GeneralOptionsSubPage {
 
 		createLogFileNode(lte, logentry, "\"%e.%h-%r-part%i.%s\"");
 		createTimeStampFormatNode(lte, logentry, "Time");
+		createConsoleTimeStampFormatNode(lte, logentry, "None");
 		createSourceInfoFormatNode(lte, logentry, "None");
 		createAppendFileNode(lte, logentry, "No");
 		createLogEventTypesNode(lte, logentry, "No");
@@ -886,6 +945,10 @@ public final class GeneralOptionsSubPage {
 		if (selectedLogEntry.getTimestampFormatRoot() != null) {
 			ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), selectedLogEntry.getTimestampFormatRoot());
 			createTimeStampFormatNode(lte, selectedLogEntry, timeStampFormat.getText().trim());
+		}
+		if (selectedLogEntry.getConsoleTimestampFormatRoot() != null) {
+			ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), selectedLogEntry.getConsoleTimestampFormatRoot());
+			createConsoleTimeStampFormatNode(lte, selectedLogEntry, consoleTimeStampFormat.getText().trim());
 		}
 		if (selectedLogEntry.getSourceInfoFormatRoot() != null) {
 			ConfigTreeNodeUtilities.removeChild(loggingSectionHandler.getLastSectionRoot(), selectedLogEntry

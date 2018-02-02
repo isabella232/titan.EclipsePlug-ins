@@ -841,9 +841,13 @@ pr_PlainLoggingParam
 		logParamEntry.setLogFileRoot( $ctx );
 		logParamEntry.setLogFile( $f.ctx );
 	}
-|	(TIMESTAMPFORMAT | CONSOLETIMESTAMPFORMAT) ASSIGNMENTCHAR11 ttv = pr_TimeStampValue
+|	TIMESTAMPFORMAT ASSIGNMENTCHAR11 ttv = pr_TimeStampValue
 	{	logParamEntry.setTimestampFormatRoot( $ctx );
 		logParamEntry.setTimestampFormat( $ttv.ctx );
+	}
+|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR11 ttv = pr_TimeStampValue
+	{	logParamEntry.setConsoleTimestampFormatRoot( $ctx );
+		logParamEntry.setConsoleTimestampFormat( $ttv.ctx );
 	}
 |	SOURCEINFOFORMAT ASSIGNMENTCHAR11
 	(	siv1 = pr_SourceInfoValue
