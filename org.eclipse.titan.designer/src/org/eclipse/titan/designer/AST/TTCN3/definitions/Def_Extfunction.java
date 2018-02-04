@@ -938,7 +938,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 		String resultName;
 		if (prototype == EncodingPrototype_type.CONVERT) {
-			source.append( "TitanInteger ret_val = new TitanInteger();\n" );
+			source.append( MessageFormat.format("{0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )) );
 			resultName = "ret_val";
 		} else {
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
