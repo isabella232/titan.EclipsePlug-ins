@@ -1285,7 +1285,6 @@ public class TitanInteger extends Base_Type {
 				break;
 			}
 			if (end_pos < 9) {
-				
 				tmp <<= end_pos;
 				tmp |= data[0] & RAW.BitMaskTable[end_pos];
 			} else {
@@ -1324,10 +1323,10 @@ public class TitanInteger extends Base_Type {
 					boundFlag = true;
 					return decode_length + prepaddlength + len_bits;
 				} else {
-			        for (; idx >= 0; idx--) {
-			            tmp <<= 8;
-			            tmp |= data[idx] & 0xff;
-			          }
+					for (; idx >= 0; idx--) {
+						tmp <<= 8;
+						tmp |= data[idx] & 0xff;
+					}
 				}
 			}
 			nativeFlag = true;
