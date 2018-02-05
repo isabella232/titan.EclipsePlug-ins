@@ -598,7 +598,7 @@ public class TTCN_Buffer {
 							}
 						}
 					} else {
-						System.arraycopy(s, 0, s, loc_align/8, (len+7)/8);
+						System.arraycopy(s, 0, st, loc_align/8, (len+7)/8);
 					}
 				}
 				s=st;
