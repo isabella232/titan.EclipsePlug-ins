@@ -10,8 +10,11 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
@@ -731,6 +734,58 @@ public class TitanBitString extends Base_Type {
 	public int getNBits() {
 		return n_bits;
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW:
+			TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+
+			errorContext.leaveContext();
+			break;
+
+		default:
+			throw new TtcnError("encoding of bitstrings is not yet completely implemented!");
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW:
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			raw_order_t order;
+			switch (p_td.raw.top_bit_order) {
+			case TOP_BIT_LEFT:
+				order=raw_order_t.ORDER_LSB;
+				break;
+			case TOP_BIT_RIGHT:
+			default:
+				order = raw_order_t.ORDER_MSB;
+			}
+		    if(RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+		    	TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+		    }
+		    
+		    errorContext.leaveContext();
+			break;
+			
+		default:
+			throw new TtcnError("decoding of bitstrings is not yet completely implemented!");
+		}
+	}
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		if (!isBound()) {
@@ -776,6 +831,10 @@ public class TitanBitString extends Base_Type {
 		}
 		return myleaf.length = bl + align_length;
 	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord) {
+		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
+	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
@@ -791,7 +850,7 @@ public class TitanBitString extends Base_Type {
 		}
 		cleanUp();
 		n_bits = decode_length;
-		bits_ptr = new int[decode_length];
+		bits_ptr = new int[(decode_length + 7) / 8];
 		RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
@@ -812,10 +871,10 @@ public class TitanBitString extends Base_Type {
 		cp.fieldorder = p_td.raw.fieldorder;
 		cp.hexorder = raw_order_t.ORDER_LSB;
 		char[] tmp_bits = new char[bits_ptr.length];
-		for (int i = 0; i < tmp_bits.length; i++) {
-			tmp_bits[i] = (char) bits_ptr[i];
-		}
 		buff.get_b(decode_length, tmp_bits, cp, top_bit_ord);
+		for (int i = 0; i < tmp_bits.length; i++) {
+			bits_ptr[i] = (int) tmp_bits[i] ;
+		}
 		if (p_td.raw.length_restrition != -1
 				&& decode_length > p_td.raw.length_restrition) {
 			n_bits = p_td.raw.length_restrition;
@@ -825,9 +884,9 @@ public class TitanBitString extends Base_Type {
 					int maxindex = (decode_length - 1) / 8;
 					for (int a = 0, b = (decode_length - n_bits - 1) / 8; a < (n_bits + 7) / 8; a++, b++) {
 						bits_ptr[a] = bits_ptr[b] >> bound;
-						if (b < maxindex) {
-							bits_ptr[a] = bits_ptr[b + 1] << (8 - bound);
-						}
+					if (b < maxindex) {
+						bits_ptr[a] = bits_ptr[b + 1] << (8 - bound);
+					}
 					}
 				} else {
 					System.arraycopy(bits_ptr, (decode_length - n_bits) / 8, bits_ptr, 0, n_bits / 8);

@@ -1195,7 +1195,9 @@ public class TitanInteger extends Base_Type {
 				// extract the next length octet (or partial length octet)
 				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
 				int mask = 0x80;
-				len_data += tmp_len_data[0];
+				if(tmp_len_data[0] != 0) {
+					len_data = tmp_len_data[0];
+				}
 				do {
 					++len_bits;
 					if ((tmp_len_data[0] & mask) != 0) {
@@ -1283,6 +1285,7 @@ public class TitanInteger extends Base_Type {
 				break;
 			}
 			if (end_pos < 9) {
+				
 				tmp <<= end_pos;
 				tmp |= data[0] & RAW.BitMaskTable[end_pos];
 			} else {
@@ -1292,11 +1295,10 @@ public class TitanInteger extends Base_Type {
 				if (decode_length >  32 - 1) {
 					BigInteger D = BigInteger.valueOf(tmp);
 					int pad = tmp == 0 ? 1 : 0;
-					for (; idx > 0; idx--) {
+					for (; idx >= 0; idx--) {
 						if (pad != 0 && data[idx] != 0) {
 							D = BigInteger.valueOf(data[idx] & 0xff);
 							pad = 0;
-							//TODO: need to check
 							continue;
 						}
 						if(pad != 0) {
