@@ -10,7 +10,6 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
-import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -734,7 +733,7 @@ public class TitanBitString extends Base_Type {
 	public int getNBits() {
 		return n_bits;
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -756,7 +755,7 @@ public class TitanBitString extends Base_Type {
 			throw new TtcnError("encoding of bitstrings is not yet completely implemented!");
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -775,13 +774,13 @@ public class TitanBitString extends Base_Type {
 			default:
 				order = raw_order_t.ORDER_MSB;
 			}
-		    if(RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-		    	TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
-		    }
-		    
-		    errorContext.leaveContext();
+			if(RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+			}
+
+			errorContext.leaveContext();
 			break;
-			
+
 		default:
 			throw new TtcnError("decoding of bitstrings is not yet completely implemented!");
 		}
@@ -831,7 +830,7 @@ public class TitanBitString extends Base_Type {
 		}
 		return myleaf.length = bl + align_length;
 	}
-	
+
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord) {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
 	}
