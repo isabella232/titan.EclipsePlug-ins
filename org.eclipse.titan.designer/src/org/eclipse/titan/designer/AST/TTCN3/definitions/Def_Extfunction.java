@@ -872,7 +872,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		case CONVERT:
 			resultName = "ret_val";
 			// creating a local variable for the result stream
-			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", returnType.getGenNameValue( aData, source, getMyScope() )));
+			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )));
 			break;
 		case FAST:
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
@@ -883,7 +883,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		}
 
 		// taking the result from the buffer and producing debug printout
-		if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+		if (outputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 			source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
 			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
 			source.append( MessageFormat.format("{0} = AdditionalFunctions.oct2bit(tmp_os);\n", resultName));
