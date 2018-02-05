@@ -106,7 +106,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	private OpenSourceAction silentOpenSource;
 	private IMemento memento;
 	private boolean problemDuringRestore = false;
-	private Integer restoredSelection;
+	private int restoredSelection;
 	private IAction filterAction;
 	private FilterPattern filterPattern;
 
@@ -173,6 +173,8 @@ public class MSCView extends ViewPart implements ILogViewerView {
 			// Store current selection
 			if (this.mscWidget.getFrame() != null) {
 				viewAttributes.putInteger("rowSelection", this.mscWidget.getFrame().getSelectedLine()); //$NON-NLS-1$
+			} else {
+				viewAttributes.putInteger("rowSelection", 0); //$NON-NLS-1$
 			}
 
 		} catch (Exception e) {
@@ -266,7 +268,12 @@ public class MSCView extends ViewPart implements ILogViewerView {
 
 
 							// Restore selection
-							this.restoredSelection = viewAttributes.getInteger("rowSelection"); //$NON-NLS-1$
+							final Integer temp = viewAttributes.getInteger("rowSelection"); //$NON-NLS-1$
+							if (temp == null) {
+								this.restoredSelection = 0;
+							} else {
+								this.restoredSelection = temp.intValue();
+							}
 
 							this.problemDuringRestore = false;
 						}
