@@ -13,6 +13,7 @@ import java.util.Set;
 import org.eclipse.titan.designer.AST.Type.CompatibilityLevel;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
@@ -529,6 +530,18 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                the time stamp of the actual semantic check cycle.
 	 * */
 	void parseAttributes(final CompilationTimeStamp timestamp);
+
+	//TODO check if we need to separate global or not
+	/**
+	 * Parses the specified variant attribute and checks its validity (when
+	 * using the new codec handling).
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param singleWithAttribute
+	 *                the with attribute to parse.
+	 * */
+	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute);
 
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same

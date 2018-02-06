@@ -31,13 +31,18 @@ import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Group;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
@@ -559,23 +564,84 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * Checks the type's variant attributes (when using the new codec handling).
 	 * */
 	public void checkVariants(final CompilationTimeStamp timestamp) {
-		//FIXME implement rest
-		WithAttributesPath attributePath = getAttributePath();
-		if (attributePath != null) {
-			List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
+		if (isAsn() || ownerType != TypeOwner_type.OT_TYPE_DEF) {
+			return;
+		}
+
+		WithAttributesPath globalAttributesPath;
+		Def_Type def = (Def_Type)owner;
+		Group nearest_group = def.getParentGroup();
+		if (nearest_group == null) {
+			// no group, use the module
+			Module myModule = myScope.getModuleScope();
+			globalAttributesPath = ((TTCN3Module)myModule).getAttributePath();
+		} else {
+			globalAttributesPath = nearest_group.getAttributePath();
+		}
+
+		if (globalAttributesPath != null) {
+			// process all global variants, not just the closest group
+			List<SingleWithAttribute> realAttributes = globalAttributesPath.getRealAttributes(timestamp);
 			for (int i = 0; i < realAttributes.size(); i++) {
 				SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 				if (singleWithAttribute.getAttributeType() == Attribute_Type.Variant_Attribute) {
-					//FIXME also handle qualifier
 					checkThisVariant(timestamp, singleWithAttribute);
 				}
 			}
 		}
+		// check local variant attributes second, so they overwrite global ones if they
+		// conflict with each other
+		//FIXME implement rest
+
+		WithAttributesPath attributePath = getAttributePath();
+		if (attributePath != null) {
+			MultipleWithAttributes multipleWithAttributes = attributePath.getAttributes();
+			if (multipleWithAttributes != null) {
+				for (int i = 0; i < multipleWithAttributes.getNofElements(); i++) {
+					SingleWithAttribute singleWithAttribute = multipleWithAttributes.getAttribute(i);
+					if (singleWithAttribute.getAttributeType() == Attribute_Type.Variant_Attribute) {
+						Qualifiers qualifiers = singleWithAttribute.getQualifiers();
+						if (qualifiers != null && qualifiers.getNofQualifiers() > 0) {
+							for (int j = 0; j < qualifiers.getNofQualifiers(); j++) {
+								Qualifier qualifier = qualifiers.getQualifierByIndex(j);
+								List<ISubReference> fieldsOrArrays = new ArrayList<ISubReference>();
+								for (int k = 0; k < qualifier.getNofSubReferences(); k++) {
+									fieldsOrArrays.add(qualifier.getSubReferenceByIndex(k));
+								}
+								Reference reference = new Reference(null, fieldsOrArrays);
+								IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
+								if (type != null) {
+									if (type.getMyScope() != myScope) {
+										qualifier.getLocation().reportSemanticWarning("Variant attribute is ignored, because it refers to a type from a different type definition");
+									} else {
+										//FIXME
+										type.checkThisVariant(timestamp, singleWithAttribute); //+ false
+									}
+								}
+							}
+						} else {
+							//FIXME
+							checkThisVariant(timestamp, singleWithAttribute); //+ false 
+						}
+					}
+				}
+			}
+		}
+
+		// check the coding attributes set by the variants
+		//FIXME implement
 	}
 
-	//FIXME comment
-	//TODO check if we need to separate global or not
-	private void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute) {
+	/**
+	 * Parses the specified variant attribute and checks its validity (when
+	 * using the new codec handling).
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param singleWithAttribute
+	 *                the with attribute to parse.
+	 * */
+	public void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute) {
 		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
 		//FIXME right now the parser is doing only syntactic checks, no information is extracted
 		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
