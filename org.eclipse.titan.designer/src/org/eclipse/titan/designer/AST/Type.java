@@ -1933,8 +1933,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param source the source code generated
 	 * */
 	public void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		//FIXME implement
-		aData.addBuiltinTypeImport("RAW");
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -1952,6 +1950,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			rawAttribute = new RawAST(getDefaultRawFieldLength());
 		}
 		if (rawAttribute.intX) {
+			aData.addBuiltinTypeImport("RAW");
+
 			str.append("RAW.RAW_INTX,");
 		} else {
 			str.append(rawAttribute.fieldlength).append(',');
