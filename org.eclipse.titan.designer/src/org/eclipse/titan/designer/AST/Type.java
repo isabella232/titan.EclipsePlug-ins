@@ -2029,6 +2029,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		globalVariables.append(str);
+
+		if (dummyRaw) {
+			rawAttribute = null;
+		}
 	}
 
 	/**
