@@ -239,7 +239,7 @@ pr_XPaddAll: PADDALLKeyword;
 
 pr_XMsbOrLsb returns [int msbOrLsb]:
 (	MSB	{$msbOrLsb = RawAST.XDEFMSB;}
-|	LSB	{$msbOrLsb = RawAST.XDEFMSB;}
+|	LSB	{$msbOrLsb = RawAST.XDEFLSB;}
 );
 
 pr_XFieldOrderDef returns [int msbOrLsb]:
