@@ -629,17 +629,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		//FIXME implement
 	}
 
-	/**
-	 * Parses the specified variant attribute and checks its validity (when
-	 * using the new codec handling).
-	 *
-	 * @param timestamp
-	 *                the time stamp of the actual semantic check cycle.
-	 * @param singleWithAttribute
-	 *                the with attribute to parse.
-	 * @param global
-	 *                is the attribute a global one?
-	 * */
+	@Override
+	/** {@inheritDoc} */
 	public void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global) {
 		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
 		//FIXME right now the parser is doing only syntactic checks, no information is extracted
