@@ -104,7 +104,7 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(250);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(252);
 		int lineNum = 21;
 		markersToCheck.add(new MarkerToCheck("The group with name extension_attributes breaks the naming convention  `[A-Z].*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 6;
@@ -341,8 +341,12 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("The port `@attribute_tests.extended.p4' with name p4 breaks the naming convention  `.*_PT'",  ++lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The port `@attribute_tests.extended.p5' with name p5 breaks the naming convention  `.*_PT'",  ++lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("The port `@attribute_tests.extended.p6' with name p6 breaks the naming convention  `.*_PT'",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 62;
+		lineNum += 41;
 		int i = 0;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Variant attribute is ignored, because it refers to a type from a different type definition", lineNum++, IMarker.SEVERITY_WARNING));
+		}
+		lineNum += 19;
 		for (i = 0; i < 5; i++) {
 			markersToCheck.add(new MarkerToCheck("This variant does not belong to an encode", lineNum++, IMarker.SEVERITY_WARNING));
 		}
