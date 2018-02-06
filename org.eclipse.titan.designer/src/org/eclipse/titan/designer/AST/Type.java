@@ -585,14 +585,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			for (int i = 0; i < realAttributes.size(); i++) {
 				SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 				if (singleWithAttribute.getAttributeType() == Attribute_Type.Variant_Attribute) {
-					checkThisVariant(timestamp, singleWithAttribute);
+					checkThisVariant(timestamp, singleWithAttribute, true);
 				}
 			}
 		}
+
 		// check local variant attributes second, so they overwrite global ones if they
 		// conflict with each other
-		//FIXME implement rest
-
 		WithAttributesPath attributePath = getAttributePath();
 		if (attributePath != null) {
 			MultipleWithAttributes multipleWithAttributes = attributePath.getAttributes();
@@ -614,14 +613,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 									if (type.getMyScope() != myScope) {
 										qualifier.getLocation().reportSemanticWarning("Variant attribute is ignored, because it refers to a type from a different type definition");
 									} else {
-										//FIXME
-										type.checkThisVariant(timestamp, singleWithAttribute); //+ false
+										type.checkThisVariant(timestamp, singleWithAttribute, false);
 									}
 								}
 							}
 						} else {
-							//FIXME
-							checkThisVariant(timestamp, singleWithAttribute); //+ false 
+							checkThisVariant(timestamp, singleWithAttribute, false);
 						}
 					}
 				}
@@ -640,8 +637,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param singleWithAttribute
 	 *                the with attribute to parse.
+	 * @param global
+	 *                is the attribute a global one?
 	 * */
-	public void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute) {
+	public void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global) {
 		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
 		//FIXME right now the parser is doing only syntactic checks, no information is extracted
 		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();

@@ -540,8 +540,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                the time stamp of the actual semantic check cycle.
 	 * @param singleWithAttribute
 	 *                the with attribute to parse.
+	 * @param global
+	 *                is the attribute a global one?
 	 * */
-	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute);
+	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global);
 
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same
