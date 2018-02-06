@@ -37,16 +37,16 @@ public abstract class Base_Type {
 		}
 	}
 
-	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", null);
-	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", null);
-	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", null);
+	public static final TTCN_Typedescriptor TitanBoolean_descr_ = new TTCN_Typedescriptor("BOOLEAN", RAW.TitanBoolean_raw_);
+	public static final TTCN_Typedescriptor TitanInteger_descr_ = new TTCN_Typedescriptor("INTEGER", RAW.TitanInteger_raw_);
+	public static final TTCN_Typedescriptor TitanFloat_descr_ = new TTCN_Typedescriptor("REAL", RAW.TitanFloat_raw_);
 	public static final TTCN_Typedescriptor TitanVerdictType_descr_ = new TTCN_Typedescriptor("verdicttype", null);
 	public static final TTCN_Typedescriptor TitanObjectid_descr_ = new TTCN_Typedescriptor("OBJECT IDENTIFIER", null);
-	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", null);
-	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", null);
-	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", null);
-	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", null);
-	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", null);
+	public static final TTCN_Typedescriptor TitanBitString_descr_ = new TTCN_Typedescriptor("BIT STRING", RAW.TitanBitstring_raw_);
+	public static final TTCN_Typedescriptor TitanHexString_descr_ = new TTCN_Typedescriptor("hexstring", RAW.TitanHexstring_raw_);
+	public static final TTCN_Typedescriptor TitanOctetString_descr_ = new TTCN_Typedescriptor("OCTET STRING", RAW.TitanOctetstring_raw_);
+	public static final TTCN_Typedescriptor TitanCharString_descr_ = new TTCN_Typedescriptor("charstring", RAW.TitanCharstring_raw_);
+	public static final TTCN_Typedescriptor TitanUniversalCharString_descr_ = new TTCN_Typedescriptor("universal charstring", RAW.TitanUniversalCharString_raw_);
 	public static final TTCN_Typedescriptor TitanComponent_descr_ = new TTCN_Typedescriptor("component", null);
 	public static final TTCN_Typedescriptor TitanDefault_descr_ = new TTCN_Typedescriptor("default", null);
 	public static final TTCN_Typedescriptor TitanAsn_Null_descr_ = new TTCN_Typedescriptor("NULL", null);
