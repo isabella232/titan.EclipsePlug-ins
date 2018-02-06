@@ -569,8 +569,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		WithAttributesPath globalAttributesPath;
-		Def_Type def = (Def_Type)owner;
-		Group nearest_group = def.getParentGroup();
+		final Def_Type def = (Def_Type)owner;
+		final Group nearest_group = def.getParentGroup();
 		if (nearest_group == null) {
 			// no group, use the module
 			Module myModule = myScope.getModuleScope();
@@ -581,9 +581,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		if (globalAttributesPath != null) {
 			// process all global variants, not just the closest group
-			List<SingleWithAttribute> realAttributes = globalAttributesPath.getRealAttributes(timestamp);
+			final List<SingleWithAttribute> realAttributes = globalAttributesPath.getRealAttributes(timestamp);
 			for (int i = 0; i < realAttributes.size(); i++) {
-				SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+				final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 				if (singleWithAttribute.getAttributeType() == Attribute_Type.Variant_Attribute) {
 					checkThisVariant(timestamp, singleWithAttribute, true);
 				}
@@ -592,23 +592,23 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		// check local variant attributes second, so they overwrite global ones if they
 		// conflict with each other
-		WithAttributesPath attributePath = getAttributePath();
+		final WithAttributesPath attributePath = getAttributePath();
 		if (attributePath != null) {
-			MultipleWithAttributes multipleWithAttributes = attributePath.getAttributes();
+			final MultipleWithAttributes multipleWithAttributes = attributePath.getAttributes();
 			if (multipleWithAttributes != null) {
 				for (int i = 0; i < multipleWithAttributes.getNofElements(); i++) {
-					SingleWithAttribute singleWithAttribute = multipleWithAttributes.getAttribute(i);
+					final SingleWithAttribute singleWithAttribute = multipleWithAttributes.getAttribute(i);
 					if (singleWithAttribute.getAttributeType() == Attribute_Type.Variant_Attribute) {
-						Qualifiers qualifiers = singleWithAttribute.getQualifiers();
+						final Qualifiers qualifiers = singleWithAttribute.getQualifiers();
 						if (qualifiers != null && qualifiers.getNofQualifiers() > 0) {
 							for (int j = 0; j < qualifiers.getNofQualifiers(); j++) {
-								Qualifier qualifier = qualifiers.getQualifierByIndex(j);
-								List<ISubReference> fieldsOrArrays = new ArrayList<ISubReference>();
+								final Qualifier qualifier = qualifiers.getQualifierByIndex(j);
+								final List<ISubReference> fieldsOrArrays = new ArrayList<ISubReference>();
 								for (int k = 0; k < qualifier.getNofSubReferences(); k++) {
 									fieldsOrArrays.add(qualifier.getSubReferenceByIndex(k));
 								}
-								Reference reference = new Reference(null, fieldsOrArrays);
-								IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
+								final Reference reference = new Reference(null, fieldsOrArrays);
+								final IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
 								if (type != null) {
 									if (type.getMyScope() != myScope) {
 										qualifier.getLocation().reportSemanticWarning("Variant attribute is ignored, because it refers to a type from a different type definition");
