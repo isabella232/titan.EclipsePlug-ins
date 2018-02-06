@@ -545,6 +545,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global);
 
+	//FIXME comment
+	void addCoding(final String name, final boolean silent);
+
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same
 	 * as the name of the definition defining the type.

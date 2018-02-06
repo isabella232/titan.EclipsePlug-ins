@@ -538,16 +538,63 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			if (!isAsn()) {
 				//FIXME implement rest
 				//TODO currently using the real attribute mechanism, not the compiler one for prototype reason.
-				WithAttributesPath attributePath = getAttributePath();
+				final WithAttributesPath attributePath = getAttributePath();
 				if (attributePath != null) {
-					List<SingleWithAttribute> realAttributes = attributePath.getRealAttributes(timestamp);
-					for (int i = 0; i < realAttributes.size(); i++) {
-						SingleWithAttribute singleWithAttribute = realAttributes.get(i);
-						if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
-							//FIXME also handle qualifier
-							addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+					final MultipleWithAttributes multipleWithAttributes = attributePath.getAttributes();
+					if (multipleWithAttributes != null) {
+						for (int i = 0; i < multipleWithAttributes.getNofElements(); i++) {
+							final SingleWithAttribute singleWithAttribute = multipleWithAttributes.getAttribute(i);
+							if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
+								final Qualifiers qualifiers = singleWithAttribute.getQualifiers();
+								if (qualifiers != null && qualifiers.getNofQualifiers() > 0) {
+									for (int j = 0; j < qualifiers.getNofQualifiers(); j++) {
+										final Qualifier qualifier = qualifiers.getQualifierByIndex(j);
+										final List<ISubReference> fieldsOrArrays = new ArrayList<ISubReference>();
+										for (int k = 0; k < qualifier.getNofSubReferences(); k++) {
+											fieldsOrArrays.add(qualifier.getSubReferenceByIndex(k));
+										}
+										final Reference reference = new Reference(null, fieldsOrArrays);
+										final IType type = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_CONSTANT, false);
+										if (type != null) {
+											if (type.getMyScope() != myScope) {
+												qualifier.getLocation().reportSemanticWarning("Encode attribute is ignored, because it refers to a type from a different type definition");
+											} else {
+												type.addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+											}
+										}
+									}
+								} else {
+									addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+								}
+							}
 						}
 					}
+
+					WithAttributesPath globalAttributesPath;
+					final Def_Type def = (Def_Type)owner;
+					final Group nearest_group = def.getParentGroup();
+					if (nearest_group == null) {
+						// no group, use the module
+						Module myModule = myScope.getModuleScope();
+						globalAttributesPath = ((TTCN3Module)myModule).getAttributePath();
+					} else {
+						globalAttributesPath = nearest_group.getAttributePath();
+					}
+
+					if (globalAttributesPath != null) {
+						boolean hasGlobalOverride = false;
+						boolean modifierConflict = false;
+						//FIXME handle modifier attribute
+						final List<SingleWithAttribute> realAttributes = globalAttributesPath.getRealAttributes(timestamp);
+						for (int i = 0; i < realAttributes.size(); i++) {
+							final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+							if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
+								//FIXME handle modifier attribute
+							}
+							//FIXME implement
+						}
+					}
+					//FIXME implement
 				}
 			} else {
 				// ASN.1 types automatically have BER, PER, XER, OER and JSON encoding
@@ -659,8 +706,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 	}
 
-	//FIXME comment
-	private void addCoding(final String name, final boolean silent) {
+	@Override
+	/** {@inheritDoc} */
+	public void addCoding(final String name, final boolean silent) {
 		//FIXME implement properly
 		MessageEncoding_type builtInCoding = getEncodingType(name);
 		setGenerateCoderFunctions(builtInCoding);
