@@ -551,7 +551,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				}
 			} else {
 				// ASN.1 types automatically have BER, PER, XER, OER and JSON encoding
-				//FIXME implement
+				switch(ownerType) {
+				case OT_TYPE_ASS:
+				case OT_RECORD_OF:
+				case OT_COMP_FIELD:
+				case OT_SELTYPE:
+				case OT_FIELDSETTING:
+					//FIXME implement once PER, JSON, OER or XER gets supported
+					break;
+				default:
+					break;
+				}
 			}
 			break;
 		default:
