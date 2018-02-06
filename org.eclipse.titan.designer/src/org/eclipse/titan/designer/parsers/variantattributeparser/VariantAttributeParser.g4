@@ -646,12 +646,12 @@ pr_XRValue returns [String value, Value v_value]:
 );
 
 pr_BitDef:
-(	NUMBER BitKeyword			{rawstruct.fieldlength = Integer.valueOf($NUMBER.getText()).intValue();
-						rawstruct.comp = RawAST.XDEFSIGNBIT;
-						rawstruct.byteorder = RawAST.XDEFLAST;}
-|	UNSIGNEDKeyword NUMBER BitKeyword	{rawstruct.fieldlength = Integer.valueOf($NUMBER.getText()).intValue();
-						rawstruct.comp = RawAST.XDEFUNSIGNED;
-						rawstruct.byteorder = RawAST.XDEFLAST;}
+(	NUMBER (BitKeyword|BitsKeyword)			{rawstruct.fieldlength = Integer.valueOf($NUMBER.getText()).intValue();
+							rawstruct.comp = RawAST.XDEFSIGNBIT;
+							rawstruct.byteorder = RawAST.XDEFLAST;}
+|	UNSIGNEDKeyword NUMBER (BitKeyword|BitsKeyword)	{rawstruct.fieldlength = Integer.valueOf($NUMBER.getText()).intValue();
+							rawstruct.comp = RawAST.XDEFUNSIGNED;
+							rawstruct.byteorder = RawAST.XDEFLAST;}
 );
 
 pr_XUTFDef:
