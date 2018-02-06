@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
@@ -49,6 +50,7 @@ public final class SignatureFormalParameter extends ASTNode implements ILocateab
 		this.identifier = identifier;
 
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_SIG_PAR, this);
 			type.setFullNameParent(this);
 		}
 	}

@@ -81,6 +81,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		this.ofType = ofType;
 
 		if (ofType != null) {
+			ofType.setOwnertype(TypeOwner_type.OT_RECORD_OF, this);
 			ofType.setFullNameParent(this);
 		}
 		componentInternal = false;

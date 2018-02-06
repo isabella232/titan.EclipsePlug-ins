@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
@@ -106,6 +107,7 @@ public final class FormalParameter extends Definition {
 		this.isLazy = isLazy;
 
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_FORMAL_PAR, this);
 			type.setFullNameParent(this);
 		}
 		if (defaultValue != null) {
@@ -128,6 +130,7 @@ public final class FormalParameter extends Definition {
 		this.parentGroup = other.parentGroup;
 
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_FORMAL_PAR, this);
 			type.setFullNameParent(this);
 		}
 		if (defaultValue != null) {

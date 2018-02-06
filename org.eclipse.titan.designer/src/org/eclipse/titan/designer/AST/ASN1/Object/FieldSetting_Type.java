@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
@@ -34,6 +35,7 @@ public final class FieldSetting_Type extends FieldSetting {
 		this.type = type;
 
 		if (null != type) {
+			type.setOwnertype(TypeOwner_type.OT_FIELDSETTING, this);
 			type.setFullNameParent(this);
 		}
 	}

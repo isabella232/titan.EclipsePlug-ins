@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -39,6 +40,7 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 		this.mBlock = aBlock;
 
 		if (null != type) {
+			type.setOwnertype(TypeOwner_type.OT_VSET_ASS, this);
 			type.setFullNameParent(this);
 		}
 

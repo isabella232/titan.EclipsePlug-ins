@@ -184,6 +184,78 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	}
 
 	/**
+	 *  Enumeration to represent the owner of the type.
+	 */
+	enum TypeOwner_type {
+		OT_UNKNOWN,
+		/** ASN.1 type assignment (Ass_T) */
+		OT_TYPE_ASS,
+		/** ASN.1 variable assignment (Ass_V) */
+		OT_VAR_ASS,
+		/** ASN.1 value set assignment (Ass_VS) */
+		OT_VSET_ASS,
+		/** ASN.1 TypeFieldSpec (FieldSpec_T) */
+		OT_TYPE_FLD,
+		/** ASN.1 FixedTypeValueFieldSpec (FieldSpec_V_FT) */
+		OT_FT_V_FLD,
+		/** TTCN-3 TypeMapping */
+		OT_TYPE_MAP,
+		/** TTCN-3 TypeMappingTarget */
+		OT_TYPE_MAP_TARGET,
+		/** TTCN-3 type definition (Def_Type) */
+		OT_TYPE_DEF,
+		/** TTCN-3 constant definition (DefConst, Def_ExtCOnst) */
+		OT_CONST_DEF,
+		/** TTCN-3 module parameter definition (Def_Modulepar) */
+		OT_MODPAR_DEF,
+		/** TTCN-3 variable definition (Def_Var) */
+		OT_VAR_DEF,
+		/** TTCN-3 var template definition (Def_Var_Template) */
+		OT_VARTMPL_DEF,
+		/** TTCN-3 function (Def_Function, Def_ExtFunction) */
+		OT_FUNCTION_DEF,
+		/** TTCN-3 template definition (Def_Template) */
+		OT_TEMPLATE_DEF,
+		/** another Type: TTCN-3 array(T_ARRAY) */
+		OT_ARRAY,
+		/** another Type (T_SEQOF, T_SETOF), ASN.1 or TTCN-3 */
+		OT_RECORD_OF,
+		/** another Type: TTCN-3 function (T_FUNCTION) */
+		OT_FUNCTION,
+		/** another Type: TTCN-3 signature (T_SIGNATURE) */
+		OT_SIGNATURE,
+		/** another Type (T_REFD) */
+		OT_REF,
+		/** another Type (T_REFDSPEC) */
+		OT_REF_SPEC,
+		/** a field of a record/set/union (CompField) */
+		OT_COMP_FIELD,
+		/** ASN.1 "COMPONENTS OF" (CT_CompsOf) */
+		OT_COMPS_OF,
+		/** formal parameter (FormalPar), TTCN-3 */
+		OT_FORMAL_PAR,
+		/** TypeList for a 'with "extension anytype t1,t2..." ' */
+		OT_TYPE_LIST,
+		/** ASN.1 FieldSetting_Type */
+		OT_FIELDSETTING,
+		/** another Type (T_SELTYPE), ASN.1 selection type */
+		OT_SELTYPE,
+		/** another Type (T_OCFT), ASN.1 obj.class field type */
+		OT_OCFT,
+		/** a TemplateInstance (TTCN-3) */
+		OT_TEMPLATE_INST,
+		/** a RunsOnScope (TTCN-3) */
+		OT_RUNSON_SCOPE,
+		/** a port scope */
+		OT_PORT_SCOPE,
+		/** exception Specification (ExcSpec) */
+		OT_EXC_SPEC,
+		/** signature parameter (SignatureParam) */
+		OT_SIG_PAR//,
+		// OT_POOL no pool type is used here
+	};
+
+	/**
 	 * Represents the options that drive the value checking mechanisms. </p>
 	 * All members have to be final, as it is not allowed to change the
 	 * options during analysis. If this would be needed for a branch of the
@@ -876,4 +948,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * otherwise returns false.
 	 * */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex);
+
+	/** Set the owner and its type type */
+	public void setOwnertype(final TypeOwner_type ownerType, final INamedNode owner);
+
+	TypeOwner_type getOwnertype();
+	INamedNode getOwner();
 }

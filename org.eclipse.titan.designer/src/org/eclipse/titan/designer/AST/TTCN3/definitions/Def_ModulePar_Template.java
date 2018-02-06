@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -63,6 +64,7 @@ public final class Def_ModulePar_Template extends Definition {
 		this.type = type;
 		this.defaultTemplate = defaultTemplate;
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_MODPAR_DEF, this);
 			type.setFullNameParent(this);
 		}
 		if (defaultTemplate != null) {

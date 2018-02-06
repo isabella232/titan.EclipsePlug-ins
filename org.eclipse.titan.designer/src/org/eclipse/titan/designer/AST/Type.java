@@ -98,6 +98,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** The sub-type restriction created from the parsed restrictions */
 	protected SubType subType = null;
 
+	/** What kind of AST element owns the type.
+	 *  It may not be known at creation type, so it's initially OT_UNKNOWN.
+	 *  We want this information so we don't have to bother with XER
+	 *  if the type is an ASN.1 construct, or it's the type in a "runs on" scope,
+	 *  the type of a variable declaration/module par/const, etc. */
+	protected TypeOwner_type ownerType = TypeOwner_type.OT_UNKNOWN;
+	protected INamedNode owner = null;//TODO needs to check if this is the tightest interface once structure is ready to reveal all usage.
+
 	/**
 	 * The actual value of the severity level to report type compatibility
 	 * on.
@@ -2245,5 +2253,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		return true;
+	}
+
+	/** Set the owner and its type type */
+	public void setOwnertype(final TypeOwner_type ownerType, final INamedNode owner) {
+		this.ownerType = ownerType;
+		this.owner = owner;
+	}
+
+	public TypeOwner_type getOwnertype() {
+		return ownerType;
+	}
+
+	public INamedNode getOwner() {
+		return owner;
 	}
 }

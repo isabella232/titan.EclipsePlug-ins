@@ -52,6 +52,10 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 		this.referred_type = referredType;
 		this.objectClass = objectClass;
 		fieldName = identifier;
+
+		if (referredType != null) {
+			referredType.setOwnertype(TypeOwner_type.OT_OCFT, this);
+		}
 	}
 
 	@Override

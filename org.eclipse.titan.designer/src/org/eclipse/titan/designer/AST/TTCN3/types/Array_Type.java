@@ -101,6 +101,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		componentInternal = false;
 
 		if (elementType != null) {
+			elementType.setOwnertype(TypeOwner_type.OT_ARRAY, this);
 			elementType.setFullNameParent(this);
 		}
 		if (dimension != null) {

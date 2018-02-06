@@ -88,6 +88,7 @@ public final class Signature_Type extends Type {
 			formalParList.setFullNameParent(this);
 		}
 		if (returnType != null) {
+			returnType.setOwnertype(TypeOwner_type.OT_SIGNATURE, this);
 			returnType.setFullNameParent(this);
 		}
 		if (exceptions != null) {

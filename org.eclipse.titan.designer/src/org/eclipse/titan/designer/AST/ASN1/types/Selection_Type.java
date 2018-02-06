@@ -50,6 +50,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 		this.selectionType = selectionType;
 
 		if (null != selectionType) {
+			selectionType.setOwnertype(TypeOwner_type.OT_SELTYPE, this);
 			selectionType.setFullNameParent(this);
 		}
 	}

@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -44,6 +45,7 @@ public final class ComponentsOfComponentType extends ComponentType {
 		this.componentsOfType = componentsOfType;
 
 		if (null != componentsOfType) {
+			componentsOfType.setOwnertype(TypeOwner_type.OT_COMPS_OF, this);
 			componentsOfType.setFullNameParent(this);
 		}
 	}

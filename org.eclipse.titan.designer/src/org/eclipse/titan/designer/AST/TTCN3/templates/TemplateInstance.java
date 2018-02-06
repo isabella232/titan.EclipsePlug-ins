@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
@@ -80,6 +81,7 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 		location = NULL_Location.INSTANCE;
 
 		if (type != null && type.getNameParent() == null) {
+			type.setOwnertype(TypeOwner_type.OT_TEMPLATE_INST, this);
 			type.setFullNameParent(this);
 		}
 		if (derivedReference != null && derivedReference.getNameParent() == null) {

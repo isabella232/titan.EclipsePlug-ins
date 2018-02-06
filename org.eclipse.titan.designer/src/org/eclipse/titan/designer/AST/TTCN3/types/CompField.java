@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IOutlineElement;
 import org.eclipse.titan.designer.AST.IReferencingElement;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.ITypeWithComponents;
 import org.eclipse.titan.designer.AST.IValue;
@@ -72,6 +73,7 @@ implements IOutlineElement, ILocateableNode, IAppendableSyntax, IIncrementallyUp
 		this.defaultValue = defaultValue;
 
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_COMP_FIELD, this);
 			type.setFullNameParent(this);
 		}
 		if (defaultValue != null) {

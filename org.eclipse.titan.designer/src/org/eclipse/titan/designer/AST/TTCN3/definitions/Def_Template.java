@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -146,6 +147,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		mIsLazy = aIsLazy;
 
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_TEMPLATE_DEF, this);
 			type.setFullNameParent(this);
 		}
 		if (formalParList != null) {

@@ -12,6 +12,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -39,6 +40,7 @@ public final class RunsOnScope extends TTCN3Scope {
 		if (componentType == null) {
 			componentDefinitions = null;
 		} else {
+			componentType.setOwnertype(TypeOwner_type.OT_RUNSON_SCOPE, this);
 			componentDefinitions = componentType.getComponentBody();
 		}
 		setParentScope(parentScope);

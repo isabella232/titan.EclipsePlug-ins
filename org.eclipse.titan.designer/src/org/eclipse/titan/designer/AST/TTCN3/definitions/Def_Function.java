@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -149,6 +150,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			runsOnRef.setFullNameParent(this);
 		}
 		if (returnType != null) {
+			returnType.setOwnertype(TypeOwner_type.OT_FUNCTION_DEF, this);
 			returnType.setFullNameParent(this);
 		}
 	}

@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 
 /**
  * ExceptionSpecification.
@@ -33,6 +34,7 @@ public final class ExceptionSpecification extends ASTNode {
 		if (null == type) {
 			this.type = new ASN1_Integer_Type();
 		} else {
+			type.setOwnertype(TypeOwner_type.OT_EXC_SPEC, this);
 			this.type = type;
 		}
 		this.value = value;

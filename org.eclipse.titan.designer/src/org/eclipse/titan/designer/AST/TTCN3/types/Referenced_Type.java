@@ -457,6 +457,11 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				}
 
 				refd = (Type) setting;
+
+				if (refd.getOwnertype() == TypeOwner_type.OT_UNKNOWN) {
+					refd.setOwnertype(TypeOwner_type.OT_REF, this);
+				}
+
 				return refd;
 			default:
 				reference.getLocation().reportSemanticError(MessageFormat.format(TYPEREFERENCEEXPECTED, reference.getDisplayName()));

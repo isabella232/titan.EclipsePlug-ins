@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ISetting;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -44,6 +45,7 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 		this.defaultValue = defaultValue;
 
 		if (null != fixedType) {
+			fixedType.setOwnertype(TypeOwner_type.OT_FT_V_FLD, this);
 			fixedType.setFullNameParent(this);
 		}
 		if (null != defaultValue) {

@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -52,6 +53,7 @@ public final class Value_Assignment extends ASN1Assignment {
 		this.value = value;
 
 		if (null != type) {
+			type.setOwnertype(TypeOwner_type.OT_VAR_ASS, this);
 			type.setFullNameParent(this);
 		}
 		if (null != value) {

@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
@@ -67,6 +68,7 @@ public final class Def_Type extends Definition {
 
 		if (type != null) {
 			type.setFullNameParent(this);
+			type.setOwnertype(TypeOwner_type.OT_TYPE_DEF, this);
 		}
 	}
 

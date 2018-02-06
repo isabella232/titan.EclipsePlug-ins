@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
@@ -69,6 +70,7 @@ public final class Def_ModulePar extends Definition {
 		this.defaultValue = defaultValue;
 
 		if (type != null) {
+			type.setOwnertype(TypeOwner_type.OT_MODPAR_DEF, this);
 			type.setFullNameParent(this);
 		}
 		if (defaultValue != null) {

@@ -96,6 +96,7 @@ public final class Function_Type extends Type {
 			runsOnRef.setFullNameParent(this);
 		}
 		if (returnType != null) {
+			returnType.setOwnertype(TypeOwner_type.OT_FUNCTION, this);
 			returnType.setFullNameParent(this);
 		}
 	}

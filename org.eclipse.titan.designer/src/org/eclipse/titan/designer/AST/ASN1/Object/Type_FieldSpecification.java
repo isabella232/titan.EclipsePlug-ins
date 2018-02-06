@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ISetting;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -29,6 +30,7 @@ public final class Type_FieldSpecification extends FieldSpecification {
 		this.definedType = definedType;
 
 		if (null != definedType) {
+			definedType.setOwnertype(TypeOwner_type.OT_TYPE_FLD, this);
 			definedType.setFullNameParent(this);
 		}
 	}
