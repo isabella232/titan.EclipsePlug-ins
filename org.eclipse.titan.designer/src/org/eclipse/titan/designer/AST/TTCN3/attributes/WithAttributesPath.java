@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -165,7 +166,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 				}
 				break;
 			case Erroneous_Attribute:
-				if (tempAttribute.hasOverride()) {
+				if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 					tempAttribute.getLocation().reportSemanticError("Override cannot be used with erroneous");
 				}
 				break;
@@ -176,13 +177,21 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
 			tempAttribute = attributes.getAttribute(i);
+			if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_LOCAL) {
+				//TODO implement legacy codec handling if needed
+				if (tempAttribute.getAttributeType() != Attribute_Type.Encode_Attribute ) {
+					tempAttribute.getLocation().reportSemanticWarning(
+							"The '@local' modifier only affects 'encode' attributes. Modifier ignored.");
+				}
+			}
+			//FIXME check for invalid dot notation format
 			switch (tempAttribute.getAttributeType()) {
 			case Variant_Attribute:
 				if (hasOverrideVariant) {
 					tempAttribute.getLocation().reportSemanticWarning(
 							"Only the first override variant of the with statement will have effect");
 				} else {
-					if (tempAttribute.hasOverride()) {
+					if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						hasOverrideVariant = true;
 					}
 				}
@@ -192,7 +201,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 					tempAttribute.getLocation().reportSemanticWarning(
 							"Only the first override display of the with statement will have effect");
 				} else {
-					if (tempAttribute.hasOverride()) {
+					if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						hasOverrideDisplay = true;
 					}
 				}
@@ -202,7 +211,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 					tempAttribute.getLocation().reportSemanticWarning(
 							"Only the first override extension of the with statement will have effect");
 				} else {
-					if (tempAttribute.hasOverride()) {
+					if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						hasOverrideExtension = true;
 					}
 				}
@@ -221,7 +230,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 					tempAttribute.getLocation().reportSemanticWarning(
 							"Only the first override optional of the with statement will have effect");
 				} else {
-					if (tempAttribute.hasOverride()) {
+					if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 						hasOverrideOptional = true;
 					}
 				}
@@ -406,7 +415,7 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			switch (actualSingleAttribute.getAttributeType()) {
 			case Encode_Attribute:
 				parentHasEncode = true;
-				parentHasOverrideEncode |= actualSingleAttribute.hasOverride();
+				parentHasOverrideEncode |= actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
 				if (selfEncodeIndex != -1) {
 					final String actualSpecification = actualSingleAttribute.getAttributeSpecification().getSpecification();
 					final String selfSpecification = attributes.getAttribute(selfEncodeIndex).getAttributeSpecification()
@@ -415,16 +424,16 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 				}
 				break;
 			case Variant_Attribute:
-				parentHasOverrideVariant |= actualSingleAttribute.hasOverride();
+				parentHasOverrideVariant |= actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
 				break;
 			case Display_Attribute:
-				parentHasOverrideDisplay |= actualSingleAttribute.hasOverride();
+				parentHasOverrideDisplay |= actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
 				break;
 			case Extension_Attribute:
-				parentHasOverrideExtension |= actualSingleAttribute.hasOverride();
+				parentHasOverrideExtension |= actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
 				break;
 			case Optional_Attribute:
-				parentHasOverrideOptional |= actualSingleAttribute.hasOverride();
+				parentHasOverrideOptional |= actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
 				break;
 			default:
 				break;

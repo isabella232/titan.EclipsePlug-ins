@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
@@ -546,7 +547,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global);
 
 	//FIXME comment
-	void addCoding(final String name, final boolean silent);
+	void addCoding(final String name, final Attribute_Modifier_type modifier,final boolean silent);
 
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same

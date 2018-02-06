@@ -38,8 +38,18 @@ public final class SingleWithAttribute implements ILocateableNode, IIncrementall
 		Invalid_Attribute
 	}
 
+	/** Stores the modifier of an attribute */
+	public enum Attribute_Modifier_type {
+		/** no modifier */
+		MOD_NONE,
+		/** 'override' modifier */
+		MOD_OVERRIDE,
+		/** '@local' modifier */
+		MOD_LOCAL
+	}
+
 	private final Attribute_Type attributeType;
-	private final boolean hasOverride;
+	private final Attribute_Modifier_type modifier;
 	private final Qualifiers qualifiers;
 	private final AttributeSpecification attributeSpecficiation;
 
@@ -49,10 +59,10 @@ public final class SingleWithAttribute implements ILocateableNode, IIncrementall
 	 **/
 	private Location location = NULL_Location.INSTANCE;
 
-	public SingleWithAttribute(final Attribute_Type attributeType, final boolean hasOverride, final Qualifiers qualifiers,
+	public SingleWithAttribute(final Attribute_Type attributeType, final Attribute_Modifier_type modifier, final Qualifiers qualifiers,
 			final AttributeSpecification attributeSpecficiation) {
 		this.attributeType = attributeType;
-		this.hasOverride = hasOverride;
+		this.modifier = modifier;
 		this.qualifiers = qualifiers;
 		this.attributeSpecficiation = attributeSpecficiation;
 	}
@@ -77,11 +87,10 @@ public final class SingleWithAttribute implements ILocateableNode, IIncrementall
 	}
 
 	/**
-	 * @return true if the attribute has the override option set, false
-	 *         otherwise.
+	 * @return te modifier of the attribute
 	 * */
-	public boolean hasOverride() {
-		return hasOverride;
+	public Attribute_Modifier_type getModifier() {
+		return modifier;
 	}
 
 	/**

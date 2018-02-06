@@ -239,7 +239,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		for (int i = 0; i < selfAttributes.getNofElements(); i++) {
 			final SingleWithAttribute temp = selfAttributes.getAttribute(i);
 			if (Attribute_Type.Encode_Attribute.equals(temp.getAttributeType())) {
-				final SingleWithAttribute newAttribute = new SingleWithAttribute(temp.getAttributeType(), temp.hasOverride(), null,
+				final SingleWithAttribute newAttribute = new SingleWithAttribute(temp.getAttributeType(), temp.getModifier(), null,
 						temp.getAttributeSpecification());
 				newSelfAttributes.addAttribute(newAttribute);
 			}
@@ -285,7 +285,7 @@ public abstract class AbstractOfType extends ASN1Type {
 					calculatedQualifiers.addQualifier(tempQualifier.getQualifierWithoutFirstSubRef());
 
 					final SingleWithAttribute tempSingle2 = new SingleWithAttribute(tempSingle.getAttributeType(),
-							tempSingle.hasOverride(), calculatedQualifiers, tempSingle.getAttributeSpecification());
+							tempSingle.getModifier(), calculatedQualifiers, tempSingle.getAttributeSpecification());
 					tempSingle2.setLocation(new Location(tempSingle.getLocation()));
 					MultipleWithAttributes componentAttributes = ofType.getAttributePath().getAttributes();
 					if (componentAttributes == null) {

@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Const;
@@ -545,6 +546,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						for (int i = 0; i < multipleWithAttributes.getNofElements(); i++) {
 							final SingleWithAttribute singleWithAttribute = multipleWithAttributes.getAttribute(i);
 							if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
+								final Attribute_Modifier_type mod = singleWithAttribute.getModifier();
 								final Qualifiers qualifiers = singleWithAttribute.getQualifiers();
 								if (qualifiers != null && qualifiers.getNofQualifiers() > 0) {
 									for (int j = 0; j < qualifiers.getNofQualifiers(); j++) {
@@ -559,15 +561,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 											if (type.getMyScope() != myScope) {
 												qualifier.getLocation().reportSemanticWarning("Encode attribute is ignored, because it refers to a type from a different type definition");
 											} else {
-												type.addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+												type.addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), mod, false);
 											}
 										}
 									}
 								} else {
-									addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), false);
+									addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), mod, false);
 								}
 							}
 						}
+					}
+
+					if(ownerType != TypeOwner_type.OT_TYPE_DEF) {
+						return;
 					}
 
 					WithAttributesPath globalAttributesPath;
@@ -708,7 +714,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void addCoding(final String name, final boolean silent) {
+	public void addCoding(final String name, final Attribute_Modifier_type modifier, final boolean silent) {
 		//FIXME implement properly
 		MessageEncoding_type builtInCoding = getEncodingType(name);
 		setGenerateCoderFunctions(builtInCoding);

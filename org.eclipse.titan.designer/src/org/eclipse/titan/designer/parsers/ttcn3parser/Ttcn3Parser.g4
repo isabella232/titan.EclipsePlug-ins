@@ -96,6 +96,7 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.ASN1.values.ASN1_Null_Value;
 import org.eclipse.titan.designer.AST.TTCN3.*;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.*;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ErroneousAttributeSpecification.Indicator_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.*;
@@ -6204,12 +6205,13 @@ pr_SingleWithAttrib returns [ SingleWithAttribute singleWithAttrib]
 	Qualifiers qualifiers = null;
 }:
 (	t = pr_AttribKeyword
+	modifier = pr_optAttributeModifier
 	( OVERRIDEKEYWORD  { hasOverride = true; } )?
 	( q = pr_AttribQualifier { qualifiers = $q.qualifiers; } )?
 	s = pr_AttribSpec
 )
 {
-	$singleWithAttrib = new SingleWithAttribute( $t.attributeType, hasOverride, qualifiers, $s.attributeSpecficiation );
+	$singleWithAttrib = new SingleWithAttribute( $t.attributeType, $modifier.modifier, qualifiers, $s.attributeSpecficiation );
 	$singleWithAttrib.setLocation(getLocation( $t.start, $s.stop));
 };
 
@@ -6235,6 +6237,13 @@ pr_AttribKeyword returns [Attribute_Type attributeType]
 			}
 		}
 );
+
+pr_optAttributeModifier returns [Attribute_Modifier_type modifier]:
+(			{$modifier = Attribute_Modifier_type.MOD_NONE;}
+|	OVERRIDEKEYWORD	{$modifier = Attribute_Modifier_type.MOD_OVERRIDE;}
+|	LOCALKEYWORD	{$modifier = Attribute_Modifier_type.MOD_LOCAL;}
+)
+;
 
 pr_AttribQualifier returns [Qualifiers qualifiers]
 @init {

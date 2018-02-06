@@ -376,6 +376,7 @@ DECODEDKEYWORD:			'@decoded';
 DETERMINISTICKEYWORD:	'@deterministic';
 FUZZYKEYWORD:			'@fuzzy';
 INDEXKEYWORD:			'@index';
+LOCALKEYWORD:			'@local';
 
 fragment DIGIT: [0-9];
 

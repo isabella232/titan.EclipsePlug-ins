@@ -292,7 +292,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			final SingleWithAttribute temp = selfAttributes.getAttribute(i);
 			if (Attribute_Type.Encode_Attribute.equals(temp.getAttributeType())) {
 				final SingleWithAttribute newAttribute = new SingleWithAttribute(
-						temp.getAttributeType(), temp.hasOverride(), null, temp.getAttributeSpecification());
+						temp.getAttributeType(), temp.getModifier(), null, temp.getAttributeSpecification());
 				newSelfAttributes.addAttribute(newAttribute);
 			}
 		}
@@ -344,7 +344,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						calculatedQualifiers.addQualifier(tempQualifier.getQualifierWithoutFirstSubRef());
 
 						final SingleWithAttribute tempSingle2 = new SingleWithAttribute(
-								tempSingle.getAttributeType(), tempSingle.hasOverride(), calculatedQualifiers, tempSingle.getAttributeSpecification());
+								tempSingle.getAttributeType(), tempSingle.getModifier(), calculatedQualifiers, tempSingle.getAttributeSpecification());
 						tempSingle2.setLocation(new Location(tempSingle.getLocation()));
 						final IType componentType = componentField.getType();
 						MultipleWithAttributes componentAttributes = componentType.getAttributePath().getAttributes();
