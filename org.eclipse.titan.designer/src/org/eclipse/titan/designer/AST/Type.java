@@ -2091,7 +2091,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 */
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		//FIXME implement the handling of attribute checks
-		if (hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+		if (rawAttribute != null || hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
 			return getGenNameOwn(scope);
 		}
 		if (this instanceof IReferencingType) {
@@ -2123,8 +2123,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		//FIXME implement the handling of attribute checks
-		if (hasVariantAttributes(CompilationTimeStamp.getBaseTimestamp())) {
+		if (rawAttribute != null) {
 			return getGenNameOwn(myScope);
 		}
 		if (this instanceof IReferencingType) {
