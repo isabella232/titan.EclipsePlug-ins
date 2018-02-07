@@ -529,6 +529,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
+	 * FIXME this belongs to legacy mode parsing, needs to be removed
 	 * */
 	void parseAttributes(final CompilationTimeStamp timestamp);
 

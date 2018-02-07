@@ -482,8 +482,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** {@inheritDoc} */
 	public void parseAttributes(final CompilationTimeStamp timestamp) {
 		checkDoneAttribute(timestamp);
-		// FIXME To support the processing of variant attributes this
-		// needs to be implemented properly.
+		// FIXME This will need to be removed once the new style codec handling is ready to take over
 	}
 
 	/**
