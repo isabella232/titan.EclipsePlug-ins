@@ -599,6 +599,29 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+		switch(encodingType) {
+		case RAW:
+			break;
+		default:
+			return;
+		}
+
+		if (getGenerateCoderFunctions(encodingType)) {
+			//already set
+			return;
+		}
+
+		codersToGenerate.add(encodingType);
+
+		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
+		for ( final CompField compField : map.values() ) {
+			compField.getType().setGenerateCoderFunctions(encodingType);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();

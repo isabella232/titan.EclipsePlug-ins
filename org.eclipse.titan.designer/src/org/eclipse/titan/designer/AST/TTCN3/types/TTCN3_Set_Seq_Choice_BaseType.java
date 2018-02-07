@@ -633,6 +633,28 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+		switch(encodingType) {
+		case RAW:
+			break;
+		default:
+			return;
+		}
+
+		if (getGenerateCoderFunctions(encodingType)) {
+			//already set
+			return;
+		}
+
+		codersToGenerate.add(encodingType);
+
+		for ( final CompField compField : compFieldMap.fields ) {
+			compField.getType().setGenerateCoderFunctions(encodingType);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {

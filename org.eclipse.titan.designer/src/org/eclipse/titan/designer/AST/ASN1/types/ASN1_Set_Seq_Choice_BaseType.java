@@ -342,6 +342,29 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+		switch(encodingType) {
+		case RAW:
+			break;
+		default:
+			return;
+		}
+
+		if (getGenerateCoderFunctions(encodingType)) {
+			//already set
+			return;
+		}
+
+		codersToGenerate.add(encodingType);
+
+		for ( int i = 0; i < components.getNofComps(); i++) {
+			final CompField compField = components.getCompByIndex(i);
+			compField.getType().setGenerateCoderFunctions(encodingType);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {

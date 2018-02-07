@@ -1909,7 +1909,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param encodingType the encoding type to check
 	 * @return true if the type has the provided encoding, false otherwise
 	 * */
-	private boolean getGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+	public boolean getGenerateCoderFunctions(final MessageEncoding_type encodingType) {
 		for (int i = 0; i < codersToGenerate.size(); i++) {
 			if (encodingType == codersToGenerate.get(i)) {
 				return true;
@@ -1940,24 +1940,22 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 	}
 
-	//FIXME comment
-	private void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+	@Override
+	/** {@inheritDoc} */
+	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
 		switch(encodingType) {
-		case BER:
 		case RAW:
-		case TEXT:
-		case XER:
 			break;
 		default:
-			//TODO error
 			return;
 		}
+
 		if (getGenerateCoderFunctions(encodingType)) {
 			//already set
 			return;
 		}
+
 		codersToGenerate.add(encodingType);
-		//FIXME implement
 	}
 
 	/**
