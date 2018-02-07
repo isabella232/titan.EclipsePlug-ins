@@ -536,8 +536,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		case TYPE_ARRAY:
 		case TYPE_ANYTYPE:
 			if (!isAsn()) {
-				//FIXME implement rest
-				//TODO currently using the real attribute mechanism, not the compiler one for prototype reason.
 				final WithAttributesPath attributePath = getAttributePath();
 				if (attributePath != null) {
 					final MultipleWithAttributes multipleWithAttributes = attributePath.getAttributes();
@@ -589,17 +587,48 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					if (globalAttributesPath != null) {
 						boolean hasGlobalOverride = false;
 						boolean modifierConflict = false;
-						//FIXME handle modifier attribute
+						Attribute_Modifier_type firstModifier = Attribute_Modifier_type.MOD_NONE;
 						final List<SingleWithAttribute> realAttributes = globalAttributesPath.getRealAttributes(timestamp);
 						for (int i = 0; i < realAttributes.size(); i++) {
 							final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 							if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
-								//FIXME handle modifier attribute
+								Attribute_Modifier_type modifier = singleWithAttribute.getModifier();
+								if (i == 0) {
+									firstModifier = modifier;
+								} else if (!modifierConflict && modifier != firstModifier) {
+									modifierConflict = true;
+									singleWithAttribute.getLocation().reportSemanticError("All 'encode' attributes of a group or module must have the same modifier ('override', '@local' or none)");
+								}
+								if (modifier == Attribute_Modifier_type.MOD_OVERRIDE) {
+									hasGlobalOverride = true;
+								}
+								if (hasGlobalOverride && modifierConflict) {
+									break;
+								}
 							}
-							//FIXME implement
+						}
+						// make a list of the type and its field and element types that inherit
+						// the global 'encode' attributes
+						// overriding global attributes are inherited by types with no coding
+						// table (no 'encode' attributes) of their own
+						// non-overriding global attributes are inherited by types that have
+						// no coding table of their own and cannot use the coding table of any 
+						// other type
+						final ArrayList<IType> typeList = new ArrayList<IType>();
+						//FIXME implement
+						//get_types_w_no_coding_table(typeList, hasGlobalOverride);
+						if (!typeList.isEmpty()) {
+							for (int i = 0; i < realAttributes.size(); i++) {
+								final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
+								if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
+									for (int j = 0; j < typeList.size(); j++) {
+										typeList.get(j).addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), Attribute_Modifier_type.MOD_NONE, true);
+									}
+								}
+							}
+							typeList.clear();
 						}
 					}
-					//FIXME implement
 				}
 			} else {
 				// ASN.1 types automatically have BER, PER, XER, OER and JSON encoding
