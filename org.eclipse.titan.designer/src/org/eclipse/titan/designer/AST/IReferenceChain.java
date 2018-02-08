@@ -21,6 +21,14 @@ public interface IReferenceChain {
 	void release();
 
 	/**
+	 * Checks if the rference chain contains the parameter without reporting an error.
+	 *
+	 * @param chainLink the link to add
+	 * @return true if this link was already present in the chain, false otherwise
+	 * */
+	boolean contains(final IReferenceChainElement chainLink);
+
+	/**
 	 * Adds an element to the end of the chain.
 	 *
 	 * @param chainLink the link to add

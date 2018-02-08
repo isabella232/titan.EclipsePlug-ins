@@ -69,6 +69,12 @@ public final class CachedReferenceChain implements IReferenceChain {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean contains(final IReferenceChainElement chainLink) {
+		return chainLinks.indexOf(chainLink) != -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean add(final IReferenceChainElement chainLink) {
 		final int index = chainLinks.indexOf(chainLink);
 		chainLinks.add(chainLink);

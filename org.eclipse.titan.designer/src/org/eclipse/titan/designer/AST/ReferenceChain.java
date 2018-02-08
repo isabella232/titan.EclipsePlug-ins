@@ -99,6 +99,12 @@ public final class ReferenceChain implements IReferenceChain {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean contains(final IReferenceChainElement chainLink) {
+		return chainLinks.indexOf(chainLink) != -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean add(final IReferenceChainElement chainLink) {
 		final int index = chainLinks.indexOf(chainLink);
 		if (index >= 0) {
