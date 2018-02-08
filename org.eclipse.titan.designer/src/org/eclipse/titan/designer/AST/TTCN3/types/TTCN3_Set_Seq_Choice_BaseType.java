@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -425,6 +426,22 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
+	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
+		if (typeList.contains(this)) {
+			return;
+		}
+
+		if ((onlyOwnTable && codingTable.isEmpty()) || (!onlyOwnTable && getTypeWithCodingTable(timestamp, false) == null)) {
+			typeList.add(this);
+		}
+		for (int i = 0, size = getNofComponents(); i < size; i++) {
+			final IType type = getComponentByIndex(i).getType();
+			type.getTypesWithNoCodingTable(timestamp, typeList, onlyOwnTable);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public final Object[] getOutlineChildren() {
 		return compFieldMap.getOutlineChildren();
 	}
@@ -629,6 +646,29 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		}
 
 		return null;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (refChain.contains(this)) {
+			return true;
+		}
+		refChain.add(this);
+
+		if (coding == MessageEncoding_type.BER) {
+			return hasEncoding(MessageEncoding_type.BER);
+		}
+
+		for ( final CompField compField : compFieldMap.fields ) {
+			refChain.markState();
+			if (!compField.getType().canHaveCoding(coding, refChain)) {
+				return false;
+			}
+			refChain.previousState();
+		}
+
+		return true;
 	}
 
 	@Override

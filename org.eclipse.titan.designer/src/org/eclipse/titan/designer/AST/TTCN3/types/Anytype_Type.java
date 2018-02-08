@@ -279,6 +279,22 @@ public final class Anytype_Type extends Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
+		if (typeList.contains(this)) {
+			return;
+		}
+
+		if ((onlyOwnTable && codingTable.isEmpty()) || (!onlyOwnTable && getTypeWithCodingTable(timestamp, false) == null)) {
+			typeList.add(this);
+		}
+
+		for ( final CompField compField : compFieldMap.fields ) {
+			compField.getType().getTypesWithNoCodingTable(timestamp, typeList, onlyOwnTable);
+		}
+	}
+
 	/**
 	 * Convert and check the anytype attributes applied to the module of this type.
 	 *
@@ -477,6 +493,29 @@ public final class Anytype_Type extends Type {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (refChain.contains(this)) {
+			return true;
+		}
+		refChain.add(this);
+
+		if (coding == MessageEncoding_type.BER) {
+			return hasEncoding(MessageEncoding_type.BER);
+		}
+
+		for ( final CompField compField : compFieldMap.fields ) {
+			refChain.markState();
+			if (!compField.getType().canHaveCoding(coding, refChain)) {
+				return false;
+			}
+			refChain.previousState();
+		}
+
+		return true;
 	}
 
 	@Override

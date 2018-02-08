@@ -15,7 +15,6 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
-import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
@@ -25,6 +24,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
@@ -182,6 +182,23 @@ public final class HexString_Type extends Type {
 		}
 
 		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (coding == MessageEncoding_type.BER) {
+			return hasEncoding(MessageEncoding_type.BER);
+		}
+
+		switch (coding) {
+		case RAW:
+		case JSON:
+		case XER:
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override

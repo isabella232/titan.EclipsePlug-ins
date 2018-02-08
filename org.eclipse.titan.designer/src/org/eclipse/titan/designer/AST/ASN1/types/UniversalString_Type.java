@@ -17,12 +17,12 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
-import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -177,7 +177,22 @@ public final class UniversalString_Type extends ASN1Type {
 		registerUsage(template);
 		UniversalCharstring_Type.checkThisTemplateString(timestamp, this, template, isModified);
 
-	return false;
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (coding == MessageEncoding_type.BER) {
+			return hasEncoding(MessageEncoding_type.BER);
+		}
+
+		switch (coding) {
+		case JSON:
+			return true;
+		default:
+			return false;
+		}
 	}
 
 	@Override

@@ -21,6 +21,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.Value_Assignment;
@@ -53,6 +54,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
@@ -103,6 +105,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	/** The sub-type restriction created from the parsed restrictions */
 	protected SubType subType = null;
+
+	protected ArrayList<Coding_Type> codingTable = new ArrayList<IType.Coding_Type>();
 
 	/** What kind of AST element owns the type.
 	 *  It may not be known at creation type, so it's initially OT_UNKNOWN.
@@ -508,6 +512,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		lastTimeChecked = timestamp;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
+		if (typeList.contains(this)) {
+			return;
+		}
+
+		if ((onlyOwnTable && codingTable.isEmpty()) || (!onlyOwnTable && getTypeWithCodingTable(timestamp, false) == null)) {
+			typeList.add(this);
+		}
+	}
+
 	/**
 	 * Checks the encodings supported by the type (when using new codec handling).
 	 * TTCN-3 types need to have an 'encode' attribute to support an encoding.
@@ -558,12 +574,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 											if (type.getMyScope() != myScope) {
 												qualifier.getLocation().reportSemanticWarning("Encode attribute is ignored, because it refers to a type from a different type definition");
 											} else {
-												type.addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), mod, false);
+												type.addCoding(timestamp, singleWithAttribute.getAttributeSpecification().getSpecification(), mod, false);
 											}
 										}
 									}
 								} else {
-									addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), mod, false);
+									addCoding(timestamp, singleWithAttribute.getAttributeSpecification().getSpecification(), mod, false);
 								}
 							}
 						}
@@ -615,14 +631,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						// no coding table of their own and cannot use the coding table of any 
 						// other type
 						final ArrayList<IType> typeList = new ArrayList<IType>();
-						//FIXME implement
-						//get_types_w_no_coding_table(typeList, hasGlobalOverride);
+						getTypesWithNoCodingTable(timestamp, typeList, hasGlobalOverride);
 						if (!typeList.isEmpty()) {
 							for (int i = 0; i < realAttributes.size(); i++) {
 								final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 								if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
 									for (int j = 0; j < typeList.size(); j++) {
-										typeList.get(j).addCoding(singleWithAttribute.getAttributeSpecification().getSpecification(), Attribute_Modifier_type.MOD_NONE, true);
+										typeList.get(j).addCoding(timestamp, singleWithAttribute.getAttributeSpecification().getSpecification(), Attribute_Modifier_type.MOD_NONE, true);
 									}
 								}
 							}
@@ -742,10 +757,127 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void addCoding(final String name, final Attribute_Modifier_type modifier, final boolean silent) {
-		//FIXME implement properly
+	public void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent) {
+		boolean encodeAttributeModifierConflict = false;
+		for (int i = 0; i < codingTable.size(); i++) {
+			if (!encodeAttributeModifierConflict && modifier != codingTable.get(i).modifier) {
+				encodeAttributeModifierConflict = true;
+				getLocation().reportSemanticError("All 'encode' attributes of a type must have the same modifier ('override', '@local' or none)");
+			}
+
+			// TODO add support for custom encoding
+			String codingName = codingTable.get(i).builtInCoding.getEncodingName();
+			if (!name.equals(codingName)) {
+				return; // coding already added
+			}
+		}
+
 		MessageEncoding_type builtInCoding = getEncodingType(name);
-		setGenerateCoderFunctions(builtInCoding);
+		// TODO for now only RAW is supported
+		//if (builtInCoding != MessageEncoding_type.PER) {
+		if (builtInCoding == MessageEncoding_type.RAW) {
+			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final boolean canHave = getTypeRefdLast(timestamp).canHaveCoding(builtInCoding, chain);
+			chain.release();
+			if (canHave) {
+				Coding_Type newCoding = new Coding_Type();
+				newCoding.builtIn = true;
+				newCoding.modifier = modifier;
+				newCoding.builtInCoding = builtInCoding;
+				codingTable.add(newCoding);
+				setGenerateCoderFunctions(builtInCoding);
+			} else if (!silent){
+				getLocation().reportSemanticWarning(MessageFormat.format("Type `{0}'' cannot have {1} encoding. Encode attribute ignored.", getTypename(), name));
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public IType getTypeWithCodingTable(final CompilationTimeStamp timestamp, final boolean ignoreLocal) {
+		// 1st priority: if local attributes are not ignored, and if the type
+		// has its own 'encode' attributes (its coding table is not
+		// empty), then
+		// return the type
+		if (!ignoreLocal && !codingTable.isEmpty()) {
+			return this;
+		}
+
+		// 2nd priority: if this is a field or element type, and one of its parents
+		// has an 'encode' attribute with the 'override' modifier, then return the parent type
+		IType parent = null;
+		if (parentType != null && (ownerType ==TypeOwner_type.OT_COMP_FIELD || ownerType == TypeOwner_type.OT_RECORD_OF || ownerType == TypeOwner_type.OT_ARRAY)) {
+			// note: if one of the parent types has an overriding 'encode' attribute,
+			// then this returns the farthest parent with an overriding 'encode';
+			// if none of the 'encode' attributes are overriding, then the nearest
+			// parent with at least one 'encode' attribute is returned
+			parent = parentType.getTypeWithCodingTable(timestamp, true);
+		}
+		if (parent != null) {
+			final List<Coding_Type> tempCodingTable = parent.getCodingTable();
+			for (int i = 0; i < tempCodingTable.size(); i++){
+				if (tempCodingTable.get(i).modifier == Attribute_Modifier_type.MOD_OVERRIDE) {
+					return parent;
+				}
+			}
+		}
+
+		// 3rd priority: if local attributes are ignored, and if the type has its
+		// own (non-local) 'encode' attributes, then return the type
+		if (ignoreLocal && !codingTable.isEmpty()) {
+			boolean local = false;
+			for (int i = 0; i < codingTable.size(); i++) {
+				if (codingTable.get(i).modifier == Attribute_Modifier_type.MOD_LOCAL) {
+					local = true;
+					break;
+				}
+			}
+			if (!local) {
+				return this;
+			}
+		}
+
+		// 4th priority, if a referenced type has an 'encode' attribute, then return
+		// the referenced type
+		if (this instanceof Referenced_Type) {
+			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			IType tempType = ((Referenced_Type)this).getTypeRefd(timestamp, chain);
+			chain.release();
+			if (tempType.getIsErroneous(timestamp) || tempType == null) {
+				return parent;
+			}
+
+			tempType = tempType.getTypeWithCodingTable(timestamp, false);
+			if (tempType != null) {
+				return tempType;
+			}
+		}
+
+		// otherwise return the parent type pointer (whether it's null or not)
+		return parent;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, IReferenceChain refChain) {
+		if (refChain.contains(this)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean hasEncoding(final MessageEncoding_type coding) {
+		//FIXME implement, right now true is returned temporarily
+		return true;
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public List<Coding_Type> getCodingTable() {
+		return codingTable;
 	}
 
 	@Override

@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -256,6 +257,17 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		OT_SIG_PAR//,
 		// OT_POOL no pool type is used here
 	};
+
+	/** Stores information related to an encoding type (codec), when using new codec handling. */
+	public static class Coding_Type {
+		/** built-in or user defined codec */
+		boolean builtIn;
+		/** the 'encode' attribute's modifier */
+		Attribute_Modifier_type modifier;
+		/** built-in codec */
+		MessageEncoding_type builtInCoding;
+		// TODO custom coding parts
+	}
 
 	/**
 	 * Represents the options that drive the value checking mechanisms. </p>
@@ -533,6 +545,21 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	void parseAttributes(final CompilationTimeStamp timestamp);
 
+	/**
+	 * Fills the list parameter with the types that have an empty coding
+	 * table. The types considered are the type itself and its field and
+	 * element types. Recursive.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param typeList the list to fill with the found types
+	 * @param only_own_table
+	 *                if true, then only the type's own coding table is
+	 *                checked, otherwise inherited coding tables are also
+	 *                checked
+	 */
+	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable);
+
 	//TODO check if we need to separate global or not
 	/**
 	 * Parses the specified variant attribute and checks its validity (when
@@ -547,8 +574,46 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global);
 
-	//FIXME comment
-	void addCoding(final String name, final Attribute_Modifier_type modifier,final boolean silent);
+	/**
+	 * Adds a coding to the type.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 * @param name the name of the coding to add.
+	 * @param modifier the modifier of the coding to add.
+	 * @param silent stay silent if the coding can not be applied to a given type.
+	 * */
+	void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent);
+
+	/**
+	 * Checks for the type that has a coding table.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 * @param ignoreLocal ignore the local coding table.
+	 * @return the first type in the searched chain with a coding table.
+	 * */
+	IType getTypeWithCodingTable(final CompilationTimeStamp timestamp, final boolean ignoreLocal);
+
+	/**
+	 * Checks if the type can have the given encoding.
+	 *
+	 * @param coding the coding to check for.
+	 * @param refChain a reference chain to disable recursive looping.
+	 * @return true if the type has the given encoding.
+	 * */
+	boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain);
+
+	/**
+	 * Checks if the type has the given encoding.
+	 *
+	 * @param coding the coding to check for.
+	 * @return true if the type has the given encoding.
+	 * */
+	boolean hasEncoding(final MessageEncoding_type coding);
+
+	/**
+	 * @return the coding table of this type
+	 * */
+	List<Coding_Type> getCodingTable();
 
 	/**
 	 * Checks if the complex type has a field whose name is exactly the same

@@ -14,6 +14,7 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.FieldSubReference;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
@@ -338,6 +339,26 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		default:
 			return false;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (refChain.contains(this)) {
+			return true;
+		}
+		refChain.add(this);
+
+		for ( int i = 0; i < components.getNofComps(); i++) {
+			final CompField compField = components.getCompByIndex(i);
+			refChain.markState();
+			if (!compField.getType().canHaveCoding(coding, refChain)) {
+				return false;
+			}
+			refChain.previousState();
+		}
+
+		return true;
 	}
 
 	@Override

@@ -394,6 +394,23 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
+		if (typeList.contains(this)) {
+			return;
+		}
+
+		if ((onlyOwnTable && codingTable.isEmpty()) || (!onlyOwnTable && getTypeWithCodingTable(timestamp, false) == null)) {
+			typeList.add(this);
+		}
+
+		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
+		for ( final CompField compField : map.values() ) {
+			compField.getType().getTypesWithNoCodingTable(timestamp, typeList, onlyOwnTable);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
@@ -595,6 +612,30 @@ public final class Open_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameValue(aData, source, scope).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (refChain.contains(this)) {
+			return true;
+		}
+		refChain.add(this);
+
+		if (coding == MessageEncoding_type.BER) {
+			return hasEncoding(MessageEncoding_type.BER);
+		}
+
+		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
+		for ( final CompField compField : map.values() ) {
+			refChain.markState();
+			if (!compField.getType().canHaveCoding(coding, refChain)) {
+				return false;
+			}
+			refChain.previousState();
+		}
+
+		return true;
 	}
 
 	@Override

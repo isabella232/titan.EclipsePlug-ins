@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.math.BigInteger;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -729,6 +730,39 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+		if (refChain.contains(this)) {
+			return true;
+		}
+		refChain.add(this);
+		refChain.markState();
+
+		if (coding != MessageEncoding_type.JSON) {
+			return false;
+		}
+
+		final boolean result = elementType.canHaveCoding(coding, refChain);
+		refChain.previousState();
+
+		return result;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
+		if (typeList.contains(this)) {
+			return;
+		}
+
+		if ((onlyOwnTable && codingTable.isEmpty()) || (!onlyOwnTable && getTypeWithCodingTable(timestamp, false) == null)) {
+			typeList.add(this);
+		}
+
+		elementType.getTypesWithNoCodingTable(timestamp, typeList, onlyOwnTable);
 	}
 
 	@Override
