@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+import java.util.concurrent.atomic.AtomicInteger;
+
 /**
  * @author Gergo Ujhelyi
  *
@@ -250,9 +253,20 @@ public final class TTCN_EncDec {
 		}
 	}
 
-	/** Extract the parameters (coding type and extra settings) from the dynamic
-	 * coding string of coding predefined functions. */
-	public static void get_coding_from_str(final TitanUniversalCharString coding_str, final coding_type coding, final int extra, final boolean encode) {
-		//FIXME: implement
+	/**
+	 * Extract the parameters (coding type and extra settings) from the dynamic
+	 * coding string of coding predefined functions.
+	 *
+	 * coding_type has to be returned in Java.
+	 * */
+	public static coding_type get_coding_from_str(final TitanUniversalCharString coding_str, final AtomicInteger extra, final boolean encode) {
+		//FIXME: add support for the other encoding types
+		if (coding_str.operatorEquals("RAW")) {
+			return coding_type.CT_RAW;
+		} else {
+			TtcnLogger.begin_event_log2str();
+			coding_str.log();
+			throw new TtcnError(MessageFormat.format("Invalid encoding string: {0}", TtcnLogger.end_event_log2str()));
+		}
 	}
 }
