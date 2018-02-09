@@ -417,14 +417,14 @@ public class TTCN_Buffer {
 	 *
 	 * @param p_os the variable to store the contents of the buffer into.
 	 * */
-	public void get_string(TitanOctetString p_os) {
+	public void get_string(final TitanOctetString p_os) {
 		p_os.cleanUp();
 		if (buf_len > 0) {
 			char[] data = new char[buf_len];
 			System.arraycopy(data_ptr, 0, data, 0, buf_len);
 			p_os.setValue(data);
 		} else {
-			p_os.cleanUp();
+			p_os.setValue(new char[]{});
 		}
 	}
 
@@ -433,7 +433,7 @@ public class TTCN_Buffer {
 	 *
 	 * @param p_cs the variable to store the contents of the buffer into.
 	 * */
-	public void get_string(TitanCharString p_cs) {
+	public void get_string(final TitanCharString p_cs) {
 		p_cs.cleanUp();
 		if (buf_len > 0) {
 			final StringBuilder str = new StringBuilder();
@@ -442,7 +442,7 @@ public class TTCN_Buffer {
 			}
 			p_cs.assign(str.toString());
 		} else {
-			p_cs.cleanUp();
+			p_cs.assign("");
 		}
 	}
 
@@ -451,7 +451,7 @@ public class TTCN_Buffer {
 	 *
 	 * @param p_cs the variable to store the contents of the buffer into.
 	 * */
-	public void get_string(TitanUniversalCharString p_cs) {
+	public void get_string(final TitanUniversalCharString p_cs) {
 		p_cs.cleanUp();
 		if (buf_len > 0) {
 			// TODO what if not multiple of 4 ?
@@ -461,7 +461,7 @@ public class TTCN_Buffer {
 			}
 			p_cs.setValue(data);
 		} else {
-			p_cs.cleanUp();
+			p_cs.assign("");
 		}
 	}
 
