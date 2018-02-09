@@ -753,5 +753,7 @@ public final class Function_Type extends Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 }

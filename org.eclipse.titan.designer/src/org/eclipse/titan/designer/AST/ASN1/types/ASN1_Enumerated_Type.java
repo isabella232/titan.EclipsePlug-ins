@@ -702,6 +702,8 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 		final Enum_Defs e_defs = new Enum_Defs( items, ownName, displayName, getGenNameTemplate(aData, source, myScope));
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

@@ -574,6 +574,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

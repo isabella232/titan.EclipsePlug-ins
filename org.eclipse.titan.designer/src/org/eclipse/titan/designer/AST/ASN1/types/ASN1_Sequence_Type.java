@@ -1039,6 +1039,8 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true);
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, false);
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

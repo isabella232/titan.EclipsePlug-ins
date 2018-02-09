@@ -576,6 +576,8 @@ public final class SetOf_Type extends AbstractOfType {
 				subType.generateCode(aData, source);
 			}
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

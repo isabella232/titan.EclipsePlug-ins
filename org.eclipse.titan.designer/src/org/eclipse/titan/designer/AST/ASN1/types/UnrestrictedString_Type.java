@@ -194,6 +194,8 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
 			source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

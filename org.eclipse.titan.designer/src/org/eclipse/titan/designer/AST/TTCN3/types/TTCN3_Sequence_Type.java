@@ -860,6 +860,8 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

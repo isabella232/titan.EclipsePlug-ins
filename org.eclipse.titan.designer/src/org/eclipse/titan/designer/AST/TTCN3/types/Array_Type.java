@@ -1067,6 +1067,8 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	/**

@@ -687,6 +687,8 @@ public final class Open_Type extends ASN1Type {
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

@@ -224,6 +224,8 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 			source.append( getGenNameOwn() );
 			source.append( " extends TitanUniversalCharString {}\n" );
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

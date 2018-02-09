@@ -405,6 +405,8 @@ public final class Integer_Type extends Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

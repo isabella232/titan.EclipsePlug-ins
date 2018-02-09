@@ -372,5 +372,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 
 			//TODO: implement: package of the imported class is unknown
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 }

@@ -832,6 +832,8 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				subType.generateCode(aData, source);
 			}
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

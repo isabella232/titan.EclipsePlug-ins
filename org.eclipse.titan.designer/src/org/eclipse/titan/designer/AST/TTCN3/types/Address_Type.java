@@ -307,6 +307,8 @@ public final class Address_Type extends Type implements IReferencingType {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

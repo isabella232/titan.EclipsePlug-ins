@@ -317,6 +317,8 @@ public final class OctetString_Type extends ASN1Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

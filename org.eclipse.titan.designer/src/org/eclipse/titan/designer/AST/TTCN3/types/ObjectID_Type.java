@@ -267,6 +267,8 @@ public final class ObjectID_Type extends ASN1Type {
 				subType.generateCode(aData, source);
 			}
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override

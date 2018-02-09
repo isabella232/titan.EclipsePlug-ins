@@ -278,6 +278,8 @@ public final class HexString_Type extends Type {
 		if (subType != null) {
 			subType.generateCode(aData, source);
 		}
+
+		generateCodeForCodingHandlers(aData, source);
 	}
 
 	@Override
