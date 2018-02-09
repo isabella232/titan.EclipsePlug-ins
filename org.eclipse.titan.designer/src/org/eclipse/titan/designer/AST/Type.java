@@ -21,7 +21,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
-import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.Value_Assignment;
@@ -738,8 +737,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global) {
-		//FIXME implement correctly: the current implementation is just a placeholder so that we can parse the variant attribute specification
-		//FIXME right now the parser is doing only syntactic checks, no information is extracted
+		final IType type = getTypeWithCodingTable(timestamp, false);
+		if (type == null) {
+			//TODO enable once we support all encodings at least on semantic check level
+			//if (!global) {
+			//	singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
+			//}
+
+			return;
+		}
+
+		//FIXME implement checks
+		//TODO only raw data is extracted
 		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
 		boolean newRaw = false;
 		final AtomicBoolean rawFoud = new AtomicBoolean(false);
@@ -753,6 +762,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (!rawFoud.get() && newRaw) {
 			rawAttribute = null;
 		}
+
+		// FIXME send global variant attributes to field/element types
 	}
 
 	@Override
@@ -2258,6 +2269,109 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
+	 * Generates the coding handler functions for the types
+	 *
+	 * generate_code_rawdescriptor in the compiler
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * */
+	public void generateCodeForCodingHandlers(final JavaGenData aData, final StringBuilder source) {
+		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t == null || !getGenNameOwn().equals(getGenNameDefaultCoding(aData, source, myScope))) {
+			return;
+		}
+
+		String defaultCoding = "";
+		List<Coding_Type> tempCodingTable = t.getCodingTable();
+		if (tempCodingTable.size() == 0) {
+			return;
+		}
+
+		if (tempCodingTable.size() == 1) {
+			final Coding_Type tempCodingType = tempCodingTable.get(0);
+			if (tempCodingType.builtIn) {
+				defaultCoding = tempCodingType.builtInCoding == MessageEncoding_type.BER ? "BER:2002" : tempCodingType.builtInCoding.getEncodingName();
+			} else {
+				//FIXME add support for custom encoding
+			}
+		}
+
+		aData.addBuiltinTypeImport("TitanUniversalCharString");
+		aData.getGlobalVariables().append(MessageFormat.format("public static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding));
+
+		if (!getGenNameCoder(aData, source, myScope).equals(getGenNameOwn()) ) {
+			return;
+		}
+
+		// encoder and decoder functions
+		aData.addBuiltinTypeImport("TitanInteger");
+		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("TTCN_EncDec");
+		aData.addCommonLibraryImport("TtcnError");
+		aData.addCommonLibraryImport("TTCN_Buffer");
+		
+		aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+		aData.addImport("java.text.MessageFormat");
+		final StringBuilder encoderString = new StringBuilder();
+		encoderString.append(MessageFormat.format("public static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+		final StringBuilder decoderString = new StringBuilder();
+		decoderString.append(MessageFormat.format("public static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
+
+		// FIXME add support for user defined codecs
+
+		// built-in codecs
+		StringBuilder checkString = new StringBuilder();
+		for (int i = 0; i < codingTable.size(); i++) {
+			Coding_Type tempCoding = codingTable.get(i);
+			if (tempCoding.builtIn) {
+				if (checkString.length() > 0) {
+					checkString.append(" && ");
+				}
+				checkString.append(MessageFormat.format("codingType != TTCN_EncDec.coding_type.CT_{0}", tempCoding.builtInCoding.getEncodingName()));
+			}
+		}
+
+		encoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
+		encoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
+		encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+		encoderString.append("TtcnLogger.begin_event_log2str();\n");
+		encoderString.append("coding_name.log();\n");
+		encoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
+		encoderString.append("}\n");
+		encoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
+		encoderString.append(MessageFormat.format("input_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+		encoderString.append("ttcnBuffer.get_string(output_stream);\n");
+		encoderString.append("}\n\n");
+
+
+		decoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
+		decoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
+		decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+		decoderString.append("TtcnLogger.begin_event_log2str();\n");
+		decoderString.append("coding_name.log();\n");
+		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
+		decoderString.append("}\n");
+		decoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
+		decoderString.append(MessageFormat.format("output_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+		decoderString.append("switch (TTCN_EncDec.get_last_error_type()) {\n");
+		decoderString.append("case ET_NONE:\n");
+		decoderString.append("ttcnBuffer.cut();\n");
+		decoderString.append("ttcnBuffer.get_string(input_stream);\n");
+		decoderString.append("return new TitanInteger(0);\n");
+		decoderString.append("case ET_INCOMPL_MSG:\n");
+		decoderString.append("case ET_LEN_ERR:\n");
+		decoderString.append("return new TitanInteger(2);\n");
+		decoderString.append("default:\n");
+		decoderString.append("return new TitanInteger(1);\n");
+		decoderString.append("}\n");
+		decoderString.append("}\n\n");
+
+		source.append(encoderString);
+		source.append(decoderString);
+	}
+
+	/**
 	 * Returns whether the type needs an explicit Java alias and/or
 	 * an alias to a type descriptor of another type. It returns true for those
 	 * types that are defined in module-level type definitions hence are
@@ -2337,6 +2451,63 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	//FIXME comment
 	public String internalGetGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameTypeName(aData, source, scope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameCoder(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		final IType t_ct = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t_ct == null) {
+			return "";
+		}
+
+		// if the type has an 'encode' or 'variant' attribute, then it needs its own coder functions
+		//TODO add support for more coders
+		if (codingTable.size() > 0 || rawAttribute != null) {
+			return getGenNameOwn(scope);
+		}
+		//TODO add support for custom encoder/decoder
+
+		if (this instanceof IReferencingType) {
+			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
+			refChain.release();
+
+			if (t != null && t != this) {
+				return t.getGenNameCoder(aData, source, scope);
+			}
+		}
+
+		return "";
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameDefaultCoding(final JavaGenData aData, final StringBuilder source, final Scope scope) {
+		switch (ownerType) {
+		case OT_TYPE_ASS:
+		case OT_TYPE_DEF:
+		case OT_ARRAY:
+		case OT_COMP_FIELD:
+		case OT_RECORD_OF:
+			// types defined in TTCN-3 or ASN.1 code and their field and element types
+			// have their own default coding variables
+			return getGenNameOwn(scope);
+		default:
+			break;
+		}
+
+		if (this instanceof IReferencingType) {
+			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
+			refChain.release();
+
+			if (t != null && t != this) {
+				return t.getGenNameDefaultCoding(aData, source, scope);
+			}
+		}
+
+		return "";
 	}
 
 	/**

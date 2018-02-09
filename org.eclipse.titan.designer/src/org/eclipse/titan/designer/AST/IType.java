@@ -971,6 +971,30 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public String getGenNameTypeDescriptor(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
 	/**
+	 * Returns the name prefix of the coder function related to this type.
+	 *
+	 * get_genname_coder in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope to generate to.
+	 * @return The name prefix of the Java function in the generated code.
+	 */
+	public String getGenNameCoder(final JavaGenData aData, final StringBuilder source, final Scope scope);
+
+	/**
+	 * Returns the name prefix of the runtime variable holding the name of the default coder's name related to this type.
+	 *
+	 * get_genname_default_coding in titan.core
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 * @param scope the scope to generate to.
+	 * @return The name prefix of the Java function in the generated code.
+	 */
+	public String getGenNameDefaultCoding(final JavaGenData aData, final StringBuilder source, final Scope scope);
+
+	/**
 	 * Returns the name of the RAW type descriptor (- the _descr_ postfix).
 	 *
 	 * get_genname_rawdescriptor in titan.core
