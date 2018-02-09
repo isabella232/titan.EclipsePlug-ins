@@ -1,71 +1,86 @@
 ###############################################################################
-# Copyright (c) 2000-2017 Ericsson Telecom AB
+# Copyright (c) 2000-2018 Ericsson Telecom AB
 # All rights reserved. This program and the accompanying materials
 # are made available under the terms of the Eclipse Public License v1.0
 # which accompanies this distribution, and is available at
 # http://www.eclipse.org/legal/epl-v10.html
 ###############################################################################
 #README file for the innersourced Titan Eclipse plugins project
-
+----------------------------------------------------------------------
 1. VERSION REQUIREMENTS
+----------------------------------------------------------------------
+Java 1.6 or higher, recommended: 1.7. To compile Titanium, Java 1.8 is required.
+XText 2.7.3 (Prerequisite for antlr), available at http://download.eclipse.org/modeling/tmf/xtext/updates/composite/releases/
 
-Java 1.6 or higher, recommended: 1.7
-  To compile Titanium Java 1.8 is required
-ANTLR 4 SDK 0.3.5
+ANTLR 4 SDK 0.3.5, available on Eclipse Marketplace
 ANTLR Runtime 4.3 or higher, recommended: 4.3, available at Eclipse Orbit
 Ant 1.9.2 or higher 
-  NOTE: Build will not work below 1.8 for sure!
-Eclipse Standard or Java 3.6 (Helios) or higher, recommended: 4.6.3 (Neon)
+NOTE: Build will not work below 1.8 for sure!
+Eclipse Standard or Java 4.3 (Juno) or higher, recommended: 4.7.1 (Oxygen)
+ANTLR 4.3
+----------------------------------------------------------------------
+2. SETTING UP ECLIPSE FOR TITAN PLUGIN DEVELOPMENT
+----------------------------------------------------------------------
+2.0 Download ANTLR 4.3.0 (and not higher!!!) from http://www.antlr.org/download/antlr-4.3-complete.jar for example to $HOME/antlr/.
 
-----------------------
-2. SETTING UP ECLIPSE FOR TITAN DEVELOPMENT
- 
 2.1. Installing Eclipse plug-ins:
-Eclipse -> Help -> Install New Software...
-  Contact all update sites during install to find required software -> ALWAYS SWITCH OFF (it can cause problems)
+-Eclipse -> Help -> Install New Software...
+  Contact all update sites during install to find required software -> ALWAYS SWITCH OFF (it can cause problems), except of installing XText!!!
+-Install XText 2.7.3, ANTLR 4 SDK, ANTLR Runtime 4.3.0 and Ant according to 1. by filtering the product name.
+/* ANTLR UI : http://antlreclipse.sourceforge.net/updates/ (not necessary???) */
 
-ANTLR
-http://antlreclipse.sourceforge.net/updates/
+2.1.1 After installing ANTLRs, go to Windows->Preferences-> ANTLR 4->Tools and 
+-Under ANTLR Tool 
+  set yes for "Tool is activated".
+  select ANTLR 4.3 from the distribution list (or add $HOME/antlr/antlr-4.3-complete if is not in the list, see 2.0)
+-Under Options
+  type  into the "Directory" field:./src
+  set the other fields yes,no,yes,yes,"UTF-8"
+2.1.2 Set the new JDK in Window -> Preferences -> Java -> Installed JREs
 
-Titan plug-ins
-from the Titan update site
-https://projects.eclipse.org/projects/tools.titan/downloads
+2.1.3 Install additional dependencies
+-Download and unzip the "Eclipse plug-ins x.x.x" from  https://projects.eclipse.org/projects/tools.titan/downloads
+-Help->Install New Software->Add..-> Local : Set the folder of the uzipped project folder, e.g. TITAN_Designer_and_Executor_plugin-6.3.pl0/
+-Select only the "Titan_external_dependencies" and "Titanium_external_dependencies" and install them
 
-Set the new JDK in Window -> Preferences -> Java -> Installed JREs
-
-Window->Preferences->TITAN Preferences:
-  TITAN installation path: <git repository>/titan/Install
-  License file (optional, only if license checking is switched on): /home/<user id>/license_<license id>.dat
 
 2.2. Importing Titan plug-in projects to Eclipse
 Add "Git Repository Exploring" perspective
 Add an existing local Git repository
-  Choose titan and titan_eclipse, finish
-titan_eclipse: right click -> import projects... -> next -> finish
+  Choose titan.core and titan.EclipsePlug-ins, finish, e.g:
+titan.EclipsePlug-ins: right click -> import projects... -> next -> finish
+---------------------------------------------------------------------
+3. Other recommended settings for TTCN3 developers in Eclipse
+----------------------------------------------------------------------
+3.1 Install Titan Eclipse Core from the Titan update site
+https://projects.eclipse.org/projects/tools.titan/downloads
 
-2.3. Other recommended settings
-Project property (right click, properties) -> TITAN Project Property -> Internal makefile creation attributes (middle tab) ->
+3.2 Set Perspective
+Set TITAN Editing perspective or
+Set TITAN Executing perspective
+
+
+3.3 Window->Preferences->TITAN Preferences:
+  TITAN installation path: <git repository>/titan/Install
+  License file (optional, only if license checking is switched on): /home/<user id>/license_<license id>.dat
+3.4 windows/customize perspective/commands groups availability -> "Launch" switch on
+
+3.5 In Eclipse, on existing Titan Project: Project property (right click, properties) -> TITAN Project Property -> Internal makefile creation attributes (middle tab) ->
   Include source line info in C++ code (-l) -> switch on
   Add source line info for logging (-L) -> switch on
-
-Add TITAN Editing perspective
-Add TITAN Executing perspective
-
-windows/customize perspective/commands groups availability -> "Launch" switch on
-
-----------------------
-3. SWITCHING ON TITAN LICENSE CHECKING AND USAGE STATISTICS SENDING
-
+---------------------------------------------------------------------
+4. SWITCHING ON TITAN LICENSE CHECKING AND USAGE STATISTICS SENDING
+----------------------------------------------------------------------
 By default Titan license checking and usage statistics sending are switched off. You can switch them on by running the following script:
 
 <git repository>/titan_eclipse/license.sh
 
 It modifies the source, you need to rebuild org.eclipse.titan.common plug-in project.
 
-----------------------
-4. BUILDING AND INSTALLING TITAN PLUG-INS FROM COMMAND LINE WITH ANT
-
-4.1. EXTERNAL JAR DEPENDENCIES
+----------------------------------------------------------------------
+5. BUILDING AND INSTALLING TITAN PLUG-INS FROM COMMAND LINE WITH ANT
+----------------------------------------------------------------------
+5.1. EXTERNAL JAR DEPENDENCIES
   ANTLR 4.3 SDK 0.3.5
     available at Eclipse Orbit
     http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/
@@ -97,7 +112,7 @@ It modifies the source, you need to rebuild org.eclipse.titan.common plug-in pro
       http://download.eclipse.org/tools/orbit/downloads/drops/S20150519210750/
       NOTE: The drop version changes very often.
 
-4.2. BUILDING TITAN PLUG-INS FROM COMMAND LINE WITH ANT
+5.2. BUILDING TITAN PLUG-INS FROM COMMAND LINE WITH ANT
 
 Building must be run from <git repository>/titan_eclipse/automatic_build
 
@@ -141,7 +156,7 @@ zip.dir: output directory for zip package that contains all the plug-ins (option
 These variables can be set by editing <git repository>/titan_eclipse/automatic_build/build_config.xml
 and also in the command.
 
-4.2.1. A working example with all of the dependencies (if all the values are set correctly, it will work with any target):
+5.2.1 A working example with all of the dependencies (if all the values are set correctly, it will work with any target):
 
 LIB_DIR_LOCAL=$HOME/lib
 LIB_DIR_GIT=$HOME/git/titan_playground/jar
@@ -168,7 +183,7 @@ ant \
 -Dzip.dir=result/zips/6.1.0.CRL_113_200_6_R1A \
 zip
 
-4.2.2. A working example with minimal requirements, with a target with few dependencies
+5.2.2. A working example with minimal requirements, with a target with few dependencies
 
 ant \
 -f build_main.xml \
@@ -178,16 +193,16 @@ ant \
 -Dcompiler.location=$HOME/git/titan/ \
 designer.plugin
 
-4.3. INSTALLING PLUG-INS TO ECLIPSE
+5.3. INSTALLING PLUG-INS TO ECLIPSE
 The plug-in jars are created in result/plugins/ directory.
 Copy these *.jar files to $ECLIPSE_HOME/plugins/ directory.
 
-----------------------
-5. RUNNING REGRESSION TEST
-
-5.1. Prerequisites:
-  5.1.1. org.eclipse.titan.titanium plug-in is built
-  5.1.2. The following plug-ins are present in eclipse/plugins directory in this structure
+----------------------------------------------------------------------
+6. RUNNING REGRESSION TEST(from Jenkins or from command line)
+----------------------------------------------------------------------
+6.1. Prerequisites:
+  6.1.1. org.eclipse.titan.titanium plug-in is built
+  6.1.2. The following plug-ins are present in eclipse/plugins directory in this structure
            edu.uci.ics.jung_2.1.0.20170405-1030/
              jung-graph-impl-2.1.jar
              jung-visualization-2.1.jar
@@ -196,16 +211,16 @@ Copy these *.jar files to $ECLIPSE_HOME/plugins/ directory.
            com.google.guava_21.0.0.v20170206-1425.jar
            org.antlr.runtime_4.3.0.v201502022030.jar
            org.apache.poi_3.9.0.v201405241750.jar
-  5.1.3. Titan jars are also copied to eclipse/plugins
+  6.1.3. Titan jars are also copied to eclipse/plugins
          cp -f result/plugins/* ${ECLIPSE_INSTALLED}/plugins
-  5.1.4. The folowing environemnt variables are set
+  6.1.4. The folowing environemnt variables are set
          JAVA_HOME
          WORKSPACE
          TTCN3_LICENSE_FILE
          TEST_PROJ
          TARGET_WS
 
-5.2. Running regression tests:
+6.2. Running regression tests:
   Tests must be run from titan_eclipse/automatic_build
   This is a content of a script, that runs the tests
   
