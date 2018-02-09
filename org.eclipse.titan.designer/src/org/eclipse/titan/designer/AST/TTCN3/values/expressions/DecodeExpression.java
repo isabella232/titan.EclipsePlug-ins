@@ -410,15 +410,15 @@ public final class DecodeExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanOctetString");
 		aData.addCommonLibraryImport("AdditionalFunctions");
-		
+
 		final ExpressionStruct expression1 = new ExpressionStruct();
 		final ExpressionStruct expression2 = new ExpressionStruct();
 
 		reference1.generateCode(aData, expression1);
 		reference2.generateCode(aData, expression2);
-		Assignment tempAssignment = reference2.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
-		IType type = tempAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
-		IType fieldType = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference2, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+		final Assignment tempAssignment = reference2.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final IType type = tempAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+		final IType fieldType = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference2, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 
 		if (expression1.preamble.length() > 0) {
 			expression.preamble.append(expression1.preamble);
@@ -429,7 +429,7 @@ public final class DecodeExpression extends Expression_Value {
 
 		final Scope scope = reference2.getMyScope();
 		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
-		
+
 		final ExpressionStruct expression3 = new ExpressionStruct();
 		//TODO add support for 4th parameter
 		expression3.expression.append(MessageFormat.format("{0}_default_coding", fieldType.getGenNameDefaultCoding(aData, expression.expression, scope)));
@@ -457,6 +457,5 @@ public final class DecodeExpression extends Expression_Value {
 		if (expression3.postamble.length() > 0) {
 			expression.postamble.append(expression3.postamble);
 		}
-
 	}
 }

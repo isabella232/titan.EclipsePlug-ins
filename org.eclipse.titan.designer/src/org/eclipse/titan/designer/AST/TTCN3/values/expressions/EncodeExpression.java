@@ -262,7 +262,7 @@ public final class EncodeExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanOctetString");
 		aData.addCommonLibraryImport("AdditionalFunctions");
-		
+
 		final boolean isValue = templateInstance.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
 
 		final ExpressionStruct expression2 = new ExpressionStruct();
