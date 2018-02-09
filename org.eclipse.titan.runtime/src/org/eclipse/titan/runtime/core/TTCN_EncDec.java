@@ -92,7 +92,7 @@ public final class TTCN_EncDec {
 		ORDER_MSB,
 		ORDER_LSB
 	};
-	public enum coding_type{
+	public static enum coding_type{
 		CT_RAW
 		//FIXME add missing enum elements as they get supported
 	};
