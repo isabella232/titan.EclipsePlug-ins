@@ -17,10 +17,10 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
-import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
+import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -403,5 +403,60 @@ public final class DecodeExpression extends Expression_Value {
 				}
 			}
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("AdditionalFunctions");
+		
+		final ExpressionStruct expression1 = new ExpressionStruct();
+		final ExpressionStruct expression2 = new ExpressionStruct();
+
+		reference1.generateCode(aData, expression1);
+		reference2.generateCode(aData, expression2);
+		Assignment tempAssignment = reference2.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		IType type = tempAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+		IType fieldType = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference2, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+
+		if (expression1.preamble.length() > 0) {
+			expression.preamble.append(expression1.preamble);
+		}
+		if (expression2.preamble.length() > 0) {
+			expression.preamble.append(expression2.preamble);
+		}
+
+		final Scope scope = reference2.getMyScope();
+		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
+		
+		final ExpressionStruct expression3 = new ExpressionStruct();
+		//TODO add support for 4th parameter
+		expression3.expression.append(MessageFormat.format("{0}_default_coding", fieldType.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		final String bufferID = aData.getTemporaryVariableName();
+		final String returnValueID = aData.getTemporaryVariableName();
+		// TOOD add handling for non-built-in encoding
+		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
+		expression.preamble.append("TTCN_EncDec.clear_error();\n");
+		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.bit2oct({1}));\n", bufferID, expression1.expression));
+		expression.preamble.append(MessageFormat.format("TitanInteger {0} = new TitanInteger({1}_decoder({2}, {3}{4}, {5}));\n", returnValueID, fieldType.getGenNameCoder(aData, expression.expression, scope), bufferID, expression2.expression, isOptional? ".get()":"", expression3.expression));
+		expression.preamble.append(MessageFormat.format("if ({0}.operatorEquals(0)) '{'\n", returnValueID));
+		expression.preamble.append(MessageFormat.format("{0} = AdditionalFunctions.oct2bit({1});\n", expression1.expression, bufferID));
+		expression.preamble.append("}\n");
+		// TOOD add handling for non-built-in encoding
+		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n");
+		expression.preamble.append("TTCN_EncDec.clear_error();\n");
+
+		expression.expression.append(returnValueID);
+		if (expression1.postamble.length() > 0) {
+			expression.postamble.append(expression1.postamble);
+		}
+		if (expression2.postamble.length() > 0) {
+			expression.postamble.append(expression2.postamble);
+		}
+		if (expression3.postamble.length() > 0) {
+			expression.postamble.append(expression3.postamble);
+		}
+
 	}
 }

@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -21,6 +22,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
@@ -252,6 +254,43 @@ public final class EncodeExpression extends Expression_Value {
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (templateInstance != null) {
 			templateInstance.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("AdditionalFunctions");
+		
+		final boolean isValue = templateInstance.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
+
+		final ExpressionStruct expression2 = new ExpressionStruct();
+		if (isValue) {
+			templateInstance.getTemplateBody().getValue().generateCodeExpressionMandatory(aData, expression2, true);
+		} else {
+			templateInstance.generateCode(aData, expression2, Restriction_type.TR_NONE);
+		}
+
+		final Scope scope = templateInstance.getTemplateBody().getMyScope();
+		final IType governor = templateInstance.getTemplateBody().getMyGovernor();
+		if (expression2.preamble.length() > 0) {
+			expression.postamble.append(expression2.preamble);
+		}
+
+		final ExpressionStruct expression3 = new ExpressionStruct();
+		//FIXME handle third parameter
+		expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
+
+		final String tempID = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString();\n", tempID));
+		expression.preamble.append(MessageFormat.format("{0}_encoder({1}{2}, {3}, {4});\n", governor.getGenNameCoder(aData, expression.expression, scope), expression2.expression, isValue?"":".valueOf()", tempID, expression3.expression));
+		expression.expression.append(MessageFormat.format("AdditionalFunctions.oct2bit({0})", tempID));
+		if (expression2.postamble.length() > 0) {
+			expression.postamble.append(expression2.postamble);
+		}
+		if (expression3.postamble.length() > 0) {
+			expression.postamble.append(expression3.postamble);
 		}
 	}
 }
