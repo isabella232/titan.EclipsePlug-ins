@@ -39,6 +39,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * @author Arpad Lovassy
+ * @author Kristof Szabados
  * */
 public final class DecodeExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The first operand of the `decvalue' operation should be a bitstring value";
@@ -431,7 +432,7 @@ public final class DecodeExpression extends Expression_Value {
 		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
-		//TODO add support for 4th parameter
+		//TODO add support for 5th parameter
 		expression3.expression.append(MessageFormat.format("{0}_default_coding", fieldType.getGenNameDefaultCoding(aData, expression.expression, scope)));
 		final String bufferID = aData.getTemporaryVariableName();
 		final String returnValueID = aData.getTemporaryVariableName();
