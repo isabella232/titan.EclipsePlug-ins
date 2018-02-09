@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *                  in universal charstring decoding_info := "")
  *           return integer
  * @author Arpad Lovassy
+ * @author Kristof Szabados
  */
 public final class DecvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR1 = "The 1st operand of the `decvalue_unichar' operation should be a universal charstring value";
@@ -613,6 +614,75 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		}
 		if (value4 != null) {
 			value4.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		final ExpressionStruct expression1 = new ExpressionStruct();
+		final ExpressionStruct expression2 = new ExpressionStruct();
+
+		reference1.generateCode(aData, expression1);
+		reference2.generateCode(aData, expression2);
+		final Assignment tempAssignment = reference2.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+		final IType type = tempAssignment.getType(CompilationTimeStamp.getBaseTimestamp());
+		final IType fieldType = type.getFieldType(CompilationTimeStamp.getBaseTimestamp(), reference2, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+
+		if (expression1.preamble.length() > 0) {
+			expression.preamble.append(expression1.preamble);
+		}
+		if (expression2.preamble.length() > 0) {
+			expression.preamble.append(expression2.preamble);
+		}
+
+		String v3_code;
+		if (value3 == null) {
+			v3_code = "\"UTF-8\"";
+		} else {
+			final ExpressionStruct tempExpression = new ExpressionStruct();
+			value3.generateCodeExpressionMandatory(aData, tempExpression, true);
+			final String tempID = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("TitanCharString {0} = {1};\n", tempID, tempExpression.expression));
+			expression.preamble.append(MessageFormat.format("if ({0}.operatorNotEquals(\"UTF-8\") && {0}.operatorNotEquals(\"UTF-16\") && {0}.operatorNotEquals(\"UTF-16LE\") && {0}.operatorNotEquals(\"UTF-16BE\") && {0}.operatorNotEquals(\"UTF-32\") && {0}.operatorNotEquals(\"UTF-32LE\") && {0}.operatorNotEquals(\"UTF-32BE\")) '{'\n", tempID));
+			expression.preamble.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"decvalue_unichar: Invalid encoding parameter: '{'0'}'\", {0}));\n", tempID));
+			expression.preamble.append("}\n");
+
+			v3_code = tempID;
+		}
+
+		final Scope scope = reference2.getMyScope();
+		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
+
+		final ExpressionStruct expression3 = new ExpressionStruct();
+		//TODO add support for 4th parameter
+		expression3.expression.append(MessageFormat.format("{0}_default_coding", fieldType.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		final String bufferID = aData.getTemporaryVariableName();
+		final String returnValueID = aData.getTemporaryVariableName();
+		// TOOD add handling for non-built-in encoding
+		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
+		expression.preamble.append("TTCN_EncDec.clear_error();\n");
+		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.unichar2oct({1}, {2}));\n", bufferID, expression1.expression, v3_code));
+		expression.preamble.append(MessageFormat.format("TitanInteger {0} = new TitanInteger({1}_decoder({2}, {3}{4}, {5}));\n", returnValueID, fieldType.getGenNameCoder(aData, expression.expression, scope), bufferID, expression2.expression, isOptional? ".get()":"", expression3.expression));
+		expression.preamble.append(MessageFormat.format("if ({0}.operatorEquals(0)) '{'\n", returnValueID));
+		expression.preamble.append(MessageFormat.format("{0} = AdditionalFunctions.oct2unichar({1}, {2});\n", expression1.expression, bufferID, v3_code));
+		expression.preamble.append("}\n");
+		// TOOD add handling for non-built-in encoding
+		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n");
+		expression.preamble.append("TTCN_EncDec.clear_error();\n");
+
+		expression.expression.append(returnValueID);
+		if (expression1.postamble.length() > 0) {
+			expression.postamble.append(expression1.postamble);
+		}
+		if (expression2.postamble.length() > 0) {
+			expression.postamble.append(expression2.postamble);
+		}
+		if (expression3.postamble.length() > 0) {
+			expression.postamble.append(expression3.postamble);
 		}
 	}
 }

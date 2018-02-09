@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -22,6 +23,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
@@ -39,6 +41,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  *                  in universal charstring encoding_info := "")
  *           return universal charstring
  * @author Arpad Lovassy
+ * @author Kristof Szabados
  */
 public final class EncvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR1 = "Cannot determine the type of the 1st operand of the `encvalue_unichar' operation";
@@ -438,6 +441,58 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		}
 		if (value3 != null) {
 			value3.reArrangeInitCode(aData, source, usageModule);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		final boolean isValue = templateInstance1.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
+
+		final ExpressionStruct expression2 = new ExpressionStruct();
+		if (isValue) {
+			templateInstance1.getTemplateBody().getValue().generateCodeExpressionMandatory(aData, expression2, true);
+		} else {
+			templateInstance1.generateCode(aData, expression2, Restriction_type.TR_NONE);
+		}
+
+		String v2_code;
+		if (value2 == null) {
+			v2_code = "\"UTF-8\"";
+		} else {
+			final ExpressionStruct tempExpression = new ExpressionStruct();
+			value2.generateCodeExpressionMandatory(aData, tempExpression, true);
+			final String tempID = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("TitanCharString {0} = {1};\n", tempID, tempExpression.expression));
+			expression.preamble.append(MessageFormat.format("if ({0}.operatorNotEquals(\"UTF-8\") && {0}.operatorNotEquals(\"UTF-16\") && {0}.operatorNotEquals(\"UTF-16LE\") && {0}.operatorNotEquals(\"UTF-16BE\") && {0}.operatorNotEquals(\"UTF-32\") && {0}.operatorNotEquals(\"UTF-32LE\") && {0}.operatorNotEquals(\"UTF-32BE\")) '{'\n", tempID));
+			expression.preamble.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"decvalue_unichar: Invalid encoding parameter: '{'0'}'\", {0}));\n", tempID));
+			expression.preamble.append("}\n");
+
+			v2_code = tempID;
+		}
+
+		final Scope scope = templateInstance1.getTemplateBody().getMyScope();
+		final IType governor = templateInstance1.getTemplateBody().getMyGovernor();
+		if (expression2.preamble.length() > 0) {
+			expression.postamble.append(expression2.preamble);
+		}
+
+		final ExpressionStruct expression3 = new ExpressionStruct();
+		//FIXME handle 4th parameter
+		expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
+
+		final String tempID = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString();\n", tempID));
+		expression.preamble.append(MessageFormat.format("{0}_encoder({1}{2}, {3}, {4});\n", governor.getGenNameCoder(aData, expression.expression, scope), expression2.expression, isValue?"":".valueOf()", tempID, expression3.expression));
+		expression.expression.append(MessageFormat.format("AdditionalFunctions.oct2unichar({0}, {1})", tempID, v2_code));
+		if (expression2.postamble.length() > 0) {
+			expression.postamble.append(expression2.postamble);
+		}
+		if (expression3.postamble.length() > 0) {
+			expression.postamble.append(expression3.postamble);
 		}
 	}
 }
