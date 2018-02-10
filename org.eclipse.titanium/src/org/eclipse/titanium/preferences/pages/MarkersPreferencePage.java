@@ -311,7 +311,6 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
 			createField(comp, ProblemTypePreference.UNUSED_GLOBAL_DEFINITION);
 			createField(comp, ProblemTypePreference.UNUSED_LOCAL_DEFINITION);
-			createField(comp, ProblemTypePreference.UNUSED_LOCAL_DEFINITION_NEW);
 			createField(comp, ProblemTypePreference.UNNECESSARY_CONTROLS);
 			createField(comp, ProblemTypePreference.UNNECESSARY_VALUEOF);
 			sec.addExpansionListener(new CustomExpansionListener(comp));

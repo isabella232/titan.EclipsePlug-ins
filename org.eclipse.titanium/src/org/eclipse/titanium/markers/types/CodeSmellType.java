@@ -69,7 +69,6 @@ public enum CodeSmellType implements ProblemType{
 	UNUSED_GLOBAL_DEFINITION("Unused global definition", 0.5, 4.5, 18.0),
 	UNUSED_IMPORT("Unused import", 0.0, 0.5, 1.0),
 	UNUSED_LOCAL_DEFINITION("Unused local definition",0.0, 0.5, 1.5),
-	UNUSED_LOCAL_DEFINITION_NEW("Unused local definition",0.0, 0.5, 1.5),
 	VISIBILITY_IN_DEFINITION("Visibility in definition", 0.0, 0.5, 4.5);
 
 	public static final String MARKER_ID = "org.eclipse.titanium.markers.CodeSmellMarker";
