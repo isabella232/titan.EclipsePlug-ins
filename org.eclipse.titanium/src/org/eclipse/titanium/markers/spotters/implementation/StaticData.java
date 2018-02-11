@@ -94,7 +94,6 @@ public final class StaticData {
 		m.put(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] { new UnusedRetval() });
 		m.put(CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES, new BaseModuleCodeSmellSpotter[] {
 				new UnusedStartedRefFuncRetVal(), new UnusedStartedFuncRetVal() });
-		m.put(CodeSmellType.UNUSED_LOCAL_DEFINITION_NEW, new BaseModuleCodeSmellSpotter[] { new UnusedLocalDefinitionNew() });
 		m.put(CodeSmellType.UNUSED_LOCAL_DEFINITION, new BaseModuleCodeSmellSpotter[] { new UnusedLocalDefinition() });
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 

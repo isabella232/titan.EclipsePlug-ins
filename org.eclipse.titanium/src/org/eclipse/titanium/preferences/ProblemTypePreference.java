@@ -75,7 +75,6 @@ public enum ProblemTypePreference {
 	UNUSED_GLOBAL_DEFINITION("Report unused module level definitions", EnumSet.of(CodeSmellType.UNUSED_GLOBAL_DEFINITION)),
 	UNUSED_IMPORT("Report unused module importation", EnumSet.of(CodeSmellType.UNUSED_IMPORT)),
 	UNUSED_LOCAL_DEFINITION("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION)),
-	UNUSED_LOCAL_DEFINITION_NEW("Report unused local definition", EnumSet.of(CodeSmellType.UNUSED_LOCAL_DEFINITION_NEW)),
 	VISIBILITY_IN_DEFINITION("Report visibility settings mentioned in the name of definitions", EnumSet.of(CodeSmellType.VISIBILITY_IN_DEFINITION));
 
 	public static final String PREFIX = "CODE_SMELL.";
