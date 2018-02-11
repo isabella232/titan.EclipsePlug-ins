@@ -29,6 +29,7 @@ import org.eclipse.jface.preference.PreferenceDialog;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
@@ -218,11 +219,15 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 
 	@Override
 	public boolean performFinish() {
+		Activator.getDefault().pauseHandlingResourceChanges();
+
 		if (!isCreated) {
 			createNewProject();
 		}
 
 		if (newProject == null) {
+			Activator.getDefault().resumeHandlingResourceChanges();
+
 			return false;
 		}
 
@@ -236,6 +241,8 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY), executable);
 		} catch (CoreException ce) {
 			ErrorReporter.logExceptionStackTrace(ce);
+
+			Activator.getDefault().resumeHandlingResourceChanges();
 		}
 
 		ProjectDocumentHandlingUtility.createDocument(newProject);
@@ -248,6 +255,8 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 		} catch (InterruptedException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
+
+		Activator.getDefault().resumeHandlingResourceChanges();
 
 		try {
 			newProject.refreshLocal(IResource.DEPTH_INFINITE, null);
