@@ -881,8 +881,26 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasEncoding(final MessageEncoding_type coding) {
-		//FIXME implement, right now true is returned temporarily
-		return true;
+		if (coding != MessageEncoding_type.BER && coding != MessageEncoding_type.PER) {
+			final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+			if (t != null) {
+				//TODO add support for custom encoding later
+				final List<Coding_Type> codingTable = t.getCodingTable();
+				for (int i = 0; i < codingTable.size(); i++) {
+					if (codingTable.get(i).builtIn && codingTable.get(i).builtInCoding == coding) {
+						return true;
+					}
+				}
+			}
+		}
+
+		final IType lastType = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final boolean canHave = lastType.canHaveCoding(coding, chain);
+		chain.release();
+
+		return canHave;
 	}
 	
 	@Override
