@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.executor.perspectives;
 
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.titan.executor.Activator;
 import org.eclipse.titan.executor.designerconnection.DesignerHelper;
 import org.eclipse.titan.executor.views.executormonitor.ExecutorMonitorView;
@@ -52,5 +53,7 @@ public final class ExecutingPerspective  implements IPerspectiveFactory {
 		layout.addShowViewShortcut(ExecutorMonitorView.EXECUTORMONITOR_VIEW_ID);
 		layout.addShowViewShortcut(TestExecutionView.TESTEXECUTIONVIEW);
 		layout.addShowViewShortcut(NotificationView.NOTIFICATIONVIEW);
+
+		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 	}
 }

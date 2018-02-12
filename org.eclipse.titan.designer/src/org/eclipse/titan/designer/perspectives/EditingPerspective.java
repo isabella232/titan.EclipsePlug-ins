@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.perspectives;
 
+import org.eclipse.debug.ui.IDebugUIConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.wizards.NewASN1ModuleWizard;
 import org.eclipse.titan.designer.wizards.NewConfigFileWizard;
@@ -45,7 +46,7 @@ public final class EditingPerspective implements IPerspectiveFactory {
 		 * layout.addActionSet(IPageLayout.ID_NAVIGATE_ACTION_SET);
 		 * layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		 */
-
+		layout.addActionSet(IDebugUIConstants.LAUNCH_ACTION_SET);
 		layout.addNewWizardShortcut(NewTITANProjectWizard.NEWTITANPROJECTWIZARD);
 		layout.addNewWizardShortcut(NewASN1ModuleWizard.NEWASN1MODULEWIZARD);
 		layout.addNewWizardShortcut(NewTTCN3ModuleWizard.NEWTTCN3MODULEWIZARD);
