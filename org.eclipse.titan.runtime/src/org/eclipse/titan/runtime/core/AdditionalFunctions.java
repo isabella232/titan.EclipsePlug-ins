@@ -1107,8 +1107,10 @@ public final class AdditionalFunctions {
 
 		final char c = value.get_char();
 		if (c < '0' || c > '9') {
-			// TODO: Reimplement once TTCN_error_begin is available
-			throw new TtcnError(MessageFormat.format("The argument of function str2int(), which is a charstring element containing character {0}, does not represent a valid integer value.", c));
+			TtcnError.TtcnErrorBegin("The argument of function str2int(), which is a charstring element containing character `");
+			TtcnLogger.logCharEscaped(c);
+			TtcnLogger.log_event_str("', does not represent a valid integer value.");
+			TtcnError.TtcnErrorEnd();
 		}
 		return new TitanInteger(Integer.valueOf(c - '0'));
 	}
@@ -1137,8 +1139,10 @@ public final class AdditionalFunctions {
 			final char c = chars_ptr.charAt(i);
 			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit > 0x0F) {
-				// TODO: Reimplement once TTCN_error_begin is available
-				throw new TtcnError(MessageFormat.format("The argument of function str2oct() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
+				TtcnError.TtcnErrorBegin("The argument of function str2oct() shall contain hexadecimal digits only, but character `");
+				TtcnLogger.logCharEscaped(c);
+				TtcnLogger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
+				TtcnError.TtcnErrorEnd();
 			}
 			if (i % 2 != 0) {
 				octets_ptr[i / 2] = (char) (octets_ptr[i / 2] | hexdigit);
@@ -1305,8 +1309,12 @@ public final class AdditionalFunctions {
 				break;
 			}
 			if(state == str2floatState.S_ERR) {
-				// TODO: Reimplement once TTCN_error_begin is available
-				throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Invalid character {1} was found at index {2}. ", value_str.toString(),c,i));
+				TtcnError.TtcnErrorBegin("The argument of function str2float() which is ");
+				value.log();
+				TtcnLogger.log_event_str("' , does not represent a valid float value. Invalid character ");
+				TtcnLogger.logCharEscaped(c);
+				TtcnLogger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
+				TtcnError.TtcnErrorEnd();
 			}
 		}
 		switch (state) {
@@ -1323,21 +1331,30 @@ public final class AdditionalFunctions {
 			// OK now (fraction part missing)
 			break;
 		default:
-			// TODO: Reimplement once TTCN_error_begin is available
-			throw new TtcnError(MessageFormat.format("The argument of function str2float(), which is {0} , does not represent a valid float value. Premature end of the string.",value_str.toString()));
+			TtcnError.TtcnErrorBegin("The argument of function str2float() which is ");
+			value.log();
+			TtcnLogger.log_event_str("' , does not represent a valid float value. Premature end of the string.");
+			TtcnError.TtcnErrorEnd();
 		}
 		if(leading_ws) {
-			// TODO: Reimplement once TTCN_warning_begin is available
-			TtcnError.TtcnWarning(MessageFormat.format("Leading whitespace was detected in the argument of function str2float(): {0}." , value_str.toString()));
+			TtcnError.TtcnWarningBegin("Leading whitespace was detected in the argument of function str2float(): ");
+			value.log();
+			TtcnLogger.log_char('.');
+			TtcnError.TtcnWarningEnd();
 		}
 		if(leading_zero) {
-			//TODO: Initial implementation
-			TtcnError.TtcnWarning(MessageFormat.format("Leading zero digit was detected in the argument of function str2float(): {0}.", value_str.toString()));
+			TtcnError.TtcnWarningBegin("Leading zero digit was detected in the argument of function str2float(): ");
+			value.log();
+			TtcnLogger.log_char('.');
+			TtcnError.TtcnWarningEnd();
 		}
 		if(state == str2floatState.S_END) {
-			// TODO: Reimplement once TTCN_warning_begin is available
-			TtcnError.TtcnWarning(MessageFormat.format("Trailing whitespace was detected in the argument of function str2float(): {0}.", value_str.toString()));
+			TtcnError.TtcnWarningBegin("Trailing whitespace was detected in the argument of function str2float(): ");
+			value.log();
+			TtcnLogger.log_char('.');
+			TtcnError.TtcnWarningEnd();
 		}
+
 		return new TitanFloat(Double.valueOf(value_str.toString()));
 	}
 
@@ -2353,8 +2370,10 @@ public final class AdditionalFunctions {
 				ret_val.append('1');
 				break;
 			default:
-				// TODO: Reimplement once TTCN_error_begin is available
-				throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters '0' and '1' only, but character {0} was found at index {1}.", c, i));
+				TtcnError.TtcnErrorBegin("The argument of function str2bit() shall contain characters '0' and '1' only, but character `");
+				TtcnLogger.logCharEscaped(c);
+				TtcnLogger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
+				TtcnError.TtcnErrorEnd();
 			}
 		}
 
@@ -2366,8 +2385,10 @@ public final class AdditionalFunctions {
 
 		final char c = value.get_char();
 		if (c != '0' && c != '1') {
-			// TODO: Reimplement once TTCN_error_begin is available
-			throw new TtcnError(MessageFormat.format("The argument of function str2bit() shall contain characters `0' and `1' only, but the given charstring element contains the character {0}.", c));
+			TtcnError.TtcnErrorBegin("The argument of function str2bit() shall contain characters '0' and '1' only, but the given charstring element contains the character `");
+			TtcnLogger.logCharEscaped(c);
+			TtcnLogger.log_event_str("'.");
+			TtcnError.TtcnErrorEnd();
 		}
 
 		return new TitanBitString((value.get_char() == '1' ? "1" : "0"));
@@ -2394,8 +2415,10 @@ public final class AdditionalFunctions {
 			final char c = chars_ptr.charAt(i);
 			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit < 0x00) {
-				// TODO: Reimplement once TTCN_error_begin is available
-				throw new TtcnError(MessageFormat.format("The argument of function str2hex() shall contain hexadecimal digits only, but character {0} was found at index {1}.", c, i));
+				TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain hexadecimal digits only, but character `");
+				TtcnLogger.logCharEscaped(c);
+				TtcnLogger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
+				TtcnError.TtcnErrorEnd();
 			}
 			ret_val[i] = hexdigit;
 		}
@@ -2410,8 +2433,10 @@ public final class AdditionalFunctions {
 		final byte hexdigit = charToHexDigit(c);
 
 		if (hexdigit < 0x00) {
-			// TODO: Reimplement once TTCN_error_begin is available
-			throw new TtcnError(MessageFormat.format( "The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character {0} .", c));
+			TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character `");
+			TtcnLogger.logCharEscaped(c);
+			TtcnLogger.log_event_str("'.");
+			TtcnError.TtcnErrorEnd();
 		}
 
 		return new TitanHexString(hexdigit);
