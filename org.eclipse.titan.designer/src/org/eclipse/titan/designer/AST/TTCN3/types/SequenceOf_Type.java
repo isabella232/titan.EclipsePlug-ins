@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.FieldSubReference;
@@ -846,5 +847,19 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameOwn(scope).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
+
+			return "FATAL_ERROR encountered";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
 	}
 }

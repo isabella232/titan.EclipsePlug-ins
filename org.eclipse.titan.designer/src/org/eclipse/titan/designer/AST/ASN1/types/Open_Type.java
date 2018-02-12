@@ -693,6 +693,20 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
+
+			return "FATAL_ERROR encountered";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return true;

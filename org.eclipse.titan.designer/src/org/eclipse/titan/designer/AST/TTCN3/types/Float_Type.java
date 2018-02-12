@@ -362,4 +362,18 @@ public final class Float_Type extends ASN1Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanFloat";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			aData.addBuiltinTypeImport( "RAW" );
+
+			return "RAW.TitanFloat_raw_";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
 }

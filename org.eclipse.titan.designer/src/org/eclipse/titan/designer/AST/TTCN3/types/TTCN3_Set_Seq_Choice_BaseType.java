@@ -695,6 +695,20 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
+
+			return "FATAL_ERROR encountered";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {

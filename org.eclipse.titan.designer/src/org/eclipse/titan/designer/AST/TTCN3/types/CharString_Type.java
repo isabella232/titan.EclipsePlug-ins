@@ -411,4 +411,18 @@ public final class CharString_Type extends Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanCharString";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			aData.addBuiltinTypeImport( "RAW" );
+
+			return "RAW.TitanCharString_raw_";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
 }

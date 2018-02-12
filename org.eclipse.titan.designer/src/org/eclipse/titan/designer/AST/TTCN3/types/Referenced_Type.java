@@ -675,6 +675,24 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (this == refd || refd == null || refdLast == null) {
+			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
+
+			return "FATAL_ERROR encountered";
+		}
+
+		if (rawAttribute != null) {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+
+		return refd.getGenNameRawDescriptor(aData, source);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {

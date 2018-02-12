@@ -311,4 +311,19 @@ public final class HexString_Type extends Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanHexString";
 	}
+
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			aData.addBuiltinTypeImport( "RAW" );
+
+			return "RAW.TitanHexString_raw_";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
 }

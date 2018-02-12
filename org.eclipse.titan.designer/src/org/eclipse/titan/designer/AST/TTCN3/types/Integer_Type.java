@@ -429,4 +429,18 @@ public final class Integer_Type extends Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanInteger";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			aData.addBuiltinTypeImport( "RAW" );
+
+			return "RAW.TitanInteger_raw_";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
 }

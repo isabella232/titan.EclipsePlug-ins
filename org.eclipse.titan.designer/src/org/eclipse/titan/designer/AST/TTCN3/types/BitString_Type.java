@@ -307,4 +307,18 @@ public final class BitString_Type extends Type {
 		aData.addBuiltinTypeImport( "Base_Type" );
 		return "Base_Type.TitanBitString";
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			aData.addBuiltinTypeImport( "RAW" );
+
+			return "RAW.TitanBitstring_raw_";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
+	}
 }

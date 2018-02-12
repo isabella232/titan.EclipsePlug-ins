@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
@@ -590,5 +591,19 @@ public final class SetOf_Type extends AbstractOfType {
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return getGenNameOwn(scope).concat("_template");
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		if (rawAttribute == null) {
+			ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
+
+			return "FATAL_ERROR encountered";
+		} else {
+			generateCodeRawDescriptor(aData, source);
+
+			return getGenNameOwn(myScope) + "_raw_";
+		}
 	}
 }

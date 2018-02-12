@@ -95,7 +95,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	// memory, by moving it ... but than we waste runtime.
 	protected WithAttributesPath withAttributesPath = null;
 	public ArrayList<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
-	private RawAST rawAttribute = null;
+	protected RawAST rawAttribute = null;
 
 	private boolean hasDone = false;
 
@@ -2131,9 +2131,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			//check and generate the needed type descriptors
 			//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
 			final boolean generate_raw = aData.getEnableRaw() && aData.getLegacyCodecHandling() ? true: getGenerateCoderFunctions(MessageEncoding_type.RAW);//FIXME implement legacy support if needed
-			final String gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
-			if (generate_raw && genname.equals(gennameRawDescriptor)) {
-				generateCodeRawDescriptor(aData, source);
+			String gennameRawDescriptor;
+			if (generate_raw) {
+				gennameRawDescriptor = getGenNameRawDescriptor(aData, source);
+			} else {
+				gennameRawDescriptor = "null";
 			}
 
 			aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
@@ -2141,7 +2143,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
 			if (generate_raw) {
 				//TODO the code works but the internal types don't have their raw descriptors yet, so results in lots of errors in the generated code.
-				globalVariables.append(MessageFormat.format(", {0}_raw_", gennameRawDescriptor));
+				globalVariables.append(MessageFormat.format(", {0}", gennameRawDescriptor));
 			} else {
 				globalVariables.append(", null");
 			}
@@ -2165,7 +2167,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
 	 * */
-	public void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+	protected void generateCodeRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport("RAW.TTCN_RAWdescriptor");
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.raw_sign_t");
@@ -2511,7 +2513,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
-	 * Returns the name of the RAW type descriptor (- the _descr_ postfix).
+	 * Returns the name of the RAW descriptor (- the _raw_ postfix).
 	 *
 	 * get_genname_rawdescriptor in titan.core
 	 *
@@ -2520,21 +2522,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return The name of the Java variable in the generated code.
 	 */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (rawAttribute != null) {
-			return getGenNameOwn(myScope);
-		}
-		if (this instanceof IReferencingType) {
-			//FIXME check for XER
-			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final IType t = ((IReferencingType) this).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), refChain);
-			refChain.release();
+		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
 
-			if (t != null && t != this) {
-				return t.getGenNameRawDescriptor(aData, source);
-			}
-		}
-
-		return getGenNameTypeName(aData, source, myScope);
+		return "FATAL_ERROR encountered";
 	}
 
 	/**
