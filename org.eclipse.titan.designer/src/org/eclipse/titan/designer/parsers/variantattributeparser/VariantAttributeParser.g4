@@ -328,6 +328,7 @@ pr_XTagDef:
 (	TAGKeyword
 	LPAREN
 	taglist = pr_XAssocList	{rawstruct.taglist = $taglist.taglist;}
+	SEMICOLON?
 	RPAREN
 );
 
@@ -335,6 +336,7 @@ pr_XCrossTagDef:
 (	CROSSTAGKeyword
 	LPAREN
 	taglist = pr_XAssocList	{rawstruct.crosstaglist = $taglist.taglist;}
+	SEMICOLON?
 	RPAREN
 );
 
