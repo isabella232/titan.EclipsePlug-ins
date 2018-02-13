@@ -2342,8 +2342,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		// built-in codecs
 		StringBuilder checkString = new StringBuilder();
-		for (int i = 0; i < codingTable.size(); i++) {
-			Coding_Type tempCoding = codingTable.get(i);
+		for (int i = 0; i < tempCodingTable.size(); i++) {
+			Coding_Type tempCoding = tempCodingTable.get(i);
 			if (tempCoding.builtIn) {
 				if (checkString.length() > 0) {
 					checkString.append(" && ");
