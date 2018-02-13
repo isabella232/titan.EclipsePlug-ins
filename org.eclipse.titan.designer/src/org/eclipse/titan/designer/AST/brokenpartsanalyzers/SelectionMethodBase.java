@@ -27,7 +27,6 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  */
 public abstract class SelectionMethodBase {
 
-	private final SelectionAlgorithm selectionAlgorithm;
 	protected List<Module> allModules;
 	protected List<Module> modulesToCheck;
 	protected List<Module> modulesToSkip;
@@ -42,9 +41,6 @@ public abstract class SelectionMethodBase {
 	protected String header;
 	protected String footer;
 
-	public SelectionAlgorithm getSelectionAlgorithm(){
-		return selectionAlgorithm;
-	}
 
 	public List<Module> getModulesToCheck() {
 		return modulesToCheck;
@@ -61,8 +57,7 @@ public abstract class SelectionMethodBase {
 		this.semanticallyChecked = semanticallyChecked;
 	}
 
-	protected SelectionMethodBase(final SelectionAlgorithm selectionAlgorithm) {
-		this.selectionAlgorithm = selectionAlgorithm;
+	protected SelectionMethodBase() {
 		writeDebugInfo = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null);
 	}
 

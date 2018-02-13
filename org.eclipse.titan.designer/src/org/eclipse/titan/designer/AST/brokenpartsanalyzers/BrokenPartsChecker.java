@@ -43,24 +43,13 @@ public final class BrokenPartsChecker {
 	public void doChecking() {
 		monitor.subTask("Semantic checking");
 
-		switch (selectionMethod.getSelectionAlgorithm()) {
-		case MODULESELECTIONORIGINAL:
+		final BrokenPartsViaReferences brokenParts = (BrokenPartsViaReferences)selectionMethod;
+		if (brokenParts.getAnalyzeOnlyDefinitions()) {
+			final Map<Module, List<Assignment>> moduleAndBrokenDefinitions = brokenParts.getModuleAndBrokenDefs();
+			definitionsChecker(moduleAndBrokenDefinitions);
+		} else {
 			generalChecker();
-			break;
-		case BROKENREFERENCESINVERTED:
-			final BrokenPartsViaReferences brokenParts = (BrokenPartsViaReferences)selectionMethod;
-			if (brokenParts.getAnalyzeOnlyDefinitions()) {
-				final Map<Module, List<Assignment>> moduleAndBrokenDefinitions = brokenParts.getModuleAndBrokenDefs();
-				definitionsChecker(moduleAndBrokenDefinitions);
-			} else {
-				generalChecker();
-			}
-			break;
-		default:
-			generalChecker();
-			break;
 		}
-
 
 
 		monitor.subTask("Doing post semantic checks");

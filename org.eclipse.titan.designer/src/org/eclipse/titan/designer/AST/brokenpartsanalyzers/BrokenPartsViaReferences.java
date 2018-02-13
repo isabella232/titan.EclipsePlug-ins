@@ -54,8 +54,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase implemen
 	private final Map<Module, List<Assignment>> moduleAndBrokenAssignments;
 	private boolean analyzeOnlyAssignments;
 
-	public BrokenPartsViaReferences(final SelectionAlgorithm selectionAlgorithm, final CompilationTimeStamp timestamp) {
-		super(selectionAlgorithm);
+	public BrokenPartsViaReferences(final CompilationTimeStamp timestamp) {
 		moduleAndBrokenAssignments = new HashMap<Module, List<Assignment>>();
 		analyzeOnlyAssignments = false;
 		this.timestamp = timestamp;

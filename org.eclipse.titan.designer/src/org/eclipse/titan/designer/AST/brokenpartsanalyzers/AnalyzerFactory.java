@@ -20,7 +20,7 @@ public final class AnalyzerFactory {
 	}
 
 	public static IBaseAnalyzer getAnalyzer(final CompilationTimeStamp timestamp) {
-		return new BrokenPartsViaReferences(SelectionAlgorithm.BROKENREFERENCESINVERTED, timestamp);
+		return new BrokenPartsViaReferences(timestamp);
 	}
 
 
