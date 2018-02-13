@@ -40,7 +40,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ImportModule;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
 import org.eclipse.titan.designer.AST.brokenpartsanalyzers.BrokenPartsChecker;
 import org.eclipse.titan.designer.AST.brokenpartsanalyzers.BrokenPartsViaReferences;
-import org.eclipse.titan.designer.AST.brokenpartsanalyzers.IBaseAnalyzer;
 import org.eclipse.titan.designer.AST.brokenpartsanalyzers.SelectionMethodBase;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.TITANNature;
@@ -388,7 +387,7 @@ public class ProjectSourceSemanticAnalyzer {
 
 				progress.subTask("Calculating the list of modules to be checked");
 
-				IBaseAnalyzer selectionMethod = new BrokenPartsViaReferences(compilationCounter);
+				BrokenPartsViaReferences selectionMethod = new BrokenPartsViaReferences(compilationCounter);
 				SelectionMethodBase selectionMethodBase = (SelectionMethodBase)selectionMethod;
 				selectionMethodBase.setModules(allModules, semanticallyChecked);
 				selectionMethod.execute();
