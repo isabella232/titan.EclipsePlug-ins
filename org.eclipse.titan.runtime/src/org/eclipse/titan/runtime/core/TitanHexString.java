@@ -11,7 +11,9 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
@@ -339,6 +341,55 @@ public class TitanHexString extends Base_Type {
 			text_buf.pull_raw(n_nibbles, nibbles_ptr);
 		}
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+
+			errorContext.leaveContext();
+			break;
+		}
+		default:
+			throw new TtcnError("encoding of hexstrings is not yet completely implemented!");
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW:
+			TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			if(p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			raw_order_t order;
+			switch (p_td.raw.top_bit_order) {
+			case TOP_BIT_LEFT:
+				order = raw_order_t.ORDER_LSB;
+				break;
+			case TOP_BIT_RIGHT:
+			default:
+				order = raw_order_t.ORDER_MSB;
+			}
+			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+			}
+			break;
+		default:
+			throw new TtcnError("decoding of hexstrings is not yet completely implemented!");
+		}
+	}
 
 	@Override
 	public boolean isPresent() {
@@ -632,7 +683,7 @@ public class TitanHexString extends Base_Type {
 		return this.rotateRight(rotateCount.getInt());
 	}
 
-	public int RAW_encoding(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		if(!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
@@ -650,9 +701,9 @@ public class TitanHexString extends Base_Type {
 
 		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
-		myleaf.data_ptr = new char[nibbles_ptr.length];
-		for (int i = 0; i < nibbles_ptr.length; i++) {
-			myleaf.data_ptr[i] = (char) nibbles_ptr[i];
+		myleaf.data_ptr = new char[(nibbles_ptr.length + 1 ) / 2];
+		for (int i = 1; i < nibbles_ptr.length; i+= 2) {
+			myleaf.data_ptr[i / 2] = (char) ((nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F) );
 		}
 		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
@@ -661,6 +712,10 @@ public class TitanHexString extends Base_Type {
 		}
 
 		return myleaf.length = nbits + align_length;
+	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord) {
+		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
 	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
@@ -697,8 +752,11 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr = new byte[decode_length / 4];
 		char[] tmp_nibbles = new char[decode_length / 4];
 		buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
-		for (int i = 0; i < tmp_nibbles.length; i++) {
-			nibbles_ptr[i] = (byte)tmp_nibbles[i];
+		int temp_index = 0;
+		for (int i = 0; i < tmp_nibbles.length-1; i+=2) {
+			nibbles_ptr[i] = (byte)(tmp_nibbles[temp_index] & 0x0F);
+			nibbles_ptr[i+1] = (byte)(tmp_nibbles[temp_index] >> 4);
+			temp_index++;
 		}
 
 		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {

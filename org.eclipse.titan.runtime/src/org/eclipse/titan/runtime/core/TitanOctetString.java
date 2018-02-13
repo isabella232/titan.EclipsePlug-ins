@@ -12,8 +12,10 @@ import java.util.Arrays;
 import java.util.regex.Pattern;
 
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
@@ -635,6 +637,55 @@ public class TitanOctetString extends Base_Type {
 
 		return rotateRight(rotateCount.getInt());
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+
+			errorContext.leaveContext();
+			break;
+		}
+		default:
+			throw new TtcnError("encoding of octetstrings is not yet completely implemented!");
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW:
+			TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			if(p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			raw_order_t order;
+			switch (p_td.raw.top_bit_order) {
+			case TOP_BIT_LEFT:
+				order = raw_order_t.ORDER_LSB;
+				break;
+			case TOP_BIT_RIGHT:
+			default:
+				order = raw_order_t.ORDER_MSB;
+			}
+			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+			}
+			break;
+		default:
+			throw new TtcnError("decoding of octetstrings is not yet completely implemented!");
+		}
+	}
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
 		if(!isBound()) {
@@ -673,9 +724,13 @@ public class TitanOctetString extends Base_Type {
 		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {
-			myleaf.align = -align_length;
+			myleaf.align = align_length;
 		}
 		return myleaf.length = bl + align_length;
+	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord) {
+		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
 	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
