@@ -28,7 +28,6 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
-import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -42,12 +41,6 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
-import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SingleLenghtRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Length_ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
@@ -215,100 +208,6 @@ public abstract class AbstractOfType extends ASN1Type {
 	/** {@inheritDoc} */
 	public void parseAttributes(final CompilationTimeStamp timestamp) {
 		checkDoneAttribute(timestamp);
-
-		if (!hasVariantAttributes(timestamp)) {
-			return;
-		}
-
-		/* This will be useful when processing of the variant attributes assigned to the whole type is implemented
-		ArrayList<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
-		for (int i = 0; i < realAttributes.size(); i++) {
-			SingleWithAttribute tempSingle = realAttributes.get(i);
-			if (Attribute_Type.Variant_Attribute.equals(tempSingle.getAttributeType())
-					&& (tempSingle.getQualifiers() == null || tempSingle.getQualifiers().getNofQualifiers() == 0)) {
-				...
-			}
-		}*/
-
-		final MultipleWithAttributes selfAttributes = withAttributesPath.getAttributes();
-		if (selfAttributes == null) {
-			return;
-		}
-
-		final MultipleWithAttributes newSelfAttributes = new MultipleWithAttributes();
-		for (int i = 0; i < selfAttributes.getNofElements(); i++) {
-			final SingleWithAttribute temp = selfAttributes.getAttribute(i);
-			if (Attribute_Type.Encode_Attribute.equals(temp.getAttributeType())) {
-				final SingleWithAttribute newAttribute = new SingleWithAttribute(temp.getAttributeType(), temp.getModifier(), null,
-						temp.getAttributeSpecification());
-				newSelfAttributes.addAttribute(newAttribute);
-			}
-		}
-
-		WithAttributesPath encodeAttributePath = null;
-		if (newSelfAttributes.getNofElements() > 0) {
-			// at least on "encode" was copied; create a context for
-			// them.
-			encodeAttributePath = new WithAttributesPath();
-			encodeAttributePath.setWithAttributes(newSelfAttributes);
-			encodeAttributePath.setAttributeParent(withAttributesPath.getAttributeParent());
-		}
-
-		ofType.clearWithAttributes();
-		if (encodeAttributePath == null) {
-			ofType.setAttributeParentPath(withAttributesPath.getAttributeParent());
-		} else {
-			ofType.setAttributeParentPath(encodeAttributePath);
-		}
-
-		// Distribute the attributes with qualifiers to the components
-		for (int j = 0; j < selfAttributes.getNofElements(); j++) {
-			final SingleWithAttribute tempSingle = selfAttributes.getAttribute(j);
-			final Qualifiers tempQualifiers = tempSingle.getQualifiers();
-			if (tempQualifiers == null || tempQualifiers.getNofQualifiers() == 0) {
-				continue;
-			}
-
-			for (int k = 0, kmax = tempQualifiers.getNofQualifiers(); k < kmax; k++) {
-				final Qualifier tempQualifier = tempQualifiers.getQualifierByIndex(k);
-				if (tempQualifier.getNofSubReferences() == 0) {
-					continue;
-				}
-
-				final ISubReference tempSubReference = tempQualifier.getSubReferenceByIndex(0);
-				boolean componentFound = false;
-
-				if (tempSubReference.getReferenceType() == Subreference_type.arraySubReference) {
-					// Found a qualifier whose first
-					// identifier matches the component name
-					final Qualifiers calculatedQualifiers = new Qualifiers();
-					calculatedQualifiers.addQualifier(tempQualifier.getQualifierWithoutFirstSubRef());
-
-					final SingleWithAttribute tempSingle2 = new SingleWithAttribute(tempSingle.getAttributeType(),
-							tempSingle.getModifier(), calculatedQualifiers, tempSingle.getAttributeSpecification());
-					tempSingle2.setLocation(new Location(tempSingle.getLocation()));
-					MultipleWithAttributes componentAttributes = ofType.getAttributePath().getAttributes();
-					if (componentAttributes == null) {
-						componentAttributes = new MultipleWithAttributes();
-						componentAttributes.addAttribute(tempSingle2);
-						ofType.setWithAttributes(componentAttributes);
-					} else {
-						componentAttributes.addAttribute(tempSingle2);
-					}
-					componentFound = true;
-				}
-
-				if (!componentFound) {
-					if (tempSubReference.getReferenceType() == Subreference_type.arraySubReference) {
-						tempQualifier.getLocation().reportSemanticError(Qualifier.INVALID_INDEX_QUALIFIER);
-					} else {
-						tempQualifier.getLocation().reportSemanticError(
-								MessageFormat.format(Qualifier.INVALID_FIELD_QUALIFIER, tempSubReference.getId()
-										.getDisplayName()));
-					}
-				}
-			}
-		}
 	}
 
 	@Override

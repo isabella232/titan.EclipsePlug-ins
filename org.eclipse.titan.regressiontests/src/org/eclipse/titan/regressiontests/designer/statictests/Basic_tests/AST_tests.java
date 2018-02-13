@@ -119,7 +119,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(175);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(162);
 		int lineNum = 54;
 		markersToCheck.add(new MarkerToCheck("The function must have one parameter instead of 0 for attribute `prototype(convert)'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
@@ -301,36 +301,22 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Local definition `p4' is a single port, but the definition inherited from component type `@attribute_tests.original' is a port array",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Local definition `p5' is a port array, but the definition inherited from component type `@attribute_tests.original' is a single port",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 26;
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr2",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr3",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `attr2' in type `@attribute_tests.qualifierRecord'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `attr3' in type `@attribute_tests.qualifierRecord'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier [-]",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Type `@attribute_tests.qualifierRecord' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier [-]",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Type `@attribute_tests.qualifierRecord' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier [-]",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 7;
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr': type `@attribute_tests.qualifierRecordOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier elem_list",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `elem_list': type `@attribute_tests.qualifierRecordOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr2",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr2': type `@attribute_tests.qualifierRecordOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 5;
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 8;
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr': type `@attribute_tests.qualifierSetOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier elem_list",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `elem_list': type `@attribute_tests.qualifierSetOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr2",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr2': type `@attribute_tests.qualifierSetOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Invalid field qualifier attr",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 7;
+		lineNum += 1;
 		int i = 0;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Type `@attribute_tests.qualifierRecord' can not be indexed", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr': type `@attribute_tests.qualifierRecordOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `elem_list': type `@attribute_tests.qualifierRecordOf' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr2': type `@attribute_tests.qualifierRecordOf' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 13;
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr': type `@attribute_tests.qualifierSetOf' does not have fields.",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `elem_list': type `@attribute_tests.qualifierSetOf' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid field reference `attr2': type `@attribute_tests.qualifierSetOf' does not have fields.",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 10;
 		for (i = 0; i < 4; i++) {
 			markersToCheck.add(new MarkerToCheck("Field qualifiers are only allowed for record, set and union types", lineNum++, IMarker.SEVERITY_ERROR));
 		}
