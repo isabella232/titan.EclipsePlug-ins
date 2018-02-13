@@ -2214,7 +2214,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			final StringBuilder globalVariables = aData.getGlobalVariables();
 			globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
 			if (generate_raw) {
-				//TODO the code works but the internal types don't have their raw descriptors yet, so results in lots of errors in the generated code.
 				globalVariables.append(MessageFormat.format(", {0}", gennameRawDescriptor));
 			} else {
 				globalVariables.append(", null");
