@@ -800,15 +800,9 @@ public final class Anytype_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
-		if (rawAttribute == null) {
-			ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
+		generateCodeRawDescriptor(aData, source);
 
-			return "FATAL_ERROR encountered";
-		} else {
-			generateCodeRawDescriptor(aData, source);
-
-			return getGenNameOwn(myScope) + "_raw_";
-		}
+		return getGenNameOwn(myScope) + "_raw_";
 	}
 
 	@Override
