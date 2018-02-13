@@ -36,7 +36,6 @@ import org.eclipse.ui.console.MessageConsoleStream;
  * @author Peter Olah
  * @author Jeno Attila Balasko
  */
-//FIXME clean up selection methods if this way of working is tested to be OK
 public final class BrokenPartsViaReferences extends SelectionMethodBase {
 	// when the definition based search for parts to be analyzed exceeds this limit we switch back to the import based method.
 	// 1 second in nanoseconds
