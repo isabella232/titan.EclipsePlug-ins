@@ -623,7 +623,7 @@ public final class Open_Type extends ASN1Type {
 		refChain.add(this);
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(MessageEncoding_type.BER);
+			return hasEncoding(MessageEncoding_type.BER, null);
 		}
 
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());

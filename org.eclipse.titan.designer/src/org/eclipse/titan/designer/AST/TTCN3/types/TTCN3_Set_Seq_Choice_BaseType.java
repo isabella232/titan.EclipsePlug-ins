@@ -548,7 +548,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		refChain.add(this);
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(MessageEncoding_type.BER);
+			return hasEncoding(MessageEncoding_type.BER, null);
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {

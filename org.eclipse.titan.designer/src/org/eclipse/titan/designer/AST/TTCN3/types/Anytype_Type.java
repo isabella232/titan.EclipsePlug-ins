@@ -504,7 +504,7 @@ public final class Anytype_Type extends Type {
 		refChain.add(this);
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(MessageEncoding_type.BER);
+			return hasEncoding(MessageEncoding_type.BER, null);
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {

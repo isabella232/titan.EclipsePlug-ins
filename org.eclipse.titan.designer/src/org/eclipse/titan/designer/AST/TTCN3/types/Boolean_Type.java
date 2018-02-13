@@ -192,7 +192,7 @@ public final class Boolean_Type extends ASN1Type {
 	/** {@inheritDoc} */
 	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(MessageEncoding_type.BER);
+			return hasEncoding(MessageEncoding_type.BER, null);
 		}
 
 		switch (coding) {

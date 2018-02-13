@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -771,27 +772,38 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent) {
 		boolean encodeAttributeModifierConflict = false;
 		for (int i = 0; i < codingTable.size(); i++) {
-			if (!encodeAttributeModifierConflict && modifier != codingTable.get(i).modifier) {
+			final Coding_Type tempCodingType = codingTable.get(i);
+			if (!encodeAttributeModifierConflict && modifier != tempCodingType.modifier) {
 				encodeAttributeModifierConflict = true;
 				getLocation().reportSemanticError("All 'encode' attributes of a type must have the same modifier ('override', '@local' or none)");
 			}
 
-			// TODO add support for custom encoding
-			String codingName = codingTable.get(i).builtInCoding.getEncodingName();
+			final String codingName = tempCodingType.builtIn ? tempCodingType.builtInCoding.getEncodingName() : tempCodingType.customCoding.name;
 			if (!name.equals(codingName)) {
 				return; // coding already added
 			}
 		}
 
-		MessageEncoding_type builtInCoding = getEncodingType(name);
-		// TODO for now only RAW is supported
-		//if (builtInCoding != MessageEncoding_type.PER) {
-		if (builtInCoding == MessageEncoding_type.RAW) {
+		final MessageEncoding_type builtInCoding = getEncodingType(name);
+		switch (builtInCoding) {
+		case CUSTOM:
+		case PER: {
+			final Coding_Type newCoding = new Coding_Type();
+			newCoding.builtIn = false;
+			newCoding.modifier = modifier;
+			newCoding.customCoding = new Coding_Type.CustomCoding_type();
+			newCoding.customCoding.name = name;
+			newCoding.customCoding.encoders = new HashMap<IType, IType.CoderFunction_Type>();
+			newCoding.customCoding.decoders = new HashMap<IType, IType.CoderFunction_Type>();
+			codingTable.add(newCoding);
+			break;
+		}
+		default:{
 			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHave = getTypeRefdLast(timestamp).canHaveCoding(builtInCoding, chain);
+			final boolean canHaveCoding = getTypeRefdLast(timestamp).canHaveCoding(builtInCoding, chain);
 			chain.release();
-			if (canHave) {
-				Coding_Type newCoding = new Coding_Type();
+			if (canHaveCoding) {
+				final Coding_Type newCoding = new Coding_Type();
 				newCoding.builtIn = true;
 				newCoding.modifier = modifier;
 				newCoding.builtInCoding = builtInCoding;
@@ -800,6 +812,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			} else if (!silent){
 				getLocation().reportSemanticWarning(MessageFormat.format("Type `{0}'' cannot have {1} encoding. Encode attribute ignored.", getTypename(), name));
 			}
+			break;
+		}
 		}
 	}
 
@@ -880,27 +894,65 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasEncoding(final MessageEncoding_type coding) {
-		if (coding != MessageEncoding_type.BER && coding != MessageEncoding_type.PER) {
+	public boolean hasEncoding(final MessageEncoding_type coding, final String customEncoding) {
+		if (coding == MessageEncoding_type.UNDEFINED || (coding == MessageEncoding_type.CUSTOM && customEncoding == null)) {
+			// FATAL error
+			return false;
+		}
+
+		switch (coding) {
+		case BER:
+		case PER:
+		case OER:
+			//FIXME not yet supported
+			return true;
+		default:{
 			final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (t != null) {
-				//TODO add support for custom encoding later
+				final boolean builtIn = coding != MessageEncoding_type.CUSTOM;
+				final String encodingName = builtIn ? coding.getEncodingName() : customEncoding;
 				final List<Coding_Type> codingTable = t.getCodingTable();
 				for (int i = 0; i < codingTable.size(); i++) {
-					if (codingTable.get(i).builtIn && codingTable.get(i).builtInCoding == coding) {
+					final Coding_Type tempCodingType = codingTable.get(i);
+					if (builtIn == tempCodingType.builtIn
+							&& ((builtIn && tempCodingType.builtInCoding == coding) || (!builtIn && tempCodingType.customCoding.name
+									.equals(encodingName)))) {
 						return true;
 					}
 				}
 			}
+
+			final IType lastType = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			if (coding == MessageEncoding_type.CUSTOM) {
+				//  all types need an 'encode' attribute for user-defined codecs
+				return false;
+			}
+			switch (getTypetype()) {
+			case TYPE_ASN1_SEQUENCE:
+			case TYPE_TTCN3_SEQUENCE:
+			case TYPE_ASN1_SET:
+			case TYPE_TTCN3_SET:
+			case TYPE_SEQUENCE_OF:
+			case TYPE_SET_OF:
+			case TYPE_ARRAY:
+			case TYPE_ASN1_CHOICE:
+			case TYPE_TTCN3_CHOICE:
+			case TYPE_ANYTYPE:
+			case TYPE_ASN1_ENUMERATED:
+			case TYPE_TTCN3_ENUMERATED:
+				// these types need an 'encode' attribute for built-in codecs,
+				return false;
+			default:
+				break;
+			}
+
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final boolean canHave = lastType.canHaveCoding(coding, chain);
+			chain.release();
+
+			return canHave;
 		}
-
-		final IType lastType = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-
-		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final boolean canHave = lastType.canHaveCoding(coding, chain);
-		chain.release();
-
-		return canHave;
+		}
 	}
 	
 	@Override
@@ -1715,7 +1767,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * @return the encoding identified by the name or undefined otherwise.
 	 * */
 	public static MessageEncoding_type getEncodingType(final String encoding) {
-		//FIXME add oer and custom
 		if ("RAW".equals(encoding)) {
 			return MessageEncoding_type.RAW;
 		} else if ("TEXT".equals(encoding)) {
@@ -1728,8 +1779,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			return MessageEncoding_type.XER;
 		} else if ("PER".equals(encoding)) {
 			return MessageEncoding_type.PER;
+		} else if ("OER".equals(encoding)) {
+			return MessageEncoding_type.OER;
 		} else {
-			return MessageEncoding_type.UNDEFINED;
+			return MessageEncoding_type.CUSTOM;
 		}
 	}
 
@@ -2076,6 +2129,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				return true;
 			}
 		}
+
 		switch (getTypetype()) {
 		case TYPE_ASN1_SEQUENCE:
 		case TYPE_TTCN3_SEQUENCE:
@@ -2313,7 +2367,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			if (tempCodingType.builtIn) {
 				defaultCoding = tempCodingType.builtInCoding == MessageEncoding_type.BER ? "BER:2002" : tempCodingType.builtInCoding.getEncodingName();
 			} else {
-				//FIXME add support for custom encoding
+				defaultCoding = tempCodingType.customCoding.name;
 			}
 		}
 
@@ -2327,18 +2381,54 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		// encoder and decoder functions
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanOctetString");
-		aData.addCommonLibraryImport("TTCN_EncDec");
+
 		aData.addCommonLibraryImport("TtcnError");
-		aData.addCommonLibraryImport("TTCN_Buffer");
-		
-		aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+
+
 		aData.addImport("java.text.MessageFormat");
 		final StringBuilder encoderString = new StringBuilder();
 		encoderString.append(MessageFormat.format("public static void {0}_encoder(final {1} input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
 		final StringBuilder decoderString = new StringBuilder();
 		decoderString.append(MessageFormat.format("public static TitanInteger {0}_decoder( final TitanOctetString input_stream, final {1} output_value, final TitanUniversalCharString coding_name) '{'\n", getGenNameOwn(), getGenNameValue(aData, source, myScope)));
 
-		// FIXME add support for user defined codecs
+		// user defined codecs
+		for (int i = 0; i < tempCodingTable.size(); i++) {
+			final Coding_Type tempCodingType = tempCodingTable.get(i);
+			if (!tempCodingType.builtIn) {
+				//encoder
+				encoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				//TODO handle reference if needed
+				CoderFunction_Type encoderFunction = tempCodingType.customCoding.encoders.get(this);
+				if (encoderFunction == null) {
+					encoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+				} else {
+					if (encoderFunction.conflict) {
+						encoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+					} else {
+						encoderString.append(MessageFormat.format("output_stream = AdditionalFunctions.bit2oct({0}(input_value));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+					}
+				}
+				encoderString.append("}\n");
+
+				// decoder
+				decoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
+				//TODO handle reference if needed
+				CoderFunction_Type decoderFunction = tempCodingType.customCoding.decoders.get(this);
+				if (decoderFunction == null) {
+					decoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+				} else {
+					if (decoderFunction.conflict) {
+						decoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
+					} else {
+						decoderString.append("TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
+						decoderString.append(MessageFormat.format("TitanInteger ret_val = {0}(bit_Stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						decoderString.append("input_stream = AdditionalFunctions.bit2oct(bit_stream);\n");
+						decoderString.append("return ret_val;\n");
+					}
+				}
+				decoderString.append("}\n");
+			}
+		}
 
 		// built-in codecs
 		StringBuilder checkString = new StringBuilder();
@@ -2352,39 +2442,51 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		}
 
-		encoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
-		encoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
-		encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+		if (checkString.length() > 0) {
+			aData.addCommonLibraryImport("TTCN_EncDec");
+			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+
+			encoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
+			encoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
+			encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+		}
 		encoderString.append("TtcnLogger.begin_event_log2str();\n");
 		encoderString.append("coding_name.log();\n");
 		encoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
-		encoderString.append("}\n");
-		encoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
-		encoderString.append(MessageFormat.format("input_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
-		encoderString.append("ttcnBuffer.get_string(output_stream);\n");
+		if (checkString.length() > 0) {
+			aData.addCommonLibraryImport("TTCN_Buffer");
+
+			encoderString.append("}\n");
+			encoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
+			encoderString.append(MessageFormat.format("input_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			encoderString.append("ttcnBuffer.get_string(output_stream);\n");
+		}
 		encoderString.append("}\n\n");
 
-
-		decoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
-		decoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
-		decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+		if (checkString.length() > 0) {
+			decoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
+			decoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
+			decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
+		}
 		decoderString.append("TtcnLogger.begin_event_log2str();\n");
 		decoderString.append("coding_name.log();\n");
 		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
-		decoderString.append("}\n");
-		decoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
-		decoderString.append(MessageFormat.format("output_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
-		decoderString.append("switch (TTCN_EncDec.get_last_error_type()) {\n");
-		decoderString.append("case ET_NONE:\n");
-		decoderString.append("ttcnBuffer.cut();\n");
-		decoderString.append("ttcnBuffer.get_string(input_stream);\n");
-		decoderString.append("return new TitanInteger(0);\n");
-		decoderString.append("case ET_INCOMPL_MSG:\n");
-		decoderString.append("case ET_LEN_ERR:\n");
-		decoderString.append("return new TitanInteger(2);\n");
-		decoderString.append("default:\n");
-		decoderString.append("return new TitanInteger(1);\n");
-		decoderString.append("}\n");
+		if (checkString.length() > 0) {
+			decoderString.append("}\n");
+			decoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
+			decoderString.append(MessageFormat.format("output_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
+			decoderString.append("switch (TTCN_EncDec.get_last_error_type()) {\n");
+			decoderString.append("case ET_NONE:\n");
+			decoderString.append("ttcnBuffer.cut();\n");
+			decoderString.append("ttcnBuffer.get_string(input_stream);\n");
+			decoderString.append("return new TitanInteger(0);\n");
+			decoderString.append("case ET_INCOMPL_MSG:\n");
+			decoderString.append("case ET_LEN_ERR:\n");
+			decoderString.append("return new TitanInteger(2);\n");
+			decoderString.append("default:\n");
+			decoderString.append("return new TitanInteger(1);\n");
+			decoderString.append("}\n");
+		}
 		decoderString.append("}\n\n");
 
 		source.append(encoderString);

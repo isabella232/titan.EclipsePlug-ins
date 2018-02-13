@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Set;
 
@@ -158,22 +159,28 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Encoding types.
+	 * 
+	 * TODO only RAW is supported for now
 	 * */
 	public enum MessageEncoding_type {
 		/** not yet defined */
 		UNDEFINED("<unknown encoding>"),
-		/** ber encoding. */
+		/** ASN.1 BER encoding (built-in) */
 		BER("BER"),
-		/** per encoding. */
+		/** ASN.1 PER encoding (through user defined coder functions) */
 		PER("PER"),
-		/** xer encoding. */
-		XER("XER"),
-		/** raw encoding. */
+		/** ASN.1 OER (built-in) */
+		OER("OER"),
+		/** raw encoding (built-in) */
 		RAW("RAW"),
-		/** text encoding. */
+		/** text encoding (built-in) */
 		TEXT("TEXT"),
-		/** json encoding. */
-		JSON("JSON");
+		/** xer encoding (built-in) */
+		XER("XER"),
+		/** json encoding (built-in) */
+		JSON("JSON"),
+		/** custom encoding (through user defined coder functions) */
+		CUSTOM("CUSTOM");
 
 		private String name;
 
@@ -258,15 +265,37 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 		// OT_POOL no pool type is used here
 	};
 
-	/** Stores information related to an encoding type (codec), when using new codec handling. */
+	/** Stores information about the custom encoder or decoder function of a type */
+	public static class CoderFunction_Type {
+		/** definition of the encoder or decoder function */
+		Assignment functionDefinition;
+		/** indicates whether there are multiple encoder/decoder functions for this type and codec */
+		boolean conflict;
+	}
+
+	/**
+	 * Stores information related to an encoding type (codec), when using new codec handling.
+	 * */
 	public static class Coding_Type {
 		/** built-in or user defined codec */
 		boolean builtIn;
 		/** the 'encode' attribute's modifier */
 		Attribute_Modifier_type modifier;
-		/** built-in codec */
+		/** built-in codec ,when builtIn is true */
 		MessageEncoding_type builtInCoding;
-		// TODO custom coding parts
+
+		/** custom codec fields, when builtIn is false */
+		public static class CustomCoding_type {
+			/** name of the user defined codec (the string in the 'encode' attribute) */
+			String name;
+
+			/** the map of encoder functions per type */
+			HashMap<IType, CoderFunction_Type> encoders;
+			/** the map of decoder functions per type */
+			HashMap<IType, CoderFunction_Type> decoders;
+		}
+
+		CustomCoding_type customCoding;
 	}
 
 	/**
@@ -608,7 +637,7 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * @param coding the coding to check for.
 	 * @return true if the type has the given encoding.
 	 * */
-	boolean hasEncoding(final MessageEncoding_type coding);
+	boolean hasEncoding(final MessageEncoding_type coding, final String customEncoding);
 
 	/**
 	 * @return the coding table of this type
