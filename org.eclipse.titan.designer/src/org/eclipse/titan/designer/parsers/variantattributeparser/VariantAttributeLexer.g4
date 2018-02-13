@@ -235,6 +235,7 @@ NEWLINE1: [\r\n] -> channel(HIDDEN);
 
 LINE_COMMENT1: ( '//' ~[\r\n]* ) ->channel(HIDDEN);
 
+DOT1: '.' -> type(DOT);
 SEMICOLON1: ';' -> type(SEMICOLON);
 COMMA1: ',' -> type(COMMA);
 LPAREN1: '(' -> type(LPAREN);
