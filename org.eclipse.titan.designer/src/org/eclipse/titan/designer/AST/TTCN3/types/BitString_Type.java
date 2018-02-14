@@ -314,7 +314,7 @@ public final class BitString_Type extends Type {
 		if (rawAttribute == null) {
 			aData.addBuiltinTypeImport( "RAW" );
 
-			return "RAW.TitanBitstring_raw_";
+			return "RAW.TitanBitString_raw_";
 		} else {
 			generateCodeRawDescriptor(aData, source);
 
