@@ -874,6 +874,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_Buffer");
 		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addCommonLibraryImport("TtcnLogger.Severity");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
@@ -906,6 +907,8 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 		// taking the result from the buffer and producing debug printout
 		if (outputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
+			aData.addCommonLibraryImport("AdditionalFunctions");
+
 			source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
 			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
 			source.append( MessageFormat.format("{0} = AdditionalFunctions.oct2bit(tmp_os);\n", resultName));
