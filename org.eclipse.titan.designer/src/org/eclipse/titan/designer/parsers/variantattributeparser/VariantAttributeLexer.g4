@@ -27,6 +27,8 @@ NEWLINE: [\r\n] -> channel(HIDDEN);
 
 LINE_COMMENT: ( '//' ~[\r\n]* ) ->channel(HIDDEN);
 
+BLOCK_COMMENT:	'/*' .*? '*/' ->channel(HIDDEN);
+
 DOT: '.';
 COLON: ':';
 SEMICOLON: ';';
@@ -235,6 +237,8 @@ NEWLINE1: [\r\n] -> channel(HIDDEN);
 
 LINE_COMMENT1: ( '//' ~[\r\n]* ) ->channel(HIDDEN);
 
+BLOCK_COMMENT1:	'/*' .*? '*/' ->channel(HIDDEN);
+
 DOT1: '.' -> type(DOT);
 SEMICOLON1: ';' -> type(SEMICOLON);
 COMMA1: ',' -> type(COMMA);
@@ -322,6 +326,8 @@ NEWLINE2: [\r\n] -> channel(HIDDEN);
 
 LINE_COMMENT2: ( '//' ~[\r\n]* ) ->channel(HIDDEN);
 
+BLOCK_COMMENT2:	'/*' .*? '*/' ->channel(HIDDEN);
+
 NUMBER2: INT  -> type(NUMBER);
 
 LPAREN2: '(' -> type(LPAREN);
@@ -364,6 +370,9 @@ IDENTIFIER2:
 mode JsonCodec_MODE;
 
 WS4: [ \t\v\f]+ -> channel(HIDDEN);
+
+BLOCK_COMMENT4:	'/*' .*? '*/' ->channel(HIDDEN);
+
 COLON4: ':' -> type(COLON);
 
 OMITKeyword: 'omit';
