@@ -614,6 +614,22 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent);
 
 	/**
+	 * Sets the encoding function for a type.
+	 *
+	 * @param codingName the name of the coding to set it for
+	 * @param functionDefinition the function definition to set
+	 * */
+	void setEncodingFunction(final String codingName, final Assignment functionDefinition);
+
+	/**
+	 * Sets the decoding function for a type.
+	 *
+	 * @param codingName the name of the coding to set it for
+	 * @param functionDefinition the function definition to set
+	 * */
+	void setDecodingFunction(final String codingName, final Assignment functionDefinition);
+
+	/**
 	 * Checks for the type that has a coding table.
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.

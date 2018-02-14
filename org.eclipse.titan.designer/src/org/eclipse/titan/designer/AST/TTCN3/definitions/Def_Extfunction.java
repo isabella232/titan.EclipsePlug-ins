@@ -16,7 +16,9 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
@@ -42,6 +44,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -515,6 +518,25 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				break;
 			default:
 				break;
+			}
+
+			if (inputType != null) {
+				if (inputType.hasEncoding(encodingType, encodingOptions)) {
+					//FIXME add support for XER
+					if (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER) {
+						if (prototype != EncodingPrototype_type.CONVERT) {
+							location.reportSemanticError(MessageFormat.format("Only `prototype(convert)'' is allowed for `{0}'' encoding functions", encodingType.getEncodingName()));
+						} else if (inputType instanceof Referenced_Type) {
+							// let the input type know that this is its encoding function
+							final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+							final IType refd = ((IReferencingType) inputType).getTypeRefd(timestamp, refChain);
+							refChain.release();
+							refd.setEncodingFunction(encodingType == MessageEncoding_type.PER? "PER": encodingOptions, this);
+						}
+					}
+				} else {
+					//FIXME implement
+				}
 			}
 			// FIXME implement once we know what encoding is set for
 			// a type

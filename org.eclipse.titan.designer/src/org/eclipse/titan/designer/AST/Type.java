@@ -819,6 +819,62 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public void setEncodingFunction(final String codingName, final Assignment functionDefinition) {
+		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t == null) {
+			return;
+		}
+
+		final List<Coding_Type> tempCodingTable = t.getCodingTable();
+		for (int i = 0; i < tempCodingTable.size(); i++) {
+			final Coding_Type tempCoding = tempCodingTable.get(i);
+			if (!tempCoding.builtIn && tempCoding.customCoding.name.equals(codingName)) {
+				final HashMap<IType, CoderFunction_Type> tempCoders = tempCoding.customCoding.encoders;
+				if (tempCoders.containsKey(this) && tempCoders.get(this).functionDefinition != functionDefinition) {
+					tempCoders.get(this).conflict = true;
+				} else {
+					final CoderFunction_Type newCoder = new CoderFunction_Type();
+					newCoder.functionDefinition = functionDefinition;
+					newCoder.conflict = false;
+					tempCoders.put(this, newCoder);
+					//phantom imports can be handled in code generator
+				}
+
+				return;
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setDecodingFunction(final String codingName, final Assignment functionDefinition) {
+		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t == null) {
+			return;
+		}
+
+		final List<Coding_Type> tempCodingTable = t.getCodingTable();
+		for (int i = 0; i < tempCodingTable.size(); i++) {
+			final Coding_Type tempCoding = tempCodingTable.get(i);
+			if (!tempCoding.builtIn && tempCoding.customCoding.name.equals(codingName)) {
+				final HashMap<IType, CoderFunction_Type> tempCoders = tempCoding.customCoding.decoders;
+				if (tempCoders.containsKey(this) && tempCoders.get(this).functionDefinition != functionDefinition) {
+					tempCoders.get(this).conflict = true;
+				} else {
+					final CoderFunction_Type newCoder = new CoderFunction_Type();
+					newCoder.functionDefinition = functionDefinition;
+					newCoder.conflict = false;
+					tempCoders.put(this, newCoder);
+					//phantom imports can be handled in code generator
+				}
+
+				return;
+			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public IType getTypeWithCodingTable(final CompilationTimeStamp timestamp, final boolean ignoreLocal) {
 		// 1st priority: if local attributes are not ignored, and if the type
 		// has its own 'encode' attributes (its coding table is not
