@@ -2436,7 +2436,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		// encoder and decoder functions
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanOctetString");
-
 		aData.addCommonLibraryImport("TtcnError");
 
 
@@ -2460,7 +2459,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					if (encoderFunction.conflict) {
 						encoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
-						encoderString.append(MessageFormat.format("output_stream = AdditionalFunctions.bit2oct({0}(input_value));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						aData.addCommonLibraryImport("AdditionalFunctions");
+
+						encoderString.append(MessageFormat.format("output_stream.assign(AdditionalFunctions.bit2oct({0}(input_value)));\n", encoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
 					}
 				}
 				encoderString.append("}\n");
@@ -2475,9 +2476,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 					if (decoderFunction.conflict) {
 						decoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
+						aData.addCommonLibraryImport("AdditionalFunctions");
+
 						decoderString.append("TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
 						decoderString.append(MessageFormat.format("TitanInteger ret_val = {0}(bit_Stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
-						decoderString.append("input_stream = AdditionalFunctions.bit2oct(bit_stream);\n");
+						decoderString.append("input_stream.assign(AdditionalFunctions.bit2oct(bit_stream));\n");
 						decoderString.append("return ret_val;\n");
 					}
 				}
