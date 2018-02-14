@@ -522,8 +522,12 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			if (inputType != null) {
 				if (inputType.hasEncoding(encodingType, encodingOptions)) {
-					//FIXME add support for XER
-					if (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER) {
+					switch (encodingType) {
+					case XER:
+						//TODO add check for XER
+						break;
+					case CUSTOM:
+					case PER:
 						if (prototype != EncodingPrototype_type.CONVERT) {
 							location.reportSemanticError(MessageFormat.format("Only `prototype(convert)'' is allowed for `{0}'' encoding functions", encodingType.getEncodingName()));
 						} else if (inputType instanceof Referenced_Type) {
@@ -533,9 +537,18 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 							refChain.release();
 							refd.setEncodingFunction(encodingType == MessageEncoding_type.PER? "PER": encodingOptions, this);
 						}
+						break;
+					default:
+						break;
 					}
 				} else {
-					//FIXME implement
+					if (encodingType == MessageEncoding_type.CUSTOM) {
+						inputType.getLocation().reportSemanticError(MessageFormat.format("Input type `{0}'' does not support custom encoding `{1}''",
+								inputType.getTypename(), encodingOptions));
+					} else {
+						inputType.getLocation().reportSemanticError(MessageFormat.format("Input type `{0}'' does not support `{1}'' encoding.",
+								inputType.getTypename(), encodingType.getEncodingName()));
+					}
 				}
 			}
 			// FIXME implement once we know what encoding is set for
