@@ -385,6 +385,8 @@ public class TitanHexString extends Base_Type {
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
 			}
+
+			errorContext.leaveContext();
 			break;
 		default:
 			throw new TtcnError("decoding of hexstrings is not yet completely implemented!");
