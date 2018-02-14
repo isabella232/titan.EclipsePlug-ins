@@ -852,7 +852,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			formalParList.setGenName(genName);
 		}
 
-		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL) {
+		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
+				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
+				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
 			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalfunctions");
 			// external functions are implemented elsewhere
 			return;
