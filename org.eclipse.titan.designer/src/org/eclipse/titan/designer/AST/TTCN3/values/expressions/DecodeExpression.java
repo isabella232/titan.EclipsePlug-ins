@@ -410,6 +410,7 @@ public final class DecodeExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("AdditionalFunctions");
 
 		final ExpressionStruct expression1 = new ExpressionStruct();
