@@ -47,6 +47,7 @@ XER: 'XER';
 RAW: 'RAW';
 TEXT: 'TEXT';
 JSON: 'JSON';
+OER: 'OER';
 TRANSPARENT: 'transparent';
 ERRORBEHAVIOR: 'errorbehavior';
 PRINTING: 'printing';

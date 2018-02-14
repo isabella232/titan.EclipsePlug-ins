@@ -184,56 +184,43 @@ pr_PrototypeSetting returns[EncodingPrototype_type type]
 |	SLIDING		{ $type = EncodingPrototype_type.SLIDING; }
 );
 
-pr_EncodeAttribute returns[EncodeAttribute attribute]
-	locals[boolean hasOption]:
+pr_EncodeAttribute returns[EncodeAttribute attribute]:
 (
 	ENCODE
 	LPAREN
-	pr_EncodingType {$hasOption = false;}
-	(
-		COLON
-		pr_EncodingOptions {$hasOption = true;}
-	)?
+	(	pr_EncodingType
+		(
+			COLON
+			pr_EncodingOptions {$attribute = new EncodeAttribute($pr_EncodingType.type, $pr_EncodingOptions.text);}
+		|			{$attribute = new EncodeAttribute($pr_EncodingType.type, null);}
+		)
+	|	pr_CustomEncoding	{$attribute = new EncodeAttribute(MessageEncoding_type.CUSTOM, $pr_CustomEncoding.text);}
+	)
 	RPAREN
 )
 {
-	if($pr_EncodingType.type != null) {
-		if ($hasOption) {
-			$attribute = new EncodeAttribute($pr_EncodingType.type, $pr_EncodingOptions.text);
-		}
-		else {
-			$attribute = new EncodeAttribute($pr_EncodingType.type, null);
-		}
-		$attribute.setLocation(getLocation($start, $RPAREN));
-	}
+	$attribute.setLocation(getLocation($start, $RPAREN));
 };
 
-pr_DecodeAttribute returns[DecodeAttribute attribute]
-	locals[boolean hasOption]:
+pr_DecodeAttribute returns[DecodeAttribute attribute]:
 (
 	DECODE
 	LPAREN
-	pr_EncodingType {$hasOption = false;}
-	(
-		COLON
-		pr_EncodingOptions {$hasOption = true;}
-	)?
+	(	pr_EncodingType
+		(
+			COLON
+			pr_EncodingOptions {$attribute = new DecodeAttribute($pr_EncodingType.type, $pr_EncodingOptions.text);}
+		|			{$attribute = new DecodeAttribute($pr_EncodingType.type, null);}
+		)
+	|	pr_CustomEncoding	{$attribute = new DecodeAttribute(MessageEncoding_type.CUSTOM, $pr_CustomEncoding.text);}
+	)
 	RPAREN
 )
 {
-	if($pr_EncodingType.type != null) {
-		if ($hasOption) {
-			$attribute = new DecodeAttribute($pr_EncodingType.type, $pr_EncodingOptions.text);
-		}
-		else {
-			$attribute = new DecodeAttribute($pr_EncodingType.type, null);
-		}
-		$attribute.setLocation(getLocation($start, $RPAREN));
-	}
+	$attribute.setLocation(getLocation($start, $RPAREN));
 };
 
-pr_EncodingType returns[MessageEncoding_type type]
-	:
+pr_EncodingType returns[MessageEncoding_type type]:
 (
 	BER		{$type = MessageEncoding_type.BER;}
 |	PER		{$type = MessageEncoding_type.PER;}
@@ -241,7 +228,15 @@ pr_EncodingType returns[MessageEncoding_type type]
 |	RAW		{$type = MessageEncoding_type.RAW;}
 |	TEXT	{$type = MessageEncoding_type.TEXT;}
 |	JSON	{$type = MessageEncoding_type.JSON;}
+|	OER	{$type = MessageEncoding_type.OER;}
 );
+
+pr_CustomEncoding returns[String text]
+	:
+	IDENTIFIER
+{
+	$text = $IDENTIFIER.getText();
+};
 
 pr_EncodingOptions returns[String text]
 	locals[StringBuilder builder, String option]
