@@ -119,7 +119,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(162);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(164);
 		int lineNum = 54;
 		markersToCheck.add(new MarkerToCheck("The function must have one parameter instead of 0 for attribute `prototype(convert)'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
@@ -197,8 +197,10 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Attribute `encode' cannot be used without `prototype'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Attribute `encode' cannot be used without `prototype(backtrack)'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The output type of BER encoding should be `bitstring' or `octetstring' instead of `charstring'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("Attribute `encode' cannot be used without `prototype(sliding)'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("The output type of BER encoding should be `bitstring' or `octetstring' instead of `charstring'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("duplicate attribute `decode'.",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;

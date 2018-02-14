@@ -51,9 +51,12 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.BitString_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.OctetString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
@@ -214,6 +217,36 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		withAttributesPath.setWithAttributes(attributes);
+	}
+
+	/**
+	 * Returns a new type representing the encoded stream of the given encoding type.
+	 *
+	 * @param encodingType the encoding type.
+	 * @param streamVariant the variant of the stream.
+	 * @return the temporary type.
+	 * */
+	public static Type getStreamType(final MessageEncoding_type encodingType, final int streamVariant) {
+		if (streamVariant == 0) {
+			return new BitString_Type();
+		}
+		switch (encodingType) {
+		case BER:
+		case PER:
+		case RAW:
+		case XER:
+		case JSON:
+		case OER:
+			return new OctetString_Type();
+		case TEXT:
+			if (streamVariant == 1) {
+				return new CharString_Type();
+			} else {
+				return new OctetString_Type();
+			}
+		default:
+			return null;
+		}
 	}
 
 	@Override

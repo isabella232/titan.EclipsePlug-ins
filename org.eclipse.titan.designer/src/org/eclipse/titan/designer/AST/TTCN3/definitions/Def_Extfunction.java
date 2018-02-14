@@ -18,7 +18,6 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.ISubReference;
-import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
@@ -26,6 +25,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -551,8 +551,43 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 					}
 				}
 			}
-			// FIXME implement once we know what encoding is set for
-			// a type
+
+			if (outputType != null) {
+				switch (encodingType) {
+				case TEXT: {
+					final Type streamType = Type.getStreamType(encodingType, 0);
+					final Type streamType2 = Type.getStreamType(encodingType, 1);
+					final Type streamType3 = Type.getStreamType(encodingType, 2);
+					if (!streamType.isIdentical(timestamp, outputType) &&
+							!streamType2.isIdentical(timestamp, outputType) &&
+							!streamType3.isIdentical(timestamp, outputType)) {
+						outputType.getLocation().reportSemanticError(MessageFormat.format("The output type of {0} encoding should be `{1}'', `{2}'' or `{3}'' instead of `{4}''",
+								encodingType.getEncodingName(), streamType.getTypename(), streamType2.getTypename(), streamType3.getTypename(), outputType.getTypename()));
+					}
+					break;
+				}
+				case CUSTOM:
+				case PER:{
+					// custom and PER encodings only support the bitstring stream type
+					final Type streamType = Type.getStreamType(encodingType, 0);
+					if (!streamType.isIdentical(timestamp, outputType)) {
+						outputType.getLocation().reportSemanticError(MessageFormat.format("The output type of {0} encoding should be `{1}'' instead of `{2}''",
+								encodingType.getEncodingName(), streamType.getTypename(), outputType.getTypename()));
+					}
+					break;
+				}
+				default:{
+					final Type streamType = Type.getStreamType(encodingType, 0);
+					final Type streamType2 = Type.getStreamType(encodingType, 1);
+					if (!streamType.isIdentical(timestamp, outputType) &&
+							!streamType2.isIdentical(timestamp, outputType)) {
+						outputType.getLocation().reportSemanticError(MessageFormat.format("The output type of {0} encoding should be `{1}'' or `{2}'' instead of `{3}''",
+								encodingType.getEncodingName(), streamType.getTypename(), streamType2.getTypename(), outputType.getTypename()));
+					}
+					break;
+				}
+				}
+			}
 			if (errorBehaviorList != null) {
 				errorBehaviorList.check(timestamp);
 			}
