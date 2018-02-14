@@ -882,7 +882,7 @@ pr_quotedURIOrAbsent:
 |	UNQUALIFIEDKeyword
 );
 
-pr_controlNameSpace: CONTROLNAMESPACEKeyword XSTRING;
+pr_controlNameSpace: CONTROLNAMESPACEKeyword XSTRING PREFIXKeyword XSTRING;
 
 pr_from: FROMKeyword ASKeyword ( UNQUALIFIEDKeyword | QUALIFIEDKeyword );
 
@@ -920,10 +920,12 @@ pr_text:
 pr_defaultForEmpty:
 (	DEFAULTFOREMPTYKeyword
 	ASKeyword
-	IDENTIFIER
-	(	DOT
-		IDENTIFIER
-	)?
+	(	IDENTIFIER
+		(	DOT
+			IDENTIFIER
+		)?
+	|	XSTRING
+	)
 );
 
 pr_fractionDigits:
