@@ -842,7 +842,7 @@ pr_XERAttribute:
 |	pr_controlNameSpace
 |	pr_defaultForEmpty
 |	ELEMENTKeyword
-|	ELEMENTFROMQUALIFIEDKeyword
+|	ELEMENTFORMQUALIFIEDKeyword
 |	EMBEDVALUESKeyword
 |	pr_from
 |	pr_fractionDigits

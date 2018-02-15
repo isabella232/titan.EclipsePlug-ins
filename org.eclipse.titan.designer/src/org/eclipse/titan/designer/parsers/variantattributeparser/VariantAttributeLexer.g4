@@ -133,7 +133,7 @@ BLOCKKeyword: 'block';
 CONTROLNAMESPACEKeyword: 'controlNamespace';
 DEFAULTFOREMPTYKeyword: 'defaultForEmpty';
 ELEMENTKeyword: 'element';
-ELEMENTFROMQUALIFIEDKeyword: 'elementFromQualified';
+ELEMENTFORMQUALIFIEDKeyword: 'elementFormQualified';
 EMBEDVALUESKeyword: 'embedValues';
 FORMKeyword: 'form';
 FRACTIONDIGITSKeyword: 'fractionDigits';
