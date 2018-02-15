@@ -412,10 +412,10 @@ pr_XPresenceDef:
 pr_XFieldLengthDef returns [int multiplier]:
 (	FIELDLENGTHKeyword
 	LPAREN
-	NUMBER
+	n = pr_XNumber
 	RPAREN
 ) {
-	$multiplier = Integer.valueOf($NUMBER.getText()).intValue();
+	$multiplier = $n.value;
 };
 
 pr_XPtrOffsetDef:
