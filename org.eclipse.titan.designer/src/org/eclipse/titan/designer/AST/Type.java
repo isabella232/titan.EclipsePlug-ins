@@ -765,7 +765,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// check the coding attributes set by the variants
-		//FIXME implement
+		checkCodingAttributes(timestamp);
 	}
 
 	@Override
@@ -798,6 +798,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// FIXME send global variant attributes to field/element types
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+		//FIXME implement default behaviour
 	}
 
 	@Override

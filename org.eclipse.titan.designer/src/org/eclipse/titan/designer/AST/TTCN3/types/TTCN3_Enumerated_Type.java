@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_Defs;
@@ -343,6 +344,23 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		}
 
 		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+		//check raw attributes
+		if (subType != null) {
+			int restrictionLength = subType.get_length_restriction();
+			if (restrictionLength != -1) {
+				if (rawAttribute == null) {
+					rawAttribute = new RawAST(getDefaultRawFieldLength());
+				}
+
+				rawAttribute.length_restriction = restrictionLength;
+			}
+		}
+		//TODO add checks for other encodings.
 	}
 
 	@Override

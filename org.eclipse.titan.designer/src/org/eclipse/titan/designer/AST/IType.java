@@ -604,6 +604,19 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global);
 
 	/**
+	 * Checks the coding instructions set by the parsed variant attributes.
+	 * The check is performed recursively on the type's fields and elements.
+	 *
+	 * Checks the raw and other coding attributes in one place.
+	 * (the compiler has chk_raw separately)
+	 * May also create such internal attributes based on restrictions.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * */
+	void checkCodingAttributes(final CompilationTimeStamp timestamp);
+
+	/**
 	 * Adds a coding to the type.
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.

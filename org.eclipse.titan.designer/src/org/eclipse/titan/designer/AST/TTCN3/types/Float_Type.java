@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Type_Assignment;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueRange;
@@ -260,6 +261,28 @@ public final class Float_Type extends ASN1Type {
 		}
 
 		return temp;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+		//check raw attributes
+		if (subType != null) {
+			int restrictionLength = subType.get_length_restriction();
+			if (restrictionLength != -1) {
+				if (rawAttribute == null) {
+					rawAttribute = new RawAST(getDefaultRawFieldLength());
+				}
+
+				rawAttribute.length_restriction = restrictionLength;
+			}
+		}
+		if (rawAttribute != null) {
+			if (rawAttribute.fieldlength != 64 && rawAttribute.fieldlength != 32) {
+				getLocation().reportSemanticError(MessageFormat.format("Invalid length ({0}) specified in parameter FIELDLENGTH for float type `{1}''. The FIELDLENGTH must be single (32) or double (64)", rawAttribute.fieldlength, getFullName()));
+			}
+		}
+		//TODO add checks for other encodings.
 	}
 
 	@Override

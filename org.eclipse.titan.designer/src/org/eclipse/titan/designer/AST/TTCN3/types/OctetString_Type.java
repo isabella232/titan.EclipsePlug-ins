@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
@@ -214,6 +215,27 @@ public final class OctetString_Type extends ASN1Type {
 		}
 
 		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+		//check raw attributes
+		if (subType != null) {
+			int restrictionLength = subType.get_length_restriction();
+			if (restrictionLength != -1) {
+				if (rawAttribute == null) {
+					rawAttribute = new RawAST(getDefaultRawFieldLength());
+				}
+				if (rawAttribute.fieldlength == 0) {
+					rawAttribute.fieldlength = restrictionLength * 8;
+					rawAttribute.length_restriction = -1;
+				} else {
+					rawAttribute.length_restriction = restrictionLength;
+				}
+			}
+		}
+		//TODO add checks for other encodings.
 	}
 
 	@Override
