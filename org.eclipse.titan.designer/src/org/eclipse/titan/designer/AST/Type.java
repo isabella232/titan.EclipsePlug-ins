@@ -2239,8 +2239,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		default:
 			// no need to generate coder functions for basic types, but this function
 			// is also used to determine codec-specific descriptor generation
-			//FIXME implement can_have_coding(coding);
-			return false;
+			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final boolean canHave = canHaveCoding(encodingType, chain);
+			chain.release();
+
+			return canHave;
 		}
 	}
 
