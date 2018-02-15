@@ -1333,6 +1333,28 @@ public final class SubType implements IIncrementallyUpdateable {
 		}
 	}
 
+	/**
+	 * @return single length restriction or -1
+	 * */
+	public int get_length_restriction() {
+		if (parsedRestrictions == null) {
+			// only own length restriction counts
+			return -1;
+		}
+		if (lengthRestriction == null) {
+			return -1;
+		}
+		if (lengthRestriction.isEmpty() == TernaryBool.TTRUE) {
+			return -1;
+		}
+
+		if (lengthRestriction.getMinimal() == lengthRestriction.getMaximal()) {
+			return ((SizeLimit)lengthRestriction.getMinimal()).getSize().intValue();
+		} else {
+			return -1;
+		}
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public String toString() {
