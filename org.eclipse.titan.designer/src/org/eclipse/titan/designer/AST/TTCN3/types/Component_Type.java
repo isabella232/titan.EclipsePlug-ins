@@ -716,8 +716,14 @@ public final class Component_Type extends Type {
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 
-		final StringBuilder globalVariables = aData.getGlobalVariables();
-		globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", getGenNameOwn(), internalGetGenNameTypeDescriptor(aData, source, myScope)));
+		final String genname = getGenNameOwn();
+		final String descriptorName = MessageFormat.format("{0}_descr_", genname);
+		if (aData.hasGlobalVariable(descriptorName)) {
+			return;
+		}
+
+		final String globalVariable = MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = {1}_descr_;\n", genname, internalGetGenNameTypeDescriptor(aData, source, myScope));
+		aData.addGlobalVariable(descriptorName, globalVariable);
 	}
 
 	@Override

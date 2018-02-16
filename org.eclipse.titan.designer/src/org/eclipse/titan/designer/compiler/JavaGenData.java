@@ -1,6 +1,7 @@
 package org.eclipse.titan.designer.compiler;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Set;
 import java.util.TreeSet;
 
@@ -25,6 +26,7 @@ public class JavaGenData {
 	private StringBuilder mSrc;
 
 	/** the extra module level variables (global in original, in java public static) */
+	private HashSet<String> mGlobalVariablesGenerated;
 	private StringBuilder mGlobalVariables;
 
 	/** the contents of pre_init */
@@ -75,6 +77,7 @@ public class JavaGenData {
 		buildTimestamp = timestamp;
 
 		mSrc = new StringBuilder();
+		mGlobalVariablesGenerated = new HashSet<String>();
 		mGlobalVariables = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
@@ -136,10 +139,22 @@ public class JavaGenData {
 		return mSrc;
 	}
 
+	public boolean hasGlobalVariable(final String name) {
+		return mGlobalVariablesGenerated.contains(name);
+	}
+
 	/**
-	 * @return the string where the module level extra variables are written
+	 * Inserts a new global variable into the code to be generated.
+	 *
+	 * @param name the name of the parameter to be inserted
+	 * @param code the code representing the creation of the global variable.
 	 */
-	public StringBuilder getGlobalVariables() {
+	public void addGlobalVariable(final String name, final String code) {
+		mGlobalVariablesGenerated.add(name);
+		mGlobalVariables.append(code);
+	}
+
+	StringBuilder getGlobalVariables() {
 		return mGlobalVariables;
 	}
 

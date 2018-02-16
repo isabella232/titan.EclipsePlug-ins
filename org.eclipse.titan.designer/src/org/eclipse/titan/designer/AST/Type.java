@@ -2309,14 +2309,21 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 
 			aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
-			final StringBuilder globalVariables = aData.getGlobalVariables();
-			globalVariables.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
-			if (generate_raw) {
-				globalVariables.append(MessageFormat.format(", {0}", gennameRawDescriptor));
-			} else {
-				globalVariables.append(", null");
+
+			final String descriptorName = MessageFormat.format("{0}_descr_", genname);
+			if (aData.hasGlobalVariable(descriptorName)) {
+				return;
 			}
-			globalVariables.append(");\n");
+
+			final StringBuilder globalVariable = new StringBuilder();
+			globalVariable.append(MessageFormat.format("public static final TTCN_Typedescriptor {0}_descr_ = new TTCN_Typedescriptor(\"{0}\"", genname, getFullName()));
+			if (generate_raw) {
+				globalVariable.append(MessageFormat.format(", {0}", gennameRawDescriptor));
+			} else {
+				globalVariable.append(", null");
+			}
+			globalVariable.append(");\n");
+			aData.addGlobalVariable(descriptorName, globalVariable.toString());
 //		} else {
 //			// the type uses the type descriptor of another type
 //			if (needsAlias()) {
@@ -2345,7 +2352,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		aData.addBuiltinTypeImport("TitanCharString.CharCoding");
 
 		final String genname = getGenNameOwn();
-		final StringBuilder globalVariables = aData.getGlobalVariables();
+		final String descriptorName = MessageFormat.format("{0}_raw_", genname);
+		if (aData.hasGlobalVariable(descriptorName)) {
+			return;
+		}
+
 		final StringBuilder str = new StringBuilder();
 		str.append(MessageFormat.format("public static final TTCN_RAWdescriptor {0}_raw_ = new TTCN_RAWdescriptor(", genname));
 
@@ -2432,7 +2443,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			str.append("CharCoding.UNKNOWN);\n");
 		}
 
-		globalVariables.append(str);
+		aData.addGlobalVariable(descriptorName, str.toString());
 
 		if (dummyRaw) {
 			rawAttribute = null;
@@ -2469,7 +2480,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		aData.addBuiltinTypeImport("TitanUniversalCharString");
-		aData.getGlobalVariables().append(MessageFormat.format("public static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding));
+
+		final String globalVariable = MessageFormat.format("public static final TitanUniversalCharString {0}_default_coding = new TitanUniversalCharString(\"{1}\");\n", getGenNameOwn(), defaultCoding);
+		aData.addGlobalVariable(MessageFormat.format("{0}_default_coding", getGenNameOwn()), globalVariable);
 
 		if (!getGenNameCoder(aData, source, myScope).equals(getGenNameOwn()) ) {
 			return;
