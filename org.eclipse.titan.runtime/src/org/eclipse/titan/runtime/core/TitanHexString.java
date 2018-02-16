@@ -360,7 +360,7 @@ public class TitanHexString extends Base_Type {
 			break;
 		}
 		default:
-			throw new TtcnError("encoding of hexstrings is not yet completely implemented!");
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type '{0}''", p_td.name));
 		}
 	}
 	
@@ -389,7 +389,7 @@ public class TitanHexString extends Base_Type {
 			errorContext.leaveContext();
 			break;
 		default:
-			throw new TtcnError("decoding of hexstrings is not yet completely implemented!");
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
 		}
 	}
 
