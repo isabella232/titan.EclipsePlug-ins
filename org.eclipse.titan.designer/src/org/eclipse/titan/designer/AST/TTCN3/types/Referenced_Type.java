@@ -733,6 +733,15 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
+		// FIXME needs to care for other coding attributes too.
+		if (rawAttribute != null) {
+			generateCodeTypedescriptor(aData, source);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences,
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (this == refdLast || refdLast == null) {
