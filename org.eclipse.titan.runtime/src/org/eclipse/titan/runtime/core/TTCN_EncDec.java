@@ -12,14 +12,25 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 /**
  * @author Gergo Ujhelyi
+ * @author Kristof Szabados
  *
  * Static class which encapsulates the stuff related to
  * encoding/decoding.
  *
- * FIXME no encoding/decoding is supported yet!
+ * TODO only RAW encoding/decoding is supported for now.
  * the current implementation is only a placeholder to mark the architectural borders.
  * */
 public final class TTCN_EncDec {
+	// FIXME these are intentionally private constants,
+	// they will be moved from here once their codeing is implemented
+	private static final int BER_ENCODE_CER = 1;
+	private static final int BER_ENCODE_DER = 2;
+	private static final int BER_ACCEPT_SHORT = 0x01;
+	private static final int BER_ACCEPT_LONG = 0x02;
+	private static final int BER_ACCEPT_INDEFINITE = 0x04;
+	private static final int BER_ACCEPT_DEFINITE = 0x03;
+	private static final int BER_ACCEPT_ALL = 0x07;
+	private static final int XER_EXTENDED = 1 << 2;
 
 	/** Last error value */
 	private static error_type last_error_type = error_type.ET_NONE;
@@ -92,10 +103,22 @@ public final class TTCN_EncDec {
 		ORDER_MSB,
 		ORDER_LSB
 	};
+
+	/**
+	 * The indicator of the encoding.
+	 *
+	 * Only RAW is supported for now
+	 * */
 	public static enum coding_type{
-		CT_RAW
-		//FIXME add missing enum elements as they get supported
+		CT_BER,
+		CT_PER,
+		CT_RAW,
+		CT_TEXT,
+		CT_XER,
+		CT_JSON,
+		CT_OER
 	};
+
 	public enum error_type {
 		ET_UNDEF,     /**< Undefined error. 0*/
 		ET_UNBOUND,   /**< Encoding of an unbound value. 1*/
@@ -260,9 +283,36 @@ public final class TTCN_EncDec {
 	 * coding_type has to be returned in Java.
 	 * */
 	public static coding_type get_coding_from_str(final TitanUniversalCharString coding_str, final AtomicInteger extra, final boolean encode) {
-		//FIXME: add support for the other encoding types
-		if (coding_str.operatorEquals("RAW")) {
+		if (coding_str.operatorEquals("BER:2002") || coding_str.operatorEquals("DER:2002")) {
+			if (encode) {
+				extra.set(BER_ENCODE_DER);
+			} else {
+				extra.set(BER_ACCEPT_ALL);
+			}
+
+			return coding_type.CT_BER;
+		} else if (coding_str.operatorEquals("CER:2002")) {
+			if (encode) {
+				extra.set(BER_ENCODE_CER);
+			} else {
+				extra.set(BER_ACCEPT_ALL);
+			}
+
+			return coding_type.CT_BER;
+		} else if (coding_str.operatorEquals("RAW")) {
 			return coding_type.CT_RAW;
+		} else if (coding_str.operatorEquals("TEXT")) {
+			return coding_type.CT_TEXT;
+		} else if (coding_str.operatorEquals("JSON")) {
+			return coding_type.CT_JSON;
+		} else if (coding_str.operatorEquals("XML") || coding_str.operatorEquals("XER")) {
+			if (extra != null) {
+				extra.set(XER_EXTENDED);
+			}
+
+			return coding_type.CT_XER;
+		} else if (coding_str.operatorEquals("OER")) {
+			return coding_type.CT_OER;
 		} else {
 			TtcnLogger.begin_event_log2str();
 			coding_str.log();
