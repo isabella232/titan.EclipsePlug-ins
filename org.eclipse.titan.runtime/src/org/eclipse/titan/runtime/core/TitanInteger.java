@@ -37,24 +37,24 @@ public class TitanInteger extends Base_Type {
 		nativeFlag = true;
 	}
 
-	public TitanInteger( final int otherValue ) {
+	public TitanInteger(final int otherValue) {
 		boundFlag = true;
 		nativeFlag = true;
 		nativeInt = otherValue;
 	}
 
-	public TitanInteger( final BigInteger otherValue ) {
+	public TitanInteger(final BigInteger otherValue) {
 		openSSL = otherValue;
 		boundFlag = true;
 		nativeFlag = false;
 	}
 
-	public TitanInteger( final TitanInteger otherValue ) {
-		otherValue.mustBound( "Copying an unbound integer value." );
+	public TitanInteger(final TitanInteger otherValue) {
+		otherValue.mustBound("Copying an unbound integer value.");
 
 		boundFlag = true;
 		nativeFlag = otherValue.nativeFlag;
-		if(nativeFlag) {
+		if (nativeFlag) {
 			nativeInt = otherValue.nativeInt;
 		} else {
 			openSSL = otherValue.openSSL;
@@ -90,14 +90,14 @@ public class TitanInteger extends Base_Type {
 
 	//originally clean_up
 	public void cleanUp() {
-		if(!nativeFlag) {
+		if (!nativeFlag) {
 			openSSL = null;
 		}
 		boundFlag = false;
 	}
 
-	//originally operator=
-	public TitanInteger assign( final int otherValue ) {
+	// originally operator=
+	public TitanInteger assign(final int otherValue) {
 		cleanUp();
 		boundFlag = true;
 		nativeFlag = true;
@@ -106,8 +106,8 @@ public class TitanInteger extends Base_Type {
 		return this;
 	}
 
-	//originally operator=
-	public TitanInteger assign( final BigInteger otherValue ) {
+	// originally operator=
+	public TitanInteger assign(final BigInteger otherValue) {
 		cleanUp();
 		boundFlag = true;
 		nativeFlag = false;
@@ -117,14 +117,14 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//originally operator=
-	public TitanInteger assign( final TitanInteger otherValue ) {
-		otherValue.mustBound( "Assignment of an unbound integer value." );
+	public TitanInteger assign(final TitanInteger otherValue) {
+		otherValue.mustBound("Assignment of an unbound integer value.");
 
 		if (otherValue != this) {
 			cleanUp();
 			boundFlag = true;
 			nativeFlag = otherValue.nativeFlag;
-			if(nativeFlag) {
+			if (nativeFlag) {
 				nativeInt = otherValue.nativeInt;
 			} else {
 				openSSL = otherValue.openSSL;
@@ -144,10 +144,10 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//originally operator+ unary plus
-	public TitanInteger add(){
+	public TitanInteger add() {
 		mustBound("Unbound integer operand of unary + operator.");
 
-		if(nativeFlag){
+		if (nativeFlag) {
 			return new TitanInteger(nativeInt);
 		} else {
 			return new TitanInteger(openSSL);
@@ -210,12 +210,12 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//originally operator-
-	public TitanInteger sub(final int otherValue){
+	public TitanInteger sub(final int otherValue) {
 		return this.sub(new TitanInteger(otherValue));
 	}
 
 	//originally operator-
-	public TitanInteger sub(final BigInteger otherValue){
+	public TitanInteger sub(final BigInteger otherValue) {
 		return this.sub(new TitanInteger(otherValue));
 	}
 
@@ -286,13 +286,13 @@ public class TitanInteger extends Base_Type {
 		}
 	}
 
-	//originally operator/
-	public TitanInteger div(final int otherValue){
+	// originally operator/
+	public TitanInteger div(final int otherValue) {
 		return div(new TitanInteger(otherValue));
 	}
 
-	//originally operator/
-	public TitanInteger div(final BigInteger otherValue){
+	// originally operator/
+	public TitanInteger div(final BigInteger otherValue) {
 		return div(new TitanInteger(otherValue));
 	}
 
@@ -559,21 +559,21 @@ public class TitanInteger extends Base_Type {
 
 	public boolean isPresent() {
 		return isBound();
-	};
+	}
 
 	public boolean isValue() {
 		return boundFlag;
 	}
 
-	public void mustBound( final String errorMessage ) {
-		if ( !boundFlag ) {
-			throw new TtcnError( errorMessage );
+	public void mustBound(final String errorMessage) {
+		if (!boundFlag) {
+			throw new TtcnError(errorMessage);
 		}
 	}
 
 	@Override
 	public String toString() {
-		if ( !boundFlag ) {
+		if (!boundFlag) {
 			return "<unbound>";
 		}
 		return getBigInteger().toString();
@@ -660,7 +660,7 @@ public class TitanInteger extends Base_Type {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
 			raw_order_t order;
-			switch(p_td.raw.top_bit_order) {
+			switch (p_td.raw.top_bit_order) {
 			case TOP_BIT_LEFT:
 				order = raw_order_t.ORDER_LSB;
 				break;
@@ -867,10 +867,10 @@ public class TitanInteger extends Base_Type {
 	 * TTCN_Typedescriptor_t.  It must be public because called by
 	 * another types during encoding.  Returns the length of encoded data.  */
 
-	public static int INTX_MASKS[] = { 0 /*dummy*/, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
+	public static int INTX_MASKS[] = { 0 /* dummy */, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		if(!nativeFlag) {
+		if (!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
 		}
 		char bc[];
@@ -879,41 +879,40 @@ public class TitanInteger extends Base_Type {
 		int len_bits = 0; // only for IntX
 		int value = getInt();
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
 			value = 0;
 			neg_sgbit = false;
 		}
-		if((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
+		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
 			value = -value;
 		}
-		if(neg_sgbit) {
+		if (neg_sgbit) {
 			value = -value;
 		}
 		//myleaf.ext_bit=EXT_BIT_NO;
-		if(myleaf.must_free) {
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
-		if(p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
+		if (p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
 			val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
 			int v2 = value;
-			if(v2 < 0 && p_td.raw.comp == raw_sign_t.SG_2COMPL) {
+			if (v2 < 0 && p_td.raw.comp == raw_sign_t.SG_2COMPL) {
 				v2 = ~v2;
 			}
 			do {
 				v2 >>= 1;
-			++val_bits;
-			}
-			while(v2 != 0);
+				++val_bits;
+			} while (v2 != 0);
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
-			if(val_bits % 8 + len_bits % 8 > 8) {
+			if (val_bits % 8 + len_bits % 8 > 8) {
 				// the remainder of the value bits and the length bits do not fit into
 				// an octet => an extra octet is needed and the length must be increased
 				++len_bits;
 			}
 			length = (len_bits + val_bits + 7) / 8;
-			if(len_bits % 8 == 0 && val_bits % 8 != 0) {
+			if (len_bits % 8 == 0 && val_bits % 8 != 0) {
 				// special case: the value can be stored on 8k - 1 octets plus the partial octet
 				// - len_bits = 8k is not enough, since there's no partial octet in that case
 				// and the length would then be followed by 8k octets (and it only indicates
@@ -926,39 +925,38 @@ public class TitanInteger extends Base_Type {
 			}
 		} else { // not IntX, use the field length
 			length = (p_td.raw.fieldlength + 7) / 8;
-			if(RAW.min_bits(value) > p_td.raw.fieldlength) {
+			if (RAW.min_bits(value) > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode : ", p_td.name);
 				value = 0; // substitute with zero
 			}
 		}
-		if(length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
+		if (length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
 			myleaf.data_ptr = bc = new char[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
 			bc = myleaf.data_array;
 		}
-		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
+		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
 			// treat the empty space between the value and the length as if it was part
 			// of the value, too
 			val_bits = length * 8 - len_bits;
 			// first, encode the value
 			do {
-				bc[i] =(char)(value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
+				bc[i] = (char) (value & INTX_MASKS[val_bits > 8 ? 8 : val_bits]);
 				++i;
 				value >>= 8;
 				val_bits -= 8;
-			}
-			while(val_bits > 0);
-			if(neg_sgbit) {
+			} while (val_bits > 0);
+			if (neg_sgbit) {
 				// the sign bit is the first bit after the length
 				final char mask = (char)(0x80 >> len_bits & 8);
 				bc[i - 1] |= mask;
 			}
 			// second, encode the length (ignore the last zero)
 			--len_bits;
-			if(val_bits != 0) {
+			if (val_bits != 0) {
 				// the remainder of the length is in the same octet as the remainder of the
 				// value => step back onto it
 				--i;
@@ -1005,11 +1003,11 @@ public class TitanInteger extends Base_Type {
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
 		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			neg_sgbit = false;
 		}
-		if((D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
+		if ((D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
 			D = D.negate();
 			neg_sgbit = false;
@@ -1017,10 +1015,10 @@ public class TitanInteger extends Base_Type {
 		// `if (neg_sgbit) tmp->neg = tmp->neg == 0;' is not needed, because the
 		// sign is stored separately from the number.  Default encoding of negative
 		// values in 2's complement form.
-		if(myleaf.must_free) {
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
-		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
+		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			val_bits = D.bitLength(); // + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
@@ -1043,14 +1041,14 @@ public class TitanInteger extends Base_Type {
 			}
 		} else {
 			length = (p_td.raw.fieldlength + 7) / 8;
-			if(RAW.min_bits(D) > p_td.raw.fieldlength) {
+			if (RAW.min_bits(D) > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
 				// at all for negative values.  Just simply clear the value.
 				neg_sgbit = false;
 			}
 		}
-		if(length > RAW.RAW_INT_ENC_LENGTH) {
+		if (length > RAW.RAW_INT_ENC_LENGTH) {
 			myleaf.data_ptr = bc = new char[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
@@ -1060,18 +1058,18 @@ public class TitanInteger extends Base_Type {
 
 		final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
 		// Conversion to 2's complement.
-		if(twos_compl) {
+		if (twos_compl) {
 			D = D.negate();
 			final byte[] tmp = D.toByteArray();
 			final int num_bytes = tmp.length;
 			for (int a = 0; a < num_bytes; a++) {
-				tmp[a] = (byte)~tmp[a];
+				tmp[a] = (byte) ~tmp[a];
 			}
 			D = new BigInteger(tmp);
 			D = D.add(BigInteger.ONE);
 		}
 
-		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
+		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
 			// treat the empty space between the value and the length as if it was part
 			// of the value, too
@@ -1198,15 +1196,14 @@ public class TitanInteger extends Base_Type {
 				// extract the next length octet (or partial length octet)
 				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
 				int mask = 0x80;
-				if(tmp_len_data[0] != 0) {
+				if (tmp_len_data[0] != 0) {
 					len_data = tmp_len_data[0];
 				}
 				do {
 					++len_bits;
 					if ((tmp_len_data[0] & mask) != 0) {
 						mask >>= 1;
-					}
-					else {
+					} else {
 						// the first zero signals the end of the length
 						// the rest of the bits in the octet are part of the value
 						partial_octet_bits = (8 - len_bits % 8) % 8;
@@ -1216,12 +1213,9 @@ public class TitanInteger extends Base_Type {
 						decode_length = 8 * (len_bits - 1);
 						break;
 					}
-				} 
-				while (len_bits % 8 != 0);
-			}
-			while (decode_length == 0 && partial_octet_bits == 0);
-		}
-		else {
+				} while (len_bits % 8 != 0);
+			} while (decode_length == 0 && partial_octet_bits == 0);
+		} else {
 			// not IntX, use the static field length
 			decode_length = p_td.raw.fieldlength;
 		}
@@ -1257,7 +1251,7 @@ public class TitanInteger extends Base_Type {
 			int tmp = 0;
 			int twos_compl = 0;
 			char[] data = new char[ (decode_length + partial_octet_bits + 7) / 8];
-			buff.get_b( decode_length, data, cp, top_bit_ord);
+			buff.get_b(decode_length, data, cp, top_bit_ord);
 			if (partial_octet_bits != 0) {
 				// in case there are value bits in the last length octet (only for IntX),
 				// these need to be appended to the extracted data
@@ -1304,19 +1298,19 @@ public class TitanInteger extends Base_Type {
 							pad = 0;
 							continue;
 						}
-						if(pad != 0) {
+						if (pad != 0) {
 							continue;
 						}
 						D = D.shiftLeft(8);
 						D = D.add(BigInteger.valueOf(data[idx] & 0xff));
 					}
-					if(twos_compl != 0) {
+					if (twos_compl != 0) {
 						final BigInteger D_tmp = new BigInteger(D.toByteArray());
 						D = D.subtract(D_tmp);
 					} else if (negativ_num) {
 						D = D.negate();
 					}
-					if(D.bitLength() > 31) {
+					if (D.bitLength() > 31) {
 						nativeFlag = false;
 						openSSL = D;
 					} else {
