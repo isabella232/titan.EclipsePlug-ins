@@ -647,8 +647,9 @@ public class TitanOctetString extends Base_Type {
 			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
-			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+
+			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
@@ -665,7 +666,7 @@ public class TitanOctetString extends Base_Type {
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 		switch (p_coding) {
 		case CT_RAW:
-			TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
 			if(p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
@@ -736,7 +737,7 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
-		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
@@ -746,7 +747,8 @@ public class TitanOctetString extends Base_Type {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type {0}.", p_td.name);
 			decode_length = ((limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 8) * 8;
 		}
-		RAW_coding_par cp = new RAW_coding_par();
+
+		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
@@ -768,7 +770,7 @@ public class TitanOctetString extends Base_Type {
 		if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO) {
 			final char[] data = buff.get_read_data();
 			int count = 1;
-			int rot = top_bit_ord == raw_order_t.ORDER_LSB ? 0 : 7;
+			final int rot = top_bit_ord == raw_order_t.ORDER_LSB ? 0 : 7;
 			if (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {
 				while (((data[count - 1] >> rot) & 0x01) == 0 && count * 8 < decode_length)
 					count++;

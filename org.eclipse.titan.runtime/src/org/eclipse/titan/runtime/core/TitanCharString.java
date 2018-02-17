@@ -134,7 +134,7 @@ public class TitanCharString extends Base_Type {
 			return assign(aOtherValue.cstr.toString());
 		} else {
 			cleanUp();
-			StringBuilder sb = new StringBuilder();
+			final StringBuilder sb = new StringBuilder();
 			for (int i = 0; i < aOtherValue.val_ptr.size(); ++i) {
 				final TitanUniversalChar uc = aOtherValue.val_ptr.get(i);
 				if (uc.getUc_group() != 0 || uc.getUc_plane() != 0 || uc.getUc_row() != 0) {
@@ -679,7 +679,7 @@ public class TitanCharString extends Base_Type {
 	}
 	
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
-		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength <= 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		if(decode_length > limit || decode_length > buff.unread_len_bit()) {
@@ -689,7 +689,8 @@ public class TitanCharString extends Base_Type {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
 			decode_length = ((limit > buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 8) * 8;
 		}
-		RAW_coding_par cp = new RAW_coding_par();
+
+		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
 		if(p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
@@ -711,12 +712,12 @@ public class TitanCharString extends Base_Type {
 		if(p_td.raw.fieldlength >= 0) {
 			cleanUp();
 			val_ptr = new StringBuilder(decode_length / 8);
-			char[] val_tmp = new char[decode_length / 8];
+			final char[] val_tmp = new char[decode_length / 8];
 			buff.get_b(decode_length, val_tmp, cp, top_bit_ord);
 			val_ptr.append(val_tmp);
 		} else {
 			// NULL terminated
-			TTCN_Buffer temp_buff = new TTCN_Buffer();
+			final TTCN_Buffer temp_buff = new TTCN_Buffer();
 			//TODO: can be more simple
 			char[] ch = new char[1];
 			ch[0] = 0;

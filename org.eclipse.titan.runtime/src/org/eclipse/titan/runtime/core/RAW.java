@@ -209,12 +209,13 @@ public class RAW {
 							szumm = atm.num_of_nodes;
 						}
 					}
+
 					szumm += lengthto.offset;
-					TitanInteger temp = new TitanInteger(szumm);
+					final TitanInteger temp = new TitanInteger(szumm);
 					temp.RAW_encode(coding_descr, this);
 					break;
 				case CALC_POINTER:
-					int cl = curr_pos.pos[curr_pos.level - 1];
+					final int cl = curr_pos.pos[curr_pos.level - 1];
 					curr_pos.pos[curr_pos.level - 1] = pointerto.ptr_base;
 					int base = pointerto.ptr_base;
 					RAW_enc_tree b = get_node(curr_pos);
@@ -228,7 +229,8 @@ public class RAW {
 					if(atm != null) {
 						szumm = (atm.startpos - b.startpos + pointerto.unit - 1 - pointerto.ptr_offset) / pointerto.unit;
 					}
-					TitanInteger temp2 = new TitanInteger(szumm);
+
+					final TitanInteger temp2 = new TitanInteger(szumm);
 					temp2.RAW_encode(coding_descr, this);
 				default:
 					break;
@@ -246,7 +248,7 @@ public class RAW {
 			int current_pos = position;
 			startpos = position;
 			if(prepadding != 0) {
-				int new_pos = ((current_pos + prepadding - 1) / prepadding) * prepadding;
+				final int new_pos = ((current_pos + prepadding - 1) / prepadding) * prepadding;
 				prepadlength = new_pos - position;
 				current_pos = new_pos;
 			}
@@ -261,7 +263,7 @@ public class RAW {
 				current_pos += length;
 			}
 			if(padding != 0) {
-				int new_pos = ((current_pos + padding - 1) / padding) * padding;
+				final int new_pos = ((current_pos + padding - 1) / padding) * padding;
 				padlength = new_pos - length - position - prepadlength;
 				current_pos = new_pos;
 			}
@@ -269,13 +271,14 @@ public class RAW {
 		}
 
 		private void fill_buf(final TTCN_Buffer buf) {
-			boolean old_order = buf.get_order();
+			final boolean old_order = buf.get_order();
 			if(top_bit_order != top_bit_order_t.TOP_BIT_INHERITED) {
 				buf.set_order(top_bit_order != top_bit_order_t.TOP_BIT_RIGHT);
 			}
+
 			buf.put_pad(prepadlength, padding_pattern, padding_pattern_length, coding_par.fieldorder);
 			if(isleaf) {
-				int align_length = align < 0 ? -align : align;
+				final int align_length = align < 0 ? -align : align;
 				if (ext_bit != ext_bit_t.EXT_BIT_NO) {
 					buf.start_ext_bit(ext_bit == ext_bit_t.EXT_BIT_REVERSE);
 				}
@@ -505,13 +508,14 @@ public class RAW {
 		if(a == null) {
 			return 0;
 		}
-		int bits = a.bitLength();
+
+		final int bits = a.bitLength();
 		return bits;
 	}
 
 	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf, final int integer_value, final int min_bits_enum) {
-		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
-		TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
+		final int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
+		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
 		my_raw.fieldlength = fl;
 		my_raw.comp = p_td.raw.comp;
 		my_raw.byteorder = p_td.raw.byteorder;
@@ -527,8 +531,8 @@ public class RAW {
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
 		//FIXME: initial implementation of Typedescriptor
-		TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw);
-		TitanInteger i = new TitanInteger(integer_value);
+		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw);
+		final TitanInteger i = new TitanInteger(integer_value);
 		i.RAW_encode(my_descr, myleaf);
 		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
 		return myleaf.length = fl;

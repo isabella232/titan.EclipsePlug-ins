@@ -1052,7 +1052,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 		lenghtUnichars = 0;
 
-		int start = checkBOM ? check_BOM(CharCoding.UTF_8, valueStr) : 0;
+		final int start = checkBOM ? check_BOM(CharCoding.UTF_8, valueStr) : 0;
 		for (int i = start; i < lenghtOctets; ) {
 			// perform the decoding character by character
 			if (valueStr[i] <= 0x7F)  {
@@ -1162,7 +1162,7 @@ public class TitanUniversalCharString extends Base_Type {
 			// (e.g. skipped octets)
 
 			if (lenghtUnichars > 0) {
-				List<TitanUniversalChar> helper = new ArrayList<TitanUniversalChar>(lenghtUnichars);
+				final List<TitanUniversalChar> helper = new ArrayList<TitanUniversalChar>(lenghtUnichars);
 				for (int i = 0; i < lenghtUnichars && i < val_ptr.size(); i++) {
 					helper.add(val_ptr.get(i));
 				}
@@ -1177,7 +1177,7 @@ public class TitanUniversalCharString extends Base_Type {
 		String coding_str;
 		//BOM indicates that the byte order is determined by a byte order mark, 
 		//if present at the beginning the length of BOM is returned.
-		int length = ostr.length;
+		final int length = ostr.length;
 		switch (code) {
 		case UTF32BE:
 		case UTF32:
@@ -1231,7 +1231,7 @@ public class TitanUniversalCharString extends Base_Type {
 			final char[] octets_ptr, final int start_pos, final int uchar_pos) {
 		for (int i = 0; i < n_continuing; i++) {
 			if (start_pos + i < n_octets) {
-				char octet = octets_ptr[start_pos + i];
+				final char octet = octets_ptr[start_pos + i];
 				if ((octet & 0xC0) != 0x80) {
 					TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_DEC_UCSTR,
 							MessageFormat.format("Malformed: At character position {0}, octet position {1}: {2} is not a valid continuing octet.", uchar_pos, start_pos + i, octet));
@@ -1282,10 +1282,10 @@ public class TitanUniversalCharString extends Base_Type {
 			// put_s avoids the check for boundness in put_cs
 		} else {
 			for (int i=0; i<val_ptr.size(); i++) {
-				char g = val_ptr.get(i).getUc_group();
-				char p = val_ptr.get(i).getUc_plane();
-				char r =val_ptr.get(i).getUc_row();
-				char c =val_ptr.get(i).getUc_cell();
+				final char g = val_ptr.get(i).getUc_group();
+				final char p = val_ptr.get(i).getUc_plane();
+				final char r =val_ptr.get(i).getUc_row();
+				final char c =val_ptr.get(i).getUc_cell();
 				if (g==0x00 && p<=0x1F) {
 					if (p==0x00) {
 						if (r==0x00 && c<=0x7F) {

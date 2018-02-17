@@ -512,7 +512,7 @@ public final class AdditionalFunctions {
 		// no encoding parameter is default UTF-8
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
 
-		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
 		final TTCN_Buffer buf = new TTCN_Buffer();
@@ -527,7 +527,7 @@ public final class AdditionalFunctions {
 	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final TitanCharString stringEncoding) {
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
 
-		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
 		final TTCN_Buffer buf = new TTCN_Buffer();
@@ -961,7 +961,7 @@ public final class AdditionalFunctions {
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value) {
 		// default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
-		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
 		unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
@@ -976,7 +976,7 @@ public final class AdditionalFunctions {
 		// default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
 
-		TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
+		final TTCN_EncDec.error_behavior_type err_behavior = TTCN_EncDec.get_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR);
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, TTCN_EncDec.error_behavior_type.EB_ERROR);
 
 		if (encodeStr.operatorEquals("UTF-8")) {

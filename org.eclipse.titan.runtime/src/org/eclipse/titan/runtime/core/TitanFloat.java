@@ -526,7 +526,7 @@ public class TitanFloat extends Base_Type {
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char[] bc;
 		char[] dv;
-		int length = p_td.raw.fieldlength / 8;
+		final int length = p_td.raw.fieldlength / 8;
 		double tmp = float_value.getValue();
 		if(!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
@@ -567,7 +567,7 @@ public class TitanFloat extends Base_Type {
 				bc[0] |= 0x80;
 			} else {
 				int index = 7;
-				int adj = -1;
+				final int adj = -1;
 
 				final byte[] tmp_dv = new byte[8];
 				ByteBuffer.wrap(tmp_dv).putDouble(tmp);
@@ -607,7 +607,7 @@ public class TitanFloat extends Base_Type {
 	}
 	
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
-		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength;
 		if ( p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
@@ -620,9 +620,10 @@ public class TitanFloat extends Base_Type {
 			decode_length += buff.increase_pos_padd(p_td.raw.padding);
 			return decode_length + prepaddlength;
 		}
+
 		double tmp = 0.0;
-		char[] data = new char[16];
-		RAW_coding_par cp = new RAW_coding_par();
+		final char[] data = new char[16];
+		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
@@ -660,7 +661,7 @@ public class TitanFloat extends Base_Type {
 				tmp = 0.0;
 			}
 		} else if(decode_length == 32) {
-			int sign = (data[0] & 0x80) >> 7;
+			final int sign = (data[0] & 0x80) >> 7;
 			int exponent = ((data[0] & 0x7F) << 1) | ((data[1] & 0x80) >> 7);
 			int fraction = ((data[1] & 0x7F) << 1) | ((data[2] & 0x80) >> 7);
 			fraction <<= 8;
@@ -676,12 +677,12 @@ public class TitanFloat extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
 				tmp = 0.0;
 			}  else if (exponent == 0 && fraction != 0) {
-				double sign_v = sign != 0 ? -1.0 : 1.0;
+				final double sign_v = sign != 0 ? -1.0 : 1.0;
 				tmp = sign_v * ((double)(fraction) / 8388608.0) * Math.pow(2.0, -126.0);
 			} else {
-				double sign_v = sign != 0 ? -1.0 : 1.0;
-			    exponent -= 127;
-			    tmp = sign_v * (1.0 + (double)(fraction) / 8388608.0) * Math.pow(2.0,(double)(exponent));
+				final double sign_v = sign != 0 ? -1.0 : 1.0;
+				exponent -= 127;
+				tmp = sign_v * (1.0 + (double)(fraction) / 8388608.0) * Math.pow(2.0,(double)(exponent));
 			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);

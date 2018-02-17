@@ -636,8 +636,9 @@ public class TitanInteger extends Base_Type {
 			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
-			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+
+			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
@@ -952,7 +953,7 @@ public class TitanInteger extends Base_Type {
 			while(val_bits > 0);
 			if(neg_sgbit) {
 				// the sign bit is the first bit after the length
-				char mask = (char)(0x80 >> len_bits & 8);
+				final char mask = (char)(0x80 >> len_bits & 8);
 				bc[i - 1] |= mask;
 			}
 			// second, encode the length (ignore the last zero)
@@ -989,7 +990,7 @@ public class TitanInteger extends Base_Type {
 				value >>= 8;
 			}
 			if (neg_sgbit) {
-				int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+				final int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
 				bc[length - 1] |= mask;
 			}
 			myleaf.length = p_td.raw.fieldlength;
@@ -1056,26 +1057,28 @@ public class TitanInteger extends Base_Type {
 		} else {
 			bc = myleaf.data_array;
 		}
-		boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
+
+		final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
 		// Conversion to 2's complement.
 		if(twos_compl) {
 			D = D.negate();
-			byte[] tmp = D.toByteArray();
-			int num_bytes = tmp.length;
+			final byte[] tmp = D.toByteArray();
+			final int num_bytes = tmp.length;
 			for (int a = 0; a < num_bytes; a++) {
 				tmp[a] = (byte)~tmp[a];
 			}
 			D = new BigInteger(tmp);
 			D = D.add(BigInteger.ONE);
 		}
+
 		if(p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
 			// treat the empty space between the value and the length as if it was part
 			// of the value, too
 			val_bits = length * 8 - len_bits;
 			// first, encode the value
-			byte[] tmp = D.toByteArray();
-			int num_bytes = tmp.length;
+			final byte[] tmp = D.toByteArray();
+			final int num_bytes = tmp.length;
 			do {
 				bc[i] = (char) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
 				++i;
@@ -1083,7 +1086,7 @@ public class TitanInteger extends Base_Type {
 			} while (val_bits > 0);
 			if (neg_sgbit) {
 				// the sign bit is the first bit after the length
-				int mask = 0x80 >> len_bits % 8;
+				final int mask = 0x80 >> len_bits % 8;
 				bc[i - 1] |= mask;
 			}
 			// second, encode the length (ignore the last zero)
@@ -1115,8 +1118,8 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = length * 8;
 		} else {
-			byte[] tmp = D.toByteArray();
-			int num_bytes = tmp.length;
+			final byte[] tmp = D.toByteArray();
+			final int num_bytes = tmp.length;
 			for (int a = 0; a < length; a++) {
 				if (twos_compl && num_bytes - 1 < a) {
 					bc[a] = 0xff;
@@ -1125,7 +1128,7 @@ public class TitanInteger extends Base_Type {
 				}
 			}
 			if (neg_sgbit) {
-				int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
+				final int mask = 0x01 << (p_td.raw.fieldlength - 1) % 8;
 				bc[length - 1] |= mask;
 			}
 			myleaf.length = p_td.raw.fieldlength;
@@ -1146,9 +1149,9 @@ public class TitanInteger extends Base_Type {
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		boundFlag = false;
-		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
-		RAW_coding_par cp = new RAW_coding_par();
+		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
@@ -1171,7 +1174,7 @@ public class TitanInteger extends Base_Type {
 		int len_bits = 0; // only for IntX (amount of bits used to store the length)
 		char len_data = 0; // only for IntX (an octet used to store the length)
 		int partial_octet_bits = 0; // only for IntX (amount of value bits in the partial octet)
-		char[] tmp_len_data = new char[1];
+		final char[] tmp_len_data = new char[1];
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			// extract the length
 			do {
@@ -1184,7 +1187,7 @@ public class TitanInteger extends Base_Type {
 				} else {
 					limit -= 8;
 				}
-				int nof_unread_bits = buff.unread_len_bit();
+				final int nof_unread_bits = buff.unread_len_bit();
 				if (nof_unread_bits < 8) {
 					if (!no_err) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
@@ -1232,7 +1235,8 @@ public class TitanInteger extends Base_Type {
 			}
 			decode_length = limit;
 		}
-		int nof_unread_bits = buff.unread_len_bit();
+
+		final int nof_unread_bits = buff.unread_len_bit();
 		if (decode_length > nof_unread_bits) {
 			if (!no_err) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
@@ -1307,7 +1311,7 @@ public class TitanInteger extends Base_Type {
 						D = D.add(BigInteger.valueOf(data[idx] & 0xff));
 					}
 					if(twos_compl != 0) {
-						BigInteger D_tmp = new BigInteger(D.toByteArray());
+						final BigInteger D_tmp = new BigInteger(D.toByteArray());
 						D = D.subtract(D_tmp);
 					} else if (negativ_num) {
 						D = D.negate();

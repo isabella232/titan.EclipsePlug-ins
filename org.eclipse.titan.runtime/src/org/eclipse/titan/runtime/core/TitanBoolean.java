@@ -301,8 +301,8 @@ public class TitanBoolean extends Base_Type {
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char bc[];
-		int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
-		int length = (loc_length + 7) / 8;
+		final int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
+		final int length = (loc_length + 7) / 8;
 		int tmp;
 		if(!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
@@ -336,7 +336,7 @@ public class TitanBoolean extends Base_Type {
 	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
-		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength : 1;
 		if(decode_length > limit) {
@@ -346,7 +346,7 @@ public class TitanBoolean extends Base_Type {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, limit);
 			decode_length = limit;
 		}
-		int nof_unread_bits = buff.unread_len_bit();
+		final int nof_unread_bits = buff.unread_len_bit();
 		if(decode_length > nof_unread_bits) {
 			if(no_err) {
 				return -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();
@@ -359,7 +359,7 @@ public class TitanBoolean extends Base_Type {
 		} else if(decode_length == 0) {
 			boolean_value = false;
 		} else {
-			RAW_coding_par cp = new RAW_coding_par();
+			final RAW_coding_par cp = new RAW_coding_par();
 			boolean orders = false;
 			if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 				orders = true;
@@ -378,7 +378,7 @@ public class TitanBoolean extends Base_Type {
 			cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			cp.fieldorder = p_td.raw.fieldorder;
 			cp.hexorder = raw_order_t.ORDER_LSB;
-			int length = (decode_length + 7) / 8;
+			final int length = (decode_length + 7) / 8;
 			char[] data = new char[length];
 			buff.get_b(decode_length, data, cp, top_bit_ord);
 			if(decode_length % 8 != 0) {

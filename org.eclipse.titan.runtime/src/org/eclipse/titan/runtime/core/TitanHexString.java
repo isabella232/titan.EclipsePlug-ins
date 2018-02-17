@@ -351,8 +351,9 @@ public class TitanHexString extends Base_Type {
 			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
-			RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-			RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+
+			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
 			RAW_encode(p_td, root);
 			root.put_to_buf(p_buf);
 
@@ -369,7 +370,7 @@ public class TitanHexString extends Base_Type {
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 		switch (p_coding) {
 		case CT_RAW:
-			TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
 			if(p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
@@ -721,7 +722,7 @@ public class TitanHexString extends Base_Type {
 	}
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
-		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 4) * 4 : p_td.raw.fieldlength;
 		if ( p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
@@ -731,7 +732,8 @@ public class TitanHexString extends Base_Type {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
 			decode_length = ((limit > buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 4) * 4;
 		}
-		RAW_coding_par cp = new RAW_coding_par();
+
+		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true; 
@@ -752,7 +754,7 @@ public class TitanHexString extends Base_Type {
 		cp.hexorder = p_td.raw.hexorder;
 		nibbles_ptr = null;
 		nibbles_ptr = new byte[decode_length / 4];
-		char[] tmp_nibbles = new char[decode_length / 4];
+		final char[] tmp_nibbles = new char[decode_length / 4];
 		buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
 		int temp_index = 0;
 		for (int i = 0; i < tmp_nibbles.length-1; i+=2) {
@@ -764,8 +766,8 @@ public class TitanHexString extends Base_Type {
 		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
 			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 				if ((decode_length - nibbles_ptr.length * 4) % 8 != 0) {
-					int bound = (decode_length - nibbles_ptr.length * 4) % 8;
-					int maxindex = (decode_length - 1) / 8;
+					final int bound = (decode_length - nibbles_ptr.length * 4) % 8;
+					final int maxindex = (decode_length - 1) / 8;
 					for (int a = 0, b = (decode_length - nibbles_ptr.length * 4 - 1) / 8; a < (nibbles_ptr.length * 4 + 7) / 8; a++, b++) {
 						nibbles_ptr[a] = (byte) (nibbles_ptr[b] >> bound);
 						if (b < maxindex) {
