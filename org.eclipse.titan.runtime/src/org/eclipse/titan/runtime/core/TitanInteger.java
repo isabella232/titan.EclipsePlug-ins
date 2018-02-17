@@ -868,7 +868,7 @@ public class TitanInteger extends Base_Type {
 
 	public static int INTX_MASKS[] = { 0 /*dummy*/, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
 
-	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		if(!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
 		}
@@ -998,7 +998,7 @@ public class TitanInteger extends Base_Type {
 	}
 
 	//TODO actually big integer
-	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char[] bc;
 		int length; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
@@ -1140,11 +1140,11 @@ public class TitanInteger extends Base_Type {
 		return myleaf.length;
 	}
 
-	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
 	}
 
-	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		boundFlag = false;
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;

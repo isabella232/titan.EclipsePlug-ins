@@ -523,7 +523,7 @@ public class TitanFloat extends Base_Type {
 		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(doubleValue)));
 	}
 
-	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char[] bc;
 		char[] dv;
 		int length = p_td.raw.fieldlength / 8;
@@ -606,7 +606,7 @@ public class TitanFloat extends Base_Type {
 		return myleaf.length = p_td.raw.fieldlength;
 	}
 	
-	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength;

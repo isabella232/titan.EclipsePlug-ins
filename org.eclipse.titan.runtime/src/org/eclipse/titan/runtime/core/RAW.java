@@ -75,7 +75,7 @@ public class RAW {
 	};
 
 	// TODO: #define REVERSE_BITS(b) (BitReverseTable[(b)&0xFF])
-	public static int REVERSE_BITS(int b) {
+	public static int REVERSE_BITS(final int b) {
 		return BitReverseTable[(b)&0xFF];
 	}
 
@@ -183,7 +183,7 @@ public class RAW {
 			}
 		}
 
-		public void put_to_buf(TTCN_Buffer buf) {
+		public void put_to_buf(final TTCN_Buffer buf) {
 			calc_padding(0);
 			calc_fields();
 			fill_buf(buf);
@@ -268,7 +268,7 @@ public class RAW {
 			return current_pos;
 		}
 
-		private void fill_buf(TTCN_Buffer buf) {
+		private void fill_buf(final TTCN_Buffer buf) {
 			boolean old_order = buf.get_order();
 			if(top_bit_order != top_bit_order_t.TOP_BIT_INHERITED) {
 				buf.set_order(top_bit_order != top_bit_order_t.TOP_BIT_RIGHT);
@@ -486,7 +486,7 @@ public class RAW {
 	 * @return the number of bits needed to represent the given integer
 	 * in sign+magnitude
 	 */
-	public static int min_bits(int a)
+	public static int min_bits(final int a)
 	{
 		int bits = 0;
 		int tmp = a;
@@ -501,7 +501,7 @@ public class RAW {
 		return bits;
 	}
 
-	public static int min_bits(BigInteger a) {
+	public static int min_bits(final BigInteger a) {
 		if(a == null) {
 			return 0;
 		}
@@ -509,7 +509,7 @@ public class RAW {
 		return bits;
 	}
 
-	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf, int integer_value, int min_bits_enum) {
+	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf, final int integer_value, final int min_bits_enum) {
 		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
 		TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
 		my_raw.fieldlength = fl;

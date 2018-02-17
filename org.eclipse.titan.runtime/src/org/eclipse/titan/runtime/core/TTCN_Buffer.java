@@ -68,7 +68,7 @@ public class TTCN_Buffer {
 	 * @param target_size the amount of memory requested.
 	 * @return the amount of memory to be allocated.
 	 * */
-	private static int get_memory_size(int target_size) {
+	private static int get_memory_size(final int target_size) {
 		int newSize = INITIAL_SIZE;
 		while (newSize < target_size) {
 			final int nextSize = newSize + newSize;
@@ -86,7 +86,7 @@ public class TTCN_Buffer {
 	 * memory area after buf_len. 
 	 * @param size_incr inctement buffer the number of size_incr
 	 * */
-	private void increase_size(int size_incr) {
+	private void increase_size(final int size_incr) {
 		if (data_ptr != null) {
 			int target_size = buf_len + size_incr;
 			if (target_size < buf_len) {
@@ -855,7 +855,7 @@ public class TTCN_Buffer {
 	 * @param coding_par
 	 * @param top_bit_order
 	 *  */
-	public void get_b(int len, char[] s, final RAW_coding_par coding_par,final raw_order_t top_bit_order) {
+	public void get_b(final int len, final char[] s, final RAW_coding_par coding_par,final raw_order_t top_bit_order) {
 		if(len==0) {
 			return;
 		}

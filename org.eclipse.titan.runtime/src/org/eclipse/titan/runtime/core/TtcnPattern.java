@@ -127,7 +127,7 @@ public class TtcnPattern {
 	 * @param nocase true for case insensitive matching
 	 * @return matching substring, or empty string in case of no match
 	 */
-	public static String regexp( final String s, final Pattern javaPattern, int groupno, final boolean nocase ) {
+	public static String regexp( final String s, final Pattern javaPattern, final int groupno, final boolean nocase ) {
 		String result = "";
 		try {
 			final Matcher m = javaPattern.matcher( nocase ? s.toLowerCase() : s );
@@ -148,7 +148,7 @@ public class TtcnPattern {
 	 * @param nocase true for case insensitive matching
 	 * @return matching substring, or empty string in case of no match
 	 */
-	public static String regexp( final String s, final String ttcnPattern, int groupno, final boolean nocase ) {
+	public static String regexp( final String s, final String ttcnPattern, final int groupno, final boolean nocase ) {
 		return regexp( s, convertPattern( ttcnPattern, nocase ), groupno, nocase );
 	}
 

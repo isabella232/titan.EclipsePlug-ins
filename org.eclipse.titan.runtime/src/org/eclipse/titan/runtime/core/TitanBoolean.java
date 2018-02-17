@@ -299,7 +299,7 @@ public class TitanBoolean extends Base_Type {
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
 	}
 
-	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char bc[];
 		int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
 		int length = (loc_length + 7) / 8;
@@ -335,7 +335,7 @@ public class TitanBoolean extends Base_Type {
 		return myleaf.length = loc_length;
 	}
 
-	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength : 1;

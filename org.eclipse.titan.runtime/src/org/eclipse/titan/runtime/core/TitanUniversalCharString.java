@@ -1227,8 +1227,8 @@ public class TitanUniversalCharString extends Base_Type {
 		return 0;
 	}
 
-	public static void fill_continuing_octets(int n_continuing, char[] continuing_ptr, int n_octets,
-			char[] octets_ptr, int start_pos, int uchar_pos) {
+	public static void fill_continuing_octets(final int n_continuing, final char[] continuing_ptr, final int n_octets,
+			final char[] octets_ptr, final int start_pos, final int uchar_pos) {
 		for (int i = 0; i < n_continuing; i++) {
 			if (start_pos + i < n_octets) {
 				char octet = octets_ptr[start_pos + i];

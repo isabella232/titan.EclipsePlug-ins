@@ -685,7 +685,7 @@ public class TitanHexString extends Base_Type {
 		return this.rotateRight(rotateCount.getInt());
 	}
 
-	public int RAW_encode(final TTCN_Typedescriptor p_td, RAW_enc_tree myleaf) {
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		if(!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
@@ -716,11 +716,11 @@ public class TitanHexString extends Base_Type {
 		return myleaf.length = nbits + align_length;
 	}
 	
-	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
 	}
 
-	public int RAW_decode(final TTCN_Typedescriptor p_td, TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 4) * 4 : p_td.raw.fieldlength;
