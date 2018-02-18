@@ -28,7 +28,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 public class TitanOctetString extends Base_Type {
 
 	// originally octetstring_value_match
-	private static final Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile( "^([0-9A-Fa-f]{2})+$" );
+	private static final Pattern OCTETSTRING_VALUE_PATTERN = Pattern.compile("^([0-9A-Fa-f]{2})+$");
 
 	private static final String HEX_DIGITS = "0123456789ABCDEF";
 
@@ -42,17 +42,17 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString() {
 	}
 
-	public TitanOctetString( final char aOtherValue[] ) {
-		val_ptr = TitanStringUtils.copyCharList( aOtherValue );
+	public TitanOctetString(final char aOtherValue[]) {
+		val_ptr = TitanStringUtils.copyCharList(aOtherValue);
 	}
 
-	public TitanOctetString( final TitanOctetString aOtherValue ) {
-		aOtherValue.mustBound( "Copying an unbound octetstring value." );
+	public TitanOctetString(final TitanOctetString aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound octetstring value.");
 
-		val_ptr = TitanStringUtils.copyCharList( aOtherValue.val_ptr );
+		val_ptr = TitanStringUtils.copyCharList(aOtherValue.val_ptr);
 	}
 
-	public TitanOctetString( final char aValue ) {
+	public TitanOctetString(final char aValue) {
 		val_ptr = new char[1];
 		val_ptr[0] = aValue;
 	}
@@ -62,8 +62,8 @@ public class TitanOctetString extends Base_Type {
 	 * @param aValue string representation of a octetstring value, without ''B, it contains only [0-9A-F] characters.
 	 * NOTE: this is the way octetstring value is stored in Octetstring_Value
 	 */
-	public TitanOctetString( final String aValue ) {
-		val_ptr = octetstr2bytelist( aValue );
+	public TitanOctetString(final String aValue) {
+		val_ptr = octetstr2bytelist(aValue);
 	}
 
 	/**
@@ -90,8 +90,8 @@ public class TitanOctetString extends Base_Type {
 	 * @param aHexDigit2 2nd digit of an octet, string representation of hex digit, possible value: [0-9A-F] characters
 	 * @return value of the octet
 	 */
-	private static char octet2value( final char aHexDigit1, final char aHexDigit2 ) {
-		final char result = (char) ( 16 * TitanHexString.hexdigit2byte( aHexDigit1 ) + TitanHexString.hexdigit2byte( aHexDigit2 ));
+	private static char octet2value(final char aHexDigit1, final char aHexDigit2) {
+		final char result = (char) (16 * TitanHexString.hexdigit2byte(aHexDigit1) + TitanHexString.hexdigit2byte(aHexDigit2));
 		return result;
 	}
 
@@ -113,14 +113,14 @@ public class TitanOctetString extends Base_Type {
 		return val_ptr;
 	}
 
-	//takes ownership of aOtherValue
-	public void setValue( final char[] aOtherValue ) {
+	// takes ownership of aOtherValue
+	public void setValue(final char[] aOtherValue) {
 		val_ptr = aOtherValue;
 	}
 
-	//originally operator=
-	public TitanOctetString assign( final TitanOctetString aOtherValue ) {
-		aOtherValue.mustBound( "Assignment of an unbound octetstring value." );
+	// originally operator=
+	public TitanOctetString assign(final TitanOctetString aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound octetstring value.");
 
 		if (aOtherValue != this) {
 			val_ptr = aOtherValue.val_ptr;
@@ -129,8 +129,8 @@ public class TitanOctetString extends Base_Type {
 		return this;
 	}
 
-	public TitanOctetString assign( final TitanOctetString_Element aOtherValue ) {
-		aOtherValue.mustBound( "Assignment of an unbound octetstring element to an octetstring." );
+	public TitanOctetString assign(final TitanOctetString_Element aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound octetstring element to an octetstring.");
 		val_ptr = new char[1];
 		val_ptr[0] = aOtherValue.get_nibble();
 
@@ -154,9 +154,9 @@ public class TitanOctetString extends Base_Type {
 		return val_ptr != null;
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( val_ptr == null ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (val_ptr == null) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
@@ -168,19 +168,19 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	// originally operator==
-	public boolean operatorEquals( final TitanOctetString otherValue ) {
+	public boolean operatorEquals(final TitanOctetString otherValue) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
-		return Arrays.equals(val_ptr, otherValue.val_ptr );
+		return Arrays.equals(val_ptr, otherValue.val_ptr);
 	}
 
-	public boolean operatorEquals( final TitanOctetString_Element otherValue ) {
+	public boolean operatorEquals(final TitanOctetString_Element otherValue) {
 		mustBound("Unbound left operand of octetstring comparison.");
 		otherValue.mustBound("Unbound right operand of octetstring comparison.");
 
 		return otherValue.operatorEquals(this);
-		//new TitanBoolean(val_ptr.equals( otherValue.get_nibble()));
+		// new TitanBoolean(val_ptr.equals( otherValue.get_nibble()));
 	}
 
 	@Override
@@ -192,24 +192,24 @@ public class TitanOctetString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to octetstring", otherValue));
 	}
 
-	//originally operator!=
-	public boolean operatorNotEquals( final TitanOctetString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	// originally operator!=
+	public boolean operatorNotEquals(final TitanOctetString aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
-	public boolean operatorNotEquals( final TitanOctetString_Element aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public boolean operatorNotEquals(final TitanOctetString_Element aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
-	public boolean operatorNotEquals( final Base_Type aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	public boolean operatorNotEquals(final Base_Type aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	public void cleanUp() {
 		val_ptr = null;
 	}
 
-	//originally operator[](int)
+	// originally operator[](int)
 	public TitanOctetString_Element getAt(final int index_value) {
 		if (val_ptr == null && index_value == 0) {
 			val_ptr = new char[1];
@@ -230,9 +230,9 @@ public class TitanOctetString extends Base_Type {
 				final char temp[] = new char[val_ptr.length + 1];
 				System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 				val_ptr = temp;
-				return new TitanOctetString_Element( false, this, index_value );
+				return new TitanOctetString_Element(false, this, index_value);
 			} else {
-				return new TitanOctetString_Element( true, this, index_value );
+				return new TitanOctetString_Element(true, this, index_value);
 			}
 		}
 	}
@@ -241,11 +241,11 @@ public class TitanOctetString extends Base_Type {
 	public TitanOctetString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a octetstring value with an unbound integer value.");
 
-		return getAt( index_value.getInt() );
+		return getAt(index_value.getInt());
 	}
 
-	//originally operator[](int) const
-	public final TitanOctetString_Element constGetAt( final int index_value ) {
+	// originally operator[](int) const
+	public final TitanOctetString_Element constGetAt(final int index_value) {
 		mustBound("Accessing an element of an unbound octetstring value.");
 
 		if (index_value < 0) {
@@ -260,11 +260,11 @@ public class TitanOctetString extends Base_Type {
 		return new TitanOctetString_Element(true, this, index_value);
 	}
 
-	//originally operator[](const INTEGER&) const
+	// originally operator[](const INTEGER&) const
 	public final TitanOctetString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a octetstring value with an unbound integer value.");
 
-		return constGetAt( index_value.getInt() );
+		return constGetAt(index_value.getInt());
 	}
 
 	public void log() {
@@ -293,7 +293,7 @@ public class TitanOctetString extends Base_Type {
 
 	@Override
 	public String toString() {
-		if ( val_ptr == null ) {
+		if (val_ptr == null) {
 			return "<unbound>";
 		}
 
@@ -353,11 +353,11 @@ public class TitanOctetString extends Base_Type {
 	 * this + otherValue (concatenation)
 	 * originally operator+
 	 */
-	public TitanOctetString concatenate( final TitanOctetString otherValue ) {
-		mustBound( "Unbound left operand of octetstring concatenation." );
-		otherValue.mustBound( "Unbound right operand of octetstring concatenation." );
+	public TitanOctetString concatenate(final TitanOctetString otherValue) {
+		mustBound("Unbound left operand of octetstring concatenation.");
+		otherValue.mustBound("Unbound right operand of octetstring concatenation.");
 
-		if(val_ptr.length == 0) {
+		if (val_ptr.length == 0) {
 			return new TitanOctetString(otherValue);
 		}
 		if (otherValue.val_ptr.length == 0) {
@@ -368,20 +368,20 @@ public class TitanOctetString extends Base_Type {
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		System.arraycopy(otherValue.val_ptr, 0, temp, val_ptr.length, otherValue.val_ptr.length);
 
-		final TitanOctetString result = new TitanOctetString( temp );
+		final TitanOctetString result = new TitanOctetString(temp);
 
 		return result;
 	}
 
-	public TitanOctetString concatenate( final TitanOctetString_Element otherValue ) {
-		mustBound( "Unbound left operand of octetstring concatenation." );
-		otherValue.mustBound( "Unbound right operand of octetstring element concatenation." );
+	public TitanOctetString concatenate(final TitanOctetString_Element otherValue) {
+		mustBound("Unbound left operand of octetstring concatenation.");
+		otherValue.mustBound("Unbound right operand of octetstring element concatenation.");
 
 		final char temp[] = new char[val_ptr.length + 1];
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
-		temp[ val_ptr.length ] = otherValue.get_nibble();
+		temp[val_ptr.length] = otherValue.get_nibble();
 
-		final TitanOctetString result = new TitanOctetString( temp );
+		final TitanOctetString result = new TitanOctetString(temp);
 
 		return result;
 	}
@@ -667,7 +667,7 @@ public class TitanOctetString extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW:
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if(p_td.raw == null) {
+			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
 			raw_order_t order;
@@ -680,7 +680,7 @@ public class TitanOctetString extends Base_Type {
 				order = raw_order_t.ORDER_MSB;
 			}
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
 			errorContext.leaveContext();
@@ -691,26 +691,26 @@ public class TitanOctetString extends Base_Type {
 	}
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 		char[] bc = new char[val_ptr.length];
 		int bl = val_ptr.length * 8;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
 		int blength = val_ptr.length;
-		if((bl + align_length) < val_ptr.length * 8) {
+		if ((bl + align_length) < val_ptr.length * 8) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode {0}: ", p_td.name);
 			blength = p_td.raw.fieldlength / 8;
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		if(myleaf.must_free) {
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
 		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
-		if(p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && myleaf.coding_par.bitorder == raw_order_t.ORDER_MSB) {
-			if(blength > RAW.RAW_INT_ENC_LENGTH) {
+		if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && myleaf.coding_par.bitorder == raw_order_t.ORDER_MSB) {
+			if (blength > RAW.RAW_INT_ENC_LENGTH) {
 				myleaf.data_ptr = new char[blength];
 				myleaf.must_free = true;
 				myleaf.data_ptr_used = true;
@@ -724,7 +724,7 @@ public class TitanOctetString extends Base_Type {
 		} else {
 			myleaf.data_ptr = val_ptr;
 		}
-		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {
 			myleaf.align = align_length;
@@ -772,12 +772,13 @@ public class TitanOctetString extends Base_Type {
 			int count = 1;
 			final int rot = top_bit_ord == raw_order_t.ORDER_LSB ? 0 : 7;
 			if (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {
-				while (((data[count - 1] >> rot) & 0x01) == 0 && count * 8 < decode_length)
+				while (((data[count - 1] >> rot) & 0x01) == 0 && count * 8 < decode_length) {
 					count++;
-			}
-			else {
-				while (((data[count - 1] >> rot) & 0x01) == 1 && count * 8 < decode_length)
+				}
+			} else {
+				while (((data[count - 1] >> rot) & 0x01) == 1 && count * 8 < decode_length) {
 					count++;
+				}
 			}
 			decode_length = count * 8;
 		}
@@ -790,8 +791,9 @@ public class TitanOctetString extends Base_Type {
 			}
 		}
 		if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && cp.bitorder == raw_order_t.ORDER_MSB) {
-			for (int a = 0; a < decode_length / 8; a++)
+			for (int a = 0; a < decode_length / 8; a++) {
 				val_ptr[a] = (char) (val_ptr[a] >> 1 | val_ptr[a] << 7);
+			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		return decode_length + prepaddlength;

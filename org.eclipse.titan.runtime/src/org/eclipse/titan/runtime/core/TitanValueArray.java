@@ -33,7 +33,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		indexOffset = otherValue.indexOffset;
 		array_elements = new Base_Type[array_size];
 
-		for (int i = 0; i < array_size ; ++i) {
+		for (int i = 0; i < array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_elements[i]);
@@ -117,9 +117,9 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	}
 
 	public TitanInteger lengthOf() {
-		for (int i = array_size-1; i >= 0; --i) {
+		for (int i = array_size - 1; i >= 0; --i) {
 			if (array_elements[i].isBound()) {
-				return new TitanInteger(i+1);
+				return new TitanInteger(i + 1);
 			}
 		}
 
@@ -179,7 +179,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			final TitanValueArray<T> arrayOther = (TitanValueArray<T>)otherValue;
 			return operatorEquals(arrayOther);
 		} else {
-			if(array_size == 1 ) {
+			if (array_size == 1) {
 				return array_elements[0].operatorEquals(otherValue);
 			}
 		}
@@ -228,10 +228,10 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				rotateCount = array_size;
 			}
 			for (int i = 0; i < array_size - rotateCount; i++) {
-				result.array_elements[i] = array_elements[i+rotateCount];
+				result.array_elements[i] = array_elements[i + rotateCount];
 			}
-			for (int i =array_size - rotateCount; i < array_size; i++) {
-				result.array_elements[i] = array_elements[i+rotateCount - array_size];
+			for (int i = array_size - rotateCount; i < array_size; i++) {
+				result.array_elements[i] = array_elements[i + rotateCount - array_size];
 			}
 			return result;
 		} else {
@@ -264,10 +264,10 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 				rotateCount = array_size;
 			}
 			for (int i = 0; i < rotateCount; i++) {
-				result.array_elements[i] = array_elements[i-rotateCount+array_size];
+				result.array_elements[i] = array_elements[i - rotateCount + array_size];
 			}
 			for (int i = rotateCount; i < array_size; i++) {
-				result.array_elements[i] = array_elements[i-rotateCount];
+				result.array_elements[i] = array_elements[i - rotateCount];
 			}
 			return result;
 		} else {
@@ -337,12 +337,12 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	@Override
 	public String toString() {
 		final StringBuilder str = new StringBuilder("{");
-		for (int i = 0; i < array_size-1; ++i) {
+		for (int i = 0; i < array_size - 1; ++i) {
 			str.append(array_elements[i].toString());
 			str.append(" , ");
 		}
-		if (array_size > 0 ) {
-			str.append(array_elements[array_size-1].toString());
+		if (array_size > 0) {
+			str.append(array_elements[array_size - 1].toString());
 		}
 		str.append('}');
 		return str.toString();
@@ -355,14 +355,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			throw new TtcnError("Invalid array size");
 		}
 		if (index < indexofset) {
-			throw new TtcnError("Index underflow when accessing an element of an array. "+
-					"The index value should be between "+indexofset+" and "+(indexofset+arraySize-1)+" instead of "+index+".");
+			throw new TtcnError("Index underflow when accessing an element of an array. " + "The index value should be between "
+					+ indexofset + " and " + (indexofset + arraySize - 1) + " instead of " + index + ".");
 		}
 
 		final int result = index - indexofset;
 		if (result >= arraySize) {
-			throw new TtcnError("Index overflow when accessing an element of an array. "+
-					"The index value should be between "+indexofset+" and "+(indexofset+arraySize-1)+" instead of "+index+".");
+			throw new TtcnError("Index overflow when accessing an element of an array. " + "The index value should be between "
+					+ indexofset + " and " + (indexofset + arraySize - 1) + " instead of " + index + ".");
 		}
 
 		return result;

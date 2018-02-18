@@ -85,7 +85,8 @@ public abstract class Base_Type {
 
 	public abstract boolean operatorEquals(final Base_Type otherValue);
 
-	public abstract Base_Type assign( final Base_Type otherValue );
+	public abstract Base_Type assign(final Base_Type otherValue);
+
 	public abstract void log();
 
 	public void set_param (final Module_Parameter param) {

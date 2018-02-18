@@ -44,7 +44,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		optionalValue = null;
 		optionalSelection = otherValue.optionalSelection;
 		clazz = otherValue.clazz;
-		if(optional_sel.OPTIONAL_PRESENT.equals(otherValue.optionalSelection)) {
+		if (optional_sel.OPTIONAL_PRESENT.equals(otherValue.optionalSelection)) {
 			try {
 				optionalValue = clazz.newInstance();
 			} catch (Exception e) {
@@ -74,9 +74,9 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 
 	//originally operator=
 	public Optional<TYPE> assign(final Optional<TYPE> otherValue) {
-		switch(otherValue.optionalSelection) {
+		switch (otherValue.optionalSelection) {
 		case OPTIONAL_PRESENT:
-			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 				optionalValue.assign(otherValue.optionalValue);
 			} else {
 				try {
@@ -104,7 +104,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	public Optional<TYPE> assign(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
-			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 				optionalValue.assign(otherValue);
 			} else {
 				try {
@@ -119,9 +119,9 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 
 		final Optional<?> optionalOther = (Optional<?>)otherValue;
-		switch(optionalOther.optionalSelection) {
+		switch (optionalOther.optionalSelection) {
 		case OPTIONAL_PRESENT:
-			if(optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
+			if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 				optionalValue.assign(optionalOther.optionalValue);
 			} else {
 				try {
@@ -164,12 +164,12 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		optionalSelection = optional_sel.OPTIONAL_OMIT;
 	}
 
-	public optional_sel getSelection () {
+	public optional_sel getSelection() {
 		return optionalSelection;
 	}
 
 	public void log() {
-		switch( optionalSelection) {
+		switch (optionalSelection) {
 		case OPTIONAL_PRESENT:
 			optionalValue.log();
 			break;
@@ -185,7 +185,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		switch(optionalSelection) {
+		switch (optionalSelection) {
 		case OPTIONAL_OMIT:
 			text_buf.push_int(0);
 			break;
@@ -275,8 +275,8 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//originally operator==
-	public boolean operatorEquals( final template_sel otherValue ) {
+	// originally operator==
+	public boolean operatorEquals(final template_sel otherValue) {
 		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
 			if (template_sel.UNINITIALIZED_TEMPLATE.equals(otherValue)) {
 				return true;
@@ -291,10 +291,10 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		return optional_sel.OPTIONAL_OMIT.equals(optionalSelection);
 	}
 
-	//originally operator==
-	public boolean operatorEquals( final Optional<TYPE> otherValue ) {
-		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
-			if(optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
+	// originally operator==
+	public boolean operatorEquals(final Optional<TYPE> otherValue) {
+		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+			if (optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
 				return true;
 			} else {
 				throw new TtcnError("The left operand of comparison is an unbound optional value.");
@@ -303,7 +303,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(otherValue.optionalSelection)) {
 				throw new TtcnError("The right operand of comparison is an unbound optional value.");
 			} else {
-				if(optionalSelection != otherValue.optionalSelection) {
+				if (optionalSelection != otherValue.optionalSelection) {
 					return false;
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 					return optionalValue.operatorEquals(otherValue.optionalValue);
@@ -317,8 +317,8 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	@Override
 	public boolean operatorEquals(final Base_Type otherValue) {
 		if (!(otherValue instanceof Optional<?>)) {
-			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
-				if(!otherValue.isBound()) {
+			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+				if (!otherValue.isBound()) {
 					return true;
 				} else {
 					throw new TtcnError("The left operand of comparison is an unbound optional value.");
@@ -337,8 +337,8 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 
 		final Optional<?> optionalOther = (Optional<?>) otherValue;
-		if(optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
-			if(optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
+		if (optional_sel.OPTIONAL_UNBOUND.equals(optionalSelection)) {
+			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
 				return true;
 			} else {
 				throw new TtcnError("The left operand of comparison is an unbound optional value.");
@@ -347,7 +347,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 			if (optional_sel.OPTIONAL_UNBOUND.equals(optionalOther.optionalSelection)) {
 				throw new TtcnError("The right operand of comparison is an unbound optional value.");
 			} else {
-				if(optionalSelection != optionalOther.optionalSelection) {
+				if (optionalSelection != optionalOther.optionalSelection) {
 					return false;
 				} else if (optional_sel.OPTIONAL_PRESENT.equals(optionalSelection)) {
 					return optionalValue.operatorEquals(optionalOther.optionalValue);
@@ -358,13 +358,13 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//originally operator!=
-	public boolean operatorNotEquals( final template_sel otherValue ) {
+	// originally operator!=
+	public boolean operatorNotEquals(final template_sel otherValue) {
 		return !operatorEquals(otherValue);
 	}
 
-	//originally operator!=
-	public boolean operatorNotEquals( final Optional<TYPE> otherValue ) {
+	// originally operator!=
+	public boolean operatorNotEquals(final Optional<TYPE> otherValue) {
 		return !operatorEquals(otherValue);
 	}
 }

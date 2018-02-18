@@ -204,7 +204,7 @@ public final class Text_Buf {
 
 		int pos = buf_pos;
 		// Count continuation flags.
-		while(pos < buf_end && ((data_ptr[pos] & 0x80) != 0)) {
+		while (pos < buf_end && ((data_ptr[pos] & 0x80) != 0)) {
 			pos++;
 		}
 		if (pos >= buf_end) {

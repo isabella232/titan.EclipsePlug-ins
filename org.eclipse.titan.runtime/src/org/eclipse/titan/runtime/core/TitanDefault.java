@@ -40,36 +40,36 @@ public class TitanDefault extends Base_Type {
 
 	public TitanDefault(final TitanDefault aOtherValue) {
 		if (aOtherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError( "Copying an unbound default reference." );
+			throw new TtcnError("Copying an unbound default reference.");
 		}
 
 		default_ptr = aOtherValue.default_ptr;
 	}
 
-	//originally operator= with component parameter
+	// originally operator= with component parameter
 	public TitanDefault assign(final int otherValue) {
 		if (otherValue != TitanComponent.NULL_COMPREF) {
-			throw new TtcnError( "Assignment of an invalid default reference." );
+			throw new TtcnError("Assignment of an invalid default reference.");
 		}
 
 		default_ptr = null;
 		return this;
 	}
 
-	//originally operator=
+	// originally operator=
 	public TitanDefault assign(final Default_Base otherValue) {
 		if (otherValue == UNBOUND_DEFAULT) {
-			throw new TtcnError( "Assignment of an unbound default reference." );
+			throw new TtcnError("Assignment of an unbound default reference.");
 		}
 
 		default_ptr = otherValue;
 		return this;
 	}
 
-	//originally operator=
+	// originally operator=
 	public TitanDefault assign(final TitanDefault otherValue) {
 		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError( "Assignment of an unbound default reference." );
+			throw new TtcnError("Assignment of an unbound default reference.");
 		}
 
 		if (otherValue != this) {
@@ -100,22 +100,22 @@ public class TitanDefault extends Base_Type {
 		return default_ptr == null;
 	}
 
-	//originally operator==
+	// originally operator==
 	public boolean operatorEquals(final Default_Base otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
+			throw new TtcnError("The left operand of comparison is an unbound default reference.");
 		}
 
 		return default_ptr == otherValue;
 	}
 
-	//originally operator==
+	// originally operator==
 	public boolean operatorEquals(final TitanDefault otherValue) {
 		if (default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError( "The left operand of comparison is an unbound default reference." );
+			throw new TtcnError("The left operand of comparison is an unbound default reference.");
 		}
 		if (otherValue.default_ptr == UNBOUND_DEFAULT) {
-			throw new TtcnError( "The right operand of comparison is an unbound default reference." );
+			throw new TtcnError("The right operand of comparison is an unbound default reference.");
 		}
 
 		return default_ptr == otherValue.default_ptr;

@@ -38,16 +38,16 @@ public class TitanFloat extends Base_Type {
 		super();
 	}
 
-	public TitanFloat( final double aOtherValue ) {
-		float_value = new Ttcn3Float( aOtherValue );
+	public TitanFloat(final double aOtherValue) {
+		float_value = new Ttcn3Float(aOtherValue);
 	}
 
-	public TitanFloat( final Ttcn3Float aOtherValue ) {
+	public TitanFloat(final Ttcn3Float aOtherValue) {
 		float_value = aOtherValue;
 	}
 
-	public TitanFloat( final TitanFloat aOtherValue ) {
-		aOtherValue.mustBound( "Copying an unbound float value." );
+	public TitanFloat(final TitanFloat aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound float value.");
 
 		float_value = aOtherValue.float_value;
 	}
@@ -427,7 +427,7 @@ public class TitanFloat extends Base_Type {
 
 	@Override
 	public String toString() {
-		if ( float_value == null ) {
+		if (float_value == null) {
 			return "<unbound>";
 		}
 
@@ -528,24 +528,24 @@ public class TitanFloat extends Base_Type {
 		char[] dv;
 		final int length = p_td.raw.fieldlength / 8;
 		double tmp = float_value.getValue();
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			tmp = 0.0;
 		}
-		if(Double.isNaN(tmp)) {
+		if (Double.isNaN(tmp)) {
 			TTCN_EncDec_ErrorContext.error_internal("Value is NaN.");
 		}
-		if(myleaf.must_free) {
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
-		if(length > RAW.RAW_INT_ENC_LENGTH) {
+		if (length > RAW.RAW_INT_ENC_LENGTH) {
 			myleaf.data_ptr = bc = new char[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
 			bc = myleaf.data_array;
 		}
-		if(length == 8) {
+		if (length == 8) {
 			final byte[] tmp_dv = new byte[8];
 			ByteBuffer.wrap(tmp_dv).putDouble(tmp);
 			dv = new char[8];
@@ -555,12 +555,12 @@ public class TitanFloat extends Base_Type {
 			for (int i = 0, k = 7; i < 8; i++, k--) {
 				bc[i] = dv[k];
 			}
-		} else if(length == 4) {
-			if(tmp == 0.0) {
+		} else if (length == 4) {
+			if (tmp == 0.0) {
 				for (int i = 0; i < 4; i++) {
 					bc[i] = 0;
 				}
-			} else if(tmp == -0.0) {
+			} else if (tmp == -0.0) {
 				for (int i = 0; i < 4; i++) {
 					bc[i] = 0;
 				}
@@ -582,11 +582,11 @@ public class TitanFloat extends Base_Type {
 				exponent += (dv[index] & 0xF0) >> 4;
 				exponent -= 1023;
 
-				if(exponent > 127) {
+				if (exponent > 127) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,"The float value {0} is out of the range of the single precision: {1}", float_value.getValue(), p_td.name);
 					tmp = 0.0;
 					exponent = 0;
-				} else if(exponent < -127) {
+				} else if (exponent < -127) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_FLOAT_TR, "The float value {0} is too small to represent it in single precision: {1}", float_value.getValue(), p_td.name);
 					tmp = 0.0;
 					exponent = 0;
@@ -610,8 +610,8 @@ public class TitanFloat extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength;
-		if ( p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
-			if(no_err) {
+		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
+			if (no_err) {
 				return -1;
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
@@ -653,14 +653,14 @@ public class TitanFloat extends Base_Type {
 			for (int i = 0, k = 7; i < 8; i++, k--) {
 				dv[i] = data[k];
 			}
-			if(Double.isNaN(tmp)) {
-				if(no_err) {
+			if (Double.isNaN(tmp)) {
+				if (no_err) {
 					return -1;
 				}
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
 				tmp = 0.0;
 			}
-		} else if(decode_length == 32) {
+		} else if (decode_length == 32) {
 			final int sign = (data[0] & 0x80) >> 7;
 			int exponent = ((data[0] & 0x7F) << 1) | ((data[1] & 0x80) >> 7);
 			int fraction = ((data[1] & 0x7F) << 1) | ((data[2] & 0x80) >> 7);
@@ -671,7 +671,7 @@ public class TitanFloat extends Base_Type {
 			if (exponent == 0 && fraction == 0) {
 				tmp = sign != 0 ? -0.0 : 0.0;
 			} else if (exponent == 0xFF && fraction != 0) {
-				if(no_err) {
+				if (no_err) {
 					return -1;
 				}
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);

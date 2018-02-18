@@ -270,7 +270,7 @@ public class TitanBoolean_template extends Base_Template {
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			TtcnLogger.log_event_str(single_value.getValue() ? "true":"false");
+			TtcnLogger.log_event_str(single_value.getValue() ? "true" : "false");
 			break;
 		case COMPLEMENTED_LIST:
 			TtcnLogger.log_event_str("complement");
@@ -395,7 +395,7 @@ public class TitanBoolean_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanBoolean_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanBoolean_template temp = new TitanBoolean_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

@@ -182,7 +182,7 @@ public final class TTCN_Runtime {
 
 	//originally is_overloaded
 	public static boolean is_overloaded() {
-		switch(executorState) {
+		switch (executorState) {
 		case HC_OVERLOADED:
 		case HC_OVERLOADED_TIMEOUT:
 			return true;
@@ -528,7 +528,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
 
-		switch(component_reference) {
+		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Done operation cannot be performed on the null component reference.");
 		case TitanComponent.MTC_COMPREF:
@@ -548,7 +548,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
 
-		switch(component_reference) {
+		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Done operation cannot be performed on the null component reference.");
 		case TitanComponent.MTC_COMPREF:
@@ -576,7 +576,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Killed operation cannot be performed in the control part.");
 		}
 
-		switch(component_reference) {
+		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Killed operation cannot be performed on the null component reference.");
 		case TitanComponent.MTC_COMPREF:
@@ -595,7 +595,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Component running operation cannot be performed in the control part.");
 		}
 
-		switch(component_reference) {
+		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Running operation cannot be performed on the null component reference.");
 		case TitanComponent.MTC_COMPREF:
@@ -614,7 +614,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Alive operation cannot be performed in the control part.");
 		}
 
-		switch(component_reference) {
+		switch (component_reference) {
 		case TitanComponent.NULL_COMPREF:
 			throw new TtcnError("Alive operation cannot be performed on the null component reference.");
 		case TitanComponent.MTC_COMPREF:
@@ -735,7 +735,7 @@ public final class TTCN_Runtime {
 						+ verdictCount[VerdictTypeEnum.ERROR.getValue()];
 
 		VerdictTypeEnum overallVerdict;
-		if (controlErrorCount > 0 || verdictCount[VerdictTypeEnum.ERROR.getValue()] >0 ) {
+		if (controlErrorCount > 0 || verdictCount[VerdictTypeEnum.ERROR.getValue()] > 0) {
 			overallVerdict = VerdictTypeEnum.ERROR;
 		} else if (verdictCount[VerdictTypeEnum.FAIL.getValue()] > 0) {
 			overallVerdict = VerdictTypeEnum.FAIL;
@@ -749,12 +749,12 @@ public final class TTCN_Runtime {
 
 		//TODO move to logger
 		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
-				verdictCount[VerdictTypeEnum.NONE.getValue()], (100.0 * verdictCount[VerdictTypeEnum.NONE.getValue()])/ totalTestcases,
-				verdictCount[VerdictTypeEnum.PASS.getValue()], (100.0 * verdictCount[VerdictTypeEnum.PASS.getValue()])/ totalTestcases,
-				verdictCount[VerdictTypeEnum.INCONC.getValue()], (100.0 * verdictCount[VerdictTypeEnum.INCONC.getValue()])/ totalTestcases,
-				verdictCount[VerdictTypeEnum.FAIL.getValue()], (100.0 * verdictCount[VerdictTypeEnum.FAIL.getValue()])/ totalTestcases,
-				verdictCount[VerdictTypeEnum.ERROR.getValue()], (100.0 * verdictCount[VerdictTypeEnum.ERROR.getValue()])/ totalTestcases));
-		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were":" was", overallVerdict.getName()));
+				verdictCount[VerdictTypeEnum.NONE.getValue()], (100.0 * verdictCount[VerdictTypeEnum.NONE.getValue()]) / totalTestcases,
+				verdictCount[VerdictTypeEnum.PASS.getValue()], (100.0 * verdictCount[VerdictTypeEnum.PASS.getValue()]) / totalTestcases,
+				verdictCount[VerdictTypeEnum.INCONC.getValue()], (100.0 * verdictCount[VerdictTypeEnum.INCONC.getValue()]) / totalTestcases,
+				verdictCount[VerdictTypeEnum.FAIL.getValue()], (100.0 * verdictCount[VerdictTypeEnum.FAIL.getValue()]) / totalTestcases,
+				verdictCount[VerdictTypeEnum.ERROR.getValue()], (100.0 * verdictCount[VerdictTypeEnum.ERROR.getValue()]) / totalTestcases));
+		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were" : " was", overallVerdict.getName()));
 
 		verdictCount[VerdictTypeEnum.NONE.getValue()] = 0;
 		verdictCount[VerdictTypeEnum.PASS.getValue()] = 0;

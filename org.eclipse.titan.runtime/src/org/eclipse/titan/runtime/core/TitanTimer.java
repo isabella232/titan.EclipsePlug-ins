@@ -178,7 +178,7 @@ public class TitanTimer {
 				throw new TtcnError(MessageFormat.format("Starting timer {0} with a non-numeric float value ({1}).",
 						timerName, startValue));
 			}
-			if(isStarted) {
+			if (isStarted) {
 				TtcnError.TtcnWarning(MessageFormat.format("Re-starting timer {0}, which is already active (running or expired).",
 						timerName));
 				removeFromList();
@@ -329,7 +329,7 @@ public class TitanTimer {
 	 * (empty the list)
 	 * */
 	public static void allStop() {
-		while(TIMERS.size()!=0) {
+		while (TIMERS.size() != 0) {
 			TIMERS.get(0).stop();
 		}
 	}
@@ -361,7 +361,7 @@ public class TitanTimer {
 	public static TitanAlt_Status anyTimeout() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanTimer timer : TIMERS) {
-			switch(timer.timeout(null)) {
+			switch (timer.timeout(null)) {
 			case ALT_YES:
 				TtcnLogger.log_timer_any_timeout();
 				return TitanAlt_Status.ALT_YES;

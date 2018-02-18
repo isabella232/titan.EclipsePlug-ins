@@ -78,7 +78,7 @@ public class TitanDefault_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanDefault_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanDefault_template temp = new TitanDefault_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -144,9 +144,9 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator= has component parameter
+	// originally operator= has component parameter
 	public TitanDefault_template assign(final int otherValue) {
-		if ( otherValue != TitanComponent.NULL_COMPREF) {
+		if (otherValue != TitanComponent.NULL_COMPREF) {
 			throw new TtcnError("Assignment of an invalid default reference to a template.");
 		}
 
@@ -157,7 +157,7 @@ public class TitanDefault_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
+	// originally operator=
 	public TitanDefault_template assign(final Default_Base otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
@@ -205,7 +205,7 @@ public class TitanDefault_template extends Base_Template {
 
 	// originally match has component parameter
 	public boolean match(final int otherValue, final boolean legacy) {
-		if(otherValue == TitanComponent.NULL_COMPREF) {
+		if (otherValue == TitanComponent.NULL_COMPREF) {
 			return false;
 		}
 
@@ -219,7 +219,7 @@ public class TitanDefault_template extends Base_Template {
 
 	// originally match
 	public boolean match(final Default_Base otherValue, final boolean legacy) {
-		if( otherValue == TitanDefault.UNBOUND_DEFAULT) {
+		if (otherValue == TitanDefault.UNBOUND_DEFAULT) {
 			return false;
 		}
 
@@ -233,8 +233,8 @@ public class TitanDefault_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
@@ -251,7 +251,7 @@ public class TitanDefault_template extends Base_Template {
 
 	// originally match
 	public boolean match(final TitanDefault otherValue, final boolean legacy) {
-		if(! otherValue.isBound()) {
+		if (!otherValue.isBound()) {
 			return false;
 		}
 

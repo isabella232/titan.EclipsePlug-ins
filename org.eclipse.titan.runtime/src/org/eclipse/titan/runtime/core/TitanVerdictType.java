@@ -34,7 +34,7 @@ public class TitanVerdictType extends Base_Type {
 		public String getName() {
 			return name;
 		}
-	};
+	}
 
 	public static final String verdict_name[] = { "none", "pass", "inconc", "fail", "error" };
 
@@ -45,14 +45,14 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	public TitanVerdictType(final VerdictTypeEnum other_value) {
-		if ( !isValid( other_value ) ) {
+		if (!isValid(other_value)) {
 			throw new TtcnError("Initializing a verdict variable with an invalid value (" + other_value + ").");
 		}
 
 		verdict_value = other_value;
 	}
 
-	public TitanVerdictType( final TitanVerdictType other_value ) {
+	public TitanVerdictType(final TitanVerdictType other_value) {
 		other_value.mustBound("Copying an unbound verdict value.");
 
 		verdict_value = other_value.verdict_value;
@@ -63,7 +63,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	//originally #define IS_VALID
-	public static boolean isValid( final VerdictTypeEnum aVerdictValue ) {
+	public static boolean isValid(final VerdictTypeEnum aVerdictValue) {
 		return aVerdictValue != VerdictTypeEnum.UNBOUND;
 	}
 
@@ -77,14 +77,14 @@ public class TitanVerdictType extends Base_Type {
 		return verdict_value != VerdictTypeEnum.UNBOUND;
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( verdict_value == VerdictTypeEnum.UNBOUND ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (verdict_value == VerdictTypeEnum.UNBOUND) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
 	//originally operator==
-	public boolean operatorEquals( final TitanVerdictType aOtherValue ) {
+	public boolean operatorEquals(final TitanVerdictType aOtherValue) {
 		mustBound("The left operand of comparison is an unbound verdict value.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound verdict value.");
 
@@ -92,7 +92,7 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	@Override
-	public boolean operatorEquals( final Base_Type otherValue ) {
+	public boolean operatorEquals(final Base_Type otherValue) {
 		if (otherValue instanceof TitanVerdictType) {
 			return operatorEquals((TitanVerdictType)otherValue);
 		}
@@ -101,19 +101,19 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	// originally boolean VERDICTTYPE::operator==(verdicttype other_value) const
-	public boolean operatorEquals( final VerdictTypeEnum aOtherValue ) {
-		mustBound( "The left operand of comparison is an unbound verdict value." );
+	public boolean operatorEquals(final VerdictTypeEnum aOtherValue) {
+		mustBound("The left operand of comparison is an unbound verdict value.");
 
 		if (!isValid(aOtherValue)) {
-			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + aOtherValue + ")." );
+			throw new TtcnError("The right operand of comparison is an invalid verdict value (" + aOtherValue + ").");
 		}
 
 		return verdict_value == aOtherValue;
 	}
 
 	//originally operator=
-	public TitanVerdictType assign( final TitanVerdictType aOtherValue ) {
-		aOtherValue.mustBound( "Assignment of an unbound verdict value." );
+	public TitanVerdictType assign(final TitanVerdictType aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound verdict value.");
 
 		if (aOtherValue != this) {
 			verdict_value = aOtherValue.verdict_value;
@@ -132,8 +132,8 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	//originally operator= (verdicttype other_value)
-	public TitanVerdictType assign( final VerdictTypeEnum other_value ) {
-		if ( !isValid( other_value ) ) {
+	public TitanVerdictType assign(final VerdictTypeEnum other_value) {
+		if (!isValid(other_value)) {
 			throw new TtcnError("Assignment of an invalid verdict value (" + other_value + ").");
 		}
 
@@ -146,12 +146,12 @@ public class TitanVerdictType extends Base_Type {
 	}
 
 	public void log() {
-		if (isValid( verdict_value )) {
-			TtcnLogger.log_event_str( verdict_name[ verdict_value.ordinal() ] );
+		if (isValid(verdict_value)) {
+			TtcnLogger.log_event_str(verdict_name[verdict_value.ordinal()]);
 		} else if (verdict_value == VerdictTypeEnum.UNBOUND) {
 			TtcnLogger.log_event_unbound();
 		} else {
-			TtcnLogger.log_event( MessageFormat.format( "<invalid verdict value: {0}>", verdict_value ) );
+			TtcnLogger.log_event(MessageFormat.format("<invalid verdict value: {0}>", verdict_value));
 		}
 	}
 
@@ -181,7 +181,7 @@ public class TitanVerdictType extends Base_Type {
 
 	public VerdictTypeEnum str_to_verdict(final String v, final boolean silent) {
 		for (final VerdictTypeEnum i : VerdictTypeEnum.values()) {
-			if ( verdict_name[i.ordinal()].equals( v ) ) {
+			if (verdict_name[i.ordinal()].equals(v)) {
 				return i;
 			}
 		}

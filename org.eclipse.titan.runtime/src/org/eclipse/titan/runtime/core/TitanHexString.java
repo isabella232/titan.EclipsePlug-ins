@@ -371,7 +371,7 @@ public class TitanHexString extends Base_Type {
 		switch (p_coding) {
 		case CT_RAW:
 			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-			if(p_td.raw == null) {
+			if (p_td.raw == null) {
 				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
 			}
 			raw_order_t order;
@@ -384,7 +384,7 @@ public class TitanHexString extends Base_Type {
 				order = raw_order_t.ORDER_MSB;
 			}
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,  "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
 			errorContext.leaveContext();
@@ -407,7 +407,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Unbound left operand of hexstring concatenation.");
 		otherValue.mustBound("Unbound right operand of hexstring concatenation.");
 
-		if(nibbles_ptr.length == 0) {
+		if (nibbles_ptr.length == 0) {
 			return new TitanHexString(otherValue);
 		}
 		if (otherValue.nibbles_ptr.length == 0) {
@@ -497,7 +497,7 @@ public class TitanHexString extends Base_Type {
 		mustBound("Left operand of operator or4b is an unbound hexstring value.");
 		otherValue.mustBound("Right operand of operator or4b is an unbound hexstring value.");
 
-		if(nibbles_ptr.length != otherValue.nibbles_ptr.length){
+		if (nibbles_ptr.length != otherValue.nibbles_ptr.length) {
 			throw new TtcnError("The hexstring operands of operator or4b must have the same length.");
 		}
 		if (nibbles_ptr.length == 0) {
@@ -639,12 +639,12 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString rotateLeft(int rotateCount){
 		mustBound("Unbound hexstring operand of rotate left operator.");
 
-		if(nibbles_ptr.length == 0){
+		if (nibbles_ptr.length == 0) {
 			return this;
 		}
-		if(rotateCount >= 0){
+		if (rotateCount >= 0) {
 			rotateCount %= nibbles_ptr.length;
-			if(rotateCount == 0){
+			if (rotateCount == 0) {
 				return this;
 			}
 
@@ -664,12 +664,12 @@ public class TitanHexString extends Base_Type {
 	public TitanHexString rotateRight(int rotateCount){
 		mustBound("Unbound hexstring operand of rotate right operator.");
 
-		if(nibbles_ptr.length == 0){
+		if (nibbles_ptr.length == 0) {
 			return this;
 		}
-		if(rotateCount >= 0){
+		if (rotateCount >= 0) {
 			rotateCount %= nibbles_ptr.length;
-			if(rotateCount == 0){
+			if (rotateCount == 0) {
 				return this;
 			}
 
@@ -687,28 +687,28 @@ public class TitanHexString extends Base_Type {
 	}
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 		int nbits = nibbles_ptr.length * 4;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - nbits : 0;
-		if((nbits + align_length) < nbits) {
+		if ((nbits + align_length) < nbits) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode {0}: ", p_td.name);
 			nbits = p_td.raw.fieldlength;
 			align_length = 0;
 		}
 
-		if(myleaf.must_free) {
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
 
 		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
-		myleaf.data_ptr = new char[(nibbles_ptr.length + 1 ) / 2];
-		for (int i = 1; i < nibbles_ptr.length; i+= 2) {
-			myleaf.data_ptr[i / 2] = (char) ((nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F) );
+		myleaf.data_ptr = new char[(nibbles_ptr.length + 1) / 2];
+		for (int i = 1; i < nibbles_ptr.length; i += 2) {
+			myleaf.data_ptr[i / 2] = (char) ((nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F));
 		}
-		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {
 			myleaf.align = align_length;
@@ -725,7 +725,7 @@ public class TitanHexString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 4) * 4 : p_td.raw.fieldlength;
-		if ( p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
+		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {
 				return -error_type.ET_LEN_ERR.ordinal();
 			}
@@ -757,9 +757,9 @@ public class TitanHexString extends Base_Type {
 		final char[] tmp_nibbles = new char[decode_length / 4];
 		buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
 		int temp_index = 0;
-		for (int i = 0; i < tmp_nibbles.length-1; i+=2) {
-			nibbles_ptr[i] = (byte)(tmp_nibbles[temp_index] & 0x0F);
-			nibbles_ptr[i+1] = (byte)(tmp_nibbles[temp_index] >> 4);
+		for (int i = 0; i < tmp_nibbles.length - 1; i += 2) {
+			nibbles_ptr[i] = (byte) (tmp_nibbles[temp_index] & 0x0F);
+			nibbles_ptr[i + 1] = (byte) (tmp_nibbles[temp_index] >> 4);
 			temp_index++;
 		}
 

@@ -102,14 +102,14 @@ public final class TTCN_EncDec {
 	public static enum raw_order_t {
 		ORDER_MSB,
 		ORDER_LSB
-	};
+	}
 
 	/**
 	 * The indicator of the encoding.
 	 *
 	 * Only RAW is supported for now
 	 * */
-	public static enum coding_type{
+	public static enum coding_type {
 		CT_BER,
 		CT_PER,
 		CT_RAW,
@@ -117,7 +117,7 @@ public final class TTCN_EncDec {
 		CT_XER,
 		CT_JSON,
 		CT_OER
-	};
+	}
 
 	public enum error_type {
 		ET_UNDEF,     /**< Undefined error. 0*/
@@ -186,11 +186,13 @@ public final class TTCN_EncDec {
 	 *  @param p_eb error behaviour
 	 */
 	public static void set_error_behavior(final error_type p_et, final error_behavior_type p_eb) {
-		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() > error_type.ET_ALL.ordinal() || p_eb.ordinal() < error_behavior_type.EB_DEFAULT.ordinal() || p_eb.ordinal() > error_behavior_type.EB_IGNORE.ordinal() ) {
+		if (p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() > error_type.ET_ALL.ordinal()
+				|| p_eb.ordinal() < error_behavior_type.EB_DEFAULT.ordinal()
+				|| p_eb.ordinal() > error_behavior_type.EB_IGNORE.ordinal()) {
 			throw new TtcnError("EncDec::set_error_behavior(): Invalid parameter.");
 		}
-		if(p_eb == error_behavior_type.EB_DEFAULT) {
-			if(p_et == error_type.ET_ALL) {
+		if (p_eb == error_behavior_type.EB_DEFAULT) {
+			if (p_et == error_type.ET_ALL) {
 				for (int i = error_type.ET_UNDEF.ordinal(); i < error_type.ET_ALL.ordinal(); i++) {
 					error_behavior[i] = default_error_behavior[i];
 				}
@@ -198,7 +200,7 @@ public final class TTCN_EncDec {
 				error_behavior[p_et.ordinal()] = default_error_behavior[p_et.ordinal()];
 			}
 		} else {
-			if(p_et == error_type.ET_ALL) {
+			if (p_et == error_type.ET_ALL) {
 				for (int i = error_type.ET_UNDEF.ordinal(); i < error_type.ET_ALL.ordinal(); i++) {
 					error_behavior[i] = p_eb;
 				}
@@ -214,7 +216,7 @@ public final class TTCN_EncDec {
 	 *  @return error behaviour for the supplied error type
 	 */
 	public static error_behavior_type get_error_behavior(final error_type p_et) {
-		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
+		if (p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
 			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
 		}
 		return error_behavior[p_et.ordinal()];
@@ -226,7 +228,7 @@ public final class TTCN_EncDec {
 	 *  @return default error behaviour for the supplied error type
 	 */
 	public static error_behavior_type get_default_error_behavior(final error_type p_et) {
-		if(p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
+		if (p_et.ordinal() < error_type.ET_UNDEF.ordinal() || p_et.ordinal() >= error_type.ET_ALL.ordinal()) {
 			throw new TtcnError("EncDec::get_error_behavior(): Invalid parameter.");
 		}
 		return default_error_behavior[p_et.ordinal()];
@@ -263,7 +265,7 @@ public final class TTCN_EncDec {
 		last_error_type = p_et;
 		error_str = "";
 		error_str = msg;
-		if(p_et.ordinal() >= error_type.ET_UNDEF.ordinal() && p_et.ordinal() < error_type.ET_ALL.ordinal()) {
+		if (p_et.ordinal() >= error_type.ET_UNDEF.ordinal() && p_et.ordinal() < error_type.ET_ALL.ordinal()) {
 			switch (error_behavior[p_et.ordinal()]) {
 			case EB_ERROR:
 				throw new TtcnError(error_str);

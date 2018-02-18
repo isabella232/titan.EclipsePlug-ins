@@ -104,7 +104,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		append_header(returnValue, event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt());
 
 		final LogEventType_choice choice = event.getLogEvent().getChoice();
-		switch(choice.get_selection()) {
+		switch (choice.get_selection()) {
 		case UNBOUND_VALUE:
 			return returnValue.toString();
 		case ALT_UnhandledEvent:
@@ -137,7 +137,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				final FunctionEvent_choice_random ra = choice.getFunctionEvent().getChoice().getRandom();
 				switch (ra.getOperation().enum_value) {
 				case seed:
-					returnValue.append(MessageFormat.format( "Random number generator was initialized with seed {0}: {1}", ra.getRetval().getValue(), ra.getIntseed().getInt()));
+					returnValue.append(MessageFormat.format("Random number generator was initialized with seed {0}: {1}", ra.getRetval().getValue(), ra.getIntseed().getInt()));
 					break;
 				case read__out:
 					returnValue.append(MessageFormat.format("Function rnd() returned {0}.", ra.getRetval().getValue()));
@@ -161,29 +161,35 @@ public class LegacyLogger implements ILoggerPlugin {
 
 	private static void timer_event_str(final StringBuilder returnValue, final TimerEvent_choice choice) {
 		switch (choice.get_selection()) {
-		case ALT_ReadTimer:{
+		case ALT_ReadTimer: {
 			final TimerType timer = choice.getReadTimer();
 			returnValue.append(MessageFormat.format("Read timer {0}: {1} s", timer.getName().getValue(), timer.getValue__().getValue()));
-			break;}
+			break;
+		}
 		case ALT_StartTimer: {
 			final TimerType timer = choice.getStartTimer();
 			returnValue.append(MessageFormat.format("Start timer {0}: {1} s", timer.getName().getValue(), timer.getValue__().getValue()));
-			break;}
+			break;
+		}
 		case ALT_GuardTimer: {
 			final TimerGuardType timer = choice.getGuardTimer();
 			returnValue.append(MessageFormat.format("Test case guard timer was set to {0} s", timer.getValue__().getValue()));
-			break;}
+			break;
+		}
 		case ALT_StopTimer: {
 			final TimerType timer = choice.getStopTimer();
 			returnValue.append(MessageFormat.format("Stop timer {0}: {1} s", timer.getName().getValue(), timer.getValue__().getValue()));
-			break;}
+			break;
+		}
 		case ALT_TimeoutTimer: {
 			final TimerType timer = choice.getTimeoutTimer();
 			returnValue.append(MessageFormat.format("Timeout {0}: {1} s", timer.getName().getValue(), timer.getValue__().getValue()));
-			break;}
+			break;
+		}
 		case ALT_TimeoutAnyTimer: {
 			returnValue.append("Operation `any timer.timeout' was successful.");
-			break;}
+			break;
+		}
 		case ALT_UnqualifiedTimer: {
 			returnValue.append(choice.getUnqualifiedTimer().getValue());
 			break;}
@@ -192,7 +198,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private static void defaultop_event_str(final StringBuilder returnValue, final DefaultEvent_choice choice) {
-		switch(choice.get_selection()) {
+		switch (choice.get_selection()) {
 		case ALT_DefaultopActivate: {
 			final DefaultOp dflt = choice.getDefaultopActivate();
 			returnValue.append(MessageFormat.format("Altstep {0} was activated as default, id {1}", dflt.getName().getValue(), dflt.getId().getInt()));
@@ -227,7 +233,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private static void statistics_str(final StringBuilder returnValue, final StatisticsType_choice choice) {
-		switch(choice.get_selection()) {
+		switch (choice.get_selection()) {
 		case ALT_ControlpartStart:
 			returnValue.append(MessageFormat.format("Execution of control part in module {0} started.", choice.getControlpartStart().getValue()));
 			break;
@@ -239,7 +245,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private static void testcaseop_str(final StringBuilder returnValue, final TestcaseEvent_choice choice) {
-		switch(choice.get_selection()) {
+		switch (choice.get_selection()) {
 		case ALT_TestcaseStarted:
 			returnValue.append(MessageFormat.format("Test case {0} started.", choice.getTestcaseStarted().getTestcase__name().getValue()));
 			break;
@@ -376,22 +382,26 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_PortQueue: {
 			final Port__Queue portQueue = choice.getPortQueue();
 			switch (portQueue.getOperation().enum_value) {
-			case enqueue__msg:{
+			case enqueue__msg: {
 				final String comp_str = TitanComponent.get_component_string(portQueue.getCompref().getInt());
-				returnValue.append(MessageFormat.format("Message enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue() , comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
-				break;}
-			case enqueue__call:{
+				returnValue.append(MessageFormat.format("Message enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue(), comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
+				break;
+			}
+			case enqueue__call: {
 				final String comp_str = TitanComponent.get_component_string(portQueue.getCompref().getInt());
-				returnValue.append(MessageFormat.format("Call enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue() , comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
-				break;}
-			case enqueue__reply:{
+				returnValue.append(MessageFormat.format("Call enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue(), comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
+				break;
+			}
+			case enqueue__reply: {
 				final String comp_str = TitanComponent.get_component_string(portQueue.getCompref().getInt());
-				returnValue.append(MessageFormat.format("Reply enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue() , comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
-				break;}
-			case enqueue__exception:{
+				returnValue.append(MessageFormat.format("Reply enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue(), comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
+				break;
+			}
+			case enqueue__exception: {
 				final String comp_str = TitanComponent.get_component_string(portQueue.getCompref().getInt());
-				returnValue.append(MessageFormat.format("Exception enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue() , comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
-				break;}
+				returnValue.append(MessageFormat.format("Exception enqueued on {0} from {1}{2}{3} id {4}", portQueue.getPort__name().getValue(), comp_str, portQueue.getAddress__().getValue(), portQueue.getParam__().getValue(), portQueue.getMsgid().getInt()));
+				break;
+			}
 			case extract__msg:
 				returnValue.append(MessageFormat.format("Message with id {0} was extracted from the queue of {1}.", portQueue.getMsgid().getInt(), portQueue.getPort__name().getValue()));
 				break;

@@ -354,7 +354,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 
 	//originally get_port_array_index
 	public static int getPortArrayIndex(final int index_value,final int array_size,final int index_offset) {
-		if(index_value < index_offset) {
+		if (index_value < index_offset) {
 			throw new TtcnError(MessageFormat.format("Index underflow when accessing an element of a port array. The index value should be between {0} and {1} instead of {2}."
 					, index_offset, index_offset + array_size - 1, index_value));
 		}

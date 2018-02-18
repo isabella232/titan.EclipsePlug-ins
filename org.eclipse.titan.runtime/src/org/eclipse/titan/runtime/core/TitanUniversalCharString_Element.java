@@ -20,7 +20,7 @@ public class TitanUniversalCharString_Element {
 	private TitanUniversalCharString str_val;
 	private int char_pos;
 
-	public TitanUniversalCharString_Element( final boolean par_bound_flag, final TitanUniversalCharString par_str_val, final int par_char_pos ) {
+	public TitanUniversalCharString_Element(final boolean par_bound_flag, final TitanUniversalCharString par_str_val, final int par_char_pos) {
 		bound_flag = par_bound_flag;
 		str_val = par_str_val;
 		char_pos = par_char_pos;
@@ -38,9 +38,9 @@ public class TitanUniversalCharString_Element {
 		return bound_flag;
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( !bound_flag ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (!bound_flag) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 

@@ -82,7 +82,7 @@ public class TitanComponent_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanComponent_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanComponent_template temp = new TitanComponent_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -94,8 +94,8 @@ public class TitanComponent_template extends Base_Template {
 		setSelection(otherValue);
 	}
 
-	//originally operator=
-	public TitanComponent_template assign( final template_sel otherValue ) {
+	// originally operator=
+	public TitanComponent_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -131,8 +131,8 @@ public class TitanComponent_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to component", match_value));
 	}
 
-	//originally operator=
-	public TitanComponent_template assign( final int otherValue ) {
+	// originally operator=
+	public TitanComponent_template assign(final int otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue;
@@ -140,8 +140,8 @@ public class TitanComponent_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanComponent_template assign( final TitanComponent otherValue ) {
+	// originally operator=
+	public TitanComponent_template assign(final TitanComponent otherValue) {
 		otherValue.mustBound("Assignment of an unbound component reference to a template.");
 
 		cleanUp();
@@ -151,8 +151,8 @@ public class TitanComponent_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanComponent_template assign( final TitanComponent_template otherValue ) {
+	// originally operator=
+	public TitanComponent_template assign(final TitanComponent_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -196,8 +196,8 @@ public class TitanComponent_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
@@ -262,7 +262,7 @@ public class TitanComponent_template extends Base_Template {
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			switch(single_value) {
+			switch (single_value) {
 			case TitanComponent.NULL_COMPREF:
 				TtcnLogger.log_event_str("null");
 				break;
@@ -354,7 +354,7 @@ public class TitanComponent_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanComponent_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanComponent_template temp = new TitanComponent_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

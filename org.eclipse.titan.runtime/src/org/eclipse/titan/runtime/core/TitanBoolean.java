@@ -31,12 +31,12 @@ public class TitanBoolean extends Base_Type {
 		super();
 	}
 
-	public TitanBoolean( final Boolean aOtherValue ) {
+	public TitanBoolean(final Boolean aOtherValue) {
 		boolean_value = aOtherValue;
 	}
 
-	public TitanBoolean( final TitanBoolean aOtherValue ) {
-		aOtherValue.mustBound( "Copying an unbound boolean value." );
+	public TitanBoolean(final TitanBoolean aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound boolean value.");
 
 		boolean_value = aOtherValue.boolean_value;
 	}
@@ -45,20 +45,20 @@ public class TitanBoolean extends Base_Type {
 		return boolean_value;
 	}
 
-	public void setValue( final Boolean aOtherValue ) {
+	public void setValue(final Boolean aOtherValue) {
 		boolean_value = aOtherValue;
 	}
 
-	//originally operator=
-	public TitanBoolean assign( final boolean aOtherValue ) {
+	// originally operator=
+	public TitanBoolean assign(final boolean aOtherValue) {
 		boolean_value = aOtherValue;
 
 		return this;
 	}
 
-	//originally operator=
-	public TitanBoolean assign( final TitanBoolean aOtherValue ) {
-		aOtherValue.mustBound( "Assignment of an unbound boolean value." );
+	// originally operator=
+	public TitanBoolean assign(final TitanBoolean aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound boolean value.");
 
 		if (aOtherValue != this) {
 			boolean_value = aOtherValue.boolean_value;
@@ -82,15 +82,15 @@ public class TitanBoolean extends Base_Type {
 
 	public boolean isPresent() {
 		return isBound();
-	};
+	}
 
 	public boolean isValue() {
 		return boolean_value != null;
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( boolean_value == null ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (boolean_value == null) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
@@ -98,8 +98,8 @@ public class TitanBoolean extends Base_Type {
 	 * this or aOtherValue
 	 * originally operator or
 	 */
-	public boolean or( final boolean aOtherValue ) {
-		mustBound( "The left operand of or operator is an unbound boolean value." );
+	public boolean or(final boolean aOtherValue) {
+		mustBound("The left operand of or operator is an unbound boolean value.");
 
 		return boolean_value || aOtherValue;
 	}
@@ -108,9 +108,9 @@ public class TitanBoolean extends Base_Type {
 	 * this or aOtherValue
 	 * originally operator or
 	 */
-	public boolean or( final TitanBoolean aOtherValue ) {
-		mustBound( "The left operand of or operator is an unbound boolean value." );
-		aOtherValue.mustBound( "The right operand of or operator is an unbound boolean value." );
+	public boolean or(final TitanBoolean aOtherValue) {
+		mustBound("The left operand of or operator is an unbound boolean value.");
+		aOtherValue.mustBound("The right operand of or operator is an unbound boolean value.");
 
 		return boolean_value || aOtherValue.boolean_value;
 	}
@@ -119,8 +119,8 @@ public class TitanBoolean extends Base_Type {
 	 * this and aOtherValue
 	 * originally operator and
 	 */
-	public boolean and( final boolean aOtherValue ) {
-		mustBound( "The left operand of and operator is an unbound boolean value." );
+	public boolean and(final boolean aOtherValue) {
+		mustBound("The left operand of and operator is an unbound boolean value.");
 
 		return boolean_value && aOtherValue;
 	}
@@ -129,9 +129,9 @@ public class TitanBoolean extends Base_Type {
 	 * this and aOtherValue
 	 * originally operator and
 	 */
-	public boolean and( final TitanBoolean aOtherValue ) {
-		mustBound( "The left operand of and operator is an unbound boolean value." );
-		aOtherValue.mustBound( "The right operand of and operator is an unbound boolean value." );
+	public boolean and(final TitanBoolean aOtherValue) {
+		mustBound("The left operand of and operator is an unbound boolean value.");
+		aOtherValue.mustBound("The right operand of and operator is an unbound boolean value.");
 
 		return boolean_value && aOtherValue.boolean_value;
 	}
@@ -162,21 +162,21 @@ public class TitanBoolean extends Base_Type {
 	 * originally operator not
 	 */
 	public boolean not() {
-		mustBound( "The operand of not operator is an unbound boolean value." );
+		mustBound("The operand of not operator is an unbound boolean value.");
 
 		return !boolean_value;
 	}
 
-	//originally operator==
-	public boolean operatorEquals( final TitanBoolean aOtherValue ) {
+	// originally operator==
+	public boolean operatorEquals(final TitanBoolean aOtherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
 		aOtherValue.mustBound("The right operand of comparison is an unbound boolean value.");
 
 		return boolean_value.equals(aOtherValue.boolean_value);
 	}
 
-	//originally operator==
-	public boolean operatorEquals(final boolean otherValue){
+	// originally operator==
+	public boolean operatorEquals(final boolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
 
 		return boolean_value == otherValue;
@@ -192,16 +192,16 @@ public class TitanBoolean extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to boolean", otherValue));
 	}
 
-	//originally operator !=
-	public boolean operatorNotEquals(final boolean otherValue){
+	// originally operator !=
+	public boolean operatorNotEquals(final boolean otherValue) {
 		mustBound("The left operand of comparison is an unbound boolean value.");
 
 		return !operatorEquals(otherValue);
 	}
 
-	//originally operator!=
-	public boolean operatorNotEquals( final TitanBoolean aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	// originally operator!=
+	public boolean operatorNotEquals(final TitanBoolean aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	public void cleanUp() {
@@ -210,18 +210,18 @@ public class TitanBoolean extends Base_Type {
 
 	@Override
 	public String toString() {
-		if ( boolean_value == null ) {
+		if (boolean_value == null) {
 			return "<unbound>";
 		}
 
 		return boolean_value.toString();
 	}
 
-	//log()
-	public void log(){
-		if(boolean_value != null){
+	// log()
+	public void log() {
+		if (boolean_value != null) {
 			TtcnLogger.log_event_str(boolean_value.toString());
-		}else{
+		} else {
 			TtcnLogger.log_event_unbound();
 		}
 	}
@@ -238,7 +238,7 @@ public class TitanBoolean extends Base_Type {
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
 		final int int_value = text_buf.pull_int().getInt();
-		switch(int_value) {
+		switch (int_value) {
 		case 0:
 			boolean_value = false;
 			break;
@@ -258,9 +258,9 @@ public class TitanBoolean extends Base_Type {
 		return otherValue.getValue();
 	}
 
-	//static and
+	// static and
 	public static boolean and(final boolean boolValue, final TitanBoolean otherValue) {
-		if(!boolValue){
+		if (!boolValue) {
 			return false;
 		}
 		otherValue.mustBound("The right operand of and operator is an unbound boolean value.");
@@ -268,9 +268,9 @@ public class TitanBoolean extends Base_Type {
 		return otherValue.boolean_value;
 	}
 
-	//static or
-	public static boolean or(final boolean boolValue, final TitanBoolean otherValue){
-		if(boolValue){
+	// static or
+	public static boolean or(final boolean boolValue, final TitanBoolean otherValue) {
+		if (boolValue) {
 			return true;
 		}
 		otherValue.mustBound("The right operand of or operator is an unbound boolean value.");
@@ -278,22 +278,22 @@ public class TitanBoolean extends Base_Type {
 		return otherValue.boolean_value;
 	}
 
-	//static xor
-	public static boolean xor(final boolean boolValue, final TitanBoolean otherValue){
+	// static xor
+	public static boolean xor(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.mustBound("The right operand of xor operator is an unbound boolean value.");
 
 		return boolValue != otherValue.boolean_value;
 	}
 
-	//static equals
-	public static boolean operatorEquals(final boolean boolValue, final TitanBoolean otherValue){
+	// static equals
+	public static boolean operatorEquals(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
 
 		return boolValue == otherValue.boolean_value;
 	}
 
-	//static notEquals
-	public static boolean opeatorNotEquals(final boolean boolValue, final TitanBoolean otherValue){
+	// static notEquals
+	public static boolean opeatorNotEquals(final boolean boolValue, final TitanBoolean otherValue) {
 		otherValue.mustBound("The right operand of comparison is an unbound boolean value.");
 
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
@@ -304,17 +304,17 @@ public class TitanBoolean extends Base_Type {
 		final int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
 		final int length = (loc_length + 7) / 8;
 		int tmp;
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			tmp = 0;
 		} else {
 			tmp = boolean_value ? 0xFF : 0x00;
 		}
-		//  myleaf.ext_bit=EXT_BIT_NO;
-		if(myleaf.must_free) {
+		// myleaf.ext_bit=EXT_BIT_NO;
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
-		if(length > RAW.RAW_INT_ENC_LENGTH) {
+		if (length > RAW.RAW_INT_ENC_LENGTH) {
 			myleaf.data_ptr = bc = new char[length];
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
@@ -328,7 +328,7 @@ public class TitanBoolean extends Base_Type {
 		for (int i = 0; i < bc.length; i++) {
 			bc[i] = (char)tmp;
 		}
-		if(boolean_value && loc_length % 8 != 0) {
+		if (boolean_value && loc_length % 8 != 0) {
 			// remove the extra ones from the last octet
 			bc[length - 1] &= RAW.BitMaskTable[loc_length % 8];
 		}
@@ -339,24 +339,24 @@ public class TitanBoolean extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength : 1;
-		if(decode_length > limit) {
-			if(no_err) {
+		if (decode_length > limit) {
+			if (no_err) {
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, limit);
 			decode_length = limit;
 		}
 		final int nof_unread_bits = buff.unread_len_bit();
-		if(decode_length > nof_unread_bits) {
-			if(no_err) {
+		if (decode_length > nof_unread_bits) {
+			if (no_err) {
 				return -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, nof_unread_bits);
 			decode_length = nof_unread_bits;
 		}
-		if(decode_length < 0) {
+		if (decode_length < 0) {
 			return -1;
-		} else if(decode_length == 0) {
+		} else if (decode_length == 0) {
 			boolean_value = false;
 		} else {
 			final RAW_coding_par cp = new RAW_coding_par();
@@ -381,7 +381,7 @@ public class TitanBoolean extends Base_Type {
 			final int length = (decode_length + 7) / 8;
 			char[] data = new char[length];
 			buff.get_b(decode_length, data, cp, top_bit_ord);
-			if(decode_length % 8 != 0) {
+			if (decode_length % 8 != 0) {
 				data[length - 1] &= RAW.BitMaskTable[decode_length % 8];
 			}
 			char ch = '\0';

@@ -15,7 +15,9 @@ import java.text.MessageFormat;
  * @author Kristof Szabados
  */
 public class TitanAsn_Null extends Base_Type {
-	public enum Asn_Null_Type {ASN_NULL_VALUE};
+	public enum Asn_Null_Type {
+		ASN_NULL_VALUE
+	};
 
 	private boolean boundFlag;
 
@@ -39,15 +41,15 @@ public class TitanAsn_Null extends Base_Type {
 		boundFlag = false;
 	}
 
-	//originally operator=
-	public TitanAsn_Null assign( final Asn_Null_Type otherValue ) {
+	// originally operator=
+	public TitanAsn_Null assign(final Asn_Null_Type otherValue) {
 		boundFlag = true;
 
 		return this;
 	}
 
-	//originally operator=
-	public TitanAsn_Null assign( final TitanAsn_Null otherValue ) {
+	// originally operator=
+	public TitanAsn_Null assign(final TitanAsn_Null otherValue) {
 		if (!otherValue.boundFlag) {
 			throw new TtcnError("Assignment of an unbound ASN.1 NULL value.");
 		}

@@ -148,9 +148,9 @@ public class TitanComponent extends Base_Type {
 		return componentValue != UNBOUND_COMPREF;
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( componentValue == UNBOUND_COMPREF ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (componentValue == UNBOUND_COMPREF) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
@@ -215,7 +215,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	private static void log_component_reference(final TitanComponent component_reference) {
-		switch(component_reference.componentValue) {
+		switch (component_reference.componentValue) {
 		case NULL_COMPREF:
 			TtcnLogger.log_event_str("null");
 			break;
@@ -232,7 +232,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	public static String get_component_string(final int component_reference) {
-		switch(component_reference) {
+		switch (component_reference) {
 		case NULL_COMPREF:
 			return "null";
 		case MTC_COMPREF:

@@ -169,7 +169,7 @@ public class TitanPort {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing start operation on port {0}, which is already started. The operation will clear the incoming queue.", port_name));
 			clear_queue();
 		} else {
-			if(is_halted) {
+			if (is_halted) {
 				// the queue might contain old messages which has to be discarded
 				clear_queue();
 				is_halted = false;
@@ -193,13 +193,13 @@ public class TitanPort {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be stopped.", port_name));
 		}
-		if(is_started) {
+		if (is_started) {
 			is_started = false;
 			is_halted = false;
 			user_stop();
 			// dropping all messages from the queue because they cannot be extracted by receiving operations anymore
 			clear_queue();
-		} else if(is_halted) {
+		} else if (is_halted) {
 			is_halted = false;
 			clear_queue();
 		} else {
@@ -221,12 +221,12 @@ public class TitanPort {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Inactive port {0} cannot be halted.", port_name));
 		}
-		if(is_started) {
+		if (is_started) {
 			is_started = false;
 			is_halted = true;
 			user_stop();
 			// keep the messages in the queue
-		} else if(is_halted) {
+		} else if (is_halted) {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already halted. The operation has no effect.", port_name));
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", port_name));
@@ -351,7 +351,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.check_receive(sender_template, sender_pointer, null)) {
+			switch (port.check_receive(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -381,7 +381,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.trigger(sender_template, sender_pointer, null)) {
+			switch (port.trigger(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -409,7 +409,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.getcall(sender_template, sender_pointer, null)) {
+			switch (port.getcall(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -437,7 +437,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.check_getcall(sender_template, sender_pointer, null)) {
+			switch (port.check_getcall(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -465,7 +465,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.getreply(sender_template, sender_pointer, null)) {
+			switch (port.getreply(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -493,7 +493,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.check_getreply(sender_template, sender_pointer, null)) {
+			switch (port.check_getreply(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -521,7 +521,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.get_exception(sender_template, sender_pointer, null)) {
+			switch (port.get_exception(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -549,7 +549,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.check_getreply(sender_template, sender_pointer, null)) {
+			switch (port.check_getreply(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -567,7 +567,7 @@ public class TitanPort {
 	public TitanAlt_Status check(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		// the procedure-based queue must have the higher priority
-		switch(check_getcall(sender_template, sender_pointer, null)) {
+		switch (check_getcall(sender_template, sender_pointer, null)) {
 		case ALT_YES:
 			return TitanAlt_Status.ALT_YES;
 		case ALT_MAYBE:
@@ -580,7 +580,7 @@ public class TitanPort {
 		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
 			// don't try getreply if the procedure-based queue is empty
 			// (i.e. check_getcall() returned ALT_MAYBE)
-			switch(check_getreply(sender_template, sender_pointer, null)) {
+			switch (check_getreply(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -594,7 +594,7 @@ public class TitanPort {
 		if (!TitanAlt_Status.ALT_MAYBE.equals(returnValue)) {
 			// don't try catch if the procedure-based queue is empty
 			// (i.e. check_getcall() or check_getreply() returned ALT_MAYBE)
-			switch(check_catch(sender_template, sender_pointer, null)) {
+			switch (check_catch(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -605,7 +605,7 @@ public class TitanPort {
 				throw new TtcnError(MessageFormat.format("Internal error: Check-catch operation returned unexpected status code on port {0}.", port_name));
 			}
 		}
-		switch(check_receive(sender_template, sender_pointer, null)) {
+		switch (check_receive(sender_template, sender_pointer, null)) {
 		case ALT_YES:
 			return TitanAlt_Status.ALT_YES;
 		case ALT_MAYBE:
@@ -628,7 +628,7 @@ public class TitanPort {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS) {
-			switch(port.check(sender_template, sender_pointer, null)) {
+			switch (port.check(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
@@ -650,7 +650,7 @@ public class TitanPort {
 
 		//FIXME register handler
 		if (read_channels != null) {
-			for(final SelectableChannel channel : read_channels) {
+			for (final SelectableChannel channel : read_channels) {
 				channel.configureBlocking(false);
 				TTCN_Snapshot.channelMap.put(channel, this);
 				channel.register(TTCN_Snapshot.selector, SelectionKey.OP_READ);
@@ -825,7 +825,7 @@ public class TitanPort {
 	}
 
 	public void setName(final String name) {
-		if(name == null) {
+		if (name == null) {
 			throw new TtcnError("Internal error: Setting an invalid name for a single element of a port array.");
 		}
 		port_name = name;

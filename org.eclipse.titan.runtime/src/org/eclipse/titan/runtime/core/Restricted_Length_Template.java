@@ -81,14 +81,14 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			// upper limit is infinity
 			switch (length_restriction_type) {
 			case NO_LENGTH_RESTRICTION:
-				throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on {1} {2} with no exact {3}.",
-						operation_name, type_name_prefix, type_name, operation_name ) );
+				throw new TtcnError(MessageFormat.format("Performing {0}of() operation on {1} {2} with no exact {3}.",
+						operation_name, type_name_prefix, type_name, operation_name));
 			case SINGLE_LENGTH_RESTRICTION:
 				if (single_length >= min_size) {
 					return single_length;
 				}
-				throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}).",
-						operation_name, type_name, operation_name, min_size, single_length ) );
+				throw new TtcnError(MessageFormat.format("Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}).",
+						operation_name, type_name, operation_name, min_size, single_length));
 			case RANGE_LENGTH_RESTRICTION: {
 				boolean has_invalid_restriction;
 				if (match_length(min_size)) {
@@ -102,15 +102,15 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 				if (has_invalid_restriction) {
 					if (range_length_max_length_set) {
-						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}..{5}).",
-								operation_name, type_name, operation_name, min_size, range_length_min_length, range_length_max_length ) );
+						throw new TtcnError(MessageFormat.format("Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}..{5}).",
+								operation_name, type_name, operation_name, min_size, range_length_min_length, range_length_max_length));
 					} else {
-						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}..infinity).",
-								operation_name, type_name, operation_name, min_size, range_length_min_length ) );
+						throw new TtcnError(MessageFormat.format("Performing {0}of() operation on an invalid {1}. The minimum {2} ({3}) contradicts the length restriction ({4}..infinity).",
+								operation_name, type_name, operation_name, min_size, range_length_min_length));
 					}
 				} else {
-					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on {1} {2} with no exact {4}.",
-							operation_name, type_name_prefix, type_name, operation_name ) );
+					throw new TtcnError(MessageFormat.format("Performing {0}of() operation on {1} {2} with no exact {4}.",
+							operation_name, type_name_prefix, type_name, operation_name));
 				}
 			}
 
@@ -126,16 +126,16 @@ public abstract class Restricted_Length_Template extends Base_Template {
 				if (single_length == min_size) {
 					return min_size;
 				}
-				throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}).",
-						operation_name, type_name, operation_name, min_size, single_length ) );
+				throw new TtcnError(MessageFormat.format("Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}).",
+						operation_name, type_name, operation_name, min_size, single_length));
 			case RANGE_LENGTH_RESTRICTION:
 				if (!match_length(min_size)) {
 					if (range_length_max_length_set) {
-						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}..{5}).",
-								operation_name, type_name, operation_name, min_size, range_length_min_length, range_length_max_length ) );
+						throw new TtcnError(MessageFormat.format("Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}..{5}).",
+								operation_name, type_name, operation_name, min_size, range_length_min_length, range_length_max_length));
 					} else {
-						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}..infinity).",
-								operation_name, type_name, operation_name, min_size, range_length_min_length ) );
+						throw new TtcnError(MessageFormat.format("Performing {0}of() operation on an invalid {1}. The {2} ({3}) contradicts the length restriction ({4}..infinity).",
+								operation_name, type_name, operation_name, min_size, range_length_min_length));
 					}
 				} else {
 					return min_size;
@@ -190,7 +190,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 
 	void encode_text_restricted(final Text_Buf text_buf) {
 		encode_text_base(text_buf);
-		text_buf.push_int( length_restriction_type.ordinal() );
+		text_buf.push_int(length_restriction_type.ordinal());
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
 			text_buf.push_int(single_length);
@@ -199,7 +199,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			break;
 		case RANGE_LENGTH_RESTRICTION:
 			text_buf.push_int(range_length_min_length);
-			text_buf.push_int( range_length_max_length_set ? 1 : 0 );
+			text_buf.push_int(range_length_max_length_set ? 1 : 0);
 			if (range_length_max_length_set) {
 				text_buf.push_int(range_length_max_length);
 			}
@@ -306,7 +306,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 			throw new TtcnError(MessageFormat.format("The upper limit for the length is negative ({0}) in a template with length restriction.", max_length));
 		}
 		if (range_length_min_length > max_length) {
-			throw new TtcnError( MessageFormat.format( "The upper limit for the length ({0}) is smaller than the lower limit ({1}) in a template with length restriction.",
+			throw new TtcnError(MessageFormat.format("The upper limit for the length ({0}) is smaller than the lower limit ({1}) in a template with length restriction.",
 							max_length, range_length_min_length));
 		}
 

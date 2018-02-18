@@ -76,7 +76,7 @@ public class RAW {
 
 	// TODO: #define REVERSE_BITS(b) (BitReverseTable[(b)&0xFF])
 	public static int REVERSE_BITS(final int b) {
-		return BitReverseTable[(b)&0xFF];
+		return BitReverseTable[(b) & 0xFF];
 	}
 
 	public static final int RAW_INT_ENC_LENGTH = 4;
@@ -139,8 +139,8 @@ public class RAW {
 			data_ptr_used = false;
 			rec_of = false;
 			parent = par;
-			curr_pos = new RAW_enc_tr_pos(par_pos.level + 1, new int[par_pos.level+1]);
-			if(par_pos.level > 0) {
+			curr_pos = new RAW_enc_tr_pos(par_pos.level + 1, new int[par_pos.level + 1]);
+			if (par_pos.level > 0) {
 				System.arraycopy(par_pos.pos, 0, curr_pos.pos, 0, par_pos.pos.length);
 			}
 			curr_pos.pos[curr_pos.level - 1] = my_pos;
@@ -158,26 +158,26 @@ public class RAW {
 			ext_bit = raw_attr.extension_bit;
 			top_bit_order = raw_attr.top_bit_order;
 			calc = calc_type.CALC_NO;
-			if(raw_attr.byteorder == raw_order_t.ORDER_MSB) {
+			if (raw_attr.byteorder == raw_order_t.ORDER_MSB) {
 				orders = true;
 			}
-			if(raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
+			if (raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
 
 			final raw_order_t tempbyteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			orders = false;
-			if(raw_attr.bitorderinoctet == raw_order_t.ORDER_MSB) {
+			if (raw_attr.bitorderinoctet == raw_order_t.ORDER_MSB) {
 				orders = true;
 			}
-			if(raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
+			if (raw_attr.bitorderinfield == raw_order_t.ORDER_MSB) {
 				orders = !orders;
 			}
 			final raw_order_t tempbitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 			final raw_order_t temphexorder = raw_attr.hexorder;
 			final raw_order_t tempfieldorder = raw_attr.fieldorder;
 			coding_par = new RAW_coding_par(tempbitorder, tempbyteorder, temphexorder, tempfieldorder);
-			if(!is_leaf) {
+			if (!is_leaf) {
 				num_of_nodes = 0;
 				nodes = null;
 			}
@@ -190,22 +190,22 @@ public class RAW {
 		}
 
 		private void calc_fields() {
-			if(isleaf) {
+			if (isleaf) {
 				int szumm = 0;
 				RAW_enc_tree atm;
 				switch (calc) {
 				case CALC_LENGTH:
-					if(lengthto.unit != -1) {
-						for(int a = 0; a < lengthto.num_of_fields; a++) {
+					if (lengthto.unit != -1) {
+						for (int a = 0; a < lengthto.num_of_fields; a++) {
 							atm = get_node(lengthto.fields[a]);
-							if(atm != null) {
+							if (atm != null) {
 								szumm += atm.length + atm.padlength + atm.prepadlength;
 							}
 						}
 						szumm = (szumm + lengthto.unit - 1) / lengthto.unit;
 					} else {
 						atm = get_node(lengthto.fields[0]);
-						if(atm != null) {
+						if (atm != null) {
 							szumm = atm.num_of_nodes;
 						}
 					}
@@ -226,7 +226,7 @@ public class RAW {
 					}
 					curr_pos.pos[curr_pos.level - 1] = cl;
 					atm = get_node(pointerto.target);
-					if(atm != null) {
+					if (atm != null) {
 						szumm = (atm.startpos - b.startpos + pointerto.unit - 1 - pointerto.ptr_offset) / pointerto.unit;
 					}
 
@@ -237,7 +237,7 @@ public class RAW {
 				}
 			} else {
 				for (int a = 0; a < num_of_nodes; a++) {
-					if (nodes[a] != null){
+					if (nodes[a] != null) {
 						nodes[a].calc_fields();
 					}
 				}
@@ -247,14 +247,14 @@ public class RAW {
 		private int calc_padding(final int position) {
 			int current_pos = position;
 			startpos = position;
-			if(prepadding != 0) {
+			if (prepadding != 0) {
 				final int new_pos = ((current_pos + prepadding - 1) / prepadding) * prepadding;
 				prepadlength = new_pos - position;
 				current_pos = new_pos;
 			}
-			if(!isleaf) {
+			if (!isleaf) {
 				for (int a = 0; a < num_of_nodes; a++) {
-					if(nodes[a] != null) {
+					if (nodes[a] != null) {
 						current_pos = nodes[a].calc_padding(current_pos);
 					}
 				}
@@ -262,7 +262,7 @@ public class RAW {
 			} else {
 				current_pos += length;
 			}
-			if(padding != 0) {
+			if (padding != 0) {
 				final int new_pos = ((current_pos + padding - 1) / padding) * padding;
 				padlength = new_pos - length - position - prepadlength;
 				current_pos = new_pos;
@@ -272,12 +272,12 @@ public class RAW {
 
 		private void fill_buf(final TTCN_Buffer buf) {
 			final boolean old_order = buf.get_order();
-			if(top_bit_order != top_bit_order_t.TOP_BIT_INHERITED) {
+			if (top_bit_order != top_bit_order_t.TOP_BIT_INHERITED) {
 				buf.set_order(top_bit_order != top_bit_order_t.TOP_BIT_RIGHT);
 			}
 
 			buf.put_pad(prepadlength, padding_pattern, padding_pattern_length, coding_par.fieldorder);
-			if(isleaf) {
+			if (isleaf) {
 				final int align_length = align < 0 ? -align : align;
 				if (ext_bit != ext_bit_t.EXT_BIT_NO) {
 					buf.start_ext_bit(ext_bit == ext_bit_t.EXT_BIT_REVERSE);
@@ -287,13 +287,13 @@ public class RAW {
 				} else {
 					buf.put_b(length - align_length, data_array, coding_par, align);
 				}
-				if(ext_bit_handling > 1) {
+				if (ext_bit_handling > 1) {
 					buf.stop_ext_bit();
-				} else if(ext_bit != ext_bit_t.EXT_BIT_NO && !(ext_bit_handling != 0)) {
+				} else if (ext_bit != ext_bit_t.EXT_BIT_NO && !(ext_bit_handling != 0)) {
 					buf.stop_ext_bit();
 				}
 			} else {
-				if(ext_bit != ext_bit_t.EXT_BIT_NO && (!rec_of || ext_bit_handling % 2 != 0)) {
+				if (ext_bit != ext_bit_t.EXT_BIT_NO && (!rec_of || ext_bit_handling % 2 != 0)) {
 					buf.start_ext_bit(ext_bit == ext_bit_t.EXT_BIT_REVERSE);
 				}
 				for (int a = 0; a < num_of_nodes; a++) {
@@ -328,16 +328,16 @@ public class RAW {
 		 * @return the element at the given position
 		 */
 		public RAW_enc_tree get_node(final RAW_enc_tr_pos req_pos) {
-			if(req_pos.level == 0) {
+			if (req_pos.level == 0) {
 				return null;
 			}
 			RAW_enc_tree t = this;
 			int cur_level = curr_pos.level;
-			for(int b = 1; b < cur_level; b++) {
+			for (int b = 1; b < cur_level; b++) {
 				t = t.parent;
 			}
-			for(cur_level = 1; cur_level < req_pos.level; cur_level++) {
-				if(t == null || t.isleaf || num_of_nodes <= req_pos.pos[cur_level]) {
+			for (cur_level = 1; cur_level < req_pos.level; cur_level++) {
+				if (t == null || t.isleaf || num_of_nodes <= req_pos.pos[cur_level]) {
 					return null;
 				}
 				t = t.nodes[req_pos.pos[cur_level]];
@@ -399,7 +399,7 @@ public class RAW {
 		}
 	}
 
-	public static class RAW_enc_tr_pos{
+	public static class RAW_enc_tr_pos {
 		public int level;
 		public int pos[];
 
@@ -407,9 +407,9 @@ public class RAW {
 			this.level = level;
 			this.pos = pos;
 		}
-	};
+	}
 
-	public class RAW_enc_pointer{
+	public class RAW_enc_pointer {
 		public RAW_enc_tr_pos target;
 		public int ptr_offset;
 		public int unit;
@@ -421,9 +421,9 @@ public class RAW {
 			this.unit = unit;
 			this.ptr_base = ptr_base;
 		}
-	};
+	}
 
-	public class RAW_enc_lengthto{
+	public class RAW_enc_lengthto {
 		public int num_of_fields;
 		public RAW_enc_tr_pos fields[];
 		public int unit;
@@ -437,9 +437,9 @@ public class RAW {
 		}
 
 
-	};
+	}
 
-	public static class RAW_coding_par{
+	public static class RAW_coding_par {
 		public raw_order_t bitorder;
 		public raw_order_t byteorder;
 		public raw_order_t hexorder;
@@ -455,30 +455,31 @@ public class RAW {
 		public RAW_coding_par() {
 
 		}
-	};
+	}
 
-	public static enum ext_bit_t{
+	public static enum ext_bit_t {
 		EXT_BIT_NO,      /**< No extension bit */
 		EXT_BIT_YES,     /**< Extension bit used 0: more octets, 1: no more octets */
 		EXT_BIT_REVERSE  /**< Extension bit used 1: more octets, 0: no more octets */
-	};
+	}
 
-	public static enum top_bit_order_t{
+	public static enum top_bit_order_t {
 		TOP_BIT_INHERITED,
 		TOP_BIT_LEFT,
 		TOP_BIT_RIGHT
-	};
-	public static enum raw_sign_t{
+	}
+
+	public static enum raw_sign_t {
 		SG_NO,         /**< no sign, value coded as positive number */
 		SG_2COMPL,     /**< the value coded as 2s complement */
 		SG_SG_BIT      /**< the MSB used to encode the sign of the value */
-	};
+	}
 
 	public static enum calc_type {
 		CALC_NO, /**< not a calculated field */
 		CALC_LENGTH, /**< calculated field for LENGTHTO */
 		CALC_POINTER /**< calculated field for POINTERTO */
-	};
+	}
 
 	/**
 	 * Return the number of bits needed to represent an integer value `a'.  The
@@ -489,8 +490,7 @@ public class RAW {
 	 * @return the number of bits needed to represent the given integer
 	 * in sign+magnitude
 	 */
-	public static int min_bits(final int a)
-	{
+	public static int min_bits(final int a) {
 		int bits = 0;
 		int tmp = a;
 		if (a < 0) {
@@ -505,7 +505,7 @@ public class RAW {
 	}
 
 	public static int min_bits(final BigInteger a) {
-		if(a == null) {
+		if (a == null) {
 			return 0;
 		}
 
@@ -539,14 +539,14 @@ public class RAW {
 	}
 
 	//Default descriptors of RAW encoding for primitive types.
-	public static final TTCN_RAWdescriptor TitanInteger_raw_= new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanBoolean_raw_= new TTCN_RAWdescriptor(1, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanBitString_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanOctetString_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanHexString_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanCharString_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanFloat_raw_= new TTCN_RAWdescriptor(64, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
-	public static final TTCN_RAWdescriptor TitanUniversalCharString_raw_= new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanInteger_raw_ = new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanBoolean_raw_ = new TTCN_RAWdescriptor(1, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanBitString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanOctetString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanHexString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanFloat_raw_ = new TTCN_RAWdescriptor(64, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
+	public static final TTCN_RAWdescriptor TitanUniversalCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
 
 	//TODO: int RAW_decode_enum_type(const TTCN_Typedescriptor_t&, TTCN_Buffer&, int, raw_order_t, int&, int, boolean no_err=FALSE);
 	//TODO: RAW_enc_tree** init_nodes_of_enc_tree(int nodes_num);

@@ -138,10 +138,10 @@ public class TitanObjectid extends Base_Type {
 		return components_ptr != null;
 	}
 
-	//originally operator[]
+	// originally operator[]
 	public final TitanInteger constGetAt(final int index_value) {
-		if(components_ptr == null) {
-			if(index_value != 0) {
+		if (components_ptr == null) {
+			if (index_value != 0) {
 				throw new TtcnError("Accessing a component of an unbound objid value.");
 			}
 			n_components = 1;
@@ -151,12 +151,12 @@ public class TitanObjectid extends Base_Type {
 
 			return components_ptr.get(0);
 		}
-		if(index_value < 0) {
+		if (index_value < 0) {
 			throw new TtcnError(MessageFormat.format("Accessing an objid component using a negative index {0}.", index_value));
 		}
-		if(index_value > n_components) {
+		if (index_value > n_components) {
 			throw new TtcnError(MessageFormat.format("Index overflow when accessing an objid component: the index is {0}, but the value has only {1} components.", index_value, n_components));
-		} else if(index_value == n_components) {
+		} else if (index_value == n_components) {
 			n_components++;
 			components_ptr.add(new TitanInteger(0));
 		}
@@ -244,7 +244,7 @@ public class TitanObjectid extends Base_Type {
 		}
 
 		text_buf.push_int(n_components);
-		for ( int i = 0; i < n_components; i++) {
+		for (int i = 0; i < n_components; i++) {
 			text_buf.push_int(components_ptr.get(i));
 		}
 	}
@@ -259,7 +259,7 @@ public class TitanObjectid extends Base_Type {
 			throw new TtcnError("Text decoder: Negative number of components was received for an objid value.");
 		}
 		components_ptr = new ArrayList<TitanInteger>(n_components);
-		for ( int i = 0; i < n_components; i++) {
+		for (int i = 0; i < n_components; i++) {
 			components_ptr.add(text_buf.pull_int());
 		}
 	}

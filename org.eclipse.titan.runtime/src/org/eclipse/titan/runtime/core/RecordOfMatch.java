@@ -49,11 +49,15 @@ public class RecordOfMatch {
 		void log(Base_Type value_ptr, Restricted_Length_Template object, int i, int j, boolean legacy);
 	}
 
-	//TODO: comment
-	public enum answer { FAILURE, SUCCESS, NO_CHANCE };
+	// TODO: comment
+	public enum answer {
+		FAILURE, SUCCESS, NO_CHANCE
+	};
 
-	//TODO: comment
-	public enum type_of_matching { SUBSET, EXACT, SUPERSET };
+	// TODO: comment
+	public enum type_of_matching {
+		SUBSET, EXACT, SUPERSET
+	};
 
 	/*
 	  Generic comparison function for 'set of' values. The fifth argument
@@ -95,10 +99,10 @@ public class RecordOfMatch {
 		// index of the last element to check on the right side
 		int last_on_right = left_size - 1;
 
-		for(left_index = 0; left_index < left_size; left_index++) {
+		for (left_index = 0; left_index < left_size; left_index++) {
 			pair_found = false;
-			for(right_index=first_on_right;right_index<=last_on_right;right_index++) {
-				if(!covered[right_index]
+			for (right_index = first_on_right; right_index <= last_on_right; right_index++) {
+				if (!covered[right_index]
 						&& compare_function.compare(left_ptr, left_index, right_ptr, right_index)) {
 					//a new match was found
 					covered[right_index] = true;
@@ -157,12 +161,12 @@ public class RecordOfMatch {
 	  an ANY_OR_NONE / ANY element
 	 */
 
-	public static boolean match_array( final Base_Type value_ptr,
+	public static boolean match_array(final Base_Type value_ptr,
 			final int value_size,
 			final Restricted_Length_Template template_ptr,
 			final int template_size,
 			final match_function_t match_function,
-			final boolean legacy ) {
+			final boolean legacy) {
 		if (value_ptr == null || value_size < 0 || template_ptr == null || template_size < 0) {
 			throw new TtcnError("Internal error: match_array: invalid argument.");
 		}
@@ -204,7 +208,7 @@ public class RecordOfMatch {
 				template_index++;
 			} else {
 				//if we didn't match and we found no asterisk the match failed
-				if(last_asterisk == -1) {
+				if (last_asterisk == -1) {
 					return false;
 				}
 				//if we found an asterisk than fall back to it
@@ -213,14 +217,14 @@ public class RecordOfMatch {
 				value_index = ++last_value_to_asterisk;
 			}
 
-			if(value_index == value_size && template_index == template_size) {
-				//we finished clean
+			if (value_index == value_size && template_index == template_size) {
+				// we finished clean
 				return true;
-			} else if(template_index == template_size) {
+			} else if (template_index == template_size) {
 				//value_index != value_size at this point so it is pointless
 				// to check it in the if statement
 				//At the end of the template
-				if(match_function.match(value_ptr, -1, template_ptr, template_index-1, legacy)) {
+				if (match_function.match(value_ptr, -1, template_ptr, template_index - 1, legacy)) {
 					//if the templates last element is an asterisk it eats up the values
 					return true;
 				} else if (last_asterisk == -1) {
@@ -228,15 +232,15 @@ public class RecordOfMatch {
 					return false;
 				} else {
 					//fall back to the asterisk, and step the value's indices
-					template_index = last_asterisk+1;
+					template_index = last_asterisk + 1;
 					value_index = ++last_value_to_asterisk;
 				}
-			} else if(value_index == value_size) {
+			} else if (value_index == value_size) {
 				//template_index != template_size at this point so it is pointless
 				// to check it in the if statement
 				//At the end of the value we matched if the remaining templates are
 				// asterisks
-				while(template_index < template_size &&
+				while (template_index < template_size &&
 						match_function.match(value_ptr, -1, template_ptr, template_index, legacy)) {
 					template_index++;
 				}
@@ -248,7 +252,9 @@ public class RecordOfMatch {
 
 	/* Ancillary classes for 'set of' matching */
 
-	private enum edge_status { UNKNOWN, NO_EDGE, EDGE, PAIRS };
+	private enum edge_status {
+		UNKNOWN, NO_EDGE, EDGE, PAIRS
+	};
 
 	/* Class Matching_Table:
 	 * Responsibilities
@@ -320,9 +326,13 @@ public class RecordOfMatch {
 			paired_templates = null;
 		}
 
-		public int get_template_size() { return template_size; }
+		public int get_template_size() {
+			return template_size;
+		}
 
-		public boolean has_asterisk() { return n_asterisks > 0; }
+		public boolean has_asterisk() {
+			return n_asterisks > 0;
+		}
 
 		public void create_matrix() {
 			edge_matrix = new edge_status[template_size][value_size];
@@ -337,7 +347,7 @@ public class RecordOfMatch {
 			}
 
 			paired_templates = new int[template_size];
-			for(int j = 0; j < template_size; j++) {
+			for (int j = 0; j < template_size; j++) {
 				paired_templates[j] = -1;
 			}
 
@@ -374,7 +384,7 @@ public class RecordOfMatch {
 		}
 
 		public void set_covered(final int value_index, final int template_index) {
-			if(!covered_vector[value_index]) {
+			if (!covered_vector[value_index]) {
 				nof_covered++;
 			}
 
@@ -441,13 +451,24 @@ public class RecordOfMatch {
 			}
 		}
 
-		public int head_value() { return head.data; }
-		public int actual_data() { return current.data; }
-		public boolean is_head() { return current.parent == null; }
-		public boolean end_of_list()  { return current.next == null; }
+		public int head_value() {
+			return head.data;
+		}
+
+		public int actual_data() {
+			return current.data;
+		}
+
+		public boolean is_head() {
+			return current.parent == null;
+		}
+
+		public boolean end_of_list() {
+			return current.next == null;
+		}
 
 		public boolean do_exists(final int find_data) {
-			for ( List_elem ptr = head; ptr != null; ptr = ptr.next ) {
+			for (List_elem ptr = head; ptr != null; ptr = ptr.next) {
 				if (ptr.data == find_data) {
 					return true;
 				}
@@ -613,11 +634,11 @@ public class RecordOfMatch {
 
 		//if we need increamentality
 
-		if(pair_list != null) {
-			for(int i = 0; i < template_size; i++) {
+		if (pair_list != null) {
+			for (int i = 0; i < template_size; i++) {
 				//if we have values from a previous matching than use them
 				// instead of counting them out again
-				if(pair_list[i] >= 0) {
+				if (pair_list[i] >= 0) {
 					table.set_paired(i, pair_list[i]);
 					table.set_covered(pair_list[i], i);
 					table.set_edge(i, pair_list[i], edge_status.PAIRS);
@@ -626,7 +647,7 @@ public class RecordOfMatch {
 		}
 
 		for (int template_index = 0; template_index < real_template_size; template_index++) {
-			if(table.is_paired(template_index)) {
+			if (table.is_paired(template_index)) {
 				continue;
 			}
 
@@ -634,15 +655,15 @@ public class RecordOfMatch {
 			final Tree_list tree = new Tree_list(template_index);
 			for (int i = template_index; ; ) {
 				int j;
-				if(table.is_paired(i)) {
-					j = table.get_paired(i)+1;
+				if (table.is_paired(i)) {
+					j = table.get_paired(i) + 1;
 				} else {
 					j = number_of_checked;
 				}
 
-				for(; j < value_size; j++) {
-					//if it is not covered
-					if(!table.is_covered(j)) {
+				for (; j < value_size; j++) {
+					// if it is not covered
+					if (!table.is_covered(j)) {
 						//if it is not covered then it might be good
 						if (table.get_edge(i, j) == edge_status.EDGE) {
 							//update the values in the tree
@@ -651,18 +672,18 @@ public class RecordOfMatch {
 							int temp_value_index;
 							int actual_node;
 							boolean at_end = false;
-							for( ; !at_end; ) {
+							for (; !at_end;) {
 								at_end = tree.is_head();
 								actual_node = tree.actual_data();
 
 								temp_value_index = table.get_paired(actual_node);
-								if(temp_value_index != -1) {
+								if (temp_value_index != -1) {
 									table.set_edge(temp_value_index,actual_node,edge_status.EDGE);
 								}
 
 								table.set_paired(actual_node,new_value_index);
 
-								if(pair_list != null) {
+								if (pair_list != null) {
 									pair_list[actual_node] = new_value_index;
 								}
 
@@ -670,7 +691,7 @@ public class RecordOfMatch {
 								table.set_covered(new_value_index,actual_node);
 
 								new_value_index = temp_value_index;
-								if(!at_end) {
+								if (!at_end) {
 									tree.back_step();
 								}
 							}
@@ -678,7 +699,7 @@ public class RecordOfMatch {
 							//if we need subset matching
 							// and we already matched every value
 							// then we have finished
-							if(match_type == type_of_matching.SUBSET
+							if (match_type == type_of_matching.SUBSET
 									&& table.get_nof_covered() == value_size) {
 								return true;
 							}
@@ -696,12 +717,12 @@ public class RecordOfMatch {
 				// so we check if there is a covered value.
 				//  if we find one then we try to find a new value for his
 				// pair template.
-				for(j = 0 ; j < value_size; j++) {
-					if(table.is_covered(j) &&
+				for (j = 0; j < value_size; j++) {
+					if (table.is_covered(j) &&
 							table.get_edge(i,j) == edge_status.EDGE &&
 							!tree.do_exists(j + real_template_size)) {
 						final int temp_index = table.covered_by(j);
-						if(!tree.do_exists(temp_index)) {
+						if (!tree.do_exists(temp_index)) {
 							tree.insert_data(temp_index);
 						}
 					}
@@ -715,15 +736,15 @@ public class RecordOfMatch {
 					//couldn't find a matching value for a template
 					// this can only be allowed in SUBSET matching,
 					// otherwise there is no match
-					if(match_type == type_of_matching.EXACT) {
+					if (match_type == type_of_matching.EXACT) {
 						return false;
 					}
 
 					//every template has to match in SUPERSET matching
-					if(match_type == type_of_matching.SUPERSET) {
+					if (match_type == type_of_matching.SUPERSET) {
 						//if we are not in permutation matching or don't need to count
 						// the number of unmatched templates than exit
-						if(number_of_uncovered == null) {
+						if (number_of_uncovered == null) {
 							return false;
 						}
 					}
@@ -743,20 +764,20 @@ public class RecordOfMatch {
 
 		final int number_of_pairs = table.get_nof_covered();
 
-		if(match_type == type_of_matching.SUBSET) {
+		if (match_type == type_of_matching.SUBSET) {
 			return number_of_pairs == value_size;
 		}
 
 		//here EXACT can only be true or we would have return false earlier
-		if(match_type == type_of_matching.EXACT) {
+		if (match_type == type_of_matching.EXACT) {
 			return true;
 		}
 
-		if(match_type == type_of_matching.SUPERSET) {
+		if (match_type == type_of_matching.SUPERSET) {
 			//we only return false if we need the number of uncovered templates and
 			// there really were uncovered templates
-			if(number_of_uncovered != null && number_of_pairs != real_template_size) {
-				number_of_uncovered.set( real_template_size - number_of_pairs );
+			if (number_of_uncovered != null && number_of_pairs != real_template_size) {
+				number_of_uncovered.set(real_template_size - number_of_pairs);
 				return false;
 			} else {
 				return true;
@@ -843,19 +864,19 @@ public class RecordOfMatch {
 			throw new TtcnError("Internal error: recursive_permutation_match: invalid argument.");
 		}
 
-		if (permutation_index < nof_permutations && template_ptr.get_permutation_end(permutation_index) > template_start_index + template_size) {
-			throw new TtcnError(MessageFormat.format( "Internal error: recursive_permutation_match: wrong permutation interval settings for permutation {0}.",
-					permutation_index ) );
+		if (permutation_index < nof_permutations
+				&& template_ptr.get_permutation_end(permutation_index) > template_start_index + template_size) {
+			throw new TtcnError(MessageFormat.format("Internal error: recursive_permutation_match: wrong permutation interval settings for permutation {0}.", permutation_index));
 		}
 
-		shift_size.set( 0 );
+		shift_size.set(0);
 
 		//trivial cases
-		if(template_size == 0) {
+		if (template_size == 0) {
 			//reached the end of templates
 			// if we reached the end of values => good
 			// else => bad
-			if(value_size == 0) {
+			if (value_size == 0) {
 				return answer.SUCCESS;
 			} else {
 				return answer.FAILURE;
@@ -884,7 +905,7 @@ public class RecordOfMatch {
 				has_asterisk = false;
 
 				//count how many non asterisk elements are in the permutation
-				for(int i = 0; i < permutation_size; i++) {
+				for (int i = 0; i < permutation_size; i++) {
 					if (match_function.match(value_ptr, -1, template_ptr, i + template_start_index, legacy)) {
 						has_asterisk = true;
 					} else {
@@ -893,16 +914,16 @@ public class RecordOfMatch {
 				}
 
 				//the real permutation size is bigger then the value size
-				if(smallest_possible_size > value_size) {
+				if (smallest_possible_size > value_size) {
 					return answer.NO_CHANCE;
 				}
 
 				//if the permutation has an asterisk then it can grow
-				if(has_asterisk) {
+				if (has_asterisk) {
 					largest_possible_size = value_size;
 
 					//if there are only asterisks in the permutation
-					if(smallest_possible_size == 0) {
+					if (smallest_possible_size == 0) {
 						already_superset = true;
 					} else {
 						already_superset = false;
@@ -933,15 +954,15 @@ public class RecordOfMatch {
 				int[] pair_list = null;
 				int old_temp_size = 0;
 
-				if(!already_superset) {
+				if (!already_superset) {
 					pair_list = new int[permutation_size];
-					for(int i = 0 ; i < permutation_size; i++) {
+					for (int i = 0; i < permutation_size; i++) {
 						//in the beginning we haven't found a template to any values
 						pair_list[i] = -1;
 					}
 				}
 
-				while(!already_superset) {
+				while (!already_superset) {
 					//must be a permutation having other values than asterisks
 
 					final AtomicInteger x = new AtomicInteger(0);
@@ -956,7 +977,7 @@ public class RecordOfMatch {
 							template_start_index, permutation_size,
 							match_function, type_of_matching.SUPERSET, x, pair_list,old_temp_size, legacy);
 
-					if(found) {
+					if (found) {
 						already_superset = true;
 					} else {
 						//as we didn't found a match we have to try
@@ -968,7 +989,7 @@ public class RecordOfMatch {
 						// the smallest possible match.
 
 						//if we can match with more values
-						if(has_asterisk && temp_size + x.get() <= largest_possible_size) {
+						if (has_asterisk && temp_size + x.get() <= largest_possible_size) {
 							old_temp_size = temp_size;
 							temp_size += x.get();
 						} else {
@@ -983,33 +1004,30 @@ public class RecordOfMatch {
 			//can only go on recursively if we haven't reached the end
 
 			//reached the end of templates
-			if(permutation_size == template_size) {
-				if(has_asterisk || value_size == temp_size) {
+			if (permutation_size == template_size) {
+				if (has_asterisk || value_size == temp_size) {
 					return answer.SUCCESS;
 				} else {
 					return answer.FAILURE;
 				}
 			}
 
-			for(int i = temp_size; i <= largest_possible_size;) {
+			for (int i = temp_size; i <= largest_possible_size;) {
 				answer result;
 
-				if(is_asterisk) {
+				if (is_asterisk) {
 					//don't step the permutation index
-					result = recursive_permutation_match(value_ptr,value_start_index+i,
+					result = recursive_permutation_match(value_ptr,value_start_index + i,
 							value_size - i, template_ptr,
-							template_start_index +
-							permutation_size,
-							template_size -
-							permutation_size,
+							template_start_index + permutation_size,
+							template_size - permutation_size,
 							permutation_index,
 							match_function, shift_size, legacy);
 				} else {
 					//try with the next permutation
-					result = recursive_permutation_match(value_ptr,value_start_index+i,
+					result = recursive_permutation_match(value_ptr,value_start_index + i,
 							value_size - i, template_ptr,
-							template_start_index +
-							permutation_size,
+							template_start_index + permutation_size,
 							template_size - permutation_size,
 							permutation_index + 1,
 							match_function, shift_size, legacy);
@@ -1053,7 +1071,7 @@ public class RecordOfMatch {
 
 			//if there are no more values, but we still have templates
 			// and the template is not an asterisk or a permutation start
-			if(value_size == 0) {
+			if (value_size == 0) {
 				return answer.FAILURE;
 			}
 
@@ -1068,17 +1086,17 @@ public class RecordOfMatch {
 				//bad stop: something can't be matched
 				//half bad half good stop: the end of values is reached
 				//good stop: matching on the full distance or till an asterisk
-			} while(good && i < value_size && i < distance &&
+			} while (good && i < value_size && i < distance &&
 					!match_function.match(value_ptr, -1, template_ptr,
 							template_start_index + i, legacy));
 
 			//if we matched on the full distance or till an asterisk
-			if(good && (i == distance ||
+			if (good && (i == distance ||
 					match_function.match(value_ptr, -1, template_ptr,
 							template_start_index + i, legacy))) {
 				//reached the end of the templates
-				if ( i == template_size ) {
-					if (i < value_size ) {
+				if (i == template_size) {
+					if (i < value_size) {
 						//the next level would return FAILURE so we don't step it
 						return answer.FAILURE;
 					} else {
@@ -1107,14 +1125,14 @@ public class RecordOfMatch {
 					//try to find a matching value for the last checked (and failed)
 					// template.
 					// smaller jumps would fail so we skip them
-					shift_size.set( 0 );
+					shift_size.set(0);
 					i--;
 					do {
 						good = match_function.match(value_ptr,
 								value_start_index + i + shift_size.get(),
 								template_ptr, template_start_index + i, legacy);
 						shift_size.incrementAndGet();
-					} while(!good && i + shift_size.get() < value_size);
+					} while (!good && i + shift_size.get() < value_size);
 
 					if (good) {
 						shift_size.decrementAndGet();
@@ -1154,12 +1172,12 @@ public class RecordOfMatch {
 		// use 'set of' matching if all template elements are grouped into one
 		// permutation
 		if (nof_permutations == 1 && template_ptr.get_permutation_start(0) == 0 &&
-				template_ptr.get_permutation_end(0) == template_size - 1 ) {
+				template_ptr.get_permutation_end(0) == template_size - 1) {
 			return match_set_of(value_ptr, value_size, template_ptr, template_size,
 					match_function, legacy);
 		}
 
-		final AtomicInteger shift_size = new AtomicInteger( 0 );
+		final AtomicInteger shift_size = new AtomicInteger(0);
 		return recursive_permutation_match(value_ptr, 0, value_size, template_ptr,
 				0, template_size, 0, match_function, shift_size, legacy) == answer.SUCCESS;
 	}
@@ -1219,17 +1237,17 @@ public class RecordOfMatch {
 			}
 		}
 
-		if(value_size < template_size - asterisks_found) {
+		if (value_size < template_size - asterisks_found) {
 			TtcnLogger.print_logmatch_buffer();
-			if(asterisks_found == 0) {
-				TtcnLogger.log_event( MessageFormat.format( " Too few elements in value are present: {0} was expected instead of {1}", template_size, value_size ) );
+			if (asterisks_found == 0) {
+				TtcnLogger.log_event(MessageFormat.format(" Too few elements in value are present: {0} was expected instead of {1}", template_size, value_size));
 			} else {
-				TtcnLogger.log_event( MessageFormat.format( " Too few value elements are present in value: at least {0} was expected instead of {1}", template_size-asterisks_found, value_size ) );
+				TtcnLogger.log_event(MessageFormat.format(" Too few value elements are present in value: at least {0} was expected instead of {1}", template_size - asterisks_found, value_size));
 			}
 			return;
-		} else if(asterisks_found == 0 && value_size > template_size) {
+		} else if (asterisks_found == 0 && value_size > template_size) {
 			TtcnLogger.print_logmatch_buffer();
-			TtcnLogger.log_event( MessageFormat.format( " Too many elements are present in value: {0} was expected instead of {1}", template_size, value_size ) );
+			TtcnLogger.log_event(MessageFormat.format(" Too many elements are present in value: {0} was expected instead of {1}", template_size, value_size));
 			return;
 		}
 
@@ -1237,7 +1255,7 @@ public class RecordOfMatch {
 			return;
 		}
 
-		if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
 			TtcnLogger.log_event_str(" Some hints to find the reason of mismatch: ");
 			TtcnLogger.log_event_str("{ value elements that have no pairs in the template: ");
 		}
@@ -1270,7 +1288,7 @@ public class RecordOfMatch {
 			}
 		}
 
-		if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
 			if (!value_found) {
 				TtcnLogger.log_event_str("none");
 			}
@@ -1293,7 +1311,7 @@ public class RecordOfMatch {
 			}
 			unmatched_templates[i] = !pair_found;
 			if (!pair_found) {
-				if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+				if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
 					if (template_found) {
 						TtcnLogger.log_event_str(", ");
 					} else {
@@ -1301,13 +1319,13 @@ public class RecordOfMatch {
 					}
 
 					log_function.log(null, template_ptr, 0, i, legacy);
-					TtcnLogger.log_event( MessageFormat.format( " at index {0}", i ) );
+					TtcnLogger.log_event(MessageFormat.format(" at index {0}", i));
 				}
 				nof_unmatched_templates++;
 			}
 		}
 
-		if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
 			if (!template_found) {
 				TtcnLogger.log_event_str("none");
 			}
@@ -1334,14 +1352,14 @@ public class RecordOfMatch {
 			}
 		}
 
-		if(nof_unmatched_templates > 0 && nof_unmatched_values > 0) {
-			if(matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+		if (nof_unmatched_templates > 0 && nof_unmatched_values > 0) {
+			if (matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
 				final int previous_size = TtcnLogger.get_logmatch_buffer_len();
 				for (int i = 0; i < value_size; i++) {
-					if(unmatched_values[i]) {
+					if (unmatched_values[i]) {
 						for (int j = 0; j < template_size; j++) {
-							if(unmatched_templates[j]) {
-								TtcnLogger.log_logmatch_info( MessageFormat.format( "[{0} <-> {1}]", i, j ) );
+							if (unmatched_templates[j]) {
+								TtcnLogger.log_logmatch_info(MessageFormat.format("[{0} <-> {1}]", i, j));
 								log_function.log(value_ptr, template_ptr, i, j, legacy);
 
 								TtcnLogger.set_logmatch_buffer_len(previous_size);
@@ -1353,11 +1371,11 @@ public class RecordOfMatch {
 				TtcnLogger.log_event_str(", matching unmatched value <-> template index pairs: ");
 				char sep = '{';
 				for (int i = 0; i < value_size; i++) {
-					if(unmatched_values[i]) {
+					if (unmatched_values[i]) {
 						for (int j = 0; j < template_size; j++) {
-							if(unmatched_templates[j]) {
-								TtcnLogger.log_event( MessageFormat.format( "{0} {1} <-> {2}:'{' ", sep, i, j ) );
-								if('{' == sep) {
+							if (unmatched_templates[j]) {
+								TtcnLogger.log_event(MessageFormat.format("{0} {1} <-> {2}:'{' ", sep, i, j));
+								if ('{' == sep) {
 									sep = ',';
 								}
 								log_function.log(value_ptr, template_ptr, i, j, legacy);
@@ -1370,7 +1388,7 @@ public class RecordOfMatch {
 				TtcnLogger.log_event_str(" }");
 			}
 		}
-		if(matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
 			TtcnLogger.log_event_str(" }");
 		}
 	}

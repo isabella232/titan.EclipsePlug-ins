@@ -30,33 +30,33 @@ public class TitanInteger_template extends Base_Template {
 	private TitanInteger min_value, max_value;
 
 
-	public TitanInteger_template () {
-		//do nothing
+	public TitanInteger_template() {
+		// do nothing
 	}
 
-	public TitanInteger_template (final template_sel otherValue) {
+	public TitanInteger_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanInteger_template (final int otherValue) {
+	public TitanInteger_template(final int otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 	}
 
-	public TitanInteger_template (final BigInteger otherValue) {
+	public TitanInteger_template(final BigInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 	}
 
-	public TitanInteger_template (final TitanInteger otherValue) {
+	public TitanInteger_template(final TitanInteger otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound integer value.");
 
 		single_value = new TitanInteger(otherValue);
 	}
 
-	public TitanInteger_template (final TitanInteger_template otherValue) {
+	public TitanInteger_template(final TitanInteger_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
@@ -109,8 +109,8 @@ public class TitanInteger_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to integer", match_value));
 	}
 
-	//originally operator=
-	public TitanInteger_template assign( final template_sel otherValue ) {
+	// originally operator=
+	public TitanInteger_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -118,8 +118,8 @@ public class TitanInteger_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanInteger_template assign( final int otherValue ) {
+	// originally operator=
+	public TitanInteger_template assign(final int otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
@@ -127,8 +127,8 @@ public class TitanInteger_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanInteger_template assign( final BigInteger otherValue ) {
+	// originally operator=
+	public TitanInteger_template assign(final BigInteger otherValue) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
@@ -136,8 +136,8 @@ public class TitanInteger_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanInteger_template assign( final TitanInteger otherValue ) {
+	// originally operator=
+	public TitanInteger_template assign(final TitanInteger otherValue) {
 		otherValue.mustBound("Assignment of an unbound integer value to a template.");
 
 		cleanUp();
@@ -147,8 +147,8 @@ public class TitanInteger_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanInteger_template assign( final TitanInteger_template otherValue ) {
+	// originally operator=
+	public TitanInteger_template assign(final TitanInteger_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -169,7 +169,7 @@ public class TitanInteger_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanInteger_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanInteger_template temp = new TitanInteger_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -177,12 +177,12 @@ public class TitanInteger_template extends Base_Template {
 		case VALUE_RANGE:
 			min_is_present = otherValue.min_is_present;
 			min_is_exclusive = otherValue.min_is_exclusive;
-			if(min_is_present) {
+			if (min_is_present) {
 				min_value = new TitanInteger(otherValue.min_value);
 			}
 			max_is_present = otherValue.max_is_present;
 			max_is_exclusive = otherValue.max_is_exclusive;
-			if(max_is_present) {
+			if (max_is_present) {
 				max_value = new TitanInteger(otherValue.max_value);
 			}
 			break;
@@ -209,7 +209,7 @@ public class TitanInteger_template extends Base_Template {
 
 	// originally match
 	public boolean match(final TitanInteger otherValue, final boolean legacy) {
-		if(! otherValue.isBound()) {
+		if (!otherValue.isBound()) {
 			return false;
 		}
 
@@ -223,23 +223,23 @@ public class TitanInteger_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
-		case VALUE_RANGE:{
+		case VALUE_RANGE: {
 			boolean lowerMatch = true;
 			boolean upperMatch = true;
-			if(min_is_present) {
-				if(min_is_exclusive) {
+			if (min_is_present) {
+				if (min_is_exclusive) {
 					lowerMatch = min_value.isLessThan(otherValue);
 				} else {
 					lowerMatch = min_value.isLessThanOrEqual(otherValue);
 				}
 			}
-			if(max_is_present) {
+			if (max_is_present) {
 				if (max_is_exclusive) {
 					upperMatch = max_value.isGreaterThan(otherValue);
 				} else {
@@ -274,7 +274,7 @@ public class TitanInteger_template extends Base_Template {
 		case COMPLEMENTED_LIST:
 			setSelection(templateType);
 			value_list = new ArrayList<TitanInteger_template>(listLength);
-			for(int i = 0; i < listLength; i++) {
+			for (int i = 0; i < listLength; i++) {
 				value_list.add(new TitanInteger_template());
 			}
 			break;
@@ -562,7 +562,7 @@ public class TitanInteger_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanInteger_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanInteger_template temp = new TitanInteger_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

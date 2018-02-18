@@ -40,50 +40,50 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	/** reference counter for dec_match */
 	private int dec_match_ref_count;
 
-	public TitanHexString_template () {
-		//do nothing
+	public TitanHexString_template() {
+		// do nothing
 	}
 
-	public TitanHexString_template( final template_sel otherValue ) {
+	public TitanHexString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanHexString_template( final TitanHexString otherValue ) {
+	public TitanHexString_template(final TitanHexString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound hexstring value.");
 
 		single_value = new TitanHexString(otherValue);
 	}
 
-	public TitanHexString_template( final TitanHexString_template otherValue ) {
+	public TitanHexString_template(final TitanHexString_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
-	public TitanHexString_template( final TitanHexString_Element otherValue ) {
+	public TitanHexString_template(final TitanHexString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
 	}
 
-	public TitanHexString_template( final byte pattern_elements[] ) {
-		super( template_sel.STRING_PATTERN );
-		pattern_value = TitanStringUtils.copyByteList( pattern_elements );
+	public TitanHexString_template(final byte pattern_elements[]) {
+		super(template_sel.STRING_PATTERN);
+		pattern_value = TitanStringUtils.copyByteList(pattern_elements);
 	}
 
-	public TitanHexString_template( final String patternString ) {
-		super( template_sel.STRING_PATTERN );
-		pattern_value = patternString2List( patternString );
+	public TitanHexString_template(final String patternString) {
+		super(template_sel.STRING_PATTERN);
+		pattern_value = patternString2List(patternString);
 	}
 
-	private static byte[] patternString2List( final String patternString ) {
-		if ( patternString == null ) {
+	private static byte[] patternString2List(final String patternString) {
+		if (patternString == null) {
 			throw new TtcnError("Internal error: hexstring pattern is null.");
 		}
 
 		final byte result[] = new byte[patternString.length()];
-		for ( int i = 0; i < patternString.length(); i++ ) {
+		for (int i = 0; i < patternString.length(); i++) {
 			final char patternChar = patternString.charAt(i);
-			result[i] = patternChar2byte( patternChar );
+			result[i] = patternChar2byte(patternChar);
 		}
 		return result;
 	}
@@ -94,24 +94,24 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * Each element occupies one byte. Meaning of values:
 	 * 0 .. 15 -> 0 .. F, 16 -> ?, 17 -> *
 	 */
-	private static byte patternChar2byte( final char patternChar ) {
-		if ( '0' <= patternChar && '9' >= patternChar ) {
+	private static byte patternChar2byte(final char patternChar) {
+		if ('0' <= patternChar && '9' >= patternChar) {
 			return (byte) (patternChar - '0');
 		}
 
-		if ( 'A' <= patternChar && 'F' >= patternChar ) {
-			return (byte) (patternChar - 'A' + 10 );
+		if ('A' <= patternChar && 'F' >= patternChar) {
+			return (byte) (patternChar - 'A' + 10);
 		}
 
-		if ( 'a' <= patternChar && 'f' >= patternChar ) {
-			return (byte) (patternChar - 'a' + 10 );
+		if ('a' <= patternChar && 'f' >= patternChar) {
+			return (byte) (patternChar - 'a' + 10);
 		}
 
-		if ( '?' == patternChar ) {
+		if ('?' == patternChar) {
 			return 16;
 		}
 
-		if ( '*' == patternChar ) {
+		if ('*' == patternChar) {
 			return 17;
 		}
 
@@ -172,8 +172,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to hexstring", otherValue));
 	}
 
-	//originally operator=
-	public TitanHexString_template assign( final template_sel otherValue ) {
+	// originally operator=
+	public TitanHexString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -181,8 +181,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanHexString_template assign( final byte otherValue[] ) {
+	// originally operator=
+	public TitanHexString_template assign(final byte otherValue[]) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
@@ -190,8 +190,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanHexString_template assign( final TitanHexString otherValue ) {
+	// originally operator=
+	public TitanHexString_template assign(final TitanHexString otherValue) {
 		otherValue.mustBound("Assignment of an unbound hexstring value to a template.");
 
 		cleanUp();
@@ -212,8 +212,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanHexString_template assign( final TitanHexString_template otherValue ) {
+	// originally operator=
+	public TitanHexString_template assign(final TitanHexString_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -234,7 +234,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanHexString_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanHexString_template temp = new TitanHexString_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -256,36 +256,36 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		setSelection(otherValue);
 	}
 
-	//originally operator[](int)
-	public TitanHexString_Element getAt( final int index_value ) {
+	// originally operator[](int)
+	public TitanHexString_Element getAt(final int index_value) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
 		}
 
-		return single_value.getAt( index_value );
+		return single_value.getAt(index_value);
 	}
 
-	//originally operator[](const INTEGER&)
-	public TitanHexString_Element getAt( final TitanInteger index_value ) {
+	// originally operator[](const INTEGER&)
+	public TitanHexString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
 
-		return getAt( index_value.getInt() );
+		return getAt(index_value.getInt());
 	}
 
-	//originally operator[](int) const
-	public TitanHexString_Element constGetAt( final int index_value ) {
+	// originally operator[](int) const
+	public TitanHexString_Element constGetAt(final int index_value) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a hexstring element of a non-specific hexstring template.");
 		}
 
-		return single_value.constGetAt( index_value );
+		return single_value.constGetAt(index_value);
 	}
 
-	//originally operator[](const INTEGER&) const
-	public TitanHexString_Element constGetAt( final TitanInteger index_value) {
+	// originally operator[](const INTEGER&) const
+	public TitanHexString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a hexstring template with an unbound integer value.");
 
-		return constGetAt( index_value.getInt() );
+		return constGetAt(index_value.getInt());
 	}
 
 	@Override
@@ -314,18 +314,18 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 	// originally match
 	public boolean match(final TitanHexString otherValue, final boolean legacy) {
-		if(!otherValue.isBound()) {
+		if (!otherValue.isBound()) {
 			return false;
 		}
 
 		final TitanInteger value_length = otherValue.lengthOf();
-		if(!match_length(value_length.getInt())) {
+		if (!match_length(value_length.getInt())) {
 			return false;
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals( otherValue );
+			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -333,14 +333,14 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		case STRING_PATTERN:
-			return match_pattern( pattern_value, otherValue );
+			return match_pattern(pattern_value, otherValue);
 		//TODO: implement
 		//case DECODE_MATCH:
 		default:
@@ -354,7 +354,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	 * The only differences are: how two elements are matched and
 	 * how an asterisk or ? is identified in the template
 	 */
-	private boolean match_pattern( final byte string_pattern[], final TitanHexString string_value ) {
+	private boolean match_pattern(final byte string_pattern[], final TitanHexString string_value) {
 		final int stringPatternSize = string_pattern.length;
 		final int stringValueNNibbles = string_value.getValue().length;
 		// the empty pattern matches the empty hexstring only
@@ -372,7 +372,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 
 		for (;;) {
 			pattern_element = string_pattern[ template_index ];
-			if ( pattern_element < 16 ) {
+			if (pattern_element < 16) {
 				/*
 				In titan core hexdigit is stored in 2 bytes:
 
@@ -383,22 +383,22 @@ public class TitanHexString_template extends Restricted_Length_Template {
 					hex_digit = octet & 0x0F;
 				}
 				*/
-				hex_digit = string_value.get_nibble( value_index );
-				if ( hex_digit == pattern_element ) {
+				hex_digit = string_value.get_nibble(value_index);
+				if (hex_digit == pattern_element) {
 					value_index++;
 					template_index++;
 				} else {
-					if ( last_asterisk == -1 ) {
+					if (last_asterisk == -1) {
 						return false;
 					}
 					template_index = last_asterisk + 1;
 					value_index = ++last_value_to_asterisk;
 				}
-			} else if ( pattern_element == 16 ) {
-				//?
+			} else if (pattern_element == 16) {
+				// ?
 				value_index++;
 				template_index++;
-			} else if ( pattern_element == 17 ) {
+			} else if (pattern_element == 17) {
 				//*
 				last_asterisk = template_index++;
 				last_value_to_asterisk = value_index;
@@ -406,20 +406,19 @@ public class TitanHexString_template extends Restricted_Length_Template {
 				throw new TtcnError("Internal error: invalid element in a hexstring pattern.");
 			}
 
-			if ( value_index == stringValueNNibbles && template_index == stringPatternSize ) {
+			if (value_index == stringValueNNibbles && template_index == stringPatternSize) {
 				return true;
-			} else if ( template_index == stringPatternSize ) {
-				if ( string_pattern[ template_index - 1 ] == 17 ) {
+			} else if (template_index == stringPatternSize) {
+				if (string_pattern[template_index - 1] == 17) {
 					return true;
-				} else if ( last_asterisk == -1) {
+				} else if (last_asterisk == -1) {
 					return false;
 				} else {
 					template_index = last_asterisk + 1;
 					value_index = ++last_value_to_asterisk;
 				}
-			} else if ( value_index == stringValueNNibbles ) {
-				while ( template_index < stringPatternSize
-						&& string_pattern[ template_index ] == 17 ) {
+			} else if (value_index == stringValueNNibbles) {
+				while (template_index < stringPatternSize && string_pattern[template_index] == 17) {
 					template_index++;
 				}
 
@@ -462,7 +461,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			}
 			final int item_length = value_list.get(0).lengthOf().getInt();
 			for (int i = 1; i < value_list.size(); i++) {
-				if(value_list.get(i).lengthOf().getInt() != item_length){
+				if (value_list.get(i).lengthOf().getInt() != item_length) {
 					throw new TtcnError("Performing lengthof() operation on a hexstring template containing a value list with different lengths.");
 				}
 			}
@@ -483,7 +482,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		default:
 			throw new TtcnError("Performing lengthof() operation on an uninitialized/unsupported hexstring template.");
 		}
-		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a" , "hexstring template"));
+		return new TitanInteger(check_section_is_single(min_length, has_any_or_none, "length", "a", "hexstring template"));
 	}
 
 	// originally set_type
@@ -670,7 +669,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanHexString_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanHexString_template temp = new TitanHexString_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

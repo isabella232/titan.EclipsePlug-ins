@@ -41,20 +41,20 @@ public class TitanBitString extends Base_Type {
 		n_bits = 0;
 	}
 
-	public TitanBitString( final int aOtherValue[], final int aNoBits ) {
-		bits_ptr = TitanStringUtils.copyIntegerList( aOtherValue );
+	public TitanBitString(final int aOtherValue[], final int aNoBits) {
+		bits_ptr = TitanStringUtils.copyIntegerList(aOtherValue);
 		n_bits = aNoBits;
 		clear_unused_bits();
 	}
 
-	public TitanBitString( final TitanBitString aOtherValue ) {
-		aOtherValue.mustBound( "Copying an unbound bitstring value." );
+	public TitanBitString(final TitanBitString aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound bitstring value.");
 
-		bits_ptr = TitanStringUtils.copyIntegerList( aOtherValue.bits_ptr );
+		bits_ptr = TitanStringUtils.copyIntegerList(aOtherValue.bits_ptr);
 		n_bits = aOtherValue.n_bits;
 	}
 
-	public TitanBitString( final int aValue ) {
+	public TitanBitString(final int aValue) {
 		bits_ptr = new int[1];
 		bits_ptr[0] = aValue;
 		n_bits = 8;
@@ -65,8 +65,8 @@ public class TitanBitString extends Base_Type {
 	 * @param aValue string representation of a bitstring value, without ''B, it contains only '0' and '1' characters.
 	 * NOTE: this is the way bitstring value is stored in Bitstring_Value
 	 */
-	public TitanBitString( final String aValue ) {
-		bits_ptr = bitstr2intlist( aValue );
+	public TitanBitString(final String aValue) {
+		bits_ptr = bitstr2intlist(aValue);
 		n_bits = aValue.length();
 	}
 
@@ -197,33 +197,33 @@ public class TitanBitString extends Base_Type {
 		return isBound();
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( !isBound() ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (!isBound()) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
-	//originally lengthof
+	// originally lengthof
 	public TitanInteger lengthOf() {
 		mustBound("Performing lengthof operation on an unbound bitstring value.");
 
 		return new TitanInteger(n_bits);
 	}
 
-	//originally operator==
-	public boolean operatorEquals( final TitanBitString otherValue ) {
+	// originally operator==
+	public boolean operatorEquals(final TitanBitString otherValue) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring comparison.");
 
-		return n_bits == otherValue.n_bits && Arrays.equals(bits_ptr, otherValue.bits_ptr );
+		return n_bits == otherValue.n_bits && Arrays.equals(bits_ptr, otherValue.bits_ptr);
 	}
 
-	//originally operator==
-	public boolean operatorEquals(final TitanBitString_Element otherValue){
+	// originally operator==
+	public boolean operatorEquals(final TitanBitString_Element otherValue) {
 		mustBound("Unbound left operand of bitstring comparison.");
 		otherValue.mustBound("Unbound right operand of bitstring element comparison.");
 
-		if(n_bits != 1){
+		if (n_bits != 1) {
 			return false;
 		}
 
@@ -239,13 +239,13 @@ public class TitanBitString extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
-	//originally operator!=
-	public boolean operatorNotEquals( final TitanBitString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	// originally operator!=
+	public boolean operatorNotEquals(final TitanBitString aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	//originally operator !=
-	public boolean operatorNotEquals(final TitanBitString_Element aOtherValue){
+	public boolean operatorNotEquals(final TitanBitString_Element aOtherValue) {
 		return !operatorEquals(aOtherValue);
 	}
 
@@ -308,11 +308,11 @@ public class TitanBitString extends Base_Type {
 	}
 
 	//originally operator+
-	public TitanBitString concatenate(final TitanBitString_Element otherValue){
+	public TitanBitString concatenate(final TitanBitString_Element otherValue) {
 		mustBound("Unbound left operand of bitstring concatenation.");
 		otherValue.mustBound("Unbound right operand of bitstring element");
 
-		final TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits+1);
+		final TitanBitString ret_val = new TitanBitString(bits_ptr, n_bits + 1);
 		ret_val.setBit(n_bits, otherValue.get_bit());
 
 		return ret_val;
@@ -338,8 +338,8 @@ public class TitanBitString extends Base_Type {
 		return ret_val;
 	}
 
-	//originally operator&
-	public TitanBitString and4b(final TitanBitString otherValue){
+	// originally operator&
+	public TitanBitString and4b(final TitanBitString otherValue) {
 		mustBound("Left operand of operator and4b is an unbound bitstring value.");
 		otherValue.mustBound("Right operand of operator and4b is an unbound bitstring value.");
 
@@ -362,19 +362,19 @@ public class TitanBitString extends Base_Type {
 		return ret_val;
 	}
 
-	//originally operator&
-	public TitanBitString and4b(final TitanBitString_Element otherValue){
+	// originally operator&
+	public TitanBitString and4b(final TitanBitString_Element otherValue) {
 		mustBound("Left operand of operator and4b is an unbound bitstring value.");
 		otherValue.mustBound("Right operand of operator and4b is an unbound bitstring element.");
 
-		if(n_bits != 1){
+		if (n_bits != 1) {
 			throw new TtcnError("The bitstring operands of operator and4b must have the same length.");
 		}
 
 		final int result[] = new int[1];
 		result[0] = getBit(0) && otherValue.get_bit() ? 1 : 0;
 
-		return new TitanBitString(result,1);
+		return new TitanBitString(result, 1);
 	}
 
 	// originally operator|
@@ -497,8 +497,8 @@ public class TitanBitString extends Base_Type {
 		}
 	}
 
-	//originally operator<<
-	public TitanBitString shiftLeft(final TitanInteger otherValue){
+	// originally operator<<
+	public TitanBitString shiftLeft(final TitanInteger otherValue) {
 		mustBound("Unbound bitstring operand of shift left operator.");
 
 		return shiftLeft(otherValue.getInt());
@@ -598,8 +598,8 @@ public class TitanBitString extends Base_Type {
 		}
 	}
 
-	//originally operator<<=
-	public TitanBitString rotateRight(final TitanInteger rotateCount){
+	// originally operator<<=
+	public TitanBitString rotateRight(final TitanInteger rotateCount) {
 		mustBound("Unbound bistring operand of rotate left operator.");
 
 		return this.rotateRight(rotateCount.getInt());
@@ -628,22 +628,22 @@ public class TitanBitString extends Base_Type {
 				System.arraycopy(bits_ptr, 0, temp, 0, bits_ptr.length);
 				bits_ptr = temp;
 
-				return new TitanBitString_Element( false, this, index_value );
+				return new TitanBitString_Element(false, this, index_value);
 			} else {
-				return new TitanBitString_Element( true, this, index_value );
+				return new TitanBitString_Element(true, this, index_value);
 			}
 		}
 	}
 
-	//originally operator[](const INTEGER&)
+	// originally operator[](const INTEGER&)
 	public TitanBitString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
 
-		return getAt( index_value.getInt() );
+		return getAt(index_value.getInt());
 	}
 
-	//originally operator[](int) const
-	public final TitanBitString_Element constGetAt( final int index_value ) {
+	// originally operator[](int) const
+	public final TitanBitString_Element constGetAt(final int index_value) {
 		mustBound("Accessing an element of an unbound bitstring value.");
 
 		if (index_value < 0) {
@@ -658,11 +658,11 @@ public class TitanBitString extends Base_Type {
 		return new TitanBitString_Element(true, this, index_value);
 	}
 
-	//originally operator[](const INTEGER&) const
+	// originally operator[](const INTEGER&) const
 	public final TitanBitString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring value with an unbound integer value.");
 
-		return constGetAt( index_value.getInt() );
+		return constGetAt(index_value.getInt());
 	}
 
 	public void log() {
@@ -687,7 +687,7 @@ public class TitanBitString extends Base_Type {
 		final StringBuilder result = new StringBuilder(n_bits + 2);
 		result.append('\'');
 		for (int i = 0; i < n_bits; i++) {
-			result.append(getBit(i) ? '1':'0');
+			result.append(getBit(i) ? '1' : '0');
 		}
 		result.append('\'');
 
@@ -769,14 +769,14 @@ public class TitanBitString extends Base_Type {
 			raw_order_t order;
 			switch (p_td.raw.top_bit_order) {
 			case TOP_BIT_LEFT:
-				order=raw_order_t.ORDER_LSB;
+				order = raw_order_t.ORDER_LSB;
 				break;
 			case TOP_BIT_RIGHT:
 			default:
 				order = raw_order_t.ORDER_MSB;
 			}
-			if(RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
-				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received" , p_td.name);
+			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
 
 			errorContext.leaveContext();
@@ -873,7 +873,7 @@ public class TitanBitString extends Base_Type {
 		final char[] tmp_bits = new char[bits_ptr.length];
 		buff.get_b(decode_length, tmp_bits, cp, top_bit_ord);
 		for (int i = 0; i < tmp_bits.length; i++) {
-			bits_ptr[i] = (int) tmp_bits[i] ;
+			bits_ptr[i] = (int) tmp_bits[i];
 		}
 		if (p_td.raw.length_restrition != -1
 				&& decode_length > p_td.raw.length_restrition) {
@@ -884,9 +884,9 @@ public class TitanBitString extends Base_Type {
 					final int maxindex = (decode_length - 1) / 8;
 					for (int a = 0, b = (decode_length - n_bits - 1) / 8; a < (n_bits + 7) / 8; a++, b++) {
 						bits_ptr[a] = bits_ptr[b] >> bound;
-					if (b < maxindex) {
-						bits_ptr[a] = bits_ptr[b + 1] << (8 - bound);
-					}
+						if (b < maxindex) {
+							bits_ptr[a] = bits_ptr[b + 1] << (8 - bound);
+						}
 					}
 				} else {
 					System.arraycopy(bits_ptr, (decode_length - n_bits) / 8, bits_ptr, 0, n_bits / 8);

@@ -154,7 +154,7 @@ public abstract class Base_Template {
 	}
 
 	public boolean get_istemplate_kind(final String type) {
-		if("value".equals(type)) {
+		if ("value".equals(type)) {
 			return isValue();
 		} else if ("list".equals(type)) {
 			return templateSelection == template_sel.VALUE_LIST;
@@ -183,7 +183,7 @@ public abstract class Base_Template {
 				"permutation".equals(type) || "length".equals(type)) {
 			return false;
 		}
-		throw new TtcnError( MessageFormat.format( "Incorrect second parameter ({0}) was passed to istemplatekind.", type ) );
+		throw new TtcnError(MessageFormat.format( "Incorrect second parameter ({0}) was passed to istemplatekind.", type));
 	}
 
 	protected boolean get_istemplate_kind(final TitanCharString type) {

@@ -22,14 +22,14 @@ public class TitanUniversalChar {
 	private char uc_row;
 	private char uc_cell;
 
-	public TitanUniversalChar( final char uc_group, final char uc_plane, final char uc_row, final char uc_cell ) {
+	public TitanUniversalChar(final char uc_group, final char uc_plane, final char uc_row, final char uc_cell) {
 		this.uc_group = uc_group;
 		this.uc_plane = uc_plane;
 		this.uc_row = uc_row;
 		this.uc_cell = uc_cell;
 	}
 
-	public TitanUniversalChar( final TitanUniversalChar uc ) {
+	public TitanUniversalChar(final TitanUniversalChar uc) {
 		this.uc_group = uc.uc_group;
 		this.uc_plane = uc.uc_plane;
 		this.uc_row = uc.uc_row;
@@ -45,15 +45,15 @@ public class TitanUniversalChar {
 	}
 
 	//originally boolean operator==(const universal_char& left_value, const universal_char& right_value)
-	public static boolean operatorEquals( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
+	public static boolean operatorEquals(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		return left_value.getUc_group() == right_value.getUc_group() &&
 				left_value.getUc_plane() == right_value.getUc_plane() &&
 				left_value.getUc_row() == right_value.getUc_row() &&
 				left_value.getUc_cell() == right_value.getUc_cell();
 	}
 
-	public boolean operatorEquals( final TitanUniversalChar right_value ) {
-		return operatorEquals( this, right_value );
+	public boolean operatorEquals(final TitanUniversalChar right_value) {
+		return operatorEquals(this, right_value);
 	}
 
 	// originally inline boolean operator!=(const universal_char& uchar_value, const universal_char& other_value)
@@ -62,7 +62,7 @@ public class TitanUniversalChar {
 	}
 
 	//originally boolean operator<(const universal_char& left_value, const universal_char& right_value)
-	public static TitanBoolean lessThan( final TitanUniversalChar left_value, final TitanUniversalChar right_value ) {
+	public static TitanBoolean lessThan(final TitanUniversalChar left_value, final TitanUniversalChar right_value) {
 		if (left_value.getUc_group() < right_value.getUc_group()) {
 			return new TitanBoolean(true);
 		} else if (left_value.getUc_group() == right_value.getUc_group()) {
@@ -88,8 +88,8 @@ public class TitanUniversalChar {
 		}
 	}
 
-	public TitanBoolean lessThan( final TitanUniversalChar right_value ) {
-		return lessThan( this, right_value );
+	public TitanBoolean lessThan(final TitanUniversalChar right_value) {
+		return lessThan(this, right_value);
 	}
 
 	public char getUc_group() {
@@ -124,9 +124,9 @@ public class TitanUniversalChar {
 		arr[2] = (byte)uc_row;
 		arr[3] = (byte)uc_cell;
 		try {
-			return new String( arr, "UTF-32" );
+			return new String(arr, "UTF-32");
 		} catch (UnsupportedEncodingException e) {
-			throw new TtcnError( MessageFormat.format( "Cannot decode quadruple: {0}, {1}, {2}, {3}", uc_group, uc_plane, uc_row, uc_cell ) );
+			throw new TtcnError(MessageFormat.format("Cannot decode quadruple: {0}, {1}, {2}, {3}", uc_group, uc_plane, uc_row, uc_cell));
 		}
 	}
 }

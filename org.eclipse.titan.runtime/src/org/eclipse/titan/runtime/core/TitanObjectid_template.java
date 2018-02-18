@@ -364,7 +364,7 @@ public class TitanObjectid_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanObjectid_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanObjectid_template temp = new TitanObjectid_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

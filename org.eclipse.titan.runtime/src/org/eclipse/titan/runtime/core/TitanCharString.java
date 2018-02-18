@@ -33,33 +33,33 @@ public class TitanCharString extends Base_Type {
 		super();
 	}
 
-	public TitanCharString( final StringBuilder aOtherValue ) {
-		val_ptr = new StringBuilder( aOtherValue );
+	public TitanCharString(final StringBuilder aOtherValue) {
+		val_ptr = new StringBuilder(aOtherValue);
 	}
 
-	public TitanCharString( final String aOtherValue ) {
-		copyValue( aOtherValue );
+	public TitanCharString(final String aOtherValue) {
+		copyValue(aOtherValue);
 	}
 
-	public TitanCharString( final TitanCharString aOtherValue ) {
-		aOtherValue.mustBound( "Copying an unbound charstring value." );
+	public TitanCharString(final TitanCharString aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound charstring value.");
 
 		val_ptr = new StringBuilder(aOtherValue.val_ptr);
 	}
 
-	//originally char*()
+	// originally char*()
 	public StringBuilder getValue() {
 		mustBound("Getting an unbound charstring value as string.");
 
 		return val_ptr;
 	}
 
-	private void copyValue( final String aOtherValue ) {
-		val_ptr = new StringBuilder( aOtherValue );
+	private void copyValue(final String aOtherValue) {
+		val_ptr = new StringBuilder(aOtherValue);
 	}
 
-	private void copyValue( final StringBuilder aOtherValue ) {
-		val_ptr = new StringBuilder( aOtherValue );
+	private void copyValue(final StringBuilder aOtherValue) {
+		val_ptr = new StringBuilder(aOtherValue);
 	}
 
 	// originally operator=
@@ -76,12 +76,12 @@ public class TitanCharString extends Base_Type {
 		return this;
 	}
 
-	//originally operator=
-	public TitanCharString assign( final TitanCharString aOtherValue ) {
-		aOtherValue.mustBound( "Assignment of an unbound charstring value." );
+	// originally operator=
+	public TitanCharString assign(final TitanCharString aOtherValue) {
+		aOtherValue.mustBound("Assignment of an unbound charstring value.");
 
 		if (aOtherValue != this) {
-			copyValue( aOtherValue.val_ptr );
+			copyValue(aOtherValue.val_ptr);
 		}
 
 		return this;
@@ -102,15 +102,15 @@ public class TitanCharString extends Base_Type {
 
 	public boolean isPresent() {
 		return isBound();
-	};
+	}
 
 	public boolean isValue() {
 		return val_ptr != null;
 	}
 
-	public void mustBound( final String aErrorMessage ) {
-		if ( val_ptr == null ) {
-			throw new TtcnError( aErrorMessage );
+	public void mustBound(final String aErrorMessage) {
+		if (val_ptr == null) {
+			throw new TtcnError(aErrorMessage);
 		}
 	}
 
@@ -432,9 +432,9 @@ public class TitanCharString extends Base_Type {
 		return false;
 	}
 
-	//originally operator!=
-	public boolean operatorNotEquals( final TitanCharString aOtherValue ) {
-		return !operatorEquals( aOtherValue );
+	// originally operator!=
+	public boolean operatorNotEquals(final TitanCharString aOtherValue) {
+		return !operatorEquals(aOtherValue);
 	}
 
 	public void cleanUp() {
@@ -549,22 +549,22 @@ public class TitanCharString extends Base_Type {
 			}
 			if (index_value == n_nibbles) {
 				val_ptr.setLength(index_value + 1);
-				return new TitanCharString_Element( false, this, index_value );
+				return new TitanCharString_Element(false, this, index_value);
 			} else {
-				return new TitanCharString_Element( true, this, index_value );
+				return new TitanCharString_Element(true, this, index_value);
 			}
 		}
 	}
 
-	//originally operator[](const INTEGER&)
+	// originally operator[](const INTEGER&)
 	public TitanCharString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring value with an unbound integer value.");
 
-		return getAt( index_value.getInt() );
+		return getAt(index_value.getInt());
 	}
 
-	//originally operator[](int) const
-	public TitanCharString_Element constGetAt( final int index_value ) {
+	// originally operator[](int) const
+	public TitanCharString_Element constGetAt(final int index_value) {
 		mustBound("Accessing an element of an unbound charstring value.");
 
 		if (index_value < 0) {
@@ -580,16 +580,16 @@ public class TitanCharString extends Base_Type {
 		return new TitanCharString_Element(true, this, index_value);
 	}
 
-	//originally operator[](const INTEGER&) const
-	public TitanCharString_Element constGetAt( final TitanInteger index_value ) {
+	// originally operator[](const INTEGER&) const
+	public TitanCharString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a charstring value with an unbound integer value.");
 
-		return constGetAt( index_value.getInt() );
+		return constGetAt(index_value.getInt());
 	}
 
 	@Override
 	public String toString() {
-		if ( val_ptr == null ) {
+		if (val_ptr == null) {
 			return "<unbound>";
 		}
 
@@ -644,18 +644,18 @@ public class TitanCharString extends Base_Type {
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		int bl = val_ptr.length() * 8; // bit length
 		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
-		if(!isBound()) {
+		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
-		if((bl + align_length) < val_ptr.length() * 8) {
+		if ((bl + align_length) < val_ptr.length() * 8) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: ", p_td.name);
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		if(myleaf.must_free) {
+		if (myleaf.must_free) {
 			myleaf.data_ptr = null;
 		}
-		if(p_td.raw.fieldlength >= 0) {
+		if (p_td.raw.fieldlength >= 0) {
 			myleaf.must_free = false;
 			myleaf.data_ptr_used = true;
 			myleaf.data_ptr = val_ptr.toString().toCharArray();
@@ -670,7 +670,7 @@ public class TitanCharString extends Base_Type {
 			myleaf.data_ptr_used = true;
 			bl += 8;
 		}
-		if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {
 			myleaf.align = align_length;
@@ -682,8 +682,8 @@ public class TitanCharString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength <= 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
-		if(decode_length > limit || decode_length > buff.unread_len_bit()) {
-			if(no_err) {
+		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
+			if (no_err) {
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
@@ -692,24 +692,24 @@ public class TitanCharString extends Base_Type {
 
 		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
-		if(p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
 		}
-		if(p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
 			orders = !orders;
 		}
 		cp.bitorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 		orders = false;
-		if(p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.byteorder == raw_order_t.ORDER_MSB) {
 			orders = true;
 		}
-		if(p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
+		if (p_td.raw.bitorderinfield == raw_order_t.ORDER_MSB) {
 			orders = !orders;
 		}
 		cp.byteorder = orders ? raw_order_t.ORDER_MSB : raw_order_t.ORDER_LSB;
 		cp.fieldorder = p_td.raw.fieldorder;
 		cp.hexorder = raw_order_t.ORDER_LSB;
-		if(p_td.raw.fieldlength >= 0) {
+		if (p_td.raw.fieldlength >= 0) {
 			cleanUp();
 			val_ptr = new StringBuilder(decode_length / 8);
 			final char[] val_tmp = new char[decode_length / 8];
@@ -723,25 +723,25 @@ public class TitanCharString extends Base_Type {
 			ch[0] = 0;
 			int str_len = 0;
 			int null_found = 0;
-			while(str_len < decode_length) {
+			while (str_len < decode_length) {
 				buff.get_b(8, ch, cp, top_bit_ord);
-				if(ch[0] == 0) {
+				if (ch[0] == 0) {
 					null_found = 1;
 					break;
 				}
 				temp_buff.put_c(ch[0]);
 				str_len += 8;
 			}
-			if(null_found == 0) {
+			if (null_found == 0) {
 				return -1;
 			}
 			temp_buff.get_string(this);
 			decode_length = str_len + 8;
 		}
 		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
-			if(p_td.raw.endianness == raw_order_t.ORDER_MSB) {
-				//TODO: need to check
-				val_ptr.insert(0, val_ptr.toString().toCharArray() , 0, val_ptr.length());
+			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+				// TODO: need to check
+				val_ptr.insert(0, val_ptr.toString().toCharArray(), 0, val_ptr.length());
 			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);

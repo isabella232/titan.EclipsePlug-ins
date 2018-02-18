@@ -59,7 +59,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanAsn_Null_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanAsn_Null_template temp = new TitanAsn_Null_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -84,8 +84,8 @@ public class TitanAsn_Null_template extends Base_Template {
 		templateSelection = template_sel.UNINITIALIZED_TEMPLATE;
 	}
 
-	//originally operator=
-	public TitanAsn_Null_template assign( final template_sel otherValue ) {
+	// originally operator=
+	public TitanAsn_Null_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -93,8 +93,8 @@ public class TitanAsn_Null_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanAsn_Null_template assign( final TitanAsn_Null otherValue ) {
+	// originally operator=
+	public TitanAsn_Null_template assign(final TitanAsn_Null otherValue) {
 		if (!otherValue.isBound()) {
 			throw new TtcnError("Assignment of an unbound ASN.1 NULL value to a template.");
 		}
@@ -124,8 +124,8 @@ public class TitanAsn_Null_template extends Base_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to ASN.1 NULL type", match_value));
 	}
 
-	//originally operator=
-	public TitanAsn_Null_template assign( final TitanAsn_Null_template otherValue ) {
+	// originally operator=
+	public TitanAsn_Null_template assign(final TitanAsn_Null_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -173,13 +173,13 @@ public class TitanAsn_Null_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
-		case STRING_PATTERN:{
+		case STRING_PATTERN: {
 			//TODO: implement
 		}
 		default:
@@ -206,8 +206,8 @@ public class TitanAsn_Null_template extends Base_Template {
 	}
 
 	//originally set_type
-	public void setType(final template_sel templateType, final int listLength){
-		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST){
+	public void setType(final template_sel templateType, final int listLength) {
+		if (templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Setting an invalid list type for a template of ASN.1 NULL type.");
 		}
 

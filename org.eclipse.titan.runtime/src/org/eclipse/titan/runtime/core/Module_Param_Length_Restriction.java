@@ -23,16 +23,16 @@ public class Module_Param_Length_Restriction {
 		max = 0;
 	}
 
-	public void set_single( final int p_single ) {
+	public void set_single(final int p_single) {
 		has_max = true;
 		min = max = p_single;
 	}
 
-	public void set_min( final int p_min ) {
-		min=p_min;
+	public void set_min(final int p_min) {
+		min = p_min;
 	}
 
-	public void set_max( final int p_max ) {
+	public void set_max(final int p_max) {
 		has_max = true;
 		max = p_max;
 	}
@@ -50,7 +50,7 @@ public class Module_Param_Length_Restriction {
 	}
 
 	public boolean is_single() {
-		return has_max && min==max;
+		return has_max && min == max;
 	}
 
 	public void log() {

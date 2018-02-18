@@ -320,7 +320,7 @@ public final class AdditionalFunctions {
 			tmp_value >>= 8;
 		}
 		if (tmp_value != 0) {
-			throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" :""));
+			throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}.", value, length, length > 1 ? "s" : ""));
 		}
 		return new TitanOctetString(octets_ptr);
 	}
@@ -357,7 +357,7 @@ public final class AdditionalFunctions {
 					tmp_val = tmp_val.shiftRight(8);
 					i++;
 				}
-				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}, needs at least {3}.", value, length, length > 1 ? "s" :"", length + i));
+				throw new TtcnError(MessageFormat.format("The first argument of function int2oct(), which is {0}, does not fit in {1} octet{2}, needs at least {3}.", value, length, length > 1 ? "s" : "", length + i));
 			}
 
 			return new TitanOctetString(octets_ptr);
@@ -424,7 +424,7 @@ public final class AdditionalFunctions {
 	// C.9 - char2int
 	public static TitanInteger char2int(final char value) {
 		if (value > 127) {
-			throw new TtcnError(MessageFormat.format("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.", value) );
+			throw new TtcnError(MessageFormat.format("The argument of function char2int() contains a character with character code {0}, which is outside the allowed range 0 .. 127.", value));
 		}
 		return new TitanInteger((int) value);
 	}
@@ -748,13 +748,13 @@ public final class AdditionalFunctions {
 
 		final byte nibbles_ptr[] = value.getValue();
 		for (int i = 0; i < n_nibbles - 1; i += 2) {
-			int temp = nibble_reverse_table[nibbles_ptr[i+1]];
+			int temp = nibble_reverse_table[nibbles_ptr[i + 1]];
 			temp <<= 4;
 			temp = (int) (temp | nibble_reverse_table[nibbles_ptr[i]]);
 
 			bits_ptr[i / 2] = temp;
 		}
-		if((n_nibbles & 1) == 1) {
+		if ((n_nibbles & 1) == 1) {
 			bits_ptr[n_nibbles / 2] = nibble_reverse_table[nibbles_ptr[n_nibbles - 1]];
 		}
 
@@ -1170,16 +1170,16 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function str2float() is an unbound charstring value.");
 
 		final int value_len = value.lengthOf().getInt();
-		if(value_len == 0) {
+		if (value_len == 0) {
 			throw new TtcnError("The argument of function str2float() is an empty string, which does not represent a valid float value.");
 		}
-		if(value.operatorEquals("infinity")) {
+		if (value.operatorEquals("infinity")) {
 			return new TitanFloat(Double.POSITIVE_INFINITY);
 		}
-		if(value.operatorEquals("-infinity")) {
+		if (value.operatorEquals("-infinity")) {
 			return new TitanFloat(Double.NEGATIVE_INFINITY);
 		}
-		if(value.operatorEquals("not_a_number")) {
+		if (value.operatorEquals("not_a_number")) {
 			return new TitanFloat(Double.NaN);
 		}
 		final StringBuilder value_str = value.getValue();
@@ -1202,29 +1202,29 @@ public final class AdditionalFunctions {
 			final char c = value_str.charAt(i);
 			switch (state) {
 			case S_INITIAL:
-				if(c == '+' || c == '-') {
+				if (c == '+' || c == '-') {
 					state = str2floatState.S_FIRST_M;
-				} else if(c == '0') {
+				} else if (c == '0') {
 					state = str2floatState.S_ZERO_M;
-				} else if(c >= '1' && c <= '9') {
+				} else if (c >= '1' && c <= '9') {
 					state = str2floatState.S_MORE_M;
-				} else if(Character.isWhitespace(c)) {
+				} else if (Character.isWhitespace(c)) {
 					leading_ws = true;
 				} else {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			case S_FIRST_M: // first mantissa digit
-				if(c == '0') {
+				if (c == '0') {
 					state = str2floatState.S_ZERO_M;
-				} else if(c >= '1' && c <= '9') {
+				} else if (c >= '1' && c <= '9') {
 					state = str2floatState.S_MORE_M;
 				} else {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			case S_ZERO_M: // leading mantissa zero
-				if(c == '.') {
+				if (c == '.') {
 					state = str2floatState.S_FIRST_F;
 				} else if (c == 'E' || c == 'e'){
 					state = str2floatState.S_INITIAL_E;
@@ -1236,17 +1236,17 @@ public final class AdditionalFunctions {
 				}
 				break;
 			case S_MORE_M:
-				if(c == '.') {
+				if (c == '.') {
 					state = str2floatState.S_FIRST_F;
 				} else if (c == 'E' || c == 'e') {
 					state = str2floatState.S_INITIAL_E;
-				} else if(c >= '0' && c <= '9') {}
-				else {
+				} else if (c >= '0' && c <= '9') {
+				} else {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			case S_FIRST_F:
-				if(c >= '0' && c <= '9') {
+				if (c >= '0' && c <= '9') {
 					state = str2floatState.S_MORE_F;
 				} else {
 					state = str2floatState.S_ERR;
@@ -1255,8 +1255,8 @@ public final class AdditionalFunctions {
 			case S_MORE_F:
 				if (c == 'E' || c == 'e') {
 					state = str2floatState.S_INITIAL_E;
-				} else if (c >= '0' && c <= '9') {}
-				else if(Character.isWhitespace(c)) {
+				} else if (c >= '0' && c <= '9') {
+				} else if (Character.isWhitespace(c)) {
 					state = str2floatState.S_END;
 				} else {
 					state = str2floatState.S_ERR;
@@ -1265,18 +1265,18 @@ public final class AdditionalFunctions {
 			case S_INITIAL_E:
 				if (c == '+' || c == '-') {
 					state = str2floatState.S_FIRST_E;
-				} else if(c == '0') {
+				} else if (c == '0') {
 					state = str2floatState.S_ZERO_E;
-				} else if(c >= '1' && c <= '9') {
+				} else if (c >= '1' && c <= '9') {
 					state = str2floatState.S_MORE_E;
 				} else {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			case S_FIRST_E:
-				if(c == '0') {
+				if (c == '0') {
 					state = str2floatState.S_ZERO_E;
-				} else if(c >= '1' && c <= '9') {
+				} else if (c >= '1' && c <= '9') {
 					state = str2floatState.S_MORE_E;
 				} else {
 					state = str2floatState.S_ERR;
@@ -1286,29 +1286,29 @@ public final class AdditionalFunctions {
 				if (c >= '0' && c <= '9') {
 					leading_zero = true;
 					state = str2floatState.S_MORE_E;
-				} else if(Character.isWhitespace(c)) {
+				} else if (Character.isWhitespace(c)) {
 					state = str2floatState.S_END;
 				} else {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			case S_MORE_E:
-				if (c >= '0' && c <= '9') {}
-				else if(Character.isWhitespace(c)) {
+				if (c >= '0' && c <= '9') {
+				} else if (Character.isWhitespace(c)) {
 					state = str2floatState.S_END;
 				} else {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			case S_END:
-				if(Character.isWhitespace(c)) {
+				if (Character.isWhitespace(c)) {
 					state = str2floatState.S_ERR;
 				}
 				break;
 			default:
 				break;
 			}
-			if(state == str2floatState.S_ERR) {
+			if (state == str2floatState.S_ERR) {
 				TtcnError.TtcnErrorBegin("The argument of function str2float() which is ");
 				value.log();
 				TtcnLogger.log_event_str("' , does not represent a valid float value. Invalid character ");
@@ -1336,19 +1336,19 @@ public final class AdditionalFunctions {
 			TtcnLogger.log_event_str("' , does not represent a valid float value. Premature end of the string.");
 			TtcnError.TtcnErrorEnd();
 		}
-		if(leading_ws) {
+		if (leading_ws) {
 			TtcnError.TtcnWarningBegin("Leading whitespace was detected in the argument of function str2float(): ");
 			value.log();
 			TtcnLogger.log_char('.');
 			TtcnError.TtcnWarningEnd();
 		}
-		if(leading_zero) {
+		if (leading_zero) {
 			TtcnError.TtcnWarningBegin("Leading zero digit was detected in the argument of function str2float(): ");
 			value.log();
 			TtcnLogger.log_char('.');
 			TtcnError.TtcnWarningEnd();
 		}
-		if(state == str2floatState.S_END) {
+		if (state == str2floatState.S_END) {
 			TtcnError.TtcnWarningBegin("Trailing whitespace was detected in the argument of function str2float(): ");
 			value.log();
 			TtcnLogger.log_char('.');
@@ -1360,32 +1360,32 @@ public final class AdditionalFunctions {
 
 	// C.34 - substr
 	public static void check_substr_arguments(final int value_length, final int idx, final int returncount, final String string_type, final String element_name) {
-		if(idx < 0) {
+		if (idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
 		}
-		if(idx > value_length) {
-			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr(), which is {0} , is greater than the length of the {1} value: {2}.", idx, string_type , value_length));
+		if (idx > value_length) {
+			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr(), which is {0} , is greater than the length of the {1} value: {2}.", idx, string_type, value_length));
 		}
-		if(returncount < 0) {
+		if (returncount < 0) {
 			throw new TtcnError(MessageFormat.format("The third argument (returncount) of function substr() is a negative integer value: {0}.", returncount));
 		}
-		if(idx + returncount > value_length) {
+		if (idx + returncount > value_length) {
 			throw new TtcnError(MessageFormat.format("The first argument of function substr(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
 					value_length, element_name, idx, returncount, element_name, returncount > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
 		}
 	}
 
 	public static void check_substr_arguments(final int idx, final int returncount, final String string_type, final String element_name) {
-		if(idx < 0) {
+		if (idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr() is a negative integer value: {0}.", idx));
 		}
-		if(idx > 1) {
+		if (idx > 1) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function substr(), which is {0}, is greater than 1 (i.e. the length of the {1} element).", idx, string_type));
 		}
-		if(returncount < 0) {
+		if (returncount < 0) {
 			throw new TtcnError(MessageFormat.format("The third argument (returncount) of function substr() is a negative integer value: {0}.", returncount));
 		}
-		if(idx + returncount > 1) {
+		if (idx + returncount > 1) {
 			throw new TtcnError(MessageFormat.format("The first argument of function substr(), which is a{0} {1} element, does not have enough {2}s starting at index {3}: {4} {5}{6} needed, but there is only {7}.",
 					string_type.charAt(0) == 'o' ? "n" : "", string_type, element_name, idx, returncount, element_name, returncount > 1 ? "s are" : " is", 1 - idx));
 		}
@@ -1700,7 +1700,7 @@ public final class AdditionalFunctions {
 
 	//subString() on templates
 	public static TitanBitString subString(final TitanBitString_template value, final int idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1708,7 +1708,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanBitString subString(final TitanBitString_template value, final int idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1716,7 +1716,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1724,7 +1724,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanBitString subString(final TitanBitString_template value, final TitanInteger idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1732,7 +1732,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanHexString subString(final TitanHexString_template value, final int idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1740,7 +1740,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanHexString subString(final TitanHexString_template value, final int idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1748,7 +1748,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanHexString subString(final TitanHexString_template value, final TitanInteger idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1764,7 +1764,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1772,7 +1772,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString subString(final TitanOctetString_template value, final int idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1780,7 +1780,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1788,7 +1788,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString subString(final TitanOctetString_template value, final TitanInteger idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1796,7 +1796,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString subString(final TitanCharString_template value, final int idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1804,7 +1804,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString subString(final TitanCharString_template value, final int idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1812,7 +1812,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString subString(final TitanCharString_template value, final TitanInteger idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1820,7 +1820,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanCharString subString(final TitanCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1828,7 +1828,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1836,7 +1836,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final int idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1844,7 +1844,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final TitanInteger idx, final int returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1852,7 +1852,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanUniversalCharString subString(final TitanUniversalCharString_template value, final TitanInteger idx, final TitanInteger returncount) {
-		if(!value.isValue()) {
+		if (!value.isValue()) {
 			throw new TtcnError("The first argument of function substr() is a template with non-specific value.");
 		}
 
@@ -1862,20 +1862,20 @@ public final class AdditionalFunctions {
 	// C.35 - replace
 
 	public static void check_replace_arguments(final int value_length, final int idx, final int len, final String string_type, final String element_name) {
-		if(idx < 0) {
+		if (idx < 0) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace() is a negative integer value: {0}.", idx));
 		}
-		if(idx > value_length) {
+		if (idx > value_length) {
 			throw new TtcnError(MessageFormat.format("The second argument (index) of function replace(), which is {0}, is greater than the length of the {1} value: {2}.",
 					idx, string_type, value_length));
 		}
-		if(len < 0) {
-			throw new TtcnError(MessageFormat.format("The third argument (len) of function replace() is a negative integer value: {0}." , len));
+		if (len < 0) {
+			throw new TtcnError(MessageFormat.format("The third argument (len) of function replace() is a negative integer value: {0}.", len));
 		}
-		if(len > value_length) {
+		if (len > value_length) {
 			throw new TtcnError(MessageFormat.format("The third argument (len) of function replace(), which is {0}, is greater than the length of the {1} value: {2}.", len, string_type, value_length));
 		}
-		if(idx + len > value_length) {
+		if (idx + len > value_length) {
 			throw new TtcnError(MessageFormat.format("The first argument of function replace(), the length of which is {0}, does not have enough {1}s starting at index {2}: {3} {4}{5} needed, but there {6} only {7}.",
 					value_length, element_name, idx, len, element_name, len > 1 ? "s are" : " is", value_length - idx > 1 ? "are" : "is", value_length - idx));
 		}
@@ -2445,13 +2445,15 @@ public final class AdditionalFunctions {
 	// float2str
 	public static TitanCharString float2str(final Ttcn3Float value) {
 		//differnce between java and c++
-		if(Double.isNaN(value.getValue())) {
+		if (Double.isNaN(value.getValue())) {
 			return new TitanCharString("not_a_number");
-		} else if(value.getValue() == Double.NEGATIVE_INFINITY) {
+		} else if (value.getValue() == Double.NEGATIVE_INFINITY) {
 			return new TitanCharString("-infinity");
-		} else if(value.getValue() == Double.POSITIVE_INFINITY) {
+		} else if (value.getValue() == Double.POSITIVE_INFINITY) {
 			return new TitanCharString("infinity");
-		} else if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
+		} else if (value.getValue() == 0.0
+				|| (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT)
+				|| (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT)) {
 			return new TitanCharString(String.format("%f", value.getValue()));
 		} else {
 			return new TitanCharString(String.format("%e", value.getValue()));
@@ -2462,13 +2464,15 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function float2str() is an unbound float value.");
 
 		//differnce between java and c++
-		if(value.getValue().isNaN()) {
+		if (value.getValue().isNaN()) {
 			return new TitanCharString("not_a_number");
-		} else if(value.getValue() == Double.NEGATIVE_INFINITY) {
+		} else if (value.getValue() == Double.NEGATIVE_INFINITY) {
 			return new TitanCharString("-infinity");
-		} else if(value.getValue() == Double.POSITIVE_INFINITY) {
+		} else if (value.getValue() == Double.POSITIVE_INFINITY) {
 			return new TitanCharString("infinity");
-		} else if(value.getValue() == 0.0 || (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT) || (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT) ) {
+		} else if (value.getValue() == 0.0
+				|| (value.getValue() > -TitanFloat.MAX_DECIMAL_FLOAT && value.getValue() <= -TitanFloat.MIN_DECIMAL_FLOAT)
+				|| (value.getValue() >= TitanFloat.MIN_DECIMAL_FLOAT && value.getValue() < TitanFloat.MAX_DECIMAL_FLOAT)) {
 			return new TitanCharString(String.format("%f", value.getValue()));
 		} else {
 			return new TitanCharString(String.format("%e", value.getValue()));
@@ -2489,7 +2493,7 @@ public final class AdditionalFunctions {
 				final TitanUniversalChar uchar = uchars_ptr.get(i);
 				if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
 					throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. "
-							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}." ,
+							+ "char(0, 0, 0, 127), but quadruple char({0}, {1}, {2}, {3}) was found at index {4}.",
 							uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row(),i));
 				}
 				ret_val.append((char) uchar.getUc_cell());
@@ -2505,7 +2509,7 @@ public final class AdditionalFunctions {
 		final TitanUniversalChar uchar = value.get_char();
 		if (uchar.getUc_group() != 0 || uchar.getUc_plane() != 0 || uchar.getUc_row() != 0 || uchar.getUc_cell() > 127) {
 			throw new TtcnError(MessageFormat.format("The characters in the argument of function unichar2char() shall be within the range char(0, 0, 0, 0) .. char(0, 0, 0, 127), "
-					+ "but the given universal charstring element contains the quadruple char({0}, {1}, {2}, {3})." , uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row()));
+					+ "but the given universal charstring element contains the quadruple char({0}, {1}, {2}, {3}).", uchar.getUc_group(),uchar.getUc_plane(),uchar.getUc_row(),uchar.getUc_row()));
 		}
 
 		return new TitanCharString(String.valueOf(uchar.getUc_cell()));

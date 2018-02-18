@@ -24,7 +24,7 @@ public class TitanGraphicString extends TitanUniversalCharString {
 		final ArrayList<TitanUniversalChar> ucstr = new ArrayList<TitanUniversalChar>(len);
 
 		for (int i = 0; i < len; i++) {
-			ucstr.add(new TitanUniversalChar((char)0, (char)0 , (char)0, osstr[i]));
+			ucstr.add(new TitanUniversalChar((char) 0, (char) 0, (char) 0, osstr[i]));
 		}
 
 		return new TitanGraphicString(ucstr);

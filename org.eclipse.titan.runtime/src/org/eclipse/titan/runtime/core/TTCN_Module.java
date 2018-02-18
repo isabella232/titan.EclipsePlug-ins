@@ -16,7 +16,9 @@ package org.eclipse.titan.runtime.core;
  */
 public class TTCN_Module {
 	//originally module_type_enum
-	public static enum moduleTypeEnum {TTCN3_MODULE, ASN1_MODULE};
+	public static enum moduleTypeEnum {
+		TTCN3_MODULE, ASN1_MODULE
+	};
 
 	private final moduleTypeEnum moduleType;
 	public final String name;

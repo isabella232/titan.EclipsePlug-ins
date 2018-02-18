@@ -36,7 +36,7 @@ public class TitanVerdictType_template extends Base_Template {
 	public TitanVerdictType_template(final VerdictTypeEnum otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		if (!TitanVerdictType.isValid(otherValue)) {
-			throw new TtcnError("Creating a template from an invalid verdict value ("+otherValue+").");
+			throw new TtcnError("Creating a template from an invalid verdict value (" + otherValue + ").");
 		}
 
 		single_value = new TitanVerdictType(otherValue);
@@ -100,7 +100,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally operator=
-	public TitanVerdictType_template assign( final template_sel otherValue ) {
+	public TitanVerdictType_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -108,10 +108,10 @@ public class TitanVerdictType_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanVerdictType_template assign( final VerdictTypeEnum otherValue ) {
-		if (!TitanVerdictType.isValid( otherValue ) ) {
-			throw new TtcnError("Assignment of an invalid verdict value ("+otherValue+") to a template.");
+	// originally operator=
+	public TitanVerdictType_template assign(final VerdictTypeEnum otherValue) {
+		if (!TitanVerdictType.isValid(otherValue)) {
+			throw new TtcnError("Assignment of an invalid verdict value (" + otherValue + ") to a template.");
 		}
 
 		cleanUp();
@@ -121,19 +121,19 @@ public class TitanVerdictType_template extends Base_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanVerdictType_template assign( final TitanVerdictType otherValue ) {
+	// originally operator=
+	public TitanVerdictType_template assign(final TitanVerdictType otherValue) {
 		otherValue.mustBound("Assignment of an unbound verdict value to a template.");
 
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
-		copyValue( otherValue );
+		copyValue(otherValue);
 
 		return this;
 	}
 
-	//originally operator=
-	public TitanVerdictType_template assign( final Optional<TitanVerdictType> otherValue ) {
+	// originally operator=
+	public TitanVerdictType_template assign(final Optional<TitanVerdictType> otherValue) {
 		cleanUp();
 		switch (otherValue.getSelection()) {
 		case OPTIONAL_PRESENT:
@@ -149,7 +149,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally operator=
-	public TitanVerdictType_template assign( final TitanVerdictType_template otherValue ) {
+	public TitanVerdictType_template assign(final TitanVerdictType_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -177,7 +177,7 @@ public class TitanVerdictType_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanVerdictType_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanVerdictType_template temp = new TitanVerdictType_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -214,9 +214,9 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally boolean VERDICTTYPE_template::match(verdicttype other_value, boolean legacy ) const
-	public boolean match( final VerdictTypeEnum otherValue, final boolean legacy ) {
-		if ( !TitanVerdictType.isValid( otherValue ) ) {
-			throw new TtcnError("Matching a verdict template with an invalid value ("+otherValue+").");
+	public boolean match(final VerdictTypeEnum otherValue, final boolean legacy) {
+		if (!TitanVerdictType.isValid(otherValue)) {
+			throw new TtcnError("Matching a verdict template with an invalid value (" + otherValue + ").");
 		}
 
 		switch (templateSelection) {
@@ -229,8 +229,8 @@ public class TitanVerdictType_template extends Base_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
@@ -241,7 +241,7 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	//originally boolean VERDICTTYPE_template::match(const VERDICTTYPE& other_value, boolean legacy) const
-	public boolean match( final TitanVerdictType other_value, final boolean legacy ) {
+	public boolean match(final TitanVerdictType other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
 		}
@@ -251,11 +251,11 @@ public class TitanVerdictType_template extends Base_Template {
 
 	//originally boolean operator==(verdicttype par_value, const VERDICTTYPE& other_value)
 	public boolean operatorEquals(final VerdictTypeEnum par_value, final TitanVerdictType other_value) {
-		if (!TitanVerdictType.isValid( par_value )) {
-			throw new TtcnError("The left operand of comparison is an invalid verdict value ("+par_value+").");
+		if (!TitanVerdictType.isValid(par_value)) {
+			throw new TtcnError("The left operand of comparison is an invalid verdict value (" + par_value + ").");
 		}
 
-		other_value.mustBound( "The right operand of comparison is an unbound verdict value." );
+		other_value.mustBound("The right operand of comparison is an unbound verdict value.");
 
 		return par_value == other_value.getValue();
 	}
@@ -276,28 +276,27 @@ public class TitanVerdictType_template extends Base_Template {
 
 		cleanUp();
 		setSelection(template_type);
-		value_list = new ArrayList<TitanVerdictType_template>( list_length );
+		value_list = new ArrayList<TitanVerdictType_template>(list_length);
 	}
 
-	public TitanVerdictType_template listItem( final int listIndex ) {
-		if ( templateSelection != template_sel.VALUE_LIST &&
-				templateSelection != template_sel.COMPLEMENTED_LIST ) {
+	public TitanVerdictType_template listItem(final int listIndex) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
 			throw new TtcnError("Internal error: Accessing a list element of a non-list verdict template.");
 		}
 		if (listIndex < 0) {
 			throw new TtcnError("Accessing an verdict value list template using a negative index (" + listIndex + ").");
 		}
-		if ( listIndex >= value_list.size() ) {
+		if (listIndex >= value_list.size()) {
 			throw new TtcnError("Internal error: Index overflow in a verdict value list template.");
 		}
 
-		return value_list.get( listIndex );
+		return value_list.get(listIndex);
 	}
 
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			if ( TitanVerdictType.isValid( single_value.getValue() ) ) {
+			if (TitanVerdictType.isValid(single_value.getValue())) {
 				TtcnLogger.log_event(TitanVerdictType.verdict_name[ single_value.getValue().ordinal() ]);
 			} else {
 				TtcnLogger.log_event("<unknown verdict value: " + single_value + ">");
@@ -386,8 +385,8 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 	}
 
-	public void check_restriction( final template_res t_res, final String t_name ) {
-		check_restriction( t_res, t_name, false );
+	public void check_restriction(final template_res t_res, final String t_name) {
+		check_restriction(t_res, t_name, false);
 	}
 
 	/**
@@ -395,21 +394,20 @@ public class TitanVerdictType_template extends Base_Template {
 	 * #ifndef TITAN_RUNTIME_2
 	 * void VERDICTTYPE_template::check_restriction(template_res t_res, const char* t_name, boolean legacy = FALSE ) const
 	 */
-	public void check_restriction(final template_res t_res, final String t_name, final boolean legacy ) {
-		if ( templateSelection == template_sel.UNINITIALIZED_TEMPLATE ) {
+	public void check_restriction(final template_res t_res, final String t_name, final boolean legacy) {
+		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE) {
 			return;
 		}
 
-		final template_res res = ( t_name != null && ( t_res == template_res.TR_VALUE ) ) ? template_res.TR_OMIT : t_res;
-		switch ( res ) {
+		final template_res res = (t_name != null && (t_res == template_res.TR_VALUE)) ? template_res.TR_OMIT : t_res;
+		switch (res) {
 		case TR_VALUE:
 			if (!is_ifPresent && templateSelection == template_sel.SPECIFIC_VALUE) {
 				return;
 			}
 			break;
 		case TR_OMIT:
-			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE ||
-			templateSelection == template_sel.SPECIFIC_VALUE)) {
+			if (!is_ifPresent && (templateSelection == template_sel.OMIT_VALUE || templateSelection == template_sel.SPECIFIC_VALUE)) {
 				return;
 			}
 			break;
@@ -421,7 +419,7 @@ public class TitanVerdictType_template extends Base_Template {
 		default:
 			return;
 		}
-		throw new TtcnError("Restriction `" + getResName( t_res ) + "' on template of type " + t_name != null ? t_name : "verdict"+" violated.");
+		throw new TtcnError("Restriction `" + getResName(t_res) + "' on template of type " + t_name != null ? t_name : "verdict" + " violated.");
 	}
 
 	@Override
@@ -466,7 +464,7 @@ public class TitanVerdictType_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanVerdictType_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanVerdictType_template temp = new TitanVerdictType_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

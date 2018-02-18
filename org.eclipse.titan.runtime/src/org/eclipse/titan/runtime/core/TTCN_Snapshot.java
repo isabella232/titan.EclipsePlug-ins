@@ -40,7 +40,7 @@ public final class TTCN_Snapshot {
 	public static void initialize() {
 		//FIXME initialize FdMap
 		//TODO why do we initialize fdmap here?
-		try{
+		try {
 			selector = Selector.open();
 		} catch (IOException exception) {
 
@@ -101,7 +101,7 @@ public final class TTCN_Snapshot {
 	 * */
 	public static void takeNew(final boolean blockExecution) {
 		if (blockExecution || else_branch_found) {
-			again: for(;;){
+			again: for (;;) {
 				//FIXME implement
 				double timeout = 0.0;
 				long pollTimeout = 0;
@@ -148,7 +148,7 @@ public final class TTCN_Snapshot {
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
-					} else if(pollTimeout < 0) {
+					} else if (pollTimeout < 0) {
 						throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
 					}
 				} else {
@@ -167,7 +167,7 @@ public final class TTCN_Snapshot {
 					}
 				}
 
-				if (selectReturn > 0 ){
+				if (selectReturn > 0) {
 					final Set<SelectionKey> selectedKeys = selector.selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {

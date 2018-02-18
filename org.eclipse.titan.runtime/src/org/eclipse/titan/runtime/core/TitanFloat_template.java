@@ -237,16 +237,16 @@ public class TitanFloat_template extends Base_Template {
 				} else if (min_is_exclusive && min_value.isLessThan(otherValue)) {
 					lowerMatch = true;
 				}
-			} else if(!min_is_exclusive || otherValue.isGreaterThan(Double.NEGATIVE_INFINITY)) {
+			} else if (!min_is_exclusive || otherValue.isGreaterThan(Double.NEGATIVE_INFINITY)) {
 				lowerMatch = true;
 			}
 			if (max_is_present) {
 				if (!max_is_exclusive && max_value.isGreaterThanOrEqual(otherValue)) {
 					upperMatch = true;
-				} else if(max_is_exclusive && max_value.isGreaterThan(otherValue)) {
+				} else if (max_is_exclusive && max_value.isGreaterThan(otherValue)) {
 					upperMatch = true;
 				}
-			} else if(!max_is_exclusive || otherValue.isLessThan(Double.POSITIVE_INFINITY)) {
+			} else if (!max_is_exclusive || otherValue.isLessThan(Double.POSITIVE_INFINITY)) {
 				upperMatch = true;
 			}
 
@@ -544,7 +544,7 @@ public class TitanFloat_template extends Base_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanFloat_template>(text_buf.pull_int().getInt());
-			for(int i = 0; i < value_list.size(); i++) {
+			for (int i = 0; i < value_list.size(); i++) {
 				final TitanFloat_template temp = new TitanFloat_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);

@@ -138,7 +138,7 @@ public class LoggerPluginManager {
 		}
 	}
 
-	public void log_event_str( final String string ) {
+	public void log_event_str(final String string) {
 		if (current_event != null) {
 			current_event.buffer.append(string);
 		}
@@ -468,7 +468,7 @@ public class LoggerPluginManager {
 		event.getSeverity().assign(severity.ordinal());
 	}
 
-	public void log_testcase_started(final String module_name, final String definition_name ) {
+	public void log_testcase_started(final String module_name, final String definition_name) {
 		if (!TtcnLogger.log_this_event(Severity.TESTCASE_START) && TtcnLogger.get_emergency_logging() <= 0) {
 			return;
 		}
@@ -594,13 +594,13 @@ public class LoggerPluginManager {
 
 	public void log_matching_success(final TitanLoggerApi.PortType.enum_type port_type, final String port_name, final int compref, final TitanCharString info) {
 		Severity sev;
-		if(compref == TitanComponent.SYSTEM_COMPREF) {
+		if (compref == TitanComponent.SYSTEM_COMPREF) {
 			sev = port_type == enum_type.message__ ? Severity.MATCHING_MMSUCCESS : Severity.MATCHING_PMSUCCESS;
 		} else {
 			sev = port_type == enum_type.message__ ? Severity.MATCHING_MCSUCCESS : Severity.MATCHING_PCSUCCESS;
 		}
 
-		if(TtcnLogger.log_this_event(sev) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (TtcnLogger.log_this_event(sev) && TtcnLogger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -614,7 +614,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_port_misc(final TitanLoggerApi.Port__Misc_reason.enum_type reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
-		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (TtcnLogger.get_emergency_logging()<=0)) {
+		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (TtcnLogger.get_emergency_logging() <= 0)) {
 			return;
 		}
 

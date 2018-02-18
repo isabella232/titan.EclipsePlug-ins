@@ -45,32 +45,32 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	/** reference counter for dec_match */
 	private int dec_match_ref_count;
 
-	public TitanBitString_template () {
-		//do nothing
+	public TitanBitString_template() {
+		// do nothing
 	}
 
-	public TitanBitString_template (final template_sel otherValue) {
+	public TitanBitString_template(final template_sel otherValue) {
 		super(otherValue);
 		checkSingleSelection(otherValue);
 	}
 
-	public TitanBitString_template (final int otherValue[], final int aNoBits) {
+	public TitanBitString_template(final int otherValue[], final int aNoBits) {
 		super(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
 	}
 
-	public TitanBitString_template (final TitanBitString otherValue) {
+	public TitanBitString_template(final TitanBitString otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
 		otherValue.mustBound("Creating a template from an unbound bitstring value.");
 		single_value = new TitanBitString(otherValue);
 	}
 
-	public TitanBitString_template (final TitanBitString_Element otherValue){
+	public TitanBitString_template(final TitanBitString_Element otherValue) {
 		super(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
+		single_value = new TitanBitString((byte) (otherValue.get_bit() ? 1 : 0));
 	}
 
-	public TitanBitString_template(final Optional<TitanBitString> otherValue){
+	public TitanBitString_template(final Optional<TitanBitString> otherValue) {
 		switch (otherValue.getSelection()) {
 		case OPTIONAL_PRESENT:
 			setSelection(template_sel.SPECIFIC_VALUE);
@@ -84,35 +84,35 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		}
 	}
 
-	public TitanBitString_template( final TitanBitString_template otherValue ) {
+	public TitanBitString_template(final TitanBitString_template otherValue) {
 		copyTemplate(otherValue);
 	}
 
-	public TitanBitString_template( final int pattern_elements[] ) {
-		super( template_sel.STRING_PATTERN );
-		pattern_value = TitanStringUtils.copyIntegerList( pattern_elements );
+	public TitanBitString_template(final int pattern_elements[]) {
+		super(template_sel.STRING_PATTERN);
+		pattern_value = TitanStringUtils.copyIntegerList(pattern_elements);
 	}
 
-	public TitanBitString_template( final String patternString ) {
-		super( template_sel.STRING_PATTERN );
-		pattern_value = patternString2List( patternString );
+	public TitanBitString_template(final String patternString) {
+		super(template_sel.STRING_PATTERN);
+		pattern_value = patternString2List(patternString);
 	}
 
-	private static int[] patternString2List( final String patternString ) {
-		if ( patternString == null ) {
+	private static int[] patternString2List(final String patternString) {
+		if (patternString == null) {
 			throw new TtcnError("Internal error: bitstring pattern is null.");
 		}
 		final int result[] = new int[patternString.length()];
-		for ( int i = 0; i < patternString.length(); i++ ) {
+		for (int i = 0; i < patternString.length(); i++) {
 			final char patternChar = patternString.charAt(i);
-			result[i] = patternChar2byte( patternChar );
+			result[i] = patternChar2byte(patternChar);
 		}
 		return result;
 	}
 
-	private static int patternChar2byte( final char patternChar ) {
-		for ( int j = 0; j < patterns.length; j++ ) {
-			if ( patternChar == patterns[ j ] ) {
+	private static int patternChar2byte(final char patternChar) {
+		for (int j = 0; j < patterns.length; j++) {
+			if (patternChar == patterns[j]) {
 				return j;
 			}
 		}
@@ -173,8 +173,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to bitstring", otherValue));
 	}
 
-	//originally operator=
-	public TitanBitString_template assign( final template_sel otherValue ) {
+	// originally operator=
+	public TitanBitString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
 		setSelection(otherValue);
@@ -182,8 +182,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBitString_template assign( final int otherValue[], final int aNoBits ) {
+	// originally operator=
+	public TitanBitString_template assign(final int otherValue[], final int aNoBits) {
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBitString(otherValue, aNoBits);
@@ -191,8 +191,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBitString_template assign( final TitanBitString otherValue ) {
+	// originally operator=
+	public TitanBitString_template assign(final TitanBitString otherValue) {
 		otherValue.mustBound("Assignment of an unbound bitstring value to a template.");
 
 		cleanUp();
@@ -202,18 +202,18 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBitString_template assign( final TitanBitString_Element otherValue ){
+	// originally operator=
+	public TitanBitString_template assign(final TitanBitString_Element otherValue) {
 		otherValue.mustBound("Assignment of an unbound bitstring element to a template.");
 		cleanUp();
 		setSelection(template_sel.SPECIFIC_VALUE);
-		single_value = new TitanBitString((byte)(otherValue.get_bit() ? 1 : 0));
+		single_value = new TitanBitString((byte) (otherValue.get_bit() ? 1 : 0));
 		return this;
 
 	}
 
-	//originally operator=
-	public TitanBitString_template assign( final TitanBitString_template otherValue ) {
+	// originally operator=
+	public TitanBitString_template assign(final TitanBitString_template otherValue) {
 		if (otherValue != this) {
 			cleanUp();
 			copyTemplate(otherValue);
@@ -222,8 +222,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		return this;
 	}
 
-	//originally operator=
-	public TitanBitString_template assign(final Optional<TitanBitString> otherValue){
+	// originally operator=
+	public TitanBitString_template assign(final Optional<TitanBitString> otherValue) {
 		cleanUp();
 		switch (otherValue.getSelection()) {
 		case OPTIONAL_PRESENT:
@@ -251,7 +251,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
 			value_list = new ArrayList<TitanBitString_template>(otherValue.value_list.size());
-			for(int i = 0; i < otherValue.value_list.size(); i++) {
+			for (int i = 0; i < otherValue.value_list.size(); i++) {
 				final TitanBitString_template temp = new TitanBitString_template(otherValue.value_list.get(i));
 				value_list.add(temp);
 			}
@@ -273,36 +273,36 @@ public class TitanBitString_template extends Restricted_Length_Template {
 		setSelection(otherValue);
 	}
 
-	//originally operator[](int)
-	public TitanBitString_Element getAt( final int index_value ) {
+	// originally operator[](int)
+	public TitanBitString_Element getAt(final int index_value) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a bitstring element of a non-specific bitstring template.");
 		}
 
-		return single_value.getAt( index_value );
+		return single_value.getAt(index_value);
 	}
 
-	//originally operator[](const INTEGER&)
-	public TitanBitString_Element getAt( final TitanInteger index_value ) {
+	// originally operator[](const INTEGER&)
+	public TitanBitString_Element getAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
 
-		return getAt( index_value.getInt() );
+		return getAt(index_value.getInt());
 	}
 
-	//originally operator[](int) const
-	public TitanBitString_Element constGetAt( final int index_value ) {
+	// originally operator[](int) const
+	public TitanBitString_Element constGetAt(final int index_value) {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			throw new TtcnError("Accessing a bitstring element of a non-specific bitstring template.");
 		}
 
-		return single_value.constGetAt( index_value );
+		return single_value.constGetAt(index_value);
 	}
 
-	//originally operator[](const INTEGER&) const
-	public TitanBitString_Element constGetAt( final TitanInteger index_value) {
+	// originally operator[](const INTEGER&) const
+	public TitanBitString_Element constGetAt(final TitanInteger index_value) {
 		index_value.mustBound("Indexing a bitstring template with an unbound integer value.");
 
-		return constGetAt( index_value.getInt() );
+		return constGetAt(index_value.getInt());
 	}
 
 	@Override
@@ -331,18 +331,18 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 	// originally match
 	public boolean match(final TitanBitString otherValue, final boolean legacy) {
-		if(!otherValue.isBound()) {
+		if (!otherValue.isBound()) {
 			return false;
 		}
 
 		final TitanInteger value_length = otherValue.lengthOf();
-		if(!match_length(value_length.getInt())) {
+		if (!match_length(value_length.getInt())) {
 			return false;
 		}
 
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			return single_value.operatorEquals( otherValue );
+			return single_value.operatorEquals(otherValue);
 		case OMIT_VALUE:
 			return false;
 		case ANY_VALUE:
@@ -350,14 +350,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			return true;
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			for(int i = 0 ; i < value_list.size(); i++) {
-				if(value_list.get(i).match(otherValue, legacy)) {
+			for (int i = 0; i < value_list.size(); i++) {
+				if (value_list.get(i).match(otherValue, legacy)) {
 					return templateSelection == template_sel.VALUE_LIST;
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		case STRING_PATTERN:
-			return match_pattern( pattern_value, otherValue );
+			return match_pattern(pattern_value, otherValue);
 		//TODO: implement
 		//case DECODE_MATCH:
 		default:
@@ -371,7 +371,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 	 * The only differences are: how two elements are matched and
 	 * how an asterisk or ? is identified in the template
 	 */
-	private boolean match_pattern( final int string_pattern[], final TitanBitString string_value )	{
+	private boolean match_pattern(final int string_pattern[], final TitanBitString string_value) {
 		final int stringPatternSize = string_pattern.length;
 		final int stringValueNBits = string_value.getNBits();
 		if (stringPatternSize == 0) {
@@ -507,14 +507,14 @@ public class TitanBitString_template extends Restricted_Length_Template {
 
 
 	//originally set_type
-	public void setType(final template_sel templateType, final int listLength /* = 0 */){
+	public void setType(final template_sel templateType, final int listLength /* = 0 */) {
 		if(templateType != template_sel.VALUE_LIST && templateType != template_sel.COMPLEMENTED_LIST &&
-				templateType != template_sel.DECODE_MATCH){
+				templateType != template_sel.DECODE_MATCH) {
 			throw new TtcnError("Setting an invalid list type for a bitstring template.");
 		}
 		cleanUp();
 		setSelection(templateType);
-		if(templateType != template_sel.DECODE_MATCH){
+		if (templateType != template_sel.DECODE_MATCH) {
 			value_list = new ArrayList<TitanBitString_template>(listLength);
 			for (int i = 0; i < listLength; i++) {
 				value_list.add(new TitanBitString_template());

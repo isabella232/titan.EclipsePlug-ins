@@ -35,12 +35,12 @@ public class TitanStringUtils {
 	 * @param srcList source list to copy
 	 * @return new list instance
 	 */
-	static final int[] copyIntegerList( final int srcList[] ) {
-		if ( srcList == null ) {
+	static final int[] copyIntegerList(final int srcList[]) {
+		if (srcList == null) {
 			return null;
 		}
 
-		final int newList[] = new int[ srcList.length];
+		final int newList[] = new int[srcList.length];
 		System.arraycopy(srcList, 0, newList, 0, srcList.length);
 		return newList;
 	}

@@ -30,7 +30,7 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		indexOffset = otherValue.indexOffset;
 		array_elements = new TitanTimer[array_size];
 
-		for (int i = 0; i < array_size ; ++i) {
+		for (int i = 0; i < array_size; ++i) {
 			try {
 				final T helper = clazz.newInstance();
 				helper.assign(otherValue.array_elements[i]);
@@ -145,13 +145,12 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		for (int i = 0; i < array_size; ++i) {
 			// index_offset may be negative, hence i must be int (not size_t)
 			// to ensure that signed arithmetic is used.
-			names[i] = name_string + '['+(indexOffset+i) + ']';
+			names[i] = name_string + '[' + (indexOffset + i) + ']';
 			array_elements[i].setName(names[i]);
 		}
 	}
 
-	public void log()
-	{
+	public void log() {
 		TtcnLogger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {
 			if (v_index > 0) {
@@ -170,14 +169,14 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 		}
 
 		if (indexValue < indexOffset) {
-			throw new TtcnError("Index underflow when accessing an element of a timer array. "+
-					"The index value should be between "+indexOffset+" and "+(indexOffset+arraySize-1)+" instead of "+indexValue+".");
+			throw new TtcnError("Index underflow when accessing an element of a timer array. "
+					+ "The index value should be between " + indexOffset + " and " + (indexOffset + arraySize - 1) + " instead of " + indexValue + ".");
 		}
 
 		final int result = indexValue - indexOffset;
 		if (result >= arraySize) {
-			throw new TtcnError("Index underflow when accessing an element of a timer array. "+
-					"The index value should be between "+indexOffset+" and "+(indexOffset+arraySize-1)+" instead of "+indexValue+".");
+			throw new TtcnError("Index underflow when accessing an element of a timer array. " + "The index value should be between "
+					+ indexOffset + " and " + (indexOffset + arraySize - 1) + " instead of " + indexValue + ".");
 		}
 
 		return result;
