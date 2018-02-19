@@ -262,7 +262,7 @@ public final class Charstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("\"{0}\"", getEscapedValue()));
+		result.append(MessageFormat.format("\"{0}\"", value ));
 
 		return result;
 	}
