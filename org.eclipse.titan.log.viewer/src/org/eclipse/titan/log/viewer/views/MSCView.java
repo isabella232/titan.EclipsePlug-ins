@@ -171,7 +171,7 @@ public class MSCView extends ViewPart implements ILogViewerView {
 			viewAttributes.putInteger("testCaseNumber", testCase.getTestCaseNumber()); //$NON-NLS-1$
 
 			// Store current selection
-			if (this.mscWidget.getFrame() != null) {
+			if (this.mscWidget != null && this.mscWidget.getFrame() != null) {
 				viewAttributes.putInteger("rowSelection", this.mscWidget.getFrame().getSelectedLine()); //$NON-NLS-1$
 			} else {
 				viewAttributes.putInteger("rowSelection", 0); //$NON-NLS-1$
@@ -276,6 +276,8 @@ public class MSCView extends ViewPart implements ILogViewerView {
 							}
 
 							this.problemDuringRestore = false;
+						} else {
+							//TODO: what should we do if something went wrong?
 						}
 					}
 				}
@@ -760,10 +762,10 @@ public class MSCView extends ViewPart implements ILogViewerView {
 	 * @param frame the frame to display
 	 */
 	private void setFrame(final Frame frame, final boolean resetPosition) {
-		if ((this.mscWidget == null) || (frame == null)) {
+		if ((getMSCWidget() == null) || (frame == null)) {
 			return;
 		}
-		if (getMSCWidget() != null) {
+		if (!getMSCWidget().isDisposed()) {
 			getMSCWidget().setFrame(frame, resetPosition);
 		}
 	}
