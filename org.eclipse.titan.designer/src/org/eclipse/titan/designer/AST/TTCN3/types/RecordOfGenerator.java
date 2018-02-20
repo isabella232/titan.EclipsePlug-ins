@@ -36,7 +36,8 @@ public class RecordOfGenerator {
 										   final String genName,
 										   final String displayName,
 										   final String ofTypeName,
-										   final boolean isSetOf ) {
+										   final boolean isSetOf,
+										   final boolean hasRaw) {
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
@@ -58,6 +59,8 @@ public class RecordOfGenerator {
 			aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
 		}
 
+		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 
 		generateValueDeclaration( source, genName, ofTypeName, isSetOf );
@@ -77,7 +80,7 @@ public class RecordOfGenerator {
 		generateValueReplace( source, genName, ofTypeName, displayName );
 		generateValueLog( source );
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
-		generateValueEncodeDecode(source, ofTypeName, displayName);
+		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded);
 
 		source.append("}\n");
 	}
@@ -783,8 +786,9 @@ public class RecordOfGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param ofTypeName type name of the "record of/set of" element
 	 * @param displayName the user readable name of the type to be generated.
+	 * @param rawNeeded true if encoding/decoding for RAW is to be generated
 	 */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName) {
+	private static void generateValueEncodeDecode(final StringBuilder source, final String ofTypeName, final String displayName, final boolean rawNeeded) {
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("\t\t\tswitch (p_coding) {\n");
@@ -845,82 +849,87 @@ public class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 
-		source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
-		source.append("\t\t\tint encoded_length = 0;\n");
-		source.append("\t\t\tint encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();\n");
-		source.append("\t\t\tmyleaf.isleaf = false;\n");
-		source.append("\t\t\tmyleaf.rec_of = true;\n");
-		source.append("\t\t\tmyleaf.num_of_nodes = encoded_num_of_records;\n");
-		source.append("\t\t\tmyleaf.nodes = new RAW_enc_tree[encoded_num_of_records];\n"); //init_nodes_of_enc_tree
-		source.append("\t\t\tfor (int a = 0; a < encoded_num_of_records; a++) {\n");
-		source.append("\t\t\t\tmyleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);\n");
-		source.append("\t\t\t\tencoded_length += getAt(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);\n");
-		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn myleaf.length = encoded_length;\n");
-		source.append("\t\t}\n\n");
+		if (rawNeeded) {
+			source.append("\t\t@Override\n");
+			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
+			source.append("\t\t\tint encoded_length = 0;\n");
+			source.append("\t\t\tint encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();\n");
+			source.append("\t\t\tmyleaf.isleaf = false;\n");
+			source.append("\t\t\tmyleaf.rec_of = true;\n");
+			source.append("\t\t\tmyleaf.num_of_nodes = encoded_num_of_records;\n");
+			source.append("\t\t\tmyleaf.nodes = new RAW_enc_tree[encoded_num_of_records];\n"); //init_nodes_of_enc_tree
+			source.append("\t\t\tfor (int a = 0; a < encoded_num_of_records; a++) {\n");
+			source.append("\t\t\t\tmyleaf.nodes[a] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, a, p_td.oftype_descr.raw);\n");
+			source.append("\t\t\t\tencoded_length += getAt(a).RAW_encode(p_td.oftype_descr, myleaf.nodes[a]);\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\treturn myleaf.length = encoded_length;\n");
+			source.append("\t\t}\n\n");
 
-		source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {\n");
-		source.append("\t\t\treturn RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);\n");
-		source.append("\t\t}\n\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {\n");
+			source.append("\t\t\treturn RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);\n");
+			source.append("\t\t}\n\n");
 
-		source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call) {\n");
-		source.append("\t\t\tint prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
-		source.append("\t\t\tlimit -= prepaddlength;\n");
-		source.append("\t\t\tint decoded_length = 0;\n");
-		source.append("\t\t\tint decoded_field_length = 0;\n");
-		source.append("\t\t\tint start_of_field = 0;\n");
-		source.append("\t\t\tif (first_call) {\n");
-		source.append("\t\t\t\tcleanUp();\n");
-		source.append(MessageFormat.format("\t\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName));
-		source.append("\t\t\t}\n");
-		source.append("\t\t\tint start_field = valueElements.size();\n");
-		source.append("\t\t\tif (p_td.raw.fieldlength > 0 || sel_field != -1) {\n");
-		source.append("\t\t\t\tint a = 0;\n");
-		source.append("\t\t\t\tif (sel_field == -1) {\n");
-		source.append("\t\t\t\t\tsel_field = p_td.raw.fieldlength;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tfor (a = 0; a < sel_field; a++) {\n");
-		source.append("\t\t\t\t\tdecoded_field_length = getAt(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true);\n");
-		source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
-		source.append("\t\t\t\t\t\treturn decoded_field_length;\n");
-		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
-		source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tif (a == 0) {\n");
-		source.append("\t\t\t\t\tvalueElements.clear();\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t} else {\n");
-		source.append("\t\t\t\tint a = start_field;\n");
-		source.append("\t\t\t\t\tif (limit == 0) {\n");
-		source.append("\t\t\t\t\tif (!first_call) {\n");
-		source.append("\t\t\t\t\t\treturn -1;\n");
-		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t\tvalueElements.clear();\n");
-		source.append("\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\twhile (limit > 0) {\n");
-		source.append("\t\t\t\t\tstart_of_field = buff.get_pos_bit();\n");
-		source.append("\t\t\t\t\tdecoded_field_length = getAt(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true);\n");
-		source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
-		source.append("\t\t\t\t\t\tvalueElements.remove(a);\n");
-		source.append("\t\t\t\t\t\tbuff.set_pos_bit(start_of_field);\n");
-		source.append("\t\t\t\t\t\tif (a > start_field) {\n");
-		source.append("\t\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-		source.append("\t\t\t\t\t\t} else {\n");
-		source.append("\t\t\t\t\t\t\treturn -1;\n");
-		source.append("\t\t\t\t\t\t}\n");
-		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
-		source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
-		source.append("\t\t\t\t\ta++;\n");
-		source.append("\t\t\t\t\tif (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {\n");
-		source.append("\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-		source.append("\t\t\t\t\t}\n");
-		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t}\n");
-		source.append("\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-		source.append("\t\t}\n\n");
+			source.append("\t\t@Override\n");
+			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call) {\n");
+			source.append("\t\t\tint prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+			source.append("\t\t\tlimit -= prepaddlength;\n");
+			source.append("\t\t\tint decoded_length = 0;\n");
+			source.append("\t\t\tint decoded_field_length = 0;\n");
+			source.append("\t\t\tint start_of_field = 0;\n");
+			source.append("\t\t\tif (first_call) {\n");
+			source.append("\t\t\t\tcleanUp();\n");
+			source.append(MessageFormat.format("\t\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName));
+			source.append("\t\t\t}\n");
+			source.append("\t\t\tint start_field = valueElements.size();\n");
+			source.append("\t\t\tif (p_td.raw.fieldlength > 0 || sel_field != -1) {\n");
+			source.append("\t\t\t\tint a = 0;\n");
+			source.append("\t\t\t\tif (sel_field == -1) {\n");
+			source.append("\t\t\t\t\tsel_field = p_td.raw.fieldlength;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tfor (a = 0; a < sel_field; a++) {\n");
+			source.append("\t\t\t\t\tdecoded_field_length = getAt(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true);\n");
+			source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
+			source.append("\t\t\t\t\t\treturn decoded_field_length;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
+			source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\tif (a == 0) {\n");
+			source.append("\t\t\t\t\tvalueElements.clear();\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t} else {\n");
+			source.append("\t\t\t\tint a = start_field;\n");
+			source.append("\t\t\t\t\tif (limit == 0) {\n");
+			source.append("\t\t\t\t\tif (!first_call) {\n");
+			source.append("\t\t\t\t\t\treturn -1;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tvalueElements.clear();\n");
+			source.append("\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t\twhile (limit > 0) {\n");
+			source.append("\t\t\t\t\tstart_of_field = buff.get_pos_bit();\n");
+			source.append("\t\t\t\t\tdecoded_field_length = getAt(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true);\n");
+			source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
+			source.append("\t\t\t\t\t\tvalueElements.remove(a);\n");
+			source.append("\t\t\t\t\t\tbuff.set_pos_bit(start_of_field);\n");
+			source.append("\t\t\t\t\t\tif (a > start_field) {\n");
+			source.append("\t\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+			source.append("\t\t\t\t\t\t} else {\n");
+			source.append("\t\t\t\t\t\t\treturn -1;\n");
+			source.append("\t\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t\tdecoded_length += decoded_field_length;\n");
+			source.append("\t\t\t\t\tlimit -= decoded_field_length;\n");
+			source.append("\t\t\t\t\ta++;\n");
+			source.append("\t\t\t\t\tif (ext_bit_t.EXT_BIT_NO != p_td.raw.extension_bit && ((ext_bit_t.EXT_BIT_YES != p_td.raw.extension_bit) ^ buff.get_last_bit())) {\n");
+			source.append("\t\t\t\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+			source.append("\t\t\t\t\t}\n");
+			source.append("\t\t\t\t}\n");
+			source.append("\t\t\t}\n");
+			source.append("\t\t\treturn decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+			source.append("\t\t}\n\n");
+		}
 	}
 
 	/**

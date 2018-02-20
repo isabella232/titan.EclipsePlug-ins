@@ -565,7 +565,7 @@ public final class SetOf_Type extends AbstractOfType {
 
 		generateCodeTypedescriptor(aData, source);
 
-		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, true );
+		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, true, getGenerateCoderFunctions(MessageEncoding_type.RAW));
 		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, true );
 
 		if (!isAsn()) {

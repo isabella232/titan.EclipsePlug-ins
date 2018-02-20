@@ -7,7 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 /**
@@ -122,5 +126,86 @@ public abstract class Base_Type {
 		TtcnLogger.log_event_str( getClass().getSimpleName() );
 		TtcnLogger.log_event_str( ".decode() is not yet implemented!\n" );
 		TtcnLogger.end_event();
+	}
+
+	/**
+	 * Encode with RAW coding.
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param myleaf
+	 *                filled with RAW encoding data
+	 * @return the length of the encoding
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * */
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".RAW_encode() is not yet implemented!\n" );
+		TtcnLogger.end_event();
+
+		throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type '{0}''", p_td.name));
+	}
+
+	/**
+	 * Decode with RAW coding
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_buf
+	 *                buffer with data to be decoded
+	 * @param limit
+	 *                number of bits the decoder is allowed to use. At the
+	 *                top level this is 8x the number of bytes in the
+	 *                buffer.
+	 * @param top_bit_ord
+	 *                (LSB/MSB) from TTCN_RAWdescriptor_t::top_bit_order
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * */
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
+	}
+
+	/**
+	 * Decode with RAW coding
+	 *
+	 * @param p_td
+	 *                type descriptor
+	 * @param p_buf
+	 *                buffer with data to be decoded
+	 * @param limit
+	 *                number of bits the decoder is allowed to use. At the
+	 *                top level this is 8x the number of bytes in the
+	 *                buffer.
+	 * @param top_bit_ord
+	 *                (LSB/MSB) from TTCN_RAWdescriptor_t::top_bit_order
+	 * @param no_err
+	 *                set to TRUE if the decoder is to return errors
+	 *                silently, without calling
+	 *                TTCN_EncDec_ErrorContext::error
+	 * @param sel_field
+	 *                selected field indicator for CROSSTAG, or -1
+	 * @param first_call
+	 *                default TRUE. May be FALSE for a REPEATABLE record-of
+	 *                inside a set, if an element has been successfully
+	 *                decoded.
+	 * @return length of decoded field, or a negative number for error
+	 *
+	 * @throws TtcnError
+	 *                 in case of not being implemented
+	 * */
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call) {
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str( "//TODO: " );
+		TtcnLogger.log_event_str( getClass().getSimpleName() );
+		TtcnLogger.log_event_str( ".RAW_decode() is not yet implemented!\n" );
+		TtcnLogger.end_event();
+
+		throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
 	}
 }

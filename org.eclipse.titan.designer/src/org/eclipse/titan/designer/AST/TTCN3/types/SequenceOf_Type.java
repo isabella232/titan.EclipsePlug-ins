@@ -821,7 +821,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 		generateCodeTypedescriptor(aData, source);
 
-		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, false );
+		RecordOfGenerator.generateValueClass( aData, source, genName, displayName, ofTypeName, false, getGenerateCoderFunctions(MessageEncoding_type.RAW));
 		RecordOfGenerator.generateTemplateClass( aData, source, genName, displayName, ofTemplateTypeName, false );
 
 		if (!isAsn()) {
