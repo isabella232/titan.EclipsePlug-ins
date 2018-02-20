@@ -172,7 +172,7 @@ public class RecordOfGenerator {
 			source.append('\n');
 			source.append("\tprivate compare_function_t compare_function_set = new compare_function_t() {\n");
 			source.append("\t\t@Override\n");
-			source.append("\t\tpublic boolean compare(Base_Type left_ptr, int left_index, Base_Type right_ptr, int right_index) {\n");
+			source.append("\t\tpublic boolean compare(final Base_Type left_ptr, final int left_index, final Base_Type right_ptr, final int right_index) {\n");
 			source.append( MessageFormat.format( "\t\t\treturn compare_set(({0})left_ptr, left_index, ({0})right_ptr, right_index);\n", genName ) );
 			source.append("\t\t}\n");
 			source.append("\t};\n");
@@ -340,7 +340,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 
 		if ( isSetOf ) {
-			source.append( MessageFormat.format( "\tprivate boolean compare_set({0} left_ptr, int left_index, {0} right_ptr, int right_index) '{'\n", genName ) );
+			source.append( MessageFormat.format( "\tprivate boolean compare_set(final {0} left_ptr, final int left_index, final {0} right_ptr, final int right_index) '{'\n", genName ) );
 			source.append("\t\tif (left_ptr.valueElements == null) {\n");
 			source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"The left operand of comparison is an unbound value of type {0}.\");\n", displayName ) );
 			source.append("\t\t}\n");
@@ -350,7 +350,9 @@ public class RecordOfGenerator {
 			source.append("\t\tif (left_ptr.valueElements.get(left_index).isBound()) {\n");
 			source.append("\t\t\tif (right_ptr.valueElements.get(right_index).isBound()){\n");
 			source.append("\t\t\t\treturn left_ptr.valueElements.get(left_index).operatorEquals( right_ptr.valueElements.get(right_index) );\n");
-			source.append("\t\t\t} else return false;\n");
+			source.append("\t\t\t} else  {\n");
+			source.append("\t\t\t\treturn false;\n");
+			source.append("\t\t\t}\n");
 			source.append("\t\t} else {\n");
 			source.append("\t\t\treturn !right_ptr.valueElements.get(right_index).isBound();\n");
 			source.append("\t\t}\n");
@@ -984,7 +986,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\tprivate log_function_t log_function = new log_function_t() {\n");
 		source.append("\t\t@Override\n");
-		source.append("\t\tpublic void log(Base_Type value_ptr, Restricted_Length_Template template_ptr, int index_value, int index_template, final boolean legacy) {\n");
+		source.append("\t\tpublic void log(final Base_Type value_ptr, final Restricted_Length_Template template_ptr, final int index_value, final int index_template, final boolean legacy) {\n");
 		source.append("\t\t\tif (value_ptr != null && template_ptr != null) {\n");
 		source.append( MessageFormat.format( "\t\t\t(({0}_template)template_ptr).value_elements.get(index_template).log_match((({0})value_ptr).constGetAt(index_value), legacy);\n", genName ) );
 		source.append("\t\t\t} else if (value_ptr != null) {\n");
@@ -1204,7 +1206,7 @@ public class RecordOfGenerator {
 
 		if ( isSetOf ) {
 			source.append('\n');
-			source.append( MessageFormat.format( "\tprivate boolean match_set(final {0} value_ptr, int value_index, {0}_template template_ptr, int template_index, final boolean legacy) '{'\n", genName ) );
+			source.append( MessageFormat.format( "\tprivate boolean match_set(final {0} value_ptr, final int value_index, final {0}_template template_ptr, final int template_index, final boolean legacy) '{'\n", genName ) );
 			source.append("\t\tif (value_index >= 0) {\n");
 			source.append("\t\t\treturn template_ptr.set_items.get(template_index).match(value_ptr.valueElements.get(value_index), legacy);\n");
 			source.append("\t\t} else {\n");
@@ -1361,7 +1363,7 @@ public class RecordOfGenerator {
 	private static void generateTemplateReplace(final StringBuilder source, final String genName, final String displayName) {
  		//int,int
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0}_template repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -1372,7 +1374,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		//TitanInteger, TitanInteger
  		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, TitanInteger len, final {0}_template repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0}_template repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -1384,7 +1386,7 @@ public class RecordOfGenerator {
 
 		//int,int
  		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(int index, int len, final {0} repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final int index, final int len, final {0} repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -1392,7 +1394,7 @@ public class RecordOfGenerator {
 		source.append("\t}\n");
 		//TitanInteger, TitanInteger
  		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} replace(TitanInteger index, TitanInteger len, final {0} repl) '{'\n", genName ) );
+		source.append( MessageFormat.format( "\tpublic {0} replace(final TitanInteger index, final TitanInteger len, final {0} repl) '{'\n", genName ) );
 		source.append("\t\tif (!isValue()) {\n");
 		source.append("\t\t\tthrow new TtcnError(\"The first argument of function replace() is a template with non-specific value.\");\n");
 		source.append("\t\t}\n");
@@ -1480,7 +1482,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateGetterSettersSetOf(final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
-		source.append( MessageFormat.format( "\tpublic {0} setItem(int set_index) '{'\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tpublic {0} setItem(final int set_index) '{'\n", ofTypeName ) );
 		source.append("\t\tif (templateSelection != template_sel.SUPERSET_MATCH && templateSelection != template_sel.SUBSET_MATCH) {\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Accessing a set element of a non-set template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
@@ -1955,7 +1957,7 @@ public class RecordOfGenerator {
 	 */
 	private static void generateTemplateSubstr( final StringBuilder aSb, final String genName ) {
 		aSb.append('\n');
-		aSb.append( MessageFormat.format( "\t\tpublic {0} substr(int index, int returncount) '{'\n", genName ) );
+		aSb.append( MessageFormat.format( "\t\tpublic {0} substr(final int index, final int returncount) '{'\n", genName ) );
 		aSb.append("\t\t\tif (!isValue()) {\n");
 		aSb.append("\t\t\t\tthrow new TtcnError(\"The first argument of function substr() is a template with non-specific value.\");\n");
 		aSb.append("\t\t\t}\n");
