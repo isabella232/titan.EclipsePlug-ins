@@ -1315,7 +1315,7 @@ public class TTCN_Buffer {
 	 * @return
 	 */
 	private char get_byte_align(final int len, final raw_order_t fieldorder, final raw_order_t req_align, final int index) {
-		if (index > (bit_pos + len) / 8 || data_ptr == null) {
+		if (index < 0 || index > (bit_pos + len) / 8 || data_ptr == null) {
 			return '\0';
 		}
 
