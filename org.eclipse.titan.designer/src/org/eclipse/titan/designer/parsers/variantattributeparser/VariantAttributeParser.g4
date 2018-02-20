@@ -844,7 +844,7 @@ pr_XERAttribute:
 |	ELEMENTKeyword
 |	ELEMENTFORMQUALIFIEDKeyword
 |	EMBEDVALUESKeyword
-|	pr_from
+|	pr_form
 |	pr_fractionDigits
 |	LISTKeyword
 |	pr_name
@@ -884,7 +884,7 @@ pr_quotedURIOrAbsent:
 
 pr_controlNameSpace: CONTROLNAMESPACEKeyword XSTRING PREFIXKeyword XSTRING;
 
-pr_from: FROMKeyword ASKeyword ( UNQUALIFIEDKeyword | QUALIFIEDKeyword );
+pr_form: FORMKeyword ASKeyword ( UNQUALIFIEDKeyword | QUALIFIEDKeyword );
 
 pr_name: NAMEKeyword ASKeyword pr_newNameOrKeyword;
 
