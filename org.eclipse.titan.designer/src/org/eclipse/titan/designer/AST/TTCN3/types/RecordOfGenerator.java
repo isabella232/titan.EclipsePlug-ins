@@ -46,10 +46,14 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("AdditionalFunctions");
 		aData.addBuiltinTypeImport("RecordOfMatch");
 		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
+		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
+		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
 		if ( isSetOf ) {
 			aData.addBuiltinTypeImport("RecordOfMatch.compare_function_t");
 		}
@@ -867,7 +871,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\tint start_of_field = 0;\n");
 		source.append("\t\t\tif (first_call) {\n");
 		source.append("\t\t\t\tcleanUp();\n");
-		source.append("\t\t\t\tvalueElements = new ArrayList<TitanBitString>();\n");
+		source.append(MessageFormat.format("\t\t\t\tvalueElements = new ArrayList<{0}>();\n", ofTypeName));
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tint start_field = valueElements.size();\n");
 		source.append("\t\t\tif (p_td.raw.fieldlength > 0 || sel_field != -1) {\n");
