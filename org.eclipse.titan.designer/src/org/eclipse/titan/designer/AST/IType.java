@@ -278,24 +278,24 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 * */
 	public static class Coding_Type {
 		/** built-in or user defined codec */
-		boolean builtIn;
+		public boolean builtIn;
 		/** the 'encode' attribute's modifier */
-		Attribute_Modifier_type modifier;
+		public Attribute_Modifier_type modifier;
 		/** built-in codec ,when builtIn is true */
-		MessageEncoding_type builtInCoding;
+		public MessageEncoding_type builtInCoding;
 
 		/** custom codec fields, when builtIn is false */
 		public static class CustomCoding_type {
 			/** name of the user defined codec (the string in the 'encode' attribute) */
-			String name;
+			public String name;
 
 			/** the map of encoder functions per type */
-			HashMap<IType, CoderFunction_Type> encoders;
+			public HashMap<IType, CoderFunction_Type> encoders;
 			/** the map of decoder functions per type */
-			HashMap<IType, CoderFunction_Type> decoders;
+			public HashMap<IType, CoderFunction_Type> decoders;
 		}
 
-		CustomCoding_type customCoding;
+		public CustomCoding_type customCoding;
 	}
 
 	/**

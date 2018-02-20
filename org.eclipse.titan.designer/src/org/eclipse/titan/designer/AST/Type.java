@@ -59,6 +59,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.OctetString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SetOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
@@ -2320,6 +2321,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		} else {
 			globalVariable.append(", null");
 		}
+
+		switch (getTypetype()) {
+		case TYPE_SEQUENCE_OF:
+			globalVariable.append(MessageFormat.format(", {0}_descr_",((SequenceOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			break;
+		case TYPE_SET_OF:
+			globalVariable.append(MessageFormat.format(", {0}_descr_",((SetOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			break;
+		default:
+			globalVariable.append(", null");
+			break;
+		}
+
 		globalVariable.append(");\n");
 		aData.addGlobalVariable(descriptorName, globalVariable.toString());
 	}

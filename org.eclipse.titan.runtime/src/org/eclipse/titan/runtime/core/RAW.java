@@ -531,7 +531,7 @@ public class RAW {
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
 		//FIXME: initial implementation of Typedescriptor
-		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw);
+		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
 		final TitanInteger i = new TitanInteger(integer_value);
 		i.RAW_encode(my_descr, myleaf);
 		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
