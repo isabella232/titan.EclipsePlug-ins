@@ -141,13 +141,7 @@ public abstract class Base_Type {
 	 *                 in case of not being implemented
 	 * */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".RAW_encode() is not yet implemented!\n" );
-		TtcnLogger.end_event();
-
-		throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type '{0}''", p_td.name));
+		throw new TtcnError(MessageFormat.format("RAW encoding requested for type '{0}'' which has no RAW encoding method.", p_td.name));
 	}
 
 	/**
@@ -200,12 +194,6 @@ public abstract class Base_Type {
 	 *                 in case of not being implemented
 	 * */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call) {
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".RAW_decode() is not yet implemented!\n" );
-		TtcnLogger.end_event();
-
-		throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
+		throw new TtcnError(MessageFormat.format("RAW decoding requested for type '{0}'' which has no RAW encoding method.", p_td.name));
 	}
 }
