@@ -349,6 +349,14 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		}
 		refChain.add(this);
 
+		for (int i = 0; i < codingTable.size(); i++) {
+			final Coding_Type tempCodingType = codingTable.get(i);
+
+			if (tempCodingType.builtIn && tempCodingType.builtInCoding == coding) {
+				return true; // coding already added
+			}
+		}
+
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
 			refChain.markState();

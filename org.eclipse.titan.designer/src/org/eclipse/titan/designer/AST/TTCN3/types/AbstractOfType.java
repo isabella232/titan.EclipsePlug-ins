@@ -367,6 +367,15 @@ public abstract class AbstractOfType extends ASN1Type {
 			return true;
 		}
 		refChain.add(this);
+
+		for (int i = 0; i < codingTable.size(); i++) {
+			final Coding_Type tempCodingType = codingTable.get(i);
+
+			if (tempCodingType.builtIn && tempCodingType.builtInCoding == coding) {
+				return true; // coding already added
+			}
+		}
+
 		refChain.markState();
 
 		final boolean result = ofType.canHaveCoding(coding, refChain);

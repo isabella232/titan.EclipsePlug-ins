@@ -522,6 +522,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return false;
 		}
 
+		for (int i = 0; i < codingTable.size(); i++) {
+			final Coding_Type tempCodingType = codingTable.get(i);
+
+			if (tempCodingType.builtIn && tempCodingType.builtInCoding == coding) {
+				return true; // coding already added
+			}
+		}
+
 		if (refChain.contains(this)) {
 			return true;
 		}
