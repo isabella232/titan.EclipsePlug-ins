@@ -1006,14 +1006,14 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
-			source.append( MessageFormat.format( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer(AdditionalFunctions.bit2oct({0}));\n", firstParName) );
+			source.append( MessageFormat.format( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer(AdditionalFunctions.bit2oct({0}));\n", firstParName) );
 		} else {
-			source.append( MessageFormat.format( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer({0});\n", firstParName) );
+			source.append( MessageFormat.format( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer({0});\n", firstParName) );
 		}
 
 		String resultName;
 		if (prototype == EncodingPrototype_type.CONVERT) {
-			source.append( MessageFormat.format("{0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )) );
+			source.append( MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )) );
 			resultName = "ret_val";
 		} else {
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
