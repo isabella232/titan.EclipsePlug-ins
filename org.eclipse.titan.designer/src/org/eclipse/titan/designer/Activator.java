@@ -402,7 +402,6 @@ public final class Activator extends AbstractUIPlugin {
 
 									if (ProjectBuildPropertyData.useAutomaticMakefilegeneration(project)) {
 										TITANBuilder.markProjectForRebuild(project);
-										SymbolicLinkHandler.createSymlinks(project);
 										TITANBuilder.regenerateMakefile(project);
 									}
 

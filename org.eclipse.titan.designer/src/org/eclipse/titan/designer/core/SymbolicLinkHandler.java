@@ -152,8 +152,7 @@ public final class SymbolicLinkHandler {
 				}
 			}
 
-			// bugfix: checks if the symbolic link would point to
-			// itself
+			// bugfix: checks if the symbolic link would point to itself
 			if (tempFile.getAbsolutePath().equals(file.getLocation().toOSString())) {
 				symlinkFiles.add(lastSegment);
 				internalMonitor.worked(1);
@@ -247,8 +246,14 @@ public final class SymbolicLinkHandler {
 
 		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(rProject).getWorkingDirectoryPath(true);
 
-		if (workingDir == null || !workingDir.toFile().exists()) {
-			return true;
+		if (workingDir == null) {
+			return false;
+		}
+		
+		final File wd = workingDir.toFile();
+		if (!wd.exists() && !wd.mkdirs()){
+				ErrorReporter.logError("The working folder could not be created");
+				return false;
 		}
 
 		if (ResourceExclusionHelper.isExcluded(resource) || isInCentralStorage(resource)) {
