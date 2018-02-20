@@ -131,10 +131,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			WorkspaceJob refreshJob = new WorkspaceJob("Refreshing built resources") {
 				@Override
 				public IStatus runInWorkspace(final IProgressMonitor monitor) {
-					boolean proceedingOK = SymbolicLinkHandler.createSymlinks(resouce);
-					if (proceedingOK) {
-						proceedingOK = TITANBuilder.regenerateMakefile(resouce.getProject());
-					}
+					boolean	proceedingOK = TITANBuilder.regenerateMakefile(resouce.getProject());
 					if (proceedingOK) {
 						proceedingOK = TITANBuilder.removeExecutable(resouce.getProject());
 					}
@@ -145,7 +142,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 					return Status.OK_STATUS;
 				}
 			};
-			refreshJob.setPriority(Job.LONG);
+			refreshJob.setPriority(Job.BUILD);
 			refreshJob.setUser(false);
 			refreshJob.setSystem(true);
 			refreshJob.setProperty(IProgressConstants.ICON_PROPERTY, ImageCache.getImageDescriptor("titan.gif"));
@@ -428,9 +425,16 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		}
 		processedProjects.add(project);
 
-		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
-		if (workingDir == null || !workingDir.toFile().exists()) {
-			return true;
+		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
+
+		if (workingDir == null) {
+			return false;
+		}
+		
+		final File wd = workingDir.toFile();
+		if (!wd.exists() && !wd.mkdirs()){
+				ErrorReporter.logError("The working folder could not be created");
+				return false;
 		}
 
 		if (ProjectBuildPropertyData.useAutomaticMakefilegeneration(project)) {
@@ -835,7 +839,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			targetExecutable = path.toOSString();
 			file = new File(targetExecutable);
 			if (!file.exists()) {
-				if (file.mkdirs()) {
+				if (!file.mkdirs()) {
 					ErrorReporter.logError("The folder to contain the generated executable could not be created");
 				}
 			}
