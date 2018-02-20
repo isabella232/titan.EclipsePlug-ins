@@ -18,7 +18,8 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 /**
  * Buffer used by the different encoders/decoders.
  *
- * FIXME the current implementation is only a placeholder to mark the architectural borders.
+ * TODO too frequent array access might be optimized with temporal variables
+ *
  * @author Farkas Izabella Ingrid
  */
 public class TTCN_Buffer {
@@ -802,6 +803,7 @@ public class TTCN_Buffer {
 						} else {
 							data_ptr[offset] &= mask1;
 							data_ptr[offset] |= RAW.REVERSE_BITS(ch) << bit_pos;
+							data_ptr[offset] &= 0xff;
 							data_ptr[offset + 1] = (char) (RAW.REVERSE_BITS(ch) >> (8 - bit_pos));
 						}
 
@@ -1275,6 +1277,7 @@ public class TTCN_Buffer {
 		}
 		else {
 			data_ptr[last_bit_pos] &= ~bitmask;
+			data_ptr[last_bit_pos] &= 0xff;
 		}
 	}
 
