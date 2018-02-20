@@ -782,7 +782,7 @@ public final class FormalParameter extends Definition {
 				final IType fieldType = assignment.getType(timestamp).getFieldType(timestamp, reference, 1,
 						Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 				if (fieldType != null) {
-					if (type != null && !type.isIdentical(timestamp, fieldType)) {
+					if (type != null && !type.isCompatible(timestamp, fieldType, null, null, null) ){
 						reference.getLocation().reportSemanticError(
 								MessageFormat.format(TYPEMISMATCH2, expectedString, type.getTypename(),
 										fieldType.getTypename()));
