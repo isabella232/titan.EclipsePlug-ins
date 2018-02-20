@@ -302,8 +302,8 @@ public class TitanOctetString extends Base_Type {
 		final int size = val_ptr.length;
 		for (int i = 0; i < size; i++) {
 			final int digit = val_ptr[i];
-			sb.append(HEX_DIGITS.charAt(digit / 16));
-			sb.append(HEX_DIGITS.charAt(digit % 16));
+			sb.append(HEX_DIGITS.charAt((digit & 0xF0)>>4));
+			sb.append(HEX_DIGITS.charAt(digit & 0x0F));
 		}
 		sb.append('\'');
 		return sb.toString();
