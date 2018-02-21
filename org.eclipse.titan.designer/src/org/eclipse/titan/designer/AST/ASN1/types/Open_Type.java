@@ -673,9 +673,11 @@ public final class Open_Type extends ASN1Type {
 		boolean hasOptional = false;
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
-			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
-					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
-					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName());
+			final IType cfType = compField.getType();
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
+					cfType.getGenNameTemplate(aData, source, getMyScope()),
+					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
+					cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -685,7 +687,7 @@ public final class Open_Type extends ASN1Type {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW));
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);

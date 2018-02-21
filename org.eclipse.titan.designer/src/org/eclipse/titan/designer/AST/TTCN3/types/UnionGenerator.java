@@ -34,18 +34,21 @@ public class UnionGenerator {
 		/** Field variable name in java getter/setter function names and parameters */
 		private String mJavaVarName;
 
+		private String mTypeDescriptorName;
+
 		/**
 		 * @param fieldType: the string representing the value type of this field in the generated code.
 		 * @param fieldTemplate: the string representing the template type of this field in the generated code.
 		 * @param fieldName: the string representing the name of this field in the generated code.
 		 * @param displayName: the string representing the name of this field in the error messages and logs in the generated code.
 		 * */
-		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName) {
+		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName, final String typeDescriptorName) {
 			mJavaTypeName = fieldType;
 			mJavaTemplateName = fieldTemplate;
 			mVarName = fieldName;
 			mJavaVarName = FieldSubReference.getJavaGetterName( mVarName );
 			mDisplayName = displayName;
+			mTypeDescriptorName = typeDescriptorName;
 		}
 	}
 
@@ -64,13 +67,21 @@ public class UnionGenerator {
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
 	 * @param hasOptional: true if the type has an optional field.
+	 * @param hasRaw: true it the type has raw attributes
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
+		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
+		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
+
+		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
 		generateValueConstructors(source, genName, fieldInfos);
@@ -87,11 +98,9 @@ public class UnionGenerator {
 		generateValueGetSelection(source);
 		generateValueLog(source, fieldInfos);
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
-
+		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded);
 		//FIXME implement set_param
-		//FIXME implement encode
-		//FIXME implement decode
-		source.append( "\t\t//TODO: implement set_param, encode, decode !\n" );
+		source.append( "\t\t//TODO: implement set_param !\n" );
 		source.append("}\n");
 	}
 
@@ -467,6 +476,134 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized union selector was received for type {0}.\");\n", displayName));
 		source.append("}\n");
 		source.append("}\n");
+	}
+
+	/**
+	 * Generate encode/decode
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * @param rawNeeded true if encoding/decoding for RAW is to be generated
+	 * */
+	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean rawNeeded) {
+		source.append("@Override\n");
+		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("switch (p_coding) {\n");
+		source.append("case CT_RAW: {\n");
+		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("if (p_td.raw == null) {\n");
+		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("}\n");
+		source.append("final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);\n");
+		source.append("final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);\n");
+		source.append("RAW_encode(p_td, root);\n");
+		source.append("root.put_to_buf(p_buf);\n");
+		source.append("errorContext.leaveContext();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type '{0}''\", p_td.name));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("switch (p_coding) {\n");
+		source.append("case CT_RAW: {\n");
+		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("if (p_td.raw == null) {\n");
+		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("}\n");
+		source.append("raw_order_t order;\n");
+		source.append("switch (p_td.raw.top_bit_order) {\n");
+		source.append("case TOP_BIT_LEFT:\n");
+		source.append("order = raw_order_t.ORDER_LSB;\n");
+		source.append("break;\n");
+		source.append("case TOP_BIT_RIGHT:\n");
+		source.append("default:\n");
+		source.append("order = raw_order_t.ORDER_MSB;\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("if (rawr < 0) {\n");
+		source.append("error_type temp = error_type.values()[-rawr];\n");
+		source.append("switch(temp) {\n");
+		source.append("case ET_INCOMPL_MSG:\n");
+		source.append("case ET_LEN_ERR:\n");
+		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("break;\n");
+		source.append("case ET_UNBOUND:\n");
+		source.append("default:\n");
+		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("errorContext.leaveContext();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type '{0}''\", p_td.name));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		if (rawNeeded) {
+			source.append("@Override\n");
+			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
+			source.append("int encoded_length = 0;\n");
+			source.append("myleaf.isleaf = false;\n");
+			source.append(MessageFormat.format("myleaf.num_of_nodes = {0};\n", fieldInfos.size()));
+			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0}];\n", fieldInfos.size()));
+			source.append("switch (union_selection) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1}]);\n", fieldInfo.mTypeDescriptorName, i));
+				source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+				// FIXME handle tags
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+			source.append("}\n");
+			source.append("return encoded_length;\n");
+			source.append("}\n\n");
+
+			source.append("@Override\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+			source.append("limit -= prepaddlength;\n");
+			source.append("int decoded_length = 0;\n");
+			source.append("int starting_pos = buff.get_pos_bit();\n");
+			source.append("if (sel_field != -1) {\n");
+			source.append("switch (sel_field) {\n");
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append(MessageFormat.format("case {0}:\n", i));
+				source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append("break;\n");
+			}
+			source.append("default:\n");
+			source.append("break;\n");
+			source.append("}\n");
+			source.append("} else {\n");
+			// FIXME handle tags
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+				source.append("buff.set_pos_bit(starting_pos);\n");
+				source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append("if (decoded_length >= 0) {\n");
+				source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+				source.append("}\n");
+			}
+
+			source.append("}\n");
+			source.append("cleanUp();\n");
+			source.append("return -1;\n");
+			source.append("}\n\n");
+		}
 	}
 
 	/**

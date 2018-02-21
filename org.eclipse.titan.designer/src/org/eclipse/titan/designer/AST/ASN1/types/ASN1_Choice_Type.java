@@ -532,9 +532,11 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 		boolean hasOptional = false;
 		for ( int i = 0 ; i < components.getNofComps(); i++ ) {
 			final CompField compField = components.getCompByIndex(i);
-			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
-					compField.getType().getGenNameTemplate(aData, source, getMyScope()),
-					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName());
+			final IType cfType = compField.getType();
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
+					cfType.getGenNameTemplate(aData, source, getMyScope()),
+					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(),
+					cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
 			fieldInfos.add( fi );
 		}
@@ -545,7 +547,7 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW));
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);
