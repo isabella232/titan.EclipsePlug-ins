@@ -139,6 +139,8 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 				ErrorReporter.logExceptionStackTrace(ce);
 			}
 		}
+		
+		final String projectLocationStr = project.getLocation().toOSString();
 		node = document.createElement("projectName");
 		node.appendChild(document.createTextNode(project.getName()));
 
@@ -149,17 +151,17 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 
 		temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "workingDir"));
 		node = document.createElement("workingDirectory");
-		node.appendChild(document.createTextNode(TITANPathUtilities.resolvePathURI(temp, project.getLocation().toOSString()).toString()));
+		node.appendChild(document.createTextNode(TITANPathUtilities.resolvePathURI(temp, projectLocationStr).toString()));
 		makefileSettings.appendChild(node);
 
 		temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "targetExecutable"));
 		node = document.createElement("targetExecutable");
-		node.appendChild(document.createTextNode(TITANPathUtilities.resolvePathURI(temp, project.getLocation().toOSString()).toString()));
+		node.appendChild(document.createTextNode(TITANPathUtilities.resolvePathURI(temp, projectLocationStr).toString()));
 		makefileSettings.appendChild(node);
 
 		temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "makefileUpdateScript"));
 		node = document.createElement("MakefileScript");
-		node.appendChild(document.createTextNode(TITANPathUtilities.resolvePathURI(temp, project.getLocation().toOSString()).toString()));
+		node.appendChild(document.createTextNode(TITANPathUtilities.resolvePathURI(temp, projectLocationStr).toString()));
 		makefileSettings.appendChild(node);
 
 		temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER, "makefileFlags"));
@@ -192,7 +194,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
 				final String fileLocation = file.getLocation().toOSString();
-				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+				final String converted = PathConverter.convert(fileLocation, reportDebugInformation,
 						TITANDebugConsole.getConsole());
 				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
@@ -208,10 +210,10 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		final Map<String, IFile> contralStorageFiles = visitor.getCentralStorageFiles();
 		for (IFile file : contralStorageFiles.values()) {
 			final Element element = document.createElement("File");
-			final String fileLocation = file.getLocationURI().toString();
+			final String fileLocation = file.getLocation().toString();
 			element.setAttribute("path", fileLocation);
 			if (win32 && file.getLocation() != null) {
-				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+				final String converted = PathConverter.convert(fileLocation, reportDebugInformation,
 						TITANDebugConsole.getConsole());
 				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
@@ -230,9 +232,9 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
 				final String fileLocation = file.getLocation().toOSString();
-				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
+				final String converted = PathConverter.convert(fileLocation, reportDebugInformation,
 						TITANDebugConsole.getConsole());
-				if (converted != fileLocation) {
+				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 				}
