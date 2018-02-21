@@ -194,7 +194,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 				final String fileLocation = file.getLocation().toOSString();
 				final String converted = PathConverter.convert(file.getLocation().toOSString(), reportDebugInformation,
 						TITANDebugConsole.getConsole());
-				if (converted != fileLocation) {
+				if (!converted.equals(fileLocation)) {
 					final Path path = new Path(converted);
 					element.setAttribute("cygwinPath", URIUtil.toURI(path).toString());
 				}

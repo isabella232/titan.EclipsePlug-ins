@@ -964,7 +964,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			IType tempType = ((Referenced_Type)this).getTypeRefd(timestamp, chain);
 			chain.release();
-			if (tempType.getIsErroneous(timestamp) || tempType == null) {
+			if (tempType == null || tempType.getIsErroneous(timestamp) ) {
 				return parent;
 			}
 
