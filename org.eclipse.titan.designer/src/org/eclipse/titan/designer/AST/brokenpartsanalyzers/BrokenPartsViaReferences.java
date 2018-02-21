@@ -546,6 +546,9 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 						for(String reference: assignmentHandler.getInfectedReferences()) {
 							TITANDebugConsole.println("      " + assignmentHandler.getAssignment().getIdentifier().getDisplayName() + "->" + reference + ";");
 						}
+						for(String reference: assignmentHandler.getContagiousReferences()) {
+							TITANDebugConsole.println("      " + assignmentHandler.getAssignment().getIdentifier().getDisplayName() + "->" + reference + " [color=red];");
+						}
 					}
 					TITANDebugConsole.println("    }");
 				}
