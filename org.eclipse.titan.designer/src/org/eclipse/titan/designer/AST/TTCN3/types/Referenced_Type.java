@@ -744,7 +744,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public void generateCodeTypedescriptor(final JavaGenData aData, final StringBuilder source) {
 		// FIXME needs to care for other coding attributes too.
 		if (rawAttribute != null) {
-			generateCodeTypedescriptor(aData, source);
+			super.generateCodeTypedescriptor(aData, source);
 		}
 	}
 
