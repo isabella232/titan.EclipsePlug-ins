@@ -342,7 +342,12 @@ MINUS2: '-' -> type(MINUS);
 
 //MATCH_CHAR: (['\'''\\']| '\'\'' | '\\' '\n'); //?
 //TODO this allows some more characters than the compiler
-XToken: ('\'' .*? '\'');
+XToken:
+'\''
+(  '\\' .
+|  ~('\'')
+)*
+'\'';
 
 LENGTHToken: 'length';
 REPEATToken: 'repeatable';
