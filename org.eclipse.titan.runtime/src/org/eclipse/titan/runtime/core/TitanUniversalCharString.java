@@ -11,7 +11,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 /**
@@ -1460,4 +1462,51 @@ public class TitanUniversalCharString extends Base_Type {
 		error.leaveContext();
 	}
 	
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+		if (!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+		}
+		if (charstring) {
+			return new TitanCharString(cstr).RAW_encode(p_td, myleaf);
+		}
+		TTCN_Buffer buf = new TTCN_Buffer();
+		switch (p_td.raw.stringformat) {
+		case UNKNOWN: // default is UTF-8
+		case UTF_8:
+			encode_utf8(buf);
+			break;
+		case UTF16:
+			encode_utf16(buf, CharCoding.UTF16);
+			break;
+		default:
+			TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
+			break;
+		}
+		if (p_td.raw.fieldlength < 0 ) {
+			// NULL terminated string
+			buf.put_c((char) 0);
+		}
+
+		int buff_len = buf.get_len();
+		int bl = buff_len * 8; // bit length
+		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
+		if (align_length < 0) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode '%s': ", p_td.name);
+			bl = p_td.raw.fieldlength;
+			align_length = 0;
+		}
+		if (myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		myleaf.data_ptr = new char[buff_len];
+		System.arraycopy(buf.get_data(), 0, myleaf.data_ptr, 0, buff_len);
+		myleaf.must_free = true;
+		myleaf.data_ptr_used = true;
+		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+			myleaf.align = -align_length;
+		} else {
+			myleaf.align = align_length;
+		}
+		return myleaf.length = bl + align_length;
+	}
 }
