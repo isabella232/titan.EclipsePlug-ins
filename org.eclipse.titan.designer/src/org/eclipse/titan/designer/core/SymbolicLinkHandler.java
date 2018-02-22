@@ -247,6 +247,7 @@ public final class SymbolicLinkHandler {
 		final IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(rProject).getWorkingDirectoryPath(true);
 
 		if (workingDir == null) {
+			ErrorReporter.logError("The working directory could not be created because it hasn't been defined yet");
 			return false;
 		}
 		

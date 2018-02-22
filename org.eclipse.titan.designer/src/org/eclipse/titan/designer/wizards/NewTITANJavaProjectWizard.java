@@ -1,5 +1,5 @@
 /******************************************************************************
- * Copyright (c) 2000-2017 Ericsson Telecom AB
+ * Copyright (c) 2000-2018 Ericsson Telecom AB
  * All rights reserved. This program and the accompanying materials
  * are made available under the terms of the Eclipse Public License v1.0
  * which accompanies this distribution, and is available at
@@ -36,6 +36,7 @@ import org.eclipse.jdt.core.IJavaProject;
 import org.eclipse.jdt.core.JavaCore;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.Activator;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.MakeAttributesData;
@@ -249,7 +250,6 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 			createManifest();
 		} catch (CoreException exception) {
 			ErrorReporter.logExceptionStackTrace(exception);
-			return false;
 		}
 
 		ProjectDocumentHandlingUtility.createDocument(newProject);
@@ -262,6 +262,8 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		} catch (InterruptedException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
+
+		Activator.getDefault().resumeHandlingResourceChanges();
 
 		try {
 			final IProjectDescription description = newProject.getDescription();
