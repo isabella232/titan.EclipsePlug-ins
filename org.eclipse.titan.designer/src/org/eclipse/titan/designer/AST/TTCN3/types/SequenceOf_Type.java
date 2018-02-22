@@ -571,6 +571,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 				template.getLocation().reportSemanticWarning(REDUNDANTLENGTHRESTRICTION);
 			}
 			break;
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
 		case PERMUTATION_MATCH: {
 			final PermutationMatch_Template permutationTemplate = (PermutationMatch_Template) template;
 			final int nofComponents = permutationTemplate.getNofTemplates();

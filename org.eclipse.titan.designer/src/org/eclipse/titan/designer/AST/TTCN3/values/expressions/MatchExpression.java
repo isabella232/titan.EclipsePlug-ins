@@ -157,7 +157,7 @@ public final class MatchExpression extends Expression_Value {
 
 		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
 				: expectedValue;
-
+		//Start
 		IType localGovernor = value.getExpressionGovernor(timestamp, expectedValue);
 		if (localGovernor == null) {
 			localGovernor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
@@ -168,6 +168,12 @@ public final class MatchExpression extends Expression_Value {
 			localGovernor = template.getExpressionGovernor(timestamp, internalExpectation);
 		}
 		if(localGovernor == null) {
+			//Start again:
+			value.setLoweridToReference(timestamp);
+			localGovernor = value.getExpressionGovernor(timestamp, expectedValue);
+		}
+		
+		if( localGovernor == null) {
 			if (!template.getIsErroneous(timestamp)) {
 				getLocation().reportSemanticError("Cannot determine the type of arguments in `match()' operation");
 			}
