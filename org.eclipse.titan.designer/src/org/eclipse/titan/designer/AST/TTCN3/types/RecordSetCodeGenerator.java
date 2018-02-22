@@ -40,6 +40,8 @@ public class RecordSetCodeGenerator {
 
 		/** Java AST type name (for debug purposes) */
 		private String mTTCN3TypeName;
+	
+		private String mTypeDescriptorName;
 
 		/**
 		 * @param fieldType the string representing the type of this field in the generated code.
@@ -48,9 +50,10 @@ public class RecordSetCodeGenerator {
 		 * @param displayName The user readable name of the field, typically used in error messages
 		 * @param isOptional true if the field is optional.
 		 * @param debugName additional text printed out in a comment after the generated local variables.
+		 * @param typeDescriptorName the name of the type descriptor.
 		 * */
 		public FieldInfo( final String fieldType, final String fieldTemplateType, final String fieldName,
-						  final String displayName, final boolean isOptional, final String debugName) {
+						  final String displayName, final boolean isOptional, final String debugName, final String typeDescriptorName) {
 			mJavaTypeName = fieldType;
 			mJavaTemplateTypeName = fieldTemplateType;
 			mVarName = fieldName;
@@ -58,6 +61,7 @@ public class RecordSetCodeGenerator {
 			mJavaVarName  = FieldSubReference.getJavaGetterName( mVarName );
 			this.isOptional = isOptional;
 			mTTCN3TypeName = debugName;
+			mTypeDescriptorName = typeDescriptorName;
 		}
 	}
 
@@ -77,9 +81,10 @@ public class RecordSetCodeGenerator {
 	 * @param fieldInfos the list of information about the fields.
 	 * @param hasOptional true if the type has an optional field.
 	 * @param isSet true if generating code for a set, false if generating code for a record.
+	 * @param hasRaw true it the type has raw attributes
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet) {
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addImport("java.text.MessageFormat");
@@ -87,7 +92,10 @@ public class RecordSetCodeGenerator {
 		if(hasOptional) {
 			aData.addBuiltinTypeImport("Optional");
 			aData.addBuiltinTypeImport("Optional.optional_sel");
+			aData.addBuiltinTypeImport("Base_Template.template_sel");
 		}
+
+		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
 
 		if (fieldInfos.isEmpty()) {
 			generateEmptyValueClass(aData, source, className, classDisplayname);
@@ -114,6 +122,8 @@ public class RecordSetCodeGenerator {
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
 		generateValueEncodeDecodeText(source, fieldInfos);
+		generateValueEncodeDecode(source, className, classDisplayname, fieldInfos, isSet, rawNeeded);
+
 		source.append( "\t}\n" );
 	}
 
@@ -506,6 +516,235 @@ public class RecordSetCodeGenerator {
 		}
 		aSb.append("\t\t}\n");
 	}
+
+	/**
+	 * Generate encode/decode
+	 *
+	 * @param source: where the source code is to be generated.
+	 * @param genName: the name of the generated class representing the union/choice type.
+	 * @param displayName: the user readable name of the type to be generated.
+	 * @param fieldInfos: the list of information about the fields.
+	 * @param rawNeeded true if encoding/decoding for RAW is to be generated
+	 * */
+	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet, final boolean rawNeeded) {
+		source.append("@Override\n");
+		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("switch (p_coding) {\n");
+		source.append("case CT_RAW: {\n");
+		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("if (p_td.raw == null) {\n");
+		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("}\n");
+		source.append("final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);\n");
+		source.append("final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);\n");
+		source.append("RAW_encode(p_td, root);\n");
+		source.append("root.put_to_buf(p_buf);\n");
+		source.append("errorContext.leaveContext();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type '{0}''\", p_td.name));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("switch (p_coding) {\n");
+		source.append("case CT_RAW: {\n");
+		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("if (p_td.raw == null) {\n");
+		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("}\n");
+		source.append("raw_order_t order;\n");
+		source.append("switch (p_td.raw.top_bit_order) {\n");
+		source.append("case TOP_BIT_LEFT:\n");
+		source.append("order = raw_order_t.ORDER_LSB;\n");
+		source.append("break;\n");
+		source.append("case TOP_BIT_RIGHT:\n");
+		source.append("default:\n");
+		source.append("order = raw_order_t.ORDER_MSB;\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("if (rawr < 0) {\n");
+		source.append("error_type temp = error_type.values()[-rawr];\n");
+		source.append("switch(temp) {\n");
+		source.append("case ET_INCOMPL_MSG:\n");
+		source.append("case ET_LEN_ERR:\n");
+		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("break;\n");
+		source.append("case ET_UNBOUND:\n");
+		source.append("default:\n");
+		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("errorContext.leaveContext();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type '{0}''\", p_td.name));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		if (rawNeeded) {
+			//FIXME needs to actually handle specific raw attributes
+			source.append("@Override\n");
+			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
+			source.append("if (!isBound()) {\n");
+			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
+			source.append("}\n");
+
+			source.append("int encoded_length = 0;\n");
+			source.append("myleaf.isleaf = false;\n");
+			source.append(MessageFormat.format("myleaf.num_of_nodes = {0};\n", fieldInfos.size()));
+			source.append(MessageFormat.format("myleaf.nodes = new RAW_enc_tree[{0}];\n", fieldInfos.size()));
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+	
+				if (fieldInfo.isOptional) {
+					source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append("} else {\n");
+					source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", i));
+					source.append("}\n");
+				} else {
+					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
+				}
+			}
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+
+				if (fieldInfo.isOptional) {
+					source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+					source.append(MessageFormat.format("encoded_length += {0}.RAW_encode({1}_descr_, myleaf.nodes[{2}]);\n", fieldInfo.mVarName, fieldInfo.mTypeDescriptorName, i));
+					source.append("}\n");
+				} else {
+					source.append(MessageFormat.format("encoded_length += {0}.RAW_encode({1}_descr_, myleaf.nodes[{2}]);\n", fieldInfo.mVarName, fieldInfo.mTypeDescriptorName, i));
+				}
+			}
+
+			source.append("myleaf.length = encoded_length;\n");
+			source.append("return encoded_length;\n");
+			source.append("}\n\n");
+
+			source.append("@Override\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			if (isSet) {
+				source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+				source.append("limit -= prepaddlength;\n");
+				source.append("int decoded_length = 0;\n");
+				source.append("int field_map[] = new int[]{");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					if (i != 0) {
+						source.append(',');
+					}
+					source.append('0');
+				}
+				source.append("};\n");
+				source.append("int nof_mand_fields = 0;\n");
+				source.append("raw_order_t local_top_order;\n");
+				source.append("if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
+				source.append("local_top_order = top_bit_ord;\n");
+				source.append("} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
+				source.append("local_top_order = raw_order_t.ORDER_MSB;\n");
+				source.append("} else {\n");
+				source.append("local_top_order = raw_order_t.ORDER_LSB;\n");
+				source.append("}\n");
+
+				source.append("while (limit > 0) {\n");
+				source.append("int fl_start_pos = buff.get_pos_bit();\n");
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("if (field_map[{0}] == 0) '{'\n", i));
+						source.append(MessageFormat.format("int decoded_field_length = get{0}().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+						source.append("if (decoded_field_length > 0) {\n");
+						source.append("decoded_length += decoded_field_length;\n");
+						source.append("limit -= decoded_field_length;\n");
+						source.append(MessageFormat.format("field_map[{0}] = 1;\n", i));
+						source.append("continue;\n");
+						source.append("} else {\n");
+						source.append("buff.set_pos_bit(fl_start_pos);\n");
+						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+						source.append("}\n");
+						source.append("}\n");
+					} else {
+						source.append(MessageFormat.format("if (field_map[{0}] == 0) '{'\n", i));
+						source.append(MessageFormat.format("int decoded_field_length = get{0}().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+						source.append("if (decoded_field_length >= 0) {\n");
+						source.append("decoded_length += decoded_field_length;\n");
+						source.append("limit -= decoded_field_length;\n");
+						source.append("nof_mand_fields++;\n");
+						source.append(MessageFormat.format("field_map[{0}] = 1;\n", i));
+						source.append("continue;\n");
+						source.append("} else {\n");
+						source.append("buff.set_pos_bit(fl_start_pos);\n");
+						source.append("}\n");
+						source.append("}\n");
+					}
+				}
+
+				source.append("break;\n");
+				source.append("}\n");
+
+				source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", fieldInfos.size()));
+				source.append("return limit > 0 ? -1 : TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
+				source.append("}\n");
+				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
+			} else {
+				source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+				source.append("limit -= prepaddlength;\n");
+				source.append("int last_decoded_pos = buff.get_pos_bit();\n");
+				source.append("int decoded_length = 0;\n");
+				source.append("int decoded_field_length = 0;\n");
+				source.append("raw_order_t local_top_order;\n");
+				source.append("if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
+				source.append("local_top_order = top_bit_ord;\n");
+				source.append("} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
+				source.append("local_top_order = raw_order_t.ORDER_MSB;\n");
+				source.append("} else {\n");
+				source.append("local_top_order = raw_order_t.ORDER_LSB;\n");
+				source.append("}\n");
+	
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					if (fieldInfo.isOptional) {
+						source.append("if (limit > 0) {\n");
+						source.append("int fl_start_pos = buff.get_pos_bit();\n");
+						source.append(MessageFormat.format("decoded_field_length = get{0}().get().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+						source.append("if (decoded_field_length < 1) {\n");
+						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+						source.append("buff.set_pos_bit(fl_start_pos);\n");
+						source.append("} else {\n");
+						source.append("decoded_length += decoded_field_length;\n");
+						source.append("limit -= decoded_field_length;\n");
+						source.append("last_decoded_pos = Math.max(last_decoded_pos, buff.get_pos_bit());\n");
+						source.append("}\n");
+						source.append("} else {\n");
+						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+						source.append("}\n");
+					} else {
+						source.append(MessageFormat.format("decoded_field_length = get{0}().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+						source.append("if (decoded_field_length < 0) {\n");
+						source.append("return decoded_field_length;\n");
+						source.append("}\n");
+						source.append("decoded_length += decoded_field_length;\n");
+						source.append("limit -= decoded_field_length;\n");
+						source.append("last_decoded_pos = Math.max(last_decoded_pos, buff.get_pos_bit());\n");
+					}
+				}
+	
+				source.append("buff.set_pos_bit(last_decoded_pos);\n");
+				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
+			}
+
+			source.append("}\n\n");
+		}
+	}
+
 	/**
 	 * Generating isBound() function for template
 	 * @param aSb the output, where the java code is written

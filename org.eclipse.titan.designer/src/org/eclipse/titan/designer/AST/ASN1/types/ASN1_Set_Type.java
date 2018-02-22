@@ -924,11 +924,11 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		boolean hasOptional = false;
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
-
-			final FieldInfo fi = new FieldInfo(compField.getType().getGenNameValue( aData, source, getMyScope() ),
-					compField.getType().getGenNameTemplate( aData, source, getMyScope() ),
+			final IType cfType = compField.getType();
+			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
+					cfType.getGenNameTemplate( aData, source, getMyScope() ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
-					compField.getType().getClass().getSimpleName());
+					compField.getType().getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}
@@ -939,7 +939,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true);
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true, getGenerateCoderFunctions(MessageEncoding_type.RAW));
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, true);
 
 		generateCodeForCodingHandlers(aData, source);
