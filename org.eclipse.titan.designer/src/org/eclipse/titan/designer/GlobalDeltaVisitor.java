@@ -37,7 +37,7 @@ public final class GlobalDeltaVisitor implements IResourceDeltaVisitor {
 
 	public GlobalDeltaVisitor(final IProject project) {
 		this.project = project;
-		final boolean reportError = 	false; //PlatformUI.isWorkbenchRunning();	//Do not report error in headless mode
+		final boolean reportError = PlatformUI.isWorkbenchRunning();	//Do not report error in headless mode
 		workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(reportError);
 	}
 

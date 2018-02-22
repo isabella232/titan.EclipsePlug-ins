@@ -207,8 +207,9 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 		content.append("Bundle-ActivationPolicy: lazy\n");
 
 		final IFolder metaInf = newProject.getFolder("META-INF");
-		metaInf.create(false, true, null);
-
+		if (!metaInf.exists()) {
+			metaInf.create(false, true, null);
+		}
 		final IFile properties = metaInf.getFile(new Path("MANIFEST.MF"));
 		final InputStream stream = new ByteArrayInputStream(content.toString().getBytes());
 		if(properties.exists()) {
@@ -220,8 +221,16 @@ public class NewTITANJavaProjectWizard /*extends BasicNewResourceWizard implemen
 
 	@Override
 	public boolean performFinish() {
+		
+		Activator.getDefault().pauseHandlingResourceChanges();
+
 		if(!isCreated) {
 			createNewProject();
+		}
+		
+		if (newProject == null) {
+			Activator.getDefault().resumeHandlingResourceChanges();
+			return false;
 		}
 
 		try {
