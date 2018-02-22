@@ -41,6 +41,7 @@ public class UnionGenerator {
 		 * @param fieldTemplate: the string representing the template type of this field in the generated code.
 		 * @param fieldName: the string representing the name of this field in the generated code.
 		 * @param displayName: the string representing the name of this field in the error messages and logs in the generated code.
+		 * @param typeDescriptorName: the name of the type descriptor.
 		 * */
 		public FieldInfo(final String fieldType, final String fieldTemplate, final String fieldName, final String displayName, final String typeDescriptorName) {
 			mJavaTypeName = fieldType;
@@ -141,8 +142,6 @@ public class UnionGenerator {
 		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
 		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
 
-		//FIXME implement encode
-		//FIXME implement decode
 		//FIXME implement set_param
 		//FIXME implement check_restriction
 		source.append( "\t\t//TODO: implement set_param, encode, decode, check_restriction !\n" );
