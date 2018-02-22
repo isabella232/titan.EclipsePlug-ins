@@ -705,8 +705,12 @@ public class TitanHexString extends Base_Type {
 		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
 		myleaf.data_ptr = new char[(nibbles_ptr.length + 1) / 2];
-		for (int i = 1; i < nibbles_ptr.length; i += 2) {
-			myleaf.data_ptr[i / 2] = (char) ((nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F));
+		if(nibbles_ptr.length == 1) {
+			myleaf.data_ptr[0] = (char) nibbles_ptr[0];
+		} else {
+			for (int i = 1; i < nibbles_ptr.length; i += 2) {
+				myleaf.data_ptr[i / 2] = (char) ((nibbles_ptr[i] << 4 | nibbles_ptr[i - 1] & 0x0F));
+			}
 		}
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
