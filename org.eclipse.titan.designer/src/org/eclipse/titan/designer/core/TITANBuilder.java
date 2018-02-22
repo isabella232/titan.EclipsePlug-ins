@@ -800,6 +800,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 		IPath workingDir = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
 
 		if (workingDir == null) {
+			ErrorReporter.logError("The working directory could not be created because it hasn't been defined yet");
 			initialisationMonitor.done();
 			progress.done();
 			if (reportDebugInformation) {

@@ -241,8 +241,6 @@ public final class NewTITANProjectWizard extends BasicNewResourceWizard implemen
 					MakefileCreationData.TARGET_EXECUTABLE_PROPERTY), executable);
 		} catch (CoreException ce) {
 			ErrorReporter.logExceptionStackTrace(ce);
-
-			Activator.getDefault().resumeHandlingResourceChanges();
 		}
 
 		ProjectDocumentHandlingUtility.createDocument(newProject);
