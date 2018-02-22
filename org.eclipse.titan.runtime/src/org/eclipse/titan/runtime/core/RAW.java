@@ -537,6 +537,34 @@ public class RAW {
 		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
 		return myleaf.length = fl;
 	}
+	
+	public static int RAW_decode_enum_type(final TTCN_Typedescriptor p_td, TTCN_Buffer buff,final int limit, raw_order_t top_bit_ord, int value, int min_bits_enum, boolean no_err) {
+		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
+		TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
+		my_raw.fieldlength = fl;
+		my_raw.comp = p_td.raw.comp;
+		my_raw.byteorder = p_td.raw.byteorder;
+		my_raw.endianness = p_td.raw.endianness;
+		my_raw.bitorderinfield = p_td.raw.bitorderinfield;
+		my_raw.bitorderinoctet = p_td.raw.bitorderinoctet;
+		my_raw.extension_bit = p_td.raw.extension_bit;
+		my_raw.hexorder = p_td.raw.hexorder;
+		my_raw.fieldorder = p_td.raw.fieldorder;
+		my_raw.top_bit_order = p_td.raw.top_bit_order;
+		my_raw.padding = p_td.raw.padding;
+		my_raw.prepadding = p_td.raw.prepadding;
+		my_raw.ptroffset = p_td.raw.ptroffset;
+		my_raw.unit = p_td.raw.unit;
+		//FIXME: initial implementation of Typedescriptor
+		TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
+		TitanInteger i = new TitanInteger();
+		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord);
+		if(fl < 0) {
+			return fl;
+		}
+		value = i.getInt();
+		return fl + buff.increase_pos_padd(p_td.raw.padding);
+	}
 
 	//Default descriptors of RAW encoding for primitive types.
 	public static final TTCN_RAWdescriptor TitanInteger_raw_ = new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
@@ -548,7 +576,6 @@ public class RAW {
 	public static final TTCN_RAWdescriptor TitanFloat_raw_ = new TTCN_RAWdescriptor(64, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
 	public static final TTCN_RAWdescriptor TitanUniversalCharString_raw_ = new TTCN_RAWdescriptor(0, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN);
 
-	//TODO: int RAW_decode_enum_type(const TTCN_Typedescriptor_t&, TTCN_Buffer&, int, raw_order_t, int&, int, boolean no_err=FALSE);
 	//TODO: RAW_enc_tree** init_nodes_of_enc_tree(int nodes_num);
 	//TODO: RAW_enc_tr_pos* init_lengthto_fields_list(int num);
 	//TODO: int* init_new_tree_pos(RAW_enc_tr_pos &old_pos,int new_levels, int* new_pos);
