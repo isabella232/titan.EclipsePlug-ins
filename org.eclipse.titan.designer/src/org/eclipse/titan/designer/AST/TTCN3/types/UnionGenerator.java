@@ -72,10 +72,14 @@ public class UnionGenerator {
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
 			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw) {
+		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_Buffer");
+		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
+		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");

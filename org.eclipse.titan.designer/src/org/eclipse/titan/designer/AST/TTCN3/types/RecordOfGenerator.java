@@ -38,6 +38,7 @@ public class RecordOfGenerator {
 										   final String ofTypeName,
 										   final boolean isSetOf,
 										   final boolean hasRaw) {
+		aData.addImport("java.text.MessageFormat");
 		aData.addImport("java.util.List");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
