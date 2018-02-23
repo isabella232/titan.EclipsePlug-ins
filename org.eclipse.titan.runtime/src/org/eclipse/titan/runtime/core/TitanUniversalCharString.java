@@ -11,6 +11,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 /**
@@ -1278,7 +1281,6 @@ public class TitanUniversalCharString extends Base_Type {
 			final char[] bstr = new char[cstr.length()];
 			for (int i = 0; i < cstr.length(); i++) {
 				bstr[i] =  cstr.charAt(i);
-				System.out.println((int) bstr[i]);
 			}
 			buf.put_s(bstr);
 			// put_s avoids the check for boundness in put_cs
@@ -1333,5 +1335,178 @@ public class TitanUniversalCharString extends Base_Type {
 				}
 			} // for i
 		}
+	}
+	
+	public void encode_utf16(TTCN_Buffer buf, CharCoding expected_coding) {
+		//add BOM
+		boolean isBig = true;
+		TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
+		switch (expected_coding) {
+		case UTF16:
+		case UTF16BE:
+			isBig = true;
+			break;
+		case UTF16LE:
+			isBig = false;
+			break;
+		default:
+			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-16 encoding");
+			break;
+		}
+		buf.put_c((char) (isBig ? 0xFE : 0xFF));
+		buf.put_c((char) (isBig ? 0xFF : 0xFE));
+
+		if(charstring) {
+			for (int i = 0; i < cstr.length(); ++i) {
+				buf.put_c(isBig ? 0 : cstr.charAt(i));
+				buf.put_c(isBig ? cstr.charAt(i) : 0);
+			}
+		} else {
+			for (int i = 0; i < val_ptr.size(); i++) {
+				char g = val_ptr.get(i).getUc_group();
+				char p = val_ptr.get(i).getUc_plane();
+				char r = val_ptr.get(i).getUc_row();
+				char c = val_ptr.get(i).getUc_cell();
+				if (g != 0 || (0x10 < p)) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X%02X%02X) to be encoded into UTF-16 shall not be greater than 0x10FFFF", g, p, r, c);
+				} else if (0x00 == g && 0x00 ==p && 0xD8 <= r && 0xDF >= r) {
+					// Values between 0xD800 and 0xDFFF are specifically reserved for use with UTF-16,
+					// and don't have any characters assigned to them.
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X) between 0xD800 and 0xDFFF is ill-formed", r, c);
+				} else if (0x00 == g && 0x00 == p) {
+					buf.put_c(isBig ? r : c);
+					buf.put_c(isBig ? c : r);
+				} else if (g != 0 || p != 0) {
+					int univc = 0, temp = 0;
+					univc = g;
+					univc <<= 24;
+					temp = p;
+					temp <<= 16;
+					univc |= temp;
+					temp = r;
+					temp <<= 8;
+					univc |= temp;
+					univc |= c; // universal char filled in univc 
+					int W1 = 0xD800;
+					int W2 = 0xDC00;
+					int univcmod = univc - 0x10000;
+					int WH = univcmod >> 10;
+					int WL = univcmod & 0x3ff;
+					W1 |= WH;
+					W2 |= WL;
+					char uc;
+					uc = (char) (isBig ? W1 >> 8 : W1);
+					buf.put_c(uc);
+					uc = (char) (isBig ? W1 : W1 >> 8);
+					buf.put_c(uc);
+					uc = (char) (isBig ? W2 >> 8 : W2);
+					buf.put_c(uc);
+					uc = (char) (isBig ? W2 : W2 >> 8);
+					buf.put_c(uc);
+				}
+			}
+		}
+		error.leaveContext();
+	}
+
+	public void encode_utf32(TTCN_Buffer buf, CharCoding  expected_coding) {
+		boolean isBig = true;
+		TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
+		switch (expected_coding) {
+		case UTF32:
+		case UTF32BE:
+			isBig = true;
+			break;
+		case UTF32LE:
+			isBig = false;
+			break;
+		default:
+			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-32 encoding");
+			break;
+		}
+		//add BOM
+		buf.put_c((char) (isBig ? 0x00 : 0xFF));
+		buf.put_c((char) (isBig ? 0x00 : 0xFE));
+		buf.put_c((char) (isBig ? 0xFE : 0x00));
+		buf.put_c((char) (isBig ? 0xFF : 0x00));
+		if (charstring) {
+			for (int i = 0; i < cstr.length(); i++) {
+				buf.put_c(isBig ? 0 : cstr.charAt(i));
+				buf.put_c((char) 0);
+				buf.put_c((char) 0);
+				buf.put_c(isBig ? cstr.charAt(i) : 0);
+			}
+		} else {
+			for (int i = 0; i < val_ptr.size(); i++) {
+				char g = val_ptr.get(i).getUc_group();
+				char p = val_ptr.get(i).getUc_plane();
+				char r = val_ptr.get(i).getUc_row();
+				char c = val_ptr.get(i).getUc_cell();
+				int DW = g << 8 | p;
+				DW <<= 8;
+				DW |= r;
+				DW <<= 8;
+				DW |= c;
+				if (0x0000D800 <= DW && 0x0000DFFF >= DW) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) between 0x0000D800 and 0x0000DFFF is ill-formed", DW);
+				} else if (0x0010FFFF < DW) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
+				} else {
+					buf.put_c(isBig ? g : c);
+					buf.put_c(isBig ? p : r);
+					buf.put_c(isBig ? r : p);
+					buf.put_c(isBig ? c : g);
+				}
+			}
+		}
+		error.leaveContext();
+	}
+	
+	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
+		if (!isBound()) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
+		}
+		if (charstring) {
+			return new TitanCharString(cstr).RAW_encode(p_td, myleaf);
+		}
+		TTCN_Buffer buf = new TTCN_Buffer();
+		switch (p_td.raw.stringformat) {
+		case UNKNOWN: // default is UTF-8
+		case UTF_8:
+			encode_utf8(buf);
+			break;
+		case UTF16:
+			encode_utf16(buf, CharCoding.UTF16);
+			break;
+		default:
+			TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
+			break;
+		}
+		if (p_td.raw.fieldlength < 0 ) {
+			// NULL terminated string
+			buf.put_c((char) 0);
+		}
+
+		int buff_len = buf.get_len();
+		int bl = buff_len * 8; // bit length
+		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
+		if (align_length < 0) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode '%s': ", p_td.name);
+			bl = p_td.raw.fieldlength;
+			align_length = 0;
+		}
+		if (myleaf.must_free) {
+			myleaf.data_ptr = null;
+		}
+		myleaf.data_ptr = new char[buff_len];
+		System.arraycopy(buf.get_data(), 0, myleaf.data_ptr, 0, buff_len);
+		myleaf.must_free = true;
+		myleaf.data_ptr_used = true;
+		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
+			myleaf.align = -align_length;
+		} else {
+			myleaf.align = align_length;
+		}
+		return myleaf.length = bl + align_length;
 	}
 }
