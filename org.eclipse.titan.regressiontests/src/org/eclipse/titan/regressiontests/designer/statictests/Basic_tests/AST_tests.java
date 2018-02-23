@@ -3839,7 +3839,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(991);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(987);
 		int lineNum = 41;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `compTimer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
@@ -4141,10 +4141,7 @@ public class AST_tests {
 		lineNum += 13;
 		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests' cannot be started on a parallel test component because it has port parameter `pl_port_par'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests2' cannot be started on parallel test component because it does not have a `runs on' clause",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 3;
-		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests3' cannot be started on a parallel test component because it has `out' template parameter `pl_par2'",  lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests3' cannot be started on a parallel test component because it has `out' value parameter `pl_par1'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 6;
+		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("Missing duration: timer `TL_timervar2' does not have default duration",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Missing duration: timer `TL_timervar3' does not have default duration",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The timer duration is negative: `-5.0'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -4161,9 +4158,7 @@ public class AST_tests {
 		lineNum += 14;
 		markersToCheck.add(new MarkerToCheck("A value of a function type was expected in the argument instead of a `refers' operation, which does not specify any function type.",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A value of a function type was expected in the argument instead of a `null' value, which does not specify any function type.",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests3' cannot be started on a parallel test component because it has `out' template parameter `pl_par2'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests3' cannot be started on a parallel test component because it has `out' value parameter `pl_par1'",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 2;
+		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A value of type function was expected in the argument of `integer'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many parameters: 0 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -4880,6 +4875,7 @@ public class AST_tests {
 
 		return markersToCheck;
 	}
+
 	private ArrayList<MarkerToCheck> subtype_tests_ttcn_initializer() {
 		//subtype_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(754);

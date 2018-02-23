@@ -82,6 +82,8 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	private static final String TOOMANYPARAMETERS = "More than {0} parameters";
 	private static final String CANNOTBESTARTED = "a parameter or embedded in a parameter of a function used in a start operation."
 			+ " {0} `{1}'' cannot be start on a parallel test component";
+	private static final String WILLREMAINUNCHANGED =
+		"{0} `{1}'' started on parallel test components. Its `out' and `inout' parameters will remain unchanged at the end of the operation.";
 
 	private final List<FormalParameter> parameters = new ArrayList<FormalParameter>();
 	private Location location = NULL_Location.INSTANCE;
@@ -841,11 +843,16 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 		for (int i = 0; i < parameters.size(); i++) {
 			final FormalParameter parameter = parameters.get(i);
 			switch (parameter.getAssignmentType()) {
+			case A_PAR_VAL_OUT:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_VAL_INOUT:
+			case A_PAR_TEMP_INOUT:
+				errorLocation.reportSemanticWarning(MessageFormat.format(WILLREMAINUNCHANGED,what, namedNode.getFullName()));
+				//intentionally not breaked
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
 			case A_PAR_TEMP_IN:
-			case A_PAR_VAL_INOUT:
-			case A_PAR_TEMP_INOUT: {
+			 {
 				final IType tempType = parameter.getType(timestamp);
 				if (tempType != null && tempType.isComponentInternal(timestamp)) {
 					final Set<IType> typeSet = new HashSet<IType>();

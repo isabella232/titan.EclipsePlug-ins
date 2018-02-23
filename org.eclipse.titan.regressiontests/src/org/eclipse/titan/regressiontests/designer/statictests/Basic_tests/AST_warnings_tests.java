@@ -1197,7 +1197,7 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(40);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(42);
 		int lineNum = 134;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the final condition evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
 		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the final condition evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
@@ -1205,22 +1205,26 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the final condition evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 14;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  ++lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
-		markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)",  ++lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 9;
+		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  ++lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 1;
+		int i = 0;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true", lineNum++, IMarker.SEVERITY_WARNING));
+		}
+		lineNum += -1;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Control never reaches this code because of previous effective condition(s)", lineNum++, IMarker.SEVERITY_WARNING));
+		}
+		lineNum += 8;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this code because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to false",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 127;
 		markersToCheck.add(new MarkerToCheck("If the first statement of the [else] branch is a repeat statement, it will result in busy waiting",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 1;
-		int i = 0;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Control never reaches this branch of alternative because of a previous [else] branch", lineNum++, IMarker.SEVERITY_WARNING));
 		}
@@ -1230,9 +1234,13 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 12;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 113;
+		lineNum += 102;
+		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests3' started on parallel test components. Its `out and `inout parameters will remain unchanged at the end of the operation.",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_runsonothercomponent' returns a template of type `integer', which cannot be retrieved when the test component terminates",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 39;
+		lineNum += 19;
+		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests3' started on parallel test components. Its `out and `inout parameters will remain unchanged at the end of the operation.",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 27;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
@@ -1268,7 +1276,7 @@ public class AST_warnings_tests {
 
 		return markersToCheck;
 	}
-	
+
 	private ArrayList<MarkerToCheck> subtype_tests_ttcn_initializer() {
 		//subtype_tests.ttcn
 		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(6);
