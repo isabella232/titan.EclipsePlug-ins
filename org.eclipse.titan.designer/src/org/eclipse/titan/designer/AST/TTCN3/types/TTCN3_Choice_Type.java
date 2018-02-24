@@ -22,12 +22,15 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
@@ -424,6 +427,46 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+		//check raw attributes
+		//TODO can unions have length restriction?
+		if (rawAttribute != null) {
+			//TODO force_raw()
+			if (rawAttribute.taglist != null) {
+				for (int c = 0; c < rawAttribute.taglist.size(); c++) {
+					final rawAST_single_tag singleTag = rawAttribute.taglist.get(c);
+					final Identifier fieldname = singleTag.fieldName;
+					if (!hasComponentWithName(fieldname.getName())) {
+						fieldname.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter TAG for type `{1}''", fieldname.getDisplayName(), getTypename()));
+						continue;
+					}
+	
+					if (singleTag.keyList != null) {
+						for (int a = 0; a < singleTag.keyList.size(); a++) {
+							final Reference reference = new Reference(null);
+							reference.addSubReference(new FieldSubReference(fieldname));
+							for (int b = 0; b < singleTag.keyList.get(a).keyField.names.size(); b++) {
+								reference.addSubReference(new FieldSubReference(singleTag.keyList.get(a).keyField.names.get(b)));
+							}
+
+							final IType t = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+							if (t != null) {
+								final Value v = singleTag.keyList.get(a).v_value;
+								v.setMyScope(getMyScope());
+								v.setMyGovernor(t);
+								final IValue tempValue = t.checkThisValueRef(timestamp, v);
+								t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
+							}
+						}
+					}
+				}
+			}
+		}
+		//TODO add checks for other encodings.
 	}
 
 	@Override
