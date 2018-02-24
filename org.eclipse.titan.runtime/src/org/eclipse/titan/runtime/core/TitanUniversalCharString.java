@@ -1336,7 +1336,7 @@ public class TitanUniversalCharString extends Base_Type {
 			} // for i
 		}
 	}
-	
+
 	public void encode_utf16(TTCN_Buffer buf, CharCoding expected_coding) {
 		//add BOM
 		boolean isBig = true;

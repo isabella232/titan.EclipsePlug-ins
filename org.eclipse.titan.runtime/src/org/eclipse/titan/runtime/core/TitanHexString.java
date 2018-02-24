@@ -770,6 +770,7 @@ public class TitanHexString extends Base_Type {
 				temp_index++;
 			}
 		}
+
 		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
 			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 				if ((decode_length - nibbles_ptr.length * 4) % 8 != 0) {
