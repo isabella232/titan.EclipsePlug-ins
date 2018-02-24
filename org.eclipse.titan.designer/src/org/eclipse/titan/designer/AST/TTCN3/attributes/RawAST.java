@@ -31,7 +31,7 @@ public class RawAST {
 	}
 
 	public static class rawAST_field_list {
-		public ArrayList<Identifier> names;
+		public ArrayList<Identifier> names = new ArrayList<Identifier>();
 	}
 
 	public static class rawAST_tag_field_value {
