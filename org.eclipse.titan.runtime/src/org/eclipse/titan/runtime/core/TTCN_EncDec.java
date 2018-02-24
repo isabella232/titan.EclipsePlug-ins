@@ -21,16 +21,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * the current implementation is only a placeholder to mark the architectural borders.
  * */
 public final class TTCN_EncDec {
-	// FIXME these are intentionally private constants,
-	// they will be moved from here once their codeing is implemented
-	private static final int BER_ENCODE_CER = 1;
-	private static final int BER_ENCODE_DER = 2;
-	private static final int BER_ACCEPT_SHORT = 0x01;
-	private static final int BER_ACCEPT_LONG = 0x02;
-	private static final int BER_ACCEPT_INDEFINITE = 0x04;
-	private static final int BER_ACCEPT_DEFINITE = 0x03;
-	private static final int BER_ACCEPT_ALL = 0x07;
-	private static final int XER_EXTENDED = 1 << 2;
+	public static final int BER_ENCODE_CER = 1;
+	public static final int BER_ENCODE_DER = 2;
+	public static final int BER_ACCEPT_SHORT = 0x01;
+	public static final int BER_ACCEPT_LONG = 0x02;
+	public static final int BER_ACCEPT_INDEFINITE = 0x04;
+	public static final int BER_ACCEPT_DEFINITE = 0x03;
+	public static final int BER_ACCEPT_ALL = 0x07;
+	public static final int XER_EXTENDED = 1 << 2;
 
 	/** Last error value */
 	private static error_type last_error_type = error_type.ET_NONE;
