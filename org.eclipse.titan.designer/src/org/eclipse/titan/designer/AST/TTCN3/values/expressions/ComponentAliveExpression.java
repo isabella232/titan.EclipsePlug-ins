@@ -192,6 +192,12 @@ public final class ComponentAliveExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		//FIXME && reference != null
 		return value.canGenerateSingleExpression();
