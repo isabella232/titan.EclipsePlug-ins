@@ -1023,7 +1023,22 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
 			source.append( "}\n" );
 		}
-		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName(), encodingOptions == null? "0": encodingOptions) );
+		String generatedEncodingOptions;
+		if (encodingOptions == null) {
+			generatedEncodingOptions = "0";
+		} else {
+			switch (encodingType) {
+			case BER:
+			case XER:
+				aData.addBuiltinTypeImport("TTCN_EncDec");
+				generatedEncodingOptions = "TTCN_EncDec." + encodingOptions;
+				break;
+			default:
+				generatedEncodingOptions = encodingOptions;
+				break;
+			}
+		}
+		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName(), generatedEncodingOptions) );
 
 		// producing debug printout of the result PDU
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );

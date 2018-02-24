@@ -537,7 +537,7 @@ public class RAW {
 		//  myleaf.align=0;//p_td.raw.endianness==raw_order_t.ORDER_MSB ? min_bits_enum-fl : fl-min_bits_enum;
 		return myleaf.length = fl;
 	}
-	
+
 	public static int RAW_decode_enum_type(final TTCN_Typedescriptor p_td, TTCN_Buffer buff,final int limit, raw_order_t top_bit_ord, int value, int min_bits_enum, boolean no_err) {
 		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
 		TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
