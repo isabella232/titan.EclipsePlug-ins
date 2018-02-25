@@ -456,10 +456,12 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							final IType t = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 							if (t != null) {
 								final Value v = singleTag.keyList.get(a).v_value;
-								v.setMyScope(getMyScope());
-								v.setMyGovernor(t);
-								final IValue tempValue = t.checkThisValueRef(timestamp, v);
-								t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
+								if (v != null) {
+									v.setMyScope(getMyScope());
+									v.setMyGovernor(t);
+									final IValue tempValue = t.checkThisValueRef(timestamp, v);
+									t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
+								}
 							}
 						}
 					}
