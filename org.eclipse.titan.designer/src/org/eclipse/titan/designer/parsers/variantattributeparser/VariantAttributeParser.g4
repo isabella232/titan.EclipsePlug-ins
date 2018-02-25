@@ -342,10 +342,10 @@ pr_XCrossTagDef:
 
 pr_XAssocList returns [ArrayList<RawAST.rawAST_single_tag> taglist]:
 (	element1 = pr_XAssocElement	{$taglist = new ArrayList<RawAST.rawAST_single_tag>();
-					$taglist.add($element1.singleTag);}
+					if($element1.singleTag != null) {$taglist.add($element1.singleTag);}}
 	(	SEMICOLON
 		element2 = pr_XAssocElement {//FIXME check for duplication
-					$taglist.add($element2.singleTag);}
+					if($element1.singleTag != null) {$taglist.add($element2.singleTag);}}
 	)*
 );
 
