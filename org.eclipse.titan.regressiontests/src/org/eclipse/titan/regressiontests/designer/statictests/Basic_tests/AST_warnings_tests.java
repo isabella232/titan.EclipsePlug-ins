@@ -104,7 +104,7 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(252);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(253);
 		int lineNum = 21;
 		markersToCheck.add(new MarkerToCheck("The group with name extension_attributes breaks the naming convention  `[A-Z].*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 6;
@@ -460,7 +460,9 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 45;
+		lineNum += 9;
+		markersToCheck.add(new MarkerToCheck("This variant does not belong to an encode",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 71;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}

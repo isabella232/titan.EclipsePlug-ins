@@ -529,6 +529,41 @@ type record of integer attributeQualifierTester3
  optional "explicit omit"
  }
 
+type record intrec
+ { integer  tag ,
+   integer  intfield }
+with { variant ""} ;
+
+
+type record octrec
+ { integer  tag ,
+   octetstring  octfield }
+with { variant (octfield) "FIELDLENGTH(2)"} ;
+
+
+type record bitrec
+ { integer  tag ,
+   bitstring  bit8field }
+with { variant (bit8field) "FIELDLENGTH(8)"} ;
+
+
+
+type union RAW_PDU_146
+ { intrec      int ,
+   octrec   octstr ,
+   bitrec     bit8  }
+
+with { encode "RAW"; variant "TAG (
+                      int ,      tag=1 ;
+                      octstr ,   tag=2 ;
+		      bit8 ,     tag=3 ;
+		      nonexi ,      tag=1 ;
+		      int ,      nonexi=1 ;
+		      nonexi ,      nonexi=1 ;
+		      int ,      tag=nonexi ;
+		      octstr ,      octfield=1 ;    )"
+     } ;
+     
 } with { extension "version <RnXnn>"
 extension "version R8B"
 extension "version R8B1"
