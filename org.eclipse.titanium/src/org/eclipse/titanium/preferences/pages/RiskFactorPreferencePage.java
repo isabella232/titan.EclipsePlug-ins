@@ -43,6 +43,7 @@ public class RiskFactorPreferencePage extends PreferencePage implements IWorkben
 		insertSP(CodeSmellType.LANGUAGE_MIXING);
 		insertSP(CodeSmellType.TOO_MANY_STATEMENTS);
 		insertSP(CodeSmellType.TOO_MANY_PARAMETERS);
+		insertSP(CodeSmellType.RUNS_ON_SCOPE_REDUCTION);
 		// insertSP(SemanticProblemType.); // TODO: divergent naming convention
 		insertSP(CodeSmellType.UNCOMMENTED_FUNCTION);
 		insertSP(CodeSmellType.TYPENAME_IN_DEFINITION);
