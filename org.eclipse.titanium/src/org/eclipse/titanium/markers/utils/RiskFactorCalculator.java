@@ -31,6 +31,7 @@ public class RiskFactorCalculator {
 		CodeSmellType.LANGUAGE_MIXING,
 		CodeSmellType.TOO_MANY_STATEMENTS,
 		CodeSmellType.TOO_MANY_PARAMETERS,
+		CodeSmellType.RUNS_ON_SCOPE_REDUCTION,
 		// SemanticProblemType..name() // TODO: divergent naming convention
 		CodeSmellType.UNCOMMENTED_FUNCTION,
 		CodeSmellType.TYPENAME_IN_DEFINITION,

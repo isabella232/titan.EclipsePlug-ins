@@ -169,6 +169,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.VISIBILITY_IN_DEFINITION,
 				"Visibility attributes should not be mentioned in the names of the definitions\n"
 						+ "They should be explicitly set as visibility attributes of the definition");
+		m.put(ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION, "When runs on component is never used.");
 
 		TOOLTIP_MAPPING = Collections.unmodifiableMap(m);
 	}
@@ -223,6 +224,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.PRIVATE_FIELD_VIA_PUBLIC);
 			createField(comp, ProblemTypePreference.PRIVATE_VALUE_VIA_PUBLIC);
 			createField(comp, ProblemTypePreference.VISIBILITY_IN_DEFINITION);
+			createField(comp, ProblemTypePreference.RUNS_ON_SCOPE_REDUCTION);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(true);
