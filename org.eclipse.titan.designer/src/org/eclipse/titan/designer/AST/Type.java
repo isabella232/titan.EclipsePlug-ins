@@ -100,7 +100,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	// memory, by moving it ... but than we waste runtime.
 	protected WithAttributesPath withAttributesPath = null;
 	public ArrayList<MessageEncoding_type> codersToGenerate = new ArrayList<IType.MessageEncoding_type>();
-	protected RawAST rawAttribute = null;
+	public RawAST rawAttribute = null;
 
 	private boolean hasDone = false;
 
@@ -2299,7 +2299,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		//check and generate the needed type descriptors
 		//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
-		final boolean generate_raw = aData.getEnableRaw() && aData.getLegacyCodecHandling() ? true: getGenerateCoderFunctions(MessageEncoding_type.RAW);//FIXME implement legacy support if needed
+		final boolean generate_raw = aData.getEnableRaw() && getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		String gennameRawDescriptor;
 		if (generate_raw) {
 			gennameRawDescriptor = getGenNameRawDescriptor(aData, source);

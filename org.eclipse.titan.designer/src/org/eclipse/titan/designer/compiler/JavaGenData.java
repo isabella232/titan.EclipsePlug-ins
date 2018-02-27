@@ -114,8 +114,10 @@ public class JavaGenData {
 			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.DISABLE_RAW_PROPERTY));
 			rawDisabled = s == null || "true".equals(s);
 
-			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
-			legacyCodecHandling = s == null || "true".equals(s);
+			// Legacy codec handling is not supported in the Java code generator
+			//s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
+			//legacyCodecHandling = s == null || "true".equals(s);
+			legacyCodecHandling = false;
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return;
@@ -286,7 +288,7 @@ public class JavaGenData {
 	}
 
 	/**
-	 * @return true if leacy style codec handling was reqested (not yet supported)
+	 * @return false as this feature is not supported
 	 */
 	public boolean getLegacyCodecHandling() {
 		return legacyCodecHandling;

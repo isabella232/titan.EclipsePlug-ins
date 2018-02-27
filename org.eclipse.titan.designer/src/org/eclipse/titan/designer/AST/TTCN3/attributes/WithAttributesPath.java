@@ -148,7 +148,6 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			}
 		}
 
-		boolean hasEncode = false;
 		boolean hasOverrideVariant = false;
 		boolean hasOverrideDisplay = false;
 		boolean hasOverrideExtension = false;
@@ -157,14 +156,6 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		for (int i = attributes.getNofElements() - 1; i >= 0; i--) {
 			tempAttribute = attributes.getAttribute(i);
 			switch (tempAttribute.getAttributeType()) {
-			case Encode_Attribute:
-				// only in legacy coding handling
-//				if (hasEncode) {
-//					tempAttribute.getLocation().reportSemanticError("Only the last encode of the with statement will have effect");
-//				} else {
-//					hasEncode = true;
-//				}
-				break;
 			case Erroneous_Attribute:
 				if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
 					tempAttribute.getLocation().reportSemanticError("Override cannot be used with erroneous");
@@ -178,7 +169,6 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
 			tempAttribute = attributes.getAttribute(i);
 			if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_LOCAL) {
-				//TODO implement legacy codec handling if needed
 				if (tempAttribute.getAttributeType() != Attribute_Type.Encode_Attribute ) {
 					tempAttribute.getLocation().reportSemanticWarning(
 							"The '@local' modifier only affects 'encode' attributes. Modifier ignored.");
@@ -439,16 +429,6 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 				break;
 			}
 		}
-
-		//only if legacy codec handling
-//		if (!parentHasEncode && selfEncodeIndex == -1 && selfHasVariant) {
-//			for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-//				actualSingleAttribute = attributes.getAttribute(i);
-//				if (Attribute_Type.Variant_Attribute.equals(actualSingleAttribute.getAttributeType())) {
-//					actualSingleAttribute.getLocation().reportSemanticWarning("This variant does not belong to an encode");
-//				}
-//			}
-//		}
 
 		// remove the encode and variant attributes, that are
 		// overwritten
