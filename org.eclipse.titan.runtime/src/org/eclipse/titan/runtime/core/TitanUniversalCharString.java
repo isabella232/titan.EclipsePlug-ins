@@ -11,7 +11,9 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
@@ -1211,7 +1213,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 			if (0xD800 > W1 || 0xDFFF < W1) {
 				//if W1 < 0xD800 or W1 > 0xDFFF, the character value is the value of W1
-				val_ptr.add(new TitanUniversalChar((char)0,(char) 0, octets_ptr[first], octets_ptr[second]));
+				val_ptr.add(new TitanUniversalChar((char)0,(char) 0, (char) (octets_ptr[first] & 0xFF) , (char) (octets_ptr[second] & 0xFF)));
 				++n_uchars;
 			} else if (0xD800 > W1 || 0xDBFF < W1) {
 				//Determine if W1 is between 0xD800 and 0xDBFF. If not, the sequence
@@ -1232,7 +1234,7 @@ public class TitanUniversalCharString extends Base_Type {
 				int DW = (W1 & mask10bitlow) << 10;
 				DW |= (W2 & mask10bitlow);
 				DW += 0x10000;
-				val_ptr.add(new TitanUniversalChar((char) 0,(char) (DW >> 16), (char) (DW >> 8),(char) DW));
+				val_ptr.add(new TitanUniversalChar((char) 0,(char) ((DW >> 16) & 0xFF), (char) (DW >> 8 & 0xFF),(char) (DW & 0xFF)));
 				++n_uchars;
 				i+=2; // jump over w2 in octetstring
 			}
@@ -1581,6 +1583,59 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		}
 		error.leaveContext();
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW:
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+
+			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+
+			errorContext.leaveContext();
+			break;
+
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type '{0}''", p_td.name));
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW:
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			raw_order_t order;
+			switch (p_td.raw.top_bit_order) {
+			case TOP_BIT_LEFT:
+				order = raw_order_t.ORDER_LSB;
+				break;
+			case TOP_BIT_RIGHT:
+			default:
+				order = raw_order_t.ORDER_MSB;
+			}
+			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+				TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_INCOMPL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+
+			errorContext.leaveContext();
+			break;
+
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
+		}
 	}
 	
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
