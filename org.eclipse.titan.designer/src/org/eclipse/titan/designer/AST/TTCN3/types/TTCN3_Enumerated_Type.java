@@ -608,4 +608,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		return  getGenNameOwn(scope).concat("_template");
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
+		generateCodeRawDescriptor(aData, source);
+
+		return getGenNameOwn(myScope) + "_raw_";
+	}
 }
