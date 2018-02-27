@@ -536,7 +536,19 @@ public final class AdditionalFunctions {
 			value.encode_utf8(buf, false);
 		} else if (stringEncoding.operatorEquals("UTF-8 BOM")) {
 			value.encode_utf8(buf, true);
-		} //TODO: added other coding type
+		} else if (stringEncoding.operatorEquals("UTF-16")) {
+			value.encode_utf16(buf, CharCoding.UTF16);
+		} else if (stringEncoding.operatorEquals("UTF-16BE")) {
+			value.encode_utf16(buf, CharCoding.UTF16BE);
+		} else if (stringEncoding.operatorEquals("UTF-16LE")) {
+			value.encode_utf16(buf, CharCoding.UTF16LE);
+		} else if (stringEncoding.operatorEquals("UTF-32")) {
+			value.encode_utf32(buf, CharCoding.UTF32);
+		} else if (stringEncoding.operatorEquals("UTF-32BE")) {
+			value.encode_utf32(buf, CharCoding.UTF32BE);
+		} else if (stringEncoding.operatorEquals("UTF-32LE")) {
+			value.encode_utf32(buf, CharCoding.UTF32LE);
+		}
 		else {
 			throw new TtcnError("unichar2oct: Invalid parameter: "+ stringEncoding);
 		}
@@ -981,7 +993,19 @@ public final class AdditionalFunctions {
 
 		if (encodeStr.operatorEquals("UTF-8")) {
 			unicharStr.decode_utf8(value.getValue(), CharCoding.UTF_8, true);
-		} // FIXME: implement other utf decode function
+		} else if (encodeStr.operatorEquals("UTF-16")) {
+			unicharStr.decode_utf16(value.lengthOf().getInt(), value.getValue(), CharCoding.UTF16);
+		} else if (encodeStr.operatorEquals("UTF-16BE")) {
+			unicharStr.decode_utf16(value.lengthOf().getInt(), value.getValue(), CharCoding.UTF16BE);
+		} else if (encodeStr.operatorEquals("UTF-16LE")) {
+			unicharStr.decode_utf16(value.lengthOf().getInt(), value.getValue(), CharCoding.UTF16LE);
+		} else if (encodeStr.operatorEquals("UTF-32")) {
+			unicharStr.decode_utf32(value.lengthOf().getInt(), value.getValue(), CharCoding.UTF32);
+		} else if (encodeStr.operatorEquals("UTF-32BE")) {
+			unicharStr.decode_utf32(value.lengthOf().getInt(), value.getValue(), CharCoding.UTF32BE);
+		} else if (encodeStr.operatorEquals("UTF-32LE")) {
+			unicharStr.decode_utf32(value.lengthOf().getInt(), value.getValue(), CharCoding.UTF32LE);
+		}
 		else {
 			throw new TtcnError("oct2unichar: Invalid parameter: " +encodeStr);
 		}
