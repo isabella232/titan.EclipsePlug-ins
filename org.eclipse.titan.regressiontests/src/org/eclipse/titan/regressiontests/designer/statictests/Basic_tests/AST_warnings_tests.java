@@ -104,7 +104,7 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(253);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(247);
 		int lineNum = 21;
 		markersToCheck.add(new MarkerToCheck("The group with name extension_attributes breaks the naming convention  `[A-Z].*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 6;
@@ -346,11 +346,7 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Variant attribute is ignored, because it refers to a type from a different type definition", lineNum++, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 19;
-		for (i = 0; i < 5; i++) {
-			markersToCheck.add(new MarkerToCheck("This variant does not belong to an encode", lineNum++, IMarker.SEVERITY_WARNING));
-		}
-		lineNum += 2;
+		lineNum += 26;
 		markersToCheck.add(new MarkerToCheck("The value parameter `f' with name f breaks the naming convention  `pl_.*'",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 13;
 		for (i = 0; i < 2; i++) {
@@ -460,9 +456,7 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 9;
-		markersToCheck.add(new MarkerToCheck("This variant does not belong to an encode",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 71;
+		lineNum += 80;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}

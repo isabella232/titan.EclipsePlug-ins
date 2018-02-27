@@ -158,12 +158,12 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			tempAttribute = attributes.getAttribute(i);
 			switch (tempAttribute.getAttributeType()) {
 			case Encode_Attribute:
-				if (hasEncode) {
-					tempAttribute.getLocation()
-					.reportSemanticError("Only the last encode of the with statement will have effect");
-				} else {
-					hasEncode = true;
-				}
+				// only in legacy coding handling
+//				if (hasEncode) {
+//					tempAttribute.getLocation().reportSemanticError("Only the last encode of the with statement will have effect");
+//				} else {
+//					hasEncode = true;
+//				}
 				break;
 			case Erroneous_Attribute:
 				if (tempAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE) {
@@ -440,14 +440,15 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			}
 		}
 
-		if (!parentHasEncode && selfEncodeIndex == -1 && selfHasVariant) {
-			for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
-				actualSingleAttribute = attributes.getAttribute(i);
-				if (Attribute_Type.Variant_Attribute.equals(actualSingleAttribute.getAttributeType())) {
-					actualSingleAttribute.getLocation().reportSemanticWarning("This variant does not belong to an encode");
-				}
-			}
-		}
+		//only if legacy codec handling
+//		if (!parentHasEncode && selfEncodeIndex == -1 && selfHasVariant) {
+//			for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
+//				actualSingleAttribute = attributes.getAttribute(i);
+//				if (Attribute_Type.Variant_Attribute.equals(actualSingleAttribute.getAttributeType())) {
+//					actualSingleAttribute.getLocation().reportSemanticWarning("This variant does not belong to an encode");
+//				}
+//			}
+//		}
 
 		// remove the encode and variant attributes, that are
 		// overwritten
