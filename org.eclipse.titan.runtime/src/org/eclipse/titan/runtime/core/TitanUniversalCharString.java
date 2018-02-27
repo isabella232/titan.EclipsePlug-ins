@@ -1177,6 +1177,127 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		}
 	}
+	
+	public void decode_utf16(int n_octets, final char[] octets_ptr, CharCoding expected_coding) {
+		if (n_octets % 2 != 0 || 0 > n_octets) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 2", n_octets);
+		}
+		int start = check_BOM(expected_coding, octets_ptr);
+		int n_uchars = n_octets / 2;
+		cleanUp();
+		val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
+		n_uchars = 0;
+		boolean isBig = true;
+		switch (expected_coding) {
+		case UTF16:
+		case UTF16BE:
+			isBig = true;
+			break;
+		case UTF16LE:
+			isBig = false;
+			break;
+		default:
+			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-16 encoding");
+			break;
+		}
+		for (int i = start; i < n_octets; i+= 2 ) {
+			int first  = isBig ? i : i + 1;
+			int second = isBig ? i + 1 : i;
+			int third  = isBig ? i + 2 : i + 3;
+			int fourth = isBig ? i + 3 : i + 2;
+
+			int W1 = octets_ptr[first] << 8 | octets_ptr[second];
+			int W2 = (i + 3 < n_octets) ? octets_ptr[third] << 8 | octets_ptr[fourth] : 0;
+
+			if (0xD800 > W1 || 0xDFFF < W1) {
+				//if W1 < 0xD800 or W1 > 0xDFFF, the character value is the value of W1
+				val_ptr.add(new TitanUniversalChar((char)0,(char) 0, octets_ptr[first], octets_ptr[second]));
+				++n_uchars;
+			} else if (0xD800 > W1 || 0xDBFF < W1) {
+				//Determine if W1 is between 0xD800 and 0xDBFF. If not, the sequence
+				//is in error and no valid character can be obtained using W1.
+				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "The word (0x%04X) shall be between 0xD800 and 0xDBFF", W1);
+			} else if (0 == W2 || (0xDC00 > W2 || 0xDFFF < W2)) {
+				//If there is no W2 (that is, the sequence ends with W1), or if W2
+				//is not between 0xDC00 and 0xDFFF, the sequence is in error.
+				if(W2 != 0) {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The word (0x%04X) shall be between 0xDC00 and 0xDFFF", W2);
+				} else {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The decoding algorythm does not expect 0x00 or EOL");
+				}
+			} else {
+				//Construct a 20-bit unsigned integer, taking the 10 low-order bits of W1 as its 10 high-
+				//order bits and the 10 low-order bits of W2 as its 10 low-order bits.
+				final int mask10bitlow = 0x3FF;
+				int DW = (W1 & mask10bitlow) << 10;
+				DW |= (W2 & mask10bitlow);
+				DW += 0x10000;
+				val_ptr.add(new TitanUniversalChar((char) 0,(char) (DW >> 16), (char) (DW >> 8),(char) DW));
+				++n_uchars;
+				i+=2; // jump over w2 in octetstring
+			}
+		}
+		if (val_ptr.size() != n_uchars) {
+			// truncate the memory and set the correct size in case of decoding errors
+			// (e.g. skipped octets)
+			if (n_uchars > 0) {
+				val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
+			} else {
+				cleanUp();
+			}
+		}
+	}
+	
+	public void decode_utf32(int n_octets, final char[] octets_ptr, CharCoding expected_coding) {
+		if (n_octets % 4 != 0 || 0 > n_octets) {
+			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-32 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 4", n_octets);
+		}
+		int start = check_BOM(expected_coding, octets_ptr);
+		int n_uchars = n_octets / 4;
+		val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
+		n_uchars = 0;
+		boolean isBig = true;
+		switch (expected_coding) {
+		case UTF32:
+		case UTF32BE:
+			isBig = true;
+			break;
+		case UTF32LE:
+			isBig = false;
+			break;
+		default:
+			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-32 encoding");
+			break;
+		}
+		for (int i = start; i < n_octets; i += 4 ) {
+			int first  = isBig ? i : i + 3;
+			int second = isBig ? i + 1 : i + 2;
+			int third  = isBig ? i + 2 : i + 1;
+			int fourth = isBig ? i + 3 : i;
+			int DW = octets_ptr[first] << 8 | octets_ptr[second];
+			DW <<= 8;
+			DW |= octets_ptr[third];
+			DW <<= 8;
+			DW |= octets_ptr[fourth];
+			if (0x0000D800 <= DW && 0x0000DFFF >= DW) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UTF-32 code (0x%08X) between 0x0000D800 and 0x0000DFFF is ill-formed", DW);
+			} else if (0x0010FFFF < DW) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UTF-32 code (0x%08X) greater than 0x0010FFFF is ill-formed", DW);
+			} else {
+				val_ptr.add(new TitanUniversalChar(octets_ptr[first], octets_ptr[second], octets_ptr[third], octets_ptr[fourth]));
+				++n_uchars;
+			}
+		}
+		if(val_ptr.size() != n_uchars) {
+			// truncate the memory and set the correct size in case of decoding errors
+			// (e.g. skipped octets)
+			if (n_uchars > 0 ) {
+				val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
+			} else {
+				cleanUp();
+			}
+		}
+	}
 
 	public int check_BOM(final CharCoding code, final char[] ostr) {
 		String coding_str;
@@ -1508,5 +1629,44 @@ public class TitanUniversalCharString extends Base_Type {
 			myleaf.align = align_length;
 		}
 		return myleaf.length = bl + align_length;
+	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
+		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
+	}
+	
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+		TitanCharString buff_str = new TitanCharString();
+		int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
+		char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
+		if(buff_str.isBound()) {
+			charstring = true;
+			for (int i = 0; i < buff_str.lengthOf().getInt(); ++i) {
+				if(buff_str.getValue().charAt(i) < 0 ) {
+					charstring = false;
+					break;
+				}
+			}
+			switch (p_td.raw.stringformat) {
+			case UNKNOWN: //default is UTF-8
+			case UTF_8:
+				if(charstring) {
+					cstr = buff_str.getValue();
+				} else {
+					decode_utf8(tmp_val_ptr, CharCoding.UTF_8 , false);
+				}
+				break;
+			case UTF16:
+				if(!charstring) {
+					decode_utf16(tmp_val_ptr.length, tmp_val_ptr, CharCoding.UTF16);
+				} else {
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Invalid string format. Buffer contains only ASCII characters.");
+				}
+				break;
+			default:
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
+			}
+		}
+		return dec_len;
 	}
 }
