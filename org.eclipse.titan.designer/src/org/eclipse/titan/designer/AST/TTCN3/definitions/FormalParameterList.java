@@ -362,8 +362,10 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			switch (parameter.getAssignmentType()) {
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
-			case A_PAR_TEMP_IN:
+			case A_PAR_VAL_OUT:
 			case A_PAR_VAL_INOUT:
+			case A_PAR_TEMP_IN:
+			case A_PAR_TEMP_OUT:
 			case A_PAR_TEMP_INOUT: {
 				final IType tempType = parameter.getType(timestamp);
 				if (isStartable && tempType != null && tempType.isComponentInternal(timestamp)) {
