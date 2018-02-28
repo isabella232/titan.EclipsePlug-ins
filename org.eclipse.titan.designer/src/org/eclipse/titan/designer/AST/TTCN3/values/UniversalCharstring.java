@@ -51,7 +51,8 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		if ( extracted != null ) {
 			value = new ArrayList<UniversalChar>(extracted.length());
 			for (int i = 0; i < extracted.length(); i++) {
-				value.add(new UniversalChar(0, 0, 0, extracted.charAt(i)));
+				//TODO: add support to UTF-8
+				value.add(new UniversalChar(extracted.charAt(i)));
 			}
 		}
 	}
