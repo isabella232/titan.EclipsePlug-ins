@@ -95,6 +95,24 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 	}
 
 	/**
+	 * Returns the index of the element with the specified name.
+	 *
+	 * @param identifier
+	 *                the name of the element to return
+	 * @return the index of an element with the provided name,
+	 *         -1 if there is no such element.
+	 */
+	public int getComponentIndexByName(final Identifier identifier) {
+		for (int i = 0; i < components.getNofComps(); i++) {
+			if (components.getCompByIndex(i).getIdentifier().equals(identifier)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
 	 * Returns the element at the specified position.
 	 *
 	 * @param index

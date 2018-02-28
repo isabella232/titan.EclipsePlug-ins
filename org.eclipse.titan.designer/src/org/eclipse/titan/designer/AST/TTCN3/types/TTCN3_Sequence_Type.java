@@ -28,11 +28,19 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
+import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_ext_bit_group;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_tag_field_value;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
@@ -807,6 +815,370 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+		//check raw attributes
+		if (rawAttribute != null) {
+			if (rawAttribute.taglist != null) {
+				for (int c = 0; c < rawAttribute.taglist.size(); c++) {
+					final rawAST_single_tag singleTag = rawAttribute.taglist.get(c);
+					final Identifier fieldname = singleTag.fieldName;
+					if (!hasComponentWithName(fieldname.getName())) {
+						fieldname.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter TAG for type `{1}''", fieldname.getDisplayName(), getTypename()));
+						continue;
+					}
+	
+					if (singleTag.keyList != null) {
+						for (int a = 0; a < singleTag.keyList.size(); a++) {
+							final Reference reference = new Reference(null);
+							reference.addSubReference(new FieldSubReference(fieldname));
+							for (int b = 0; b < singleTag.keyList.get(a).keyField.names.size(); b++) {
+								reference.addSubReference(new FieldSubReference(singleTag.keyList.get(a).keyField.names.get(b)));
+							}
+
+							final IType t = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+							if (t != null) {
+								final Value v = singleTag.keyList.get(a).v_value;
+								if (v != null) {
+									v.setMyScope(getMyScope());
+									v.setMyGovernor(t);
+									final IValue tempValue = t.checkThisValueRef(timestamp, v);
+									t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
+								}
+							}
+						}
+					}
+				}
+			}
+			if (rawAttribute.ext_bit_groups != null) {
+				for (int a = 0; a < rawAttribute.ext_bit_groups.size(); a++) {
+					final rawAST_ext_bit_group tempExtBitGroup = rawAttribute.ext_bit_groups.get(a);
+					final Identifier fromIdentifier = tempExtBitGroup.from;
+					final Identifier toIdentifier = tempExtBitGroup.to;
+					boolean foundError = false;
+
+					if (!hasComponentWithName(fromIdentifier.getName())) {
+						fromIdentifier.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter EXTENSION_BIT_GROUP for type `{1}''", fromIdentifier.getDisplayName(), getTypename()));
+						foundError = true;
+					}
+					if (!hasComponentWithName(toIdentifier.getName())) {
+						toIdentifier.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter EXTENSION_BIT_GROUP for type `{1}''", toIdentifier.getDisplayName(), getTypename()));
+						foundError = true;
+					}
+					if (!foundError) {
+						boolean foundStart = false;
+						for (int i = 0; i < getNofComponents(); i++) {
+							final Identifier tempId = getComponentByIndex(i).getIdentifier();
+							if (tempId.equals(fromIdentifier)) {
+								foundStart = true;
+							} else if (tempId.equals(toIdentifier)) {
+								if (!foundStart) {
+									getLocation().reportSemanticError(MessageFormat.format("Invalid field order in RAW parameter EXTENSION_BIT_GROUP for type `{0}'': `{1}'', `{2}''", getTypename(), fromIdentifier.getDisplayName(), toIdentifier.getDisplayName()));
+								}
+								break;
+							}
+						}
+					}
+				}
+			}
+			if (rawAttribute.paddall != RawAST.XDEFDEFAULT) {
+				for (int i = 0; i < getNofComponents(); i++) {
+					final CompField cField = getComponentByIndex(i);
+					final Type fieldType = cField.getType();
+					RawAST fieldRawAttribute = fieldType.rawAttribute;
+					if (fieldRawAttribute == null) {
+						fieldRawAttribute = new RawAST(fieldType.getDefaultRawFieldLength());
+						fieldType.setRawAttributes(fieldRawAttribute);
+					}
+					if (fieldRawAttribute.padding == 0) {
+						fieldRawAttribute.padding = rawAttribute.padding;
+					}
+					if (fieldRawAttribute.prepadding == 0) {
+						fieldRawAttribute.prepadding = rawAttribute.prepadding;
+					}
+					if (fieldRawAttribute.padding_pattern_length == 0 && rawAttribute.padding_pattern_length > 0) {
+						fieldRawAttribute.padding_pattern = rawAttribute.padding_pattern;
+						fieldRawAttribute.padding_pattern_length = rawAttribute.padding_pattern_length;
+					}
+				}
+			}
+			if (rawAttribute.fieldorder != RawAST.XDEFDEFAULT) {
+				for (int i = 0; i < getNofComponents(); i++) {
+					final CompField cField = getComponentByIndex(i);
+					final Type fieldType = cField.getType();
+					RawAST fieldRawAttribute = fieldType.rawAttribute;
+					if (fieldRawAttribute == null) {
+						fieldRawAttribute = new RawAST(fieldType.getDefaultRawFieldLength());
+						fieldType.setRawAttributes(fieldRawAttribute);
+					}
+					if (fieldRawAttribute.fieldorder == RawAST.XDEFDEFAULT) {
+						fieldRawAttribute.fieldorder = rawAttribute.fieldorder;
+					}
+				}
+			}
+		}
+		if (rawAttribute != null && rawAttribute.presence != null) {
+			if (rawAttribute.presence.keyList != null) {
+				for (int a = 0; a < rawAttribute.presence.keyList.size(); a++) {
+					rawAST_tag_field_value tempTagFieldValue = rawAttribute.presence.keyList.get(a);
+					final Reference reference = new Reference(null);
+					reference.addSubReference(new FieldSubReference(tempTagFieldValue.keyField.names.get(0)));
+					for (int b = 1; b < tempTagFieldValue.keyField.names.size(); b++) {
+						reference.addSubReference(new FieldSubReference(tempTagFieldValue.keyField.names.get(b)));
+					}
+
+					final IType t = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+					if (t != null) {
+						final Value v = tempTagFieldValue.v_value;
+						if (v != null) {
+							v.setMyScope(getMyScope());
+							v.setMyGovernor(t);
+							final IValue tempValue = t.checkThisValueRef(timestamp, v);
+							t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
+						}
+					}
+				}
+			}
+		}
+		int usedBits = 0; // number of bits used to store all previous fields
+		for (int i = 0; i < getNofComponents(); i++) {
+			final CompField cField = getComponentByIndex(i);
+			final Type fieldType = cField.getType();
+			fieldType.forceRaw(timestamp);
+			RawAST rawPar = fieldType.rawAttribute;
+			if (rawPar != null) {
+				final Identifier fieldId = cField.getIdentifier();
+				IType fieldTypeLast = fieldType.getTypeRefdLast(timestamp);
+				if (rawPar.prepadding != 0) {
+					usedBits = (usedBits + rawPar.prepadding - 1) / rawPar.prepadding * rawPar.prepadding;
+				}
+				if (rawPar.intX && fieldTypeLast.getTypetype() == Type_type.TYPE_INTEGER) {
+					if (usedBits % 8 != 0 && (rawAttribute == null || rawAttribute.fieldorder != RawAST.XDEFMSB)) {
+						getLocation().reportSemanticError(MessageFormat.format("Using RAW parameter IntX in a record/set with FIELDORDER set to 'lsb' is only supported if the IntX field starts at the beginning of a new octet. There are {0} unused bits in the last octet before field {1}.", 8 - (usedBits % 8), fieldId.getDisplayName()));
+					}
+				} else if (rawPar.fieldlength > 0) {
+					usedBits += rawPar.fieldlength;
+				}
+				if (rawPar.padding != 0) {
+					usedBits = (usedBits + rawPar.padding - 1) / rawPar.padding * rawPar.padding;
+				}
+				if (rawPar.lengthto != null) {
+					for (int j = 0; j < rawPar.lengthto.size(); j++) {
+						Identifier id = rawPar.lengthto.get(j);
+						if (!hasComponentWithName(id.getName())) {
+							id.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter LENGTHTO for field {0}: {1}", fieldId.getDisplayName(), id.getDisplayName()));
+						}
+					}
+				}
+				if (rawPar.lengthto != null) {
+					switch (fieldTypeLast.getTypetype()) {
+					case TYPE_INTEGER:
+					case TYPE_INTEGER_A:
+						break;
+					case TYPE_TTCN3_CHOICE:
+						for (int fi = 0; fi < ((TTCN3_Choice_Type)fieldTypeLast).getNofComponents(); fi++) {
+							Type_type tt = ((TTCN3_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
+							if (tt != Type_type.TYPE_INTEGER && tt != Type_type.TYPE_INTEGER_A) {
+								getLocation().reportSemanticError("The union type LENGTHTO field must contain only integer fields");
+							}
+						}
+						break;
+					case TYPE_ASN1_CHOICE:
+						for (int fi = 0; fi < ((ASN1_Choice_Type)fieldTypeLast).getNofComponents(timestamp); fi++) {
+							Type_type tt = ((ASN1_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
+							if (tt != Type_type.TYPE_INTEGER && tt != Type_type.TYPE_INTEGER_A) {
+								getLocation().reportSemanticError("The union type LENGTHTO field must contain only integer fields");
+							}
+						}
+						break;
+					case TYPE_ANYTYPE:
+					case TYPE_OPENTYPE:
+					case TYPE_TTCN3_SEQUENCE:
+					case TYPE_ASN1_SEQUENCE:
+					case TYPE_TTCN3_SET:
+					case TYPE_ASN1_SET:
+						if (rawPar.lengthindex != null) {
+							// will be checked in the next step
+							break;
+						}
+					default:
+						getLocation().reportSemanticError(MessageFormat.format("The LENGTHTO field must be an integer or union type instead of `{0}''", fieldTypeLast.getTypename()));
+						break;
+					}
+				}
+				if (rawPar.lengthto != null && rawPar.lengthindex != null) {
+					final Identifier id = rawPar.lengthindex.names.get(0);
+					switch (fieldTypeLast.getTypetype()) {
+					case TYPE_TTCN3_CHOICE:
+					case TYPE_TTCN3_SEQUENCE:
+					case TYPE_TTCN3_SET:
+						if(!((TTCN3_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(id.getName())) {
+							id.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter LENGTHINDEX for field {0}: {1}", fieldId.getDisplayName(), id.getDisplayName()));
+						}
+						break;
+					case TYPE_ASN1_CHOICE:
+					case TYPE_ASN1_SEQUENCE:
+					case TYPE_ASN1_SET:
+						if(!((ASN1_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(id)) {
+							id.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter LENGTHINDEX for field {0}: {1}", fieldId.getDisplayName(), id.getDisplayName()));
+						}
+						break;
+					default:
+						fieldId.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldmember type in RAW parameter LENGTHINDEX for field {0}.", fieldId.getDisplayName()));
+						break;
+					}
+				}
+				if (rawPar.pointerto != null) {
+					final Identifier id = rawPar.pointerto;
+					boolean errorFound = false;
+					int pointed = 0;
+					if (!hasComponentWithName(id.getName())) {
+						id.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter POINTERTO for field {0}: {1}", fieldId.getDisplayName(), id.getDisplayName()));
+						errorFound = true;
+					}
+					if (!errorFound) {
+						pointed = getComponentIndexByName(id);
+						if (pointed <= i) {
+							id.getLocation().reportSemanticError(MessageFormat.format("Pointer must precede the pointed field. Incorrect field name `{0}'' in RAW parameter POINTERTO for field `{1}''", id.getDisplayName(), fieldId.getDisplayName()));
+							errorFound = true;
+						}
+					}
+					if (!errorFound && rawPar.ptrbase != null) {
+						Identifier idf2 = rawPar.ptrbase;
+						if (!hasComponentWithName(idf2.getName())) {
+							idf2.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter PTROFFSET for field `{1}''", idf2.getDisplayName(), fieldId.getDisplayName()));
+							errorFound = true;
+						}
+						if (!errorFound && getComponentIndexByName(idf2) < pointed) {
+							idf2.getLocation().reportSemanticError(MessageFormat.format("Pointer base must precede the pointed field. Incorrect field name `{0}'' in RAW parameter PTROFFSET for field `{1}''", idf2.getDisplayName(), fieldId.getDisplayName()));
+						}
+					}
+				}
+				if (rawPar.presence != null && rawPar.presence.keyList != null) {
+					for (int a = 0; a < rawPar.presence.keyList.size(); a++) {
+						rawAST_tag_field_value tempTagFieldValue = rawPar.presence.keyList.get(a);
+						final Reference reference = new Reference(null);
+						reference.addSubReference(new FieldSubReference(tempTagFieldValue.keyField.names.get(0)));
+						for (int b = 1; b < tempTagFieldValue.keyField.names.size(); b++) {
+							reference.addSubReference(new FieldSubReference(tempTagFieldValue.keyField.names.get(b)));
+						}
+
+						final IType t = getFieldType(timestamp, reference, 0, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
+						if (t != null) {
+							final Value v = tempTagFieldValue.v_value;
+							if (v != null) {
+								v.setMyScope(getMyScope());
+								v.setMyGovernor(t);
+								final IValue tempValue = t.checkThisValueRef(timestamp, v);
+								t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
+							}
+						}
+					}
+				}
+				if (rawPar.crosstaglist != null) {
+					for (int c = 0; c < rawPar.crosstaglist.size(); c++) {
+						final rawAST_single_tag singleTag = rawPar.crosstaglist.get(c);
+						final Identifier idf = singleTag.fieldName;
+						switch (fieldTypeLast.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							if(!((TTCN3_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(idf.getName())) {
+								idf.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf.getDisplayName()));
+							}
+							break;
+						case TYPE_ASN1_CHOICE:
+						case TYPE_ASN1_SEQUENCE:
+						case TYPE_ASN1_SET:
+							if(!((ASN1_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(idf)) {
+								idf.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf.getDisplayName()));
+							}
+							break;
+						default:
+							fieldId.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldmember type in RAW parameter CROSSTAG for field {0}.", fieldId.getDisplayName()));
+							break;
+						}
+
+
+						if (singleTag.keyList != null) {
+							for (int a = 0; a < singleTag.keyList.size(); a++) {
+								IType t2 = this;
+								boolean errorFound = false;
+								boolean allow_omit = false;
+								rawAST_tag_field_value tagField = singleTag.keyList.get(a);
+								for (int b = 0; b < tagField.keyField.names.size() && !errorFound; b++) {
+									Identifier idf2 = tagField.keyField.names.get(b);
+									CompField cf2 = null;
+									switch (t2.getTypetype()) {
+									case TYPE_TTCN3_CHOICE:
+									case TYPE_TTCN3_SEQUENCE:
+									case TYPE_TTCN3_SET:
+										if(!((TTCN3_Set_Seq_Choice_BaseType)t2).hasComponentWithName(idf2.getName())) {
+											idf2.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf2.getDisplayName()));
+											errorFound = true;
+										} else {
+											cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t2).getComponentByName(idf2.getName());
+										}
+										break;
+									case TYPE_ASN1_CHOICE:
+									case TYPE_ASN1_SEQUENCE:
+									case TYPE_ASN1_SET:
+										if(!((ASN1_Set_Seq_Choice_BaseType)t2).hasComponentWithName(idf2)) {
+											idf2.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf2.getDisplayName()));
+											errorFound = true;
+										} else {
+											cf2 = ((ASN1_Set_Seq_Choice_BaseType)t2).getComponentByName(idf2);
+										}
+										break;
+									default:
+										fieldId.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldmember type in RAW parameter CROSSTAG for field {0}.", fieldId.getDisplayName()));
+										errorFound = true;
+										break;
+									}
+									if (b == 0) {
+										int fieldIndex = getComponentIndexByName(idf2);
+										if (fieldIndex == i) {
+											idf2.getLocation().reportSemanticError(MessageFormat.format("RAW parameter CROSSTAG for field `{0}'' cannot refer to the field itself", idf2.getDisplayName()));
+											errorFound = true;
+										} else if (fieldIndex > i) {
+											if (cField.isOptional()) {//TODO || fieldType.getRawLength() < 0 
+												idf2.getLocation().reportSemanticError(MessageFormat.format("Field `{0}'' that CROSSTAG refers to must precede field `{1}'' or field `{1}'' must be mandatory with fixed length", idf2.getDisplayName(), fieldId.getDisplayName()));
+												errorFound = true;
+											}
+										}
+									}
+									if (!errorFound) {
+										t2 = cf2.getType().getTypeRefdLast(timestamp);
+										if (b == tagField.keyField.names.size() - 1 && cf2.isOptional()) {
+											allow_omit = true;
+										}
+									}
+								}
+								if (!errorFound) {
+									final Value v = singleTag.keyList.get(a).v_value;
+									if (v != null) {
+										v.setMyScope(getMyScope());
+										v.setMyGovernor(t2);
+										final IValue tempValue = t2.checkThisValueRef(timestamp, v);
+										t2.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, allow_omit, false, false, false));
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		rawAttribute = new RawAST(getDefaultRawFieldLength());
 	}
 
 	@Override

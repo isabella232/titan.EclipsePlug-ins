@@ -809,6 +809,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		//empty by default
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setRawAttributes(final RawAST newAttributes) {
+		rawAttribute = newAttributes;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent) {
 		boolean encodeAttributeModifierConflict = false;
 		for (int i = 0; i < codingTable.size(); i++) {

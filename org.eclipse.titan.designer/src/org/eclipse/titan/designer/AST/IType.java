@@ -15,6 +15,7 @@ import java.util.Set;
 import org.eclipse.titan.designer.AST.Type.CompatibilityLevel;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
@@ -615,6 +616,22 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *                the time stamp of the actual semantic check cycle.
 	 * */
 	void checkCodingAttributes(final CompilationTimeStamp timestamp);
+
+	/**
+	 * If the type does not have its raw attribute, generate and check a default one.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * */
+	void forceRaw(final CompilationTimeStamp timestamp);
+
+	/**
+	 * Set the raw attribute of a type from outside.
+	 * Should be used only when raw attribute checking requires it
+	 *
+	 * @param newAttributes the new attributes to set.
+	 * */
+	void setRawAttributes(final RawAST newAttributes);
 
 	/**
 	 * Adds a coding to the type.

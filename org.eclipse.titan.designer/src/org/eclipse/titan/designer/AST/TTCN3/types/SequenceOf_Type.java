@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.IndexedTemplate;
@@ -784,6 +785,12 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 			subreference.getLocation().reportSemanticError(ISubReference.INVALIDSUBREFERENCE);
 			return null;
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		rawAttribute = new RawAST(getDefaultRawFieldLength());
 	}
 
 	@Override

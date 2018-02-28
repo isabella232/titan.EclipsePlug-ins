@@ -97,6 +97,24 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	}
 
 	/**
+	 * Returns the index of the element with the specified name.
+	 *
+	 * @param identifier
+	 *                the name of the element to return
+	 * @return the index of an element with the provided name,
+	 *         -1 if there is no such element.
+	 */
+	public int getComponentIndexByName(final Identifier identifier) {
+		for (int i = 0; i < compFieldMap.fields.size(); i++) {
+			if (compFieldMap.fields.get(i).getIdentifier().equals(identifier)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
 	 * Returns the element with the specified name.
 	 *
 	 * @param name the name of the element to return

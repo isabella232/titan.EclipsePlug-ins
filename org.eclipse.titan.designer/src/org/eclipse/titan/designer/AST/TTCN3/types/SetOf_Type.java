@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
@@ -540,6 +541,12 @@ public final class SetOf_Type extends AbstractOfType {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		rawAttribute = new RawAST(getDefaultRawFieldLength());
 	}
 
 	@Override

@@ -562,6 +562,14 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		return 1;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		if (refd != null && !refd.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
+			refd.forceRaw(timestamp);
+		}
+	}
+
 	/**
 	 * Searches and adds a completion proposal to the provided collector if a
 	 * valid one is found.

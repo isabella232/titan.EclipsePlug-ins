@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Completeness_type;
@@ -469,6 +470,12 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 		}
 		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		rawAttribute = new RawAST(getDefaultRawFieldLength());
 	}
 
 	@Override

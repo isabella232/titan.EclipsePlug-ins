@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
@@ -667,6 +668,12 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		}
 
 		return selfReference;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		rawAttribute = new RawAST(getDefaultRawFieldLength());
 	}
 
 	@Override

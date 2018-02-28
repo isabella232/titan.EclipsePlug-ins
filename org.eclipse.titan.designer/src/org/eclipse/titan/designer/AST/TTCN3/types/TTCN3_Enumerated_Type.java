@@ -413,6 +413,12 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
+	public void forceRaw(final CompilationTimeStamp timestamp) {
+		rawAttribute = new RawAST(getDefaultRawFieldLength());
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("enumerated");
 	}
