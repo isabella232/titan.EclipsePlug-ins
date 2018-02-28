@@ -838,9 +838,6 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 * */
 	public void checkStartability(final CompilationTimeStamp timestamp, final String what, final INamedNode namedNode,
 			final Location errorLocation) {
-		if (isStartable) {
-			return;
-		}
 
 		for (int i = 0; i < parameters.size(); i++) {
 			final FormalParameter parameter = parameters.get(i);
@@ -850,7 +847,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			case A_PAR_VAL_INOUT:
 			case A_PAR_TEMP_INOUT:
 				errorLocation.reportSemanticWarning(MessageFormat.format(WILLREMAINUNCHANGED,what, namedNode.getFullName()));
-				//intentionally not breaked
+				//intentionally not broken
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
 			case A_PAR_TEMP_IN:

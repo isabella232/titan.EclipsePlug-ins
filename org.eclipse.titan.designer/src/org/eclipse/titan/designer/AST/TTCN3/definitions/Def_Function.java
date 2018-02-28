@@ -403,10 +403,6 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	public boolean checkStartable(final CompilationTimeStamp timestamp, final Location errorLocation) {
 		check(timestamp);
 
-		if (isStartable) {
-			return true;
-		}
-
 		if (runsOnRef == null) {
 			errorLocation.reportSemanticError(MessageFormat.format(
 					"Function `{0}'' cannot be started on parallel test component because it does not have a `runs on'' clause",
@@ -420,6 +416,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			final String errorMessage = "the return type or embedded in the return type of function `" + getFullName()
 					+ "' if it is started on a parallel test component";
 			returnType.checkComponentInternal(timestamp, typeSet, errorMessage);
+		}
+
+		if (isStartable) {
+			return true;
 		}
 
 		return false;

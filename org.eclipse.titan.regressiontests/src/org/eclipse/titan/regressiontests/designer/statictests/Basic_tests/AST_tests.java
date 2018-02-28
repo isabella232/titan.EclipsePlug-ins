@@ -3845,7 +3845,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> statement_tests_ttcn_initializer() {
 		//statement_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(987);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(989);
 		int lineNum = 41;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `compTimer' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
@@ -4161,13 +4161,16 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Reference to parameterized definition `f_startTests' without actual parameter list",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Port, timer or component reference was expected as the operand of start operation instead of function `@statement_tests.f_startTests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to parameterized definition `f_startTests' without actual parameter list",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 14;
+		lineNum += 10;
+		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests2' cannot be started on a parallel test component because the type does not have `runs on' clause",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 4;
 		markersToCheck.add(new MarkerToCheck("A value of a function type was expected in the argument instead of a `refers' operation, which does not specify any function type.",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A value of a function type was expected in the argument instead of a `null' value, which does not specify any function type.",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("A value of type function was expected in the argument of `integer'",  ++lineNum, IMarker.SEVERITY_ERROR));
-		markersToCheck.add(new MarkerToCheck("Too many parameters: 0 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests2' cannot be started on a parallel test component because the type does not have `runs on' clause",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Too many parameters: 0 was expected instead of 1",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `functionOther' in module `statement_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 15;
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `akarmi' in module `statement_tests'",  lineNum, IMarker.SEVERITY_ERROR));

@@ -318,10 +318,6 @@ public final class Function_Type extends Type {
 	public boolean checkStartable(final CompilationTimeStamp timestamp, final Location errorLocation) {
 		check(timestamp);
 
-		if (isStartable) {
-			return true;
-		}
-
 		if (runsOnRef == null) {
 			errorLocation.reportSemanticError(MessageFormat.format(
 					"Functions of type `{0}'' cannot be started on a parallel test component because the type does not have `runs on'' clause",
@@ -335,6 +331,10 @@ public final class Function_Type extends Type {
 			final String operation = "the return type or embedded in the return type of function type `"
 					+ getTypename() + "' if it is started on parallel test component";
 			returnType.checkComponentInternal(timestamp, typeSet, operation);
+		}
+
+		if (isStartable) {
+			return true;
 		}
 
 		return false;
