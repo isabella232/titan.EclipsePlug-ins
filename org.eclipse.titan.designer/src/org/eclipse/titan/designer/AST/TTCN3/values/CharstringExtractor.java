@@ -27,10 +27,10 @@ public class CharstringExtractor {
 
 	/**
 	 * Constructor
-	 * @param aTccnCharstring the TTCN-3 string with escapes to extract
+	 * @param aTtcnCharstring the TTCN-3 string with escapes to extract
 	 */
-	public CharstringExtractor( final String aTccnCharstring ) {
-		mExtractedString = extractString( aTccnCharstring );
+	public CharstringExtractor( final String aTtcnCharstring ) {
+		mExtractedString = extractString( aTtcnCharstring );
 	}
 
 	/** @return the value string of the TTCN-3 string */
