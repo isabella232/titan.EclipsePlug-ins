@@ -256,7 +256,7 @@ public final class Function_Type extends Type {
 		runsOnType = null;
 		lastTimeChecked = timestamp;
 		isErroneous = false;
-		isStartable = true;
+		isStartable = false;
 
 		parseAttributes(timestamp);
 
@@ -278,7 +278,8 @@ public final class Function_Type extends Type {
 
 		formalParList.checkNoLazyParams();
 
-		isStartable = isStartable && formalParList.getStartability();
+		isStartable = runsOnRef != null;
+		isStartable &= formalParList.getStartability();
 
 		if (returnType != null) {
 			returnType.check(timestamp);
@@ -287,7 +288,9 @@ public final class Function_Type extends Type {
 				location.reportSemanticError("Functions can not return ports");
 			}
 
-			isStartable = isStartable && !Type_type.TYPE_DEFAULT.equals(returnedType.getTypetype());
+			if (isStartable && returnType.isComponentInternal(timestamp)) {
+				isStartable = false;
+			}
 		}
 
 		checkSubtypeRestrictions(timestamp);
