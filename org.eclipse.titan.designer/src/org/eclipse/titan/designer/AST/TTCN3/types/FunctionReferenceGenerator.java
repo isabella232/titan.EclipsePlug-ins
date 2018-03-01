@@ -68,6 +68,14 @@ public class FunctionReferenceGenerator {
 			source.append("String getModuleName();\n");
 			source.append("String getDefinitionName();\n");
 			source.append(MessageFormat.format("{0} invoke({1});\n", def.returnType == null? "void" : def.returnType, def.formalParList));
+			if (def.isStartable) {
+				source.append("void start(final TitanComponent component_reference");
+				if (def.formalParList != null && def.formalParList.length() > 0) {
+					source.append(", ");
+					source.append(def.formalParList);
+				}
+				source.append(");\n");
+			}
 			source.append("}\n");
 			break;
 		case ALTSTEP:
@@ -106,6 +114,16 @@ public class FunctionReferenceGenerator {
 			source.append(MessageFormat.format("public {0} invoke({1}) '{'\n", def.returnType == null? "void" : def.returnType, def.formalParList));
 			source.append("throw new TtcnError(\"null reference cannot be invoked.\");\n");
 			source.append("}\n");
+			if (def.isStartable) {
+				source.append("public void start(final TitanComponent component_reference");
+				if (def.formalParList != null && def.formalParList.length() > 0) {
+					source.append(", ");
+					source.append(def.formalParList);
+				}
+				source.append(") {\n");
+				source.append("throw new TtcnError(\"null reference cannot be started.\");\n");
+				source.append("}\n");
+			}
 			break;
 		case ALTSTEP:
 			source.append(MessageFormat.format("public {0} invoke_standalone({1}) '{'\n", def.returnType == null? "void" : def.returnType, def.formalParList));
@@ -204,6 +222,18 @@ public class FunctionReferenceGenerator {
 			source.append(def.actualParList);
 			source.append(");\n");
 			source.append("}\n");
+
+			if (def.isStartable) {
+				source.append("public void start(final TitanComponent component_reference");
+				if (def.formalParList != null && def.formalParList.length() > 0) {
+					source.append(", ");
+					source.append(def.formalParList);
+				}
+				source.append(") {\n");
+				source.append("mustBound(\"Start of unbound function.\");\n");
+				source.append("//FIXME NOT yet implemented.\n");
+				source.append("}\n");
+			}
 			break;
 		case ALTSTEP:
 			source.append(MessageFormat.format("public void invoke_standalone({0}) '{'\n", def.formalParList));
@@ -346,6 +376,18 @@ public class FunctionReferenceGenerator {
 			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("}\n");
 			source.append("}\n");
+
+			if (def.isStartable) {
+				source.append("public void start(final TitanComponent component_reference");
+				if (def.formalParList != null && def.formalParList.length() > 0) {
+					source.append(", ");
+					source.append(def.formalParList);
+				}
+				source.append(") {\n");
+				source.append("throw new TtcnError(\"FIXME Not yet implemented.\");\n");
+				source.append("}\n");
+			}
+
 			source.append("};\n");
 			source.append("} catch (NoSuchMethodException e) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");

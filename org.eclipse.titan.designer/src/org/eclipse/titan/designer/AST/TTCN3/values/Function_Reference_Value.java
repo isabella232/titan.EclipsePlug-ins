@@ -202,6 +202,18 @@ public final class Function_Reference_Value extends Value {
 		result.append(") {\n");
 		result.append(MessageFormat.format("{0}{1}.{2}({3});\n", returnType == null ? "" : "return ", moduleName, functionName, actualParList));
 		result.append("}\n");
+
+		if (functionType.isStartable(CompilationTimeStamp.getBaseTimestamp())) {
+			result.append("@Override\n");
+			result.append("public void start(TitanComponent component_reference");
+			if (functionType.getFormalParameters().getNofParameters() > 0) {
+				result.append(", ");
+				functionType.getFormalParameters().generateCode(aData, result);
+			}
+			result.append(") {\n");
+			result.append("throw new TtcnError(\"Starting a function on a remote component is not yet implemented!\");\n");
+			result.append("}\n");
+		}
 		result.append("})\n");
 
 		return result;

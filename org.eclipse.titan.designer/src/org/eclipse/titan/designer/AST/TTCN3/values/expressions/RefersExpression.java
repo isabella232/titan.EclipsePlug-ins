@@ -323,6 +323,19 @@ public final class RefersExpression extends Expression_Value {
 			expression.expression.append(functionType.getFormalParameters().generateCodeActualParlist(""));
 			expression.expression.append(");\n");
 			expression.expression.append("}\n");
+
+			if (functionType.isStartable(CompilationTimeStamp.getBaseTimestamp())) {
+				expression.expression.append("@Override\n");
+				expression.expression.append("public void start(TitanComponent component_reference");
+				if (functionType.getFormalParameters().getNofParameters() > 0) {
+					expression.expression.append(", ");
+					functionType.getFormalParameters().generateCode(aData, expression.expression);
+				}
+				expression.expression.append(") {\n");
+				expression.expression.append("throw new TtcnError(\"Starting a function on a remote component is not yet implemented!\");\n");
+				expression.expression.append("}\n");
+			}
+
 		} else if (lastGovernor.getTypetype().equals(Type_type.TYPE_ALTSTEP)) {
 			aData.addBuiltinTypeImport("Default_Base");
 			aData.addBuiltinTypeImport("TitanAlt_Status");
