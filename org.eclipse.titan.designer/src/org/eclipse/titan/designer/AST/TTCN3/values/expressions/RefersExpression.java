@@ -329,8 +329,10 @@ public final class RefersExpression extends Expression_Value {
 			expression.expression.append("}\n");
 
 			if (functionType.isStartable(CompilationTimeStamp.getBaseTimestamp())) {
+				aData.addBuiltinTypeImport("TitanComponent");
+
 				expression.expression.append("@Override\n");
-				expression.expression.append("public void start(TitanComponent component_reference");
+				expression.expression.append("public void start(final TitanComponent component_reference");
 				if (functionType.getFormalParameters().getNofParameters() > 0) {
 					expression.expression.append(", ");
 					functionType.getFormalParameters().generateCode(aData, expression.expression);
