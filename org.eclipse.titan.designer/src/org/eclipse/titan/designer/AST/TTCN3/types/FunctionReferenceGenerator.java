@@ -231,7 +231,12 @@ public class FunctionReferenceGenerator {
 				}
 				source.append(") {\n");
 				source.append("mustBound(\"Start of unbound function.\");\n");
-				source.append("//FIXME NOT yet implemented.\n");
+				source.append("referred_function.start(component_reference");
+				if (def.actualParList != null && def.actualParList.length() > 0) {
+					source.append(", ");
+					source.append(def.actualParList);
+				}
+				source.append(");\n");
 				source.append("}\n");
 			}
 			break;

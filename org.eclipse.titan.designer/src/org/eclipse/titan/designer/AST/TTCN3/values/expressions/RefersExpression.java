@@ -288,21 +288,25 @@ public final class RefersExpression extends Expression_Value {
 		}
 
 		final IType lastGovernor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final String moduleName = referredAssignment.getMyScope().getModuleScope().getName();
+		final String functionName = referredAssignment.getIdentifier().getName();
 
 		expression.expression.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, expression.expression, myScope)));
 		expression.expression.append("@Override\n");
 		expression.expression.append("public String getModuleName() {\n");
-		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getMyScope().getModuleScope().getIdentifier().getName()));
+		expression.expression.append(MessageFormat.format("return \"{0}\";\n", moduleName));
 		expression.expression.append("}\n");
 		expression.expression.append("@Override\n");
 		expression.expression.append("public String getDefinitionName() {\n");
-		expression.expression.append(MessageFormat.format("return \"{0}\";\n", referredAssignment.getIdentifier().getName()));
+		expression.expression.append(MessageFormat.format("return \"{0}\";\n", functionName));
 		expression.expression.append("}\n");
 		if (lastGovernor.getTypetype().equals(Type_type.TYPE_FUNCTION)) {
 			expression.expression.append("@Override\n");
 			expression.expression.append("public ");
 			final Function_Type functionType = (Function_Type) lastGovernor;
 			final Type returnType = functionType.getReturnType();
+			final StringBuilder actualParList = functionType.getFormalParameters().generateCodeActualParlist("");
+
 			if (returnType == null) {
 				expression.expression.append("void");
 			} else {
@@ -320,7 +324,7 @@ public final class RefersExpression extends Expression_Value {
 			}
 			expression.expression.append(referredAssignment.getIdentifier().getName());
 			expression.expression.append('(');
-			expression.expression.append(functionType.getFormalParameters().generateCodeActualParlist(""));
+			expression.expression.append(actualParList);
 			expression.expression.append(");\n");
 			expression.expression.append("}\n");
 
@@ -332,7 +336,11 @@ public final class RefersExpression extends Expression_Value {
 					functionType.getFormalParameters().generateCode(aData, expression.expression);
 				}
 				expression.expression.append(") {\n");
-				expression.expression.append("throw new TtcnError(\"Starting a function on a remote component is not yet implemented!\");\n");
+				expression.expression.append(MessageFormat.format("{0}.start_{1}(component_reference", moduleName, functionName));
+				if (actualParList != null && actualParList.length() > 0) {
+					expression.expression.append(MessageFormat.format(", {0}", actualParList));
+				}
+				expression.expression.append(");\n");
 				expression.expression.append("}\n");
 			}
 
