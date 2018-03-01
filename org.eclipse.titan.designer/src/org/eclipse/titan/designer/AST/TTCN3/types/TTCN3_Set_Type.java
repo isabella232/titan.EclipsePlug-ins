@@ -672,6 +672,13 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(CompilationTimeStamp timestamp) {
+		checkSetSeqRawCodingAttributes(timestamp);
+		//TODO add checks for other encodings.
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
 		rawAttribute = new RawAST(getDefaultRawFieldLength());
 	}
