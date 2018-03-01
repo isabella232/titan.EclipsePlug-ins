@@ -205,8 +205,10 @@ public final class Function_Reference_Value extends Value {
 		result.append("}\n");
 
 		if (functionType.isStartable(CompilationTimeStamp.getBaseTimestamp())) {
+			aData.addBuiltinTypeImport("TitanComponent");
+
 			result.append("@Override\n");
-			result.append("public void start(TitanComponent component_reference");
+			result.append("public void start(final TitanComponent component_reference");
 			if (functionType.getFormalParameters().getNofParameters() > 0) {
 				result.append(", ");
 				functionType.getFormalParameters().generateCode(aData, result);
