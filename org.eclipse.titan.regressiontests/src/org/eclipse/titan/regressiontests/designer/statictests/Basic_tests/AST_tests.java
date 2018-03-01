@@ -119,7 +119,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(169);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(189);
 		int lineNum = 54;
 		markersToCheck.add(new MarkerToCheck("The function must have one parameter instead of 0 for attribute `prototype(convert)'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
@@ -332,7 +332,35 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_146'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonexi' in module `attribute_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("octetstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 4;
+		lineNum += 13;
+		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_145'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonexi' in type `@attribute_tests.intrec'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonexi' in module `attribute_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("octetstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 13;
+		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_145_2'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonexi' in type `@attribute_tests.intrec'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonexi' in module `attribute_tests'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("octetstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 71;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter CROSSTAG for field union2: nonexi", lineNum++, IMarker.SEVERITY_ERROR));
+		}
+		markersToCheck.add(new MarkerToCheck("bitstring value was expected",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter CROSSTAG for field union2: nonexi1",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter CROSSTAG for field union2: nonexi2",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("bitstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 27;
+		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonexi' in type `@attribute_tests.RAW_PDU_167'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("bitstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 20;
+		markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter LENGTHTO for field length1: nonexi",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 23;
+		markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter POINTERTO for field ptr1: nonexi",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter PTROFFSET for field `ptr2'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 13;
+		markersToCheck.add(new MarkerToCheck("Pointer must precede the pointed field. Incorrect field name `field2' in RAW parameter POINTERTO for field `ptr2'",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 8;
 		for (i = 0; i < 3; i++) {
 			markersToCheck.add(new MarkerToCheck("Duplicate version attribute", lineNum++, IMarker.SEVERITY_ERROR));
 		}

@@ -561,8 +561,205 @@ with { encode "RAW"; variant "TAG (
 		      int ,      nonexi=1 ;
 		      nonexi ,      nonexi=1 ;
 		      int ,      tag=nonexi ;
-		      octstr ,      octfield=1 ;    )"
+		      octstr ,      octfield=1 ;
+		      bit8,      OTHERWISE    )"
      } ;
+     
+type set RAW_PDU_145
+ { intrec       int ,
+   octrec   octstr ,
+   bitrec     bit8  }
+
+with { encode "RAW"; variant "TAG (
+                      int ,      tag=1 ;
+                      octstr ,   tag=2 ;
+		      bit8 ,     tag=3;
+		      nonexi ,      tag=1 ;
+		      int ,      nonexi=1 ;
+		      int ,      tag=nonexi ;
+		      octstr ,      octfield=1 ;
+		      bit8,      OTHERWISE     )"
+     } ;
+
+type record RAW_PDU_145_2
+ { intrec       int ,
+   octrec   octstr ,
+   bitrec     bit8  }
+
+with { encode "RAW"; variant "TAG (
+                      int ,      tag=1 ;
+                      octstr ,   tag=2 ;
+		      bit8 ,     tag=3;
+		      nonexi ,      tag=1 ;
+		      int ,      nonexi=1 ;
+		      int ,      tag=nonexi ;
+		      octstr ,      octfield=1 ;
+		      bit8,      OTHERWISE     )"
+     } ;
+
+
+type bitstring BIT4_
+with { variant "FIELDLENGTH(4)" } ;
+
+type octetstring OCT2_
+with { variant "FIELDLENGTH(2)" } ;
+
+type octetstring OCT3_
+with { variant "FIELDLENGTH(3)" } ;
+
+type union Union2
+{ OCT3_          field1 ,
+  OCT2_          field2 ,
+  OCT3_          field3 ,
+  OCT2_          field4  }
+ with { variant ""};
+
+
+type union Union1
+{ BIT4_          field1 ,
+  BIT4_          field2  }
+ with { variant ""};
+
+// there are no errors reported intentionally here
+type record RAW_PDU_157
+{ BIT4_                id ,
+  Union1             union1 ,
+  Union2             union2  }
+   with { encode "RAW"; variant  "CROSSTAG(
+                                       field1 ,       id = '0001'B ;
+				       field2 ,       id = '0010'B ;
+				       field3 ,       id = '0011'B ;
+				       field4 ,    {  id = '0100'B ,
+				                      id = '0101'B ,
+				                      id = '0111'B   };
+				       nonexi ,       id = '0001'B ;
+				       field1 ,       nonexi = '0001'B ;
+				       field1 ,       id = 1;
+				       field4 ,    {  nonexi1 = '0100'B ,
+				                      nonexi2 = '0101'B ,
+				                      id = 1   };    )"  ;
+           variant "CROSSTAG(
+                                       field1 ,   {   id = '0001'B ,
+				                      id = '0010'B ,
+				                      id = '0011'B     } ;
+				       field2 ,    {  id = '0100'B ,
+				                      id = '0101'B ,
+				                      id = '0111'B   }    )" } ;
+
+type union Union2_1
+{ OCT2_          field1 ,
+  OCT2_          field2 ,
+  OCT2_          field3 ,
+  OCT2_          field4  }
+ with { variant ""};
+ 
+type record RAW_PDU_158
+{ Union2_1 union2 ,
+  Union1 union1,
+  BIT4_ id }
+   with { encode "RAW"; variant  (union2) "CROSSTAG(
+                                       field1 ,       id = '0001'B ;
+				       field2 ,       id = '0010'B ;
+				       field3 ,       id = '0011'B ;
+				       field4 ,    {  id = '0100'B ,
+				                      id = '0101'B ,
+				                      id = '0111'B   };
+				       nonexi ,       id = '0001'B ;
+				       field1 ,       nonexi = '0001'B ;
+				       field1 ,       id = 1;
+				       field4 ,    {  nonexi1 = '0100'B ,
+				                      nonexi2 = '0101'B ,
+				                      id = 1   };    )"  ;
+           variant  (union1) "CROSSTAG(
+                                       field1 ,   {   id = '0001'B ,
+				                      id = '0010'B ,
+				                      id = '0011'B     } ;
+				       field2 ,    {  id = '0100'B ,
+				                      id = '0101'B ,
+				                      id = '0111'B   }    )" } ;
+
+group RAW_group44{
+
+type union Code {
+  integer field1,
+  integer field2,
+  integer field3
+} with { variant "FIELDLENGTH(8)"};
+
+type record RAW_PDU_167{
+  Code code,
+  bitstring ABCxxxxx,
+  integer PDU_length,
+  octetstring id optional
+} with { variant (PDU_length) "FIELDLENGTH(16)";
+  variant (ABCxxxxx) "FIELDLENGTH(8)";
+  variant (id) "PRESENCE( {
+       ABCxxxxx = '10000000'B,
+       ABCxxxxx = '10100000'B,
+       nonexi = '10100000'B,
+       ABCxxxxx = 1} )";
+  variant (code) "CROSSTAG(
+      field1, id = omit;
+      field2, id = '02'O;
+      field3, id = '03'O; )"};
+
+}with{encode "RAW"}
+
+type record record1_2
+ { bitstring       bit1 ,
+   bitstring       bit3 ,
+   bitstring       bit4 ,
+   integer         int  ,
+   integer         length1 ,
+   octetstring     octN  }
+with { encode "RAW"; variant (bit1) "FIELDLENGTH(1)" ;
+       variant (bit3) "FIELDLENGTH(3)" ;
+       variant (bit4) "FIELDLENGTH(4)" ;
+       variant (int) "FIELDLENGTH(16)" ;
+       variant (length1) "LENGTHTO(octN)";
+       variant (length1) "LENGTHTO(nonexi)"
+     }
+
+
+group RAW_group5{
+
+type integer INT1
+with {variant "FIELDLENGTH(8)" };
+
+type bitstring BIT4 length (4)
+
+type record RAW_PDU_112 {
+			INT1 ptr1,
+			INT1 ptr2,
+			BIT4 field1,
+			BIT4 field2 }
+
+with { variant (ptr1) "POINTERTO(field1)";
+       variant (ptr1) "UNIT(1)";
+       variant (ptr1) "PTROFFSET(ptr1)";
+       variant (ptr2) "POINTERTO(field2)";
+       variant (ptr2) "UNIT(1)"
+       variant (ptr2) "PTROFFSET(ptr2)";
+       variant (ptr1) "POINTERTO(nonexi)";
+       variant (ptr2) "PTROFFSET(nonexi)";
+       }
+
+type record RAW_PDU_112_2 {
+			INT1 ptr1,
+			BIT4 field1,
+			BIT4 field2,
+			INT1 ptr2
+			 }
+
+with { variant (ptr1) "POINTERTO(field1)";
+       variant (ptr1) "UNIT(1)";
+       variant (ptr1) "PTROFFSET(ptr1)";
+       variant (ptr2) "POINTERTO(field2)";
+       variant (ptr2) "UNIT(1)"
+       variant (ptr2) "PTROFFSET(ptr2)";
+       }
+       
+} with {encode "RAW" };
      
 } with { extension "version <RnXnn>"
 extension "version R8B"
