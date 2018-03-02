@@ -621,7 +621,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			break;
 		}
 		case TEMPLATE_LIST: {
-			Template_List listTemplate = (Template_List) template;
+			final Template_List listTemplate = (Template_List) template;
 			ITTCN3Template baseTemplate = listTemplate.getBaseTemplate();
 			int nofBaseComponents = 0;
 			if (baseTemplate != null) {
@@ -639,7 +639,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				boolean fixedSize = true;
 				int templateSize = 0;
 				for (int i = 0; i < nofComponents && fixedSize; i++) {
-					ITTCN3Template templateComponent = listTemplate.getTemplateByIndex(i);
+					final ITTCN3Template templateComponent = listTemplate.getTemplateByIndex(i);
 					switch (templateComponent.getTemplatetype()) {
 					case PERMUTATION_MATCH:
 						if(((CompositeTemplate)templateComponent).containsAnyornoneOrPermutation()) {

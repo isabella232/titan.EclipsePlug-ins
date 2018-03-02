@@ -812,7 +812,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(CompilationTimeStamp timestamp) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
 		checkSetSeqRawCodingAttributes(timestamp);
 		//TODO add checks for other encodings.
 	}

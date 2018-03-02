@@ -346,7 +346,7 @@ public class FunctionReferenceGenerator {
 		case FUNCTION:
 			source.append("try{\n");
 			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
-			for(String name : def.parameterTypeNames) {
+			for(final String name : def.parameterTypeNames) {
 				source.append(MessageFormat.format(", {0}.class", name));
 			}
 			source.append(");\n");
@@ -371,7 +371,7 @@ public class FunctionReferenceGenerator {
 				source.append(MessageFormat.format("return ({0})", def.returnType));
 			}
 			source.append("m.invoke(null");
-			for(String name : def.parameterNames) {
+			for(final String name : def.parameterNames) {
 				source.append(MessageFormat.format(", {0}", name));
 			}
 			source.append(");\n");
@@ -412,12 +412,12 @@ public class FunctionReferenceGenerator {
 			source.append(MessageFormat.format(" public void invoke_standalone({0}) '{'\n", def.formalParList));
 			source.append("try{\n");
 			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
-			for(String name : def.parameterTypeNames) {
+			for(final String name : def.parameterTypeNames) {
 				source.append(MessageFormat.format(", {0}.class", name));
 			}
 			source.append(");\n");
 			source.append("m.invoke(null");
-			for(String name : def.parameterNames) {
+			for(final String name : def.parameterNames) {
 				source.append(MessageFormat.format(", {0}", name));
 			}
 			source.append(");\n");
@@ -434,12 +434,12 @@ public class FunctionReferenceGenerator {
 			source.append(MessageFormat.format("public Default_Base activate({0}) '{'\n", def.formalParList));
 			source.append("try{\n");
 			source.append("final Method m = module.getClass().getDeclaredMethod(\"activate_\" + definitionName");
-			for(String name : def.parameterTypeNames) {
+			for(final String name : def.parameterTypeNames) {
 				source.append(MessageFormat.format(", {0}.class", name));
 			}
 			source.append(");\n");
 			source.append("return (Default_Base)m.invoke(null");
-			for(String name : def.parameterNames) {
+			for(final String name : def.parameterNames) {
 				source.append(MessageFormat.format(", {0}", name));
 			}
 			source.append(");\n");
@@ -456,12 +456,12 @@ public class FunctionReferenceGenerator {
 			source.append(MessageFormat.format("public TitanAlt_Status invoke({0}) '{'\n", def.formalParList));
 			source.append("try{\n");
 			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName + \"_instance\"");
-			for(String name : def.parameterTypeNames) {
+			for(final String name : def.parameterTypeNames) {
 				source.append(MessageFormat.format(", {0}.class", name));
 			}
 			source.append(");\n");
 			source.append("return (TitanAlt_Status)m.invoke(null");
-			for(String name : def.parameterNames) {
+			for(final String name : def.parameterNames) {
 				source.append(MessageFormat.format(", {0}", name));
 			}
 			source.append(");\n");
@@ -478,7 +478,7 @@ public class FunctionReferenceGenerator {
 		case TESTCASE:
 			source.append("try{\n");
 			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
-			for(String name : def.parameterTypeNames) {
+			for(final String name : def.parameterTypeNames) {
 				source.append(MessageFormat.format(", {0}.class", name));
 			}
 			source.append(", boolean.class, TitanFloat.class);\n");
@@ -498,7 +498,7 @@ public class FunctionReferenceGenerator {
 			source.append("try{\n");
 			source.append("return (TitanVerdictType)");
 			source.append("m.invoke(null");
-			for(String name : def.parameterNames) {
+			for(final String name : def.parameterNames) {
 				source.append(MessageFormat.format(", {0}", name));
 			}
 			source.append(", has_timer, timer_value");

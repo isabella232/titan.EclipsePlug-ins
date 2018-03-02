@@ -289,7 +289,7 @@ public final class CharString_Type extends Type {
 	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
 		//check raw attributes
 		if (subType != null) {
-			int restrictionLength = subType.get_length_restriction();
+			final int restrictionLength = subType.get_length_restriction();
 			if (restrictionLength != -1) {
 				if (rawAttribute == null) {
 					rawAttribute = new RawAST(getDefaultRawFieldLength());

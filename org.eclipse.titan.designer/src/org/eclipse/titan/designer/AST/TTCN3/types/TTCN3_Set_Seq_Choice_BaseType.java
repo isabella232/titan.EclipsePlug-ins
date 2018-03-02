@@ -705,7 +705,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		if (rawAttribute != null && rawAttribute.presence != null) {
 			if (rawAttribute.presence.keyList != null) {
 				for (int a = 0; a < rawAttribute.presence.keyList.size(); a++) {
-					rawAST_tag_field_value tempTagFieldValue = rawAttribute.presence.keyList.get(a);
+					final rawAST_tag_field_value tempTagFieldValue = rawAttribute.presence.keyList.get(a);
 					final Reference reference = new Reference(null);
 					reference.addSubReference(new FieldSubReference(tempTagFieldValue.keyField.names.get(0)));
 					for (int b = 1; b < tempTagFieldValue.keyField.names.size(); b++) {
@@ -730,10 +730,10 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			final CompField cField = getComponentByIndex(i);
 			final Type fieldType = cField.getType();
 			fieldType.forceRaw(timestamp);
-			RawAST rawPar = fieldType.rawAttribute;
+			final RawAST rawPar = fieldType.rawAttribute;
 			if (rawPar != null) {
 				final Identifier fieldId = cField.getIdentifier();
-				IType fieldTypeLast = fieldType.getTypeRefdLast(timestamp);
+				final IType fieldTypeLast = fieldType.getTypeRefdLast(timestamp);
 				if (rawPar.prepadding != 0) {
 					usedBits = (usedBits + rawPar.prepadding - 1) / rawPar.prepadding * rawPar.prepadding;
 				}
@@ -749,7 +749,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				}
 				if (rawPar.lengthto != null) {
 					for (int j = 0; j < rawPar.lengthto.size(); j++) {
-						Identifier id = rawPar.lengthto.get(j);
+						final Identifier id = rawPar.lengthto.get(j);
 						if (!hasComponentWithName(id.getName())) {
 							id.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter LENGTHTO for field {0}: {1}", fieldId.getDisplayName(), id.getDisplayName()));
 						}
@@ -762,7 +762,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						break;
 					case TYPE_TTCN3_CHOICE:
 						for (int fi = 0; fi < ((TTCN3_Choice_Type)fieldTypeLast).getNofComponents(); fi++) {
-							Type_type tt = ((TTCN3_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
+							final Type_type tt = ((TTCN3_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
 							if (tt != Type_type.TYPE_INTEGER && tt != Type_type.TYPE_INTEGER_A) {
 								getLocation().reportSemanticError("The union type LENGTHTO field must contain only integer fields");
 							}
@@ -770,7 +770,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						break;
 					case TYPE_ASN1_CHOICE:
 						for (int fi = 0; fi < ((ASN1_Choice_Type)fieldTypeLast).getNofComponents(timestamp); fi++) {
-							Type_type tt = ((ASN1_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
+							final Type_type tt = ((ASN1_Choice_Type)fieldTypeLast).getComponentByIndex(fi).getType().getTypetype();
 							if (tt != Type_type.TYPE_INTEGER && tt != Type_type.TYPE_INTEGER_A) {
 								getLocation().reportSemanticError("The union type LENGTHTO field must contain only integer fields");
 							}
@@ -829,7 +829,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						}
 					}
 					if (!errorFound && rawPar.ptrbase != null) {
-						Identifier idf2 = rawPar.ptrbase;
+						final Identifier idf2 = rawPar.ptrbase;
 						if (!hasComponentWithName(idf2.getName())) {
 							idf2.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter PTROFFSET for field `{1}''", idf2.getDisplayName(), fieldId.getDisplayName()));
 							errorFound = true;
@@ -841,7 +841,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				}
 				if (rawPar.presence != null && rawPar.presence.keyList != null) {
 					for (int a = 0; a < rawPar.presence.keyList.size(); a++) {
-						rawAST_tag_field_value tempTagFieldValue = rawPar.presence.keyList.get(a);
+						final rawAST_tag_field_value tempTagFieldValue = rawPar.presence.keyList.get(a);
 						final Reference reference = new Reference(null);
 						reference.addSubReference(new FieldSubReference(tempTagFieldValue.keyField.names.get(0)));
 						for (int b = 1; b < tempTagFieldValue.keyField.names.size(); b++) {
@@ -890,9 +890,9 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								IType t2 = this;
 								boolean errorFound = false;
 								boolean allow_omit = false;
-								rawAST_tag_field_value tagField = singleTag.keyList.get(a);
+								final rawAST_tag_field_value tagField = singleTag.keyList.get(a);
 								for (int b = 0; b < tagField.keyField.names.size() && !errorFound; b++) {
-									Identifier idf2 = tagField.keyField.names.get(b);
+									final Identifier idf2 = tagField.keyField.names.get(b);
 									CompField cf2 = null;
 									switch (t2.getTypetype()) {
 									case TYPE_TTCN3_CHOICE:
@@ -921,7 +921,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 										break;
 									}
 									if (b == 0) {
-										int fieldIndex = getComponentIndexByName(idf2);
+										final int fieldIndex = getComponentIndexByName(idf2);
 										if (fieldIndex == i) {
 											idf2.getLocation().reportSemanticError(MessageFormat.format("RAW parameter CROSSTAG for field `{0}'' cannot refer to the field itself", idf2.getDisplayName()));
 											errorFound = true;

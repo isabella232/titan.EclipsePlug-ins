@@ -487,7 +487,8 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\tTtcnLogger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fieldInfo = aNamesList.get(i);
+			final FieldInfo fieldInfo = aNamesList.get(i);
+
 			if (i > 0) {
 				aSb.append("\t\t\tTtcnLogger.log_char(',');\n");
 			}
@@ -508,7 +509,7 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fieldInfo = aNamesList.get(i);
+			final FieldInfo fieldInfo = aNamesList.get(i);
 
 			aSb.append(MessageFormat.format("\t\t\t{0}.encode_text(text_buf);\n", fieldInfo.mVarName));
 		}
@@ -517,7 +518,7 @@ public class RecordSetCodeGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fieldInfo = aNamesList.get(i);
+			final FieldInfo fieldInfo = aNamesList.get(i);
 
 			aSb.append(MessageFormat.format("\t\t\t{0}.decode_text(text_buf);\n", fieldInfo.mVarName));
 		}
@@ -1382,7 +1383,8 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\t\tTtcnLogger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fieldInfo = aNamesList.get(i);
+			final FieldInfo fieldInfo = aNamesList.get(i);
+
 			if (i > 0) {
 				source.append("\t\t\t\tTtcnLogger.log_char(',');\n");
 			}
@@ -1435,7 +1437,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fi = aNamesList.get(i);
+			final FieldInfo fi = aNamesList.get(i);
 			source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
 			source.append(MessageFormat.format("\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
 			source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
@@ -1454,7 +1456,8 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fi = aNamesList.get(i);
+			final FieldInfo fi = aNamesList.get(i);
+
 			source.append(MessageFormat.format("\t\t\t\tTtcnLogger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
 			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 		}
@@ -1491,7 +1494,8 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fi = aNamesList.get(i);
+			final FieldInfo fi = aNamesList.get(i);
+
 			source.append(MessageFormat.format("\t\t\t\t{0}.encode_text(text_buf);\n", fi.mVarName ) );
 		}
 		source.append("\t\t\t\tbreak;\n");
@@ -1518,7 +1522,8 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
-			FieldInfo fi = aNamesList.get(i);
+			final FieldInfo fi = aNamesList.get(i);
+
 			source.append(MessageFormat.format("\t\t\t\t{0}.decode_text(text_buf);\n", fi.mVarName ) );
 		}
 		source.append("\t\t\t\tbreak;\n");

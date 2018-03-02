@@ -658,7 +658,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("switch (my_head.item_selection) {\n");
 			for (int msg_idx = 0; msg_idx < portDefinition.inMessages.size(); msg_idx++) {
-				messageTypeInfo message_type = portDefinition.inMessages.get(msg_idx);
+				final messageTypeInfo message_type = portDefinition.inMessages.get(msg_idx);
 				source.append(MessageFormat.format("case MESSAGE_{0}:\n", msg_idx));
 				source.append("TtcnLogger.begin_event(log_sev);\n");
 				source.append(MessageFormat.format("TtcnLogger.log_event_str(\": {0}: \");\n", message_type.mDisplayName));
@@ -765,7 +765,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(log_sev)) {\n");
 			source.append("switch (my_head.item_selection) {\n");
 			for (int msg_idx = 0; msg_idx < portDefinition.inMessages.size(); msg_idx++) {
-				messageTypeInfo message_type = portDefinition.inMessages.get(msg_idx);
+				final messageTypeInfo message_type = portDefinition.inMessages.get(msg_idx);
 				source.append(MessageFormat.format("case MESSAGE_{0}:\n", msg_idx));
 				source.append("TtcnLogger.begin_event(log_sev);\n");
 				source.append(MessageFormat.format("TtcnLogger.log_event_str(\": {0}: \");\n", message_type.mDisplayName));
