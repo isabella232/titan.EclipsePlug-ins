@@ -39,7 +39,7 @@ public class ExternalMakefileGenerator {
 	 * 
 	 * @param project the project to generate the Makefile for
 	 * */
-	public static List<String> createMakefilGeneratorCommand(final IProject project) {
+	public static List<String> createMakefileGeneratorCommand(final IProject project) {
 		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
