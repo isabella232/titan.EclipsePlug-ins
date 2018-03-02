@@ -15,6 +15,7 @@ import org.eclipse.titan.common.path.PathConverter;
 import org.eclipse.titan.common.path.PathUtil;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
+import org.eclipse.titan.designer.core.SymbolicLinkHandler;
 import org.eclipse.titan.designer.core.TITANBuilderResourceVisitor;
 import org.eclipse.titan.designer.decorators.TITANDecorator;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
@@ -64,6 +65,8 @@ public class ExternalMakefileGenerator {
 				command.add(parameters[i]);
 			}
 		}
+
+		SymbolicLinkHandler.createSymlinks(project);
 
 		for (final String path : files.keySet()) {
 			command.add(APOSTROPHE + path + APOSTROPHE);
