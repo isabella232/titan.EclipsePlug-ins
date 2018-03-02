@@ -47,6 +47,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 	private Button warningsForBadVariants;
 	private Button ignoreUntaggedOnTopLevelUnion;
 	private Button enableLegacyEncoding;
+	private Button disableUserInformation;
 	private Button activateDebugger;
 
 	//private Composite namingRuleComposite;
@@ -78,6 +79,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			warningsForBadVariants.dispose();
 			ignoreUntaggedOnTopLevelUnion.dispose();
 			enableLegacyEncoding.dispose();
+			disableUserInformation.dispose();
 			activateDebugger.dispose();
 		}
 	}
@@ -152,6 +154,9 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		
 		enableLegacyEncoding  = new Button(mainComposite, SWT.CHECK);
 		enableLegacyEncoding .setText("Enable legacy encoding (-e)");
+		
+		disableUserInformation  = new Button(mainComposite, SWT.CHECK);
+		disableUserInformation .setText("Disable user information and timestamp in headers (-D)");
 
 		activateDebugger = new Button(mainComposite, SWT.CHECK);
 		activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");
@@ -185,6 +190,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		warningsForBadVariants.setEnabled(enabled);
 		ignoreUntaggedOnTopLevelUnion.setEnabled(enabled);
 		enableLegacyEncoding.setEnabled(enabled);
+		disableUserInformation.setEnabled(enabled);
 		activateDebugger.setEnabled(enabled);
 	}
 
@@ -256,6 +262,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		warningsForBadVariants.setSelection(false);
 		ignoreUntaggedOnTopLevelUnion.setSelection(false);
 		enableLegacyEncoding.setSelection(false);
+		disableUserInformation.setSelection(false);
 		activateDebugger.setSelection(false);
 	}
 
@@ -361,6 +368,10 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			enableLegacyEncoding.setSelection("true".equals(temp) ? true : false);
 
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY));
+			disableUserInformation.setSelection("true".equals(temp) ? true : false);
+
+			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY));
 			activateDebugger.setSelection("true".equals(temp) ? true : false);
 
@@ -393,7 +404,8 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 			setProperty(project, TITANFlagsOptionsData.ALLOW_OMIT_IN_VALUELIST_TEMPLATE_PROPERTY ,  omitInValueList.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.WARNINGS_FOR_BAD_VARIANTS_PROPERTY,  warningsForBadVariants.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.IGNORE_UNTAGGED_ON_TOP_LEVEL_UNION_PROPERTY,  ignoreUntaggedOnTopLevelUnion.getSelection() ? "true" : "false");
-			setProperty(project, TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY, enableLegacyEncoding .getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY, enableLegacyEncoding.getSelection() ? "true" : "false");
+			setProperty(project, TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY, disableUserInformation.getSelection() ? "true" : "false");
 			setProperty(project, TITANFlagsOptionsData.ACTIVATE_DEBUGGER_PROPERTY, activateDebugger.getSelection() ? "true" : "false");
 
 		} catch (CoreException e) {
