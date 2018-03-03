@@ -34,7 +34,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
  		final Set<Identifier> definitions = new HashSet<Identifier>();
 		final Identifier componentIdentifier;
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
-		final Identifier identifire;
+		final Identifier identifier;
 		boolean isTestCase = false;
 
 		if (node instanceof Def_Function) {
@@ -44,15 +44,15 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 				return;
 			}
 			componentIdentifier = componentType.getComponentBody().getIdentifier();
-			identifire = variable.getIdentifier();
+			identifier = variable.getIdentifier();
 		} else if (node instanceof Def_Altstep) {
 			final Def_Altstep variable = (Def_Altstep) node;
 			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
-			identifire = variable.getIdentifier();
+			identifier = variable.getIdentifier();
 		} else {
 			final Def_Testcase variable = (Def_Testcase) node;
 			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
-			identifire = variable.getIdentifier();
+			identifier = variable.getIdentifier();
 			isTestCase = true;
 		}
 
@@ -62,18 +62,18 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 		if (definitions.isEmpty()) {
 			if(isTestCase){
-				problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
 			} else {
-				problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used, it is erasable.",componentIdentifier.getDisplayName()));
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used, it is erasable.",componentIdentifier.getDisplayName()));
 			}
 		} else if (!definitions.contains(componentIdentifier)) {
 			ArrayList<Identifier> list = new ArrayList<Identifier>(definitions);
 			if (definitions.size() == 1){
-				problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use `{1}'' component.",
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use `{1}'' component.",
 						componentIdentifier.getName(),list.get(0).getDisplayName()));
 			} else {
 				//FIXME: implement other cases
-				problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used.",componentIdentifier.getDisplayName()));
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used.",componentIdentifier.getDisplayName()));
 			}
 		}
 	}
