@@ -2334,15 +2334,17 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			globalVariable.append(", null");
 		}
 
+		globalVariable.append(", null");//the descriptor of the oftype is set in the preinit part.
 		switch (getTypetype()) {
-		case TYPE_SEQUENCE_OF:
-			globalVariable.append(MessageFormat.format(", {0}_descr_",((SequenceOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
-			break;
-		case TYPE_SET_OF:
-			globalVariable.append(MessageFormat.format(", {0}_descr_",((SetOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
-			break;
+		case TYPE_SEQUENCE_OF: {
+			final StringBuilder preInit = aData.getPreInit();
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SequenceOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			break;}
+		case TYPE_SET_OF:{
+			final StringBuilder preInit = aData.getPreInit();
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SetOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			break;}
 		default:
-			globalVariable.append(", null");
 			break;
 		}
 

@@ -34,7 +34,11 @@ public abstract class Base_Type {
 		// information for RAW coding
 		public final TTCN_RAWdescriptor raw;
 		//FIXME the other encoding specific descriptors
-		public final TTCN_Typedescriptor oftype_descr;
+		/**
+		 * In case of record of/ set of type the descriptor of the "of type".
+		 * Can not be final as it will be set in the preInit phase instead of the static module initialization phase when the descriptor os created.
+		 * */
+		public TTCN_Typedescriptor oftype_descr;
 
 		public TTCN_Typedescriptor(final String name, final TTCN_RAWdescriptor raw, final TTCN_Typedescriptor oftype_descr) {
 			this.name = name;
