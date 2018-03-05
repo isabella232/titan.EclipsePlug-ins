@@ -108,7 +108,7 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 
 		disableJSON = new Button(mainComposite, SWT.CHECK);
 		disableJSON.setText("Disable JSON encoder (-j)");
-		
+
 		disableOER = new Button(mainComposite, SWT.CHECK);
 		disableOER.setText("Disable OER encoder (-O)");
 
@@ -149,14 +149,13 @@ public final class TITANFlagsOptionsPage implements IOptionsPage {
 		warningsForBadVariants.setText("Display warnings instead of errors for invalid variants (-E)");
 
 		ignoreUntaggedOnTopLevelUnion = new Button(mainComposite, SWT.CHECK);
-		ignoreUntaggedOnTopLevelUnion.setText(
-				"Ignore UNTAGGED enc. instr. on top level unions (legacy behaviour) (-N)");
-		
-		enableLegacyEncoding  = new Button(mainComposite, SWT.CHECK);
-		enableLegacyEncoding .setText("Enable legacy encoding (-e)");
-		
-		disableUserInformation  = new Button(mainComposite, SWT.CHECK);
-		disableUserInformation .setText("Disable user information and timestamp in headers (-D)");
+		ignoreUntaggedOnTopLevelUnion.setText("Ignore UNTAGGED enc. instr. on top level unions (legacy behaviour) (-N)");
+
+		enableLegacyEncoding = new Button(mainComposite, SWT.CHECK);
+		enableLegacyEncoding.setText("Enable legacy encoding (-e)");
+
+		disableUserInformation = new Button(mainComposite, SWT.CHECK);
+		disableUserInformation.setText("Disable user information and timestamp in headers (-D)");
 
 		activateDebugger = new Button(mainComposite, SWT.CHECK);
 		activateDebugger.setText("Activate debugger (generates extra code for debugging) (-n)");

@@ -77,6 +77,7 @@ public final class TITANFlagsOptionsData {
 		if (useRuntime2) {
 			builder.append('R');
 		}
+
 		try {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_BER_PROPERTY));
@@ -157,7 +158,7 @@ public final class TITANFlagsOptionsData {
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
 			builder.append("true".equals(temp) ? "e" : "");
-			
+
 			temp = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
 					TITANFlagsOptionsData.DISABLE_USER_INFORMATION_PROPERTY));
 			builder.append("true".equals(temp) ? "D" : "");
