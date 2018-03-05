@@ -523,7 +523,6 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(buf.get_data());
 	}
 
-	//FIXME: implement
 	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final TitanCharString stringEncoding) {
 		value.mustBound("The argument of function unichar2oct() is an unbound universal charstring value.");
 
@@ -557,7 +556,11 @@ public final class AdditionalFunctions {
 
 		return new TitanOctetString(buf.get_data());
 	}
-
+	
+	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final String stringEncoding) {
+		return unichar2oct(value, new TitanCharString(stringEncoding));
+	}
+	
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");
@@ -983,7 +986,6 @@ public final class AdditionalFunctions {
 		return unicharStr;
 	}
 
-	//FIXME: implement
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value, final TitanCharString encodeStr) {
 		// default encoding is UTF-8
 		final TitanUniversalCharString unicharStr = new TitanUniversalCharString();
@@ -1013,6 +1015,10 @@ public final class AdditionalFunctions {
 		TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_DEC_UCSTR, err_behavior);
 
 		return unicharStr;
+	}
+	
+	public static TitanUniversalCharString oct2unichar(final TitanOctetString value, final String encodeStr) {
+		return oct2unichar(value, new TitanCharString(encodeStr));
 	}
 
 	// C.25 - str2int
