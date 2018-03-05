@@ -102,9 +102,12 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 					final Assignment assignment = reference.getRefdAssignment(timestamp, false);
 					if (assignment != null){
 						if (assignment instanceof Def_Function) {
-							final ReferenceCheck chek = new ReferenceCheck();
-							((Def_Function) assignment).accept(chek);
-							setOfIdentifier.addAll(chek.getIdentifiers());
+							final Component_Type componentType = ((Def_Function) assignment).getRunsOnType(timestamp); 
+							if (componentType == null) {
+								return V_CONTINUE;
+							}
+							final Identifier sc = componentType.getComponentBody().getIdentifier();
+							setOfIdentifier.add(sc);
 						}
 						if (assignment.getMyScope() instanceof ComponentTypeBody ) {
 							final Identifier sc =((ComponentTypeBody)assignment.getMyScope()).getIdentifier();
