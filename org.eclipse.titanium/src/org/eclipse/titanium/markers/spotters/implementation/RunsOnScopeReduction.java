@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
+import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
@@ -30,46 +31,53 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 
 	@Override
 	protected void process(IVisitableNode node, Problems problems) {
-		final Set<Identifier> definitions = new HashSet<Identifier>();
+ 		final Set<Identifier> definitions = new HashSet<Identifier>();
 		final Identifier componentIdentifier;
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
-		final Identifier identifire;
+		final Identifier identifier;
 		boolean isTestCase = false;
-		
+
 		if (node instanceof Def_Function) {
-			Def_Function variable = (Def_Function) node;
-			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
-			identifire = variable.getIdentifier();
+			final Def_Function variable = (Def_Function) node;
+			final Component_Type componentType = variable.getRunsOnType(timestamp); 
+			if (componentType == null) {
+				return;
+			}
+			componentIdentifier = componentType.getComponentBody().getIdentifier();
+			identifier = variable.getIdentifier();
 		} else if (node instanceof Def_Altstep) {
-			Def_Altstep variable = (Def_Altstep) node;
+			final Def_Altstep variable = (Def_Altstep) node;
 			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
-			identifire = variable.getIdentifier();
+			identifier = variable.getIdentifier();
 		} else {
-			Def_Testcase variable = (Def_Testcase) node;
+			final Def_Testcase variable = (Def_Testcase) node;
 			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
-			identifire = variable.getIdentifier();
+			identifier = variable.getIdentifier();
 			isTestCase = true;
 		}
-		
+
 		final ReferenceCheck chek = new ReferenceCheck();
 		node.accept(chek);
 		definitions.addAll(chek.getIdentifiers());
-		
-		if (isTestCase && definitions.isEmpty()) {
-			problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
+
+		if (definitions.isEmpty()) {
+			if(isTestCase){
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
+			} else {
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used, it is erasable.",componentIdentifier.getDisplayName()));
+			}
 		} else if (!definitions.contains(componentIdentifier)) {
 			ArrayList<Identifier> list = new ArrayList<Identifier>(definitions);
 			if (definitions.size() == 1){
-				problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use `{1}'' component.",
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use `{1}'' component.",
 						componentIdentifier.getName(),list.get(0).getDisplayName()));
 			} else {
 				//FIXME: implement other cases
-				problems.report(identifire.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used.",componentIdentifier.getDisplayName()));
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used.",componentIdentifier.getDisplayName()));
 			}
 		}
-		System.out.println(definitions.toString());
 	}
-	
+
 	class ReferenceCheck extends ASTVisitor {
 
 		private Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
@@ -92,9 +100,16 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 				final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 				if (reference != null) {
 					final Assignment assignment = reference.getRefdAssignment(timestamp, false);
-					if (assignment != null && assignment.getMyScope() instanceof ComponentTypeBody ) {
-						final Identifier sc =((ComponentTypeBody)assignment.getMyScope()).getIdentifier();
-						setOfIdentifier.add(sc);
+					if (assignment != null){
+						if (assignment instanceof Def_Function) {
+							final ReferenceCheck chek = new ReferenceCheck();
+							((Def_Function) assignment).accept(chek);
+							setOfIdentifier.addAll(chek.getIdentifiers());
+						}
+						if (assignment.getMyScope() instanceof ComponentTypeBody ) {
+							final Identifier sc =((ComponentTypeBody)assignment.getMyScope()).getIdentifier();
+							setOfIdentifier.add(sc);
+						}
 					}
 				}
 			}
@@ -110,5 +125,4 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		ret.add(Def_Testcase.class);
 		return ret;
 	}
-
 }
