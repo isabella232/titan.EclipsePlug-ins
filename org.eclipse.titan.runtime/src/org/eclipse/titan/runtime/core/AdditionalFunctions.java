@@ -556,11 +556,11 @@ public final class AdditionalFunctions {
 
 		return new TitanOctetString(buf.get_data());
 	}
-	
+
 	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final String stringEncoding) {
 		return unichar2oct(value, new TitanCharString(stringEncoding));
 	}
-	
+
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");
@@ -1016,7 +1016,7 @@ public final class AdditionalFunctions {
 
 		return unicharStr;
 	}
-	
+
 	public static TitanUniversalCharString oct2unichar(final TitanOctetString value, final String encodeStr) {
 		return oct2unichar(value, new TitanCharString(encodeStr));
 	}
