@@ -454,7 +454,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				buildJob.setUser(true);
 				buildJob.setRule(project);
 
-				List<String> command = ExternalMakefileGenerator.createMakefilGeneratorCommand(project);
+				List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(project);
 				buildJob.addCommand(command, CREATE_MAKEFILE);
 
 				buildJob.schedule();
@@ -630,7 +630,7 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 			InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator();
 			makefileGenerator.generateMakefile(getProject());
 		} else {
-			List<String> command = ExternalMakefileGenerator.createMakefilGeneratorCommand(getProject());
+			List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(getProject());
 			buildJob.addCommand(command, CREATE_MAKEFILE);
 		}
 
