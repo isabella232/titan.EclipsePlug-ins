@@ -9,7 +9,9 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
@@ -298,6 +300,62 @@ public class TitanBoolean extends Base_Type {
 
 		return new TitanBoolean(boolValue).operatorNotEquals(otherValue.boolean_value);
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+
+			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+
+			errorContext.leaveContext();
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type '{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			raw_order_t order;
+			switch (p_td.raw.top_bit_order) {
+			case TOP_BIT_LEFT:
+				order = raw_order_t.ORDER_LSB;
+				break;
+			case TOP_BIT_RIGHT:
+			default:
+				order = raw_order_t.ORDER_MSB;
+				break;
+			}
+	
+			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
+				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+			}
+	
+			errorContext.leaveContext();
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
+		}
+	}
+
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char bc[];
@@ -319,12 +377,8 @@ public class TitanBoolean extends Base_Type {
 			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
-			bc = new char[myleaf.data_array.length];
-			for (int i = 0; i < myleaf.data_array.length; i++) {
-				bc[i] = (char)myleaf.data_array[i];
-			}
+			bc = myleaf.data_array;
 		}
-		bc = new char[length];
 		for (int i = 0; i < bc.length; i++) {
 			bc[i] = (char)tmp;
 		}
@@ -388,8 +442,7 @@ public class TitanBoolean extends Base_Type {
 			for (int i = 0; i < length; i++) {
 				ch |= data[i];
 			}
-			data = null;
-			boolean_value = (ch != '\0');
+			boolean_value = ch != '\0';
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		return decode_length + prepaddlength;
