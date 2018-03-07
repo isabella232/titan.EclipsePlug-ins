@@ -21,7 +21,7 @@ import org.eclipse.titan.designer.core.LoadBalancingUtilities;
 
 //Default mode
 
-WS: [ \t\v\f]+ -> channel(HIDDEN);
+WS: [ \t\f]+ -> channel(HIDDEN);
 
 NEWLINE: [\r\n] -> channel(HIDDEN);
 
@@ -231,7 +231,7 @@ IDENTIFIER:
 
 mode RawCodec_MODE;
 
-WS1: [ \t\v\f]+ -> channel(HIDDEN);
+WS1: [ \t\f]+ -> channel(HIDDEN);
 
 NEWLINE1: [\r\n] -> channel(HIDDEN);
 
@@ -320,7 +320,7 @@ IDENTIFIER1:
 
 //text codec section
 mode TextCodec_MODE;
-WS2: [ \t\v\f]+ -> channel(HIDDEN);
+WS2: [ \t\f]+ -> channel(HIDDEN);
 
 NEWLINE2: [\r\n] -> channel(HIDDEN);
 
@@ -374,7 +374,7 @@ IDENTIFIER2:
 //JSON codec section
 mode JsonCodec_MODE;
 
-WS4: [ \t\v\f]+ -> channel(HIDDEN);
+WS4: [ \t\f]+ -> channel(HIDDEN);
 
 BLOCK_COMMENT4:	'/*' .*? '*/' ->channel(HIDDEN);
 
