@@ -521,6 +521,13 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public int getDefaultRawFieldLength();
 
 	/**
+	 * TODO might need some optimization later.
+	 *
+	 * @return the length of the raw field length of this type
+	 * */
+	public int getRawLength();
+
+	/**
 	 * Returns the default field length of this type (in bits).
 	 * hexstring: 4
 	 * octetstring, charstring, universalcharstring: 8

@@ -687,7 +687,7 @@ public final class Open_Type extends ASN1Type {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW));
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), null);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		generateCodeForCodingHandlers(aData, source);

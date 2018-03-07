@@ -410,6 +410,16 @@ public final class Integer_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getRawLength() {
+		if (rawAttribute != null) {
+			return rawAttribute.fieldlength;
+		}
+
+		return getDefaultRawFieldLength();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("integer");
 	}

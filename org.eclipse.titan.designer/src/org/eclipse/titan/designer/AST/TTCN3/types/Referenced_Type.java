@@ -554,6 +554,16 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public int getRawLength() {
+		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
+			return refdLast.getRawLength();
+		}
+
+		return -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public int getLengthMultiplier() {
 		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
 			return refdLast.getLengthMultiplier();

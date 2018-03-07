@@ -825,6 +825,34 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getRawLength() {
+		int rawLength = 0;
+		for (int i = 0; i < getNofComponents(); i++) {
+			CompField cf = getComponentByIndex(i);
+			if (cf.isOptional()) {
+				rawLength = -1;
+				return rawLength;
+			}
+
+			int l = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
+			if (l == -1) {
+				rawLength = -1;
+				return rawLength;
+			}
+
+			Type t = cf.getType();
+			if (t.rawAttribute != null && (t.rawAttribute.pointerto != null || t.rawAttribute.lengthto != null)) {
+				rawLength = -1;
+				return rawLength;
+			}
+			rawLength += l;
+		}
+
+		return rawLength;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("sequence");
 	}

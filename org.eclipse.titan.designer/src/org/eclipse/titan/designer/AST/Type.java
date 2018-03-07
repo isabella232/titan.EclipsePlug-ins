@@ -464,6 +464,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public int getRawLength() {
+		return -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public int getLengthMultiplier() {
 		return 1;
 	}

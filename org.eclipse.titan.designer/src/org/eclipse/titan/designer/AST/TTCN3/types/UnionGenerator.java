@@ -1,9 +1,15 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.Arrays;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -68,10 +74,11 @@ public class UnionGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 * @param fieldInfos the list of information about the fields.
 	 * @param hasOptional true if the type has an optional field.
-	 * @param hasRaw true it the type has raw attributes
+	 * @param hasRaw true it the type has raw attributes.
+	 * @param raw the raw coding related settings if applicable.
 	 * */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw) {
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean hasRaw, final RawASTStruct raw) {
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
@@ -103,7 +110,7 @@ public class UnionGenerator {
 		generateValueGetSelection(source);
 		generateValueLog(source, fieldInfos);
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
-		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded);
+		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded, hasRaw, raw);
 		//FIXME implement set_param
 		source.append( "\t\t//TODO: implement set_param !\n" );
 		source.append("}\n");
@@ -489,8 +496,10 @@ public class UnionGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 * @param fieldInfos the list of information about the fields.
 	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
+	 * @param hasRaw true if the union has raw attributes.
+	 * @param raw the raw attributes or null.
 	 * */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean rawNeeded) {
+	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean rawNeeded, final boolean hasRaw, final RawASTStruct raw) {
 		source.append("@Override\n");
 		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("switch (p_coding) {\n");
@@ -552,6 +561,28 @@ public class UnionGenerator {
 		source.append("}\n\n");
 
 		if (rawNeeded) {
+			int tag_type[] = new int[fieldInfos.size()];
+			Arrays.fill(tag_type, 0);
+			if (hasRaw && raw != null && raw.taglist != null && raw.taglist.list != null) { // fill tag_type. 0-No tag, >0 index of the tag + 1
+				for (int i = 0; i < raw.taglist.list.size(); i++) {
+					final rawAST_coding_taglist tempTaglist = raw.taglist.list.get(i);
+					if (tempTaglist.fields != null && tempTaglist.fields.size() > 0) {
+						boolean found = false;
+						for (int v = 0; v < tempTaglist.fields.size(); v++) {
+							if (tempTaglist.fields.get(v).start_pos >= 0) {
+								found = true;
+								break;
+							}
+						}
+						if (found) {
+							tag_type[tempTaglist.fieldnum] = i + 1;
+						} else {
+							tag_type[tempTaglist.fieldnum] = -i + 1;
+						}
+					}
+				}
+			}
+
 			source.append("@Override\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("int encoded_length = 0;\n");
@@ -565,7 +596,18 @@ public class UnionGenerator {
 				source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
 				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1}]);\n", fieldInfo.mTypeDescriptorName, i));
 				source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
-				// FIXME handle tags
+
+				// line 1074
+				int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
+				if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
+					rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
+					source.append(" if (");
+					genRawFieldChecker(source, cur_choice, false);
+					source.append(" ) {\n");
+					genRawTagChecker(source, cur_choice);
+					source.append("}\n");
+				}
+
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -1250,4 +1292,93 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("}\n");
 	}
+
+	public static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
+		for (int i = 0; i < taglist.fields.size(); i++) {
+			rawAST_coding_field_list fields = taglist.fields.get(i);
+			String fieldName = null;
+			boolean firstExpr = true;
+			if (i > 0) {
+				source.append(is_equal ? " || " : " && ");
+			}
+			for (int j = 0; j < fields.fields.size(); j++) {
+				rawAST_coding_fields field = fields.fields.get(j);
+				if (j == 0) {
+					/* this is the first field reference */
+					fieldName = MessageFormat.format("(({0})field)", field.type);
+				} else {
+					/* this is not the first field reference */
+					if (field.fieldtype == rawAST_coding_field_type.UNION_FIELD) {
+						if (firstExpr) {
+							if (taglist.fields.size() > 1) {
+								source.append('(');
+							}
+							firstExpr = false;
+						} else {
+							source.append(is_equal ? " && " : " || ");
+						}
+						source.append(MessageFormat.format("{0}.getSelection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
+					}
+					fieldName = MessageFormat.format("{0}.get{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+
+				}
+
+				if (j < fields.fields.size() && field.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+					if (firstExpr) {
+						if (taglist.fields.size() > 1) {
+							source.append('(');
+						}
+						firstExpr = false;
+					} else {
+						source.append(is_equal ? " && " : " || ");
+					}
+					if (!is_equal) {
+						source.append('!');
+					}
+					source.append(MessageFormat.format("{0}.isPresent()", fieldName));
+					fieldName = MessageFormat.format("{0}.get()", fieldName);
+				}
+			}
+
+			if (!firstExpr) {
+				source.append(is_equal ? " && " : " || ");
+			}
+			if (is_equal) {
+				source.append(MessageFormat.format("{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+			} else {
+				source.append(MessageFormat.format("!{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+			}
+
+			if (!firstExpr && taglist.fields.size() > 1) {
+				source.append(')');
+			}
+
+		}
+	}
+
+	public static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
+		source.append("RAW_enc_tree temp_leaf;\n");
+		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
+			rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
+			source.append("{\n");
+			source.append(MessageFormat.format("int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", temp_tag, tempField.fields.size()));
+			source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", temp_tag));
+			for (int l = 0; l < tempField.fields.size(); l++) {
+				source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", temp_tag, l, tempField.fields.get(l).nthfield));
+			}
+			source.append(MessageFormat.format("RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
+			source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
+			source.append("if (temp_leaf != null) {\n");
+			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));
+			source.append(" } else ");
+		}
+
+		source.append(" {\n");
+		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
+		source.append(" }\n");
+		for (int temp_tag = taglist.fields.size() - 1; temp_tag >= 0; temp_tag--) {
+			source.append("}\n");
+		}
+	}
+
 }

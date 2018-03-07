@@ -786,7 +786,8 @@ public final class Anytype_Type extends Type {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW));
+		//FIXME can have raw attributes
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), null);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {

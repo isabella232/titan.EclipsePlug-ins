@@ -370,6 +370,16 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getRawLength() {
+		if (rawAttribute != null && rawAttribute.fieldlength > 0) {
+			return rawAttribute.fieldlength;
+		}
+
+		return -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void addDeclaration(final DeclarationCollector declarationCollector, final int i) {
 		final List<ISubReference> subreferences = declarationCollector.getReference().getSubreferences();
 		if (subreferences.size() <= i) {

@@ -303,6 +303,16 @@ public final class OctetString_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public int getRawLength() {
+		if (rawAttribute != null && rawAttribute.fieldlength > 0) {
+			return rawAttribute.fieldlength;
+		}
+
+		return -1;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public StringBuilder getProposalDescription(final StringBuilder builder) {
 		return builder.append("octetstring");
 	}
