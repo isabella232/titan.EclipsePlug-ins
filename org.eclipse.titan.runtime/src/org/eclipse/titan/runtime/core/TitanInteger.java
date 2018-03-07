@@ -998,8 +998,8 @@ public class TitanInteger extends Base_Type {
 
 	//TODO actually big integer
 	public int RAW_encode_openssl(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		char[] bc;
-		int length; // total length, in bytes
+		char[] bc = null;
+		int length = 0; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
 		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
@@ -1019,7 +1019,7 @@ public class TitanInteger extends Base_Type {
 			myleaf.data_ptr = null;
 		}
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
-			val_bits = D.bitLength(); // + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
+			val_bits = D.bitLength()  + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			if (val_bits % 8 + len_bits % 8 > 8) {
@@ -1131,13 +1131,7 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-		
-		//TODO: check to needed
-		char[] tmp = new char[bc.length];
-		for (int j = 0; j < tmp.length; j++) {
-			tmp[j] = bc[bc.length - j - 1];
-		}
-		myleaf.data_ptr = bc = tmp;
+		myleaf.data_ptr = bc;
 		return myleaf.length;
 	}
 
