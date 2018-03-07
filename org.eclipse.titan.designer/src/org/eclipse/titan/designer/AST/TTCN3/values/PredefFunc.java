@@ -10,28 +10,37 @@ import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 /**
  * Utility functions for Unicode decoding.
  * Originally titan.core/compiler2/PredefFunc.cc
+ * 
+ * NOTE: Some converter functions are already implemented in other classes, so these are removed from here.
+ * 
  * @author Arpad Lovassy
  */
 public class PredefFunc {
 
+	private PredefFunc() {
+		// Hide constructor
+	}
+
 	/**
 	 * Class for handling universal (multi-byte) string values.
 	 */
-	private static class ustring {
+	public static class ustring {
 		public class universal_char {
-			private char group, plane, row, cell;
+			private char group;
+			private char plane;
+			private char row;
+			private char cell;
 
-			public universal_char(char aGroup, char aPlane, char aRow, char aCell) {
+			public universal_char(final char aGroup, final char aPlane, final char aRow, final char aCell) {
 				this.group = aGroup;
 				this.plane = aPlane;
 				this.row = aRow;
 				this.cell = aCell;
 			}
-
 		}
 
 		private List<universal_char> uchars;
-		
+
 		public ustring() {
 			uchars = new ArrayList<universal_char>();
 		}
@@ -43,7 +52,7 @@ public class PredefFunc {
 		 * @param row
 		 * @param cell
 		 */
-		public ustring(char group, char plane, char row, char cell) {
+		public ustring(final char group, final char plane, final char row, final char cell) {
 			this();
 			add(group, plane, row, cell);
 		}
@@ -60,7 +69,7 @@ public class PredefFunc {
 			uchars.add(uc);
 		}
 
-		public void add(char group, char plane, char row, char cell) {
+		public void add(final char group, final char plane, final char row, final char cell) {
 			final universal_char uc = new universal_char(group, plane, row, cell);
 			add(uc);
 		}
@@ -73,7 +82,9 @@ public class PredefFunc {
 	private static final String utf16le = "FFFE";
 	private static final String utf8    = "EFBBBF";
 
-	public static char get_bit_value(char c, char bit_value) {
+//TODO: remove
+/*
+	public static char get_bit_value(final char c, final char bit_value) {
 		switch (c) {
 		case '0':
 			return 0;
@@ -86,8 +97,9 @@ public class PredefFunc {
 	}
 
 	public static char toupper(final char c) {
-		if (('A' <= c && 'F' >= c) ||
-				('0' <= c && '9' >= c)) return c;
+		if (('A' <= c && 'F' >= c) || ('0' <= c && '9' >= c)) {
+			return c;
+		}
 		switch (c)
 		{
 		case 'a' : return 'A';
@@ -102,31 +114,40 @@ public class PredefFunc {
 		}
 	}
 
-	public static char hexdigit_to_char(char hexdigit)	{
-		if (hexdigit < 10) return (char) ('0' + hexdigit);
-		else if (hexdigit < 16) return (char) ('A' + hexdigit - 10);
-		else {
+	public static char hexdigit_to_char(final char hexdigit)	{
+		if (hexdigit < 10) {
+			return (char) ('0' + hexdigit);
+		} else if (hexdigit < 16) {
+			return (char) ('A' + hexdigit - 10);
+		} else {
 			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("hexdigit_to_char(): invalid argument: {0}", hexdigit));
 			return '\0'; // to avoid warning
 		}
 	}
+//*/
 
-	public static char char_to_hexdigit(char c) {
-		if (c >= '0' && c <= '9') return (char) (c - '0');
-		else if (c >= 'A' && c <= 'F') return (char) (c - 'A' + 10);
-		else if (c >= 'a' && c <= 'f') return (char) (c - 'a' + 10);
-		else {
+	public static char char_to_hexdigit(final char c) {
+		if (c >= '0' && c <= '9') {
+			return (char) (c - '0');
+		} else if (c >= 'A' && c <= 'F') {
+			return (char) (c - 'A' + 10);
+		} else if (c >= 'a' && c <= 'f') {
+			return (char) (c - 'a' + 10);
+		} else {
 			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("char_to_hexdigit(): invalid argument: {0}", c));
 			return 0; // to avoid warning
 		}
 	}
 
-	public static String uchar2str(char uchar) {
-		char[] str = new char[2];
+//TODO: remove
+/*
+	public static String uchar2str(final char uchar) {
+		final char[] str = new char[2];
 		str[0] = hexdigit_to_char((char) (uchar / 16));
 		str[1] = hexdigit_to_char((char) (uchar % 16));
 		return new String(str);
 	}
+//*/
 
 	public static char str2uchar(final char c1, final char c2) {
 		char uc = 0;
@@ -136,22 +157,24 @@ public class PredefFunc {
 		return uc;
 	}
 
+//TODO: remove
+/*
 	public static int rem(final int left, final int right) {
 		return (left - right * (left / right));
 	}
 
 	public static int mod(final int left, final int right) {
-		int r = right < 0 ? -right : right;
+		final int r = right < 0 ? -right : right;
 		if (left > 0) {
 			return rem(left, r);
 		} else {
-			int result = rem(left, r);
+			final int result = rem(left, r);
 			return result == 0 ? result : result + r;
 		}
 	}
 
 	public static String to_uppercase(final String value) {
-		StringBuilder s = new StringBuilder(value);
+		final StringBuilder s = new StringBuilder(value);
 		for (int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			if (c >= 'a' && c <= 'z') {
@@ -162,8 +185,8 @@ public class PredefFunc {
 	}
 
 	public static String not4b_bit(final String bstr) {
-		StringBuilder s = new StringBuilder(bstr);
-		for(int i=0; i<s.length(); i++) {
+		final StringBuilder s = new StringBuilder(bstr);
+		for(int i = 0; i < s.length(); i++) {
 			char c = s.charAt(i);
 			switch(c) {
 			case '0':
@@ -180,9 +203,9 @@ public class PredefFunc {
 	}
 
 	public static String not4b_hex(final String hstr) {
-		StringBuilder s = new StringBuilder(hstr);
-		for(int i=0; i<s.length(); i++) {
-			char c = s.charAt(i);
+		final StringBuilder s = new StringBuilder(hstr);
+		for(int i = 0; i < s.length(); i++) {
+			final char c = s.charAt(i);
 			switch(c) {
 			case '0': s.setCharAt(i, 'F'); break;
 			case '1': s.setCharAt(i, 'E'); break;
@@ -194,17 +217,17 @@ public class PredefFunc {
 			case '7': s.setCharAt(i, '8'); break;
 			case '8': s.setCharAt(i, '7'); break;
 			case '9': s.setCharAt(i, '6'); break;
-			case 'A': s.setCharAt(i, '5'); break;
-			case 'B': s.setCharAt(i, '4'); break;
-			case 'C': s.setCharAt(i, '3'); break;
-			case 'D': s.setCharAt(i, '2'); break;
-			case 'E': s.setCharAt(i, '1'); break;
-			case 'F': s.setCharAt(i, '0'); break;
+			case 'A': 
 			case 'a': s.setCharAt(i, '5'); break;
+			case 'B': 
 			case 'b': s.setCharAt(i, '4'); break;
+			case 'C':
 			case 'c': s.setCharAt(i, '3'); break;
+			case 'D':
 			case 'd': s.setCharAt(i, '2'); break;
+			case 'E':
 			case 'e': s.setCharAt(i, '1'); break;
+			case 'F':
 			case 'f': s.setCharAt(i, '0'); break;
 			default:
 				ErrorReporter.INTERNAL_ERROR("not4b_hex(): Invalid char in hexstring.");
@@ -214,7 +237,7 @@ public class PredefFunc {
 	}
 
 	public static String and4b(final String left, final String right) {
-		StringBuilder s = new StringBuilder(left);
+		final StringBuilder s = new StringBuilder(left);
 		for(int i=0; i<s.length(); i++) {
 			char c = s.charAt(i);
 			s.setCharAt(i, hexdigit_to_char((char) (char_to_hexdigit(c) & char_to_hexdigit(right.charAt(i)))));
@@ -223,7 +246,7 @@ public class PredefFunc {
 	}
 
 	public static String or4b(final String left, final String right) {
-		StringBuilder s = new StringBuilder(left);
+		final StringBuilder s = new StringBuilder(left);
 		for(int i=0; i<s.length(); i++) {
 			char c = s.charAt(i);
 			s.setCharAt(i, hexdigit_to_char((char) (char_to_hexdigit(c) | char_to_hexdigit(right.charAt(i)))));
@@ -232,7 +255,7 @@ public class PredefFunc {
 	}
 
 	public static String xor4b(final String left, final String right) {
-		StringBuilder s = new StringBuilder(left);
+		final StringBuilder s = new StringBuilder(left);
 		for(int i=0; i<s.length(); i++) {
 			char c = s.charAt(i);
 			s.setCharAt(i, hexdigit_to_char((char) (char_to_hexdigit(c) ^ char_to_hexdigit(right.charAt(i)))));
@@ -242,7 +265,7 @@ public class PredefFunc {
 
 	public static String shift_left(final String value, final int count) {
 		if (count > 0) {
-			StringBuilder s = new StringBuilder();
+			final StringBuilder s = new StringBuilder();
 			if (count < value.length()) {
 				s.append(value.substring(count));
 				for ( int i = 0; i < count; i++ ) {
@@ -254,13 +277,16 @@ public class PredefFunc {
 				}
 			}
 			return s.toString();
-		} else if (count < 0) return shift_right(value, -count);
-		else return new String(value);
+		} else if (count < 0) {
+			return shift_right(value, -count);
+		} else {
+			return value;
+		}
 	}
 
 	public static String shift_right(final String value, final int count) {
 		if (count > 0) {
-			StringBuilder s = new StringBuilder();
+			final StringBuilder s = new StringBuilder();
 			if (count < value.length()) {
 				for ( int i = 0; i < count; i++ ) {
 					s.append('0');
@@ -272,53 +298,46 @@ public class PredefFunc {
 				}
 			}
 			return s.toString();
-		} else if (count < 0) return shift_left(value, -count);
-		else return new String(value);
+		} else if (count < 0) {
+			return shift_left(value, -count);
+		} else {
+			return value;
+		}
 	}
 
 	public static String rotate_left(final String value, final int p_count) {
-		int size = value.length();
-		if (size == 0) return new String(value);
-		else if (p_count < 0) return rotate_right(value, -p_count);
-		int count = p_count % size;
-		if (count == 0) return new String(value);
-		else return new String(value.substring(count) + value.substring(0, count));
+		final int size = value.length();
+		if (size == 0) {
+			return value;
+		} else if (p_count < 0) {
+			return rotate_right(value, -p_count);
+		}
+		final int count = p_count % size;
+		if (count == 0) {
+			return value;
+		} else {
+			return value.substring(count) + value.substring(0, count);
+		}
 	}
 
 	public static String rotate_right(final String value, final int p_count) {
-		int size = value.length();
-		if (size == 0) return new String(value);
-		else if (p_count < 0) return rotate_left(value, -p_count);
-		int count = p_count % size;
-		if (count == 0) return new String(value);
-		else return new String(value.substring(size - count) +
-				value.substring(0, size - count));
+		final int size = value.length();
+		if (size == 0) {
+			return value;
+		} else if (p_count < 0) {
+			return rotate_left(value, -p_count);
+		}
+		final int count = p_count % size;
+		if (count == 0) {
+			return value;
+		} else {
+			return value.substring(size - count) + value.substring(0, size - count);
+		}
+				
 	}
-
-//TODO: implement
-/*
-	private static ustring rotate_left(final ustring value, final int p_count) {
-		int size = value.size();
-		if (size == 0) return new ustring(value);
-		else if (p_count < 0) return rotate_right(value, -p_count);
-		int count = p_count % size;
-		if (count == 0) return new ustring(value);
-		else return new ustring(value.substring(count) + value.substring(0, count));
-	}
-
-	private static ustring rotate_right(final ustring value, final int p_count) {
-		int size = value.size();
-		if (size == 0) return new ustring(value);
-		else if (p_count < 0) return rotate_left(value, -p_count);
-		int count = p_count % size;
-		if (count == 0) return new ustring(value);
-		else return new ustring(value.substring(size - count) +
-				value.substring(0, size - count));
-	}
-//*/
 
 	public static int bit2int(final String bstr) {
-		int nof_bits = bstr.length();
+		final int nof_bits = bstr.length();
 		// skip the leading zeros
 		int start_index = 0;
 		while (start_index < nof_bits && bstr.charAt(start_index) == '0') {
@@ -333,11 +352,12 @@ public class PredefFunc {
 	}
 
 	public static int hex2int(final String hstr) {
-		int nof_digits = hstr.length();
+		final int nof_digits = hstr.length();
 		int start_index = 0;
 		// Skip the leading zeros.
-		while (start_index < nof_digits && hstr.charAt(start_index) == '0')
+		while (start_index < nof_digits && hstr.charAt(start_index) == '0') {
 			start_index++;
+		}
 		int ret_val = 0;
 		for (int i = start_index; i < nof_digits; i++) {
 			ret_val <<= 4;
@@ -347,71 +367,81 @@ public class PredefFunc {
 	}
 
 	public static int unichar2int(final ustring ustr) {
-		if (ustr.size() != 1) ErrorReporter.INTERNAL_ERROR("unichar2int(): invalid argument");
+		if (ustr.size() != 1) {
+			ErrorReporter.INTERNAL_ERROR("unichar2int(): invalid argument");
+		}
 		final ustring.universal_char uchar = ustr.get(0);
-		int ret_val = (uchar.group << 24) | (uchar.plane << 16) | (uchar.row << 8) |
-				uchar.cell;
+		final int ret_val = (uchar.group << 24) | (uchar.plane << 16) | (uchar.row << 8) | uchar.cell;
 		return ret_val;
 	}
 
 	public static String int2bit(final int value, final int length) {
-		if (length < 0) ErrorReporter.INTERNAL_ERROR("int2bit(): negative length");
-		int string_length = length;
-		if (string_length != length ||
-				string_length > Integer.MAX_VALUE)
+		if (length < 0) {
+			ErrorReporter.INTERNAL_ERROR("int2bit(): negative length");
+		}
+		final int string_length = length;
+		if (string_length != length || string_length > Integer.MAX_VALUE) {
 			ErrorReporter.INTERNAL_ERROR("int2bit(): length is too large");
-			if (value < 0) ErrorReporter.INTERNAL_ERROR("int2bit(): negative value");
-			StringBuilder bstr = new StringBuilder();
-			int tmp_value = value;
-			for (int i = 1; i <= string_length; i++) {
-				bstr.insert(0, (tmp_value & 1 ) != 0 ? '1' : '0');
-				tmp_value >>= 1;
-			}
-			if (tmp_value != 0)
-				ErrorReporter.INTERNAL_ERROR(MessageFormat.format("int2bit(): {0} does not fit in {1} bits",
-						value, (long)string_length));
-				return bstr.toString();
+		}
+		if (value < 0) {
+			ErrorReporter.INTERNAL_ERROR("int2bit(): negative value");
+		}
+		final StringBuilder bstr = new StringBuilder();
+		int tmp_value = value;
+		for (int i = 1; i <= string_length; i++) {
+			bstr.insert(0, (tmp_value & 1 ) != 0 ? '1' : '0');
+			tmp_value >>= 1;
+		}
+		if (tmp_value != 0) {
+			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("int2bit(): {0} does not fit in {1} bits",
+				value, (long)string_length));
+		}
+		return bstr.toString();
 	}
 
 	private static final char hdigits[] = { '0', '1', '2', '3', '4', '5', '6', '7',	'8', '9', 'A', 'B', 'C', 'D', 'E', 'F' };
 
 	public static String int2hex(final int value, final int length) {
-		if (length < 0)
+		if (length < 0) {
 			ErrorReporter.INTERNAL_ERROR("int2hex(): negative length");
-			int string_length = length;
-			if (string_length != length ||
-					string_length > Integer.MAX_VALUE)
-				ErrorReporter.INTERNAL_ERROR("int2hex(): length is too large");
-				if (value < 0) ErrorReporter.INTERNAL_ERROR("int2hex(): negative value");
-				StringBuilder hstr = new StringBuilder();
-				int tmp_value = value;
-				for (int i = 1; i <= string_length; i++) {
-					hstr.insert(0, hdigits[tmp_value & 0x0f]);
-					tmp_value >>= 4;
-				}
-				if (tmp_value != 0) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format("int2hex(): {0} does not fit in {1} hexadecimal digits",
-							value, (long)string_length));
-				}
-				return hstr.toString();
+		}
+		final int string_length = length;
+		if (string_length != length || string_length > Integer.MAX_VALUE) {
+			ErrorReporter.INTERNAL_ERROR("int2hex(): length is too large");
+		}
+		if (value < 0) {
+			ErrorReporter.INTERNAL_ERROR("int2hex(): negative value");
+		}
+		final StringBuilder hstr = new StringBuilder();
+		int tmp_value = value;
+		for (int i = 1; i <= string_length; i++) {
+			hstr.insert(0, hdigits[tmp_value & 0x0f]);
+			tmp_value >>= 4;
+		}
+		if (tmp_value != 0) {
+			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("int2hex(): {0} does not fit in {1} hexadecimal digits",
+				value, (long)string_length));
+		}
+		return hstr.toString();
 	}
 
 	public static ustring int2unichar(final int value) {
-		if (value < 0 || value > 2147483647)
+		if (value < 0 || value > 2147483647) {
 			ErrorReporter.INTERNAL_ERROR("int2unichar(): invalid argument");
-			char group = (char) ((value >> 24) & 0xFF),
-					plane = (char) ((value >> 16) & 0xFF),
-					row = (char) ((value >> 8) & 0xFF),
-					cell = (char) (value & 0xFF);
-			return new ustring(group, plane, row, cell);
+		}
+		final char group = (char) ((value >> 24) & 0xFF);
+		final char plane = (char) ((value >> 16) & 0xFF);
+		final char row = (char) ((value >> 8) & 0xFF);
+		final char cell = (char) (value & 0xFF);
+		return new ustring(group, plane, row, cell);
 	}
 
 	public static String oct2char(final String ostr) {
-		StringBuilder cstr = new StringBuilder();
-		int ostr_size = ostr.length();
+		final StringBuilder cstr = new StringBuilder();
+		final int ostr_size = ostr.length();
 		if (ostr_size % 2 != 0)
 			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("oct2char(): argument has odd length: {0}", (long) ostr_size));
-			int cstr_size = ostr_size / 2;
+			final int cstr_size = ostr_size / 2;
 			for (int i = 0; i < cstr_size; i++) {
 				char c = (char) (16 * char_to_hexdigit(ostr.charAt(2 * i)) +
 						char_to_hexdigit(ostr.charAt(2 * i + 1)));
@@ -473,43 +503,8 @@ public class PredefFunc {
 		return s2;
 	}
 
-//TODO: implement
-/*
-	private static String asn_bit2oct(final String bstr) {
-		int size = bstr.length();
-		StringBuilder ostr = new StringBuilder();
-		ostr.resize(((size+7)/8)*2);
-		for(int i=0, j=0; i<size; ) {
-			char digit1=0, digit2=0;
-			digit1 += get_bit_value(bstr[i++], 8);
-			if (i < size) {
-				digit1 += get_bit_value(bstr[i++], 4);
-				if (i < size) {
-					digit1 += get_bit_value(bstr[i++], 2);
-					if (i < size) {
-						digit1 += get_bit_value(bstr[i++], 1);
-						if (i < size) {
-							digit2 += get_bit_value(bstr[i++], 8);
-							if (i < size) {
-								digit2 += get_bit_value(bstr[i++], 4);
-								if (i < size) {
-									digit2 += get_bit_value(bstr[i++], 2);
-									if (i < size) digit2 += get_bit_value(bstr[i++], 1);
-								}
-							}
-						}
-					}
-				}
-			}
-			(*ostr)[j++] = hexdigit_to_char(digit1);
-			(*ostr)[j++] = hexdigit_to_char(digit2);
-		}
-		return ostr.toString();
-	}
-//*/
-
 	public static String hex2bit(final String hstr) {
-		final int size=hstr.length();
+		final int size = hstr.length();
 		StringBuilder bstr = new StringBuilder();
 		for(int i = 0; i < size; i++) {
 			switch(hstr.charAt(i)) {
@@ -573,55 +568,10 @@ public class PredefFunc {
 		}
 		return bstr.toString();
 	}
-
-//TODO: implement
-/*
-	private static int float2int(final Real& value, final Location& loc) {
-		// We shouldn't mimic generality with `Int'.
-		if (value >= (Real)LLONG_MIN && value <= (Real)LLONG_MAX)
-			return new int((Int)value);
-		char buf[512] = "";
-		snprintf(buf, 511, "%f", value);
-		String dot = strchr(buf, '.');
-		if (!dot) ErrorReporter.INTERNAL_ERROR(MessageFormat.format("Conversion of float value `%f' to integer failed", value);
-		else memset(dot, 0, sizeof(buf) - (dot - buf));
-		return new int(buf, loc);
-	}
 //*/
 
 //TODO: implement
 /*
-	// TTCN-3 float values that have absolute value smaller than this are
-	// displayed in exponential notation. Same as in core/Float.hh
-	#ifndef MIN_DECIMAL_FLOAT
-	#define MIN_DECIMAL_FLOAT		1.0E-4
-	#endif
-	// TTCN-3 float values that have absolute value larger or equal than
-	// this are displayed in exponential notation. Same as in
-	// core/Float.hh
-	#ifndef MAX_DECIMAL_FLOAT
-	#define MAX_DECIMAL_FLOAT		1.0E+10
-	#endif
-
-	private static String float2str(final Real& value) {
-		if (value == REAL_INFINITY) {
-			return new String("infinity");
-		}
-		if (value == -REAL_INFINITY) {
-			return new String("-infinity");
-		}
-		if (value != value) {
-			return new String("not_a_number");
-		}
-		char str_buf[64];
-		if ( (value > -MAX_DECIMAL_FLOAT && value <= -MIN_DECIMAL_FLOAT)
-				|| (value >= MIN_DECIMAL_FLOAT && value <   MAX_DECIMAL_FLOAT)
-				|| (value == 0.0))
-			snprintf(str_buf,64,"%f",value);
-		else snprintf(str_buf,64,"%e",value);
-		return new String(str_buf);
-	}
-
 	private static String regexp(final String instr, final String expression,
 			final int groupno, boolean nocase) {
 		String retval=0;
@@ -665,8 +615,7 @@ public class PredefFunc {
 		ret_val=regexec(&posix_regexp, instr.c_str(), nmatch+1, pmatch, 0);
 		if(ret_val==0) {
 			if(pmatch[nmatch].rm_so != -1 && pmatch[nmatch].rm_eo != -1)
-				retval = new String(instr.substring(pmatch[nmatch].rm_so,
-						pmatch[nmatch].rm_eo - pmatch[nmatch].rm_so));
+				retval = instr.substring(pmatch[nmatch].rm_so, pmatch[nmatch].rm_eo - pmatch[nmatch].rm_so);
 			else retval=new String();
 		}
 		Free(pmatch);
@@ -682,13 +631,15 @@ public class PredefFunc {
 				ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): regexec() failed: %s", msg);
 			}
 		}
-		else regfree(&posix_regexp);
+		else {
+			regfree(&posix_regexp);
+		}
 
 		return retval;
 	}
 //*/
 
-//TODO
+//TODO: implement
 /*
 	private static ustring regexp(final ustring instr, final ustring expression, final int groupno, bool nocase) {
 		ustring retval=0;
@@ -732,8 +683,6 @@ public class PredefFunc {
 			return retval;
 		}
 
-		Free(user_groups);
-
 		regmatch_t* pmatch = (regmatch_t*)Malloc((nmatch+1)*sizeof(regmatch_t));
 		char* tmp = instr.convert_to_regexp_form();
 
@@ -742,7 +691,6 @@ public class PredefFunc {
 		}
 
 		string instr_conv(tmp);
-		Free(tmp);
 		ret_val = regexec(&posix_regexp, instr_conv.c_str(), nmatch+1, pmatch, 0);
 		if(ret_val == 0) {
 			if(pmatch[nmatch].rm_so != -1 && pmatch[nmatch].rm_eo != -1) {
@@ -750,7 +698,6 @@ public class PredefFunc {
 						pmatch[nmatch].rm_eo));
 			} else { retval = new ustring(); }
 		}
-		Free(pmatch);
 		if(ret_val!=0) {
 			if(ret_val==REG_NOMATCH) {
 				regfree(&posix_regexp);
@@ -763,7 +710,9 @@ public class PredefFunc {
 				ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): regexec() failed: %s", msg);
 			}
 		}
-		else regfree(&posix_regexp);
+		else {
+			regfree(&posix_regexp);
+		}
 
 		return retval;
 	}
@@ -781,11 +730,13 @@ public class PredefFunc {
 	
 	public static String remove_bom(final String encoded_value) {
 		int length = encoded_value.length();
-		if (0 == length) return new String();
+		if (0 == length) {
+			return new String();
+		}
 		if (length % 2 != 0) {
 			ErrorReporter.INTERNAL_ERROR( MessageFormat.format("remove_bom(): Wrong string. The number of nibbles ({0}) in string " +
 					"shall be divisible by 2", length));
-			return new String(encoded_value);
+			return encoded_value;
 		}
 
 		int length_of_BOM = 0;
@@ -842,13 +793,13 @@ public class PredefFunc {
 	public String get_stringencoding(final String encoded_value) {
 		int length = encoded_value.length();
 		if (0 == length) {
-			return new String("<unknown>");
+			return "<unknown>";
 		}
 		if ( length % 2 != 0 ) {
 			ErrorReporter.INTERNAL_ERROR( MessageFormat.format(
 					"get_stringencoding(): Wrong string. The number of nibbles ({0}) in string " +
 							"shall be divisible by 2", length ));
-			return new String("<unknown>");
+			return "<unknown>";
 		}
 
 		if      (findBom(encoded_value, utf32be)) return "UTF-32BE";
@@ -875,7 +826,9 @@ public class PredefFunc {
 	}
 
 	private static int check_BOM(CharCoding expected_coding, int n_uc, String uc_str) {
-		if (0 == n_uc) return 0;
+		if (0 == n_uc) {
+			return 0;
+		}
 
 		switch (expected_coding) {
 		case UTF32:
@@ -905,37 +858,42 @@ public class PredefFunc {
 		switch (expected_coding) {
 		case UTF32BE:
 		case UTF32:
-			if (0x00 == uc_str.charAt(0) && 0x00 == uc_str.charAt(1) && 0xFE == uc_str.charAt(2) && 0xFF == uc_str.charAt(3)) 
+			if (0x00 == uc_str.charAt(0) && 0x00 == uc_str.charAt(1) && 0xFE == uc_str.charAt(2) && 0xFF == uc_str.charAt(3)) { 
 				return 4;
+			}
 			badBOM = true;
 			caller = "decode_utf32()";
 			errmsg = "UTF-32BE";
 			break;
 		case UTF32LE:
-			if (0xFF == uc_str.charAt(0) && 0xFE == uc_str.charAt(1) && 0x00 == uc_str.charAt(2) && 0x00 == uc_str.charAt(3))
+			if (0xFF == uc_str.charAt(0) && 0xFE == uc_str.charAt(1) && 0x00 == uc_str.charAt(2) && 0x00 == uc_str.charAt(3)) {
 				return 4;
+			}
 			badBOM = true;
 			caller = "decode_utf32()";
 			errmsg = "UTF-32LE";
 			break;
 		case UTF16BE:
 		case UTF16:
-			if (0xFE == uc_str.charAt(0) && 0xFF == uc_str.charAt(1))
+			if (0xFE == uc_str.charAt(0) && 0xFF == uc_str.charAt(1)) {
 				return 2;
+			}
 			badBOM = true;
 			caller = "decode_utf16()";
 			errmsg = "UTF-16BE";
 			break;
 		case UTF16LE:
-			if (0xFF == uc_str.charAt(0) && 0xFE == uc_str.charAt(1))
+			if (0xFF == uc_str.charAt(0) && 0xFE == uc_str.charAt(1)) {
 				return 2;
+			}
 			badBOM = true;
 			caller = "decode_utf16()";
 			errmsg = "UTF-16LE";
 			break;
 		case UTF_8:
-			if (0xEF == uc_str.charAt(0) && 0xBB == uc_str.charAt(1) && 0xBF == uc_str.charAt(2))
+			if (0xEF == uc_str.charAt(0) && 0xBB == uc_str.charAt(1) && 0xBF == uc_str.charAt(2)) {
 				return 3;
+			}
 			return 0;
 		default:
 			if (CharCoding.UTF32 == expected_coding || CharCoding.UTF16 == expected_coding) {
@@ -962,7 +920,7 @@ public class PredefFunc {
 				if ((octet & 0xC0) != 0x80) {
 					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
 							"decode_utf8(): Malformed: At character position {0}, octet position {1}: {2} is " +
-									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("%02X", octet)));
+									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("0x%02X", octet)));
 					return;
 				}
 				continuing_ptr.add((char) (octet & 0x3F));
@@ -994,7 +952,9 @@ public class PredefFunc {
 
 	public static ustring decode_utf8(final String ostr, CharCoding expected_coding) {
 		int length = ostr.length();
-		if (0 == length) return new ustring();
+		if (0 == length) {
+			return new ustring();
+		}
 		if (length % 2 != 0) {
 			ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
 					"decode_utf8(): Wrong UTF-8 string. The number of nibbles ({0}) in octetstring " +
@@ -1025,7 +985,7 @@ public class PredefFunc {
 				ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: continuing " +
 								"octet {2} without leading octet.", ucstr.size(),
-								i, String.format("%02X",uc_str.charAt(i))));
+								i, String.format("0x%02X",uc_str.charAt(i))));
 				return ucstr;
 			}
 			else if (uc_str.charAt(i) <= 0xDF) {
@@ -1116,7 +1076,7 @@ public class PredefFunc {
 				if (g < 0x04) {
 					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 6-octet " +
-									"encoding for quadruple ({2}, {3}, {4}, {}5).", ucstr.size(), i, g, p, r, c));
+									"encoding for quadruple ({2}, {3}, {4}, {5}).", ucstr.size(), i, g, p, r, c));
 					return ucstr;
 				}
 				ucstr.add(g, p, r, c);
@@ -1126,7 +1086,7 @@ public class PredefFunc {
 				// not used code points: FE and FF => malformed
 				ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: " +
-								"unused/reserved octet {2}.", ucstr.size(), i, String.format("%02X", uc_str.charAt(i))));
+								"unused/reserved octet {2}.", ucstr.size(), i, String.format("0x%02X", uc_str.charAt(i))));
 				return ucstr;
 			}
 		}
