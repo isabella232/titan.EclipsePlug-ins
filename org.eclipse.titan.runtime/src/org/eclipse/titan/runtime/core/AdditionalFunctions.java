@@ -888,7 +888,7 @@ public final class AdditionalFunctions {
 		final char octets_ptr[] = value.getValue();
 
 		for (int i = 0; i < n_octets; i++) {
-			bits_ptr[i] = bit_reverse_table[octets_ptr[i]];
+			bits_ptr[i] = bit_reverse_table[octets_ptr[i] & 0xFF];
 		}
 
 		return new TitanBitString(bits_ptr, 8 * n_octets);
