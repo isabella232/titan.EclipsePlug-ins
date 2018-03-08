@@ -141,6 +141,25 @@ public final class Open_Type extends ASN1Type {
 		}
 	}
 
+	/** @return the number of components */
+	public final int getNofComponents() {
+		if (compFieldMap == null) {
+			return 0;
+		}
+
+		return compFieldMap.getNofComponents();
+	}
+
+	/**
+	 * Returns the element at the specified position.
+	 *
+	 * @param index index of the element to return
+	 * @return the element at the specified position in this list
+	 */
+	public final CompField getComponentByIndex(final int index) {
+		return compFieldMap.getComponentByIndex(index);
+	}
+
 	//don't use it before get
 	public boolean hasComponentWithName(final Identifier identifier) {
 		return  null != getComponentByName(identifier);

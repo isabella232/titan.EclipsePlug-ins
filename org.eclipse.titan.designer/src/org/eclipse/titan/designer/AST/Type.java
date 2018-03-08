@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.Value_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
+import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -780,67 +781,104 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public void checkThisVariant(final CompilationTimeStamp timestamp, final SingleWithAttribute singleWithAttribute, final boolean global) {
 		final IType type = getTypeWithCodingTable(timestamp, false);
 		if (type == null) {
-			//TODO enable once we support all encodings at least on semantic check level
-			if (!global) {
-				singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
-			}
-
-			return;
-		}
-
-		final ArrayList<String> codingStrings = singleWithAttribute.getAttributeSpecification().getEncodings();
-		// gather the built-in codecs referred to by the variant's encoding strings
-		final ArrayList<MessageEncoding_type> codings = new ArrayList<IType.MessageEncoding_type>();
-		boolean erroneous = false;
-		if (codingStrings == null) {
-			if (type.getCodingTable().size() > 1) {
-				if (!global) {
-					singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("The encoding reference is mandatory for variant attributes of type  `{0}''", getTypename()));
-				}
-				erroneous = true;
-			} else if (type.getCodingTable().get(0).builtIn) {
-				codings.add(type.getCodingTable().get(0).builtInCoding);
-			} else { // PER or custom encoding
-				final MessageEncoding_type coding = "PER".equals(type.getCodingTable().get(0).customCoding.name) ? MessageEncoding_type.PER: MessageEncoding_type.CUSTOM;
-				singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to `{0}'' encoding are ignored", coding.getEncodingName()));
-			}
+			//FIXME as only RAW is supported for now, we can not report this error
+//			if (!global) {
+//				singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
+//			}
 		} else {
-			for (int i = 0; i < codingStrings.size(); i++) {
-				final String encodingString = codingStrings.get(i);
-				final MessageEncoding_type coding = getEncodingType(encodingString);
-				if (!hasEncoding(coding, encodingString)) {
-					erroneous = true;
+			final ArrayList<String> codingStrings = singleWithAttribute.getAttributeSpecification().getEncodings();
+			// gather the built-in codecs referred to by the variant's encoding strings
+			final ArrayList<MessageEncoding_type> codings = new ArrayList<IType.MessageEncoding_type>();
+			boolean erroneous = false;
+			if (codingStrings == null) {
+				if (type.getCodingTable().size() > 1) {
 					if (!global) {
-						if (coding == MessageEncoding_type.CUSTOM) {
-							singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support {1} encoding", getTypename(), coding.getEncodingName()));
-						} else {
-							singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support custom encoding `{1}''", getTypename(), encodingString));
-						}
+						singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("The encoding reference is mandatory for variant attributes of type  `{0}''", getTypename()));
 					}
-				} else if (coding != MessageEncoding_type.PER && coding != MessageEncoding_type.CUSTOM) {
-					codings.add(coding);
+					erroneous = true;
+				} else if (type.getCodingTable().get(0).builtIn) {
+					codings.add(type.getCodingTable().get(0).builtInCoding);
 				} else { // PER or custom encoding
-					singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to {0} encoding are ignored", coding.getEncodingName()));
+					final MessageEncoding_type coding = "PER".equals(type.getCodingTable().get(0).customCoding.name) ? MessageEncoding_type.PER: MessageEncoding_type.CUSTOM;
+					singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to `{0}'' encoding are ignored", coding.getEncodingName()));
+				}
+			} else {
+				for (int i = 0; i < codingStrings.size(); i++) {
+					final String encodingString = codingStrings.get(i);
+					final MessageEncoding_type coding = getEncodingType(encodingString);
+					if (!hasEncoding(coding, encodingString)) {
+						erroneous = true;
+						//FIXME RAW restriction only exists because that is the only supported encoding right now
+						if (!global && coding == MessageEncoding_type.RAW) {
+							if (coding == MessageEncoding_type.CUSTOM) {
+								singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support {1} encoding", getTypename(), coding.getEncodingName()));
+							} else {
+								singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support custom encoding `{1}''", getTypename(), encodingString));
+							}
+						}
+					} else if (coding != MessageEncoding_type.PER && coding != MessageEncoding_type.CUSTOM) {
+						codings.add(coding);
+					} else { // PER or custom encoding
+						singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to {0} encoding are ignored", coding.getEncodingName()));
+					}
 				}
 			}
-		}
-		//FIXME implement checks
-		//TODO only raw data is extracted
-		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
-		boolean newRaw = false;
-		final AtomicBoolean rawFoud = new AtomicBoolean(false);
-		if (rawAttribute == null) {
-			rawAttribute = new RawAST(getDefaultRawFieldLength());
-			newRaw = true;
-		}
+			//FIXME implement checks
+			//TODO only raw data is extracted
+			final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
+			boolean newRaw = false;
+			final AtomicBoolean rawFoud = new AtomicBoolean(false);
+			if (rawAttribute == null) {
+				rawAttribute = new RawAST(getDefaultRawFieldLength());
+				newRaw = true;
+			}
 
-		analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFoud);
+			analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFoud);
 
-		if (!rawFoud.get() && newRaw) {
-			rawAttribute = null;
+			if (!rawFoud.get() && newRaw) {
+				rawAttribute = null;
+			}
 		}
-
-		// FIXME send global variant attributes to field/element types
+		if (global) {
+			// send global variant attributes to field/element types
+			switch (getTypetype()) {
+			case TYPE_TTCN3_CHOICE:
+			case TYPE_TTCN3_SEQUENCE:
+			case TYPE_TTCN3_SET:
+				for (int i = 0; i < ((TTCN3_Set_Seq_Choice_BaseType) this).getNofComponents(); i++) {
+					((TTCN3_Set_Seq_Choice_BaseType) this).getComponentByIndex(i).getType().checkThisVariant(timestamp, singleWithAttribute, global);
+				}
+				break;
+			case TYPE_ASN1_CHOICE:
+			case TYPE_ASN1_SEQUENCE:
+			case TYPE_ASN1_SET:
+				for (int i = 0; i < ((ASN1_Set_Seq_Choice_BaseType) this).getNofComponents(timestamp); i++) {
+					((ASN1_Set_Seq_Choice_BaseType) this).getComponentByIndex(i).getType().checkThisVariant(timestamp, singleWithAttribute, global);
+				}
+				break;
+			case TYPE_ANYTYPE:
+				for (int i = 0; i < ((Anytype_Type) this).getNofComponents(); i++) {
+					((Anytype_Type) this).getComponentByIndex(i).getType().checkThisVariant(timestamp, singleWithAttribute, global);
+				}
+				break;
+			case TYPE_OPENTYPE:
+				for (int i = 0; i < ((Open_Type) this).getNofComponents(); i++) {
+					((Open_Type) this).getComponentByIndex(i).getType().checkThisVariant(timestamp, singleWithAttribute, global);
+				}
+				break;
+			case TYPE_ARRAY:
+				((Array_Type)this).getElementType().checkThisVariant(timestamp, singleWithAttribute, global);
+				break;
+			case TYPE_SEQUENCE_OF:
+				((SequenceOf_Type)this).getOfType().checkThisVariant(timestamp, singleWithAttribute, global);
+				break;
+			case TYPE_SET_OF:
+				((SetOf_Type)this).getOfType().checkThisVariant(timestamp, singleWithAttribute, global);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	@Override

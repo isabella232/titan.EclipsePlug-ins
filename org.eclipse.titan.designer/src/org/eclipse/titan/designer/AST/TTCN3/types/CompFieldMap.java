@@ -273,6 +273,21 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		}
 	}
 
+	/** @return the number of components */
+	public final int getNofComponents() {
+		return fields.size();
+	}
+
+	/**
+	 * Returns the element at the specified position.
+	 *
+	 * @param index index of the element to return
+	 * @return the element at the specified position in this list
+	 */
+	public final CompField getComponentByIndex(final int index) {
+		return fields.get(index);
+	}
+
 	/**
 	 * Returns the component identified by the given name. The list of
 	 * components is also checked if it hasn't been checked before.
