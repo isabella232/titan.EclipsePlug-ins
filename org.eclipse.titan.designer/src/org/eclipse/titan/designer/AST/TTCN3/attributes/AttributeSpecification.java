@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
+import java.util.ArrayList;
+
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
@@ -26,6 +28,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class AttributeSpecification implements ILocateableNode, IIncrementallyUpdateable {
 	private final String specification;
 
+	//FIXME encoding specifications are not yet supported
+
 	/**
 	 * The location of the whole specification. This location encloses the
 	 * specification fully, as it is used to report errors to.
@@ -33,6 +37,10 @@ public final class AttributeSpecification implements ILocateableNode, IIncrement
 	private Location location = NULL_Location.INSTANCE;
 
 	public AttributeSpecification(final String specification) {
+		this.specification = specification;
+	}
+
+	public AttributeSpecification(final String specification, final ArrayList<String> encodings) {
 		this.specification = specification;
 	}
 

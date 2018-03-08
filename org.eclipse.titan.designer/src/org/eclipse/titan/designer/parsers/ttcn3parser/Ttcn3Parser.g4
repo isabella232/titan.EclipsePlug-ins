@@ -6318,11 +6318,31 @@ pr_AttribSpec returns [AttributeSpecification attributeSpecficiation]
 @init {
 	$attributeSpecficiation = null;
 }:
-( s = pr_FreeText )
+(	s = pr_FreeText			{ $attributeSpecficiation = new AttributeSpecification($s.string);
+					$attributeSpecficiation.setLocation(getLocation( $s.start, $s.stop));}
+|	s1 = pr_FreeText
+	pr_Dot
+	s2 = pr_FreeText		{ ArrayList<String> temp = new ArrayList<String>(2);
+					temp.add($s1.string);
+					$attributeSpecficiation = new AttributeSpecification($s2.string, temp);
+					$attributeSpecficiation.setLocation(getLocation( $s1.start, $s2.stop));}
+|	b = pr_BeginChar
+	encodings = pr_AttributeSpecEncodings
+	pr_EndChar
+	pr_Dot
+	s3 = pr_FreeText		{ $attributeSpecficiation = new AttributeSpecification($s3.string, $encodings.encodings);
+					$attributeSpecficiation.setLocation(getLocation( $b.start, $s3.stop));}
+)
 {
-	$attributeSpecficiation = new AttributeSpecification($s.string);
-	$attributeSpecficiation.setLocation(getLocation( $s.start, $s.stop));
+	
 };
+
+pr_AttributeSpecEncodings  returns [ArrayList<String> encodings]:
+(	s = pr_FreeText			{ $encodings = new ArrayList<String>(); $encodings.add($s.string);}
+	(	pr_Comma
+		s2 = pr_FreeText	{ $encodings.add($s2.string);}
+	)*
+);
 
 pr_BehaviourStatements returns[Statement statement]
 @init {
