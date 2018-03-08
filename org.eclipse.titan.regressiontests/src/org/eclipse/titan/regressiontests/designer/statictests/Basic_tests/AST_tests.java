@@ -326,7 +326,7 @@ public class AST_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Field qualifiers are only allowed for record, set and union types", lineNum++, IMarker.SEVERITY_ERROR));
 		}
-		lineNum += 90;
+		lineNum += 92;
 		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_146'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonexi' in type `@attribute_tests.intrec'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid field name `nonexi' in RAW parameter TAG for type `@attribute_tests.RAW_PDU_146'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -350,7 +350,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter CROSSTAG for field union2: nonexi1",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid fieldname in RAW parameter CROSSTAG for field union2: nonexi2",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("bitstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 27;
+		lineNum += 28;
 		markersToCheck.add(new MarkerToCheck("Reference to a non-existent field `nonexi' in type `@attribute_tests.RAW_PDU_167'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("bitstring value was expected",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 20;

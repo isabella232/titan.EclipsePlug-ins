@@ -174,7 +174,11 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 							"The '@local' modifier only affects 'encode' attributes. Modifier ignored.");
 				}
 			}
-			//FIXME check for invalid dot notation format
+			if (tempAttribute.getAttributeSpecification().getEncodings() != null && tempAttribute.getAttributeType() != Attribute_Type.Variant_Attribute) {
+				tempAttribute.getLocation().reportSemanticWarning(
+						"Invalid attribute format. Dot notation is only allowed for variant attributes when using the new codec handling.");
+			}
+
 			switch (tempAttribute.getAttributeType()) {
 			case Variant_Attribute:
 				if (hasOverrideVariant) {

@@ -781,13 +781,49 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final IType type = getTypeWithCodingTable(timestamp, false);
 		if (type == null) {
 			//TODO enable once we support all encodings at least on semantic check level
-			//if (!global) {
-			//	singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
-			//}
+			if (!global) {
+				singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
+			}
 
 			return;
 		}
 
+		final ArrayList<String> codingStrings = singleWithAttribute.getAttributeSpecification().getEncodings();
+		// gather the built-in codecs referred to by the variant's encoding strings
+		final ArrayList<MessageEncoding_type> codings = new ArrayList<IType.MessageEncoding_type>();
+		boolean erroneous = false;
+		if (codingStrings == null) {
+			if (type.getCodingTable().size() > 1) {
+				if (!global) {
+					singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("The encoding reference is mandatory for variant attributes of type  `{0}''", getTypename()));
+				}
+				erroneous = true;
+			} else if (type.getCodingTable().get(0).builtIn) {
+				codings.add(type.getCodingTable().get(0).builtInCoding);
+			} else { // PER or custom encoding
+				final MessageEncoding_type coding = "PER".equals(type.getCodingTable().get(0).customCoding.name) ? MessageEncoding_type.PER: MessageEncoding_type.CUSTOM;
+				singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to `{0}'' encoding are ignored", coding.getEncodingName()));
+			}
+		} else {
+			for (int i = 0; i < codingStrings.size(); i++) {
+				final String encodingString = codingStrings.get(i);
+				final MessageEncoding_type coding = getEncodingType(encodingString);
+				if (!hasEncoding(coding, encodingString)) {
+					erroneous = true;
+					if (!global) {
+						if (coding == MessageEncoding_type.CUSTOM) {
+							singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support {1} encoding", getTypename(), coding.getEncodingName()));
+						} else {
+							singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support custom encoding `{1}''", getTypename(), encodingString));
+						}
+					}
+				} else if (coding != MessageEncoding_type.PER && coding != MessageEncoding_type.CUSTOM) {
+					codings.add(coding);
+				} else { // PER or custom encoding
+					singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to {0} encoding are ignored", coding.getEncodingName()));
+				}
+			}
+		}
 		//FIXME implement checks
 		//TODO only raw data is extracted
 		final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();

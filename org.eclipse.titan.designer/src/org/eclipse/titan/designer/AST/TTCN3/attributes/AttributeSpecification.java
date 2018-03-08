@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class AttributeSpecification implements ILocateableNode, IIncrementallyUpdateable {
 	private final String specification;
 
-	//FIXME encoding specifications are not yet supported
+	final ArrayList<String> encodings;
 
 	/**
 	 * The location of the whole specification. This location encloses the
@@ -38,10 +38,12 @@ public final class AttributeSpecification implements ILocateableNode, IIncrement
 
 	public AttributeSpecification(final String specification) {
 		this.specification = specification;
+		encodings = null;
 	}
 
 	public AttributeSpecification(final String specification, final ArrayList<String> encodings) {
 		this.specification = specification;
+		this.encodings = encodings;
 	}
 
 	/**
@@ -49,6 +51,13 @@ public final class AttributeSpecification implements ILocateableNode, IIncrement
 	 * */
 	public String getSpecification() {
 		return specification;
+	}
+
+	/**
+	 * @return the encodings set for this attribute specification
+	 * */
+	public ArrayList<String> getEncodings() {
+		return encodings;
 	}
 
 	@Override

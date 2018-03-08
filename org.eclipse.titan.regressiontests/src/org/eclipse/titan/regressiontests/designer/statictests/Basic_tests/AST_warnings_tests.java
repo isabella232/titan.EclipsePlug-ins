@@ -456,7 +456,7 @@ public class AST_warnings_tests {
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}
-		lineNum += 277;
+		lineNum += 280;
 		for (i = 0; i < 2; i++) {
 			markersToCheck.add(new MarkerToCheck("Reference to multiple definitions in attribute qualifiers is not yet supported", lineNum, IMarker.SEVERITY_WARNING));
 		}
