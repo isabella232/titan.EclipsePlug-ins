@@ -7,7 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.Location;
@@ -28,7 +28,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class AttributeSpecification implements ILocateableNode, IIncrementallyUpdateable {
 	private final String specification;
 
-	final ArrayList<String> encodings;
+	final List<String> encodings;
 
 	/**
 	 * The location of the whole specification. This location encloses the
@@ -41,7 +41,7 @@ public final class AttributeSpecification implements ILocateableNode, IIncrement
 		encodings = null;
 	}
 
-	public AttributeSpecification(final String specification, final ArrayList<String> encodings) {
+	public AttributeSpecification(final String specification, final List<String> encodings) {
 		this.specification = specification;
 		this.encodings = encodings;
 	}
@@ -56,7 +56,7 @@ public final class AttributeSpecification implements ILocateableNode, IIncrement
 	/**
 	 * @return the encodings set for this attribute specification
 	 * */
-	public ArrayList<String> getEncodings() {
+	public List<String> getEncodings() {
 		return encodings;
 	}
 

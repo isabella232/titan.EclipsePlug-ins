@@ -786,7 +786,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 //				singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
 //			}
 		} else {
-			final ArrayList<String> codingStrings = singleWithAttribute.getAttributeSpecification().getEncodings();
+			final List<String> codingStrings = singleWithAttribute.getAttributeSpecification().getEncodings();
 			// gather the built-in codecs referred to by the variant's encoding strings
 			final ArrayList<MessageEncoding_type> codings = new ArrayList<IType.MessageEncoding_type>();
 			boolean erroneous = false;
