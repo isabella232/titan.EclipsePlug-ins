@@ -529,6 +529,8 @@ type record of integer attributeQualifierTester3
  optional "explicit omit"
  }
 
+group RAW_group22{
+  
 type record intrec
  { integer  tag ,
    integer  intfield }
@@ -677,6 +679,7 @@ type record RAW_PDU_158
 				       field2 ,    {  id = '0100'B ,
 				                      id = '0101'B ,
 				                      id = '0111'B   }    )" } ;
+}with{encode "RAW"}
 
 group RAW_group44{
 
