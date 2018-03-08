@@ -6201,12 +6201,10 @@ pr_MultiWithAttrib returns[MultipleWithAttributes attributes]
 pr_SingleWithAttrib returns [ SingleWithAttribute singleWithAttrib]
 @init {
 	$singleWithAttrib = null;
-	boolean hasOverride = false;
 	Qualifiers qualifiers = null;
 }:
 (	t = pr_AttribKeyword
 	modifier = pr_optAttributeModifier
-	( OVERRIDEKEYWORD  { hasOverride = true; } )?
 	( q = pr_AttribQualifier { qualifiers = $q.qualifiers; } )?
 	s = pr_AttribSpec
 )
@@ -6223,8 +6221,8 @@ pr_AttribKeyword returns [Attribute_Type attributeType]
 |	DISPLAY		{ $attributeType = Attribute_Type.Display_Attribute; }
 |	EXTENSION	{ $attributeType = Attribute_Type.Extension_Attribute; }
 |	VARIANT		{ $attributeType = Attribute_Type.Variant_Attribute; }
-|   OPTIONAL	{ $attributeType = Attribute_Type.Optional_Attribute; }
-|   i = pr_Identifier
+|	OPTIONAL	{ $attributeType = Attribute_Type.Optional_Attribute; }
+|	i = pr_Identifier
 //TODO: create token
 		{	if (!"erroneous".equals($i.identifier.getName())) {
 				$attributeType = Attribute_Type.Invalid_Attribute;
