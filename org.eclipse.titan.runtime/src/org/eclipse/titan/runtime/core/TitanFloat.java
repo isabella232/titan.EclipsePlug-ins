@@ -524,7 +524,7 @@ public class TitanFloat extends Base_Type {
 
 		return new TitanBoolean(otherValue.isLessThanOrEqual(new TitanFloat(doubleValue)));
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
