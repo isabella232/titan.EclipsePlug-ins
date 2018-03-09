@@ -924,13 +924,13 @@ public class TTCN_Buffer {
 						if (local_fieldorder == raw_order_t.ORDER_LSB) {
 							for (int a = 0; a < num_bytes; a++) {
 								s[a] = (char) ((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB, a + 1) << (8 - bit_pos)) |
-										((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB,a) >> bit_pos) & mask1));
+										((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB,a) >> bit_pos) & mask1 & 0xFF));
 							}
 						} else {
 							mask1 = RAW.BitMaskTable[bit_pos];
 							for (int a = 0; a < num_bytes; a++) {
 								s[a] = (char) ((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_LSB, a + 1) >> (8 - bit_pos) & mask1) |
-										((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_LSB, a) << bit_pos)));
+										((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_LSB, a) << bit_pos)) & 0xFF);
 							}
 							int active_bits_in_last_byte = len % 8;
 							if (active_bits_in_last_byte != 0) {
@@ -948,7 +948,7 @@ public class TTCN_Buffer {
 						int mask1 = RAW.BitMaskTable[bit_pos];
 						for (int a = 0; a < num_bytes; a++) {
 							s[a] = (char) RAW.REVERSE_BITS(((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,a + 1) >> (8 - bit_pos)) & mask1) |
-									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,a) << bit_pos));
+									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,a) << bit_pos) & 0xFF);
 						}
 					} else {  // start from octet boundary
 						for (int a = 0; a < num_bytes; a++) {
@@ -965,8 +965,12 @@ public class TTCN_Buffer {
 					if (new_bit_pos != 0) {
 						int mask1 = RAW.BitMaskTable[new_bit_pos];
 						for (int a = 0, b = (bit_pos + len) / 8; a < num_bytes; a++, b--) {
-							s[a] = (char) (((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b) >> (8 - new_bit_pos)) & mask1) |
-									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b - 1)	<< new_bit_pos));
+							if(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b) < 16) {
+								s[a] = get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b);
+							} else {
+								s[a] = (char) (((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b) >> (8 - new_bit_pos)) & mask1) |
+										(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b - 1)	<< new_bit_pos) & 0xFF);
+							}
 						}
 					} else {
 						for (int a = 0, b = new_buf_pos - 1; a < num_bytes; a++, b--) {
@@ -980,7 +984,7 @@ public class TTCN_Buffer {
 					if (new_bit_pos != 0) {
 						for (int a = 0, b = (bit_pos + len) / 8; a < num_bytes; a++, b--) {
 							s[a] = (char) RAW.REVERSE_BITS((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_MSB,b) << (8 - new_bit_pos)) |
-									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_MSB,b - 1) >> new_bit_pos));
+									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_MSB,b - 1) >> new_bit_pos) & 0xFF);
 						}
 					} else {  // start from octet boundary
 						for (int a = 0, b = new_buf_pos - 1; a < num_bytes; a++, b--) {
