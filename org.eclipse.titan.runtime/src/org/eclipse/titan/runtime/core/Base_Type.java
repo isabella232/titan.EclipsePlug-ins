@@ -145,7 +145,7 @@ public abstract class Base_Type {
 	 *                 in case of not being implemented
 	 * */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
-		throw new TtcnError(MessageFormat.format("RAW encoding requested for type '{0}'' which has no RAW encoding method.", p_td.name));
+		throw new TtcnError(MessageFormat.format("RAW encoding requested for type `{0}'' which has no RAW encoding method.", p_td.name));
 	}
 
 	/**
@@ -198,6 +198,6 @@ public abstract class Base_Type {
 	 *                 in case of not being implemented
 	 * */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call) {
-		throw new TtcnError(MessageFormat.format("RAW decoding requested for type '{0}'' which has no RAW encoding method.", p_td.name));
+		throw new TtcnError(MessageFormat.format("RAW decoding requested for type `{0}'' which has no RAW encoding method.", p_td.name));
 	}
 }
