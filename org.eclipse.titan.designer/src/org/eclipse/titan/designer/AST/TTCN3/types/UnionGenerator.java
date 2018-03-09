@@ -1,6 +1,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -57,6 +58,14 @@ public class UnionGenerator {
 			mDisplayName = displayName;
 			mTypeDescriptorName = typeDescriptorName;
 		}
+	}
+
+	private static class TemporalVariable {
+		public String type;
+		public String typedescriptor;
+		int start_pos;
+		int use_counter;
+		int decoded_for_element;
 	}
 
 	private UnionGenerator() {
@@ -633,15 +642,157 @@ public class UnionGenerator {
 			source.append("default:\n");
 			source.append("break;\n");
 			source.append("}\n");
+			source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 			source.append("} else {\n");
-			// FIXME handle tags
+			for(int i = 0; i < fieldInfos.size(); i++) {
+				if (tag_type[i] > 0 && raw.taglist.list.get(tag_type[i] - 1).fields.size() > 0) {
+					source.append("boolean already_failed = false;\n");
+					break;
+				}
+			}
+
+			/* precalculate what we know about the temporal variables*/
+			ArrayList<TemporalVariable> tempVariableList = new ArrayList<UnionGenerator.TemporalVariable>();
+			for(int i = 0; i < fieldInfos.size(); i++) {
+				if (tag_type[i] > 0 && raw.taglist.list.get(tag_type[i] - 1).fields.size() > 0) {
+					rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type[i] - 1);
+					for (int j = 0; j < cur_choice.fields.size(); j++) {
+						rawAST_coding_field_list fieldlist = cur_choice.fields.get(j);
+						if (fieldlist.start_pos >= 0) {
+							boolean found = false;
+							for (int k = 0; k < tempVariableList.size(); k++) {
+								if (tempVariableList.get(k).start_pos == fieldlist.start_pos && tempVariableList.get(k).typedescriptor.equals(fieldlist.fields.get(fieldlist.fields.size() - 1).typedesc)) {
+									tempVariableList.get(k).use_counter++;
+									fieldlist.temporal_variable_index = k;
+									found = true;
+									break;
+								}
+							}
+							if (!found) {
+								TemporalVariable temp = new TemporalVariable();
+								temp.type = fieldlist.fields.get(fieldlist.fields.size() - 1).type;
+								temp.typedescriptor = fieldlist.fields.get(fieldlist.fields.size() - 1).typedesc;
+								temp.start_pos = fieldlist.start_pos;
+								temp.use_counter = 1;
+								temp.decoded_for_element = -1;
+								fieldlist.temporal_variable_index = tempVariableList.size();
+								tempVariableList.add(temp);
+							}
+						}
+					}
+				}
+			}
+
+			for (int i = 0; i < tempVariableList.size(); i++) {
+				TemporalVariable tempVariable = tempVariableList.get(i);
+				if (tempVariable.use_counter > 1) {
+					source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", tempVariable.type, i));
+					source.append(MessageFormat.format("int decoded_{0}_length = 0;\n", i));
+				}
+			}
+
+			for (int i = 0 ; i < fieldInfos.size(); i++) { /* fields with tag */
+				if (tag_type[i] > 0 && raw.taglist.list.get(tag_type[i] - 1).fields.size() > 0) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type[i] - 1);
+
+					//TODO already_failed handling could be optimized!
+					source.append("already_failed = false;\n");
+					/* first check the fields we can precode
+					 * try to decode those key variables whose position we know
+					 * this way we might be able to step over bad values faster
+					 */
+					for (int j = 0; j < cur_choice.fields.size(); j++) {
+						rawAST_coding_field_list cur_field_list = cur_choice.fields.get(j);
+						if (cur_field_list.start_pos >= 0) {
+							int variableIndex = cur_field_list.temporal_variable_index;
+							TemporalVariable tempVariable = tempVariableList.get(variableIndex);
+							if (tempVariable.decoded_for_element == i) {
+								continue;
+							}
+							source.append("if (!already_failed) {\n");
+							if (tempVariable.use_counter == 1) {
+								source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", tempVariable.type, variableIndex));
+								source.append(MessageFormat.format("int decoded_{0}_length;\n", variableIndex));
+							}
+							if (tempVariable.decoded_for_element == -1) {
+								source.append(MessageFormat.format("buff.set_pos_bit(starting_pos + {0});\n", cur_field_list.start_pos));
+								source.append(MessageFormat.format("decoded_{0}_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", variableIndex, tempVariable.typedescriptor));
+							}
+							tempVariable.decoded_for_element = i;
+							source.append(MessageFormat.format("if (decoded_{0}_length > 0) '{'\n", variableIndex));
+							source.append(MessageFormat.format("if (temporal_{0}.operatorEquals({1})", variableIndex, cur_field_list.expression.expression));
+							for (int k = j + 1; k < cur_choice.fields.size(); k++) {
+								if (cur_choice.fields.get(k).temporal_variable_index == variableIndex) {
+									source.append(MessageFormat.format(" || temporal_{0}.operatorEquals({1})", variableIndex, cur_choice.fields.get(k).expression.expression));
+								}
+							}
+							source.append(") {\n");
+							source.append("buff.set_pos_bit(starting_pos);\n");
+							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+							source.append("if (decoded_length > 0) {\n");
+							source.append("if (");
+							genRawFieldChecker(source, cur_choice, true);
+							source.append(") {\n");
+							source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+							source.append("} else {\n");
+							source.append("already_failed = true;\n");
+							source.append("}\n");
+							source.append("}\n");
+							source.append("}\n");
+							source.append("}\n");
+							source.append("}\n");
+						}
+					}
+					/* if there is one tag key whose position we don't know
+					 * and we couldn't decide yet if the element can be decoded or not
+					 * than we have to decode it.
+					 * note that this is not actually a cycle because of the break
+					 */
+					for (int j = 0; j < cur_choice.fields.size(); j++) {
+						if (cur_choice.fields.get(j).start_pos < 0) {
+							source.append("if (already_failed) {\n");
+							source.append("buff.set_pos_bit(starting_pos);\n");
+							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+							source.append("if (decoded_length > 0) {\n");
+							source.append("if (");
+							genRawFieldChecker(source, cur_choice, true);
+							source.append(") {\n");
+							source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+							source.append("}\n");
+							source.append("}\n");
+							source.append("}\n");
+							break;
+						}
+					}
+				}
+			}
+
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
-				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append("buff.set_pos_bit(starting_pos);\n");
-				source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-				source.append("if (decoded_length >= 0) {\n");
-				source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
-				source.append("}\n");
+				if (tag_type[i] < 0 && raw.taglist.list.get(-1 * tag_type[i] - 1).fields.size() > 0) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					rawAST_coding_taglist cur_choice = raw.taglist.list.get(-1 * tag_type[i] - 1);
+
+					source.append("buff.set_pos_bit(starting_pos);\n");
+					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("if (decoded_length >= 0) {\n");
+					source.append("if (");
+					genRawFieldChecker(source, cur_choice, true);
+					source.append(") {\n");
+					source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+					source.append("}\n");
+					source.append("}\n");
+				}
+			}
+			for (int i = 0 ; i < fieldInfos.size(); i++) {
+				if (tag_type[i] == 0) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					source.append("buff.set_pos_bit(starting_pos);\n");
+					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append("if (decoded_length >= 0) {\n");
+					source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
+					source.append("}\n");
+				}
 			}
 
 			source.append("}\n");
