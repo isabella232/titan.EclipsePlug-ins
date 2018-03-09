@@ -760,14 +760,16 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr = new byte[decode_length / 4];
 		final char[] tmp_nibbles = new char[decode_length / 4];
 		buff.get_b(decode_length, tmp_nibbles, cp, top_bit_ord);
-		int temp_index = 0;
 		if(tmp_nibbles.length == 1) {
 			nibbles_ptr[0] = (byte) tmp_nibbles[0];
 		} else {
-			for (int i = 0; i < tmp_nibbles.length - 1; i += 2) {
-				nibbles_ptr[i] = (byte) (tmp_nibbles[temp_index] & 0x0F);
-				nibbles_ptr[i + 1] = (byte) (tmp_nibbles[temp_index] >> 4);
-				temp_index++;
+			for (int i = 0, j = 0; i < nibbles_ptr.length; i += 2, j++) {
+				nibbles_ptr[i] = (byte) (tmp_nibbles[j] & 0x0F);
+				
+				if(i + 1 == nibbles_ptr.length){ //if decode_length % 2 == 1
+					continue;
+				}
+				nibbles_ptr[i + 1] = (byte) ((tmp_nibbles[j] >> 4) & 0x0F);
 			}
 		}
 
