@@ -253,6 +253,11 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		lastTimeChecked = timestamp;
 
 		checkSubtypeRestrictions(timestamp);
+
+		if (myScope != null) {
+			checkEncode(timestamp);
+			checkVariants(timestamp);
+		}
 	}
 
 	@Override
