@@ -570,7 +570,7 @@ public class UnionGenerator {
 		source.append("}\n\n");
 
 		if (rawNeeded) {
-			int tag_type[] = new int[fieldInfos.size()];
+			final int tag_type[] = new int[fieldInfos.size()];
 			Arrays.fill(tag_type, 0);
 			if (hasRaw && raw != null && raw.taglist != null && raw.taglist.list != null) { // fill tag_type. 0-No tag, >0 index of the tag + 1
 				for (int i = 0; i < raw.taglist.list.size(); i++) {
@@ -608,7 +608,7 @@ public class UnionGenerator {
 
 				int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
 				if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
-					rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
+					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
 					source.append(" if (");
 					genRawFieldChecker(source, cur_choice, false);
 					source.append(" ) {\n");
@@ -651,12 +651,12 @@ public class UnionGenerator {
 			}
 
 			/* pre-calculate what we know about the temporal variables*/
-			ArrayList<TemporalVariable> tempVariableList = new ArrayList<UnionGenerator.TemporalVariable>();
+			final ArrayList<TemporalVariable> tempVariableList = new ArrayList<UnionGenerator.TemporalVariable>();
 			for(int i = 0; i < fieldInfos.size(); i++) {
 				if (tag_type[i] > 0 && raw.taglist.list.get(tag_type[i] - 1).fields.size() > 0) {
-					rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type[i] - 1);
+					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type[i] - 1);
 					for (int j = 0; j < cur_choice.fields.size(); j++) {
-						rawAST_coding_field_list fieldlist = cur_choice.fields.get(j);
+						final rawAST_coding_field_list fieldlist = cur_choice.fields.get(j);
 						if (fieldlist.start_pos >= 0) {
 							boolean found = false;
 							for (int k = 0; k < tempVariableList.size(); k++) {
@@ -668,7 +668,7 @@ public class UnionGenerator {
 								}
 							}
 							if (!found) {
-								TemporalVariable temp = new TemporalVariable();
+								final TemporalVariable temp = new TemporalVariable();
 								temp.type = fieldlist.fields.get(fieldlist.fields.size() - 1).type;
 								temp.typedescriptor = fieldlist.fields.get(fieldlist.fields.size() - 1).typedesc;
 								temp.start_pos = fieldlist.start_pos;
@@ -683,7 +683,7 @@ public class UnionGenerator {
 			}
 
 			for (int i = 0; i < tempVariableList.size(); i++) {
-				TemporalVariable tempVariable = tempVariableList.get(i);
+				final TemporalVariable tempVariable = tempVariableList.get(i);
 				if (tempVariable.use_counter > 1) {
 					source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", tempVariable.type, i));
 					source.append(MessageFormat.format("int decoded_{0}_length = 0;\n", i));
@@ -693,7 +693,7 @@ public class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) { /* fields with tag */
 				if (tag_type[i] > 0 && raw.taglist.list.get(tag_type[i] - 1).fields.size() > 0) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
-					rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type[i] - 1);
+					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type[i] - 1);
 
 					//TODO already_failed handling could be optimized!
 					source.append("already_failed = false;\n");
@@ -701,13 +701,14 @@ public class UnionGenerator {
 					 * this way we might be able to step over bad values faster
 					 */
 					for (int j = 0; j < cur_choice.fields.size(); j++) {
-						rawAST_coding_field_list cur_field_list = cur_choice.fields.get(j);
+						final rawAST_coding_field_list cur_field_list = cur_choice.fields.get(j);
 						if (cur_field_list.start_pos >= 0) {
-							int variableIndex = cur_field_list.temporal_variable_index;
-							TemporalVariable tempVariable = tempVariableList.get(variableIndex);
+							final int variableIndex = cur_field_list.temporal_variable_index;
+							final TemporalVariable tempVariable = tempVariableList.get(variableIndex);
 							if (tempVariable.decoded_for_element == i) {
 								continue;
 							}
+
 							source.append("if (!already_failed) {\n");
 							if (tempVariable.use_counter == 1) {
 								source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", tempVariable.type, variableIndex));
@@ -770,7 +771,7 @@ public class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				if (tag_type[i] < 0 && raw.taglist.list.get(-1 * tag_type[i] - 1).fields.size() > 0) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
-					rawAST_coding_taglist cur_choice = raw.taglist.list.get(-1 * tag_type[i] - 1);
+					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(-1 * tag_type[i] - 1);
 
 					source.append("buff.set_pos_bit(starting_pos);\n");
 					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
