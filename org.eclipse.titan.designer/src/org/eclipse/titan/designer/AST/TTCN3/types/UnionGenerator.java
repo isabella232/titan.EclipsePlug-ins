@@ -658,10 +658,12 @@ public class UnionGenerator {
 					for (int j = 0; j < cur_choice.fields.size(); j++) {
 						final rawAST_coding_field_list fieldlist = cur_choice.fields.get(j);
 						if (fieldlist.start_pos >= 0) {
+							final rawAST_coding_fields lastCodingFields = fieldlist.fields.get(fieldlist.fields.size() - 1);
 							boolean found = false;
 							for (int k = 0; k < tempVariableList.size(); k++) {
-								if (tempVariableList.get(k).start_pos == fieldlist.start_pos && tempVariableList.get(k).typedescriptor.equals(fieldlist.fields.get(fieldlist.fields.size() - 1).typedesc)) {
-									tempVariableList.get(k).use_counter++;
+								final TemporalVariable temporalVariable = tempVariableList.get(k);
+								if (temporalVariable.start_pos == fieldlist.start_pos && temporalVariable.typedescriptor.equals(lastCodingFields.typedesc)) {
+									temporalVariable.use_counter++;
 									fieldlist.temporal_variable_index = k;
 									found = true;
 									break;
@@ -669,8 +671,8 @@ public class UnionGenerator {
 							}
 							if (!found) {
 								final TemporalVariable temp = new TemporalVariable();
-								temp.type = fieldlist.fields.get(fieldlist.fields.size() - 1).type;
-								temp.typedescriptor = fieldlist.fields.get(fieldlist.fields.size() - 1).typedesc;
+								temp.type = lastCodingFields.type;
+								temp.typedescriptor = lastCodingFields.typedesc;
 								temp.start_pos = fieldlist.start_pos;
 								temp.use_counter = 1;
 								temp.decoded_for_element = -1;
@@ -722,8 +724,9 @@ public class UnionGenerator {
 							source.append(MessageFormat.format("if (decoded_{0}_length > 0) '{'\n", variableIndex));
 							source.append(MessageFormat.format("if (temporal_{0}.operatorEquals({1})", variableIndex, cur_field_list.expression.expression));
 							for (int k = j + 1; k < cur_choice.fields.size(); k++) {
-								if (cur_choice.fields.get(k).temporal_variable_index == variableIndex) {
-									source.append(MessageFormat.format(" || temporal_{0}.operatorEquals({1})", variableIndex, cur_choice.fields.get(k).expression.expression));
+								final rawAST_coding_field_list tempFieldList = cur_choice.fields.get(k);
+								if (tempFieldList.temporal_variable_index == variableIndex) {
+									source.append(MessageFormat.format(" || temporal_{0}.operatorEquals({1})", variableIndex, tempFieldList.expression.expression));
 								}
 							}
 							source.append(") {\n");
