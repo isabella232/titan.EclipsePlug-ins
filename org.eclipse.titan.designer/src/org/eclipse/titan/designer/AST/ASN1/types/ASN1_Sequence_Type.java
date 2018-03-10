@@ -1038,7 +1038,9 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true, getGenerateCoderFunctions(MessageEncoding_type.RAW));
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, true, hasRaw, null);
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, false);
 
 		generateCodeForCodingHandlers(aData, source);

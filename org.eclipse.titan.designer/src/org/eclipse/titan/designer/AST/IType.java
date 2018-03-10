@@ -510,6 +510,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	boolean fieldIsOptional(final List<ISubReference> subReferences);
 
 	/**
+	 * @return the raw attribute of the type.
+	 * */
+	RawAST getRawAttribute();
+
+	/**
 	 * Returns the default field length of this type (in bits).
 	 * integer: 8
 	 * boolean: 0

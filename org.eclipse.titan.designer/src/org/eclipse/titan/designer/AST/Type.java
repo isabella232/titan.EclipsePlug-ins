@@ -459,6 +459,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public RawAST getRawAttribute() {
+		return rawAttribute;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public int getDefaultRawFieldLength() {
 		return 0;
 	}
