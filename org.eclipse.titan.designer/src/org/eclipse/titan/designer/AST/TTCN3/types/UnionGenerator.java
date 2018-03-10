@@ -606,7 +606,6 @@ public class UnionGenerator {
 				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1}]);\n", fieldInfo.mTypeDescriptorName, i));
 				source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
-				// line 1074
 				int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
 				if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
 					rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
@@ -651,7 +650,7 @@ public class UnionGenerator {
 				}
 			}
 
-			/* precalculate what we know about the temporal variables*/
+			/* pre-calculate what we know about the temporal variables*/
 			ArrayList<TemporalVariable> tempVariableList = new ArrayList<UnionGenerator.TemporalVariable>();
 			for(int i = 0; i < fieldInfos.size(); i++) {
 				if (tag_type[i] > 0 && raw.taglist.list.get(tag_type[i] - 1).fields.size() > 0) {
@@ -698,8 +697,7 @@ public class UnionGenerator {
 
 					//TODO already_failed handling could be optimized!
 					source.append("already_failed = false;\n");
-					/* first check the fields we can precode
-					 * try to decode those key variables whose position we know
+					/* try to decode those key variables whose position we know
 					 * this way we might be able to step over bad values faster
 					 */
 					for (int j = 0; j < cur_choice.fields.size(); j++) {
@@ -762,6 +760,7 @@ public class UnionGenerator {
 							source.append("}\n");
 							source.append("}\n");
 							source.append("}\n");
+
 							break;
 						}
 					}
