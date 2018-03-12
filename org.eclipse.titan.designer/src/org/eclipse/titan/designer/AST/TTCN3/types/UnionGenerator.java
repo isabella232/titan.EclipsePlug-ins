@@ -626,10 +626,10 @@ public class UnionGenerator {
 
 			source.append("@Override\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
-			source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+			source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 			source.append("limit -= prepaddlength;\n");
 			source.append("int decoded_length = 0;\n");
-			source.append("int starting_pos = buff.get_pos_bit();\n");
+			source.append("final int starting_pos = buff.get_pos_bit();\n");
 			source.append("if (sel_field != -1) {\n");
 			source.append("switch (sel_field) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {

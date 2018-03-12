@@ -102,14 +102,14 @@ public class RawASTStruct {
 	 pointerto*ptrunit + ptroffset */
 	public int ptrunit; // number of bits in pointerto value
 	public int ptroffset;
-	public int ptrbase; //the identifier in PTROFFSET(identifier)
+	public int pointerbase; //the identifier in PTROFFSET(identifier)
 	public int unit; //XDEFOCTETS, XDEFBITS
 	public rawAST_coding_fields lengthindex; // stores subattribute of the lengthto attribute
 	// field IDs in form of [unionField.sub]field_N, keyField.subfield_M = tagValue multiple tagValues may be specified
 	public rawAST_coding_taglist_list crosstaglist;
 	public rawAST_coding_taglist_list taglist;
 	
-	public rawAST_coding_taglist_list presence; // Presence indicator expressions for an optional field
+	public rawAST_coding_taglist presence; // Presence indicator expressions for an optional field
 	public int toplevelind;
 	public rawAST_toplevel toplevel;
 	public int union_member_num;
@@ -155,8 +155,8 @@ public class RawASTStruct {
 			}
 		}
 		if (from.presence != null && from.presence.keyList != null && from.presence.keyList.size() > 0) {
-			presence = new rawAST_coding_taglist_list();
-			presence.list = new ArrayList<RawASTStruct.rawAST_coding_taglist>(from.presence.keyList.size());
+			presence = new rawAST_coding_taglist();
+			presence.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(from.presence.keyList.size());
 		}
 		toplevelind = from.toplevelind;
 		toplevel = new rawAST_toplevel();

@@ -552,8 +552,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		RawASTStruct raw = null;
-		if (getGenerateCoderFunctions(MessageEncoding_type.RAW)) {
+		if (hasRaw) {
 			RawAST dummy_raw;
 			if (rawAttribute == null) {
 				dummy_raw = new RawAST(getDefaultRawFieldLength());
@@ -659,7 +660,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 		}
 
-		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), raw);
+		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, hasRaw, raw);
 		UnionGenerator.generateTemplateClass(aData, source, genName, displayName, fieldInfos, hasOptional);
 
 		if (hasDoneAttribute()) {

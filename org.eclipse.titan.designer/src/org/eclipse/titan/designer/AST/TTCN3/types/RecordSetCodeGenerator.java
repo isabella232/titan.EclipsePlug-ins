@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -43,6 +44,9 @@ public class RecordSetCodeGenerator {
 	
 		private String mTypeDescriptorName;
 
+		public boolean hasRaw;
+		public RawASTStruct raw;
+
 		/**
 		 * @param fieldType the string representing the type of this field in the generated code.
 		 * @param fieldTemplateType the string representing the template type of this field in the generated code.
@@ -81,10 +85,11 @@ public class RecordSetCodeGenerator {
 	 * @param fieldInfos the list of information about the fields.
 	 * @param hasOptional true if the type has an optional field.
 	 * @param isSet true if generating code for a set, false if generating code for a record.
-	 * @param hasRaw true it the type has raw attributes
+	 * @param hasRaw true it the type has raw attributes.
+	 * @param raw the raw coding related settings if applicable.
 	 */
 	public static void generateValueClass(final JavaGenData aData, final StringBuilder source, final String className, final String classDisplayname,
-			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw) {
+			final List<FieldInfo> fieldInfos, final boolean hasOptional, final boolean isSet, final boolean hasRaw, final RawASTStruct raw) {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addImport("java.text.MessageFormat");

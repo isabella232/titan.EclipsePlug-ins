@@ -34,6 +34,15 @@ import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_ext_bit_group;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_tag_field_value;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_ext_group;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedTemplate;
@@ -894,7 +903,10 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			compField.getType().generateCode(aData, tempSource);
 		}
 
-		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false, getGenerateCoderFunctions(MessageEncoding_type.RAW));
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+		final RawASTStruct raw = convertRAWCodingAttributes(aData, source, hasRaw, namesList);
+
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false, getGenerateCoderFunctions(MessageEncoding_type.RAW), raw);
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, false);
 
 		if (hasDoneAttribute()) {

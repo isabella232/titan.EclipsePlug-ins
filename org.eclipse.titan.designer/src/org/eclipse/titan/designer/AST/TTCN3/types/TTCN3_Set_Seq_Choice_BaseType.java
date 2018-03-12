@@ -38,6 +38,13 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_ext_bit_group;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_tag_field_value;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_ext_group;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
+import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -954,6 +961,386 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				}
 			}
 		}
+	}
+
+	//FIXME comment
+	protected RawASTStruct convertRAWCodingAttributes(final JavaGenData aData, final StringBuilder source, final boolean hasRaw, final List<FieldInfo> namesList) {
+		RawASTStruct raw = null;
+		if (hasRaw) {
+			RawAST dummy_raw;
+			if (rawAttribute == null) {
+				dummy_raw = new RawAST(getDefaultRawFieldLength());
+			} else {
+				dummy_raw = rawAttribute;
+			}
+			raw = new RawASTStruct(dummy_raw);
+
+			// building taglist
+			final int taglistSize = dummy_raw.taglist == null ? 0 : dummy_raw.taglist.size();
+			for (int c = 0; c < taglistSize; c++) {
+				final rawAST_single_tag singleTag = dummy_raw.taglist.get(c);
+				final rawAST_coding_taglist codingSingleTag = raw.taglist.list.get(c);
+				if (singleTag.keyList != null) {
+					codingSingleTag.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(singleTag.keyList.size());
+				}
+				codingSingleTag.fieldname = singleTag.fieldName.getName();
+				final Identifier idf = singleTag.fieldName;
+				codingSingleTag.fieldnum = getComponentIndexByName(idf);
+
+				final int keyListSize = singleTag.keyList == null ? 0 : singleTag.keyList.size();
+				for (int a = 0; a < keyListSize; a++) {
+					final rawAST_tag_field_value key = singleTag.keyList.get(a);
+					final RawASTStruct.rawAST_coding_field_list codingKey = new RawASTStruct.rawAST_coding_field_list();
+					codingSingleTag.fields.add(codingKey);
+
+					codingKey.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(key.keyField.names.size());
+					//codingKey.value = key.value;
+					final ExpressionStruct expression = new ExpressionStruct();
+					key.v_value.generateCodeExpression(aData, expression, true);
+					codingKey.expression = expression;
+					codingKey.start_pos = 0;
+					final CompField cf = getComponentByIndex(codingSingleTag.fieldnum);
+					IType t = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+
+					final RawASTStruct.rawAST_coding_fields tempField = new rawAST_coding_fields();
+					tempField.nthfield = codingSingleTag.fieldnum;
+					tempField.nthfieldname = singleTag.fieldName.getName();
+					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+					tempField.type = t.getGenNameValue(aData, source, myScope);
+					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
+					codingKey.fields.add(tempField);
+
+					for (int b = 0; b < key.keyField.names.size(); b++) {
+						final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
+						codingKey.fields.add(newField);
+
+						final Identifier idf2 = key.keyField.names.get(b);
+						int comp_index = 0;
+						CompField cf2;
+						switch (t.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+							comp_index = ((TTCN3_Choice_Type)t).getComponentIndexByName(idf2);
+							cf2 = ((TTCN3_Choice_Type)t).getComponentByIndex(comp_index);
+							newField.nthfield = comp_index;
+							newField.nthfieldname = idf2.getName();
+							newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+							break;
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(idf2);
+							cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(comp_index);
+							newField.nthfield = comp_index;
+							newField.nthfieldname = idf2.getName();
+							if (cf2.isOptional()) {
+								newField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+							} else {
+								newField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+							}
+							break;
+						default:
+							//internal error
+							return null;
+						}
+
+						final IType field_type = cf2.getType();
+						newField.type = field_type.getGenNameValue(aData, source, myScope);
+						newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
+						if (field_type.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE && ((TTCN3_Sequence_Type)field_type).rawAttribute != null
+								&& (((TTCN3_Sequence_Type)field_type).rawAttribute.pointerto == null || ((TTCN3_Sequence_Type)field_type).rawAttribute.lengthto != null)) {
+							codingKey.start_pos = -1;
+						}
+
+						if (t.getTypetype() == Type_type.TYPE_TTCN3_SEQUENCE) {
+							IType t2;
+							for (int i = 0; i < comp_index && codingKey.start_pos >= 0; i++) {
+								t2 = ((TTCN3_Sequence_Type)t).getComponentByIndex(i).getType();
+								if (t2.getRawLength() >= 0) {
+									if (((Type)t2).rawAttribute != null) {
+										codingKey.start_pos += ((Type)t2).rawAttribute.padding;
+									}
+									codingKey.start_pos += ((Type)t2).getRawLength();
+								} else {
+									codingKey.start_pos = -1;
+								}
+							}
+
+						}
+
+						t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+					}
+				}
+			}
+			// building presence list
+			final int presenceListSize = dummy_raw.presence == null || dummy_raw.presence.keyList == null ? 0 : dummy_raw.presence.keyList.size();
+			for (int a = 0; a < presenceListSize; a++) {
+				final rawAST_tag_field_value fieldValue = dummy_raw.presence.keyList.get(a);
+				final rawAST_coding_field_list presences = new rawAST_coding_field_list();
+				raw.presence.fields.add(presences);
+
+				final ExpressionStruct expression = new ExpressionStruct();
+				fieldValue.v_value.generateCodeExpression(aData, expression, true);
+				presences.expression = expression;
+				presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(presences.fields.size());
+				IType t = this;
+				for (int b = 0; b < presences.fields.size(); b++) {
+					final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
+					presences.fields.add(newField);
+
+					final Identifier idf2 = fieldValue.keyField.names.get(b);
+					int comp_index = 0;
+					CompField cf2;
+					switch (t.getTypetype()) {
+					case TYPE_TTCN3_CHOICE:
+						comp_index = ((TTCN3_Choice_Type)t).getComponentIndexByName(idf2);
+						cf2 = ((TTCN3_Choice_Type)t).getComponentByIndex(comp_index);
+						newField.nthfield = comp_index;
+						newField.nthfieldname = idf2.getName();
+						newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+						break;
+					case TYPE_TTCN3_SEQUENCE:
+					case TYPE_TTCN3_SET:
+						comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(idf2);
+						cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(comp_index);
+						newField.nthfield = comp_index;
+						newField.nthfieldname = idf2.getName();
+						if (cf2.isOptional()) {
+							newField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+						} else {
+							newField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+						}
+						break;
+					default:
+						//internal error
+						return null;
+					}
+
+					final IType field_type = cf2.getType();
+					newField.type = field_type.getGenNameValue(aData, source, myScope);
+					newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
+
+					t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				}
+			}
+			final int extBiGroupSize = dummy_raw.ext_bit_groups == null ? 0 : dummy_raw.ext_bit_groups.size();
+			for (int c = 0; c < extBiGroupSize; c++) {
+				final rawAST_ext_bit_group tempGroup = dummy_raw.ext_bit_groups.get(c);
+				final Identifier idf = tempGroup.from;
+				final Identifier idf2 = tempGroup.to;
+
+				final rawAST_coding_ext_group codingGroup = new rawAST_coding_ext_group();
+				raw.ext_bit_groups.add(codingGroup);
+				codingGroup.ext_bit = tempGroup.ext_bit;
+				codingGroup.from = getComponentIndexByName(idf);
+				codingGroup.to = getComponentIndexByName(idf2);
+			}
+			for (int i = 0; i < getNofComponents(); i++) {
+				final FieldInfo element_i = namesList.get(i);
+				final CompField cf = getComponentByIndex(i);
+				final IType t_field = cf.getType();
+				final IType t_field_last = t_field.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				final RawAST rawpar = t_field.getRawAttribute();
+				if (rawpar != null) {
+					element_i.raw = new RawASTStruct(rawpar);
+					final int lengthtoNum = rawpar.lengthto == null ? 0 : rawpar.lengthto.size();
+					for (int j = 0; j < lengthtoNum; j++) {
+						final Identifier idf = rawpar.lengthto.get(j);
+						element_i.raw.lengthto.add(getComponentIndexByName(idf));
+					}
+					if (lengthtoNum > 0 && rawpar.lengthindex != null) {
+						final Identifier idf = rawpar.lengthindex.names.get(0);
+						int comp_index = 0;
+						CompField cf2;
+						switch (t_field_last.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+							comp_index = ((TTCN3_Choice_Type)t_field_last).getComponentIndexByName(idf);
+							cf2 = ((TTCN3_Choice_Type)t_field_last).getComponentByIndex(comp_index);
+							element_i.raw.lengthindex.nthfield = comp_index;
+							element_i.raw.lengthindex.nthfieldname = idf.getName();
+							break;
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getComponentIndexByName(idf);
+							cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getComponentByIndex(comp_index);
+							element_i.raw.lengthindex.nthfield = comp_index;
+							element_i.raw.lengthindex.nthfieldname = idf.getName();
+							break;
+						default:
+							//internal error
+							return null;
+						}
+						final Type t_field2 = cf2.getType();
+						switch (t_field2.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+							break;
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							if (cf2.isOptional()) {
+								element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+							} else {
+								element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+							}
+							break;
+						default:
+							return null;
+						}
+
+						element_i.raw.lengthindex.type = t_field2.getGenNameValue(aData, source, myScope);
+						element_i.raw.lengthindex.typedesc = t_field2.getGenNameTypeDescriptor(aData, source, myScope);
+					}
+					if (lengthtoNum > 0 && rawpar.lengthindex != null) {
+						switch (t_field_last.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							final int componentsNumber = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getNofComponents();
+							element_i.raw.union_member_num = componentsNumber;
+							element_i.raw.member_name = new ArrayList<String>(componentsNumber + 1);
+							element_i.raw.member_name.add(t_field_last.getGenNameValue(aData, source, myScope));
+							for (int m = 1; m < componentsNumber + 1; m++){
+								final CompField compf = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getComponentByIndex(m - 1);
+								element_i.raw.member_name.add(compf.getIdentifier().getName());
+							}
+							break;
+						default:
+							return null;
+						}
+					}
+					if (rawpar.pointerto != null) {
+						final Identifier idf = rawpar.pointerto;
+						element_i.raw.pointerto = getComponentIndexByName(idf);
+						if (rawpar.ptrbase != null) {
+							final Identifier idf2 = rawpar.ptrbase;
+							element_i.raw.pointerbase = getComponentIndexByName(idf2);
+						} else {
+							element_i.raw.pointerbase = i;
+						}
+					}
+					// building presence list
+					final int parPresenceListSize = rawpar.presence == null || rawpar.presence.keyList == null ? 0 : rawpar.presence.keyList.size();
+					for (int a = 0; a < parPresenceListSize; a++) {
+						final rawAST_coding_field_list presences = new rawAST_coding_field_list();
+						element_i.raw.presence.fields.add(presences);
+
+						final rawAST_tag_field_value fieldValue = rawpar.presence.keyList.get(a);
+						final ExpressionStruct expression = new ExpressionStruct();
+						fieldValue.v_value.generateCodeExpression(aData, expression, true);
+						presences.expression = expression;
+						presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(fieldValue.keyField.names.size());
+						IType t = this;
+						for (int b = 0; b < presences.fields.size(); b++) {
+							final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
+							presences.fields.add(newField);
+
+							final Identifier idf2 = fieldValue.keyField.names.get(b);
+							int comp_index = 0;
+							CompField cf2;
+							switch (t.getTypetype()) {
+							case TYPE_TTCN3_CHOICE:
+								comp_index = ((TTCN3_Choice_Type)t).getComponentIndexByName(idf2);
+								cf2 = ((TTCN3_Choice_Type)t).getComponentByIndex(comp_index);
+								newField.nthfield = comp_index;
+								newField.nthfieldname = idf2.getName();
+								newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+								break;
+							case TYPE_TTCN3_SEQUENCE:
+							case TYPE_TTCN3_SET:
+								comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(idf2);
+								cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(comp_index);
+								newField.nthfield = comp_index;
+								newField.nthfieldname = idf2.getName();
+								if (cf2.isOptional()) {
+									newField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+								} else {
+									newField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+								}
+								break;
+							default:
+								//internal error
+								return null;
+							}
+
+							final IType field_type = cf2.getType();
+							newField.type = field_type.getGenNameValue(aData, source, myScope);
+							newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
+
+							t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						}
+					}
+					// building crosstaglist
+					final int crossTaglistSize = rawpar.crosstaglist == null ? 0 : rawpar.crosstaglist.size();
+					for (int c = 0; c < crossTaglistSize; c++) {
+						final rawAST_single_tag singleTag = rawpar.crosstaglist.get(c);
+						final rawAST_coding_taglist codingSingleTag = element_i.raw.crosstaglist.list.get(c);
+						if (singleTag.keyList != null) {
+							codingSingleTag.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(singleTag.keyList.size());
+						}
+						codingSingleTag.fieldname = singleTag.fieldName.getName();
+						final Identifier idf = singleTag.fieldName;
+						codingSingleTag.fieldnum = getComponentIndexByName(idf);
+
+						final int keyListSize = singleTag.keyList == null ? 0 : singleTag.keyList.size();
+						for (int a = 0; a < keyListSize; a++) {
+							final rawAST_tag_field_value key = singleTag.keyList.get(a);
+							final RawASTStruct.rawAST_coding_field_list codingKey = new RawASTStruct.rawAST_coding_field_list();
+							codingSingleTag.fields.add(codingKey);
+
+							codingKey.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(key.keyField.names.size());
+							final ExpressionStruct expression = new ExpressionStruct();
+							key.v_value.generateCodeExpression(aData, expression, true);
+							codingKey.expression = expression;
+
+							IType t = this;
+							for (int b = 0; b < key.keyField.names.size(); b++) {
+								final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
+								codingKey.fields.add(newField);
+
+								final Identifier idf2 = key.keyField.names.get(b);
+								int comp_index = 0;
+								CompField cf2;
+								switch (t.getTypetype()) {
+								case TYPE_TTCN3_CHOICE:
+									comp_index = ((TTCN3_Choice_Type)t).getComponentIndexByName(idf2);
+									cf2 = ((TTCN3_Choice_Type)t).getComponentByIndex(comp_index);
+									newField.nthfield = comp_index;
+									newField.nthfieldname = idf2.getName();
+									newField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
+									break;
+								case TYPE_TTCN3_SEQUENCE:
+								case TYPE_TTCN3_SET:
+									comp_index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(idf2);
+									cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByIndex(comp_index);
+									newField.nthfield = comp_index;
+									newField.nthfieldname = idf2.getName();
+									if (cf2.isOptional()) {
+										newField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+									} else {
+										newField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+									}
+									break;
+								default:
+									//internal error
+									return null;
+								}
+
+								final IType field_type = cf2.getType();
+								newField.type = field_type.getGenNameValue(aData, source, myScope);
+								newField.typedesc = field_type.getGenNameTypeDescriptor(aData, source, myScope);
+
+								t = field_type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+							}
+						}
+					}
+					
+					element_i.raw.length = t_field.getRawLength();
+					element_i.hasRaw = true;
+				} else {
+					element_i.hasRaw = false;
+				}
+			}
+		}
+
+		return raw;
 	}
 
 	@Override
