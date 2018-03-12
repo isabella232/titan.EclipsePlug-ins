@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_ext_group;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -134,7 +135,7 @@ public class RecordSetCodeGenerator {
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
 		generateValueEncodeDecodeText(source, fieldInfos);
-		generateValueEncodeDecode(source, className, classDisplayname, fieldInfos, isSet, rawNeeded);
+		generateValueEncodeDecode(source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
 
 		source.append( "\t}\n" );
 	}
@@ -537,9 +538,10 @@ public class RecordSetCodeGenerator {
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * @param displayName: the user readable name of the type to be generated.
 	 * @param fieldInfos: the list of information about the fields.
-	 * @param rawNeeded true if encoding/decoding for RAW is to be generated
+	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
+	 * @param raw the raw coding related settings if applicable.
 	 * */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet, final boolean rawNeeded) {
+	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet, final boolean rawNeeded, final RawASTStruct raw) {
 		source.append("@Override\n");
 		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("switch (p_coding) {\n");
@@ -625,15 +627,41 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
 				}
 			}
+			final int ext_bit_group_length = raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
+			for (int i = 0; i < ext_bit_group_length; i++) {
+				rawAST_coding_ext_group tempGroup = raw.ext_bit_groups.get(i);
+				if (tempGroup.ext_bit != RawASTStruct.XDEFNO) {
+					source.append("{\n");
+					source.append(MessageFormat.format("int node_idx = {0};\n", tempGroup.from));
+					source.append(MessageFormat.format("while (node_idx <= {0} && myleaf.nodes[node_idx] == null) '{'\n", tempGroup.to));
+					source.append("node_idx++;\n");
+					source.append("}\n");
+					source.append("if (myleaf.nodes[node_idx] != null) {\n");
+					source.append("myleaf.nodes[node_idx].ext_bit_handling = 1;\n");
+					source.append(MessageFormat.format("myleaf.nodes[node_idx].ext_bit = ext_bit_t.{0};\n", tempGroup.ext_bit == RawASTStruct.XDEFYES? "EXT_BIT_YES" : "EXT_BIT_REVERSE"));
+					source.append("}\n");
+					source.append(MessageFormat.format("node_idx = {0};\n", tempGroup.to));
+					source.append(MessageFormat.format("while (node_idx >= {0} && myleaf.nodes[node_idx] == null) '{'\n", tempGroup.from));
+					source.append("node_idx--;\n");
+					source.append("}\n");
+					source.append("if (myleaf.nodes[node_idx] != null) {\n");
+					source.append("myleaf.nodes[node_idx].ext_bit_handling += 2;;\n");
+					source.append("}\n");
+					source.append("}\n");
+				}
+			}
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 
 				if (fieldInfo.isOptional) {
 					source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
-					source.append(MessageFormat.format("encoded_length += {0}.RAW_encode({1}_descr_, myleaf.nodes[{2}]);\n", fieldInfo.mVarName, fieldInfo.mTypeDescriptorName, i));
+				}
+
+				
+				source.append(MessageFormat.format("encoded_length += {0}{1}.RAW_encode({2}_descr_, myleaf.nodes[{3}]);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
+				//FIXME implement lengthto, pointerto 618
+				if (fieldInfo.isOptional) {
 					source.append("}\n");
-				} else {
-					source.append(MessageFormat.format("encoded_length += {0}.RAW_encode({1}_descr_, myleaf.nodes[{2}]);\n", fieldInfo.mVarName, fieldInfo.mTypeDescriptorName, i));
 				}
 			}
 
