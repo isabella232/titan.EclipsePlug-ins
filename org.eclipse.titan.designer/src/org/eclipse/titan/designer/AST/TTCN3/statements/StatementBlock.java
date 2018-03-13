@@ -575,7 +575,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
-		
+
 		lastTimeChecked = timestamp;
 
 		if (definitionMap != null) {
