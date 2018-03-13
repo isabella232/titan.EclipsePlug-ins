@@ -124,7 +124,7 @@ pr_XSingleRAWEncodingDef:
 |	pr_XExtensionBitGroupDef		{ raw_f = true;}
 |	pr_XLengthToDef				{ raw_f = true;}
 |	pointerto = pr_XPointerToDef		{rawstruct.pointerto = $pointerto.identifier; raw_f = true;}
-|	unit = pr_XUnitDef			{rawstruct.extension_bit = $unit.value; raw_f = true;}
+|	unit = pr_XUnitDef			{rawstruct.unit = $unit.value; raw_f = true;}
 |	lengthindex = pr_XLengthIndexDef	{rawstruct.lengthindex = new RawAST.rawAST_field_list();
 							rawstruct.lengthindex.names = $lengthindex.values; raw_f = true;}
 |	pr_XTagDef				{raw_f = true;}
