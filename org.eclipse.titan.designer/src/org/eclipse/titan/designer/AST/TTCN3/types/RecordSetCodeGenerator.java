@@ -1,11 +1,15 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_ext_group;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -68,6 +72,19 @@ public class RecordSetCodeGenerator {
 			mTTCN3TypeName = debugName;
 			mTypeDescriptorName = typeDescriptorName;
 		}
+	}
+
+	private static class raw_option_struct {
+		public boolean lengthto;
+		public int lengthof;
+		public ArrayList<Integer> lengthofField;
+		public boolean pointerto;
+		public int pointerof;
+		public boolean ptrbase;
+		public int extbitgroup;
+		public int tag_type;
+		public boolean delayedDecode;
+		public ArrayList<Integer> dependentFields;
 	}
 
 	private RecordSetCodeGenerator() {
@@ -603,6 +620,13 @@ public class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		if (rawNeeded) {
+			ArrayList<raw_option_struct> raw_options = new ArrayList<RecordSetCodeGenerator.raw_option_struct>(fieldInfos.size());
+			AtomicBoolean hasLengthto = new AtomicBoolean();
+			AtomicBoolean hasPointer = new AtomicBoolean();
+			AtomicBoolean hasCrosstag = new AtomicBoolean();
+			AtomicBoolean has_ext_bit = new AtomicBoolean();
+			set_raw_options(isSet, fieldInfos, rawNeeded, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
+			// FIXME generate_raw_coding
 			//FIXME needs to actually handle specific raw attributes
 			source.append("@Override\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
@@ -783,6 +807,100 @@ public class RecordSetCodeGenerator {
 			}
 
 			source.append("}\n\n");
+		}
+	}
+
+	//FIXME comment
+	private static void set_raw_options(final boolean isSet, final List<FieldInfo> fieldInfos, final boolean hasRaw, final RawASTStruct raw, ArrayList<raw_option_struct> raw_options, AtomicBoolean hasLengthto, AtomicBoolean hasPointer, AtomicBoolean hasCrosstag, AtomicBoolean has_ext_bit) {
+		for (int i = 0; i < fieldInfos.size(); i++) {
+			raw_option_struct tempRawOption = new raw_option_struct();
+			raw_options.add(tempRawOption);
+
+			tempRawOption.lengthto = false;
+			tempRawOption.lengthof = 0;
+			tempRawOption.lengthofField = null;
+			tempRawOption.pointerto = false;
+			tempRawOption.pointerof = 0;
+			tempRawOption.ptrbase = false;
+			tempRawOption.extbitgroup = 0;
+			tempRawOption.tag_type = 0;
+			tempRawOption.delayedDecode = false;
+			tempRawOption.dependentFields = null;
+		}
+		hasLengthto.set(false);
+		hasPointer.set(false);
+		hasCrosstag.set(false);
+		has_ext_bit.set(hasRaw && raw.extension_bit != RawASTStruct.XDEFNO && raw.extension_bit != RawASTStruct.XDEFDEFAULT);
+		for (int i = 0; i < fieldInfos.size(); i++) {
+			if (fieldInfos.get(i).hasRaw && fieldInfos.get(i).raw.crosstaglist != null) {
+				hasCrosstag.set(true);
+			}
+		}
+		if (hasRaw) {
+			int taglistSize = raw.taglist == null || raw.taglist.list == null ? 0 : raw.taglist.list.size();
+			for (int i = 0; i < taglistSize; i++) {
+				raw_options.get(raw.taglist.list.get(i).fieldnum).tag_type = i + 1;
+			}
+			int extBitGroupsSize = raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
+			for (int i = 0; i < extBitGroupsSize; i++) {
+				final rawAST_coding_ext_group tempExtGroup = raw.ext_bit_groups.get(i);
+				for (int k = tempExtGroup.from; k <= tempExtGroup.to; k++) {
+					raw_options.get(k).extbitgroup = i + 1;
+				}
+			}
+		}
+		for (int i = 0; i < fieldInfos.size(); i++) {
+			FieldInfo tempFieldInfo = fieldInfos.get(i);
+			int lengthSize = tempFieldInfo.raw == null || tempFieldInfo.raw.lengthto == null ? 0 : tempFieldInfo.raw.lengthto.size();
+			if (tempFieldInfo.hasRaw && lengthSize > 0) {
+				hasLengthto.set(true);
+				raw_options.get(i).lengthto = true;
+				for (int j = 0; j < lengthSize; j++) {
+					int fieldIndex = tempFieldInfo.raw.lengthto.get(j);
+					raw_option_struct tempOptions = raw_options.get(fieldIndex);
+					if (tempOptions.lengthofField == null) {
+						tempOptions.lengthofField = new ArrayList<Integer>();
+					}
+					tempOptions.lengthofField.add(i);
+					tempOptions.lengthof++;
+				}
+			}
+			if (tempFieldInfo.hasRaw && tempFieldInfo.raw.pointerto != -1) {
+				raw_options.get(i).pointerto = true;
+				raw_options.get(fieldInfos.get(i).raw.pointerto).pointerof = i + 1;
+				hasPointer.set(true);
+				raw_options.get(fieldInfos.get(i).raw.pointerbase).ptrbase = true;
+			}
+		}
+		if (!isSet && hasCrosstag.get()) {
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				FieldInfo tempFieldInfo = fieldInfos.get(i);
+				int maxIndex = i;
+				if (!tempFieldInfo.hasRaw) {
+					continue;
+				}
+				int crosstagSize = tempFieldInfo.raw.crosstaglist == null || tempFieldInfo.raw.crosstaglist.list == null ? 0: tempFieldInfo.raw.crosstaglist.list.size();
+				for (int j = 0; j < crosstagSize; j++) {
+					rawAST_coding_taglist crosstag = tempFieldInfo.raw.crosstaglist.list.get(j);
+					int fieldsSize = crosstag == null || crosstag.fields == null ? 0 : crosstag.fields.size(); 
+					for (int k = 0; k < fieldsSize; k++) {
+						rawAST_coding_field_list keyid = crosstag.fields.get(k);
+						if (keyid.fields.size() >= 1) {
+							int fieldIndex = keyid.fields.get(0).nthfield;
+							if (fieldIndex > maxIndex) {
+								maxIndex = fieldIndex;
+							}
+						}
+					}
+				}
+				if (maxIndex > i) {
+					raw_options.get(i).delayedDecode = true;
+					if (raw_options.get(maxIndex).dependentFields == null) {
+						raw_options.get(maxIndex).dependentFields = new ArrayList<Integer>();
+					}
+					raw_options.get(maxIndex).dependentFields.add(i);
+				}
+			}
 		}
 	}
 
