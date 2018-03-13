@@ -152,7 +152,7 @@ public class RecordSetCodeGenerator {
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
 		generateValueEncodeDecodeText(source, fieldInfos);
-		generateValueEncodeDecode(source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
+		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
 
 		source.append( "\t}\n" );
 	}
@@ -551,6 +551,7 @@ public class RecordSetCodeGenerator {
 	/**
 	 * Generate encode/decode
 	 *
+	 * @param aData only used to update imports if needed.
 	 * @param source: where the source code is to be generated.
 	 * @param genName: the name of the generated class representing the union/choice type.
 	 * @param displayName: the user readable name of the type to be generated.
@@ -558,7 +559,7 @@ public class RecordSetCodeGenerator {
 	 * @param rawNeeded true if encoding/decoding for RAW is to be generated.
 	 * @param raw the raw coding related settings if applicable.
 	 * */
-	private static void generateValueEncodeDecode(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet, final boolean rawNeeded, final RawASTStruct raw) {
+	private static void generateValueEncodeDecode(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos, final boolean isSet, final boolean rawNeeded, final RawASTStruct raw) {
 		source.append("@Override\n");
 		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
 		source.append("switch (p_coding) {\n");
@@ -681,13 +682,40 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
 				}
 
-				
-				source.append(MessageFormat.format("encoded_length += {0}{1}.RAW_encode({2}_descr_, myleaf.nodes[{3}]);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
-				//FIXME implement lengthto, pointerto 618
+				if (raw_options.get(i).lengthto && fieldInfo.raw.lengthindex == null && fieldInfo.raw.union_member_num == 0) {
+					aData.addBuiltinTypeImport("RAW.calc_type");
+
+					source.append(MessageFormat.format("encoded_length += {0};\n", fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_LENGTH;\n", i));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+
+					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
+					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.num_of_fields = {1};\n", i, lengthtoSize));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.unit = {1};\n", i, fieldInfo.raw.unit));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.offset = {1};\n", i, fieldInfo.raw.lengthto_offset));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields = new RAW_enc_tr_pos[{1}];\n", i, lengthtoSize));
+					for (int a = 0; a < lengthtoSize; a++) {
+						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
+							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+						}
+						source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
+						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
+							source.append("} else {\n");
+							source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(0, 0);\n", i, a));
+							source.append("}\n");
+						}
+					}
+				} else if (raw_options.get(i).pointerto) {
+					//FIXME implement pointerto support
+				} else {
+					source.append(MessageFormat.format("encoded_length += {0}{1}.RAW_encode({2}_descr_, myleaf.nodes[{3}]);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
+				}
 				if (fieldInfo.isOptional) {
 					source.append("}\n");
 				}
 			}
+			//FIXME implement
 
 			source.append("myleaf.length = encoded_length;\n");
 			source.append("return encoded_length;\n");
