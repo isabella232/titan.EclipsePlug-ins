@@ -409,7 +409,7 @@ public class RAW {
 		}
 	}
 
-	public class RAW_enc_pointer {
+	public static class RAW_enc_pointer {
 		public RAW_enc_tr_pos target;
 		public int ptr_offset;
 		public int unit;
@@ -423,7 +423,7 @@ public class RAW {
 		}
 	}
 
-	public class RAW_enc_lengthto {
+	public static class RAW_enc_lengthto {
 		public int num_of_fields;
 		public RAW_enc_tr_pos fields[];
 		public int unit;
@@ -435,8 +435,6 @@ public class RAW {
 			this.unit = unit;
 			this.offset = offset;
 		}
-
-
 	}
 
 	public static class RAW_coding_par {
