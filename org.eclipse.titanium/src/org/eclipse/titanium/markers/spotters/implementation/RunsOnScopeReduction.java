@@ -75,7 +75,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 			if(isTestCase){
 				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
 			} else {
-				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used, it is erasable.",componentIdentifier.getDisplayName()));
+				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used, can be removed.",componentIdentifier.getDisplayName()));
 			}
 		} else if (!definitions.contains(componentIdentifier)) {
 			ArrayList<Identifier> list = new ArrayList<Identifier>(definitions);
