@@ -684,17 +684,15 @@ public class RecordSetCodeGenerator {
 
 				if (raw_options.get(i).lengthto && fieldInfo.raw.lengthindex == null && fieldInfo.raw.union_member_num == 0) {
 					aData.addBuiltinTypeImport("RAW.calc_type");
+					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
 
 					source.append(MessageFormat.format("encoded_length += {0};\n", fieldInfo.raw.fieldlength));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_LENGTH;\n", i));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.num_of_fields = {1};\n", i, lengthtoSize));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.unit = {1};\n", i, fieldInfo.raw.unit));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.offset = {1};\n", i, fieldInfo.raw.lengthto_offset));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields = new RAW_enc_tr_pos[{1}];\n", i, lengthtoSize));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
@@ -702,12 +700,13 @@ public class RecordSetCodeGenerator {
 						source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
 							source.append("} else {\n");
-							source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(0, 0);\n", i, a));
+							source.append(MessageFormat.format("myleaf.nodes[{0}].lengthto.fields[{1}] = new RAW_enc_tr_pos(0, null);\n", i, a));
 							source.append("}\n");
 						}
 					}
 				} else if (raw_options.get(i).pointerto) {
 					aData.addBuiltinTypeImport("RAW.calc_type");
+					aData.addBuiltinTypeImport("RAW.RAW_enc_pointer");
 
 					if (fieldInfos.get(fieldInfo.raw.pointerto).isOptional) {
 						source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.pointerto).mVarName));
@@ -716,11 +715,7 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_POINTER;\n", i));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.unit = {1};\n", i, fieldInfo.raw.unit));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.ptr_offset = {1};\n", i, fieldInfo.raw.ptroffset));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.ptr_base = {1};\n", i, fieldInfo.raw.pointerbase));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.target.level = myleaf.nodes[{1}].curr_pos.level;\n", i, fieldInfo.raw.pointerto));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.target.pos = myleaf.nodes[{1}].curr_pos.pos;\n", i, fieldInfo.raw.pointerto));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto = new RAW_enc_pointer(new RAW_enc_tr_pos(myleaf.nodes[{1}].curr_pos.level, myleaf.nodes[{1}].curr_pos.pos), {2}, {3}, {4});\n", i, fieldInfo.raw.pointerto, fieldInfo.raw.ptroffset, fieldInfo.raw.unit, fieldInfo.raw.pointerbase));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].length = {1};\n", i, fieldInfo.raw.fieldlength));
 					if (fieldInfos.get(fieldInfo.raw.pointerto).isOptional) {
 						source.append("} else {\n");
