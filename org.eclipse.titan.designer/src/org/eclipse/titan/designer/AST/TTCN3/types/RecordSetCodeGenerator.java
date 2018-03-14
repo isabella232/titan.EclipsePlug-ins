@@ -730,7 +730,54 @@ public class RecordSetCodeGenerator {
 					source.append("}\n");
 				}
 			}
+			for (int i = 0; i < fieldInfos.size(); i++) {
+				final FieldInfo fieldInfo = fieldInfos.get(i);
+
+				if (raw_options.get(i).lengthto && fieldInfo.raw.lengthindex != null) {
+					aData.addBuiltinTypeImport("RAW.calc_type");
+					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
+
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+					}
+
+					source.append(MessageFormat.format("if (myleaf.nodes[{0}].nodes[{1}] != null) '{'\n", i, fieldInfo.raw.lengthindex.nthfield));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].calc = calc_type.CALC_LENGTH;\n", i, fieldInfo.raw.lengthindex.nthfield));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.mTypeDescriptorName));
+
+					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].length = {1};\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto = new RAW_enc_lengthto({2}, new RAW_enc_tr_pos[{2}], {3}, {4});\n", i, fieldInfo.raw.lengthindex.nthfield, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					for (int a = 0; a < lengthtoSize; a++) {
+						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
+							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+						}
+						source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(myleaf.nodes[{3}].curr_pos.level, myleaf.nodes[{3}].curr_pos.pos);\n", i, fieldInfo.raw.lengthindex.nthfield, a, fieldInfo.raw.lengthto.get(a)));
+						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
+							source.append("} else {\n");
+							source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto.fields[{2}] = new RAW_enc_tr_pos(0, null);\n", i, fieldInfo.raw.lengthindex.nthfield, a));
+							source.append("}\n");
+						}
+					}
+					source.append("}\n");
+
+					if (fieldInfo.isOptional) {
+						source.append("}\n");
+					}
+				}
+				
+				//FIXME implement
+			}
 			//FIXME implement
+			// presence
+			final int presenceLength = raw.presence == null || raw.presence.fields == null ? 0 : raw.presence.fields.size();
+			if (presenceLength > 0) {
+				source.append(" if (");
+				UnionGenerator.genRawFieldChecker(source, raw.presence, false);
+				source.append(" ) {\n");
+				UnionGenerator.genRawTagChecker(source, raw.presence);
+				source.append("}\n");
+			}
 
 			source.append("myleaf.length = encoded_length;\n");
 			source.append("return encoded_length;\n");
