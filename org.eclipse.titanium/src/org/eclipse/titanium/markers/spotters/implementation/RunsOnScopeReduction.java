@@ -43,15 +43,26 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 			if (componentType == null) {
 				return;
 			}
+
 			componentIdentifier = componentType.getComponentBody().getIdentifier();
 			identifier = variable.getIdentifier();
 		} else if (node instanceof Def_Altstep) {
 			final Def_Altstep variable = (Def_Altstep) node;
-			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
+			final Component_Type componentType = variable.getRunsOnType(timestamp); 
+			if (componentType == null) {
+				return;
+			}
+
+			componentIdentifier = componentType.getComponentBody().getIdentifier();
 			identifier = variable.getIdentifier();
 		} else {
 			final Def_Testcase variable = (Def_Testcase) node;
-			componentIdentifier = variable.getRunsOnType(timestamp).getComponentBody().getIdentifier();
+			final Component_Type componentType = variable.getRunsOnType(timestamp); 
+			if (componentType == null) {
+				return;
+			}
+
+			componentIdentifier = componentType.getComponentBody().getIdentifier();
 			identifier = variable.getIdentifier();
 			isTestCase = true;
 		}
