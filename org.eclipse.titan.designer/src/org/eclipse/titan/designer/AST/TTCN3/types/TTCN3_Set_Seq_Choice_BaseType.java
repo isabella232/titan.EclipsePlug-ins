@@ -1169,20 +1169,12 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							return null;
 						}
 						final Type t_field2 = cf2.getType();
-						switch (t_field2.getTypetype()) {
-						case TYPE_TTCN3_CHOICE:
+						if (t_field2.getTypetype() == Type_type.TYPE_TTCN3_CHOICE) {
 							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.UNION_FIELD;
-							break;
-						case TYPE_TTCN3_SEQUENCE:
-						case TYPE_TTCN3_SET:
-							if (cf2.isOptional()) {
-								element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
-							} else {
-								element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
-							}
-							break;
-						default:
-							return null;
+						} else if (cf2.isOptional()) {
+							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+						} else {
+							element_i.raw.lengthindex.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
 						}
 
 						element_i.raw.lengthindex.type = t_field2.getGenNameValue(aData, source, myScope);
