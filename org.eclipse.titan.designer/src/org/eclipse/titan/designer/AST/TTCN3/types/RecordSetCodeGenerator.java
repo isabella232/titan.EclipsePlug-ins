@@ -716,7 +716,7 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}].calc = calc_type.CALC_POINTER;\n", i));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
-					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.unit = {1};\n", i, fieldInfo.raw.unit));//FIXME hibas ertek irodik ki
+					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.unit = {1};\n", i, fieldInfo.raw.unit));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.ptr_offset = {1};\n", i, fieldInfo.raw.ptroffset));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.ptr_base = {1};\n", i, fieldInfo.raw.pointerbase));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].pointerto.target.level = myleaf.nodes[{1}].curr_pos.level;\n", i, fieldInfo.raw.pointerto));
