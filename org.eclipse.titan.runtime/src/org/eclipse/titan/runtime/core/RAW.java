@@ -337,7 +337,7 @@ public class RAW {
 				t = t.parent;
 			}
 			for (cur_level = 1; cur_level < req_pos.level; cur_level++) {
-				if (t == null || t.isleaf || num_of_nodes <= req_pos.pos[cur_level]) {
+				if (t == null || t.isleaf || t.num_of_nodes <= req_pos.pos[cur_level]) {
 					return null;
 				}
 				t = t.nodes[req_pos.pos[cur_level]];
