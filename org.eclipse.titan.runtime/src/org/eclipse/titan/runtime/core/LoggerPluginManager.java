@@ -102,18 +102,22 @@ public class LoggerPluginManager {
 	}
 
 	public void end_event() {
-		if (current_event != null) {
-			//TODO temporary solution for filtering
-			if (TtcnLogger.log_this_event(current_event.severity)) {
-				log_unhandled_event(current_event.severity, current_event.buffer.toString());
-			}
+		if (current_event == null) {
+			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::end_event(): not in event.");
+			return;
+		}
 
-			events.pop();
-			if (!events.isEmpty()) {
-				current_event = events.peek();
-			} else {
-				current_event = null;
-			}
+		// TODO handle event destination.
+		//TODO temporary solution for filtering
+		if (TtcnLogger.log_this_event(current_event.severity)) {
+			log_unhandled_event(current_event.severity, current_event.buffer.toString());
+		}
+
+		events.pop();
+		if (!events.isEmpty()) {
+			current_event = events.peek();
+		} else {
+			current_event = null;
 		}
 	}
 
