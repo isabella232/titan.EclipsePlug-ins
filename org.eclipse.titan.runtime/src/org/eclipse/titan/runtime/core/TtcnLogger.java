@@ -766,6 +766,10 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_defaultop_exit(name, id, x);
 	}
 
+	public static void log_matching_done(final String type, final int ptc, final String return_type, final TitanLoggerApi.MatchingDoneType_reason.enum_type reason) {
+		get_logger_plugin_manager().log_matching_done(reason, type, ptc, return_type);
+	}
+
 	public static void log_matching_problem(final TitanLoggerApi.MatchingProblemType_reason.enum_type reason, final TitanLoggerApi.MatchingProblemType_operation.enum_type operation, final boolean check, final boolean anyport, final String port_name) {
 		get_logger_plugin_manager().log_matching_problem(reason, operation, check, anyport, port_name);
 	}

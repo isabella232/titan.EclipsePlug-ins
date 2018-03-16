@@ -16,6 +16,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingFailureType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingProblemType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingSuccessType;
@@ -599,6 +600,22 @@ public class LoggerPluginManager {
 		defaultop.getName().assign(name);
 		defaultop.getId().assign(id);
 		defaultop.getEnd().assign(x);
+
+		log(event);
+	}
+
+	public void log_matching_done(final TitanLoggerApi.MatchingDoneType_reason.enum_type reason, final String type, final int ptc, final String return_type) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_DONE) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.MATCHING_DONE);
+		final MatchingDoneType mp = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingDone();
+		mp.getReason().assign(reason);
+		mp.getType__().assign(type);
+		mp.getPtc().assign(ptc);
+		mp.getReturn__type().assign(return_type);
 
 		log(event);
 	}

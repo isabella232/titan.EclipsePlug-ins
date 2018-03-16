@@ -14,6 +14,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingFailureType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingProblemType;
@@ -320,6 +321,39 @@ public class LegacyLogger implements ILoggerPlugin {
 
 	private static void matchingop_str(final StringBuilder returnValue, final MatchingEvent_choice choice) {
 		switch (choice.get_selection()) {
+		case ALT_MatchingDone: {
+			MatchingDoneType md = choice.getMatchingDone();
+			switch (md.getReason().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case done__failed__no__return:
+				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function did not return a value.", md.getType__().getValue(), md.getPtc().getInt()));
+				break;
+			case done__failed__wrong__return__type:
+				returnValue.append(MessageFormat.format("Done operation with type {0} on PTC {1}  failed: The started function returned a value of type {2}.", md.getType__().getValue(), md.getPtc().getInt(), md.getReturn__type().getValue()));
+				break;
+			case any__component__done__successful:
+				returnValue.append("Operation 'any component.done' was successful.");
+				break;
+			case any__component__done__failed:
+				returnValue.append("Operation 'any component.done' failed because no PTCs were created in the testcase.");
+				break;
+			case all__component__done__successful:
+				returnValue.append("Operation 'all component.done' was successful.");
+				break;
+			case any__component__killed__successful:
+				returnValue.append("Operation 'any component.killed' was successful.");
+				break;
+			case any__component__killed__failed:
+				returnValue.append("Operation 'any component.killed' failed because no PTCs were created in the testcase.");
+				break;
+			case all__component__killed__successful:
+				returnValue.append("Operation 'all component.killed' was successful.");
+				break;
+			}
+			break;
+		}
 		case ALT_MatchingTimeout: {
 			final MatchingTimeout mt = choice.getMatchingTimeout();
 			if (mt.getTimer__name().isPresent()) {
@@ -431,7 +465,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			break;
 		}
-		//FIXME implement the rest of the branches
+		case UNBOUND_VALUE:
+			break;
 		}
 	}
 
