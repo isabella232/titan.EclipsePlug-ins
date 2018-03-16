@@ -29,6 +29,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__in;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__out;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.SetVerdictType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice_verdictStatistics;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
@@ -36,6 +37,8 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
+import com.sun.org.apache.bcel.internal.generic.FSTORE;
 
 /**
  * A logger plugin implementing the legacy logger behaviour.
@@ -266,13 +269,36 @@ public class LegacyLogger implements ILoggerPlugin {
 
 	private static void statistics_str(final StringBuilder returnValue, final StatisticsType_choice choice) {
 		switch (choice.get_selection()) {
+		case ALT_VerdictStatistics: {
+			final StatisticsType_choice_verdictStatistics statistics = choice.getVerdictStatistics();
+			int none_count = statistics.getNone__().getInt();
+			int pass_count = statistics.getPass__().getInt();
+			int inconc_count = statistics.getInconc__().getInt();
+			int fail_count = statistics.getFail__().getInt();
+			int error_count = statistics.getError__().getInt();
+			if (none_count > 0 || pass_count > 0 || inconc_count > 0 || fail_count > 0 || error_count > 0) {
+				returnValue.append(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
+								none_count, statistics.getNonePercent().getValue(),
+								pass_count, statistics.getPassPercent().getValue(),
+								inconc_count, statistics.getInconcPercent().getValue(),
+								fail_count, statistics.getFailPercent().getValue(),
+								error_count, statistics.getErrorPercent().getValue()));
+			} else {
+				returnValue.append("Verdict statistics: 0 none, 0 pass, 0 inconc, 0 fail, 0 error.");
+			}
+			break;
+		}
 		case ALT_ControlpartStart:
 			returnValue.append(MessageFormat.format("Execution of control part in module {0} started.", choice.getControlpartStart().getValue()));
 			break;
 		case ALT_ControlpartFinish:
 			returnValue.append(MessageFormat.format("Execution of control part in module {0} finished.", choice.getControlpartFinish().getValue()));
 			break;
-			//FIXME implement the rest of the branches
+		case ALT_ControlpartErrors:
+			returnValue.append(MessageFormat.format("Number of errors outside test cases: {0}", choice.getControlpartErrors().getInt()));
+			break;
+		case UNBOUND_VALUE:
+			break;
 		}
 	}
 

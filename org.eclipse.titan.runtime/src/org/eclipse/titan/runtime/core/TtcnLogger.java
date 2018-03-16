@@ -741,6 +741,19 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_controlpart_start_stop(moduleName, finished);
 	}
 
+	public static void log_controlpart_errors(final int error_count) {
+		get_logger_plugin_manager().log_controlpart_errors(error_count);
+	}
+
+	public static void log_verdict_statistics(final int none_count, final double none_percent,
+			final int pass_count, final double pass_percent,
+			final int inconc_count, final double inconc_percent,
+			final int fail_count, final double fail_percent,
+			final int error_count, final double error_percent) {
+		get_logger_plugin_manager().log_verdict_statistics(none_count, none_percent, pass_count, pass_percent, inconc_count, inconc_percent,
+				fail_count, fail_percent, error_count, error_percent);
+	}
+
 	public static void log_defaultop_activate(final String name, final int id) {
 		get_logger_plugin_manager().log_defaultop_activate(name, id);
 	}

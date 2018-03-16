@@ -22,6 +22,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingSuccessType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingTimeout;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__recv;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__send;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.PortType.enum_type;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Misc;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Queue;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__State;
@@ -30,12 +31,12 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__out;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.QualifiedName;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.SetVerdictType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice_verdictStatistics;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
-import org.eclipse.titan.runtime.core.TitanLoggerApi.PortType.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
@@ -513,6 +514,46 @@ public class LoggerPluginManager {
 		} else {
 			stats.getChoice().getControlpartStart().assign(moduleName);
 		}
+
+		log(event);
+	}
+
+	public void log_controlpart_errors(final int error_count) {
+		if (!TtcnLogger.log_this_event(Severity.STATISTICS_UNQUALIFIED) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, Severity.STATISTICS_UNQUALIFIED);
+		final StatisticsType stats = event.getLogEvent().getChoice().getStatistics();
+		stats.getChoice().getControlpartErrors().assign(error_count);
+
+		log(event);
+	}
+
+	public void log_verdict_statistics(final int none_count, final double none_percent,
+			final int pass_count, final double pass_percent,
+			final int inconc_count, final double inconc_percent,
+			final int fail_count, final double fail_percent,
+			final int error_count, final double error_percent) {
+		if (!TtcnLogger.log_this_event(Severity.STATISTICS_VERDICT) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, Severity.STATISTICS_VERDICT);
+		final StatisticsType stats = event.getLogEvent().getChoice().getStatistics();
+		final StatisticsType_choice_verdictStatistics verdictStats = stats.getChoice().getVerdictStatistics();
+		verdictStats.getNone__().assign(none_count);
+		verdictStats.getNonePercent().assign(none_percent);
+		verdictStats.getPass__().assign(pass_count);
+		verdictStats.getPassPercent().assign(pass_percent);
+		verdictStats.getInconc__().assign(inconc_count);
+		verdictStats.getInconcPercent().assign(inconc_percent);
+		verdictStats.getFail__().assign(fail_count);
+		verdictStats.getFailPercent().assign(fail_percent);
+		verdictStats.getError__().assign(error_count);
+		verdictStats.getErrorPercent().assign(error_percent);
 
 		log(event);
 	}
