@@ -745,6 +745,14 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_defaultop_activate(name, id);
 	}
 
+	public static void log_defaultop_deactivate(final String name, final int id) {
+		get_logger_plugin_manager().log_defaultop_deactivate(name, id);
+	}
+
+	public static void log_defaultop_exit(final String name, final int id, final int x) {
+		get_logger_plugin_manager().log_defaultop_exit(name, id, x);
+	}
+
 	public static void log_matching_problem(final TitanLoggerApi.MatchingProblemType_reason.enum_type reason, final TitanLoggerApi.MatchingProblemType_operation.enum_type operation, final boolean check, final boolean anyport, final String port_name) {
 		get_logger_plugin_manager().log_matching_problem(reason, operation, check, anyport, port_name);
 	}

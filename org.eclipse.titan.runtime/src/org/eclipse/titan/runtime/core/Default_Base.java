@@ -12,7 +12,7 @@ package org.eclipse.titan.runtime.core;
  *
  * @author Kristof Szabados
  *
- * FIXME implement rest
+ * FIXME implement destructor.
  */
 public class Default_Base {
 	private int defaultId;
@@ -28,6 +28,14 @@ public class Default_Base {
 		defaultId = TTCN_Default.activate(this);
 		this.altstepName = altstepName;
 		TtcnLogger.log_defaultop_activate(altstepName, defaultId);
+	}
+
+	public int getDefaultId() {
+		return defaultId;
+	}
+
+	public String getAlstepName() {
+		return altstepName;
 	}
 
 	// originally call_altstep

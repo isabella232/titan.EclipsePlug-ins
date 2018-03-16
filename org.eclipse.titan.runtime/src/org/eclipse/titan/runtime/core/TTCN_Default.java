@@ -45,7 +45,7 @@ public final class TTCN_Default {
 			throw new TtcnError("Performing a deactivate operation on an unbound default reference.");
 		}
 		if (removableDefault.default_ptr == null) {
-			//TODO log
+			TtcnLogger.log_defaultop_deactivate(null, 0);
 		} else {
 			deactivate(removableDefault.default_ptr);
 		}
@@ -62,13 +62,13 @@ public final class TTCN_Default {
 			final Default_Base actualDefault = DEFAULTS.get(i);
 			switch (actualDefault.call_altstep()) {
 			case ALT_YES:
-				//TODO log
+				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.finish.ordinal());
 				return TitanAlt_Status.ALT_YES;
 			case ALT_REPEAT:
-				//TODO log
+				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.repeat__.ordinal());
 				return TitanAlt_Status.ALT_REPEAT;
 			case ALT_BREAK:
-				//TODO log
+				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.break__.ordinal());
 				return TitanAlt_Status.ALT_BREAK;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;

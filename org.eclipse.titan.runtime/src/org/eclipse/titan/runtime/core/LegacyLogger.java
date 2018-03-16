@@ -192,8 +192,10 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_UnqualifiedTimer: {
 			returnValue.append(choice.getUnqualifiedTimer().getValue());
-			break;}
-		//FIXME implement missing branches
+			break;
+		}
+		case UNBOUND_VALUE:
+			break;
 		}
 	}
 
@@ -204,7 +206,37 @@ public class LegacyLogger implements ILoggerPlugin {
 			returnValue.append(MessageFormat.format("Altstep {0} was activated as default, id {1}", dflt.getName().getValue(), dflt.getId().getInt()));
 			break;
 		}
-		//FIXME implement missing branches
+		case ALT_DefaultopDeactivate: {
+			final DefaultOp dflt = choice.getDefaultopDeactivate();
+			if (dflt.getName().lengthOf().isGreaterThan(0)) {
+				returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) was deactivated.", dflt.getId().getInt(), dflt.getName().getValue()));
+			} else {
+				returnValue.append("Deactivate operation on a null default reference was ignored.");
+			}
+			break;
+		}
+		case ALT_DefaultopExit: {
+			final DefaultOp dflt = choice.getDefaultopExit();
+			returnValue.append(MessageFormat.format("Default with id {0} (altstep {1}) ", dflt.getId().getInt(), dflt.getName().getValue()));
+
+			switch (dflt.getEnd().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case finish:
+				returnValue.append("finished. Skipping current alt statement or receiving operation.");
+				break;
+			case break__:
+				returnValue.append("has reached a repeat statement.");
+				//FIXME break and repeat might be mixed up !!!
+				break;
+			case repeat__:
+				returnValue.append("has reached a break statement. Skipping current alt statement or receiving operation.");
+				break;
+			}
+		}
+		case UNBOUND_VALUE:
+			break;
 		}
 	}
 

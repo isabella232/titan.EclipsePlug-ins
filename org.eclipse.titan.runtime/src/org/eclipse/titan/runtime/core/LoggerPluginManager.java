@@ -532,6 +532,35 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
+	public void log_defaultop_deactivate(final String name, final int id) {
+		if (!TtcnLogger.log_this_event(Severity.DEFAULTOP_DEACTIVATE) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.DEFAULTOP_DEACTIVATE);
+		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopDeactivate();
+		defaultop.getName().assign(name);
+		defaultop.getId().assign(id);
+		defaultop.getEnd().assign(DefaultEnd.enum_type.UNKNOWN_VALUE);
+
+		log(event);
+	}
+
+	public void log_defaultop_exit(final String name, final int id, final int x) {
+		if (!TtcnLogger.log_this_event(Severity.DEFAULTOP_EXIT) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.DEFAULTOP_EXIT);
+		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopExit();
+		defaultop.getName().assign(name);
+		defaultop.getId().assign(id);
+		defaultop.getEnd().assign(x);
+
+		log(event);
+	}
 
 	public void log_matching_problem(final TitanLoggerApi.MatchingProblemType_reason.enum_type reason, final TitanLoggerApi.MatchingProblemType_operation.enum_type operation, final boolean check, final boolean anyport, final String port_name) {
 		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PROBLEM) && (TtcnLogger.get_emergency_logging() <= 0)) {
