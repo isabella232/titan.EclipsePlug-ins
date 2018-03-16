@@ -33,6 +33,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.SetVerdictType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Setstate;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice_verdictStatistics;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.Strings_str__list;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
@@ -128,8 +129,36 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_TestcaseOp:
 			testcaseop_str(returnValue, choice.getTestcaseOp().getChoice());
 			break;
+		case ALT_ActionEvent: {
+			final Strings_str__list slist = choice.getActionEvent().getStr__list();
+			final int size = slist.sizeOf().getInt();
+			for (int i = 0; i < size; i++) {
+				returnValue.append(slist.getAt(i).getValue());
+			}
+			break;
+		}
+		case ALT_UserLog: {
+			final Strings_str__list slist = choice.getUserLog().getStr__list();
+			final int size = slist.sizeOf().getInt();
+			for (int i = 0; i < size; i++) {
+				returnValue.append(slist.getAt(i).getValue());
+			}
+			break;
+		}
+		case ALT_DebugLog:
+			returnValue.append(choice.getDebugLog().getText().getValue());
+			break;
+		case ALT_ErrorLog:
+			returnValue.append(choice.getErrorLog().getText().getValue());
+			break;
+		case ALT_WarningLog:
+			returnValue.append(choice.getWarningLog().getText().getValue());
+			break;
 		case ALT_DefaultEvent:
 			defaultop_event_str(returnValue, choice.getDefaultEvent().getChoice());
+			break;
+		case ALT_ExecutionSummary:
+			//TODO needs to be checked if this needs to be empty.
 			break;
 		case ALT_MatchingEvent:
 			matchingop_str(returnValue, choice.getMatchingEvent().getChoice());
