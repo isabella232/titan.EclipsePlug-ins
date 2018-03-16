@@ -718,6 +718,15 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_dualport_map(incoming, target_type, value, id);
 	}
 
+	public static void log_dualport_discard(final boolean incoming, final String target_type, final TitanCharString port_name, final boolean unhandled) {
+		get_logger_plugin_manager().log_dualport_discard(incoming, target_type, port_name, unhandled);
+	}
+
+//	FIXME enable once translation ports are supported
+//	public static void log_setstate(final TitanCharString port_name, final translation_port_state state, final TitanCharString info) {
+//		get_logger_plugin_manager().log_setstate(port_name, state, info);
+//	}
+
 	public static void log_setverdict(final VerdictTypeEnum newVerdict, final VerdictTypeEnum oldVerdict, final VerdictTypeEnum localVerdict,
 			final String oldReason, final String newReason) {
 		get_logger_plugin_manager().log_setverdict(newVerdict, oldVerdict, localVerdict, oldReason, newReason);

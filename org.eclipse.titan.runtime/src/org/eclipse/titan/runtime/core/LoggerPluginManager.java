@@ -14,6 +14,7 @@ import java.util.Stack;
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
@@ -432,6 +433,23 @@ public class LoggerPluginManager {
 		dual.getTarget__type().assign(target_type);
 		dual.getValue__().assign(value);
 		dual.getMsgid().assign(id);
+
+		log(event);
+	}
+
+	public void log_dualport_discard(final boolean incoming, final String target_type, final TitanCharString port_name, final boolean unhandled) {
+		final Severity severity = incoming ? Severity.PORTEVENT_DUALRECV : Severity.PORTEVENT_DUALSEND;
+		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, severity);
+		final Dualface__discard dual = event.getLogEvent().getChoice().getPortEvent().getChoice().getDualDiscard();
+		dual.getIncoming().assign(incoming);
+		dual.getTarget__type().assign(target_type);
+		dual.getPort__name().assign(port_name);
+		dual.getUnhandled().assign(unhandled);
 
 		log(event);
 	}

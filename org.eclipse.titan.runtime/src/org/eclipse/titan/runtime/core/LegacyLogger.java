@@ -11,6 +11,7 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
@@ -29,6 +30,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__State;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__in;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__out;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.SetVerdictType;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.Setstate;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice_verdictStatistics;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseEvent_choice;
@@ -613,6 +615,24 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			break;
 		}
+		case ALT_DualDiscard: {
+			final Dualface__discard dual = choice.getDualDiscard();
+			returnValue.append(MessageFormat.format("{0} message of type {1} ", (dual.getIncoming().getValue() ? "Incoming" : "Outgoing"), dual.getTarget__type().getValue()));
+			if (dual.getUnhandled().getValue()) {
+				returnValue.append(MessageFormat.format("could not be handled by the type mapping rules on port {0}.  The message was discarded.", dual.getPort__name().getValue()));
+			} else {
+				returnValue.append(MessageFormat.format(" was discarded on port {0}", dual.getPort__name().getValue()));
+			}
+			break;
+		}
+		case ALT_SetState: {
+			final Setstate setstate = choice.getSetState();
+			returnValue.append(MessageFormat.format("The state of the {0} port was changed by a setstate operation to {1}.", setstate.getPort__name().getValue(), setstate.getState().getValue()));
+			if (setstate.getInfo().lengthOf().getInt() != 0) {
+				returnValue.append(MessageFormat.format(" Information: {0}", setstate.getInfo().getValue()));
+			}
+			break;
+		}
 		case ALT_PortMisc: {
 			final Port__Misc portMisc = choice.getPortMisc();
 			final String comp_str = TitanComponent.get_component_string(portMisc.getRemote__component().getInt());
@@ -682,7 +702,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			break;
 		}
-		//FIXME implement rest
+		case UNBOUND_VALUE:
+			break;
 		}
 	}
 }
