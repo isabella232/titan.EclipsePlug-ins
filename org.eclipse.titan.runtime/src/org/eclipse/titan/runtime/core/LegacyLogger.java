@@ -119,11 +119,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_TimerEvent:
 			timer_event_str(returnValue, choice.getTimerEvent().getChoice());
 			break;
-		case ALT_VerdictOp:
-			verdictop_str(returnValue, choice.getVerdictOp().getChoice());
-			break;
 		case ALT_Statistics:
 			statistics_str(returnValue, choice.getStatistics().getChoice());
+			break;
+		case ALT_VerdictOp:
+			verdictop_str(returnValue, choice.getVerdictOp().getChoice());
 			break;
 		case ALT_TestcaseOp:
 			testcaseop_str(returnValue, choice.getTestcaseOp().getChoice());
@@ -133,9 +133,6 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		case ALT_MatchingEvent:
 			matchingop_str(returnValue, choice.getMatchingEvent().getChoice());
-			break;
-		case ALT_PortEvent:
-			portevent_str(returnValue, choice.getPortEvent().getChoice());
 			break;
 		case ALT_FunctionEvent: {
 			switch (choice.getFunctionEvent().getChoice().get_selection()) {
@@ -160,6 +157,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			break;
 		}
+		case ALT_PortEvent:
+			portevent_str(returnValue, choice.getPortEvent().getChoice());
+			break;
 		//FIXME implement missing branches
 		}
 		return returnValue.toString();
