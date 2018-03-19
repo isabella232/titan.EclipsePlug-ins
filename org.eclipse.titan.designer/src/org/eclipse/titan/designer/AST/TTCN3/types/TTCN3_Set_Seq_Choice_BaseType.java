@@ -583,7 +583,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 
-			if (tempCodingType.builtIn && tempCodingType.builtInCoding == coding) {
+			if (tempCodingType.builtIn && tempCodingType.builtInCoding.equals(coding)) {
 				return true; // coding already added
 			}
 		}
