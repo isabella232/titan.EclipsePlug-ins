@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.Open_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.AttributeSpecification;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
@@ -792,57 +793,62 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 //				singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("No encoding rules defined for type `{0}''", getTypename()));
 //			}
 		} else {
-			final List<String> codingStrings = singleWithAttribute.getAttributeSpecification().getEncodings();
-			// gather the built-in codecs referred to by the variant's encoding strings
-			final ArrayList<MessageEncoding_type> codings = new ArrayList<IType.MessageEncoding_type>();
-			boolean erroneous = false;
-			if (codingStrings == null) {
-				if (type.getCodingTable().size() > 1) {
-					if (!global) {
-						singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("The encoding reference is mandatory for variant attributes of type  `{0}''", getTypename()));
-					}
-					erroneous = true;
-				} else if (type.getCodingTable().get(0).builtIn) {
-					codings.add(type.getCodingTable().get(0).builtInCoding);
-				} else { // PER or custom encoding
-					final MessageEncoding_type coding = "PER".equals(type.getCodingTable().get(0).customCoding.name) ? MessageEncoding_type.PER: MessageEncoding_type.CUSTOM;
-					singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to `{0}'' encoding are ignored", coding.getEncodingName()));
-				}
+			final AttributeSpecification as = singleWithAttribute.getAttributeSpecification();
+			if (as == null) {
+				singleWithAttribute.getLocation().reportSemanticError("Missing attribute specification"); //attribute is not filled in yet, it is under typing
 			} else {
-				for (int i = 0; i < codingStrings.size(); i++) {
-					final String encodingString = codingStrings.get(i);
-					final MessageEncoding_type coding = getEncodingType(encodingString);
-					if (!hasEncoding(coding, encodingString)) {
-						erroneous = true;
-						//FIXME RAW restriction only exists because that is the only supported encoding right now
-						if (!global && coding == MessageEncoding_type.RAW) {
-							if (coding == MessageEncoding_type.CUSTOM) {
-								singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support {1} encoding", getTypename(), coding.getEncodingName()));
-							} else {
-								singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support custom encoding `{1}''", getTypename(), encodingString));
-							}
+				final List<String> codingStrings = as.getEncodings();
+				// gather the built-in codecs referred to by the variant's encoding strings
+				final ArrayList<MessageEncoding_type> codings = new ArrayList<IType.MessageEncoding_type>();
+				boolean erroneous = false;
+				if (codingStrings == null) {
+					if (type.getCodingTable().size() > 1) {
+						if (!global) {
+							singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("The encoding reference is mandatory for variant attributes of type  `{0}''", getTypename()));
 						}
-					} else if (coding != MessageEncoding_type.PER && coding != MessageEncoding_type.CUSTOM) {
-						codings.add(coding);
+						erroneous = true;
+					} else if (type.getCodingTable().get(0).builtIn) {
+						codings.add(type.getCodingTable().get(0).builtInCoding);
 					} else { // PER or custom encoding
-						singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to {0} encoding are ignored", coding.getEncodingName()));
+						final MessageEncoding_type coding = "PER".equals(type.getCodingTable().get(0).customCoding.name) ? MessageEncoding_type.PER: MessageEncoding_type.CUSTOM;
+						singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to `{0}'' encoding are ignored", coding.getEncodingName()));
+					}
+				} else {
+					for (int i = 0; i < codingStrings.size(); i++) {
+						final String encodingString = codingStrings.get(i);
+						final MessageEncoding_type coding = getEncodingType(encodingString);
+						if (!hasEncoding(coding, encodingString)) {
+							erroneous = true;
+							//FIXME RAW restriction only exists because that is the only supported encoding right now
+							if (!global && coding == MessageEncoding_type.RAW) {
+								if (coding == MessageEncoding_type.CUSTOM) {
+									singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support {1} encoding", getTypename(), coding.getEncodingName()));
+								} else {
+									singleWithAttribute.getLocation().reportSemanticError(MessageFormat.format("Type `{0}'' does not support custom encoding `{1}''", getTypename(), encodingString));
+								}
+							}
+						} else if (coding != MessageEncoding_type.PER && coding != MessageEncoding_type.CUSTOM) {
+							codings.add(coding);
+						} else { // PER or custom encoding
+							singleWithAttribute.getLocation().reportSemanticWarning(MessageFormat.format("Variant attributes related to {0} encoding are ignored", coding.getEncodingName()));
+						}
 					}
 				}
-			}
-			//FIXME implement checks
-			//TODO only raw data is extracted
-			final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
-			boolean newRaw = false;
-			final AtomicBoolean rawFoud = new AtomicBoolean(false);
-			if (rawAttribute == null) {
-				rawAttribute = new RawAST(getDefaultRawFieldLength());
-				newRaw = true;
-			}
+				//FIXME implement checks
+				//TODO only raw data is extracted
+				final VariantAttributeAnalyzer analyzer = new VariantAttributeAnalyzer();
+				boolean newRaw = false;
+				final AtomicBoolean rawFoud = new AtomicBoolean(false);
+				if (rawAttribute == null) {
+					rawAttribute = new RawAST(getDefaultRawFieldLength());
+					newRaw = true;
+				}
 
-			analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFoud);
+				analyzer.parse(rawAttribute, singleWithAttribute.getAttributeSpecification(), getLengthMultiplier(), rawFoud);
 
-			if (!rawFoud.get() && newRaw) {
-				rawAttribute = null;
+				if (!rawFoud.get() && newRaw) {
+					rawAttribute = null;
+				}
 			}
 		}
 		if (global) {
