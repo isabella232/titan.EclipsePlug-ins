@@ -683,7 +683,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 							for (int i = 0; i < realAttributes.size(); i++) {
 								final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 								if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
-									for (int j = 0; j < typeList.size(); j++) {
+									for (int j = typeList.size() - 1; j >= 0; j--) {
 										typeList.get(j).addCoding(timestamp, singleWithAttribute.getAttributeSpecification().getSpecification(), Attribute_Modifier_type.MOD_NONE, true);
 									}
 								}
@@ -812,7 +812,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				for (int i = 0; i < codingStrings.size(); i++) {
 					final String encodingString = codingStrings.get(i);
 					final MessageEncoding_type coding = getEncodingType(encodingString);
-					if (!hasEncoding(coding, encodingString)) {
+					if (!hasEncoding(timestamp, coding, encodingString)) {
 						erroneous = true;
 						//FIXME RAW restriction only exists because that is the only supported encoding right now
 						if (!global && coding == MessageEncoding_type.RAW) {
@@ -917,7 +917,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 
 			final String codingName = tempCodingType.builtIn ? tempCodingType.builtInCoding.getEncodingName() : tempCodingType.customCoding.name;
-			if (!name.equals(codingName)) {
+			if (name.equals(codingName)) {
 				return; // coding already added
 			}
 		}
@@ -938,7 +938,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		default:{
 			IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHaveCoding = getTypeRefdLast(timestamp).canHaveCoding(builtInCoding, chain);
+			final boolean canHaveCoding = getTypeRefdLast(timestamp).canHaveCoding(timestamp, builtInCoding, chain);
 			chain.release();
 			if (canHaveCoding) {
 				final Coding_Type newCoding = new Coding_Type();
@@ -1078,7 +1078,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final MessageEncoding_type coding, IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, IReferenceChain refChain) {
 		if (refChain.contains(this)) {
 			return true;
 		}
@@ -1088,7 +1088,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean hasEncoding(final MessageEncoding_type coding, final String customEncoding) {
+	public boolean hasEncoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final String customEncoding) {
 		if (coding == MessageEncoding_type.UNDEFINED || (coding == MessageEncoding_type.CUSTOM && customEncoding == null)) {
 			// FATAL error
 			return false;
@@ -1101,7 +1101,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			//FIXME not yet supported
 			return true;
 		default:{
-			final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+			final IType t = getTypeWithCodingTable(timestamp, false);
 			if (t != null) {
 				final boolean builtIn = coding != MessageEncoding_type.CUSTOM;
 				final String encodingName = builtIn ? coding.getEncodingName() : customEncoding;
@@ -1116,7 +1116,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				}
 			}
 
-			final IType lastType = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			final IType lastType = getTypeRefdLast(timestamp);
 			if (coding == MessageEncoding_type.CUSTOM) {
 				//  all types need an 'encode' attribute for user-defined codecs
 				return false;
@@ -1141,7 +1141,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 
 			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHave = lastType.canHaveCoding(coding, chain);
+			final boolean canHave = lastType.canHaveCoding(timestamp, coding, chain);
 			chain.release();
 
 			return canHave;
@@ -2345,7 +2345,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			// no need to generate coder functions for basic types, but this function
 			// is also used to determine codec-specific descriptor generation
 			final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-			final boolean canHave = canHaveCoding(encodingType, chain);
+			final boolean canHave = canHaveCoding(CompilationTimeStamp.getBaseTimestamp(), encodingType, chain);
 			chain.release();
 
 			return canHave;
