@@ -6268,11 +6268,11 @@ pr_DefOrFieldRef returns[Qualifier qualifier]
 }:
 (	(	i = pr_Identifier
 			{	$qualifier = new Qualifier(new FieldSubReference($i.identifier));
-				$qualifier.setLocation(getLocation( $i.start, $i.stop));
+				//$qualifier.setLocation(getLocation( $i.start, $i.stop));
 			}
 	|	s = pr_ArrayOrBitRefOrDash //TODO: could be more precise
 			{	$qualifier = new Qualifier($s.subReference);
-				$qualifier.setLocation(getLocation( $s.start, $s.stop));
+				//$qualifier.setLocation(getLocation( $s.start, $s.stop));
 			}
 	)
 	(	s2 = pr_ExtendedFieldReference
@@ -6285,7 +6285,11 @@ pr_DefOrFieldRef returns[Qualifier qualifier]
 	)?
 |	c = pr_AllRef
 		{	reportUnsupportedConstruct( "Reference to multiple definitions in attribute qualifiers is not yet supported", $c.start, $c.stop );	}
-);
+) {
+	if ($qualifier != null) {
+		$qualifier.setLocation(getLocation( $start, getStopToken()));
+	}
+};
 
 pr_AllRef:
 (	pr_GroupKeyword
