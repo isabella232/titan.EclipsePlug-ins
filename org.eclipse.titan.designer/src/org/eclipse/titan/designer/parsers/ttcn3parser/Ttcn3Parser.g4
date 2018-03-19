@@ -6268,11 +6268,9 @@ pr_DefOrFieldRef returns[Qualifier qualifier]
 }:
 (	(	i = pr_Identifier
 			{	$qualifier = new Qualifier(new FieldSubReference($i.identifier));
-				//$qualifier.setLocation(getLocation( $i.start, $i.stop));
 			}
 	|	s = pr_ArrayOrBitRefOrDash //TODO: could be more precise
 			{	$qualifier = new Qualifier($s.subReference);
-				//$qualifier.setLocation(getLocation( $s.start, $s.stop));
 			}
 	)
 	(	s2 = pr_ExtendedFieldReference
