@@ -745,7 +745,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return false;
 		}
 
-		final boolean result = elementType.canHaveCoding(timestamp, coding, refChain);
+		final boolean result = elementType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain);
 		refChain.previousState();
 
 		return result;

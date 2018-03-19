@@ -648,7 +648,7 @@ public final class Open_Type extends ASN1Type {
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
 			refChain.markState();
-			if (!compField.getType().canHaveCoding(timestamp, coding, refChain)) {
+			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain)) {
 				return false;
 			}
 			refChain.previousState();

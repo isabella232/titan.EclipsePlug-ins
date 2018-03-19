@@ -378,7 +378,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
 			refChain.markState();
-			if (!compField.getType().canHaveCoding(timestamp, coding, refChain)) {
+			if (!compField.getType().getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain)) {
 				return false;
 			}
 			refChain.previousState();

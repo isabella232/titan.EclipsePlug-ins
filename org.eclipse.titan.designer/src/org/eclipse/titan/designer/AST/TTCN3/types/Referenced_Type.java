@@ -517,33 +517,6 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
-		if (isErroneous || refdLast == null) {
-			return false;
-		}
-
-		for (int i = 0; i < codingTable.size(); i++) {
-			final Coding_Type tempCodingType = codingTable.get(i);
-
-			if (tempCodingType.builtIn && tempCodingType.builtInCoding == coding) {
-				return true; // coding already added
-			}
-		}
-
-		if (refChain.contains(this)) {
-			return true;
-		}
-		refChain.add(this);
-		refChain.markState();
-
-		final boolean result = refdLast.canHaveCoding(timestamp, coding, refChain);
-		refChain.previousState();
-
-		return result;
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public int getDefaultRawFieldLength() {
 		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
 			return refdLast.getDefaultRawFieldLength();

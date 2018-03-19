@@ -378,7 +378,7 @@ public abstract class AbstractOfType extends ASN1Type {
 
 		refChain.markState();
 
-		final boolean result = ofType.canHaveCoding(timestamp, coding, refChain);
+		final boolean result = ofType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain);
 		refChain.previousState();
 
 		return result;
