@@ -371,7 +371,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 
-			if (tempCodingType.builtIn && tempCodingType.builtInCoding == coding) {
+			if (tempCodingType.builtIn && tempCodingType.builtInCoding.equals(coding)) {
 				return true; // coding already added
 			}
 		}
