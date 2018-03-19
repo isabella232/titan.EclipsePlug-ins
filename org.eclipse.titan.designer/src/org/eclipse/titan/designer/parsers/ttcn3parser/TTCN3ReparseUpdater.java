@@ -114,48 +114,24 @@ public final class TTCN3ReparseUpdater {
 	}
 
 	public final boolean isAffected(final Location location) {
-		if (location.getEndOffset() > modificationStartOffset) {
-			return true;
-		}
-
-		return false;
+		return location.getEndOffset() > modificationStartOffset;
 	}
 
 	public final boolean isAffectedAppended(final Location location) {
-		if (location.getEndOffset() >= modificationStartOffset) {
-			return true;
-		}
-
-		return false;
+		return location.getEndOffset() >= modificationStartOffset;
 	}
 
 	public final boolean envelopsDamage(final Location location) {
-		if (location.getOffset() < modificationStartOffset && location.getEndOffset() >= modificationEndOffset) {
-			return true;
-		}
-
-		return false;
+		return location.getOffset() < modificationStartOffset && location.getEndOffset() >= modificationEndOffset;
 	}
 
 	public final boolean isDamaged(final Location location) {
-		if (location.getEndOffset() < modificationStartOffset) {
-			return false;
-		}
-
-		if (location.getOffset() > modificationEndOffset) {
-			return false;
-		}
-
-		return true;
+		return location.getEndOffset() >= modificationStartOffset && modificationEndOffset >= location.getOffset();
 	}
 
 	// only extension on the end shall be allowed
 	public final boolean isExtending(final Location location) {
-		if (location.getEndOffset() == modificationStartOffset) {
-			return true;
-		}
-
-		return false;
+		return location.getEndOffset() == modificationStartOffset;
 	}
 
 	public final void updateLocation(final Location location) {
