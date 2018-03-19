@@ -683,19 +683,23 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	/**
 	 * Checks if the type can have the given encoding.
 	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param coding the coding to check for.
 	 * @param refChain a reference chain to disable recursive looping.
+	 *
 	 * @return true if the type has the given encoding.
 	 * */
-	boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain);
+	boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain);
 
 	/**
 	 * Checks if the type has the given encoding.
 	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param coding the coding to check for.
+	 *
 	 * @return true if the type has the given encoding.
 	 * */
-	boolean hasEncoding(final MessageEncoding_type coding, final String customEncoding);
+	boolean hasEncoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final String customEncoding);
 
 	/**
 	 * @return the coding table of this type

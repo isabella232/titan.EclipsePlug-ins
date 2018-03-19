@@ -282,7 +282,6 @@ public final class Definitions extends Assignments implements ILocateableNode {
 				definitionMap.put(definitionName, definition);
 			}
 		}
-
 	}
 
 	//reports the found double definitions. It is supposed doubleDefinition to be created already

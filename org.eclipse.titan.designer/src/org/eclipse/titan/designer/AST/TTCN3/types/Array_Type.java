@@ -734,7 +734,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (refChain.contains(this)) {
 			return true;
 		}
@@ -745,7 +745,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return false;
 		}
 
-		final boolean result = elementType.canHaveCoding(coding, refChain);
+		final boolean result = elementType.getTypeRefdLast(timestamp).canHaveCoding(timestamp, coding, refChain);
 		refChain.previousState();
 
 		return result;
