@@ -683,7 +683,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 							for (int i = 0; i < realAttributes.size(); i++) {
 								final SingleWithAttribute singleWithAttribute = realAttributes.get(i);
 								if (singleWithAttribute.getAttributeType() == Attribute_Type.Encode_Attribute) {
-									for (int j = 0; j < typeList.size(); j++) {
+									for (int j = typeList.size() - 1; j >= 0; j--) {
 										typeList.get(j).addCoding(timestamp, singleWithAttribute.getAttributeSpecification().getSpecification(), Attribute_Modifier_type.MOD_NONE, true);
 									}
 								}
