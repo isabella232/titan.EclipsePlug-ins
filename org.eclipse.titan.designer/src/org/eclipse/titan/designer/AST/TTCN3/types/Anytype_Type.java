@@ -497,19 +497,19 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (refChain.contains(this)) {
 			return true;
 		}
 		refChain.add(this);
 
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(MessageEncoding_type.BER, null);
+			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
 		}
 
 		for ( final CompField compField : compFieldMap.fields ) {
 			refChain.markState();
-			if (!compField.getType().canHaveCoding(coding, refChain)) {
+			if (!compField.getType().canHaveCoding(timestamp, coding, refChain)) {
 				return false;
 			}
 			refChain.previousState();

@@ -361,7 +361,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (refChain.contains(this)) {
 			return true;
 		}
@@ -378,7 +378,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
 			refChain.markState();
-			if (!compField.getType().canHaveCoding(coding, refChain)) {
+			if (!compField.getType().canHaveCoding(timestamp, coding, refChain)) {
 				return false;
 			}
 			refChain.previousState();

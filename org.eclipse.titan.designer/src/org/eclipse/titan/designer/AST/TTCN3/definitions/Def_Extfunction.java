@@ -521,7 +521,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			}
 
 			if (inputType != null) {
-				if (inputType.hasEncoding(encodingType, encodingOptions)) {
+				if (inputType.hasEncoding(timestamp, encodingType, encodingOptions)) {
 					switch (encodingType) {
 					case XER:
 						//TODO add check for XER

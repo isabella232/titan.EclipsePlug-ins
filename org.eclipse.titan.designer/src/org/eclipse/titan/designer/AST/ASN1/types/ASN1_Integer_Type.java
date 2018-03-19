@@ -478,9 +478,9 @@ public final class ASN1_Integer_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (coding == MessageEncoding_type.BER) {
-			return hasEncoding(MessageEncoding_type.BER, null);
+			return hasEncoding(timestamp, MessageEncoding_type.BER, null);
 		}
 
 		switch (coding) {

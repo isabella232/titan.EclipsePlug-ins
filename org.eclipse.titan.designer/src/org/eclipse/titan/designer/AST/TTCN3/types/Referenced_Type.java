@@ -517,7 +517,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean canHaveCoding(final MessageEncoding_type coding, final IReferenceChain refChain) {
+	public boolean canHaveCoding(final CompilationTimeStamp timestamp, final MessageEncoding_type coding, final IReferenceChain refChain) {
 		if (isErroneous || refdLast == null) {
 			return false;
 		}
@@ -536,7 +536,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		refChain.add(this);
 		refChain.markState();
 
-		final boolean result = refdLast.canHaveCoding(coding, refChain);
+		final boolean result = refdLast.canHaveCoding(timestamp, coding, refChain);
 		refChain.previousState();
 
 		return result;
