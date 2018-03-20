@@ -6193,7 +6193,7 @@ pr_MultiWithAttrib returns[MultipleWithAttributes attributes]
 @init {
 	$attributes = new MultipleWithAttributes();
 }:
-(	(	s = pr_SingleWithAttrib { $attributes.addAttribute( $s.singleWithAttrib ); }
+(	(	s = pr_SingleWithAttrib { if ($s.singleWithAttrib != null) {$attributes.addAttribute( $s.singleWithAttrib );}; }
 		pr_SemiColon?
 	)*
 );
@@ -6209,8 +6209,10 @@ pr_SingleWithAttrib returns [ SingleWithAttribute singleWithAttrib]
 	s = pr_AttribSpec
 )
 {
-	$singleWithAttrib = new SingleWithAttribute( $t.attributeType, $modifier.modifier, qualifiers, $s.attributeSpecficiation );
-	$singleWithAttrib.setLocation(getLocation( $t.start, $s.stop));
+	if ($s.attributeSpecficiation != null) {
+		$singleWithAttrib = new SingleWithAttribute( $t.attributeType, $modifier.modifier, qualifiers, $s.attributeSpecficiation );
+		$singleWithAttrib.setLocation(getLocation( $t.start, $s.stop));
+	}
 };
 
 pr_AttribKeyword returns [Attribute_Type attributeType]
@@ -6268,9 +6270,11 @@ pr_DefOrFieldRef returns[Qualifier qualifier]
 }:
 (	(	i = pr_Identifier
 			{	$qualifier = new Qualifier(new FieldSubReference($i.identifier));
+				//$qualifier.setLocation(getLocation( $i.start, $i.stop));
 			}
 	|	s = pr_ArrayOrBitRefOrDash //TODO: could be more precise
 			{	$qualifier = new Qualifier($s.subReference);
+				//$qualifier.setLocation(getLocation( $s.start, $s.stop));
 			}
 	)
 	(	s2 = pr_ExtendedFieldReference
