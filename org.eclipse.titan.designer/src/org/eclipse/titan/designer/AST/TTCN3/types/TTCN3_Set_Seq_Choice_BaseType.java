@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferenceableElement;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IValue.Value_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.ITypeWithComponents;
 import org.eclipse.titan.designer.AST.IValue;
@@ -984,6 +985,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					codingSingleTag.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(singleTag.keyList.size());
 				}
 				codingSingleTag.fieldname = singleTag.fieldName.getName();
+				codingSingleTag.varName = FieldSubReference.getJavaGetterName(codingSingleTag.fieldname);
 				final Identifier idf = singleTag.fieldName;
 				codingSingleTag.fieldnum = getComponentIndexByName(idf);
 
@@ -998,6 +1000,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					final ExpressionStruct expression = new ExpressionStruct();
 					key.v_value.generateCodeExpression(aData, expression, true);
 					codingKey.expression = expression;
+					codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
 					codingKey.start_pos = 0;
 					final CompField cf = getComponentByIndex(codingSingleTag.fieldnum);
 					IType t = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
@@ -1080,6 +1083,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				final ExpressionStruct expression = new ExpressionStruct();
 				fieldValue.v_value.generateCodeExpression(aData, expression, true);
 				presences.expression = expression;
+				presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
 				presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(presences.fields.size());
 				IType t = this;
 				for (int b = 0; b < presences.fields.size(); b++) {
@@ -1218,9 +1222,10 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						final ExpressionStruct expression = new ExpressionStruct();
 						fieldValue.v_value.generateCodeExpression(aData, expression, true);
 						presences.expression = expression;
+						presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
 						presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(fieldValue.keyField.names.size());
 						IType t = this;
-						for (int b = 0; b < presences.fields.size(); b++) {
+						for (int b = 0; b < fieldValue.keyField.names.size(); b++) {
 							final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
 							presences.fields.add(newField);
 
@@ -1268,6 +1273,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							codingSingleTag.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(singleTag.keyList.size());
 						}
 						codingSingleTag.fieldname = singleTag.fieldName.getName();
+						codingSingleTag.varName = FieldSubReference.getJavaGetterName(codingSingleTag.fieldname);
 						final Identifier idf = singleTag.fieldName;
 						codingSingleTag.fieldnum = getComponentIndexByName(idf);
 
@@ -1281,6 +1287,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							final ExpressionStruct expression = new ExpressionStruct();
 							key.v_value.generateCodeExpression(aData, expression, true);
 							codingKey.expression = expression;
+							codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
 
 							IType t = this;
 							for (int b = 0; b < key.keyField.names.size(); b++) {

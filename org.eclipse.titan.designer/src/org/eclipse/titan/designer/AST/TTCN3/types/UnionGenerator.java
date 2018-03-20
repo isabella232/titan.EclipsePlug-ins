@@ -1447,7 +1447,7 @@ public class UnionGenerator {
 		source.append("}\n");
 	}
 
-	public static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
+	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
 		for (int i = 0; i < taglist.fields.size(); i++) {
 			rawAST_coding_field_list fields = taglist.fields.get(i);
 			String fieldName = null;
@@ -1510,7 +1510,7 @@ public class UnionGenerator {
 		}
 	}
 
-	public static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
+	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
 		source.append("RAW_enc_tree temp_leaf;\n");
 		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
 			rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);

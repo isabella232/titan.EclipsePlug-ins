@@ -59,12 +59,14 @@ public class RawASTStruct {
 		public ArrayList<rawAST_coding_fields> fields;
 		//public String value;
 		public ExpressionStruct expression;
+		public boolean isOmitValue;
 		public int start_pos;
 		public int temporal_variable_index;
 	}
 
 	public static class rawAST_coding_taglist {
 		public String fieldname;
+		public String varName;
 		public int fieldnum;
 		public ArrayList<rawAST_coding_field_list> fields;
 	}

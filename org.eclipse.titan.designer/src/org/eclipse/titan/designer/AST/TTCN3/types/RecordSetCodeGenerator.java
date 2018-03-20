@@ -9,6 +9,8 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_ext_group;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
@@ -626,7 +628,7 @@ public class RecordSetCodeGenerator {
 			AtomicBoolean hasPointer = new AtomicBoolean();
 			AtomicBoolean hasCrosstag = new AtomicBoolean();
 			AtomicBoolean has_ext_bit = new AtomicBoolean();
-			set_raw_options(isSet, fieldInfos, rawNeeded, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
+			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
 			// FIXME generate_raw_coding
 			//FIXME needs to actually handle specific raw attributes
 			source.append("@Override\n");
@@ -652,7 +654,7 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}] = new RAW_enc_tree(true, myleaf, myleaf.curr_pos, {0}, {1}_descr_.raw);\n", i, fieldInfo.mTypeDescriptorName));
 				}
 			}
-			final int ext_bit_group_length = raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
+			final int ext_bit_group_length = raw == null || raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
 			for (int i = 0; i < ext_bit_group_length; i++) {
 				rawAST_coding_ext_group tempGroup = raw.ext_bit_groups.get(i);
 				if (tempGroup.ext_bit != RawASTStruct.XDEFNO) {
@@ -802,16 +804,92 @@ public class RecordSetCodeGenerator {
 						source.append("}\n");
 					}
 				}
-				//FIXME implement
+				final int tag_type = raw_options.get(i).tag_type;
+				if ( tag_type > 0 && raw.taglist.list.get(tag_type -1).fields != null && raw.taglist.list.get(tag_type - 1).fields.size() > 0) {
+					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(tag_type -1);
+					source.append("if (");
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("{0}.isPresent() && (", fieldInfo.mVarName));
+					}
+					genRawFieldChecker(source, cur_choice, false);
+					if (fieldInfo.isOptional) {
+						source.append(")");
+					}
+					source.append(") {\n");
+					genRawTagChecker(source, cur_choice);
+					source.append("}\n");
+				}
+				final int presenceLength = fieldInfo.raw == null || fieldInfo.raw.presence == null || fieldInfo.raw.presence.fields == null ? 0 : fieldInfo.raw.presence.fields.size();
+				if (fieldInfo.hasRaw && presenceLength > 0) {
+					source.append("if (");
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("{0}.isPresent() && (", fieldInfo.mVarName));
+					}
+					genRawFieldChecker(source, fieldInfo.raw.presence, false);
+					if (fieldInfo.isOptional) {
+						source.append(")");
+					}
+					source.append(") {\n");
+					genRawTagChecker(source, fieldInfo.raw.presence);
+					source.append("}\n");
+				}
+				final int crosstagLength = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
+				if (fieldInfo.hasRaw && crosstagLength > 0) {
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfo.mVarName));
+					}
+					source.append(MessageFormat.format("switch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+					for (int a = 0; a < crosstagLength; a++) {
+						final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(a);
+						final int curSize = cur_choice == null || cur_choice.fields == null ? 0 : cur_choice.fields.size();
+						if(curSize > 0) {
+							source.append(MessageFormat.format("case ALT_{0}:\n", cur_choice.varName));
+							source.append("if (");
+							genRawFieldChecker(source, cur_choice, false);
+							source.append(") {\n");
+							if (cur_choice.fields.get(0).isOmitValue) {
+								if (cur_choice.fields.get(0).fields.size() != 1) {
+									//FIXME report error "omit value with multiple fields in CROSSTAG"
+								}
+								source.append(MessageFormat.format("encoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+								source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
+								
+							} else {
+								source.append(MessageFormat.format("RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
+								for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
+									if (ll > 0) {
+										source.append(',');
+									}
+									source.append(cur_choice.fields.get(0).fields.get(ll).nthfield);
+								}
+								source.append("});\n");
+								source.append("RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
+								source.append("if (temp_leaf != null) {\n");
+								source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
+								source.append("} else {\n");
+								source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
+								source.append("}\n");
+							}
+							source.append("}\n");
+							source.append("break;\n");
+						}
+					}
+					source.append("default:\n");
+					source.append("break;\n");
+					source.append("}\n");
+					if (fieldInfo.isOptional) {
+						source.append("}\n");
+					}
+				}
 			}
-			//FIXME implement
+
 			// presence
-			final int presenceLength = raw.presence == null || raw.presence.fields == null ? 0 : raw.presence.fields.size();
+			final int presenceLength = raw == null || raw.presence == null || raw.presence.fields == null ? 0 : raw.presence.fields.size();
 			if (presenceLength > 0) {
 				source.append(" if (");
-				UnionGenerator.genRawFieldChecker(source, raw.presence, false);
+				genRawFieldChecker(source, raw.presence, false);
 				source.append(" ) {\n");
-				UnionGenerator.genRawTagChecker(source, raw.presence);
+				genRawTagChecker(source, raw.presence);
 				source.append("}\n");
 			}
 
@@ -2315,5 +2393,93 @@ public class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append("}\n\n");
+	}
+
+	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
+		for (int i = 0; i < taglist.fields.size(); i++) {
+			rawAST_coding_field_list fields = taglist.fields.get(i);
+			String fieldName = null;
+			boolean firstExpr = true;
+			if (i > 0) {
+				source.append(is_equal ? " || " : " && ");
+			}
+			for (int j = 0; j < fields.fields.size(); j++) {
+				rawAST_coding_fields field = fields.fields.get(j);
+				if (j == 0) {
+					/* this is the first field reference */
+					fieldName = MessageFormat.format("{0}", field.nthfieldname);
+				} else {
+					/* this is not the first field reference */
+					if (field.fieldtype == rawAST_coding_field_type.UNION_FIELD) {
+						if (firstExpr) {
+							if (taglist.fields.size() > 1) {
+								source.append('(');
+							}
+							firstExpr = false;
+						} else {
+							source.append(is_equal ? " && " : " || ");
+						}
+						source.append(MessageFormat.format("{0}.getSelection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
+					}
+					fieldName = MessageFormat.format("{0}.get{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
+
+				}
+
+				if (j < fields.fields.size() - 1 && field.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+					if (firstExpr) {
+						if (taglist.fields.size() > 1) {
+							source.append('(');
+						}
+						firstExpr = false;
+					} else {
+						source.append(is_equal ? " && " : " || ");
+					}
+					if (!is_equal) {
+						source.append('!');
+					}
+					source.append(MessageFormat.format("{0}.isPresent()", fieldName));
+					fieldName = MessageFormat.format("{0}.get()", fieldName);
+				}
+			}
+
+			if (!firstExpr) {
+				source.append(is_equal ? " && " : " || ");
+			}
+			if (is_equal) {
+				source.append(MessageFormat.format("{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+			} else {
+				source.append(MessageFormat.format("!{0}.operatorEquals({1})", fieldName, fields.expression.expression));
+			}
+
+			if (!firstExpr && taglist.fields.size() > 1) {
+				source.append(')');
+			}
+
+		}
+	}
+
+	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
+		source.append("RAW_enc_tree temp_leaf;\n");
+		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
+			rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
+			source.append("{\n");
+			source.append(MessageFormat.format("int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", temp_tag, tempField.fields.size()));
+			source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", temp_tag));
+			for (int l = 0; l < tempField.fields.size(); l++) {
+				source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", temp_tag, l, tempField.fields.get(l).nthfield));
+			}
+			source.append(MessageFormat.format("RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
+			source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
+			source.append("if (temp_leaf != null) {\n");
+			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));
+			source.append(" } else ");
+		}
+
+		source.append(" {\n");
+		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
+		source.append(" }\n");
+		for (int temp_tag = taglist.fields.size() - 1; temp_tag >= 0; temp_tag--) {
+			source.append("}\n");
+		}
 	}
 }

@@ -572,6 +572,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					codingSingleTag.fields = new ArrayList<RawASTStruct.rawAST_coding_field_list>(singleTag.keyList.size());
 				}
 				codingSingleTag.fieldname = singleTag.fieldName.getName();
+				codingSingleTag.varName = FieldSubReference.getJavaGetterName(codingSingleTag.fieldname);
 				final Identifier idf = singleTag.fieldName;
 				codingSingleTag.fieldnum = getComponentIndexByName(idf);
 
@@ -586,6 +587,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 					ExpressionStruct expression = new ExpressionStruct();
 					key.v_value.generateCodeExpression(aData, expression, true);
 					codingKey.expression = expression;
+					codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
 					codingKey.start_pos = 0;
 					final CompField cf = getComponentByIndex(codingSingleTag.fieldnum);
 					IType t = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
