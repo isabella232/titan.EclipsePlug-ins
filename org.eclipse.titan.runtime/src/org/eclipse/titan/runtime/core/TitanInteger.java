@@ -925,7 +925,11 @@ public class TitanInteger extends Base_Type {
 			}
 		} else { // not IntX, use the field length
 			length = (p_td.raw.fieldlength + 7) / 8;
-			if (RAW.min_bits(value) > p_td.raw.fieldlength) {
+			int min_bits = RAW.min_bits(value);
+			if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
+				min_bits++;
+			}
+			if (min_bits > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode : ", p_td.name);
 				value = 0; // substitute with zero
 			}
@@ -1041,7 +1045,11 @@ public class TitanInteger extends Base_Type {
 			}
 		} else {
 			length = (p_td.raw.fieldlength + 7) / 8;
-			if (RAW.min_bits(D) > p_td.raw.fieldlength) {
+			int min_bits = RAW.min_bits(D);
+			if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
+				min_bits++;
+			}
+			if (min_bits > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
 				// at all for negative values.  Just simply clear the value.
@@ -1250,11 +1258,6 @@ public class TitanInteger extends Base_Type {
 				// in case there are value bits in the last length octet (only for IntX),
 				// these need to be appended to the extracted data
 				data[decode_length / 8] = len_data;
-				char[] data_tmp = new char[data.length];
-				for (int i = 0; i < data_tmp.length; i++) {
-					data_tmp[i] = data[data.length - i - 1];
-				}
-				data = data_tmp;
 				decode_length += partial_octet_bits;
 			}
 			int end_pos = decode_length;
@@ -1288,18 +1291,24 @@ public class TitanInteger extends Base_Type {
 					int pad = tmp == 0 ? 1 : 0;
 					for (; idx >= 0; idx--) {
 						if (pad != 0 && data[idx] != 0) {
-							D = BigInteger.valueOf(data[idx] & 0xff);
+							D = BigInteger.valueOf(data[idx] & 0xFF);
 							pad = 0;
 							continue;
 						}
 						if (pad != 0) {
 							continue;
 						}
-						D = D.shiftLeft(8);
-						D = D.add(BigInteger.valueOf(data[idx] & 0xff));
+						if(negativ_num) { 
+							D = D.shiftLeft(8);
+							D = D.subtract(BigInteger.valueOf(data[idx] & 0xFF));
+						} else {
+							D = D.shiftLeft(8);
+							D = D.add(BigInteger.valueOf(data[idx] & 0xFF));
+						}
 					}
 					if (twos_compl != 0) {
-						final BigInteger D_tmp = new BigInteger(D.toByteArray());
+						final BigInteger D_tmp = BigInteger.ZERO;
+						D_tmp.setBit(D.bitLength());
 						D = D.subtract(D_tmp);
 					} else if (negativ_num) {
 						D = D.negate();
