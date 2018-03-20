@@ -765,7 +765,43 @@ public class RecordSetCodeGenerator {
 						source.append("}\n");
 					}
 				}
-				
+				if (raw_options.get(i).lengthto && fieldInfo.raw.union_member_num > 0) {
+					aData.addBuiltinTypeImport("RAW.calc_type");
+					aData.addBuiltinTypeImport("RAW.RAW_enc_lengthto");
+
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("if ({0}.isPresent()) ", fieldInfo.mVarName));
+					}
+					source.append("{\n");
+
+					source.append("int sel_field = 0;\n");
+					source.append(MessageFormat.format("while (myleaf.nodes[{0}].nodes[sel_field] == null) '{'\n", i));
+					source.append("sel_field++;\n");
+					source.append("}\n");
+
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].calc = calc_type.CALC_LENGTH;\n", i));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+
+					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].length = {1};\n", i, fieldInfo.raw.fieldlength));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto = new RAW_enc_lengthto({1}, new RAW_enc_tr_pos[{1}], {2}, {3});\n", i, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
+					for (int a = 0; a < lengthtoSize; a++) {
+						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
+							source.append(MessageFormat.format("if ({0}.isPresent()) '{'\n", fieldInfos.get(fieldInfo.raw.lengthto.get(a)).mVarName));
+						}
+						source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto.fields[{1}] = new RAW_enc_tr_pos(myleaf.nodes[{2}].curr_pos.level, myleaf.nodes[{2}].curr_pos.pos);\n", i, a, fieldInfo.raw.lengthto.get(a)));
+						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
+							source.append("} else {\n");
+							source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].lengthto.fields[{1}] = new RAW_enc_tr_pos(0, null);\n", i, a));
+							source.append("}\n");
+						}
+					}
+					source.append("}\n");
+
+					if (fieldInfo.isOptional) {
+						source.append("}\n");
+					}
+				}
 				//FIXME implement
 			}
 			//FIXME implement

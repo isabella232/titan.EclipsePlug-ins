@@ -1180,7 +1180,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						element_i.raw.lengthindex.type = t_field2.getGenNameValue(aData, source, myScope);
 						element_i.raw.lengthindex.typedesc = t_field2.getGenNameTypeDescriptor(aData, source, myScope);
 					}
-					if (lengthtoNum > 0 && rawpar.lengthindex != null) {
+					if (lengthtoNum > 0 && rawpar.lengthindex == null) {
 						switch (t_field_last.getTypetype()) {
 						case TYPE_TTCN3_CHOICE:
 						case TYPE_TTCN3_SEQUENCE:
