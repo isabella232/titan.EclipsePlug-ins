@@ -7,14 +7,11 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
-import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.eclipse.titan.common.logging.ErrorReporter;
-import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -25,19 +22,34 @@ public class EnumeratedGenerator {
 	private static final String UNKNOWN_VALUE = "UNKNOWN_VALUE";
 	private static final String UNBOUND_VALUE ="UNBOUND_VALUE";
 
+	public static class Enum_field {
+		private String name;
+		private String displayName;
+
+		private long value;
+
+		public Enum_field(final String aName, final String aDisplayName, final long aValue) {
+			name = aName;
+			displayName = aDisplayName;
+			value = aValue;
+		}
+	}
+
 	public static class Enum_Defs {
-		private List<EnumItem> items;
+		private List<Enum_field> items;
 		private String name;
 		private String displayName;
 		private String templateName;
-		private Long firstUnused = -1L;  //first unused value for this enum type
-		private Long secondUnused = -1L; //second unused value for this enum type
+		private boolean hasRaw;
+		private long firstUnused = -1;  //first unused value for this enum type
+		private long secondUnused = -1; //second unused value for this enum type
 
-		public Enum_Defs(final List<EnumItem> aItems, final String aName, final String aDisplayName, final String aTemplateName){
+		public Enum_Defs(final List<Enum_field> aItems, final String aName, final String aDisplayName, final String aTemplateName, final boolean aHasRaw){
 			items = aItems;
 			name = aName;
 			displayName = aDisplayName;
 			templateName = aTemplateName;
+			hasRaw = aHasRaw;
 			calculateFirstAndSecondUnusedValues();
 		}
 
@@ -46,14 +58,14 @@ public class EnumeratedGenerator {
 			if( firstUnused != -1 ) {
 				return; //function already have been called
 			}
-			final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.size());
+			final Map<Long, Enum_field> valueMap = new HashMap<Long, Enum_field>(items.size());
 
 			for( int i = 0, size = items.size(); i < size; i++) {
-				final EnumItem item = items.get(i);
-				valueMap.put( ((Integer_Value) item.getValue()).getValue(), item);
+				final Enum_field item = items.get(i);
+				valueMap.put(item.value, item);
 			}
 
-			Long firstUnused = Long.valueOf(0);
+			long firstUnused = Long.valueOf(0);
 			while (valueMap.containsKey(firstUnused)) {
 				firstUnused++;
 			}
@@ -85,23 +97,16 @@ public class EnumeratedGenerator {
 		//== enum_type ==
 		source.append("public enum enum_type {\n");
 		final StringBuilder helper = new StringBuilder();
-		final DecimalFormat formatter = new DecimalFormat("#");
 		final int size = e_defs.items.size();
-		EnumItem item = null;
+		Enum_field item = null;
 		for ( int i=0; i<size; i++) {
 			item = e_defs.items.get(i);
-			source.append(MessageFormat.format("{0}", item.getId().getName()));
-			if (item.getValue() instanceof Integer_Value) {
-				final String valueWithoutCommas = formatter.format( ((Integer_Value) item.getValue()).getValue());
-				source.append(MessageFormat.format("({0}),\n", valueWithoutCommas));
-				helper.append("case ").append(MessageFormat.format("{0}", valueWithoutCommas)).append(": ");
-			} else {
-				ErrorReporter.INTERNAL_ERROR("Invalid item value for "+e_defs.name +" index: "+ i);
-				source.append("FATAL_ERORR: Invalid item value in EnumeratedGenerator.generateValueClass");
-			}
-			helper.append(" return ").append(MessageFormat.format("{0}", item.getId().getName())).append(";\n");
-
+			source.append(MessageFormat.format("{0}", item.name));
+			source.append(MessageFormat.format("({0}),\n", item.value));
+			helper.append("case ").append(MessageFormat.format("{0}", item.value)).append(": ");
+			helper.append(" return ").append(MessageFormat.format("{0}", item.name)).append(";\n");
 		}
+
 		source.append(MessageFormat.format("{0}({1}),\n", UNKNOWN_VALUE, e_defs.firstUnused));
 		source.append(MessageFormat.format("{0}({1});\n", UNBOUND_VALUE, e_defs.secondUnused));
 		helper.append("case ").append(MessageFormat.format("{0}", e_defs.firstUnused)).append(": ");

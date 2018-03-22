@@ -8,6 +8,7 @@
 package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -38,6 +39,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_Defs;
+import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_field;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
@@ -621,7 +623,15 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 		generateCodeTypedescriptor(aData, source);
 
-		final Enum_Defs e_defs = new Enum_Defs( items.getItems(), ownName, displayName, getGenNameTemplate(aData, source, myScope));
+		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
+
+		final ArrayList<Enum_field> fields = new ArrayList<EnumeratedGenerator.Enum_field>(items.getItems().size());
+		for (int i = 0; i < items.getItems().size(); i++) {
+			final EnumItem tempItem = items.getItems().get(i);
+
+			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
+		}
+		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source, myScope), hasRaw);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
 		EnumeratedGenerator.generateTemplateClass( aData, source, e_defs);
 
