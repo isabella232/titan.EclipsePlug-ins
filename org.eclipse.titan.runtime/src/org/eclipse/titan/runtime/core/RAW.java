@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.math.BigInteger;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
@@ -536,9 +537,9 @@ public class RAW {
 		return myleaf.length = fl;
 	}
 
-	public static int RAW_decode_enum_type(final TTCN_Typedescriptor p_td, TTCN_Buffer buff,final int limit, raw_order_t top_bit_ord, int value, int min_bits_enum, boolean no_err) {
+	public static int RAW_decode_enum_type(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final AtomicInteger value, final int min_bits_enum, final boolean no_err) {
 		int fl = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : min_bits_enum;
-		TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
+		final TTCN_RAWdescriptor my_raw = new TTCN_RAWdescriptor();
 		my_raw.fieldlength = fl;
 		my_raw.comp = p_td.raw.comp;
 		my_raw.byteorder = p_td.raw.byteorder;
@@ -554,13 +555,14 @@ public class RAW {
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
 		//FIXME: initial implementation of Typedescriptor
-		TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
-		TitanInteger i = new TitanInteger();
+		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
+		final TitanInteger i = new TitanInteger();
 		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord);
 		if(fl < 0) {
 			return fl;
 		}
-		value = i.getInt();
+		value.set(i.getInt());
+
 		return fl + buff.increase_pos_padd(p_td.raw.padding);
 	}
 
