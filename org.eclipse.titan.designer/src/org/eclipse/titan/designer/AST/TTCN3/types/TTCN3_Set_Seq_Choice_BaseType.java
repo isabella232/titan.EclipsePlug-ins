@@ -1199,7 +1199,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							}
 							break;
 						default:
-							return null;
+							break;
 						}
 					}
 					if (rawpar.pointerto != null) {
