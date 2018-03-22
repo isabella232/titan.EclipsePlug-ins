@@ -2308,15 +2308,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return true;
 	}
 
-	/**
-	 * Returns whether this type can be encoded according to rules
-	 * encoding.
-	 *
-	 * originally get_gen_coder_functions
-	 *
-	 * @param encodingType the encoding type to check
-	 * @return true if the type has the provided encoding, false otherwise
-	 * */
+	@Override
+	/** {@inheritDoc} */
 	public boolean getGenerateCoderFunctions(final MessageEncoding_type encodingType) {
 		for (int i = 0; i < codersToGenerate.size(); i++) {
 			if (encodingType == codersToGenerate.get(i)) {
@@ -2397,7 +2390,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		//check and generate the needed type descriptors
 		//FIXME implement: right now we assume RAW is allowed and needed for all types, just to create interfaces so that work on both sides can happen in parallel.
-		final boolean generate_raw = aData.getEnableRaw() && getGenerateCoderFunctions(MessageEncoding_type.RAW);
+		final boolean generate_raw = aData.getEnableRaw() && last.getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		String gennameRawDescriptor;
 		if (generate_raw) {
 			gennameRawDescriptor = getGenNameRawDescriptor(aData, source);

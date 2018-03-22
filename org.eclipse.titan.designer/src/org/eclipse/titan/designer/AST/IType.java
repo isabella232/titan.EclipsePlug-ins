@@ -1112,6 +1112,17 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	public String getGenNameTypeName(final JavaGenData aData, final StringBuilder source, final Scope scope);
 
 	/**
+	 * Returns whether this type can be encoded according to rules
+	 * encoding.
+	 *
+	 * originally get_gen_coder_functions
+	 *
+	 * @param encodingType the encoding type to check
+	 * @return true if the type has the provided encoding, false otherwise
+	 * */
+	public boolean getGenerateCoderFunctions(final MessageEncoding_type encodingType);
+
+	/**
 	 * Indicates for the type and it's field types, that they need to generate coder functions for the provided coding type.
 	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param encodingType the encoding type to use.
