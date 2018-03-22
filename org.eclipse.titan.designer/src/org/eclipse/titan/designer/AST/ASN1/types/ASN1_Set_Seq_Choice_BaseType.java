@@ -389,7 +389,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
 			break;
@@ -406,7 +406,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 
 		for ( int i = 0; i < components.getNofComps(); i++) {
 			final CompField compField = components.getCompByIndex(i);
-			compField.getType().setGenerateCoderFunctions(encodingType);
+			compField.getType().getTypeRefdLast(timestamp).setGenerateCoderFunctions(timestamp, encodingType);
 		}
 	}
 

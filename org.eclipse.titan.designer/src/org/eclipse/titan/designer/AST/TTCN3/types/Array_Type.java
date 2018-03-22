@@ -753,6 +753,25 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
+		switch(encodingType) {
+		case RAW:
+			break;
+		default:
+			return;
+		}
+
+		if (getGenerateCoderFunctions(encodingType)) {
+			//already set
+			return;
+		}
+
+		codersToGenerate.add(encodingType);
+		elementType.getTypeRefdLast(timestamp).setGenerateCoderFunctions(timestamp, encodingType);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
 		if (typeList.contains(this)) {
 			return;

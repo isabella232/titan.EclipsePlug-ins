@@ -386,6 +386,25 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
+		switch(encodingType) {
+		case RAW:
+			break;
+		default:
+			return;
+		}
+
+		if (getGenerateCoderFunctions(encodingType)) {
+			//already set
+			return;
+		}
+
+		codersToGenerate.add(encodingType);
+		getOfType().getTypeRefdLast(timestamp).setGenerateCoderFunctions(timestamp, encodingType);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
 		if (typeList.contains(this)) {
 			return;

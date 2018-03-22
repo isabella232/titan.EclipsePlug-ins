@@ -946,7 +946,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				newCoding.modifier = modifier;
 				newCoding.builtInCoding = builtInCoding;
 				codingTable.add(newCoding);
-				setGenerateCoderFunctions(builtInCoding);
+				setGenerateCoderFunctions(timestamp, builtInCoding);
 			} else if (!silent){
 				getLocation().reportSemanticWarning(MessageFormat.format("Type `{0}'' cannot have {1} encoding. Encode attribute ignored.", getTypename(), name));
 			}
@@ -2354,7 +2354,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
 			break;

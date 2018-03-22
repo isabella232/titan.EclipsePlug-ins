@@ -659,7 +659,7 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
 			break;
@@ -676,7 +676,7 @@ public final class Open_Type extends ASN1Type {
 
 		final Map<String, CompField> map = compFieldMap.getComponentFieldMap(CompilationTimeStamp.getBaseTimestamp());
 		for ( final CompField compField : map.values() ) {
-			compField.getType().setGenerateCoderFunctions(encodingType);
+			compField.getType().getTypeRefdLast(timestamp).setGenerateCoderFunctions(timestamp, encodingType);
 		}
 	}
 

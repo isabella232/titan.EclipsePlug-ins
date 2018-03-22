@@ -1113,10 +1113,10 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Indicates for the type and it's field types, that they need to generate coder functions for the provided coding type.
-	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param encodingType the encoding type to use.
 	 * */
-	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType);
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType);
 
 	/**
 	 * Add generated java code on this level.

@@ -1344,7 +1344,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
-	public void setGenerateCoderFunctions(final MessageEncoding_type encodingType) {
+	public void setGenerateCoderFunctions(final CompilationTimeStamp timestamp, final MessageEncoding_type encodingType) {
 		switch(encodingType) {
 		case RAW:
 			break;
@@ -1360,7 +1360,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		codersToGenerate.add(encodingType);
 
 		for ( final CompField compField : compFieldMap.fields ) {
-			compField.getType().setGenerateCoderFunctions(encodingType);
+			compField.getType().getTypeRefdLast(timestamp).setGenerateCoderFunctions(timestamp, encodingType);
 		}
 	}
 
