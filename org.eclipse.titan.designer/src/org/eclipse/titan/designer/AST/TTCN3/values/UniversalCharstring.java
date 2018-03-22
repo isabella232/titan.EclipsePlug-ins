@@ -10,6 +10,8 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
+import org.eclipse.titan.designer.AST.TTCN3.values.PredefFunc.DecodeException;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -42,6 +44,31 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 * @param aValue TTCN-3 charstring value, it can contain escape characters
 	 */
 	public UniversalCharstring(final String string) {
+		//TODO: make UTF-8 checking faster, converting each string to octetstring is not very effective (also on the C++ side)
+		// Check for UTF8 encoding and decode it
+		// in case the editor encoded the TTCN-3 file with UTF-8
+		final StringBuilder octet_str = new StringBuilder();
+		int len = string.length();
+		for (int i = 0; i < len; ++i) {
+			try {
+				octet_str.append(PredefFunc.hexdigit_to_char((char) (string.charAt(i) / 16)));
+				octet_str.append(PredefFunc.hexdigit_to_char((char) (string.charAt(i) % 16)));
+			} catch (DecodeException e) {
+				//cannot happen
+			}
+		}
+		final CharCoding coding = PredefFunc.getCharCoding(octet_str.toString());
+		if (CharCoding.UTF_8 == coding) {
+			try {
+				UniversalCharstring ucs = PredefFunc.decode_utf8(octet_str.toString(), CharCoding.UTF_8);
+				value = ucs.value;
+			} catch (Exception e) {
+				mErrorneous = true;
+				mErrorMessage = e.getMessage();
+			}
+			return;
+		}
+
 		final CharstringExtractor cs = new CharstringExtractor(string);
 		if ( cs.isErrorneous() ) {
 			mErrorneous = true;
@@ -51,7 +78,6 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		if ( extracted != null ) {
 			value = new ArrayList<UniversalChar>(extracted.length());
 			for (int i = 0; i < extracted.length(); i++) {
-				//TODO: add support to UTF-8
 				value.add(new UniversalChar(extracted.charAt(i)));
 			}
 		}
@@ -142,6 +168,14 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			for (int i = 0; i < other.value.size(); i++) {
 				value.add(other.value.get(i));
 			}
+		}
+
+		return this;
+	}
+
+	public UniversalCharstring append(final UniversalChar uc) {
+		if( uc != null) {
+			value.add(uc);
 		}
 
 		return this;

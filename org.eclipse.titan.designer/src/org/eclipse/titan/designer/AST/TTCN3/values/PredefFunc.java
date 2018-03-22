@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 
 /**
@@ -21,60 +20,6 @@ public class PredefFunc {
 		// Hide constructor
 	}
 
-	/**
-	 * Class for handling universal (multi-byte) string values.
-	 */
-	public static class ustring {
-		public class universal_char {
-			private char group;
-			private char plane;
-			private char row;
-			private char cell;
-
-			public universal_char(final char aGroup, final char aPlane, final char aRow, final char aCell) {
-				this.group = aGroup;
-				this.plane = aPlane;
-				this.row = aRow;
-				this.cell = aCell;
-			}
-		}
-
-		private List<universal_char> uchars;
-
-		public ustring() {
-			uchars = new ArrayList<universal_char>();
-		}
-
-		/**
-		 * Constructor for creating unistring with 1 unichar element
-		 * @param group
-		 * @param plane
-		 * @param row
-		 * @param cell
-		 */
-		public ustring(final char group, final char plane, final char row, final char cell) {
-			this();
-			add(group, plane, row, cell);
-		}
-
-		public universal_char get( final int i ) {
-			return uchars.get(i);
-		}
-		
-		public int size() {
-			return uchars.size();
-		}
-
-		public void add(final universal_char uc) {
-			uchars.add(uc);
-		}
-
-		public void add(final char group, final char plane, final char row, final char cell) {
-			final universal_char uc = new universal_char(group, plane, row, cell);
-			add(uc);
-		}
-	}
-
 	//BOMs
 	private static final String utf32be = "0000FEFF";
 	private static final String utf32le = "FFFE0000";
@@ -82,7 +27,28 @@ public class PredefFunc {
 	private static final String utf16le = "FFFE";
 	private static final String utf8    = "EFBBBF";
 
-	public static char char_to_hexdigit(final char c) {
+	public static class DecodeException extends Exception {
+
+		private static final long serialVersionUID = -5356312750957137499L;
+
+		public DecodeException(String msg) {
+			super(msg);
+		}
+		
+	}
+
+	public static char hexdigit_to_char(char hexdigit) throws DecodeException {
+		if (hexdigit < 10) {
+			return (char) ('0' + hexdigit);
+		} else if (hexdigit < 16) {
+			return (char) ('A' + hexdigit - 10);
+		}
+		else {
+			throw new DecodeException(MessageFormat.format("hexdigit_to_char(): invalid argument: {0}", hexdigit));
+		}
+	}
+
+	public static char char_to_hexdigit(final char c) throws DecodeException {
 		if (c >= '0' && c <= '9') {
 			return (char) (c - '0');
 		} else if (c >= 'A' && c <= 'F') {
@@ -90,12 +56,11 @@ public class PredefFunc {
 		} else if (c >= 'a' && c <= 'f') {
 			return (char) (c - 'a' + 10);
 		} else {
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("char_to_hexdigit(): invalid argument: {0}", c));
-			return 0; // to avoid warning
+			throw new DecodeException(MessageFormat.format("char_to_hexdigit(): invalid argument: {0}", c));
 		}
 	}
 
-	public static char str2uchar(final char c1, final char c2) {
+	public static char str2uchar(final char c1, final char c2) throws DecodeException {
 		char uc = 0;
 		uc = char_to_hexdigit(c1);
 		uc <<= 4;
@@ -110,7 +75,7 @@ public class PredefFunc {
 		String retval=0;
 
 		if(groupno<0) {
-			ErrorReporter.INTERNAL_ERROR("regexp(): groupno must be a non-negative integer");
+			throw new DecodeException("regexp(): groupno must be a non-negative integer");
 			return retval;
 		}
 		// do not report the warnings again
@@ -120,7 +85,7 @@ public class PredefFunc {
 		String posix_str=TTCN_pattern_to_regexp(expression.c_str());
 		verb_level = orig_verb_level;
 		if(posix_str==NULL) {
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): Cannot convert pattern `%s' to POSIX-equivalent.",
+			throw new DecodeException(MessageFormat.format("regexp(): Cannot convert pattern `%s' to POSIX-equivalent.",
 					expression.c_str());
 			return retval;
 		}
@@ -133,13 +98,13 @@ public class PredefFunc {
 			// regexp error
 			char msg[ERRMSG_BUFSIZE];
 			regerror(ret_val, &posix_regexp, msg, sizeof(msg));
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): regcomp() failed: %s", msg);
+			throw new DecodeException(MessageFormat.format("regexp(): regcomp() failed: %s", msg);
 			return retval;
 		}
 
 		int nmatch=groupno+1;
 		if(nmatch>posix_regexp.re_nsub) {
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): requested groupno is {0}, but this expression " +
+			throw new DecodeException(MessageFormat.format("regexp(): requested groupno is {0}, but this expression " +
 					"contains only {1} group(s).", (long) (nmatch - 1),
 					(long) posix_regexp.re_nsub));
 			return retval;
@@ -161,7 +126,7 @@ public class PredefFunc {
 				// regexp error
 				char msg[ERRMSG_BUFSIZE];
 				regerror(ret_val, &posix_regexp, msg, sizeof(msg));
-				ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): regexec() failed: %s", msg);
+				throw new DecodeException(MessageFormat.format("regexp(): regexec() failed: %s", msg);
 			}
 		}
 		else {
@@ -178,7 +143,7 @@ public class PredefFunc {
 		ustring retval=0;
 
 		if(groupno<0) {
-			ErrorReporter.INTERNAL_ERROR("regexp(): groupno must be a non-negative integer");
+			throw new DecodeException("regexp(): groupno must be a non-negative integer");
 			return retval;
 		}
 		// do not report the warnings again
@@ -189,10 +154,10 @@ public class PredefFunc {
 		String posix_str = TTCN_pattern_to_regexp_uni(
 				expression.get_stringRepr_for_pattern().c_str(), nocase, &user_groups);
 		if (user_groups == 0)
-			ErrorReporter.INTERNAL_ERROR("regexp(): Cannot find any groups in the second argument.");
+			throw new DecodeException("regexp(): Cannot find any groups in the second argument.");
 		verb_level = orig_verb_level;
 		if(posix_str==null) {
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): Cannot convert pattern `{0}' to POSIX-equivalent.",
+			throw new DecodeException(MessageFormat.format("regexp(): Cannot convert pattern `{0}' to POSIX-equivalent.",
 					expression.get_stringRepr()));
 			return retval;
 		}
@@ -204,13 +169,13 @@ public class PredefFunc {
 			// regexp error
 			char msg[ERRMSG_BUFSIZE];
 			regerror(ret_val, &posix_regexp, msg, sizeof(msg));
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): regcomp() failed: %s", msg);
+			throw new DecodeException(MessageFormat.format("regexp(): regcomp() failed: %s", msg);
 			return retval;
 		}
 
 		int nmatch=user_groups[groupno+1]+1;
 		if(nmatch>posix_regexp.re_nsub) {
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): requested groupno is {0}, but this expression " +
+			throw new DecodeException(MessageFormat.format("regexp(): requested groupno is {0}, but this expression " +
 					"contains only {1} group(s).", (long) (groupno),
 					(long) user_groups[0]));
 			return retval;
@@ -240,7 +205,7 @@ public class PredefFunc {
 				// regexp error
 				char msg[ERRMSG_BUFSIZE];
 				regerror(ret_val, &posix_regexp, msg, sizeof(msg));
-				ErrorReporter.INTERNAL_ERROR(MessageFormat.format("regexp(): regexec() failed: %s", msg);
+				throw new DecodeException(MessageFormat.format("regexp(): regexec() failed: %s", msg);
 			}
 		}
 		else {
@@ -250,7 +215,7 @@ public class PredefFunc {
 		return retval;
 	}
 //*/
-	
+
 	/**
 	 * Search the given BOM in a string
 	 * @param s the string where we search
@@ -260,16 +225,18 @@ public class PredefFunc {
 	private static boolean findBom(final String s, final String bom) {
 		return s.regionMatches(true, 0, bom, 0, bom.length());
 	}
-	
-	public static String remove_bom(final String encoded_value) {
-		int length = encoded_value.length();
+
+	public static String remove_bom(final String encoded_value) throws DecodeException {
+		final int length = encoded_value.length();
 		if (0 == length) {
 			return new String();
 		}
+
 		if (length % 2 != 0) {
-			ErrorReporter.INTERNAL_ERROR( MessageFormat.format("remove_bom(): Wrong string. The number of nibbles ({0}) in string " +
+			throw new DecodeException( MessageFormat.format("remove_bom(): Wrong string. The number of nibbles ({0}) in string " +
 					"shall be divisible by 2", length));
-			return encoded_value;
+			//TODO: remove
+			//return encoded_value;
 		}
 
 		int length_of_BOM = 0;
@@ -284,7 +251,7 @@ public class PredefFunc {
 		return encoded_value.substring(length_of_BOM, length);
 	}
 
-	public static CharCoding is_ascii (int length, final String strptr) {
+	public static CharCoding is_ascii (final int length, final String strptr) {
 		final char nonASCII = 1 << 7;// MSB is 1 in case of non ASCII character  
 		CharCoding ret = CharCoding.ASCII;
 		for (int i = 0; i < length; ++i) {
@@ -296,7 +263,7 @@ public class PredefFunc {
 		return ret;
 	}
 
-	private static CharCoding is_utf8(int length, final String strptr) {
+	private static CharCoding is_utf8(final int length, final String strptr) {
 		final char MSB = 1 << 7; // MSB is 1 in case of non ASCII character  
 		final char MSBmin1 = 1 << 6; // 0100 0000   
 		int i = 0;
@@ -323,16 +290,20 @@ public class PredefFunc {
 		return CharCoding.UTF_8;
 	}
 
-	public String get_stringencoding(final String encoded_value) {
-		int length = encoded_value.length();
+	//TODO: remove
+	/*
+	public static String get_stringencoding(final String encoded_value) throws DecodeException {
+		final int length = encoded_value.length();
 		if (0 == length) {
 			return "<unknown>";
 		}
+
 		if ( length % 2 != 0 ) {
-			ErrorReporter.INTERNAL_ERROR( MessageFormat.format(
+			throw new DecodeException( MessageFormat.format(
 					"get_stringencoding(): Wrong string. The number of nibbles ({0}) in string " +
 							"shall be divisible by 2", length ));
-			return "<unknown>";
+			//TODO: remove
+			//return "<unknown>";
 		}
 
 		if      (findBom(encoded_value, utf32be)) return "UTF-32BE";
@@ -341,8 +312,8 @@ public class PredefFunc {
 		else if (findBom(encoded_value, utf16le)) return "UTF-16LE";
 		else if (findBom(encoded_value, utf8)) return "UTF-8";
 
-		StringBuilder uc_str = new StringBuilder();
-		String ret;
+		final StringBuilder uc_str = new StringBuilder();
+		final String ret;
 		for (int i = 0; i < length / 2; ++i) {
 			uc_str.append(str2uchar(encoded_value.charAt(2 * i), encoded_value.charAt(2 * i + 1)));
 		}
@@ -357,8 +328,47 @@ public class PredefFunc {
 
 		return ret;
 	}
+	*/
 
-	private static int check_BOM(CharCoding expected_coding, int n_uc, String uc_str) {
+	public static CharCoding getCharCoding(final String encoded_value) {
+		final int length = encoded_value.length();
+		if (0 == length) {
+			return CharCoding.UNKNOWN;
+		}
+
+		if ( length % 2 != 0 ) {
+			// Wrong string. The number of nibbles ({0}) in string shall be divisible by 2
+			return CharCoding.UNKNOWN;
+		}
+
+		if      (findBom(encoded_value, utf32be)) return CharCoding.UTF32BE;
+		else if (findBom(encoded_value, utf32le)) return CharCoding.UTF32LE;
+		else if (findBom(encoded_value, utf16be)) return CharCoding.UTF16BE;
+		else if (findBom(encoded_value, utf16le)) return CharCoding.UTF16LE;
+		else if (findBom(encoded_value, utf8)) return CharCoding.UTF_8;
+
+		final StringBuilder uc_str = new StringBuilder();
+		final CharCoding ret;
+		for (int i = 0; i < length / 2; ++i) {
+			try {
+				uc_str.append(str2uchar(encoded_value.charAt(2 * i), encoded_value.charAt(2 * i + 1)));
+			} catch (DecodeException e) {
+				return CharCoding.UNKNOWN;
+			}
+		}
+
+		if (is_ascii(length / 2, uc_str.toString()) == CharCoding.ASCII) {
+			ret = CharCoding.ASCII;
+		} else if (CharCoding.UTF_8 == is_utf8(length / 2, uc_str.toString())) {
+			ret = CharCoding.UTF_8;
+		} else {
+			ret = CharCoding.UNKNOWN;
+		}
+
+		return ret;
+	}
+
+	private static int check_BOM(final CharCoding expected_coding, final int n_uc, final String uc_str) throws DecodeException {
 		if (0 == n_uc) {
 			return 0;
 		}
@@ -368,16 +378,14 @@ public class PredefFunc {
 		case UTF32BE:
 		case UTF32LE:
 			if (4 > n_uc) {
-				ErrorReporter.INTERNAL_ERROR("decode_utf32(): The string is shorter than the expected BOM");
-				return 0;
+				throw new DecodeException("decode_utf32(): The string is shorter than the expected BOM");
 			}
 			break;
 		case UTF16:
 		case UTF16BE:
 		case UTF16LE:
 			if (2 > n_uc) {
-				ErrorReporter.INTERNAL_ERROR("decode_utf16(): The string is shorter than the expected BOM");
-				return 0;
+				throw new DecodeException("decode_utf16(): The string is shorter than the expected BOM");
 			}
 			break;
 		default: break;
@@ -431,30 +439,31 @@ public class PredefFunc {
 		default:
 			if (CharCoding.UTF32 == expected_coding || CharCoding.UTF16 == expected_coding) {
 				final String str = CharCoding.UTF32 == expected_coding ? "UTF-32" : "UTF-16";
-				ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+				throw new DecodeException(MessageFormat.format(
 						"Wrong {0} string. No BOM detected, however the given coding type ({1}) " +
 								"expects it to define the endianness", str, str));
 			}
 			else {
-				ErrorReporter.INTERNAL_ERROR("Wrong string. No BOM detected");
+				throw new DecodeException("Wrong string. No BOM detected");
 			}
 		}
-		if (badBOM) ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+		if (badBOM) {
+			throw new DecodeException(MessageFormat.format(
 				"{0}: Wrong {1} string. The expected coding could not be verified",
 				caller, errmsg));
+		}
 		return 0;
 	}
 
-	private static void fill_continuing_octets(int n_continuing, List<Character> continuing_ptr,
-			int n_uc, final StringBuilder uc_str, int start_pos, int uchar_pos) {
+	private static void fill_continuing_octets(final int n_continuing, final List<Character> continuing_ptr,
+			final int n_uc, final StringBuilder uc_str, final int start_pos, final int uchar_pos) throws DecodeException {
 		for (int i = 0; i < n_continuing; i++) {
 			if (start_pos + i < n_uc) {
-				char octet = uc_str.charAt(start_pos + i);
+				final char octet = uc_str.charAt(start_pos + i);
 				if ((octet & 0xC0) != 0x80) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Malformed: At character position {0}, octet position {1}: {2} is " +
 									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("0x%02X", octet)));
-					return;
 				}
 				continuing_ptr.add((char) (octet & 0x3F));
 			} 
@@ -462,20 +471,18 @@ public class PredefFunc {
 				if (start_pos + i == n_uc) {
 					if (i > 0) {
 						// only a part of octets is missing
-						ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+						throw new DecodeException(MessageFormat.format(
 								"decode_utf8(): Incomplete: At character position {0}, octet position {1}: {2} out " +
 										"of {3} continuing octets {4} missing from the end of the stream.",
 										uchar_pos, start_pos + i, n_continuing - i, n_continuing,
 										n_continuing - i > 1 ? "are" : "is"));
-						return;
 					}
 					else {
 						// all octets are missing
-						ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+						throw new DecodeException(MessageFormat.format(
 								"decode_utf8(): Incomplete: At character position {0}, octet position {1}: {2} " +
 										"continuing octet{3} missing from the end of the stream.", uchar_pos,
 										start_pos, n_continuing, n_continuing > 1 ? "s are" : " is"));
-						return;
 					}
 				}
 				continuing_ptr.add((char) 0);
@@ -483,144 +490,136 @@ public class PredefFunc {
 		}
 	}
 
-	public static ustring decode_utf8(final String ostr, CharCoding expected_coding) {
-		int length = ostr.length();
+	public static UniversalCharstring decode_utf8(final String ostr, final CharCoding expected_coding) throws Exception {
+		final int length = ostr.length();
 		if (0 == length) {
-			return new ustring();
+			return new UniversalCharstring();
 		}
 		if (length % 2 != 0) {
-			ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+			throw new DecodeException(MessageFormat.format(
 					"decode_utf8(): Wrong UTF-8 string. The number of nibbles ({0}) in octetstring " +
 							"shall be divisible by 2", length));
-			return new ustring();
 		}
 
-		StringBuilder uc_str = new StringBuilder();
+		final StringBuilder uc_str = new StringBuilder();
 		for (int i = 0; i < length / 2; ++i) {
 			uc_str.append(str2uchar(ostr.charAt(2 * i), ostr.charAt(2 * i + 1)));
 		}
-		ustring ucstr = new ustring();
-		int start = check_BOM(CharCoding.UTF_8, length /2, uc_str.toString());
+		final UniversalCharstring ucstr = new UniversalCharstring();
+		final int start = check_BOM(CharCoding.UTF_8, length /2, uc_str.toString());
 
 		for (int i = start; i < length / 2;) {
 			// perform the decoding character by character
 			if (uc_str.charAt(i) <= 0x7F) {
 				// character encoded on a single octet: 0xxxxxxx (7 useful bits)
-				char g = 0;
-				char p = 0;
-				char r = 0;
-				char c = uc_str.charAt(i);
-				ucstr.add(g, p, r, c);
+				final char g = 0;
+				final char p = 0;
+				final char r = 0;
+				final char c = uc_str.charAt(i);
+				ucstr.append(new UniversalChar(g, p, r, c));
 				++i;
 			}
 			else if (uc_str.charAt(i) <= 0xBF) {
 				// continuing octet (10xxxxxx) without leading octet ==> malformed
-				ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+				throw new DecodeException(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: continuing " +
-								"octet {2} without leading octet.", ucstr.size(),
+								"octet {2} without leading octet.", ucstr.length(),
 								i, String.format("0x%02X",uc_str.charAt(i))));
-				return ucstr;
 			}
 			else if (uc_str.charAt(i) <= 0xDF) {
 				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
-				List<Character> octets = new ArrayList<Character>();
+				final List<Character> octets = new ArrayList<Character>();
 				octets.add( (char) (uc_str.charAt(i) & 0x1F) );
-				fill_continuing_octets(1, octets, length / 2, uc_str, i + 1, ucstr.size());
-				char g = 0;
-				char p = 0;
-				char r = (char) (octets.get(0) >> 2);
-				char c = (char) (octets.get(0) << 6 | octets.get(1));
+				fill_continuing_octets(1, octets, length / 2, uc_str, i + 1, ucstr.length());
+				final char g = 0;
+				final char p = 0;
+				final char r = (char) (octets.get(0) >> 2);
+				final char c = (char) (octets.get(0) << 6 | octets.get(1));
 				if (r == 0x00 && c < 0x80) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 2-octet " +
-									"encoding for quadruple (0, 0, 0, {2}).", ucstr.size(), i, c));
-					return ucstr;
+									"encoding for quadruple (0, 0, 0, {2}).", ucstr.length(), i, c));
 				}
-				ucstr.add(g, p, r, c);
+				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 2;
 			} 
 			else if (uc_str.charAt(i) <= 0xEF) {
 				// character encoded on 3 octets: 1110xxxx 10xxxxxx 10xxxxxx
 				// (16 useful bits)
-				List<Character> octets = new ArrayList<Character>();
+				final List<Character> octets = new ArrayList<Character>();
 				octets.add( (char) (uc_str.charAt(i) & 0x0F) );
-				fill_continuing_octets(2, octets, length / 2, uc_str, i + 1,ucstr.size());
-				char g = 0;
-				char p = 0;
-				char r = (char) (octets.get(0) << 4 | octets.get(1) >> 2);
-				char c = (char) (octets.get(1) << 6 | octets.get(2));
+				fill_continuing_octets(2, octets, length / 2, uc_str, i + 1,ucstr.length());
+				final char g = 0;
+				final char p = 0;
+				final char r = (char) (octets.get(0) << 4 | octets.get(1) >> 2);
+				final char c = (char) (octets.get(1) << 6 | octets.get(2));
 				if (r < 0x08) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 3-octet " +
-									"encoding for quadruple (0, 0, {2}, {3}).", ucstr.size(), i, r, c));
-					return ucstr;
+									"encoding for quadruple (0, 0, {2}, {3}).", ucstr.length(), i, r, c));
 				}
-				ucstr.add(g, p, r, c);
+				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 3;
 			} 
 			else if (uc_str.charAt(i) <= 0xF7) {
 				// character encoded on 4 octets: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				// (21 useful bits)
-				List<Character> octets = new ArrayList<Character>();
+				final List<Character> octets = new ArrayList<Character>();
 				octets.add( (char) (uc_str.charAt(i) & 0x07) );
-				fill_continuing_octets(3, octets, length / 2, uc_str, i + 1, ucstr.size());
-				char g = 0;
-				char p = (char) (octets.get(0) << 2 | octets.get(1) >> 4);
-				char r = (char) (octets.get(1) << 4 | octets.get(2) >> 2);
-				char c = (char) (octets.get(2) << 6 | octets.get(3));
+				fill_continuing_octets(3, octets, length / 2, uc_str, i + 1, ucstr.length());
+				final char g = 0;
+				final char p = (char) (octets.get(0) << 2 | octets.get(1) >> 4);
+				final char r = (char) (octets.get(1) << 4 | octets.get(2) >> 2);
+				final char c = (char) (octets.get(2) << 6 | octets.get(3));
 				if (p == 0x00) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 4-octet " +
-									"encoding for quadruple (0, 0, {2}, {3}).", ucstr.size(), i, r, c));
-					return ucstr;
+									"encoding for quadruple (0, 0, {2}, {3}).", ucstr.length(), i, r, c));
 				}
-				ucstr.add(g, p, r, c);
+				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 4;
 			}
 			else if (uc_str.charAt(i) <= 0xFB) {
 				// character encoded on 5 octets: 111110xx 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx (26 useful bits)
-				List<Character> octets = new ArrayList<Character>();
+				final List<Character> octets = new ArrayList<Character>();
 				octets.add( (char) (uc_str.charAt(i) & 0x03) );
-				fill_continuing_octets(4, octets, length / 2, uc_str, i + 1, ucstr.size());
-				char g = octets.get(0);
-				char p = (char) (octets.get(1) << 2 | octets.get(2) >> 4);
-				char r = (char) (octets.get(2) << 4 | octets.get(3) >> 2);
-				char c = (char) (octets.get(3) << 6 | octets.get(4));
+				fill_continuing_octets(4, octets, length / 2, uc_str, i + 1, ucstr.length());
+				final char g = octets.get(0);
+				final char p = (char) (octets.get(1) << 2 | octets.get(2) >> 4);
+				final char r = (char) (octets.get(2) << 4 | octets.get(3) >> 2);
+				final char c = (char) (octets.get(3) << 6 | octets.get(4));
 				if (g == 0x00 && p < 0x20) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 5-octet " +
-									"encoding for quadruple (0, {2}, {3}, {4}).", ucstr.size(), i, p, r, c));
-					return ucstr;
+									"encoding for quadruple (0, {2}, {3}, {4}).", ucstr.length(), i, p, r, c));
 				}
-				ucstr.add(g, p, r, c);
+				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 5;
 			}
 			else if (uc_str.charAt(i) <= 0xFD) {
 				// character encoded on 6 octets: 1111110x 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx 10xxxxxx (31 useful bits)
-				List<Character> octets = new ArrayList<Character>();
+				final List<Character> octets = new ArrayList<Character>();
 				octets.add( (char) (uc_str.charAt(i) & 0x01) );
-				fill_continuing_octets(5, octets, length / 2, uc_str, i + 1,ucstr.size());
-				char g = (char) (octets.get(0) << 6 | octets.get(1));
-				char p = (char) (octets.get(2) << 2 | octets.get(3) >> 4);
-				char r = (char) (octets.get(3) << 4 | octets.get(4) >> 2);
-				char c = (char) (octets.get(4) << 6 | octets.get(5));
+				fill_continuing_octets(5, octets, length / 2, uc_str, i + 1,ucstr.length());
+				final char g = (char) (octets.get(0) << 6 | octets.get(1));
+				final char p = (char) (octets.get(2) << 2 | octets.get(3) >> 4);
+				final char r = (char) (octets.get(3) << 4 | octets.get(4) >> 2);
+				final char c = (char) (octets.get(4) << 6 | octets.get(5));
 				if (g < 0x04) {
-					ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 6-octet " +
-									"encoding for quadruple ({2}, {3}, {4}, {5}).", ucstr.size(), i, g, p, r, c));
-					return ucstr;
+									"encoding for quadruple ({2}, {3}, {4}, {5}).", ucstr.length(), i, g, p, r, c));
 				}
-				ucstr.add(g, p, r, c);
+				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 6;
 			}
 			else {
 				// not used code points: FE and FF => malformed
-				ErrorReporter.INTERNAL_ERROR(MessageFormat.format(
+				throw new DecodeException(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: " +
-								"unused/reserved octet {2}.", ucstr.size(), i, String.format("0x%02X", uc_str.charAt(i))));
-				return ucstr;
+								"unused/reserved octet {2}.", ucstr.length(), i, String.format("0x%02X", uc_str.charAt(i))));
 			}
 		}
 		return ucstr;
