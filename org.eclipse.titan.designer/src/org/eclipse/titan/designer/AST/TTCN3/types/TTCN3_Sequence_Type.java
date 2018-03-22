@@ -885,7 +885,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
 					cfType.getGenNameTemplate( aData, source, getMyScope() ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
-					cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					false, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}
@@ -898,7 +898,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final boolean hasRaw = getGenerateCoderFunctions(MessageEncoding_type.RAW);
 		final RawASTStruct raw = convertRAWCodingAttributes(aData, source, hasRaw, namesList);
 
-		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false, getGenerateCoderFunctions(MessageEncoding_type.RAW), raw);
+		RecordSetCodeGenerator.generateValueClass(aData, source, className, classReadableName, namesList, hasOptional, false, hasRaw, raw);
 		RecordSetCodeGenerator.generateTemplateClass(aData, source, className, classReadableName, namesList, hasOptional, false);
 
 		if (hasDoneAttribute()) {
