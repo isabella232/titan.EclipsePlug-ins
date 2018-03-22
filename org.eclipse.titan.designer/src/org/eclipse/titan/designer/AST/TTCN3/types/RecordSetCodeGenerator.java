@@ -4,8 +4,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.designer.AST.FieldSubReference;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_ext_group;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_list;
@@ -629,8 +631,7 @@ public class RecordSetCodeGenerator {
 			AtomicBoolean hasCrosstag = new AtomicBoolean();
 			AtomicBoolean has_ext_bit = new AtomicBoolean();
 			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
-			// FIXME generate_raw_coding
-			//FIXME needs to actually handle specific raw attributes
+
 			source.append("@Override\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("if (!isBound()) {\n");
@@ -900,6 +901,12 @@ public class RecordSetCodeGenerator {
 			source.append("@Override\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
 			if (isSet) {
+				int mand_num = 0;
+				for (int i = 0; i < fieldInfos.size(); i++) {
+					if (!fieldInfos.get(i).isOptional) {
+						mand_num++;
+					}
+				}
 				source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 				source.append("limit -= prepaddlength;\n");
 				source.append("int decoded_length = 0;\n");
@@ -911,7 +918,16 @@ public class RecordSetCodeGenerator {
 					source.append('0');
 				}
 				source.append("};\n");
-				source.append("int nof_mand_fields = 0;\n");
+				if (mand_num > 0) {
+					source.append("int nof_mand_fields = 0;\n");
+				}
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					if (fieldInfo.isOptional) {
+						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+					}
+				}
 				source.append("raw_order_t local_top_order;\n");
 				source.append("if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
 				source.append("local_top_order = top_bit_ord;\n");
@@ -924,8 +940,38 @@ public class RecordSetCodeGenerator {
 				source.append("while (limit > 0) {\n");
 				source.append("int fl_start_pos = buff.get_pos_bit();\n");
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					// tagged fields
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					final int tag_type = raw_options.get(i).tag_type;
+
+					if (tag_type > 0 && raw.taglist.list.get(tag_type - 1).fields.size() > 0) {
+						//FIXME decode tagged values
+					}
+				}
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					// untagged fields
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 
+					if (raw_options.get(i).tag_type == 0) {
+						//FIXME decode untagged value
+					}
+				}
+				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					// tag OTHERWISE
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+					final int tag_type = raw_options.get(i).tag_type;
+
+					if (tag_type > 0 && raw.taglist.list.get(tag_type - 1).fields.size() == 0) {
+						source.append("NOT YET implemented otherwise\n");
+						//FIXME decode tagged values
+					}
+				}
+
+				//this is only placeholder for now
+/*				for (int i = 0 ; i < fieldInfos.size(); i++) {
+					final FieldInfo fieldInfo = fieldInfos.get(i);
+
+					
 					if (fieldInfo.isOptional) {
 						source.append(MessageFormat.format("if (field_map[{0}] == 0) '{'\n", i));
 						source.append(MessageFormat.format("int decoded_field_length = get{0}().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
@@ -954,13 +1000,16 @@ public class RecordSetCodeGenerator {
 						source.append("}\n");
 					}
 				}
+				*/
 
 				source.append("break;\n");
 				source.append("}\n");
 
-				source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", fieldInfos.size()));
-				source.append("return limit > 0 ? -1 : TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
-				source.append("}\n");
+				if (mand_num > 0) {
+					source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", fieldInfos.size()));
+					source.append("return limit > 0 ? -1 : TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
+					source.append("}\n");
+				}
 				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
 			} else {
 				source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
@@ -969,6 +1018,13 @@ public class RecordSetCodeGenerator {
 				source.append("int decoded_length = 0;\n");
 				source.append("int decoded_field_length = 0;\n");
 				source.append("raw_order_t local_top_order;\n");
+
+				if (hasCrosstag.get()) {
+					source.append("int selected_field = -1;\n");
+				}
+				if (raw != null && raw.ext_bit_groups != null && raw.ext_bit_groups.size() > 0) {
+					source.append("int group_limit = 0;\n");
+				}
 				source.append("if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_INHERITED) {\n");
 				source.append("local_top_order = top_bit_ord;\n");
 				source.append("} else if (p_td.raw.top_bit_order == top_bit_order_t.TOP_BIT_RIGHT) {\n");
@@ -976,36 +1032,70 @@ public class RecordSetCodeGenerator {
 				source.append("} else {\n");
 				source.append("local_top_order = raw_order_t.ORDER_LSB;\n");
 				source.append("}\n");
-	
+
+				if (has_ext_bit.get()) {
+					//FIXME implement
+					source.append("EXT BIT NOT YET SUPPORTED\n");
+				}
+				if (hasPointer.get()) {
+					source.append("int end_of_available_data = last_decoded_pos + limit;\n");
+				}
+				for (int i = 0; i < fieldInfos.size(); i++) {
+					if (raw_options.get(i).pointerof > 0) {
+						source.append(MessageFormat.format("int start_of_field{0} = -1;\n", i));
+					}
+					if (raw_options.get(i).ptrbase) {
+						source.append(MessageFormat.format("int start_pos_of_field{0} = -1;\n", i));
+					}
+					if (raw_options.get(i).lengthto) {
+						source.append(MessageFormat.format("int value_of_length_field{0} = 0;\n", i));
+					}
+				}
+
+				final AtomicInteger prev_ext_group = new AtomicInteger(0);
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
+					final raw_option_struct tempRawOption = raw_options.get(i);
 
-					if (fieldInfo.isOptional) {
-						source.append("if (limit > 0) {\n");
-						source.append("int fl_start_pos = buff.get_pos_bit();\n");
-						source.append(MessageFormat.format("decoded_field_length = get{0}().get().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-						source.append("if (decoded_field_length < 1) {\n");
-						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
-						source.append("buff.set_pos_bit(fl_start_pos);\n");
-						source.append("} else {\n");
-						source.append("decoded_length += decoded_field_length;\n");
-						source.append("limit -= decoded_field_length;\n");
-						source.append("last_decoded_pos = Math.max(last_decoded_pos, buff.get_pos_bit());\n");
+					if (tempRawOption.delayedDecode) {
+						source.append("if (");
+						genRawFieldDecodeLimit(aData, source, fieldInfos, i, raw, raw_options);
+						source.append(MessageFormat.format(" < {0}) '{'\n", fieldInfo.raw.length));
+						source.append("return -1 * TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();\n");
 						source.append("}\n");
-						source.append("} else {\n");
-						source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
-						source.append("}\n");
+						source.append(MessageFormat.format("int start_of_field{0} = buff.get_pos_bit();\n", i));
+						source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0} + {1});\n", i, fieldInfo.raw.length));
+						source.append(MessageFormat.format("decoded_length += {0};\n", fieldInfo.raw.length));
+						source.append(MessageFormat.format("last_decoded_pos += {0};\n", fieldInfo.raw.length));
+						source.append(MessageFormat.format("limit -= {0};\n", fieldInfo.raw.length));
+						for (int j = 0; j < tempRawOption.lengthof; j++) {
+							source.append(MessageFormat.format("value_of_length_field{0} -= {1};\n", tempRawOption.lengthofField.get(j), fieldInfo.raw.length));
+						}
 					} else {
-						source.append(MessageFormat.format("decoded_field_length = get{0}().RAW_decode({1}_descr_, buff, limit, local_top_order, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
-						source.append("if (decoded_field_length < 0) {\n");
-						source.append("return decoded_field_length;\n");
-						source.append("}\n");
-						source.append("decoded_length += decoded_field_length;\n");
-						source.append("limit -= decoded_field_length;\n");
-						source.append("last_decoded_pos = Math.max(last_decoded_pos, buff.get_pos_bit());\n");
+						genRawDecodeRecordField(aData, source, fieldInfos, i, raw, raw_options, false, prev_ext_group);
+						
+						if (tempRawOption.dependentFields != null && tempRawOption.dependentFields.size() > 0) {
+							for (int j = 0; j < tempRawOption.dependentFields.size(); j++) {
+								int dependent_field_index = tempRawOption.dependentFields.get(j);
+								source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", dependent_field_index));
+								genRawDecodeRecordField(aData, source, fieldInfos, dependent_field_index, raw, raw_options, true, prev_ext_group);
+							}
+							if (i < fieldInfos.size() - 1) {
+								/* seek back if there are more regular fields to decode */
+								source.append("buff.set_pos_bit(last_decoded_pos);\n");
+							}
+						}
 					}
 				}
 	
+				
+				if (raw != null && raw.presence != null && raw.presence.fields != null && raw.presence.fields.size() > 0) {
+					source.append("if (");
+					genRawFieldChecker(source, raw.presence, false);
+					source.append(") {\n");
+					source.append("return -1;");
+					source.append("}\n");
+				}
 				source.append("buff.set_pos_bit(last_decoded_pos);\n");
 				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
 			}
@@ -2395,6 +2485,15 @@ public class RecordSetCodeGenerator {
 		source.append("}\n\n");
 	}
 
+	/**
+	 * This function can be used to generate a raw field checker.
+	 *
+	 * used to generate into conditionals.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param taglist the taglist as data.
+	 * @param is_equal will it be used in equals style check?
+	 */
 	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
 		for (int i = 0; i < taglist.fields.size(); i++) {
 			rawAST_coding_field_list fields = taglist.fields.get(i);
@@ -2458,6 +2557,14 @@ public class RecordSetCodeGenerator {
 		}
 	}
 
+	/**
+	 * This function can be used to generate a raw tag checker.
+	 * 
+	 * used to generate encoding code for the tags.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param taglist the taglist as data.
+	 */
 	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
 		source.append("RAW_enc_tree temp_leaf;\n");
 		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
@@ -2479,6 +2586,295 @@ public class RecordSetCodeGenerator {
 		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_OMITTED_TAG, \"Encoding a tagged, but omitted value.\", \"\");\n");
 		source.append(" }\n");
 		for (int temp_tag = taglist.fields.size() - 1; temp_tag >= 0; temp_tag--) {
+			source.append("}\n");
+		}
+	}
+
+	/**
+	 * This function generates the conditional check decoding length limit.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param fieldInfos the list of field informations.
+	 * @param i the index of the field to generate for.
+	 * @param raw the raw attribute of the record/set.
+	 * @param raw_options the pre-calculated raw options.
+	 */
+	private static void genRawFieldDecodeLimit(final JavaGenData aData, final StringBuilder source, final List<FieldInfo> fieldInfos, final int i, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options) {
+		int nof_args = 0;
+		final raw_option_struct tempRawOption = raw_options.get(i);
+		for (int j = 0; j < tempRawOption.lengthof; j++) {
+			final int field_index = tempRawOption.lengthofField.get(j);
+			if ( i > field_index && fieldInfos.get(field_index).raw.unit != -1) {
+				nof_args++;
+			}
+		}
+		if (tempRawOption.extbitgroup > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
+			nof_args++;
+		}
+		if (nof_args > 1) {
+			aData.addImport("java.util.Collections");
+			aData.addImport("java.util.Arrays");
+			//TODO optimize
+			source.append("Collections.min(Arrays.asList(new int[]{limit");
+			for (int j = 0; j < tempRawOption.lengthof; j++) {
+				final int field_index = tempRawOption.lengthofField.get(j);
+				if (i > field_index && fieldInfos.get(field_index).raw.unit != -1) {
+					source.append(MessageFormat.format(", value_of_length_field{0}", field_index));
+				}
+			}
+			if (tempRawOption.extbitgroup > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
+				source.append(", group_limit");
+			}
+			source.append("}))");
+		} else {
+			source.append("limit");
+		}
+	}
+
+	/**
+	 * This function generates the code for decoding a record field.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param fieldInfos the list of field informations.
+	 * @param i the index of the field to generate for.
+	 * @param raw the raw attribute of the record/set.
+	 * @param raw_options the pre-calculated raw options.
+	 * @param delayed_decode true to generated for delayed decoding.
+	 * @param prev_ext_group the index of the previous extension group.
+	 */
+	private static void genRawDecodeRecordField(final JavaGenData aData, final StringBuilder source, final List<FieldInfo> fieldInfos, final int i, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options, final boolean delayed_decode, final AtomicInteger prev_ext_group) {
+		final raw_option_struct tempRawOption = raw_options.get(i);
+
+		if (tempRawOption.ptrbase) {
+			source.append(MessageFormat.format("start_pos_of_field{0} = buff.get_pos_bit();\n", i));
+		}
+		if (prev_ext_group.get() != tempRawOption.extbitgroup) {
+			prev_ext_group.set(tempRawOption.extbitgroup);
+			if (prev_ext_group.get() > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
+				if (tempRawOption.pointerof > 0) {
+					final FieldInfo pointedField = fieldInfos.get(tempRawOption.pointerof - 1);
+
+					source.append("{\n");
+					source.append("int old_pos = buff.get_pos_bit();\n");
+					source.append(MessageFormat.format("if (start_of_field{0} != -1 && start_pos_of_field{1} != -1) '{'\n", i, pointedField.raw.pointerbase));
+					source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get{2}(){3}.getInt() * {4} + {5};\n", i, pointedField.raw.pointerbase, pointedField.mVarName, pointedField.isOptional ? ".get()" : "", pointedField.raw.unit, pointedField.raw.ptroffset));
+					source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", i));
+					source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
+				}
+
+				source.append("{\n");
+				source.append("char[] data = buff.get_read_data();\n");
+				source.append("int count = 1;\n");
+				source.append("int rot = local_top_order == raw_order_t.ORDER_LSB ? 0: 7;\n");
+				source.append(MessageFormat.format("while (((data[count - 1] >> rot) & 0x01) == {0} && count * 8 < limit) '{'\n", raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit == RawAST.XDEFYES ? 0: 1));
+				source.append("count++;\n");
+				source.append("}\n");
+				source.append(" if (limit > 0) {\n");
+				source.append("group_limit = count * 8;\n");
+				source.append("}\n");
+				source.append("}\n");
+
+				if (tempRawOption.pointerof > 0) {
+					source.append(" } else {\n");
+					source.append("group_limit = 0;\n");
+					source.append("}\n");
+					source.append("buff.set_pos_bit(old_pos);\n");
+					source.append("limit = end_of_available_data - old_pos;\n");
+					source.append("}\n");
+				}
+			}
+		}
+
+		final FieldInfo fieldInfo = fieldInfos.get(i);
+		final int crosstagsize = fieldInfo.raw == null || fieldInfo.raw.crosstaglist == null || fieldInfo.raw.crosstaglist.list == null ? 0 : fieldInfo.raw.crosstaglist.list.size();
+		if (crosstagsize > 0) {
+			int other = -1;
+			boolean first_value = true;
+			for (int j = 0; j < crosstagsize; j++) {
+				final rawAST_coding_taglist cur_choice = fieldInfo.raw.crosstaglist.list.get(j);
+				if (cur_choice.fields != null && cur_choice.fields.size() > 0) {
+					if (first_value) {
+						source.append("if (");
+						first_value = false;
+					} else {
+						source.append(" else if (");
+					}
+					genRawFieldChecker(source, cur_choice, true);
+					source.append(") {\n");
+					source.append(MessageFormat.format("selected_field = {0};\n", cur_choice.fieldnum));
+					source.append("}");
+				} else {
+					other = cur_choice.fieldnum;
+				}
+			}
+			source.append(" else {\n");
+			source.append(MessageFormat.format("selected_field = {0};\n", other));
+			source.append("}\n");
+		}
+		/* check the presence of optional field*/
+		if (fieldInfo.isOptional) {
+			/* check if enough bits to decode the field*/
+			source.append("if ( limit > 0");
+			for (int a = 0; a < tempRawOption.lengthof; a++) {
+				final int field_index = tempRawOption.lengthofField.get(a);
+				if (i > field_index) {
+					source.append(MessageFormat.format(" && value_of_length_field{0} > 0", field_index));
+				}
+			}
+			if (tempRawOption.extbitgroup > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
+				source.append(" && group_limit > 0");
+			}
+			if (tempRawOption.pointerof > 0) {
+				source.append(MessageFormat.format(" && start_of_field{0} != -1 && start_pos_of_field{1} != -1", i, fieldInfos.get(tempRawOption.pointerof - 1).raw.pointerbase));
+			}
+
+			final int presenceSize = fieldInfo.raw == null || fieldInfo.raw.presence == null || fieldInfo.raw.presence.fields == null ? 0 : fieldInfo.raw.presence.fields.size();
+			if (presenceSize > 0) {
+				source.append(" && ");
+				if (presenceSize > 1) {
+					source.append('(');
+				}
+				genRawFieldChecker(source, fieldInfo.raw.presence, true);
+				if (presenceSize > 1) {
+					source.append(')');
+				}
+			}
+			if (crosstagsize > 0) {
+				source.append("&& selected_field != -1");
+			}
+			source.append(") {\n");
+		}
+		if (tempRawOption.pointerof > 0) {
+			final FieldInfo tempPointed = fieldInfos.get(tempRawOption.pointerof - 1);
+			source.append(MessageFormat.format("start_of_field{0} = start_pos_of_field{1} + get{2}(){3}.getInt() * {4} + {5};\n", i, tempPointed.raw.pointerbase, tempPointed.mJavaVarName, tempPointed.isOptional ? ".get()":"", tempPointed.raw.unit, tempPointed.raw.ptroffset));
+			source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", i));
+			source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
+		}
+		if (fieldInfo.isOptional) {
+			source.append("int fl_start_pos = buff.get_pos_bit();\n");
+		}
+		source.append(MessageFormat.format("decoded_field_length = get{0}(){1}.RAW_decode({2}_descr_, buff,", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+		if (delayed_decode) {
+			/* the fixed field length is used as limit in case of delayed decoding */
+			source.append(fieldInfo.raw.length);
+		} else {
+			genRawFieldDecodeLimit(aData, source, fieldInfos, i, raw, raw_options);
+		}
+		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
+		if (crosstagsize > 0) {
+			source.append(", selected_field");
+		} else {
+			source.append(", -1");
+		}
+		boolean found = false;
+		for (int a = 0; a < tempRawOption.lengthof && !found; a++) {
+			final int field_index = tempRawOption.lengthofField.get(a);
+			if (fieldInfos.get(field_index).raw.unit == -1) {
+				source.append(MessageFormat.format(", value_of_length_field{0}", field_index));
+				found = true;
+			}
+		}
+		if (!found) {
+			source.append(", true");
+		}
+		source.append(");\n");
+
+		if (delayed_decode) {
+			source.append(MessageFormat.format("if ( decoded_field_length != {0}) '{'\n", fieldInfo.raw.length));
+			source.append("return -1;\n");
+			source.append("}\n");
+		} else if(fieldInfo.isOptional) {
+			source.append("if (decoded_field_length < 1) {\n");
+			source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+			source.append("buff.set_pos_bit(fl_start_pos);\n");
+			source.append(" } else {\n");
+		} else {
+			source.append("if (decoded_field_length < 0) {\n");
+			source.append("return decoded_field_length;\n");
+			source.append("}\n");
+		}
+		if (tempRawOption.tag_type > 0 && raw.taglist.list.get(tempRawOption.tag_type - 1).fields.size() > 0) {
+			final rawAST_coding_taglist cur_choice = raw.taglist.list.get(tempRawOption.tag_type - 1);
+
+			source.append("if (");
+			genRawFieldChecker(source, cur_choice, false);
+			source.append(") {\n");
+			if (fieldInfo.isOptional) {
+				source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
+				source.append("buff.set_pos_bit(fl_start_pos);\n");
+				source.append(" } else {");
+			} else {
+				source.append("return -1;\n");
+				source.append("}\n");
+			}
+		}
+		if (!delayed_decode) {
+			source.append("decoded_length += decoded_field_length;\n");
+			source.append("limit -= decoded_field_length;\n");
+			source.append("last_decoded_pos = Math.max(last_decoded_pos, buff.get_pos_bit());\n");
+		}
+		if (tempRawOption.extbitgroup > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
+			source.append("group_limit -= decoded_field_length;\n");
+		}
+		if (tempRawOption.lengthto) {
+			if (fieldInfo.raw.lengthindex != null) {
+				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+					source.append(MessageFormat.format("if ({0}{1}.get{2}().isPresent()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthindex.nthfieldname));
+				}
+				if (fieldInfo.raw.lengthto_offset != 0) {
+					source.append(MessageFormat.format("{0}{1}.get{2}(){3}.assign({0}{1}.get{2}(){3} - {4});\n",
+							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.lengthindex.nthfieldname, fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
+				}
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}(){4}.getInt() * {5};\n",
+						i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.lengthindex.nthfieldname, fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
+					source.append("}\n");
+				}
+			} else if (fieldInfo.raw.union_member_num > 0) {
+				source.append(MessageFormat.format("switch ({0}{1}.get_selection()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":""));
+				for (int m = 0; m < fieldInfo.raw.member_name.size(); m++) {
+					source.append(MessageFormat.format("case {0}.{1}", fieldInfo.raw.member_name.get(0), fieldInfo.raw.member_name.get(m)));
+					if (fieldInfo.raw.lengthto_offset != 0) {
+						source.append(MessageFormat.format("{0}{1}.get{2}().assign({0}{1}.get{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
+					}
+					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}().getInt() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+					source.append("break;\n");
+				}
+				source.append("default:\n");
+				source.append(MessageFormat.format("value_of_length_field{0} = 0;\n", i));
+				source.append("}\n");
+			} else {
+				if (fieldInfo.raw.lengthto_offset != 0) {
+					source.append(MessageFormat.format("{0}{1}.assign({0}{1}.getInt() - {2});\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthto_offset));
+				}
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.getInt() * {3};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+			}
+		}
+		if (tempRawOption.pointerto) {
+			source.append(MessageFormat.format("start_of_field{0} = {1}{2}.getInt() {3};\n ", fieldInfo.raw.pointerto, fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.ptroffset > 0? " + 1": "- 1"));
+		}
+		if (!delayed_decode) {
+			/* mark the used bits in length area*/
+			for (int a = 0; a < tempRawOption.lengthof; a++) {
+				int field_index = tempRawOption.lengthofField.get(a);
+				source.append(MessageFormat.format("value_of_length_field{0} -= decoded_field_length;\n", field_index));
+				if (i == field_index) {
+					source.append(MessageFormat.format("if (value_of_length_field{0} < 0) '{'\n", field_index));
+					source.append("return -1;\n");
+					source.append("}\n");
+				}
+			}
+		}
+		if (fieldInfo.isOptional) {
+			source.append("}\n");
+			source.append("}");
+			if (tempRawOption.tag_type > 0) {
+				source.append("\n}");
+			}
+			source.append(" else {\n");
+			source.append(MessageFormat.format("{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName));
 			source.append("}\n");
 		}
 	}
