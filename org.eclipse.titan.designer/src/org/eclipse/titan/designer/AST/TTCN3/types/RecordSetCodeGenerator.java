@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_codin
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_field_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_fields;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_coding_taglist;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
@@ -1193,8 +1194,13 @@ public class RecordSetCodeGenerator {
 					final raw_option_struct tempRawOption = raw_options.get(i);
 
 					if (tempRawOption.delayedDecode) {
+						final ExpressionStruct expression = new ExpressionStruct();
+						genRawFieldDecodeLimit(aData, expression, fieldInfos, i, raw, raw_options);
+						if (expression.preamble.length() > 0) {
+							source.append(expression.preamble);
+						}
 						source.append("if (");
-						genRawFieldDecodeLimit(aData, source, fieldInfos, i, raw, raw_options);
+						source.append(expression.expression);
 						source.append(MessageFormat.format(" < {0}) '{'\n", fieldInfo.raw.length));
 						source.append("return -1 * TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();\n");
 						source.append("}\n");
@@ -2811,8 +2817,8 @@ public class RecordSetCodeGenerator {
 	 * @param raw the raw attribute of the record/set.
 	 * @param raw_options the pre-calculated raw options.
 	 */
-	private static void genRawFieldDecodeLimit(final JavaGenData aData, final StringBuilder source, final List<FieldInfo> fieldInfos, final int i, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options) {
-		int nof_args = 0;
+	private static void genRawFieldDecodeLimit(final JavaGenData aData, final ExpressionStruct expression, final List<FieldInfo> fieldInfos, final int i, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options) {
+		int nof_args = 1;
 		final raw_option_struct tempRawOption = raw_options.get(i);
 		for (int j = 0; j < tempRawOption.lengthof; j++) {
 			final int field_index = tempRawOption.lengthofField.get(j);
@@ -2824,22 +2830,20 @@ public class RecordSetCodeGenerator {
 			nof_args++;
 		}
 		if (nof_args > 1) {
-			aData.addImport("java.util.Collections");
-			aData.addImport("java.util.Arrays");
-			//TODO optimize
-			source.append("Collections.min(Arrays.asList(new int[]{limit");
+			final String tempvar = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("int {0} = limit;\n", tempvar));
 			for (int j = 0; j < tempRawOption.lengthof; j++) {
 				final int field_index = tempRawOption.lengthofField.get(j);
 				if (i > field_index && fieldInfos.get(field_index).raw.unit != -1) {
-					source.append(MessageFormat.format(", value_of_length_field{0}", field_index));
+					expression.preamble.append(MessageFormat.format("{0} = {0} < value_of_length_field{1} ? {0} : value_of_length_field{1};\n", tempvar, field_index));
 				}
 			}
 			if (tempRawOption.extbitgroup > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
-				source.append(", group_limit");
+				expression.preamble.append(MessageFormat.format("{0} = {0} < group_limit ? {0} : group_limit;\n", tempvar));
 			}
-			source.append("}))");
+			expression.expression.append(tempvar);
 		} else {
-			source.append("limit");
+			expression.expression.append("limit");
 		}
 	}
 
@@ -2966,13 +2970,19 @@ public class RecordSetCodeGenerator {
 		if (fieldInfo.isOptional) {
 			source.append("int fl_start_pos = buff.get_pos_bit();\n");
 		}
-		source.append(MessageFormat.format("decoded_field_length = get{0}(){1}.RAW_decode({2}_descr_, buff,", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+
+		final ExpressionStruct expression = new ExpressionStruct();
 		if (delayed_decode) {
 			/* the fixed field length is used as limit in case of delayed decoding */
-			source.append(fieldInfo.raw.length);
+			expression.expression.append(fieldInfo.raw.length);
 		} else {
-			genRawFieldDecodeLimit(aData, source, fieldInfos, i, raw, raw_options);
+			genRawFieldDecodeLimit(aData, expression, fieldInfos, i, raw, raw_options);
 		}
+		if (expression.preamble.length() > 0) {
+			source.append(expression.preamble);
+		}
+		source.append(MessageFormat.format("decoded_field_length = get{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+		source.append(expression.expression);
 		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
 		if (crosstagsize > 0) {
 			source.append(", selected_field");
