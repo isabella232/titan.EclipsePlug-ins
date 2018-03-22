@@ -171,7 +171,7 @@ public final class CharString_Pattern_Template extends TTCN3Template {
 			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	@Override
