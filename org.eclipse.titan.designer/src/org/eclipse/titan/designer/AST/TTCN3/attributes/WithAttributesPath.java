@@ -444,10 +444,8 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 				}
 				break;
 			case Variant_Attribute:
-				if (selfEncodeIndex != -1 && newLocalEncodeContext) {
-					if ((parentHasEncode && !parentHasOverrideEncode) || !parentHasEncode) {
-						realAttributeCache.remove(i);
-					}
+				if (selfEncodeIndex != -1 && !parentHasOverrideEncode && newLocalEncodeContext) {
+					realAttributeCache.remove(i);
 				}
 				break;
 			default:
@@ -455,6 +453,10 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 			}
 		}
 
+		boolean localHasOverrideVariant = false;
+		boolean localHasOverrideDisplay = false;
+		boolean localHasOverrideExtension = false;
+		boolean localHasOverrideOptional = false;
 		// adding the right ones from the local attributes
 		for (int i = 0, size = attributes.getNofElements(); i < size; i++) {
 			actualSingleAttribute = attributes.getAttribute(i);
@@ -474,28 +476,41 @@ public final class WithAttributesPath implements ILocateableNode, IIncrementally
 				case Variant_Attribute: {
 					final boolean parentHasNothing = !parentHasEncode && !parentHasOverrideVariant;
 					final boolean noParentButLocalEncode = !parentHasEncode && selfEncodeIndex != -1;
-					final boolean newLocalEncode = parentHasEncode && selfEncodeIndex != -1 && !steppedOverEncode
+					final boolean newLocalEncode = parentHasEncode && selfEncodeIndex == -1 && !steppedOverEncode
 							&& !parentHasOverrideVariant;
 					final boolean localEncodeOverwritesParent = parentHasEncode && selfEncodeIndex != -1
 							&& !parentHasOverrideEncode && !parentHasOverrideVariant;
 					if (parentHasNothing || noParentButLocalEncode || newLocalEncode || localEncodeOverwritesParent) {
-						realAttributeCache.add(actualSingleAttribute);
+						if (!localHasOverrideVariant) {
+							realAttributeCache.add(actualSingleAttribute);
+							localHasOverrideVariant = actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
+						}
+						
 					}
 					break;
 				}
 				case Display_Attribute:
 					if (!parentHasOverrideDisplay) {
-						realAttributeCache.add(actualSingleAttribute);
+						if (!localHasOverrideDisplay) {
+							realAttributeCache.add(actualSingleAttribute);
+							localHasOverrideDisplay = actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
+						}
 					}
 					break;
 				case Extension_Attribute:
 					if (!parentHasOverrideExtension) {
-						realAttributeCache.add(actualSingleAttribute);
+						if (!localHasOverrideExtension) {
+							realAttributeCache.add(actualSingleAttribute);
+							localHasOverrideExtension = actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
+						}
 					}
 					break;
 				case Optional_Attribute:
 					if (!parentHasOverrideOptional) {
-						realAttributeCache.add(actualSingleAttribute);
+						if (!localHasOverrideOptional) {
+							realAttributeCache.add(actualSingleAttribute);
+							localHasOverrideOptional = actualSingleAttribute.getModifier() == Attribute_Modifier_type.MOD_OVERRIDE;
+						}
 					}
 					break;
 				default:
