@@ -716,7 +716,7 @@ public class TTCN_Buffer {
 						} else {
 							for (int a = 0; a < (len + 7) / 8; a++) {
 								data_ptr[a + offset] &= mask1;
-								data_ptr[a + offset] |= s[a] << bit_pos;
+								data_ptr[a + offset] |= (s[a] << bit_pos) & 0xFF;
 								if (a < maxindex) {
 									data_ptr[a + offset + 1] = (char) (s[a] >> (8 - bit_pos));
 								}
