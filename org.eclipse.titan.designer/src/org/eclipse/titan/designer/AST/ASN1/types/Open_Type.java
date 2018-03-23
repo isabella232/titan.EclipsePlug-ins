@@ -413,6 +413,25 @@ public final class Open_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		refChain.markState();
+		for (int i = 0; i < getNofComponents(); i++) {
+			final CompField cf = getComponentByIndex(i);
+
+			cf.getType().checkCodingAttributes(timestamp, refChain);
+		}
+		refChain.previousState();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
 		if (typeList.contains(this)) {
 			return;

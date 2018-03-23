@@ -813,9 +813,22 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		checkSetSeqRawCodingAttributes(timestamp);
 		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		refChain.markState();
+		for (int i = 0; i < getNofComponents(); i++) {
+			final CompField cf = getComponentByIndex(i);
+
+			cf.getType().checkCodingAttributes(timestamp, refChain);
+		}
+		refChain.previousState();
 	}
 
 	@Override

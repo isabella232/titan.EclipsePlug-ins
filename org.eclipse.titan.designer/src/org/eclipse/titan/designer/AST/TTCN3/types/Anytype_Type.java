@@ -520,6 +520,24 @@ public final class Anytype_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		refChain.markState();
+		for ( final CompField compField : compFieldMap.fields ) {
+
+			compField.getType().checkCodingAttributes(timestamp, refChain);
+		}
+		refChain.previousState();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();

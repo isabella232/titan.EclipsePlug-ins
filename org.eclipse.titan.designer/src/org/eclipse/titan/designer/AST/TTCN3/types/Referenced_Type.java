@@ -517,6 +517,20 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
+			refdLast.checkCodingAttributes(timestamp, refChain);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public int getDefaultRawFieldLength() {
 		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
 			return refdLast.getDefaultRawFieldLength();

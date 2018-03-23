@@ -626,8 +626,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
+	 * @param refChain
+	 *                a chain of references used to detect circular
+	 *                references.
 	 * */
-	void checkCodingAttributes(final CompilationTimeStamp timestamp);
+	void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain);
 
 	/**
 	 * If the type does not have its raw attribute, generate and check a default one.

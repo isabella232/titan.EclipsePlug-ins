@@ -466,6 +466,25 @@ public final class ASN1_Choice_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		refChain.markState();
+		for (int i = 0; i < getNofComponents(timestamp); i++) {
+			final CompField cf = getComponentByIndex(i);
+
+			cf.getType().checkCodingAttributes(timestamp, refChain);
+		}
+		refChain.previousState();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public IType getFieldType(final CompilationTimeStamp timestamp, final Reference reference, final int actualSubReference,
 			final Expected_Value_type expectedIndex, final IReferenceChain refChain, final boolean interruptIfOptional) {
 		final List<ISubReference> subreferences = reference.getSubreferences();

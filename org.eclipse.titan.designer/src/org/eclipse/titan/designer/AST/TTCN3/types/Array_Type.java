@@ -772,6 +772,23 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 	@Override
 	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		refChain.markState();
+
+		elementType.checkCodingAttributes(timestamp, refChain);
+
+		refChain.previousState();
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void getTypesWithNoCodingTable(final CompilationTimeStamp timestamp, final ArrayList<IType> typeList, final boolean onlyOwnTable) {
 		if (typeList.contains(this)) {
 			return;

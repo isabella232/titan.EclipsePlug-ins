@@ -779,7 +779,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// check the coding attributes set by the variants
-		checkCodingAttributes(timestamp);
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		checkCodingAttributes(timestamp, chain);
+		chain.release();
 	}
 
 	@Override
@@ -889,7 +891,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain) {
 		//FIXME implement default behaviour
 	}
 

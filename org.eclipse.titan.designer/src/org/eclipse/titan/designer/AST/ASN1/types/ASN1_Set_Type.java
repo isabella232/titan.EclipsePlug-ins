@@ -809,6 +809,25 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 		components.trCompsof(timestamp, null, true);
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//TODO add checks for other encodings.
+
+		if (refChain.contains(this)) {
+			return;
+		}
+
+		refChain.add(this);
+		refChain.markState();
+		for (int i = 0; i < getNofComponents(timestamp); i++) {
+			final CompField cf = getComponentByIndex(i);
+
+			cf.getType().checkCodingAttributes(timestamp, refChain);
+		}
+		refChain.previousState();
+	}
+
 	// This is the same as in ASN1_Sequence_Type
 	@Override
 	/** {@inheritDoc} */

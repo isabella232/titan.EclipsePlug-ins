@@ -286,7 +286,7 @@ public final class CharString_Type extends Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void checkCodingAttributes(final CompilationTimeStamp timestamp) {
+	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		//check raw attributes
 		if (subType != null) {
 			final int restrictionLength = subType.get_length_restriction();
