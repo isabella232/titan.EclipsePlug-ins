@@ -999,7 +999,15 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
-		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+
+		if (errorBehaviorList != null) {
+			errorBehaviorList.generateCode(aData, source);
+		} else if (prototype == EncodingPrototype_type.BACKTRACK || prototype == EncodingPrototype_type.SLIDING) {
+			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
+		} else {
+			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+		}
+		
 		source.append( "TTCN_EncDec.clear_error();\n" );
 
 		// creating a buffer from the input stream

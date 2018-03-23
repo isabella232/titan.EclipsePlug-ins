@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -183,5 +184,22 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode 
 			}
 		}
 		return true;
+	}
+
+	/**
+	 * Add generated java code on this level.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 */
+	public void generateCode( final JavaGenData aData, final StringBuilder source  ) {
+		if (settingAll != null) {
+			source.append(MessageFormat.format("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_{0});\n", settingAll.getErrorHandling()));
+		} else {
+			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+		}
+		for (final ErrorBehaviorSetting ebs : settingMap.values()) {
+			source.append(MessageFormat.format("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_{0}, TTCN_EncDec.error_behavior_type.EB_{1});\n", ebs.getErrorType(), ebs.getErrorHandling()));
+		}
 	}
 }
