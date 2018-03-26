@@ -1318,7 +1318,7 @@ public class TitanInteger extends Base_Type {
 						openSSL = D;
 					} else {
 						nativeFlag = true;
-						nativeInt = D.signum() == -1 ? -D.intValue() : D.intValue();
+						nativeInt = D.intValue();
 					}
 					decode_length += buff.increase_pos_padd(p_td.raw.padding);
 					boundFlag = true;
