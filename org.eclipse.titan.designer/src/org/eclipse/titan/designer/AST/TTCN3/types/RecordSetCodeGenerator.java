@@ -1170,8 +1170,23 @@ public class RecordSetCodeGenerator {
 				source.append("}\n");
 
 				if (has_ext_bit.get()) {
-					//FIXME implement
-					source.append("EXT BIT NOT YET SUPPORTED\n");
+					source.append("{\n");
+					source.append("char data[] = buff.get_read_data();\n");
+					source.append("int count = 1;\n");
+					source.append("int mask = 1 << (local_top_order == raw_order_t.ORDER_LSB ? 0 : 7);\n");
+					source.append("if (p_td.raw.extension_bit == ext_bit_t.EXT_BIT_YES) {\n");
+					source.append("while ((data[count - 1] & mask) == 0 && count * 8 < limit) {\n");
+					source.append("count++;\n");
+					source.append("}\n");
+					source.append("} else {\n");
+					source.append("while ((data[count - 1] & mask) != 0 && count * 8 < limit) {\n");
+					source.append("count++;\n");
+					source.append("}\n");
+					source.append("}\n");
+					source.append("if (limit > 0) {\n");
+					source.append("limit = count * 8;\n");
+					source.append("}\n");
+					source.append("}\n");
 				}
 				if (hasPointer.get()) {
 					source.append("int end_of_available_data = last_decoded_pos + limit;\n");
