@@ -838,7 +838,13 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			boolean newRaw = false;
 			final AtomicBoolean rawFoud = new AtomicBoolean(false);
 			if (rawAttribute == null) {
-				rawAttribute = new RawAST(getDefaultRawFieldLength());
+				IType t_refd = this;
+				while (t_refd.getRawAttribute() == null && t_refd instanceof Referenced_Type) {
+					final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+					t_refd = ((Referenced_Type)t_refd).getTypeRefd(timestamp, referenceChain);
+					referenceChain.release();
+				}
+				rawAttribute = new RawAST(t_refd.getRawAttribute(), getDefaultRawFieldLength());
 				newRaw = true;
 			}
 
