@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -680,7 +681,18 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					final Type fieldType = cField.getType();
 					RawAST fieldRawAttribute = fieldType.rawAttribute;
 					if (fieldRawAttribute == null) {
-						fieldRawAttribute = new RawAST(fieldType.getDefaultRawFieldLength());
+						IType t = fieldType;
+						if (t instanceof Referenced_Type) {
+							final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+							t = ((Referenced_Type)t).getTypeRefd(timestamp, referenceChain);
+							referenceChain.release();
+						}
+						while (t.getRawAttribute() == null && t instanceof Referenced_Type) {
+							final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+							t = ((Referenced_Type)t).getTypeRefd(timestamp, referenceChain);
+							referenceChain.release();
+						}
+						fieldRawAttribute = new RawAST(t.getRawAttribute(), fieldType.getDefaultRawFieldLength());
 						fieldType.setRawAttributes(fieldRawAttribute);
 					}
 					if (fieldRawAttribute.padding == 0) {
