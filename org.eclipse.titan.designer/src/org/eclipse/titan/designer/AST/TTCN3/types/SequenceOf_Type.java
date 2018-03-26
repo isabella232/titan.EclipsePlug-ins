@@ -790,7 +790,9 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 	@Override
 	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
-		rawAttribute = new RawAST(getDefaultRawFieldLength());
+		if (rawAttribute == null) {
+			rawAttribute = new RawAST(getDefaultRawFieldLength());
+		}
 	}
 
 	@Override

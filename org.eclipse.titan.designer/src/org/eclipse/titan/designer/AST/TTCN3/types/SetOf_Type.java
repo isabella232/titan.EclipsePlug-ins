@@ -546,7 +546,9 @@ public final class SetOf_Type extends AbstractOfType {
 	@Override
 	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
-		rawAttribute = new RawAST(getDefaultRawFieldLength());
+		if (rawAttribute == null) {
+			rawAttribute = new RawAST(getDefaultRawFieldLength());
+		}
 	}
 
 	@Override

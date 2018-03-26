@@ -493,7 +493,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void forceRaw(final CompilationTimeStamp timestamp) {
-		rawAttribute = new RawAST(getDefaultRawFieldLength());
+		if (rawAttribute == null) {
+			rawAttribute = new RawAST(getDefaultRawFieldLength());
+		}
 	}
 
 	@Override
