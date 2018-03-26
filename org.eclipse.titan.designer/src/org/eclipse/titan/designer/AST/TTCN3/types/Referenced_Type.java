@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.AST.ASN1.Type_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.Undefined_Assignment;
 import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
@@ -518,15 +519,67 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	@Override
 	/** {@inheritDoc} */
 	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		if (refdLast == null || refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) || refdLast == this) {
+			return;
+		}
+
+		//check raw attributes
+		if (subType != null) {
+			final int restrictionLength = subType.get_length_restriction();
+			if (restrictionLength != -1) {
+				if (rawAttribute == null) {
+					rawAttribute = new RawAST(getDefaultRawFieldLength());
+				}
+				if (rawAttribute.fieldlength == 0) {
+					rawAttribute.fieldlength = restrictionLength;
+					rawAttribute.length_restriction = -1;
+				} else {
+					rawAttribute.length_restriction = restrictionLength;
+				}
+			}
+		}
+
+		if (rawAttribute == null) {
+			return;
+		}
+
+		refd.forceRaw(timestamp);
+		if (rawAttribute.fieldlength == 0 && rawAttribute.length_restriction != -1) {
+			switch (refdLast.getTypetype()) {
+			case TYPE_BITSTRING:
+				rawAttribute.fieldlength = rawAttribute.length_restriction;
+				rawAttribute.length_restriction = -1;
+				break;
+			case TYPE_HEXSTRING:
+				rawAttribute.fieldlength = rawAttribute.length_restriction * 4;
+				rawAttribute.length_restriction = -1;
+				break;
+			case TYPE_OCTETSTRING:
+				rawAttribute.fieldlength = rawAttribute.length_restriction * 8;
+				rawAttribute.length_restriction = -1;
+				break;
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+				rawAttribute.fieldlength = rawAttribute.length_restriction * 8;
+				rawAttribute.length_restriction = -1;
+				break;
+			case TYPE_SEQUENCE_OF:
+			case TYPE_SET_OF:
+				rawAttribute.fieldlength = rawAttribute.length_restriction;
+				rawAttribute.length_restriction = -1;
+				break;
+			default:
+				break;
+			}
+		}
 		//TODO add checks for other encodings.
+		
 
 		if (refChain.contains(this)) {
 			return;
 		}
 
-		if (refdLast != null && !refdLast.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) && refdLast != this) {
-			refdLast.checkCodingAttributes(timestamp, refChain);
-		}
+		refdLast.checkCodingAttributes(timestamp, refChain);
 	}
 
 	@Override
