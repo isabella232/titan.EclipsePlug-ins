@@ -90,7 +90,10 @@ public class EnumeratedGenerator {
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
+		aData.addBuiltinTypeImport("RAW");
 		aData.addImport( "java.text.MessageFormat" );
+
+		final boolean rawNeeded = e_defs.hasRaw; //TODO can be forced optionally if needed
 
 		//		if(needsAlias()) { ???
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", e_defs.name));
@@ -159,6 +162,7 @@ public class EnumeratedGenerator {
 		generateValueToString(source);
 		generateLog(source);
 		generateValueEncodeDecodeText(source, e_defs.displayName);
+		generateValueEncodeDecode(aData, source, e_defs, rawNeeded);
 		source.append("}\n");
 	}
 
@@ -281,6 +285,115 @@ public class EnumeratedGenerator {
 		source.append("}\n");
 		source.append("int2enum(temp);\n");
 		source.append("}\n\n");
+	}
+
+
+	private static void generateValueEncodeDecode(final JavaGenData aData, final StringBuilder source, final Enum_Defs e_defs, final boolean rawNeeded) {
+		source.append("@Override\n");
+		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("switch (p_coding) {\n");
+		source.append("case CT_RAW: {\n");
+		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-encoding type '%s': \", p_td.name);\n");
+		source.append("if (p_td.raw == null) {\n");
+		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("}\n");
+		source.append("final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);\n");
+		source.append("final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);\n");
+		source.append("RAW_encode(p_td, root);\n");
+		source.append("root.put_to_buf(p_buf);\n");
+		source.append("errorContext.leaveContext();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type '{0}''\", p_td.name));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		source.append("@Override\n");
+		source.append("public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");
+		source.append("switch (p_coding) {\n");
+		source.append("case CT_RAW: {\n");
+		source.append("final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext(\"While RAW-decoding type '%s': \", p_td.name);\n");
+		source.append("if (p_td.raw == null) {\n");
+		source.append("TTCN_EncDec_ErrorContext.error_internal(\"No RAW descriptor available for type '%s'.\", p_td.name);\n");
+		source.append("}\n");
+		source.append("raw_order_t order;\n");
+		source.append("switch (p_td.raw.top_bit_order) {\n");
+		source.append("case TOP_BIT_LEFT:\n");
+		source.append("order = raw_order_t.ORDER_LSB;\n");
+		source.append("break;\n");
+		source.append("case TOP_BIT_RIGHT:\n");
+		source.append("default:\n");
+		source.append("order = raw_order_t.ORDER_MSB;\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("if (rawr < 0) {\n");
+		source.append("error_type temp = error_type.values()[-rawr];\n");
+		source.append("switch(temp) {\n");
+		source.append("case ET_INCOMPL_MSG:\n");
+		source.append("case ET_LEN_ERR:\n");
+		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("break;\n");
+		source.append("case ET_UNBOUND:\n");
+		source.append("default:\n");
+		source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("errorContext.leaveContext();\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type '{0}''\", p_td.name));\n");
+		source.append("}\n");
+		source.append("}\n\n");
+
+		if (rawNeeded) {
+			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
+
+			int min_bits = 0;
+			long max_val = e_defs.firstUnused;
+			for (int a = 0; a < e_defs.items.size(); a++) {
+				final long val = e_defs.items.get(a).value;
+				if (Math.abs(max_val) < Math.abs(val)) {
+					max_val = val;
+				}
+			}
+			if (max_val < 0) {
+				min_bits = 1;
+				max_val = -1 * max_val;
+			}
+			while (max_val > 0) {
+				min_bits++;
+				max_val /= 2;
+			}
+
+			source.append("@Override\n");
+			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
+			source.append(MessageFormat.format("return RAW.RAW_encode_enum_type(p_td, myleaf, enum_value.enum_num, {0});\n", min_bits));
+			source.append("}\n");
+
+			source.append("@Override\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("AtomicInteger decoded_value = new AtomicInteger(0);\n");
+			source.append(MessageFormat.format("int decoded_length = RAW.RAW_decode_enum_type(p_td, buff, limit, top_bit_ord, decoded_value, {0}, no_err);\n", min_bits));
+			source.append("if (decoded_length < 0) {\n");
+			source.append("return decoded_length;\n");
+			source.append("}\n");
+			source.append("if (isValidEnum(decoded_value.get())) {\n");
+			source.append("enum_value = enum_type.getValue(decoded_value.get());\n");
+			source.append("} else {\n");
+			source.append("if (no_err) {\n");
+			source.append("return -1;\n");
+			source.append("} else {\n");
+			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_ENC_ENUM, \"Invalid enum value '%d' for '%s': \", decoded_value.get(), p_td.name);\n");
+			source.append("enum_value = enum_type.UNKNOWN_VALUE;\n");
+			source.append("}\n");
+			source.append("}\n");
+			source.append("return decoded_length;\n");
+			source.append("}\n");
+		}
 	}
 
 	private static void generateValueStrToEnum(final StringBuilder source) {
