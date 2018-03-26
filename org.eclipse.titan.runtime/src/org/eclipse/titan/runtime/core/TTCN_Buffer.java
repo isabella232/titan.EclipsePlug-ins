@@ -640,12 +640,12 @@ public class TTCN_Buffer {
 				for (int a = 1; a < (len + 7) / 8; a++) {
 					char ch = '\0';
 					ch |= s[a - 1] >> 4;
-					st2[a - 1] = (char) ((st2[a - 1] & 0x0f) | (s[a] << 4));
+					st2[a - 1] = (char) ((st2[a - 1] & 0x0f) | ((s[a] << 4) & 0xf0));
 					st2[a] = (char) ((s[a] & 0xf0) | ch);
 				}
 			} else {
 				for (int a = 0; a < (len + 7) / 8; a++) {
-					st2[a] = (char) ((s[a] << 4) | (s[a] >> 4));
+					st2[a] = (char) (((s[a] << 4) & 0xf0) | (s[a] >> 4));
 				}
 				if (len % 8 != 0) {
 					st2[(len + 7) / 8] >>= 4;
@@ -657,7 +657,7 @@ public class TTCN_Buffer {
 		if (bit_pos + len <= 8) { // there is enough space within 1 octet to store the data
 			if (local_bitorder == raw_order_t.ORDER_LSB) {
 				if (local_fieldorder == raw_order_t.ORDER_LSB) {
-					data_ptr[new_size - 1] = (char) ((data_ptr[new_size - 1] & RAW.BitMaskTable[bit_pos]) | (s[0] << bit_pos));
+					data_ptr[new_size - 1] = (char) ((data_ptr[new_size - 1] & RAW.BitMaskTable[bit_pos]) | (s[0] << bit_pos) & 0xff) ;
 				} else {
 					data_ptr[new_size - 1] = (char) ((data_ptr[new_size - 1] & ~RAW.BitMaskTable[8 - bit_pos]) | ((s[0] & RAW.BitMaskTable[len]) << (8 - bit_pos - len)));
 				}
@@ -922,8 +922,8 @@ public class TTCN_Buffer {
 						int mask1 = RAW.BitMaskTable[8 - bit_pos];
 						if (local_fieldorder == raw_order_t.ORDER_LSB) {
 							for (int a = 0; a < num_bytes; a++) {
-								s[a] = (char) ((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB, a + 1) << (8 - bit_pos)) |
-										((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB,a) >> bit_pos) & mask1 & 0xFF));
+								s[a] = (char) ((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB, a + 1) << (8 - bit_pos)) & 0xFF |
+										((get_byte_align(len, local_fieldorder, raw_order_t.ORDER_MSB,a) >> bit_pos) & mask1 ));
 							}
 						} else {
 							mask1 = RAW.BitMaskTable[bit_pos];
@@ -968,7 +968,7 @@ public class TTCN_Buffer {
 								s[a] = get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b);
 							} else {
 								s[a] = (char) (((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b) >> (8 - new_bit_pos)) & mask1) |
-										(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b - 1)	<< new_bit_pos) & 0xFF);
+										(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b - 1) << new_bit_pos) & 0xFF);
 							}
 						}
 					} else {
