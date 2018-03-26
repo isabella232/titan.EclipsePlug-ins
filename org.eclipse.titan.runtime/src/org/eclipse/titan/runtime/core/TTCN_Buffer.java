@@ -1258,7 +1258,7 @@ public class TTCN_Buffer {
 		final RAW_coding_par cp = new RAW_coding_par(raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,
 				raw_order_t.ORDER_LSB, fieldorder);
 
-		char[] str = new char[s.length()];
+		char[] str = new char[s.length()];//TODO maybe can be faster
 		for (int i = 0; i < s.length(); i++) {
 			str[i] = s.charAt(i);
 		}

@@ -117,7 +117,7 @@ public class RAW {
 		public int padlength;
 		public int prepadlength;
 		public int padding_pattern_length;
-		public String padding_pattern;
+		public char[] padding_pattern;
 		public int align; /**< alignment length */
 		/** @} */
 		public int ext_bit_handling; /**< 1: start, 2: stop, 3: only this */
@@ -363,7 +363,7 @@ public class RAW {
 		public int ptroffset;
 		public int unit; /**< number of bits per unit */
 		public int padding_pattern_length;
-		public String padding_pattern;
+		public char[] padding_pattern;
 		public int length_restrition;
 		public CharCoding stringformat;
 
@@ -373,7 +373,7 @@ public class RAW {
 				final ext_bit_t extension_bit, final raw_order_t hexorder,
 				final raw_order_t fieldorder, final top_bit_order_t top_bit_order,
 				final int padding, final int prepadding, final int ptroffset, final int unit,
-				final int padding_pattern_length, final String padding_pattern,
+				final int padding_pattern_length, final char[] padding_pattern,
 				final int length_restrition, final CharCoding stringformat) {
 			this.fieldlength = fieldlength;
 			this.comp = comp;

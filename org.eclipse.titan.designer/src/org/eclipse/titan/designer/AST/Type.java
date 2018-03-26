@@ -68,6 +68,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2OctExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -2528,7 +2529,18 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		str.append(rawAttribute.unit).append(',');
 		str.append(rawAttribute.padding_pattern_length).append(',');
 		if (rawAttribute.padding_pattern_length > 0 && rawAttribute.padding_pattern != null) {
-			str.append(MessageFormat.format("\"{0}\",", rawAttribute.padding_pattern)); //TODO could optimize with add_padding_pattern
+			str.append("new char[] {");
+			final String temp = Bit2OctExpression.bit2oct(rawAttribute.padding_pattern);
+			boolean first = true;
+			for (int i = temp.length() - 1; i > 0; i-=2) {
+				if (first) {
+					first = false;
+				} else {
+					str.append(", ");
+				}
+				str.append("0x").append(temp.charAt(i - 1)).append(temp.charAt(i));
+			}
+			str.append("},");
 		} else {
 			str.append("null,");
 		}
