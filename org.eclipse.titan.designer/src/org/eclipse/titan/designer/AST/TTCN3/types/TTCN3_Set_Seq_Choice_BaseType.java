@@ -1101,9 +1101,10 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 				fieldValue.v_value.generateCodeExpression(aData, expression, true);
 				presences.expression = expression;
 				presences.isOmitValue = fieldValue.v_value.getValuetype() == Value_type.OMIT_VALUE;
-				presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(presences.fields.size());
+				final int keySize = fieldValue.keyField == null || fieldValue.keyField.names == null ? 0 : fieldValue.keyField.names.size();
+				presences.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(keySize);
 				IType t = this;
-				for (int b = 0; b < presences.fields.size(); b++) {
+				for (int b = 0; b < keySize; b++) {
 					final RawASTStruct.rawAST_coding_fields newField = new rawAST_coding_fields();
 					presences.fields.add(newField);
 
