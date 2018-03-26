@@ -41,6 +41,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Sequence_Type;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SingleLenghtRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.Length_ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
@@ -406,6 +407,25 @@ public abstract class AbstractOfType extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void checkCodingAttributes(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		//check raw attributes
+		if (subType != null) {
+			final int restrictionLength = subType.get_length_restriction();
+			if (restrictionLength != -1) {
+				if (rawAttribute == null) {
+					rawAttribute = new RawAST(getDefaultRawFieldLength());
+				}
+				rawAttribute.length_restriction = restrictionLength;
+
+				ofType.forceRaw(timestamp);
+				if (rawAttribute.fieldlength == 0 && rawAttribute.length_restriction != -1) {
+					rawAttribute.fieldlength = rawAttribute.length_restriction;
+					rawAttribute.length_restriction = -1;
+				}
+				if (rawAttribute.length_restriction != -1 && rawAttribute.length_restriction != rawAttribute.fieldlength) {
+					getLocation().reportSemanticError(MessageFormat.format("Invalid length specified in parameter FIELDLENGTH for type `{0}''. The FIELDLENGTH must be equal to specified length restriction", getFullName()));
+				}
+			}
+		}
 		//TODO add checks for other encodings.
 
 		if (refChain.contains(this)) {
