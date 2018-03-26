@@ -1023,6 +1023,11 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					tempField.fieldtype = rawAST_coding_field_type.UNION_FIELD;
 					tempField.type = t.getGenNameValue(aData, source, myScope);
 					tempField.typedesc = t.getGenNameTypeDescriptor(aData, source, myScope);
+					if (cf.isOptional()) {
+						tempField.fieldtype = rawAST_coding_field_type.OPTIONAL_FIELD;
+					} else {
+						tempField.fieldtype = rawAST_coding_field_type.MANDATORY_FIELD;
+					}
 					codingKey.fields.add(tempField);
 
 					for (int b = 0; b < key.keyField.names.size(); b++) {
