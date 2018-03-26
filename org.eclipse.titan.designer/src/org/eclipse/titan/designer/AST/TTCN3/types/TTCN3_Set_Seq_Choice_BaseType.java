@@ -1293,7 +1293,19 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						codingSingleTag.fieldname = singleTag.fieldName.getName();
 						codingSingleTag.varName = FieldSubReference.getJavaGetterName(codingSingleTag.fieldname);
 						final Identifier idf = singleTag.fieldName;
-						codingSingleTag.fieldnum = getComponentIndexByName(idf);
+						switch (t_field_last.getTypetype()) {
+						case TYPE_TTCN3_CHOICE:
+						case TYPE_TTCN3_SEQUENCE:
+						case TYPE_TTCN3_SET:
+							codingSingleTag.fieldnum = ((TTCN3_Set_Seq_Choice_BaseType)t_field_last).getComponentIndexByName(idf);
+							break;
+						case TYPE_ASN1_CHOICE:
+							codingSingleTag.fieldnum = ((ASN1_Set_Seq_Choice_BaseType)t_field_last).getComponentIndexByName(idf);
+							break;
+						default:
+							codingSingleTag.fieldnum  = -1;
+							break;
+						}
 
 						final int keyListSize = singleTag.keyList == null ? 0 : singleTag.keyList.size();
 						for (int a = 0; a < keyListSize; a++) {
