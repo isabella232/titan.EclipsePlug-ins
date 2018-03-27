@@ -213,6 +213,16 @@ XSDboolean: 'boolean';
 XSDanySimpleType: 'anySimpleType';
 XSDanyType: 'anyType';
 
+/* tokens for new JSON attributes (standard-compliant) */
+ASVALUEKeyword: 'asValue';
+DEFAULTKeyword: 'default'  -> mode(JsonCodec_MODE);
+NUMBERKeyword: 'number';
+EXTENDKeyword: 'extend'  -> mode(JsonCodec_MODE);
+METAINFOKeyword: 'metainfo';
+FORKeyword: 'for';
+UNBOUNDKeyword: 'unbound';
+CHOSENKeyword: 'chosen';
+JSONOTHERWISEKeyword: 'otherwise';
 
 /* BER encoder keywords (not entering) */
 LENGTHKeyword: 'length';
@@ -385,12 +395,12 @@ ASKeyword4: 'as' -> type(ASKeyword);
 NullKeyword: 'null';
 NAMEKeyword4: 'name' -> type(NAMEKeyword);
 VALUEKeyword: 'value';
-DEFAULTKeyword: 'default';
-EXTENDKeyword: 'extend';
-METAINFOKeyword: 'metainfo';
-FORKeyword: 'for';
-UNBOUNDKeyword: 'unbouond';
-NUMBERKeyword: 'number';
+DEFAULTKeyword2: 'default' -> type(DEFAULTKeyword);
+EXTENDKeyword2: 'extend' -> type(EXTENDKeyword);
+METAINFOKeyword2: 'metainfo' -> type(METAINFOKeyword);
+FORKeyword2: 'for' -> type(FORKeyword);
+UNBOUNDKeyword2: 'unbouond' -> type(UNBOUNDKeyword);
+NUMBERKeyword2: 'number' -> type(NUMBERKeyword);
 JSONValueStart: '(' -> mode(JsonValue_MODE);
 
 AliasToken:

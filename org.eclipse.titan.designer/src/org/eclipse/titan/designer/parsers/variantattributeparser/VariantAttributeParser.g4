@@ -358,6 +358,22 @@ pr_XAssocElement returns [RawAST.rawAST_single_tag singleTag]:
 	|	OTHERWISE		{ $singleTag = new RawAST.rawAST_single_tag();
 					$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
 					$singleTag.keyList = null;}
+	|	JSONOTHERWISEKeyword		{ $singleTag = new RawAST.rawAST_single_tag();
+					$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
+					$singleTag.keyList = null;}
+	)
+
+|	OMIT
+	COMMA
+	(	pr_XkeyIdOrIdList	{ $singleTag = new RawAST.rawAST_single_tag();
+					$singleTag.fieldName = null;
+					$singleTag.keyList = $list.singleTag.keyList;}
+	|	OTHERWISE		{ $singleTag = new RawAST.rawAST_single_tag();
+					$singleTag.fieldName = null;
+					$singleTag.keyList = null;}
+	|	JSONOTHERWISEKeyword		{ $singleTag = new RawAST.rawAST_single_tag();
+					$singleTag.fieldName = null;
+					$singleTag.keyList = null;}
 	)
 );
 
