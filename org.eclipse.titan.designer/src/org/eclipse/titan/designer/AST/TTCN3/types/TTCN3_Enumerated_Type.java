@@ -437,7 +437,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		long max_val = 0;//TODO use first unused
 		final List<EnumItem> enumItems = items.getItems();
 		for (int i = 0; i < enumItems.size(); i++) {
-			long val = ((Integer_Value)enumItems.get(i).getValue()).getValue();
+			final long val = ((Integer_Value)enumItems.get(i).getValue()).getValue();
 			if ((max_val < 0? -max_val: max_val) < (val < 0? -val: val)) {
 				max_val = val;
 			}

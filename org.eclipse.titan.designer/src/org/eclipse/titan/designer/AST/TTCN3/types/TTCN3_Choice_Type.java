@@ -503,9 +503,9 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public int getRawLength() {
 		int rawLength = 0;
 		for (int i = 0; i < getNofComponents(); i++) {
-			CompField cf = getComponentByIndex(i);
+			final CompField cf = getComponentByIndex(i);
 
-			int l = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
+			final int l = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
 			if (l == -1) {
 				rawLength = -1;
 				return rawLength;
@@ -599,7 +599,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 					codingKey.fields = new ArrayList<RawASTStruct.rawAST_coding_fields>(key.keyField.names.size());
 					//codingKey.value = key.value;
-					ExpressionStruct expression = new ExpressionStruct();
+					final ExpressionStruct expression = new ExpressionStruct();
 					key.v_value.generateCodeExpression(aData, expression, true);
 					codingKey.expression = expression;
 					codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;

@@ -606,7 +606,7 @@ public class UnionGenerator {
 				source.append(MessageFormat.format("encoded_length = field.RAW_encode({0}_descr_, myleaf.nodes[{1}]);\n", fieldInfo.mTypeDescriptorName, i));
 				source.append(MessageFormat.format("myleaf.nodes[{0}].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
 
-				int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
+				final int t_type = tag_type[i] > 0 ? tag_type[i] : -tag_type[i];
 				if (t_type > 0 && raw.taglist.list.get(t_type - 1).fields.size() > 0) {
 					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(t_type - 1);
 					source.append(" if (");
@@ -1447,16 +1447,16 @@ public class UnionGenerator {
 		source.append("}\n");
 	}
 
-	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
+	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, final boolean is_equal) {
 		for (int i = 0; i < taglist.fields.size(); i++) {
-			rawAST_coding_field_list fields = taglist.fields.get(i);
+			final rawAST_coding_field_list fields = taglist.fields.get(i);
 			String fieldName = null;
 			boolean firstExpr = true;
 			if (i > 0) {
 				source.append(is_equal ? " || " : " && ");
 			}
 			for (int j = 0; j < fields.fields.size(); j++) {
-				rawAST_coding_fields field = fields.fields.get(j);
+				final rawAST_coding_fields field = fields.fields.get(j);
 				if (j == 0) {
 					/* this is the first field reference */
 					fieldName = MessageFormat.format("(({0})field)", field.type);
@@ -1513,7 +1513,7 @@ public class UnionGenerator {
 	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
 		source.append("RAW_enc_tree temp_leaf;\n");
 		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
-			rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
+			final rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
 			source.append("{\n");
 			source.append(MessageFormat.format("int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", temp_tag, tempField.fields.size()));
 			source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", temp_tag));

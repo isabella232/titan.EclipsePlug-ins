@@ -844,19 +844,19 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	public int getRawLength() {
 		int rawLength = 0;
 		for (int i = 0; i < getNofComponents(); i++) {
-			CompField cf = getComponentByIndex(i);
+			final CompField cf = getComponentByIndex(i);
 			if (cf.isOptional()) {
 				rawLength = -1;
 				return rawLength;
 			}
 
-			int l = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
+			final int l = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
 			if (l == -1) {
 				rawLength = -1;
 				return rawLength;
 			}
 
-			Type t = cf.getType();
+			final Type t = cf.getType();
 			if (t.rawAttribute != null && (t.rawAttribute.pointerto != null || t.rawAttribute.lengthto != null)) {
 				rawLength = -1;
 				return rawLength;

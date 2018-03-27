@@ -629,11 +629,11 @@ public class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		if (rawNeeded) {
-			ArrayList<raw_option_struct> raw_options = new ArrayList<RecordSetCodeGenerator.raw_option_struct>(fieldInfos.size());
-			AtomicBoolean hasLengthto = new AtomicBoolean();
-			AtomicBoolean hasPointer = new AtomicBoolean();
-			AtomicBoolean hasCrosstag = new AtomicBoolean();
-			AtomicBoolean has_ext_bit = new AtomicBoolean();
+			final ArrayList<raw_option_struct> raw_options = new ArrayList<RecordSetCodeGenerator.raw_option_struct>(fieldInfos.size());
+			final AtomicBoolean hasLengthto = new AtomicBoolean();
+			final AtomicBoolean hasPointer = new AtomicBoolean();
+			final AtomicBoolean hasCrosstag = new AtomicBoolean();
+			final AtomicBoolean has_ext_bit = new AtomicBoolean();
 			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
 
 			source.append("@Override\n");
@@ -661,7 +661,7 @@ public class RecordSetCodeGenerator {
 			}
 			final int ext_bit_group_length = raw == null || raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
 			for (int i = 0; i < ext_bit_group_length; i++) {
-				rawAST_coding_ext_group tempGroup = raw.ext_bit_groups.get(i);
+				final rawAST_coding_ext_group tempGroup = raw.ext_bit_groups.get(i);
 				if (tempGroup.ext_bit != RawASTStruct.XDEFNO) {
 					source.append("{\n");
 					source.append(MessageFormat.format("int node_idx = {0};\n", tempGroup.from));
@@ -1232,7 +1232,7 @@ public class RecordSetCodeGenerator {
 						
 						if (tempRawOption.dependentFields != null && tempRawOption.dependentFields.size() > 0) {
 							for (int j = 0; j < tempRawOption.dependentFields.size(); j++) {
-								int dependent_field_index = tempRawOption.dependentFields.get(j);
+								final int dependent_field_index = tempRawOption.dependentFields.get(j);
 								source.append(MessageFormat.format("buff.set_pos_bit(start_of_field{0});\n", dependent_field_index));
 								genRawDecodeRecordField(aData, source, fieldInfos, dependent_field_index, raw, raw_options, true, prev_ext_group);
 							}
@@ -1261,9 +1261,9 @@ public class RecordSetCodeGenerator {
 	}
 
 	//FIXME comment
-	private static void set_raw_options(final boolean isSet, final List<FieldInfo> fieldInfos, final boolean hasRaw, final RawASTStruct raw, ArrayList<raw_option_struct> raw_options, AtomicBoolean hasLengthto, AtomicBoolean hasPointer, AtomicBoolean hasCrosstag, AtomicBoolean has_ext_bit) {
+	private static void set_raw_options(final boolean isSet, final List<FieldInfo> fieldInfos, final boolean hasRaw, final RawASTStruct raw, final ArrayList<raw_option_struct> raw_options, final AtomicBoolean hasLengthto, final AtomicBoolean hasPointer, final AtomicBoolean hasCrosstag, final AtomicBoolean has_ext_bit) {
 		for (int i = 0; i < fieldInfos.size(); i++) {
-			raw_option_struct tempRawOption = new raw_option_struct();
+			final raw_option_struct tempRawOption = new raw_option_struct();
 			raw_options.add(tempRawOption);
 
 			tempRawOption.lengthto = false;
@@ -1287,11 +1287,11 @@ public class RecordSetCodeGenerator {
 			}
 		}
 		if (hasRaw) {
-			int taglistSize = raw.taglist == null || raw.taglist.list == null ? 0 : raw.taglist.list.size();
+			final int taglistSize = raw.taglist == null || raw.taglist.list == null ? 0 : raw.taglist.list.size();
 			for (int i = 0; i < taglistSize; i++) {
 				raw_options.get(raw.taglist.list.get(i).fieldnum).tag_type = i + 1;
 			}
-			int extBitGroupsSize = raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
+			final int extBitGroupsSize = raw.ext_bit_groups == null ? 0 : raw.ext_bit_groups.size();
 			for (int i = 0; i < extBitGroupsSize; i++) {
 				final rawAST_coding_ext_group tempExtGroup = raw.ext_bit_groups.get(i);
 				for (int k = tempExtGroup.from; k <= tempExtGroup.to; k++) {
@@ -1300,14 +1300,14 @@ public class RecordSetCodeGenerator {
 			}
 		}
 		for (int i = 0; i < fieldInfos.size(); i++) {
-			FieldInfo tempFieldInfo = fieldInfos.get(i);
-			int lengthSize = tempFieldInfo.raw == null || tempFieldInfo.raw.lengthto == null ? 0 : tempFieldInfo.raw.lengthto.size();
+			final FieldInfo tempFieldInfo = fieldInfos.get(i);
+			final int lengthSize = tempFieldInfo.raw == null || tempFieldInfo.raw.lengthto == null ? 0 : tempFieldInfo.raw.lengthto.size();
 			if (tempFieldInfo.hasRaw && lengthSize > 0) {
 				hasLengthto.set(true);
 				raw_options.get(i).lengthto = true;
 				for (int j = 0; j < lengthSize; j++) {
-					int fieldIndex = tempFieldInfo.raw.lengthto.get(j);
-					raw_option_struct tempOptions = raw_options.get(fieldIndex);
+					final int fieldIndex = tempFieldInfo.raw.lengthto.get(j);
+					final raw_option_struct tempOptions = raw_options.get(fieldIndex);
 					if (tempOptions.lengthofField == null) {
 						tempOptions.lengthofField = new ArrayList<Integer>();
 					}
@@ -1324,19 +1324,19 @@ public class RecordSetCodeGenerator {
 		}
 		if (!isSet && hasCrosstag.get()) {
 			for (int i = 0; i < fieldInfos.size(); i++) {
-				FieldInfo tempFieldInfo = fieldInfos.get(i);
+				final FieldInfo tempFieldInfo = fieldInfos.get(i);
 				int maxIndex = i;
 				if (!tempFieldInfo.hasRaw) {
 					continue;
 				}
-				int crosstagSize = tempFieldInfo.raw.crosstaglist == null || tempFieldInfo.raw.crosstaglist.list == null ? 0: tempFieldInfo.raw.crosstaglist.list.size();
+				final int crosstagSize = tempFieldInfo.raw.crosstaglist == null || tempFieldInfo.raw.crosstaglist.list == null ? 0: tempFieldInfo.raw.crosstaglist.list.size();
 				for (int j = 0; j < crosstagSize; j++) {
-					rawAST_coding_taglist crosstag = tempFieldInfo.raw.crosstaglist.list.get(j);
-					int fieldsSize = crosstag == null || crosstag.fields == null ? 0 : crosstag.fields.size(); 
+					final rawAST_coding_taglist crosstag = tempFieldInfo.raw.crosstaglist.list.get(j);
+					final int fieldsSize = crosstag == null || crosstag.fields == null ? 0 : crosstag.fields.size(); 
 					for (int k = 0; k < fieldsSize; k++) {
-						rawAST_coding_field_list keyid = crosstag.fields.get(k);
+						final rawAST_coding_field_list keyid = crosstag.fields.get(k);
 						if (keyid.fields.size() >= 1) {
-							int fieldIndex = keyid.fields.get(0).nthfield;
+							final int fieldIndex = keyid.fields.get(0).nthfield;
 							if (fieldIndex > maxIndex) {
 								maxIndex = fieldIndex;
 							}
@@ -2726,16 +2726,16 @@ public class RecordSetCodeGenerator {
 	 * @param taglist the taglist as data.
 	 * @param is_equal will it be used in equals style check?
 	 */
-	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, boolean is_equal) {
+	private static void genRawFieldChecker(final StringBuilder source, final rawAST_coding_taglist taglist, final boolean is_equal) {
 		for (int i = 0; i < taglist.fields.size(); i++) {
-			rawAST_coding_field_list fields = taglist.fields.get(i);
+			final rawAST_coding_field_list fields = taglist.fields.get(i);
 			String fieldName = null;
 			boolean firstExpr = true;
 			if (i > 0) {
 				source.append(is_equal ? " || " : " && ");
 			}
 			for (int j = 0; j < fields.fields.size(); j++) {
-				rawAST_coding_fields field = fields.fields.get(j);
+				final rawAST_coding_fields field = fields.fields.get(j);
 				if (j == 0) {
 					/* this is the first field reference */
 					fieldName = MessageFormat.format("{0}", field.nthfieldname);
@@ -2800,7 +2800,7 @@ public class RecordSetCodeGenerator {
 	private static void genRawTagChecker(final StringBuilder source, final rawAST_coding_taglist taglist) {
 		source.append("RAW_enc_tree temp_leaf;\n");
 		for (int temp_tag = 0; temp_tag < taglist.fields.size(); temp_tag++) {
-			rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
+			final rawAST_coding_field_list tempField = taglist.fields.get(temp_tag);
 			source.append("{\n");
 			source.append(MessageFormat.format("int new_pos{0}[] = new int[myleaf.curr_pos.level + {1}];\n", temp_tag, tempField.fields.size()));
 			source.append(MessageFormat.format("System.arraycopy(myleaf.curr_pos.pos, 0, new_pos{0}, 0, myleaf.curr_pos.level);\n", temp_tag));
@@ -3094,7 +3094,7 @@ public class RecordSetCodeGenerator {
 		if (!delayed_decode) {
 			/* mark the used bits in length area*/
 			for (int a = 0; a < tempRawOption.lengthof; a++) {
-				int field_index = tempRawOption.lengthofField.get(a);
+				final int field_index = tempRawOption.lengthofField.get(a);
 				source.append(MessageFormat.format("value_of_length_field{0} -= decoded_field_length;\n", field_index));
 				if (i == field_index) {
 					source.append(MessageFormat.format("if (value_of_length_field{0} < 0) '{'\n", field_index));
