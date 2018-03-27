@@ -1124,7 +1124,7 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = length * 8;
 		} else {
-			final byte[] tmp = D.toByteArray();
+			final byte[] tmp = D.abs().toByteArray();
 			final int num_bytes = tmp.length;
 			for (int a = 0; a < length; a++) {
 				if (twos_compl && num_bytes - 1 < a) {
