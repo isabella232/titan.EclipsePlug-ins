@@ -410,14 +410,14 @@ public class CfgParseTreePrinter {
 		} else if ( isTypedMacro( tokenType ) ) {
 			final String macroValue = getTypedMacroValue( aToken );
 			mSb.append( macroValue );
-		} else if ( tokenType == CfgLexer.STRING2 ) {
+		} else if ( tokenType == CfgLexer.INCLUDE_FILENAME ) {
 			// Quoted string in [INCLUDE] section
 			// this is the only non-hidden token in [INCLUDE] section
 			if ( aResolveMode == ResolveMode.NESTED ) {
 				resolveTokenNestedInclude( aToken, aResolveMode, aFile );
 			}
 			// otherwise nothing to do, included files are already collected in mParseTreeRoots
-		} else if ( tokenType == CfgLexer.STRING4 ) {
+		} else if ( tokenType == CfgLexer.ORDERED_INCLUDE_FILENAME ) {
 			// Quoted string in [ORDERED_INCLUDE] section
 			// this is the only non-hidden token in [ORDERED_INCLUDE] section
 			resolveTokenNestedInclude( aToken, aResolveMode, aFile );
@@ -473,15 +473,7 @@ public class CfgParseTreePrinter {
 	 * @return true, if and only if token type is a macro, for example: \$a, \${a}
 	 */
 	private static boolean isMacro( final int aTokenType ) {
-		return
-				aTokenType == CfgLexer.MACRO1
-				|| aTokenType == CfgLexer.MACRO5
-				|| aTokenType == CfgLexer.MACRO6
-				|| aTokenType == CfgLexer.MACRO7
-				|| aTokenType == CfgLexer.MACRO9
-				|| aTokenType == CfgLexer.MACRO10
-				|| aTokenType == CfgLexer.MACRO11
-				|| aTokenType == CfgLexer.MACRO12;
+		return aTokenType == CfgLexer.MACRO;
 	}
 
 	/**
@@ -490,40 +482,16 @@ public class CfgParseTreePrinter {
 	 */
 	private static boolean isTypedMacro( final int aTokenType ) {
 		return
-				aTokenType == CfgLexer.MACRO_HOSTNAME1
-				|| aTokenType == CfgLexer.MACRO_INT1
-				|| aTokenType == CfgLexer.MACRO_EXP_CSTR1
-				|| aTokenType == CfgLexer.MACRO_FLOAT1
-				|| aTokenType == CfgLexer.MACRO_ID5
-				|| aTokenType == CfgLexer.MACRO_INT5
-				|| aTokenType == CfgLexer.MACRO_BOOL5
-				|| aTokenType == CfgLexer.MACRO_FLOAT5
-				|| aTokenType == CfgLexer.MACRO_EXP_CSTR5
-				|| aTokenType == CfgLexer.MACRO_BSTR5
-				|| aTokenType == CfgLexer.MACRO_HSTR5
-				|| aTokenType == CfgLexer.MACRO_OSTR5
-				|| aTokenType == CfgLexer.MACRO_BINARY5
-				|| aTokenType == CfgLexer.MACRO_HOSTNAME5
-				|| aTokenType == CfgLexer.MACRO_EXP_CSTR6
-				|| aTokenType == CfgLexer.MACRO_INT7
-				|| aTokenType == CfgLexer.MACRO_ID7
-				|| aTokenType == CfgLexer.MACRO_EXP_CSTR7
-				|| aTokenType == CfgLexer.MACRO_ID8
-				|| aTokenType == CfgLexer.MACRO_ID9
-				|| aTokenType == CfgLexer.MACRO_INT9
-				|| aTokenType == CfgLexer.MACRO_BOOL9
-				|| aTokenType == CfgLexer.MACRO_FLOAT9
-				|| aTokenType == CfgLexer.MACRO_EXP_CSTR9
-				|| aTokenType == CfgLexer.MACRO_BSTR9
-				|| aTokenType == CfgLexer.MACRO_HSTR9
-				|| aTokenType == CfgLexer.MACRO_OSTR9
-				|| aTokenType == CfgLexer.MACRO_BINARY9
-				|| aTokenType == CfgLexer.MACRO_ID10
-				|| aTokenType == CfgLexer.MACRO_HOSTNAME10
-				|| aTokenType == CfgLexer.MACRO_BOOL11
-				|| aTokenType == CfgLexer.MACRO_ID11
-				|| aTokenType == CfgLexer.MACRO_INT11
-				|| aTokenType == CfgLexer.MACRO_EXP_CSTR11;
+				aTokenType == CfgLexer.MACRO_HOSTNAME
+				|| aTokenType == CfgLexer.MACRO_INT
+				|| aTokenType == CfgLexer.MACRO_FLOAT
+				|| aTokenType == CfgLexer.MACRO_ID
+				|| aTokenType == CfgLexer.MACRO_BOOL
+				|| aTokenType == CfgLexer.MACRO_BSTR
+				|| aTokenType == CfgLexer.MACRO_HSTR
+				|| aTokenType == CfgLexer.MACRO_OSTR
+				|| aTokenType == CfgLexer.MACRO_BINARY
+				|| aTokenType == CfgLexer.MACRO_EXP_CSTR;
 	}
 
 	/**

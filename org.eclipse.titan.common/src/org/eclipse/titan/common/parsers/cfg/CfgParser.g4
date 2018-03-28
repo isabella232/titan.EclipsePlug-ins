@@ -329,7 +329,7 @@ pr_Section:
 
 pr_MainControllerSection:
 MAIN_CONTROLLER_SECTION
-(	pr_MainControllerItem SEMICOLON1?
+(	pr_MainControllerItem SEMICOLON?
 )*
 ;
 
@@ -343,10 +343,10 @@ pr_MainControllerItem:
 ;
 
 pr_MainControllerItemUnixDomainSocket:
-	UNIXSOCKETS1
-	ASSIGNMENTCHAR1
+	UNIXSOCKETS
+	ASSIGNMENTCHAR
 	u = pr_MainControllerItemUnixDomainSocketValue
-	SEMICOLON1?
+	SEMICOLON?
 	{	if ( $u.text != null ) {
 			mCfgParseResult.setUnixDomainSocket( "yes".equalsIgnoreCase( $u.text ) );
 			mcSectionHandler.setUnixDomainSocketRoot( $ctx );
@@ -356,14 +356,14 @@ pr_MainControllerItemUnixDomainSocket:
 ;
 
 pr_MainControllerItemUnixDomainSocketValue:
-	(YES1 | NO1)
+	(YES | NO)
 ;
 
 pr_MainControllerItemKillTimer:
-	KILLTIMER1
-	ASSIGNMENTCHAR1
+	KILLTIMER
+	ASSIGNMENTCHAR
 	k = pr_ArithmeticValueExpression
-	SEMICOLON1?
+	SEMICOLON?
 	{	if ( $k.number != null ) {
 			mCfgParseResult.setKillTimer( $k.number.getValue() );
 			mcSectionHandler.setKillTimerRoot( $ctx );
@@ -373,10 +373,10 @@ pr_MainControllerItemKillTimer:
 ;
 
 pr_MainControllerItemLocalAddress:
-	LOCALADDRESS1
-	ASSIGNMENTCHAR1
+	LOCALADDRESS
+	ASSIGNMENTCHAR
 	l = pr_HostName
-	SEMICOLON1?
+	SEMICOLON?
 	{	mCfgParseResult.setLocalAddress( $l.text );
 		mcSectionHandler.setLocalAddressRoot( $ctx );
 		mcSectionHandler.setLocalAddress( $l.ctx );
@@ -384,10 +384,10 @@ pr_MainControllerItemLocalAddress:
 ;
 
 pr_MainControllerItemNumHcs:
-	NUMHCS1
-	ASSIGNMENTCHAR1
+	NUMHCS
+	ASSIGNMENTCHAR
 	n = pr_IntegerValueExpression
-	SEMICOLON1?
+	SEMICOLON?
 	{	if ( $n.number != null ) {
 			mCfgParseResult.setNumHcs( $n.number.getIntegerValue() );
 			mcSectionHandler.setNumHCsTextRoot( $ctx );
@@ -397,10 +397,10 @@ pr_MainControllerItemNumHcs:
 ;
 
 pr_MainControllerItemTcpPort:
-	TCPPORT1
-	ASSIGNMENTCHAR1
+	TCPPORT
+	ASSIGNMENTCHAR
 	t = pr_IntegerValueExpression
-	SEMICOLON1?
+	SEMICOLON?
 	{	if ( $t.number != null ) {
 			mCfgParseResult.setTcpPort( $t.number.getIntegerValue() );
 			mcSectionHandler.setTcpPortRoot( $ctx );
@@ -411,7 +411,7 @@ pr_MainControllerItemTcpPort:
 
 pr_IncludeSection:
 	INCLUDE_SECTION
-	( f = STRING2
+	( f = STRING
 		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			final TerminalNodeImpl node = new TerminalNodeImpl( $f );
@@ -425,7 +425,7 @@ pr_IncludeSection:
 
 pr_OrderedIncludeSection:
 	ORDERED_INCLUDE_SECTION
-	( f = STRING4
+	( f = STRING
 		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			final TerminalNodeImpl node = new TerminalNodeImpl( $f );
@@ -452,7 +452,7 @@ pr_ExecuteSectionItem
 			executeElement += $module.name;
 			item.setModuleName( $module.ctx );
 		}
-	(	DOT3
+	(	DOT
 		testcase = pr_ExecuteSectionItemTestcaseName
 			{
 				executeElement += $testcase.name;
@@ -463,16 +463,16 @@ pr_ExecuteSectionItem
 		item.setRoot( $ctx );
 		executeSectionHandler.getExecuteitems().add( item );
 	}
-	SEMICOLON3?
+	SEMICOLON?
 ;
 
 pr_ExecuteSectionItemModuleName returns [ String name ]:
-	t = TTCN3IDENTIFIER3
+	t = TTCN3IDENTIFIER
 {	$name = $t.text != null ? $t.text : "";
 };
 
 pr_ExecuteSectionItemTestcaseName returns [ String name ]:
-	t = ( TTCN3IDENTIFIER3 | STAR3 )
+	t = ( TTCN3IDENTIFIER | STAR )
 {	$name = $t.text != null ? $t.text : "";
 };
 
@@ -490,31 +490,31 @@ pr_DefineSection:
 pr_ExternalCommandsSection:
 	EXTERNAL_COMMANDS_SECTION
 	(	pr_ExternalCommand
-		SEMICOLON6?
+		SEMICOLON?
 	)*
 ;
 
 pr_ExternalCommand:
-	(	BEGINCONTROLPART6
-		ASSIGNMENTCHAR6
+	(	BEGINCONTROLPART
+		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
 			{	externalCommandsSectionHandler.setBeginControlPart( $v.ctx );
 				externalCommandsSectionHandler.setBeginControlPartRoot( $ctx );
 			}
-	|	ENDCONTROLPART6
-		ASSIGNMENTCHAR6
+	|	ENDCONTROLPART
+		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
 			{	externalCommandsSectionHandler.setEndControlPart( $v.ctx );
 				externalCommandsSectionHandler.setEndControlPartRoot( $ctx );
 			}
-	|	BEGINTESTCASE6
-		ASSIGNMENTCHAR6
+	|	BEGINTESTCASE
+		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
 			{	externalCommandsSectionHandler.setBeginTestcase( $v.ctx );
 				externalCommandsSectionHandler.setBeginTestcaseRoot( $ctx );
 			}
-	|	ENDTESTCASE6
-		ASSIGNMENTCHAR6
+	|	ENDTESTCASE
+		ASSIGNMENTCHAR
 		v = pr_ExternalCommandValue
 			{	externalCommandsSectionHandler.setEndTestcase( $v.ctx );
 				externalCommandsSectionHandler.setEndTestcaseRoot( $ctx );
@@ -529,17 +529,17 @@ pr_ExternalCommandValue:
 pr_TestportParametersSection:
 	TESTPORT_PARAMETERS_SECTION
 	(	pr_TestportParameter
-		SEMICOLON7?
+		SEMICOLON?
 	)*
 ;
 
 pr_TestportParameter:
 	a = pr_ComponentID
-	DOT7
+	DOT
 	b = pr_TestportName
-	DOT7
+	DOT
 	c = pr_Identifier
-	ASSIGNMENTCHAR7
+	ASSIGNMENTCHAR
 	d = pr_StringValue
 {	TestportParameterSectionHandler.TestportParameter parameter = new TestportParameterSectionHandler.TestportParameter();
 	parameter.setComponentName( $a.ctx );
@@ -553,7 +553,7 @@ pr_TestportParameter:
 
 pr_GroupsSection:
 	GROUPS_SECTION
-	(	pr_GroupItem SEMICOLON8?
+	(	pr_GroupItem SEMICOLON?
 	)*
 ;
 
@@ -565,25 +565,25 @@ pr_ModuleParametersSection:
 					$param.parameter.setRoot( $param.ctx );
 				}
 			}
-		SEMICOLON9?
+		SEMICOLON?
 	)*
 ;
 
 pr_ComponentsSection:
 	COMPONENTS_SECTION
-	(	pr_ComponentItem SEMICOLON10?
+	(	pr_ComponentItem SEMICOLON?
 	)*
 ;
 
 pr_LoggingSection:
 	LOGGING_SECTION
-	(	pr_LoggingParam	SEMICOLON11?
+	(	pr_LoggingParam	SEMICOLON?
 	)*
 ;
 
 pr_ProfilerSection:
 	PROFILER_SECTION
-	(	pr_ProfilerSetting SEMICOLON12?
+	(	pr_ProfilerSetting SEMICOLON?
 	)*
 ;
 
@@ -603,32 +603,32 @@ pr_ProfilerSetting:
 
 pr_DisableProfiler:
 	DISABLEPROFILER
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
 pr_DisableCoverage:
 	DISABLECOVERAGE
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
 pr_DatabaseFile:
 	DATABASEFILE
-	ASSIGNMENTCHAR12
+	ASSIGNMENTCHAR
 	pr_DatabaseFilePart
-	(	AND12
+	(	AND
 		pr_DatabaseFilePart
 	)*
 ;
 
 pr_DatabaseFilePart:
-(	STRING12
-|	macro = MACRO12
+(	STRING
+|	macro = MACRO
 		{	String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
@@ -636,17 +636,17 @@ pr_DatabaseFilePart:
 
 pr_AggregateData:
 	AGGREGATEDATA
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
 pr_StatisticsFile:
 	STATISTICSFILE
-	ASSIGNMENTCHAR12
+	ASSIGNMENTCHAR
 	pr_StatisticsFilePart
-	(	AND12
+	(	AND
 		pr_StatisticsFilePart
 	)*
 ;
@@ -654,8 +654,8 @@ pr_StatisticsFile:
 // currently it is the same as pr_DatabaseFilePart,
 // but it will be different if value is used
 pr_StatisticsFilePart:
-(	STRING12
-|	macro = MACRO12
+(	STRING
+|	macro = MACRO
 		{	String value = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
@@ -663,20 +663,20 @@ pr_StatisticsFilePart:
 
 pr_DisableStatistics:
 	DISABLESTATISTICS
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
 pr_StatisticsFilter:
 	STATISTICSFILTER
-	(	ASSIGNMENTCHAR12
-	|	CONCATCHAR12
+	(	ASSIGNMENTCHAR
+	|	CONCATCHAR
 	)
 	pr_StatisticsFilterEntry
-	(	(	LOGICALOR12
-		|	AND12
+	(	(	LOGICALOR
+		|	AND
 		)
 		pr_StatisticsFilterEntry
 	)*
@@ -721,31 +721,31 @@ pr_StatisticsFilterEntry:
 |	TOP10ALLDATA
 |	UNUSEDATA
 |	ALL
-|	HEXFILTER12
+|	HEXFILTER
 )
 ;
 
 pr_StartAutomatically:
 	STARTAUTOMATICALLY
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
 pr_NetLineTimes:
 	NETLINETIMES
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
 pr_NetFunctionTimes:
 	NETFUNCTIONTIMES
-	ASSIGNMENTCHAR12
-	(	TRUE12
-	|	FALSE12
+	ASSIGNMENTCHAR
+	(	TRUE
+	|	FALSE
 	)
 ;
 
@@ -762,13 +762,13 @@ pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
 }:
-	(	cn = pt_TestComponentID DOT11 { componentName = $cn.text; }
+	(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
 	)?
 	LOGGERPLUGINS
-	ASSIGNMENTCHAR11
-	BEGINCHAR11
+	ASSIGNMENTCHAR
+	BEGINCHAR
 	lpl = pr_LoggerPluginsList
-	ENDCHAR11
+	ENDCHAR
 {
 	for (LoggingSectionHandler.LoggerPluginEntry item : $lpl.entries) {
 		LoggingSectionHandler.LogParamEntry lpe = loggingSectionHandler.componentPlugin(componentName, item.getName());
@@ -790,7 +790,7 @@ pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> ent
 	$entries = new ArrayList<LoggingSectionHandler.LoggerPluginEntry>();
 }:
 	lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
-	(	COMMA11 lpe = pr_LoggerPluginEntry  { $entries.add( $lpe.entry ); }
+	(	COMMA lpe = pr_LoggerPluginEntry  { $entries.add( $lpe.entry ); }
 	)*
 ;
 
@@ -799,38 +799,38 @@ pr_PlainLoggingParam
 	String componentName = "*";
 	String pluginName = "*";
 }:
-(	cn = pt_TestComponentID DOT11 { componentName = $cn.text; }
+(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
 )?
-(	STAR11 DOT11
-|	pn = pr_Identifier DOT11 { pluginName = $pn.text; }
+(	STAR DOT
+|	pn = pr_Identifier DOT { pluginName = $pn.text; }
 )?
 {	LogParamEntry logParamEntry = loggingSectionHandler.componentPlugin(componentName, pluginName);
 }
-(   FILEMASK ASSIGNMENTCHAR11 fileMask = pr_LoggingBitMask
+(   FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
 		{	logParamEntry.setFileMaskRoot( $ctx );
 			logParamEntry.setFileMask( $fileMask.ctx );
 			Map<LoggingBit, ParseTree> loggingBitMask = $fileMask.loggingBitMask;
 			logParamEntry.setFileMaskBits( loggingBitMask );
 		}
-|	CONSOLEMASK ASSIGNMENTCHAR11 consoleMask = pr_LoggingBitMask
+|	CONSOLEMASK ASSIGNMENTCHAR consoleMask = pr_LoggingBitMask
 		{	logParamEntry.setConsoleMaskRoot( $ctx );
 			logParamEntry.setConsoleMask( $consoleMask.ctx );
 			Map<LoggingBit, ParseTree> loggingBitMask = $consoleMask.loggingBitMask;
 			logParamEntry.setConsoleMaskBits( loggingBitMask );
 		}
-|	DISKFULLACTION ASSIGNMENTCHAR11 dfa = pr_DiskFullActionValue
+|	DISKFULLACTION ASSIGNMENTCHAR dfa = pr_DiskFullActionValue
 		{	logParamEntry.setDiskFullActionRoot( $ctx );
 			logParamEntry.setDiskFullAction( $dfa.ctx );
 		}
-|	LOGFILENUMBER ASSIGNMENTCHAR11 lfn = pr_Number
+|	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_Number
 		{	logParamEntry.setLogfileNumberRoot( $ctx );
 			logParamEntry.setLogfileNumber( $lfn.ctx );
 		}
-|	LOGFILESIZE ASSIGNMENTCHAR11 lfs = pr_Number
+|	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_Number
 		{	logParamEntry.setLogfileSizeRoot( $ctx );
 			logParamEntry.setLogfileSize( $lfs.ctx );
 		}
-|	LOGFILENAME ASSIGNMENTCHAR11 f = pr_LogfileName
+|	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
 	{	mCfgParseResult.setLogFileDefined( true );
 		String logFileName = $f.text;
 		if ( logFileName != null ) {
@@ -841,15 +841,15 @@ pr_PlainLoggingParam
 		logParamEntry.setLogFileRoot( $ctx );
 		logParamEntry.setLogFile( $f.ctx );
 	}
-|	TIMESTAMPFORMAT ASSIGNMENTCHAR11 ttv = pr_TimeStampValue
+|	TIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
 	{	logParamEntry.setTimestampFormatRoot( $ctx );
 		logParamEntry.setTimestampFormat( $ttv.ctx );
 	}
-|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR11 ttv = pr_TimeStampValue
+|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
 	{	logParamEntry.setConsoleTimestampFormatRoot( $ctx );
 		logParamEntry.setConsoleTimestampFormat( $ttv.ctx );
 	}
-|	SOURCEINFOFORMAT ASSIGNMENTCHAR11
+|	SOURCEINFOFORMAT ASSIGNMENTCHAR
 	(	siv1 = pr_SourceInfoValue
 		{	logParamEntry.setSourceInfoFormatRoot( $ctx );
 			logParamEntry.setSourceInfoFormat( $siv1.ctx );
@@ -859,35 +859,35 @@ pr_PlainLoggingParam
 			logParamEntry.setSourceInfoFormat( $siv2.ctx );
 		}
 	)
-|	APPENDFILE ASSIGNMENTCHAR11 af = pr_YesNoOrBoolean
+|	APPENDFILE ASSIGNMENTCHAR af = pr_YesNoOrBoolean
 	{	logParamEntry.setAppendFileRoot( $ctx );
 		logParamEntry.setAppendFile( $af.ctx );
 	}
-|	LOGEVENTTYPES ASSIGNMENTCHAR11 let = pr_LogEventTypesValue
+|	LOGEVENTTYPES ASSIGNMENTCHAR let = pr_LogEventTypesValue
 	{	logParamEntry.setLogeventTypesRoot( $ctx );
 		logParamEntry.setLogeventTypes( $let.ctx );
 	}
-|	LOGENTITYNAME ASSIGNMENTCHAR11 len = pr_YesNoOrBoolean
+|	LOGENTITYNAME ASSIGNMENTCHAR len = pr_YesNoOrBoolean
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setLogEntityName( $len.ctx );
 	}
-|	MATCHINGHINTS ASSIGNMENTCHAR11 mh = pr_MatchingHintsValue
+|	MATCHINGHINTS ASSIGNMENTCHAR mh = pr_MatchingHintsValue
 	{	logParamEntry.setMatchingHintsRoot( $ctx );
 		logParamEntry.setMatchingHints( $mh.ctx );
 	}
-|	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR11 o2 = pr_StringValue
+|	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR o2 = pr_StringValue
 	{	logParamEntry.getPluginSpecificParam().add(
 			new LoggingSectionHandler.PluginSpecificParam( $ctx, $o1.ctx, $o2.ctx, $o1.text ) );
 	}
-|   EMERGENCYLOGGING ASSIGNMENTCHAR11 el = pr_Number
+|   EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_Number
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLogging( $el.ctx );
 	}
-|   EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR11 elb = pr_BufferAllOrMasked
+|   EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR elb = pr_BufferAllOrMasked
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLoggingBehaviour( $elb.ctx );
 	}
-|   EMERGENCYLOGGINGMASK ASSIGNMENTCHAR11 elm = pr_LoggingBitMask
+|   EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLoggingMask( $elm.ctx );
 		Map<LoggingBit, ParseTree> loggingBitMask = $elm.loggingBitMask;
@@ -905,7 +905,7 @@ pr_SourceInfoValue:
 ;
 
 pr_PluginSpecificParamName:
-	TTCN3IDENTIFIER11
+	TTCN3IDENTIFIER
 ;
 
 pr_BufferAllOrMasked:
@@ -914,7 +914,7 @@ pr_BufferAllOrMasked:
 
 pr_DiskFullActionValue:
 (	DISKFULLACTIONVALUE
-|	DISKFULLACTIONVALUERETRY ( LPAREN11 NUMBER11 RPAREN11 )?
+|	DISKFULLACTIONVALUERETRY ( LPAREN NUMBER RPAREN )?
 )
 ;
 
@@ -924,7 +924,7 @@ pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
 }:
 	i = pr_Identifier {	$entry.setName( $i.identifier );
 						$entry.setPath("");	}
-	(	ASSIGNMENTCHAR11
+	(	ASSIGNMENTCHAR
 		s = pr_StringValue { $entry.setPath( $s.string ); }
 	)?
 {	$entry.setLoggerPluginRoot( $ctx );
@@ -935,7 +935,7 @@ pt_TestComponentID:
 (	pr_Identifier
 |	pr_Number
 |	MTCKeyword
-|	STAR11
+|	STAR
 )
 ;
 
@@ -944,7 +944,7 @@ pr_LoggingBitMask returns [ Map<LoggingBit, ParseTree> loggingBitMask ]
 	$loggingBitMask = new EnumMap<LoggingBit, ParseTree>( LoggingBit.class );
 }:
 	pr_LoggingMaskElement [ $loggingBitMask ]
-	(	LOGICALOR11	pr_LoggingMaskElement [ $loggingBitMask ]
+	(	LOGICALOR	pr_LoggingMaskElement [ $loggingBitMask ]
 	)*
 ;
 
@@ -1094,7 +1094,7 @@ pr_ComponentItem:
 }
 	n = pr_ComponentName
 		{	component.setComponentName( $n.ctx );	}
-	ASSIGNMENTCHAR10
+	ASSIGNMENTCHAR
 	(	h = pr_HostName {	mCfgParseResult.getComponents().put( $n.text, $h.text );
 							component.setHostName( $h.ctx );
 						}
@@ -1109,18 +1109,18 @@ pr_ComponentItem:
 
 pr_ComponentName:
 (	pr_Identifier
-|	STAR10
+|	STAR
 )
 ;
 
 pr_HostName:
 (	pr_DNSName
-|	TTCN3IDENTIFIER1 | TTCN3IDENTIFIER10
-|	macro1 = (MACRO_HOSTNAME1 | MACRO_HOSTNAME10)
+|	TTCN3IDENTIFIER
+|	macro1 = MACRO_HOSTNAME
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
-|	macro2 = (MACRO1 | MACRO10)
+|	macro2 = MACRO
 		{	String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_STRING );
 			//TODO: implement: use value if needed
 		}
@@ -1128,7 +1128,7 @@ pr_HostName:
 ;
 
 pr_HostNameIpV6:
-	IPV6_10
+	IPV6
 ;
 
 pr_MacroAssignment returns [ DefineSectionHandler.Definition definition ]
@@ -1137,8 +1137,8 @@ pr_MacroAssignment returns [ DefineSectionHandler.Definition definition ]
 	String name = null;
 	String value = null;
 }:
-(	col = TTCN3IDENTIFIER5 { name = $col.getText(); }
-	ASSIGNMENTCHAR5
+(	col = TTCN3IDENTIFIER { name = $col.getText(); }
+	ASSIGNMENTCHAR
 	endCol = pr_DefinitionRValue { value = $endCol.text; }
 )
 {	if(name != null && value != null) {
@@ -1158,34 +1158,34 @@ pr_DefinitionRValue:
 ;
 
 pr_SimpleValue:
-(	TTCN3IDENTIFIER5
-|	MACRORVALUE5
-|	MACRO_ID5
-|	MACRO_INT5
-|	MACRO_BOOL5
-|	MACRO_FLOAT5
-|	MACRO_EXP_CSTR5
-|	MACRO_BSTR5
-|	MACRO_HSTR5
-|	MACRO_OSTR5
-|	MACRO_BINARY5
-|	MACRO_HOSTNAME5
-|	MACRO5
-|	IPV6_5
-|	STRING5
-|	BITSTRING5
-|	HEXSTRING5
-|	OCTETSTRING5
-|	BITSTRINGMATCH5
-|	HEXSTRINGMATCH5
-|	OCTETSTRINGMATCH5
+(	TTCN3IDENTIFIER
+|	MACRORVALUE
+|	MACRO_ID
+|	MACRO_INT
+|	MACRO_BOOL
+|	MACRO_FLOAT
+|	MACRO_EXP_CSTR
+|	MACRO_BSTR
+|	MACRO_HSTR
+|	MACRO_OSTR
+|	MACRO_BINARY
+|	MACRO_HOSTNAME
+|	MACRO
+|	IPV6
+|	STRING
+|	BITSTRING
+|	HEXSTRING
+|	OCTETSTRING
+|	BITSTRINGMATCH
+|	HEXSTRINGMATCH
+|	OCTETSTRINGMATCH
 )
 ;
 
 pr_StructuredValue:
-	BEGINCHAR5
+	BEGINCHAR
 	(pr_StructuredValue | pr_StructuredValue2)
-	ENDCHAR5
+	ENDCHAR
 ;
 
 pr_StructuredValue2:
@@ -1197,26 +1197,26 @@ pr_StructuredValue2:
 pr_ComponentID:
 (	pr_Identifier
 |	pr_Number
-|	MTC7
-|	SYSTEM7
-|	STAR7
+|	MTC
+|	SYSTEM
+|	STAR
 )
 ;
 
 pr_TestportName:
 (	pr_Identifier
-	(	SQUAREOPEN7 pr_IntegerValueExpression SQUARECLOSE7
+	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
 	)*
-|	STAR7
+|	STAR
 )
 ;
 
 pr_Identifier returns [String identifier]:
-(	macro = (MACRO_ID7 | MACRO_ID8 | MACRO_ID9 | MACRO_ID10 | MACRO_ID11)
+(	macro = MACRO_ID
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );
 			$identifier = value;
 		}
-|	a = (TTCN3IDENTIFIER7 | TTCN3IDENTIFIER8 | TTCN3IDENTIFIER9 | TTCN3IDENTIFIER10 | TTCN3IDENTIFIER11)
+|	a = TTCN3IDENTIFIER
 		{	$identifier = $a.getText();	}
 )
 ;
@@ -1227,15 +1227,15 @@ pr_IntegerValueExpression returns [CFGNumber number]:
 
 pr_IntegerAddExpression returns [CFGNumber number]:
 	a = pr_IntegerMulExpression	{	$number = $a.number;	}
-	(	(	PLUS1 | PLUS7 | PLUS9	)	b1 = pr_IntegerMulExpression	{	$number.add($b1.number);	}
-	|	(	MINUS1 | MINUS7 | MINUS9	)	b2 = pr_IntegerMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
+	(	PLUS	b1 = pr_IntegerMulExpression	{	$number.add($b1.number);	}
+	|	MINUS	b2 = pr_IntegerMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
 	)*
 ;
 
 pr_IntegerMulExpression returns [CFGNumber number]:
 	a = pr_IntegerUnaryExpression	{	$number = $a.number;	}
-	(	(	STAR1 | STAR7 | STAR9	)	b1 = pr_IntegerUnaryExpression	{	$number.mul($b1.number);	}
-	|	(	SLASH1 | SLASH7 | SLASH9	)	b2 = pr_IntegerUnaryExpression
+	(	STAR	b1 = pr_IntegerUnaryExpression	{	$number.mul($b1.number);	}
+	|	SLASH	b2 = pr_IntegerUnaryExpression
 		{	try {
 				$number.div($b2.number);
 			} catch ( ArithmeticException e ) {
@@ -1250,8 +1250,8 @@ pr_IntegerMulExpression returns [CFGNumber number]:
 pr_IntegerUnaryExpression returns [CFGNumber number]:
 {	boolean negate = false;
 }
-	(	(PLUS1 | PLUS7 | PLUS9)
-	|	(MINUS1 | MINUS7 | MINUS9)	{	negate = !negate;	}
+	(	PLUS
+	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_IntegerPrimaryExpression
 		{	$number = $a.number;
@@ -1263,27 +1263,25 @@ pr_IntegerUnaryExpression returns [CFGNumber number]:
 
 pr_IntegerPrimaryExpression returns [CFGNumber number]:
 (	a = pr_Number	{	$number = $a.number;	}
-|	LPAREN1 b = pr_IntegerAddExpression RPAREN1	{	$number = $b.number;	}
-|	LPAREN7 c = pr_IntegerAddExpression RPAREN7	{	$number = $c.number;	}
-|	LPAREN9 d = pr_IntegerAddExpression RPAREN9	{	$number = $d.number;	}
+|	LPAREN b = pr_IntegerAddExpression RPAREN	{	$number = $b.number;	}
 )
 ;
 
 pr_Number returns [CFGNumber number]:
-(	a = (NUMBER1 | NUMBER7 | NUMBER9 | NUMBER11)	{$number = new CFGNumber($a.text);}
+(	a = NUMBER	{$number = new CFGNumber($a.text);}
 |	macro = pr_MacroNumber { $number = $macro.number; }
-|	TTCN3IDENTIFIER9 // module parameter name
+|	TTCN3IDENTIFIER // module parameter name
 		{	$number = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
 		}
 )
 ;
 
 pr_MacroNumber returns [CFGNumber number]:
-(	macro1 = (MACRO_INT1 | MACRO_INT7 | MACRO_INT9 | MACRO_INT11)
+(	macro1 = MACRO_INT
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0" );
 		}
-|	macro2 = (MACRO1 | MACRO7 | MACRO9 | MACRO11)
+|	macro2 = MACRO
 		{	String value = getMacroValue( $macro2, DEFINITION_NOT_FOUND_INT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0" );
 		}
@@ -1299,7 +1297,8 @@ pr_StringValue returns [String string]
 				$string = $a.string.replaceAll("^\"|\"$", "");
 			}
 		}
-	(	(STRINGOP1 | STRINGOP6 | STRINGOP7 | STRINGOP9 | STRINGOP11) b = pr_CString
+	(	STRINGOP
+		b = pr_CString
 			{	if ( $b.string != null ) {
 					$string = $string + $b.string.replaceAll("^\"|\"$", "");
 				}
@@ -1312,25 +1311,25 @@ pr_StringValue returns [String string]
 ;
 
 pr_CString returns [String string]:
-(	a = (STRING1 | STRING6 | STRING7 | STRING9 | STRING11)
+(	a = STRING
 		{
 			$string = $a.text;
 		}
 |	macro2 = pr_MacroCString			{	$string = "\"" + $macro2.string + "\"";	}
 |	macro1 = pr_MacroExpliciteCString	{	$string = "\"" + $macro1.string + "\"";	}
-|	TTCN3IDENTIFIER9 // module parameter name
+|	TTCN3IDENTIFIER // module parameter name
 		{	$string = "\"\""; // value is unknown yet, but it should not be null
 		}
 )
 ;
 
 pr_MacroCString returns [String string]:
-	macro = (MACRO1 | MACRO6 | MACRO7 | MACRO9 | MACRO11)
+	macro = MACRO
 		{	$string = getMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
 ;
 
 pr_MacroExpliciteCString returns [String string]:
-	macro = (MACRO_EXP_CSTR1 | MACRO_EXP_CSTR6 | MACRO_EXP_CSTR7 | MACRO_EXP_CSTR9 | MACRO_EXP_CSTR11)
+	macro = MACRO_EXP_CSTR
 		{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_STRING );	}
 ;
 
@@ -1339,8 +1338,8 @@ pr_GroupItem:
 	GroupSectionHandler.Group group = new GroupSectionHandler.Group();
 }
 (	a = pr_Identifier
-	ASSIGNMENTCHAR8
-	(	STAR8 {  memberlist.add("*");  }
+	ASSIGNMENTCHAR
+	(	STAR {  memberlist.add("*");  }
 	|	(	c = pr_DNSName	{	memberlist.add( $c.text );
 								group.getGroupItems().add( new GroupSectionHandler.GroupItem( $c.ctx ) );
 							}
@@ -1348,7 +1347,7 @@ pr_GroupItem:
 									group.getGroupItems().add( new GroupSectionHandler.GroupItem( $d.ctx ) );
 								}
 		)
-		(	COMMA8
+		(	COMMA
 			(	e = pr_DNSName	{	memberlist.add( $e.text );
 									group.getGroupItems().add( new GroupSectionHandler.GroupItem( $e.ctx ) );
 								}
@@ -1367,9 +1366,9 @@ pr_GroupItem:
 ;
 
 pr_DNSName:
-(	NUMBER1 | NUMBER8 | NUMBER10
-|	FLOAT1 | FLOAT8 | FLOAT10
-|	DNSNAME1 | DNSNAME8 | DNSNAME10
+(	NUMBER
+|	FLOAT
+|	DNSNAME
 )
 ;
 
@@ -1378,9 +1377,9 @@ pr_ModuleParam returns[ModuleParameterSectionHandler.ModuleParameter parameter]
 	$parameter = null;
 }:
 	name = pr_ParameterName	{$parameter = $name.parameter;}
-	(	ASSIGNMENTCHAR9
+	(	ASSIGNMENTCHAR
 		val1 = pr_ParameterValue	{$parameter.setValue($val1.ctx);}
-	|	CONCATCHAR9
+	|	CONCATCHAR
 		val2 = pr_ParameterValue	{$parameter.setValue($val2.ctx);}
 	)
 ;
@@ -1400,7 +1399,7 @@ pr_ParameterName returns[ModuleParameterSectionHandler.ModuleParameter parameter
 		}
 	)
 |	star = pr_StarModuleName
-	DOT9
+	DOT
 	id3 = pr_ParameterNamePart
 	{	$parameter.setModuleName($star.ctx);
 		$parameter.setParameterName($id3.ctx);
@@ -1424,15 +1423,15 @@ pr_ParameterNameTail:
 ;
 
 pr_Dot:
-	DOT9
+	DOT
 ;
 
 pr_StarModuleName:
-	STAR9
+	STAR
 ;
 
 pr_ParameterValue:
-	pr_ParameterExpression pr_LengthMatch? IFPRESENTKeyword9?
+	pr_ParameterExpression pr_LengthMatch? IFPRESENTKeyword?
 ;
 
 //module parameter expression, it can contain previously defined module parameters
@@ -1440,29 +1439,29 @@ pr_ParameterExpression:
 	pr_SimpleParameterValue
 |	pr_ParameterReference
 |	pr_ParameterExpression
-	(	(	PLUS9
-		|	MINUS9
-		|	STAR9
-		|	SLASH9
-		|	STRINGOP9
+	(	(	PLUS
+		|	MINUS
+		|	STAR
+		|	SLASH
+		|	STRINGOP
 		)
 		pr_ParameterExpression
 	)+
-|	(	PLUS9
-	|	MINUS9
+|	(	PLUS
+	|	MINUS
 	)
 	pr_ParameterExpression
-|	LPAREN9
+|	LPAREN
 	pr_ParameterExpression
-	RPAREN9
+	RPAREN
 ;
 
 pr_LengthMatch:
-	LENGTHKeyword9 LPAREN9 pr_LengthBound
-	(	RPAREN9
-	|	DOTDOT9
-		(	pr_LengthBound | INFINITYKeyword9	)
-		RPAREN9
+	LENGTHKeyword LPAREN pr_LengthBound
+	(	RPAREN
+	|	DOTDOT
+		(	pr_LengthBound | INFINITYKeyword	)
+		RPAREN
 	)
 ;
 
@@ -1475,18 +1474,18 @@ pr_SimpleParameterValue:
 |	pr_HStringValue
 |	pr_OStringValue
 |	pr_UniversalOrNotStringValue
-|	OMITKeyword9
+|	OMITKeyword
 |	pr_EnumeratedValue
 |	pr_NULLKeyword
-|	MTCKeyword9
-|	SYSTEMKeyword9
+|	MTCKeyword
+|	SYSTEMKeyword
 |	pr_CompoundValue
-|	ANYVALUE9
-|	STAR9
+|	ANYVALUE
+|	STAR
 |	pr_IntegerRange
 |	pr_FloatRange
 |	pr_StringRange
-|	PATTERNKeyword9 pr_PatternChunkList
+|	PATTERNKeyword pr_PatternChunkList
 |	pr_BStringMatch
 |	pr_HStringMatch
 |	pr_OStringMatch
@@ -1508,9 +1507,9 @@ pr_ParameterNameSegment:
 ;
 
 pr_IndexItemIndex:
-	SQUAREOPEN9
+	SQUAREOPEN
 	pr_IntegerValueExpression
-	SQUARECLOSE9
+	SQUARECLOSE
 ;
 
 pr_LengthBound:
@@ -1523,15 +1522,15 @@ pr_ArithmeticValueExpression returns [CFGNumber number]:
 
 pr_ArithmeticAddExpression returns [CFGNumber number]:
 	a = pr_ArithmeticMulExpression	{	$number = $a.number;	}
-	(	(	PLUS1 | PLUS9	)	b1 = pr_ArithmeticMulExpression	{	$number.add($b1.number);	}
-	|	(	MINUS1 | MINUS9	)	b2 = pr_ArithmeticMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
+	(	PLUS	b1 = pr_ArithmeticMulExpression	{	$number.add($b1.number);	}
+	|	MINUS	b2 = pr_ArithmeticMulExpression	{	$b2.number.mul(-1); $number.add($b2.number);	}
 	)*
 ;
 
 pr_ArithmeticMulExpression returns [CFGNumber number]:
 	a = pr_ArithmeticUnaryExpression	{	$number = $a.number;	}
-	(	(	STAR1 | STAR9	)	b1 = pr_ArithmeticUnaryExpression	{	$number.mul($b1.number);	}
-	|	(	SLASH1 | SLASH9	)	b2 = pr_ArithmeticUnaryExpression
+	(	STAR	b1 = pr_ArithmeticUnaryExpression	{	$number.mul($b1.number);	}
+	|	SLASH	b2 = pr_ArithmeticUnaryExpression
 		{	try {
 				$number.div($b2.number);
 			} catch ( ArithmeticException e ) {
@@ -1546,8 +1545,8 @@ pr_ArithmeticMulExpression returns [CFGNumber number]:
 pr_ArithmeticUnaryExpression returns [CFGNumber number]:
 {	boolean negate = false;
 }
-	(	(	PLUS1 | PLUS9	)
-	|	(	MINUS1 | MINUS9	)	{	negate = !negate;	}
+	(	PLUS
+	|	MINUS	{	negate = !negate;	}
 	)*
 	a = pr_ArithmeticPrimaryExpression
 		{	$number = $a.number;
@@ -1560,27 +1559,26 @@ pr_ArithmeticUnaryExpression returns [CFGNumber number]:
 pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
 (	a = pr_Float	{$number = $a.number;}
 |	b = pr_Number	{$number = $b.number;}
-|	LPAREN1 c = pr_ArithmeticAddExpression RPAREN1 {$number = $c.number;}
-|	LPAREN9 d = pr_ArithmeticAddExpression RPAREN9 {$number = $d.number;}
+|	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
 )
 ;
 
 pr_Float returns [CFGNumber number]:
-(	a = (FLOAT1 | FLOAT9) {$number = new CFGNumber($a.text);}
-|	macro = (MACRO_FLOAT1 | MACRO_FLOAT9)
+(	a = FLOAT {$number = new CFGNumber($a.text);}
+|	macro = MACRO_FLOAT
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0.0" );
 		}
-|	TTCN3IDENTIFIER9 // module parameter name
+|	TTCN3IDENTIFIER // module parameter name
 		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
 )
 ;
 
 pr_Boolean returns [String string]:
-(	t = (TRUE9 | TRUE11) { $string = $t.getText(); }
-|	f = (FALSE9 | FALSE11) { $string = $f.getText(); }
-|	macro = (MACRO_BOOL9 | MACRO_BOOL11)
+(	t = TRUE { $string = $t.getText(); }
+|	f = FALSE { $string = $f.getText(); }
+|	macro = MACRO_BOOL
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BOOLEAN );
 			if ( "false".equals( value ) ) {
 				$string = "false";
@@ -1592,31 +1590,31 @@ pr_Boolean returns [String string]:
 ;
 
 pr_ObjIdValue:
-	OBJIDKeyword9	BEGINCHAR9	pr_ObjIdComponent+	ENDCHAR9
+	OBJIDKeyword	BEGINCHAR	pr_ObjIdComponent+	ENDCHAR
 ;
 
 pr_ObjIdComponent:
 (	pr_Number
-|	pr_Identifier LPAREN9 pr_Number RPAREN9
+|	pr_Identifier LPAREN pr_Number RPAREN
 )
 ;
 
 pr_VerdictValue:
-(	NONE_VERDICT9
-|	PASS_VERDICT9
-|	INCONC_VERDICT9
-|	FAIL_VERDICT9
-|	ERROR_VERDICT9
+(	NONE_VERDICT
+|	PASS_VERDICT
+|	INCONC_VERDICT
+|	FAIL_VERDICT
+|	ERROR_VERDICT
 )
 ;
 
 pr_BStringValue:
-	pr_BString	(	STRINGOP9 pr_BString	)*
+	pr_BString	(	STRINGOP pr_BString	)*
 ;
 
 pr_BString returns [String string]:
-(	b = BITSTRING9 { $string = $b.getText(); }
-|	macro = MACRO_BSTR9
+(	b = BITSTRING { $string = $b.getText(); }
+|	macro = MACRO_BSTR
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );
 			$string = "'" + value + "'B";
 		}
@@ -1624,12 +1622,12 @@ pr_BString returns [String string]:
 ;
 
 pr_HStringValue:
-	pr_HString	(	STRINGOP9 pr_HString	)*
+	pr_HString	(	STRINGOP pr_HString	)*
 ;
 
 pr_HString returns [String string]:
-(	h = HEXSTRING9 { $string = $h.getText(); }
-|	macro = MACRO_HSTR9
+(	h = HEXSTRING { $string = $h.getText(); }
+|	macro = MACRO_HSTR
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );
 			$string = "'" + value + "'H";
 		}
@@ -1637,16 +1635,16 @@ pr_HString returns [String string]:
 ;
 
 pr_OStringValue:
-	pr_OString	(	STRINGOP9 pr_OString	)*
+	pr_OString	(	STRINGOP pr_OString	)*
 ;
 
 pr_OString returns [String string]:
-(	o = OCTETSTRING9 { $string = $o.getText(); }
-|	macro = MACRO_OSTR9
+(	o = OCTETSTRING { $string = $o.getText(); }
+|	macro = MACRO_OSTR
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );
 			$string = "'" + value + "'0";
 		}
-|	macro_bin = MACRO_BINARY9
+|	macro_bin = MACRO_BINARY
 		{	String value = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );
 			$string = value;
 		}
@@ -1657,7 +1655,7 @@ pr_UniversalOrNotStringValue:
 (	pr_CString
 |	pr_Quadruple
 )
-(	STRINGOP9
+(	STRINGOP
 	(	pr_CString
 	|	pr_Quadruple
 	)
@@ -1665,10 +1663,10 @@ pr_UniversalOrNotStringValue:
 ;
 
 pr_Quadruple:
-	CHARKeyword9
-	LPAREN9
-	pr_IntegerValueExpression COMMA9 pr_IntegerValueExpression COMMA9 pr_IntegerValueExpression COMMA9 pr_IntegerValueExpression
-	RPAREN9
+	CHARKeyword
+	LPAREN
+	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
+	RPAREN
 ;
 
 pr_EnumeratedValue:
@@ -1676,29 +1674,29 @@ pr_EnumeratedValue:
 ;
 
 pr_NULLKeyword:
-	NULLKeyword9
+	NULLKeyword
 ;
 
 pr_CompoundValue:
-(	BEGINCHAR9
+(	BEGINCHAR
     (	/* empty */
-	|	pr_FieldValue	(	COMMA9 pr_FieldValue	)*
-	|	pr_ArrayItem	(	COMMA9 pr_ArrayItem		)*
-    |	pr_IndexValue	(	COMMA9 pr_IndexValue	)*
+	|	pr_FieldValue	(	COMMA pr_FieldValue	)*
+	|	pr_ArrayItem	(	COMMA pr_ArrayItem		)*
+    |	pr_IndexValue	(	COMMA pr_IndexValue	)*
 	)
-	ENDCHAR9
-|	LPAREN9
+	ENDCHAR
+|	LPAREN
     /* at least 2 elements to avoid shift/reduce conflicts with IntegerValue and FloatValue rules */
-    pr_ParameterValue (COMMA9 pr_ParameterValue)+
-    RPAREN9
-|	COMPLEMENTKEYWORD9 LPAREN9 pr_ParameterValue (COMMA9 pr_ParameterValue)* RPAREN9
-|	SUPERSETKeyword9 LPAREN9 pr_ParameterValue (COMMA9 pr_ParameterValue)* RPAREN9
-|	SUBSETKeyword9 LPAREN9 pr_ParameterValue (COMMA9 pr_ParameterValue)* RPAREN9
+    pr_ParameterValue (COMMA pr_ParameterValue)+
+    RPAREN
+|	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	SUPERSETKeyword LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	SUBSETKeyword LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
 )
 ;
 
 pr_FieldValue:
-	pr_FieldName ASSIGNMENTCHAR9 pr_ParameterValueOrNotUsedSymbol
+	pr_FieldName ASSIGNMENTCHAR pr_ParameterValueOrNotUsedSymbol
 ;
 
 pr_FieldName:
@@ -1706,39 +1704,39 @@ pr_FieldName:
 ;
 
 pr_ParameterValueOrNotUsedSymbol:
-	MINUS9
+	MINUS
 |	pr_ParameterValue
 ;
 
 pr_ArrayItem:
 	pr_ParameterValueOrNotUsedSymbol
-|	PERMUTATIONKeyword9 LPAREN9 pr_TemplateItemList RPAREN9
+|	PERMUTATIONKeyword LPAREN pr_TemplateItemList RPAREN
 ;
 
 pr_TemplateItemList:
 	pr_ParameterValue
-	(	COMMA9 pr_ParameterValue
+	(	COMMA pr_ParameterValue
 	)*
 ;
 
 pr_IndexValue:
-	SQUAREOPEN9 pr_IntegerValueExpression SQUARECLOSE9 ASSIGNMENTCHAR9 pr_ParameterValue
+	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE ASSIGNMENTCHAR pr_ParameterValue
 ;
 
 pr_IntegerRange:
-	LPAREN9
-	(	MINUS9 INFINITYKeyword9 DOTDOT9 (pr_IntegerValueExpression | INFINITYKeyword9)
-	|	pr_IntegerValueExpression DOTDOT9 (pr_IntegerValueExpression | INFINITYKeyword9)
+	LPAREN
+	(	MINUS INFINITYKeyword DOTDOT (pr_IntegerValueExpression | INFINITYKeyword)
+	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKeyword)
 	)
-	RPAREN9
+	RPAREN
 ;
 
 pr_FloatRange:
-	LPAREN9
-	(	MINUS9 INFINITYKeyword9 DOTDOT9 (pr_FloatValueExpression | INFINITYKeyword9)
-	|	pr_FloatValueExpression DOTDOT9 (pr_FloatValueExpression | INFINITYKeyword9)
+	LPAREN
+	(	MINUS INFINITYKeyword DOTDOT (pr_FloatValueExpression | INFINITYKeyword)
+	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKeyword)
 	)
-	RPAREN9
+	RPAREN
 ;
 
 pr_FloatValueExpression:
@@ -1747,8 +1745,8 @@ pr_FloatValueExpression:
 
 pr_FloatAddExpression:
 	pr_FloatMulExpression
-	(	(	PLUS9
-		|	MINUS9
+	(	(	PLUS
+		|	MINUS
 		)
 		pr_FloatMulExpression
 	)*
@@ -1756,32 +1754,32 @@ pr_FloatAddExpression:
 
 pr_FloatMulExpression:
 	pr_FloatUnaryExpression
-	(	(	STAR9
-		|	SLASH9
+	(	(	STAR
+		|	SLASH
 		)
 		pr_FloatUnaryExpression
 	)*
 ;
 
 pr_FloatUnaryExpression:
-	(	PLUS9
-	|	MINUS9
+	(	PLUS
+	|	MINUS
 	)*
 	pr_FloatPrimaryExpression
 ;
 
 pr_FloatPrimaryExpression:
 (	pr_Float
-|	LPAREN9 pr_FloatAddExpression RPAREN9
+|	LPAREN pr_FloatAddExpression RPAREN
 )
 ;
 
 pr_StringRange:
-	LPAREN9 pr_UniversalOrNotStringValue DOTDOT9 pr_UniversalOrNotStringValue RPAREN9
+	LPAREN pr_UniversalOrNotStringValue DOTDOT pr_UniversalOrNotStringValue RPAREN
 ;
 
 pr_PatternChunkList:
-	pr_PatternChunk (AND9 pr_PatternChunk)*
+	pr_PatternChunk (AND pr_PatternChunk)*
 ;
 
 pr_PatternChunk:
@@ -1790,13 +1788,13 @@ pr_PatternChunk:
 ;
 
 pr_BStringMatch:
-	BITSTRINGMATCH9
+	BITSTRINGMATCH
 ;
 
 pr_HStringMatch:
-	HEXSTRINGMATCH9
+	HEXSTRINGMATCH
 ;
 
 pr_OStringMatch:
-	OCTETSTRINGMATCH9
+	OCTETSTRINGMATCH
 ;
