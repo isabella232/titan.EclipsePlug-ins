@@ -411,7 +411,7 @@ pr_MainControllerItemTcpPort:
 
 pr_IncludeSection:
 	INCLUDE_SECTION
-	( f = STRING
+	( f = INCLUDE_FILENAME
 		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			final TerminalNodeImpl node = new TerminalNodeImpl( $f );
@@ -425,7 +425,7 @@ pr_IncludeSection:
 
 pr_OrderedIncludeSection:
 	ORDERED_INCLUDE_SECTION
-	( f = STRING
+	( f = ORDERED_INCLUDE_FILENAME
 		{	String fileName = $f.getText().substring( 1, $f.getText().length() - 1 );
 			mCfgParseResult.getIncludeFiles().add( fileName );
 			final TerminalNodeImpl node = new TerminalNodeImpl( $f );
