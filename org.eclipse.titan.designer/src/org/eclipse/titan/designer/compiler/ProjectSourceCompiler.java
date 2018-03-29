@@ -283,7 +283,9 @@ public class ProjectSourceCompiler {
 			aSb.append("return;\n");
 			aSb.append("}\n");
 			aSb.append("post_init_called = true;\n");
+			aSb.append("TtcnLogger.log_module_init(name, false);\n");
 			aSb.append(aData.getPostInit());
+			aSb.append("TtcnLogger.log_module_init(name, true);\n");
 			aSb.append("}\n\n");
 		}
 

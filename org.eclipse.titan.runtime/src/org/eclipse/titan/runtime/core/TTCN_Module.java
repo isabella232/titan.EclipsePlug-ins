@@ -47,6 +47,8 @@ public class TTCN_Module {
 			return;
 		}
 		post_init_called = true;
+		TtcnLogger.log_module_init(name, false);
+		TtcnLogger.log_module_init(name, true);
 	}
 
 	public boolean init_comp_type(final String component_type, final boolean init_base_comps) {
