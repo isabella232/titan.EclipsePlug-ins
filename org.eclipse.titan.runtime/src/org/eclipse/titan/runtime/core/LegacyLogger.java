@@ -43,8 +43,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
-import com.sun.org.apache.bcel.internal.generic.FSTORE;
-
 /**
  * A logger plugin implementing the legacy logger behaviour.
  *
@@ -327,8 +325,52 @@ public class LegacyLogger implements ILoggerPlugin {
 			case exiting:
 				returnValue.append("Exiting.");
 				break;
+			case fd__limits:
+				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {0}", rt.getPid().get().getInt(), rt.getFd__setsize()));
+				break;
 			case host__controller__started:
 				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: <Not yet released>. ", rt.getModule__name().get().getValue()));
+				break;
+			case host__controller__finished:
+				returnValue.append("TTCN-3 Host Controller finished.");
+				break;
+			case initializing__module:
+				returnValue.append(MessageFormat.format("Initializing module {0}.", rt.getModule__name().get().getValue()));
+				break;
+			case initialization__of__module__finished:
+				returnValue.append(MessageFormat.format("Initializing module {0} finished.", rt.getModule__name().get().getValue()));
+				break;
+			case mtc__created:
+				returnValue.append(MessageFormat.format("MTC was created. Process id: %ld.", rt.getPid().get().getInt()));
+				break;
+			case overload__check:
+				returnValue.append("Trying to create a dummy child process to verify if the host is still overloaded.");
+				break;
+			case overload__check__fail:
+				returnValue.append("Creation of the dummy child process failed.");
+				break;
+			case overloaded__no__more:
+				break;
+			case resuming__execution:
+				returnValue.append("Resuming execution.");
+				break;
+			case stopping__control__part__execution:
+				returnValue.append("Resuming control part execution.");
+				break;
+			case stopping__current__testcase:
+				returnValue.append("Stopping current testcase.");
+				break;
+			case stopping__test__component__execution:
+				returnValue.append("Stopping test component execution.");
+				break;
+			case terminating__execution:
+				returnValue.append("Terminating execution.");
+				break;
+			case user__paused__waiting__to__resume:
+				returnValue.append("User has paused execution. Waiting for continue.");
+				break;
+			case waiting__for__ptcs__to__finish:
+				returnValue.append("Waiting for PTCs to finish.");
 				break;
 			}
 			break;

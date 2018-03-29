@@ -675,6 +675,45 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
+	public void log_testcase_exec(final String testcase, final String module) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
+		exec.getReason().assign(ExecutorRuntime_reason.enum_type.executing__testcase__in__module);
+		exec.getModule__name().get().assign(module);
+		exec.getTestcase__name().get().assign(testcase);
+		exec.getPid().assign(template_sel.OMIT_VALUE);
+		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+
+		log(event);
+	}
+
+	public void log_module_init(final String module, final boolean finish) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
+		if (finish) {
+			exec.getReason().assign(ExecutorRuntime_reason.enum_type.initialization__of__module__finished);
+		} else {
+			exec.getReason().assign(ExecutorRuntime_reason.enum_type.initializing__module);
+		}
+		
+		exec.getModule__name().get().assign(module);
+		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
+		exec.getPid().assign(template_sel.OMIT_VALUE);
+		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+
+		log(event);
+	}
+
 	public void log_matching_done(final TitanLoggerApi.MatchingDoneType_reason.enum_type reason, final String type, final int ptc, final String return_type) {
 		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_DONE) && (TtcnLogger.get_emergency_logging() <= 0)) {
 			return;

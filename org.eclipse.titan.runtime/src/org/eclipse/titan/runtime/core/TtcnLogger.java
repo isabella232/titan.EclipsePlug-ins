@@ -44,7 +44,6 @@ public final class TtcnLogger {
 			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
 			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
-			default_console_mask.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 
 			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
 			log_all.bits[Severity.DEFAULTOP_UNQUALIFIED.ordinal()] = true;
@@ -801,6 +800,14 @@ public final class TtcnLogger {
 
 	public static void log_hc_start(final String host) {
 		get_logger_plugin_manager().log_hc_start(host);
+	}
+
+	public static void log_testcase_exec(final String testcase, final String module) {
+		get_logger_plugin_manager().log_testcase_exec(testcase, module);
+	}
+
+	public static void log_module_init(final String module, final boolean finish) {
+		get_logger_plugin_manager().log_module_init(module, finish);
 	}
 
 	public static void log_matching_done(final String type, final int ptc, final String return_type, final TitanLoggerApi.MatchingDoneType_reason.enum_type reason) {
