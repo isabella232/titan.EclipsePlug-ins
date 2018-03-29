@@ -92,6 +92,13 @@ public final class Text_Buf {
 		buf_pos = buf_begin + new_pos;
 	}
 
+	public byte[] get_data() {
+		byte[] temp = new byte[buf_len];
+		System.arraycopy(data_ptr, buf_begin, temp, 0, buf_len);
+
+		return temp;
+	}
+
 	/**
 	 * Encode an integer (only native) into the text buffer
 	 *
