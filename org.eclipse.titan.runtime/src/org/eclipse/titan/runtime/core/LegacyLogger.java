@@ -13,6 +13,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
@@ -160,6 +161,9 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_ExecutionSummary:
 			//TODO needs to be checked if this needs to be empty.
 			break;
+		case ALT_ExecutorEvent:
+			executor_event_str(returnValue, choice.getExecutorEvent().getChoice());
+			break;
 		case ALT_MatchingEvent:
 			matchingop_str(returnValue, choice.getMatchingEvent().getChoice());
 			break;
@@ -271,6 +275,67 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 		}
 		case UNBOUND_VALUE:
+			break;
+		}
+	}
+
+	private static void executor_event_str(final StringBuilder returnValue, final TitanLoggerApi.ExecutorEvent_choice eec) {
+		switch (eec.get_selection()) {
+		case ALT_ExecutorRuntime: {
+			final ExecutorRuntime rt = eec.getExecutorRuntime();
+			switch (rt.getReason().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case connected__to__mc:
+				returnValue.append("Connected to MC.");
+				break;
+			case disconnected__from__mc:
+				returnValue.append("Disconnected from MC.");
+				break;
+			case initialization__of__modules__failed:
+				returnValue.append("Initialization of modules failed.");
+				break;
+			case exit__requested__from__mc__hc:
+				returnValue.append("Exit was requested from MC. Terminating HC.");
+				break;
+			case exit__requested__from__mc__mtc:
+				returnValue.append("Exit was requested from MC. Terminating MTC.");
+				break;
+			case stop__was__requested__from__mc:
+				returnValue.append("Stop was requested from MC.");
+				break;
+			case stop__was__requested__from__mc__ignored__on__idle__mtc:
+				returnValue.append("Stop was requested from MC. Ignored on idle MTC.");
+				break;
+			case stop__was__requested__from__mc__ignored__on__idle__ptc:
+				returnValue.append("Stop was requested from MC. Ignored on idle PTC.");
+				break;
+			case executing__testcase__in__module:
+				returnValue.append(MessageFormat.format("Executing test case {0} in module {1}.", rt.getTestcase__name().get(), rt.getModule__name().get()));
+				break;
+			case performing__error__recovery:
+				returnValue.append("Performing error recovery.");
+				break;
+			case executor__start__single__mode:
+				//TODO correct number
+				returnValue.append("TTCN-3 Test Executor started in single mode. Version:  PRODUCT_NUMBER .");
+				break;
+			case executor__finish__single__mode:
+				returnValue.append("TTCN-3 Test Executor finished in single mode.");
+				break;
+			case exiting:
+				returnValue.append("Exiting.");
+				break;
+			case host__controller__started:
+				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: <Not yet released>. ", rt.getModule__name().get().getValue()));
+				break;
+			}
+			break;
+		}
+		case ALT_LogOptions:
+			returnValue.append(eec.getLogOptions().getValue());
+			//FIXME also log plugin specific setting
 			break;
 		}
 	}

@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -43,6 +44,7 @@ public final class TtcnLogger {
 			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
 			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
+			default_console_mask.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 
 			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
 			log_all.bits[Severity.DEFAULTOP_UNQUALIFIED.ordinal()] = true;
@@ -538,6 +540,24 @@ public final class TtcnLogger {
 		}
 	}
 
+	private static String get_logger_settings_str() {
+		StringBuilder new_log_message = new StringBuilder();
+
+		String timestamp_format_names[] = {"Time", "DateTime", "Seconds"};
+
+		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", "in development", "in development"));
+		new_log_message.append(MessageFormat.format("TimeStampFormat:={0};", timestamp_format_names[timestamp_format.ordinal()]));
+		//FIXME implement rest once relevant
+
+		return new_log_message.toString();
+	}
+
+	public static void write_logger_settings() {
+		String new_log_message = get_logger_settings_str();
+		//FIXME implement
+		get_logger_plugin_manager().log_log_options(new_log_message);
+	}
+
 	public static boolean should_log_to_file(final Severity sev) {
 		return file_log_mask.mask.bits[sev.ordinal()];
 	}
@@ -773,6 +793,14 @@ public final class TtcnLogger {
 
 	public static void log_defaultop_exit(final String name, final int id, final int x) {
 		get_logger_plugin_manager().log_defaultop_exit(name, id, x);
+	}
+
+	public static void log_executor_runtime(final TitanLoggerApi.ExecutorRuntime_reason.enum_type reason) {
+		get_logger_plugin_manager().log_executor_runtime(reason);
+	}
+
+	public static void log_hc_start(final String host) {
+		get_logger_plugin_manager().log_hc_start(host);
 	}
 
 	public static void log_matching_done(final String type, final int ptc, final String return_type, final TitanLoggerApi.MatchingDoneType_reason.enum_type reason) {

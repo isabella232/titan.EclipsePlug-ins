@@ -16,6 +16,8 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingFailureType;
@@ -172,6 +174,19 @@ public class LoggerPluginManager {
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, severity);
 		event.getLogEvent().getChoice().getUnhandledEvent().assign(message);
+
+		log(event);
+	}
+
+	public void log_log_options(final String message) {
+		if (!TtcnLogger.log_this_event(Severity.EXECUTOR_LOGOPTIONS) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, Severity.EXECUTOR_LOGOPTIONS);
+
+		event.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(message);
 
 		log(event);
 	}
@@ -622,6 +637,40 @@ public class LoggerPluginManager {
 		defaultop.getName().assign(name);
 		defaultop.getId().assign(id);
 		defaultop.getEnd().assign(x);
+
+		log(event);
+	}
+
+	public void log_executor_runtime(final TitanLoggerApi.ExecutorRuntime_reason.enum_type reason) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
+		exec.getReason().assign(reason);
+		exec.getModule__name().assign(template_sel.OMIT_VALUE);
+		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
+		exec.getPid().assign(template_sel.OMIT_VALUE);
+		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+
+		log(event);
+	}
+
+	public void log_hc_start(final String host) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
+		exec.getReason().assign(ExecutorRuntime_reason.enum_type.host__controller__started);
+		exec.getModule__name().get().assign(host);
+		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
+		exec.getPid().assign(template_sel.OMIT_VALUE);
+		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
 
 		log(event);
 	}
