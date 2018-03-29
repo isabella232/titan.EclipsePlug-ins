@@ -294,6 +294,7 @@ public final class TTCN_Runtime {
 		terminate_component_type();
 
 		if (executorState == executorStateEnum.MTC_TESTCASE) {
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.waiting__for__ptcs__to__finish);
 			// FIXME implement
 			executorState = executorStateEnum.MTC_TERMINATING_TESTCASE;
 		} else if (executorState == executorStateEnum.SINGLE_TESTCASE) {
@@ -312,14 +313,16 @@ public final class TTCN_Runtime {
 		TitanTimer.restore_control_timers();
 
 		if (executorState == executorStateEnum.MTC_PAUSED) {
-			// FIXME logging
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
+			// FIXME implement
 			if (executorState != executorStateEnum.MTC_TERMINATING_EXECUTION) {
-				// FIXME logging
+				TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.resuming__execution);
 			}
 		}
 		if (executorState == executorStateEnum.MTC_TERMINATING_EXECUTION) {
 			executorState = executorStateEnum.MTC_CONTROLPART;
-			// FIXME logging + implement
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.terminating__execution);
+			// FIXME implement
 		}
 
 		//FIXME this is more complex
