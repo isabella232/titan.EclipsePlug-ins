@@ -30,7 +30,10 @@ public final class Runtime_Single_main {
 		TtcnLogger.initialize_logger();
 		TtcnLogger.set_start_time();
 
+		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 		Module_List.pre_init_modules();
+
+		TtcnLogger.write_logger_settings();
 
 		Module_List.post_init_modules();
 
@@ -39,6 +42,7 @@ public final class Runtime_Single_main {
 		}
 
 		TTCN_Runtime.log_verdict_statistics();
+		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__finish__single__mode);
 		TtcnLogger.terminate_logger();
 		TTCN_Snapshot.terminate();
 	}
