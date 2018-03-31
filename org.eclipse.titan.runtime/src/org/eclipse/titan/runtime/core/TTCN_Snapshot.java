@@ -14,6 +14,8 @@ import java.nio.channels.Selector;
 import java.util.HashMap;
 import java.util.Set;
 
+import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+
 /**
  * Utility class to help working with snapshots
  *
@@ -31,7 +33,7 @@ public final class TTCN_Snapshot {
 	// The last time a snapshot was taken
 	private static double alt_begin;
 
-	public static HashMap<SelectableChannel, TitanPort> channelMap = new HashMap<SelectableChannel, TitanPort>();
+	public static HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler> channelMap = new HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>();
 
 	private TTCN_Snapshot() {
 		// private constructor to disable accidental instantiation
@@ -171,7 +173,7 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = selector.selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
-						final TitanPort handler = channelMap.get(key.channel());
+						final Channel_And_Timeout_Event_Handler handler = channelMap.get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
 				} else if (selectReturn == 0 && handleTimer) {
@@ -188,7 +190,7 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = selector.selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
-						final TitanPort handler = channelMap.get(key.channel());
+						final Channel_And_Timeout_Event_Handler handler = channelMap.get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
 				}

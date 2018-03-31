@@ -16,6 +16,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 
+import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+
 /**
  * The base class of test ports
  *
@@ -23,7 +25,7 @@ import java.util.Set;
  *
  * @author Kristof Szabados
  */
-public class TitanPort {
+public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	// originally the list stored in list_head list_tail
 	private static final LinkedList<TitanPort> PORTS = new LinkedList<TitanPort>();
 	// originally the list stored in system_list_head and system_list_tail
@@ -660,7 +662,7 @@ public class TitanPort {
 
 	protected void Uninstall_Handler() throws IOException {
 		final ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
-		for (final Map.Entry<SelectableChannel, TitanPort> entry: TTCN_Snapshot.channelMap.entrySet()) {
+		for (final Map.Entry<SelectableChannel, Channel_And_Timeout_Event_Handler> entry: TTCN_Snapshot.channelMap.entrySet()) {
 			if (entry.getValue() == this) {
 				tobeRemoved.add(entry.getKey());
 			}
@@ -672,6 +674,7 @@ public class TitanPort {
 		}
 	}
 
+	@Override
 	public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
 		//FIXME implement default
 	}
