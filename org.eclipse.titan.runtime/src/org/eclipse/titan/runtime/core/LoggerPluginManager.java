@@ -16,6 +16,8 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
@@ -710,6 +712,24 @@ public class LoggerPluginManager {
 		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
 		exec.getPid().assign(template_sel.OMIT_VALUE);
 		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+
+		log(event);
+	}
+
+	public void log_configdata(final ExecutorConfigdata_reason.enum_type reason, final String str) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_CONFIGDATA) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_CONFIGDATA);
+		final ExecutorConfigdata cfg = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorConfigdata();
+		cfg.getReason().assign(reason);
+		if (str != null) {
+			cfg.getParam__().get().assign(str);
+		} else {
+			cfg.getParam__().assign(template_sel.OMIT_VALUE);
+		}
 
 		log(event);
 	}

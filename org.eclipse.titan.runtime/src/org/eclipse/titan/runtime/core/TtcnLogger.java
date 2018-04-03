@@ -12,6 +12,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
@@ -808,6 +809,10 @@ public final class TtcnLogger {
 
 	public static void log_module_init(final String module, final boolean finish) {
 		get_logger_plugin_manager().log_module_init(module, finish);
+	}
+
+	public static void log_configdata(final ExecutorConfigdata_reason.enum_type reason, final String str) {
+		get_logger_plugin_manager().log_configdata(reason, str);
 	}
 
 	public static void log_matching_done(final String type, final int ptc, final String return_type, final TitanLoggerApi.MatchingDoneType_reason.enum_type reason) {

@@ -13,6 +13,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
@@ -371,6 +372,32 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case waiting__for__ptcs__to__finish:
 				returnValue.append("Waiting for PTCs to finish.");
+				break;
+			}
+			break;
+		}
+		case ALT_ExecutorConfigdata: {
+			final ExecutorConfigdata cfg = eec.getExecutorConfigdata();
+			switch (cfg.getReason().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case received__from__mc:
+				returnValue.append("Processing configuration data received from MC.");
+				break;
+			case processing__failed:
+				returnValue.append("Processing of configuration data failed.");
+				break;
+			case processing__succeeded:
+				returnValue.append("Configuration data was processed successfully.");
+				break;
+			case module__has__parameters:
+				break;
+			case using__config__file:
+				returnValue.append(MessageFormat.format("Using configuration file: `{0}''.", cfg.getParam__().get().getValue()));
+				break;
+			case overriding__testcase__list:
+				returnValue.append(MessageFormat.format("Overriding testcase list: {0}.", cfg.getParam__().get().getValue()));
 				break;
 			}
 			break;
