@@ -441,4 +441,19 @@ public final class Text_Buf {
 		rewind();
 		return returnValue;
 	}
+
+	/**
+	 * Overwrite the extracted message with the rest of the buffer.
+	 * */
+	public void cut_message() {
+		if (is_message()) {
+			int msg_len = pull_int().getInt();
+			int msg_end = buf_pos + msg_len;
+			buf_len -= msg_end - buf_begin;
+
+			System.arraycopy(data_ptr, msg_end, data_ptr, buf_begin, buf_len);
+			Reallocate(buf_len);
+			rewind();
+		}
+	}
 }
