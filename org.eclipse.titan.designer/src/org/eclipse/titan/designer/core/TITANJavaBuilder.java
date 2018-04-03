@@ -75,7 +75,8 @@ public class TITANJavaBuilder extends IncrementalProjectBuilder {
 		}
 		TITANDebugConsole.println("Generating code for single main");
 		try {
-			ProjectSourceCompiler.generateMain( project,sourceParser.getModules(), reportDebugInformation );
+			ProjectSourceCompiler.generateSingleMain( project, sourceParser.getModules(), reportDebugInformation );
+			ProjectSourceCompiler.generateParallelMain(project, sourceParser.getModules(), reportDebugInformation);
 		} catch ( CoreException e ) {
 			ErrorReporter.logExceptionStackTrace("While generating Java code for main module ", e);
 		}

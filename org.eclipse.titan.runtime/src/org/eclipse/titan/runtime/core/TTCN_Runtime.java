@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -21,6 +23,11 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
  * @author Kristof Szabados
  */
 public final class TTCN_Runtime {
+	public static final int TTCN3_MAJOR = 6;
+	public static final int TTCN3_MINOR = 3;
+	public static final int TTCN3_PATCHLEVEL = 1;
+	public static final int TTCN3_BUILDNUMBER = 0;
+
 	public enum executorStateEnum {
 		UNDEFINED_STATE,
 
@@ -383,6 +390,16 @@ public final class TTCN_Runtime {
 		testcaseDefinitionName = parTestcaseName;
 	}
 
+	public static String get_host_name() {
+		try {
+			return InetAddress.getLocalHost().getHostName();
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return "unknown";
+		}
+	}
+
 	//originally get_component_type
 	public static String get_component_type() {
 		return component_type_name;
@@ -518,6 +535,34 @@ public final class TTCN_Runtime {
 		throw new TtcnError("Disconnecting components is not yet supported!");
 	}
 
+	public static int hc_main(final String local_addr, final String MC_host, final int MC_port) {
+		TTCN_Runtime.set_state(executorStateEnum.HC_INITIAL);
+		TtcnLogger.log_hc_start(get_host_name());
+		TtcnLogger.write_logger_settings();
+
+		// FIXME implement
+		TTCN_Communication.set_mc_address(MC_host, MC_port);
+		TTCN_Communication.connect_mc();
+		
+		executorState = executorStateEnum.HC_IDLE;
+		TTCN_Communication.send_version();
+
+		do {
+			TTCN_Snapshot.takeNew(true);
+			TTCN_Communication.process_all_messages_hc();
+		} while (executorState.ordinal() >= executorStateEnum.HC_IDLE.ordinal() && executorState.ordinal() < executorStateEnum.HC_EXIT.ordinal());
+
+		if (executorState == executorStateEnum.HC_EXIT) {
+			TTCN_Communication.disconnect_mc();
+		}
+		//FIXME implement
+		if (is_hc()) {
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
+		}
+
+		return 0;
+	}
+	
 	//originally create_component
 	public static int create_component(final String createdComponentTypeModule, final String createdComponentTypeName,
 			final String createdComponentName, final String createdComponentLocation, final boolean createdComponentAlive) {
@@ -731,7 +776,7 @@ public final class TTCN_Runtime {
 		//FIXME handle debugger breakpoints
 	}
 
-	//originially log_verdict_statistics
+	//originally log_verdict_statistics
 	public static void log_verdict_statistics() {
 		final int totalTestcases = verdictCount[VerdictTypeEnum.NONE.getValue()] + verdictCount[VerdictTypeEnum.PASS.getValue()]
 				+ verdictCount[VerdictTypeEnum.INCONC.getValue()] + verdictCount[VerdictTypeEnum.FAIL.getValue()]
@@ -781,5 +826,18 @@ public final class TTCN_Runtime {
 
 	public static void end_action() {
 		TtcnLogger.end_event();
+	}
+
+	public static void process_create_mtc(){
+		switch (executorState) {
+		case HC_ACTIVE:
+		case HC_OVERLOADED:
+			break;
+		default:
+			TTCN_Communication.send_error("Message CREATE_MTC arrived in invalid state.");
+			return;
+		}
+		System.out.println("was almost able to create the MTC");
+		//FIXME implement
 	}
 }
