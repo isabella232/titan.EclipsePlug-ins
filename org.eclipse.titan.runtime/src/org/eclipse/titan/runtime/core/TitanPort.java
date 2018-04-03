@@ -679,6 +679,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//FIXME implement default
 	}
 
+	@Override
+	public void Handle_Timeout(final double time_since_last_call) {
+		//FIXME implement default
+	}
+
 	protected void user_map(final String system_port) {
 		//default implementation is empty
 	}

@@ -28,5 +28,7 @@ public class Event_Handler {
 	static abstract class Channel_And_Timeout_Event_Handler {
 		//FIXME implement rest
 		public abstract void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable);
+
+		public abstract void Handle_Timeout(final double time_since_last_call);
 	}
 }
