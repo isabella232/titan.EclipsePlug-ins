@@ -176,6 +176,8 @@ public final class TTCN_Snapshot {
 						final Channel_And_Timeout_Event_Handler handler = channelMap.get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
+					selectedKeys.clear();
+					//TODO handle timeout
 				} else if (selectReturn == 0 && handleTimer) {
 					// if select() returned because of the timeout, but too early
 					// do an other round if it has to wait much,
@@ -193,6 +195,7 @@ public final class TTCN_Snapshot {
 						final Channel_And_Timeout_Event_Handler handler = channelMap.get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
+					selectedKeys.clear();
 				}
 
 				//leave the for loop
