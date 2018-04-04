@@ -16,6 +16,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
@@ -281,6 +282,8 @@ public class LegacyLogger implements ILoggerPlugin {
 
 	private static void executor_event_str(final StringBuilder returnValue, final TitanLoggerApi.ExecutorEvent_choice eec) {
 		switch (eec.get_selection()) {
+		case UNBOUND_VALUE:
+			break;
 		case ALT_ExecutorRuntime: {
 			final ExecutorRuntime rt = eec.getExecutorRuntime();
 			switch (rt.getReason().enum_value) {
@@ -408,7 +411,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			switch (cm.getReason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:
-				return;
+				break;
 			case mtc__started:
 				returnValue.append(MessageFormat.format("TTCN-3 Main Test Component started on {0}. Version: {1}.", TTCN_Runtime.get_host_name(), TTCN_Runtime.PRODUCT_NUMBER));
 				break;
@@ -422,14 +425,54 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case component__init__fail:
 				returnValue.append("Component type initialization failed. PTC terminates.");
-			default:
-				return;
+				break;
+			}
+			break;
+		}
+		case ALT_ExecutorMisc: {
+			final ExecutorUnqualified ex = eec.getExecutorMisc();
+			final String name = ex.getName().getValue().toString();
+			final String ip_addr_str = ex.getAddr().getValue().toString();
+			switch (ex.getReason().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case address__of__mc__was__set:
+				if (name.equals(ip_addr_str)) {
+					returnValue.append(MessageFormat.format("The address of MC was set to {0}[{1}]:{2}.", name, ip_addr_str, ex.getPort__().getInt()));
+				} else {
+					returnValue.append(MessageFormat.format("The address of MC was set to {0}:{1}.", ip_addr_str, ex.getPort__().getInt()));
+				}
+				break;
+			case address__of__control__connection:
+				returnValue.append(MessageFormat.format("The local IP address of the control connection to MC is {0}.", ip_addr_str));
+				break;
+			case host__support__unix__domain__sockets:
+				if (ex.getPort__().getInt() == 0) {
+					returnValue.append("This host supports UNIX domain sockets for local communication.");
+				} else {
+					returnValue.append("This host does not support UNIX domain sockets for local communication.");
+				}
+				break;
+			case local__address__was__set:
+				if (name.equals(ip_addr_str)) {
+					returnValue.append(MessageFormat.format("The local address was set to {0}[{1}].", name, ip_addr_str));
+				} else {
+					returnValue.append(MessageFormat.format("The local address was set to {0}.", ip_addr_str));
+				}
+				break;
 			}
 			break;
 		}
 		case ALT_LogOptions:
 			returnValue.append(eec.getLogOptions().getValue());
 			//FIXME also log plugin specific setting
+			break;
+		case ALT_ExtcommandStart:
+			returnValue.append(MessageFormat.format("Starting external command `{0}''.", eec.getExtcommandStart().getValue()));
+			break;
+		case ALT_ExtcommandSuccess:
+			returnValue.append(MessageFormat.format("External command `{0}'' was executed successfully (exit status: 0).", eec.getExtcommandSuccess()));
 			break;
 		}
 	}

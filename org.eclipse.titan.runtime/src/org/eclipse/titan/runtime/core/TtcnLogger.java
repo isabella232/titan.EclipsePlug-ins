@@ -150,6 +150,7 @@ public final class TtcnLogger {
 	public static enum emergency_logging_behaviour_t { BUFFER_ALL, BUFFER_MASKED };
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
+	public static enum extcommand_t {EXTCOMMAND_START, EXTCOMMAND_SUCCESS };
 
 	public static void set_matching_verbosity(final matching_verbosity_t v) {
 		matching_verbosity = v;
@@ -827,6 +828,10 @@ public final class TtcnLogger {
 
 	public static void log_executor_misc(final ExecutorUnqualified_reason.enum_type reason, final String name, final String address, final int port) {
 		get_logger_plugin_manager().log_executor_misc(reason, name, address, port);
+	}
+
+	public static void log_extcommand(final TtcnLogger.extcommand_t action, final String cmd) {
+		get_logger_plugin_manager().log_extcommand(action, cmd);
 	}
 
 	public static void log_matching_done(final String type, final int ptc, final String return_type, final TitanLoggerApi.MatchingDoneType_reason.enum_type reason) {

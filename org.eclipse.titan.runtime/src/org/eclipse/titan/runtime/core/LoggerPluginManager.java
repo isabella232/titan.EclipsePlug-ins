@@ -49,6 +49,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
 
 /**
  * The logger plugin manager, is responsible for managing all the runtime registered logger plug-ins
@@ -782,6 +783,22 @@ public class LoggerPluginManager {
 		ex.getName().assign(name);
 		ex.getAddr().assign(address);
 		ex.getPort__().assign(port);
+
+		log(event);
+	}
+
+	public void log_extcommand(final TtcnLogger.extcommand_t action, final String cmd) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_EXTCOMMAND) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_EXTCOMMAND);
+		if (action == extcommand_t.EXTCOMMAND_START) {
+			event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExtcommandStart().assign(cmd);
+		} else {
+			event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExtcommandSuccess().assign(cmd);
+		}
 
 		log(event);
 	}
