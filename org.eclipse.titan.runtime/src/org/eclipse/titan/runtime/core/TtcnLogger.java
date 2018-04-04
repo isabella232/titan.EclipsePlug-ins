@@ -401,7 +401,6 @@ public final class TtcnLogger {
 	}
 
 	public static void log_char(final char c) {
-		// TODO: correct log_char
 		get_logger_plugin_manager().log_char(c);
 		logMatchPrinted = false;
 	}
