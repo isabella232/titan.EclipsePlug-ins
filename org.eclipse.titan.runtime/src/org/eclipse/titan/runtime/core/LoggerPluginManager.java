@@ -9,7 +9,6 @@ package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Queue;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -53,7 +52,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
-import org.eclipse.titan.runtime.core.TitanLoggerApi.Verdict;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 import org.eclipse.titan.runtime.core.TtcnLogger.emergency_logging_behaviour_t;
