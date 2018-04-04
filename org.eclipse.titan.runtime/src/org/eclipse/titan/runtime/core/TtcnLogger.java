@@ -17,7 +17,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
-import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
 /**
@@ -757,11 +756,6 @@ public final class TtcnLogger {
 	public static void log_setverdict(final VerdictTypeEnum newVerdict, final VerdictTypeEnum oldVerdict, final VerdictTypeEnum localVerdict,
 			final String oldReason, final String newReason) {
 		get_logger_plugin_manager().log_setverdict(newVerdict, oldVerdict, localVerdict, oldReason, newReason);
-	}
-
-	private static void fill_common_fields(final TitanLogEvent event, final Severity severity) {
-		//FIXME implement the rest
-		event.getSeverity().assign(severity.ordinal());
 	}
 
 	public static void log_testcase_started(final String module_name, final String definition_name ) {
