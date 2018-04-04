@@ -516,10 +516,6 @@ public final class TtcnLogger {
 		log_char(TitanHexString.HEX_DIGITS.charAt(aOctet & 0x0F));
 	}
 
-	public static void log_bit( final byte aBit ) {
-		// TODO Auto-generated method stub
-	}
-
 	public static void ring_buffer_dump(final boolean do_close_file) {
 		get_logger_plugin_manager().ring_buffer_dump(do_close_file);
 	}
