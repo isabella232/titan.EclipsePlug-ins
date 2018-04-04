@@ -333,8 +333,6 @@ public final class TtcnLogger {
 		emergency_log_mask.component_id.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 		emergency_log_mask.component_id.id_compref=TitanComponent.ANY_COMPREF;
 		emergency_log_mask.mask = new Logging_Bits(Logging_Bits.log_all);
-
-		// TODO initialize emergency buffer too.
 	}
 
 	public static void terminate_logger() {
