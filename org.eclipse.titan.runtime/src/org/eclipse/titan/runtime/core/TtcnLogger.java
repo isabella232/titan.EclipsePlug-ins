@@ -528,10 +528,6 @@ public final class TtcnLogger {
 	// existence of the file descriptors etc. is the responsibility of the
 	// plug-ins.
 	public static boolean log_this_event(final Severity event_severity) {
-		// FIXME: log_this_event
-		// FIXME implement once we get to configurability
-		// TODO: emergency logging=true
-		// TODO: should_log_to_emergency
 		if (should_log_to_file(event_severity)) {
 			return true;
 		} else if (should_log_to_console(event_severity)) {
