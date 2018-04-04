@@ -9,7 +9,9 @@ package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Queue;
 import java.util.Stack;
+import java.util.concurrent.LinkedBlockingQueue;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
@@ -51,8 +53,10 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.Verdict;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.emergency_logging_behaviour_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
 
 /**
@@ -63,6 +67,8 @@ import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
  * @author Kristof Szabados
  */
 public class LoggerPluginManager {
+	private LinkedBlockingQueue<TitanLogEvent> ring_buffer = new LinkedBlockingQueue<TitanLoggerApi.TitanLogEvent>();
+
 	private static class log_event_struct {
 		StringBuilder buffer;
 		Severity severity;
@@ -78,6 +84,22 @@ public class LoggerPluginManager {
 		plugins_.add(new LegacyLogger());
 	}
 
+	public void ring_buffer_dump(final boolean do_close_file) {
+		if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
+			TitanLoggerApi.TitanLogEvent ringEvent;
+			while (!ring_buffer.isEmpty()) {
+				ringEvent = ring_buffer.poll();
+				if (ringEvent != null) {
+					internal_log_to_all(ringEvent, true, false, false);
+				}
+			}
+		}
+
+		//FIXME implement
+
+		ring_buffer.clear();
+	}
+
 	/**
 	 * The internal logging function representing the interface between the logger and the loggerPluginManager.
 	 *
@@ -88,7 +110,55 @@ public class LoggerPluginManager {
 	 * */
 	private void log(final TitanLoggerApi.TitanLogEvent event) {
 		//FIXME more complicated
-		internal_log_to_all(event, false, false, false);
+		if (TtcnLogger.get_emergency_logging() == 0) {
+			// emergency logging is not needed
+			internal_log_to_all(event, false, false, false);
+
+			return;
+		}
+
+		final int severityIndex = event.getSeverity().getInt();
+		final Severity severity = Severity.values()[severityIndex];
+
+		if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
+			internal_log_to_all(event, true, false, false);
+
+			
+			if (!TtcnLogger.should_log_to_file(severity) &&
+				TtcnLogger.should_log_to_emergency(severity)) {
+				ring_buffer.offer(event);
+			}
+		} else if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
+			if (ring_buffer.remainingCapacity() == 0) {
+				TitanLoggerApi.TitanLogEvent ring_event;
+				ring_event = ring_buffer.poll();
+				if (ring_event != null) {
+					internal_log_to_all(ring_event, true, false, false);
+				}
+			}
+
+			ring_buffer.offer(event);
+		}
+
+		if (severity == Severity.ERROR_UNQUALIFIED || 
+				(TtcnLogger.get_emergency_logging_for_fail_verdict() &&
+						severity == Severity.VERDICTOP_SETVERDICT &&
+						event.getLogEvent().getChoice().getVerdictOp().getChoice().getSetVerdict().getNewVerdict().operatorEquals(TitanLoggerApi.Verdict.enum_type.v3fail)) 
+				) {
+			TitanLoggerApi.TitanLogEvent ring_event;
+			while (!ring_buffer.isEmpty()) {
+				ring_event = ring_buffer.poll();
+				if (ring_event != null) {
+					if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
+						internal_log_to_all(ring_event, true, true, false);
+					} else if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
+						internal_log_to_all(ring_event, true, false, true);
+					}
+				}
+			}
+
+			ring_buffer.clear();
+		}
 	}
 
 	/**

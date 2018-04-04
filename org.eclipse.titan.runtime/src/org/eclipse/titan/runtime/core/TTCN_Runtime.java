@@ -839,6 +839,10 @@ public final class TTCN_Runtime {
 			TTCN_Communication.send_error("Message CREATE_MTC arrived in invalid state.");
 			return;
 		}
+
+		// clean the emergency buffer
+		TtcnLogger.ring_buffer_dump(false);
+
 		System.out.println("was almost able to create the MTC");
 		//FIXME implement
 	}

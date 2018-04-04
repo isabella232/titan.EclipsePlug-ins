@@ -275,6 +275,7 @@ public final class TtcnLogger {
 	static boolean logMatchPrinted = false;
 	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
 	static emergency_logging_behaviour_t emergency_logging_behaviour = emergency_logging_behaviour_t.BUFFER_MASKED;
+	static boolean emergency_logging_for_fail_verdict = false;
 
 	// length of the emergency logging buffer
 	static int emergency_logging = 0;;
@@ -522,6 +523,10 @@ public final class TtcnLogger {
 		// TODO Auto-generated method stub
 	}
 
+	public static void ring_buffer_dump(final boolean do_close_file) {
+		get_logger_plugin_manager().ring_buffer_dump(do_close_file);
+	}
+
 	public static matching_verbosity_t get_matching_verbosity() {
 		return matching_verbosity;
 	}
@@ -717,6 +722,14 @@ public final class TtcnLogger {
 
 	public static void set_emergency_logging(final int size) {
 		emergency_logging = size;
+	}
+
+	public static boolean get_emergency_logging_for_fail_verdict() {
+		return emergency_logging_for_fail_verdict;
+	}
+
+	public static void set_emergency_logging_for_fail_verdict(final boolean b) {
+		emergency_logging_for_fail_verdict = b;
 	}
 
 	public static void log_port_state(final TitanLoggerApi.Port__State_operation.enum_type operation, final String portname) {
