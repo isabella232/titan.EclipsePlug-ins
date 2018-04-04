@@ -93,7 +93,7 @@ public class LoggerPluginManager {
 			}
 		}
 
-		//FIXME implement
+		//FIXME implement file closing
 
 		ring_buffer.clear();
 	}
@@ -107,7 +107,8 @@ public class LoggerPluginManager {
 	 * quickly becoming deprecated
 	 * */
 	private void log(final TitanLoggerApi.TitanLogEvent event) {
-		//FIXME more complicated
+		//FIXME handle pre-buffered events
+
 		if (TtcnLogger.get_emergency_logging() == 0) {
 			// emergency logging is not needed
 			internal_log_to_all(event, false, false, false);
