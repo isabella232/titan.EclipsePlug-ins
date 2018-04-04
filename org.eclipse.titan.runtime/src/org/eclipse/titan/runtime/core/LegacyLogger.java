@@ -94,7 +94,8 @@ public class LegacyLogger implements ILoggerPlugin {
 		//Time
 		final String event_str = event_to_string(event, true);
 		if (event_str == null) {
-			//FIXME write warning
+			TtcnError.TtcnWarning("No text for event");
+
 			return false;
 		}
 
