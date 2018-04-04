@@ -13,6 +13,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
@@ -318,7 +319,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case executor__start__single__mode:
 				//TODO correct number
-				returnValue.append("TTCN-3 Test Executor started in single mode. Version:  PRODUCT_NUMBER .");
+				returnValue.append(MessageFormat.format("TTCN-3 Test Executor started in single mode. Version:  {0} .", TTCN_Runtime.PRODUCT_NUMBER));
 				break;
 			case executor__finish__single__mode:
 				returnValue.append("TTCN-3 Test Executor finished in single mode.");
@@ -327,10 +328,10 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Exiting.");
 				break;
 			case fd__limits:
-				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {0}", rt.getPid().get().getInt(), rt.getFd__setsize()));
+				returnValue.append(MessageFormat.format("Maximum number of open file descriptors: {0},   FD_SETSIZE = {1}", rt.getPid().get().getInt(), rt.getFd__setsize()));
 				break;
 			case host__controller__started:
-				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: <Not yet released>. ", rt.getModule__name().get().getValue()));
+				returnValue.append(MessageFormat.format("TTCN-3 Host Controller started on {0}. Version: {1}. ", rt.getModule__name().get().getValue(), TTCN_Runtime.PRODUCT_NUMBER));
 				break;
 			case host__controller__finished:
 				returnValue.append("TTCN-3 Host Controller finished.");
@@ -399,6 +400,30 @@ public class LegacyLogger implements ILoggerPlugin {
 			case overriding__testcase__list:
 				returnValue.append(MessageFormat.format("Overriding testcase list: {0}.", cfg.getParam__().get().getValue()));
 				break;
+			}
+			break;
+		}
+		case ALT_ExecutorComponent: {
+			final ExecutorComponent cm = eec.getExecutorComponent();
+			switch (cm.getReason().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				return;
+			case mtc__started:
+				returnValue.append(MessageFormat.format("TTCN-3 Main Test Component started on {0}. Version: {1}.", TTCN_Runtime.get_host_name(), TTCN_Runtime.PRODUCT_NUMBER));
+				break;
+			case mtc__finished:
+				returnValue.append("TTCN-3 Main Test Component finished.");
+				break;
+			case ptc__started:
+				break;
+			case ptc__finished:
+				returnValue.append("TTCN-3 Parallel Test Component finished.");
+				break;
+			case component__init__fail:
+				returnValue.append("Component type initialization failed. PTC terminates.");
+			default:
+				return;
 			}
 			break;
 		}

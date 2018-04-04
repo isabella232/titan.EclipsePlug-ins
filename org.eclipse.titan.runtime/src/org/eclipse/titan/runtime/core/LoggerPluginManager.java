@@ -16,10 +16,14 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__mapped;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingFailureType;
@@ -716,6 +720,24 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
+	public void log_mtc_created(final long pid) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
+		exec.getReason().assign(ExecutorRuntime_reason.enum_type.mtc__created);
+		
+		exec.getModule__name().assign(template_sel.OMIT_VALUE);
+		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
+		exec.getPid().assign(template_sel.OMIT_VALUE);
+		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
+
+		log(event);
+	}
+
 	public void log_configdata(final ExecutorConfigdata_reason.enum_type reason, final String str) {
 		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_CONFIGDATA) && (TtcnLogger.get_emergency_logging() <= 0)) {
 			return;
@@ -730,6 +752,36 @@ public class LoggerPluginManager {
 		} else {
 			cfg.getParam__().assign(template_sel.OMIT_VALUE);
 		}
+
+		log(event);
+	}
+
+	public void log_executor_component(final ExecutorComponent_reason.enum_type reason) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_COMPONENT) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_COMPONENT);
+		final ExecutorComponent ec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorComponent();
+		ec.getReason().assign(reason);
+		ec.getCompref().assign(template_sel.OMIT_VALUE);
+
+		log(event);
+	}
+
+	public void log_executor_misc(final ExecutorUnqualified_reason.enum_type reason, final String name, final String address, final int port) {
+		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_UNQUALIFIED) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_UNQUALIFIED);
+		final ExecutorUnqualified ex = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorMisc();
+		ex.getReason().assign(reason);
+		ex.getName().assign(name);
+		ex.getAddr().assign(address);
+		ex.getPort__().assign(port);
 
 		log(event);
 	}

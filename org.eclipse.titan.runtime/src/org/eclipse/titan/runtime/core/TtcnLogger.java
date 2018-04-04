@@ -12,7 +12,9 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
@@ -811,8 +813,20 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_module_init(module, finish);
 	}
 
+	public static void log_mtc_created(final long pid) {
+		get_logger_plugin_manager().log_mtc_created(pid);
+	}
+
 	public static void log_configdata(final ExecutorConfigdata_reason.enum_type reason, final String str) {
 		get_logger_plugin_manager().log_configdata(reason, str);
+	}
+
+	public static void log_executor_component(final ExecutorComponent_reason.enum_type reason) {
+		get_logger_plugin_manager().log_executor_component(reason);
+	}
+
+	public static void log_executor_misc(final ExecutorUnqualified_reason.enum_type reason, final String name, final String address, final int port) {
+		get_logger_plugin_manager().log_executor_misc(reason, name, address, port);
 	}
 
 	public static void log_matching_done(final String type, final int ptc, final String return_type, final TitanLoggerApi.MatchingDoneType_reason.enum_type reason) {

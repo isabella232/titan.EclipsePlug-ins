@@ -28,6 +28,8 @@ public final class TTCN_Runtime {
 	public static final int TTCN3_PATCHLEVEL = 1;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
+	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R3B";
+
 	public enum executorStateEnum {
 		UNDEFINED_STATE,
 
