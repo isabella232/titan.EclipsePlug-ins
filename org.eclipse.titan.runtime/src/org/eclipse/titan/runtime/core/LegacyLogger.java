@@ -27,6 +27,10 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingSuccessType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingTimeout;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__recv;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__send;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.PTC__exit;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelEvent_choice;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.PortEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Misc;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Queue;
@@ -191,6 +195,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			break;
 		}
+		case ALT_ParallelEvent:
+			parallel_str(returnValue, choice.getParallelEvent().getChoice());
+			break;
 		case ALT_PortEvent:
 			portevent_str(returnValue, choice.getPortEvent().getChoice());
 			break;
@@ -533,6 +540,102 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		case UNBOUND_VALUE:
 			break;
+		}
+	}
+
+	private static void parallel_str(final StringBuilder returnValue, final ParallelEvent_choice choice) {
+		switch (choice.get_selection()) {
+		case UNBOUND_VALUE:
+			break;
+		case ALT_ParallelPTC: {
+			final ParallelPTC ptc = choice.getParallelPTC();
+			switch (ptc.getReason().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case init__component__start:
+				returnValue.append(MessageFormat.format("Initializing variables, timers and ports of component type {0}.{1}", ptc.getModule__().getValue(), ptc.getName().getValue()));
+				if (ptc.getTc__loc().lengthOf().getInt() > 0) {
+					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.getTc__loc().getValue()));
+				}
+				returnValue.append('.');
+				break;
+			case init__component__finish:
+				returnValue.append(MessageFormat.format("Component type {0}.{1} was initialized.", ptc.getModule__().getValue(), ptc.getName().getValue()));
+				break;
+			case terminating__component:
+				returnValue.append(MessageFormat.format("Terminating component type {0}.{1}.", ptc.getModule__().getValue(), ptc.getName().getValue()));
+				break;
+			case component__shut__down:
+				returnValue.append(MessageFormat.format("Component type {0}.{1} was shut down", ptc.getModule__().getValue(), ptc.getName().getValue()));
+				if (ptc.getTc__loc().lengthOf().getInt() > 0) {
+					returnValue.append(MessageFormat.format(" inside testcase {0}", ptc.getTc__loc().getValue()));
+				}
+				returnValue.append('.');
+				break;
+			case error__idle__ptc:
+				returnValue.append("Error occurred on idle PTC. The component terminates.");
+				break;
+			case ptc__created:
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, alive: {1}, type: {2}.{3}", ptc.getCompref().getInt(), ptc.getAlive__pid().getInt() > 0 ? "yes" : "no", ptc.getModule__().getValue(), ptc.getName().getValue()));
+				if (ptc.getCompname().lengthOf().getInt() > 0) {
+					returnValue.append(MessageFormat.format(", component name: {0}", ptc.getCompname().getValue()));
+				}
+				if (ptc.getTc__loc().lengthOf().getInt() != 0) {
+					returnValue.append(MessageFormat.format(", location: {0}", ptc.getTc__loc().getValue()));
+				}
+				returnValue.append('.');
+				break;
+			}
+			break; 
+		}
+		case ALT_ParallelPTC__exit: {
+			final PTC__exit px = choice.getParallelPTC__exit();
+			final int compref = px.getCompref().getInt();
+			if (compref == TitanComponent.MTC_COMPREF) {
+				returnValue.append("MTC finished.");
+			} else {
+				final String comp_name = TitanComponent.get_component_string(compref);
+				if (comp_name == null) {
+					returnValue.append(MessageFormat.format("PTC with component reference {0} finished.", compref));
+				} else {
+					returnValue.append(MessageFormat.format("PTC {0}({1}) finished.", comp_name, compref));
+				}
+				returnValue.append(MessageFormat.format(" Process statistics: { process id: {0}, ", px.getPid().getInt()));
+				//TOXO not finished in compiler
+			}
+			break;
+		}
+		case ALT_ParallelPort: {
+			final ParPort pp = choice.getParallelPort();
+			String direction = "on";
+			String preposition = "and";
+			switch (pp.getOperation().enum_value) {
+			case UNBOUND_VALUE:
+			case UNKNOWN_VALUE:
+				break;
+			case connect__:
+				returnValue.append("Connect");
+				break;
+			case disconnect__:
+				returnValue.append("Disconnect");
+				break;
+			case map__:
+				returnValue.append("Map");
+				direction = "of";
+				preposition = "to";
+				break;
+			case unmap__:
+				returnValue.append("Unmap");
+				direction = "of";
+				preposition = "from";
+				break;
+			}
+			String src = TitanComponent.get_component_string(pp.getSrcCompref().getInt());
+			String dst = TitanComponent.get_component_string(pp.getDstCompref().getInt());
+			returnValue.append(MessageFormat.format(" operation {0} {1}:{2} {3} {4}:{5} finished.", direction, src, pp.getSrcPort().getValue(), preposition, dst, pp.getDstPort().getValue()));
+			break;
+		}
 		}
 	}
 

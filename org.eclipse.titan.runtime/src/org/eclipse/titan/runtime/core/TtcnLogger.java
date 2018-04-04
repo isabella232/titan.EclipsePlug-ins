@@ -15,6 +15,8 @@ import java.util.TimeZone;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
@@ -856,5 +858,13 @@ public final class TtcnLogger {
 
 	public static void log_port_misc(final TitanLoggerApi.Port__Misc_reason.enum_type reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
 		get_logger_plugin_manager().log_port_misc(reason, port_name, remote_component, remote_port, ip_address, tcp_port, new_size);
+	}
+
+	public static void log_portconnmap(final ParPort_operation.enum_type operation, final int src_compref, final String src_port, final int dst_compref, final String dst_port) {
+		get_logger_plugin_manager().log_portconnmap(operation, src_compref, src_port, dst_compref, dst_port);
+	}
+
+	public static void log_parptc(final ParallelPTC_reason.enum_type reason, final String module, final String name, final int compref, final String compname, final String tc_loc, final int alive_pid, final int status) {
+		get_logger_plugin_manager().log_parptc(reason, module, name, compref, compname, tc_loc, alive_pid, status);
 	}
 }

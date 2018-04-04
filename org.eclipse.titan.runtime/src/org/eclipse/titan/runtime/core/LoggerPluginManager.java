@@ -32,6 +32,10 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingSuccessType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingTimeout;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__recv;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Msg__port__send;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.PortType.enum_type;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Misc;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Port__Queue;
@@ -895,6 +899,65 @@ public class LoggerPluginManager {
 		final MatchingSuccessType ms = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingSuccess();
 		ms.getPort__type().assign(port_type);
 		ms.getPort__name().assign(port_name);
+
+		log(event);
+	}
+
+	public void log_portconnmap(final ParPort_operation.enum_type operation, final int src_compref, final String src_port, final int dst_compref, final String dst_port) {
+		TtcnLogger.Severity event_severity;
+		switch (operation) {
+		case connect__:
+		case disconnect__:
+			event_severity = Severity.PARALLEL_PORTCONN;
+			break;
+		case map__:
+		case unmap__:
+			event_severity = Severity.PARALLEL_PORTMAP;
+			break;
+		default:
+			//FIXME invalid
+			return;
+		}
+
+		if (!TtcnLogger.log_this_event(event_severity) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+		
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, event_severity);
+		final ParPort pp = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPort();
+		pp.getOperation().assign(operation);
+		pp.getSrcCompref().assign(src_compref);//TODO needs adjusting
+		pp.getSrcPort().assign(src_port);
+		pp.getDstCompref().assign(dst_compref); //TODO needs adjusting
+		pp.getDstPort().assign(dst_port);
+
+		log(event);
+	}
+
+	public void log_parptc(final ParallelPTC_reason.enum_type reason, final String module, final String name, final int compref, final String compname, final String tc_loc, final int alive_pid, final int status) {
+		TtcnLogger.Severity event_severity;
+		if (alive_pid > 0 && reason == ParallelPTC_reason.enum_type.function__finished) {
+			event_severity = Severity.PARALLEL_UNQUALIFIED;
+		} else {
+			event_severity = Severity.PARALLEL_PTC;
+		}
+
+		if (!TtcnLogger.log_this_event(event_severity) && (TtcnLogger.get_emergency_logging() <= 0)) {
+			return;
+		}
+		
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, event_severity);
+		final ParallelPTC ptc = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPTC();
+		ptc.getReason().assign(reason);
+		ptc.getModule__().assign(module);
+		ptc.getName().assign(name);
+		ptc.getCompref().assign(compref);
+		ptc.getTc__loc().assign(tc_loc);
+		ptc.getCompname().assign(compname);
+		ptc.getAlive__pid().assign(alive_pid);
+		ptc.getStatus().assign(status);
 
 		log(event);
 	}
