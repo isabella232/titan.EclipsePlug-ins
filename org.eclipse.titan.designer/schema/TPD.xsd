@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!--
- Copyright (c) 2000-2017 Ericsson Telecom AB
+ Copyright (c) 2000-2018 Ericsson Telecom AB
  All rights reserved. This program and the accompanying materials
  are made available under the terms of the Eclipse Public License v1.0
  which accompanies this distribution, and is available at
@@ -118,7 +118,6 @@
                     <xs:element name="disableTEXT" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="disableXER" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="disableJSON" minOccurs="0" maxOccurs="1" type="xs:boolean" />
-                    <xs:element name="disableOER" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="forceXERinASN.1" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="defaultasOmit" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="enumHackProperty" minOccurs="0" maxOccurs="1" type="xs:boolean" /> <!-- deprecated -->
