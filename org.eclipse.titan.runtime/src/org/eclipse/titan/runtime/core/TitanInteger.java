@@ -878,6 +878,12 @@ public class TitanInteger extends Base_Type {
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
 		int value = getInt();
+		
+		if (value == Integer.MIN_VALUE) {
+			TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
+			return big_value.RAW_encode_openssl(p_td, myleaf);
+		}
+		
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
@@ -886,20 +892,10 @@ public class TitanInteger extends Base_Type {
 		}
 		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
-			if (value == Integer.MIN_VALUE) {
-				openSSL = BigInteger.valueOf(value);
-				return RAW_encode_openssl(p_td, myleaf);
-			} else {
-				value = -value;
-			}
+			value = -value;
 		}	
 		if (neg_sgbit) {
-			if (value == Integer.MIN_VALUE) {
-				openSSL = BigInteger.valueOf(value);
-				return RAW_encode_openssl(p_td, myleaf);
-			} else {
-				value = -value;
-			}
+			value = -value;
 		}
 		//myleaf.ext_bit=EXT_BIT_NO;
 		if (myleaf.must_free) {
