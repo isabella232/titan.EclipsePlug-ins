@@ -886,10 +886,20 @@ public class TitanInteger extends Base_Type {
 		}
 		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
-			value = -value;
-		}
+			if (value == Integer.MIN_VALUE) {
+				openSSL = BigInteger.valueOf(value);
+				return RAW_encode_openssl(p_td, myleaf);
+			} else {
+				value = -value;
+			}
+		}	
 		if (neg_sgbit) {
-			value = -value;
+			if (value == Integer.MIN_VALUE) {
+				openSSL = BigInteger.valueOf(value);
+				return RAW_encode_openssl(p_td, myleaf);
+			} else {
+				value = -value;
+			}
 		}
 		//myleaf.ext_bit=EXT_BIT_NO;
 		if (myleaf.must_free) {
