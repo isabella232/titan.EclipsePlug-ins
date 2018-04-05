@@ -218,4 +218,20 @@ public final class TITANNature implements IProjectNature {
 			ErrorReporter.logExceptionStackTrace(e);
 		}
 	}
+
+	public static boolean hasTITANBuilder(final IProject project) {
+		if (project == null || !project.isAccessible()) {
+			return false;
+		}
+
+		try {
+			final IProjectDescription description = project.getDescription();
+			final int javaCommandIndex = getJavaCommandIndex(description.getBuildSpec());
+			return javaCommandIndex != -1;
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+		}
+
+		return false;
+	}
 }
