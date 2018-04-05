@@ -878,18 +878,19 @@ public class TitanInteger extends Base_Type {
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
 		int value = getInt();
-		
-		if (value == Integer.MIN_VALUE) {
-			TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
-			return big_value.RAW_encode_openssl(p_td, myleaf);
-		}
-		
+				
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
 			value = 0;
 			neg_sgbit = false;
 		}
+		
+		if (value == Integer.MIN_VALUE) {
+			TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
+			return big_value.RAW_encode_openssl(p_td, myleaf);
+		}
+		
 		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
 			value = -value;
@@ -1052,9 +1053,9 @@ public class TitanInteger extends Base_Type {
 		} else {
 			length = (p_td.raw.fieldlength + 7) / 8;
 			int min_bits = RAW.min_bits(D);
-			if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
-				min_bits++;
-			}
+			//if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
+			//	min_bits++;
+			//}
 			if (min_bits > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
