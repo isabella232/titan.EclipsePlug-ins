@@ -104,9 +104,10 @@ public class EnumeratedGenerator {
 		Enum_field item = null;
 		for ( int i=0; i<size; i++) {
 			item = e_defs.items.get(i);
-			source.append(MessageFormat.format("{0}", item.name));
-			source.append(MessageFormat.format("({0}),\n", item.value));
-			helper.append("case ").append(MessageFormat.format("{0}", item.value)).append(": ");
+			source.append(MessageFormat.format("{0} (", item.name));
+			source.append(item.value);
+			source.append("),\n");
+			helper.append("case ").append(item.value).append(": ");
 			helper.append(" return ").append(MessageFormat.format("{0}", item.name)).append(";\n");
 		}
 
