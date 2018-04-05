@@ -1308,13 +1308,8 @@ public class TitanInteger extends Base_Type {
 						if (pad != 0) {
 							continue;
 						}
-						if(negativ_num) { 
-							D = D.shiftLeft(8);
-							D = D.subtract(BigInteger.valueOf(data[idx] & 0xFF));
-						} else {
 							D = D.shiftLeft(8);
 							D = D.add(BigInteger.valueOf(data[idx] & 0xFF));
-						}
 					}
 					if (twos_compl != 0) {
 						final BigInteger D_tmp = BigInteger.ZERO;
