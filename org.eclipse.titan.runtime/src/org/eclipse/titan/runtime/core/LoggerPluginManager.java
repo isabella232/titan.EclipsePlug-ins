@@ -67,10 +67,17 @@ import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
 public class LoggerPluginManager {
 	private LinkedBlockingQueue<TitanLogEvent> ring_buffer = new LinkedBlockingQueue<TitanLoggerApi.TitanLogEvent>();
 
+	private enum event_destination_t {
+		ED_NONE,  // To be discarded.
+		ED_FILE,  // Event goes to log file or console, it's a historic name.
+		ED_STRING // Event goes to CHARSTRING.
+	};
+
 	private static class log_event_struct {
 		StringBuilder buffer;
 		Severity severity;
-		//event_destination, etc...
+		event_destination_t event_destination;
+		//etc...
 	}
 
 	private static log_event_struct current_event = null;
@@ -176,11 +183,22 @@ public class LoggerPluginManager {
 		current_event = new log_event_struct();
 		current_event.severity = msg_severity;
 		current_event.buffer = new StringBuilder(100);
+		if (TtcnLogger.log_this_event(msg_severity)) {
+			current_event.event_destination = event_destination_t.ED_FILE;
+		} else {
+			current_event.event_destination = event_destination_t.ED_NONE;
+		}
+
 		events.push(current_event);
 	}
 
 	public void begin_event_log2str() {
-		begin_event(Severity.USER_UNQUALIFIED);//and true
+		current_event = new log_event_struct();
+		current_event.severity = Severity.USER_UNQUALIFIED;
+		current_event.buffer = new StringBuilder(100);
+		current_event.event_destination = event_destination_t.ED_STRING;
+
+		events.push(current_event);
 	}
 
 	public void end_event() {
@@ -189,10 +207,19 @@ public class LoggerPluginManager {
 			return;
 		}
 
-		// TODO handle event destination.
-		//TODO temporary solution for filtering
-		if (TtcnLogger.log_this_event(current_event.severity)) {
-			log_unhandled_event(current_event.severity, current_event.buffer.toString());
+		switch (current_event.event_destination) {
+		case ED_NONE:
+			break;
+		case ED_FILE:
+			//FIXME implement
+			//TODO temporary solution for filtering
+			if (TtcnLogger.log_this_event(current_event.severity)) {
+				log_unhandled_event(current_event.severity, current_event.buffer.toString());
+			}
+			break;
+		case ED_STRING:
+			//FIXME report error
+			break;
 		}
 
 		events.pop();
@@ -204,23 +231,29 @@ public class LoggerPluginManager {
 	}
 
 	public TitanCharString end_event_log2str() {
-		if (current_event != null) {
-			final TitanCharString ret_val = new TitanCharString(current_event.buffer);
-
-			events.pop();
-			if (!events.isEmpty()) {
-				current_event = events.peek();
-			} else {
-				current_event = null;
-			}
-
-			return ret_val;
+		if (current_event == null) {
+			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::end_event_log2str(): not in event.");
+			return new TitanCharString();
 		}
 
-		return new TitanCharString();
+		final TitanCharString ret_val = new TitanCharString(current_event.buffer);
+
+		events.pop();
+		if (!events.isEmpty()) {
+			current_event = events.peek();
+		} else {
+			current_event = null;
+		}
+
+		return ret_val;
 	}
 
 	public void finish_event() {
+		// There is no try-catch block to delete string targeted operations.
+		while (current_event != null && current_event.event_destination == event_destination_t.ED_STRING) {
+			end_event_log2str();
+		}
+
 		if (current_event != null) {
 			log_event_str("<unfinished>");
 			end_event();
@@ -229,20 +262,39 @@ public class LoggerPluginManager {
 
 	public void log_event_str(final String string) {
 		if (current_event != null) {
-			current_event.buffer.append(string);
+			if (current_event.event_destination == event_destination_t.ED_NONE) {
+				return;
+			}
+			if (string == null) {
+				current_event.buffer.append("<NULL pointer>");
+			} else {
+				current_event.buffer.append(string);
+			}
+		} else {
+			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::log_event_str(): not in event.");
 		}
 	}
 
 	public void log_char(final char c) {
 		// TODO: correct log_char
 		if (current_event != null) {
+			if (current_event.event_destination == event_destination_t.ED_NONE || c == '\0') {
+				return;
+			}
 			current_event.buffer.append(c);
+		} else {
+			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::log_char(): not in event.");
 		}
 	}
 
 	public void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
+			if (current_event.event_destination == event_destination_t.ED_NONE) {
+				return;
+			}
 			current_event.buffer.append(String.format(Locale.US, formatString, args));
+		} else {
+			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::log_event_va_list(): not in event.");
 		}
 	}
 
