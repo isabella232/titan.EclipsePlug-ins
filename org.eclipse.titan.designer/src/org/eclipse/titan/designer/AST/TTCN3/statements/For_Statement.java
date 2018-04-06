@@ -463,10 +463,12 @@ public final class For_Statement extends Statement {
 		if(definitions != null) {
 			definitions.generateCode(aData, source);
 		} else if (initialAssignment != null) {
+			initialAssignment.getLocation().update_location_object(aData, source);
 			initialAssignment.generateCode(aData, source);
 		}
 		source.append("\t\t\tfor( ; ; ) {\n");
 
+		getLocation().update_location_object(aData, source);
 		final AtomicInteger blockCount = new AtomicInteger(0);
 		if (finalExpression.returnsNative()) {
 			finalExpression.generateCodeTmp(aData, source, "if (!", blockCount);
@@ -490,6 +492,7 @@ public final class For_Statement extends Statement {
 
 		//if the statement block always returns there is no need for code implementing stepAssignment
 		if (!ReturnStatus_type.RS_YES.equals(statementblock.hasReturn(CompilationTimeStamp.getBaseTimestamp()))) {
+			stepAssignment.getLocation().update_location_object(aData, source);
 			stepAssignment.generateCode(aData, source);
 		}
 		source.append( "\t\t\t}\n" );

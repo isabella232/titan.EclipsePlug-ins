@@ -499,6 +499,7 @@ public final class Def_Const extends Definition {
 		}
 
 		source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+		getLocation().update_location_object(aData, aData.getPreInit());
 		last.generateCodeInit( aData, aData.getPreInit(), genName );
 
 		sb.append(source);

@@ -115,6 +115,7 @@ public final class TtcnLogger {
 	private static log_mask_struct emergency_log_mask = new log_mask_struct();
 
 	private static timestamp_format_t timestamp_format = timestamp_format_t.TIMESTAMP_TIME;
+	private static source_info_format_t source_info_format = source_info_format_t.SINFO_SINGLE;
 	private static final Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
 	private static final String month_names[] = { "Jan", "Feb", "Mar",
 			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -148,6 +149,7 @@ public final class TtcnLogger {
 	}
 
 	public static enum timestamp_format_t {TIMESTAMP_TIME, TIMESTAMP_DATETIME, TIMESTAMP_SECONDS};
+	public static enum source_info_format_t {SINFO_NONE, SINFO_SINGLE, SINFO_STACK };
 	public static enum emergency_logging_behaviour_t { BUFFER_ALL, BUFFER_MASKED };
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
@@ -269,6 +271,57 @@ public final class TtcnLogger {
 		"MATCHING",
 		"DEBUG",
 	};
+
+	//FIXME comment
+	public static class TTCN_Location {
+		String file_name;
+		int line_number;
+		String entity_name;
+
+		TTCN_Location inner_location;
+		TTCN_Location outer_location;
+		static TTCN_Location outermost_location = null;
+		static TTCN_Location innermost_location = null;
+
+		public TTCN_Location(final String file_name, final int line_number, final String entity_name) {
+			if (file_name == null) {
+				this.file_name = "<unknown file>";
+			} else {
+				this.file_name = file_name;
+			}
+			this.line_number = line_number;
+			if (entity_name == null) {
+				this.entity_name = "<unknown>";
+			} else {
+				this.entity_name = entity_name;
+			}
+			inner_location = null;
+			outer_location = innermost_location;
+			if (outer_location != null) {
+				outer_location.inner_location = this;
+			} else {
+				outermost_location = this;
+			}
+			innermost_location = this;
+		}
+
+		public void update_lineno(final int new_lineno) {
+			line_number = new_lineno;
+		}
+
+		public void leave() {
+			if (inner_location == null) {
+				innermost_location = outer_location;
+			} else {
+				inner_location.outer_location = outer_location;
+			}
+			if (outer_location == null) {
+				outermost_location = inner_location;
+			} else {
+				outer_location.inner_location = inner_location;
+			}
+		}
+	}
 
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
@@ -578,6 +631,14 @@ public final class TtcnLogger {
 
 	public static timestamp_format_t get_timestamp_format() {
 		return timestamp_format;
+	}
+
+	public static void set_source_info_format(final source_info_format_t new_source_info_format) {
+		source_info_format = new_source_info_format;
+	}
+
+	public static source_info_format_t get_source_info_format() {
+		return source_info_format;
 	}
 
 	public static void print_logmatch_buffer() {

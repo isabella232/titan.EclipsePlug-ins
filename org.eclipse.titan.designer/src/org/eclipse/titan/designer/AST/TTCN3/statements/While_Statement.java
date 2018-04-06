@@ -324,6 +324,7 @@ public final class While_Statement extends Statement {
 
 			// do not generate the exit condition for infinite loops
 			if (!condition_always_true) {
+				getLocation().update_location_object(aData, source);
 				final AtomicInteger blockCount = new AtomicInteger(0);
 				if (last.returnsNative()) {
 					last.generateCodeTmp(aData, source, "if (!", blockCount);

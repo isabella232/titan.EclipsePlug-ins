@@ -18,6 +18,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.LocationInfo;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingEvent_choice;
@@ -49,6 +50,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.source_info_format_t;
 
 /**
  * A logger plugin implementing the legacy logger behaviour.
@@ -116,6 +118,35 @@ public class LegacyLogger implements ILoggerPlugin {
 		final StringBuilder returnValue = new StringBuilder();
 
 		append_header(returnValue, event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt());
+
+		if (event.getSourceInfo__list().isBound()) {
+			int stack_size = event.getSourceInfo__list().sizeOf().getInt();
+			if (stack_size > 0) {
+				int i = 0;
+				source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
+				switch (source_info_format) {
+				case SINFO_NONE:
+					i = stack_size;
+					break;
+				case SINFO_SINGLE:
+					i = stack_size - 1;
+					break;
+				case SINFO_STACK:
+					break;
+				}
+				boolean firstLocation = true;
+				for (; i < stack_size; i++) {
+					LocationInfo loc = event.getSourceInfo__list().getAt(i);
+					if (firstLocation) {
+						firstLocation = false;
+					} else {
+						returnValue.append("->");
+					}
+					//FIXME implement remaining details
+					returnValue.append(loc.getFilename().getValue()).append(':').append(loc.getLine().getInt());
+				}
+			}
+		}
 
 		final LogEventType_choice choice = event.getLogEvent().getChoice();
 		switch (choice.get_selection()) {

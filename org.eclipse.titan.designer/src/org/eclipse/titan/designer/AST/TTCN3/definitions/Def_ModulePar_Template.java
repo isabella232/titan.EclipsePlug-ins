@@ -423,6 +423,7 @@ public final class Def_ModulePar_Template extends Definition {
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
 		if ( defaultTemplate != null ) {
+			getLocation().update_location_object(aData, aData.getPreInit());
 			defaultTemplate.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);

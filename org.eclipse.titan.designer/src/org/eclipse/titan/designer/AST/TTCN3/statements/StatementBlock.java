@@ -1085,6 +1085,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		final int size = statements.size();
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statements.get(i);
+			statement.getLocation().update_location_object(aData, source);
 			statement.generateCode( aData, source );
 
 			//FIXME: perhaps it would be better to remove this and handle the situation in semantic check (???)

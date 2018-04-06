@@ -569,6 +569,7 @@ public final class Call_Statement extends Statement {
 		if (altGuards != null) {
 			source.append("{\n");
 			if (timerValue != null) {
+				timerValue.getLocation().update_location_object(aData, source);
 				source.append("TitanTimer call_timer = new TitanTimer(null);\n");
 				expression = new ExpressionStruct();
 				expression.expression.append("call_timer.start(");

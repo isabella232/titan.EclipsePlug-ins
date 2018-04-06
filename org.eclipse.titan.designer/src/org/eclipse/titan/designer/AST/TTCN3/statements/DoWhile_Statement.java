@@ -315,6 +315,7 @@ public final class DoWhile_Statement extends Statement {
 		source.append("for ( ; ; ) { \n");
 		statementblock.generateCode(aData, source);
 		if(!isInfiniteLoop) {
+			getLocation().update_location_object(aData, source);
 			generateCodeConditional(aData,source);
 		}
 		source.append("}\n");

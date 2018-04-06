@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST;
 
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -19,6 +20,7 @@ import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IProgressMonitor;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 
 /**
  * The Location class represents a location in the source code.
@@ -396,6 +398,39 @@ public class Location {
 
 		public IMarker getMarker() {
 			return marker;
+		}
+	}
+
+	//TODO some parts still missing
+	public void create_location_object(final JavaGenData aData, final StringBuilder source, final String entityName) {
+		if (file != null && line > 0) {
+			if (aData.getAddSourceInfo()) {
+				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location");
+				source.append(MessageFormat.format("TTCN_Location current_location = new TTCN_Location(\"{0}\", ", file.getName()));
+				source.append(line);
+				source.append(MessageFormat.format(", \"{2}\");\n", entityName));
+				//FIXME implement rest
+			}
+		}
+	}
+
+	public void release_location_object(final JavaGenData aData, final StringBuilder source) {
+		if (file != null && line > 0) {
+			if (aData.getAddSourceInfo()) {
+				source.append("current_location.leave();\n");
+				//FIXME implement rest
+			}
+		}
+	}
+
+	public void update_location_object(final JavaGenData aData, final StringBuilder source) {
+		if (file != null && line > 0) {
+			if (aData.getAddSourceInfo()) {
+				source.append("current_location.update_lineno(").append(line).append(");\n");
+				//FIXME implement rest
+			} else {
+				source.append("/* ").append(file.getName()).append(", line ").append(line).append(" */\n");
+			}
 		}
 	}
 }

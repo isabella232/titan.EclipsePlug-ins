@@ -43,6 +43,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
+import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -944,7 +945,11 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.generateCode( aData, source );
 		}
 		source.append( ") {\n" );
+		getLocation().create_location_object(aData, source, getIdentifier().getDisplayName());
 		block.generateCode(aData, source);
+		if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
+			getLocation().release_location_object(aData, source);
+		}
 		source.append( "}\n" );
 
 		if (isStartable) {

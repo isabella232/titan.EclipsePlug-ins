@@ -26,6 +26,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.LocationInfo;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingFailureType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingProblemType;
@@ -52,8 +53,10 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__list;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.TTCN_Location;
 import org.eclipse.titan.runtime.core.TtcnLogger.emergency_logging_behaviour_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
 
@@ -635,6 +638,23 @@ public class LoggerPluginManager {
 		//FIXME implement the rest
 		final long timestamp = System.currentTimeMillis();
 		event.getTimestamp().assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
+
+		final TitanLogEvent_sourceInfo__list srcinfo = event.getSourceInfo__list();
+		if (TTCN_Location.innermost_location == null) {
+			srcinfo.assign(TitanNull_Type.NULL_VALUE);
+		} else {
+			int num_locations = 0;
+			TTCN_Location temp = TTCN_Location.outermost_location;
+			while (temp != null) {
+				final LocationInfo loc = srcinfo.getAt(num_locations);
+				loc.getFilename().assign(temp.file_name);
+				loc.getLine().assign(temp.line_number);
+				loc.getEnt__name().assign(temp.entity_name);
+
+				temp = temp.inner_location;
+				num_locations++;
+			}
+		}
 
 		event.getSeverity().assign(severity.ordinal());
 	}

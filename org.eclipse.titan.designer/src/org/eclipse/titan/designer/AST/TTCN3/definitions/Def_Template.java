@@ -912,11 +912,13 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				if (baseTemplate.myScope.getModuleScope() == myScope.getModuleScope()) {
 					// if the base template is in the same module its body has to be
 					// initialized first
+					getLocation().update_location_object(aData, aData.getPostInit());
 					baseTemplate.body.generateCodeInit(aData, aData.getPostInit(), body.get_lhs_name());
 				}
 			}
 
 			if ( body != null ) {
+				getLocation().update_location_object(aData, aData.getPostInit());
 				body.generateCodeInit( aData, aData.getPostInit(), body.get_lhs_name() );
 
 				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
@@ -926,6 +928,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		} else {
 			final StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
+			getLocation().create_location_object(aData, source, getIdentifier().getDisplayName());
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					final Array_Type arrayType = (Array_Type) type;
@@ -958,6 +961,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 				}
 			}
 
+			getLocation().release_location_object(aData, source);
 			source.append("return ret_val;\n");
 			source.append("}\n\n");
 		}

@@ -313,6 +313,7 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 			source.append(expression.expression);
 			source.append(expression.postamble);
 
+			getLocation().update_location_object(aData, source);
 			source.append("if (").append(condition).append(") {\n");
 			statementBlock.generateCode(aData, source);
 			source.append("}\n");

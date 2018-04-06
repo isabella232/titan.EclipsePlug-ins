@@ -57,6 +57,9 @@ public class ProjectSourceCompiler {
 		data.setDebug( aDebug );
 		aModule.generateCode( data );
 
+		if (data.getPreInit().length() > 0 || data.getPostInit().length() > 0) {
+			data.addCommonLibraryImport("TtcnLogger.TTCN_Location");
+		}
 		//write imports
 		StringBuilder headerSb = new StringBuilder();
 		writeHeader( headerSb, data );
@@ -66,7 +69,7 @@ public class ProjectSourceCompiler {
 			data.getSrc().append(typeString);
 		}
 
-		writeFooter(data);
+		writeFooter(data, sourceFile, aModule);
 
 
 		//write src file body
@@ -310,8 +313,10 @@ public class ProjectSourceCompiler {
 	 * </ul>
 	 * 
 	 * @param aData data collected during code generation, we need the include files form it
+	 * @param sourceFile the source of the code.
+	 * @param aModule module to compile
 	 */
-	private static void writeFooter( final JavaGenData aData) {
+	private static void writeFooter( final JavaGenData aData, final IResource sourceFile, final Module aModule) {
 		final StringBuilder aSb = aData.getSrc();
 		if (aData.getSetModuleParameters().length() > 0) {
 			aSb.append("public boolean set_module_param(final Module_Parameter param)\n");
@@ -330,7 +335,13 @@ public class ProjectSourceCompiler {
 			aSb.append("return;\n");
 			aSb.append("}\n");
 			aSb.append("pre_init_called = true;\n");
+			if (aData.getAddSourceInfo()) {
+				aSb.append(MessageFormat.format("TTCN_Location current_location = new TTCN_Location(\"{0}\", {1}, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+			}
 			aSb.append(aData.getPreInit());
+			if (aData.getAddSourceInfo()) {
+				aSb.append("current_location.leave();\n");
+			}
 			aSb.append("}\n\n");
 		}
 
@@ -342,7 +353,13 @@ public class ProjectSourceCompiler {
 			aSb.append("}\n");
 			aSb.append("post_init_called = true;\n");
 			aSb.append("TtcnLogger.log_module_init(name, false);\n");
+			if (aData.getAddSourceInfo()) {
+				aSb.append(MessageFormat.format("TTCN_Location current_location = new TTCN_Location(\"{0}\", {1}, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+			}
 			aSb.append(aData.getPostInit());
+			if (aData.getAddSourceInfo()) {
+				aSb.append("current_location.leave();\n");
+			}
 			aSb.append("TtcnLogger.log_module_init(name, true);\n");
 			aSb.append("}\n\n");
 		}

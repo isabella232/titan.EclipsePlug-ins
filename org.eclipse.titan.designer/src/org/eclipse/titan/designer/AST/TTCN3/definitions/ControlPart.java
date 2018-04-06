@@ -388,15 +388,18 @@ public final class ControlPart extends Scope implements ILocateableNode, IAppend
 
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\tpublic void control() {\n" );
+		getLocation().create_location_object(aData, sb, getModuleScope().getIdentifier().getDisplayName());
 		sb.append(MessageFormat.format("\t\tTTCN_Runtime.begin_controlpart(\"{0}\");\n", getModuleScope().getIdentifier().getDisplayName()));
 		final StringBuilder body = new StringBuilder();
 		final int size = statementblock.getSize();
 		for ( int i = 0; i < size; i++ ) {
 			final Statement statement = statementblock.getStatementByIndex( i );
+			statement.getLocation().update_location_object(aData, body);
 			statement.generateCode( aData, body );
 		}
 		sb.append(body);
 		sb.append( "\t\tTTCN_Runtime.end_controlpart();\n" );
+		getLocation().release_location_object(aData, sb);
 		sb.append( "\t}\n" );
 	}
 }

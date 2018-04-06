@@ -223,6 +223,8 @@ public final class Return_Statement extends Statement {
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		//TODO more nuanced code generation
 
+		getLocation().release_location_object(aData, source);
+
 		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append("return ");
 

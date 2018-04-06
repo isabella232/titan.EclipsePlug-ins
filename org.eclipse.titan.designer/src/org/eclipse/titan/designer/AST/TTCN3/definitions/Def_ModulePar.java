@@ -411,6 +411,7 @@ public final class Def_ModulePar extends Definition {
 		source.append( typeGeneratedName );
 		source.append( "();\n" );
 		if ( defaultValue != null ) {
+			getLocation().update_location_object(aData, aData.getPreInit());
 			defaultValue.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
 		sb.append(source);

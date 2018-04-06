@@ -487,6 +487,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				final IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
 					source.append(MessageFormat.format("if ({0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", label, i));
+					guardExpression.getLocation().update_location_object(aData, source);
 					final ExpressionStruct expression = new ExpressionStruct();
 					guardExpression.generateCodeExpression(aData, expression, true);
 					source.append(expression.preamble);
@@ -506,7 +507,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				case AG_OP: {
 					// the guard operation is a receiving statement
 					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
-					//TODO update location
+					altGuard.getLocation().update_location_object(aData, source);
 					statement.generateCodeExpression(aData, expression);
 					canRepeat = statement.canRepeat();
 					}
@@ -514,7 +515,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				case AG_REF: {
 					// the guard operation is an altstep instance
 					final Reference reference = ((Referenced_Altguard)altGuard).getGuardReference();
-					//TODO update location
+					altGuard.getLocation().update_location_object(aData, source);
 					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
@@ -525,7 +526,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					break;
 				case AG_INVOKE: {
 					// the guard operation is an altstep invocation
-					//TODO update location
+					altGuard.getLocation().update_location_object(aData, source);
 					((Invoke_Altguard)altGuard).generateCodeInvokeInstance(aData, expression);
 					canRepeat = true;
 					}
@@ -571,7 +572,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append(MessageFormat.format("continue {0};\n", label));
 			source.append("}\n");
 			source.append("}\n");
-			//TODO location update
+			getLocation().update_location_object(aData, source);
 			// error handling and taking the next snapshot in blocking mode
 			source.append("if ( ");
 			for (int i = 0; i < altGuards.size(); i++) {
@@ -626,6 +627,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				final AtomicInteger blockCount = new AtomicInteger(0);
 				final IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
+					guardExpression.getLocation().update_location_object(aData, source);
 					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
 					source.append(") {\n");
 					blockCount.incrementAndGet();
@@ -636,7 +638,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				switch(altGuardType) {
 				case AG_OP: {
 					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
-					//TODO update location
+					altGuard.getLocation().update_location_object(aData, source);
 					statement.generateCodeExpression(aData, expression);
 					canRepeat = statement.canRepeat();
 					}
@@ -644,7 +646,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				case AG_REF: {
 					// the guard operation is an altstep instance
 					final Reference reference = ((Referenced_Altguard)altGuard).getGuardReference();
-					//TODO update location
+					altGuard.getLocation().update_location_object(aData, source);
 					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
@@ -655,7 +657,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					break;
 				case AG_INVOKE: {
 					// the guard operation is an altstep invocation
-					//TODO update location
+					altGuard.getLocation().update_location_object(aData, source);
 					((Invoke_Altguard)altGuard).generateCodeInvokeInstance(aData, expression);
 					canRepeat = true;
 					}
@@ -745,6 +747,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			}
 			source.append(";\n");
 		}
+
+		getLocation().update_location_object(aData, source);
 		// the first snapshot is taken in non-blocking mode
 		// and opening infinite for() loop
 		// the first snapshot is taken in non-blocking mode
@@ -762,6 +766,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			final IValue guardExpression = altGuard.getGuardExpression();
 			if (guardExpression != null) {
 				source.append(MessageFormat.format("if ( {0}_alt_flag_{1} == TitanAlt_Status.ALT_UNCHECKED) '{'\n", tempId, i));
+				guardExpression.getLocation().update_location_object(aData, source);
 				final ExpressionStruct expression = new ExpressionStruct();
 				guardExpression.generateCodeExpression(aData, expression, true);
 				source.append(expression.preamble);
@@ -779,6 +784,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			final ExpressionStruct expression = new ExpressionStruct();
 			expression.expression.append(MessageFormat.format("{0}_alt_flag_{1} = ", tempId, i));
 			final Statement statement = ((Operation_Altguard) altGuard).getGuardStatement();
+			statement.getLocation().update_location_object(aData, source);
 			statement.generateCodeExpression(aData, expression);
 			expression.mergeExpression(source);
 
@@ -811,6 +817,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			source.append("}\n");
 			source.append("}\n");
 		}
+
+		getLocation().update_location_object(aData, source);
 
 		// error handling and taking the next snapshot in blocking mode
 		source.append("if (");

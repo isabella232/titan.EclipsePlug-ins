@@ -659,6 +659,7 @@ public final class For_Loop_Definitions extends Assignments implements ILocateab
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if ( definitions != null ) {
 			for ( final Definition definition : definitions ) {
+				definition.getLocation().update_location_object(aData, source);
 				definition.generateCodeString( aData, source );
 				source.append( '\n' );
 			}

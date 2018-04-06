@@ -61,6 +61,9 @@ public class JavaGenData {
 	/** was raw encoding disabled for the runtime */
 	private boolean rawDisabled = false;
 
+	/** is generating source code line info needed */
+	private boolean addSourceInfo = false;
+
 	/**
 	 * true for debug mode: debug info is written as comments in the generated code
 	 */
@@ -118,6 +121,9 @@ public class JavaGenData {
 			//s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ENABLE_LEGACY_ENCODING_PROPERTY));
 			//legacyCodecHandling = s == null || "true".equals(s);
 			legacyCodecHandling = false;
+
+			s = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,TITANFlagsOptionsData.ADD_SOURCELINEINFO_PROPERTY));
+			addSourceInfo = s == null || "true".equals(s);
 		} catch (CoreException e) {
 			ErrorReporter.logExceptionStackTrace(e);
 			return;
@@ -285,6 +291,13 @@ public class JavaGenData {
 	 */
 	public boolean getEnableRaw() {
 		return !rawDisabled;
+	}
+
+	/**
+	 * @return true if source code line information should be generated
+	 * */
+	public boolean getAddSourceInfo() {
+		return addSourceInfo;
 	}
 
 	/**
