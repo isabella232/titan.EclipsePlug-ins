@@ -878,23 +878,22 @@ public class TitanInteger extends Base_Type {
 		int val_bits = 0; // only for IntX
 		int len_bits = 0; // only for IntX
 		int value = getInt();
-				
 		boolean neg_sgbit = (value < 0) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_UNBOUND, "Encoding an unbound value.");
 			value = 0;
 			neg_sgbit = false;
 		}
-		
+
 		if (value == Integer.MIN_VALUE) {
 			TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
 			return big_value.RAW_encode_openssl(p_td, myleaf);
 		}
-		
+
 		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
 			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
 			value = -value;
-		}	
+		}
 		if (neg_sgbit) {
 			value = -value;
 		}
@@ -1305,8 +1304,9 @@ public class TitanInteger extends Base_Type {
 						if (pad != 0) {
 							continue;
 						}
-							D = D.shiftLeft(8);
-							D = D.add(BigInteger.valueOf(data[idx] & 0xFF));
+
+						D = D.shiftLeft(8);
+						D = D.add(BigInteger.valueOf(data[idx] & 0xFF));
 					}
 					if (twos_compl != 0) {
 						final BigInteger D_tmp = BigInteger.ZERO;
