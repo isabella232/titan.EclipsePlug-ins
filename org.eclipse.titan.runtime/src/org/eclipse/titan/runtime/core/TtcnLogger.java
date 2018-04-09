@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
@@ -48,6 +49,7 @@ public final class TtcnLogger {
 			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
 			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
+			//default_console_mask.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 
 			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
 			log_all.bits[Severity.DEFAULTOP_UNQUALIFIED.ordinal()] = true;
@@ -278,31 +280,38 @@ public final class TtcnLogger {
 		int line_number;
 		String entity_name;
 
-		TTCN_Location inner_location;
-		TTCN_Location outer_location;
-		static TTCN_Location outermost_location = null;
-		static TTCN_Location innermost_location = null;
+		static final ArrayList<TTCN_Location> locations = new ArrayList<TtcnLogger.TTCN_Location>();
+		static int actualSize = 0;
 
-		public TTCN_Location(final String file_name, final int line_number, final String entity_name) {
+		private TTCN_Location() {
+			// intentionally empty
+		}
+
+		public static TTCN_Location enter(final String file_name, final int line_number, final String entity_name) {
+			TTCN_Location temp;
+
+			if (locations.size() > actualSize) {
+				temp = locations.get(actualSize);
+			} else {
+				temp = new TTCN_Location();
+				locations.add(temp);
+			}
+
+			actualSize++;
+
 			if (file_name == null) {
-				this.file_name = "<unknown file>";
+				temp.file_name = "<unknown file>";
 			} else {
-				this.file_name = file_name;
+				temp.file_name = file_name;
 			}
-			this.line_number = line_number;
+			temp.line_number = line_number;
 			if (entity_name == null) {
-				this.entity_name = "<unknown>";
+				temp.entity_name = "<unknown>";
 			} else {
-				this.entity_name = entity_name;
+				temp.entity_name = entity_name;
 			}
-			inner_location = null;
-			outer_location = innermost_location;
-			if (outer_location != null) {
-				outer_location.inner_location = this;
-			} else {
-				outermost_location = this;
-			}
-			innermost_location = this;
+
+			return temp;
 		}
 
 		public void update_lineno(final int new_lineno) {
@@ -310,16 +319,7 @@ public final class TtcnLogger {
 		}
 
 		public void leave() {
-			if (inner_location == null) {
-				innermost_location = outer_location;
-			} else {
-				inner_location.outer_location = outer_location;
-			}
-			if (outer_location == null) {
-				outermost_location = inner_location;
-			} else {
-				outer_location.inner_location = inner_location;
-			}
+			actualSize--;
 		}
 	}
 

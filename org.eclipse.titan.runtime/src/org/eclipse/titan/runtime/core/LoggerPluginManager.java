@@ -640,19 +640,16 @@ public class LoggerPluginManager {
 		event.getTimestamp().assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
 
 		final TitanLogEvent_sourceInfo__list srcinfo = event.getSourceInfo__list();
-		if (TTCN_Location.innermost_location == null) {
+		if (TTCN_Location.actualSize == 0) {
 			srcinfo.assign(TitanNull_Type.NULL_VALUE);
 		} else {
-			int num_locations = 0;
-			TTCN_Location temp = TTCN_Location.outermost_location;
-			while (temp != null) {
-				final LocationInfo loc = srcinfo.getAt(num_locations);
+			for (int i = 0; i < TTCN_Location.actualSize; i++) {
+				final LocationInfo loc = srcinfo.getAt(i);
+				final TTCN_Location temp = TTCN_Location.locations.get(i);
+
 				loc.getFilename().assign(temp.file_name);
 				loc.getLine().assign(temp.line_number);
 				loc.getEnt__name().assign(temp.entity_name);
-
-				temp = temp.inner_location;
-				num_locations++;
 			}
 		}
 

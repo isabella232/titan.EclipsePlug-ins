@@ -336,7 +336,7 @@ public class ProjectSourceCompiler {
 			aSb.append("}\n");
 			aSb.append("pre_init_called = true;\n");
 			if (aData.getAddSourceInfo()) {
-				aSb.append(MessageFormat.format("TTCN_Location current_location = new TTCN_Location(\"{0}\", {1}, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
 			aSb.append(aData.getPreInit());
 			if (aData.getAddSourceInfo()) {
@@ -354,7 +354,7 @@ public class ProjectSourceCompiler {
 			aSb.append("post_init_called = true;\n");
 			aSb.append("TtcnLogger.log_module_init(name, false);\n");
 			if (aData.getAddSourceInfo()) {
-				aSb.append(MessageFormat.format("TTCN_Location current_location = new TTCN_Location(\"{0}\", {1}, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
+				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
 			aSb.append(aData.getPostInit());
 			if (aData.getAddSourceInfo()) {

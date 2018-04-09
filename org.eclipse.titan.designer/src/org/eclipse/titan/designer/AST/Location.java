@@ -406,7 +406,7 @@ public class Location {
 		if (file != null && line > 0) {
 			if (aData.getAddSourceInfo()) {
 				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location");
-				source.append(MessageFormat.format("TTCN_Location current_location = new TTCN_Location(\"{0}\", ", file.getName()));
+				source.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", ", file.getName()));
 				source.append(line);
 				source.append(MessageFormat.format(", \"{2}\");\n", entityName));
 				//FIXME implement rest
