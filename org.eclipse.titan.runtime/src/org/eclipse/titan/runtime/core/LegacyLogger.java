@@ -50,6 +50,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.log_event_types_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.source_info_format_t;
 
 /**
@@ -106,19 +107,27 @@ public class LegacyLogger implements ILoggerPlugin {
 		return true;
 	}
 
-	private static void append_header(final StringBuilder returnValue, final int seconds, int microseconds) {
+	private static void append_header(final StringBuilder returnValue, final int seconds, int microseconds, final Severity severity, final StringBuilder sourceInfo) {
 		TtcnLogger.mputstr_timestamp(returnValue, TtcnLogger.get_timestamp_format(), seconds, microseconds);
 
 		returnValue.append(' ');
-		//FIXME implement rest of the header
+
+		if (TtcnLogger.get_log_event_types() != log_event_types_t.LOGEVENTTYPES_NO) {
+			TtcnLogger.mput_severity(returnValue, severity);
+			if (TtcnLogger.get_log_event_types() == log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES) {
+				returnValue.append('_').append(TtcnLogger.severity_subcategory_names[severity.ordinal()]);
+				returnValue.append(' ');
+			}
+		}
+
+		if (sourceInfo != null) {
+			returnValue.append(sourceInfo).append(' ');
+		}
 	}
 
 	private static String event_to_string(final TitanLoggerApi.TitanLogEvent event, final boolean without_header) {
-		//FIXME implement proper header handling
 		final StringBuilder returnValue = new StringBuilder();
-
-		append_header(returnValue, event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt());
-
+		final StringBuilder sourceInfo = new StringBuilder();
 		if (event.getSourceInfo__list().isBound()) {
 			source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
 			int stack_size = event.getSourceInfo__list().sizeOf().getInt();
@@ -136,33 +145,33 @@ public class LegacyLogger implements ILoggerPlugin {
 				}
 				boolean firstLocation = true;
 				for (; i < stack_size; i++) {
-					LocationInfo loc = event.getSourceInfo__list().getAt(i);
+					final LocationInfo loc = event.getSourceInfo__list().getAt(i);
 					if (firstLocation) {
 						firstLocation = false;
 					} else {
-						returnValue.append("->");
+						sourceInfo.append("->");
 					}
-					//FIXME implement remaining details
-					returnValue.append(loc.getFilename().getValue()).append(':').append(loc.getLine().getInt());
+
+					sourceInfo.append(loc.getFilename().getValue()).append(':').append(loc.getLine().getInt());
 
 					switch (loc.getEnt__type().enum_value) {
 					case controlpart:
-						returnValue.append(MessageFormat.format("(controlpart:{0})", loc.getEnt__name()));
+						sourceInfo.append(MessageFormat.format("(controlpart:{0})", loc.getEnt__name()));
 						break;
 					case testcase__:
-						returnValue.append(MessageFormat.format("(testcase:{0})", loc.getEnt__name()));
+						sourceInfo.append(MessageFormat.format("(testcase:{0})", loc.getEnt__name()));
 						break;
 					case altstep__:
-						returnValue.append(MessageFormat.format("(altstep:{0})", loc.getEnt__name()));
+						sourceInfo.append(MessageFormat.format("(altstep:{0})", loc.getEnt__name()));
 						break;
 					case function__:
-						returnValue.append(MessageFormat.format("(function:{0})", loc.getEnt__name()));
+						sourceInfo.append(MessageFormat.format("(function:{0})", loc.getEnt__name()));
 						break;
 					case external__function:
-						returnValue.append(MessageFormat.format("(externalfunction:{0})", loc.getEnt__name()));
+						sourceInfo.append(MessageFormat.format("(externalfunction:{0})", loc.getEnt__name()));
 						break;
 					case template__:
-						returnValue.append(MessageFormat.format("(template:{0})", loc.getEnt__name()));
+						sourceInfo.append(MessageFormat.format("(template:{0})", loc.getEnt__name()));
 						break;
 					case UNBOUND_VALUE:
 					case UNKNOWN_VALUE:
@@ -173,10 +182,14 @@ public class LegacyLogger implements ILoggerPlugin {
 			} else {
 				if (source_info_format == source_info_format_t.SINFO_SINGLE ||
 						source_info_format == source_info_format_t.SINFO_STACK) {
-					returnValue.append('-');
+					sourceInfo.append('-');
 				}
 			}
 		}
+
+		final int severityIndex = event.getSeverity().getInt();
+		final Severity severity = Severity.values()[severityIndex];
+		append_header(returnValue, event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt(), severity, sourceInfo);
 
 		final LogEventType_choice choice = event.getLogEvent().getChoice();
 		switch (choice.get_selection()) {
