@@ -273,6 +273,94 @@ public final class TtcnLogger {
 		"DEBUG",
 	};
 
+	/** Sub-category names for all Severity enum values,
+	* used when TTCN_Logger::log_event_types is set to log sub-categories */
+	public static String severity_subcategory_names[] = {
+		  "",
+		  // ACTION:
+		  "UNQUALIFIED",
+		  // DEFAULTOP:
+		  "ACTIVATE",
+		  "DEACTIVATE",
+		  "EXIT",
+		  "UNQUALIFIED",
+		  // ERROR:
+		  "UNQUALIFIED",
+		  // EXECUTOR:
+		  "RUNTIME",
+		  "CONFIGDATA",
+		  "EXTCOMMAND",
+		  "COMPONENT",
+		  "LOGOPTIONS",
+		  "UNQUALIFIED",
+		  // FUNCTION:
+		  "RND",
+		  "UNQUALIFIED",
+		  // PARALLEL:
+		  "PTC",
+		  "PORTCONN",
+		  "PORTMAP",
+		  "UNQUALIFIED",
+		  // TESTCASE:
+		  "START",
+		  "FINISH",
+		  "UNQUALIFIED",
+		  // PORTEVENT:
+		  "PQUEUE",
+		  "MQUEUE",
+		  "STATE",
+		  "PMIN",
+		  "PMOUT",
+		  "PCIN",
+		  "PCOUT",
+		  "MMRECV",
+		  "MMSEND",
+		  "MCRECV",
+		  "MCSEND",
+		  "DUALRECV",
+		  "DUALSEND",
+		  "UNQUALIFIED",
+		  "SETSTATE",
+		  // STATISTICS:
+		  "VERDICT",
+		  "UNQUALIFIED",
+		  // TIMEROP:
+		  "READ",
+		  "START",
+		  "GUARD",
+		  "STOP",
+		  "TIMEOUT",
+		  "UNQUALIFIED",
+		  // USER:
+		  "UNQUALIFIED",
+		  // VERDICTOP:
+		  "GETVERDICT",
+		  "SETVERDICT",
+		  "FINAL",
+		  "UNQUALIFIED",
+		  // WARNING:
+		  "UNQUALIFIED",
+		  // MATCHING:
+		  "DONE",
+		  "TIMEOUT",
+		  "PCSUCCESS",
+		  "PCUNSUCC",
+		  "PMSUCCESS",
+		  "PMUNSUCC",
+		  "MCSUCCESS",
+		  "MCUNSUCC",
+		  "MMSUCCESS",
+		  "MMUNSUCC",
+		  "PROBLEM",
+		  "UNQUALIFIED",
+		  // DEBUG:
+		  "ENCDEC",
+		  "TESTPORT",
+		  "USER",
+		  "FRAMEWORK",
+		  "UNQUALIFIED"
+	};
+
 	/**
 	 * Represents a location in the source in the runtime.
 	 * Used for logging precize source location when enabled.
@@ -371,6 +459,113 @@ public final class TtcnLogger {
 		}
 
 		return plugins_;
+	}
+
+	public static void mput_severity(final StringBuilder str, final Severity severity) {
+		switch (severity) {
+		case ACTION_UNQUALIFIED:
+			str.append("ACTION");
+			break;
+		case DEFAULTOP_ACTIVATE:
+		case DEFAULTOP_DEACTIVATE:
+		case DEFAULTOP_EXIT:
+		case DEFAULTOP_UNQUALIFIED:
+			str.append("DEFAULTOP");
+			break;
+		case ERROR_UNQUALIFIED:
+			str.append("ERROR");
+			break;
+		case EXECUTOR_RUNTIME:
+		case EXECUTOR_CONFIGDATA:
+		case EXECUTOR_EXTCOMMAND:
+		case EXECUTOR_COMPONENT:
+		case EXECUTOR_LOGOPTIONS:
+		case EXECUTOR_UNQUALIFIED:
+			str.append("EXECUTOR");
+			break;
+		case FUNCTION_RND:
+		case FUNCTION_UNQUALIFIED:
+			str.append("FUNCTION");
+			break;
+		case PARALLEL_PTC:
+		case PARALLEL_PORTCONN:
+		case PARALLEL_PORTMAP:
+		case PARALLEL_UNQUALIFIED:
+			str.append("PARALLEL");
+			break;
+		case TESTCASE_START:
+		case TESTCASE_FINISH:
+		case TESTCASE_UNQUALIFIED:
+			str.append("TESTCASE");
+			break;
+		case PORTEVENT_PQUEUE:
+		case PORTEVENT_MQUEUE:
+		case PORTEVENT_STATE:
+		case PORTEVENT_PMIN:
+		case PORTEVENT_PMOUT:
+		case PORTEVENT_PCIN:
+		case PORTEVENT_PCOUT:
+		case PORTEVENT_MMRECV:
+		case PORTEVENT_MMSEND:
+		case PORTEVENT_MCRECV:
+		case PORTEVENT_MCSEND:
+		case PORTEVENT_DUALRECV:
+		case PORTEVENT_DUALSEND:
+		case PORTEVENT_UNQUALIFIED:
+		case PORTEVENT_SETSTATE:
+			str.append("PORTEVENT");
+			break;
+		case STATISTICS_VERDICT:
+		case STATISTICS_UNQUALIFIED:
+			str.append("STATISTICS");
+			break;
+		case TIMEROP_READ:
+		case TIMEROP_START:
+		case TIMEROP_GUARD:
+		case TIMEROP_STOP:
+		case TIMEROP_TIMEOUT:
+		case TIMEROP_UNQUALIFIED:
+			str.append("TIMEROP");
+			break;
+		case USER_UNQUALIFIED:
+			str.append("USER");
+			break;
+		case VERDICTOP_GETVERDICT:
+		case VERDICTOP_SETVERDICT:
+		case VERDICTOP_FINAL:
+		case VERDICTOP_UNQUALIFIED:
+			str.append("VERDICTOP");
+			break;
+		case WARNING_UNQUALIFIED:
+			str.append("WARNING");
+			break;
+		case MATCHING_DONE:
+		case MATCHING_TIMEOUT:
+		case MATCHING_PCSUCCESS:
+		case MATCHING_PCUNSUCC:
+		case MATCHING_PMSUCCESS:
+		case MATCHING_PMUNSUCC:
+		case MATCHING_MCSUCCESS:
+		case MATCHING_MCUNSUCC:
+		case MATCHING_MMSUCCESS:
+		case MATCHING_MMUNSUCC:
+		case MATCHING_PROBLEM:
+		case MATCHING_UNQUALIFIED:
+			str.append("MATCHING");
+			break;
+		case DEBUG_ENCDEC:
+		case DEBUG_TESTPORT:
+		case DEBUG_USER:
+		case DEBUG_FRAMEWORK:
+		case DEBUG_UNQUALIFIED:
+			str.append("DEBUG");
+			break;
+		case NUMBER_OF_LOGSEVERITIES:
+		case LOG_ALL_IMPORTANT:
+		case NOTHING_TO_LOG:
+			str.append("UNKNOWN");
+			break;
+		}
 	}
 
 	public static void mputstr_timestamp(final StringBuilder str, final timestamp_format_t p_timestamp_format, final int seconds, final int microseconds) {
