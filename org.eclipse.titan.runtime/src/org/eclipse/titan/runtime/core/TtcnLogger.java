@@ -273,7 +273,10 @@ public final class TtcnLogger {
 		"DEBUG",
 	};
 
-	//FIXME comment
+	/**
+	 * Represents a location in the source in the runtime.
+	 * Used for logging precize source location when enabled.
+	 * */
 	public static class TTCN_Location {
 		public static enum entity_type_t {
 			LOCATION_UNKNOWN,
@@ -297,6 +300,14 @@ public final class TtcnLogger {
 			// intentionally empty
 		}
 
+		/**
+		 * Used to enter a new location block / statement block.
+		 *
+		 * @param file_name the name of the source file
+		 * @param line_number the actual line number
+		 * @param entity_type the type of the entity this location represents.
+		 * @param entity_name the name of the entity this location represents (if any).
+		 * */
 		public static TTCN_Location enter(final String file_name, final int line_number, final entity_type_t entity_type, final String entity_name) {
 			TTCN_Location temp;
 
@@ -325,10 +336,18 @@ public final class TtcnLogger {
 			return temp;
 		}
 
+		/**
+		 * Update the line number.
+		 *
+		 * @param new_lineno the new line number to use
+		 * */
 		public void update_lineno(final int new_lineno) {
 			line_number = new_lineno;
 		}
 
+		/**
+		 * Used to leave a new location block / statement block.
+		 * */
 		public void leave() {
 			actualSize--;
 		}
