@@ -264,28 +264,40 @@ public class PredefFunc {
 	}
 
 	private static CharCoding is_utf8(final int length, final String strptr) {
-		final char MSB = 1 << 7; // MSB is 1 in case of non ASCII character  
-		final char MSBmin1 = 1 << 6; // 0100 0000   
-		int i = 0;
-		while (length > i) {
-			if ( (strptr.charAt(i) & MSB) != 0) { // non ASCII char
-				char maskUTF8 = 1 << 6; // 111x xxxx shows how many additional bytes are there
-				if ((strptr.charAt(i) & maskUTF8) == 0) return CharCoding.UNKNOWN; // accepted 11xxx xxxx but received 10xx xxxx
-				int noofUTF8 = 0; // 11xx xxxxx -> 2 bytes, 111x xxxxx -> 3 bytes , 1111 xxxxx -> 4 bytes in UTF-8
+		if (length > strptr.length()) {
+			// string is too short to be UTF-8
+			return CharCoding.UNKNOWN;
+		}
+		// MSB is 1 in case of non ASCII character
+		final char MSB = 1 << 7;
+		// 0100 0000
+		final char MSBmin1 = 1 << 6;
+		for ( int i = 0; length > i; ++i ) {
+			if ( (strptr.charAt(i) & MSB) != 0) {
+				// non ASCII char
+				// 111x xxxx shows how many additional bytes are there
+				char maskUTF8 = 1 << 6;
+				if ((strptr.charAt(i) & maskUTF8) == 0) {
+					// accepted 11xxx xxxx but received 10xx xxxx
+					return CharCoding.UNKNOWN;
+				}
+				// 11xx xxxxx -> 2 bytes, 111x xxxxx -> 3 bytes , 1111 xxxxx -> 4 bytes in UTF-8
+				int noofUTF8 = 0;
 				while ( (strptr.charAt(i) & maskUTF8) != 0) {
 					++noofUTF8;
-					maskUTF8 >>= 1; // shift right the mask
+					// shift right the mask
+					maskUTF8 >>= 1;
 				}
-				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx      
+				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx
 				while (0 < noofUTF8 ) {
 					++i;
-					if ((strptr.charAt(i) & MSB) == 0 || (strptr.charAt(i) & MSBmin1) != 0 || i >= length) { // if not like this: 10xx xxxx
+					if ((strptr.charAt(i) & MSB) == 0 || (strptr.charAt(i) & MSBmin1) != 0 || i >= length) {
+						// if not like this: 10xx xxxx
 						return CharCoding.UNKNOWN;
 					}
 					--noofUTF8;
 				}
 			}
-			++i;
 		}
 		return CharCoding.UTF_8;
 	}
