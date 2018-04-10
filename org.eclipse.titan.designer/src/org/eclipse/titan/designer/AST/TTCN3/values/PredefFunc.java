@@ -264,15 +264,15 @@ public class PredefFunc {
 	}
 
 	private static CharCoding is_utf8(final int length, final String strptr) {
-		if (length > strptr.length()) {
-			// string is too short to be UTF-8
-			return CharCoding.UNKNOWN;
-		}
 		// MSB is 1 in case of non ASCII character
 		final char MSB = 1 << 7;
 		// 0100 0000
 		final char MSBmin1 = 1 << 6;
 		for ( int i = 0; length > i; ++i ) {
+			if (i >= strptr.length()) {
+				// string is too short to be UTF-8
+				return CharCoding.UNKNOWN;
+			}
 			if ( (strptr.charAt(i) & MSB) != 0) {
 				// non ASCII char
 				// 111x xxxx shows how many additional bytes are there
@@ -291,6 +291,10 @@ public class PredefFunc {
 				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx
 				while (0 < noofUTF8 ) {
 					++i;
+					if (i >= strptr.length()) {
+						// string is too short to be UTF-8
+						return CharCoding.UNKNOWN;
+					}
 					if ((strptr.charAt(i) & MSB) == 0 || (strptr.charAt(i) & MSBmin1) != 0 || i >= length) {
 						// if not like this: 10xx xxxx
 						return CharCoding.UNKNOWN;
