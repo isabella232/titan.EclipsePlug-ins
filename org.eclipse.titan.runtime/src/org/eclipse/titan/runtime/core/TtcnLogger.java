@@ -117,6 +117,8 @@ public final class TtcnLogger {
 
 	private static timestamp_format_t timestamp_format = timestamp_format_t.TIMESTAMP_TIME;
 	private static source_info_format_t source_info_format = source_info_format_t.SINFO_SINGLE;
+	private static log_event_types_t log_event_types = log_event_types_t.LOGEVENTTYPES_NO;
+
 	private static final Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
 	private static final String month_names[] = { "Jan", "Feb", "Mar",
 			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
@@ -151,6 +153,7 @@ public final class TtcnLogger {
 
 	public static enum timestamp_format_t {TIMESTAMP_TIME, TIMESTAMP_DATETIME, TIMESTAMP_SECONDS};
 	public static enum source_info_format_t {SINFO_NONE, SINFO_SINGLE, SINFO_STACK };
+	public static enum log_event_types_t {LOGEVENTTYPES_NO, LOGEVENTTYPES_YES, LOGEVENTTYPES_SUBCATEGORIES};
 	public static enum emergency_logging_behaviour_t { BUFFER_ALL, BUFFER_MASKED };
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
@@ -864,6 +867,14 @@ public final class TtcnLogger {
 
 	public static source_info_format_t get_source_info_format() {
 		return source_info_format;
+	}
+
+	public static void set_log_event_types(final log_event_types_t new_log_event_types) {
+		log_event_types = new_log_event_types;
+	}
+
+	public static log_event_types_t get_log_event_types() {
+		return log_event_types;
 	}
 
 	public static void print_logmatch_buffer() {
