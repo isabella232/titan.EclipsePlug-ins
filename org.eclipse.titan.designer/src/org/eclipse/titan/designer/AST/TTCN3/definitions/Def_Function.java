@@ -945,7 +945,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.generateCode( aData, source );
 		}
 		source.append( ") {\n" );
-		getLocation().create_location_object(aData, source, getIdentifier().getDisplayName());
+		getLocation().create_location_object(aData, source, "FUNCTION", getIdentifier().getDisplayName());
 		block.generateCode(aData, source);
 		if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
 			getLocation().release_location_object(aData, source);

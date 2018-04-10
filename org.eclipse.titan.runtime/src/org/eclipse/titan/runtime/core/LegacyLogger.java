@@ -120,10 +120,10 @@ public class LegacyLogger implements ILoggerPlugin {
 		append_header(returnValue, event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt());
 
 		if (event.getSourceInfo__list().isBound()) {
+			source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
 			int stack_size = event.getSourceInfo__list().sizeOf().getInt();
 			if (stack_size > 0) {
 				int i = 0;
-				source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
 				switch (source_info_format) {
 				case SINFO_NONE:
 					i = stack_size;
@@ -144,6 +144,36 @@ public class LegacyLogger implements ILoggerPlugin {
 					}
 					//FIXME implement remaining details
 					returnValue.append(loc.getFilename().getValue()).append(':').append(loc.getLine().getInt());
+
+					switch (loc.getEnt__type().enum_value) {
+					case controlpart:
+						returnValue.append(MessageFormat.format("(controlpart:{0})", loc.getEnt__name()));
+						break;
+					case testcase__:
+						returnValue.append(MessageFormat.format("(testcase:{0})", loc.getEnt__name()));
+						break;
+					case altstep__:
+						returnValue.append(MessageFormat.format("(altstep:{0})", loc.getEnt__name()));
+						break;
+					case function__:
+						returnValue.append(MessageFormat.format("(function:{0})", loc.getEnt__name()));
+						break;
+					case external__function:
+						returnValue.append(MessageFormat.format("(externalfunction:{0})", loc.getEnt__name()));
+						break;
+					case template__:
+						returnValue.append(MessageFormat.format("(template:{0})", loc.getEnt__name()));
+						break;
+					case UNBOUND_VALUE:
+					case UNKNOWN_VALUE:
+					case unknown:
+						break;
+					} 
+				}
+			} else {
+				if (source_info_format == source_info_format_t.SINFO_SINGLE ||
+						source_info_format == source_info_format_t.SINFO_STACK) {
+					returnValue.append('-');
 				}
 			}
 		}

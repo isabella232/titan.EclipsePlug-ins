@@ -928,7 +928,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 		} else {
 			final StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
-			getLocation().create_location_object(aData, source, getIdentifier().getDisplayName());
+			getLocation().create_location_object(aData, source, "TEMPLATE", getIdentifier().getDisplayName());
 			if (baseTemplate == null) {
 				if (type.getTypetype().equals(Type_type.TYPE_ARRAY)) {
 					final Array_Type arrayType = (Array_Type) type;

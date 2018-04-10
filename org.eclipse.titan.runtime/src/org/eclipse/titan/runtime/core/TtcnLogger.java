@@ -49,7 +49,6 @@ public final class TtcnLogger {
 			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
 			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
-			//default_console_mask.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 
 			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
 			log_all.bits[Severity.DEFAULTOP_UNQUALIFIED.ordinal()] = true;
@@ -276,8 +275,19 @@ public final class TtcnLogger {
 
 	//FIXME comment
 	public static class TTCN_Location {
+		public static enum entity_type_t {
+			LOCATION_UNKNOWN,
+			LOCATION_CONTROLPART,
+			LOCATION_TESTCASE,
+			LOCATION_ALTSTEP,
+			LOCATION_FUNCTION,
+			LOCATION_EXTERNALFUNCTION,
+			LOCATION_TEMPLATE
+		};
+
 		String file_name;
 		int line_number;
+		entity_type_t entity_type;
 		String entity_name;
 
 		static final ArrayList<TTCN_Location> locations = new ArrayList<TtcnLogger.TTCN_Location>();
@@ -287,7 +297,7 @@ public final class TtcnLogger {
 			// intentionally empty
 		}
 
-		public static TTCN_Location enter(final String file_name, final int line_number, final String entity_name) {
+		public static TTCN_Location enter(final String file_name, final int line_number, final entity_type_t entity_type, final String entity_name) {
 			TTCN_Location temp;
 
 			if (locations.size() > actualSize) {
@@ -305,6 +315,7 @@ public final class TtcnLogger {
 				temp.file_name = file_name;
 			}
 			temp.line_number = line_number;
+			temp.entity_type = entity_type;
 			if (entity_name == null) {
 				temp.entity_name = "<unknown>";
 			} else {

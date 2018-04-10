@@ -576,7 +576,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		//FIXME handle location object
 
 		final StringBuilder body = new StringBuilder();
-		getLocation().create_location_object(aData, body, getIdentifier().getDisplayName());
+		getLocation().create_location_object(aData, body, "ALTSTEP", getIdentifier().getDisplayName());
 		block.generateCode(aData, body);
 		altGuards.generateCodeAltstep(aData, body);
 

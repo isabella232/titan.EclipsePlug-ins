@@ -402,13 +402,15 @@ public class Location {
 	}
 
 	//TODO some parts still missing
-	public void create_location_object(final JavaGenData aData, final StringBuilder source, final String entityName) {
+	public void create_location_object(final JavaGenData aData, final StringBuilder source, final String entity_type, final String entityName) {
 		if (file != null && line > 0) {
 			if (aData.getAddSourceInfo()) {
 				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location");
+				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location.entity_type_t");
+
 				source.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", ", file.getName()));
 				source.append(line);
-				source.append(MessageFormat.format(", \"{2}\");\n", entityName));
+				source.append(MessageFormat.format(", entity_type_t.LOCATION_{0}, \"{1}\");\n", entity_type, entityName));
 				//FIXME implement rest
 			}
 		}

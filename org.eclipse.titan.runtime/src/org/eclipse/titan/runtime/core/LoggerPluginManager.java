@@ -649,6 +649,7 @@ public class LoggerPluginManager {
 
 				loc.getFilename().assign(temp.file_name);
 				loc.getLine().assign(temp.line_number);
+				loc.getEnt__type().assign(temp.entity_type.ordinal());
 				loc.getEnt__name().assign(temp.entity_name);
 			}
 		}
