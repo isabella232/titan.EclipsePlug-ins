@@ -1145,7 +1145,7 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-		myleaf.data_ptr = bc;
+
 		return myleaf.length;
 	}
 
