@@ -162,7 +162,7 @@ public abstract class Expression_Value extends Value {
 		/** any port "." checkstate "(" SingleExpression ")" */	ANY_CHECKSTATE_OPERATION,
 		/** all port "." checkstate "(" SingleExpression ")" */	ALL_CHECKSTATE_OPERATION,
 		/** Port "." checkstate "(" SingleExpression ")" */	CHECKSTATE_OPERATION
-		//FIXME missing: BSON2JSON, CBOR2JSON, JSON2BSON, JSON2CBOR
+		//FIXME missing: BSON2JSON, CBOR2JSON, JSON2BSON, JSON2CBOR, OPTYPE_GET_PORT_REF
 	}
 
 	/** The value of the expression if already evaluated, used to speed things up. */
