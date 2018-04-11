@@ -1072,7 +1072,7 @@ public class TitanInteger extends Base_Type {
 
 		final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
 		// Conversion to 2's complement.
-		if (twos_compl) {
+		if (twos_compl) {//TODO check the usefulness of this code
 			D = D.negate();
 			final byte[] tmp = D.toByteArray();
 			final int num_bytes = tmp.length;
