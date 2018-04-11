@@ -235,8 +235,6 @@ public class PredefFunc {
 		if (length % 2 != 0) {
 			throw new DecodeException( MessageFormat.format("remove_bom(): Wrong string. The number of nibbles ({0}) in string " +
 					"shall be divisible by 2", length));
-			//TODO: remove
-			//return encoded_value;
 		}
 
 		int length_of_BOM = 0;
@@ -246,13 +244,18 @@ public class PredefFunc {
 		else if (findBom(encoded_value, utf16be)) length_of_BOM = utf16be.length();
 		else if (findBom(encoded_value, utf16le)) length_of_BOM = utf16le.length();
 		else if (findBom(encoded_value, utf8)) length_of_BOM = utf8.length();
-		else return encoded_value; // no BOM found
+		else {
+			// no BOM found
+			return encoded_value;
+		}
 
 		return encoded_value.substring(length_of_BOM, length);
 	}
 
-	public static CharCoding is_ascii (final int length, final String strptr) {
-		final char nonASCII = 1 << 7;// MSB is 1 in case of non ASCII character  
+	public static CharCoding is_ascii(final String strptr) {
+		final int length = strptr.length();
+		// MSB is 1 in case of non ASCII character
+		final char nonASCII = 1 << 7;  
 		CharCoding ret = CharCoding.ASCII;
 		for (int i = 0; i < length; ++i) {
 			if ( ( strptr.charAt(i) & nonASCII ) != 0) {
@@ -263,16 +266,13 @@ public class PredefFunc {
 		return ret;
 	}
 
-	private static CharCoding is_utf8(final int length, final String strptr) {
+	private static CharCoding is_utf8(final String strptr) {
+		final int length = strptr.length();
 		// MSB is 1 in case of non ASCII character
 		final char MSB = 1 << 7;
 		// 0100 0000
 		final char MSBmin1 = 1 << 6;
 		for ( int i = 0; length > i; ++i ) {
-			if (i >= strptr.length()) {
-				// string is too short to be UTF-8
-				return CharCoding.UNKNOWN;
-			}
 			if ( (strptr.charAt(i) & MSB) != 0) {
 				// non ASCII char
 				// 111x xxxx shows how many additional bytes are there
@@ -291,11 +291,7 @@ public class PredefFunc {
 				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx
 				while (0 < noofUTF8 ) {
 					++i;
-					if (i >= strptr.length()) {
-						// string is too short to be UTF-8
-						return CharCoding.UNKNOWN;
-					}
-					if ((strptr.charAt(i) & MSB) == 0 || (strptr.charAt(i) & MSBmin1) != 0 || i >= length) {
+					if (i >= length || (strptr.charAt(i) & MSB) == 0 || (strptr.charAt(i) & MSBmin1) != 0) {
 						// if not like this: 10xx xxxx
 						return CharCoding.UNKNOWN;
 					}
@@ -373,9 +369,9 @@ public class PredefFunc {
 			}
 		}
 
-		if (is_ascii(length / 2, uc_str.toString()) == CharCoding.ASCII) {
+		if (is_ascii(uc_str.toString()) == CharCoding.ASCII) {
 			ret = CharCoding.ASCII;
-		} else if (CharCoding.UTF_8 == is_utf8(length / 2, uc_str.toString())) {
+		} else if (CharCoding.UTF_8 == is_utf8(uc_str.toString())) {
 			ret = CharCoding.UTF_8;
 		} else {
 			ret = CharCoding.UNKNOWN;
