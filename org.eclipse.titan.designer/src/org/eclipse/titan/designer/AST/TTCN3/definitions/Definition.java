@@ -663,7 +663,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		ParserUtilities.logParseTree( root, parser );
 		final ErroneousAttributeSpecification returnValue = root.errAttrSpec;
 		final List<SyntacticErrorStorage> errors = parser.getErrors();
-		final List<TITANMarker> warnings = parser.getWarningsAndErrors();
+		final List<TITANMarker> warningsAndErrors = parser.getWarningsAndErrors();
 		final List<TITANMarker> unsupportedConstructs = parser.getUnsupportedConstructs();
 
 		// add markers
@@ -674,8 +674,8 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 				ParserMarkerSupport.createOnTheFlySyntacticMarker(file, errors.get(i), IMarker.SEVERITY_ERROR, temp);
 			}
 		}
-		if (warnings != null) {
-			for (final TITANMarker marker : warnings) {
+		if (warningsAndErrors != null) {
+			for (final TITANMarker marker : warningsAndErrors) {
 				if (file.isAccessible()) {
 					final Location loc = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					loc.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
