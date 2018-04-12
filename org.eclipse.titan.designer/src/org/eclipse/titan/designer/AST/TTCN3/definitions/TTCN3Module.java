@@ -90,29 +90,29 @@ public final class TTCN3Module extends Module {
 
 	private static final String MISSINGREFERENCE = "There is no visible definition with name `{0}'' in module `{1}''";
 
-	private ArrayList<String> languageSpecifications;
+	private List<String> languageSpecifications;
 	private final List<ImportModule> importedModules;
 	private final List<FriendModule> friendModules;
-	private Definitions definitions;
+	private final Definitions definitions;
 	private ControlPart controlpart;
 
 	private Location commentLocation = null;
 
 	// for TTCNPP modules
-	Set<IFile> includedFiles = null;
+	private Set<IFile> includedFiles = null;
 	// for TTCNPP modules
-	List<Location> inactiveCodeLocations = null;
+	private List<Location> inactiveCodeLocations = null;
 
 	// The any type of the module
-	private Anytype_Type anytype;
-	private Def_Type anytypeDefinition;
+	private final Anytype_Type anytype;
+	private final Def_Type anytypeDefinition;
 
 	private WithAttributesPath withAttributesPath = null;
 
 	// The "supplied" version
 	private ProductIdentity versionNumber = null;
 
-	private List<Reference> missingReferences;
+	private final List<Reference> missingReferences;
 
 	public TTCN3Module(final Identifier identifier, final IProject project) {
 		super(identifier, project);
@@ -155,11 +155,11 @@ public final class TTCN3Module extends Module {
 		return builder;
 	}
 
-	public void setLanguageSpecifications(final ArrayList<String> languageSpecifications) {
+	public void setLanguageSpecifications(final List<String> languageSpecifications) {
 		this.languageSpecifications = languageSpecifications;
 	}
 
-	public ArrayList<String> getLanguageSpecifictions() {
+	public List<String> getLanguageSpecifictions() {
 		return languageSpecifications;
 	}
 

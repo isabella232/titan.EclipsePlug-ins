@@ -69,7 +69,7 @@ NOTE: unary operators, which are not on the highest priority level, are used twi
       If any of these unary operators was matched in the last rule, control must jump back to the rule of its precedence level ( NOT E4, NOT4B E11 ).
       Example case:
         not4b a & not4b b  <=>  not4b ( a & ( not4b b ) )
-        1st not4b matches at rule E4, but the 2nd not4b matches at rule P.
+        1st not4b matches in rule E11, but the 2nd not4b matches in rule P.
 */
 
 options {
@@ -116,26 +116,26 @@ import org.eclipse.titan.designer.parsers.ParserUtilities;
 @members
 {
 
+/**
+ * The currently parsed file object, or null if string is parsed
+ */
 private IFile actualFile = null;
+
+/**
+ * The line number of the first parsed character in the file.
+ * Line number starts from 1, it is 1 if the whole file is parsed. 
+ */
 private int line = 1;
+
+/**
+ * The index of the first parsed character in the file. This is NOT the column index.
+ * Offset number starts from 0, it is 0 if the whole file is parsed. 
+ */
 private int offset = 0;
 
-@SuppressWarnings("unused")
-
 /**
- * List of all the exceptions which are thrown by the rules
+ * markers of syntactical warnings and errors
  */
-private List<RecognitionException> exceptions = new ArrayList<RecognitionException>();
-
-/**
- * Handles an exception which is thrown by a rule.
- * Search for "catch [RecognitionException ex]" to see where it is used.
- * @param ex new exception to handle
- */
-public void reportError(RecognitionException ex) {
-	exceptions.add(ex);
-}
-
 private List<TITANMarker> warnings = new ArrayList<TITANMarker>();
 
 /**
@@ -186,11 +186,17 @@ public void reportWarning( final String aMessage, final Token aToken ) {
 	reportWarning( aMessage, aToken, aToken );
 }
 
+/**
+ * @return markers of syntactical warnings and errors
+ */
 public List<TITANMarker> getWarnings() {
 	return warnings;
 }
 
-private ArrayList<TITANMarker> unsupportedConstructs = new ArrayList<TITANMarker>();
+/**
+ * markers of unsupported constructs
+ */
+private List<TITANMarker> unsupportedConstructs = new ArrayList<TITANMarker>();
 
 /**
  * Adds a marker for configurable unsupported constructs.
@@ -207,7 +213,10 @@ public void reportUnsupportedConstruct( final String aMessage, final Token aStar
 	unsupportedConstructs.add(marker);
 }
 
-public ArrayList<TITANMarker> getUnsupportedConstructs() {
+/**
+ * @return markers of unsupported constructs
+ */
+public List<TITANMarker> getUnsupportedConstructs() {
 	return unsupportedConstructs;
 }
 
@@ -226,7 +235,7 @@ public void reportError( final String aMessage, final Token aStartToken, final T
 	warnings.add(marker);
 }
 
-public void setActualFile(IFile file) {
+public void setActualFile(final IFile file) {
 	actualFile = file;
 }
 
@@ -240,10 +249,13 @@ public void setOffset(final int offset) {
 
 private IProject project = null;
 
-public void setProject(IProject project) {
+public void setProject(final IProject project) {
 	this.project = project;
 }
 
+/**
+ * The currently parsed TTCN-3 module 
+ */
 private TTCN3Module act_ttcn3_module;
 
 public TTCN3Module getModule() {
@@ -252,16 +264,12 @@ public TTCN3Module getModule() {
 
 public void reset() {
 	super.reset();
-	if(exceptions != null && warnings != null && unsupportedConstructs != null) {
-		exceptions.clear();
+	if(warnings != null) {
 		warnings.clear();
+	}
+	if(unsupportedConstructs != null) {
 		unsupportedConstructs.clear();
 	}
-}
-
-
-/** Used to preload the class, also loading the TTCN-3 parser. */
-public static void preLoad() {
 }
 
 /**
@@ -298,7 +306,7 @@ public Token getLastVisibleToken() {
 	}
 
 	return temp;
-	}
+}
 
 /**
  * Create new location, which modified by the parser offset and line,
@@ -463,7 +471,7 @@ pr_TTCN3Module
 	Token definitionsEnd = null;
 	ControlPart controlpart = null;
 	MultipleWithAttributes attributes = null;
-	ArrayList<String> languageSpecifications = null;
+	List<String> languageSpecifications = null;
 }:
 (	m = pr_TTCN3ModuleKeyword	{ col = $m.start; }
 	i = pr_TTCN3ModuleId		{ act_ttcn3_module = new TTCN3Module( $i.identifier, project ); }
@@ -3650,7 +3658,7 @@ pr_LanguageKeyword:
 	LANGUAGE
 ;
 
-pr_LanguageSpec returns[ArrayList<String> languageSpec]
+pr_LanguageSpec returns[List<String> languageSpec]
 @init {
 	$languageSpec = new ArrayList<String>();
 }:
@@ -6324,26 +6332,29 @@ pr_AttribSpec returns [AttributeSpecification attributeSpecficiation]
 @init {
 	$attributeSpecficiation = null;
 }:
-(	s = pr_FreeText			{ $attributeSpecficiation = new AttributeSpecification($s.string);
-					$attributeSpecficiation.setLocation(getLocation( $s.start, $s.stop));}
+(	s = pr_FreeText
+		{	$attributeSpecficiation = new AttributeSpecification($s.string);
+			$attributeSpecficiation.setLocation(getLocation( $s.start, $s.stop));
+		}
 |	s1 = pr_FreeText
 	pr_Dot
-	s2 = pr_FreeText		{ ArrayList<String> temp = new ArrayList<String>(2);
-					temp.add($s1.string);
-					$attributeSpecficiation = new AttributeSpecification($s2.string, temp);
-					$attributeSpecficiation.setLocation(getLocation( $s1.start, $s2.stop));}
+	s2 = pr_FreeText
+		{	final List<String> temp = new ArrayList<String>(2);
+			temp.add($s1.string);
+			$attributeSpecficiation = new AttributeSpecification($s2.string, temp);
+			$attributeSpecficiation.setLocation(getLocation( $s1.start, $s2.stop));
+		}
 |	b = pr_BeginChar
 	encodings = pr_AttributeSpecEncodings
 	pr_EndChar
 	pr_Dot
-	s3 = pr_FreeText		{ $attributeSpecficiation = new AttributeSpecification($s3.string, $encodings.encodings);
-					$attributeSpecficiation.setLocation(getLocation( $b.start, $s3.stop));}
-)
-{
-	
-};
+	s3 = pr_FreeText
+		{	$attributeSpecficiation = new AttributeSpecification($s3.string, $encodings.encodings);
+			$attributeSpecficiation.setLocation(getLocation( $b.start, $s3.stop));
+		}
+);
 
-pr_AttributeSpecEncodings  returns [ArrayList<String> encodings]:
+pr_AttributeSpecEncodings  returns [List<String> encodings]:
 (	s = pr_FreeText			{ $encodings = new ArrayList<String>(); $encodings.add($s.string);}
 	(	pr_Comma
 		s2 = pr_FreeText	{ $encodings.add($s2.string);}
