@@ -577,7 +577,7 @@ public class TTCN_Buffer {
 		if (align != 0) {
 			if ((local_fieldorder == raw_order_t.ORDER_LSB && (local_bitorder != coding_par.byteorder)) ||
 					(local_fieldorder == raw_order_t.ORDER_MSB && (local_bitorder == coding_par.byteorder))) {
-				char[] st = new char[(len + loc_align + 7) / 8];
+				final char[] st = new char[(len + loc_align + 7) / 8];
 				if (align > 0) {
 					System.arraycopy(s, 0, st, 0, (len + 7) / 8);
 					if (len % 8 != 0) {
@@ -587,7 +587,7 @@ public class TTCN_Buffer {
 					if (loc_align % 8 != 0) {
 						final int bit_bound = loc_align % 8;
 						final int max_index = st.length - loc_align / 8 - 1;
-						char[] ptr = new char[max_index + 1];
+						final char[] ptr = new char[max_index + 1];
 						for (int a = 0; a < (len + 7) / 8; a++) {
 							ptr[a] |= (s[a] << bit_bound) & 0xff;
 							if (a < max_index) {
@@ -632,7 +632,7 @@ public class TTCN_Buffer {
 		// System.out.println("new_size: "+new_size+" new_bit_pos: "+new_bit_pos+"\r\n");
 
 		if (coding_par.hexorder == raw_order_t.ORDER_MSB) {
-			char[] st2 = new char[(len + 7) / 8];
+			final char[] st2 = new char[(len + 7) / 8];
 			if (bit_pos == 4) {
 				st2[0] = s[0];
 				for (int a = 1; a < (len + 7) / 8; a++) {
