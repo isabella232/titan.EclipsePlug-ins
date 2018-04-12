@@ -34,9 +34,9 @@ public class CfgParseResult {
 	private List<Token> mTokens = null;
 
 	/**
-	 * list of syntactic warnings collected during parsing
+	 * list of syntactic warnings and errors collected during parsing
 	 */
-	private List<TITANMarker> mWarnings = new ArrayList<TITANMarker>();
+	private List<TITANMarker> mWarningsAndErrors = new ArrayList<TITANMarker>();
 
 	/** included file names from [INCLUDE] section */
 	private List<String> mIncludeFiles = new ArrayList<String>();
@@ -166,12 +166,12 @@ public class CfgParseResult {
 		this.mTokens = aTokens;
 	}
 
-	public List<TITANMarker> getWarnings() {
-		return mWarnings;
+	public List<TITANMarker> getWarningsAndErrors() {
+		return mWarningsAndErrors;
 	}
 
-	public void setWarnings(List<TITANMarker> aWarnings) {
-		this.mWarnings = aWarnings;
+	public void setWarnings(List<TITANMarker> aWarningsAndErrors) {
+		this.mWarningsAndErrors = aWarningsAndErrors;
 	}
 
 	public List<String> getIncludeFiles() {

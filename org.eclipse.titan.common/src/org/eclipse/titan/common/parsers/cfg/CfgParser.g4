@@ -88,7 +88,7 @@ import java.util.regex.Pattern;
 	}
 
 	public void reportWarning(TITANMarker marker){
-		mCfgParseResult.getWarnings().add(marker);
+		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
 
 	public void setActualFile(IFile file) {
@@ -182,7 +182,7 @@ import java.util.regex.Pattern;
 	 */
 	public void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		TITANMarker marker = createError( aMessage, aStartToken, aEndToken );
-		mCfgParseResult.getWarnings().add(marker);
+		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
 
 	/**

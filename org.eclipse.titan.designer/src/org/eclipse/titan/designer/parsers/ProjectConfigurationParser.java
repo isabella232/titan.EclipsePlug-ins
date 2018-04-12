@@ -376,7 +376,7 @@ public final class ProjectConfigurationParser {
 									final List<Macro> aMacros,
 									final List<IFile> aFilesToCheck,
 									final List<IFile> aFilesChecked ) {
-		List<TITANMarker> warnings = null;
+		List<TITANMarker> warningsAndErrors = null;
 		List<SyntacticErrorStorage> errorsStored = null;
 		IDocument document = null;
 		ISemanticTITANEditor tempEditor = null;
@@ -401,7 +401,7 @@ public final class ProjectConfigurationParser {
 		errorsStored = cfgAnalyzer.getErrorStorage();
 		final CfgParseResult cfgParseResult = cfgAnalyzer.getCfgParseResult();
 		if ( cfgParseResult != null ) {
-			warnings = cfgParseResult.getWarnings();
+			warningsAndErrors = cfgParseResult.getWarningsAndErrors();
 			aMacros.addAll( cfgParseResult.getMacros() );
 			definitions.putAll( cfgParseResult.getDefinitions() );
 
@@ -450,8 +450,8 @@ public final class ProjectConfigurationParser {
 			GlobalIntervalHandler.putInterval(document, cfgAnalyzer.getRootInterval());
 		}
 
-		if (warnings != null) {
-			for (TITANMarker marker : warnings) {
+		if (warningsAndErrors != null) {
+			for (TITANMarker marker : warningsAndErrors) {
 				if (file.isAccessible()) {
 					Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					location.reportExternalProblem(marker.getMessage(), marker.getSeverity(),
