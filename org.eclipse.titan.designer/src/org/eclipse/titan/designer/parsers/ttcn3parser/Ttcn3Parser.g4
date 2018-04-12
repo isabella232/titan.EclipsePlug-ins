@@ -136,7 +136,7 @@ private int offset = 0;
 /**
  * markers of syntactical warnings and errors
  */
-private List<TITANMarker> warnings = new ArrayList<TITANMarker>();
+private List<TITANMarker> warningsAndErrors = new ArrayList<TITANMarker>();
 
 /**
  * Creates a marker.
@@ -173,7 +173,7 @@ public TITANMarker createMarker( final String aMessage, final Token aStartToken,
  */
 public void reportWarning( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 	TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL );
-	warnings.add(marker);
+	warningsAndErrors.add(marker);
 }
 
 /**
@@ -189,8 +189,8 @@ public void reportWarning( final String aMessage, final Token aToken ) {
 /**
  * @return markers of syntactical warnings and errors
  */
-public List<TITANMarker> getWarnings() {
-	return warnings;
+public List<TITANMarker> getWarningsAndErrors() {
+	return warningsAndErrors;
 }
 
 /**
@@ -232,7 +232,7 @@ public List<TITANMarker> getUnsupportedConstructs() {
  */
 public void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 	TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL );
-	warnings.add(marker);
+	warningsAndErrors.add(marker);
 }
 
 public void setActualFile(final IFile file) {
@@ -264,8 +264,8 @@ public TTCN3Module getModule() {
 
 public void reset() {
 	super.reset();
-	if(warnings != null) {
-		warnings.clear();
+	if(warningsAndErrors != null) {
+		warningsAndErrors.clear();
 	}
 	if(unsupportedConstructs != null) {
 		unsupportedConstructs.clear();

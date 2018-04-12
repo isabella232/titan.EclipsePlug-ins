@@ -663,7 +663,7 @@ public abstract class Definition extends Assignment implements IAppendableSyntax
 		ParserUtilities.logParseTree( root, parser );
 		final ErroneousAttributeSpecification returnValue = root.errAttrSpec;
 		final List<SyntacticErrorStorage> errors = parser.getErrors();
-		final List<TITANMarker> warnings = parser.getWarnings();
+		final List<TITANMarker> warnings = parser.getWarningsAndErrors();
 		final List<TITANMarker> unsupportedConstructs = parser.getUnsupportedConstructs();
 
 		// add markers

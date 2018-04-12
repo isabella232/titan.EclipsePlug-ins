@@ -46,8 +46,8 @@ public final class TTCN3ReparseUpdater {
 	/** Errors from the parser (indicating syntax errors). */
 	private List<SyntacticErrorStorage> mErrors;
 
-	/** syntactic warnings created by the parser. */
-	private List<TITANMarker> warnings;
+	/** syntactic warnings and errors created by the parser. */
+	private List<TITANMarker> warningsAndErrors;
 	/** list of markers marking the locations of unsupported constructs. */
 	private List<TITANMarker> unsupportedConstructs;
 	/** map of markers marking the locations of unsupported constructs. */
@@ -416,8 +416,8 @@ public final class TTCN3ReparseUpdater {
 
 	public final void reportSyntaxErrors() {
 		reportSpecificSyntaxErrors();
-		if (warnings != null) {
-			for (TITANMarker marker : warnings) {
+		if (warningsAndErrors != null) {
+			for (TITANMarker marker : warningsAndErrors) {
 				if (file.isAccessible()) {
 					Location location = new Location(file, marker.getLine(), marker.getOffset(), marker.getEndOffset());
 					location.reportExternalProblem(marker.getMessage(), marker.getSeverity(), GeneralConstants.ONTHEFLY_SYNTACTIC_MARKER);
@@ -477,7 +477,7 @@ public final class TTCN3ReparseUpdater {
 		}
 		// double wideparsing = System.nanoTime();
 		mErrors = null;
-		warnings = null;
+		warningsAndErrors = null;
 		Iterator<TITANMarker> iterator = unsupportedConstructs.iterator();
 		while (iterator.hasNext()) {
 			TITANMarker marker = iterator.next();
@@ -534,7 +534,7 @@ public final class TTCN3ReparseUpdater {
 
 		userDefined.reparse(parser);
 		mErrors = parserListener.getErrorsStored();
-		warnings = parser.getWarnings();
+		warningsAndErrors = parser.getWarningsAndErrors();
 		unsupportedConstructs.addAll(parser.getUnsupportedConstructs());
 
 		int result = measureIntervallDamage();

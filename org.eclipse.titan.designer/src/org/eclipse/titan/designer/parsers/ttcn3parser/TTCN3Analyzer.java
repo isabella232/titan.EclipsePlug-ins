@@ -50,7 +50,7 @@ import org.eclipse.titan.designer.properties.data.PreprocessorSymbolsOptionsData
  */
 public class TTCN3Analyzer implements ISourceAnalyzer {
 
-	private List<TITANMarker> warnings;
+	private List<TITANMarker> warningsAndErrors;
 	private List<TITANMarker> unsupportedConstructs;
 	private Interval rootInterval;
 	private TTCN3Module actualTtc3Module;
@@ -68,7 +68,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 
 	@Override
 	public List<TITANMarker> getWarnings() {
-		return warnings;
+		return warningsAndErrors;
 	}
 
 	@Override
@@ -219,14 +219,14 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 			parser.getInterpreter().setPredictionMode(PredictionMode.SLL);
 			final ParseTree root = parser.pr_TTCN3File();
 			ParserUtilities.logParseTree( root, parser );
-			warnings = parser.getWarnings();
+			warningsAndErrors = parser.getWarningsAndErrors();
 			mErrorsStored = lexerListener.getErrorsStored();
 			mErrorsStored.addAll( parserListener.getErrorsStored() );
 		} catch (RecognitionException e) {
 			// quit
 		}
 
-		if (!warnings.isEmpty() || !mErrorsStored.isEmpty()) {
+		if (!warningsAndErrors.isEmpty() || !mErrorsStored.isEmpty()) {
 			//SLL mode might have failed, try LL mode
 			try {
 				CharStream charStream2 = new UnbufferedCharStream( aReader );
@@ -237,7 +237,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 				parser.getInterpreter().setPredictionMode(PredictionMode.LL);
 				final ParseTree root = parser.pr_TTCN3File();
 				ParserUtilities.logParseTree( root, parser );
-				warnings = parser.getWarnings();
+				warningsAndErrors = parser.getWarningsAndErrors();
 				mErrorsStored = lexerListener.getErrorsStored();
 				mErrorsStored.addAll( parserListener.getErrorsStored() );
 			} catch(RecognitionException e) {
@@ -251,7 +251,7 @@ public class TTCN3Analyzer implements ISourceAnalyzer {
 		if ( preprocessor != null ) {
 			// if the file was preprocessed
 			mErrorsStored.addAll(preprocessor.getErrorStorage());
-			warnings.addAll( preprocessor.getWarnings() );
+			warningsAndErrors.addAll( preprocessor.getWarnings() );
 			unsupportedConstructs.addAll( preprocessor.getUnsupportedConstructs() );
 			if ( actualTtc3Module != null ) {
 				actualTtc3Module.setIncludedFiles( preprocessor.getIncludedFiles() );
