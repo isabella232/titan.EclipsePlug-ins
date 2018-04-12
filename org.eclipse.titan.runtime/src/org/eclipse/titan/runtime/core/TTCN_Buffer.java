@@ -586,13 +586,10 @@ public class TTCN_Buffer {
 				} else {
 					if (loc_align % 8 != 0) {
 						final int bit_bound = loc_align % 8;
-						final int max_index = (len + loc_align + 7) / 8 - loc_align / 8 - 1;
-						char[] ptr = new char[st.length - loc_align / 8];
-						System.arraycopy(st, loc_align / 8, ptr, 0, st.length - loc_align / 8);
-						final int mask = RAW.BitMaskTable[bit_bound];
+						final int max_index = st.length - loc_align / 8 - 1;
+						char[] ptr = new char[max_index + 1];
 						for (int a = 0; a < (len + 7) / 8; a++) {
-							ptr[a] &= mask;
-							ptr[a] |= s[a] << (8 - bit_bound);
+							ptr[a] |= (s[a] << bit_bound) & 0xff;
 							if (a < max_index) {
 								ptr[a + 1] = (char) (s[a] >> bit_bound);
 							}
