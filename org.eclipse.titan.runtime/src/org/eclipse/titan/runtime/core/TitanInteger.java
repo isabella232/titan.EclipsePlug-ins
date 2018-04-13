@@ -1062,17 +1062,6 @@ public class TitanInteger extends Base_Type {
 		}
 
 		final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
-		// Conversion to 2's complement.
-		if (twos_compl) {//TODO check the usefulness of this code
-			D = D.negate();
-			final byte[] tmp = D.toByteArray();
-			final int num_bytes = tmp.length;
-			for (int a = 0; a < num_bytes; a++) {
-				tmp[a] = (byte) ~tmp[a];
-			}
-			D = new BigInteger(tmp);
-			D = D.add(BigInteger.ONE);
-		}
 
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
@@ -1121,7 +1110,12 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = length * 8;
 		} else {
-			final byte[] tmp = D.abs().toByteArray();
+			final byte[] tmp;
+			if (twos_compl) {
+				tmp = D.toByteArray();
+			} else {
+				tmp = D.abs().toByteArray();
+			}
 			final int num_bytes = tmp.length;
 			for (int a = 0; a < length; a++) {
 				if (twos_compl && num_bytes - 1 < a) {
