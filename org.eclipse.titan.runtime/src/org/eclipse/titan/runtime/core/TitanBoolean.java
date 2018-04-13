@@ -369,8 +369,7 @@ public class TitanBoolean extends Base_Type {
 			tmp = boolean_value ? 0xFF : 0x00;
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_ptr = bc = new char[length];
-			myleaf.data_ptr_used = true;
+			myleaf.data_array = bc = new char[length];
 		} else {
 			bc = myleaf.data_array;
 		}

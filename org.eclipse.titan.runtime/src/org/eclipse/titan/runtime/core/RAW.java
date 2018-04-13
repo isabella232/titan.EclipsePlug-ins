@@ -104,7 +104,6 @@ public class RAW {
 		/** indicates that the node is leaf (contains actual data) or not
 		 *  (contains pointers to other nodes) */
 		public boolean isleaf;
-		public boolean data_ptr_used; /**< Whether data_ptr member is used, not data_array */
 		public boolean rec_of;
 		public RAW_enc_tree parent;
 		public RAW_enc_tr_pos curr_pos;
@@ -129,13 +128,12 @@ public class RAW {
 		public RAW_enc_pointer  pointerto; /**< calc is CALC_POINTER */
 		public int num_of_nodes;
 		public RAW_enc_tree nodes[];
-		public char data_ptr[];  /**< data_ptr_used==true */
 		public char data_array[] = new char[RAW_INT_ENC_LENGTH];  /**< false */
 
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;
 			this.isleaf = is_leaf;
-			data_ptr_used = false;
+			//data_ptr_used = false;
 			rec_of = false;
 			parent = par;
 			curr_pos = new RAW_enc_tr_pos(par_pos.level + 1, new int[par_pos.level + 1]);
@@ -281,11 +279,7 @@ public class RAW {
 				if (ext_bit != ext_bit_t.EXT_BIT_NO) {
 					buf.start_ext_bit(ext_bit == ext_bit_t.EXT_BIT_REVERSE);
 				}
-				if (data_ptr_used) {
-					buf.put_b(length - align_length, data_ptr, coding_par, align);
-				} else {
 					buf.put_b(length - align_length, data_array, coding_par, align);
-				}
 				if (ext_bit_handling > 1) {
 					buf.stop_ext_bit();
 				} else if (ext_bit != ext_bit_t.EXT_BIT_NO && !(ext_bit_handling != 0)) {

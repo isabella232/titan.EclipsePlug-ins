@@ -937,8 +937,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
-			myleaf.data_ptr = bc = new char[length];
-			myleaf.data_ptr_used = true;
+			myleaf.data_array = bc = new char[length];
 		} else {
 			bc = myleaf.data_array;
 		}
@@ -1052,8 +1051,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_ptr = bc = new char[length];
-			myleaf.data_ptr_used = true;
+			myleaf.data_array = bc = new char[length];
 		} else {
 			bc = myleaf.data_array;
 		}

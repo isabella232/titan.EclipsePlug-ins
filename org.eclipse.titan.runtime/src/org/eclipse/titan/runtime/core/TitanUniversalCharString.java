@@ -1671,9 +1671,8 @@ public class TitanUniversalCharString extends Base_Type {
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		myleaf.data_ptr = new char[buff_len];
-		System.arraycopy(buf.get_data(), 0, myleaf.data_ptr, 0, buff_len);
-		myleaf.data_ptr_used = true;
+		myleaf.data_array = new char[buff_len];
+		System.arraycopy(buf.get_data(), 0, myleaf.data_array, 0, buff_len);
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
 			myleaf.align = -align_length;
 		} else {
