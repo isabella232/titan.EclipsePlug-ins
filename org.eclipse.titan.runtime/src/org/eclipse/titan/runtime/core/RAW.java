@@ -104,7 +104,6 @@ public class RAW {
 		/** indicates that the node is leaf (contains actual data) or not
 		 *  (contains pointers to other nodes) */
 		public boolean isleaf;
-		public boolean must_free;  /**< data_ptr was allocated, must be freed */
 		public boolean data_ptr_used; /**< Whether data_ptr member is used, not data_array */
 		public boolean rec_of;
 		public RAW_enc_tree parent;
@@ -136,7 +135,6 @@ public class RAW {
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;
 			this.isleaf = is_leaf;
-			must_free = false;
 			data_ptr_used = false;
 			rec_of = false;
 			parent = par;

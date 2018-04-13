@@ -708,11 +708,7 @@ public class TitanCharString extends Base_Type {
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (p_td.raw.fieldlength >= 0) {
-			myleaf.must_free = false;
 			myleaf.data_ptr_used = true;
 			myleaf.data_ptr = val_ptr.toString().toCharArray();
 		} else {
@@ -722,7 +718,6 @@ public class TitanCharString extends Base_Type {
 				myleaf.data_ptr[i] = val_ptr.charAt(i);
 			}
 			myleaf.data_ptr[val_ptr.length()] = '0';
-			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 			bl += 8;
 		}

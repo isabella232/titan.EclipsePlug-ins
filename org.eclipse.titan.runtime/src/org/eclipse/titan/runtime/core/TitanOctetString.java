@@ -704,15 +704,10 @@ public class TitanOctetString extends Base_Type {
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
-		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
 		if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && myleaf.coding_par.bitorder == raw_order_t.ORDER_MSB) {
 			if (blength > RAW.RAW_INT_ENC_LENGTH) {
 				myleaf.data_ptr = new char[blength];
-				myleaf.must_free = true;
 				myleaf.data_ptr_used = true;
 			} else {
 				bc = myleaf.data_array;

@@ -897,10 +897,6 @@ public class TitanInteger extends Base_Type {
 		if (neg_sgbit) {
 			value = -value;
 		}
-		//myleaf.ext_bit=EXT_BIT_NO;
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
 			val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
 			int v2 = value;
@@ -942,7 +938,6 @@ public class TitanInteger extends Base_Type {
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
 			myleaf.data_ptr = bc = new char[length];
-			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
 			bc = myleaf.data_array;
@@ -1025,9 +1020,6 @@ public class TitanInteger extends Base_Type {
 		// `if (neg_sgbit) tmp->neg = tmp->neg == 0;' is not needed, because the
 		// sign is stored separately from the number.  Default encoding of negative
 		// values in 2's complement form.
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			val_bits = D.bitLength()  + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
@@ -1064,7 +1056,6 @@ public class TitanInteger extends Base_Type {
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
 			myleaf.data_ptr = bc = new char[length];
-			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
 			bc = myleaf.data_array;

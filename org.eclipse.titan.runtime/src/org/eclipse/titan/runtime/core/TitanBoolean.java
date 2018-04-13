@@ -368,13 +368,8 @@ public class TitanBoolean extends Base_Type {
 		} else {
 			tmp = boolean_value ? 0xFF : 0x00;
 		}
-		// myleaf.ext_bit=EXT_BIT_NO;
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
 			myleaf.data_ptr = bc = new char[length];
-			myleaf.must_free = true;
 			myleaf.data_ptr_used = true;
 		} else {
 			bc = myleaf.data_array;

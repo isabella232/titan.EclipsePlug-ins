@@ -697,12 +697,6 @@ public class TitanHexString extends Base_Type {
 			nbits = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
-
-		myleaf.must_free = false;
 		myleaf.data_ptr_used = true;
 		myleaf.data_ptr = new char[(nibbles_ptr.length + 1) / 2];
 
