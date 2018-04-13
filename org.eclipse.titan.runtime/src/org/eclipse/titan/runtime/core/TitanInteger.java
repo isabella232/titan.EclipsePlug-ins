@@ -1044,9 +1044,6 @@ public class TitanInteger extends Base_Type {
 		} else {
 			length = (p_td.raw.fieldlength + 7) / 8;
 			int min_bits = RAW.min_bits(D);
-			//if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
-			//	min_bits++;
-			//}
 			if (min_bits > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
