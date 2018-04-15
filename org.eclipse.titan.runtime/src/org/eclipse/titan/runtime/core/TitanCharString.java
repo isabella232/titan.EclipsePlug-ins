@@ -708,22 +708,15 @@ public class TitanCharString extends Base_Type {
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (p_td.raw.fieldlength >= 0) {
-			myleaf.must_free = false;
-			myleaf.data_ptr_used = true;
-			myleaf.data_ptr = val_ptr.toString().toCharArray();
+			myleaf.data_array = val_ptr.toString().toCharArray();
 		} else {
 			// NULL terminated
-			myleaf.data_ptr = new char[val_ptr.length() + 1];
+			myleaf.data_array = new char[val_ptr.length() + 1];
 			for (int i = 0; i < val_ptr.length(); i++) {
-				myleaf.data_ptr[i] = val_ptr.charAt(i);
+				myleaf.data_array[i] = val_ptr.charAt(i);
 			}
-			myleaf.data_ptr[val_ptr.length()] = '0';
-			myleaf.must_free = true;
-			myleaf.data_ptr_used = true;
+			myleaf.data_array[val_ptr.length()] = '0';
 			bl += 8;
 		}
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {

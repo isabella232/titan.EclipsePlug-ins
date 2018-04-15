@@ -897,10 +897,6 @@ public class TitanInteger extends Base_Type {
 		if (neg_sgbit) {
 			value = -value;
 		}
-		//myleaf.ext_bit=EXT_BIT_NO;
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) { // IntX (variable length)
 			val_bits = (p_td.raw.comp != raw_sign_t.SG_NO) ? 1 : 0; // bits needed to store the value
 			int v2 = value;
@@ -941,9 +937,7 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
-			myleaf.data_ptr = bc = new char[length];
-			myleaf.must_free = true;
-			myleaf.data_ptr_used = true;
+			myleaf.data_array = bc = new char[length];
 		} else {
 			bc = myleaf.data_array;
 		}
@@ -1025,9 +1019,6 @@ public class TitanInteger extends Base_Type {
 		// `if (neg_sgbit) tmp->neg = tmp->neg == 0;' is not needed, because the
 		// sign is stored separately from the number.  Default encoding of negative
 		// values in 2's complement form.
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			val_bits = D.bitLength()  + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
@@ -1052,9 +1043,6 @@ public class TitanInteger extends Base_Type {
 		} else {
 			length = (p_td.raw.fieldlength + 7) / 8;
 			int min_bits = RAW.min_bits(D);
-			//if(p_td.raw.comp == raw_sign_t.SG_SG_BIT) {
-			//	min_bits++;
-			//}
 			if (min_bits > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
@@ -1063,25 +1051,12 @@ public class TitanInteger extends Base_Type {
 			}
 		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_ptr = bc = new char[length];
-			myleaf.must_free = true;
-			myleaf.data_ptr_used = true;
+			myleaf.data_array = bc = new char[length];
 		} else {
 			bc = myleaf.data_array;
 		}
 
 		final boolean twos_compl = (D.signum() == -1) && !neg_sgbit;
-		// Conversion to 2's complement.
-		if (twos_compl) {//TODO check the usefulness of this code
-			D = D.negate();
-			final byte[] tmp = D.toByteArray();
-			final int num_bytes = tmp.length;
-			for (int a = 0; a < num_bytes; a++) {
-				tmp[a] = (byte) ~tmp[a];
-			}
-			D = new BigInteger(tmp);
-			D = D.add(BigInteger.ONE);
-		}
 
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
@@ -1130,7 +1105,12 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = length * 8;
 		} else {
-			final byte[] tmp = D.abs().toByteArray();
+			final byte[] tmp;
+			if (twos_compl) {
+				tmp = D.toByteArray();
+			} else {
+				tmp = D.abs().toByteArray();
+			}
 			final int num_bytes = tmp.length;
 			for (int a = 0; a < length; a++) {
 				if (twos_compl && num_bytes - 1 < a) {

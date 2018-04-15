@@ -592,13 +592,8 @@ public class TitanFloat extends Base_Type {
 		if (Double.isNaN(tmp)) {
 			TTCN_EncDec_ErrorContext.error_internal("Value is NaN.");
 		}
-		if (myleaf.must_free) {
-			myleaf.data_ptr = null;
-		}
 		if (length > RAW.RAW_INT_ENC_LENGTH) {
-			myleaf.data_ptr = bc = new char[length];
-			myleaf.must_free = true;
-			myleaf.data_ptr_used = true;
+			myleaf.data_array = bc = new char[length];
 		} else {
 			bc = myleaf.data_array;
 		}
