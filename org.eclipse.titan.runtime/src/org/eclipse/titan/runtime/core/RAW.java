@@ -133,7 +133,6 @@ public class RAW {
 		public RAW_enc_tree(final boolean is_leaf, final RAW_enc_tree par, final RAW_enc_tr_pos par_pos, final int my_pos, final TTCN_RAWdescriptor raw_attr) {
 			boolean orders = false;
 			this.isleaf = is_leaf;
-			//data_ptr_used = false;
 			rec_of = false;
 			parent = par;
 			curr_pos = new RAW_enc_tr_pos(par_pos.level + 1, new int[par_pos.level + 1]);
