@@ -704,14 +704,11 @@ public class TitanOctetString extends Base_Type {
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
-		//myleaf.data_ptr_used = true;
 		if (p_td.raw.extension_bit != ext_bit_t.EXT_BIT_NO && myleaf.coding_par.bitorder == raw_order_t.ORDER_MSB) {
 			if (blength > RAW.RAW_INT_ENC_LENGTH) {
 				myleaf.data_array = new char[blength];
-			//	myleaf.data_ptr_used = true;
 			} else {
 				bc = myleaf.data_array;
-			//	myleaf.data_ptr_used = false;
 			}
 			for (int a = 0; a < blength; a++){
 				bc[a] = (char) (val_ptr[a] << 1);
@@ -720,9 +717,9 @@ public class TitanOctetString extends Base_Type {
 			myleaf.data_array = val_ptr;
 		}
 		if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
-			myleaf.align = -align_length;
-		} else {
 			myleaf.align = align_length;
+		} else {
+			myleaf.align = -align_length;
 		}
 		return myleaf.length = bl + align_length;
 	}
