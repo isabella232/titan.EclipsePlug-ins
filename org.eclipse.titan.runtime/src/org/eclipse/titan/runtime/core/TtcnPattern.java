@@ -219,9 +219,8 @@ public class TtcnPattern {
 				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
 				if ( c2 == '"' ) {
 					javaPattern.append('"');
-				} else {
-					//TODO: program error, single '"' is the end of the string, which is handled by the parser
 				}
+				// else is not needed, because single '"' is the end of the string, which is handled by the parser
 				break;
 			}
 			case '$':
@@ -241,9 +240,8 @@ public class TtcnPattern {
 				final char c2 = ttcnPattern.charAt(pos.getAndIncrement());
 				if ( c2 == '\\' ) {
 					convertStaticReference( ttcnPattern, pos, javaPattern, refs );
-				} else {
-					//TODO: dynamic references are already resolved
 				}
+				// else is not needed, because dynamic references are already resolved
 				break;
 			}
 			//TODO: special cases: ()|
@@ -326,8 +324,7 @@ public class TtcnPattern {
 			convertCharsetReference(ttcnPattern, pos, javaPattern, isSet, refs);
 			break;
 		default:
-			//TODO: error, not supported
-			break;
+			throw new TtcnError("Escape character \\" + c + " is not supported at position " + pos.get());
 		}
 	}
 
@@ -352,8 +349,7 @@ public class TtcnPattern {
 				convertEscaped( ttcnPattern, pos, javaPattern, true, refs );
 				break;
 			case '^':
-				//TODO: error, it can be only the first character
-				break;
+				throw new TtcnError("Character ^ can be only the first character of th set at position " + pos.get());
 			case '[':
 				// [ within a set defines a literal [
 				javaPattern.append("\\[");
@@ -392,7 +388,7 @@ public class TtcnPattern {
 			//TODO: escape refValue?
 			javaPattern.append( refValue );
 		} else {
-			//TODO: error
+			throw new TtcnError("Invalid static reference at position " + pos.get());
 		}
 	}
 
@@ -417,7 +413,7 @@ public class TtcnPattern {
 			final String refValue = refs.get(ref);
 			javaPattern.append( isSet ? refValue : '[' + refValue + ']' );
 		} else {
-			//TODO: error
+			throw new TtcnError("Invalid character set reference at position " + pos.get());
 		}
 	}
 
@@ -429,7 +425,6 @@ public class TtcnPattern {
 	 * @param javaPattern converted java pattern
 	 */
 	private static void convertRepetition(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
-		//TODO: add try-catch, and return error
 		final String input = ttcnPattern.substring(pos.get());
 		Matcher m = PATTERN_REPETITION_SINGLE.matcher(input);
 		if ( m.matches() ) {
@@ -454,20 +449,19 @@ public class TtcnPattern {
 				}
 				javaPattern.append( '}' );
 			} else {
-				//TODO: error
+				throw new TtcnError("Invalid pattern repetition at position " + pos.get());
 			}
 		}
 	}
 
 	/**
-	 * converts TTCN-3 pattern escaped character within a set to java pattern character.
+	 * converts unichar list to java pattern characters.
 	 * NOTE: \ is already parsed
 	 * @param ttcnPattern TTCN-3 pattern
 	 * @param pos character position in ttcnPattern
 	 * @param javaPattern converted java pattern
 	 */
 	private static void convertUnicharList(final String ttcnPattern, final AtomicInteger pos, final StringBuilder javaPattern) {
-		//TODO: add try-catch, and return error
 		final String input = ttcnPattern.substring(pos.get());
 		Matcher m = PATTERN_UNICHAR_USI_LIST.matcher(input);
 		if ( m.matches() ) {
@@ -496,7 +490,7 @@ public class TtcnPattern {
 				final TitanUniversalChar uc = new TitanUniversalChar( (char)group, (char)plane, (char)row, (char)cell);
 				javaPattern.append(uc.toUtf());
 			} else {
-				//TODO: error
+				throw new TtcnError("Invalid unichar list at position " + pos.get());
 			}
 		}
 	}
