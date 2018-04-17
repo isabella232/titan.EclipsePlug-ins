@@ -10,11 +10,11 @@
 <feature
       id="TITAN_Log_Viewer"
       label="TITAN Log Viewer"
-      version="6.3.0.CRL_113_200_6_R3A_20171115-1500"
+      version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
-      CRL 113 200/6 R3A (6.3.pl0) version of the TITAN Log Viewer plug-in.
+      CRL 113 200/6 R4A (6.4.pl0) version of the TITAN Log Viewer plug-in.
    </description>
 
    <copyright>
@@ -131,33 +131,41 @@ This Agreement is governed by the laws of the State of New York and the intellec
 
    <requires>
       <import plugin="org.eclipse.core.resources"/>
-      <import plugin="org.eclipse.core.runtime"/>
+      <import plugin="org.eclipse.core.runtime" version="3.5.0" match="greaterOrEqual"/>
       <import plugin="org.eclipse.ui"/>
       <import plugin="org.eclipse.ui.ide"/>
       <import plugin="org.eclipse.ui.navigator"/>
       <import plugin="org.eclipse.ui.console"/>
       <import plugin="org.eclipse.ui.forms"/>
-      <import feature="TITAN_Designer" version="6.3.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.jface.text"/>
+      <import plugin="org.eclipse.ui.editors"/>
+      <import plugin="org.eclipse.ui.workbench.texteditor"/>
+      <import plugin="org.eclipse.search"/>
+      <import plugin="org.eclipse.core.resources" version="3.6.0" match="greaterOrEqual"/>
+      <import plugin="org.eclipse.debug.core"/>
+      <import plugin="org.eclipse.core.filesystem"/>
+      <import plugin="org.antlr.runtime" version="4.3.0" match="greaterOrEqual"/>
+      <import feature="TITAN_Designer" version="6.4.0" match="greaterOrEqual"/>
    </requires>
 
    <plugin
          id="org.eclipse.titan.log.viewer"
          download-size="0"
          install-size="0"
-         version="6.3.0.CRL_113_200_6_R3A_20171115-1500"
+         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="0"
          install-size="0"
-         version="6.3.0.CRL_113_200_6_R3A_20171115-1500"
+         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="0"
          install-size="0"
-         version="6.3.0.CRL_113_200_6_R3A_20171115-1500"/>
+         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"/>
 
 </feature>

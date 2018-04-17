@@ -2,7 +2,7 @@
 <feature
       id="Titan_external_dependencies"
       label="Titan_external_dependencies"
-      version="6.3.0.CRL_113_200_6_R3A_20171115-1500">
+      version="6.4.0.CRL_113_200_6_R4A_20180417-1100">
 
    <description>
       This feature packages the ANTLR 4.3 runtime from ORBIT, to ease
