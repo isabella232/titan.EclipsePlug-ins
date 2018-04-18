@@ -100,6 +100,12 @@ public final class AdditionalFunctions {
 		0x0f, 0x8f, 0x4f, 0xcf, 0x2f, 0xaf, 0x6f, 0xef,
 		0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
 	};
+	
+	private static final char UTF8_BOM[] =  {0xef, 0xbb, 0xbf};
+	private static final char UTF16BE_BOM[] = {0xfe, 0xff};
+	private static final char UTF16LE_BOM[] = {0xff, 0xfe};
+	private static final char UTF32BE_BOM[] = {0x00, 0x00, 0xfe, 0xff};
+	private static final char UTF32LE_BOM[] = {0xff, 0xfe, 0x00, 0x00};
 
 	private static enum str2intState { S_INITIAL, S_FIRST, S_ZERO, S_MORE, S_END, S_ERR };
 	private static enum str2floatState { S_INITIAL, S_FIRST_M, S_ZERO_M, S_MORE_M, S_FIRST_F, S_MORE_F,
