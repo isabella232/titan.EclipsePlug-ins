@@ -1692,7 +1692,7 @@ public class TitanUniversalCharString extends Base_Type {
 		if(buff_str.isBound()) {
 			charstring = true;
 			for (int i = 0; i < buff_str.lengthOf().getInt(); ++i) {
-				if(buff_str.getValue().charAt(i) < 0 ) {
+				if(buff_str.getValue().charAt(i) > 127) {
 					charstring = false;
 					break;
 				}
