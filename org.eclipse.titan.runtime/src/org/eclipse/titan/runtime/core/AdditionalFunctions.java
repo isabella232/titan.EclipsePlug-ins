@@ -100,6 +100,12 @@ public final class AdditionalFunctions {
 		0x0f, 0x8f, 0x4f, 0xcf, 0x2f, 0xaf, 0x6f, 0xef,
 		0x1f, 0x9f, 0x5f, 0xdf, 0x3f, 0xbf, 0x7f, 0xff
 	};
+	
+	private static final char UTF8_BOM[] =  {0xef, 0xbb, 0xbf};
+	private static final char UTF16BE_BOM[] = {0xfe, 0xff};
+	private static final char UTF16LE_BOM[] = {0xff, 0xfe};
+	private static final char UTF32BE_BOM[] = {0x00, 0x00, 0xfe, 0xff};
+	private static final char UTF32LE_BOM[] = {0xff, 0xfe, 0x00, 0x00};
 
 	private static enum str2intState { S_INITIAL, S_FIRST, S_ZERO, S_MORE, S_END, S_ERR };
 	private static enum str2floatState { S_INITIAL, S_FIRST_M, S_ZERO_M, S_MORE_M, S_FIRST_F, S_MORE_F,
@@ -120,6 +126,49 @@ public final class AdditionalFunctions {
 			return (byte) 0xFF;
 		}
 	}
+	
+	private static CharCoding is_ascii(final TitanOctetString ostr) {
+		final int nonASCII = 1 << 7; //MSB is 1 in case of non ASCII character
+		CharCoding ret = CharCoding.ASCII;
+		char[] strptr = ostr.getValue();
+		for (int i = 0; i < strptr.length; i++) {
+			if(((strptr[i] & 0xFF) & nonASCII) != 0) {
+				ret = CharCoding.UNKNOWN;
+				break;
+			}
+		}
+		return ret;
+	}
+	
+	private static CharCoding is_utf8(final TitanOctetString ostr) {
+		final int MSB = 1 << 7; // MSB is 1 in case of non ASCII character
+		final int MSBmin1 = 1 << 6; // 0100 0000 
+		int i = 0;
+		final char strptr[] = ostr.getValue();
+		while (ostr.lengthOf().getInt() > i) {
+			if (((strptr[i] & 0xFF) & MSB) != 0) { //non ASCII char
+				int maskUTF8 = 1 << 6; // 111x xxxx shows how many additional bytes are there
+				if (((strptr[i] & 0xFF) & maskUTF8) == 0) {
+					return CharCoding.UNKNOWN; // accepted 11xxx xxxx but received 10xx xxxx
+				}
+				int noofUTF8 = 0; // 11xx xxxxx -> 2 bytes, 111x xxxxx -> 3 bytes , 1111 xxxxx -> 4 bytes in UTF-8
+				while (((strptr[i] & 0xFF) & maskUTF8) != 0) {
+					++noofUTF8;
+					maskUTF8 >>= 1; // shift right the mask
+				}
+				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx 
+				while (0 < noofUTF8) {
+					++i;
+					if (i >= ostr.lengthOf().getInt() || ((strptr[i] & 0xFF) & MSB) == 0 || ((strptr[i] & 0xFF) & MSBmin1) != 0) { // if not like this: 10xx xxxx
+						return CharCoding.UNKNOWN;
+					}
+					--noofUTF8;
+				}
+			}
+			++i;
+		}
+		return CharCoding.UTF_8;
+	} 
 
 	// C.1 - int2char
 	public static TitanCharString int2char(final int value) {
@@ -560,6 +609,45 @@ public final class AdditionalFunctions {
 	public static TitanOctetString unichar2oct(final TitanUniversalCharString value, final String stringEncoding) {
 		return unichar2oct(value, new TitanCharString(stringEncoding));
 	}
+	
+	public static TitanCharString get_stringencoding(final TitanOctetString encoded_value) {
+		if (encoded_value.lengthOf().operatorEquals(0)) {
+			return new TitanCharString("<unknown>");
+		}
+		int i, j = 0;
+		int length = encoded_value.lengthOf().getInt();
+		char[] strptr = encoded_value.getValue();
+		for (i = 0, j = 0; UTF8_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF8_BOM.length;);
+		if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
+			return new TitanCharString("UTF-8");
+		}
+		//UTF-32 shall be tested before UTF-16 !!!
+		for (i = 0, j = 0; UTF32BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32BE_BOM.length;);
+		if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
+			return new TitanCharString("UTF-32BE");
+		}
+		for (i = 0, j = 0; UTF32LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32LE_BOM.length;);
+		if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
+			return new TitanCharString("UTF-32LE");
+		}
+		//UTF-32 shall be tested before UTF-16 !!!
+		for (i = 0, j = 0; UTF16BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16BE_BOM.length;);
+		if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
+			return new TitanCharString("UTF-16BE");
+		}
+		for (i = 0, j = 0; UTF16LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16LE_BOM.length;);
+		if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
+			return new TitanCharString("UTF-16LE");
+		}
+		if(is_ascii(encoded_value) == CharCoding.ASCII) {
+			return new TitanCharString("ASCII");
+		} else if (is_utf8(encoded_value) == CharCoding.UTF_8) {
+			return new TitanCharString("UTF-8");
+		} else {
+			return new TitanCharString("<unknown>");
+		}
+	}
+	
 
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
