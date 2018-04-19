@@ -615,6 +615,7 @@ public final class AdditionalFunctions {
 			return new TitanCharString("<unknown>");
 		}
 
+		//TODO maybe we could use a switch to improve performance
 		int i, j = 0;
 		int length = encoded_value.lengthOf().getInt();
 		char[] strptr = encoded_value.getValue();
