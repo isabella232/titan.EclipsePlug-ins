@@ -615,35 +615,44 @@ public final class AdditionalFunctions {
 			return new TitanCharString("<unknown>");
 		}
 
-		//TODO maybe we could use a switch to improve performance
 		int i, j = 0;
 		int length = encoded_value.lengthOf().getInt();
 		char[] strptr = encoded_value.getValue();
-		for (i = 0, j = 0; UTF8_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF8_BOM.length;);
-		if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
-			return new TitanCharString("UTF-8");
-		}
 
-		// UTF-32 shall be tested before UTF-16 !!!
-		for (i = 0, j = 0; UTF32BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32BE_BOM.length;);
-		if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
-			return new TitanCharString("UTF-32BE");
-		}
+		if(length >= 2) {
+			switch (strptr[0] & 0xFF) {
+			case 0xef:
+				for (i = 1, j = 1; UTF8_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF8_BOM.length && j < strptr.length;);
+				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
+					return new TitanCharString("UTF-8");
+				}
+				break;
+			case 0xfe:
+				for (i = 1, j = 1; UTF16BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16BE_BOM.length && j < strptr.length;);
+				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
+					return new TitanCharString("UTF-16BE");
+				}
+				break;
+			case 0xff:
+				for (i = 1, j = 1; UTF32LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32LE_BOM.length && j < strptr.length;);
+				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
+					return new TitanCharString("UTF-32LE");
+				}
+				for (i = 1, j = 1; UTF16LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16LE_BOM.length && j < strptr.length;);
 
-		for (i = 0, j = 0; UTF32LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32LE_BOM.length;);
-		if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
-			return new TitanCharString("UTF-32LE");
-		}
-
-		// UTF-32 shall be tested before UTF-16 !!!
-		for (i = 0, j = 0; UTF16BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16BE_BOM.length;);
-		if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
-			return new TitanCharString("UTF-16BE");
-		}
-
-		for (i = 0, j = 0; UTF16LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16LE_BOM.length;);
-		if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
-			return new TitanCharString("UTF-16LE");
+				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
+					return new TitanCharString("UTF-16LE");
+				}
+				break;
+			case 0x00:
+				for (i = 1, j = 1; UTF32BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32BE_BOM.length && j < strptr.length;);
+				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
+					return new TitanCharString("UTF-32BE");
+				}
+				break;
+			default:
+				break;
+			}
 		}
 
 		if (is_ascii(encoded_value) == CharCoding.ASCII) {
@@ -653,6 +662,26 @@ public final class AdditionalFunctions {
 		} else {
 			return new TitanCharString("<unknown>");
 		}
+	}
+	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
+		char str[] = encoded_value.getValue();
+		int length_of_BOM = 0;
+		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
+			length_of_BOM = 4;
+		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF) && 0x00 == (str[2] & 0xFF) && 0x00 == (str[3] & 0xFF)) { // UTF-32LE
+			length_of_BOM = 4;
+		} else if (0xFE == (str[0] & 0xFF) && 0xFF == (str[1] & 0xFF)) { // UTF-16BE
+			length_of_BOM = 2;
+		} else if (0xFF == (str[0] & 0xFF) && 0xFE == (str[1] & 0xFF)) { // UTF-16LE
+			length_of_BOM = 2;
+		} else if (0xEF == (str[0] & 0xFF) && 0xBB == (str[1] & 0xFF) && 0xBF == (str[2] & 0xFF)) { // UTF-8
+			length_of_BOM = 3;
+		} else {
+			return new TitanOctetString(encoded_value);
+		}
+		char tmp_str[] = new char[str.length - length_of_BOM];
+		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
+		return new TitanOctetString(tmp_str);
 	}
 
 	// C.12 - bit2int
