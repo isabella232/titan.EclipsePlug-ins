@@ -93,7 +93,7 @@ public final class Text_Buf {
 	}
 
 	public byte[] get_data() {
-		byte[] temp = new byte[buf_len];
+		final byte[] temp = new byte[buf_len];
 		System.arraycopy(data_ptr, buf_begin, temp, 0, buf_len);
 
 		return temp;
@@ -430,7 +430,7 @@ public final class Text_Buf {
 	 * */
 	public boolean is_message() {
 		rewind();
-		TitanInteger msg_len = new TitanInteger();
+		final TitanInteger msg_len = new TitanInteger();
 		boolean returnValue = false;
 		if (safe_pull_int(msg_len)) {
 			if (msg_len.isLessThan(0)) {
@@ -447,8 +447,8 @@ public final class Text_Buf {
 	 * */
 	public void cut_message() {
 		if (is_message()) {
-			int msg_len = pull_int().getInt();
-			int msg_end = buf_pos + msg_len;
+			final int msg_len = pull_int().getInt();
+			final int msg_end = buf_pos + msg_len;
 			buf_len -= msg_end - buf_begin;
 
 			System.arraycopy(data_ptr, msg_end, data_ptr, buf_begin, buf_len);
