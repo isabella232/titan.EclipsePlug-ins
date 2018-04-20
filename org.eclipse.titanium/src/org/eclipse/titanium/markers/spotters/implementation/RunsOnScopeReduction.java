@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package org.eclipse.titanium.markers.spotters.implementation;
 
 import java.text.MessageFormat;
@@ -14,6 +21,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -36,10 +44,10 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 		final Identifier identifier;
 		boolean isTestCase = false;
-
+		final Component_Type componentType;
 		if (node instanceof Def_Function) {
 			final Def_Function variable = (Def_Function) node;
-			final Component_Type componentType = variable.getRunsOnType(timestamp); 
+			componentType = variable.getRunsOnType(timestamp); 
 			if (componentType == null) {
 				return;
 			}
@@ -48,7 +56,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 			identifier = variable.getIdentifier();
 		} else if (node instanceof Def_Altstep) {
 			final Def_Altstep variable = (Def_Altstep) node;
-			final Component_Type componentType = variable.getRunsOnType(timestamp); 
+			componentType = variable.getRunsOnType(timestamp); 
 			if (componentType == null) {
 				return;
 			}
@@ -57,7 +65,7 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 			identifier = variable.getIdentifier();
 		} else {
 			final Def_Testcase variable = (Def_Testcase) node;
-			final Component_Type componentType = variable.getRunsOnType(timestamp); 
+			componentType = variable.getRunsOnType(timestamp); 
 			if (componentType == null) {
 				return;
 			}
@@ -72,23 +80,55 @@ public class RunsOnScopeReduction extends BaseModuleCodeSmellSpotter{
 		definitions.addAll(chek.getIdentifiers());
 
 		if (definitions.isEmpty()) {
-			if(isTestCase){
-				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
+			if (isTestCase) {
+				List<Definition> attributes = componentType.getComponentBody().getDefinitions();
+				if (!attributes.isEmpty()) {
+					problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use empty component.",componentIdentifier.getDisplayName()));
+				}
 			} else {
 				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used, can be removed.",componentIdentifier.getDisplayName()));
 			}
 		} else if (!definitions.contains(componentIdentifier)) {
-			ArrayList<Identifier> list = new ArrayList<Identifier>(definitions);
-			if (definitions.size() == 1){
+			if (definitions.size() == 1) {
+				final Identifier id = definitions.iterator().next();
 				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used. Use `{1}'' component.",
-						componentIdentifier.getName(),list.get(0).getDisplayName()));
+						componentIdentifier.getName(), id.getDisplayName()));
 			} else {
-				//FIXME: implement other cases
-				problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used.",componentIdentifier.getDisplayName()));
+				final ComponentTypeBody variable = searchComponent(componentType.getComponentBody(), definitions, new HashSet<Identifier>());
+				if (variable != null && variable.getIdentifier() != componentIdentifier) {
+					problems.report(identifier.getLocation(), MessageFormat.format("The runs on component `{0}'' seems to be never used.Use `{1}'' component.",
+							componentIdentifier.getDisplayName(), variable.getIdentifier().getDisplayName()));
+				}
 			}
 		}
 	}
 
+	private ComponentTypeBody searchComponent(final ComponentTypeBody component, final Set<Identifier> definitions, Set<Identifier> identifiersOfTree) {
+		final List<ComponentTypeBody> parentComponentBodies = component.getExtensions().getComponentBodies();
+		if (parentComponentBodies.isEmpty()) {
+			identifiersOfTree.add(component.getIdentifier());
+			return null;
+		}
+		final Set<Identifier> setNodes = new HashSet<Identifier>();
+		setNodes.add(component.getIdentifier());
+		for (ComponentTypeBody variable : parentComponentBodies) {
+			final Set<Identifier> identifiersOfNode = new HashSet<Identifier>();
+			final ComponentTypeBody cb = searchComponent(variable, definitions, identifiersOfNode);
+			if (cb != null) {
+				return cb;
+			}
+			setNodes.addAll(identifiersOfNode);
+		}
+
+		if (setNodes.containsAll(definitions)) {
+			identifiersOfTree.addAll(setNodes);
+			return component;
+		}
+
+		identifiersOfTree.addAll(setNodes);
+		return null;
+	}
+	
 	class ReferenceCheck extends ASTVisitor {
 
 		private Set<Identifier> setOfIdentifier = new HashSet<Identifier>();
