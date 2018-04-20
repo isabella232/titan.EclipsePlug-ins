@@ -1497,8 +1497,8 @@ public class TitanUniversalCharString extends Base_Type {
 					// and don't have any characters assigned to them.
 					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X) between 0xD800 and 0xDFFF is ill-formed", r, c);
 				} else if (0x00 == g && 0x00 == p) {
-					buf.put_c(isBig ? r : c);
-					buf.put_c(isBig ? c : r);
+					buf.put_c((char) ((isBig ? r : c) & 0xFF) );
+					buf.put_c((char) ((isBig ? c : r) & 0xFF) );
 				} else if (g != 0 || p != 0) {
 					int univc = 0, temp = 0;
 					univc = g;
@@ -1519,13 +1519,13 @@ public class TitanUniversalCharString extends Base_Type {
 					W2 |= WL;
 					char uc;
 					uc = (char) (isBig ? W1 >> 8 : W1);
-					buf.put_c(uc);
+					buf.put_c((char) (uc & 0xFF));
 					uc = (char) (isBig ? W1 : W1 >> 8);
-					buf.put_c(uc);
+					buf.put_c((char) (uc & 0xFF));
 					uc = (char) (isBig ? W2 >> 8 : W2);
-					buf.put_c(uc);
+					buf.put_c((char) (uc & 0xFF));
 					uc = (char) (isBig ? W2 : W2 >> 8);
-					buf.put_c(uc);
+					buf.put_c((char) (uc & 0xFF));
 				}
 			}
 		}
