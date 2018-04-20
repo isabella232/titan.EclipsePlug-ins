@@ -130,7 +130,7 @@ public final class AdditionalFunctions {
 	private static CharCoding is_ascii(final TitanOctetString ostr) {
 		final int nonASCII = 1 << 7; // MSB is 1 in case of non ASCII character
 		CharCoding ret = CharCoding.ASCII;
-		char[] strptr = ostr.getValue();
+		final char[] strptr = ostr.getValue();
 		for (int i = 0; i < strptr.length; i++) {
 			if (((strptr[i] & 0xFF) & nonASCII) != 0) {
 				ret = CharCoding.UNKNOWN;
@@ -616,8 +616,8 @@ public final class AdditionalFunctions {
 		}
 
 		int i, j = 0;
-		int length = encoded_value.lengthOf().getInt();
-		char[] strptr = encoded_value.getValue();
+		final int length = encoded_value.lengthOf().getInt();
+		final char[] strptr = encoded_value.getValue();
 
 		if(length >= 2) {
 			switch (strptr[0] & 0xFF) {
@@ -663,8 +663,9 @@ public final class AdditionalFunctions {
 			return new TitanCharString("<unknown>");
 		}
 	}
+
 	public static TitanOctetString remove_bom(final TitanOctetString encoded_value) {
-		char str[] = encoded_value.getValue();
+		final char str[] = encoded_value.getValue();
 		int length_of_BOM = 0;
 		if (0x00 == (str[0] & 0xFF) && 0x00 == (str[1] & 0xFF) && 0xFE == (str[2] & 0xFF) && 0xFF == (str[3] & 0xFF)) { // UTF-32BE
 			length_of_BOM = 4;
@@ -679,8 +680,10 @@ public final class AdditionalFunctions {
 		} else {
 			return new TitanOctetString(encoded_value);
 		}
-		char tmp_str[] = new char[str.length - length_of_BOM];
+
+		final char tmp_str[] = new char[str.length - length_of_BOM];
 		System.arraycopy(str, length_of_BOM, tmp_str, 0, str.length - length_of_BOM);
+
 		return new TitanOctetString(tmp_str);
 	}
 
