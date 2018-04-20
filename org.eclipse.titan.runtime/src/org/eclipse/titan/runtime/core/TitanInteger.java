@@ -886,7 +886,7 @@ public class TitanInteger extends Base_Type {
 		}
 
 		if (value == Integer.MIN_VALUE) {
-			TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
+			final TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
 			return big_value.RAW_encode_openssl(p_td, myleaf);
 		}
 
@@ -1042,7 +1042,7 @@ public class TitanInteger extends Base_Type {
 			}
 		} else {
 			length = (p_td.raw.fieldlength + 7) / 8;
-			int min_bits = RAW.min_bits(D);
+			final int min_bits = RAW.min_bits(D);
 			if (min_bits > p_td.raw.fieldlength) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
