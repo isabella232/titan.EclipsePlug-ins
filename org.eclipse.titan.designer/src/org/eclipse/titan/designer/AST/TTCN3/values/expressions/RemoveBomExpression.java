@@ -250,7 +250,7 @@ public final class RemoveBomExpression extends Expression_Value {
 			value.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
