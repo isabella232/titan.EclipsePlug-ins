@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -41,6 +42,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_Defs;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_field;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -52,8 +54,11 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class TTCN3_Enumerated_Type extends Type implements ITypeWithComponents {
+	public static final String COMPILE_TIME_VALUE_CHECK = "A value known at compile time was expected for enumeration `{0}''";
+	public static final String VALUE_TYPE_CHECK = "INTEGER or BITSTRING or OCTETSTRING or HEXSTRING value was expected for enumeration `{0}''";
 	public static final String DUPLICATEENUMERATIONIDENTIFIERFIRST = "Duplicate enumeration identifier `{0}'' was first declared here";
 	public static final String DUPLICATEENUMERATIONIDENTIFIERREPEATED = "Duplicate enumeration identifier `{0}'' was declared here again";
 	public static final String DUPLICATEDENUMERATIONVALUEFIRST = "Value {0} is already assigned to `{1}''";
@@ -63,8 +68,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 	private static final String TEMPLATENOTALLOWED = "{0} cannot be used for enumerated type";
 	private static final String LENGTHRESTRICTIONNOTALLOWED = "Length restriction is not allowed for enumerated type";
 	private static final String LARGEINTEGERERROR = "Using a large integer value ({0}) as an ENUMERATED/enumerated value is not supported";
-	private final EnumerationItems items;
 
+	private final EnumerationItems items;
 
 	// minor cache
 	private Map<String, EnumItem> nameMap;
@@ -186,40 +191,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		// check duplicated names and values
 		for (int i = 0, size = enumItems.size(); i < size; i++) {
 			final EnumItem item = enumItems.get(i);
-			final Identifier id = item.getId();
-			final String fieldName = id.getName();
-			if (nameMap.containsKey(fieldName)) {
-				nameMap.get(fieldName).getId().getLocation().reportSingularSemanticError(
-						MessageFormat.format(DUPLICATEENUMERATIONIDENTIFIERFIRST, id.getDisplayName()));
-				id.getLocation().reportSemanticError(MessageFormat.format(DUPLICATEENUMERATIONIDENTIFIERREPEATED, id.getDisplayName()));
-			} else {
-				nameMap.put(fieldName, item);
-			}
-
-			final Value value = item.getValue();
-			if (value != null && item.isOriginal()) {
-				if (value.getIsErroneous(timestamp) || !Value_type.INTEGER_VALUE.equals(value.getValuetype())) {
-					value.getLocation().reportSemanticError(MessageFormat.format("INTEGER value was expected for enumeration `{0}''", id.getDisplayName()));
-					setIsErroneous(true);
-				} else {
-					final Integer_Value enumValue = (Integer_Value) value;
-					if (!enumValue.isNative()) {
-						enumValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, enumValue.getValueValue()));
-						setIsErroneous(true);
-					} else {
-						final Long enumLong = enumValue.getValue();
-						if (valueMap.containsKey(enumLong)) {
-							valueMap.get(enumLong).getLocation().reportSingularSemanticError(
-									MessageFormat.format(DUPLICATEDENUMERATIONVALUEFIRST, enumLong, valueMap.get(enumLong).getId().getDisplayName()));
-							value.getLocation().reportSemanticError(
-									MessageFormat.format(DUPLICATEDENUMERATIONVALUEREPEATED, enumLong, id.getDisplayName()));
-							setIsErroneous(true);
-						} else {
-							valueMap.put(enumLong, item);
-						}
-					}
-				}
-			}
+			checkEnumItem(timestamp, item, valueMap);
 		}
 
 		// Assign default values
@@ -260,6 +232,100 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			checkEncode(timestamp);
 			checkVariants(timestamp);
 		}
+	}
+
+	private void checkEnumItem( final CompilationTimeStamp timestamp, final EnumItem item, final Map<Long, EnumItem> valueMap ) {
+		final Identifier id = item.getId();
+		final String fieldName = id.getName();
+		if (nameMap.containsKey(fieldName)) {
+			nameMap.get(fieldName).getId().getLocation().reportSingularSemanticError(
+					MessageFormat.format(DUPLICATEENUMERATIONIDENTIFIERFIRST, id.getDisplayName()));
+			id.getLocation().reportSemanticError(MessageFormat.format(DUPLICATEENUMERATIONIDENTIFIERREPEATED, id.getDisplayName()));
+		} else {
+			nameMap.put(fieldName, item);
+		}
+
+		IValue value = item.getValue();
+		if (value != null && item.isOriginal()) {
+			if ( Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype() ) ) {
+				// const
+				final IValue ref = value.setLoweridToReference(timestamp);
+				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IValue refd = ref != null ? ref.getValueRefdLast(timestamp, referenceChain) : null;
+				if ( refd == null ) {
+					value.getLocation().reportSemanticError(MessageFormat.format(VALUE_TYPE_CHECK, id.getDisplayName()));
+					setIsErroneous(true);
+					return;
+				}
+				value = refd;
+			}
+			if ( value.isUnfoldable(timestamp) ) {
+				value.getLocation().reportSemanticError(MessageFormat.format(COMPILE_TIME_VALUE_CHECK, id.getDisplayName()));
+				setIsErroneous(true);
+				return;
+			}
+			if ( value.getIsErroneous(timestamp) ) {
+				value.getLocation().reportSemanticError(MessageFormat.format(VALUE_TYPE_CHECK, id.getDisplayName()));
+				setIsErroneous(true);
+				return;
+			}
+			switch ( value.getValuetype() ) {
+			case INTEGER_VALUE:
+				final Integer_Value enumValue = (Integer_Value) value;
+				if (!enumValue.isNative()) {
+					enumValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, enumValue.getValueValue()));
+					setIsErroneous(true);
+				} else {
+					final Long enumLong = enumValue.getValue();
+					if (valueMap.containsKey(enumLong)) {
+						valueMap.get(enumLong).getLocation().reportSingularSemanticError(
+								MessageFormat.format(DUPLICATEDENUMERATIONVALUEFIRST, enumLong, valueMap.get(enumLong).getId().getDisplayName()));
+						value.getLocation().reportSemanticError(
+								MessageFormat.format(DUPLICATEDENUMERATIONVALUEREPEATED, enumLong, id.getDisplayName()));
+						setIsErroneous(true);
+					} else {
+						valueMap.put(enumLong, item);
+					}
+				}
+				break;
+			case BITSTRING_VALUE:
+				//TODO
+				break;
+			case OCTETSTRING_VALUE:
+				//TODO
+				break;
+			case HEXSTRING_VALUE:
+				//TODO
+				break;
+			case EXPRESSION_VALUE:
+				final Expression_Value expressionValue = (Expression_Value)value; 
+				final Type_type type = expressionValue.getExpressionReturntype( timestamp, Expected_Value_type.EXPECTED_CONSTANT);
+				switch (type) {
+				case TYPE_INTEGER:
+					//TODO
+					break;
+				case TYPE_BITSTRING:
+					//TODO
+					break;
+				case TYPE_OCTETSTRING:
+					//TODO
+					break;
+				case TYPE_HEXSTRING:
+					//TODO
+					break;
+				default:
+					value.getLocation().reportSemanticError(MessageFormat.format(VALUE_TYPE_CHECK, id.getDisplayName()));
+					setIsErroneous(true);
+					break;
+				}
+				break;
+			default:
+				value.getLocation().reportSemanticError(MessageFormat.format(VALUE_TYPE_CHECK, id.getDisplayName()));
+				setIsErroneous(true);
+				break;
+			}
+		}
+
 	}
 
 	@Override
@@ -630,8 +696,11 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		final ArrayList<Enum_field> fields = new ArrayList<EnumeratedGenerator.Enum_field>(items.getItems().size());
 		for (int i = 0; i < items.getItems().size(); i++) {
 			final EnumItem tempItem = items.getItems().get(i);
-
-			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempItem.getValue()).getValue()));
+			final Value tempValue = tempItem.getValue();
+			if ( tempValue instanceof Integer_Value ) {
+				fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempValue).getValue()));
+			}
+			//TODO: handle other types (bin/octet/hexstring, expression, const)
 		}
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source, myScope), hasRaw);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
