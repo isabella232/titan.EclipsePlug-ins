@@ -187,10 +187,10 @@ public class RAW {
 
 		private void calc_fields() {
 			if (isleaf) {
-				int szumm = 0;
-				RAW_enc_tree atm;
 				switch (calc) {
-				case CALC_LENGTH:
+				case CALC_LENGTH:{
+					int szumm = 0;
+					RAW_enc_tree atm;
 					if (lengthto.unit != -1) {
 						for (int a = 0; a < lengthto.num_of_fields; a++) {
 							atm = get_node(lengthto.fields[a]);
@@ -210,7 +210,8 @@ public class RAW {
 					final TitanInteger temp = new TitanInteger(szumm);
 					temp.RAW_encode(coding_descr, this);
 					break;
-				case CALC_POINTER:
+				}
+				case CALC_POINTER:{
 					final int cl = curr_pos.pos[curr_pos.level - 1];
 					curr_pos.pos[curr_pos.level - 1] = pointerto.ptr_base;
 					int base = pointerto.ptr_base;
@@ -221,13 +222,16 @@ public class RAW {
 						b = get_node(curr_pos);
 					}
 					curr_pos.pos[curr_pos.level - 1] = cl;
-					atm = get_node(pointerto.target);
+					int szumm = 0;
+					final RAW_enc_tree atm = get_node(pointerto.target);
 					if (atm != null) {
 						szumm = (atm.startpos - b.startpos + pointerto.unit - 1 - pointerto.ptr_offset) / pointerto.unit;
 					}
 
-					final TitanInteger temp2 = new TitanInteger(szumm);
-					temp2.RAW_encode(coding_descr, this);
+					final TitanInteger temp = new TitanInteger(szumm);
+					temp.RAW_encode(coding_descr, this);
+					break;
+				}
 				default:
 					break;
 				}
