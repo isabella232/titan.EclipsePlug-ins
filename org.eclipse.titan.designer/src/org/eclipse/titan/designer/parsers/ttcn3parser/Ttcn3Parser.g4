@@ -1263,24 +1263,20 @@ pr_EnumerationList returns[EnumerationItems items]
 pr_Enumeration returns[EnumItem enumItem]
 @init {
 	$enumItem = null;
-	Integer_Value value = null;
-	boolean minus = false;
+	Value value = null;
 }:
 (	i = pr_Identifier
 	(	pr_LParen
-		(pr_Minus	{ minus = true; })?
-		NUMBER
+		v = pr_SingleExpression
 			{
-				value = new Integer_Value($NUMBER.getText());
-				if(minus) { (value).changeSign(); }
-				value.setLocation(getLocation( $NUMBER));
+				value = $v.value;
 			}
 		pr_RParen
 	)?
 )
 {
 	$enumItem = new EnumItem($i.identifier, value);
-	$enumItem.setLocation(getLocation( $i.start, $i.stop));
+	$enumItem.setLocation(getLocation( $i.start, getStopToken()));
 	$enumItem.setCommentLocation( getLastCommentLocation( $start ) );
 };
 
