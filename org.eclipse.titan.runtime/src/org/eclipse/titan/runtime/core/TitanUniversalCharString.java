@@ -1180,7 +1180,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 	
-	public void decode_utf16(int n_octets, final char[] octets_ptr, CharCoding expected_coding) {
+	public void decode_utf16(final int n_octets, final char[] octets_ptr, final CharCoding expected_coding) {
 		if (n_octets % 2 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 2", n_octets);
 		}
@@ -1250,7 +1250,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 	
-	public void decode_utf32(int n_octets, final char[] octets_ptr, CharCoding expected_coding) {
+	public void decode_utf32(final int n_octets, final char[] octets_ptr, final CharCoding expected_coding) {
 		if (n_octets % 4 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-32 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 4", n_octets);
 		}
@@ -1460,7 +1460,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 	}
 
-	public void encode_utf16(TTCN_Buffer buf, CharCoding expected_coding) {
+	public void encode_utf16(final TTCN_Buffer buf, final CharCoding expected_coding) {
 		//add BOM
 		boolean isBig = true;
 		TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
@@ -1532,7 +1532,7 @@ public class TitanUniversalCharString extends Base_Type {
 		error.leaveContext();
 	}
 
-	public void encode_utf32(TTCN_Buffer buf, CharCoding  expected_coding) {
+	public void encode_utf32(final TTCN_Buffer buf, final CharCoding expected_coding) {
 		boolean isBig = true;
 		TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
 		switch (expected_coding) {
@@ -1685,7 +1685,7 @@ public class TitanUniversalCharString extends Base_Type {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
 	}
 	
-	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, raw_order_t top_bit_ord, boolean no_err, int sel_field, boolean first_call) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		TitanCharString buff_str = new TitanCharString();
 		int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
 		char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();

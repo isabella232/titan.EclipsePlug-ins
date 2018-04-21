@@ -107,7 +107,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		return true;
 	}
 
-	private static void append_header(final StringBuilder returnValue, final int seconds, int microseconds, final Severity severity, final StringBuilder sourceInfo) {
+	private static void append_header(final StringBuilder returnValue, final int seconds, final int microseconds, final Severity severity, final StringBuilder sourceInfo) {
 		TtcnLogger.mputstr_timestamp(returnValue, TtcnLogger.get_timestamp_format(), seconds, microseconds);
 
 		returnValue.append(' ');
