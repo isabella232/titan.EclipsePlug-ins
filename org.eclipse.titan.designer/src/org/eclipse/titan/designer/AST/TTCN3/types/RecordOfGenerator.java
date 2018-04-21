@@ -1658,8 +1658,9 @@ public class RecordOfGenerator {
 		source.append("\t\t\thas_any_or_none = false;\n");
 		source.append("\t\t\tint elem_count = value_elements.size();\n");
 		source.append("\t\t\tif (!is_size) {\n");
-		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())\n");
+		source.append("\t\t\t\twhile (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {\n");
 		source.append("\t\t\t\t\telem_count--;\n");
+		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<elem_count; i++)\n");
 		source.append("\t\t\t{\n");

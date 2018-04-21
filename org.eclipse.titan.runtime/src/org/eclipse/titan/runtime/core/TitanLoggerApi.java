@@ -5650,8 +5650,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				has_any_or_none = false;
 				int elem_count = value_elements.size();
 				if (!is_size) {
-					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())
+					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {
 						elem_count--;
+					}
 				}
 				for (int i=0; i<elem_count; i++)
 				{
@@ -12641,8 +12642,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				has_any_or_none = false;
 				int elem_count = value_elements.size();
 				if (!is_size) {
-					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())
+					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {
 						elem_count--;
+					}
 				}
 				for (int i=0; i<elem_count; i++)
 				{
@@ -32940,8 +32942,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				has_any_or_none = false;
 				int elem_count = value_elements.size();
 				if (!is_size) {
-					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())
+					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {
 						elem_count--;
+					}
 				}
 				for (int i=0; i<elem_count; i++)
 				{
@@ -51847,8 +51850,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				has_any_or_none = false;
 				int elem_count = value_elements.size();
 				if (!is_size) {
-					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())
+					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {
 						elem_count--;
+					}
 				}
 				for (int i=0; i<elem_count; i++)
 				{
@@ -69788,8 +69792,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				has_any_or_none = false;
 				int elem_count = value_elements.size();
 				if (!is_size) {
-					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound())
+					while (elem_count>0 && !(value_elements.get(elem_count-1)).isBound()) {
 						elem_count--;
+					}
 				}
 				for (int i=0; i<elem_count; i++)
 				{
