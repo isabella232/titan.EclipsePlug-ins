@@ -191,9 +191,7 @@ public final class TTCN_EncDec {
 		}
 		if (p_eb == error_behavior_type.EB_DEFAULT) {
 			if (p_et == error_type.ET_ALL) {
-				for (int i = error_type.ET_UNDEF.ordinal(); i < error_type.ET_ALL.ordinal(); i++) {
-					error_behavior[i] = default_error_behavior[i];
-				}
+				System.arraycopy(default_error_behavior, error_type.ET_UNDEF.ordinal(), error_behavior, error_type.ET_UNDEF.ordinal(), error_type.ET_ALL.ordinal());
 			} else {
 				error_behavior[p_et.ordinal()] = default_error_behavior[p_et.ordinal()];
 			}

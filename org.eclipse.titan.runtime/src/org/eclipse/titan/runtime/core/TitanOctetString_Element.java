@@ -109,9 +109,7 @@ public class TitanOctetString_Element {
 		final char dest_ptr[] = new char[1 + n_nibbles];
 		dest_ptr[0] = str_val.get_nibble(nibble_pos);
 		// chars in the result minus 1
-		for (int i = 0; i < n_nibbles; i++) {
-			dest_ptr[i + 1] = src_ptr[i];
-		}
+		System.arraycopy(src_ptr, 0, dest_ptr, 1, n_nibbles);
 
 		return new TitanOctetString(dest_ptr);
 	}
