@@ -5056,7 +5056,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			final StringBuilder sb = new StringBuilder();
 			sb.append('{');
-			final int size = ( valueElements != null ) ? valueElements.size() : 0;
+			final int size = ( valueElements == null ) ? 0 : valueElements.size();
 			for (int i = 0; i < size; i++ ) {
 				if ( i > 0 ) {
 					sb.append(',');
@@ -12048,7 +12048,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			final StringBuilder sb = new StringBuilder();
 			sb.append('{');
-			final int size = ( valueElements != null ) ? valueElements.size() : 0;
+			final int size = ( valueElements == null ) ? 0 : valueElements.size();
 			for (int i = 0; i < size; i++ ) {
 				if ( i > 0 ) {
 					sb.append(',');
@@ -32348,7 +32348,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			final StringBuilder sb = new StringBuilder();
 			sb.append('{');
-			final int size = ( valueElements != null ) ? valueElements.size() : 0;
+			final int size = ( valueElements == null ) ? 0 : valueElements.size();
 			for (int i = 0; i < size; i++ ) {
 				if ( i > 0 ) {
 					sb.append(',');
@@ -51256,7 +51256,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			final StringBuilder sb = new StringBuilder();
 			sb.append('{');
-			final int size = ( valueElements != null ) ? valueElements.size() : 0;
+			final int size = ( valueElements == null ) ? 0 : valueElements.size();
 			for (int i = 0; i < size; i++ ) {
 				if ( i > 0 ) {
 					sb.append(',');
@@ -69198,7 +69198,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			}
 			final StringBuilder sb = new StringBuilder();
 			sb.append('{');
-			final int size = ( valueElements != null ) ? valueElements.size() : 0;
+			final int size = ( valueElements == null ) ? 0 : valueElements.size();
 			for (int i = 0; i < size; i++ ) {
 				if ( i > 0 ) {
 					sb.append(',');

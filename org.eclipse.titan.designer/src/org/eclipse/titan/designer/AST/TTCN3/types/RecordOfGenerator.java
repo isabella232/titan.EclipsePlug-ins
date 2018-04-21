@@ -628,7 +628,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tfinal StringBuilder sb = new StringBuilder();\n");
 		source.append("\t\tsb.append('{');\n");
-		source.append("\t\tfinal int size = ( valueElements != null ) ? valueElements.size() : 0;\n");
+		source.append("\t\tfinal int size = ( valueElements == null ) ? 0 : valueElements.size();\n");
 		source.append("\t\tfor (int i = 0; i < size; i++ ) {\n");
 		source.append("\t\t\tif ( i > 0 ) {\n");
 		source.append("\t\t\t\tsb.append(',');\n");
