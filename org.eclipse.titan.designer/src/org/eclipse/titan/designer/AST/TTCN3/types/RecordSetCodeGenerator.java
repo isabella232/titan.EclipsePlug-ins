@@ -2850,7 +2850,7 @@ public class RecordSetCodeGenerator {
 			for (int j = 0; j < tempRawOption.lengthof; j++) {
 				final int field_index = tempRawOption.lengthofField.get(j);
 				if (i > field_index && fieldInfos.get(field_index).raw.unit != -1) {
-					expression.preamble.append(MessageFormat.format("{0} = {0} < value_of_length_field{1} ? {0} : value_of_length_field{1};\n", tempvar, field_index));
+					expression.preamble.append(MessageFormat.format("{0} = {0} < Math.abs(value_of_length_field{1}) ? {0} : Math.abs(value_of_length_field{1});\n", tempvar, field_index));
 				}
 			}
 			if (tempRawOption.extbitgroup > 0 && raw.ext_bit_groups.get(tempRawOption.extbitgroup - 1).ext_bit != RawAST.XDEFNO) {
@@ -3063,7 +3063,7 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("{0}{1}.get{2}(){3}.assign({0}{1}.get{2}(){3} - {4});\n",
 							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.lengthindex.nthfieldname, fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
 				}
-				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}(){4}.getInt() * {5};\n",
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}(){4}.getLong() * {5};\n",
 						i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.lengthindex.nthfieldname, fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
 					source.append("}\n");
@@ -3075,7 +3075,7 @@ public class RecordSetCodeGenerator {
 					if (fieldInfo.raw.lengthto_offset != 0) {
 						source.append(MessageFormat.format("{0}{1}.get{2}().assign({0}{1}.get{2}() - {3});\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.lengthto_offset));
 					}
-					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}().getInt() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+					source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}().getLong() * {4};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.member_name.get(m), fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 					source.append("break;\n");
 				}
 				source.append("default:\n");
@@ -3085,7 +3085,7 @@ public class RecordSetCodeGenerator {
 				if (fieldInfo.raw.lengthto_offset != 0) {
 					source.append(MessageFormat.format("{0}{1}.assign({0}{1}.getInt() - {2});\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthto_offset));
 				}
-				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.getInt() * {3};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.getLong() * {3};\n", i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 			}
 		}
 		if (tempRawOption.pointerto) {

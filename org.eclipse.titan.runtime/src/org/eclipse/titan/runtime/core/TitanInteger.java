@@ -603,6 +603,17 @@ public class TitanInteger extends Base_Type {
 	}
 
 	// originally get_long_long_val
+	public long getLong() {
+		mustBound("Using the value of an unbound integer variable.");
+
+		if (nativeFlag) {
+			return nativeInt;
+		}
+
+		return openSSL.longValue();
+	}
+
+	// originally get_long_long_val
 	public BigInteger getBigInteger() {
 		mustBound("Using the value of an unbound integer variable.");
 
