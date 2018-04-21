@@ -263,10 +263,10 @@ public class EnumeratedGenerator {
 
 	private static void generateLog(final StringBuilder source) {
 		source.append("public void log() {\n");
-		source.append("if (enum_value != enum_type.UNBOUND_VALUE) {\n");
-		source.append("TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
-		source.append("} else {\n");
+		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
 		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("} else {\n");
+		source.append("TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
 		source.append("}\n");
 		source.append("}\n\n");
 	}

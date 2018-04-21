@@ -8819,10 +8819,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -9485,10 +9485,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -10719,10 +10719,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -16776,10 +16776,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -23609,10 +23609,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -25424,10 +25424,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -26144,10 +26144,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -26820,10 +26820,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -28136,10 +28136,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -29501,10 +29501,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -34318,10 +34318,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -34986,10 +34986,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -54659,10 +54659,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -57521,10 +57521,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -62403,10 +62403,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -63073,10 +63073,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -63741,10 +63741,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -64413,10 +64413,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -65119,10 +65119,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -67869,10 +67869,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -74647,10 +74647,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
@@ -76616,10 +76616,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public void log() {
-			if (enum_value != enum_type.UNBOUND_VALUE) {
-				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
-			} else {
+			if (enum_value == enum_type.UNBOUND_VALUE) {
 				TtcnLogger.log_event_unbound();
+			} else {
+				TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 			}
 		}
 
