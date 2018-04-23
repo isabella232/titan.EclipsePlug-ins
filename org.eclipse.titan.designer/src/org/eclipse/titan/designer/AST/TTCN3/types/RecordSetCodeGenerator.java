@@ -3057,14 +3057,14 @@ public class RecordSetCodeGenerator {
 		if (tempRawOption.lengthto) {
 			if (fieldInfo.raw.lengthindex != null) {
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
-					source.append(MessageFormat.format("if ({0}{1}.get{2}().isPresent()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", fieldInfo.raw.lengthindex.nthfieldname));
+					source.append(MessageFormat.format("if ({0}{1}.get{2}().isPresent()) '{'\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()":"", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname)));
 				}
 				if (fieldInfo.raw.lengthto_offset != 0) {
 					source.append(MessageFormat.format("{0}{1}.get{2}(){3}.assign({0}{1}.get{2}(){3} - {4});\n",
-							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.lengthindex.nthfieldname, fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
+							fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.lengthto_offset));
 				}
 				source.append(MessageFormat.format("value_of_length_field{0} += {1}{2}.get{3}(){4}.getLong() * {5};\n",
-						i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", fieldInfo.raw.lengthindex.nthfieldname, fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
+						i, fieldInfo.mVarName, fieldInfo.isOptional ? ".get()" : "", FieldSubReference.getJavaGetterName(fieldInfo.raw.lengthindex.nthfieldname), fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD ? ".get()" : "", fieldInfo.raw.unit == -1 ? 1 : fieldInfo.raw.unit));
 				if (fieldInfo.raw.lengthindex.fieldtype == rawAST_coding_field_type.OPTIONAL_FIELD) {
 					source.append("}\n");
 				}
