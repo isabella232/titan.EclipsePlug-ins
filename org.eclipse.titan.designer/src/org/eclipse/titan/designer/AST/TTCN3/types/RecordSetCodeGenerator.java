@@ -753,7 +753,6 @@ public class RecordSetCodeGenerator {
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.lengthindex.typedesc));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].length = {1};\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.fieldlength));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].lengthto = new RAW_enc_lengthto({2}, new RAW_enc_tr_pos[{2}], {3}, {4});\n", i, fieldInfo.raw.lengthindex.nthfield, lengthtoSize, fieldInfo.raw.unit, fieldInfo.raw.lengthto_offset));
 					for (int a = 0; a < lengthtoSize; a++) {
 						if (fieldInfos.get(fieldInfo.raw.lengthto.get(a)).isOptional) {
