@@ -150,14 +150,29 @@ public class TTCN_Communication {
 
 
 	private static boolean mc_addr_set = false;
-	private static boolean is_connected = false;
+	private static ThreadLocal<Boolean> is_connected = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return false;
+		}
+	};
 
 	private static String MC_host;
 	private static int MC_port;
 	//private static Socket mc_socket;
-	private static SocketChannel mc_socketchannel;
+	private static ThreadLocal<SocketChannel> mc_socketchannel = new ThreadLocal<SocketChannel>() {
+		@Override
+		protected SocketChannel initialValue() {
+			return null;
+		}
+	};
 	//private static DataOutputStream mc_outputstream;
-	private static Text_Buf incoming_buf = new Text_Buf();
+	private static ThreadLocal<Text_Buf> incoming_buf = new ThreadLocal<Text_Buf>() {
+		@Override
+		protected Text_Buf initialValue() {
+			return new Text_Buf();
+		}
+	};
 
 	static class MC_Connection extends Channel_And_Timeout_Event_Handler {
 		final SocketChannel mc_channel;
@@ -188,7 +203,7 @@ public class TTCN_Communication {
 				}
 				if (recv_len > 0) {
 					//incoming_buf.increase_length(recv_len);
-					incoming_buf.push_raw(recv_len, tempbuffer.array());
+					incoming_buf.get().push_raw(recv_len, tempbuffer.array());
 
 					if (!TTCN_Runtime.is_idle()) {
 						process_all_messages_tc();
@@ -223,7 +238,7 @@ public class TTCN_Communication {
 		if (mc_addr_set) {
 			TtcnError.TtcnWarning("The address of MC has already been set.");
 		}
-		if (is_connected) {
+		if (is_connected.get()) {
 			throw new TtcnError("Trying to change the address of MC, but there is an existing connection.");
 		}
 		//FIXME implement
@@ -233,7 +248,7 @@ public class TTCN_Communication {
 	}
 
 	public static void connect_mc() {
-		if (is_connected) {
+		if (is_connected.get()) {
 			throw new TtcnError("Trying to re-connect to MC, but there is an existing connection.");
 		}
 		if (!mc_addr_set) {
@@ -243,29 +258,29 @@ public class TTCN_Communication {
 		try {
 			//mc_socket = new Socket(MC_host, MC_port);
 			//mc_outputstream = new DataOutputStream(mc_socket.getOutputStream());
-			mc_socketchannel = SocketChannel.open();
-			mc_socketchannel.connect(new InetSocketAddress(MC_host, MC_port));
+			mc_socketchannel.set(SocketChannel.open());
+			mc_socketchannel.get().connect(new InetSocketAddress(MC_host, MC_port));
 			//FIXME register
 		} catch (IOException e) {
 			e.printStackTrace();
 			return;
 		}
 		//FIXME implement
-		MC_Connection mc_connection = new MC_Connection(mc_socketchannel, incoming_buf);
+		MC_Connection mc_connection = new MC_Connection(mc_socketchannel.get(), incoming_buf.get());
 		try {
-			mc_socketchannel.configureBlocking(false);
-			TTCN_Snapshot.channelMap.put(mc_socketchannel, mc_connection);
-			mc_socketchannel.register(TTCN_Snapshot.selector, SelectionKey.OP_READ);
+			mc_socketchannel.get().configureBlocking(false);
+			TTCN_Snapshot.channelMap.get().put(mc_socketchannel.get(), mc_connection);
+			mc_socketchannel.get().register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 		} catch (IOException e) {
 			e.printStackTrace();
 			//FIXME implement
 		}
 		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.connected__to__mc);
-		is_connected = true;
+		is_connected.set(true);;
 	}
 
 	public static void disconnect_mc() {
-		if (is_connected) {
+		if (is_connected.get()) {
 			// TODO check if the missing part is needed
 			close_mc_connection();
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.disconnected__from__mc);
@@ -273,16 +288,16 @@ public class TTCN_Communication {
 	}
 
 	public static void close_mc_connection() {
-		if (is_connected) {
-			is_connected = false;
-			incoming_buf.reset();
+		if (is_connected.get()) {
+			is_connected.set(false);;
+			incoming_buf.get().reset();
 			try {
-				mc_socketchannel.close();
+				mc_socketchannel.get().close();
 			} catch (IOException e) {
 				e.printStackTrace();
 				//FIXME
 			}
-			TTCN_Snapshot.channelMap.remove(mc_socketchannel);
+			TTCN_Snapshot.channelMap.get().remove(mc_socketchannel);
 			//FIXME implement
 		}
 	}
@@ -299,12 +314,12 @@ public class TTCN_Communication {
 		//FIXME implement
 		boolean wait_flag = false;
 		boolean check_overload = TTCN_Runtime.is_overloaded();
-		while (incoming_buf.is_message()) {
+		while (incoming_buf.get().is_message()) {
 			wait_flag = true;
 
-			int msg_len = incoming_buf.pull_int().getInt();
-			int msg_end = incoming_buf.get_pos() + msg_len;
-			int msg_type = incoming_buf.pull_int().getInt();
+			int msg_len = incoming_buf.get().pull_int().getInt();
+			int msg_end = incoming_buf.get().get_pos() + msg_len;
+			int msg_type = incoming_buf.get().pull_int().getInt();
 
 			System.out.println("received hc message type " + msg_type);//FIXME only debug printout
 			switch (msg_type) {
@@ -350,10 +365,10 @@ public class TTCN_Communication {
 		}
 
 		//FIXME implement
-		while (incoming_buf.is_message()) {
-			int msg_len = incoming_buf.pull_int().getInt();
-			int msg_end = incoming_buf.get_pos() + msg_len;
-			int msg_type = incoming_buf.pull_int().getInt();
+		while (incoming_buf.get().is_message()) {
+			int msg_len = incoming_buf.get().pull_int().getInt();
+			int msg_end = incoming_buf.get().get_pos() + msg_len;
+			int msg_type = incoming_buf.get().pull_int().getInt();
 
 			System.out.println("received tc message type " + msg_type);
 			// messages: MC -> TC
@@ -510,6 +525,13 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_mtc_created() {
+		Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_MTC_CREATED);
+
+		send_message(text_buf);
+	}
+
 	public static void send_error(final String message) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
@@ -519,7 +541,7 @@ public class TTCN_Communication {
 	}
 
 	public static void send_message(final Text_Buf text_buf) {
-		if (!is_connected) {
+		if (!is_connected.get()) {
 			throw new TtcnError("Trying to send a message to MC, but the control connection is down.");
 		}
 
@@ -533,7 +555,7 @@ public class TTCN_Communication {
 //			mc_outputstream.write(msg);
 //			mc_outputstream.flush();
 			while (buffer.hasRemaining()) {
-				mc_socketchannel.write(buffer);
+				mc_socketchannel.get().write(buffer);
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -554,7 +576,7 @@ public class TTCN_Communication {
 				break;
 			}
 		default:
-			incoming_buf.cut_message();
+			incoming_buf.get().cut_message();
 			send_error("Message CONFIGURE arrived in invalid state.");
 			return;
 		}
@@ -562,10 +584,11 @@ public class TTCN_Communication {
 		TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_CONFIGURING : executorStateEnum.HC_CONFIGURING);
 		TtcnLogger.log_configdata(enum_type.received__from__mc, null);
 
-		int config_str_len = incoming_buf.pull_int().getInt();
-		int config_str_begin = incoming_buf.get_pos();
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+		int config_str_len = temp_incoming_buf.pull_int().getInt();
+		int config_str_begin = temp_incoming_buf.get_pos();
 		if (config_str_begin + config_str_len != msg_end) {
-			incoming_buf.cut_message();
+			temp_incoming_buf.cut_message();
 			send_error("Malformed message CONFIGURE was received.");
 			return;
 		}
@@ -575,7 +598,7 @@ public class TTCN_Communication {
 			config_str = "";
 		} else {
 			byte[] data = new byte[config_str_len];
-			System.arraycopy(incoming_buf.get_data(), config_str_begin, data, 0, config_str_len);
+			System.arraycopy(temp_incoming_buf.get_data(), config_str_begin, data, 0, config_str_len);
 			config_str = new String(data);
 		}
 		//FIXME process config string
@@ -590,45 +613,51 @@ public class TTCN_Communication {
 			TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_IDLE : executorStateEnum.HC_IDLE);
 		}
 
-		incoming_buf.cut_message();
+		temp_incoming_buf.cut_message();
 	}
 
 	private static void process_create_mtc() {
-		incoming_buf.cut_message();
+		incoming_buf.get().cut_message();
 		TTCN_Runtime.process_create_mtc();
 	}
 
 	private static void process_create_ptc() {
-		int component_reference = incoming_buf.pull_int().getInt();
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		int component_reference = temp_incoming_buf.pull_int().getInt();
 		if (component_reference < TitanComponent.FIRST_PTC_COMPREF) {
-			incoming_buf.cut_message();
+			temp_incoming_buf.cut_message();
 			send_error(MessageFormat.format("Message CREATE_PTC refers to invalid component reference {0}.", component_reference));
 			return;
 		}
 
 		//FIXME temporary code for debugging purposes
-		String temp1 = incoming_buf.pull_string();
-		String temp2 = incoming_buf.pull_string();
+		String temp1 = temp_incoming_buf.pull_string();
+		String temp2 = temp_incoming_buf.pull_string();
 	}
 
 	private static void process_error() {
-		final String error_string = incoming_buf.pull_string();
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
 
-		incoming_buf.cut_message();
+		final String error_string = temp_incoming_buf.pull_string();
+
+		temp_incoming_buf.cut_message();
 
 		System.out.println("Error message was received from MC : " + error_string);
 	}
 
 	private static void process_debug_command() {
-		int command = incoming_buf.pull_int().getInt();
-		int argument_count = incoming_buf.pull_int().getInt();
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		int command = temp_incoming_buf.pull_int().getInt();
+		int argument_count = temp_incoming_buf.pull_int().getInt();
 		//FIXME process the arguments properly
 		if (argument_count > 0) {
 			for (int i = 0; i < argument_count; i++) {
-				incoming_buf.pull_string();
+				temp_incoming_buf.pull_string();
 			}
 		}
-		incoming_buf.cut_message();
+		temp_incoming_buf.cut_message();
 		//FIXME implement execute_command
 	}
 }

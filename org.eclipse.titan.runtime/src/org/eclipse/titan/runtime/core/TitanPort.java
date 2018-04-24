@@ -654,15 +654,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (read_channels != null) {
 			for (final SelectableChannel channel : read_channels) {
 				channel.configureBlocking(false);
-				TTCN_Snapshot.channelMap.put(channel, this);
-				channel.register(TTCN_Snapshot.selector, SelectionKey.OP_READ);
+				TTCN_Snapshot.channelMap.get().put(channel, this);
+				channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 			}
 		}
 	}
 
 	protected void Uninstall_Handler() throws IOException {
 		final ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
-		for (final Map.Entry<SelectableChannel, Channel_And_Timeout_Event_Handler> entry: TTCN_Snapshot.channelMap.entrySet()) {
+		for (final Map.Entry<SelectableChannel, Channel_And_Timeout_Event_Handler> entry: TTCN_Snapshot.channelMap.get().entrySet()) {
 			if (entry.getValue() == this) {
 				tobeRemoved.add(entry.getKey());
 			}
@@ -670,7 +670,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		for (final SelectableChannel channel : tobeRemoved) {
 			channel.close();
-			TTCN_Snapshot.channelMap.remove(channel);
+			TTCN_Snapshot.channelMap.get().remove(channel);
 		}
 	}
 

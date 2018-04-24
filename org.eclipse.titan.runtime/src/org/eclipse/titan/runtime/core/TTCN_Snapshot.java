@@ -26,14 +26,25 @@ public final class TTCN_Snapshot {
 	private static final long MAX_BLOCK_TIME = Long.MAX_VALUE;
 
 	//FIXME should be private
-	public static Selector selector;
+	public static ThreadLocal<Selector> selector = new ThreadLocal<Selector>() {
+		@Override
+		protected Selector initialValue() {
+			return null;
+		}
+	};
 
 	//[else] branch of alt was reached
 	private static boolean else_branch_found;
 	// The last time a snapshot was taken
 	private static double alt_begin;
 
-	public static HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler> channelMap = new HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>();
+	public static ThreadLocal<HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>> channelMap = new ThreadLocal<HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>>() {
+		@Override
+		protected HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler> initialValue() {
+			return new HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>();
+		}
+
+	};
 
 	private TTCN_Snapshot() {
 		// private constructor to disable accidental instantiation
@@ -43,13 +54,22 @@ public final class TTCN_Snapshot {
 		//FIXME initialize FdMap
 		//TODO why do we initialize fdmap here?
 		try {
-			selector = Selector.open();
+			selector.set(Selector.open());
 		} catch (IOException exception) {
 
 		}
 
 		else_branch_found = false;
 		alt_begin = timeNow();
+	}
+
+	// originially reopenEpollFd and in a bit different location
+	public static void reOpen() {
+		try {
+			selector.set(Selector.open());
+		} catch (IOException exception) {
+
+		}
 	}
 
 	public static void terminate() {
@@ -136,17 +156,17 @@ public final class TTCN_Snapshot {
 					}
 				}
 
-				if (selector.keys().isEmpty() && pollTimeout < 0) {
+				if (selector.get().keys().isEmpty() && pollTimeout < 0) {
 					throw new TtcnError("There are no active timers and no installed event handlers. Execution would block forever.");
 				}
 
 				int selectReturn = 0;
-				if (selector.keys().isEmpty()) {
+				if (selector.get().keys().isEmpty()) {
 					//no channels to wait for
 					//TODO this check is not needed
 					if (pollTimeout > 0) {
 						try {
-							selectReturn = selector.select(pollTimeout);
+							selectReturn = selector.get().select(pollTimeout);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
@@ -156,13 +176,13 @@ public final class TTCN_Snapshot {
 				} else {
 					if (pollTimeout > 0) {
 						try {
-							selectReturn = selector.select(pollTimeout);
+							selectReturn = selector.get().select(pollTimeout);
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
 					} else {
 						try {
-							selectReturn = selector.selectNow();
+							selectReturn = selector.get().selectNow();
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
@@ -170,10 +190,10 @@ public final class TTCN_Snapshot {
 				}
 
 				if (selectReturn > 0) {
-					final Set<SelectionKey> selectedKeys = selector.selectedKeys();
+					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
-						final Channel_And_Timeout_Event_Handler handler = channelMap.get(key.channel());
+						final Channel_And_Timeout_Event_Handler handler = channelMap.get().get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
 					selectedKeys.clear();
@@ -189,10 +209,10 @@ public final class TTCN_Snapshot {
 						}
 					}
 
-					final Set<SelectionKey> selectedKeys = selector.selectedKeys();
+					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
-						final Channel_And_Timeout_Event_Handler handler = channelMap.get(key.channel());
+						final Channel_And_Timeout_Event_Handler handler = channelMap.get().get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
 					selectedKeys.clear();
