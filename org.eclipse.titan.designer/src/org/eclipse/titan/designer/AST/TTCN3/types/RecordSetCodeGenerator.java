@@ -750,7 +750,7 @@ public class RecordSetCodeGenerator {
 
 					source.append(MessageFormat.format("if (myleaf.nodes[{0}].nodes[{1}] != null) '{'\n", i, fieldInfo.raw.lengthindex.nthfield));
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].calc = calc_type.CALC_LENGTH;\n", i, fieldInfo.raw.lengthindex.nthfield));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].coding_descr = {2}_descr_;\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.lengthindex.typedesc));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[{1}].length = {1};\n", i, fieldInfo.raw.lengthindex.nthfield, fieldInfo.raw.fieldlength));
@@ -787,7 +787,7 @@ public class RecordSetCodeGenerator {
 					source.append("}\n");
 
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].calc = calc_type.CALC_LENGTH;\n", i));
-					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].coding_descr = {1}_descr_;\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].coding_descr = {1}_descr_;\n", i, fieldInfo.raw.lengthindex.typedesc));
 
 					final int lengthtoSize = fieldInfo.raw.lengthto == null ? 0 : fieldInfo.raw.lengthto.size();
 					source.append(MessageFormat.format("myleaf.nodes[{0}].nodes[sel_field].length = {1};\n", i, fieldInfo.raw.fieldlength));
