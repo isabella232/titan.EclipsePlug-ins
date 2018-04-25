@@ -1356,6 +1356,7 @@ public class UnionGenerator {
 			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
 			source.append("TtcnLogger.log_event_str(\" }\");\n");
 			source.append("}\n");
+			source.append("break;\n");
 		}
 		source.append("default:\n");
 		source.append("TtcnLogger.print_logmatch_buffer();\n");
