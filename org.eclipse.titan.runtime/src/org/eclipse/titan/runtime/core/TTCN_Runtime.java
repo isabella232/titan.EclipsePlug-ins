@@ -249,10 +249,18 @@ public final class TTCN_Runtime {
 
 	//originally TTCN_Runtime::check_begin_testcase
 	public static void check_begin_testcase(final boolean hasTimer, final TitanFloat timerValue) {
-		//FIXME missing checks
+		if (!in_controlPart()) {
+			if (is_single() || is_mtc()) {
+				throw new TtcnError(MessageFormat.format("Test case cannot be executed while another one ({0}.{1}) is running.", testcaseModuleName, testcaseDefinitionName));
+			} else if (is_ptc()) {
+				throw new TtcnError("Test case cannot be executed on a PTC.");
+			} else {
+				throw new TtcnError("Internal error: Executing a test case in an invalid state.");
+			}
+		}
 
-		if (hasTimer && timerValue.getValue() < 0.0) {
-			throw new TtcnError(MessageFormat.format("The test case supervisortimer has negative duration ({0} s).", timerValue.getValue()));
+		if (hasTimer && timerValue.isLessThan(0.0)) {
+			throw new TtcnError(MessageFormat.format("The test case supervisor timer has negative duration ({0} s).", timerValue.getValue()));
 		}
 	}
 

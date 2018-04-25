@@ -577,6 +577,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 			source.append(", ");
 		}
 		source.append( "final boolean has_timer, final TitanFloat timer_value) {\n" );
+		source.append("TTCN_Runtime.check_begin_testcase(has_timer, timer_value);\n");
 		getLocation().create_location_object(aData, source, "TESTCASE", getIdentifier().getDisplayName());
 		source.append("try{\n");
 		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", has_timer, timer_value);\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
