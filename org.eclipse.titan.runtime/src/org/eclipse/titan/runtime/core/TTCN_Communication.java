@@ -21,7 +21,6 @@ import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason.enum_type;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
-
 /**
  * The class handling internal communication.
  *
@@ -523,6 +522,19 @@ public class TTCN_Communication {
 	public static void send_configure_nak() {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE_NAK);
+
+		send_message(text_buf);
+	}
+
+	public static void send_create_req(final String componentTypeModule, final String componentTypeName,
+			final String componentName, final String componentLocation, final boolean is_alive) {
+		Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CREATE_REQ);
+		text_buf.push_string(componentTypeModule);
+		text_buf.push_string(componentTypeName);
+		text_buf.push_string(componentName);
+		text_buf.push_string(componentLocation);
+		text_buf.push_int( is_alive ? 1 : 0);
 
 		send_message(text_buf);
 	}

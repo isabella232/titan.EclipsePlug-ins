@@ -600,7 +600,49 @@ public final class TTCN_Runtime {
 	
 	//originally create_component
 	public static int create_component(final String createdComponentTypeModule, final String createdComponentTypeName,
-			final String createdComponentName, final String createdComponentLocation, final boolean createdComponentAlive) {
+			String createdComponentName, String createdComponentLocation, final boolean createdComponentAlive) {
+		if (in_controlPart()) {
+			throw new TtcnError("Create operation cannot be performed in the control part.");
+		} else if (is_single()) {
+			throw new TtcnError("Create operation cannot be performed in single mode.");
+		}
+
+		if (createdComponentName != null && createdComponentName.length() == 0) {
+			TtcnError.TtcnWarning("Empty charstring value was ignored as component name in create operation.");
+			createdComponentName = null;
+		}
+
+		if (createdComponentLocation != null && createdComponentLocation.length() == 0) {
+			TtcnError.TtcnWarning("Empty charstring value was ignored as component location in create operation.");
+			createdComponentLocation = null;
+		}
+
+		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TtcnLogger.log_event_str(MessageFormat.format("Creating new {0}PTC with component type {1}.{2}", createdComponentAlive ? "alive " : "", createdComponentTypeModule, createdComponentName));
+		if (createdComponentName != null) {
+			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", createdComponentName));
+		}
+		if (createdComponentLocation != null) {
+			TtcnLogger.log_event_str(MessageFormat.format(", location: {0}", createdComponentName));
+		}
+		TtcnLogger.log_char('.');
+		TtcnLogger.end_event();
+
+		switch (executorState.get()) {
+		case MTC_TESTCASE:
+			executorState.set(executorStateEnum.MTC_CREATE);
+			break;
+		case PTC_FUNCTION:
+			executorState.set(executorStateEnum.PTC_CREATE);
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing create operation in invalid state.");
+		}
+
+		TTCN_Communication.send_create_req(createdComponentTypeModule, createdComponentTypeName, createdComponentName, createdComponentLocation, createdComponentAlive);
+		if (is_mtc()) {
+			//FIXME implement
+		}
 		//FIXME implement
 		throw new TtcnError("Creating component is not yet supported!");
 	}
