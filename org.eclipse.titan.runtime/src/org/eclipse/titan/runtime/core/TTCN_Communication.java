@@ -19,6 +19,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason.enum_type;
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
 
 /**
  * The class handling internal communication.
@@ -444,7 +446,7 @@ public class TTCN_Communication {
 					// messages: MC -> MTC
 					switch(msg_type) {
 					case MSG_EXECUTE_CONTROL:
-						//FIXME process_execute_control();
+						process_execute_control();
 						break;
 					case MSG_EXECUTE_TESTCASE:
 						//FIXME process_execute_testcase();
@@ -634,6 +636,28 @@ public class TTCN_Communication {
 		//FIXME temporary code for debugging purposes
 		String temp1 = temp_incoming_buf.pull_string();
 		String temp2 = temp_incoming_buf.pull_string();
+	}
+
+	private static void process_execute_control() {
+		final String module_name = incoming_buf.get().pull_string();
+		incoming_buf.get().cut_message();
+
+		if (TTCN_Runtime.get_state() != executorStateEnum.MTC_IDLE) {
+			throw new TtcnError("Internal error: Message EXECUTE_CONTROL arrived in invalid state.");
+		}
+
+		TtcnLogger.log(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Executing control part of module {0}.", module_name));
+
+		TTCN_Runtime.set_state(executorStateEnum.MTC_CONTROLPART);
+
+		Module_List.execute_control(module_name);
+
+		if (is_connected.get()) {
+			//FIXME send_mtc_ready();
+			TTCN_Runtime.set_state(executorStateEnum.MTC_IDLE);
+		} else {
+			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
+		}
 	}
 
 	private static void process_error() {

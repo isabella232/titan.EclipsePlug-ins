@@ -69,4 +69,15 @@ public final class Module_List {
 			throw new TtcnError(MessageFormat.format("Internal error: Component type {0} does not exist in module {1}.", component_type, module_name));
 		}
 	}
+
+	public static void execute_control(final String module_name) {
+		final TTCN_Module module = lookup_module(module_name);
+		if (module == null) {
+			throw new TtcnError(MessageFormat.format("Module {0} does not exist.", module_name));
+		} else {
+			//FIXME check for control part
+			module.control();
+			//FIXME implement
+		}
+	}
 }
