@@ -534,6 +534,13 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_mtc_ready() {
+		Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_MTC_READY);
+
+		send_message(text_buf);
+	}
+
 	public static void send_error(final String message) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
@@ -653,7 +660,7 @@ public class TTCN_Communication {
 		Module_List.execute_control(module_name);
 
 		if (is_connected.get()) {
-			//FIXME send_mtc_ready();
+			send_mtc_ready();
 			TTCN_Runtime.set_state(executorStateEnum.MTC_IDLE);
 		} else {
 			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
