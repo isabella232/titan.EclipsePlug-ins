@@ -1350,10 +1350,10 @@ public class UnionGenerator {
 			source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {\n");
 			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
 
-			source.append("single_value.log_match(match_value, legacy);\n");
+			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
 			source.append("} else {\n");
 			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
-			source.append("single_value.log_match(match_value, legacy);\n");
+			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
 			source.append("TtcnLogger.log_event_str(\" }\");\n");
 			source.append("}\n");
 		}
