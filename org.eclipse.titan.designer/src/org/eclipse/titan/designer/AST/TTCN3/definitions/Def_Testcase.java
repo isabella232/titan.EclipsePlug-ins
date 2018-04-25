@@ -580,7 +580,13 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("TTCN_Runtime.check_begin_testcase(has_timer, timer_value);\n");
 		getLocation().create_location_object(aData, source, "TESTCASE", getIdentifier().getDisplayName());
 		source.append("try{\n");
-		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", has_timer, timer_value);\n", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+		source.append(MessageFormat.format("TTCN_Runtime.begin_testcase(\"{0}\", \"{1}\", \"{2}\", \"{3}\", ", getMyScope().getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName(), runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+		if (systemType == null) {
+			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", runsOnType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), runsOnType.getComponentBody().getIdentifier().getDisplayName()));
+		} else {
+			source.append(MessageFormat.format(" \"{0}\", \"{1}\", ", systemType.getMyScope().getModuleScope().getIdentifier().getDisplayName(), systemType.getComponentBody().getIdentifier().getDisplayName()));
+		}
+		source.append("has_timer, timer_value);\n");
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
 		source.append("TTCN_Runtime.set_error_verdict(); \n");

@@ -266,13 +266,13 @@ public final class TTCN_Runtime {
 
 	// originally TTCN_Runtime::begin_testcase
 	//FIXME this is more complex
-	public static void begin_testcase(final String moduleName, final String testcaseName, final String mtc_comptype_module, final String mtc_comptype_name, final boolean hasTimer, final TitanFloat timerValue) {
+	public static void begin_testcase(final String moduleName, final String testcaseName, final String mtc_comptype_module, final String mtc_comptype_name, final String system_comptype_module, final String system_comptype_name, final boolean hasTimer, final TitanFloat timerValue) {
 		switch (executorState.get()) {
 		case SINGLE_CONTROLPART:
 			executorState.set(executorStateEnum.SINGLE_TESTCASE);
 			break;
 		case MTC_CONTROLPART:
-			//FIXME implement
+			TTCN_Communication.send_testcase_started(moduleName, testcaseName, mtc_comptype_module, mtc_comptype_name, system_comptype_module, system_comptype_name);
 			executorState.set(executorStateEnum.MTC_TESTCASE);
 			break;
 		default:
@@ -281,7 +281,7 @@ public final class TTCN_Runtime {
 		TitanTimer.saveControlTimers();
 		TTCN_Default.save_control_defaults();
 		set_testcase_name(moduleName, testcaseName);
-		//FIXME this is much more complex
+		//FIXME implement command execution
 
 		TtcnLogger.log_testcase_started(moduleName, testcaseName);
 		if (hasTimer) {
@@ -290,6 +290,7 @@ public final class TTCN_Runtime {
 
 		set_component_type(mtc_comptype_module, mtc_comptype_name);
 		initialize_component_type();
+		//FIXME implement rest
 	}
 
 	//originally TTCN_Runtime::end_testcase

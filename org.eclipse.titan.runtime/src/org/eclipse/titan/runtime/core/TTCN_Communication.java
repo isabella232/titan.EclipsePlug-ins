@@ -546,6 +546,20 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_testcase_started(final String testcaseModule, final String testcaseName, final String mtc_comptype_module,
+			final String mtc_comptype_name, final String system_comptype_module, final String system_comptype_name) {
+		Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_TESTCASE_STARTED);
+		text_buf.push_string(testcaseModule);
+		text_buf.push_string(testcaseName);
+		text_buf.push_string(mtc_comptype_module);
+		text_buf.push_string(mtc_comptype_name);
+		text_buf.push_string(system_comptype_module);
+		text_buf.push_string(system_comptype_name);
+
+		send_message(text_buf);
+	}
+
 	public static void send_mtc_ready() {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_READY);
