@@ -49,6 +49,12 @@ public class TitanCharString extends Base_Type {
 		val_ptr = new StringBuilder(aOtherValue.val_ptr);
 	}
 
+	public TitanCharString(final TitanUniversalCharString aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound universal charstring to a charstring.");
+
+		assign(aOtherValue);
+	}
+
 	// originally char*()
 	public StringBuilder getValue() {
 		mustBound("Getting an unbound charstring value as string.");
