@@ -77,6 +77,12 @@ public final class TTCN_Runtime {
 	//in the compiler in_ttcn_try_block
 	private static int ttcn_try_block_counter = 0;
 
+	//MTC only static information
+	private static TitanAlt_Status any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+	private static TitanAlt_Status all_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+	private static TitanAlt_Status any_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
+	private static TitanAlt_Status all_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
+
 	private TTCN_Runtime() {
 		// private constructor to disable accidental instantiation
 	}
@@ -290,7 +296,11 @@ public final class TTCN_Runtime {
 
 		set_component_type(mtc_comptype_module, mtc_comptype_name);
 		initialize_component_type();
-		//FIXME implement rest
+
+		any_component_done_status = TitanAlt_Status.ALT_NO;
+		all_component_done_status = TitanAlt_Status.ALT_YES;
+		any_component_killed_status = TitanAlt_Status.ALT_NO;
+		all_component_killed_status = TitanAlt_Status.ALT_YES;
 	}
 
 	//originally TTCN_Runtime::end_testcase
@@ -336,6 +346,11 @@ public final class TTCN_Runtime {
 
 		testcaseModuleName = null;
 		testcaseDefinitionName = null;
+
+		any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+		all_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+		any_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
+		all_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
 
 		TTCN_Default.restoreControlDefaults();
 		TitanTimer.restore_control_timers();
@@ -650,8 +665,18 @@ public final class TTCN_Runtime {
 
 		TTCN_Communication.send_create_req(createdComponentTypeModule, createdComponentTypeName, createdComponentName, createdComponentLocation, createdComponentAlive);
 		if (is_mtc()) {
-			//FIXME implement
+			// updating the component status flags
+			// 'any component.done' and 'any component.killed' might be successful
+			// from now since the PTC can terminate by itself
+			if (any_component_done_status == TitanAlt_Status.ALT_NO) {
+				any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+			}
+			if (any_component_killed_status == TitanAlt_Status.ALT_NO) {
+				any_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
+			}
+			all_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
 		}
+
 		//FIXME implement
 		throw new TtcnError("Creating component is not yet supported!");
 	}
