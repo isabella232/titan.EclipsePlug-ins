@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
@@ -51,23 +52,27 @@ public final class TTCN_Runtime {
 		PTC_DISCONNECT, PTC_MAP, PTC_UNMAP, PTC_STOPPED, PTC_EXIT
 	}
 	private static ThreadLocal<executorStateEnum> executorState = new ThreadLocal<TTCN_Runtime.executorStateEnum>() {
-
 		@Override
 		protected executorStateEnum initialValue() {
 			return executorStateEnum.UNDEFINED_STATE;
 		}
-		
 	};
 
-	private static String component_type_module = null;
-	private static String component_type_name = null;
-	private static String component_name = null;
+	private static ThreadLocal<String> component_type_module = new ThreadLocal<String>();
+	private static ThreadLocal<String> component_type_name = new ThreadLocal<String>();
+	private static ThreadLocal<String> component_name = new ThreadLocal<String>();
+	private static ThreadLocal<Boolean> is_alive = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return Boolean.FALSE;
+		}
+	}; 
 
 	private static String control_module_name = null;
 
 	//originally testcase_name
-	private static String testcaseModuleName;
-	private static String testcaseDefinitionName;
+	private static ThreadLocal<String> testcaseModuleName = new ThreadLocal<String>();
+	private static ThreadLocal<String> testcaseDefinitionName = new ThreadLocal<String>();
 
 	private static VerdictTypeEnum localVerdict = VerdictTypeEnum.NONE;
 	private static int verdictCount[] = new int[] {0,0,0,0,0};
@@ -76,6 +81,19 @@ public final class TTCN_Runtime {
 
 	//in the compiler in_ttcn_try_block
 	private static int ttcn_try_block_counter = 0;
+
+	private static ThreadLocal<Integer> create_done_killed_compref = new ThreadLocal<Integer>() {
+		@Override
+		protected Integer initialValue() {
+			return TitanComponent.NULL_COMPREF;
+		}
+	};
+	private static ThreadLocal<Boolean> running_alive_result = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return Boolean.FALSE;
+		}
+	};
 
 	//MTC only static information
 	private static TitanAlt_Status any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -340,12 +358,12 @@ public final class TTCN_Runtime {
 			// FIXME implement
 		}
 
-		TtcnLogger.log_testcase_finished(testcaseModuleName, testcaseDefinitionName, localVerdict, verdictReason);
+		TtcnLogger.log_testcase_finished(testcaseModuleName.get(), testcaseDefinitionName.get(), localVerdict, verdictReason);
 
 		verdictCount[localVerdict.getValue()]++;
 
-		testcaseModuleName = null;
-		testcaseDefinitionName = null;
+		testcaseModuleName.set(null);
+		testcaseDefinitionName.set(null);
 
 		any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
 		all_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -374,7 +392,7 @@ public final class TTCN_Runtime {
 
 	//originally TTCN_Runtime::initialize_component_type
 	private static void initialize_component_type() {
-		Module_List.initialize_component(component_type_module, component_type_name, true);
+		Module_List.initialize_component(component_type_module.get(), component_type_name.get(), true);
 
 		//FIXME port set parameters
 		TitanPort.all_start();
@@ -391,23 +409,23 @@ public final class TTCN_Runtime {
 		TitanPort.deactivate_all();
 		//TODO add log
 
-		component_type_module = null;
-		component_type_name = null;
+		component_type_module.set(null);
+		component_type_name.set(null);
 	}
 
 	//originally TTCN_Runtime::set_component_type
 	private static void set_component_type(final String par_component_type_module, final String par_component_type_name) {
 		//FIXME add checks
-		component_type_module = par_component_type_module;
-		component_type_name = par_component_type_name;
+		component_type_module.set(par_component_type_module);
+		component_type_name.set(par_component_type_name);
 	}
 
 	// originally TTCN_Runtime::set_component_name
 	public static void set_component_name(final String new_component_name) {
 		if (new_component_name != null && new_component_name.length() > 0) {
-			component_name = new_component_name;
+			component_name.set(new_component_name);
 		} else {
-			component_name = null;
+			component_name.set(null);
 		}
 	}
 
@@ -418,12 +436,12 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: TTCN_Runtime::set_testcase_name: Trying to set an invalid testcase name.");
 		}
 
-		if (testcaseModuleName != null || testcaseDefinitionName != null) {
+		if (testcaseModuleName.get() != null || testcaseDefinitionName.get() != null) {
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_testcase_name: Trying to set testcase name {0}.{1} while another one is active.", parModuleName, parTestcaseName));
 		}
 
-		testcaseModuleName = parModuleName;
-		testcaseDefinitionName = parTestcaseName;
+		testcaseModuleName.set(parModuleName);
+		testcaseDefinitionName.set(parTestcaseName);
 	}
 
 	public static String get_host_name() {
@@ -438,15 +456,15 @@ public final class TTCN_Runtime {
 
 	//originally get_component_type
 	public static String get_component_type() {
-		return component_type_name;
+		return component_type_name.get();
 	}
 
 	public static String get_component_name() {
-		return component_name;
+		return component_name.get();
 	}
 
 	public static String get_testcase_name() {
-		return testcaseDefinitionName;
+		return testcaseDefinitionName.get();
 	}
 
 	//originally get_testcase_id_macro
@@ -455,11 +473,11 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Macro %%testcaseId cannot be used from the control part outside test cases.");
 		}
 
-		if (testcaseDefinitionName == null || testcaseDefinitionName.length() == 0) {
+		if (testcaseDefinitionName.get() == null || testcaseDefinitionName.get().length() == 0) {
 			throw new TtcnError("Internal error: Evaluating macro %%testcaseId, but the name of the current testcase is not set.");
 		}
 
-		return new TitanCharString(testcaseDefinitionName);
+		return new TitanCharString(testcaseDefinitionName.get());
 	}
 
 	//originally get_testcasename
@@ -468,11 +486,11 @@ public final class TTCN_Runtime {
 			return new TitanCharString("");
 		}
 
-		if (testcaseDefinitionName == null || testcaseDefinitionName.length() == 0) {
+		if (testcaseDefinitionName.get() == null || testcaseDefinitionName.get().length() == 0) {
 			throw new TtcnError("Internal error: Evaluating predefined function testcasename(), but the name of the current testcase is not set.");
 		}
 
-		return new TitanCharString(testcaseDefinitionName);
+		return new TitanCharString(testcaseDefinitionName.get());
 	}
 
 	//originally map_port
@@ -621,7 +639,41 @@ public final class TTCN_Runtime {
 
 		return ret_val;
 	}
-	
+
+	public static int ptc_main() {
+		//FIXME implement rest
+		int ret_val = 0;
+
+		TtcnLogger.begin_event(Severity.EXECUTOR_COMPONENT);
+		TtcnLogger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
+		TitanComponent.self.log();
+		TtcnLogger.log_event_str(MessageFormat.format(", component type: {0}.{1}", component_type_module, component_type_name));
+		if (component_name != null) {
+			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", component_name));
+		}
+		TtcnLogger.log_event_str(". Version: " + PRODUCT_NUMBER + '.');
+		TtcnLogger.end_event();
+
+		//FIXME implement missing parts
+		//TODO add the exception handling
+
+		TTCN_Communication.connect_mc();
+		executorState.set(executorStateEnum.PTC_IDLE);
+		TTCN_Communication.send_ptc_created(TitanComponent.self.componentValue);
+		initialize_component_type();
+
+		if (ret_val == 0) {
+			do {
+				TTCN_Snapshot.takeNew(true);
+				TTCN_Communication.process_all_messages_tc();
+			} while (executorState.get() != executorStateEnum.PTC_EXIT);
+		}
+
+		//FIXME implement rest
+
+		return ret_val;
+	}
+
 	//originally create_component
 	public static int create_component(final String createdComponentTypeModule, final String createdComponentTypeName,
 			String createdComponentName, String createdComponentLocation, final boolean createdComponentAlive) {
@@ -678,7 +730,11 @@ public final class TTCN_Runtime {
 		}
 
 		//FIXME implement
-		throw new TtcnError("Creating component is not yet supported!");
+
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created, createdComponentTypeModule, createdComponentTypeName, create_done_killed_compref.get().intValue(), createdComponentName, createdComponentLocation, createdComponentAlive ? 1: 0, 0);
+
+		//FIXME implement component registration
+		return create_done_killed_compref.get();
 	}
 
 	//originally component_done, with component parameter
@@ -952,8 +1008,6 @@ public final class TTCN_Runtime {
 		// clean the emergency buffer
 		TtcnLogger.ring_buffer_dump(false);
 
-		TitanComponent temp = TitanComponent.self;
-
 		Thread MTC = new Thread() {
 
 			@Override
@@ -979,10 +1033,58 @@ public final class TTCN_Runtime {
 		MTC.start();
 
 		TtcnLogger.log_mtc_created(0);//TODO what is the pid?
-		executorStateEnum temp2 = executorState.get();
 		//add_component(MTC_COMPREF, ...)
 		//successful_process_creation();
 
+		//FIXME implement
+	}
+
+	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name, final String par_component_name, final boolean par_is_alive, final String current_testcase_module, final String current_testcase_name) {
+		switch (executorState.get()) {
+		case HC_ACTIVE:
+		case HC_OVERLOADED:
+			break;
+		default:
+			TTCN_Communication.send_error("Message CREATE_PTC arrived in invalid state.");
+			return;
+		}
+
+		// clean the emergency buffer
+		TtcnLogger.ring_buffer_dump(false);
+
+		Thread PTC = new Thread() {
+
+			@Override
+			public void run() {
+				//runs in the PTC
+				TTCN_Snapshot.reOpen();
+				TTCN_Communication.close_mc_connection();
+
+				TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
+				set_component_type(component_type_module, component_type_name);
+				set_component_name(par_component_name);
+				TTCN_Runtime.is_alive.set(par_is_alive);
+				set_testcase_name(current_testcase_module, current_testcase_name);
+				executorState.set(executorStateEnum.PTC_INITIAL);
+
+				//What now???
+				
+				//stuff from Parallel_main::main after hc_main call
+				//FIXME clear stuff before mtc_main
+				//COMPONENT::clear_component_names();
+				//TTCN_Logger::close_file();
+				//TTCN_Logger::set_start_time();
+				ptc_main();
+				//FIXME close down stuff after mtc_main
+			}
+			
+		};
+
+		PTC.start();
+
+		//TODO what is the PID?
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
+		
 		//FIXME implement
 	}
 }

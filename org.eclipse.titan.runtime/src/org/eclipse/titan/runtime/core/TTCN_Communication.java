@@ -567,6 +567,14 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_ptc_created(final int component_reference) {
+		Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_PTC_CREATED);
+		text_buf.push_int(component_reference);
+
+		send_message(text_buf);
+	}
+
 	public static void send_error(final String message) {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
@@ -666,9 +674,19 @@ public class TTCN_Communication {
 			return;
 		}
 
-		//FIXME temporary code for debugging purposes
-		String temp1 = temp_incoming_buf.pull_string();
-		String temp2 = temp_incoming_buf.pull_string();
+		String module_name = temp_incoming_buf.pull_string();
+		String definition_name = temp_incoming_buf.pull_string();
+		if (module_name == null || definition_name == null) {
+			send_error(MessageFormat.format("Message CREATE_PTC with component reference {0} contains an invalid component type.", component_reference));
+		}
+
+		String component_name = temp_incoming_buf.pull_string();
+		boolean is_alive = temp_incoming_buf.pull_int().getInt() == 0 ? false : true;
+		String testcase_module_name = temp_incoming_buf.pull_string();
+		String testcase_definition_name = temp_incoming_buf.pull_string();
+		temp_incoming_buf.cut_message();
+
+		TTCN_Runtime.process_create_ptc(component_reference, module_name, definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
 	}
 
 	private static void process_execute_control() {
