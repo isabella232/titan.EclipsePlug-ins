@@ -57,7 +57,7 @@ public class ProjectSourceCompiler {
 		data.setDebug( aDebug );
 		aModule.generateCode( data );
 
-		if (data.getPreInit().length() > 0 || data.getPostInit().length() > 0) {
+		if (data.getAddSourceInfo() && (data.getPreInit().length() > 0 || data.getPostInit().length() > 0)) {
 			data.addCommonLibraryImport("TtcnLogger.TTCN_Location");
 			data.addCommonLibraryImport("TtcnLogger.TTCN_Location.entity_type_t");
 		}
