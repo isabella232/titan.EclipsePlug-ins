@@ -1157,7 +1157,7 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_portconnmap(operation, src_compref, src_port, dst_compref, dst_port);
 	}
 
-	public static void log_parptc(final ParallelPTC_reason.enum_type reason, final String module, final String name, final int compref, final String compname, final String tc_loc, final int alive_pid, final int status) {
+	public static void log_par_ptc(final ParallelPTC_reason.enum_type reason, final String module, final String name, final int compref, final String compname, final String tc_loc, final int alive_pid, final int status) {
 		get_logger_plugin_manager().log_parptc(reason, module, name, compref, compname, tc_loc, alive_pid, status);
 	}
 }
