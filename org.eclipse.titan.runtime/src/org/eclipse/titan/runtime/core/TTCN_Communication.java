@@ -411,7 +411,7 @@ public class TTCN_Communication {
 				//FIXME implment
 				break;
 			case MSG_CONNECT_LISTEN:
-				//FIXME process_connect();
+				//FIXME process_connect_listen();
 				break;
 			case MSG_CONNECT:
 				process_connect();
