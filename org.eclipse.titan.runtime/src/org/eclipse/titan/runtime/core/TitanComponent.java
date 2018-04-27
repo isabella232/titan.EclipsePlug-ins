@@ -276,7 +276,7 @@ public class TitanComponent extends Base_Type {
 		case SYSTEM_COMPREF:
 			break;
 		default:
-			String componentName = text_buf.pull_string();
+			final String componentName = text_buf.pull_string();
 			register_component_name(componentValue, componentName);
 			break;
 		}
@@ -307,7 +307,7 @@ public class TitanComponent extends Base_Type {
 			// perform a binary search to find the place for the component reference
 			int max = numberOfComponentNames - 1;
 			while (min < max) {
-				int mid = min + (max - min) / 2;
+				final int mid = min + (max - min) / 2;
 				if (componentNames.get(mid).componentReference < component_reference) {
 					min = mid + 1;
 				} else if (componentNames.get(mid).componentReference == component_reference) {
@@ -339,7 +339,7 @@ public class TitanComponent extends Base_Type {
 			}
 		}
 
-		ComponentNameStruct tempElement = new ComponentNameStruct();
+		final ComponentNameStruct tempElement = new ComponentNameStruct();
 		tempElement.componentReference = component_reference;
 		if (component_name == null || component_name.length() == 0) {
 			tempElement.componentName = null;

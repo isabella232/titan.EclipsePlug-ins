@@ -1203,13 +1203,13 @@ public class TitanUniversalCharString extends Base_Type {
 			break;
 		}
 		for (int i = start; i < n_octets; i+= 2 ) {
-			int first  = isBig ? i : i + 1;
-			int second = isBig ? i + 1 : i;
-			int third  = isBig ? i + 2 : i + 3;
-			int fourth = isBig ? i + 3 : i + 2;
+			final int first  = isBig ? i : i + 1;
+			final int second = isBig ? i + 1 : i;
+			final int third  = isBig ? i + 2 : i + 3;
+			final int fourth = isBig ? i + 3 : i + 2;
 
-			int W1 = octets_ptr[first] << 8 | octets_ptr[second];
-			int W2 = (i + 3 < n_octets) ? octets_ptr[third] << 8 | octets_ptr[fourth] : 0;
+			final int W1 = octets_ptr[first] << 8 | octets_ptr[second];
+			final int W2 = (i + 3 < n_octets) ? octets_ptr[third] << 8 | octets_ptr[fourth] : 0;
 
 			if (0xD800 > W1 || 0xDFFF < W1) {
 				//if W1 < 0xD800 or W1 > 0xDFFF, the character value is the value of W1
@@ -1254,7 +1254,8 @@ public class TitanUniversalCharString extends Base_Type {
 		if (n_octets % 4 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-32 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 4", n_octets);
 		}
-		int start = check_BOM(expected_coding, octets_ptr);
+
+		final int start = check_BOM(expected_coding, octets_ptr);
 		int n_uchars = n_octets / 4;
 		val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 		n_uchars = 0;
@@ -1271,11 +1272,12 @@ public class TitanUniversalCharString extends Base_Type {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Unexpected coding type for UTF-32 encoding");
 			break;
 		}
+
 		for (int i = start; i < n_octets; i += 4 ) {
-			int first  = isBig ? i : i + 3;
-			int second = isBig ? i + 1 : i + 2;
-			int third  = isBig ? i + 2 : i + 1;
-			int fourth = isBig ? i + 3 : i;
+			final int first  = isBig ? i : i + 3;
+			final int second = isBig ? i + 1 : i + 2;
+			final int third  = isBig ? i + 2 : i + 1;
+			final int fourth = isBig ? i + 3 : i;
 			int DW = octets_ptr[first] << 8 | octets_ptr[second];
 			DW <<= 8;
 			DW |= octets_ptr[third];
@@ -1463,7 +1465,7 @@ public class TitanUniversalCharString extends Base_Type {
 	public void encode_utf16(final TTCN_Buffer buf, final CharCoding expected_coding) {
 		//add BOM
 		boolean isBig = true;
-		TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
 		switch (expected_coding) {
 		case UTF16:
 		case UTF16BE:
@@ -1486,10 +1488,10 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		} else {
 			for (int i = 0; i < val_ptr.size(); i++) {
-				char g = val_ptr.get(i).getUc_group();
-				char p = val_ptr.get(i).getUc_plane();
-				char r = val_ptr.get(i).getUc_row();
-				char c = val_ptr.get(i).getUc_cell();
+				final char g = val_ptr.get(i).getUc_group();
+				final char p = val_ptr.get(i).getUc_plane();
+				final char r = val_ptr.get(i).getUc_row();
+				final char c = val_ptr.get(i).getUc_cell();
 				if (g != 0 || (0x10 < p)) {
 					TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Any UCS code (0x%02X%02X%02X%02X) to be encoded into UTF-16 shall not be greater than 0x10FFFF", g, p, r, c);
 				} else if (0x00 == g && 0x00 ==p && 0xD8 <= r && 0xDF >= r) {
@@ -1512,9 +1514,9 @@ public class TitanUniversalCharString extends Base_Type {
 					univc |= c; // universal char filled in univc 
 					int W1 = 0xD800;
 					int W2 = 0xDC00;
-					int univcmod = univc - 0x10000;
-					int WH = univcmod >> 10;
-					int WL = univcmod & 0x3ff;
+					final int univcmod = univc - 0x10000;
+					final int WH = univcmod >> 10;
+					final int WL = univcmod & 0x3ff;
 					W1 |= WH;
 					W2 |= WL;
 					char uc;
@@ -1534,7 +1536,7 @@ public class TitanUniversalCharString extends Base_Type {
 
 	public void encode_utf32(final TTCN_Buffer buf, final CharCoding expected_coding) {
 		boolean isBig = true;
-		TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext error = new TTCN_EncDec_ErrorContext();
 		switch (expected_coding) {
 		case UTF32:
 		case UTF32BE:
@@ -1561,10 +1563,10 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		} else {
 			for (int i = 0; i < val_ptr.size(); i++) {
-				char g = val_ptr.get(i).getUc_group();
-				char p = val_ptr.get(i).getUc_plane();
-				char r = val_ptr.get(i).getUc_row();
-				char c = val_ptr.get(i).getUc_cell();
+				final char g = val_ptr.get(i).getUc_group();
+				final char p = val_ptr.get(i).getUc_plane();
+				final char r = val_ptr.get(i).getUc_row();
+				final char c = val_ptr.get(i).getUc_cell();
 				int DW = g << 8 | p;
 				DW <<= 8;
 				DW |= r;
@@ -1645,7 +1647,8 @@ public class TitanUniversalCharString extends Base_Type {
 		if (charstring) {
 			return new TitanCharString(cstr).RAW_encode(p_td, myleaf);
 		}
-		TTCN_Buffer buf = new TTCN_Buffer();
+
+		final TTCN_Buffer buf = new TTCN_Buffer();
 		switch (p_td.raw.stringformat) {
 		case UNKNOWN: // default is UTF-8
 		case UTF_8:
@@ -1663,7 +1666,7 @@ public class TitanUniversalCharString extends Base_Type {
 			buf.put_c((char) 0);
 		}
 
-		int buff_len = buf.get_len();
+		final int buff_len = buf.get_len();
 		int bl = buff_len * 8; // bit length
 		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
 		if (align_length < 0) {
@@ -1686,9 +1689,9 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 	
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
-		TitanCharString buff_str = new TitanCharString();
-		int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
-		char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
+		final TitanCharString buff_str = new TitanCharString();
+		final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
+		final char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
 		if(buff_str.isBound()) {
 			charstring = true;
 			for (int i = 0; i < buff_str.lengthOf().getInt(); ++i) {
@@ -1697,6 +1700,7 @@ public class TitanUniversalCharString extends Base_Type {
 					break;
 				}
 			}
+
 			switch (p_td.raw.stringformat) {
 			case UNKNOWN: //default is UTF-8
 			case UTF_8:
@@ -1717,6 +1721,7 @@ public class TitanUniversalCharString extends Base_Type {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INTERNAL, "Invalid string serialization type.");
 			}
 		}
+
 		return dec_len;
 	}
 }

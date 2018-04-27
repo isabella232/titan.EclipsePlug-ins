@@ -191,11 +191,11 @@ public class TTCN_Communication {
 			}
 			//FIXME implement
 			if (is_readable) {
-				AtomicInteger buf_ptr = new AtomicInteger();
-				AtomicInteger buf_len = new AtomicInteger();
+				final AtomicInteger buf_ptr = new AtomicInteger();
+				final AtomicInteger buf_len = new AtomicInteger();
 				incoming_buffer.get_end(buf_ptr, buf_len);
 
-				ByteBuffer tempbuffer = ByteBuffer.allocate(1024);
+				final ByteBuffer tempbuffer = ByteBuffer.allocate(1024);
 				int recv_len = 0;
 				try {
 					recv_len = mc_channel.read(tempbuffer);
@@ -267,7 +267,7 @@ public class TTCN_Communication {
 			return;
 		}
 		//FIXME implement
-		MC_Connection mc_connection = new MC_Connection(mc_socketchannel.get(), incoming_buf.get());
+		final MC_Connection mc_connection = new MC_Connection(mc_socketchannel.get(), incoming_buf.get());
 		try {
 			mc_socketchannel.get().configureBlocking(false);
 			TTCN_Snapshot.channelMap.get().put(mc_socketchannel.get(), mc_connection);
@@ -318,9 +318,9 @@ public class TTCN_Communication {
 		while (incoming_buf.get().is_message()) {
 			wait_flag = true;
 
-			int msg_len = incoming_buf.get().pull_int().getInt();
-			int msg_end = incoming_buf.get().get_pos() + msg_len;
-			int msg_type = incoming_buf.get().pull_int().getInt();
+			final int msg_len = incoming_buf.get().pull_int().getInt();
+			final int msg_end = incoming_buf.get().get_pos() + msg_len;
+			final int msg_type = incoming_buf.get().pull_int().getInt();
 
 			System.out.println("received hc message type " + msg_type);//FIXME only debug printout
 			switch (msg_type) {
@@ -367,9 +367,9 @@ public class TTCN_Communication {
 
 		//FIXME implement
 		while (incoming_buf.get().is_message()) {
-			int msg_len = incoming_buf.get().pull_int().getInt();
-			int msg_end = incoming_buf.get().get_pos() + msg_len;
-			int msg_type = incoming_buf.get().pull_int().getInt();
+			final int msg_len = incoming_buf.get().pull_int().getInt();
+			final int msg_end = incoming_buf.get().get_pos() + msg_len;
+			final int msg_type = incoming_buf.get().pull_int().getInt();
 
 			System.out.println("received tc message type " + msg_type);
 			// messages: MC -> TC
@@ -488,7 +488,7 @@ public class TTCN_Communication {
 	public static void send_version() {
 		//FIXME implement (only temporary values for now)
 
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_VERSION);
 		//sending temporary data
 		text_buf.push_int(TTCN_Runtime.TTCN3_MAJOR);
@@ -513,14 +513,14 @@ public class TTCN_Communication {
 	}
 
 	public static void send_configure_ack() {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE_ACK);
 
 		send_message(text_buf);
 	}
 
 	public static void send_configure_nak() {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONFIGURE_NAK);
 
 		send_message(text_buf);
@@ -528,7 +528,7 @@ public class TTCN_Communication {
 
 	public static void send_create_req(final String componentTypeModule, final String componentTypeName,
 			final String componentName, final String componentLocation, final boolean is_alive) {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CREATE_REQ);
 		text_buf.push_string(componentTypeModule);
 		text_buf.push_string(componentTypeName);
@@ -540,7 +540,7 @@ public class TTCN_Communication {
 	}
 
 	public static void send_connect_req(final int sourceComponent, final String sourcePort, final int destinationComponent, final String destinationPort) {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONNECT_REQ);
 		text_buf.push_int(sourceComponent);
 		text_buf.push_string(sourcePort);
@@ -551,7 +551,7 @@ public class TTCN_Communication {
 	}
 
 	public static void send_mtc_created() {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_CREATED);
 
 		send_message(text_buf);
@@ -559,7 +559,7 @@ public class TTCN_Communication {
 
 	public static void send_testcase_started(final String testcaseModule, final String testcaseName, final String mtc_comptype_module,
 			final String mtc_comptype_name, final String system_comptype_module, final String system_comptype_name) {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_TESTCASE_STARTED);
 		text_buf.push_string(testcaseModule);
 		text_buf.push_string(testcaseName);
@@ -572,14 +572,14 @@ public class TTCN_Communication {
 	}
 
 	public static void send_mtc_ready() {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_READY);
 
 		send_message(text_buf);
 	}
 
 	public static void send_ptc_created(final int component_reference) {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_PTC_CREATED);
 		text_buf.push_int(component_reference);
 
@@ -587,7 +587,7 @@ public class TTCN_Communication {
 	}
 
 	public static void send_error(final String message) {
-		Text_Buf text_buf = new Text_Buf();
+		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
 		text_buf.push_string(message);
 
@@ -601,7 +601,7 @@ public class TTCN_Communication {
 
 		text_buf.calculate_length();
 		final byte msg[] = text_buf.get_data();
-		ByteBuffer buffer = ByteBuffer.allocate(msg.length);
+		final ByteBuffer buffer = ByteBuffer.allocate(msg.length);
 		buffer.put(msg);
 		buffer.flip();
 
@@ -639,8 +639,8 @@ public class TTCN_Communication {
 		TtcnLogger.log_configdata(enum_type.received__from__mc, null);
 
 		final Text_Buf temp_incoming_buf = incoming_buf.get();
-		int config_str_len = temp_incoming_buf.pull_int().getInt();
-		int config_str_begin = temp_incoming_buf.get_pos();
+		final int config_str_len = temp_incoming_buf.pull_int().getInt();
+		final int config_str_begin = temp_incoming_buf.get_pos();
 		if (config_str_begin + config_str_len != msg_end) {
 			temp_incoming_buf.cut_message();
 			send_error("Malformed message CONFIGURE was received.");
@@ -651,7 +651,7 @@ public class TTCN_Communication {
 		if (config_str_len == 0) {
 			config_str = "";
 		} else {
-			byte[] data = new byte[config_str_len];
+			final byte[] data = new byte[config_str_len];
 			System.arraycopy(temp_incoming_buf.get_data(), config_str_begin, data, 0, config_str_len);
 			config_str = new String(data);
 		}
@@ -678,30 +678,30 @@ public class TTCN_Communication {
 	private static void process_create_ptc() {
 		final Text_Buf temp_incoming_buf = incoming_buf.get();
 
-		int component_reference = temp_incoming_buf.pull_int().getInt();
+		final int component_reference = temp_incoming_buf.pull_int().getInt();
 		if (component_reference < TitanComponent.FIRST_PTC_COMPREF) {
 			temp_incoming_buf.cut_message();
 			send_error(MessageFormat.format("Message CREATE_PTC refers to invalid component reference {0}.", component_reference));
 			return;
 		}
 
-		String module_name = temp_incoming_buf.pull_string();
-		String definition_name = temp_incoming_buf.pull_string();
+		final String module_name = temp_incoming_buf.pull_string();
+		final String definition_name = temp_incoming_buf.pull_string();
 		if (module_name == null || definition_name == null) {
 			send_error(MessageFormat.format("Message CREATE_PTC with component reference {0} contains an invalid component type.", component_reference));
 		}
 
-		String component_name = temp_incoming_buf.pull_string();
-		boolean is_alive = temp_incoming_buf.pull_int().getInt() == 0 ? false : true;
-		String testcase_module_name = temp_incoming_buf.pull_string();
-		String testcase_definition_name = temp_incoming_buf.pull_string();
+		final String component_name = temp_incoming_buf.pull_string();
+		final boolean is_alive = temp_incoming_buf.pull_int().getInt() == 0 ? false : true;
+		final String testcase_module_name = temp_incoming_buf.pull_string();
+		final String testcase_definition_name = temp_incoming_buf.pull_string();
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_create_ptc(component_reference, module_name, definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
 	}
 
 	private static void process_create_ack() {
-		int component_reference = incoming_buf.get().pull_int().getInt();
+		final int component_reference = incoming_buf.get().pull_int().getInt();
 		incoming_buf.get().cut_message();
 
 		TTCN_Runtime.process_create_ack(component_reference);
@@ -710,11 +710,11 @@ public class TTCN_Communication {
 	private static void process_connect() {
 		final Text_Buf temp_incoming_buf = incoming_buf.get();
 
-		String local_port = temp_incoming_buf.pull_string();
-		int remote_component = temp_incoming_buf.pull_int().getInt();
-		String remote_component_name = temp_incoming_buf.pull_string();
-		String remote_port = temp_incoming_buf.pull_string();
-		int transport_type = temp_incoming_buf.pull_int().getInt();
+		final String local_port = temp_incoming_buf.pull_string();
+		final int remote_component = temp_incoming_buf.pull_int().getInt();
+		final String remote_component_name = temp_incoming_buf.pull_string();
+		final String remote_port = temp_incoming_buf.pull_string();
+		final int transport_type = temp_incoming_buf.pull_int().getInt();
 
 		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.getComponent() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
@@ -759,8 +759,8 @@ public class TTCN_Communication {
 	private static void process_debug_command() {
 		final Text_Buf temp_incoming_buf = incoming_buf.get();
 
-		int command = temp_incoming_buf.pull_int().getInt();
-		int argument_count = temp_incoming_buf.pull_int().getInt();
+		final int command = temp_incoming_buf.pull_int().getInt();
+		final int argument_count = temp_incoming_buf.pull_int().getInt();
 		//FIXME process the arguments properly
 		if (argument_count > 0) {
 			for (int i = 0; i < argument_count; i++) {

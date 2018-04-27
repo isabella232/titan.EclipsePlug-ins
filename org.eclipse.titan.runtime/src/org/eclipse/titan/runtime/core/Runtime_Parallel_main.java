@@ -23,7 +23,7 @@ public class Runtime_Parallel_main {
 	}
 
 	//FIXME this is much more complicated
-		public static void parallelMain(String[] argv) {
+		public static void parallelMain(final String[] argv) {
 			TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
 			TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 

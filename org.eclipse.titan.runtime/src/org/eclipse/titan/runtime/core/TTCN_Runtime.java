@@ -258,7 +258,8 @@ public final class TTCN_Runtime {
 	}
 
 	private static void wait_for_state_change() {
-		executorStateEnum oldState = executorState.get();
+		final executorStateEnum oldState = executorState.get();
+
 		do {
 			TTCN_Snapshot.takeNew(true);
 		} while (oldState == executorState.get());
@@ -361,6 +362,7 @@ public final class TTCN_Runtime {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.waiting__for__ptcs__to__finish);
 			// FIXME implement
 			executorState.set(executorStateEnum.MTC_TERMINATING_TESTCASE);
+			wait_for_state_change();
 		} else if (executorState.get() == executorStateEnum.SINGLE_TESTCASE) {
 			executorState.set(executorStateEnum.SINGLE_CONTROLPART);
 			// FIXME implement
@@ -383,7 +385,7 @@ public final class TTCN_Runtime {
 
 		if (executorState.get() == executorStateEnum.MTC_PAUSED) {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
-			// FIXME implement
+			wait_for_state_change();
 			if (executorState.get() != executorStateEnum.MTC_TERMINATING_EXECUTION) {
 				TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.resuming__execution);
 			}
@@ -643,12 +645,12 @@ public final class TTCN_Runtime {
 		case MTC_TESTCASE:
 			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
 			executorState.set(executorStateEnum.MTC_CONNECT);
-			//FIXME implement
+			wait_for_state_change();
 			break;
 		case PTC_FUNCTION:
 			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
 			executorState.set(executorStateEnum.PTC_CONNECT);
-			//FIXME implement
+			wait_for_state_change();
 			break;
 		default:
 			if (in_controlPart()) {
@@ -1086,7 +1088,7 @@ public final class TTCN_Runtime {
 		// clean the emergency buffer
 		TtcnLogger.ring_buffer_dump(false);
 
-		Thread MTC = new Thread() {
+		final Thread MTC = new Thread() {
 
 			@Override
 			public void run() {
@@ -1130,7 +1132,7 @@ public final class TTCN_Runtime {
 		// clean the emergency buffer
 		TtcnLogger.ring_buffer_dump(false);
 
-		Thread PTC = new Thread() {
+		final Thread PTC = new Thread() {
 
 			@Override
 			public void run() {
