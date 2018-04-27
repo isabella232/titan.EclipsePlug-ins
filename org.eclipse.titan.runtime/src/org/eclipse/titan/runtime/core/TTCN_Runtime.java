@@ -645,6 +645,11 @@ public final class TTCN_Runtime {
 			executorState.set(executorStateEnum.MTC_CONNECT);
 			//FIXME implement
 			break;
+		case PTC_FUNCTION:
+			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			executorState.set(executorStateEnum.PTC_CONNECT);
+			//FIXME implement
+			break;
 		default:
 			if (in_controlPart()) {
 				throw new TtcnError("Connect operation cannot be performed in the control part.");
@@ -654,8 +659,6 @@ public final class TTCN_Runtime {
 		}
 
 		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
-		
-		//FIXME implement
 	}
 
 	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
