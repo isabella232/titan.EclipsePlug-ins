@@ -539,6 +539,17 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_connect_req(final int sourceComponent, final String sourcePort, final int destinationComponent, final String destinationPort) {
+		Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CONNECT_REQ);
+		text_buf.push_int(sourceComponent);
+		text_buf.push_string(sourcePort);
+		text_buf.push_int(destinationComponent);
+		text_buf.push_string(destinationPort);
+
+		send_message(text_buf);
+	}
+
 	public static void send_mtc_created() {
 		Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_CREATED);
