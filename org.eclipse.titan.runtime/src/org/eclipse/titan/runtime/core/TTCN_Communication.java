@@ -378,7 +378,7 @@ public class TTCN_Communication {
 				process_error();
 				break;
 			case MSG_CREATE_ACK:
-				//FIXME process_create_ack();
+				process_create_ack();
 				break;
 			case MSG_START_ACK:
 				//FIXME process_start_ack();
@@ -698,6 +698,13 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_create_ptc(component_reference, module_name, definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
+	}
+
+	private static void process_create_ack() {
+		int component_reference = incoming_buf.get().pull_int().getInt();
+		incoming_buf.get().cut_message();
+
+		TTCN_Runtime.process_create_ack(component_reference);
 	}
 
 	private static void process_execute_control() {

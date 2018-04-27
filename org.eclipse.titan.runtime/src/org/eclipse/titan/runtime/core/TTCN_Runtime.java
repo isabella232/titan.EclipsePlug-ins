@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
@@ -1093,6 +1094,24 @@ public final class TTCN_Runtime {
 		//TODO what is the PID?
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
 		
+		//FIXME implement
+	}
+
+	public static void process_create_ack(final int new_component) {
+		switch (executorState.get()) {
+		case MTC_CREATE:
+			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_CREATE:
+			executorState.set(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message CREATE_ACK arrived in invalid state.");
+		}
+
+		create_done_killed_compref.set(new_component);
 		//FIXME implement
 	}
 }
