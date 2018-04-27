@@ -32,11 +32,12 @@ public class TitanComponent extends Base_Type {
 
 	public static TitanComponent self = new TitanComponent();
 
-	private class ComponentNameStruct {
+	private static class ComponentNameStruct {
 		public int componentReference;
 		public String componentName;
 	}
 
+	//TODO might not be needed
 	private static int numberOfComponentNames = 0;
 	private static final ArrayList<ComponentNameStruct> componentNames = new ArrayList<TitanComponent.ComponentNameStruct>();
 
@@ -278,5 +279,73 @@ public class TitanComponent extends Base_Type {
 			//FIXME implement registering the component name
 			break;
 		}
+	}
+
+	public static void register_component_name(final int component_reference, final String component_name) {
+		if (self.componentValue == component_reference) {
+			// the own name of the component will not be registered,
+			// but check whether we got the right string
+			final String local_name = TTCN_Runtime.get_component_name();
+			if (component_name == null || component_name.length() == 0) {
+				if (local_name != null) {
+					throw new TtcnError(MessageFormat.format("Internal error: Trying to register the component reference of this PTC without any name, but this component has name {0}.", local_name));
+				}
+			} else {
+				if (local_name == null) {
+					throw new TtcnError(MessageFormat.format("Internal error: Trying to register the component reference of this PTC with name {0}, but this component does not have name.", component_name));
+				} else if (!component_name.equals(local_name)) {
+					throw new TtcnError(MessageFormat.format("Internal error: Trying to register the component reference of this PTC with name {0}, but this component has name {1}.", component_name, local_name));
+				}
+			}
+
+			return;
+		}
+
+		int min = 0;
+		if (componentNames.size() > 0) {
+			// perform a binary search to find the place for the component reference
+			int max = numberOfComponentNames - 1;
+			while (min < max) {
+				int mid = min + (max - min) / 2;
+				if (componentNames.get(mid).componentReference < component_reference) {
+					min = mid + 1;
+				} else if (componentNames.get(mid).componentReference == component_reference) {
+					min = mid;
+					break;
+				} else {
+					max = mid;
+				}
+			}
+			if (componentNames.get(min).componentReference == component_reference) {
+				// the component reference is already registered
+				final String stored_name = componentNames.get(min).componentName;
+				if (component_name == null || component_name.length() == 0) {
+					if (stored_name != null) {
+						throw new TtcnError(MessageFormat.format("Internal error: Trying to register component reference {0} without any name, but this component reference is already registered with name {1}.", component_reference, stored_name));
+					}
+				} else {
+					if (stored_name == null) {
+						throw new TtcnError(MessageFormat.format("Internal error: Trying to register component reference {0} with name {1}, but this component reference is already registered without name.", component_reference, component_name));
+					} else if (!component_name.equals(stored_name)) {
+						throw new TtcnError(MessageFormat.format("Internal error: Trying to register component reference {0} with name {1}, but this component reference is already registered with a different name ({2}).", component_reference, component_name, stored_name));
+					}
+				}
+				return;
+			} else {
+				if (componentNames.get(min).componentReference < component_reference) {
+					min++;
+				}
+			}
+		}
+
+		ComponentNameStruct tempElement = new ComponentNameStruct();
+		tempElement.componentReference = component_reference;
+		if (component_name == null || component_name.length() == 0) {
+			tempElement.componentName = null;
+		} else {
+			tempElement.componentName = component_name;
+		}
+		componentNames.add(min, tempElement);
+		numberOfComponentNames++;
 	}
 }
