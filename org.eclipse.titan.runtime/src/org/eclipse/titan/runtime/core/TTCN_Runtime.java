@@ -1060,7 +1060,7 @@ public final class TTCN_Runtime {
 				TTCN_Snapshot.reOpen();
 				TTCN_Communication.close_mc_connection();
 
-				TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
+				TitanComponent.self.assign(component_reference);
 				set_component_type(component_type_module, component_type_name);
 				set_component_name(par_component_name);
 				TTCN_Runtime.is_alive.set(par_is_alive);
