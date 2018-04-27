@@ -587,9 +587,75 @@ public final class TTCN_Runtime {
 		TitanPort.unmap_port(componentPort, systemPort, false);
 	}
 
+	private static void check_port_name(final String portName, final String operationName, final String whichArgument) {
+		if (portName == null) {
+			throw new TtcnError(MessageFormat.format("Internal error: The port name in the {0} argument of {1} operation is a NULL pointer.", whichArgument, operationName));
+		}
+		if (portName.length() == 0) {
+			throw new TtcnError(MessageFormat.format("Internal error: The {0} argument of {1} operation contains an empty string as port name.", whichArgument, operationName));
+		}
+	}
+
 	public static void connect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
+		check_port_name(sourePort, "connect", "first");
+		check_port_name(destinationPort, "connect", "second");
+
+		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TtcnLogger.log_event_str("Connecting ports ");
+		sourceComponent.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0} and ", sourePort));
+		destinationComponent.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TtcnLogger.end_event();
+
+		if (!sourceComponent.isBound()) {
+			throw new TtcnError("The first argument of connect operation contains an unbound component reference.");
+		}
+		switch (sourceComponent.getComponent()) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("The first argument of connect operation contains the null component reference.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("The first argument of connect operation refers to a system port.");
+		default:
+			break;
+		}
+
+		if (!destinationComponent.isBound()) {
+			throw new TtcnError("The second argument of connect operation contains an unbound component reference.");
+		}
+		switch (destinationComponent.getComponent()) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("The second argument of connect operation contains the null component reference.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("The second argument of connect operation refers to a system port.");
+		default:
+			break;
+		}
+
+		switch (executorState.get()) {
+		case SINGLE_TESTCASE:
+			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
+				throw new TtcnError("Both endpoints of connect operation must refer to ports of mtc in single mode.");
+			}
+			//FIXME implement
+			throw new TtcnError("Connecting components is not yet supported!");
+			//break;
+		case MTC_TESTCASE:
+			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			executorState.set(executorStateEnum.MTC_CONNECT);
+			//FIXME implement
+			break;
+		default:
+			if (in_controlPart()) {
+				throw new TtcnError("Connect operation cannot be performed in the control part.");
+			} else {
+				throw new TtcnError("Internal error: Executing connect operation in invalid state.");
+			}
+		}
+
+		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		
 		//FIXME implement
-		throw new TtcnError("Connecting components is not yet supported!");
 	}
 
 	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {

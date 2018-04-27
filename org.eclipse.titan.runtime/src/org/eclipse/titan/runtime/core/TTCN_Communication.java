@@ -414,7 +414,7 @@ public class TTCN_Communication {
 				//FIXME process_connect();
 				break;
 			case MSG_CONNECT:
-				//FIXME process_connect();
+				process_connect();
 				break;
 			case MSG_CONNECT_ACK:
 				//FIXME process_connecT_ack();
@@ -705,6 +705,23 @@ public class TTCN_Communication {
 		incoming_buf.get().cut_message();
 
 		TTCN_Runtime.process_create_ack(component_reference);
+	}
+
+	private static void process_connect() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		String local_port = temp_incoming_buf.pull_string();
+		int remote_component = temp_incoming_buf.pull_int().getInt();
+		String remote_component_name = temp_incoming_buf.pull_string();
+		String remote_port = temp_incoming_buf.pull_string();
+		int transport_type = temp_incoming_buf.pull_int().getInt();
+
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.getComponent() != remote_component) {
+			TitanComponent.register_component_name(remote_component, remote_component_name);
+		}
+		//FIXME implement process_connect, with try
+
+		temp_incoming_buf.cut_message();
 	}
 
 	private static void process_execute_control() {
