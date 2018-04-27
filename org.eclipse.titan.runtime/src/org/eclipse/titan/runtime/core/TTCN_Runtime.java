@@ -256,6 +256,13 @@ public final class TTCN_Runtime {
 		return executorState.get() == executorStateEnum.SINGLE_TESTCASE || is_mtc() || is_ptc();
 	}
 
+	private static void wait_for_state_change() {
+		executorStateEnum oldState = executorState.get();
+		do {
+			TTCN_Snapshot.takeNew(true);
+		} while (oldState == executorState.get());
+	}
+
 	public static void begin_controlpart(final String moduleName) {
 		control_module_name = moduleName;
 		//FIXME implement execute_command
@@ -729,11 +736,12 @@ public final class TTCN_Runtime {
 			all_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
 		}
 
-		//FIXME implement
+		wait_for_state_change();
 
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created, createdComponentTypeModule, createdComponentTypeName, create_done_killed_compref.get().intValue(), createdComponentName, createdComponentLocation, createdComponentAlive ? 1: 0, 0);
 
-		//FIXME implement component registration
+		TitanComponent.register_component_name(create_done_killed_compref.get().intValue(), createdComponentName);
+
 		return create_done_killed_compref.get();
 	}
 
