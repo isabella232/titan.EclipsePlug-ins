@@ -166,6 +166,6 @@ public final class SelfComponentExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		aData.addBuiltinTypeImport("TitanComponent");
 
-		expression.expression.append("TitanComponent.self");
+		expression.expression.append("TitanComponent.self.get()");
 	}
 }

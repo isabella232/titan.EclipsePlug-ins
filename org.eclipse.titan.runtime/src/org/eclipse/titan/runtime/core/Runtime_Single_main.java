@@ -24,7 +24,7 @@ public final class Runtime_Single_main {
 
 	//FIXME this is much more complicated
 	public static void singleMain() {
-		TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
+		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
 		TtcnLogger.initialize_logger();

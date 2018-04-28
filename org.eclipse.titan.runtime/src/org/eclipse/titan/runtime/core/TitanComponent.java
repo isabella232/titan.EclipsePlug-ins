@@ -30,7 +30,12 @@ public class TitanComponent extends Base_Type {
 	//Pseudo-component for logging when the MTC is executing a controlpart
 	public static final int CONTROL_COMPREF = -4;
 
-	public static TitanComponent self = new TitanComponent();
+	public static ThreadLocal<TitanComponent> self = new ThreadLocal<TitanComponent>() {
+		@Override
+		protected TitanComponent initialValue() {
+			return new TitanComponent();
+		}
+	};
 
 	private static class ComponentNameStruct {
 		public int componentReference;
@@ -283,7 +288,7 @@ public class TitanComponent extends Base_Type {
 	}
 
 	public static void register_component_name(final int component_reference, final String component_name) {
-		if (self.componentValue == component_reference) {
+		if (self.get().componentValue == component_reference) {
 			// the own name of the component will not be registered,
 			// but check whether we got the right string
 			final String local_name = TTCN_Runtime.get_component_name();

@@ -716,7 +716,7 @@ public class TTCN_Communication {
 		final String remote_port = temp_incoming_buf.pull_string();
 		final int transport_type = temp_incoming_buf.pull_int().getInt();
 
-		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.getComponent() != remote_component) {
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
 		//FIXME implement process_connect, with try

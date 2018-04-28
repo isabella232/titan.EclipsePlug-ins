@@ -725,7 +725,7 @@ public final class TTCN_Runtime {
 
 		TtcnLogger.begin_event(Severity.EXECUTOR_COMPONENT);
 		TtcnLogger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
-		TitanComponent.self.log();
+		TitanComponent.self.get().log();
 		TtcnLogger.log_event_str(MessageFormat.format(", component type: {0}.{1}", component_type_module, component_type_name));
 		if (component_name != null) {
 			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", component_name));
@@ -738,7 +738,7 @@ public final class TTCN_Runtime {
 
 		TTCN_Communication.connect_mc();
 		executorState.set(executorStateEnum.PTC_IDLE);
-		TTCN_Communication.send_ptc_created(TitanComponent.self.componentValue);
+		TTCN_Communication.send_ptc_created(TitanComponent.self.get().componentValue);
 		initialize_component_type();
 
 		if (ret_val == 0) {
@@ -843,12 +843,9 @@ public final class TTCN_Runtime {
 			break;
 		}
 
-		if (TitanComponent.self.getComponent() == compref) {
+		if (TitanComponent.self.get().getComponent() == compref) {
 			throw new TtcnError("Start operation cannot be performed on the own component reference of the initiating component (i.e. 'self.start' is not allowed).");
 		}
-
-		throw new TtcnError("Starting components is not yet supported!");
-		//FIXME implement
 	}
 
 	public static void send_start_component(final Text_Buf text_buf) {
@@ -863,8 +860,14 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Executing component start operation in invalid state.");
 		}
 
-		throw new TtcnError("Starting components is not yet supported!");
-		//FIXME implement
+		TTCN_Communication.send_message(text_buf);
+		if (is_mtc()) {
+			all_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+		}
+
+		wait_for_state_change();
+
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__started, null, null, 0, null, null, 0, 0);
 	}
 
 	//originally component_done, with component parameter
@@ -1146,7 +1149,7 @@ public final class TTCN_Runtime {
 				TTCN_Snapshot.reOpen();
 				TTCN_Communication.close_mc_connection();
 
-				TitanComponent.self.assign(TitanComponent.MTC_COMPREF);
+				TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 				executorState.set(executorStateEnum.MTC_INITIAL);
 
 				//stuff from Parallel_main::main after hc_main call
@@ -1190,7 +1193,7 @@ public final class TTCN_Runtime {
 				TTCN_Snapshot.reOpen();
 				TTCN_Communication.close_mc_connection();
 
-				TitanComponent.self.assign(component_reference);
+				TitanComponent.self.set(new TitanComponent(component_reference));
 				set_component_type(component_type_module, component_type_name);
 				set_component_name(par_component_name);
 				TTCN_Runtime.is_alive.set(par_is_alive);
