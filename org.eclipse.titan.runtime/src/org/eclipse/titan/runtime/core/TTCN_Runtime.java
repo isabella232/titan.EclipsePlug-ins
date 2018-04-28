@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
@@ -101,6 +102,17 @@ public final class TTCN_Runtime {
 	private static TitanAlt_Status all_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
 	private static TitanAlt_Status any_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
 	private static TitanAlt_Status all_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
+
+	private static class component_status_table_struct {
+		TitanAlt_Status done_status;
+		TitanAlt_Status killed_status;
+		TitanVerdictType local_verdict;
+		String return_type;
+		Text_Buf return_value;
+	}
+
+	private static int component_status_table_offset = TitanComponent.FIRST_PTC_COMPREF;
+	private static ArrayList<component_status_table_struct> component_status_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
 
 	private TTCN_Runtime() {
 		// private constructor to disable accidental instantiation
@@ -846,6 +858,16 @@ public final class TTCN_Runtime {
 		if (TitanComponent.self.get().getComponent() == compref) {
 			throw new TtcnError("Start operation cannot be performed on the own component reference of the initiating component (i.e. 'self.start' is not allowed).");
 		}
+
+		if (in_component_status_table(compref)) {
+			if (get_killed_status(compref) == TitanAlt_Status.ALT_YES) {
+				throw new TtcnError(MessageFormat.format("PTC with component reference {0} is not alive anymore. Start operation cannot be performed on it.", compref));
+			}
+
+			cancel_component_done(compref);
+		}
+
+		TTCN_Communication.prepare_start_req(text_buf, compref, module_name, function_name);
 	}
 
 	public static void send_start_component(final Text_Buf text_buf) {
@@ -1237,5 +1259,97 @@ public final class TTCN_Runtime {
 
 		create_done_killed_compref.set(new_component);
 		//FIXME implement
+	}
+
+	private static void cancel_component_done(final int component_reference) {
+		switch (component_reference) {
+		case TitanComponent.ANY_COMPREF:
+			if (is_mtc()) {
+				any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
+			} else {
+				throw new TtcnError("Internal error: TTCN_Runtime::cancel_component_done(ANY_COMPREF): can be used only on MTC.");
+			}
+			break;
+		case TitanComponent.ALL_COMPREF:
+		case TitanComponent.NULL_COMPREF:
+		case TitanComponent.MTC_COMPREF:
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::cancel_component_done: invalid component reference: {0}.", component_reference));
+		default:
+			if (in_component_status_table(component_reference)) {
+				int index = get_component_status_table_index(component_reference);
+				component_status_table_struct temp = component_status_table.get(index);
+				temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
+				temp.return_type = null;
+				temp.return_value = null;
+			}
+		}
+	}
+
+	private static int get_component_status_table_index(final int component_reference) {
+		if (component_reference < TitanComponent.FIRST_PTC_COMPREF) {
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.get_component_status_table_index: invalid component reference: {0}.", component_reference));
+		}
+
+		if (component_status_table.size() == 0) {
+			//the table is empty, this will be the first entry
+			final component_status_table_struct temp = new component_status_table_struct();
+			temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
+			temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
+			temp.local_verdict = new TitanVerdictType(TitanVerdictType.VerdictTypeEnum.NONE);
+			temp.return_type = null;
+			temp.return_value = null;
+
+			component_status_table.add(temp);
+			component_status_table_offset = component_reference;
+
+			return 0;
+		} else if (component_reference >= component_status_table_offset) {
+			// the table contains at least one entry that is smaller than component_reference
+			int component_index = component_reference - component_status_table_offset;
+			if (component_index >= component_status_table.size()) {
+				// component_reference is still not in the table
+				// the table has to be extended at the end
+				for (int i = component_status_table.size(); i < component_index; i++) {
+					final component_status_table_struct temp = new component_status_table_struct();
+					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
+					temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
+					temp.local_verdict = new TitanVerdictType(TitanVerdictType.VerdictTypeEnum.NONE);
+					temp.return_type = null;
+					temp.return_value = null;
+
+					component_status_table.add(i, temp);
+				}
+			}
+
+			return component_index;
+		} else {
+			// component_reference has to be inserted before the existing table
+			int offset_diff = component_status_table_offset - component_reference;
+			int new_size = component_status_table.size() + offset_diff;
+			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
+			for (int i = 0; i < offset_diff; i++) {
+				final component_status_table_struct temp = new component_status_table_struct();
+				temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
+				temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
+				temp.local_verdict = new TitanVerdictType(TitanVerdictType.VerdictTypeEnum.NONE);
+				temp.return_type = null;
+				temp.return_value = null;
+
+				temp_table.add(i, temp);
+			}
+			component_status_table.addAll(0, temp_table);
+			component_status_table_offset = component_reference;
+
+			return 0;
+		}
+	}
+
+	private static TitanAlt_Status get_killed_status(final int component_reference) {
+		return component_status_table.get(get_component_status_table_index(component_reference)).killed_status;
+	}
+
+	private static boolean in_component_status_table(final int component_reference) {
+		return component_reference >= component_status_table_offset && component_reference < component_status_table.size() + component_status_table_offset;
 	}
 }
