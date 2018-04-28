@@ -936,10 +936,10 @@ public final class TTCN_Runtime {
 
 		if (is_alive.get()) {
 			// Prepare a STOPPED message with the current verdict and possible return value.
-			//FIXME implement
+			TTCN_Communication.prepare_stopped(text_buf, localVerdict, return_type, verdictReason);
 		} else {
 			terminate_component_type();
-			//FIXME implement
+			TTCN_Communication.prepare_stopped_killed(text_buf, localVerdict, return_type, verdictReason);
 		}
 	}
 
