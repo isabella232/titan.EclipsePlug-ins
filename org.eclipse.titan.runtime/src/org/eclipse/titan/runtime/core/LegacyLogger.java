@@ -17,6 +17,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.FinalVerdictInfo;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LocationInfo;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LogEventType_choice;
@@ -560,25 +561,81 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private static void verdictop_str(final StringBuilder returnValue, final VerdictOp_choice choice) {
-		final SetVerdictType set = choice.getSetVerdict();
-		final int newOrdinal = set.getNewVerdict().enum_value.ordinal();
-		final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
-		final int oldOrdinal = set.getOldVerdict().enum_value.ordinal();
-		final String oldVerdictName = VerdictTypeEnum.values()[oldOrdinal].getName();
-		final int localOrdinal = set.getLocalVerdict().enum_value.ordinal();
-		final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
+		switch (choice.get_selection()) {
+		case UNBOUND_VALUE:
+			break;
+		case ALT_SetVerdict: {
+			final SetVerdictType set = choice.getSetVerdict();
+			final int newOrdinal = set.getNewVerdict().enum_value.ordinal();
+			final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
+			final int oldOrdinal = set.getOldVerdict().enum_value.ordinal();
+			final String oldVerdictName = VerdictTypeEnum.values()[oldOrdinal].getName();
+			final int localOrdinal = set.getLocalVerdict().enum_value.ordinal();
+			final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
 
-		if (set.getNewVerdict().isGreaterThan(set.getOldVerdict())) {
-			if (!set.getOldReason().isPresent() || !set.getNewReason().isPresent()) {
-				returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}", newVerdictName, oldVerdictName, localVerdictName));
+			if (set.getNewVerdict().isGreaterThan(set.getOldVerdict())) {
+				if (!set.getOldReason().isPresent() || !set.getNewReason().isPresent()) {
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}", newVerdictName, oldVerdictName, localVerdictName));
+				} else {
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", new component reason: \"{4}\"", newVerdictName, oldVerdictName, localVerdictName, set.getOldReason().get().getValue(), set.getNewReason().get().getValue()));
+				}
 			} else {
-				returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", new component reason: \"{4}\"", newVerdictName, oldVerdictName, localVerdictName, set.getOldReason().get().getValue(), set.getNewReason().get().getValue()));
+				if (!set.getOldReason().isPresent() || !set.getNewReason().isPresent()) {
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} component reason not changed", newVerdictName, oldVerdictName, localVerdictName));
+				} else {
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdictName, oldVerdictName, localVerdictName, set.getOldReason().get().getValue()));
+				}
 			}
-		} else {
-			if (!set.getOldReason().isPresent() || !set.getNewReason().isPresent()) {
-				returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} component reason not changed", newVerdictName, oldVerdictName, localVerdictName));
-			} else {
-				returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdictName, oldVerdictName, localVerdictName, set.getOldReason().get().getValue()));
+			break;
+		}
+		case ALT_GetVerdict:
+			returnValue.append(MessageFormat.format("getverdict: {0}", choice.getGetVerdict().enum_value.name()));
+			break;
+		case ALT_FinalVerdict:
+			switch (choice.getFinalVerdict().getChoice().get_selection()) {
+			case UNBOUND_VALUE:
+				break;
+			case ALT_Info: {
+				final FinalVerdictInfo info = choice.getFinalVerdict().getChoice().getInfo();
+				if (info.getIs__ptc().getValue()) {
+					if (info.getPtc__compref().isPresent() && info.getPtc__compref().get().getInt() != TitanComponent.UNBOUND_COMPREF) {
+						if (info.getPtc__name().isPresent() && info.getPtc__name().get().lengthOf().getInt() > 0) {
+							returnValue.append(MessageFormat.format("Local verdict of PTC {0}({1}): ", info.getPtc__name().get().getValue(), info.getPtc__compref().get().getInt()));
+						} else {
+							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.getPtc__compref().get().getInt()));
+						}
+
+						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", info.getPtc__verdict().enum_value.name(), info.getLocal__verdict().enum_value.name(), info.getNew__verdict().enum_value.name()));
+						if (info.getVerdict__reason().isPresent() && info.getVerdict__reason().get().lengthOf().getInt() > 0) {
+							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getVerdict__reason().get().getValue()));
+						}
+					} else {
+						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", info.getLocal__verdict().enum_value.name()));
+						if (info.getVerdict__reason().isPresent() && info.getVerdict__reason().get().lengthOf().getInt() > 0) {
+							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getVerdict__reason().get().getValue()));
+						}
+					}
+				} else {
+					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", info.getLocal__verdict().enum_value.name()));
+					if (info.getVerdict__reason().isPresent() && info.getVerdict__reason().get().lengthOf().getInt() > 0) {
+						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getVerdict__reason().get().getValue()));
+					}
+				}
+				break;
+			}
+			case ALT_Notification:
+				switch (choice.getFinalVerdict().getChoice().getNotification().enum_value) {
+				case UNBOUND_VALUE:
+				case UNKNOWN_VALUE:
+					break;
+				case no__ptcs__were__created:
+					returnValue.append("No PTCs were created.");
+					break;
+				case setting__final__verdict__of__the__test__case:
+					returnValue.append("Setting final verdict of the test case.");
+					break;
+				}
+				break;
 			}
 		}
 	}

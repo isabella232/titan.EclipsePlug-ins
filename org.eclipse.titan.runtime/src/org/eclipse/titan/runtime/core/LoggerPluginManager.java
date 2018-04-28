@@ -25,6 +25,8 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorRuntime_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.FinalVerdictInfo;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.FinalVerdictType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.FunctionEvent_choice_random;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.LocationInfo;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.MatchingDoneType;
@@ -690,6 +692,39 @@ public class LoggerPluginManager {
 		qname.getTestcase__name().assign(definition_name);
 		testcase.getVerdict().assign(verdict.ordinal());
 		testcase.getReason().assign(reason);
+
+		log(event);
+	}
+
+	public void log_final_verdict(final boolean is_ptc, final TitanVerdictType.VerdictTypeEnum ptc_verdict, final TitanVerdictType.VerdictTypeEnum local_verdict, final TitanVerdictType.VerdictTypeEnum new_verdict, final String verdict_reason, final int notification, final int ptc_compref, final String ptc_name) {
+		if (!TtcnLogger.log_this_event(Severity.VERDICTOP_FINAL) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, Severity.VERDICTOP_FINAL);
+		final FinalVerdictType finalVerdict = event.getLogEvent().getChoice().getVerdictOp().getChoice().getFinalVerdict();
+		if (notification >= 0) {
+			finalVerdict.getChoice().getNotification().assign(notification);
+		} else {
+			final FinalVerdictInfo info = finalVerdict.getChoice().getInfo();
+
+			info.getIs__ptc().assign(is_ptc);
+			info.getPtc__verdict().assign(ptc_verdict.ordinal());
+			info.getLocal__verdict().assign(local_verdict.ordinal());
+			info.getNew__verdict().assign(new_verdict.ordinal());
+			info.getPtc__compref().get().assign(ptc_compref);
+			if (verdict_reason == null) {
+				info.getVerdict__reason().assign(template_sel.OMIT_VALUE);
+			} else {
+				info.getVerdict__reason().get().assign(verdict_reason);
+			}
+			if (ptc_name == null) {
+				info.getPtc__name().assign(template_sel.OMIT_VALUE);
+			} else {
+				info.getPtc__name().get().assign(ptc_name);
+			}
+		}
 
 		log(event);
 	}

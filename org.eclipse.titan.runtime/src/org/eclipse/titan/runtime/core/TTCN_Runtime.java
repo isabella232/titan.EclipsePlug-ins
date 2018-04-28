@@ -958,7 +958,7 @@ public final class TTCN_Runtime {
 		if (is_alive.get()) {
 			executorState.set(executorStateEnum.PTC_STOPPED);
 		} else {
-			//FIXME logging
+			TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 		}
 	}

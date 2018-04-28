@@ -1064,6 +1064,10 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_testcase_finished(module_name, definition_name, verdict, reason);
 	}
 
+	public static void log_final_verdict(final boolean is_ptc, final TitanVerdictType.VerdictTypeEnum ptc_verditc, final TitanVerdictType.VerdictTypeEnum local_verdict, final TitanVerdictType.VerdictTypeEnum new_verdict, final String verdict_reason, final int notification, final int ptc_compref, final String ptc_name) {
+		get_logger_plugin_manager().log_final_verdict(is_ptc, ptc_verditc, local_verdict, new_verdict, verdict_reason, notification, ptc_compref, ptc_name);
+	}
+
 	public static void log_controlpart_start_stop(final String moduleName, final boolean finished) {
 		get_logger_plugin_manager().log_controlpart_start_stop(moduleName, finished);
 	}
