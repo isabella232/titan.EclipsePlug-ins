@@ -381,7 +381,7 @@ public class TTCN_Communication {
 				process_create_ack();
 				break;
 			case MSG_START_ACK:
-				//FIXME process_start_ack();
+				process_start_ack();
 				break;
 			case MSG_STOP:
 				//FIXME process_stop();
@@ -712,6 +712,23 @@ public class TTCN_Communication {
 		incoming_buf.get().cut_message();
 
 		TTCN_Runtime.process_create_ack(component_reference);
+	}
+
+	private static void process_start_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_START:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_START:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message START_ACK arrived in invalid state.");
+		}
 	}
 
 	private static void process_connect() {
