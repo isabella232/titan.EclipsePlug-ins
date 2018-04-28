@@ -83,8 +83,13 @@ public class LoggerPluginManager {
 		//etc...
 	}
 
-	private static log_event_struct current_event = null;
-	private static Stack<log_event_struct> events = new Stack<log_event_struct>();
+	private static ThreadLocal<log_event_struct> current_event = new ThreadLocal<LoggerPluginManager.log_event_struct>();
+	private static ThreadLocal<Stack<log_event_struct>> events = new ThreadLocal<Stack<log_event_struct>>() {
+		@Override
+		protected Stack<log_event_struct> initialValue() {
+			return new Stack<log_event_struct>();
+		}
+	};
 
 	private ArrayList<ILoggerPlugin> plugins_ = new ArrayList<ILoggerPlugin>();
 
@@ -183,25 +188,25 @@ public class LoggerPluginManager {
 	}
 
 	public void begin_event(final Severity msg_severity) {
-		current_event = new log_event_struct();
-		current_event.severity = msg_severity;
-		current_event.buffer = new StringBuilder(100);
+		current_event.set(new log_event_struct());
+		current_event.get().severity = msg_severity;
+		current_event.get().buffer = new StringBuilder(100);
 		if (TtcnLogger.log_this_event(msg_severity)) {
-			current_event.event_destination = event_destination_t.ED_FILE;
+			current_event.get().event_destination = event_destination_t.ED_FILE;
 		} else {
-			current_event.event_destination = event_destination_t.ED_NONE;
+			current_event.get().event_destination = event_destination_t.ED_NONE;
 		}
 
-		events.push(current_event);
+		events.get().push(current_event.get());
 	}
 
 	public void begin_event_log2str() {
-		current_event = new log_event_struct();
-		current_event.severity = Severity.USER_UNQUALIFIED;
-		current_event.buffer = new StringBuilder(100);
-		current_event.event_destination = event_destination_t.ED_STRING;
+		current_event.set(new log_event_struct());
+		current_event.get().severity = Severity.USER_UNQUALIFIED;
+		current_event.get().buffer = new StringBuilder(100);
+		current_event.get().event_destination = event_destination_t.ED_STRING;
 
-		events.push(current_event);
+		events.get().push(current_event.get());
 	}
 
 	public void end_event() {
@@ -210,14 +215,14 @@ public class LoggerPluginManager {
 			return;
 		}
 
-		switch (current_event.event_destination) {
+		switch (current_event.get().event_destination) {
 		case ED_NONE:
 			break;
 		case ED_FILE:
 			//FIXME implement
 			//TODO temporary solution for filtering
-			if (TtcnLogger.log_this_event(current_event.severity)) {
-				log_unhandled_event(current_event.severity, current_event.buffer.toString());
+			if (TtcnLogger.log_this_event(current_event.get().severity)) {
+				log_unhandled_event(current_event.get().severity, current_event.get().buffer.toString());
 			}
 			break;
 		case ED_STRING:
@@ -225,11 +230,11 @@ public class LoggerPluginManager {
 			break;
 		}
 
-		events.pop();
-		if (!events.isEmpty()) {
-			current_event = events.peek();
+		events.get().pop();
+		if (!events.get().isEmpty()) {
+			current_event.set(events.get().peek());
 		} else {
-			current_event = null;
+			current_event.set(null);
 		}
 	}
 
@@ -239,13 +244,13 @@ public class LoggerPluginManager {
 			return new TitanCharString();
 		}
 
-		final TitanCharString ret_val = new TitanCharString(current_event.buffer);
+		final TitanCharString ret_val = new TitanCharString(current_event.get().buffer);
 
-		events.pop();
-		if (!events.isEmpty()) {
-			current_event = events.peek();
+		events.get().pop();
+		if (!events.get().isEmpty()) {
+			current_event.set(events.get().peek());
 		} else {
-			current_event = null;
+			current_event.set(null);
 		}
 
 		return ret_val;
@@ -253,7 +258,7 @@ public class LoggerPluginManager {
 
 	public void finish_event() {
 		// There is no try-catch block to delete string targeted operations.
-		while (current_event != null && current_event.event_destination == event_destination_t.ED_STRING) {
+		while (current_event != null && current_event.get().event_destination == event_destination_t.ED_STRING) {
 			end_event_log2str();
 		}
 
@@ -265,13 +270,13 @@ public class LoggerPluginManager {
 
 	public void log_event_str(final String string) {
 		if (current_event != null) {
-			if (current_event.event_destination == event_destination_t.ED_NONE) {
+			if (current_event.get().event_destination == event_destination_t.ED_NONE) {
 				return;
 			}
 			if (string == null) {
-				current_event.buffer.append("<NULL pointer>");
+				current_event.get().buffer.append("<NULL pointer>");
 			} else {
-				current_event.buffer.append(string);
+				current_event.get().buffer.append(string);
 			}
 		} else {
 			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::log_event_str(): not in event.");
@@ -281,10 +286,10 @@ public class LoggerPluginManager {
 	public void log_char(final char c) {
 		// TODO: correct log_char
 		if (current_event != null) {
-			if (current_event.event_destination == event_destination_t.ED_NONE || c == '\0') {
+			if (current_event.get().event_destination == event_destination_t.ED_NONE || c == '\0') {
 				return;
 			}
-			current_event.buffer.append(c);
+			current_event.get().buffer.append(c);
 		} else {
 			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::log_char(): not in event.");
 		}
@@ -292,10 +297,10 @@ public class LoggerPluginManager {
 
 	public void log_event_va_list(final String formatString, final Object... args) {
 		if (current_event != null) {
-			if (current_event.event_destination == event_destination_t.ED_NONE) {
+			if (current_event.get().event_destination == event_destination_t.ED_NONE) {
 				return;
 			}
-			current_event.buffer.append(String.format(Locale.US, formatString, args));
+			current_event.get().buffer.append(String.format(Locale.US, formatString, args));
 		} else {
 			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::log_event_va_list(): not in event.");
 		}
