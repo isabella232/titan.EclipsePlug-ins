@@ -954,6 +954,8 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		if (isStartable) {
 			aData.addBuiltinTypeImport("TitanComponent");
+			aData.addBuiltinTypeImport("Text_Buf");
+			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			source.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
 			if (formalParList != null && formalParList.getNofParameters() > 0) {
@@ -975,8 +977,15 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			source.append("component_reference.log();\n");
 			source.append("TtcnLogger.log_char('.');\n");
 			source.append("TtcnLogger.end_event();\n");
-			//FIXME implement once encoding is ready
-			source.append("throw new TtcnError(\"Starting a function on a remote component is not yet implemented!\");\n");
+
+			source.append("final Text_Buf text_buf = new Text_Buf();\n");
+			source.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
+			if (formalParList != null) {
+				for (int i = 0; i < formalParList.getNofParameters(); i++) {
+					source.append(MessageFormat.format("{0}.encode_text(text_buf);\n", formalParList.getParameterByIndex(i).getGenName()));
+				}
+			}
+			source.append("TTCN_Runtime.send_start_component(text_buf);\n");
 			source.append("}\n");
 
 			//FIXME add to start_ptc_function

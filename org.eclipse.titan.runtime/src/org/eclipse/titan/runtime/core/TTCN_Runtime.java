@@ -817,6 +817,56 @@ public final class TTCN_Runtime {
 		return create_done_killed_compref.get();
 	}
 
+	public static void prepare_start_component(final TitanComponent component_reference, final String module_name, final String function_name, final Text_Buf text_buf) {
+		if (in_controlPart()) {
+			throw new TtcnError("Start test component operation cannot be performed in the control part.");
+		} else if (is_single()) {
+			throw new TtcnError("Start test component operation cannot be performed in single mode.");
+		}
+		if (!component_reference.isBound()) {
+			throw new TtcnError("Performing a start operation on an unbound component reference.");
+		}
+
+		final int compref = component_reference.getComponent();
+		switch (compref) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("Start operation cannot be performed on the null component reference.");
+		case TitanComponent.MTC_COMPREF:
+			throw new TtcnError("Start operation cannot be performed on the component reference of MTC.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("Start operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			throw new TtcnError("Internal error: 'any component' cannot be started.");
+		case TitanComponent.ALL_COMPREF:
+			throw new TtcnError("Internal error: 'all component' cannot be started.");
+		default:
+			break;
+		}
+
+		if (TitanComponent.self.getComponent() == compref) {
+			throw new TtcnError("Start operation cannot be performed on the own component reference of the initiating component (i.e. 'self.start' is not allowed).");
+		}
+
+		throw new TtcnError("Starting components is not yet supported!");
+		//FIXME implement
+	}
+
+	public static void send_start_component(final Text_Buf text_buf) {
+		switch (executorState.get()) {
+		case MTC_TESTCASE:
+			executorState.set(executorStateEnum.MTC_START);
+			break;
+		case PTC_FUNCTION:
+			executorState.set(executorStateEnum.PTC_START);
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing component start operation in invalid state.");
+		}
+
+		throw new TtcnError("Starting components is not yet supported!");
+		//FIXME implement
+	}
+
 	//originally component_done, with component parameter
 	public static TitanAlt_Status component_done(final int component_reference) {
 		if (in_controlPart()) {
