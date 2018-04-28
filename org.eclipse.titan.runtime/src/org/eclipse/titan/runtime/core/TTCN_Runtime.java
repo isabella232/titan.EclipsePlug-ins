@@ -892,6 +892,77 @@ public final class TTCN_Runtime {
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__started, null, null, 0, null, null, 0, 0);
 	}
 
+	public static void start_function(final String module_name, final String function_name, final Text_Buf text_buf) {
+		switch (executorState.get()) {
+		case PTC_IDLE:
+		case PTC_STOPPED:
+			break;
+		default:
+			text_buf.cut_message();
+
+			throw new TtcnError("Internal error: Message START arrived in invalid state.");
+		}
+
+		try {
+			Module_List.start_function(module_name, function_name, text_buf);
+
+			// do nothing: the function terminated normally
+			return;
+			//FIXME handle TC_End
+		} catch (TtcnError e) {
+			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__error, null, function_name, 0, null, null, 0, 0);
+			executorState.set(executorStateEnum.PTC_EXIT);
+		}
+
+		// the control reaches this code if the PTC has to be terminated
+		terminate_component_type();
+		//FIXME implement send_stopped_killed
+		//FIXME logging
+	}
+
+	public static void function_started(final Text_Buf text_buf) {
+		// The buffer still contains the incoming START message.
+		text_buf.cut_message();
+
+		executorState.set(executorStateEnum.PTC_FUNCTION);
+		// The remaining messages must be processed now.
+		TTCN_Communication.process_all_messages_tc();
+	}
+
+	public static void prepare_function_finished(final String return_type, final Text_Buf text_buf) {
+		if (executorState.get() != executorStateEnum.PTC_FUNCTION) {
+			throw new TtcnError("Internal error: PTC behaviour function finished in invalid state.");
+		}
+
+		if (is_alive.get()) {
+			// Prepare a STOPPED message with the current verdict and possible return value.
+			//FIXME implement
+		} else {
+			terminate_component_type();
+			//FIXME implement
+		}
+	}
+
+	public static void function_finished(final String function_name) {
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__finished, null, function_name, 0, null, null, is_alive.get() ? 1 : 0, 0);
+
+		final Text_Buf text_buf = new Text_Buf();
+		prepare_function_finished(null, text_buf);
+		send_function_finished(text_buf);
+	}
+
+	public static void send_function_finished(final Text_Buf text_buf) {
+		// send out the STOPPED or STOPPED_KILLED message, which is already
+		// complete and contains the return value
+		TTCN_Communication.send_message(text_buf);
+		if (is_alive.get()) {
+			executorState.set(executorStateEnum.PTC_STOPPED);
+		} else {
+			//FIXME logging
+			executorState.set(executorStateEnum.PTC_EXIT);
+		}
+	}
+
 	//originally component_done, with component parameter
 	public static TitanAlt_Status component_done(final int component_reference) {
 		if (in_controlPart()) {

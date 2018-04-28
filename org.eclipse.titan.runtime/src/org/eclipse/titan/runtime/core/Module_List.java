@@ -60,6 +60,19 @@ public final class Module_List {
 		module.post_init_module();
 	}
 
+	
+	public static void start_function(final String module_name, final String function_name, final Text_Buf function_arguments) {
+		final TTCN_Module module = lookup_module(module_name);
+		if (module == null){
+			function_arguments.cut_message();
+
+			throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not exist.", module_name));
+		}
+
+		module.start_ptc_function(function_name, function_arguments);
+		//FIXME start_function error messages
+	}
+
 	//originally Module_List::initialize_component
 	public static void initialize_component(final String module_name, final String component_type, final boolean init_base_comps) {
 		final TTCN_Module module = lookup_module(module_name);

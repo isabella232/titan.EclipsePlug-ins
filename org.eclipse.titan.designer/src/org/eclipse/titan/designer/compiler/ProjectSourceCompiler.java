@@ -61,6 +61,10 @@ public class ProjectSourceCompiler {
 			data.addCommonLibraryImport("TtcnLogger.TTCN_Location");
 			data.addCommonLibraryImport("TtcnLogger.TTCN_Location.entity_type_t");
 		}
+		if (data.getStartPTCFunction().length() > 0) {
+			data.addBuiltinTypeImport("Text_Buf");
+		}
+
 		//write imports
 		StringBuilder headerSb = new StringBuilder();
 		writeHeader( headerSb, data );
@@ -362,6 +366,14 @@ public class ProjectSourceCompiler {
 				aSb.append("current_location.leave();\n");
 			}
 			aSb.append("TtcnLogger.log_module_init(name, true);\n");
+			aSb.append("}\n\n");
+		}
+
+		if (aData.getStartPTCFunction().length() > 0) {
+			aSb.append("@Override\n");
+			aSb.append("public boolean start_ptc_function(final String function_name, final Text_Buf function_arguments) {\n");
+			aSb.append(aData.getStartPTCFunction());
+			aSb.append("throw new TtcnError(MessageFormat.format(\"Internal error: Startable function {0} does not exist in module {1}.\", function_name, name));\n");
 			aSb.append("}\n\n");
 		}
 

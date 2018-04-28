@@ -988,7 +988,41 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			source.append("TTCN_Runtime.send_start_component(text_buf);\n");
 			source.append("}\n");
 
-			//FIXME add to start_ptc_function
+			//entry into start function
+			final StringBuilder startFunction = aData.getStartPTCFunction();
+			startFunction.append(MessageFormat.format("if(function_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
+			if (formalParList != null) {
+				for (int i = 0; i < formalParList.getNofParameters(); i++) {
+					FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+
+					formalParameter.generateCodeObject(aData, startFunction, "");
+					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGenName()));
+				}
+
+				startFunction.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
+				startFunction.append(MessageFormat.format("TtcnLogger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
+
+				for (int i = 0; i < formalParList.getNofParameters(); i++) {
+					if (i > 0) {
+						startFunction.append("TtcnLogger.log_event_str(\", \");\n");
+					}
+					startFunction.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
+				}
+
+				startFunction.append("TtcnLogger.log_event_str(\").\");\n");
+				startFunction.append("TtcnLogger.end_event();\n");
+			} else {
+				startFunction.append(MessageFormat.format("TtcnLogger.log_str(Severity.PARALLEL_PTC, \"Starting function {0}().\");\n", identifier.getDisplayName()));
+			}
+
+			startFunction.append("TTCN_Runtime.function_started(function_arguments);\n");
+			StringBuilder actualParList = formalParList.generateCodeActualParlist("");
+			//FIXME handle keeping of return value
+			startFunction.append(MessageFormat.format("{0}({1});\n", genName, actualParList));
+			startFunction.append(MessageFormat.format("TTCN_Runtime.function_finished(\"{0}\");\n", identifier.getDisplayName()));
+
+			startFunction.append("return true;\n");
+			startFunction.append("} else ");
 		}
 
 		sb.append(source);

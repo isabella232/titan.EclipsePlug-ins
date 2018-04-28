@@ -470,7 +470,7 @@ public class TTCN_Communication {
 					// messages: MC -> PTC
 					switch (msg_type) {
 					case MSG_START:
-						//FIXME process_start();
+						process_start();
 						break;
 					case MSG_KILL:
 						//FIXME process_kill();
@@ -769,6 +769,20 @@ public class TTCN_Communication {
 		} else {
 			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
 		}
+	}
+
+	private static void process_start() {
+		final String module_name = incoming_buf.get().pull_string();
+		final String definition_name = incoming_buf.get().pull_string();
+
+		if (module_name == null || definition_name == null) {
+			incoming_buf.get().cut_message();
+
+			throw new TtcnError("Internal error: Message START contains an invalid function name.");
+		}
+
+		TTCN_Runtime.start_function(module_name, definition_name, incoming_buf.get());
+		//FIXME add try enclosing
 	}
 
 	private static void process_error() {

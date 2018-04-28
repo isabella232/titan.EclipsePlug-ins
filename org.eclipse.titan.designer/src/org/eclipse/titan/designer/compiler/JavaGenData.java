@@ -38,6 +38,9 @@ public class JavaGenData {
 	/** the contents of set_module_param */
 	private StringBuilder setModuleParameters;
 
+	/** the contents of start_function if needed */
+	private StringBuilder startPTCFunction;
+
 	/** the contents of init_comp_type */
 	private StringBuilder initComp;
 
@@ -85,6 +88,7 @@ public class JavaGenData {
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
+		startPTCFunction = new StringBuilder();
 		initComp = new StringBuilder();
 
 		// TreeSet keeps elements in natural order (alphabetical)
@@ -185,6 +189,13 @@ public class JavaGenData {
 	 */
 	public StringBuilder getSetModuleParameters () {
 		return setModuleParameters;
+	}
+
+	/**
+	 * @return the string where new start function code is written
+	 */
+	public StringBuilder getStartPTCFunction() {
+		return startPTCFunction;
 	}
 
 	/**
