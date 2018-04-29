@@ -411,7 +411,7 @@ public class TTCN_Communication {
 				//FIXME implment
 				break;
 			case MSG_CONNECT_LISTEN:
-				//FIXME process_connect_listen();
+				process_connect_listen();
 				break;
 			case MSG_CONNECT:
 				process_connect();
@@ -743,6 +743,26 @@ public class TTCN_Communication {
 		default:
 			throw new TtcnError("Internal error: Message START_ACK arrived in invalid state.");
 		}
+	}
+
+	private static void process_connect_listen() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final String local_port = temp_incoming_buf.pull_string();
+		final int remote_component = temp_incoming_buf.pull_int().getInt();
+		final String remote_component_name = temp_incoming_buf.pull_string();
+		final String remote_port = temp_incoming_buf.pull_string();
+		final int transport_type = temp_incoming_buf.pull_int().getInt();
+
+		temp_incoming_buf.cut_message();
+
+		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
+			TitanComponent.register_component_name(remote_component, remote_component_name);
+		}
+		TitanPort.process_connect_listen(local_port, remote_component, remote_port, transport_type);
+		//FIXME implement process_connect, with try
+
+		temp_incoming_buf.cut_message();
 	}
 
 	private static void process_connect() {

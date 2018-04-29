@@ -798,6 +798,19 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		// FIXME implement
 	}
 
+	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final int transport_type) {
+		final TitanPort port = lookup_by_name(local_port, false);
+		if (port == null) {
+			//FIXME implement
+			return;
+		} else if (!port.is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
+		}
+		//FIXME implement the additional checks
+		//FIXME implement additional connection types
+		throw new TtcnError("connecting ports is not yet supported !");
+	}
+
 	public static void process_connect(final String local_port, final int remote_component, final String remote_port, final int transport_type, final Text_Buf text_buf) {
 		final TitanPort port = lookup_by_name(local_port, false);
 		if (port == null) {
@@ -810,7 +823,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//FIXME implement additional connection types
 		throw new TtcnError("connecting ports is not yet supported !");
 	}
-	
+
 	public static void map_port(final String component_port, final String system_port, final boolean translation) {
 		final String port_name = translation ? system_port : component_port;
 		final TitanPort port = lookup_by_name(port_name, translation);
