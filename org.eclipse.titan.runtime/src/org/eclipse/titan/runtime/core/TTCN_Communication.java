@@ -557,6 +557,18 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	// in the command line receives variable argument list
+	public static void send_connect_error(final String local_port, final int remote_component, final String remote_port, final String message){
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CONNECT_ERROR);
+		text_buf.push_string(local_port);
+		text_buf.push_int(remote_component);
+		text_buf.push_string(remote_port);
+		text_buf.push_string(message);
+
+		send_message(text_buf);
+	}
+
 	public static void send_mtc_created() {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_CREATED);

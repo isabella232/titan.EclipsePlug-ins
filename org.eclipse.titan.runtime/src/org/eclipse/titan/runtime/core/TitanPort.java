@@ -801,7 +801,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final int transport_type) {
 		final TitanPort port = lookup_by_name(local_port, false);
 		if (port == null) {
-			//FIXME implement
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Port {0} does not exist.", local_port));
+
 			return;
 		} else if (!port.is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
@@ -814,7 +815,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	public static void process_connect(final String local_port, final int remote_component, final String remote_port, final int transport_type, final Text_Buf text_buf) {
 		final TitanPort port = lookup_by_name(local_port, false);
 		if (port == null) {
-			//FIXME implement
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Port {0} does not exist.", local_port));
+
 			return;
 		} else if (!port.is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
