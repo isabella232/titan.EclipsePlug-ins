@@ -148,7 +148,12 @@ public class TTCN_Communication {
 	private static final int MSG_CONFIGURE_ACK = 200;
 	private static final int MSG_CONFIGURE_NAK = 201;
 
-
+	public static enum transport_type_enum {
+		TRANSPORT_LOCAL,
+		TRANSPORT_INET_STREAM,
+		TRANSPORT_UNIX_STREAM,
+		TRANSPORT_NUM
+	}
 
 	private static boolean mc_addr_set = false;
 	private static ThreadLocal<Boolean> is_connected = new ThreadLocal<Boolean>() {
@@ -764,13 +769,15 @@ public class TTCN_Communication {
 		final int remote_component = temp_incoming_buf.pull_int().getInt();
 		final String remote_component_name = temp_incoming_buf.pull_string();
 		final String remote_port = temp_incoming_buf.pull_string();
-		final int transport_type = temp_incoming_buf.pull_int().getInt();
+		final int temp_transport_type = temp_incoming_buf.pull_int().getInt();
 
 		temp_incoming_buf.cut_message();
 
 		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
+
+		final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
 		TitanPort.process_connect_listen(local_port, remote_component, remote_port, transport_type);
 		//FIXME implement process_connect, with try
 
@@ -784,11 +791,13 @@ public class TTCN_Communication {
 		final int remote_component = temp_incoming_buf.pull_int().getInt();
 		final String remote_component_name = temp_incoming_buf.pull_string();
 		final String remote_port = temp_incoming_buf.pull_string();
-		final int transport_type = temp_incoming_buf.pull_int().getInt();
+		final int temp_transport_type = temp_incoming_buf.pull_int().getInt();
 
 		if (remote_component != TitanComponent.MTC_COMPREF && TitanComponent.self.get().getComponent() != remote_component) {
 			TitanComponent.register_component_name(remote_component, remote_component_name);
 		}
+
+		final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
 		TitanPort.process_connect(local_port, remote_component, remote_port, transport_type, incoming_buf.get());
 		//FIXME implement process_connect, with try
 

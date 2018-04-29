@@ -17,6 +17,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 
 /**
  * The base class of test ports
@@ -798,7 +799,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		// FIXME implement
 	}
 
-	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final int transport_type) {
+	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		final TitanPort port = lookup_by_name(local_port, false);
 		if (port == null) {
 			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Port {0} does not exist.", local_port));
@@ -808,11 +809,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
 		}
 		//FIXME implement the additional checks
+
+		switch (transport_type) {
+		case TRANSPORT_INET_STREAM:
+			//TODO add support
+			break;
+		default:
+			//FIXME only inet is support for now
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Message CONNECT_LISTEN refers to invalid transport type ({0})", transport_type.ordinal()));
+			break;
+		}
 		//FIXME implement additional connection types
-		throw new TtcnError("connecting ports is not yet supported !");
 	}
 
-	public static void process_connect(final String local_port, final int remote_component, final String remote_port, final int transport_type, final Text_Buf text_buf) {
+	public static void process_connect(final String local_port, final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
 		final TitanPort port = lookup_by_name(local_port, false);
 		if (port == null) {
 			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Port {0} does not exist.", local_port));
@@ -822,6 +832,16 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
 		}
 		//FIXME implement the additional checks
+
+		switch (transport_type) {
+		case TRANSPORT_INET_STREAM:
+			//TODO add support
+			break;
+		default:
+			//FIXME only inet is support for now
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Message CONNECT refers to invalid transport type ({0})", transport_type.ordinal()));
+			break;
+		}
 		//FIXME implement additional connection types
 		throw new TtcnError("connecting ports is not yet supported !");
 	}
