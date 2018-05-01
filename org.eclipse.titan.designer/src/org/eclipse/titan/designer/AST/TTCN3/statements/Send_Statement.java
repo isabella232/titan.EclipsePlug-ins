@@ -283,11 +283,10 @@ public final class Send_Statement extends Statement {
 			parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 		}
 
-		expression.expression.append(", ");
+		
 
-		if (toClause == null) {
-			expression.expression.append("new TitanComponent(TitanComponent.SYSTEM_COMPREF)");
-		} else {
+		if (toClause != null) {
+			expression.expression.append(", ");
 			toClause.generateCodeExpression(aData, expression, true);
 		}
 		expression.expression.append(")");
