@@ -190,25 +190,29 @@ public class LoggerPluginManager {
 	}
 
 	public void begin_event(final Severity msg_severity) {
-		current_event.set(new log_event_struct());
-		current_event.get().severity = msg_severity;
-		current_event.get().buffer = new StringBuilder(100);
+		final log_event_struct temp = new log_event_struct();
+
+		current_event.set(temp);
+		temp.severity = msg_severity;
+		temp.buffer = new StringBuilder(100);
 		if (TtcnLogger.log_this_event(msg_severity)) {
-			current_event.get().event_destination = event_destination_t.ED_FILE;
+			temp.event_destination = event_destination_t.ED_FILE;
 		} else {
-			current_event.get().event_destination = event_destination_t.ED_NONE;
+			temp.event_destination = event_destination_t.ED_NONE;
 		}
 
-		events.get().push(current_event.get());
+		events.get().push(temp);
 	}
 
 	public void begin_event_log2str() {
-		current_event.set(new log_event_struct());
-		current_event.get().severity = Severity.USER_UNQUALIFIED;
-		current_event.get().buffer = new StringBuilder(100);
-		current_event.get().event_destination = event_destination_t.ED_STRING;
+		final log_event_struct temp = new log_event_struct();
 
-		events.get().push(current_event.get());
+		current_event.set(temp);
+		temp.severity = Severity.USER_UNQUALIFIED;
+		temp.buffer = new StringBuilder(100);
+		temp.event_destination = event_destination_t.ED_STRING;
+
+		events.get().push(temp);
 	}
 
 	public void end_event() {
