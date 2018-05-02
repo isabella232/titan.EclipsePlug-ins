@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectableChannel;
@@ -422,7 +423,7 @@ public class TTCN_Communication {
 				process_connect();
 				break;
 			case MSG_CONNECT_ACK:
-				//FIXME process_connecT_ack();
+				process_connect_ack();
 				break;
 			case MSG_DISCONNECT:
 				//FIXME process_disconnect();
@@ -558,6 +559,36 @@ public class TTCN_Communication {
 		text_buf.push_string(sourcePort);
 		text_buf.push_int(destinationComponent);
 		text_buf.push_string(destinationPort);
+
+		send_message(text_buf);
+	}
+
+	//FIXME extra local_port_number is not present in the core
+	public static void send_connect_listen_ack_inet_stream(final String local_port, final int local_port_number, final int remote_component, final String remote_port, final InetAddress local_address) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CONNECT_LISTEN_ACK);
+		text_buf.push_string(local_port);
+		text_buf.push_int(remote_component);
+		text_buf.push_string(remote_port);
+		text_buf.push_int(transport_type_enum.TRANSPORT_INET_STREAM.ordinal());
+
+		byte temp[] = local_address.getAddress();
+		byte temp2 = (byte) local_port_number;
+		text_buf.push_raw(2, new byte[]{2, 0});
+		text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
+		text_buf.push_raw(temp.length, temp);
+		text_buf.push_raw(8, new byte[8]);
+		//FIXME implement
+
+		send_message(text_buf);
+	}
+
+	public static void send_connected(final String local_port, final int remote_component, final String remote_port){
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CONNECTED);
+		text_buf.push_string(local_port);
+		text_buf.push_int(remote_component);
+		text_buf.push_string(remote_port);
 
 		send_message(text_buf);
 	}
@@ -802,6 +833,23 @@ public class TTCN_Communication {
 		//FIXME implement process_connect, with try
 
 		temp_incoming_buf.cut_message();
+	}
+
+	private static void process_connect_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_CONNECT:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_CONNECT:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message CONNECT_ACK arrived in invalid state.");
+		}
 	}
 
 	private static void process_execute_control() {

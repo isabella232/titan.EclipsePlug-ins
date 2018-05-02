@@ -8,8 +8,14 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.IOException;
+import java.net.Inet4Address;
+import java.net.InetAddress;
+import java.net.InetSocketAddress;
+import java.net.ServerSocket;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
+import java.nio.channels.ServerSocketChannel;
+import java.nio.channels.SocketChannel;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -32,6 +38,35 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	// originally the list stored in system_list_head and system_list_tail
 	private static final LinkedList<TitanPort> SYSTEM_PORTS = new LinkedList<TitanPort>();
 
+	//FIXME implement the remaining features
+	private static final class port_connection extends Channel_And_Timeout_Event_Handler {
+		static enum connection_state_enum {CONN_IDLE, CONN_LISTENING, CONN_CONNECTED, CONN_LAST_MSG_SENT, CONN_LAST_MSG_RCVD};
+
+		private TitanPort owner_port;
+		connection_state_enum connection_state;
+		int remote_component;
+		String remote_port;
+		SelectableChannel stream_socket;
+		Text_Buf stream_incoming_buf;
+
+		@Override
+		public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
+			// FIXME for now only handle inet streams
+			if (is_readable) {
+				if (connection_state == connection_state_enum.CONN_LISTENING) {
+					owner_port.handle_incoming_connection(this);
+				} else if (is_readable) {
+					owner_port.handle_incoming_data(this);
+				}
+			}
+		}
+
+		@Override
+		public void Handle_Timeout(double time_since_last_call) {
+			// TODO Auto-generated method stub
+		}
+	}
+
 	protected String port_name;
 	protected int msg_head_count;
 	protected int proc_head_count;
@@ -42,6 +77,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	protected boolean is_halted;
 
 	private ArrayList<String> system_mappings = new ArrayList<String>();
+	private LinkedList<port_connection> connection_list = new LinkedList<TitanPort.port_connection>();
 
 	public TitanPort(final String portName) {
 		this.port_name = portName;
@@ -753,6 +789,145 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return false;
 	}
 
+	//TODO add transport_type
+	private port_connection add_connection(final int remote_component, final String remote_port) {
+		int index = -1;
+		int i = -1;
+		for (port_connection connection: connection_list) {
+			i++;
+			if (connection.remote_component == remote_component) {
+				int ret_val = connection.remote_port.compareTo(remote_port);
+				if (ret_val == 0) {
+					return connection;
+				} else if (ret_val > 0) {
+					index = i;
+					break;
+				}
+			} else if (connection.remote_component > remote_component) {
+				index = i;
+				break;
+			}
+		}
+
+		if (system_mappings.size() > 0) {
+			throw new TtcnError(MessageFormat.format("Connect operation cannot be performed on a mapped port ({0}).", port_name));
+		}
+
+		port_connection new_connection = new port_connection();
+		new_connection.owner_port = this;
+		new_connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
+		new_connection.remote_component = remote_component;
+		new_connection.remote_port = remote_port;
+		//FIXME implement missing parts
+		new_connection.stream_socket = null;
+		new_connection.stream_incoming_buf = null;
+
+		if (index == -1) {
+			// new_conn will be inserted to the end of the list
+			connection_list.addLast(new_connection);
+		} else {
+			connection_list.add(index, new_connection);
+		}
+
+		return new_connection;
+	}
+
+	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
+		try {
+			ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+//			ServerSocket serverSocket = new ServerSocket();
+			ServerSocket serverSocket =serverSocketChannel.socket();
+			InetSocketAddress local_addr = new InetSocketAddress(serverSocket.getInetAddress(), 0);
+			serverSocket.bind(local_addr);
+//			serverSocket.bind(local_addr);
+			int local_port = serverSocketChannel.socket().getLocalPort();
+			//FIXME implement rest
+			port_connection new_connection = add_connection(remote_component, remote_port);
+			new_connection.connection_state = port_connection.connection_state_enum.CONN_LISTENING;
+			new_connection.stream_socket = serverSocketChannel;
+
+			serverSocketChannel.configureBlocking(false);
+			TTCN_Snapshot.channelMap.get().put(serverSocketChannel, new_connection);
+			serverSocketChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_ACCEPT);
+
+			TTCN_Communication.send_connect_listen_ack_inet_stream(port_name, local_port, remote_component, remote_port, Inet4Address.getLocalHost());
+		} catch (IOException e) {
+			//FIXME implement
+		}
+		//FIXME implement management
+		
+	}
+
+	private void connect_stream(final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
+		//FIXME implement
+		
+		// family, port, addr, zero
+		byte family[] = new byte[2];
+		text_buf.pull_raw(2, family);
+		byte port[] = new byte[2];
+		text_buf.pull_raw(2, port);
+
+		byte addr[] = new byte[4];
+		text_buf.pull_raw(4, addr);
+
+		byte zero[] = new byte[8];
+		text_buf.pull_raw(8, zero);
+
+		try {
+			InetAddress temp = Inet4Address.getByAddress(addr);
+			int temp2 = (port[0]&0xFF) * 256;
+			temp2 += (port[1]&0xFF);
+			
+			InetSocketAddress address = new InetSocketAddress(temp, temp2);
+			SocketChannel socketChannel = SocketChannel.open();
+//			Socket socket = new Socket();
+			socketChannel.connect(address);
+			//FIXME manage connection
+			port_connection new_connection = add_connection(remote_component, remote_port);
+			new_connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
+			new_connection.stream_socket = socketChannel;
+
+			socketChannel.configureBlocking(false);
+			TTCN_Snapshot.channelMap.get().put(socketChannel, new_connection);
+			socketChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
+		} catch (IOException e) {
+			//FIXME implement
+			throw new TtcnError("There were some exception during connection handling");
+		}
+		
+		//FIXME implement (not even local address pulling is ok now)
+
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
+	}
+
+	private void handle_incoming_connection(final port_connection connection) {
+		final ServerSocketChannel serverSocketChannel = (ServerSocketChannel) connection.stream_socket;
+		try {
+			SocketChannel com_channel = serverSocketChannel.accept();
+			//FIXME only a prototype
+			TTCN_Snapshot.channelMap.get().remove(serverSocketChannel);
+
+			connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
+			connection.stream_socket = com_channel;
+			com_channel.configureBlocking(false);
+			TTCN_Snapshot.channelMap.get().put(com_channel, connection);
+			com_channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
+
+			serverSocketChannel.close();
+
+			TTCN_Communication.send_connected(port_name, connection.remote_component, connection.remote_port);
+
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__accepted, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+		} catch (IOException e) {
+			//FIXME handle error
+		}
+	}
+
+	private void handle_incoming_data(final port_connection connection) {
+		//FIXME implement
+		throw new TtcnError("handle_incoming_data not yet handled");
+	}
+
 	// FIXME handle translation ports
 	private final void map(final String system_port, final boolean translation) {
 		if (!is_active) {
@@ -811,8 +986,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//FIXME implement the additional checks
 
 		switch (transport_type) {
+		case TRANSPORT_LOCAL:
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, "Message CONNECT_LISTEN cannot refer to transport type LOCAL.");
+
+			break;
 		case TRANSPORT_INET_STREAM:
-			//TODO add support
+			port.connect_listen_inet_stream(remote_component, remote_port);
 			break;
 		default:
 			//FIXME only inet is support for now
@@ -835,7 +1014,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		switch (transport_type) {
 		case TRANSPORT_INET_STREAM:
-			//TODO add support
+			port.connect_stream(remote_component, remote_port, transport_type, text_buf);
 			break;
 		default:
 			//FIXME only inet is support for now
@@ -843,7 +1022,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			break;
 		}
 		//FIXME implement additional connection types
-		throw new TtcnError("connecting ports is not yet supported !");
+		//throw new TtcnError("connecting ports is not yet supported !");
 	}
 
 	public static void map_port(final String component_port, final String system_port, final boolean translation) {
