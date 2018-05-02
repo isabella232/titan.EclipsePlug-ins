@@ -42,9 +42,14 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_Defs;
 import org.eclipse.titan.designer.AST.TTCN3.types.EnumeratedGenerator.Enum_field;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
+import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Hexstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2IntExpression;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2IntExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -247,10 +252,10 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 		IValue value = item.getValue();
 		if (value != null && item.isOriginal()) {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			if ( Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE.equals(value.getValuetype() ) ) {
-				// const
+				// const reference
 				final IValue ref = value.setLoweridToReference(timestamp);
-				final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				final IValue refd = ref != null ? ref.getValueRefdLast(timestamp, referenceChain) : null;
 				if ( refd == null ) {
 					value.getLocation().reportSemanticError(MessageFormat.format(VALUE_TYPE_CHECK, id.getDisplayName()));
@@ -271,47 +276,41 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			}
 			switch ( value.getValuetype() ) {
 			case INTEGER_VALUE:
-				final Integer_Value enumValue = (Integer_Value) value;
-				if (!enumValue.isNative()) {
-					enumValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, enumValue.getValueValue()));
-					setIsErroneous(true);
-				} else {
-					final Long enumLong = enumValue.getValue();
-					if (valueMap.containsKey(enumLong)) {
-						valueMap.get(enumLong).getLocation().reportSingularSemanticError(
-								MessageFormat.format(DUPLICATEDENUMERATIONVALUEFIRST, enumLong, valueMap.get(enumLong).getId().getDisplayName()));
-						value.getLocation().reportSemanticError(
-								MessageFormat.format(DUPLICATEDENUMERATIONVALUEREPEATED, enumLong, id.getDisplayName()));
-						setIsErroneous(true);
-					} else {
-						valueMap.put(enumLong, item);
-					}
-				}
+				final Integer_Value intValue = (Integer_Value) value;
+				setAndCheckEnumIntegerValue(timestamp, item, valueMap, intValue);
 				break;
 			case BITSTRING_VALUE:
-				//TODO
+				final Bitstring_Value bitValue = (Bitstring_Value) value;
+				setAndCheckEnumIntegerValue(timestamp, item, valueMap, Bit2IntExpression.bit2int(bitValue.getValue()));
 				break;
 			case OCTETSTRING_VALUE:
-				//TODO
+				final Octetstring_Value octetValue = (Octetstring_Value) value;
+				setAndCheckEnumIntegerValue(timestamp, item, valueMap, Hex2IntExpression.hex2int(octetValue.getValue()));
 				break;
 			case HEXSTRING_VALUE:
-				//TODO
+				final Hexstring_Value hexValue = (Hexstring_Value) value;
+				setAndCheckEnumIntegerValue(timestamp, item, valueMap, Hex2IntExpression.hex2int(hexValue.getValue()));
 				break;
 			case EXPRESSION_VALUE:
-				final Expression_Value expressionValue = (Expression_Value)value; 
+				final Expression_Value expressionValue = (Expression_Value) value; 
+				final IValue evaluatedValue = expressionValue.evaluateValue(timestamp, Expected_Value_type.EXPECTED_CONSTANT, referenceChain);
 				final Type_type type = expressionValue.getExpressionReturntype( timestamp, Expected_Value_type.EXPECTED_CONSTANT);
 				switch (type) {
 				case TYPE_INTEGER:
-					//TODO
+					final Integer_Value intExpressionValue = (Integer_Value) evaluatedValue;
+					setAndCheckEnumIntegerValue(timestamp, item, valueMap, new Integer_Value(intExpressionValue.getValue()));
 					break;
 				case TYPE_BITSTRING:
-					//TODO
+					final Bitstring_Value bitExpressionValue = (Bitstring_Value) evaluatedValue;
+					setAndCheckEnumIntegerValue(timestamp, item, valueMap, Bit2IntExpression.bit2int(bitExpressionValue.getValue()));
 					break;
 				case TYPE_OCTETSTRING:
-					//TODO
+					final Octetstring_Value octetExpressionValue = (Octetstring_Value) evaluatedValue;
+					setAndCheckEnumIntegerValue(timestamp, item, valueMap, Hex2IntExpression.hex2int(octetExpressionValue.getValue()));
 					break;
 				case TYPE_HEXSTRING:
-					//TODO
+					final Hexstring_Value hexExpressionValue = (Hexstring_Value) evaluatedValue;
+					setAndCheckEnumIntegerValue(timestamp, item, valueMap, Hex2IntExpression.hex2int(hexExpressionValue.getValue()));
 					break;
 				default:
 					value.getLocation().reportSemanticError(MessageFormat.format(VALUE_TYPE_CHECK, id.getDisplayName()));
@@ -325,9 +324,37 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 				break;
 			}
 		}
-
 	}
 
+	/**
+	 * Sets the evaluated integer value to the enum item, and checks if the value exists already
+	 * @param timestamp
+	 * @param item Enumeration item object
+	 * @param valueMap Map of the enum items and their value in integer representation
+	 * @param enumIntValue the evaluated integer value
+	 */
+	private void setAndCheckEnumIntegerValue( final CompilationTimeStamp timestamp,
+											  final EnumItem item,
+											  final Map<Long, EnumItem> valueMap,
+											  final Integer_Value enumIntValue ) {
+		item.setValue(enumIntValue);
+		if (!enumIntValue.isNative()) {
+			enumIntValue.getLocation().reportSemanticError(MessageFormat.format(LARGEINTEGERERROR, enumIntValue.getValueValue()));
+			setIsErroneous(true);
+		} else {
+			final Long enumLong = enumIntValue.getValue();
+			if (valueMap.containsKey(enumLong)) {
+				valueMap.get(enumLong).getLocation().reportSingularSemanticError(
+						MessageFormat.format(DUPLICATEDENUMERATIONVALUEFIRST, enumLong, valueMap.get(enumLong).getId().getDisplayName()));
+				enumIntValue.getLocation().reportSemanticError(
+						MessageFormat.format(DUPLICATEDENUMERATIONVALUEREPEATED, enumLong, item.getId().getDisplayName()));
+				setIsErroneous(true);
+			} else {
+				valueMap.put(enumLong, item);
+			}
+		}
+	}
+	
 	@Override
 	/** {@inheritDoc} */
 	public SubType.SubType_type getSubtypeType() {
