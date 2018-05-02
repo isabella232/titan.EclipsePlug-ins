@@ -194,7 +194,7 @@ public final class TTCN_Snapshot {
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
 						final Channel_And_Timeout_Event_Handler handler = channelMap.get().get(key.channel());
-						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
+						handler.Handle_Event(key.channel(), key.isReadable() | key.isAcceptable(), key.isWritable());
 					}
 					selectedKeys.clear();
 					//TODO handle timeout
