@@ -215,6 +215,7 @@ public final class SizeOfExpression extends Expression_Value {
 		}
 
 		ITTCN3Template template = templateInstance.getTemplateBody();
+		template.setMyGovernor(null);
 		template.setLoweridToReference(timestamp);
 		template = template.getTemplateReferencedLast(timestamp, referenceChain);
 		if (template.getIsErroneous(timestamp)) {
