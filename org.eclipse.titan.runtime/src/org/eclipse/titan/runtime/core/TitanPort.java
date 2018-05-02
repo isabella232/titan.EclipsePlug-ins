@@ -743,11 +743,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	//originally get_default_destination
 	protected int get_default_destination() {
-		//FIXME implement connection checks
-		if (system_mappings.size() > 1) {
-			throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", port_name));
-		} else if (system_mappings.isEmpty()) {
-			throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", port_name));
+		if (connection_list.isEmpty()) {
+			if (system_mappings.size() > 1) {
+				throw new TtcnError(MessageFormat.format("Port {0} has more than one mappings. Message cannot be sent on it to system.", port_name));
+			} else if (system_mappings.isEmpty()) {
+				throw new TtcnError(MessageFormat.format("Port {0} has neither connections nor mappings. Message cannot be sent on it.", port_name));
+			}
+		} else {
+			if (system_mappings.size() > 0) {
+				throw new TtcnError(MessageFormat.format("Port {0} has both connection(s) and mapping(s). Message can be sent on it only with explicit addressing.", port_name));
+			} else if (connection_list.size() > 1) {
+				throw new TtcnError(MessageFormat.format("Port {0} has more than one active connections. Message can be sent on it only with explicit addressing.", port_name));
+			}
+
+			return connection_list.getFirst().remote_component;
 		}
 
 		return TitanComponent.SYSTEM_COMPREF;
