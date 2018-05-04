@@ -724,10 +724,8 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 		for (int i = 0; i < items.getItems().size(); i++) {
 			final EnumItem tempItem = items.getItems().get(i);
 			final Value tempValue = tempItem.getValue();
-			if ( tempValue instanceof Integer_Value ) {
-				fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempValue).getValue()));
-			}
-			//TODO: handle other types (bin/octet/hexstring, expression, const)
+			// enumeration values are stored as Integer_Value
+			fields.add(new Enum_field(tempItem.getId().getName(), tempItem.getId().getDisplayName(), ((Integer_Value)tempValue).getValue()));
 		}
 		final Enum_Defs e_defs = new Enum_Defs( fields, ownName, displayName, getGenNameTemplate(aData, source, myScope), hasRaw);
 		EnumeratedGenerator.generateValueClass( aData, source, e_defs );
