@@ -605,6 +605,17 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_disconnect_req(final int sourceComponent, final String sourcePort, final int destinationComponent, final String destinationPort) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_DISCONNECT_REQ);
+		text_buf.push_int(sourceComponent);
+		text_buf.push_string(sourcePort);
+		text_buf.push_int(destinationComponent);
+		text_buf.push_string(destinationPort);
+
+		send_message(text_buf);
+	}
+
 	public static void send_mtc_created() {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_CREATED);

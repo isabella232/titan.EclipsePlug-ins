@@ -676,9 +676,68 @@ public final class TTCN_Runtime {
 	}
 
 	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
-		//FIXME implement
-		throw new TtcnError("Disconnecting components is not yet supported!");
-	}
+		check_port_name(sourePort, "disconnect", "first");
+		check_port_name(destinationPort, "disconnect", "second");
+
+		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TtcnLogger.log_event_str("Disconnecting ports ");
+		sourceComponent.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0} and ", sourePort));
+		destinationComponent.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TtcnLogger.end_event();
+
+		if (!sourceComponent.isBound()) {
+			throw new TtcnError("The first argument of disconnect operation contains an unbound component reference.");
+		}
+		switch (sourceComponent.getComponent()) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("The first argument of disconnect operation contains the null component reference.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("The first argument of disconnect operation refers to a system port.");
+		default:
+			break;
+		}
+
+		if (!destinationComponent.isBound()) {
+			throw new TtcnError("The second argument of disconnect operation contains an unbound component reference.");
+		}
+		switch (destinationComponent.getComponent()) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("The second argument of disconnect operation contains the null component reference.");
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("The second argument of disconnect operation refers to a system port.");
+		default:
+			break;
+		}
+
+		switch (executorState.get()) {
+		case SINGLE_TESTCASE:
+			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
+				throw new TtcnError("Both endpoints of disconnect operation must refer to ports of mtc in single mode.");
+			}
+			//FIXME implement
+			throw new TtcnError("Connecting components is not yet supported!");
+			//break;
+		case MTC_TESTCASE:
+			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			executorState.set(executorStateEnum.MTC_DISCONNECT);
+			wait_for_state_change();
+			break;
+		case PTC_FUNCTION:
+			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+			executorState.set(executorStateEnum.PTC_DISCONNECT);
+			wait_for_state_change();
+			break;
+		default:
+			if (in_controlPart()) {
+				throw new TtcnError("Disconnect operation cannot be performed in the control part.");
+			} else {
+				throw new TtcnError("Internal error: Executing disconnect operation in invalid state.");
+			}
+		}
+
+		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);	}
 
 	public static int hc_main(final String local_addr, final String MC_host, final int MC_port) {
 		TTCN_Runtime.set_state(executorStateEnum.HC_INITIAL);
