@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
@@ -839,6 +840,46 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		return new_connection;
+	}
+
+	private port_connection lookup_connection_to_compref(final int remote_component, final AtomicBoolean is_unique) {
+		port_connection result = null;
+		for (port_connection connection : connection_list) {
+			if (connection.remote_component == remote_component) {
+				if (is_unique != null) {
+					if (result == null) {
+						is_unique.set(true);
+					} else {
+						is_unique.set(false);
+
+						return result;
+					}
+				}
+
+				result = connection;
+			} else if (connection.remote_component > remote_component) {
+				break;
+			}
+		}
+
+		return result;
+	}
+
+	private port_connection lookup_connection(final int remote_component, final String remote_port) {
+		for (port_connection connection : connection_list) {
+			if (connection.remote_component == remote_component) {
+				int ret_val = connection.remote_port.compareTo(remote_port);
+				if (ret_val == 0) {
+					return connection;
+				} else if (ret_val > 0) {
+					break;
+				}
+			} else if (connection.remote_component > remote_component) {
+				break;
+			}
+		}
+
+		return null;
 	}
 
 	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
