@@ -1051,8 +1051,56 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private void handle_incoming_data(final port_connection connection) {
-		//FIXME implement
-		throw new TtcnError("handle_incoming_data not yet handled");
+		if (connection.stream_incoming_buf == null) {
+			connection.stream_incoming_buf = new Text_Buf();
+		}
+
+		Text_Buf incoming_buffer = connection.stream_incoming_buf;
+		ByteBuffer buffer = ByteBuffer.allocate(1024);
+		try {
+			int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
+			if (recv_len < 0) {
+				//the connection is closed
+				//FIXME implement rest
+				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
+				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__reset__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
+				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
+			} else if (recv_len > 0) {
+				buffer.flip();
+				incoming_buffer.increase_length(recv_len);
+				int remaining = buffer.remaining();
+				byte[] temp = new byte[remaining];
+				buffer.get(temp);
+				incoming_buffer.push_raw(remaining, temp);
+
+				while (incoming_buffer.is_message()) {
+					incoming_buffer.pull_int(); // message_length
+					//FIXME process_data
+					incoming_buffer.cut_message();
+				}
+			}
+		} catch (IOException e) {
+			//FIXME implement
+		}
+
+		if (connection.connection_state == port_connection.connection_state_enum.CONN_IDLE) {
+			// terminating and removing connection
+			int msg_len = incoming_buffer.get_len();
+			if (msg_len > 0) {
+				TtcnError.TtcnWarningBegin(MessageFormat.format("Message fragment remained in the buffer of port connection between {0} and ", port_name));
+				TitanComponent.log_component_reference(connection.remote_component);
+				TtcnLogger.log_event_str(MessageFormat.format(":{0}: ", connection.remote_port));
+				byte[] msg = incoming_buffer.get_data();
+				for (int i = 0; i < msg_len; i++) {
+					TtcnLogger.log_octet((char)msg[i]);
+				}
+				TtcnError.TtcnWarningEnd();
+			}
+		}
+
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__disconnected, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+		remove_connection(connection);
 	}
 
 	// FIXME handle translation ports
