@@ -426,7 +426,7 @@ public class TTCN_Communication {
 				process_connect_ack();
 				break;
 			case MSG_DISCONNECT:
-				//FIXME process_disconnect();
+				process_disconnect();
 				break;
 			case MSG_DISCONNECT_ACK:
 				//FIXME process_disconnect_ack();
@@ -612,6 +612,16 @@ public class TTCN_Communication {
 		text_buf.push_string(sourcePort);
 		text_buf.push_int(destinationComponent);
 		text_buf.push_string(destinationPort);
+
+		send_message(text_buf);
+	}
+
+	public static void send_disconnected(final String localPort, final int remoteComponent, final String remotePort) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_DISCONNECTED);
+		text_buf.push_string(localPort);
+		text_buf.push_int(remoteComponent);
+		text_buf.push_string(remotePort);
 
 		send_message(text_buf);
 	}
@@ -861,6 +871,19 @@ public class TTCN_Communication {
 		default:
 			throw new TtcnError("Internal error: Message CONNECT_ACK arrived in invalid state.");
 		}
+	}
+
+	private static void process_disconnect() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final String local_port = temp_incoming_buf.pull_string();
+		final int remote_component = temp_incoming_buf.pull_int().getInt();
+		final String remote_port = temp_incoming_buf.pull_string();
+
+		temp_incoming_buf.cut_message();
+
+		TitanPort.process_disconnect(local_port, remote_component, remote_port);
+		//FIXME implement process_connect, with try
 	}
 
 	private static void process_execute_control() {

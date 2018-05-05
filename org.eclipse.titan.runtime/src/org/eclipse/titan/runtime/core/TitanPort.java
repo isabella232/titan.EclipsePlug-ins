@@ -12,6 +12,7 @@ import java.net.Inet4Address;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
+import java.nio.ByteBuffer;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.ServerSocketChannel;
@@ -41,12 +42,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	//FIXME implement the remaining features
 	private static final class port_connection extends Channel_And_Timeout_Event_Handler {
+		static enum connection_data_type_enum {CONN_DATA_LAST, CONN_DATA_MESSAGE, CONN_DATA_CALL, CONN_DATA_REPLY, CONN_DATA_EXCEPTION};
 		static enum connection_state_enum {CONN_IDLE, CONN_LISTENING, CONN_CONNECTED, CONN_LAST_MSG_SENT, CONN_LAST_MSG_RCVD};
 
 		private TitanPort owner_port;
 		connection_state_enum connection_state;
 		int remote_component;
 		String remote_port;
+		transport_type_enum transport_type;
 		SelectableChannel stream_socket;
 		Text_Buf stream_incoming_buf;
 
@@ -800,7 +803,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	//TODO add transport_type
-	private port_connection add_connection(final int remote_component, final String remote_port) {
+	private port_connection add_connection(final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		int index = -1;
 		int i = -1;
 		for (port_connection connection: connection_list) {
@@ -828,6 +831,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		new_connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 		new_connection.remote_component = remote_component;
 		new_connection.remote_port = remote_port;
+		new_connection.transport_type = transport_type;
 		//FIXME implement missing parts
 		new_connection.stream_socket = null;
 		new_connection.stream_incoming_buf = null;
@@ -840,6 +844,25 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		return new_connection;
+	}
+
+	private void remove_connection(final port_connection connection) {
+		switch (connection.transport_type) {
+		case TRANSPORT_INET_STREAM:
+			TTCN_Snapshot.channelMap.get().remove(connection.stream_socket);
+			try {
+				connection.stream_socket.close();
+			} catch (IOException e) {
+				//FIXME implement
+			}
+			connection.stream_socket = null;
+			break;
+		//FIXME implement rest of the transport types
+		default:
+			throw new TtcnError("Internal error: PORT::remove_connection(): invalid transport type.");
+		}
+
+		connection_list.remove(connection);
 	}
 
 	private port_connection lookup_connection_to_compref(final int remote_component, final AtomicBoolean is_unique) {
@@ -892,7 +915,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 //			serverSocket.bind(local_addr);
 			int local_port = serverSocketChannel.socket().getLocalPort();
 			//FIXME implement rest
-			port_connection new_connection = add_connection(remote_component, remote_port);
+			port_connection new_connection = add_connection(remote_component, remote_port, transport_type_enum.TRANSPORT_INET_STREAM);
 			new_connection.connection_state = port_connection.connection_state_enum.CONN_LISTENING;
 			new_connection.stream_socket = serverSocketChannel;
 
@@ -933,7 +956,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 //			Socket socket = new Socket();
 			socketChannel.connect(address);
 			//FIXME manage connection
-			port_connection new_connection = add_connection(remote_component, remote_port);
+			port_connection new_connection = add_connection(remote_component, remote_port, transport_type);
 			new_connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
 			new_connection.stream_socket = socketChannel;
 
@@ -948,6 +971,60 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//FIXME implement (not even local address pulling is ok now)
 
 		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
+	}
+
+	private void disconnect_stream(final port_connection connection) {
+		switch (connection.connection_state) {
+		case CONN_LISTENING:
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.destroying__unestablished__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			remove_connection(connection);
+			break;
+		case CONN_CONNECTED: {
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.terminating__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			Text_Buf outgoing_buf = new Text_Buf();
+			outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_LAST.ordinal());
+			if (send_data_stream(connection, outgoing_buf, true)) {
+				//sending the last message was successful
+				// waiting for confirmation from the peer
+				connection.connection_state = port_connection.connection_state_enum.CONN_LAST_MSG_SENT;
+			} else {
+				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.sending__termination__request__failed, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				// send an acknowledgment to MC immediately to avoid deadlock
+				// in case of communication failure
+				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
+				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
+				//destroy the connection immediately
+				remove_connection(connection);
+			}
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("The connection of port {0} to {1}:{2} is in unexpected state when trying to terminate it.", port_name, connection.remote_component, connection.remote_port));
+		}
+	}
+
+	private boolean send_data_stream(final port_connection connection, final Text_Buf outgoing_data, final boolean ignore_peer_disconnect) {
+//		boolean would_block = false;
+		outgoing_data.calculate_length();
+		byte[] msg_ptr = outgoing_data.get_data();
+		int msg_len = msg_ptr.length;
+//		int sent_len = 0;
+//		while (sent_len < msg_len) {
+			ByteBuffer buffer = ByteBuffer.allocate(msg_len);
+			buffer.clear();
+			buffer.put(msg_ptr);
+			buffer.flip();
+			while (buffer.hasRemaining()) {
+				try {
+					((SocketChannel)connection.stream_socket).write(buffer);
+				} catch (IOException e) {
+					//FIXME implement
+				}
+			}
+			//FIXME implement
+//		}
+		//FIXME implement
+		return true;
 	}
 
 	private void handle_incoming_connection(final port_connection connection) {
@@ -1073,6 +1150,38 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 		//FIXME implement additional connection types
 		//throw new TtcnError("connecting ports is not yet supported !");
+	}
+
+	public static void process_disconnect(final String local_port, final int remote_component, final String remote_port) {
+		final TitanPort port = lookup_by_name(local_port, false);
+		if (port == null) {
+			TTCN_Communication.send_error(MessageFormat.format("Message DISCONNECT refers to non-existent local port {0}.", local_port));
+
+			return;
+		} else if (!port.is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to disconnect it from {1}:{2}.", local_port, remote_component, remote_port));
+		}
+
+		final port_connection connection = port.lookup_connection(remote_component, remote_port);
+		if (connection == null) {
+			//the connection does not exist
+			if (TitanComponent.self.get().componentValue == remote_component && lookup_by_name(remote_port, false) == null) {
+				TTCN_Communication.send_error(MessageFormat.format("Message DISCONNECT refers to non-existent port {0}.", remote_port));
+			} else {
+				TTCN_Communication.send_disconnected(local_port, remote_component, remote_port);
+			}
+			return;
+		}
+
+		switch (connection.transport_type) {
+		case TRANSPORT_INET_STREAM:
+			port.disconnect_stream(connection);
+			break;
+		//FIXME implement the additional transport types
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: The connection of port {0} to {1}:{2} has invalid transport type ({3}) when trying to terminate the connection.", local_port, remote_component, remote_port, connection.transport_type.ordinal()));
+		}
+
 	}
 
 	public static void map_port(final String component_port, final String system_port, final boolean translation) {
