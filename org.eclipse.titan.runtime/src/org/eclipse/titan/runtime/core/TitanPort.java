@@ -802,7 +802,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return false;
 	}
 
-	//TODO add transport_type
 	private port_connection add_connection(final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		int index = -1;
 		int i = -1;
