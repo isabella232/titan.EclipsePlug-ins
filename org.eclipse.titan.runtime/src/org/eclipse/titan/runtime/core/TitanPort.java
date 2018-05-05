@@ -1196,7 +1196,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			break;
 		}
 		//FIXME implement additional connection types
-		//throw new TtcnError("connecting ports is not yet supported !");
 	}
 
 	public static void process_disconnect(final String local_port, final int remote_component, final String remote_port) {
