@@ -429,7 +429,7 @@ public class TTCN_Communication {
 				process_disconnect();
 				break;
 			case MSG_DISCONNECT_ACK:
-				//FIXME process_disconnect_ack();
+				process_disconnect_ack();
 				break;
 			case MSG_MAP:
 				//FIXME process_map();
@@ -884,6 +884,23 @@ public class TTCN_Communication {
 
 		TitanPort.process_disconnect(local_port, remote_component, remote_port);
 		//FIXME implement process_connect, with try
+	}
+
+	private static void process_disconnect_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_DISCONNECT:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_DISCONNECT:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message DISCONNECT_ACK arrived in invalid state.");
+		}
 	}
 
 	private static void process_execute_control() {
