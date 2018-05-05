@@ -295,11 +295,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else if ("Stopped".equals(type)) {
 			return (!is_started && !is_halted);
 		} else if ("Connected".equals(type)) {
-			return false;//FIXME connection_list_head
+			return !connection_list.isEmpty();
 		} else if ("Mapped".equals(type)) {
 			return !system_mappings.isEmpty();
 		} else if ("Linked".equals(type)) {
-			return !system_mappings.isEmpty();//FIXME connection_list_head
+			return !connection_list.isEmpty() || !system_mappings.isEmpty();
 		}
 		throw new TtcnError(MessageFormat.format("{0} is not an allowed parameter of checkstate().", type));
 	}
