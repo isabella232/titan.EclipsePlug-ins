@@ -1129,6 +1129,10 @@ public final class TTCN_Runtime {
 
 	//originally stop_component
 	public static void stop_component(final int component_reference) {
+		if (in_controlPart()) {
+			throw new TtcnError("Component stop operation cannot be performed in the control part.");
+		}
+
 		//FIXME implement
 		throw new TtcnError("Stoping a component is not yet supported!");
 	}
@@ -1141,6 +1145,10 @@ public final class TTCN_Runtime {
 
 	//originally kill_component
 	public static void kill_component(final int component_reference) {
+		if (in_controlPart()) {
+			throw new TtcnError("Kill operation cannot be performed in the control part.");
+		}
+
 		//FIXME implement
 		throw new TtcnError("Killing a component is not yet supported!");
 	}
