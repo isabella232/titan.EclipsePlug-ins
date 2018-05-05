@@ -49,7 +49,13 @@ public final class GlobalDeltaVisitor implements IResourceDeltaVisitor {
 		}
 		switch (resource.getType()) {
 		case IResource.FILE:
-			if (delta.getFlags() != IResourceDelta.MARKERS) {
+			if (delta.getKind() == IResourceDelta.REMOVED) {
+				final IFile file = (IFile) resource;
+				if (FileSaveTracker.isFileBeingSaved(file)) {
+					FileSaveTracker.fileSaved(file);
+				}
+				outdatedFiles.add(file);
+			} else if (delta.getFlags() != IResourceDelta.MARKERS) {
 				if ((delta.getFlags() == IResourceDelta.REMOVED || !resource.isAccessible())
 						|| (!ResourceExclusionHelper.isDirectlyExcluded((IFile) resource) && GlobalParser.isSupportedExtension(resource.getFileExtension()))) {
 					final IFile file = (IFile) resource;
