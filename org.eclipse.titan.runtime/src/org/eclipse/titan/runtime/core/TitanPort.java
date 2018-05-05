@@ -1262,7 +1262,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			port.map(system_port, translation);
 		}
 		if (!TTCN_Runtime.is_single()) {
-			//FIXME add send_mapped
+			if (translation) {
+				TTCN_Communication.send_mapped(system_port, component_port, translation);
+			} else {
+				TTCN_Communication.send_mapped(component_port, system_port, translation);
+			}
 		}
 	}
 
@@ -1279,7 +1283,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			port.unmap(system_port, translation);
 		}
 		if (!TTCN_Runtime.is_single()) {
-			//FIXME add send_unmapped
+			TTCN_Communication.send_Unmapped(component_port, system_port, translation);
 		}
 	}
 

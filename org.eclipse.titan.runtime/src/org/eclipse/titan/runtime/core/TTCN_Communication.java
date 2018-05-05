@@ -626,6 +626,48 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_map_req(final int sourceComponent, final String sourcePort, final String systemPort, final boolean translation) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_MAP_REQ);
+		text_buf.push_int(sourceComponent);
+		text_buf.push_int(translation ? 1 : 0);
+		text_buf.push_string(sourcePort);
+		text_buf.push_string(systemPort);
+
+		send_message(text_buf);
+	}
+
+	public static void send_mapped(final String localPort, final String systemPort, final boolean translation) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_MAPPED);
+		text_buf.push_int(translation ? 1 : 0);
+		text_buf.push_string(localPort);
+		text_buf.push_string(systemPort);
+
+		send_message(text_buf);
+	}
+
+	public static void send_unmap_req(final int sourceComponent, final String sourcePort, final String systemPort, final boolean translation) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_UNMAP_REQ);
+		text_buf.push_int(sourceComponent);
+		text_buf.push_int(translation ? 1 : 0);
+		text_buf.push_string(sourcePort);
+		text_buf.push_string(systemPort);
+
+		send_message(text_buf);
+	}
+
+	public static void send_Unmapped(final String localPort, final String systemPort, final boolean translation) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_UNMAPPED);
+		text_buf.push_int(translation ? 1 : 0);
+		text_buf.push_string(localPort);
+		text_buf.push_string(systemPort);
+
+		send_message(text_buf);
+	}
+
 	public static void send_mtc_created() {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_CREATED);
