@@ -1255,7 +1255,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (!port.connection_list.isEmpty()) {
 			throw new TtcnError(MessageFormat.format("Map operation is not allowed on a connected port ({0}).", port_name));
 		}
-		//FIXME this is actually more complex
+
 		if (translation) {
 			port.map(component_port, translation);
 		} else {
@@ -1276,7 +1276,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (port == null) {
 			throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", component_port));
 		}
-		//FIXME this is actually more complex
+
 		if (translation) {
 			port.unmap(component_port, translation);
 		} else {
