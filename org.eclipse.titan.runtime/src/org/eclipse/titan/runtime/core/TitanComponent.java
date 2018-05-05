@@ -164,7 +164,7 @@ public class TitanComponent extends Base_Type {
 		if (componentValue == UNBOUND_COMPREF) {
 			TtcnLogger.log_event_unbound();
 		} else {
-			log_component_reference(this);
+			log_component_reference(componentValue);
 		}
 	}
 
@@ -220,8 +220,8 @@ public class TitanComponent extends Base_Type {
 		TTCN_Runtime.kill_component(componentValue);
 	}
 
-	private static void log_component_reference(final TitanComponent component_reference) {
-		switch (component_reference.componentValue) {
+	public static void log_component_reference(final int component_reference) {
+		switch (component_reference) {
 		case NULL_COMPREF:
 			TtcnLogger.log_event_str("null");
 			break;
