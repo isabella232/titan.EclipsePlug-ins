@@ -1156,8 +1156,16 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			return;
 		} else if (!port.is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
+		} else if (port.lookup_connection(remote_component, remote_port) != null) {
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Port {0} already has a connection towards {1}:{2}.", local_port, remote_component, remote_port));
+
+			return;
+		} else if (port.lookup_connection_to_compref(remote_component, null) != null) {
+			TtcnError.TtcnWarningBegin(MessageFormat.format("Port {0} will have more than one connections with ports of test component ", local_port));
+			TitanComponent.log_component_reference(remote_component);
+			TtcnLogger.log_event_str(". These connections cannot be used for sending even with explicit addressing.");
+			TtcnError.TtcnWarningEnd();
 		}
-		//FIXME implement the additional checks
 
 		switch (transport_type) {
 		case TRANSPORT_LOCAL:
@@ -1183,8 +1191,16 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			return;
 		} else if (!port.is_active) {
 			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to {1}:{2}.", local_port, remote_component, remote_port));
+		} else if (port.lookup_connection(remote_component, remote_port) != null) {
+			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Port {0} already has a connection towards {1}:{2}.", local_port, remote_component, remote_port));
+
+			return;
+		} else if (port.lookup_connection_to_compref(remote_component, null) != null) {
+			TtcnError.TtcnWarningBegin(MessageFormat.format("Port {0} will have more than one connections with ports of test component ", local_port));
+			TitanComponent.log_component_reference(remote_component);
+			TtcnLogger.log_event_str(". These connections cannot be used for sending even with explicit addressing.");
+			TtcnError.TtcnWarningEnd();
 		}
-		//FIXME implement the additional checks
 
 		switch (transport_type) {
 		case TRANSPORT_INET_STREAM:
