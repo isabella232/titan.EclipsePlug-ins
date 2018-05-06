@@ -393,7 +393,7 @@ public class TTCN_Communication {
 				//FIXME process_stop();
 				break;
 			case MSG_STOP_ACK:
-				//FIXME process_stop_ack();
+				process_stop_ack();
 				break;
 			case MSG_KILL_ACK:
 				//FIXME process_kill_ack();
@@ -479,7 +479,7 @@ public class TTCN_Communication {
 						process_start();
 						break;
 					case MSG_KILL:
-						//FIXME process_kill();
+						process_kill();
 						break;
 					default:
 						//FIXME process_unsupported_message(msg_type, msg_end);
@@ -726,6 +726,17 @@ public class TTCN_Communication {
 		text_buf.push_string(return_type);
 	}
 
+	public static void send_killed(final TitanVerdictType.VerdictTypeEnum final_verdict, final String reason) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_KILLED);
+		text_buf.push_int(final_verdict.getValue());
+		text_buf.push_string(reason);
+		// add an empty return type
+		text_buf.push_string(null);
+
+		send_message(text_buf);
+	}
+
 	public static void send_error(final String message) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
@@ -864,6 +875,23 @@ public class TTCN_Communication {
 		}
 	}
 
+	private static void process_stop_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_STOP:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_STOP:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message STOP_ACK arrived in invalid state.");
+		}
+	}
+
 	private static void process_connect_listen() {
 		final Text_Buf temp_incoming_buf = incoming_buf.get();
 
@@ -987,6 +1015,12 @@ public class TTCN_Communication {
 
 		TTCN_Runtime.start_function(module_name, definition_name, incoming_buf.get());
 		//FIXME add try enclosing
+	}
+
+	private static void process_kill() {
+		incoming_buf.get().cut_message();
+
+		TTCN_Runtime.process_kill();
 	}
 
 	private static void process_error() {

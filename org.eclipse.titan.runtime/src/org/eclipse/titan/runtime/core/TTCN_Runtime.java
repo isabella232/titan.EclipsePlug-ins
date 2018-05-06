@@ -1509,6 +1509,32 @@ public final class TTCN_Runtime {
 		//FIXME implement
 	}
 
+	public static void process_kill() {
+		if (!is_ptc()) {
+			throw new TtcnError("Internal error: Message KILL arrived in invalid state.");
+		}
+
+		switch (executorState.get()) {
+		case PTC_IDLE:
+		case PTC_STOPPED:
+			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.kill__request__frm__mc, null, null, 0, null, null, 0, 0);
+
+			// This may affect the final verdict.
+			terminate_component_type();
+
+			TTCN_Communication.send_killed(localVerdict, null);
+			TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+			executorState.set(executorStateEnum.PTC_EXIT);
+			break;
+		case PTC_EXIT:
+			break;
+		default:
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Kill was requested from MC.");
+
+			kill_execution();
+		}
+	}
+
 	private static void cancel_component_done(final int component_reference) {
 		switch (component_reference) {
 		case TitanComponent.ANY_COMPREF:
