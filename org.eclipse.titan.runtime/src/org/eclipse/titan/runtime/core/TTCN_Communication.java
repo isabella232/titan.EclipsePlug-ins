@@ -552,6 +552,14 @@ public class TTCN_Communication {
 		text_buf.push_string(function_name);
 	}
 
+	public static void send_stop_req(final int componentReference) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_STOP_REQ);
+		text_buf.push_int( componentReference);
+
+		send_message(text_buf);
+	}
+
 	public static void send_connect_req(final int sourceComponent, final String sourcePort, final int destinationComponent, final String destinationPort) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_CONNECT_REQ);

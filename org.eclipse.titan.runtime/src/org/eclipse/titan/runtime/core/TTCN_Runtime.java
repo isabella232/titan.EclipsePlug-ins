@@ -1133,14 +1133,124 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Component stop operation cannot be performed in the control part.");
 		}
 
-		//FIXME implement
-		throw new TtcnError("Stoping a component is not yet supported!");
+		if (TitanComponent.self.get().componentValue == component_reference) {
+			stop_execution();
+		}
+
+		switch (component_reference) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("Stop operation cannot be performed on the null component reference.");
+		case TitanComponent.MTC_COMPREF:
+			stop_mtc();
+			break;
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("Stop operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			throw new TtcnError("Internal error: 'any component' cannot be stopped.");
+		case TitanComponent.ALL_COMPREF:
+			stop_all_component();
+			break;
+		default:
+			stop_ptc(component_reference);
+		}
 	}
 
 	//originally stop_execution
 	public static void stop_execution() {
+		if (in_controlPart()) {
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);;
+		} else {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping test component execution.");
+
+			if (is_ptc()) {
+				// the state variable indicates whether the component remains alive
+				// after termination or not
+				if (is_alive.get()) {
+					executorState.set(executorStateEnum.PTC_STOPPED);
+				} else {
+					executorState.set(executorStateEnum.PTC_EXIT);
+				}
+			}
+		}
+
 		//FIXME implement
 		throw new TtcnError("Stoping execution is not yet supported!");
+	}
+
+	public static void stop_mtc() {
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.stopping__mtc, null, null, 0, null, null, 0, 0);
+		TTCN_Communication.send_stop_req(TitanComponent.MTC_COMPREF);
+		stop_execution();
+	}
+
+	public static void stop_ptc(final int component_reference) {
+		if (is_single()) {
+			throw new TtcnError("Stop operation on a component reference cannot be performed in single mode.");
+		}
+
+		// do nothing if a successful done or killed operation was performed on the component reference
+		if (in_component_status_table(component_reference)) {
+			int index = get_component_status_table_index(component_reference);
+			if (component_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
+					component_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
+
+				return;
+			}
+		}
+
+		switch (executorState.get()) {
+		case MTC_TESTCASE:
+			executorState.set(executorStateEnum.MTC_STOP);
+			break;
+		case PTC_FUNCTION:
+			executorState.set(executorStateEnum.PTC_STOP);
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing component stop operation in invalid state.");
+		}
+
+		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Stopping PTC with component reference {0}.", component_reference));
+		TTCN_Communication.send_stop_req(component_reference);
+		//wait for STOP_ACK;
+		wait_for_state_change();
+
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__stopped, null, null, component_reference, null, null, 0, 0);
+	}
+
+	public static void stop_all_component() {
+		if (is_single()) {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "No PTCs are running. Operation 'all component.stop' had no effect.");
+
+			return;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'all component.stop' can only be performed on the MTC.");
+		}
+
+		// do nothing if 'all component.done' or 'all component.killed' was successful
+		if (all_component_done_status == TitanAlt_Status.ALT_YES ||
+				all_component_killed_status == TitanAlt_Status.ALT_YES) {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "No PTCs are running. Operation 'all component.stop' had no effect.");
+
+			return;
+		}
+
+		// a request must be sent to MC
+		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+			throw new TtcnError("Internal error: Executing 'all component.stop' in invalid state.");
+		}
+
+		executorState.set(executorStateEnum.MTC_STOP);
+		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping all components.");
+		TTCN_Communication.send_stop_req(TitanComponent.ALL_COMPREF);
+
+		//wait for STOP_ACK
+		wait_for_state_change();
+		// 'all component.done' will be successful later
+		all_component_done_status = TitanAlt_Status.ALT_YES;
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__stopped, null, null, 0, null, null, 0, 0);
 	}
 
 	//originally kill_component
