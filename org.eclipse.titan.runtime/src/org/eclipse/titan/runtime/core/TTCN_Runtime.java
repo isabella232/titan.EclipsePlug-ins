@@ -1535,6 +1535,15 @@ public final class TTCN_Runtime {
 		}
 	}
 
+	public static void process_kill_process(final int component_reference) {
+		if (!is_hc()) {
+			throw new TtcnError("Internal error: Message KILL_PROCESS arrived in invalid state.");
+		}
+
+		//fIXME implement
+		throw new TtcnError("Internal error: process kill is not yet supported!");
+	}
+
 	private static void cancel_component_done(final int component_reference) {
 		switch (component_reference) {
 		case TitanComponent.ANY_COMPREF:

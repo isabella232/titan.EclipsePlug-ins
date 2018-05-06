@@ -345,6 +345,7 @@ public class TTCN_Communication {
 				//FIXME implement
 				break;
 			case MSG_KILL_PROCESS:
+				process_kill_process();
 				//FIXME implement
 				break;
 			case MSG_EXIT_HC:
@@ -849,6 +850,13 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_create_ptc(component_reference, module_name, definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
+	}
+
+	private static void process_kill_process() {
+		final int component_reference = incoming_buf.get().pull_int().getInt();
+		incoming_buf.get().cut_message();
+
+		TTCN_Runtime.process_kill_process(component_reference);
 	}
 
 	private static void process_create_ack() {
