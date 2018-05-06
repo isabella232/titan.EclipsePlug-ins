@@ -14,6 +14,7 @@ import java.util.ArrayList;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
@@ -405,7 +406,8 @@ public final class TTCN_Runtime {
 		if (executorState.get() == executorStateEnum.MTC_TERMINATING_EXECUTION) {
 			executorState.set(executorStateEnum.MTC_CONTROLPART);
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.terminating__execution);
-			// FIXME implement
+
+			throw new TC_End();
 		}
 
 		//FIXME this is more complex
@@ -967,7 +969,22 @@ public final class TTCN_Runtime {
 
 			// do nothing: the function terminated normally
 			return;
-			//FIXME handle TC_End
+		} catch (TC_End e) {
+			// executor_state is already set by stop_execution or kill_execution
+			switch (executorState.get()) {
+			case PTC_STOPPED:
+				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Function {0} was stopped. PTC remains alive and is waiting for next start.", function_name));
+				// send a STOPPED message without return value
+				TTCN_Communication.send_stopped(localVerdict, verdictReason);
+
+				// return and do nothing else
+				return;
+			case PTC_EXIT:
+				TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__stopped, null, function_name, 0, null, null, 0, 0);
+				break;
+			default:
+				throw new TtcnError("Internal error: PTC was stopped in invalid state.");
+			}
 		} catch (TtcnError e) {
 			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__error, null, function_name, 0, null, null, 0, 0);
 			executorState.set(executorStateEnum.PTC_EXIT);
@@ -1173,8 +1190,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		//FIXME implement
-		throw new TtcnError("Stoping execution is not yet supported!");
+		throw new TC_End();
 	}
 
 	public static void stop_mtc() {
@@ -1265,8 +1281,13 @@ public final class TTCN_Runtime {
 
 	//originally kill_execution
 	public static void kill_execution() {
-		//FIXME implement
-		throw new TtcnError("Killing execution is not yet supported!");
+		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Terminating test component execution.");
+
+		if (is_ptc()) {
+			executorState.set(executorStateEnum.PTC_EXIT);
+		}
+
+		throw new TC_End();
 	}
 
 	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue) {

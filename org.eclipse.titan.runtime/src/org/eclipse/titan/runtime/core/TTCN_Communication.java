@@ -720,6 +720,17 @@ public class TTCN_Communication {
 		text_buf.push_string(return_type);
 	}
 
+	public static void send_stopped(final TitanVerdictType.VerdictTypeEnum final_verdict, final String reason) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_STOPPED);
+		text_buf.push_int(final_verdict.ordinal());
+		text_buf.push_string(reason);
+		// add an empty return type
+		text_buf.push_string(null);
+
+		send_message(text_buf);
+	}
+
 	public static void prepare_stopped_killed(final Text_Buf text_buf, final TitanVerdictType.VerdictTypeEnum final_verdict, final String return_type, final String reason) {
 		text_buf.push_int(MSG_STOPPED_KILLED);
 		text_buf.push_int(final_verdict.getValue());
@@ -1001,7 +1012,11 @@ public class TTCN_Communication {
 
 		TTCN_Runtime.set_state(executorStateEnum.MTC_CONTROLPART);
 
-		Module_List.execute_control(module_name);
+		try {
+			Module_List.execute_control(module_name);
+		} catch (TC_End TC_end) {
+			//no operation needed
+		}
 
 		if (is_connected.get()) {
 			send_mtc_ready();

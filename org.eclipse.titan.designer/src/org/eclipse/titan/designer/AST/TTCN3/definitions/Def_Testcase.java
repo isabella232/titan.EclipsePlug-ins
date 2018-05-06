@@ -562,6 +562,7 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		final StringBuilder source = new StringBuilder();
 
 		aData.addBuiltinTypeImport( "TtcnError" );
+		aData.addBuiltinTypeImport( "TC_End" );
 		aData.addBuiltinTypeImport( "TitanFloat" );
 		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addBuiltinTypeImport("TtcnLogger");
@@ -589,6 +590,10 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("has_timer, timer_value);\n");
 		block.generateCode(aData, source);
 		source.append("} catch (TtcnError error) {\n");
+		source.append("TTCN_Runtime.set_error_verdict(); \n");
+		source.append("System.out.println(error);\n");
+		source.append(MessageFormat.format("TtcnLogger.log_str(Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));
+		source.append("} catch (TC_End error) {\n");
 		source.append("TTCN_Runtime.set_error_verdict(); \n");
 		source.append("System.out.println(error);\n");
 		source.append(MessageFormat.format("TtcnLogger.log_str(Severity.FUNCTION_UNQUALIFIED, \"Test case {0} was stopped.\");\n", identifier.getDisplayName()));

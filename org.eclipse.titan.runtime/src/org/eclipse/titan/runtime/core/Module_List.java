@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+
 /**
  * The base class of handling modules
  *
@@ -89,7 +91,11 @@ public final class Module_List {
 			throw new TtcnError(MessageFormat.format("Module {0} does not exist.", module_name));
 		} else {
 			//FIXME check for control part
-			module.control();
+			try {
+				module.control();
+			} catch (TC_End TC_end) {
+				TtcnLogger.log_str(Severity.FUNCTION_UNQUALIFIED, MessageFormat.format("Control part of module {0} was stopped.", module_name));
+			}
 			//FIXME implement
 		}
 	}
