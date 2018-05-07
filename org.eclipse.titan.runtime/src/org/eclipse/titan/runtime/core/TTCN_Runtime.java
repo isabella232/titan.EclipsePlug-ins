@@ -1119,6 +1119,10 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Running operation cannot be performed on the component reference of MTC.");
 		case TitanComponent.SYSTEM_COMPREF:
 			throw new TtcnError("Running operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			return any_component_running();
+		case TitanComponent.ALL_COMPREF:
+			return all_component_running();
 		default:
 			//FIXME implement rest of the branches
 			throw new TtcnError("Component_running is not yet supported!");
@@ -1288,6 +1292,67 @@ public final class TTCN_Runtime {
 		}
 
 		throw new TC_End();
+	}
+
+	public static boolean any_component_running() {
+		if (is_single()) {
+			return false;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'any component.running' can only be performed on the MTC.");
+		}
+
+		// the answer is false if 'all component.done' or 'all component.killed' operation was successful
+		if (all_component_done_status == TitanAlt_Status.ALT_YES ||
+				all_component_killed_status == TitanAlt_Status.ALT_YES) {
+			return false;
+		}
+
+		// the decision cannot be made locally, MC must be asked
+		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+			throw new TtcnError("Internal error: Executing 'any component.running' in invalid state.");
+		}
+
+		TTCN_Communication.send_is_running(TitanComponent.ANY_COMPREF);
+		executorState.set(executorStateEnum.MTC_RUNNING);
+		wait_for_state_change();
+
+		if (!running_alive_result.get()) {
+			all_component_done_status = TitanAlt_Status.ALT_YES;
+		}
+
+		return running_alive_result.get();
+	}
+
+	public static boolean all_component_running() {
+		if (is_single()) {
+			return true;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'all component.running' can only be performed on the MTC.");
+		}
+
+		// return true if no PTCs exist
+		if (all_component_done_status == TitanAlt_Status.ALT_NO) {
+			return true;
+		}
+
+		// the decision cannot be made locally, MC must be asked
+		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+			throw new TtcnError("Internal error: Executing 'all component.running' in invalid state.");
+		}
+
+		TTCN_Communication.send_is_running(TitanComponent.ALL_COMPREF);
+		executorState.set(executorStateEnum.MTC_RUNNING);
+		wait_for_state_change();
+
+		if (!running_alive_result.get()) {
+			all_component_done_status = TitanAlt_Status.ALT_YES;
+		}
+
+		return running_alive_result.get();
 	}
 
 	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue) {
@@ -1528,6 +1593,23 @@ public final class TTCN_Runtime {
 
 		create_done_killed_compref.set(new_component);
 		//FIXME implement
+	}
+
+	public static void process_running(final boolean result_value) {
+		switch (executorState.get()) {
+		case MTC_RUNNING:
+			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_RUNNING:
+			executorState.set(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message RUNNING arrived in invalid state.");
+		}
+
+		running_alive_result.set(result_value);
 	}
 
 	public static void process_kill() {

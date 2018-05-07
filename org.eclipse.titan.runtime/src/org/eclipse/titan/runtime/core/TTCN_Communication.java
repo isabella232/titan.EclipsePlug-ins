@@ -400,7 +400,7 @@ public class TTCN_Communication {
 				//FIXME process_kill_ack();
 				break;
 			case MSG_RUNNING:
-				//FIXME process_running();
+				process_running();
 				break;
 			case MSG_ALIVE:
 				//FIXME process_alive();
@@ -556,6 +556,14 @@ public class TTCN_Communication {
 	public static void send_stop_req(final int componentReference) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_STOP_REQ);
+		text_buf.push_int( componentReference);
+
+		send_message(text_buf);
+	}
+
+	public static void send_is_running(final int componentReference) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_IS_RUNNING);
 		text_buf.push_int( componentReference);
 
 		send_message(text_buf);
@@ -909,6 +917,15 @@ public class TTCN_Communication {
 		default:
 			throw new TtcnError("Internal error: Message STOP_ACK arrived in invalid state.");
 		}
+	}
+
+	private static void process_running() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final boolean answer = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		temp_incoming_buf.cut_message();
+
+		TTCN_Runtime.process_running(answer);
 	}
 
 	private static void process_connect_listen() {
