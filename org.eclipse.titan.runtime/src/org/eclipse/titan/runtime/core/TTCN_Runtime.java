@@ -14,7 +14,6 @@ import java.util.ArrayList;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
-import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason.enum_type;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
@@ -1124,8 +1123,7 @@ public final class TTCN_Runtime {
 		case TitanComponent.ALL_COMPREF:
 			return all_component_running();
 		default:
-			//FIXME implement rest of the branches
-			throw new TtcnError("Component_running is not yet supported!");
+			return ptc_running(component_reference);
 		}
 	}
 
@@ -1292,6 +1290,43 @@ public final class TTCN_Runtime {
 		}
 
 		throw new TC_End();
+	}
+
+	public static boolean ptc_running(final int component_reference) {
+		if (is_single()) {
+			throw new TtcnError("Running operation on a component reference cannot be performed in single mode.");
+		}
+
+		// the answer is always true if the operation refers to self
+		if (TitanComponent.self.get().componentValue == component_reference) {
+			return true;
+		}
+
+		// look into the component status tables
+		if (in_component_status_table(component_reference)) {
+			final int index = get_component_status_table_index(component_reference);
+			if (component_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
+					component_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
+				return false;
+			}
+		}
+
+		// the decision cannot be made locally, MC must be asked
+		switch (executorState.get()) {
+		case MTC_TESTCASE:
+			executorState.set(executorStateEnum.MTC_RUNNING);
+			break;
+		case PTC_FUNCTION:
+			executorState.set(executorStateEnum.PTC_RUNNING);
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing component running operation in invalid state.");
+		}
+
+		TTCN_Communication.send_is_running(component_reference);
+		wait_for_state_change();
+
+		return running_alive_result.get();
 	}
 
 	public static boolean any_component_running() {
