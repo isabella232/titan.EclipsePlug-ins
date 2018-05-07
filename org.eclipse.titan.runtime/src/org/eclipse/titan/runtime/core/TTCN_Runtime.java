@@ -1206,7 +1206,7 @@ public final class TTCN_Runtime {
 
 		// do nothing if a successful done or killed operation was performed on the component reference
 		if (in_component_status_table(component_reference)) {
-			int index = get_component_status_table_index(component_reference);
+			final int index = get_component_status_table_index(component_reference);
 			if (component_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
 					component_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
 				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
@@ -1581,8 +1581,8 @@ public final class TTCN_Runtime {
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::cancel_component_done: invalid component reference: {0}.", component_reference));
 		default:
 			if (in_component_status_table(component_reference)) {
-				int index = get_component_status_table_index(component_reference);
-				component_status_table_struct temp = component_status_table.get(index);
+				final int index = get_component_status_table_index(component_reference);
+				final component_status_table_struct temp = component_status_table.get(index);
 				temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 				temp.return_type = null;
 				temp.return_value = null;
@@ -1610,7 +1610,7 @@ public final class TTCN_Runtime {
 			return 0;
 		} else if (component_reference >= component_status_table_offset) {
 			// the table contains at least one entry that is smaller than component_reference
-			int component_index = component_reference - component_status_table_offset;
+			final int component_index = component_reference - component_status_table_offset;
 			if (component_index >= component_status_table.size()) {
 				// component_reference is still not in the table
 				// the table has to be extended at the end
@@ -1629,8 +1629,8 @@ public final class TTCN_Runtime {
 			return component_index;
 		} else {
 			// component_reference has to be inserted before the existing table
-			int offset_diff = component_status_table_offset - component_reference;
-			int new_size = component_status_table.size() + offset_diff;
+			final int offset_diff = component_status_table_offset - component_reference;
+			final int new_size = component_status_table.size() + offset_diff;
 			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
 			for (int i = 0; i < offset_diff; i++) {
 				final component_status_table_struct temp = new component_status_table_struct();
