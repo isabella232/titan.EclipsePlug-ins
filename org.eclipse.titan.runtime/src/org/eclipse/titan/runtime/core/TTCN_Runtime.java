@@ -12,6 +12,7 @@ import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -819,8 +820,18 @@ public final class TTCN_Runtime {
 				TTCN_Communication.process_all_messages_tc();
 			} while (executorState.get() != executorStateEnum.PTC_EXIT);
 		}
+		if (ret_val != 0) {
+			// ignore errors in subsequent operations
+			terminate_component_type();
+			TTCN_Communication.send_killed(localVerdict, verdictReason);
+			TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+			executorState.set(executorStateEnum.PTC_EXIT);
+		}
 
+		TTCN_Communication.disconnect_mc();
+		
 		//FIXME implement rest
+		TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.ptc__finished);
 
 		return ret_val;
 	}
