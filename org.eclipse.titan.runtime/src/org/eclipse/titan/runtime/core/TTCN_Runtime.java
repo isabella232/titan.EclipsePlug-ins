@@ -387,7 +387,7 @@ public final class TTCN_Runtime {
 
 		testcaseModuleName.set(null);
 		testcaseDefinitionName.set(null);
-
+		clear_component_status_table();
 		any_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
 		all_component_done_status = TitanAlt_Status.ALT_UNCHECKED;
 		any_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -412,6 +412,15 @@ public final class TTCN_Runtime {
 
 		//FIXME this is more complex
 		return localVerdict;
+	}
+
+	private static void clean_up(){
+		component_type_module.set(null);
+		component_type_name.set(null);
+		component_name.set(null);
+		control_module_name = null;
+		testcaseModuleName.set(null);
+		testcaseDefinitionName.set(null);
 	}
 
 	//originally TTCN_Runtime::initialize_component_type
@@ -760,6 +769,7 @@ public final class TTCN_Runtime {
 
 		if (executorState.get() == executorStateEnum.HC_EXIT) {
 			TTCN_Communication.disconnect_mc();
+			clean_up();
 		}
 		//FIXME implement
 		if (is_hc()) {
@@ -786,6 +796,7 @@ public final class TTCN_Runtime {
 
 
 		TTCN_Communication.disconnect_mc();
+		clean_up();
 
 		TtcnLogger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__finished);
 
@@ -829,8 +840,9 @@ public final class TTCN_Runtime {
 		}
 
 		TTCN_Communication.disconnect_mc();
-		
-		//FIXME implement rest
+		clear_component_status_table();
+		clean_up();
+
 		TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.ptc__finished);
 
 		return ret_val;
@@ -1783,5 +1795,11 @@ public final class TTCN_Runtime {
 
 	private static boolean in_component_status_table(final int component_reference) {
 		return component_reference >= component_status_table_offset && component_reference < component_status_table.size() + component_status_table_offset;
+	}
+
+	private static void clear_component_status_table() {
+		component_status_table.clear();
+		component_status_table = null;
+		component_status_table_offset = TitanComponent.FIRST_PTC_COMPREF;
 	}
 }
