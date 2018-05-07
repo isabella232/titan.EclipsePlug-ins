@@ -107,6 +107,10 @@ public final class Unknown_Instance_Statement extends Statement {
 
 		lastTimeChecked = timestamp;
 
+		if (reference == null) {
+			return;
+		}
+
 		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return;
