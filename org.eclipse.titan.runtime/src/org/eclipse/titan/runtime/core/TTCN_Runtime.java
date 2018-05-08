@@ -1875,7 +1875,7 @@ public final class TTCN_Runtime {
 				if (verdictInt < VerdictTypeEnum.NONE.ordinal() || verdictInt > VerdictTypeEnum.ERROR.ordinal()) {
 					throw new TtcnError(MessageFormat.format("Internal error: Invalid PTC verdict was received from MC: {0}.", verdictInt));
 				}
-					
+
 				final VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
 				VerdictTypeEnum newVerdict = localVerdict;
 				if (ptc_verdict.ordinal() > localVerdict.ordinal()) {
