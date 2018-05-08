@@ -1929,8 +1929,20 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Message KILL_PROCESS arrived in invalid state.");
 		}
 
-		//fIXME implement
-		throw new TtcnError("Internal error: process kill is not yet supported!");
+		final component_thread_struct comp = get_component_by_compref(component_reference);
+		if (comp == null) {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Component with component reference {0} does not exist. Request for killing was ignored.", component_reference));
+		} else {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing component with component reference {0}, thread id: {1}.", component_reference, comp.thread_id));
+
+			if (comp.thread_killed) {
+				TtcnError.TtcnWarning(MessageFormat.format("Process with process id {0} has been already killed. Killing it again.", comp.thread_id));
+			}
+
+			comp.thread_id.stop();
+			//TODO check how Java reacts in different situations
+			comp.thread_killed = true;
+		}
 	}
 
 	private static void cancel_component_done(final int component_reference) {
