@@ -1485,7 +1485,7 @@ public final class TTCN_Runtime {
 
 		if (executorState.get() == executorStateEnum.MTC_TESTCASE) {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.waiting__for__ptcs__to__finish);
-			// FIXME implement
+			TTCN_Communication.send_testcase_finished(localVerdict, verdictReason);
 			executorState.set(executorStateEnum.MTC_TERMINATING_TESTCASE);
 			wait_for_state_change();
 		} else if (executorState.get() == executorStateEnum.SINGLE_TESTCASE) {

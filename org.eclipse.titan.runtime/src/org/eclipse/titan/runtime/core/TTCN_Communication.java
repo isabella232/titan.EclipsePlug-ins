@@ -714,6 +714,15 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_testcase_finished(final TitanVerdictType.VerdictTypeEnum finalVerdict, final String reason) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_TESTCASE_FINISHED);
+		text_buf.push_int(finalVerdict.ordinal());
+		text_buf.push_string(reason);
+
+		send_message(text_buf);
+	}
+
 	public static void send_mtc_ready() {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_MTC_READY);
