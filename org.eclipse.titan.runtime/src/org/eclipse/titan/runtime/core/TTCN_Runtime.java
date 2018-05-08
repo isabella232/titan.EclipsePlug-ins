@@ -1294,14 +1294,103 @@ public final class TTCN_Runtime {
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__stopped, null, null, 0, null, null, 0, 0);
 	}
 
+	public static void kill_ptc(final int component_reference) {
+		if (is_single()) {
+			throw new TtcnError("Kill operation on a component reference cannot be performed in single mode.");
+		}
+
+		// do nothing if a successful  killed operation was performed on the component reference
+		if (in_component_status_table(component_reference) && get_killed_status(component_reference) == TitanAlt_Status.ALT_YES) {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not alive anyomre. Kill operation had no effect.", component_reference));
+
+			return;
+		}
+
+		// MC must be asked to kill the PTC
+		switch (executorState.get()) {
+		case MTC_TESTCASE:
+			executorState.set(executorStateEnum.MTC_KILL);
+			break;
+		case PTC_FUNCTION:
+			executorState.set(executorStateEnum.PTC_KILL);
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing kill operation in invalid state.");
+		}
+
+		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing PTC with component reference {0}.", component_reference));
+		TTCN_Communication.send_kill_req(component_reference);
+		//wait for KILL_ACK;
+		wait_for_state_change();
+
+		// updating the killed status of the PTC
+		final int index = get_component_status_table_index(component_reference);
+		component_status_table.get(index).killed_status = TitanAlt_Status.ALT_YES;
+
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__killed, null, null, component_reference, null, null, 0, 0);
+	}
+
+	public static void kill_all_component() {
+		if (is_single()) {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "There are no alive PTCs. Operation 'all component.kill' had no effect.");
+
+			return;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'all component.kill' can only be performed on the MTC.");
+		}
+
+		// do nothing if 'all component.killed' was successful
+		if (all_component_killed_status == TitanAlt_Status.ALT_YES) {
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "There are no alive PTCs. Operation 'all component.kill' had no effect.");
+
+			return;
+		}
+
+		// a request must be sent to MC
+		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+			throw new TtcnError("Internal error: Executing 'all component.kill' in invalid state.");
+		}
+
+		executorState.set(executorStateEnum.MTC_KILL);
+		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Killing all components.");
+		TTCN_Communication.send_kill_req(TitanComponent.ALL_COMPREF);
+
+		//wait for KILL_ACK
+		wait_for_state_change();
+		// 'all component.done' and 'all component.killed' will be successful later
+		all_component_done_status = TitanAlt_Status.ALT_YES;
+		all_component_killed_status = TitanAlt_Status.ALT_YES;
+		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__killed, null, null, 0, null, null, 0, 0);
+	}
+
 	//originally kill_component
 	public static void kill_component(final int component_reference) {
 		if (in_controlPart()) {
 			throw new TtcnError("Kill operation cannot be performed in the control part.");
 		}
 
-		//FIXME implement
-		throw new TtcnError("Killing a component is not yet supported!");
+		if (TitanComponent.self.get().componentValue == component_reference) {
+			kill_execution();
+		}
+
+		switch (component_reference) {
+		case TitanComponent.NULL_COMPREF:
+			throw new TtcnError("Kill operation cannot be performed on the null component reference.");
+		case TitanComponent.MTC_COMPREF:
+			stop_mtc();
+			break;
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError("Kill operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			throw new TtcnError("Internal error: 'any component' cannot be killed.");
+		case TitanComponent.ALL_COMPREF:
+			kill_all_component();
+			break;
+		default:
+			kill_ptc(component_reference);
+		}
 	}
 
 	//originally kill_execution

@@ -556,7 +556,15 @@ public class TTCN_Communication {
 	public static void send_stop_req(final int componentReference) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_STOP_REQ);
-		text_buf.push_int( componentReference);
+		text_buf.push_int(componentReference);
+
+		send_message(text_buf);
+	}
+
+	public static void send_kill_req(final int componentReference) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_KILL_REQ);
+		text_buf.push_int(componentReference);
 
 		send_message(text_buf);
 	}
@@ -564,7 +572,7 @@ public class TTCN_Communication {
 	public static void send_is_running(final int componentReference) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_IS_RUNNING);
-		text_buf.push_int( componentReference);
+		text_buf.push_int(componentReference);
 
 		send_message(text_buf);
 	}
