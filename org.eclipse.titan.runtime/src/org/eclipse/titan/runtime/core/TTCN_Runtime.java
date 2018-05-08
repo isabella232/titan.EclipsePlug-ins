@@ -318,7 +318,15 @@ public final class TTCN_Runtime {
 
 	//originally TTCN_Runtime::set_component_type
 	private static void set_component_type(final String par_component_type_module, final String par_component_type_name) {
-		//FIXME add checks
+		if (par_component_type_module == null || par_component_type_module.length() == 0 ||
+				par_component_type_name == null || par_component_type_name.length() == 0) {
+			throw new TtcnError("Internal error: TTCN_Runtime::set_component_type: Trying to set an invalid component type.");
+		}
+
+		if (component_type_module.get() != null && component_type_name.get() != null) {
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_component_type: Trying to set component type {0}.{1} while another one is active.", par_component_type_module, par_component_type_name));
+		}
+
 		component_type_module.set(par_component_type_module);
 		component_type_name.set(par_component_type_name);
 	}
