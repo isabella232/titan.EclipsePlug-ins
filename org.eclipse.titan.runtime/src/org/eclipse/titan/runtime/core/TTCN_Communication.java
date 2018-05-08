@@ -391,7 +391,7 @@ public class TTCN_Communication {
 				process_start_ack();
 				break;
 			case MSG_STOP:
-				//FIXME process_stop();
+				process_stop();
 				break;
 			case MSG_STOP_ACK:
 				process_stop_ack();
@@ -907,6 +907,30 @@ public class TTCN_Communication {
 			break;
 		default:
 			throw new TtcnError("Internal error: Message START_ACK arrived in invalid state.");
+		}
+	}
+
+	private static void process_stop() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_IDLE:
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc__ignored__on__idle__mtc);
+			break;
+		case MTC_PAUSED:
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TERMINATING_EXECUTION);
+			break;
+		case PTC_IDLE:
+		case PTC_STOPPED:
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc__ignored__on__idle__ptc);
+			break;
+		case PTC_EXIT:
+			break;
+		default:
+			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);;
+			TTCN_Runtime.stop_execution();
+			break;
 		}
 	}
 
