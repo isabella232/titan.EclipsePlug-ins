@@ -645,6 +645,18 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
+	public void log_getverdict(final VerdictTypeEnum verdict) {
+		if (!TtcnLogger.log_this_event(Severity.VERDICTOP_GETVERDICT) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, Severity.VERDICTOP_GETVERDICT);
+		event.getLogEvent().getChoice().getVerdictOp().getChoice().getGetVerdict().assign(verdict.ordinal());
+
+		log(event);
+	}
+
 	private void fill_common_fields(final TitanLogEvent event, final Severity severity) {
 		//FIXME implement the rest
 		final long timestamp = System.currentTimeMillis();

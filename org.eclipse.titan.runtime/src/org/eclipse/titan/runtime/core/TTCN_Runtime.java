@@ -1631,7 +1631,7 @@ public final class TTCN_Runtime {
 	//originally getverdict
 	public static TitanVerdictType get_verdict() {
 		if (verdict_enabled()) {
-			//FIXME logging
+			TtcnLogger.log_getverdict(localVerdict);
 		} else if (in_controlPart()) {
 			throw new TtcnError("Getverdict operation cannot be performed in the control part.");
 		} else {

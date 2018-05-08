@@ -1055,6 +1055,10 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_setverdict(newVerdict, oldVerdict, localVerdict, oldReason, newReason);
 	}
 
+	public static void log_getverdict(final VerdictTypeEnum verdict) {
+		get_logger_plugin_manager().log_getverdict(verdict);
+	}
+
 	public static void log_testcase_started(final String module_name, final String definition_name ) {
 		get_logger_plugin_manager().log_testcase_started(module_name, definition_name);
 	}
