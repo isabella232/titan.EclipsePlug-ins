@@ -355,7 +355,7 @@ public class TTCN_Communication {
 				process_debug_command();
 				break;
 			default:
-				//FIXME process_unsupported_message
+				process_unsupported_message(msg_type, msg_end);
 				break;
 			}
 		}
@@ -470,7 +470,7 @@ public class TTCN_Communication {
 						//FIXME process_configure(msg_end, TRUE);
 						break;
 					default:
-						//FIXME process_unsupported_message(msg_type, msg_end);
+						process_unsupported_message(msg_type, msg_end);
 						break;
 					}
 				} else {
@@ -483,7 +483,7 @@ public class TTCN_Communication {
 						process_kill();
 						break;
 					default:
-						//FIXME process_unsupported_message(msg_type, msg_end);
+						process_unsupported_message(msg_type, msg_end);
 					}
 				}
 			}
@@ -1120,6 +1120,20 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		System.out.println("Error message was received from MC : " + error_string);
+	}
+
+	private static void process_unsupported_message(final int msg_type, final int msg_end) {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TtcnLogger.log_event_str(MessageFormat.format("Unsupported message was received from MC: type (decimal): {0}, data (hexadecimal): ", msg_type));
+
+		byte[] data = temp_incoming_buf.get_data();
+		for (int i = temp_incoming_buf.get_pos(); i < msg_end; i++) {
+			TtcnLogger.log_octet((char)data[i]);
+		}
+		TtcnLogger.end_event();
+		temp_incoming_buf.cut_message();
 	}
 
 	private static void process_debug_command() {
