@@ -1865,18 +1865,18 @@ public final class TTCN_Runtime {
 		TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
 
-		int n_PTCS = text_buf.pull_int().getInt();
+		final int n_PTCS = text_buf.pull_int().getInt();
 		if (n_PTCS > 0) {
 			for (int i = 0; i < n_PTCS; i++) {
-				int ptc_compref = text_buf.pull_int().getInt();
-				String ptc_name = text_buf.pull_string();
-				int verdictInt = text_buf.pull_int().getInt();
-				String ptc_verdict_reason = text_buf.pull_string();
+				final int ptc_compref = text_buf.pull_int().getInt();
+				final String ptc_name = text_buf.pull_string();
+				final int verdictInt = text_buf.pull_int().getInt();
+				final String ptc_verdict_reason = text_buf.pull_string();
 				if (verdictInt < VerdictTypeEnum.NONE.ordinal() || verdictInt > VerdictTypeEnum.ERROR.ordinal()) {
 					throw new TtcnError(MessageFormat.format("Internal error: Invalid PTC verdict was received from MC: {0}.", verdictInt));
 				}
 					
-				VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
+				final VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
 				VerdictTypeEnum newVerdict = localVerdict;
 				if (ptc_verdict.ordinal() > localVerdict.ordinal()) {
 					newVerdict = ptc_verdict;
@@ -1890,7 +1890,7 @@ public final class TTCN_Runtime {
 			TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
-		boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
+		final boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
 		if (continueExecution) {
 			executorState.set(executorStateEnum.MTC_CONTROLPART);
 		} else {
@@ -2047,7 +2047,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::add_component: duplicated thread ({0})", thread));
 		}
 
-		component_thread_struct newComp = new component_thread_struct();
+		final component_thread_struct newComp = new component_thread_struct();
 		newComp.component_reference = component_reference;
 		newComp.thread_id = thread;
 		newComp.thread_killed = false;
