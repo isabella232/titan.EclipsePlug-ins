@@ -1623,8 +1623,9 @@ public final class TTCN_Runtime {
 	public static void set_error_verdict() {
 		if (verdict_enabled()) {
 			setverdict_internal(VerdictTypeEnum.ERROR, "");
+		} else if (is_single() || is_mtc()) {
+			controlErrorCount++;
 		}
-		//FIXME implement else
 	}
 
 	//originally getverdict
