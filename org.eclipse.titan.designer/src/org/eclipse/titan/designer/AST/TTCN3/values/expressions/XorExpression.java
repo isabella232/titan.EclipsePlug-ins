@@ -325,6 +325,8 @@ public final class XorExpression extends Expression_Value {
 				expression.expression.append( " )" );
 			}
 		} else {
+			aData.addCommonLibraryImport("TitanBoolean");
+
 			value1.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append( ".xor( " );
 			value2.generateCodeExpressionMandatory(aData, expression, false);
