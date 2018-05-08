@@ -463,7 +463,7 @@ public class TTCN_Communication {
 						//FIXME process_execute_testcase();
 						break;
 					case MSG_PTC_VERDICT:
-						//FIXME process_ptc_verdict();
+						process_ptc_verdict();
 						break;
 					case MSG_CONTINUE:
 						//FIXME process_continue();
@@ -1112,6 +1112,11 @@ public class TTCN_Communication {
 		} else {
 			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
 		}
+	}
+
+	private static void process_ptc_verdict() {
+		TTCN_Runtime.process_ptc_verdict(incoming_buf.get());
+		incoming_buf.get().cut_message();
 	}
 
 	private static void process_start() {

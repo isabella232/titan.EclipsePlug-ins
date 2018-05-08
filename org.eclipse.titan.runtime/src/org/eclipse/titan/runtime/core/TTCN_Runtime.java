@@ -1857,6 +1857,47 @@ public final class TTCN_Runtime {
 		running_alive_result.set(result_value);
 	}
 
+	public static void process_ptc_verdict(final Text_Buf text_buf) {
+		if (executorState.get() != executorStateEnum.MTC_TERMINATING_TESTCASE) {
+			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
+		}
+
+		TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+		TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+
+		int n_PTCS = text_buf.pull_int().getInt();
+		if (n_PTCS > 0) {
+			for (int i = 0; i < n_PTCS; i++) {
+				int ptc_compref = text_buf.pull_int().getInt();
+				String ptc_name = text_buf.pull_string();
+				int verdictInt = text_buf.pull_int().getInt();
+				String ptc_verdict_reason = text_buf.pull_string();
+				if (verdictInt < VerdictTypeEnum.NONE.ordinal() || verdictInt > VerdictTypeEnum.ERROR.ordinal()) {
+					throw new TtcnError(MessageFormat.format("Internal error: Invalid PTC verdict was received from MC: {0}.", verdictInt));
+				}
+					
+				VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
+				VerdictTypeEnum newVerdict = localVerdict;
+				if (ptc_verdict.ordinal() > localVerdict.ordinal()) {
+					newVerdict = ptc_verdict;
+					verdictReason = ptc_verdict_reason;
+				}
+
+				TtcnLogger.log_final_verdict(true, ptc_verdict, localVerdict, newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
+				localVerdict = newVerdict;
+			}
+		} else {
+			TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+		}
+
+		boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
+		if (continueExecution) {
+			executorState.set(executorStateEnum.MTC_CONTROLPART);
+		} else {
+			executorState.set(executorStateEnum.MTC_PAUSED);
+		}
+	}
+
 	public static void process_kill() {
 		if (!is_ptc()) {
 			throw new TtcnError("Internal error: Message KILL arrived in invalid state.");
@@ -1985,7 +2026,9 @@ public final class TTCN_Runtime {
 	}
 
 	private static void clear_component_status_table() {
-		component_status_table.clear();
+		if (component_status_table != null) {
+			component_status_table.clear();
+		}
 		component_status_table = null;
 		component_status_table_offset = TitanComponent.FIRST_PTC_COMPREF;
 	}
