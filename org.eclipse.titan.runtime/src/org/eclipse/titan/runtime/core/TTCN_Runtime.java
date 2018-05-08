@@ -528,7 +528,17 @@ public final class TTCN_Runtime {
 
 	//originally map_port
 	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
-		//FIXME implement
+		check_port_name(sourePort, "map", "first");
+		check_port_name(destinationPort, "map", "second");
+
+		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TtcnLogger.log_event_str("Mapping ports ");
+		sourceComponentRef.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0} to ", sourePort));
+		destinationComponentRef.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TtcnLogger.end_event();
+
 		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
 		}
@@ -571,7 +581,17 @@ public final class TTCN_Runtime {
 
 	//originally unmap_port
 	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
-		//FIXME implement
+		check_port_name(sourePort, "unmap", "first");
+		check_port_name(destinationPort, "unmap", "second");
+
+		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TtcnLogger.log_event_str("Unmapping ports ");
+		sourceComponentRef.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0} from ", sourePort));
+		destinationComponentRef.log();
+		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TtcnLogger.end_event();
+
 		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
 		}
