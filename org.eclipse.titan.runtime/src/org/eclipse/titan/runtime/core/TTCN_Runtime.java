@@ -121,7 +121,7 @@ public final class TTCN_Runtime {
 	// in the compiler the equivalent class is component_process_struct
 	private static class component_thread_struct {
 		int component_reference;
-		Thread thread_id;
+		Thread thread;
 		boolean thread_killed;
 	}
 
@@ -1933,13 +1933,13 @@ public final class TTCN_Runtime {
 		if (comp == null) {
 			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Component with component reference {0} does not exist. Request for killing was ignored.", component_reference));
 		} else {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing component with component reference {0}, thread id: {1}.", component_reference, comp.thread_id));
+			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing component with component reference {0}, thread id: {1}.", component_reference, comp.thread.getId()));
 
 			if (comp.thread_killed) {
-				TtcnError.TtcnWarning(MessageFormat.format("Process with process id {0} has been already killed. Killing it again.", comp.thread_id));
+				TtcnError.TtcnWarning(MessageFormat.format("Process with process id {0} has been already killed. Killing it again.", comp.thread.getId()));
 			}
 
-			comp.thread_id.stop();
+			comp.thread.stop();
 			//TODO check how Java reacts in different situations
 			comp.thread_killed = true;
 		}
@@ -2061,7 +2061,7 @@ public final class TTCN_Runtime {
 
 		final component_thread_struct newComp = new component_thread_struct();
 		newComp.component_reference = component_reference;
-		newComp.thread_id = thread;
+		newComp.thread = thread;
 		newComp.thread_killed = false;
 
 		components_by_compref.put(component_reference, newComp);
@@ -2070,7 +2070,7 @@ public final class TTCN_Runtime {
 
 	private static void remove_component(final component_thread_struct comp) {
 		components_by_compref.remove(comp.component_reference);
-		components_by_thread.remove(comp.thread_id);
+		components_by_thread.remove(comp.thread);
 	}
 
 	private static component_thread_struct get_component_by_compref(final int component_reference) {
