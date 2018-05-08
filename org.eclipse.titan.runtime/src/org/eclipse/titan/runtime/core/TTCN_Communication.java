@@ -318,7 +318,7 @@ public class TTCN_Communication {
 			throw new TtcnError("Internal error: TTCN_Communication::process_all_messages_hc() was called in invalid state.");
 		}
 
-		//FIXME implement
+		TTCN_Runtime.wait_terminated_processes();
 		boolean wait_flag = false;
 		boolean check_overload = TTCN_Runtime.is_overloaded();
 		while (incoming_buf.get().is_message()) {
@@ -338,15 +338,20 @@ public class TTCN_Communication {
 				break;
 			case MSG_CREATE_MTC:
 				process_create_mtc();
-				//FIXME implement
+				TTCN_Runtime.wait_terminated_processes();
+				wait_flag = false;
+				check_overload = false;
 				break;
 			case MSG_CREATE_PTC:
 				process_create_ptc();
-				//FIXME implement
+				TTCN_Runtime.wait_terminated_processes();
+				wait_flag = false;
+				check_overload = false;
 				break;
 			case MSG_KILL_PROCESS:
 				process_kill_process();
-				//FIXME implement
+				TTCN_Runtime.wait_terminated_processes();
+				wait_flag = false;
 				break;
 			case MSG_EXIT_HC:
 				//FIXME process_exit_hc
@@ -360,7 +365,7 @@ public class TTCN_Communication {
 			}
 		}
 		if (wait_flag) {
-			//FIXME implement TTCN_Runtime.wait_terminated_processes();
+			TTCN_Runtime.wait_terminated_processes();
 		}
 		if (check_overload && TTCN_Runtime.is_overloaded()) {
 			//FIXME implement

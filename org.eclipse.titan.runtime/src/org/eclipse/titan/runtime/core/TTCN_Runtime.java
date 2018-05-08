@@ -7,10 +7,12 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.lang.Thread.State;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
@@ -115,6 +117,19 @@ public final class TTCN_Runtime {
 
 	private static int component_status_table_offset = TitanComponent.FIRST_PTC_COMPREF;
 	private static ArrayList<component_status_table_struct> component_status_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
+
+	// in the compiler the equivalent class is component_process_struct
+	private static class component_thread_struct {
+		int component_reference;
+		Thread thread_id;
+		boolean thread_killed;
+	}
+
+	private static HashMap<Integer, component_thread_struct> components_by_compref;
+	private static HashMap<Thread, component_thread_struct> components_by_thread;
+	private static final int HASHTABLE_SIZE = 97;
+	// storing all started threads MTC and all PTC -s
+	private static ArrayList<Thread> threads = new ArrayList<Thread>();
 
 	private TTCN_Runtime() {
 		// private constructor to disable accidental instantiation
@@ -416,6 +431,7 @@ public final class TTCN_Runtime {
 		
 		executorState.set(executorStateEnum.HC_IDLE);
 		TTCN_Communication.send_version();
+		initialize_component_process_tables();
 
 		do {
 			TTCN_Snapshot.takeNew(true);
@@ -427,6 +443,9 @@ public final class TTCN_Runtime {
 			clean_up();
 		}
 		//FIXME implement
+
+		clear_component_process_tables();
+
 		if (is_hc()) {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
 		}
@@ -1745,10 +1764,11 @@ public final class TTCN_Runtime {
 			
 		};
 
+		threads.add(MTC);
 		MTC.start();
 
-		TtcnLogger.log_mtc_created(0);//TODO what is the pid?
-		//add_component(MTC_COMPREF, ...)
+		TtcnLogger.log_mtc_created(0);
+		add_component(TitanComponent.MTC_COMPREF, MTC);
 		//successful_process_creation();
 
 		//FIXME implement
@@ -1795,11 +1815,11 @@ public final class TTCN_Runtime {
 			
 		};
 
+		threads.add(PTC);
 		PTC.start();
 
-		//TODO what is the PID?
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
-		
+		add_component(component_reference, PTC);
 		//FIXME implement
 	}
 
@@ -1968,5 +1988,84 @@ public final class TTCN_Runtime {
 		component_status_table.clear();
 		component_status_table = null;
 		component_status_table_offset = TitanComponent.FIRST_PTC_COMPREF;
+	}
+
+	private static void initialize_component_process_tables() {
+		components_by_compref = new HashMap<Integer, TTCN_Runtime.component_thread_struct>(HASHTABLE_SIZE);
+		components_by_thread = new HashMap<Thread, TTCN_Runtime.component_thread_struct>(HASHTABLE_SIZE);
+	}
+
+	private static void add_component(final int component_reference, final Thread thread) {
+		if (component_reference != TitanComponent.MTC_COMPREF && get_component_by_compref(component_reference) != null) {
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::add_component: duplicated component reference ({0})", component_reference));
+		}
+
+		if (get_component_by_thread(thread) != null) {
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::add_component: duplicated thread ({0})", thread));
+		}
+
+		component_thread_struct newComp = new component_thread_struct();
+		newComp.component_reference = component_reference;
+		newComp.thread_id = thread;
+		newComp.thread_killed = false;
+
+		components_by_compref.put(component_reference, newComp);
+		components_by_thread.put(thread, newComp);
+	}
+
+	private static void remove_component(final component_thread_struct comp) {
+		components_by_compref.remove(comp.component_reference);
+		components_by_thread.remove(comp.thread_id);
+	}
+
+	private static component_thread_struct get_component_by_compref(final int component_reference) {
+		return components_by_compref.get(component_reference);
+	}
+
+	private static component_thread_struct get_component_by_thread(final Thread thread) {
+		return components_by_thread.get(thread);
+	}
+
+	private static void clear_component_process_tables() {
+		if (components_by_compref == null) {
+			return;
+		}
+
+		components_by_compref.clear();
+		components_by_thread.clear();
+	}
+
+	public static void wait_terminated_processes() {
+		if (!is_hc()) {
+			return;
+		}
+
+		for (int i = 0 ; i < threads.size(); ) {
+			if (threads.get(i).getState() == State.TERMINATED) {
+				final Thread thread = threads.get(i);
+				threads.remove(i);
+
+				final component_thread_struct comp = get_component_by_thread(thread);
+				if (comp == null) {
+					TtcnError.TtcnWarning(MessageFormat.format("wait_terminated_processes found unknown thread {0}.", thread));
+				} else {
+					ParallelPTC_reason.enum_type reason;
+					String componentName = null;
+					if (comp.component_reference == TitanComponent.MTC_COMPREF) {
+						reason = ParallelPTC_reason.enum_type.mtc__finished;
+					} else {
+						reason = ParallelPTC_reason.enum_type.ptc__finished;
+						//FIXME implement get_component_name
+					}
+
+					//TODO add rusage info if possible
+					TtcnLogger.log_par_ptc(reason, null, null, comp.component_reference, componentName, null, 0, 0);
+					remove_component(comp);
+				}
+			} else {
+				i++;
+			}
+		}
+
 	}
 }
