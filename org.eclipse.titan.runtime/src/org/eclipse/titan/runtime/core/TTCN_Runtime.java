@@ -1522,7 +1522,6 @@ public final class TTCN_Runtime {
 			throw new TC_End();
 		}
 
-		//FIXME this is more complex
 		return localVerdict;
 	}
 
