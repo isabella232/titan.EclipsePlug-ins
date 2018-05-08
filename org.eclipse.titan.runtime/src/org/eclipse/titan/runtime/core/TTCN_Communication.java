@@ -397,7 +397,7 @@ public class TTCN_Communication {
 				process_stop_ack();
 				break;
 			case MSG_KILL_ACK:
-				//FIXME process_kill_ack();
+				process_kill_ack();
 				break;
 			case MSG_RUNNING:
 				process_running();
@@ -924,6 +924,23 @@ public class TTCN_Communication {
 			break;
 		default:
 			throw new TtcnError("Internal error: Message STOP_ACK arrived in invalid state.");
+		}
+	}
+
+	private static void process_kill_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_KILL:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_KILL:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message KILL_ACK arrived in invalid state.");
 		}
 	}
 
