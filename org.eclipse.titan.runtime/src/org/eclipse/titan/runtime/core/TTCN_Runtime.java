@@ -302,14 +302,18 @@ public final class TTCN_Runtime {
 
 	//originally TTCN_Runtime::terminate_component_type
 	private static void terminate_component_type() {
-		//TODO add check
-		TTCN_Default.deactivateAll();
-		TitanTimer.allStop();
-		TitanPort.deactivate_all();
-		//TODO add log
+		if (component_type_module.get() != null && component_type_name.get() != null) {
+			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.terminating__component, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
 
-		component_type_module.set(null);
-		component_type_name.set(null);
+			TTCN_Default.deactivateAll();
+			TitanTimer.allStop();
+			TitanPort.deactivate_all();
+
+			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.component__shut__down, component_type_module.get(), component_type_name.get(), 0, null, TTCN_Runtime.get_testcase_name(), 0, 0);
+
+			component_type_module.set(null);
+			component_type_name.set(null);
+		}
 	}
 
 	//originally TTCN_Runtime::set_component_type
