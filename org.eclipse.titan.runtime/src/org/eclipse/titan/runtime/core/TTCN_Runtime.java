@@ -1763,7 +1763,6 @@ public final class TTCN_Runtime {
 		}
 
 		create_done_killed_compref.set(new_component);
-		//FIXME implement
 	}
 
 	public static void process_running(final boolean result_value) {
