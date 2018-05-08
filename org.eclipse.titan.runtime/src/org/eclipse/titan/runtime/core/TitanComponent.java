@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+
 /**
  * TTCN-3 component variable
  *
@@ -174,7 +176,9 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("Performing done operation on an unbound component reference.");
 		}
 
-		return TTCN_Runtime.component_done(componentValue);
+		VerdictTypeEnum ptc_verdict = VerdictTypeEnum.NONE;
+
+		return TTCN_Runtime.component_done(componentValue, ptc_verdict);
 	}
 
 	// originally killed, TODO needs index redirection support

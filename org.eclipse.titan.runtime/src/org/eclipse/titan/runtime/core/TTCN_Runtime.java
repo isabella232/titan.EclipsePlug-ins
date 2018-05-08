@@ -11,6 +11,7 @@ import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
@@ -716,7 +717,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally component_done, with component parameter
-	public static TitanAlt_Status component_done(final int component_reference) {
+	public static TitanAlt_Status component_done(final int component_reference, final VerdictTypeEnum ptc_verdict) {
 		if (in_controlPart()) {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
@@ -734,9 +735,8 @@ public final class TTCN_Runtime {
 		}
 	}
 
-	//FIXME needs text_buffer parameter once decoding is available
 	//originally component_done, with component parameter
-	public static TitanAlt_Status component_done(final int component_reference, final String return_type) {
+	public static TitanAlt_Status component_done(final int component_reference, final String return_type, final AtomicReference<Text_Buf> text_buf) {
 		if (in_controlPart()) {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
@@ -759,8 +759,51 @@ public final class TTCN_Runtime {
 		if (is_single()) {
 			throw new TtcnError("Done operation on a component reference cannot be performed in single mode.");
 		}
-		//FIXME implement
-		throw new TtcnError("component_done is not yet supported!");
+
+		if (TitanComponent.self.get().componentValue == component_reference) {
+			TtcnError.TtcnWarning("Done operation on the component reference of self will never succeed.");
+			return TitanAlt_Status.ALT_NO;
+		} else {
+			final int index = get_component_status_table_index(component_reference);
+			switch (component_status_table.get(index).done_status) {
+			case ALT_UNCHECKED:
+				switch (executorState.get()) {
+				case MTC_TESTCASE:
+					executorState.set(executorStateEnum.MTC_DONE);
+					break;
+				case PTC_FUNCTION:
+					executorState.set(executorStateEnum.PTC_DONE);
+					break;
+				default:
+					throw new TtcnError("Internal error: Executing done operation in invalid state.");
+				}
+
+				TTCN_Communication.send_done_req(component_reference);
+				component_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+				// wait for DONE_ACK
+				wait_for_state_change();
+
+				return TitanAlt_Status.ALT_REPEAT;
+			case ALT_YES:
+				if (component_status_table.get(index).return_type == null) {
+					TtcnLogger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__no__return);
+					return TitanAlt_Status.ALT_NO;
+				}
+
+				if (component_status_table.get(index).return_type.equals(return_type)) {
+					component_status_table.get(index).return_value.rewind();
+					text_buf.set(component_status_table.get(index).return_value);
+
+					return TitanAlt_Status.ALT_YES;
+				} else {
+					TtcnLogger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__wrong__return__type);
+
+					return TitanAlt_Status.ALT_NO;
+				}
+			default:
+				return TitanAlt_Status.ALT_MAYBE;
+			}
+		}
 	}
 
 	//originally component_killed, with component parameter
