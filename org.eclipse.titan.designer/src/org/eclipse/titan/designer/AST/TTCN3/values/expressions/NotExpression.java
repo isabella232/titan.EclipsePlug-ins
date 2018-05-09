@@ -265,6 +265,8 @@ public final class NotExpression extends Expression_Value {
 			value.generateCodeExpressionMandatory(aData, expression, false);
 			expression.expression.append( ")" );
 		} else {
+			aData.addCommonLibraryImport("TitanBoolean");
+
 			expression.expression.append("new TitanBoolean(");
 			value.generateCodeExpressionMandatory(aData, expression, false);
 			expression.expression.append( ").not()" );
