@@ -588,9 +588,12 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			break;
 		}
-		case ALT_GetVerdict:
-			returnValue.append(MessageFormat.format("getverdict: {0}", choice.getGetVerdict().enum_value.name()));
+		case ALT_GetVerdict: {
+			final int tempOrdinal = choice.getGetVerdict().enum_value.ordinal();
+			final String tempVerdictName = VerdictTypeEnum.values()[tempOrdinal].getName();
+			returnValue.append(MessageFormat.format("getverdict: {0}", tempVerdictName));
 			break;
+		}
 		case ALT_FinalVerdict:
 			switch (choice.getFinalVerdict().getChoice().get_selection()) {
 			case UNBOUND_VALUE:
@@ -605,18 +608,31 @@ public class LegacyLogger implements ILoggerPlugin {
 							returnValue.append(MessageFormat.format("Local verdict of PTC with component reference {0}: ", info.getPtc__compref().get().getInt()));
 						}
 
-						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", info.getPtc__verdict().enum_value.name(), info.getLocal__verdict().enum_value.name(), info.getNew__verdict().enum_value.name()));
+						final int ptcOrdinal = info.getPtc__verdict().enum_value.ordinal();
+						final String ptcVerdictName = VerdictTypeEnum.values()[ptcOrdinal].getName();
+						final int localOrdinal = info.getLocal__verdict().enum_value.ordinal();
+						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
+						final int newOrdinal = info.getNew__verdict().enum_value.ordinal();
+						final String newVerdictName = VerdictTypeEnum.values()[newOrdinal].getName();
+
+						returnValue.append(MessageFormat.format("{0} ({1} -> {2})", ptcVerdictName, localVerdictName, newVerdictName));
 						if (info.getVerdict__reason().isPresent() && info.getVerdict__reason().get().lengthOf().getInt() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getVerdict__reason().get().getValue()));
 						}
 					} else {
-						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", info.getLocal__verdict().enum_value.name()));
+						final int localOrdinal = info.getLocal__verdict().enum_value.ordinal();
+						final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
+
+						returnValue.append(MessageFormat.format("Final verdict of PTC: {0}", localVerdictName));
 						if (info.getVerdict__reason().isPresent() && info.getVerdict__reason().get().lengthOf().getInt() > 0) {
 							returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getVerdict__reason().get().getValue()));
 						}
 					}
 				} else {
-					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", info.getLocal__verdict().enum_value.name()));
+					final int localOrdinal = info.getLocal__verdict().enum_value.ordinal();
+					final String localVerdictName = VerdictTypeEnum.values()[localOrdinal].getName();
+
+					returnValue.append(MessageFormat.format("Local verdict of MTC: {0}", localVerdictName));
 					if (info.getVerdict__reason().isPresent() && info.getVerdict__reason().get().lengthOf().getInt() > 0) {
 						returnValue.append(MessageFormat.format(" reason: \"{0}\"", info.getVerdict__reason().get().getValue()));
 					}
