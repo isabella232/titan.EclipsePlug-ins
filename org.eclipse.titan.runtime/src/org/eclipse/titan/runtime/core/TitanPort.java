@@ -777,7 +777,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void prepare_message(final Text_Buf outgoing_buf, final String message_type) {
-		throw new TtcnError("prepare_message not yet implemented");
+		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_MESSAGE.ordinal());
+		outgoing_buf.push_string(message_type);
 	}
 
 	protected void prepare_call(final Text_Buf outgoing_buf, final String signature_name) {
