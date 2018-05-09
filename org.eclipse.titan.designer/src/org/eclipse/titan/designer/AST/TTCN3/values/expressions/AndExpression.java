@@ -367,16 +367,12 @@ public final class AndExpression extends Expression_Value {
 					value2.generateCodeExpressionMandatory(aData, expression, false);
 					expression.expression.append( ')' );
 				} else {
-					aData.addCommonLibraryImport("TitanBoolean");
-
 					value1.generateCodeExpressionMandatory(aData, expression, true);
 					expression.expression.append( ".and( " );
 					value2.generateCodeExpressionMandatory(aData, expression, false);
 					expression.expression.append( " )" );
 				}
 			} else {
-				aData.addCommonLibraryImport("TitanBoolean");
-
 				value1.generateCodeExpressionMandatory(aData, expression, true);
 				expression.expression.append( ".and( " );
 				value2.generateCodeExpressionMandatory(aData, expression, false);
