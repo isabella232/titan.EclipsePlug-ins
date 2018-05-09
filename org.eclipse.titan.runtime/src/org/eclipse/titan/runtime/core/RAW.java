@@ -478,7 +478,7 @@ public class RAW {
 	/**
 	 * Return the number of bits needed to represent an integer value `a'.  The
 	 * sign bit is added for negative values.  It has a different implementation
-	 * for `BIGNUM' values.
+	 * for BigInteger values.
 	 *
 	 * @param a the integer in question
 	 * @return the number of bits needed to represent the given integer

@@ -96,7 +96,7 @@ public class TTCN_Buffer {
 			if (target_size > data_ptr.length) {
 				final int buf_size = get_memory_size(target_size);
 				final char[] data_ptr_new = new char[buf_size];
-				System.arraycopy(data_ptr_new, 0, data_ptr, 0, buf_len);
+				System.arraycopy(data_ptr, 0, data_ptr_new, 0, buf_len);
 				data_ptr = data_ptr_new;
 			}
 		} else {  // a brand new buffer
