@@ -932,7 +932,7 @@ public class LoggerPluginManager {
 		
 		exec.getModule__name().assign(template_sel.OMIT_VALUE);
 		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
-		exec.getPid().assign(template_sel.OMIT_VALUE);
+		exec.getPid().get().assign((int)pid);
 		exec.getFd__setsize().assign(template_sel.OMIT_VALUE);
 
 		log(event);
