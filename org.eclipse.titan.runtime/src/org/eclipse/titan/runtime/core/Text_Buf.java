@@ -310,6 +310,16 @@ public final class Text_Buf {
 		buf_len += len;
 	}
 
+	public void push_raw(final int end, final int len, final byte[] data) {
+		if (len < 0) {
+			throw new TtcnError(MessageFormat.format("Text encoder: Encoding raw data with negative length ({0}).", len));
+		}
+
+		Reallocate(buf_len + len);
+		System.arraycopy(data, 0, data_ptr, end, len);
+		buf_len += len;
+	}
+
 	public void push_raw_front(final int len, final byte[] data) {
 		if (len < 0) {
 			throw new TtcnError(MessageFormat.format("Text encoder: Encoding raw data with negative length ({0}).", len));
