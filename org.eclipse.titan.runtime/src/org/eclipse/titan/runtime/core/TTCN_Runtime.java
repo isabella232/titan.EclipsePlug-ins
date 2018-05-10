@@ -80,10 +80,20 @@ public final class TTCN_Runtime {
 	private static ThreadLocal<String> testcaseModuleName = new ThreadLocal<String>();
 	private static ThreadLocal<String> testcaseDefinitionName = new ThreadLocal<String>();
 
-	private static VerdictTypeEnum localVerdict = VerdictTypeEnum.NONE;
+	private static ThreadLocal<VerdictTypeEnum> localVerdict = new ThreadLocal<TitanVerdictType.VerdictTypeEnum>() {
+		@Override
+		protected VerdictTypeEnum initialValue() {
+			return VerdictTypeEnum.NONE;
+		}
+	};
 	private static int verdictCount[] = new int[] {0,0,0,0,0};
 	private static int controlErrorCount = 0;
-	private static String verdictReason = "";
+	private static ThreadLocal<String> verdictReason = new ThreadLocal<String>() {
+		@Override
+		protected String initialValue() {
+			return "";
+		}
+	};
 
 	//in the compiler in_ttcn_try_block
 	private static int ttcn_try_block_counter = 0;
@@ -322,8 +332,8 @@ public final class TTCN_Runtime {
 		//FIXME port set parameters
 		TitanPort.all_start();
 
-		localVerdict = VerdictTypeEnum.NONE;
-		verdictReason = "";
+		localVerdict.set(VerdictTypeEnum.NONE);
+		verdictReason.set("");
 	}
 
 	//originally TTCN_Runtime::terminate_component_type
@@ -549,9 +559,9 @@ public final class TTCN_Runtime {
 					terminate_component_type();
 				} catch (final TtcnError error) { }
 				try {
-					TTCN_Communication.send_killed(localVerdict, verdictReason);
+					TTCN_Communication.send_killed(localVerdict.get(), verdictReason.get());
 				} catch (final TtcnError error) { }
-				TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+				TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 				executorState.set(executorStateEnum.PTC_EXIT);
 			}
 
@@ -718,7 +728,7 @@ public final class TTCN_Runtime {
 			case PTC_STOPPED:
 				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Function {0} was stopped. PTC remains alive and is waiting for next start.", function_name));
 				// send a STOPPED message without return value
-				TTCN_Communication.send_stopped(localVerdict, verdictReason);
+				TTCN_Communication.send_stopped(localVerdict.get(), verdictReason.get());
 
 				// return and do nothing else
 				return;
@@ -755,10 +765,10 @@ public final class TTCN_Runtime {
 
 		if (is_alive.get()) {
 			// Prepare a STOPPED message with the current verdict and possible return value.
-			TTCN_Communication.prepare_stopped(text_buf, localVerdict, return_type, verdictReason);
+			TTCN_Communication.prepare_stopped(text_buf, localVerdict.get(), return_type, verdictReason.get());
 		} else {
 			terminate_component_type();
-			TTCN_Communication.prepare_stopped_killed(text_buf, localVerdict, return_type, verdictReason);
+			TTCN_Communication.prepare_stopped_killed(text_buf, localVerdict.get(), return_type, verdictReason.get());
 		}
 	}
 
@@ -769,7 +779,7 @@ public final class TTCN_Runtime {
 		if (is_alive.get()) {
 			executorState.set(executorStateEnum.PTC_STOPPED);
 		} else {
-			TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+			TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 		}
 	}
@@ -1606,7 +1616,7 @@ public final class TTCN_Runtime {
 
 		if (executorState.get() == executorStateEnum.MTC_TESTCASE) {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.waiting__for__ptcs__to__finish);
-			TTCN_Communication.send_testcase_finished(localVerdict, verdictReason);
+			TTCN_Communication.send_testcase_finished(localVerdict.get(), verdictReason.get());
 			executorState.set(executorStateEnum.MTC_TERMINATING_TESTCASE);
 			wait_for_state_change();
 		} else if (executorState.get() == executorStateEnum.SINGLE_TESTCASE) {
@@ -1614,9 +1624,9 @@ public final class TTCN_Runtime {
 			// FIXME implement
 		}
 
-		TtcnLogger.log_testcase_finished(testcaseModuleName.get(), testcaseDefinitionName.get(), localVerdict, verdictReason);
+		TtcnLogger.log_testcase_finished(testcaseModuleName.get(), testcaseDefinitionName.get(), localVerdict.get(), verdictReason.get());
 
-		verdictCount[localVerdict.getValue()]++;
+		verdictCount[localVerdict.get().getValue()]++;
 
 		testcaseModuleName.set(null);
 		testcaseDefinitionName.set(null);
@@ -1643,7 +1653,7 @@ public final class TTCN_Runtime {
 			throw new TC_End();
 		}
 
-		return localVerdict;
+		return localVerdict.get();
 	}
 
 	//originally log_verdict_statistics
@@ -1740,14 +1750,14 @@ public final class TTCN_Runtime {
 	//originally getverdict
 	public static TitanVerdictType get_verdict() {
 		if (verdict_enabled()) {
-			TtcnLogger.log_getverdict(localVerdict);
+			TtcnLogger.log_getverdict(localVerdict.get());
 		} else if (in_controlPart()) {
 			throw new TtcnError("Getverdict operation cannot be performed in the control part.");
 		} else {
 			throw new TtcnError("Internal error: Performing getverdict operation in invalid state.");
 		}
 
-		return new TitanVerdictType(localVerdict);
+		return new TitanVerdictType(localVerdict.get());
 	}
 
 	//originally setverdict_internal
@@ -1756,20 +1766,20 @@ public final class TTCN_Runtime {
 			throw new TtcnError(MessageFormat.format("Internal error: setting an invalid verdict value ({0}).", newValue.getValue()));
 		}
 
-		final VerdictTypeEnum oldVerdict = localVerdict;
-		if (localVerdict.getValue() < newValue.getValue()) {
-			verdictReason = reason;
-			localVerdict = newValue;
+		final VerdictTypeEnum oldVerdict = localVerdict.get();
+		if (localVerdict.get().getValue() < newValue.getValue()) {
+			verdictReason.set(reason);
+			localVerdict.set(newValue);
 			if (reason == null || reason.length() == 0) {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, null, null);
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), null, null);
 			} else {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, reason, reason);
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), reason, reason);
 			}
-		} else if (localVerdict.getValue() == newValue.getValue()) {
+		} else if (localVerdict.get().getValue() == newValue.getValue()) {
 			if (reason == null || reason.length() == 0) {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, null, null);
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), null, null);
 			} else {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict, reason, reason);
+				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), reason, reason);
 			}
 		}
 
@@ -1909,8 +1919,8 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
 		}
 
-		TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
-		TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+		TtcnLogger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+		TtcnLogger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
 		final int n_PTCS = text_buf.pull_int().getInt();
 		if (n_PTCS > 0) {
@@ -1924,17 +1934,17 @@ public final class TTCN_Runtime {
 				}
 
 				final VerdictTypeEnum ptc_verdict = VerdictTypeEnum.values()[verdictInt];
-				VerdictTypeEnum newVerdict = localVerdict;
-				if (ptc_verdict.ordinal() > localVerdict.ordinal()) {
+				VerdictTypeEnum newVerdict = localVerdict.get();
+				if (ptc_verdict.ordinal() > localVerdict.get().ordinal()) {
 					newVerdict = ptc_verdict;
-					verdictReason = ptc_verdict_reason;
+					verdictReason.set(ptc_verdict_reason);
 				}
 
-				TtcnLogger.log_final_verdict(true, ptc_verdict, localVerdict, newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
-				localVerdict = newVerdict;
+				TtcnLogger.log_final_verdict(true, ptc_verdict, localVerdict.get(), newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
+				localVerdict.set(newVerdict);
 			}
 		} else {
-			TtcnLogger.log_final_verdict(false, localVerdict, localVerdict, localVerdict, verdictReason, TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+			TtcnLogger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
 		final boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
@@ -1958,8 +1968,8 @@ public final class TTCN_Runtime {
 			// This may affect the final verdict.
 			terminate_component_type();
 
-			TTCN_Communication.send_killed(localVerdict, null);
-			TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+			TTCN_Communication.send_killed(localVerdict.get(), null);
+			TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 			break;
 		case PTC_EXIT:
