@@ -494,9 +494,9 @@ public final class TTCN_Runtime {
 		TtcnLogger.begin_event(Severity.EXECUTOR_COMPONENT);
 		TtcnLogger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
 		TitanComponent.self.get().log();
-		TtcnLogger.log_event_str(MessageFormat.format(", component type: {0}.{1}", component_type_module, component_type_name));
+		TtcnLogger.log_event_str(MessageFormat.format(", component type: {0}.{1}", component_type_module.get(), component_type_name.get()));
 		if (component_name != null) {
-			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", component_name));
+			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", component_name.get()));
 		}
 		TtcnLogger.log_event_str(". Version: " + PRODUCT_NUMBER + '.');
 		TtcnLogger.end_event();
