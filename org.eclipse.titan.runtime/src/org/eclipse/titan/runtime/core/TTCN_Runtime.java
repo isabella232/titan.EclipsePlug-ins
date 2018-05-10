@@ -431,25 +431,34 @@ public final class TTCN_Runtime {
 	}
 
 	public static int hc_main(final String local_addr, final String MC_host, final int MC_port) {
+		int returnValue = 0;
 		TTCN_Runtime.set_state(executorStateEnum.HC_INITIAL);
 		TtcnLogger.log_hc_start(get_host_name());
 		TtcnLogger.write_logger_settings();
 
-		// FIXME implement
-		TTCN_Communication.set_mc_address(MC_host, MC_port);
-		TTCN_Communication.connect_mc();
-		
-		executorState.set(executorStateEnum.HC_IDLE);
-		TTCN_Communication.send_version();
-		initialize_component_process_tables();
+		try {
+			// FIXME implement
+			TTCN_Communication.set_mc_address(MC_host, MC_port);
+			TTCN_Communication.connect_mc();
 
-		do {
-			TTCN_Snapshot.takeNew(true);
-			TTCN_Communication.process_all_messages_hc();
-		} while (executorState.get().ordinal() >= executorStateEnum.HC_IDLE.ordinal() && executorState.get().ordinal() < executorStateEnum.HC_EXIT.ordinal());
+			executorState.set(executorStateEnum.HC_IDLE);
+			TTCN_Communication.send_version();
+			initialize_component_process_tables();
 
-		if (executorState.get() == executorStateEnum.HC_EXIT) {
-			TTCN_Communication.disconnect_mc();
+			do {
+				TTCN_Snapshot.takeNew(true);
+				TTCN_Communication.process_all_messages_hc();
+			} while (executorState.get().ordinal() >= executorStateEnum.HC_IDLE.ordinal() && executorState.get().ordinal() < executorStateEnum.HC_EXIT.ordinal());
+
+			if (executorState.get() == executorStateEnum.HC_EXIT) {
+				TTCN_Communication.disconnect_mc();
+				clean_up();
+			}
+		} catch (final TtcnError error) {
+			TTCN_Runtime.set_error_verdict(); 
+			System.out.println(error);
+
+			returnValue = -1;
 			clean_up();
 		}
 		//FIXME implement
@@ -460,36 +469,42 @@ public final class TTCN_Runtime {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
 		}
 
-		return 0;
+		return returnValue;
 	}
 
 	public static int mtc_main() {
 		//FIXME implement rest
-		int ret_val = 0;
+		int returnValue = 0;
 
 		TtcnLogger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__started);
 
-		TTCN_Communication.connect_mc();
-		executorState.set(executorStateEnum.MTC_IDLE);
-		TTCN_Communication.send_mtc_created();
+		try {
+			TTCN_Communication.connect_mc();
+			executorState.set(executorStateEnum.MTC_IDLE);
+			TTCN_Communication.send_mtc_created();
 
-		do {
-			TTCN_Snapshot.takeNew(true);
-			TTCN_Communication.process_all_messages_tc();
-		} while (executorState.get() != executorStateEnum.MTC_EXIT);
+			do {
+				TTCN_Snapshot.takeNew(true);
+				TTCN_Communication.process_all_messages_tc();
+			} while (executorState.get() != executorStateEnum.MTC_EXIT);
 
 
-		TTCN_Communication.disconnect_mc();
-		clean_up();
+			TTCN_Communication.disconnect_mc();
+			clean_up();
+		} catch (final TtcnError error) {
+			TTCN_Runtime.set_error_verdict(); 
+			System.out.println(error);
+			returnValue = -1;
+		}
 
 		TtcnLogger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__finished);
 
-		return ret_val;
+		return returnValue;
 	}
 
 	public static int ptc_main() {
 		//FIXME implement rest
-		int ret_val = 0;
+		int returnValue = 0;
 
 		TtcnLogger.begin_event(Severity.EXECUTOR_COMPONENT);
 		TtcnLogger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
@@ -502,34 +517,56 @@ public final class TTCN_Runtime {
 		TtcnLogger.end_event();
 
 		//FIXME implement missing parts
-		//TODO add the exception handling
+		try {
+			TTCN_Communication.connect_mc();
+			executorState.set(executorStateEnum.PTC_IDLE);
+			TTCN_Communication.send_ptc_created(TitanComponent.self.get().componentValue);
+			try {
+				initialize_component_type();
+			} catch (final TtcnError error) {
+				TTCN_Runtime.set_error_verdict(); 
+				System.out.println(error);
+				TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.component__init__fail);
+				returnValue = -1;
+			}
 
-		TTCN_Communication.connect_mc();
-		executorState.set(executorStateEnum.PTC_IDLE);
-		TTCN_Communication.send_ptc_created(TitanComponent.self.get().componentValue);
-		initialize_component_type();
+			if (returnValue == 0) {
+				try {
+					do {
+						TTCN_Snapshot.takeNew(true);
+						TTCN_Communication.process_all_messages_tc();
+					} while (executorState.get() != executorStateEnum.PTC_EXIT);
+				} catch (final TtcnError error) {
+					TTCN_Runtime.set_error_verdict(); 
+					System.out.println(error);
+					TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.error__idle__ptc, null, null, 0, null, null, 0, 0);
+					returnValue = -1;
+				}
+			}
+			if (returnValue != 0) {
+				// ignore errors in subsequent operations
+				try {
+					terminate_component_type();
+				} catch (final TtcnError error) { }
+				try {
+					TTCN_Communication.send_killed(localVerdict, verdictReason);
+				} catch (final TtcnError error) { }
+				TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
+				executorState.set(executorStateEnum.PTC_EXIT);
+			}
 
-		if (ret_val == 0) {
-			do {
-				TTCN_Snapshot.takeNew(true);
-				TTCN_Communication.process_all_messages_tc();
-			} while (executorState.get() != executorStateEnum.PTC_EXIT);
+			TTCN_Communication.disconnect_mc();
+			clear_component_status_table();
+			clean_up();
+		} catch (final TtcnError error) {
+			TTCN_Runtime.set_error_verdict(); 
+			System.out.println(error);
+			returnValue = -1;
 		}
-		if (ret_val != 0) {
-			// ignore errors in subsequent operations
-			terminate_component_type();
-			TTCN_Communication.send_killed(localVerdict, verdictReason);
-			TtcnLogger.log_final_verdict(true, localVerdict, localVerdict, localVerdict, verdictReason, -1, TitanComponent.UNBOUND_COMPREF, null);
-			executorState.set(executorStateEnum.PTC_EXIT);
-		}
-
-		TTCN_Communication.disconnect_mc();
-		clear_component_status_table();
-		clean_up();
 
 		TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.ptc__finished);
 
-		return ret_val;
+		return returnValue;
 	}
 
 	//originally create_component
