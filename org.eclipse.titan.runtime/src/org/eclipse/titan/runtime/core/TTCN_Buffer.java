@@ -964,8 +964,8 @@ public class TTCN_Buffer {
 					if (new_bit_pos != 0) {
 						final int mask1 = RAW.BitMaskTable[new_bit_pos];
 						for (int a = 0, b = (bit_pos + len) / 8; a < num_bytes; a++, b--) {
-								s[a] = (char) (((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b) >> (8 - new_bit_pos)) & mask1) |
-										(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b - 1) << new_bit_pos) & 0xFF);
+							s[a] = (char) (((get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b) >> (8 - new_bit_pos)) & mask1) |
+									(get_byte_align(len,local_fieldorder,raw_order_t.ORDER_LSB,b - 1) << new_bit_pos) & 0xFF);
 						}
 					} else {
 						for (int a = 0, b = new_buf_pos - 1; a < num_bytes; a++, b--) {
