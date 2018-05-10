@@ -635,11 +635,11 @@ public class TitanFloat extends Base_Type {
 				exponent -= 1023;
 
 				if (exponent > 127) {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,"The float value {0} is out of the range of the single precision: {1}", float_value.getValue(), p_td.name);
+					TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR,"The float value %f is out of the range of the single precision: %s", float_value.getValue(), p_td.name);
 					tmp = 0.0;
 					exponent = 0;
 				} else if (exponent < -127) {
-					TTCN_EncDec_ErrorContext.error(error_type.ET_FLOAT_TR, "The float value {0} is too small to represent it in single precision: {1}", float_value.getValue(), p_td.name);
+					TTCN_EncDec_ErrorContext.error(error_type.ET_FLOAT_TR, "The float value %f is too small to represent it in single precision: %s", float_value.getValue(), p_td.name);
 					tmp = 0.0;
 					exponent = 0;
 				} else {

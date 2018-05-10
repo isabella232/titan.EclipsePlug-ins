@@ -791,10 +791,11 @@ public class TitanBitString extends Base_Type {
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		int bl = n_bits;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
 		if ((bl + align_length) < n_bits) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: ", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: '%s'", p_td.name);
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
@@ -823,6 +824,8 @@ public class TitanBitString extends Base_Type {
 		} else {
 			myleaf.align = -align_length;
 		}
+		errorcontext.leaveContext();
+
 		return myleaf.length = bl + align_length;
 	}
 
@@ -834,6 +837,7 @@ public class TitanBitString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? limit : p_td.raw.fieldlength;
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.fieldlength > limit
 				|| p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {
@@ -889,6 +893,8 @@ public class TitanBitString extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		clear_unused_bits();
+		errorcontext.leaveContext();
+
 		return decode_length + prepaddlength;
 	}
 }

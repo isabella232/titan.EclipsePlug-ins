@@ -884,6 +884,7 @@ public class TitanInteger extends Base_Type {
 		if (!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
 		}
+		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		char bc[];
 		int length; // total length, in bytes
 		int val_bits = 0; // only for IntX
@@ -902,7 +903,7 @@ public class TitanInteger extends Base_Type {
 		}
 
 		if ((value < 0) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
-			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
+			TTCN_EncDec_ErrorContext.error(TTCN_EncDec.error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: %s", p_td.name);
 			value = -value;
 		}
 		if (neg_sgbit) {
@@ -943,7 +944,7 @@ public class TitanInteger extends Base_Type {
 				min_bits++;
 			}
 			if (min_bits > p_td.raw.fieldlength) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode : ", p_td.name);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode %s: ", p_td.name);
 				value = 0; // substitute with zero
 			}
 		}
@@ -1008,6 +1009,8 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
+		errorContext.leaveContext();
+
 		return myleaf.length;
 	}
 
@@ -1017,13 +1020,14 @@ public class TitanInteger extends Base_Type {
 		int length = 0; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
+		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 			neg_sgbit = false;
 		}
 		if ((D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_NO)) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: ", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_SIGN_ERR, "Unsigned encoding of a negative number: %s", p_td.name);
 			D = D.negate();
 			neg_sgbit = false;
 		}
@@ -1055,7 +1059,7 @@ public class TitanInteger extends Base_Type {
 			length = (p_td.raw.fieldlength + 7) / 8;
 			final int min_bits = RAW.min_bits(D);
 			if (min_bits > p_td.raw.fieldlength) {
-				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: ", p_td.name);
+				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode: %s", p_td.name);
 				// `tmp = -((-tmp) & BitMaskTable[min_bits(tmp)]);' doesn't make any sense
 				// at all for negative values.  Just simply clear the value.
 				neg_sgbit = false;
@@ -1136,7 +1140,8 @@ public class TitanInteger extends Base_Type {
 			}
 			myleaf.length = p_td.raw.fieldlength;
 		}
-
+		errorContext.leaveContext();
+		
 		return myleaf.length;
 	}
 
@@ -1150,6 +1155,7 @@ public class TitanInteger extends Base_Type {
 		limit -= prepaddlength;
 		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
+		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
 		}
@@ -1189,6 +1195,8 @@ public class TitanInteger extends Base_Type {
 					if (!no_err) {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + nof_unread_bits);
 					}
+					errorContext.leaveContext();
+
 					return -error_type.ET_INCOMPL_MSG.ordinal();
 				}
 				
@@ -1224,6 +1232,8 @@ public class TitanInteger extends Base_Type {
 						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, limit);
 			}
 			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
+				errorContext.leaveContext();
+
 				return -error_type.ET_LEN_ERR.ordinal();
 			}
 			decode_length = limit;
@@ -1233,9 +1243,11 @@ public class TitanInteger extends Base_Type {
 		if (decode_length > nof_unread_bits) {
 			if (!no_err) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG,
-						"There are not enough bits in the buffer to decode%s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
+						"There are not enough bits in the buffer to decode %s type %s (needed: %d, found: %d).", p_td.raw.fieldlength == RAW.RAW_INTX ? " the value of IntX" : "", p_td.name, decode_length, nof_unread_bits);
 			}
 			if (no_err || p_td.raw.fieldlength == RAW.RAW_INTX) {
+				errorContext.leaveContext();
+
 				return error_type.ET_INCOMPL_MSG.ordinal();
 			}
 			decode_length = nof_unread_bits;
@@ -1315,6 +1327,8 @@ public class TitanInteger extends Base_Type {
 					}
 					decode_length += buff.increase_pos_padd(p_td.raw.padding);
 					boundFlag = true;
+					errorContext.leaveContext();
+
 					return decode_length + prepaddlength + len_bits;
 				} else {
 					for (; idx >= 0; idx--) {
@@ -1328,6 +1342,8 @@ public class TitanInteger extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		boundFlag = true;
+		errorContext.leaveContext();
+
 		return decode_length + prepaddlength + len_bits;
 	}
 }

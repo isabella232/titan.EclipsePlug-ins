@@ -706,11 +706,12 @@ public class TitanCharString extends Base_Type {
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		int bl = val_ptr.length() * 8; // bit length
 		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
+		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
 		if ((bl + align_length) < val_ptr.length() * 8) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: ", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode: '%s'", p_td.name);
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
 		}
@@ -730,6 +731,8 @@ public class TitanCharString extends Base_Type {
 		} else {
 			myleaf.align = align_length;
 		}
+		errorContext.leaveContext();
+
 		return myleaf.length = bl + align_length;
 	}
 	
@@ -741,11 +744,12 @@ public class TitanCharString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength <= 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
+		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type '%s.'", p_td.name);
 			decode_length = ((limit > buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 8) * 8;
 		}
 
@@ -804,6 +808,8 @@ public class TitanCharString extends Base_Type {
 			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		errorContext.leaveContext();
+
 		return decode_length + prepaddlength;
 	}
 }

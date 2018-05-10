@@ -693,7 +693,7 @@ public class TitanHexString extends Base_Type {
 		int nbits = nibbles_ptr.length * 4;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - nbits : 0;
 		if ((nbits + align_length) < nbits) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode {0}: ", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is no sufficient bits to encode %s: ", p_td.name);
 			nbits = p_td.raw.fieldlength;
 			align_length = 0;
 		}
