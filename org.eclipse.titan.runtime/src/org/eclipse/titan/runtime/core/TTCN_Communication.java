@@ -469,7 +469,7 @@ public class TTCN_Communication {
 						//FIXME process_continue();
 						break;
 					case MSG_EXIT_MTC:
-						//FIXME process_exit_mtc();
+						process_exit_mtc();
 						break;
 					case MSG_CONFIGURE:
 						//FIXME process_configure(msg_end, TRUE);
@@ -1117,6 +1117,13 @@ public class TTCN_Communication {
 	private static void process_ptc_verdict() {
 		TTCN_Runtime.process_ptc_verdict(incoming_buf.get());
 		incoming_buf.get().cut_message();
+	}
+
+	private static void process_exit_mtc() {
+		incoming_buf.get().cut_message();
+		TTCN_Runtime.log_verdict_statistics();
+		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.exit__requested__from__mc__mtc);
+		TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
 	}
 
 	private static void process_start() {
