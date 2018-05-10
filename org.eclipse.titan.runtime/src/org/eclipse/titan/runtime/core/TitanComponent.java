@@ -235,9 +235,15 @@ public class TitanComponent extends Base_Type {
 		case SYSTEM_COMPREF:
 			TtcnLogger.log_event_str("system");
 			break;
-		default:
-			//FIXME implement
+		default: {
+			String component_name = get_component_name(component_reference);
+			if (component_name == null) {
+				TtcnLogger.log_event_str(MessageFormat.format("{0}", component_reference));
+			} else {
+				TtcnLogger.log_event_str(MessageFormat.format("{0}({1})", component_name, component_reference));
+			}
 			break;
+		}
 		}
 	}
 
@@ -249,9 +255,14 @@ public class TitanComponent extends Base_Type {
 			return "mtc";
 		case SYSTEM_COMPREF:
 			return "system";
-		default:
-			//FIXME implement
-			return "FIXME implement get_component_string";
+		default: {
+			String component_name = get_component_name(component_reference);
+			if (component_name == null) {
+				return MessageFormat.format("{0}", component_reference);
+			} else {
+				return MessageFormat.format("{0}({1})", component_name, component_reference);
+			}
+		}
 		}
 	}
 
@@ -269,7 +280,7 @@ public class TitanComponent extends Base_Type {
 		case SYSTEM_COMPREF:
 			break;
 		default:
-			text_buf.push_string(get_component_string(componentValue));
+			text_buf.push_string(get_component_name(componentValue));
 			break;
 		}
 	}
@@ -357,5 +368,31 @@ public class TitanComponent extends Base_Type {
 		}
 		componentNames.add(min, tempElement);
 		numberOfComponentNames++;
+	}
+
+	public static String get_component_name(final int component_reference) {
+		if (self.get().componentValue == component_reference) {
+			return TTCN_Runtime.get_component_name();
+		} else if(componentNames.size() > 0) {
+			int min = 0;
+			int max = numberOfComponentNames - 1;
+			while (min < max) {
+				final int mid = min + (max - min) / 2;
+				if (componentNames.get(mid).componentReference < component_reference) {
+					min = mid + 1;
+				} else if (componentNames.get(mid).componentReference == component_reference) {
+					return componentNames.get(mid).componentName;
+				} else {
+					max = mid;
+				}
+			}
+			if (componentNames.get(min).componentReference != component_reference) {
+				throw new TtcnError(MessageFormat.format("Internal error: Trying to get the name of PTC with component reference {0}, but the name of the component is not registered.", component_reference));
+			}
+
+			return componentNames.get(min).componentName;
+		} else {
+			throw new TtcnError(MessageFormat.format("Internal error: Trying to get the name of PTC with component reference {0}, but there are no component names registered.", component_reference));
+		}
 	}
 }
