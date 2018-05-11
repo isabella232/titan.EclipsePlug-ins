@@ -686,7 +686,7 @@ public class TitanOctetString extends Base_Type {
 			errorContext.leaveContext();
 			break;
 		default:
-			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}'", p_td.name));
 		}
 	}
 
@@ -694,12 +694,13 @@ public class TitanOctetString extends Base_Type {
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		char[] bc = new char[val_ptr.length];
 		int bl = val_ptr.length * 8;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
 		int blength = val_ptr.length;
 		if ((bl + align_length) < val_ptr.length * 8) {
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode {0}: ", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are insufficient bits to encode '%s' : ", p_td.name);
 			blength = p_td.raw.fieldlength / 8;
 			bl = p_td.raw.fieldlength;
 			align_length = 0;
@@ -721,6 +722,8 @@ public class TitanOctetString extends Base_Type {
 		} else {
 			myleaf.align = -align_length;
 		}
+		errorcontext.leaveContext();
+
 		return myleaf.length = bl + align_length;
 	}
 	
@@ -730,13 +733,14 @@ public class TitanOctetString extends Base_Type {
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
-			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type '%s'.", p_td.name);
 			decode_length = ((limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit) / 8) * 8;
 		}
 
@@ -788,6 +792,8 @@ public class TitanOctetString extends Base_Type {
 			}
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		errorcontext.leaveContext();
+
 		return decode_length + prepaddlength;
 	}
 }
