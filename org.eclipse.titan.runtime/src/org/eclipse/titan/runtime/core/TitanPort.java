@@ -1150,6 +1150,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 					process_data(connection, incoming_buffer);
 					incoming_buffer.cut_message();
 				}
+			} else {
+				// the connection was closed by the peer
+				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
+				if (connection.connection_state == port_connection.connection_state_enum.CONN_LAST_MSG_RCVD) {
+					TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__closed__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				}
+				// the connection can be removed
+				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			}
 		} catch (IOException e) {
 			//FIXME implement
