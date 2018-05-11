@@ -612,6 +612,7 @@ public final class Assignment_Statement extends Statement {
 			if(rhsCopied) {
 				source.append("{\n");
 				if (isOptional) {
+					aData.addCommonLibraryImport("Optional");
 					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>({0}.class);\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 					rhsRef += ".get()";
 				} else {
@@ -635,6 +636,9 @@ public final class Assignment_Statement extends Statement {
 					if (value.getValuetype() != Value_type.OMIT_VALUE && value.getValuetype() != Value_type.REFERENCED_VALUE && (isOptional || type.getTypetypeTtcn3() != value.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE))) {
 						temp = MessageFormat.format("new {0}({1})", value.getMyGovernor().getGenNameValue(aData, source, myScope), value.generateSingleExpression(aData));
 					} else {
+						if (isOptional) {
+							aData.addCommonLibraryImport("Optional");
+						}
 						temp = value.generateSingleExpression(aData).toString();
 					}
 
