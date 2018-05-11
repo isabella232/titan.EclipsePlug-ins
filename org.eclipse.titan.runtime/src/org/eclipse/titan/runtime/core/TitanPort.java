@@ -96,12 +96,17 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private LinkedList<port_connection> connection_list = new LinkedList<TitanPort.port_connection>();
 
 	public TitanPort(final String portName) {
-		this.port_name = portName;
+		this.port_name = portName == null ? "<unknown>" : portName;
 		is_active = false;
 		is_started = false;
 	}
 
-	protected TitanPort() {}
+	protected TitanPort() {
+		port_name = "<unknown>";
+		is_active = false;
+		is_started = false;
+		is_halted = false;
+	}
 
 	public String get_name() {
 		return port_name;
