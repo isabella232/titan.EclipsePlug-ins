@@ -34,9 +34,19 @@ public final class TTCN_Snapshot {
 	};
 
 	//[else] branch of alt was reached
-	private static boolean else_branch_found;
+	private static ThreadLocal<Boolean> else_branch_found = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return false;
+		}
+	};
 	// The last time a snapshot was taken
-	private static double alt_begin;
+	private static ThreadLocal<Double> alt_begin = new ThreadLocal<Double>() {
+		@Override
+		protected Double initialValue() {
+			return timeNow();
+		}
+	};
 
 	public static ThreadLocal<HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>> channelMap = new ThreadLocal<HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>>() {
 		@Override
@@ -59,8 +69,8 @@ public final class TTCN_Snapshot {
 
 		}
 
-		else_branch_found = false;
-		alt_begin = timeNow();
+		else_branch_found.set(false);
+		alt_begin.set(timeNow());
 	}
 
 	// originially reopenEpollFd and in a bit different location
@@ -81,8 +91,8 @@ public final class TTCN_Snapshot {
 	 * If this is the first time we must warn the user.
 	 * */
 	public static void elseBranchReached() {
-		if (!else_branch_found) {
-			else_branch_found = true;
+		if (!else_branch_found.get()) {
+			else_branch_found.set(true);
 			TtcnError.TtcnWarning("An [else] branch of an alt construct has been reached."
 					+ "Re-configuring the snapshot manager to call the event handlers even when taking the first snapshot.");
 		}
@@ -107,7 +117,7 @@ public final class TTCN_Snapshot {
 	 *
 	 * */
 	public static double getAltBegin() {
-		return alt_begin;
+		return alt_begin.get();
 	}
 
 	/**
@@ -122,7 +132,7 @@ public final class TTCN_Snapshot {
 	 * originally take_new
 	 * */
 	public static void takeNew(final boolean blockExecution) {
-		if (blockExecution || else_branch_found) {
+		if (blockExecution || else_branch_found.get()) {
 			again: for (;;) {
 				//FIXME implement
 				double timeout = 0.0;
@@ -224,7 +234,7 @@ public final class TTCN_Snapshot {
 		}
 		// just update the time and check the testcase guard timer if blocking was
 		// not requested and there is no [else] branch in the test suite
-		alt_begin = timeNow();
+		alt_begin.set(timeNow());
 
 		if (TitanAlt_Status.ALT_YES == TitanTimer.testcaseTimer.timeout()) {
 			throw new TtcnError("Guard timer has expired. Execution of current test case will be interrupted.");
