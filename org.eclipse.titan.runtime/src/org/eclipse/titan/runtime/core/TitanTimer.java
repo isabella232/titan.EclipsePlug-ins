@@ -22,8 +22,18 @@ public class TitanTimer {
 	public static final TitanTimer testcaseTimer = new TitanTimer("<testcase guard timer>");
 
 	// linked list of running timers
-	private static final LinkedList<TitanTimer> TIMERS = new LinkedList<TitanTimer>();
-	private static final LinkedList<TitanTimer> BACKUP_TIMERS = new LinkedList<TitanTimer>();
+	private static final ThreadLocal<LinkedList<TitanTimer>> TIMERS = new ThreadLocal<LinkedList<TitanTimer>>() {
+		@Override
+		protected LinkedList<TitanTimer> initialValue() {
+			return new LinkedList<TitanTimer>();
+		}
+	};
+	private static final ThreadLocal<LinkedList<TitanTimer>> BACKUP_TIMERS = new ThreadLocal<LinkedList<TitanTimer>>() {
+		@Override
+		protected LinkedList<TitanTimer> initialValue() {
+			return new LinkedList<TitanTimer>();
+		}
+	};
 
 	private String timerName;
 	private boolean hasDefault;
@@ -109,18 +119,18 @@ public class TitanTimer {
 	 * Add the current timer instance to the end of the running timers list.
 	 * */
 	private void addToList() {
-		if (TIMERS.contains(this)) {
+		if (TIMERS.get().contains(this)) {
 			return;
 		}
 
-		TIMERS.addLast(this);
+		TIMERS.get().addLast(this);
 	}
 
 	/**
 	 * Remove the current timer from the list of running timers
 	 * */
 	private void removeFromList() {
-		TIMERS.remove(this);
+		TIMERS.get().remove(this);
 	}
 
 	//originally TIMER::set_name
@@ -329,8 +339,8 @@ public class TitanTimer {
 	 * (empty the list)
 	 * */
 	public static void allStop() {
-		while (TIMERS.size() != 0) {
-			TIMERS.get(0).stop();
+		while (TIMERS.get().size() != 0) {
+			TIMERS.get().get(0).stop();
 		}
 	}
 
@@ -338,7 +348,7 @@ public class TitanTimer {
 	 * @return true if there is a running timer.
 	 * */
 	public static boolean anyRunning() {
-		for (final TitanTimer timer : TIMERS) {
+		for (final TitanTimer timer : TIMERS.get()) {
 			if (timer.running(null)) {
 				return true;
 			}
@@ -360,7 +370,7 @@ public class TitanTimer {
 	 * */
 	public static TitanAlt_Status anyTimeout() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
-		for (final TitanTimer timer : TIMERS) {
+		for (final TitanTimer timer : TIMERS.get()) {
 			switch (timer.timeout(null)) {
 			case ALT_YES:
 				TtcnLogger.log_timer_any_timeout();
@@ -397,7 +407,7 @@ public class TitanTimer {
 			minFlag = true;
 		}
 
-		for (final TitanTimer timer : TIMERS) {
+		for (final TitanTimer timer : TIMERS.get()) {
 			if (timer.timeExpires < altBegin) {
 				//ignore timers that expired before the snapshot
 				continue;
@@ -417,9 +427,9 @@ public class TitanTimer {
 			throw new TtcnError("Internal error: Control part timers are already saved.");
 		}
 
-		if (!TIMERS.isEmpty()) {
-			BACKUP_TIMERS.addAll(TIMERS);
-			TIMERS.clear();
+		if (!TIMERS.get().isEmpty()) {
+			BACKUP_TIMERS.get().addAll(TIMERS.get());
+			TIMERS.get().clear();
 		}
 		controlTimerSaved = true;
 	}
@@ -430,13 +440,13 @@ public class TitanTimer {
 			throw new TtcnError("Internal error: Control part timers are not saved.");
 		}
 
-		if (!TIMERS.isEmpty()) {
+		if (!TIMERS.get().isEmpty()) {
 			throw new TtcnError("Internal error: There are active timers. Control part timers cannot be restored.");
 		}
 
-		if (!BACKUP_TIMERS.isEmpty()) {
-			TIMERS.addAll(BACKUP_TIMERS);
-			BACKUP_TIMERS.clear();
+		if (!BACKUP_TIMERS.get().isEmpty()) {
+			TIMERS.get().addAll(BACKUP_TIMERS.get());
+			BACKUP_TIMERS.get().clear();
 		}
 		controlTimerSaved = false;
 	}
