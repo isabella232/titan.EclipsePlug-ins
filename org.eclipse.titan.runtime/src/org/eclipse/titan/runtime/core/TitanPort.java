@@ -23,6 +23,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
@@ -62,6 +63,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		transport_type_enum transport_type;
 		SelectableChannel stream_socket;
 		Text_Buf stream_incoming_buf;
+		TitanOctetString sliding_buffer;
 
 		@Override
 		public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
@@ -794,7 +796,63 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
-		throw new TtcnError(MessageFormat.format("Sending messages on port {0}, is not yet supported.", get_name()));
+		if (!destination_component.isBound()) {
+			throw new TtcnError(MessageFormat.format("Internal error: The destination component reference is unbound when sending data on port {0}.", port_name));
+		}
+
+		int destination_compref = destination_component.componentValue;
+		AtomicBoolean is_unique = new AtomicBoolean();
+		port_connection connection = lookup_connection_to_compref(destination_compref, is_unique);
+		if (connection == null) {
+			throw new TtcnError(MessageFormat.format("Data cannot be sent on port {0} to component {1} because there is no connection towards component {1}.", port_name, destination_compref));
+		} else if (!is_unique.get()) {
+			throw new TtcnError(MessageFormat.format("Data cannot be sent on port {0} to component {1} because there are more than one connections towards component {1}.", port_name, destination_compref));
+		} else if (connection.connection_state != port_connection.connection_state_enum.CONN_CONNECTED) {
+			throw new TtcnError(MessageFormat.format("Data cannot be sent on port {0} to component {1} because the connection is not in active state.", port_name, destination_compref));
+		}
+
+		switch (connection.transport_type) {
+		case TRANSPORT_INET_STREAM:
+			send_data_stream(connection, outgoing_buf, false);
+			break;
+		//FIXME add support for other connection types
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: Invalid transport type ({0}) in port connection between {1} and {2}:{3}.", connection.transport_type, port_name, connection.remote_component, connection.remote_port));
+		}
+	}
+
+	protected void process_data(final port_connection connection, final Text_Buf incoming_buf) {
+		int connection_int = incoming_buf.pull_int().getInt();
+		port_connection.connection_data_type_enum conn_data_type = port_connection.connection_data_type_enum.values()[connection_int];
+
+		if (conn_data_type != port_connection.connection_data_type_enum.CONN_DATA_LAST) {
+			switch (connection.connection_state) {
+			case CONN_CONNECTED:
+			case CONN_LAST_MSG_SENT:
+				break;
+			case CONN_LAST_MSG_RCVD:
+			case CONN_IDLE:
+				TtcnError.TtcnWarning(MessageFormat.format("Data arrived after the indication of connection termination on port {0} from {1}:{2}. Data is ignored.", port_name, connection.remote_component, connection.remote_port));
+				return;
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Connection of port {0} with {1}:{2} has invalid state ({3}).", port_name, connection.remote_component, connection.remote_port, connection.connection_state.ordinal()));
+			}
+
+			String message_type = incoming_buf.pull_string();
+			//FIXME implement try protection
+			switch (conn_data_type) {
+			case CONN_DATA_MESSAGE:
+				if (!process_message(message_type, incoming_buf, connection.remote_component, connection.sliding_buffer)) {
+					throw new TtcnError(MessageFormat.format("Port {0} does not support incoming message type {1}, which has arrived on the connection from {2}:{3}.", port_name, message_type, connection.remote_component, connection.remote_port));
+				}
+				break;
+			//FIXME implement rest
+			default:
+				throw new TtcnError(MessageFormat.format("Internal error: Data with invalid selector ({0}) was received on port {1} from {2}:{3}.", conn_data_type.ordinal(), port_name, connection.remote_component, connection.remote_port));
+			}
+		} else {
+			process_last_message(connection);
+		}
 	}
 
 	protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {
@@ -842,7 +900,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		new_connection.remote_component = remote_component;
 		new_connection.remote_port = remote_port;
 		new_connection.transport_type = transport_type;
-		//FIXME implement missing parts
+		new_connection.sliding_buffer = new TitanOctetString();
 		new_connection.stream_socket = null;
 		new_connection.stream_incoming_buf = null;
 
@@ -1066,6 +1124,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		Text_Buf incoming_buffer = connection.stream_incoming_buf;
+		AtomicInteger end_index = new AtomicInteger();
+		AtomicInteger end_len = new AtomicInteger();
+		incoming_buffer.get_end(end_index, end_len);
 		ByteBuffer buffer = ByteBuffer.allocate(1024);
 		try {
 			int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
@@ -1078,15 +1139,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
 				buffer.flip();
-				incoming_buffer.increase_length(recv_len);
+				//TODO implement a better way to do this
 				int remaining = buffer.remaining();
 				byte[] temp = new byte[remaining];
 				buffer.get(temp);
-				incoming_buffer.push_raw(remaining, temp);
+				incoming_buffer.push_raw(end_index.get(), remaining, temp);
 
 				while (incoming_buffer.is_message()) {
 					incoming_buffer.pull_int(); // message_length
-					//FIXME process_data
+					process_data(connection, incoming_buffer);
 					incoming_buffer.cut_message();
 				}
 			}
@@ -1107,10 +1168,49 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				}
 				TtcnError.TtcnWarningEnd();
 			}
+
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__disconnected, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			remove_connection(connection);
+		}
+	}
+
+	private void process_last_message(final port_connection connection) {
+		switch(connection.transport_type) {
+		case TRANSPORT_INET_STREAM:
+			break;
+		//FIXME add support for other transport types.
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: Connection termination request was received on the connection of port {0} with {1}:{2}, which has an invalid transport type ({3}).", port_name, connection.remote_component, connection.remote_port, connection.transport_type));
 		}
 
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__disconnected, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
-		remove_connection(connection);
+		switch (connection.connection_state) {
+		case CONN_CONNECTED: {
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.termination__request__received, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			Text_Buf outgoing_buf = new Text_Buf();
+			outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_LAST.ordinal());
+			if (send_data_stream(connection, outgoing_buf, true)) {
+				// sending the last message was successful wait until the peer closes the transport connection
+				connection.connection_state = port_connection.connection_state_enum.CONN_LAST_MSG_RCVD;
+			} else {
+				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.acknowledging__termination__request__failed, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				// send an acknowledgment to MC immediately to avoid deadlock in case of communication failure
+				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
+				// the connection can be removed immediately
+				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
+				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
+			}
+			break;
+		}
+		case CONN_LAST_MSG_SENT:
+			connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
+			break;
+		case CONN_LAST_MSG_RCVD:
+		case CONN_IDLE:
+			TtcnError.TtcnWarning(MessageFormat.format("Unexpected data arrived after the indication of connection termination on port {0} from {1}:{2}.", port_name, connection.remote_component, connection.remote_port));
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Internal error: Connection of port {0} with {1}:{2} has invalid state ({3}).", port_name, connection.remote_component, connection.remote_port, connection.connection_state.ordinal()));
+		}
 	}
 
 	// FIXME handle translation ports
