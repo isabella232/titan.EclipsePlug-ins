@@ -599,7 +599,7 @@ public final class TTCN_Runtime {
 		}
 
 		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
-		TtcnLogger.log_event_str(MessageFormat.format("Creating new {0}PTC with component type {1}.{2}", createdComponentAlive ? "alive " : "", createdComponentTypeModule, createdComponentName));
+		TtcnLogger.log_event_str(MessageFormat.format("Creating new {0}PTC with component type {1}.{2}", createdComponentAlive ? "alive " : "", createdComponentTypeModule, createdComponentTypeName));
 		if (createdComponentName != null) {
 			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", createdComponentName));
 		}
