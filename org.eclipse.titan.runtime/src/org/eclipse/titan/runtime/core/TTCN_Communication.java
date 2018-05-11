@@ -776,6 +776,17 @@ public class TTCN_Communication {
 		text_buf.push_string(return_type);
 	}
 
+	public static void send_stopped_killed(final TitanVerdictType.VerdictTypeEnum final_verdict, final String reason) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_STOPPED_KILLED);
+		text_buf.push_int(final_verdict.getValue());
+		text_buf.push_string(reason);
+		// add an empty return type
+		text_buf.push_string(null);
+
+		send_message(text_buf);
+	}
+
 	public static void send_killed(final TitanVerdictType.VerdictTypeEnum final_verdict, final String reason) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_KILLED);

@@ -745,8 +745,9 @@ public final class TTCN_Runtime {
 
 		// the control reaches this code if the PTC has to be terminated
 		terminate_component_type();
-		//FIXME implement send_stopped_killed
-		//FIXME logging
+		// send a STOPPED_KILLED message without return value
+		TTCN_Communication.send_stopped_killed(localVerdict.get(), verdictReason.get());
+		TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 	}
 
 	public static void function_started(final Text_Buf text_buf) {
