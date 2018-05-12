@@ -1033,7 +1033,6 @@ public class TTCN_Communication {
 
 		final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
 		TitanPort.process_connect_listen(local_port, remote_component, remote_port, transport_type);
-		//FIXME implement process_connect, with try
 
 		temp_incoming_buf.cut_message();
 	}
@@ -1053,7 +1052,6 @@ public class TTCN_Communication {
 
 		final transport_type_enum transport_type = transport_type_enum.values()[temp_transport_type];
 		TitanPort.process_connect(local_port, remote_component, remote_port, transport_type, incoming_buf.get());
-		//FIXME implement process_connect, with try
 
 		temp_incoming_buf.cut_message();
 	}
