@@ -2087,6 +2087,27 @@ public final class TTCN_Runtime {
 		running_alive_result.set(result_value);
 	}
 
+	public static void process_killed_ack(final boolean killed_status) {
+		switch (executorState.get()) {
+		case MTC_KILLED:
+			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_KILLED:
+			executorState.set(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message KILLED_ACK arrived in invalid state.");
+		}
+
+		if (killed_status) {
+			set_component_killed(create_done_killed_compref.get());
+		}
+
+		create_done_killed_compref.set(TitanComponent.NULL_COMPREF);
+	}
+
 	public static void process_ptc_verdict(final Text_Buf text_buf) {
 		if (executorState.get() != executorStateEnum.MTC_TERMINATING_TESTCASE) {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
@@ -2172,6 +2193,31 @@ public final class TTCN_Runtime {
 			comp.thread.stop();
 			//TODO check how Java reacts in different situations
 			comp.thread_killed = true;
+		}
+	}
+
+	public static void set_component_killed(final int component_reference) {
+		switch (component_reference) {
+		case TitanComponent.ANY_COMPREF:
+			if (is_mtc()) {
+				any_component_killed_status = TitanAlt_Status.ALT_YES;
+			} else {
+				throw new TtcnError("Internal error: TTCN_Runtime.set_component_killed(ANY_COMPREF): can be used only on MTC.");
+			}
+			break;
+		case TitanComponent.ALL_COMPREF:
+			if (is_mtc()) {
+				all_component_killed_status = TitanAlt_Status.ALT_YES;
+			} else {
+				throw new TtcnError("Internal error: TTCN_Runtime.set_component_killed(ALL_COMPREF): can be used only on MTC.");
+			}
+			break;
+		case TitanComponent.NULL_COMPREF:
+		case TitanComponent.MTC_COMPREF:
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.set_component_killed: invalid component reference: {0}.", component_reference));
+		default:
+			component_status_table.get().get(get_component_status_table_index(component_reference)).killed_status = TitanAlt_Status.ALT_YES;
 		}
 	}
 

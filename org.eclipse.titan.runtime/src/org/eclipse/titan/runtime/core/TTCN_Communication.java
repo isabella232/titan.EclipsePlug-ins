@@ -414,7 +414,7 @@ public class TTCN_Communication {
 				//FIXME process_done_ack();
 				break;
 			case MSG_KILLED_ACK:
-				//FIXME process_killed_ack();
+				process_killed_ack();
 				break;
 			case MSG_CANCEL_DONE:
 				//FIXME
@@ -1023,6 +1023,15 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_alive(answer);
+	}
+
+	private static void process_killed_ack() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final boolean answer = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		temp_incoming_buf.cut_message();
+
+		TTCN_Runtime.process_killed_ack(answer);
 	}
 
 	private static void process_connect_listen() {
