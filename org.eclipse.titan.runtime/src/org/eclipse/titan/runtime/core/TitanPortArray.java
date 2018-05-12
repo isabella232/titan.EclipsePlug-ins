@@ -121,16 +121,15 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	//originally set_name
 	public void set_name(final String name_string) {
 		for (int i = 0; i < array_size; i++) {
-			names[i] = name_string;
-			array_elements[i].setName(name_string);
+			names[i] = name_string + '[' + i + ']';
+			array_elements[i].setName(names[i]);
 		}
 	}
 
 	//originally activate_port
-	public void activatePort() {
+	public void activate_port(final boolean system) {
 		for (int v_index = 0; v_index < array_size; v_index++) {
-			//FIXME: TitanPort.activatePort()
-			array_elements[v_index].activate_port(false);
+			array_elements[v_index].activate_port(system);
 		}
 	}
 
