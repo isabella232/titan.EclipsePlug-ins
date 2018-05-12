@@ -698,7 +698,7 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
-	public static void send_Unmapped(final String localPort, final String systemPort, final boolean translation) {
+	public static void send_unmapped(final String localPort, final String systemPort, final boolean translation) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_UNMAPPED);
 		text_buf.push_int(translation ? 1 : 0);

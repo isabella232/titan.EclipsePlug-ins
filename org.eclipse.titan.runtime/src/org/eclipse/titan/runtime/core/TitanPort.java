@@ -181,6 +181,50 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally PORT::deactivate_port
 	public void deactivate_port(final boolean system) {
 		if (is_active) {
+			/* In order to proceed with the deactivation we must ignore the
+			 * following errors:
+			 * - errors in user code of Test Port (i.e. user_stop, user_unmap)
+			 * - failures when sending messages to MC (the link may be down)
+			 */
+			boolean is_parallel = !TTCN_Runtime.is_single();
+			// terminate all connections
+			while (!connection_list.isEmpty()) {
+				port_connection connection = connection_list.getFirst();
+				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				if (is_parallel) {
+					try {
+						TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
+					} catch (TtcnError e) { }
+				}
+				remove_connection(connection);
+			}
+	
+			// terminate all mappings
+			while (!system_mappings.isEmpty()) {
+				String system_port = system_mappings.get(0);
+				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
+				try {
+					unmap(system_port, system);
+				} catch (TtcnError e) {}
+
+				if (is_parallel) {
+					try {
+						TTCN_Communication.send_unmapped(port_name, system_port, system);
+					} catch (TtcnError e) {}
+				}
+			}
+
+			// the previous disconnect/unmap operations may generate incoming events
+			// so we should stop and clear the queue after them
+			if (is_started || is_halted) {
+				try {
+					stop();
+				} catch (TtcnError e) {}
+			}
+
+			clear_queue();
+
+			// deactivate all event handlers
 			//FIXME implement
 			remove_from_list(system);
 			is_active = false;
@@ -1407,7 +1451,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			port.unmap(system_port, translation);
 		}
 		if (!TTCN_Runtime.is_single()) {
-			TTCN_Communication.send_Unmapped(component_port, system_port, translation);
+			TTCN_Communication.send_unmapped(component_port, system_port, translation);
 		}
 	}
 
