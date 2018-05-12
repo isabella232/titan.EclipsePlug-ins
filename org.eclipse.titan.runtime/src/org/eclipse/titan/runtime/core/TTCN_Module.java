@@ -66,4 +66,12 @@ public class TTCN_Module {
 	public void control() {
 		//intentionally left empty
 	}
+
+	public void execute_testcase(final String tescase_name) {
+		throw new TtcnError("execute_testcase is not yet supported!");
+	}
+
+	public void execute_all_testcases() {
+		throw new TtcnError("execute_all_testcases is not yet supported!");
+	}
 }

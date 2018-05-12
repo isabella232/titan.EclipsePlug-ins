@@ -460,7 +460,7 @@ public class TTCN_Communication {
 						process_execute_control();
 						break;
 					case MSG_EXECUTE_TESTCASE:
-						//FIXME process_execute_testcase();
+						process_execute_testcase();
 						break;
 					case MSG_PTC_VERDICT:
 						process_ptc_verdict();
@@ -1136,6 +1136,8 @@ public class TTCN_Communication {
 			Module_List.execute_control(module_name);
 		} catch (TC_End TC_end) {
 			//no operation needed
+		} catch (TtcnError error) {
+			//no operation needed
 		}
 
 		if (is_connected.get()) {
@@ -1143,6 +1145,31 @@ public class TTCN_Communication {
 			TTCN_Runtime.set_state(executorStateEnum.MTC_IDLE);
 		} else {
 			TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
+		}
+	}
+
+	private static void process_execute_testcase() {
+		final String module_name = incoming_buf.get().pull_string();
+		final String testcase_name = incoming_buf.get().pull_string();
+		incoming_buf.get().cut_message();
+
+		if (TTCN_Runtime.get_state() != executorStateEnum.MTC_IDLE) {
+			throw new TtcnError("Internal error: Message EXECUTE_TESTCASE arrived in invalid state."); 
+		}
+
+		TtcnLogger.log_testcase_exec(testcase_name, module_name);
+		TTCN_Runtime.set_state(executorStateEnum.MTC_CONTROLPART);
+
+		try {
+			if (testcase_name != null && testcase_name.length() > 0) {
+				Module_List.execute_testcase(module_name, testcase_name);
+			} else {
+				Module_List.execute_all_testcases(module_name);
+			}
+		} catch (TC_End TC_end) {
+			//no operation needed
+		} catch (TtcnError error) {
+			//no operation needed
 		}
 	}
 

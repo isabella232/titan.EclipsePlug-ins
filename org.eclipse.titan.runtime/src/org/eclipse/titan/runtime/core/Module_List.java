@@ -99,4 +99,22 @@ public final class Module_List {
 			//FIXME implement
 		}
 	}
+
+	public static void execute_testcase(final String module_name, final String testcase_name) {
+		final TTCN_Module module = lookup_module(module_name);
+		if (module == null) {
+			throw new TtcnError(MessageFormat.format("Module {0} does not exist.", module_name));
+		} else {
+			module.execute_testcase(testcase_name);
+		}
+	}
+
+	public static void execute_all_testcases(final String module_name) {
+		final TTCN_Module module = lookup_module(module_name);
+		if (module == null) {
+			throw new TtcnError(MessageFormat.format("Module {0} does not exist.", module_name));
+		} else {
+			module.execute_all_testcases();
+		}
+	}
 }
