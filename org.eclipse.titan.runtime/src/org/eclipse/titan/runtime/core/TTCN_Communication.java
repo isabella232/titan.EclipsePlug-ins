@@ -412,16 +412,16 @@ public class TTCN_Communication {
 				break;
 			case MSG_DONE_ACK:
 				//FIXME process_done_ack();
-				break;
+				throw new TtcnError("MSG_DONE_ACK received, but not yet supported!");
 			case MSG_KILLED_ACK:
 				process_killed_ack();
 				break;
 			case MSG_CANCEL_DONE:
 				//FIXME
-				break;
+				throw new TtcnError("MSG_CANCEL_DONE received, but not yet supported!");
 			case MSG_COMPONENT_STATUS:
 				//FIXME implment
-				break;
+				throw new TtcnError("MSG_COMPONENT_STATUS received, but not yet supported!");
 			case MSG_CONNECT_LISTEN:
 				process_connect_listen();
 				break;
@@ -439,19 +439,19 @@ public class TTCN_Communication {
 				break;
 			case MSG_MAP:
 				//FIXME process_map();
-				break;
+				throw new TtcnError("MSG_MAP received, but not yet supported!");
 			case MSG_MAP_ACK:
 				//FIXME process_map_ack();
-				break;
+				throw new TtcnError("MSG_MAP_ACK received, but not yet supported!");
 			case MSG_UNMAP:
 				//FIXME process_unmap();
-				break;
+				throw new TtcnError("MSG_UNMAP received, but not yet supported!");
 			case MSG_UNMAP_ACK:
 				//FIXME process_unmap_ack();
-				break;
+				throw new TtcnError("MSG_UNMAP_ACK received, but not yet supported!");
 			case MSG_DEBUG_COMMAND:
 				//FIXME process_debug_command();
-				break;
+				throw new TtcnError("MSG_DEBUG_COMMAND received, but not yet supported!");
 			default:
 				if (TTCN_Runtime.is_mtc()) {
 					// messages: MC -> MTC
@@ -467,13 +467,13 @@ public class TTCN_Communication {
 						break;
 					case MSG_CONTINUE:
 						//FIXME process_continue();
-						break;
+						throw new TtcnError("MSG_CONTINUE received, but not yet supported!");
 					case MSG_EXIT_MTC:
 						process_exit_mtc();
 						break;
 					case MSG_CONFIGURE:
 						//FIXME process_configure(msg_end, TRUE);
-						break;
+						throw new TtcnError("MSG_CONFIGURE received, but not yet supported!");
 					default:
 						process_unsupported_message(msg_type, msg_end);
 						break;
