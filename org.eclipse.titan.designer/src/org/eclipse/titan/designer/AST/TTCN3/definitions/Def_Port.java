@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -373,26 +374,62 @@ public final class Def_Port extends Definition {
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 		aData.addBuiltinTypeImport("TtcnError");
 
-		if(dimensions == null) {
-			source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameOwn(), genName, identifier.getDisplayName()));
+		if (getMyScope() instanceof ComponentTypeBody) {
+			if(dimensions == null) {
+				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", portType.getGenNameOwn(), genName));
+				source.append("@Override\n" );
+				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", portType.getGenNameOwn()));
+				source.append(MessageFormat.format("return new {0}(\"{1}\");\n", portType.getGenNameOwn(), identifier.getDisplayName()));
+				source.append("}\n");
+				source.append("};\n");
+			} else {
+				final String typeGenName = portType.getGenNameValue(aData, source, myScope);
+	
+				final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
+				portType.generateCodePort(aData, tempSb, dimensions);
+	
+				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", typeGenName, genName));
+				source.append("@Override\n" );
+				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", typeGenName));
+				source.append(MessageFormat.format("final {0} temp = new {0}();\n", typeGenName));
+				source.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
+				source.append(MessageFormat.format("temp.set_name(port_name);\n", genName));
+				source.append("return temp;\n");
+				source.append("}\n");
+				source.append("};\n");
+	
+				final StringBuilder preInit = aData.getPreInit();
+				preInit.append("{\n");
+				preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
+				preInit.append(MessageFormat.format("{0}.get().set_name(port_name);\n", genName));
+				preInit.append("}\n");
+			}
+
+			sb.append(source);
+
+			aData.getInitComp().append(MessageFormat.format("{0}.get().activate_port(false);\n", genName));
 		} else {
-			final String typeGenName = portType.getGenNameValue(aData, source, myScope);
-
-			final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
-			portType.generateCodePort(aData, tempSb, dimensions);
-
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGenName, genName));
-
-			final StringBuilder preInit = aData.getPreInit();
-			preInit.append("{\n");
-			preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
-			preInit.append(MessageFormat.format("{0}.set_name(port_name);\n", genName));
-			preInit.append("}\n");
+			if(dimensions == null) {
+				source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameOwn(), genName, identifier.getDisplayName()));
+			} else {
+				final String typeGenName = portType.getGenNameValue(aData, source, myScope);
+	
+				final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
+				portType.generateCodePort(aData, tempSb, dimensions);
+	
+				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGenName, genName));
+	
+				final StringBuilder preInit = aData.getPreInit();
+				preInit.append("{\n");
+				preInit.append(MessageFormat.format("final String port_name = \"{0}\";\n", identifier.getDisplayName()));
+				preInit.append(MessageFormat.format("{0}.set_name(port_name);\n", genName));
+				preInit.append("}\n");
+			}
+	
+			sb.append(source);
+	
+			aData.getInitComp().append(MessageFormat.format("{0}.activate_port(false);\n", genName));
 		}
-
-		sb.append(source);
-
-		aData.getInitComp().append(MessageFormat.format("{0}.activate_port(false);\n", genName));
 	}
 
 	@Override

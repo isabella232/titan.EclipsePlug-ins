@@ -486,13 +486,29 @@ public final class Def_Var extends Definition {
 			arrayType.generateCodeValue(aData, sbforTemp);
 		}
 
-		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
-		sb.append(source);
-		if ( initialValue != null ) {
-			initialValue.generateCodeInit(aData, initComp, genName );
-		} else if (cleanUp) {
-			initComp.append(genName);
-			initComp.append(".cleanUp();\n");
+		if (getMyScope() instanceof ComponentTypeBody) {
+			source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", typeGeneratedName, genName));
+			source.append("@Override\n" );
+			source.append(MessageFormat.format("protected {0} initialValue() '{'\n", typeGeneratedName));
+			source.append(MessageFormat.format("return new {0}();\n", typeGeneratedName));
+			source.append("}\n");
+			source.append("};\n");
+			sb.append(source);
+			if ( initialValue != null ) {
+				initialValue.generateCodeInit(aData, initComp, genName + ".get()" );
+			} else if (cleanUp) {
+				initComp.append(genName);
+				initComp.append(".get().cleanUp();\n");
+			}
+		} else {
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			sb.append(source);
+			if ( initialValue != null ) {
+				initialValue.generateCodeInit(aData, initComp, genName );
+			} else if (cleanUp) {
+				initComp.append(genName);
+				initComp.append(".cleanUp();\n");
+			}
 		}
 	}
 

@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
@@ -993,6 +994,18 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 		}
 
+		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
+			switch (referredAssignment.getAssignmentType()) {
+			case A_VAR:
+			case A_VAR_TEMPLATE:
+			case A_PORT:
+				expression.expression.append(".get()");
+				break;
+			default:
+				break;
+			}
+		}
+
 		generateCode(aData, expression, isTemplate, false, referedGovernor);
 	}
 
@@ -1127,6 +1140,10 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		} else {
 			//TODO add fuzzy handling
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+		}
+
+		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
+			expression.expression.append(".get()");
 		}
 
 		generateCode(aData, expression, isTemplate, true, referedGovernor);

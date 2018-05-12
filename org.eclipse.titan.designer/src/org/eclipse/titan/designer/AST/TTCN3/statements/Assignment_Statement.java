@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ValueList_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
+import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Bitstring_Value;
@@ -685,7 +686,18 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				final String name = assignment.getGenNameFromScope(aData, source, myScope, null);
+				String name = assignment.getGenNameFromScope(aData, source, myScope, null);
+				if (assignment.getMyScope() instanceof ComponentTypeBody) {
+					switch (assignment.getAssignmentType()) {
+					case A_VAR:
+					case A_VAR_TEMPLATE:
+					case A_PORT:
+						name = name + ".get()";
+						break;
+					default:
+						break;
+					}
+				}
 				if (!isOptional && value.getValuetype() == Value_type.REFERENCED_VALUE) {
 					final Reference rightReference = ((Referenced_Value)value).getReference();
 					final Assignment rightAssignment = rightReference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), true);
@@ -757,7 +769,18 @@ public final class Assignment_Statement extends Statement {
 				}
 			} else {
 				// left hand side is a single assignment
-				final String rhsName = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false).getGenNameFromScope(aData, source, myScope, "");
+				String rhsName = assignment.getGenNameFromScope(aData, source, myScope, "");
+				if (assignment.getMyScope() instanceof ComponentTypeBody) {
+					switch (assignment.getAssignmentType()) {
+					case A_VAR:
+					case A_VAR_TEMPLATE:
+					case A_PORT:
+						rhsName = rhsName + ".get()";
+						break;
+					default:
+						break;
+					}
+				}
 				final IType governor = template.getMyGovernor();
 				if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
 					source.append(MessageFormat.format("{0}.removeAllPermutations();\n", rhsCopied?rhsCopy:rhsName));

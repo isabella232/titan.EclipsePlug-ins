@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -495,16 +496,34 @@ public final class Def_Var_Template extends Definition {
 			arrayType.generateCodeTemplate(aData, sbforTemp);
 		}
 
-		source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
-		sb.append(source);
-
-		if ( initialValue != null ) {
-			initialValue.generateCodeInit( aData, initComp, genName );
-			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
-				TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName, templateRestriction);
+		if (getMyScope() instanceof ComponentTypeBody) {
+			source.append(MessageFormat.format("public static final ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", typeGeneratedName, genName));
+			source.append("@Override\n" );
+			source.append(MessageFormat.format("protected {0} initialValue() '{'\n", typeGeneratedName));
+			source.append(MessageFormat.format("return new {0}();\n", typeGeneratedName));
+			source.append("}\n");
+			source.append("};\n");
+			sb.append(source);
+			if ( initialValue != null ) {
+				initialValue.generateCodeInit( aData, initComp, genName + ".get()" );
+				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+					TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName + ".get()", templateRestriction);
+				}
+			} else if (cleanUp) {
+				initComp.append(MessageFormat.format("{0}.get().cleanUp();\n", genName));
 			}
-		} else if (cleanUp) {
-			initComp.append(MessageFormat.format("{0}.cleanUp();\n", genName));
+		} else {
+			source.append(MessageFormat.format(" public static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+			sb.append(source);
+
+			if ( initialValue != null ) {
+				initialValue.generateCodeInit( aData, initComp, genName );
+				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+					TemplateRestriction.generateRestrictionCheckCode(aData, initComp, location, genName, templateRestriction);
+				}
+			} else if (cleanUp) {
+				initComp.append(MessageFormat.format("{0}.cleanUp();\n", genName));
+			}
 		}
 	}
 
