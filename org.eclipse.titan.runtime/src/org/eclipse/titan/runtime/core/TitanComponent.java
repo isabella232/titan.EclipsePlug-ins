@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
@@ -176,7 +177,7 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("Performing done operation on an unbound component reference.");
 		}
 
-		VerdictTypeEnum ptc_verdict = VerdictTypeEnum.NONE;
+		AtomicReference<VerdictTypeEnum> ptc_verdict = new AtomicReference<VerdictTypeEnum>(VerdictTypeEnum.NONE);
 
 		return TTCN_Runtime.component_done(componentValue, ptc_verdict);
 	}

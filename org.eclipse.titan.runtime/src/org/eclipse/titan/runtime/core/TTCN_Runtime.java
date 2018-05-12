@@ -120,7 +120,7 @@ public final class TTCN_Runtime {
 	private static class component_status_table_struct {
 		TitanAlt_Status done_status;
 		TitanAlt_Status killed_status;
-		TitanVerdictType local_verdict;
+		TitanVerdictType.VerdictTypeEnum local_verdict;
 		String return_type;
 		Text_Buf return_value;
 	}
@@ -794,7 +794,7 @@ public final class TTCN_Runtime {
 	}
 
 	//originally component_done, with component parameter
-	public static TitanAlt_Status component_done(final int component_reference, final VerdictTypeEnum ptc_verdict) {
+	public static TitanAlt_Status component_done(final int component_reference, final AtomicReference<VerdictTypeEnum> ptc_verdict) {
 		if (in_controlPart()) {
 			throw new TtcnError("Done operation cannot be performed in the control part.");
 		}
@@ -806,9 +806,12 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Done operation cannot be performed on the component reference of MTC.");
 		case TitanComponent.SYSTEM_COMPREF:
 			throw new TtcnError("Done operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			return any_component_done();
+		case TitanComponent.ALL_COMPREF:
+			return all_component_done();
 		default:
-			//FIXME implement rest of the branches
-			throw new TtcnError("component_done is not yet supported!");
+			return ptc_done(component_reference, ptc_verdict);
 		}
 	}
 
@@ -1029,6 +1032,158 @@ public final class TTCN_Runtime {
 		}
 
 		throw new TC_End();
+	}
+
+	public static TitanAlt_Status ptc_done(final int component_reference, final AtomicReference<VerdictTypeEnum> ptc_verdict) {
+		if (is_single()) {
+			throw new TtcnError("Done operation on a component reference cannot be performed in single mode.");
+		}
+
+		if (TitanComponent.self.get().componentValue == component_reference) {
+			TtcnError.TtcnWarning("Done operation on the component reference of self will never succeed.");
+
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		int index = get_component_status_table_index(component_reference);
+		// a successful killed operation on the component reference implies done
+		if (component_status_table.get().get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
+			if (ptc_verdict != null) {
+				ptc_verdict.set(component_status_table.get().get(index).local_verdict);
+			}
+
+			return TitanAlt_Status.ALT_YES;
+		}
+
+		switch (component_status_table.get().get(index).done_status) {
+		case ALT_UNCHECKED:
+			switch (executorState.get()) {
+			case MTC_TESTCASE:
+				executorState.set(executorStateEnum.MTC_DONE);
+				break;
+			case PTC_FUNCTION:
+				executorState.set(executorStateEnum.PTC_DONE);
+				break;
+			default:
+				throw new TtcnError("Internal error: Executing done operation in invalid state.");
+			}
+
+			TTCN_Communication.send_done_req(component_reference);
+			component_status_table.get().get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+			create_done_killed_compref.set(component_reference);
+			// wait for DONE_ACK
+			wait_for_state_change();
+			// always re-evaluate the current alternative using a new snapshot
+			return TitanAlt_Status.ALT_REPEAT;
+		case ALT_YES:
+			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
+			if (ptc_verdict != null) {
+				ptc_verdict.set(component_status_table.get().get(index).local_verdict);
+			}
+
+			return TitanAlt_Status.ALT_YES;
+		default:
+			return TitanAlt_Status.ALT_MAYBE;
+		}
+	}
+
+	public static TitanAlt_Status any_component_done() {
+		// the operation is never successful in single mode
+		if (is_single()) {
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__failed);
+
+			return TitanAlt_Status.ALT_NO;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'any component.done' can only be performed on the MTC.");
+		}
+
+		// the operation is successful if there is a component reference with a successful done or killed operation
+		for ( int i = 0; i < component_status_table.get().size(); i++) {
+			if (component_status_table.get().get(i).done_status == TitanAlt_Status.ALT_YES ||
+					component_status_table.get().get(i).killed_status == TitanAlt_Status.ALT_YES) {
+				TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
+
+				return TitanAlt_Status.ALT_YES;
+			}
+		}
+
+		// a successful 'any component.killed' implies 'any component.done'
+		if (any_component_killed_status == TitanAlt_Status.ALT_YES) {
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
+
+			return TitanAlt_Status.ALT_YES;
+		}
+
+		switch (any_component_done_status) {
+		case ALT_UNCHECKED:
+			if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+				throw new TtcnError("Internal error: Executing 'any component.done' in invalid state.");
+			}
+
+			executorState.set(executorStateEnum.MTC_DONE);
+			TTCN_Communication.send_done_req(TitanComponent.ANY_COMPREF);
+			any_component_done_status = TitanAlt_Status.ALT_MAYBE;
+			create_done_killed_compref.set(TitanComponent.ANY_COMPREF);
+			// wait for DONE_ACK
+			wait_for_state_change();
+			// always re-evaluate the current alternative using a new snapshot
+			return TitanAlt_Status.ALT_REPEAT;
+		case ALT_YES:
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
+
+			return TitanAlt_Status.ALT_YES;
+		case ALT_NO:
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__failed);
+
+			return TitanAlt_Status.ALT_NO;
+		default:
+			return TitanAlt_Status.ALT_MAYBE;
+		}
+	}
+
+	public static TitanAlt_Status all_component_done() {
+		// the operation is always successful in single mode
+		if (is_single()) {
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
+
+			return TitanAlt_Status.ALT_YES;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'all component.done' can only be performed on the MTC.");
+		}
+
+		// a successful 'all component.killed' implies 'all component.done'
+		if (all_component_killed_status == TitanAlt_Status.ALT_YES) {
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
+
+			return TitanAlt_Status.ALT_YES;
+		}
+
+		switch (all_component_done_status) {
+		case ALT_UNCHECKED:
+			if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+				throw new TtcnError("Internal error: Executing 'all component.done' in invalid state.");
+			}
+
+			executorState.set(executorStateEnum.MTC_DONE);
+			TTCN_Communication.send_done_req(TitanComponent.ALL_COMPREF);
+			all_component_done_status = TitanAlt_Status.ALT_MAYBE;
+			create_done_killed_compref.set(TitanComponent.ALL_COMPREF);
+			// wait for DONE_ACK
+			wait_for_state_change();
+			// always re-evaluate the current alternative using a new snapshot
+			return TitanAlt_Status.ALT_REPEAT;
+		case ALT_YES:
+			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
+
+			return TitanAlt_Status.ALT_YES;
+		default:
+			return TitanAlt_Status.ALT_MAYBE;
+		}
 	}
 
 	public static boolean ptc_running(final int component_reference) {
@@ -2038,7 +2193,7 @@ public final class TTCN_Runtime {
 			final component_status_table_struct temp = new component_status_table_struct();
 			temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 			temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
-			temp.local_verdict = new TitanVerdictType(TitanVerdictType.VerdictTypeEnum.NONE);
+			temp.local_verdict = TitanVerdictType.VerdictTypeEnum.NONE;
 			temp.return_type = null;
 			temp.return_value = null;
 
@@ -2056,7 +2211,7 @@ public final class TTCN_Runtime {
 					final component_status_table_struct temp = new component_status_table_struct();
 					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 					temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
-					temp.local_verdict = new TitanVerdictType(TitanVerdictType.VerdictTypeEnum.NONE);
+					temp.local_verdict = TitanVerdictType.VerdictTypeEnum.NONE;
 					temp.return_type = null;
 					temp.return_value = null;
 
@@ -2074,7 +2229,7 @@ public final class TTCN_Runtime {
 				final component_status_table_struct temp = new component_status_table_struct();
 				temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 				temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
-				temp.local_verdict = new TitanVerdictType(TitanVerdictType.VerdictTypeEnum.NONE);
+				temp.local_verdict = TitanVerdictType.VerdictTypeEnum.NONE;
 				temp.return_type = null;
 				temp.return_value = null;
 
