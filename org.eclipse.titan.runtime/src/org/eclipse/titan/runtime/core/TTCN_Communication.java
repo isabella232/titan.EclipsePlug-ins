@@ -444,11 +444,11 @@ public class TTCN_Communication {
 				process_map_ack();
 				break;
 			case MSG_UNMAP:
-				//FIXME process_unmap();
-				throw new TtcnError("MSG_UNMAP received, but not yet supported!");
+				process_unmap();
+				break;
 			case MSG_UNMAP_ACK:
-				//FIXME process_unmap_ack();
-				throw new TtcnError("MSG_UNMAP_ACK received, but not yet supported!");
+				process_unmap_ack();
+				break;
 			case MSG_DEBUG_COMMAND:
 				//FIXME process_debug_command();
 				throw new TtcnError("MSG_DEBUG_COMMAND received, but not yet supported!");
@@ -1149,6 +1149,38 @@ public class TTCN_Communication {
 			break;
 		default:
 			throw new TtcnError("Internal error: Message MAP_ACK arrived in invalid state.");
+		}
+	}
+
+	private static void process_unmap() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final boolean translation = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final String local_port = temp_incoming_buf.pull_string();
+		final String system_port = temp_incoming_buf.pull_string();
+
+		temp_incoming_buf.cut_message();
+
+		TitanPort.unmap_port(local_port, system_port, false);
+		if (translation) {
+			TitanPort.unmap_port(local_port, system_port, true);
+		}
+	}
+
+	private static void process_unmap_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_UNMAP:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_UNMAP:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message UNMAP_ACK arrived in invalid state.");
 		}
 	}
 

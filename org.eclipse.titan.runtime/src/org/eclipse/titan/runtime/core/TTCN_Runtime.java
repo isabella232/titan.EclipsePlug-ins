@@ -1649,12 +1649,11 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TitanPort.map_port(componentPort, systemPort, false);
 		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.map__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
 	}
 
 	//originally unmap_port
-	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
+	public static void unmap_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final boolean translation) {
 		check_port_name(sourePort, "unmap", "first");
 		check_port_name(destinationPort, "unmap", "second");
 
@@ -1702,8 +1701,36 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Both arguments of unmap operation refer to test component ports.");
 		}
 
-		//FIXME implement
-		TitanPort.unmap_port(componentPort, systemPort, false);
+		switch (executorState.get()) {
+		case SINGLE_TESTCASE:
+			if (componentReference.componentValue != TitanComponent.MTC_COMPREF) {
+				throw new TtcnError("Only the ports of mtc can be unmapped in single mode.");
+			}
+
+			TitanPort.unmap_port(componentPort, systemPort, false);
+			if (translation) {
+				TitanPort.unmap_port(componentPort, systemPort, true);
+			}
+			break;
+		case MTC_TESTCASE:
+			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, translation);
+			executorState.set(executorStateEnum.MTC_UNMAP);
+			wait_for_state_change();
+			break;
+		case PTC_FUNCTION:
+			TTCN_Communication.send_unmap_req(componentReference.componentValue, componentPort, systemPort, translation);
+			executorState.set(executorStateEnum.PTC_UNMAP);
+			wait_for_state_change();
+			break;
+		default:
+			if (in_controlPart()) {
+				throw new TtcnError("Unmap operation cannot be performed in the control part.");
+			} else {
+				throw new TtcnError("Internal error: Executing unmap operation in invalid state.");
+			}
+		}
+
+		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.unmap__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
 	}
 
 	public static void begin_controlpart(final String moduleName) {

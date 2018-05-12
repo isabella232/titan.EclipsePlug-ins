@@ -304,7 +304,7 @@ public final class Unmap_Statement extends Statement {
 		//FIXME actually _portref and based on component type
 		portReference2.generateCode(aData, expression);
 		expression.expression.append(".get_name()");
-		expression.expression.append(")");
+		expression.expression.append(", false)");
 
 		expression.mergeExpression(source);
 	}
