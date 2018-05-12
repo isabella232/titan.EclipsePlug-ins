@@ -408,7 +408,7 @@ public class TTCN_Communication {
 				process_running();
 				break;
 			case MSG_ALIVE:
-				//FIXME process_alive();
+				process_alive();
 				break;
 			case MSG_DONE_ACK:
 				//FIXME process_done_ack();
@@ -1014,6 +1014,15 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_running(answer);
+	}
+
+	private static void process_alive() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final boolean answer = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		temp_incoming_buf.cut_message();
+
+		TTCN_Runtime.process_alive(answer);
 	}
 
 	private static void process_connect_listen() {

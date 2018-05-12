@@ -2070,6 +2070,23 @@ public final class TTCN_Runtime {
 		running_alive_result.set(result_value);
 	}
 
+	public static void process_alive(final boolean result_value) {
+		switch (executorState.get()) {
+		case MTC_ALIVE:
+			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_ALIVE:
+			executorState.set(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message ALIVE arrived in invalid state.");
+		}
+
+		running_alive_result.set(result_value);
+	}
+
 	public static void process_ptc_verdict(final Text_Buf text_buf) {
 		if (executorState.get() != executorStateEnum.MTC_TERMINATING_TESTCASE) {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
