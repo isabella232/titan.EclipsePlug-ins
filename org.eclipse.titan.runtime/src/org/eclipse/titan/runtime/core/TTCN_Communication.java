@@ -492,9 +492,7 @@ public class TTCN_Communication {
 					}
 				}
 			}
-			//FIXME implement
 		}
-		//FIXME implement
 	}
 
 	public static void send_version() {
