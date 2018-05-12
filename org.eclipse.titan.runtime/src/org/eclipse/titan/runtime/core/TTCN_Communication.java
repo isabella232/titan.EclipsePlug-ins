@@ -511,12 +511,14 @@ public class TTCN_Communication {
 		text_buf.push_int(0);//for now send no module info
 		//Module_List.push_version(text_buf);
 
+		//FIXME fill with correct machine info
 		text_buf.push_string("node");
 		text_buf.push_string("machine");
 		text_buf.push_string("sysname");
 		text_buf.push_string("release");
 		text_buf.push_string("version");
 
+		//TODO for now we only support inet stream based transport, but have to say local too for MC to be happy
 		text_buf.push_int(2);//nof supported transports
 		text_buf.push_int(0); //TRANSPORT_LOCAL
 		text_buf.push_int(1); //TRANSPORT_INET_STREAM
