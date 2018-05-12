@@ -1083,7 +1083,6 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TitanPort.process_disconnect(local_port, remote_component, remote_port);
-		//FIXME implement process_connect, with try
 	}
 
 	private static void process_disconnect_ack() {
@@ -1152,7 +1151,6 @@ public class TTCN_Communication {
 		}
 
 		TTCN_Runtime.start_function(module_name, definition_name, incoming_buf.get());
-		//FIXME add try enclosing
 	}
 
 	private static void process_kill() {
