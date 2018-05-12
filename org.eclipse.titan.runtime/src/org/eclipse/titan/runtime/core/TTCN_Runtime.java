@@ -1572,7 +1572,7 @@ public final class TTCN_Runtime {
 
 
 	//originally map_port
-	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort) {
+	public static void map_port(final TitanComponent sourceComponentRef, final String sourePort, final TitanComponent destinationComponentRef, final String destinationPort, final boolean translation) {
 		check_port_name(sourePort, "map", "first");
 		check_port_name(destinationPort, "map", "second");
 
@@ -1620,8 +1620,37 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Both arguments of map operation refer to test component ports.");
 		}
 
-		//FIXME implement
+		switch (executorState.get()) {
+		case SINGLE_TESTCASE:
+			if (componentReference.componentValue != TitanComponent.MTC_COMPREF) {
+				throw new TtcnError("Only the ports of mtc can be mapped in single mode.");
+			}
+
+			TitanPort.map_port(componentPort, systemPort, false);
+			if (translation) {
+				TitanPort.map_port(componentPort, systemPort, true);
+			}
+			break;
+		case MTC_TESTCASE:
+			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, translation);
+			executorState.set(executorStateEnum.MTC_MAP);
+			wait_for_state_change();
+			break;
+		case PTC_FUNCTION:
+			TTCN_Communication.send_map_req(componentReference.componentValue, componentPort, systemPort, translation);
+			executorState.set(executorStateEnum.PTC_MAP);
+			wait_for_state_change();
+			break;
+		default:
+			if (in_controlPart()) {
+				throw new TtcnError("Map operation cannot be performed in the control part.");
+			} else {
+				throw new TtcnError("Internal error: Executing map operation in invalid state.");
+			}
+		}
+
 		TitanPort.map_port(componentPort, systemPort, false);
+		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.map__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
 	}
 
 	//originally unmap_port

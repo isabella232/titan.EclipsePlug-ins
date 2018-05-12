@@ -438,11 +438,11 @@ public class TTCN_Communication {
 				process_disconnect_ack();
 				break;
 			case MSG_MAP:
-				//FIXME process_map();
-				throw new TtcnError("MSG_MAP received, but not yet supported!");
+				process_map();
+				break;
 			case MSG_MAP_ACK:
-				//FIXME process_map_ack();
-				throw new TtcnError("MSG_MAP_ACK received, but not yet supported!");
+				process_map_ack();
+				break;
 			case MSG_UNMAP:
 				//FIXME process_unmap();
 				throw new TtcnError("MSG_UNMAP received, but not yet supported!");
@@ -1117,6 +1117,38 @@ public class TTCN_Communication {
 			break;
 		default:
 			throw new TtcnError("Internal error: Message DISCONNECT_ACK arrived in invalid state.");
+		}
+	}
+
+	private static void process_map() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final boolean translation = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final String local_port = temp_incoming_buf.pull_string();
+		final String system_port = temp_incoming_buf.pull_string();
+
+		temp_incoming_buf.cut_message();
+
+		TitanPort.map_port(local_port, system_port, false);
+		if (translation) {
+			TitanPort.map_port(local_port, system_port, true);
+		}
+	}
+
+	private static void process_map_ack() {
+		incoming_buf.get().cut_message();
+
+		switch (TTCN_Runtime.get_state()) {
+		case MTC_MAP:
+			TTCN_Runtime.set_state(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_MAP:
+			TTCN_Runtime.set_state(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message MAP_ACK arrived in invalid state.");
 		}
 	}
 
