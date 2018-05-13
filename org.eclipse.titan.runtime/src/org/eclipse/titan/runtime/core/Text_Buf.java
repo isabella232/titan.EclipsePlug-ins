@@ -275,8 +275,8 @@ public final class Text_Buf {
 		ByteBuffer.wrap(bytes).putDouble(value);
 
 		Reallocate(buf_len + 8);
-		System.arraycopy(bytes, 0, data_ptr, buf_pos, 8);
-		buf_pos += 8;
+		System.arraycopy(bytes, 0, data_ptr, buf_begin + buf_len, 8);
+		buf_len += 8;
 	}
 
 	/**
