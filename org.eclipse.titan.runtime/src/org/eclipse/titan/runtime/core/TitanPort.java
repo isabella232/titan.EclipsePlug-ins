@@ -888,14 +888,27 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			}
 
 			final String message_type = incoming_buf.pull_string();
-			//FIXME implement try protection
 			switch (conn_data_type) {
 			case CONN_DATA_MESSAGE:
 				if (!process_message(message_type, incoming_buf, connection.remote_component, connection.sliding_buffer)) {
 					throw new TtcnError(MessageFormat.format("Port {0} does not support incoming message type {1}, which has arrived on the connection from {2}:{3}.", port_name, message_type, connection.remote_component, connection.remote_port));
 				}
 				break;
-			//FIXME implement rest
+			case CONN_DATA_CALL:
+				if (!process_call(message_type, incoming_buf, connection.remote_component)) {
+					throw new TtcnError(MessageFormat.format("Port {0} does not support incoming call of signature {1}, which has arrived on the connection from {2}:{3}.", port_name, message_type, connection.remote_component, connection.remote_port));
+				}
+				break;
+			case CONN_DATA_REPLY:
+				if (!process_reply(message_type, incoming_buf, connection.remote_component)) {
+					throw new TtcnError(MessageFormat.format("Port {0} does not support incoming reply of signature {1}, which has arrived on the connection from {2}:{3}.", port_name, message_type, connection.remote_component, connection.remote_port));
+				}
+				break;
+			case CONN_DATA_EXCEPTION:
+				if (!process_exception(message_type, incoming_buf, connection.remote_component)) {
+					throw new TtcnError(MessageFormat.format("Port {0} does not support incoming exception of signature {1}, which has arrived on the connection from {2}:{3}.", port_name, message_type, connection.remote_component, connection.remote_port));
+				}
+				break;
 			default:
 				throw new TtcnError(MessageFormat.format("Internal error: Data with invalid selector ({0}) was received on port {1} from {2}:{3}.", conn_data_type.ordinal(), port_name, connection.remote_component, connection.remote_port));
 			}
