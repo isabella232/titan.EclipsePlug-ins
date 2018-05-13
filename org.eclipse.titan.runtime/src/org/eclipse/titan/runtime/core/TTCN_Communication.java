@@ -516,10 +516,10 @@ public class TTCN_Communication {
 		text_buf.push_string("release");
 		text_buf.push_string("version");
 
-		//TODO for now we only support inet stream based transport, but have to say local too for MC to be happy
+		//TODO for now we only support local and inet stream based transport
 		text_buf.push_int(2);//nof supported transports
-		text_buf.push_int(0); //TRANSPORT_LOCAL
-		text_buf.push_int(1); //TRANSPORT_INET_STREAM
+		text_buf.push_int(transport_type_enum.TRANSPORT_LOCAL.ordinal()); //TRANSPORT_LOCAL
+		text_buf.push_int(transport_type_enum.TRANSPORT_INET_STREAM.ordinal()); //TRANSPORT_INET_STREAM
 
 		send_message(text_buf);
 	}

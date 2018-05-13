@@ -61,7 +61,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		int remote_component;
 		String remote_port;
 		transport_type_enum transport_type;
+		//only in case of local connection
+		TitanPort local_port;
+		//only in case inet connection
 		SelectableChannel stream_socket;
+		//only in case inet connection
 		Text_Buf stream_incoming_buf;
 		TitanOctetString sliding_buffer;
 
@@ -253,7 +257,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		}
 		clear_queue();
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__cleared, port_name, 0, "", "", 0, 0);
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__cleared, port_name, 0, "", "", -1, 0);
 	}
 
 	public static void all_clear() {
@@ -861,6 +865,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		switch (connection.transport_type) {
+		case TRANSPORT_LOCAL:
+			send_data_local(connection, outgoing_buf);
+			break;
 		case TRANSPORT_INET_STREAM:
 			send_data_stream(connection, outgoing_buf, false);
 			break;
@@ -962,6 +969,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		new_connection.remote_component = remote_component;
 		new_connection.remote_port = remote_port;
 		new_connection.transport_type = transport_type;
+		new_connection.local_port = null;
 		new_connection.sliding_buffer = new TitanOctetString();
 		new_connection.stream_socket = null;
 		new_connection.stream_incoming_buf = null;
@@ -978,6 +986,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	private void remove_connection(final port_connection connection) {
 		switch (connection.transport_type) {
+		case TRANSPORT_LOCAL:
+			break;
 		case TRANSPORT_INET_STREAM:
 			TTCN_Snapshot.channelMap.get().remove(connection.stream_socket);
 			try {
@@ -1035,6 +1045,24 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return null;
 	}
 
+	private void add_local_connection(final TitanPort other_endpoint) {
+		final port_connection connection = add_connection(TitanComponent.self.get().componentValue, other_endpoint.port_name, transport_type_enum.TRANSPORT_LOCAL);
+		connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
+		connection.local_port = other_endpoint;
+
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.local__connection__established, port_name, TitanComponent.NULL_COMPREF, other_endpoint.port_name, null, -1, 0);
+	}
+
+	private void remove_local_connection(final port_connection connection) {
+		if(connection.transport_type != transport_type_enum.TRANSPORT_LOCAL) {
+			throw new TtcnError(MessageFormat.format("Internal error: The transport type used by the connection between port {0} and {1}:{2} is not LOCAL.", port_name, connection.remote_component, connection.remote_port));
+		}
+
+		final TitanPort other_endpoint = connection.local_port;
+		remove_connection(connection);
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.local__connection__terminated, port_name, TitanComponent.NULL_COMPREF, other_endpoint.port_name, null, -1, 0);
+	}
+
 	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
 		try {
 			final ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
@@ -1056,6 +1084,27 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} catch (IOException e) {
 			//FIXME implement
 		}
+	}
+
+	private void connect_local(final int remote_component, final String remote_port) {
+		if (TitanComponent.self.get().componentValue != remote_component) {
+			TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, MessageFormat.format("Message CONNECT with transport type LOCAL refers to a port of another component ({0}).", remote_component));
+			return;
+		}
+
+		final TitanPort remotePort = lookup_by_name(remote_port, false);
+		if (remotePort == null) {
+			TTCN_Communication.send_connect_error(port_name, remote_component, remote_port, MessageFormat.format("Port {0} does not exist.", remote_port));
+			return;
+		} else if (!remotePort.is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it to local port {1}.", remote_port, port_name));
+		}
+
+		add_local_connection(remotePort);
+		if (this != remotePort) {
+			remotePort.add_local_connection(this);
+		}
+		TTCN_Communication.send_connected(port_name, remote_component, remote_port);
 	}
 
 	private void connect_stream(final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
@@ -1097,6 +1146,21 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
 	}
 
+	private void disconnect_local(final port_connection connection) {
+		final TitanPort remotePort = connection.local_port;
+		remove_local_connection(connection);
+		if (this != remotePort) {
+			final port_connection connection2 = remotePort.lookup_connection(TitanComponent.self.get().componentValue, port_name);
+			if (connection2 == null) {
+				throw new TtcnError(MessageFormat.format("Internal error: Port {0} is connected with local port {1}, but port {1} does not have a connection to {0}.", port_name, remotePort.port_name));
+			} else {
+				remotePort.remove_local_connection(connection2);
+			}
+		}
+
+		TTCN_Communication.send_disconnected(port_name, TitanComponent.self.get().componentValue, remotePort.port_name);
+	}
+
 	private void disconnect_stream(final port_connection connection) {
 		switch (connection.connection_state) {
 		case CONN_LISTENING:
@@ -1124,6 +1188,21 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 		default:
 			throw new TtcnError(MessageFormat.format("The connection of port {0} to {1}:{2} is in unexpected state when trying to terminate it.", port_name, connection.remote_component, connection.remote_port));
+		}
+	}
+
+	private void send_data_local(final port_connection connection, final Text_Buf outgoing_data) {
+		outgoing_data.rewind();
+		final TitanPort destination_port = connection.local_port;
+		if (this != destination_port) {
+			final port_connection connection2 = destination_port.lookup_connection(TitanComponent.self.get().componentValue, port_name);
+			if (connection2 == null) {
+				throw new TtcnError(MessageFormat.format("Internal error: Port {0} is connected with local port {1}, but port {1} does not have a connection to {0}.", port_name, destination_port.port_name));
+			} else {
+				destination_port.process_data(connection2, outgoing_data);
+			}
+		} else {
+			process_data(connection, outgoing_data);
 		}
 	}
 
@@ -1376,6 +1455,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		switch (transport_type) {
+		case TRANSPORT_LOCAL:
+			port.connect_local(remote_component, remote_port);
+			break;
 		case TRANSPORT_INET_STREAM:
 			port.connect_stream(remote_component, remote_port, transport_type, text_buf);
 			break;
@@ -1409,6 +1491,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		switch (connection.transport_type) {
+		case TRANSPORT_LOCAL:
+			port.disconnect_local(connection);
+			break;
 		case TRANSPORT_INET_STREAM:
 			port.disconnect_stream(connection);
 			break;
