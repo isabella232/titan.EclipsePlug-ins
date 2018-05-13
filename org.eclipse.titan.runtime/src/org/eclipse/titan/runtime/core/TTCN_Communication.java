@@ -582,6 +582,14 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_is_alive(final int componentReference) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_IS_ALIVE);
+		text_buf.push_int(componentReference);
+
+		send_message(text_buf);
+	}
+
 	public static void send_done_req(final int componentReference) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_DONE_REQ);

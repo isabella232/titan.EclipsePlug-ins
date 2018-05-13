@@ -940,9 +940,12 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Alive operation cannot be performed on the component reference of MTC.");
 		case TitanComponent.SYSTEM_COMPREF:
 			throw new TtcnError("Alive operation cannot be performed on the component reference of system.");
+		case TitanComponent.ANY_COMPREF:
+			return any_component_alive();
+		case TitanComponent.ALL_COMPREF:
+			return all_component_alive();
 		default:
-			//FIXME implement rest of the branches
-			throw new TtcnError("Component_alive is not yet supported!");
+			return ptc_alive(component_reference);
 		}
 	}
 
@@ -1280,6 +1283,110 @@ public final class TTCN_Runtime {
 		if (!running_alive_result.get()) {
 			all_component_done_status = TitanAlt_Status.ALT_YES;
 		}
+
+		return running_alive_result.get();
+	}
+
+	public static boolean ptc_alive(final int component_reference) {
+		if (is_single()) {
+			throw new TtcnError("Alive operation on a component reference cannot be performed in single mode.");
+		}
+
+		// the answer is always true if the operation refers to self
+		if (TitanComponent.self.get().componentValue == component_reference) {
+			TtcnError.TtcnWarning("Alive operation on the component reference of self always returns true.");
+			return true;
+		}
+
+		// the answer is false if a successful killed operation was performed on the component reference
+		if (in_component_status_table(component_reference) && get_killed_status(component_reference) == TitanAlt_Status.ALT_YES) {
+			return false;
+		}
+
+		// the decision cannot be made locally, MC must be asked
+		switch (executorState.get()) {
+		case MTC_TESTCASE:
+			executorState.set(executorStateEnum.MTC_ALIVE);
+			break;
+		case PTC_FUNCTION:
+			executorState.set(executorStateEnum.PTC_ALIVE);
+			break;
+		default:
+			throw new TtcnError("Internal error: Executing component alive operation in invalid state.");
+		}
+
+		TTCN_Communication.send_is_alive(component_reference);
+		wait_for_state_change();
+
+		return running_alive_result.get();
+	}
+
+	public static boolean any_component_alive() {
+		if (is_single()) {
+			return false;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'any component.alive' can only be performed on the MTC.");
+		}
+
+		// the answer is false if 'all component.killed' operation was successful
+		if (all_component_killed_status == TitanAlt_Status.ALT_YES) {
+			return false;
+		}
+
+		// the decision cannot be made locally, MC must be asked
+		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+			throw new TtcnError("Internal error: Executing 'any component.alive' in invalid state.");
+		}
+
+		TTCN_Communication.send_is_alive(TitanComponent.ANY_COMPREF);
+		executorState.set(executorStateEnum.MTC_ALIVE);
+		wait_for_state_change();
+
+		if (!running_alive_result.get()) {
+			all_component_killed_status = TitanAlt_Status.ALT_YES;
+		}
+
+		return running_alive_result.get();
+	}
+
+	public static boolean all_component_alive() {
+		if (is_single()) {
+			return true;
+		}
+
+		if (!is_mtc()) {
+			throw new TtcnError("Operation 'all component.alive' can only be performed on the MTC.");
+		}
+
+		// return true if no PTCs exist
+		if (all_component_killed_status == TitanAlt_Status.ALT_NO) {
+			return true;
+		}
+
+		// return false if at least one PTC has been created and
+		// 'all component.killed' was successful after the create operation
+		if (all_component_killed_status == TitanAlt_Status.ALT_YES) {
+			return false;
+		}
+
+		// the operation is successful if there is a component reference with a
+		// successful killed operation
+		for (int i = 0; i < component_status_table.get().size(); i++) {
+			if (component_status_table.get().get(i).killed_status == TitanAlt_Status.ALT_YES) {
+				return false;
+			}
+		}
+		
+		// the decision cannot be made locally, MC must be asked
+		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
+			throw new TtcnError("Internal error: Executing 'all component.alive' in invalid state.");
+		}
+
+		TTCN_Communication.send_is_alive(TitanComponent.ALL_COMPREF);
+		executorState.set(executorStateEnum.MTC_ALIVE);
+		wait_for_state_change();
 
 		return running_alive_result.get();
 	}
