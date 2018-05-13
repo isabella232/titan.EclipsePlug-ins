@@ -1052,15 +1052,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			serverSocketChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_ACCEPT);
 
 			TTCN_Communication.send_connect_listen_ack_inet_stream(port_name, local_port, remote_component, remote_port, Inet4Address.getLocalHost());
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__is__waiting__for__connection__tcp, port_name, remote_component, remote_port, "TCP", -1, 0);
 		} catch (IOException e) {
 			//FIXME implement
 		}
-		//FIXME implement management
-		
 	}
 
 	private void connect_stream(final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
-		//FIXME implement
+		//FIXME implement properly (not even local address pulling is ok now)
 		
 		// family, port, addr, zero
 		final byte family[] = new byte[2];
@@ -1078,11 +1077,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			final InetAddress temp = Inet4Address.getByAddress(addr);
 			int temp2 = (port[0]&0xFF) * 256;
 			temp2 += (port[1]&0xFF);
-			
+
 			final InetSocketAddress address = new InetSocketAddress(temp, temp2);
 			final SocketChannel socketChannel = SocketChannel.open();
 			socketChannel.connect(address);
-			//FIXME manage connection
+
 			final port_connection new_connection = add_connection(remote_component, remote_port, transport_type);
 			new_connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
 			new_connection.stream_socket = socketChannel;
@@ -1094,8 +1093,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			//FIXME implement
 			throw new TtcnError("There were some exception during connection handling");
 		}
-		
-		//FIXME implement (not even local address pulling is ok now)
 
 		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
 	}
