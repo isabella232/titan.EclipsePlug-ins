@@ -1422,7 +1422,9 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\tif(index_value < value_elements.size()) break;\n");
+		source.append("\t\t\tif(index_value < value_elements.size()) {\n\n");
+		source.append("\t\t\t\tbreak;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\t// no break\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_VALUE:\n");
@@ -1741,8 +1743,9 @@ public class RecordOfGenerator {
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase VALUE_LIST:\n");
 		source.append("\t\t{\n");
-		source.append("\t\t\tif (list_value.size()<1)\n");
+		source.append("\t\t\tif (list_value.size()<1) {\n");
 		source.append("\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing an empty list.\", op_name ) );\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t\tfinal int item_size = list_value.get(0).sizeOf(is_size).getInt();\n");
 		source.append("\t\t\tfor (int i = 1; i < list_value.size(); i++) {\n");
 		source.append("\t\t\t\tif (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {\n");
@@ -1844,7 +1847,9 @@ public class RecordOfGenerator {
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
-		source.append("\t\t\tif (!value_elements.get(elem_count).isValue()) return false;\n");
+		source.append("\t\t\tif (!value_elements.get(elem_count).isValue()) {\n");
+		source.append("\t\t\t\treturn false;\n");
+		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
 		source.append("\t\treturn true;\n");
 		source.append("\t}\n");
@@ -2007,7 +2012,9 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\tcase VALUE_LIST:\n");
 		aSb.append("\t\t\t\tTtcnLogger.log_char('(');\n");
 		aSb.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
-		aSb.append("\t\t\t\t\tif (list_count > 0) TtcnLogger.log_event_str(\", \");\n");
+		aSb.append("\t\t\t\t\tif (list_count > 0) {\n");
+		aSb.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		aSb.append("\t\t\t\t\t}\n");
 		aSb.append("\t\t\t\t\tlist_value.get(list_count).log();\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t\tTtcnLogger.log_char(')');\n");

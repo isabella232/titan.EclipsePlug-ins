@@ -5472,7 +5472,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				if(index_value < value_elements.size()) break;
+				if(index_value < value_elements.size()) {
+					break;
+				}
 				// no break
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -5678,8 +5680,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			case VALUE_LIST:
 			{
-				if (list_value.size()<1)
+				if (list_value.size()<1) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.Strings.str_list containing an empty list.", op_name ) );
+				}
 				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
@@ -5754,7 +5757,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
-				if (!value_elements.get(elem_count).isValue()) return false;
+				if (!value_elements.get(elem_count).isValue()) {
+					return false;
+				}
 			}
 			return true;
 		}
@@ -5845,7 +5850,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			case VALUE_LIST:
 				TtcnLogger.log_char('(');
 				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) TtcnLogger.log_event_str(", ");
+					if (list_count > 0) {
+						TtcnLogger.log_event_str(", ");
+					}
 					list_value.get(list_count).log();
 				}
 				TtcnLogger.log_char(')');
@@ -12464,7 +12471,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				if(index_value < value_elements.size()) break;
+				if(index_value < value_elements.size()) {
+					break;
+				}
 				// no break
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -12670,8 +12679,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			case VALUE_LIST:
 			{
-				if (list_value.size()<1)
+				if (list_value.size()<1) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list containing an empty list.", op_name ) );
+				}
 				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
@@ -12746,7 +12756,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
-				if (!value_elements.get(elem_count).isValue()) return false;
+				if (!value_elements.get(elem_count).isValue()) {
+					return false;
+				}
 			}
 			return true;
 		}
@@ -12837,7 +12849,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			case VALUE_LIST:
 				TtcnLogger.log_char('(');
 				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) TtcnLogger.log_event_str(", ");
+					if (list_count > 0) {
+						TtcnLogger.log_event_str(", ");
+					}
 					list_value.get(list_count).log();
 				}
 				TtcnLogger.log_char(')');
@@ -32764,7 +32778,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				if(index_value < value_elements.size()) break;
+				if(index_value < value_elements.size()) {
+					break;
+				}
 				// no break
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -32970,8 +32986,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			case VALUE_LIST:
 			{
-				if (list_value.size()<1)
+				if (list_value.size()<1) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list containing an empty list.", op_name ) );
+				}
 				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
@@ -33046,7 +33063,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
-				if (!value_elements.get(elem_count).isValue()) return false;
+				if (!value_elements.get(elem_count).isValue()) {
+					return false;
+				}
 			}
 			return true;
 		}
@@ -33137,7 +33156,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			case VALUE_LIST:
 				TtcnLogger.log_char('(');
 				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) TtcnLogger.log_event_str(", ");
+					if (list_count > 0) {
+						TtcnLogger.log_event_str(", ");
+					}
 					list_value.get(list_count).log();
 				}
 				TtcnLogger.log_char(')');
@@ -51672,7 +51693,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				if(index_value < value_elements.size()) break;
+				if(index_value < value_elements.size()) {
+					break;
+				}
 				// no break
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -51878,8 +51901,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			case VALUE_LIST:
 			{
-				if (list_value.size()<1)
+				if (list_value.size()<1) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.StartFunction.parameter_list containing an empty list.", op_name ) );
+				}
 				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
@@ -51954,7 +51978,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
-				if (!value_elements.get(elem_count).isValue()) return false;
+				if (!value_elements.get(elem_count).isValue()) {
+					return false;
+				}
 			}
 			return true;
 		}
@@ -52045,7 +52071,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			case VALUE_LIST:
 				TtcnLogger.log_char('(');
 				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) TtcnLogger.log_event_str(", ");
+					if (list_count > 0) {
+						TtcnLogger.log_event_str(", ");
+					}
 					list_value.get(list_count).log();
 				}
 				TtcnLogger.log_char(')');
@@ -69614,7 +69642,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				if(index_value < value_elements.size()) break;
+				if(index_value < value_elements.size()) {
+					break;
+				}
 				// no break
 			case OMIT_VALUE:
 			case ANY_VALUE:
@@ -69820,8 +69850,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				break;
 			case VALUE_LIST:
 			{
-				if (list_value.size()<1)
+				if (list_value.size()<1) {
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list containing an empty list.", op_name ) );
+				}
 				final int item_size = list_value.get(0).sizeOf(is_size).getInt();
 				for (int i = 1; i < list_value.size(); i++) {
 					if (list_value.get(i).sizeOf(is_size).getInt()!=item_size) {
@@ -69896,7 +69927,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 				return false;
 			}
 			for (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {
-				if (!value_elements.get(elem_count).isValue()) return false;
+				if (!value_elements.get(elem_count).isValue()) {
+					return false;
+				}
 			}
 			return true;
 		}
@@ -69987,7 +70020,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			case VALUE_LIST:
 				TtcnLogger.log_char('(');
 				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) TtcnLogger.log_event_str(", ");
+					if (list_count > 0) {
+						TtcnLogger.log_event_str(", ");
+					}
 					list_value.get(list_count).log();
 				}
 				TtcnLogger.log_char(')');

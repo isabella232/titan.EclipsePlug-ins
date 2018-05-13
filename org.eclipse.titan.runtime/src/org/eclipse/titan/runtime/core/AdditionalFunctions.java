@@ -622,30 +622,30 @@ public final class AdditionalFunctions {
 		if(length >= 2) {
 			switch (strptr[0] & 0xFF) {
 			case 0xef:
-				for (i = 1, j = 1; UTF8_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF8_BOM.length && j < strptr.length;);
+				for (i = 1, j = 1; UTF8_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF8_BOM.length && j < strptr.length;) {};
 				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
 					return new TitanCharString("UTF-8");
 				}
 				break;
 			case 0xfe:
-				for (i = 1, j = 1; UTF16BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16BE_BOM.length && j < strptr.length;);
+				for (i = 1, j = 1; UTF16BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16BE_BOM.length && j < strptr.length;) {};
 				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
 					return new TitanCharString("UTF-16BE");
 				}
 				break;
 			case 0xff:
-				for (i = 1, j = 1; UTF32LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32LE_BOM.length && j < strptr.length;);
+				for (i = 1, j = 1; UTF32LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32LE_BOM.length && j < strptr.length;) {};
 				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
 					return new TitanCharString("UTF-32LE");
 				}
-				for (i = 1, j = 1; UTF16LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16LE_BOM.length && j < strptr.length;);
+				for (i = 1, j = 1; UTF16LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16LE_BOM.length && j < strptr.length;) {};
 
 				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
 					return new TitanCharString("UTF-16LE");
 				}
 				break;
 			case 0x00:
-				for (i = 1, j = 1; UTF32BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32BE_BOM.length && j < strptr.length;);
+				for (i = 1, j = 1; UTF32BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32BE_BOM.length && j < strptr.length;) {};
 				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
 					return new TitanCharString("UTF-32BE");
 				}
