@@ -1038,11 +1038,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
 		try {
 			final ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
-//			ServerSocket serverSocket = new ServerSocket();
 			final ServerSocket serverSocket =serverSocketChannel.socket();
 			final InetSocketAddress local_addr = new InetSocketAddress(serverSocket.getInetAddress(), 0);
 			serverSocket.bind(local_addr);
-//			serverSocket.bind(local_addr);
 			final int local_port = serverSocketChannel.socket().getLocalPort();
 			//FIXME implement rest
 			final port_connection new_connection = add_connection(remote_component, remote_port, transport_type_enum.TRANSPORT_INET_STREAM);
@@ -1083,7 +1081,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			
 			final InetSocketAddress address = new InetSocketAddress(temp, temp2);
 			final SocketChannel socketChannel = SocketChannel.open();
-//			Socket socket = new Socket();
 			socketChannel.connect(address);
 			//FIXME manage connection
 			final port_connection new_connection = add_connection(remote_component, remote_port, transport_type);
@@ -1134,17 +1131,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private boolean send_data_stream(final port_connection connection, final Text_Buf outgoing_data, final boolean ignore_peer_disconnect) {
-//		boolean would_block = false;
 		outgoing_data.calculate_length();
 		final byte[] msg_ptr = outgoing_data.get_data();
 		final int msg_len = outgoing_data.get_len();
-//		int sent_len = 0;
-//		while (sent_len < msg_len) {
 		final ByteBuffer buffer = ByteBuffer.allocate(msg_len);
 		buffer.clear();
 		final byte[] temp_msg_ptr = new byte[msg_len];
 		System.arraycopy(msg_ptr, outgoing_data.get_begin(), temp_msg_ptr, 0, msg_len);
-		//buffer.put(msg_ptr);
 		buffer.put(temp_msg_ptr);
 		buffer.flip();
 		while (buffer.hasRemaining()) {
@@ -1154,8 +1147,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				//FIXME implement
 			}
 		}
-		//FIXME implement
-		//		}
 		//FIXME implement
 		return true;
 	}
