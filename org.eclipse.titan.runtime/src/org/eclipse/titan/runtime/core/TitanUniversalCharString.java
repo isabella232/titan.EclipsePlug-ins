@@ -1184,7 +1184,8 @@ public class TitanUniversalCharString extends Base_Type {
 		if (n_octets % 2 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 2", n_octets);
 		}
-		int start = check_BOM(expected_coding, octets_ptr);
+
+		final int start = check_BOM(expected_coding, octets_ptr);
 		int n_uchars = n_octets / 2;
 		cleanUp();
 		val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);

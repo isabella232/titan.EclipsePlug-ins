@@ -706,7 +706,7 @@ public class TitanCharString extends Base_Type {
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		int bl = val_ptr.length() * 8; // bit length
 		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
-		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
@@ -744,7 +744,7 @@ public class TitanCharString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength <= 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
-		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();

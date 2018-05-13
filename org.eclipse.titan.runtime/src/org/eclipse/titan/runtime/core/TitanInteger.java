@@ -884,7 +884,8 @@ public class TitanInteger extends Base_Type {
 		if (!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
 		}
-		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
+
+		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		char bc[];
 		int length; // total length, in bytes
 		int val_bits = 0; // only for IntX
@@ -1020,7 +1021,7 @@ public class TitanInteger extends Base_Type {
 		int length = 0; // total length, in bytes
 		int val_bits = 0, len_bits = 0; // only for IntX
 		BigInteger D = new BigInteger(openSSL.toString());
-		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		boolean neg_sgbit = (D.signum() == -1) && (p_td.raw.comp == raw_sign_t.SG_SG_BIT);
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
@@ -1155,7 +1156,7 @@ public class TitanInteger extends Base_Type {
 		limit -= prepaddlength;
 		final RAW_coding_par cp = new RAW_coding_par();
 		boolean orders = false;
-		TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.bitorderinoctet == raw_order_t.ORDER_MSB) {
 			orders = true;
 		}

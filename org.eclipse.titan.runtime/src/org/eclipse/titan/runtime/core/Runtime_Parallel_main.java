@@ -32,8 +32,8 @@ public class Runtime_Parallel_main {
 			}
 
 			String local_addr = null;
-			String MC_host = argv[0];
-			int MC_port = Integer.parseInt(argv[1]);
+			final String MC_host = argv[0];
+			final int MC_port = Integer.parseInt(argv[1]);
 
 			TTCN_Snapshot.initialize();
 			TtcnLogger.initialize_logger();

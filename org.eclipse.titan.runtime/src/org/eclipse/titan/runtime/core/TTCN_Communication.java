@@ -610,8 +610,8 @@ public class TTCN_Communication {
 		text_buf.push_string(remote_port);
 		text_buf.push_int(transport_type_enum.TRANSPORT_INET_STREAM.ordinal());
 
-		byte temp[] = local_address.getAddress();
-		byte temp2 = (byte) local_port_number;
+		final byte temp[] = local_address.getAddress();
+		final byte temp2 = (byte) local_port_number;
 		text_buf.push_raw(2, new byte[]{2, 0});
 		text_buf.push_raw(2, new byte[]{(byte)(local_port_number/256), (byte)(local_port_number%256)});
 		text_buf.push_raw(temp.length, temp);
@@ -1287,8 +1287,8 @@ public class TTCN_Communication {
 		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
 		TtcnLogger.log_event_str(MessageFormat.format("Unsupported message was received from MC: type (decimal): {0}, data (hexadecimal): ", msg_type));
 
-		byte[] data = temp_incoming_buf.get_data();
-		int begin = temp_incoming_buf.get_begin();
+		final byte[] data = temp_incoming_buf.get_data();
+		final int begin = temp_incoming_buf.get_begin();
 		for (int i = temp_incoming_buf.get_pos(); i < msg_end; i++) {
 			TtcnLogger.log_octet((char)data[begin + i]);
 		}

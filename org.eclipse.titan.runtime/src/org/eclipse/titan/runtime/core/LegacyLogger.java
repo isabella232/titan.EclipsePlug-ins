@@ -130,8 +130,8 @@ public class LegacyLogger implements ILoggerPlugin {
 		final StringBuilder returnValue = new StringBuilder();
 		final StringBuilder sourceInfo = new StringBuilder();
 		if (event.getSourceInfo__list().isBound()) {
-			source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
-			int stack_size = event.getSourceInfo__list().sizeOf().getInt();
+			final source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
+			final int stack_size = event.getSourceInfo__list().sizeOf().getInt();
 			if (stack_size > 0) {
 				int i = 0;
 				switch (source_info_format) {
@@ -660,11 +660,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		switch (choice.get_selection()) {
 		case ALT_VerdictStatistics: {
 			final StatisticsType_choice_verdictStatistics statistics = choice.getVerdictStatistics();
-			int none_count = statistics.getNone__().getInt();
-			int pass_count = statistics.getPass__().getInt();
-			int inconc_count = statistics.getInconc__().getInt();
-			int fail_count = statistics.getFail__().getInt();
-			int error_count = statistics.getError__().getInt();
+			final int none_count = statistics.getNone__().getInt();
+			final int pass_count = statistics.getPass__().getInt();
+			final int inconc_count = statistics.getInconc__().getInt();
+			final int fail_count = statistics.getFail__().getInt();
+			final int error_count = statistics.getError__().getInt();
 			if (none_count > 0 || pass_count > 0 || inconc_count > 0 || fail_count > 0 || error_count > 0) {
 				returnValue.append(MessageFormat.format("Verdict Statistics: {0} none ({1} %), {2} pass ({3} %), {4} inconc ({5} %), {6} fail ({7} %), {8} error ({9} %)",
 								none_count, statistics.getNonePercent().getValue(),
@@ -779,8 +779,9 @@ public class LegacyLogger implements ILoggerPlugin {
 				preposition = "from";
 				break;
 			}
-			String src = TitanComponent.get_component_string(pp.getSrcCompref().getInt());
-			String dst = TitanComponent.get_component_string(pp.getDstCompref().getInt());
+
+			final String src = TitanComponent.get_component_string(pp.getSrcCompref().getInt());
+			final String dst = TitanComponent.get_component_string(pp.getDstCompref().getInt());
 			returnValue.append(MessageFormat.format(" operation {0} {1}:{2} {3} {4}:{5} finished.", direction, src, pp.getSrcPort().getValue(), preposition, dst, pp.getDstPort().getValue()));
 			break;
 		}
@@ -806,7 +807,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static void matchingop_str(final StringBuilder returnValue, final MatchingEvent_choice choice) {
 		switch (choice.get_selection()) {
 		case ALT_MatchingDone: {
-			MatchingDoneType md = choice.getMatchingDone();
+			final MatchingDoneType md = choice.getMatchingDone();
 			switch (md.getReason().enum_value) {
 			case UNBOUND_VALUE:
 			case UNKNOWN_VALUE:

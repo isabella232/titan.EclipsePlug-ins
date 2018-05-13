@@ -78,7 +78,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		@Override
-		public void Handle_Timeout(double time_since_last_call) {
+		public void Handle_Timeout(final double time_since_last_call) {
 			// TODO Auto-generated method stub
 		}
 	}
@@ -186,10 +186,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			 * - errors in user code of Test Port (i.e. user_stop, user_unmap)
 			 * - failures when sending messages to MC (the link may be down)
 			 */
-			boolean is_parallel = !TTCN_Runtime.is_single();
+			final boolean is_parallel = !TTCN_Runtime.is_single();
 			// terminate all connections
 			while (!connection_list.isEmpty()) {
-				port_connection connection = connection_list.getFirst();
+				final port_connection connection = connection_list.getFirst();
 				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				if (is_parallel) {
 					try {
@@ -201,7 +201,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	
 			// terminate all mappings
 			while (!system_mappings.isEmpty()) {
-				String system_port = system_mappings.get(0);
+				final String system_port = system_mappings.get(0);
 				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
 				try {
 					unmap(system_port, system);
@@ -849,9 +849,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			throw new TtcnError(MessageFormat.format("Internal error: The destination component reference is unbound when sending data on port {0}.", port_name));
 		}
 
-		int destination_compref = destination_component.componentValue;
-		AtomicBoolean is_unique = new AtomicBoolean();
-		port_connection connection = lookup_connection_to_compref(destination_compref, is_unique);
+		final int destination_compref = destination_component.componentValue;
+		final AtomicBoolean is_unique = new AtomicBoolean();
+		final port_connection connection = lookup_connection_to_compref(destination_compref, is_unique);
 		if (connection == null) {
 			throw new TtcnError(MessageFormat.format("Data cannot be sent on port {0} to component {1} because there is no connection towards component {1}.", port_name, destination_compref));
 		} else if (!is_unique.get()) {
@@ -871,8 +871,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void process_data(final port_connection connection, final Text_Buf incoming_buf) {
-		int connection_int = incoming_buf.pull_int().getInt();
-		port_connection.connection_data_type_enum conn_data_type = port_connection.connection_data_type_enum.values()[connection_int];
+		final int connection_int = incoming_buf.pull_int().getInt();
+		final port_connection.connection_data_type_enum conn_data_type = port_connection.connection_data_type_enum.values()[connection_int];
 
 		if (conn_data_type != port_connection.connection_data_type_enum.CONN_DATA_LAST) {
 			switch (connection.connection_state) {
@@ -887,7 +887,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				throw new TtcnError(MessageFormat.format("Internal error: Connection of port {0} with {1}:{2} has invalid state ({3}).", port_name, connection.remote_component, connection.remote_port, connection.connection_state.ordinal()));
 			}
 
-			String message_type = incoming_buf.pull_string();
+			final String message_type = incoming_buf.pull_string();
 			//FIXME implement try protection
 			switch (conn_data_type) {
 			case CONN_DATA_MESSAGE:
@@ -923,10 +923,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private port_connection add_connection(final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		int index = -1;
 		int i = -1;
-		for (port_connection connection: connection_list) {
+		for (final port_connection connection: connection_list) {
 			i++;
 			if (connection.remote_component == remote_component) {
-				int ret_val = connection.remote_port.compareTo(remote_port);
+				final int ret_val = connection.remote_port.compareTo(remote_port);
 				if (ret_val == 0) {
 					return connection;
 				} else if (ret_val > 0) {
@@ -943,7 +943,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			throw new TtcnError(MessageFormat.format("Connect operation cannot be performed on a mapped port ({0}).", port_name));
 		}
 
-		port_connection new_connection = new port_connection();
+		final port_connection new_connection = new port_connection();
 		new_connection.owner_port = this;
 		new_connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 		new_connection.remote_component = remote_component;
@@ -984,7 +984,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	private port_connection lookup_connection_to_compref(final int remote_component, final AtomicBoolean is_unique) {
 		port_connection result = null;
-		for (port_connection connection : connection_list) {
+		for (final port_connection connection : connection_list) {
 			if (connection.remote_component == remote_component) {
 				if (is_unique != null) {
 					if (result == null) {
@@ -1006,9 +1006,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private port_connection lookup_connection(final int remote_component, final String remote_port) {
-		for (port_connection connection : connection_list) {
+		for (final port_connection connection : connection_list) {
 			if (connection.remote_component == remote_component) {
-				int ret_val = connection.remote_port.compareTo(remote_port);
+				final int ret_val = connection.remote_port.compareTo(remote_port);
 				if (ret_val == 0) {
 					return connection;
 				} else if (ret_val > 0) {
@@ -1024,15 +1024,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
 		try {
-			ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
+			final ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();
 //			ServerSocket serverSocket = new ServerSocket();
-			ServerSocket serverSocket =serverSocketChannel.socket();
-			InetSocketAddress local_addr = new InetSocketAddress(serverSocket.getInetAddress(), 0);
+			final ServerSocket serverSocket =serverSocketChannel.socket();
+			final InetSocketAddress local_addr = new InetSocketAddress(serverSocket.getInetAddress(), 0);
 			serverSocket.bind(local_addr);
 //			serverSocket.bind(local_addr);
-			int local_port = serverSocketChannel.socket().getLocalPort();
+			final int local_port = serverSocketChannel.socket().getLocalPort();
 			//FIXME implement rest
-			port_connection new_connection = add_connection(remote_component, remote_port, transport_type_enum.TRANSPORT_INET_STREAM);
+			final port_connection new_connection = add_connection(remote_component, remote_port, transport_type_enum.TRANSPORT_INET_STREAM);
 			new_connection.connection_state = port_connection.connection_state_enum.CONN_LISTENING;
 			new_connection.stream_socket = serverSocketChannel;
 
@@ -1052,28 +1052,28 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		//FIXME implement
 		
 		// family, port, addr, zero
-		byte family[] = new byte[2];
+		final byte family[] = new byte[2];
 		text_buf.pull_raw(2, family);
-		byte port[] = new byte[2];
+		final byte port[] = new byte[2];
 		text_buf.pull_raw(2, port);
 
-		byte addr[] = new byte[4];
+		final byte addr[] = new byte[4];
 		text_buf.pull_raw(4, addr);
 
-		byte zero[] = new byte[8];
+		final byte zero[] = new byte[8];
 		text_buf.pull_raw(8, zero);
 
 		try {
-			InetAddress temp = Inet4Address.getByAddress(addr);
+			final InetAddress temp = Inet4Address.getByAddress(addr);
 			int temp2 = (port[0]&0xFF) * 256;
 			temp2 += (port[1]&0xFF);
 			
-			InetSocketAddress address = new InetSocketAddress(temp, temp2);
-			SocketChannel socketChannel = SocketChannel.open();
+			final InetSocketAddress address = new InetSocketAddress(temp, temp2);
+			final SocketChannel socketChannel = SocketChannel.open();
 //			Socket socket = new Socket();
 			socketChannel.connect(address);
 			//FIXME manage connection
-			port_connection new_connection = add_connection(remote_component, remote_port, transport_type);
+			final port_connection new_connection = add_connection(remote_component, remote_port, transport_type);
 			new_connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
 			new_connection.stream_socket = socketChannel;
 
@@ -1098,7 +1098,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			break;
 		case CONN_CONNECTED: {
 			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.terminating__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
-			Text_Buf outgoing_buf = new Text_Buf();
+			final Text_Buf outgoing_buf = new Text_Buf();
 			outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_LAST.ordinal());
 			if (send_data_stream(connection, outgoing_buf, true)) {
 				//sending the last message was successful
@@ -1123,26 +1123,26 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private boolean send_data_stream(final port_connection connection, final Text_Buf outgoing_data, final boolean ignore_peer_disconnect) {
 //		boolean would_block = false;
 		outgoing_data.calculate_length();
-		byte[] msg_ptr = outgoing_data.get_data();
-		int msg_len = outgoing_data.get_len();
+		final byte[] msg_ptr = outgoing_data.get_data();
+		final int msg_len = outgoing_data.get_len();
 //		int sent_len = 0;
 //		while (sent_len < msg_len) {
-			ByteBuffer buffer = ByteBuffer.allocate(msg_len);
-			buffer.clear();
-			byte[] temp_msg_ptr = new byte[msg_len];
-			System.arraycopy(msg_ptr, outgoing_data.get_begin(), temp_msg_ptr, 0, msg_len);
-			//buffer.put(msg_ptr);
-			buffer.put(temp_msg_ptr);
-			buffer.flip();
-			while (buffer.hasRemaining()) {
-				try {
-					((SocketChannel)connection.stream_socket).write(buffer);
-				} catch (IOException e) {
-					//FIXME implement
-				}
+		final ByteBuffer buffer = ByteBuffer.allocate(msg_len);
+		buffer.clear();
+		final byte[] temp_msg_ptr = new byte[msg_len];
+		System.arraycopy(msg_ptr, outgoing_data.get_begin(), temp_msg_ptr, 0, msg_len);
+		//buffer.put(msg_ptr);
+		buffer.put(temp_msg_ptr);
+		buffer.flip();
+		while (buffer.hasRemaining()) {
+			try {
+				((SocketChannel)connection.stream_socket).write(buffer);
+			} catch (IOException e) {
+				//FIXME implement
 			}
-			//FIXME implement
-//		}
+		}
+		//FIXME implement
+		//		}
 		//FIXME implement
 		return true;
 	}
@@ -1150,7 +1150,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private void handle_incoming_connection(final port_connection connection) {
 		final ServerSocketChannel serverSocketChannel = (ServerSocketChannel) connection.stream_socket;
 		try {
-			SocketChannel com_channel = serverSocketChannel.accept();
+			final SocketChannel com_channel = serverSocketChannel.accept();
 			//FIXME only a prototype
 			TTCN_Snapshot.channelMap.get().remove(serverSocketChannel);
 
@@ -1175,13 +1175,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			connection.stream_incoming_buf = new Text_Buf();
 		}
 
-		Text_Buf incoming_buffer = connection.stream_incoming_buf;
-		AtomicInteger end_index = new AtomicInteger();
-		AtomicInteger end_len = new AtomicInteger();
+		final Text_Buf incoming_buffer = connection.stream_incoming_buf;
+		final AtomicInteger end_index = new AtomicInteger();
+		final AtomicInteger end_len = new AtomicInteger();
 		incoming_buffer.get_end(end_index, end_len);
-		ByteBuffer buffer = ByteBuffer.allocate(1024);
+		final ByteBuffer buffer = ByteBuffer.allocate(1024);
 		try {
-			int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
+			final int recv_len = ((SocketChannel)connection.stream_socket).read(buffer);
 			if (recv_len < 0) {
 				//the connection is closed
 				//FIXME implement rest
@@ -1192,9 +1192,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			} else if (recv_len > 0) {
 				buffer.flip();
 				incoming_buffer.increase_length(buffer.remaining());
-				byte[] data = incoming_buffer.get_data();
-				int remaining = buffer.remaining();
-				byte[] temp = new byte[remaining];
+				final byte[] data = incoming_buffer.get_data();
+				final int remaining = buffer.remaining();
+				final byte[] temp = new byte[remaining];
 				buffer.get(temp);
 				System.arraycopy(temp, 0, data, end_index.get(), remaining);
 
@@ -1218,12 +1218,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		if (connection.connection_state == port_connection.connection_state_enum.CONN_IDLE) {
 			// terminating and removing connection
-			int msg_len = incoming_buffer.get_len();
+			final int msg_len = incoming_buffer.get_len();
 			if (msg_len > 0) {
 				TtcnError.TtcnWarningBegin(MessageFormat.format("Message fragment remained in the buffer of port connection between {0} and ", port_name));
 				TitanComponent.log_component_reference(connection.remote_component);
 				TtcnLogger.log_event_str(MessageFormat.format(":{0}: ", connection.remote_port));
-				byte[] msg = incoming_buffer.get_data();
+				final byte[] msg = incoming_buffer.get_data();
 				for (int i = 0; i < msg_len; i++) {
 					TtcnLogger.log_octet((char)msg[i]);
 				}
@@ -1247,7 +1247,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		switch (connection.connection_state) {
 		case CONN_CONNECTED: {
 			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.termination__request__received, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
-			Text_Buf outgoing_buf = new Text_Buf();
+			final Text_Buf outgoing_buf = new Text_Buf();
 			outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_LAST.ordinal());
 			if (send_data_stream(connection, outgoing_buf, true)) {
 				// sending the last message was successful wait until the peer closes the transport connection

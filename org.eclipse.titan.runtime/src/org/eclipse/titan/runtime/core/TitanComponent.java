@@ -177,7 +177,7 @@ public class TitanComponent extends Base_Type {
 			throw new TtcnError("Performing done operation on an unbound component reference.");
 		}
 
-		AtomicReference<VerdictTypeEnum> ptc_verdict = new AtomicReference<VerdictTypeEnum>(VerdictTypeEnum.NONE);
+		final AtomicReference<VerdictTypeEnum> ptc_verdict = new AtomicReference<VerdictTypeEnum>(VerdictTypeEnum.NONE);
 
 		return TTCN_Runtime.component_done(componentValue, ptc_verdict);
 	}
@@ -237,7 +237,7 @@ public class TitanComponent extends Base_Type {
 			TtcnLogger.log_event_str("system");
 			break;
 		default: {
-			String component_name = get_component_name(component_reference);
+			final String component_name = get_component_name(component_reference);
 			if (component_name == null) {
 				TtcnLogger.log_event_str(MessageFormat.format("{0}", component_reference));
 			} else {
@@ -257,7 +257,7 @@ public class TitanComponent extends Base_Type {
 		case SYSTEM_COMPREF:
 			return "system";
 		default: {
-			String component_name = get_component_name(component_reference);
+			final String component_name = get_component_name(component_reference);
 			if (component_name == null) {
 				return MessageFormat.format("{0}", component_reference);
 			} else {

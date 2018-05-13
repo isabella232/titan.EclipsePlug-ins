@@ -1045,7 +1045,7 @@ public final class TTCN_Runtime {
 			return TitanAlt_Status.ALT_NO;
 		}
 
-		int index = get_component_status_table_index(component_reference);
+		final int index = get_component_status_table_index(component_reference);
 		// a successful killed operation on the component reference implies done
 		if (component_status_table.get().get(index).killed_status == TitanAlt_Status.ALT_YES) {
 			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);

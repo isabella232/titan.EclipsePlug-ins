@@ -791,7 +791,8 @@ public class TitanBitString extends Base_Type {
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
-		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
+
+		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		int bl = n_bits;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
 		if ((bl + align_length) < n_bits) {
@@ -837,7 +838,7 @@ public class TitanBitString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? limit : p_td.raw.fieldlength;
-		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.fieldlength > limit
 				|| p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {

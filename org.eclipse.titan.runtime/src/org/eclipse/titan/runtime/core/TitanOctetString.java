@@ -694,7 +694,8 @@ public class TitanOctetString extends Base_Type {
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
 		}
-		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
+
+		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		char[] bc = new char[val_ptr.length];
 		int bl = val_ptr.length * 8;
 		int align_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength - bl : 0;
@@ -733,7 +734,7 @@ public class TitanOctetString extends Base_Type {
 
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
-		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {

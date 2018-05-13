@@ -379,7 +379,7 @@ public class TtcnPattern {
 	private static void convertStaticReference( final String ttcnPattern, final AtomicInteger pos,
 												final StringBuilder javaPattern, final Map<String, String> refs ) {
 		final String input = ttcnPattern.substring(pos.get());
-		Matcher m = PATTERN_STATIC_REFERENCE.matcher(input);
+		final Matcher m = PATTERN_STATIC_REFERENCE.matcher(input);
 		if ( m.matches() ) {
 			final int offset = m.toMatchResult().start(2);
 			pos.getAndAdd(offset);
@@ -405,7 +405,7 @@ public class TtcnPattern {
 												 final StringBuilder javaPattern, final boolean isSet,
 												 final Map<String, String> refs ) {
 		final String input = ttcnPattern.substring(pos.get());
-		Matcher m = PATTERN_CHARSET_REFERENCE.matcher(input);
+		final Matcher m = PATTERN_CHARSET_REFERENCE.matcher(input);
 		if ( m.matches() ) {
 			final int offset = m.toMatchResult().start(2);
 			pos.getAndAdd(offset);
