@@ -1124,12 +1124,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 //		boolean would_block = false;
 		outgoing_data.calculate_length();
 		byte[] msg_ptr = outgoing_data.get_data();
-		int msg_len = msg_ptr.length;
+		int msg_len = outgoing_data.get_len();
 //		int sent_len = 0;
 //		while (sent_len < msg_len) {
 			ByteBuffer buffer = ByteBuffer.allocate(msg_len);
 			buffer.clear();
-			buffer.put(msg_ptr);
+			byte[] temp_msg_ptr = new byte[msg_len];
+			System.arraycopy(msg_ptr, outgoing_data.get_begin(), temp_msg_ptr, 0, msg_len);
+			//buffer.put(msg_ptr);
+			buffer.put(temp_msg_ptr);
 			buffer.flip();
 			while (buffer.hasRemaining()) {
 				try {
@@ -1188,11 +1191,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
 				buffer.flip();
-				//TODO implement a better way to do this
+				incoming_buffer.increase_length(buffer.remaining());
+				byte[] data = incoming_buffer.get_data();
 				int remaining = buffer.remaining();
 				byte[] temp = new byte[remaining];
 				buffer.get(temp);
-				incoming_buffer.push_raw(end_index.get(), remaining, temp);
+				System.arraycopy(temp, 0, data, end_index.get(), remaining);
 
 				while (incoming_buffer.is_message()) {
 					incoming_buffer.pull_int(); // message_length

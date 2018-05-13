@@ -80,6 +80,10 @@ public final class Text_Buf {
 		buf_pos = buf_begin;
 	}
 
+	public int get_begin() {
+		return buf_begin;
+	}
+
 	public int get_len() {
 		return buf_len;
 	}
@@ -93,10 +97,7 @@ public final class Text_Buf {
 	}
 
 	public byte[] get_data() {
-		final byte[] temp = new byte[buf_len];
-		System.arraycopy(data_ptr, buf_begin, temp, 0, buf_len);
-
-		return temp;
+		return data_ptr;
 	}
 
 	/**

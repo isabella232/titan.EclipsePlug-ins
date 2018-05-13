@@ -813,8 +813,10 @@ public class TTCN_Communication {
 
 		text_buf.calculate_length();
 		final byte msg[] = text_buf.get_data();
-		final ByteBuffer buffer = ByteBuffer.allocate(msg.length);
-		buffer.put(msg);
+		final ByteBuffer buffer = ByteBuffer.allocate(text_buf.get_len());
+		final byte temp_msg[] = new byte[text_buf.get_len()];
+		System.arraycopy(msg, text_buf.get_begin(), temp_msg, 0, text_buf.get_len());
+		buffer.put(temp_msg);
 		buffer.flip();
 
 		try {
@@ -863,9 +865,10 @@ public class TTCN_Communication {
 		if (config_str_len == 0) {
 			config_str = "";
 		} else {
-			final byte[] data = new byte[config_str_len];
-			System.arraycopy(temp_incoming_buf.get_data(), config_str_begin, data, 0, config_str_len);
-			config_str = new String(data);
+			final byte[] config_bytes = new byte[config_str_len];
+			final byte[] incoming_data = temp_incoming_buf.get_data();
+			System.arraycopy(incoming_data, temp_incoming_buf.get_begin() + config_str_begin, config_bytes, 0, config_str_len);
+			config_str = new String(config_bytes);
 		}
 		//FIXME process config string
 		// for now assume successful processing
@@ -1285,8 +1288,9 @@ public class TTCN_Communication {
 		TtcnLogger.log_event_str(MessageFormat.format("Unsupported message was received from MC: type (decimal): {0}, data (hexadecimal): ", msg_type));
 
 		byte[] data = temp_incoming_buf.get_data();
+		int begin = temp_incoming_buf.get_begin();
 		for (int i = temp_incoming_buf.get_pos(); i < msg_end; i++) {
-			TtcnLogger.log_octet((char)data[i]);
+			TtcnLogger.log_octet((char)data[begin + i]);
 		}
 		TtcnLogger.end_event();
 		temp_incoming_buf.cut_message();
