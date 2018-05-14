@@ -1712,9 +1712,9 @@ public final class TTCN_Runtime {
 			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
 				throw new TtcnError("Both endpoints of connect operation must refer to ports of mtc in single mode.");
 			}
-			//FIXME implement
-			throw new TtcnError("Connecting components is not yet supported!");
-			//break;
+
+			TitanPort.make_local_connection(sourePort, destinationPort);
+			break;
 		case MTC_TESTCASE:
 			TTCN_Communication.send_connect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
 			executorState.set(executorStateEnum.MTC_CONNECT);
@@ -1777,9 +1777,9 @@ public final class TTCN_Runtime {
 			if (sourceComponent.getComponent() != TitanComponent.MTC_COMPREF || destinationComponent.getComponent() != TitanComponent.MTC_COMPREF) {
 				throw new TtcnError("Both endpoints of disconnect operation must refer to ports of mtc in single mode.");
 			}
-			//FIXME implement
-			throw new TtcnError("Connecting components is not yet supported!");
-			//break;
+
+			TitanPort.terminate_local_connection(sourePort, destinationPort);
+			break;
 		case MTC_TESTCASE:
 			TTCN_Communication.send_disconnect_req(sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
 			executorState.set(executorStateEnum.MTC_DISCONNECT);

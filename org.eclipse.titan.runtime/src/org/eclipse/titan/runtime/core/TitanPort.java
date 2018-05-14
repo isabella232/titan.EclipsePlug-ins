@@ -1504,6 +1504,72 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	}
 
+	public static void make_local_connection(final String source_port, final String destination_port) {
+		final TitanPort sourcePort = lookup_by_name(source_port, false);
+		if (sourcePort == null) {
+			throw new TtcnError(MessageFormat.format("Connect operation refers to non-existent port {0}.", source_port));
+		} else if (!sourcePort.is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it with local port {1}.", source_port, destination_port));
+		} else if (sourcePort.lookup_connection(TitanComponent.MTC_COMPREF, destination_port) != null) {
+			TtcnError.TtcnWarning(MessageFormat.format("Port {0} is already connected with local port {1}. Connect operation had no effect.", source_port, destination_port));
+
+			return;
+		} else if (sourcePort.lookup_connection_to_compref(TitanComponent.MTC_COMPREF, null) != null) {
+			TtcnError.TtcnWarning(MessageFormat.format("Port {0} will have more than one connections with local ports. These connections cannot be used for communication even with explicit addressing.", source_port));
+		}
+
+		final TitanPort destinationPort = lookup_by_name(destination_port, false);
+		if (destinationPort == null) {
+			throw new TtcnError(MessageFormat.format("Connect operation refers to non-existent port {0}.", destination_port));
+		} else if (!destinationPort.is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to connect it with local port {1}.", destination_port, source_port));
+		}
+
+		sourcePort.add_local_connection(destinationPort);
+		if (sourcePort != destinationPort) {
+			destinationPort.add_local_connection(sourcePort);
+		}
+	}
+
+	public static void terminate_local_connection(final String source_port, final String destination_port) {
+		final TitanPort sourcePort = lookup_by_name(source_port, false);
+		if (sourcePort == null) {
+			throw new TtcnError(MessageFormat.format("Disconnect operation refers to non-existent port {0}.", source_port));
+		} else if (!sourcePort.is_active) {
+			throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to disconnect it with local port {1}.", source_port, destination_port));
+		}
+
+		final port_connection connection = sourcePort.lookup_connection(TitanComponent.MTC_COMPREF, destination_port);
+		if (connection == null) {
+			final TitanPort destinationPort = lookup_by_name(destination_port, false);
+			if (destinationPort == null) {
+				throw new TtcnError(MessageFormat.format("Disconnect operation refers to non-existent port {0}.", destination_port));
+			} else if (sourcePort != destinationPort) {
+				if (!destinationPort.is_active) {
+					throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to disconnect it with local port {1}.", destination_port, source_port));
+				} else if (destinationPort.lookup_connection(TitanComponent.MTC_COMPREF, source_port) != null) {
+					throw new TtcnError(MessageFormat.format("Internal error: Port {0} is connected with local port {1}, but port {1} does not have a connection to {0}.", destination_port, source_port));
+				}
+			}
+			//FIXME
+		} else {
+			final TitanPort destinationPort = lookup_by_name(destination_port, false);
+			sourcePort.remove_local_connection(connection);
+			if (sourcePort != destinationPort) {
+				if (!destinationPort.is_active) {
+					throw new TtcnError(MessageFormat.format("Internal error: Port {0} is inactive when trying to disconnect it with local port {1}.", destination_port, source_port));
+				}
+
+				final port_connection connection2 = destinationPort.lookup_connection(TitanComponent.MTC_COMPREF, source_port);
+				if (connection2 == null) {
+					throw new TtcnError(MessageFormat.format("Internal error: Port {0} is connected with local port {1}, but port {1} does not have a connection to {0}.", source_port, destination_port));
+				} else {
+					destinationPort.remove_local_connection(connection2);
+				}
+			}
+		}
+	}
+
 	public static void map_port(final String component_port, final String system_port, final boolean translation) {
 		final String port_name = translation ? system_port : component_port;
 		final TitanPort port = lookup_by_name(port_name, translation);
