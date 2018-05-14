@@ -818,7 +818,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			return "Erroneous type";
 		}
 
-		final StringBuilder builder = new StringBuilder(elementType.getTypename());
+		final StringBuilder builder = new StringBuilder();
 		builder.append(dimension.createStringRepresentation());
 		IType temp = elementType;
 		while (temp != null && Type_type.TYPE_ARRAY.equals(temp.getTypetype())) {
@@ -826,6 +826,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			builder.append(tempArray.dimension.createStringRepresentation());
 			temp = tempArray.elementType;
 		}
+		if (temp != null) {
+			builder.insert(0, temp.getTypename());
+		}
+
 		return builder.toString();
 	}
 
