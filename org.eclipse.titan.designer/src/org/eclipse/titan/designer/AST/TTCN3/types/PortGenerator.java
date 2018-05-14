@@ -798,6 +798,7 @@ public class PortGenerator {
 		final String typeValueName = inType.mJavaTypeName;
 		final String typeTemplateName = inType.mJavaTemplateName;
 		final String functionName = isCheck ? "check_receive" : "receive";
+		final String operationName = isCheck ? "check__receive__op" : "receive__op";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
 		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
@@ -845,7 +846,21 @@ public class PortGenerator {
 		source.append("if (sender_pointer != null) {\n");
 		source.append("sender_pointer.assign(my_head.sender_component);\n");
 		source.append("}\n");
-		source.append("//FIXME implement, right now we just assume perfect match\n");
+		source.append("TtcnLogger.Severity log_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? Severity.MATCHING_MMSUCCESS : Severity.MATCHING_MCSUCCESS;\n");
+		source.append("if (TtcnLogger.log_this_event(log_severity)) {\n");
+		source.append("TtcnLogger.begin_event_log2str();\n");
+		source.append("value_template.log_match(my_head.message, true);\n");
+		source.append("TitanCharString temp = TtcnLogger.end_event_log2str();\n");
+		source.append("TtcnLogger.log_matching_success(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, temp);\n");
+		source.append("}\n");
+		source.append("log_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMRECV : Severity.PORTEVENT_MCRECV;\n");
+		source.append("if (TtcnLogger.log_this_event(log_severity)) {\n");
+		source.append("TtcnLogger.begin_event_log2str();\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\": {0} : \");\n", inType.mDisplayName));
+		source.append("my_head.message.log();\n");
+		source.append("TitanCharString temp = TtcnLogger.end_event_log2str();\n");
+		source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(port_name, TitanLoggerApi.Msg__port__recv_operation.enum_type.{0}, my_head.sender_component, new TitanCharString(), temp, msg_head_count + 1);\n", operationName));
+		source.append("}\n");
 		if (!isCheck) {
 			source.append("remove_msg_queue_head();\n");
 		}
@@ -915,7 +930,21 @@ public class PortGenerator {
 		source.append("if (sender_pointer != null) {\n");
 		source.append("sender_pointer.assign(my_head.sender_component);\n");
 		source.append("}\n");
-		source.append("//FIXME implement, right now we just assume perfect match\n");
+		source.append("TtcnLogger.Severity log_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? Severity.MATCHING_MMSUCCESS : Severity.MATCHING_MCSUCCESS;\n");
+		source.append("if (TtcnLogger.log_this_event(log_severity)) {\n");
+		source.append("TtcnLogger.begin_event_log2str();\n");
+		source.append("value_template.log_match(my_head.message, true);\n");
+		source.append("TitanCharString temp = TtcnLogger.end_event_log2str();\n");
+		source.append("TtcnLogger.log_matching_success(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, temp);\n");
+		source.append("}\n");
+		source.append("log_severity = my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMRECV : Severity.PORTEVENT_MCRECV;\n");
+		source.append("if (TtcnLogger.log_this_event(log_severity)) {\n");
+		source.append("TtcnLogger.begin_event_log2str();\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\": {0} : \");\n", inType.mDisplayName));
+		source.append("my_head.message.log();\n");
+		source.append("TitanCharString temp = TtcnLogger.end_event_log2str();\n");
+		source.append("TtcnLogger.log_msgport_recv(port_name, TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, my_head.sender_component, new TitanCharString(), temp, msg_head_count + 1);\n");
+		source.append("}\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
