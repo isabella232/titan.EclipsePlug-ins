@@ -319,7 +319,7 @@ public class TitanOctetString extends Base_Type {
 		if (octets > 0) {
 			byte[] temp = new byte[octets];
 			for (int i = 0; i < octets; i++) {
-				temp[i] = (byte)val_ptr[i];
+				temp[i] = (byte)(val_ptr[i] & 0xFF);
 			}
 			text_buf.push_raw(temp.length, temp);
 		}
@@ -339,7 +339,7 @@ public class TitanOctetString extends Base_Type {
 			final byte[] temp = new byte[n_octets];
 			text_buf.pull_raw(n_octets, temp);
 			for (int i = 0; i < n_octets; i++) {
-				val_ptr[i] = (char) temp[i];
+				val_ptr[i] = (char) (temp[i] & 0xFF);
 			}
 		}
 	}
