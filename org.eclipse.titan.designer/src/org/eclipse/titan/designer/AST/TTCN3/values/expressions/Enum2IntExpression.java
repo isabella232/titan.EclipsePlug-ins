@@ -141,7 +141,7 @@ public final class Enum2IntExpression extends Expression_Value {
 		final IType tempType = value.getExpressionGovernor(timestamp, expectedValue);
 		if (tempType == null) {
 			value.getLocation().reportSemanticError(
-					"Please use a reference to an emurated value as the first operand of operation `enum2int()'");
+					"Please use a reference to an enumerated value as the first operand of operation `enum2int()'");
 			setIsErroneous(true);
 			return;
 		}
