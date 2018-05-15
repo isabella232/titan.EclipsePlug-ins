@@ -264,8 +264,6 @@ public class TTCN_Communication {
 		}
 
 		try {
-			//mc_socket = new Socket(MC_host, MC_port);
-			//mc_outputstream = new DataOutputStream(mc_socket.getOutputStream());
 			mc_socketchannel.set(SocketChannel.open());
 			mc_socketchannel.get().connect(new InetSocketAddress(MC_host, MC_port));
 			//FIXME register
@@ -840,8 +838,6 @@ public class TTCN_Communication {
 		buffer.flip();
 
 		try {
-//			mc_outputstream.write(msg);
-//			mc_outputstream.flush();
 			while (buffer.hasRemaining()) {
 				mc_socketchannel.get().write(buffer);
 			}
