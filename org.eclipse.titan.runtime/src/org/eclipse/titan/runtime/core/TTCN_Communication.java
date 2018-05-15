@@ -19,7 +19,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
-import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason.enum_type;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
@@ -866,7 +866,7 @@ public class TTCN_Communication {
 		}
 
 		TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_CONFIGURING : executorStateEnum.HC_CONFIGURING);
-		TtcnLogger.log_configdata(enum_type.received__from__mc, null);
+		TtcnLogger.log_configdata(ExecutorConfigdata_reason.enum_type.received__from__mc, null);
 
 		final Text_Buf temp_incoming_buf = incoming_buf.get();
 		final int config_str_len = temp_incoming_buf.pull_int().getInt();
@@ -890,9 +890,20 @@ public class TTCN_Communication {
 		// for now assume successful processing
 		boolean success = true;
 		if (success) {
+			try {
+				Module_List.post_init_modules();
+			} catch (TtcnError error) {
+				TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.initialization__of__modules__failed);
+				success = false;
+			}
+			
+		} else {
+			TtcnLogger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__failed, null);
+		}
+		if (success) {
 			send_configure_ack();
 			TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_IDLE : executorStateEnum.HC_ACTIVE);
-			TtcnLogger.log_configdata(enum_type.processing__succeeded, null);
+			TtcnLogger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__succeeded, null);
 		} else {
 			send_configure_nak();
 			TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_IDLE : executorStateEnum.HC_IDLE);
