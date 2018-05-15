@@ -20,6 +20,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason.enum_type;
+import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 /**
@@ -411,8 +412,8 @@ public class TTCN_Communication {
 				process_alive();
 				break;
 			case MSG_DONE_ACK:
-				//FIXME process_done_ack();
-				throw new TtcnError("MSG_DONE_ACK received, but not yet supported!");
+				process_done_ack(msg_end);
+				break;
 			case MSG_KILLED_ACK:
 				process_killed_ack();
 				break;
@@ -1042,6 +1043,22 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_alive(answer);
+	}
+
+	private static void process_done_ack(final int msg_end) {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final boolean answer = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final int verdict_int = temp_incoming_buf.pull_int().getInt();
+		final VerdictTypeEnum ptc_verdict = TitanVerdictType.VerdictTypeEnum.values()[verdict_int];
+		final String return_type = temp_incoming_buf.pull_string();
+		final int return_value_begin = temp_incoming_buf.get_pos();
+
+		try {
+			TTCN_Runtime.process_done_ack(answer, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, return_value_begin);
+		} finally {
+			temp_incoming_buf.cut_message();
+		}
 	}
 
 	private static void process_killed_ack() {

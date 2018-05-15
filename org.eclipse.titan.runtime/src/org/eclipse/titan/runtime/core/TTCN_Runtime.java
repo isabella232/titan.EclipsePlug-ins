@@ -2374,6 +2374,27 @@ public final class TTCN_Runtime {
 		running_alive_result.set(result_value);
 	}
 
+	public static void process_done_ack(final boolean done_status, final VerdictTypeEnum ptc_verdict, final String return_type, final byte[] data, final int return_value_len, final int return_value_begin) {
+		switch (executorState.get()) {
+		case MTC_DONE:
+			executorState.set(executorStateEnum.MTC_TESTCASE);
+			break;
+		case MTC_TERMINATING_TESTCASE:
+			break;
+		case PTC_DONE:
+			executorState.set(executorStateEnum.PTC_FUNCTION);
+			break;
+		default:
+			throw new TtcnError("Internal error: Message DONE_ACK arrived in invalid state.");
+		}
+
+		if (done_status) {
+			set_component_done(create_done_killed_compref.get(), ptc_verdict, return_type, data, return_value_len, return_value_begin);
+		}
+
+		create_done_killed_compref.set(TitanComponent.NULL_COMPREF);
+	}
+
 	public static void process_killed_ack(final boolean killed_status) {
 		switch (executorState.get()) {
 		case MTC_KILLED:
@@ -2480,6 +2501,46 @@ public final class TTCN_Runtime {
 			comp.thread.stop();
 			//TODO check how Java reacts in different situations
 			comp.thread_killed = true;
+		}
+	}
+
+	public static void set_component_done(final int component_reference, final VerdictTypeEnum ptc_verdict, final String return_type, final byte[] data, final int return_value_len, final int return_value_begin) {
+		switch (component_reference) {
+		case TitanComponent.ANY_COMPREF:
+			if (is_mtc()) {
+				any_component_done_status = TitanAlt_Status.ALT_YES;
+			} else {
+				throw new TtcnError("Internal error: TTCN_Runtime::set_component_done(ANY_COMPREF): can be used only on MTC.");
+			}
+			break;
+		case TitanComponent.ALL_COMPREF:
+			if (is_mtc()) {
+				all_component_done_status = TitanAlt_Status.ALT_YES;
+			} else {
+				throw new TtcnError("Internal error: TTCN_Runtime::set_component_done(ALL_COMPREF): can be used only on MTC.");
+			}
+			break;
+		case TitanComponent.NULL_COMPREF:
+		case TitanComponent.MTC_COMPREF:
+		case TitanComponent.SYSTEM_COMPREF:
+			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime::set_component_done: invalid component reference: {0}.", component_reference));
+		default: {
+			final int index = get_component_status_table_index(component_reference);
+			final component_status_table_struct temp_struct = component_status_table.get().get(index);
+			temp_struct.done_status = TitanAlt_Status.ALT_YES;
+			temp_struct.local_verdict = ptc_verdict;
+			if (return_type != null && return_type.length() > 0) {
+				temp_struct.return_type = return_type;
+				temp_struct.return_value = new Text_Buf();
+				//TODO can this be done faster?
+				byte[] temp = new byte[return_value_len];
+				System.arraycopy(data, return_value_begin, temp, 0, return_value_len);
+				temp_struct.return_value.push_raw(return_value_len, temp);
+			} else {
+				temp_struct.return_type = null;
+				temp_struct.return_value = null;
+			}
+		}
 		}
 	}
 
