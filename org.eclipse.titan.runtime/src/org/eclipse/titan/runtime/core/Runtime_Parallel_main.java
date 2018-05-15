@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
+import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 /**
  * The class handling parallel mode operations.
@@ -23,40 +24,51 @@ public class Runtime_Parallel_main {
 	}
 
 	//FIXME this is much more complicated
-		public static void parallelMain(final String[] argv) {
-			TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
-			TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
+	public static int parallelMain(final String[] argv) {
+		int returnValue = 0;
 
-			if (argv.length != 2) {
-				System.out.println("For now only 2 arguments can be passed the host address and port number");
-			}
+		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
+		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 
-			String local_addr = null;
-			final String MC_host = argv[0];
-			final int MC_port = Integer.parseInt(argv[1]);
+		if (argv.length != 2) {
+			System.out.println("For now only 2 arguments can be passed the host address and port number");
+		}
 
+		String local_addr = null;
+		final String MC_host = argv[0];
+		final int MC_port = Integer.parseInt(argv[1]);
+
+		try {
 			TTCN_Snapshot.initialize();
 			TtcnLogger.initialize_logger();
 			//TTCN_Logger::set_executable_name(argv[0]);
 			TtcnLogger.set_start_time();
 
-			Module_List.pre_init_modules();
-			int ret_val = TTCN_Runtime.hc_main(local_addr, MC_host, MC_port);
-			if (!TTCN_Runtime.is_hc()) {
-				System.out.println("it is a HC");
-				//FIXME implement
-			} else {
-				System.out.println("it is not a HC");
+			try {
+				Module_List.pre_init_modules();
+				returnValue = TTCN_Runtime.hc_main(local_addr, MC_host, MC_port);
+				if (!TTCN_Runtime.is_hc()) {
+					System.out.println("it is a HC");
+					//FIXME implement
+				} else {
+					System.out.println("it is not a HC");
+				}
+				//FIXME implement missing parts
+			} catch (TtcnError error) {
+				returnValue = -1;
 			}
-//			Module_List.post_init_modules();
+		} catch (Throwable t) {
+			TtcnLogger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
 
-//			for (final TTCN_Module module : Module_List.modules) {
-//				module.control();
-//			}
-
-//			TTCN_Runtime.log_verdict_statistics();
-
-			TtcnLogger.terminate_logger();
-			TTCN_Snapshot.terminate();
+			returnValue = -1;
 		}
+
+		//FIXME implement clears
+		TTCN_EncDec.clear_error();
+
+		TtcnLogger.terminate_logger();
+		TTCN_Snapshot.terminate();
+
+		return returnValue;
+	}
 }
