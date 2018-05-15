@@ -91,14 +91,14 @@ public class TitanComponent_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported component reference template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	// originally operator=
 	public TitanComponent_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -134,7 +134,7 @@ public class TitanComponent_template extends Base_Template {
 	// originally operator=
 	public TitanComponent_template assign(final int otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue;
 
 		return this;
@@ -145,7 +145,7 @@ public class TitanComponent_template extends Base_Template {
 		otherValue.mustBound("Assignment of an unbound component reference to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue.componentValue;
 
 		return this;

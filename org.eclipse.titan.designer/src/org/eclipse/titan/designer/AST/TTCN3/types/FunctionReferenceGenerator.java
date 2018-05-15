@@ -557,7 +557,7 @@ public class FunctionReferenceGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
-		source.append("setSelection(other_value);\n");
+		source.append("set_selection(other_value);\n");
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public {0}_template() '{'\n", def.genName));
@@ -602,14 +602,14 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("public {0}_template assign( final template_sel other_value ) '{'\n", def.genName));
 		source.append("checkSingleSelection(other_value);\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(other_value);\n");
+		source.append("set_selection(other_value);\n");
 		source.append("return this;\n");
 		source.append("}\n");
 
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0}_template assign( final {0}.function_pointer other_value ) '{'\n", def.genName));
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = other_value;\n");
 		source.append("return this;\n");
 		source.append("}\n");
@@ -618,7 +618,7 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("public {0}_template assign( final {0} other_value ) '{'\n", def.genName));
 		source.append(MessageFormat.format("other_value.mustBound(\"Assignment of an unbound {0} value to a template.\");\n", def.displayName));
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = other_value.referred_function;\n");
 		source.append("return this;\n");
 		source.append("}\n");
@@ -716,7 +716,7 @@ public class FunctionReferenceGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid type for an {0} template.\");\n", def.displayName));
 		source.append("}\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(templateType);\n");
+		source.append("set_selection(templateType);\n");
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(listLength);\n", def.genName));
 		source.append("for(int i = 0; i < listLength; i++) {\n");
 		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", def.genName));

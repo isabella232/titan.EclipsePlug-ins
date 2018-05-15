@@ -63,17 +63,17 @@ public abstract class Base_Template {
 		is_ifPresent = false;
 	}
 
-	protected void setSelection(final template_sel otherValue) {
+	protected void set_selection(final template_sel otherValue) {
 		templateSelection = otherValue;
 		is_ifPresent = false;
 	}
 
-	protected void setSelection(final Base_Template otherValue) {
+	protected void set_selection(final Base_Template otherValue) {
 		templateSelection = otherValue.templateSelection;
 		is_ifPresent = otherValue.is_ifPresent;
 	}
 
-	public template_sel getSelection() {
+	public template_sel get_selection() {
 		return templateSelection;
 	}
 

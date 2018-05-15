@@ -46,7 +46,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		default:
 			throw new TtcnError("Initializing a template with an unbound value of type CHARACTER STRING.identification.");
 		}
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 	private void copy_template(final TitanCharacter_String_identification_template other_value) {
 		switch (other_value.templateSelection) {
@@ -90,7 +90,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		default:
 			throw new TtcnError("Copying an uninitialized template of union type CHARACTER STRING.identification.");
 		}
-		setSelection(other_value);
+		set_selection(other_value);
 	}
 
 	public TitanCharacter_String_identification_template() {
@@ -149,7 +149,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	public TitanCharacter_String_identification_template assign( final template_sel other_value ) {
 		checkSingleSelection(other_value);
 		cleanUp();
-		setSelection(other_value);
+		set_selection(other_value);
 		return this;
 	}
 
@@ -334,7 +334,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			throw new TtcnError("Internal error: Setting an invalid list for a template of union type CHARACTER STRING.identification.");
 		}
 		cleanUp();
-		setSelection(template_type);
+		set_selection(template_type);
 		value_list = new ArrayList<TitanCharacter_String_identification_template>(list_length);
 		for(int i = 0 ; i < list_length; i++) {
 			value_list.add(new TitanCharacter_String_identification_template());
@@ -403,7 +403,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value = new TitanCharacter_String_identification_syntaxes_template();
 			}
 			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.ALT_Syntaxes;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanCharacter_String_identification_syntaxes_template)single_value;
 	}
@@ -428,7 +428,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value = new TitanObjectid_template();
 			}
 			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.ALT_Syntax;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanObjectid_template)single_value;
 	}
@@ -453,7 +453,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value = new TitanInteger_template();
 			}
 			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.ALT_Presentation__context__id;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanInteger_template)single_value;
 	}
@@ -478,7 +478,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value = new TitanCharacter_String_identification_context__negotiation_template();
 			}
 			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.ALT_Context__negotiation;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanCharacter_String_identification_context__negotiation_template)single_value;
 	}
@@ -503,7 +503,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value = new TitanObjectid_template();
 			}
 			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.ALT_Transfer__syntax;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanObjectid_template)single_value;
 	}
@@ -528,7 +528,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 				single_value = new TitanAsn_Null_template();
 			}
 			single_value_union_selection = TitanCharacter_String_identification.union_selection_type.ALT_Fixed;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanAsn_Null_template)single_value;
 	}

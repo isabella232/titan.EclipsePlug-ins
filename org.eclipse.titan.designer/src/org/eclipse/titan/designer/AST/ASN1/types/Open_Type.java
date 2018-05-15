@@ -775,7 +775,7 @@ public final class Open_Type extends ASN1Type {
 			}
 
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-			expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", externalId));
+			expression.expression.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", externalId));
 			expression.expression.append("case UNINITIALIZED_TEMPLATE:\n");
 			expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
 			expression.expression.append("break;\n");

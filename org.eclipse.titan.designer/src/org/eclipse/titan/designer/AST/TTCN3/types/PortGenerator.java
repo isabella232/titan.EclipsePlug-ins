@@ -801,7 +801,7 @@ public class PortGenerator {
 		final String operationName = isCheck ? "check__receive__op" : "receive__op";
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
-		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
+		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Receive operation using '*' as matching template\");\n");
 		source.append("}\n");
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -881,7 +881,7 @@ public class PortGenerator {
 		final String typeTemplateName = inType.mJavaTemplateName;
 
 		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
-		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
+		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Trigger operation using '*' as matching template\");\n");
 		source.append("}\n");
 		source.append("if (message_queue.isEmpty()) {\n");
@@ -1486,7 +1486,7 @@ public class PortGenerator {
 
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
-			source.append("if (getreply_template.return_value().getSelection() == template_sel.ANY_OR_OMIT) {\n");
+			source.append("if (getreply_template.return_value().get_selection() == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '*' as return value matching template\");\n", printedFunctionName));
 			source.append("}\n");
 		}

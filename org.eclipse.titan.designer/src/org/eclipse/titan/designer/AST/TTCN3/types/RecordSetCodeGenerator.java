@@ -427,7 +427,7 @@ public class RecordSetCodeGenerator {
 			if (fi.isOptional) {
 				aSb.append( "\t\t\tif ( optional_sel.OPTIONAL_OMIT.equals(" );
 				aSb.append( fi.mVarName );
-				aSb.append(".getSelection()) || ");
+				aSb.append(".get_selection()) || ");
 				aSb.append(fi.mVarName);
 				aSb.append( ".isBound() ) { return true; }\n" );
 			} else {
@@ -468,7 +468,7 @@ public class RecordSetCodeGenerator {
 			if (fi.isOptional) {
 				aSb.append( "\t\t\tif ( !optional_sel.OPTIONAL_OMIT.equals(" );
 				aSb.append( fi.mVarName );
-				aSb.append(".getSelection()) && !");
+				aSb.append(".get_selection()) && !");
 				aSb.append(fi.mVarName);
 				aSb.append( ".isValue() ) { return false; }\n" );
 			} else {
@@ -1538,7 +1538,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\tif (templateSelection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\tfinal template_sel old_selection = templateSelection;\n");
 		source.append("\t\t\tcleanUp();\n");
-		source.append("\t\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( MessageFormat.format( "\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 		}
@@ -1585,12 +1585,12 @@ public class RecordSetCodeGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );
-		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tswitch (other_value.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
 		source.append("\t\t\tcopyValue(other_value.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
-		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
@@ -1611,7 +1611,7 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel other_value ) '{'\n", genName ) );
 		source.append("\t\tcheckSingleSelection(other_value);\n");
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tsetSelection(other_value);\n");
+		source.append("\t\tset_selection(other_value);\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
@@ -1654,12 +1654,12 @@ public class RecordSetCodeGenerator {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tswitch (other_value.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
 		source.append("\t\t\tcopyValue(other_value.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
-		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
@@ -1694,7 +1694,7 @@ public class RecordSetCodeGenerator {
 			source.append( MessageFormat.format( "\t\t\tget{0}().cleanUp();\n", fi.mJavaVarName ) );
 			source.append("\t\t}\n");
 		}
-		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t}\n");
 
 		source.append('\n');
@@ -1702,7 +1702,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\tswitch (other_value.templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get{0}().getSelection()) '{'\n", fi.mJavaVarName ) );
+			source.append( MessageFormat.format( "\t\t\tif (template_sel.UNINITIALIZED_TEMPLATE == other_value.get{0}().get_selection()) '{'\n", fi.mJavaVarName ) );
 			source.append( MessageFormat.format( "\t\t\t\tget{0}().cleanUp();\n", fi.mJavaVarName ) );
 			source.append("\t\t\t} else {\n");
 			source.append( MessageFormat.format( "\t\t\t\tget{0}().assign(other_value.get{0}());\n", fi.mJavaVarName ) );
@@ -1724,7 +1724,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
 		source.append("\t\t}\n");
-		source.append("\t\tsetSelection(other_value);\n");
+		source.append("\t\tset_selection(other_value);\n");
 		source.append("\t}\n");
 	}
 
@@ -1848,7 +1848,7 @@ public class RecordSetCodeGenerator {
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", displayName ) );
 		aSb.append("\t\t\t}\n");
 		aSb.append("\t\t\tcleanUp();\n");
-		aSb.append("\t\t\tsetSelection(template_type);\n");
+		aSb.append("\t\t\tset_selection(template_type);\n");
 		aSb.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(list_length);\n", genName ) );
 		aSb.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
         aSb.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", genName));
@@ -2406,12 +2406,12 @@ public class RecordSetCodeGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public {0}_template(final Optional<{0}> other_value) '{'\n", className));
-		source.append("switch (other_value.getSelection()) {\n");
+		source.append("switch (other_value.get_selection()) {\n");
 		source.append("case OPTIONAL_PRESENT:\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("break;\n");
 		source.append("case OPTIONAL_OMIT:\n");
-		source.append("setSelection(template_sel.OMIT_VALUE);\n");
+		source.append("set_selection(template_sel.OMIT_VALUE);\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", classDisplayName));
@@ -2422,14 +2422,14 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("public {0}_template assign(final template_sel other_value) '{'\n", className));
 		source.append("checkSingleSelection(other_value);\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(other_value);\n");
+		source.append("set_selection(other_value);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0}_template assign(final TitanNull_Type other_value) '{'\n", className));
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
@@ -2439,7 +2439,7 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound value of type {0} to a template.\");\n", classDisplayName));
 		source.append("}\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
@@ -2470,12 +2470,12 @@ public class RecordSetCodeGenerator {
 
 		source.append(MessageFormat.format("public {0}_template assign(final Optional<{0}> other_value) '{'\n", className));
 		source.append("cleanUp();\n");
-		source.append("switch (other_value.getSelection()) {\n");
+		source.append("switch (other_value.get_selection()) {\n");
 		source.append("case OPTIONAL_PRESENT:\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("break;\n");
 		source.append("case OPTIONAL_OMIT:\n");
-		source.append("setSelection(template_sel.OMIT_VALUE);\n");
+		source.append("set_selection(template_sel.OMIT_VALUE);\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Assignment of an unbound optional field to a template of type {0} .\");\n", classDisplayName));
@@ -2501,7 +2501,7 @@ public class RecordSetCodeGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", classDisplayName));
 		source.append("}\n");
-		source.append("setSelection(other_value);\n");
+		source.append("set_selection(other_value);\n");
 		source.append("}\n\n");
 
 		source.append("public boolean isPresent() {\n");
@@ -2573,7 +2573,7 @@ public class RecordSetCodeGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Setting an invalid list for a template of type {0}.\");\n", classDisplayName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tcleanUp();\n");
-		source.append("\t\t\tsetSelection(template_type);\n");
+		source.append("\t\t\tset_selection(template_type);\n");
 		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(list_length);\n", className ) );
 		source.append("\t\t\tfor(int i = 0 ; i < list_length; i++) {\n");
 		source.append(MessageFormat.format("\t\t\t\tlist_value.add(new {0}_template());\n", className));
@@ -2749,7 +2749,7 @@ public class RecordSetCodeGenerator {
 						} else {
 							source.append(is_equal ? " && " : " || ");
 						}
-						source.append(MessageFormat.format("{0}.getSelection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
+						source.append(MessageFormat.format("{0}.get_selection() {1} union_selection_type.ALT_{2}", fieldName, is_equal ? "==" : "!=", field.nthfieldname));
 					}
 					fieldName = MessageFormat.format("{0}.get{1}()", fieldName, FieldSubReference.getJavaGetterName( field.nthfieldname ));
 

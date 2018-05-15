@@ -74,14 +74,14 @@ public class TitanObjectid_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported objid template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	// originally operator=
 	public TitanObjectid_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -92,7 +92,7 @@ public class TitanObjectid_template extends Base_Template {
 			throw new TtcnError("Assignment of an unbound objid value to a template.");
 		}
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanObjectid(otherValue);
 
 		return this;
@@ -222,7 +222,7 @@ public class TitanObjectid_template extends Base_Template {
 			throw new TtcnError("Setting an invalid list type for an objid template.");
 		}
 		cleanUp();
-		setSelection(template_type);
+		set_selection(template_type);
 		value_list = new ArrayList<TitanObjectid_template>(list_length);
 		for (int i = 0; i < list_length; i++) {
 			value_list.add(new TitanObjectid_template());

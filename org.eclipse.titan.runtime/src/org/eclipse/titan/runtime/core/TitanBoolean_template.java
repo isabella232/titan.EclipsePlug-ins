@@ -88,7 +88,7 @@ public class TitanBoolean_template extends Base_Template {
 	public TitanBoolean_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -96,7 +96,7 @@ public class TitanBoolean_template extends Base_Template {
 	// originally operator=
 	public TitanBoolean_template assign(final boolean otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 
 		return this;
@@ -107,7 +107,7 @@ public class TitanBoolean_template extends Base_Template {
 		otherValue.mustBound("Assignment of an unbound boolean value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanBoolean(otherValue);
 
 		return this;
@@ -144,7 +144,7 @@ public class TitanBoolean_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported boolean template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	public boolean and(final TitanBoolean otherValue) {
@@ -245,7 +245,7 @@ public class TitanBoolean_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(templateType);
+		set_selection(templateType);
 		value_list = new ArrayList<TitanBoolean_template>(listLength);
 		for (int i = 0; i < listLength; i++) {
 			value_list.add(new TitanBoolean_template());

@@ -64,7 +64,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			identification = new TitanCharacter_String_identification_template();
 			data__value__descriptor = new TitanUniversalCharString_template();
 			string__value = new TitanOctetString_template();
@@ -93,12 +93,12 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	public TitanCharacter_String_template( final Optional<TitanCharacter_String> other_value ) {
-		switch (other_value.getSelection()) {
+		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(other_value.constGet());
 			break;
 		case OPTIONAL_OMIT:
-			setSelection(template_sel.OMIT_VALUE);
+			set_selection(template_sel.OMIT_VALUE);
 			break;
 		default:
 			throw new TtcnError("Creating a template of type CHARACTER STRING from an unbound optional field.");
@@ -109,7 +109,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	public TitanCharacter_String_template assign( final template_sel other_value ) {
 		checkSingleSelection(other_value);
 		cleanUp();
-		setSelection(other_value);
+		set_selection(other_value);
 		return this;
 	}
 
@@ -149,12 +149,12 @@ public class TitanCharacter_String_template extends Base_Template {
 
 	public TitanCharacter_String_template assign( final Optional<TitanCharacter_String> other_value ) {
 		cleanUp();
-		switch (other_value.getSelection()) {
+		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(other_value.constGet());
 			break;
 		case OPTIONAL_OMIT:
-			setSelection(template_sel.OMIT_VALUE);
+			set_selection(template_sel.OMIT_VALUE);
 			break;
 		default:
 			throw new TtcnError("Assignment of an unbound optional field to a template of type CHARACTER STRING.");
@@ -182,23 +182,23 @@ public class TitanCharacter_String_template extends Base_Template {
 		} else {
 			getString__value().cleanUp();
 		}
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
 	private void copyTemplate(final TitanCharacter_String_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIdentification().getSelection()) {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIdentification().get_selection()) {
 				getIdentification().cleanUp();
 			} else {
 				getIdentification().assign(other_value.getIdentification());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value__descriptor().getSelection()) {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value__descriptor().get_selection()) {
 				getData__value__descriptor().cleanUp();
 			} else {
 				getData__value__descriptor().assign(other_value.getData__value__descriptor());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getString__value().getSelection()) {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getString__value().get_selection()) {
 				getString__value().cleanUp();
 			} else {
 				getString__value().assign(other_value.getString__value());
@@ -219,7 +219,7 @@ public class TitanCharacter_String_template extends Base_Template {
 		default:
 			throw new TtcnError("Copying an uninitialized template of type CHARACTER STRING.");
 		}
-		setSelection(other_value);
+		set_selection(other_value);
 	}
 
 	public boolean isPresent() {
@@ -302,7 +302,7 @@ public class TitanCharacter_String_template extends Base_Template {
 			throw new TtcnError("Setting an invalid list for a template of type CHARACTER STRING.");
 		}
 		cleanUp();
-		setSelection(template_type);
+		set_selection(template_type);
 		list_value = new ArrayList<TitanCharacter_String_template>(list_length);
 		for(int i = 0 ; i < list_length; i++) {
 			list_value.add(new TitanCharacter_String_template());

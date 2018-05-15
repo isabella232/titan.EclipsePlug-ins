@@ -164,7 +164,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		optionalSelection = optional_sel.OPTIONAL_OMIT;
 	}
 
-	public optional_sel getSelection() {
+	public optional_sel get_selection() {
 		return optionalSelection;
 	}
 

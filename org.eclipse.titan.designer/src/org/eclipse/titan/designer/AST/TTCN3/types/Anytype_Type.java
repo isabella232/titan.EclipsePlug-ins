@@ -848,7 +848,7 @@ public final class Anytype_Type extends Type {
 			}
 
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-			expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", externalId));
+			expression.expression.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", externalId));
 			expression.expression.append("case UNINITIALIZED_TEMPLATE:\n");
 			expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
 			expression.expression.append("break;\n");
@@ -884,7 +884,7 @@ public final class Anytype_Type extends Type {
 					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (subReferenceIndex == subreferences.size()-1) {
-				expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", temporalId));
+				expression.expression.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", temporalId));
 				expression.expression.append("case OPTIONAL_UNBOUND:\n");
 				expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
 				expression.expression.append("break;\n");
@@ -912,7 +912,7 @@ public final class Anytype_Type extends Type {
 				nextType.generateCodeIsPresentBoundChosen(aData, expression, subreferences, subReferenceIndex + 1, globalId, temporalId2, isTemplate, optype, field);
 			} else {
 				//still more to go
-				expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", temporalId));
+				expression.expression.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", temporalId));
 				expression.expression.append("case OPTIONAL_UNBOUND:\n");
 				expression.expression.append("case OPTIONAL_OMIT:\n");
 				expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));

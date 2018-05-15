@@ -213,7 +213,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	public TitanOctetString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -221,7 +221,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 	// originally operator=
 	public TitanOctetString_template assign(final char[] otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
 
 		return this;
@@ -232,7 +232,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue);
 
 		return this;
@@ -242,7 +242,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		otherValue.mustBound("Assignment of an unbound octetstring value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanOctetString(otherValue.get_nibble());
 
 		return this;
@@ -289,7 +289,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported octetstring template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	//originally operator[](int)
@@ -582,7 +582,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			throw new TtcnError("Setting an invalid type for an octetstring template.");
 		}
 		cleanUp();
-		setSelection(template_type);
+		set_selection(template_type);
 		if (template_type != template_sel.DECODE_MATCH) {
 			value_list = new ArrayList<TitanOctetString_template>(list_length);
 			for (int i = 0; i < list_length; ++i) {

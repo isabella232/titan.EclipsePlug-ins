@@ -1030,12 +1030,12 @@ public class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template( final Optional<{0}> other_value ) '{'\n", genName ) );
-		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tswitch (other_value.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
 		source.append("\t\t\tcopy_value(other_value.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
-		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Creating a template of type {0} from an unbound optional field.\");\n", displayName ) );
@@ -1075,7 +1075,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\t\t\t\tvalue_elements.add( new {0}() );\n", ofTypeName ) );
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
-		source.append("\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t}\n");
 
 		source.append('\n');
@@ -1117,7 +1117,7 @@ public class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", displayName));
 		source.append("\t\t}\n");
-		source.append("\t\tsetSelection(other_value);\n");
+		source.append("\t\tset_selection(other_value);\n");
 		source.append("\t}\n");
 	}
 
@@ -1271,7 +1271,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final template_sel other_value ) '{'\n", genName ) );
 		source.append("\t\tcheckSingleSelection(other_value);\n");
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tsetSelection(other_value);\n");
+		source.append("\t\tset_selection(other_value);\n");
 		source.append("\t\treturn this;\n");
 		source.append("\t}\n");
 
@@ -1314,12 +1314,12 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template assign( final Optional<{0}> other_value ) '{'\n", genName ) );
 		source.append("\t\tcleanUp();\n");
-		source.append("\t\tswitch (other_value.getSelection()) {\n");
+		source.append("\t\tswitch (other_value.get_selection()) {\n");
 		source.append("\t\tcase OPTIONAL_PRESENT:\n");
 		source.append("\t\t\tcopy_value(other_value.constGet());\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tcase OPTIONAL_OMIT:\n");
-		source.append("\t\t\tsetSelection(template_sel.OMIT_VALUE);\n");
+		source.append("\t\t\tset_selection(template_sel.OMIT_VALUE);\n");
 		source.append("\t\t\tbreak;\n");
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Assignment of an unbound optional field to a template of type {0}.\");\n", displayName ) );
@@ -1611,7 +1611,7 @@ public class RecordOfGenerator {
 		source.append("\t\tfinal template_sel old_selection = templateSelection;\n");
 		source.append("\t\tif (old_selection != template_sel.SPECIFIC_VALUE) {\n");
 		source.append("\t\t\tcleanUp();\n");
-		source.append("\t\t\tsetSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("\t\t\tset_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("\t\t\tvalue_elements = null;\n");
 		source.append("\t\t}\n");
 		source.append("\t\tif (value_elements == null) {\n");
@@ -1666,7 +1666,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<elem_count; i++)\n");
 		source.append("\t\t\t{\n");
-		source.append("\t\t\tswitch (value_elements.get(i).getSelection())\n");
+		source.append("\t\t\tswitch (value_elements.get(i).get_selection())\n");
 		source.append("\t\t\t\t{\n");
 		source.append("\t\t\t\tcase OMIT_VALUE:\n");
 		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit element.\", op_name ) );\n");
@@ -1692,7 +1692,7 @@ public class RecordOfGenerator {
 			source.append("\t\t		}\n");
 			source.append("\t\t	}\n");
 			source.append("\t\t	for (int i=0; i<elem_count; i++) {\n");
-			source.append("\t\t		switch (set_items.get(i).getSelection()) {\n");
+			source.append("\t\t		switch (set_items.get(i).get_selection()) {\n");
 			source.append("\t\t		case OMIT_VALUE:\n");
 			source.append("\t\t			throw new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit element.\", op_name ) );\n");
 			source.append("\t\t		case ANY_OR_OMIT:\n");
@@ -1889,7 +1889,7 @@ public class RecordOfGenerator {
 		source.append("\t\tdefault:\n");
 		source.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Internal error: Setting an invalid type for a template of type {0}.\");\n", displayName ) );
 		source.append("\t\t}\n");
-		source.append("\t\tsetSelection(template_type);\n");
+		source.append("\t\tset_selection(template_type);\n");
 		source.append("\t}\n");
 	}
 
@@ -2288,7 +2288,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
-		source.append("\t\t\t\tif (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {\n");
+		source.append("\t\t\t\tif (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {\n");
 		source.append("\t\t\t\t\treturn true;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
@@ -2298,7 +2298,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\treturn false;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i = 0; i < value_elements.size(); i++) {\n");
-		source.append("\t\t\t\tif (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {\n");
+		source.append("\t\t\t\tif (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("\t\t\t\t\treturn true;\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");

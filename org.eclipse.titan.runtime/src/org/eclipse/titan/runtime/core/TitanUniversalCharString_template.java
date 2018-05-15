@@ -176,7 +176,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	public TitanUniversalCharString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -184,7 +184,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	// originally operator=
 	public TitanUniversalCharString_template assign(final String otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
 
 		return this;
@@ -195,7 +195,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		otherValue.mustBound("Assignment of an unbound universal charstring value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
 
 		return this;
@@ -205,7 +205,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		otherValue.mustBound("Assignment of an unbound universal charstring element to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
 
 		return this;
@@ -215,7 +215,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		otherValue.mustBound("Assignment of an unbound charstring value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(otherValue);
 
 		return this;
@@ -225,7 +225,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		otherValue.mustBound("Assignment of an unbound charstring element to a universal charstring template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanUniversalCharString(String.valueOf(otherValue.get_char()));
 
 		return this;
@@ -292,7 +292,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Copying an uninitialized/unsupported charstring template to a universal charstring template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	private void copyTemplate(final TitanUniversalCharString_template otherValue) {
@@ -333,7 +333,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Copying an uninitialized/unsupported universal charstring template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	// originally operator[](int index_value)
@@ -507,21 +507,21 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		switch (otherValue) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			setSelection(otherValue);
+			set_selection(otherValue);
 			value_list = new ArrayList<TitanUniversalCharString_template>(lenght);
 			for (int i = 0; i < lenght; ++i) {
 				value_list.add(new TitanUniversalCharString_template());
 			}
 			break;
 		case VALUE_RANGE:
-			setSelection(template_sel.VALUE_RANGE);
+			set_selection(template_sel.VALUE_RANGE);
 			min_is_set = false;
 			max_is_set = false;
 			min_is_exclusive = false;
 			max_is_exclusive = false;
 			break;
 		case DECODE_MATCH:
-			setSelection(template_sel.DECODE_MATCH);
+			set_selection(template_sel.DECODE_MATCH);
 			break;
 		default:
 			throw new TtcnError("Setting an invalid type for a universal charstring template.");

@@ -68,7 +68,7 @@ public class TitanAsn_Null_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported template of ASN.1 NULL type.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	//originally clean_up
@@ -88,7 +88,7 @@ public class TitanAsn_Null_template extends Base_Template {
 	public TitanAsn_Null_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -100,7 +100,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 
 		return this;
 	}
@@ -212,7 +212,7 @@ public class TitanAsn_Null_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(templateType);
+		set_selection(templateType);
 		value_list = new ArrayList<TitanAsn_Null_template>(listLength);
 		for (int i = 0; i < listLength; i++) {
 			value_list.add(new TitanAsn_Null_template());

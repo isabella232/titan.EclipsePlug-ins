@@ -134,7 +134,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	public TitanCharString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -142,7 +142,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	// originally operator=
 	public TitanCharString_template assign(final String otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
 
 		return this;
@@ -153,7 +153,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		otherValue.mustBound("Assignment of an unbound charstring value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanCharString(otherValue);
 
 		return this;
@@ -211,7 +211,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported charstring template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	// originally operator[](int index_value)
@@ -374,21 +374,21 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		switch (templateType) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<TitanCharString_template>(listLength);
 			for (int i = 0; i < listLength; i++) {
 				value_list.add(new TitanCharString_template());
 			}
 			break;
 		case VALUE_RANGE:
-			setSelection(template_sel.VALUE_RANGE);
+			set_selection(template_sel.VALUE_RANGE);
 			min_is_set = false;
 			max_is_set = false;
 			min_is_exclusive = false;
 			max_is_exclusive = false;
 			break;
 		case DECODE_MATCH:
-			setSelection(template_sel.DECODE_MATCH);
+			set_selection(template_sel.DECODE_MATCH);
 			break;
 		default:
 			throw new TtcnError("Setting an invalid type for a charstring template.");

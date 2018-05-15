@@ -51,7 +51,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			presentation__context__id = new TitanInteger_template();
 			transfer__syntax = new TitanObjectid_template();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -78,12 +78,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template( final Optional<TitanEmbedded_PDV_identification_context__negotiation> other_value ) {
-		switch (other_value.getSelection()) {
+		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(other_value.constGet());
 			break;
 		case OPTIONAL_OMIT:
-			setSelection(template_sel.OMIT_VALUE);
+			set_selection(template_sel.OMIT_VALUE);
 			break;
 		default:
 			throw new TtcnError("Creating a template of type EMBEDDED PDV.identification.context-negotiation from an unbound optional field.");
@@ -94,7 +94,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	public TitanEmbedded_PDV_identification_context__negotiation_template assign( final template_sel other_value ) {
 		checkSingleSelection(other_value);
 		cleanUp();
-		setSelection(other_value);
+		set_selection(other_value);
 		return this;
 	}
 
@@ -134,12 +134,12 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template assign( final Optional<TitanEmbedded_PDV_identification_context__negotiation> other_value ) {
 		cleanUp();
-		switch (other_value.getSelection()) {
+		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(other_value.constGet());
 			break;
 		case OPTIONAL_OMIT:
-			setSelection(template_sel.OMIT_VALUE);
+			set_selection(template_sel.OMIT_VALUE);
 			break;
 		default:
 			throw new TtcnError("Assignment of an unbound optional field to a template of type EMBEDDED PDV.identification.context-negotiation.");
@@ -158,18 +158,18 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		} else {
 			getTransfer__syntax().cleanUp();
 		}
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
 	private void copyTemplate(final TitanEmbedded_PDV_identification_context__negotiation_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPresentation__context__id().getSelection()) {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPresentation__context__id().get_selection()) {
 				getPresentation__context__id().cleanUp();
 			} else {
 				getPresentation__context__id().assign(other_value.getPresentation__context__id());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTransfer__syntax().getSelection()) {
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTransfer__syntax().get_selection()) {
 				getTransfer__syntax().cleanUp();
 			} else {
 				getTransfer__syntax().assign(other_value.getTransfer__syntax());
@@ -190,7 +190,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		default:
 			throw new TtcnError("Copying an uninitialized template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
-		setSelection(other_value);
+		set_selection(other_value);
 	}
 
 	public boolean isPresent() {
@@ -268,7 +268,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			throw new TtcnError("Setting an invalid list for a template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		cleanUp();
-		setSelection(template_type);
+		set_selection(template_type);
 		list_value = new ArrayList<TitanEmbedded_PDV_identification_context__negotiation_template>(list_length);
 		for(int i = 0 ; i < list_length; i++) {
 			list_value.add(new TitanEmbedded_PDV_identification_context__negotiation_template());

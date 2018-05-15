@@ -88,13 +88,13 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	}
 
 	@Override
-	protected void setSelection(final template_sel otherValue) {
-		super.setSelection(otherValue);
+	protected void set_selection(final template_sel otherValue) {
+		super.set_selection(otherValue);
 		clean_up_intervals();
 	}
 
-	protected void setSelection(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
-		super.setSelection(otherValue);
+	protected void set_selection(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
+		super.set_selection(otherValue);
 		clean_up_intervals();
 
 		if (otherValue.templateSelection == template_sel.SPECIFIC_VALUE && otherValue.permutationIntervals != null) {
@@ -206,7 +206,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			}
 		}
 
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
 	private void copy_template(final TitanTemplateArray<Tvalue, Ttemplate> otherValue) {
@@ -249,7 +249,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported array template.");
 		}
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	private TitanTemplateArray(final Class<Tvalue> classValue, final Class<Ttemplate> classTemplate) {
@@ -308,7 +308,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		if (old_selection != template_sel.SPECIFIC_VALUE) {
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = null;
 		}
 
@@ -320,7 +320,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 				for (int i = singleSize; i < length; ++i) {
 					try {
 						final Ttemplate helper = classTemplate.newInstance();
-						helper.setSelection(template_sel.ANY_VALUE);
+						helper.set_selection(template_sel.ANY_VALUE);
 						single_value[i] = helper;
 					} catch (InstantiationException e) {
 						throw new TtcnError(MessageFormat.format("Internal error: class `{0}'' could not be instantiated ({1}).", classTemplate, e));
@@ -380,14 +380,14 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 		return this;
 	}
 
 	// originally operator=(null_type)
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanNull_Type otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		return this;
 	}
 
@@ -510,7 +510,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 			}
 
 			for (int i = 0; i < count; ++i) {
-				switch (single_value[i].getSelection()) {
+				switch (single_value[i].get_selection()) {
 				case OMIT_VALUE:
 					throw new TtcnError("Performing" + opName + "of() operation on an array template containing omit element.");
 				case ANY_OR_OMIT:
@@ -599,7 +599,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		default:
 			throw new TtcnError("Internal error: Setting an invalid type for an array template.");
 		}
-		setSelection(templateType);
+		set_selection(templateType);
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1145,7 +1145,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 
 		if (value_ptr == null || value_size < 0 ||
 				template_ptr == null || template_size < 0 ||
-				template_ptr.getSelection() != template_sel.SPECIFIC_VALUE) {
+				template_ptr.get_selection() != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Internal error: match_permutation_arry: invalid argument.");
 		}
 

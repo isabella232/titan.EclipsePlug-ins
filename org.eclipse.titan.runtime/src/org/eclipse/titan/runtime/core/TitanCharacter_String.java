@@ -83,7 +83,7 @@ public class TitanCharacter_String extends Base_Type {
 
 	public boolean isBound() {
 		if ( identification.isBound() ) { return true; }
-		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) || data__value__descriptor.isBound() ) { return true; }
+		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.isBound() ) { return true; }
 		if ( string__value.isBound() ) { return true; }
 		return false;
 	}
@@ -94,7 +94,7 @@ public class TitanCharacter_String extends Base_Type {
 
 	public boolean isValue() {
 		if ( !identification.isValue() ) { return false; }
-		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.getSelection()) && !data__value__descriptor.isValue() ) { return false; }
+		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) && !data__value__descriptor.isValue() ) { return false; }
 		if ( !string__value.isValue() ) { return false; }
 		return true;
 	}

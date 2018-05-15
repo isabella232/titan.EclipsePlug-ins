@@ -233,7 +233,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				name = new TitanCharString_template();
 				id = new TitanInteger_template();
 				end = new DefaultEnd_template();
@@ -262,12 +262,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public DefaultOp_template( final Optional<DefaultOp> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.DefaultOp from an unbound optional field.");
@@ -278,7 +278,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public DefaultOp_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -318,12 +318,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public DefaultOp_template assign( final Optional<DefaultOp> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.DefaultOp.");
@@ -347,23 +347,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getEnd().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final DefaultOp_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().get_selection()) {
 					getName().cleanUp();
 				} else {
 					getName().assign(other_value.getName());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getId().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getId().get_selection()) {
 					getId().cleanUp();
 				} else {
 					getId().assign(other_value.getId());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEnd().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEnd().get_selection()) {
 					getEnd().cleanUp();
 				} else {
 					getEnd().assign(other_value.getEnd());
@@ -384,7 +384,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.DefaultOp.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -465,7 +465,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.DefaultOp.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<DefaultOp_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new DefaultOp_template());
@@ -995,7 +995,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.VerdictOp.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final VerdictOp_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -1030,7 +1030,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.VerdictOp.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public VerdictOp_choice_template() {
@@ -1080,7 +1080,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public VerdictOp_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -1239,7 +1239,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.VerdictOp.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<VerdictOp_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new VerdictOp_choice_template());
@@ -1308,7 +1308,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new SetVerdictType_template();
 				}
 				single_value_union_selection = VerdictOp_choice.union_selection_type.ALT_SetVerdict;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (SetVerdictType_template)single_value;
 		}
@@ -1333,7 +1333,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Verdict_template();
 				}
 				single_value_union_selection = VerdictOp_choice.union_selection_type.ALT_GetVerdict;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Verdict_template)single_value;
 		}
@@ -1358,7 +1358,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new FinalVerdictType_template();
 				}
 				single_value_union_selection = VerdictOp_choice.union_selection_type.ALT_FinalVerdict;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (FinalVerdictType_template)single_value;
 		}
@@ -1640,9 +1640,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if ( ptc__verdict.isBound() ) { return true; }
 			if ( local__verdict.isBound() ) { return true; }
 			if ( new__verdict.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(verdict__reason.getSelection()) || verdict__reason.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(ptc__compref.getSelection()) || ptc__compref.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(ptc__name.getSelection()) || ptc__name.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(verdict__reason.get_selection()) || verdict__reason.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(ptc__compref.get_selection()) || ptc__compref.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(ptc__name.get_selection()) || ptc__name.isBound() ) { return true; }
 			return false;
 		}
 
@@ -1655,9 +1655,9 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if ( !ptc__verdict.isValue() ) { return false; }
 			if ( !local__verdict.isValue() ) { return false; }
 			if ( !new__verdict.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(verdict__reason.getSelection()) && !verdict__reason.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(ptc__compref.getSelection()) && !ptc__compref.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(ptc__name.getSelection()) && !ptc__name.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(verdict__reason.get_selection()) && !verdict__reason.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(ptc__compref.get_selection()) && !ptc__compref.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(ptc__name.get_selection()) && !ptc__name.isValue() ) { return false; }
 			return true;
 		}
 
@@ -1900,7 +1900,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				is__ptc = new TitanBoolean_template();
 				ptc__verdict = new Verdict_template();
 				local__verdict = new Verdict_template();
@@ -1937,12 +1937,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public FinalVerdictInfo_template( final Optional<FinalVerdictInfo> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.FinalVerdictInfo from an unbound optional field.");
@@ -1953,7 +1953,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FinalVerdictInfo_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -1993,12 +1993,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public FinalVerdictInfo_template assign( final Optional<FinalVerdictInfo> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.FinalVerdictInfo.");
@@ -2054,43 +2054,43 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getPtc__name().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final FinalVerdictInfo_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIs__ptc().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIs__ptc().get_selection()) {
 					getIs__ptc().cleanUp();
 				} else {
 					getIs__ptc().assign(other_value.getIs__ptc());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc__verdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc__verdict().get_selection()) {
 					getPtc__verdict().cleanUp();
 				} else {
 					getPtc__verdict().assign(other_value.getPtc__verdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLocal__verdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLocal__verdict().get_selection()) {
 					getLocal__verdict().cleanUp();
 				} else {
 					getLocal__verdict().assign(other_value.getLocal__verdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNew__verdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNew__verdict().get_selection()) {
 					getNew__verdict().cleanUp();
 				} else {
 					getNew__verdict().assign(other_value.getNew__verdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getVerdict__reason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getVerdict__reason().get_selection()) {
 					getVerdict__reason().cleanUp();
 				} else {
 					getVerdict__reason().assign(other_value.getVerdict__reason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc__compref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc__compref().get_selection()) {
 					getPtc__compref().cleanUp();
 				} else {
 					getPtc__compref().assign(other_value.getPtc__compref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc__name().get_selection()) {
 					getPtc__name().cleanUp();
 				} else {
 					getPtc__name().assign(other_value.getPtc__name());
@@ -2111,7 +2111,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.FinalVerdictInfo.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -2210,7 +2210,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.FinalVerdictInfo.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<FinalVerdictInfo_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new FinalVerdictInfo_template());
@@ -2725,7 +2725,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new TimerEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -2750,12 +2750,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TimerEvent_template( final Optional<TimerEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TimerEvent from an unbound optional field.");
@@ -2766,7 +2766,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TimerEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -2806,12 +2806,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TimerEvent_template assign( final Optional<TimerEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TimerEvent.");
@@ -2825,13 +2825,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TimerEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -2852,7 +2852,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TimerEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -2927,7 +2927,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TimerEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TimerEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TimerEvent_template());
@@ -3367,7 +3367,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__type = new PortType_template();
 				port__name = new TitanCharString_template();
 				info = new TitanCharString_template();
@@ -3396,12 +3396,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public MatchingSuccessType_template( final Optional<MatchingSuccessType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.MatchingSuccessType from an unbound optional field.");
@@ -3412,7 +3412,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingSuccessType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -3452,12 +3452,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public MatchingSuccessType_template assign( final Optional<MatchingSuccessType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.MatchingSuccessType.");
@@ -3481,23 +3481,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getInfo().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final MatchingSuccessType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__type().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__type().get_selection()) {
 					getPort__type().cleanUp();
 				} else {
 					getPort__type().assign(other_value.getPort__type());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInfo().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInfo().get_selection()) {
 					getInfo().cleanUp();
 				} else {
 					getInfo().assign(other_value.getInfo());
@@ -3518,7 +3518,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.MatchingSuccessType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -3599,7 +3599,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.MatchingSuccessType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<MatchingSuccessType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new MatchingSuccessType_template());
@@ -4165,7 +4165,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__name = new TitanCharString_template();
 				operation = new Port__oper_template();
 				compref = new TitanInteger_template();
@@ -4198,12 +4198,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Proc__port__out_template( final Optional<Proc__port__out> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Proc_port_out from an unbound optional field.");
@@ -4214,7 +4214,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Proc__port__out_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -4254,12 +4254,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Proc__port__out_template assign( final Optional<Proc__port__out> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Proc_port_out.");
@@ -4293,33 +4293,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getParameter().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Proc__port__out_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSys__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSys__name().get_selection()) {
 					getSys__name().cleanUp();
 				} else {
 					getSys__name().assign(other_value.getSys__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().get_selection()) {
 					getParameter().cleanUp();
 				} else {
 					getParameter().assign(other_value.getParameter());
@@ -4340,7 +4340,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Proc_port_out.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -4427,7 +4427,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Proc_port_out.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Proc__port__out_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Proc__port__out_template());
@@ -5205,12 +5205,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Strings_str__list_template( final Optional<Strings_str__list> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Strings.str_list from an unbound optional field.");
@@ -5235,7 +5235,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					value_elements.add( new TitanCharString_template() );
 				}
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Strings_str__list_template other_value) {
@@ -5266,7 +5266,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Strings.str_list.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -5360,7 +5360,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Strings_str__list_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -5400,12 +5400,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Strings_str__list_template assign( final Optional<Strings_str__list> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Strings.str_list.");
@@ -5606,7 +5606,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				value_elements = null;
 			}
 			if (value_elements == null) {
@@ -5658,7 +5658,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int i=0; i<elem_count; i++)
 				{
-					switch (value_elements.get(i).getSelection())
+					switch (value_elements.get(i).get_selection())
 					{
 					case OMIT_VALUE:
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.Strings.str_list containing omit element.", op_name ) );
@@ -5777,7 +5777,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Internal error: Setting an invalid type for a template of type @TitanLoggerApi.Strings.str_list.");
 			}
-			setSelection(template_type);
+			set_selection(template_type);
 		}
 
 		public Strings_str__list_template listItem(final int list_index) {
@@ -5995,7 +5995,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
 				}
@@ -6005,7 +6005,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
 				}
@@ -6416,7 +6416,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.ExecutorEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final ExecutorEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -6463,7 +6463,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.ExecutorEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public ExecutorEvent_choice_template() {
@@ -6525,7 +6525,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -6712,7 +6712,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.ExecutorEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<ExecutorEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ExecutorEvent_choice_template());
@@ -6781,7 +6781,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ExecutorRuntime_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_ExecutorRuntime;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ExecutorRuntime_template)single_value;
 		}
@@ -6806,7 +6806,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ExecutorConfigdata_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_ExecutorConfigdata;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ExecutorConfigdata_template)single_value;
 		}
@@ -6831,7 +6831,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_ExtcommandStart;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -6856,7 +6856,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_ExtcommandSuccess;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -6881,7 +6881,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ExecutorComponent_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_ExecutorComponent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ExecutorComponent_template)single_value;
 		}
@@ -6906,7 +6906,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_LogOptions;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -6931,7 +6931,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ExecutorUnqualified_template();
 				}
 				single_value_union_selection = ExecutorEvent_choice.union_selection_type.ALT_ExecutorMisc;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ExecutorUnqualified_template)single_value;
 		}
@@ -7302,12 +7302,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TimerAnyTimeoutType_template(final Optional<TimerAnyTimeoutType> other_value) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TimerAnyTimeoutType from an unbound optional field.");
@@ -7318,14 +7318,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TimerAnyTimeoutType_template assign(final template_sel other_value) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
 		//originally operator=
 		public TimerAnyTimeoutType_template assign(final TitanNull_Type other_value) {
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
@@ -7335,7 +7335,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of type @TitanLoggerApi.TimerAnyTimeoutType to a template.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
@@ -7366,12 +7366,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TimerAnyTimeoutType_template assign(final Optional<TimerAnyTimeoutType> other_value) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TimerAnyTimeoutType .");
@@ -7397,7 +7397,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TimerAnyTimeoutType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -7469,7 +7469,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TimerAnyTimeoutType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TimerAnyTimeoutType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TimerAnyTimeoutType_template());
@@ -7704,8 +7704,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if ( newVerdict.isBound() ) { return true; }
 			if ( oldVerdict.isBound() ) { return true; }
 			if ( localVerdict.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(oldReason.getSelection()) || oldReason.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(newReason.getSelection()) || newReason.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(oldReason.get_selection()) || oldReason.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(newReason.get_selection()) || newReason.isBound() ) { return true; }
 			return false;
 		}
 
@@ -7717,8 +7717,8 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if ( !newVerdict.isValue() ) { return false; }
 			if ( !oldVerdict.isValue() ) { return false; }
 			if ( !localVerdict.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(oldReason.getSelection()) && !oldReason.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(newReason.getSelection()) && !newReason.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(oldReason.get_selection()) && !oldReason.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(newReason.get_selection()) && !newReason.isValue() ) { return false; }
 			return true;
 		}
 
@@ -7904,7 +7904,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				newVerdict = new Verdict_template();
 				oldVerdict = new Verdict_template();
 				localVerdict = new Verdict_template();
@@ -7937,12 +7937,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public SetVerdictType_template( final Optional<SetVerdictType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.SetVerdictType from an unbound optional field.");
@@ -7953,7 +7953,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public SetVerdictType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -7993,12 +7993,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public SetVerdictType_template assign( final Optional<SetVerdictType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.SetVerdictType.");
@@ -8040,33 +8040,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getNewReason().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final SetVerdictType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNewVerdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNewVerdict().get_selection()) {
 					getNewVerdict().cleanUp();
 				} else {
 					getNewVerdict().assign(other_value.getNewVerdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOldVerdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOldVerdict().get_selection()) {
 					getOldVerdict().cleanUp();
 				} else {
 					getOldVerdict().assign(other_value.getOldVerdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLocalVerdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLocalVerdict().get_selection()) {
 					getLocalVerdict().cleanUp();
 				} else {
 					getLocalVerdict().assign(other_value.getLocalVerdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOldReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOldReason().get_selection()) {
 					getOldReason().cleanUp();
 				} else {
 					getOldReason().assign(other_value.getOldReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNewReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNewReason().get_selection()) {
 					getNewReason().cleanUp();
 				} else {
 					getNewReason().assign(other_value.getNewReason());
@@ -8087,7 +8087,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.SetVerdictType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -8178,7 +8178,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.SetVerdictType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<SetVerdictType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new SetVerdictType_template());
@@ -8856,7 +8856,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Parallel_reason_template> value_list;
 
 		private void copy_template(final Parallel_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -8939,7 +8939,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Parallel_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -8949,14 +8949,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Parallel_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Parallel_reason_template assign(final Parallel_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -8978,7 +8978,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Parallel_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -9060,7 +9060,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Parallel_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Parallel_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Parallel_reason_template());
@@ -9522,7 +9522,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<PortType_template> value_list;
 
 		private void copy_template(final PortType_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -9605,7 +9605,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public PortType_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -9615,14 +9615,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type PortType.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public PortType_template assign(final PortType.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -9644,7 +9644,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type PortType to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -9726,7 +9726,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type PortType.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<PortType_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new PortType_template());
@@ -10008,7 +10008,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				text = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					text.assign(template_sel.ANY_VALUE);
@@ -10033,12 +10033,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public WarningEvent_template( final Optional<WarningEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.WarningEvent from an unbound optional field.");
@@ -10049,7 +10049,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public WarningEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -10089,12 +10089,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public WarningEvent_template assign( final Optional<WarningEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.WarningEvent.");
@@ -10108,13 +10108,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getText().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final WarningEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getText().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getText().get_selection()) {
 					getText().cleanUp();
 				} else {
 					getText().assign(other_value.getText());
@@ -10135,7 +10135,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.WarningEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -10210,7 +10210,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.WarningEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<WarningEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new WarningEvent_template());
@@ -10756,7 +10756,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<ParPort_operation_template> value_list;
 
 		private void copy_template(final ParPort_operation_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -10839,7 +10839,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ParPort_operation_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -10849,14 +10849,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type ParPort_operation.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public ParPort_operation_template assign(final ParPort_operation.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -10878,7 +10878,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type ParPort_operation to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -10960,7 +10960,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ParPort_operation.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<ParPort_operation_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ParPort_operation_template());
@@ -11281,7 +11281,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				id = new TitanInteger_template();
 				name = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -11308,12 +11308,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ComponentIDType_template( final Optional<ComponentIDType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ComponentIDType from an unbound optional field.");
@@ -11324,7 +11324,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ComponentIDType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -11364,12 +11364,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ComponentIDType_template assign( final Optional<ComponentIDType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ComponentIDType.");
@@ -11388,18 +11388,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getName().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ComponentIDType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getId().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getId().get_selection()) {
 					getId().cleanUp();
 				} else {
 					getId().assign(other_value.getId());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().get_selection()) {
 					getName().cleanUp();
 				} else {
 					getName().assign(other_value.getName());
@@ -11420,7 +11420,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ComponentIDType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -11498,7 +11498,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ComponentIDType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ComponentIDType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ComponentIDType_template());
@@ -12204,12 +12204,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list_0_event__list_template( final Optional<TitanLog_sequence__list_0_event__list> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list from an unbound optional field.");
@@ -12234,7 +12234,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					value_elements.add( new TitanLogEvent_template() );
 				}
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanLog_sequence__list_0_event__list_template other_value) {
@@ -12265,7 +12265,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -12359,7 +12359,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanLog_sequence__list_0_event__list_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -12399,12 +12399,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanLog_sequence__list_0_event__list_template assign( final Optional<TitanLog_sequence__list_0_event__list> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
@@ -12605,7 +12605,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				value_elements = null;
 			}
 			if (value_elements == null) {
@@ -12657,7 +12657,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int i=0; i<elem_count; i++)
 				{
-					switch (value_elements.get(i).getSelection())
+					switch (value_elements.get(i).get_selection())
 					{
 					case OMIT_VALUE:
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list containing omit element.", op_name ) );
@@ -12776,7 +12776,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Internal error: Setting an invalid type for a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
-			setSelection(template_type);
+			set_selection(template_type);
 		}
 
 		public TitanLog_sequence__list_0_event__list_template listItem(final int list_index) {
@@ -12994,7 +12994,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
 				}
@@ -13004,7 +13004,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
 				}
@@ -13785,7 +13785,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.LogEventType.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final LogEventType_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -13862,7 +13862,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.LogEventType.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public LogEventType_choice_template() {
@@ -13954,7 +13954,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public LogEventType_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -14211,7 +14211,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.LogEventType.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<LogEventType_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new LogEventType_choice_template());
@@ -14280,7 +14280,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Strings_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_ActionEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Strings_template)single_value;
 		}
@@ -14305,7 +14305,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new DefaultEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_DefaultEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (DefaultEvent_template)single_value;
 		}
@@ -14330,7 +14330,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Categorized_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_ErrorLog;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Categorized_template)single_value;
 		}
@@ -14355,7 +14355,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ExecutorEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_ExecutorEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ExecutorEvent_template)single_value;
 		}
@@ -14380,7 +14380,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new FunctionEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_FunctionEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (FunctionEvent_template)single_value;
 		}
@@ -14405,7 +14405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ParallelEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_ParallelEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ParallelEvent_template)single_value;
 		}
@@ -14430,7 +14430,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TestcaseEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_TestcaseOp;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TestcaseEvent_template)single_value;
 		}
@@ -14455,7 +14455,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new PortEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_PortEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (PortEvent_template)single_value;
 		}
@@ -14480,7 +14480,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new StatisticsType_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_Statistics;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (StatisticsType_template)single_value;
 		}
@@ -14505,7 +14505,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_TimerEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerEvent_template)single_value;
 		}
@@ -14530,7 +14530,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Strings_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_UserLog;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Strings_template)single_value;
 		}
@@ -14555,7 +14555,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new VerdictOp_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_VerdictOp;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (VerdictOp_template)single_value;
 		}
@@ -14580,7 +14580,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Categorized_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_WarningLog;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Categorized_template)single_value;
 		}
@@ -14605,7 +14605,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new MatchingEvent_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_MatchingEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (MatchingEvent_template)single_value;
 		}
@@ -14630,7 +14630,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Categorized_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_DebugLog;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Categorized_template)single_value;
 		}
@@ -14655,7 +14655,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ExecutionSummaryType_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_ExecutionSummary;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ExecutionSummaryType_template)single_value;
 		}
@@ -14680,7 +14680,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = LogEventType_choice.union_selection_type.ALT_UnhandledEvent;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -15278,7 +15278,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.DefaultEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final DefaultEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -15313,7 +15313,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.DefaultEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public DefaultEvent_choice_template() {
@@ -15363,7 +15363,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public DefaultEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -15522,7 +15522,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.DefaultEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<DefaultEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new DefaultEvent_choice_template());
@@ -15591,7 +15591,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new DefaultOp_template();
 				}
 				single_value_union_selection = DefaultEvent_choice.union_selection_type.ALT_DefaultopActivate;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (DefaultOp_template)single_value;
 		}
@@ -15616,7 +15616,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new DefaultOp_template();
 				}
 				single_value_union_selection = DefaultEvent_choice.union_selection_type.ALT_DefaultopDeactivate;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (DefaultOp_template)single_value;
 		}
@@ -15641,7 +15641,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new DefaultOp_template();
 				}
 				single_value_union_selection = DefaultEvent_choice.union_selection_type.ALT_DefaultopExit;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (DefaultOp_template)single_value;
 		}
@@ -16020,7 +16020,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.TestcaseEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final TestcaseEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -16052,7 +16052,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.TestcaseEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public TestcaseEvent_choice_template() {
@@ -16099,7 +16099,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TestcaseEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -16251,7 +16251,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.TestcaseEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<TestcaseEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new TestcaseEvent_choice_template());
@@ -16320,7 +16320,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new QualifiedName_template();
 				}
 				single_value_union_selection = TestcaseEvent_choice.union_selection_type.ALT_TestcaseStarted;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (QualifiedName_template)single_value;
 		}
@@ -16345,7 +16345,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TestcaseType_template();
 				}
 				single_value_union_selection = TestcaseEvent_choice.union_selection_type.ALT_TestcaseFinished;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TestcaseType_template)single_value;
 		}
@@ -16820,7 +16820,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<MatchingDoneType_reason_template> value_list;
 
 		private void copy_template(final MatchingDoneType_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -16903,7 +16903,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingDoneType_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -16913,14 +16913,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type MatchingDoneType_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public MatchingDoneType_reason_template assign(final MatchingDoneType_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -16942,7 +16942,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type MatchingDoneType_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -17024,7 +17024,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingDoneType_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<MatchingDoneType_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new MatchingDoneType_reason_template());
@@ -17237,7 +17237,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(param__.getSelection()) || param__.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(param__.get_selection()) || param__.isBound() ) { return true; }
 			return false;
 		}
 
@@ -17247,7 +17247,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(param__.getSelection()) && !param__.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(param__.get_selection()) && !param__.isValue() ) { return false; }
 			return true;
 		}
 
@@ -17349,7 +17349,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new ExecutorConfigdata_reason_template();
 				param__ = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -17376,12 +17376,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ExecutorConfigdata_template( final Optional<ExecutorConfigdata> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ExecutorConfigdata from an unbound optional field.");
@@ -17392,7 +17392,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorConfigdata_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -17432,12 +17432,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ExecutorConfigdata_template assign( final Optional<ExecutorConfigdata> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ExecutorConfigdata.");
@@ -17460,18 +17460,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getParam__().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ExecutorConfigdata_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParam__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParam__().get_selection()) {
 					getParam__().cleanUp();
 				} else {
 					getParam__().assign(other_value.getParam__());
@@ -17492,7 +17492,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ExecutorConfigdata.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -17572,7 +17572,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ExecutorConfigdata.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ExecutorConfigdata_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ExecutorConfigdata_template());
@@ -18078,7 +18078,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				filename = new TitanCharString_template();
 				line = new TitanInteger_template();
 				ent__name = new TitanCharString_template();
@@ -18109,12 +18109,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public LocationInfo_template( final Optional<LocationInfo> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.LocationInfo from an unbound optional field.");
@@ -18125,7 +18125,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public LocationInfo_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -18165,12 +18165,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public LocationInfo_template assign( final Optional<LocationInfo> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.LocationInfo.");
@@ -18199,28 +18199,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getEnt__type().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final LocationInfo_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFilename().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFilename().get_selection()) {
 					getFilename().cleanUp();
 				} else {
 					getFilename().assign(other_value.getFilename());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLine().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLine().get_selection()) {
 					getLine().cleanUp();
 				} else {
 					getLine().assign(other_value.getLine());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEnt__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEnt__name().get_selection()) {
 					getEnt__name().cleanUp();
 				} else {
 					getEnt__name().assign(other_value.getEnt__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEnt__type().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEnt__type().get_selection()) {
 					getEnt__type().cleanUp();
 				} else {
 					getEnt__type().assign(other_value.getEnt__type());
@@ -18241,7 +18241,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.LocationInfo.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -18325,7 +18325,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.LocationInfo.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<LocationInfo_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new LocationInfo_template());
@@ -18759,7 +18759,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new TestcaseEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -18784,12 +18784,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TestcaseEvent_template( final Optional<TestcaseEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TestcaseEvent from an unbound optional field.");
@@ -18800,7 +18800,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TestcaseEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -18840,12 +18840,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TestcaseEvent_template assign( final Optional<TestcaseEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TestcaseEvent.");
@@ -18859,13 +18859,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TestcaseEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -18886,7 +18886,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TestcaseEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -18961,7 +18961,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TestcaseEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TestcaseEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TestcaseEvent_template());
@@ -19591,7 +19591,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.TimerEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final TimerEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -19638,7 +19638,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.TimerEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public TimerEvent_choice_template() {
@@ -19700,7 +19700,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TimerEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -19887,7 +19887,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.TimerEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<TimerEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new TimerEvent_choice_template());
@@ -19956,7 +19956,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerType_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_ReadTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerType_template)single_value;
 		}
@@ -19981,7 +19981,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerType_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_StartTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerType_template)single_value;
 		}
@@ -20006,7 +20006,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerGuardType_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_GuardTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerGuardType_template)single_value;
 		}
@@ -20031,7 +20031,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerType_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_StopTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerType_template)single_value;
 		}
@@ -20056,7 +20056,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerType_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_TimeoutTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerType_template)single_value;
 		}
@@ -20081,7 +20081,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TimerAnyTimeoutType_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_TimeoutAnyTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TimerAnyTimeoutType_template)single_value;
 		}
@@ -20106,7 +20106,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = TimerEvent_choice.union_selection_type.ALT_UnqualifiedTimer;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -20611,7 +20611,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.StatisticsType.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final StatisticsType_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -20649,7 +20649,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.StatisticsType.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public StatisticsType_choice_template() {
@@ -20702,7 +20702,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public StatisticsType_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -20868,7 +20868,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.StatisticsType.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<StatisticsType_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new StatisticsType_choice_template());
@@ -20937,7 +20937,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new StatisticsType_choice_verdictStatistics_template();
 				}
 				single_value_union_selection = StatisticsType_choice.union_selection_type.ALT_VerdictStatistics;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (StatisticsType_choice_verdictStatistics_template)single_value;
 		}
@@ -20962,7 +20962,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = StatisticsType_choice.union_selection_type.ALT_ControlpartStart;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -20987,7 +20987,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = StatisticsType_choice.union_selection_type.ALT_ControlpartFinish;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -21012,7 +21012,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanInteger_template();
 				}
 				single_value_union_selection = StatisticsType_choice.union_selection_type.ALT_ControlpartErrors;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanInteger_template)single_value;
 		}
@@ -21555,7 +21555,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new Port__Misc_reason_template();
 				port__name = new TitanCharString_template();
 				remote__component = new TitanInteger_template();
@@ -21592,12 +21592,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Port__Misc_template( final Optional<Port__Misc> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Port_Misc from an unbound optional field.");
@@ -21608,7 +21608,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__Misc_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -21648,12 +21648,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Port__Misc_template assign( final Optional<Port__Misc> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Port_Misc.");
@@ -21697,43 +21697,43 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getNew__size().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Port__Misc_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getRemote__component().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getRemote__component().get_selection()) {
 					getRemote__component().cleanUp();
 				} else {
 					getRemote__component().assign(other_value.getRemote__component());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getRemote__port().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getRemote__port().get_selection()) {
 					getRemote__port().cleanUp();
 				} else {
 					getRemote__port().assign(other_value.getRemote__port());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIp__address().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIp__address().get_selection()) {
 					getIp__address().cleanUp();
 				} else {
 					getIp__address().assign(other_value.getIp__address());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTcp__port().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTcp__port().get_selection()) {
 					getTcp__port().cleanUp();
 				} else {
 					getTcp__port().assign(other_value.getTcp__port());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNew__size().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNew__size().get_selection()) {
 					getNew__size().cleanUp();
 				} else {
 					getNew__size().assign(other_value.getNew__size());
@@ -21754,7 +21754,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Port_Misc.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -21847,7 +21847,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Port_Misc.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Port__Misc_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Port__Misc_template());
@@ -22626,7 +22626,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new ParallelPTC_reason_template();
 				module__ = new TitanCharString_template();
 				name = new TitanCharString_template();
@@ -22665,12 +22665,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ParallelPTC_template( final Optional<ParallelPTC> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ParallelPTC from an unbound optional field.");
@@ -22681,7 +22681,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ParallelPTC_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -22721,12 +22721,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ParallelPTC_template assign( final Optional<ParallelPTC> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ParallelPTC.");
@@ -22775,48 +22775,48 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getStatus().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ParallelPTC_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getModule__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getModule__().get_selection()) {
 					getModule__().cleanUp();
 				} else {
 					getModule__().assign(other_value.getModule__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().get_selection()) {
 					getName().cleanUp();
 				} else {
 					getName().assign(other_value.getName());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompname().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompname().get_selection()) {
 					getCompname().cleanUp();
 				} else {
 					getCompname().assign(other_value.getCompname());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTc__loc().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTc__loc().get_selection()) {
 					getTc__loc().cleanUp();
 				} else {
 					getTc__loc().assign(other_value.getTc__loc());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAlive__pid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAlive__pid().get_selection()) {
 					getAlive__pid().cleanUp();
 				} else {
 					getAlive__pid().assign(other_value.getAlive__pid());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getStatus().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getStatus().get_selection()) {
 					getStatus().cleanUp();
 				} else {
 					getStatus().assign(other_value.getStatus());
@@ -22837,7 +22837,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ParallelPTC.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -22933,7 +22933,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ParallelPTC.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ParallelPTC_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ParallelPTC_template());
@@ -23653,7 +23653,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<LocationInfo_ent__type_template> value_list;
 
 		private void copy_template(final LocationInfo_ent__type_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -23736,7 +23736,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public LocationInfo_ent__type_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -23746,14 +23746,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type LocationInfo_ent__type.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public LocationInfo_ent__type_template assign(final LocationInfo_ent__type.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -23775,7 +23775,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type LocationInfo_ent__type to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -23857,7 +23857,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type LocationInfo_ent__type.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<LocationInfo_ent__type_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new LocationInfo_ent__type_template());
@@ -24059,7 +24059,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public boolean isBound() {
-			if ( optional_sel.OPTIONAL_OMIT.equals(timer__name.getSelection()) || timer__name.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(timer__name.get_selection()) || timer__name.isBound() ) { return true; }
 			return false;
 		}
 
@@ -24068,7 +24068,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public boolean isValue() {
-			if ( !optional_sel.OPTIONAL_OMIT.equals(timer__name.getSelection()) && !timer__name.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(timer__name.get_selection()) && !timer__name.isValue() ) { return false; }
 			return true;
 		}
 
@@ -24143,7 +24143,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				timer__name = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					timer__name.assign(template_sel.ANY_OR_OMIT);
@@ -24168,12 +24168,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public MatchingTimeout_template( final Optional<MatchingTimeout> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.MatchingTimeout from an unbound optional field.");
@@ -24184,7 +24184,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingTimeout_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -24224,12 +24224,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public MatchingTimeout_template assign( final Optional<MatchingTimeout> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.MatchingTimeout.");
@@ -24247,13 +24247,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getTimer__name().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final MatchingTimeout_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTimer__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTimer__name().get_selection()) {
 					getTimer__name().cleanUp();
 				} else {
 					getTimer__name().assign(other_value.getTimer__name());
@@ -24274,7 +24274,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.MatchingTimeout.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -24351,7 +24351,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.MatchingTimeout.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<MatchingTimeout_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new MatchingTimeout_template());
@@ -24716,7 +24716,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new VerdictOp_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -24741,12 +24741,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public VerdictOp_template( final Optional<VerdictOp> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.VerdictOp from an unbound optional field.");
@@ -24757,7 +24757,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public VerdictOp_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -24797,12 +24797,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public VerdictOp_template assign( final Optional<VerdictOp> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.VerdictOp.");
@@ -24816,13 +24816,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final VerdictOp_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -24843,7 +24843,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.VerdictOp.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -24918,7 +24918,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.VerdictOp.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<VerdictOp_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new VerdictOp_template());
@@ -25468,7 +25468,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<MatchingProblemType_reason_template> value_list;
 
 		private void copy_template(final MatchingProblemType_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -25551,7 +25551,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingProblemType_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -25561,14 +25561,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type MatchingProblemType_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public MatchingProblemType_reason_template assign(final MatchingProblemType_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -25590,7 +25590,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type MatchingProblemType_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -25672,7 +25672,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingProblemType_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<MatchingProblemType_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new MatchingProblemType_reason_template());
@@ -26188,7 +26188,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<ExecutorRuntime_reason_template> value_list;
 
 		private void copy_template(final ExecutorRuntime_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -26271,7 +26271,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorRuntime_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -26281,14 +26281,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type ExecutorRuntime_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public ExecutorRuntime_reason_template assign(final ExecutorRuntime_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -26310,7 +26310,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type ExecutorRuntime_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -26392,7 +26392,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorRuntime_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<ExecutorRuntime_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ExecutorRuntime_reason_template());
@@ -26864,7 +26864,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<MatchingFailureType_reason_template> value_list;
 
 		private void copy_template(final MatchingFailureType_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -26947,7 +26947,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingFailureType_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -26957,14 +26957,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type MatchingFailureType_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public MatchingFailureType_reason_template assign(final MatchingFailureType_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -26986,7 +26986,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type MatchingFailureType_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -27068,7 +27068,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingFailureType_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<MatchingFailureType_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new MatchingFailureType_reason_template());
@@ -27389,7 +27389,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				entityId = new ComponentIDType_template();
 				event = new TitanLogEvent_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -27416,12 +27416,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanSingleLogEvent_template( final Optional<TitanSingleLogEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanSingleLogEvent from an unbound optional field.");
@@ -27432,7 +27432,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanSingleLogEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -27472,12 +27472,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanSingleLogEvent_template assign( final Optional<TitanSingleLogEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanSingleLogEvent.");
@@ -27496,18 +27496,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getEvent().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanSingleLogEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEntityId().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEntityId().get_selection()) {
 					getEntityId().cleanUp();
 				} else {
 					getEntityId().assign(other_value.getEntityId());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEvent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEvent().get_selection()) {
 					getEvent().cleanUp();
 				} else {
 					getEvent().assign(other_value.getEvent());
@@ -27528,7 +27528,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanSingleLogEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -27606,7 +27606,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TitanSingleLogEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TitanSingleLogEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TitanSingleLogEvent_template());
@@ -28180,7 +28180,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<MatchingProblemType_operation_template> value_list;
 
 		private void copy_template(final MatchingProblemType_operation_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -28263,7 +28263,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingProblemType_operation_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -28273,14 +28273,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type MatchingProblemType_operation.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public MatchingProblemType_operation_template assign(final MatchingProblemType_operation.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -28302,7 +28302,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type MatchingProblemType_operation to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -28384,7 +28384,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type MatchingProblemType_operation.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<MatchingProblemType_operation_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new MatchingProblemType_operation_template());
@@ -28749,7 +28749,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.MatchingFailureType.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final MatchingFailureType_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -28781,7 +28781,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.MatchingFailureType.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public MatchingFailureType_choice_template() {
@@ -28828,7 +28828,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingFailureType_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -28980,7 +28980,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.MatchingFailureType.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<MatchingFailureType_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new MatchingFailureType_choice_template());
@@ -29049,7 +29049,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = MatchingFailureType_choice.union_selection_type.ALT_System__;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -29074,7 +29074,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanInteger_template();
 				}
 				single_value_union_selection = MatchingFailureType_choice.union_selection_type.ALT_Compref;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanInteger_template)single_value;
 		}
@@ -29545,7 +29545,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<ExecutorConfigdata_reason_template> value_list;
 
 		private void copy_template(final ExecutorConfigdata_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -29628,7 +29628,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorConfigdata_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -29638,14 +29638,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type ExecutorConfigdata_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public ExecutorConfigdata_reason_template assign(final ExecutorConfigdata_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -29667,7 +29667,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type ExecutorConfigdata_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -29749,7 +29749,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorConfigdata_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<ExecutorConfigdata_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ExecutorConfigdata_reason_template());
@@ -30070,7 +30070,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				module__name = new TitanCharString_template();
 				testcase__name = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -30097,12 +30097,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public QualifiedName_template( final Optional<QualifiedName> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.QualifiedName from an unbound optional field.");
@@ -30113,7 +30113,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public QualifiedName_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -30153,12 +30153,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public QualifiedName_template assign( final Optional<QualifiedName> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.QualifiedName.");
@@ -30177,18 +30177,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getTestcase__name().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final QualifiedName_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getModule__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getModule__name().get_selection()) {
 					getModule__name().cleanUp();
 				} else {
 					getModule__name().assign(other_value.getModule__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTestcase__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTestcase__name().get_selection()) {
 					getTestcase__name().cleanUp();
 				} else {
 					getTestcase__name().assign(other_value.getTestcase__name());
@@ -30209,7 +30209,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.QualifiedName.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -30287,7 +30287,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.QualifiedName.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<QualifiedName_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new QualifiedName_template());
@@ -30751,7 +30751,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				operation = new RandomAction_template();
 				retval = new TitanFloat_template();
 				intseed = new TitanInteger_template();
@@ -30780,12 +30780,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public FunctionEvent_choice_random_template( final Optional<FunctionEvent_choice_random> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.FunctionEvent.choice.random from an unbound optional field.");
@@ -30796,7 +30796,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FunctionEvent_choice_random_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -30836,12 +30836,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public FunctionEvent_choice_random_template assign( final Optional<FunctionEvent_choice_random> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.FunctionEvent.choice.random.");
@@ -30865,23 +30865,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getIntseed().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final FunctionEvent_choice_random_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getRetval().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getRetval().get_selection()) {
 					getRetval().cleanUp();
 				} else {
 					getRetval().assign(other_value.getRetval());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIntseed().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIntseed().get_selection()) {
 					getIntseed().cleanUp();
 				} else {
 					getIntseed().assign(other_value.getIntseed());
@@ -30902,7 +30902,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.FunctionEvent.choice.random.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -30983,7 +30983,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.FunctionEvent.choice.random.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<FunctionEvent_choice_random_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new FunctionEvent_choice_random_template());
@@ -31510,7 +31510,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				incoming = new TitanBoolean_template();
 				target__type = new TitanCharString_template();
 				value__ = new TitanCharString_template();
@@ -31541,12 +31541,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Dualface__mapped_template( final Optional<Dualface__mapped> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Dualface_mapped from an unbound optional field.");
@@ -31557,7 +31557,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Dualface__mapped_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -31597,12 +31597,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Dualface__mapped_template assign( final Optional<Dualface__mapped> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Dualface_mapped.");
@@ -31631,28 +31631,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getMsgid().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Dualface__mapped_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIncoming().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIncoming().get_selection()) {
 					getIncoming().cleanUp();
 				} else {
 					getIncoming().assign(other_value.getIncoming());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTarget__type().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTarget__type().get_selection()) {
 					getTarget__type().cleanUp();
 				} else {
 					getTarget__type().assign(other_value.getTarget__type());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getValue__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getValue__().get_selection()) {
 					getValue__().cleanUp();
 				} else {
 					getValue__().assign(other_value.getValue__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().get_selection()) {
 					getMsgid().cleanUp();
 				} else {
 					getMsgid().assign(other_value.getMsgid());
@@ -31673,7 +31673,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Dualface_mapped.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -31757,7 +31757,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Dualface_mapped.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Dualface__mapped_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Dualface__mapped_template());
@@ -32511,12 +32511,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLogEvent_sourceInfo__list_template( final Optional<TitanLogEvent_sourceInfo__list> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list from an unbound optional field.");
@@ -32541,7 +32541,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					value_elements.add( new LocationInfo_template() );
 				}
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanLogEvent_sourceInfo__list_template other_value) {
@@ -32572,7 +32572,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -32666,7 +32666,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanLogEvent_sourceInfo__list_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -32706,12 +32706,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanLogEvent_sourceInfo__list_template assign( final Optional<TitanLogEvent_sourceInfo__list> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
@@ -32912,7 +32912,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				value_elements = null;
 			}
 			if (value_elements == null) {
@@ -32964,7 +32964,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int i=0; i<elem_count; i++)
 				{
-					switch (value_elements.get(i).getSelection())
+					switch (value_elements.get(i).get_selection())
 					{
 					case OMIT_VALUE:
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list containing omit element.", op_name ) );
@@ -33083,7 +33083,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Internal error: Setting an invalid type for a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
-			setSelection(template_type);
+			set_selection(template_type);
 		}
 
 		public TitanLogEvent_sourceInfo__list_template listItem(final int list_index) {
@@ -33301,7 +33301,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
 				}
@@ -33311,7 +33311,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
 				}
@@ -33396,7 +33396,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public boolean isBound() {
 			if ( fromVerdict.isBound() ) { return true; }
 			if ( toVerdict.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(verdictReason.getSelection()) || verdictReason.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(verdictReason.get_selection()) || verdictReason.isBound() ) { return true; }
 			return false;
 		}
 
@@ -33407,7 +33407,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public boolean isValue() {
 			if ( !fromVerdict.isValue() ) { return false; }
 			if ( !toVerdict.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(verdictReason.getSelection()) && !verdictReason.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(verdictReason.get_selection()) && !verdictReason.isValue() ) { return false; }
 			return true;
 		}
 
@@ -33536,7 +33536,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				fromVerdict = new Verdict_template();
 				toVerdict = new Verdict_template();
 				verdictReason = new TitanCharString_template();
@@ -33565,12 +33565,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public VerdictType_template( final Optional<VerdictType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.VerdictType from an unbound optional field.");
@@ -33581,7 +33581,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public VerdictType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -33621,12 +33621,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public VerdictType_template assign( final Optional<VerdictType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.VerdictType.");
@@ -33654,23 +33654,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getVerdictReason().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final VerdictType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFromVerdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFromVerdict().get_selection()) {
 					getFromVerdict().cleanUp();
 				} else {
 					getFromVerdict().assign(other_value.getFromVerdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getToVerdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getToVerdict().get_selection()) {
 					getToVerdict().cleanUp();
 				} else {
 					getToVerdict().assign(other_value.getToVerdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getVerdictReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getVerdictReason().get_selection()) {
 					getVerdictReason().cleanUp();
 				} else {
 					getVerdictReason().assign(other_value.getVerdictReason());
@@ -33691,7 +33691,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.VerdictType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -33774,7 +33774,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.VerdictType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<VerdictType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new VerdictType_template());
@@ -34369,7 +34369,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Port__State_operation_template> value_list;
 
 		private void copy_template(final Port__State_operation_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -34452,7 +34452,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__State_operation_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -34462,14 +34462,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Port__State_operation.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Port__State_operation_template assign(final Port__State_operation.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -34491,7 +34491,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Port__State_operation to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -34573,7 +34573,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__State_operation.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Port__State_operation_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Port__State_operation_template());
@@ -35037,7 +35037,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Port__oper_template> value_list;
 
 		private void copy_template(final Port__oper_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -35120,7 +35120,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__oper_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -35130,14 +35130,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Port__oper.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Port__oper_template assign(final Port__oper.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -35159,7 +35159,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Port__oper to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -35241,7 +35241,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__oper.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Port__oper_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Port__oper_template());
@@ -35562,7 +35562,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				seconds = new TitanInteger_template();
 				microSeconds = new TitanInteger_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -35589,12 +35589,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TimestampType_template( final Optional<TimestampType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TimestampType from an unbound optional field.");
@@ -35605,7 +35605,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TimestampType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -35645,12 +35645,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TimestampType_template assign( final Optional<TimestampType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TimestampType.");
@@ -35669,18 +35669,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getMicroSeconds().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TimestampType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSeconds().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSeconds().get_selection()) {
 					getSeconds().cleanUp();
 				} else {
 					getSeconds().assign(other_value.getSeconds());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMicroSeconds().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMicroSeconds().get_selection()) {
 					getMicroSeconds().cleanUp();
 				} else {
 					getMicroSeconds().assign(other_value.getMicroSeconds());
@@ -35701,7 +35701,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TimestampType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -35779,7 +35779,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TimestampType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TimestampType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TimestampType_template());
@@ -36243,7 +36243,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__name = new TitanCharString_template();
 				state = new TitanCharString_template();
 				info = new TitanCharString_template();
@@ -36272,12 +36272,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Setstate_template( final Optional<Setstate> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Setstate from an unbound optional field.");
@@ -36288,7 +36288,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Setstate_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -36328,12 +36328,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Setstate_template assign( final Optional<Setstate> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Setstate.");
@@ -36357,23 +36357,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getInfo().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Setstate_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getState().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getState().get_selection()) {
 					getState().cleanUp();
 				} else {
 					getState().assign(other_value.getState());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInfo().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInfo().get_selection()) {
 					getInfo().cleanUp();
 				} else {
 					getInfo().assign(other_value.getInfo());
@@ -36394,7 +36394,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Setstate.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -36475,7 +36475,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Setstate.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Setstate_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Setstate_template());
@@ -37080,7 +37080,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__name = new TitanCharString_template();
 				operation = new Port__oper_template();
 				compref = new TitanInteger_template();
@@ -37115,12 +37115,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Proc__port__in_template( final Optional<Proc__port__in> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Proc_port_in from an unbound optional field.");
@@ -37131,7 +37131,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Proc__port__in_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -37171,12 +37171,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Proc__port__in_template assign( final Optional<Proc__port__in> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Proc_port_in.");
@@ -37215,38 +37215,38 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getMsgid().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Proc__port__in_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCheck__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCheck__().get_selection()) {
 					getCheck__().cleanUp();
 				} else {
 					getCheck__().assign(other_value.getCheck__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().get_selection()) {
 					getParameter().cleanUp();
 				} else {
 					getParameter().assign(other_value.getParameter());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().get_selection()) {
 					getMsgid().cleanUp();
 				} else {
 					getMsgid().assign(other_value.getMsgid());
@@ -37267,7 +37267,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Proc_port_in.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -37357,7 +37357,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Proc_port_in.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Proc__port__in_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Proc__port__in_template());
@@ -37956,7 +37956,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				timestamp = new TimestampType_template();
 				sourceInfo__list = new TitanLogEvent_sourceInfo__list_template();
 				severity = new TitanInteger_template();
@@ -37987,12 +37987,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLogEvent_template( final Optional<TitanLogEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanLogEvent from an unbound optional field.");
@@ -38003,7 +38003,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanLogEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -38043,12 +38043,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanLogEvent_template assign( final Optional<TitanLogEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanLogEvent.");
@@ -38077,28 +38077,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getLogEvent().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanLogEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTimestamp().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTimestamp().get_selection()) {
 					getTimestamp().cleanUp();
 				} else {
 					getTimestamp().assign(other_value.getTimestamp());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSourceInfo__list().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSourceInfo__list().get_selection()) {
 					getSourceInfo__list().cleanUp();
 				} else {
 					getSourceInfo__list().assign(other_value.getSourceInfo__list());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSeverity().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSeverity().get_selection()) {
 					getSeverity().cleanUp();
 				} else {
 					getSeverity().assign(other_value.getSeverity());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLogEvent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getLogEvent().get_selection()) {
 					getLogEvent().cleanUp();
 				} else {
 					getLogEvent().assign(other_value.getLogEvent());
@@ -38119,7 +38119,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLogEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -38203,7 +38203,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TitanLogEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TitanLogEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TitanLogEvent_template());
@@ -38988,7 +38988,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				none__ = new TitanInteger_template();
 				nonePercent = new TitanFloat_template();
 				pass__ = new TitanInteger_template();
@@ -39031,12 +39031,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public StatisticsType_choice_verdictStatistics_template( final Optional<StatisticsType_choice_verdictStatistics> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics from an unbound optional field.");
@@ -39047,7 +39047,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public StatisticsType_choice_verdictStatistics_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -39087,12 +39087,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public StatisticsType_choice_verdictStatistics_template assign( final Optional<StatisticsType_choice_verdictStatistics> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
@@ -39151,58 +39151,58 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getErrorPercent().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final StatisticsType_choice_verdictStatistics_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNone__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNone__().get_selection()) {
 					getNone__().cleanUp();
 				} else {
 					getNone__().assign(other_value.getNone__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNonePercent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNonePercent().get_selection()) {
 					getNonePercent().cleanUp();
 				} else {
 					getNonePercent().assign(other_value.getNonePercent());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPass__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPass__().get_selection()) {
 					getPass__().cleanUp();
 				} else {
 					getPass__().assign(other_value.getPass__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPassPercent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPassPercent().get_selection()) {
 					getPassPercent().cleanUp();
 				} else {
 					getPassPercent().assign(other_value.getPassPercent());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInconc__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInconc__().get_selection()) {
 					getInconc__().cleanUp();
 				} else {
 					getInconc__().assign(other_value.getInconc__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInconcPercent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInconcPercent().get_selection()) {
 					getInconcPercent().cleanUp();
 				} else {
 					getInconcPercent().assign(other_value.getInconcPercent());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFail__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFail__().get_selection()) {
 					getFail__().cleanUp();
 				} else {
 					getFail__().assign(other_value.getFail__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFailPercent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFailPercent().get_selection()) {
 					getFailPercent().cleanUp();
 				} else {
 					getFailPercent().assign(other_value.getFailPercent());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getError__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getError__().get_selection()) {
 					getError__().cleanUp();
 				} else {
 					getError__().assign(other_value.getError__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getErrorPercent().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getErrorPercent().get_selection()) {
 					getErrorPercent().cleanUp();
 				} else {
 					getErrorPercent().assign(other_value.getErrorPercent());
@@ -39223,7 +39223,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -39325,7 +39325,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<StatisticsType_choice_verdictStatistics_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new StatisticsType_choice_verdictStatistics_template());
@@ -39903,7 +39903,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new LogEventType_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -39928,12 +39928,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public LogEventType_template( final Optional<LogEventType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.LogEventType from an unbound optional field.");
@@ -39944,7 +39944,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public LogEventType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -39984,12 +39984,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public LogEventType_template assign( final Optional<LogEventType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.LogEventType.");
@@ -40003,13 +40003,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final LogEventType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -40030,7 +40030,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.LogEventType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -40105,7 +40105,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.LogEventType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<LogEventType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new LogEventType_template());
@@ -40506,7 +40506,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				operation = new Port__State_operation_template();
 				port__name = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -40533,12 +40533,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Port__State_template( final Optional<Port__State> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Port_State from an unbound optional field.");
@@ -40549,7 +40549,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__State_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -40589,12 +40589,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Port__State_template assign( final Optional<Port__State> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Port_State.");
@@ -40613,18 +40613,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getPort__name().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Port__State_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
@@ -40645,7 +40645,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Port_State.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -40723,7 +40723,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Port_State.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Port__State_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Port__State_template());
@@ -41187,7 +41187,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				name = new QualifiedName_template();
 				verdict = new Verdict_template();
 				reason = new TitanCharString_template();
@@ -41216,12 +41216,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TestcaseType_template( final Optional<TestcaseType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TestcaseType from an unbound optional field.");
@@ -41232,7 +41232,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TestcaseType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -41272,12 +41272,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TestcaseType_template assign( final Optional<TestcaseType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TestcaseType.");
@@ -41301,23 +41301,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getReason().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TestcaseType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().get_selection()) {
 					getName().cleanUp();
 				} else {
 					getName().assign(other_value.getName());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getVerdict().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getVerdict().get_selection()) {
 					getVerdict().cleanUp();
 				} else {
 					getVerdict().assign(other_value.getVerdict());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
@@ -41338,7 +41338,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TestcaseType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -41419,7 +41419,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TestcaseType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TestcaseType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TestcaseType_template());
@@ -41949,7 +41949,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.ParallelEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final ParallelEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -41984,7 +41984,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.ParallelEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public ParallelEvent_choice_template() {
@@ -42034,7 +42034,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ParallelEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -42193,7 +42193,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.ParallelEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<ParallelEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ParallelEvent_choice_template());
@@ -42262,7 +42262,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ParallelPTC_template();
 				}
 				single_value_union_selection = ParallelEvent_choice.union_selection_type.ALT_ParallelPTC;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ParallelPTC_template)single_value;
 		}
@@ -42287,7 +42287,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new PTC__exit_template();
 				}
 				single_value_union_selection = ParallelEvent_choice.union_selection_type.ALT_ParallelPTC__exit;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (PTC__exit_template)single_value;
 		}
@@ -42312,7 +42312,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new ParPort_template();
 				}
 				single_value_union_selection = ParallelEvent_choice.union_selection_type.ALT_ParallelPort;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (ParPort_template)single_value;
 		}
@@ -42608,7 +42608,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		private void copy_value(final anytype other_value) {
 			single_value_union_selection = other_value.union_selection;
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final anytype_template other_value) {
 			switch (other_value.templateSelection) {
@@ -42630,7 +42630,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.anytype.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public anytype_template() {
@@ -42667,7 +42667,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public anytype_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -42803,7 +42803,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.anytype.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<anytype_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new anytype_template());
@@ -43104,7 +43104,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new PortEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -43129,12 +43129,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public PortEvent_template( final Optional<PortEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.PortEvent from an unbound optional field.");
@@ -43145,7 +43145,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public PortEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -43185,12 +43185,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public PortEvent_template assign( final Optional<PortEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.PortEvent.");
@@ -43204,13 +43204,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final PortEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -43231,7 +43231,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.PortEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -43306,7 +43306,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.PortEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<PortEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new PortEvent_template());
@@ -44047,7 +44047,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.PortEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final PortEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -44103,7 +44103,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.PortEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public PortEvent_choice_template() {
@@ -44174,7 +44174,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public PortEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -44382,7 +44382,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.PortEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<PortEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new PortEvent_choice_template());
@@ -44451,7 +44451,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Port__Queue_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_PortQueue;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Port__Queue_template)single_value;
 		}
@@ -44476,7 +44476,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Port__State_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_PortState;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Port__State_template)single_value;
 		}
@@ -44501,7 +44501,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Proc__port__out_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_ProcPortSend;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Proc__port__out_template)single_value;
 		}
@@ -44526,7 +44526,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Proc__port__in_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_ProcPortRecv;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Proc__port__in_template)single_value;
 		}
@@ -44551,7 +44551,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Msg__port__send_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_MsgPortSend;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Msg__port__send_template)single_value;
 		}
@@ -44576,7 +44576,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Msg__port__recv_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_MsgPortRecv;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Msg__port__recv_template)single_value;
 		}
@@ -44601,7 +44601,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Dualface__mapped_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_DualMapped;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Dualface__mapped_template)single_value;
 		}
@@ -44626,7 +44626,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Dualface__discard_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_DualDiscard;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Dualface__discard_template)single_value;
 		}
@@ -44651,7 +44651,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Setstate_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_SetState;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Setstate_template)single_value;
 		}
@@ -44676,7 +44676,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new Port__Misc_template();
 				}
 				single_value_union_selection = PortEvent_choice.union_selection_type.ALT_PortMisc;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (Port__Misc_template)single_value;
 		}
@@ -45141,7 +45141,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__name = new TitanCharString_template();
 				compref = new TitanInteger_template();
 				parameter = new TitanCharString_template();
@@ -45170,12 +45170,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Msg__port__send_template( final Optional<Msg__port__send> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Msg_port_send from an unbound optional field.");
@@ -45186,7 +45186,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Msg__port__send_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -45226,12 +45226,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Msg__port__send_template assign( final Optional<Msg__port__send> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Msg_port_send.");
@@ -45255,23 +45255,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getParameter().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Msg__port__send_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().get_selection()) {
 					getParameter().cleanUp();
 				} else {
 					getParameter().assign(other_value.getParameter());
@@ -45292,7 +45292,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Msg_port_send.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -45373,7 +45373,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Msg_port_send.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Msg__port__send_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Msg__port__send_template());
@@ -45783,7 +45783,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new FunctionEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -45808,12 +45808,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public FunctionEvent_template( final Optional<FunctionEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.FunctionEvent from an unbound optional field.");
@@ -45824,7 +45824,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FunctionEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -45864,12 +45864,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public FunctionEvent_template assign( final Optional<FunctionEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.FunctionEvent.");
@@ -45883,13 +45883,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final FunctionEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -45910,7 +45910,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.FunctionEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -45985,7 +45985,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.FunctionEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<FunctionEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new FunctionEvent_template());
@@ -46503,7 +46503,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__type = new PortType_template();
 				port__name = new TitanCharString_template();
 				choice = new MatchingFailureType_choice_template();
@@ -46536,12 +46536,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public MatchingFailureType_template( final Optional<MatchingFailureType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.MatchingFailureType from an unbound optional field.");
@@ -46552,7 +46552,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingFailureType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -46592,12 +46592,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public MatchingFailureType_template assign( final Optional<MatchingFailureType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.MatchingFailureType.");
@@ -46631,33 +46631,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getInfo().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final MatchingFailureType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__type().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__type().get_selection()) {
 					getPort__type().cleanUp();
 				} else {
 					getPort__type().assign(other_value.getPort__type());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInfo().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getInfo().get_selection()) {
 					getInfo().cleanUp();
 				} else {
 					getInfo().assign(other_value.getInfo());
@@ -46678,7 +46678,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.MatchingFailureType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -46765,7 +46765,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.MatchingFailureType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<MatchingFailureType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new MatchingFailureType_template());
@@ -47379,7 +47379,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				operation = new ParPort_operation_template();
 				srcCompref = new TitanInteger_template();
 				dstCompref = new TitanInteger_template();
@@ -47412,12 +47412,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ParPort_template( final Optional<ParPort> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ParPort from an unbound optional field.");
@@ -47428,7 +47428,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ParPort_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -47468,12 +47468,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ParPort_template assign( final Optional<ParPort> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ParPort.");
@@ -47507,33 +47507,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getDstPort().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ParPort_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrcCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrcCompref().get_selection()) {
 					getSrcCompref().cleanUp();
 				} else {
 					getSrcCompref().assign(other_value.getSrcCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDstCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDstCompref().get_selection()) {
 					getDstCompref().cleanUp();
 				} else {
 					getDstCompref().assign(other_value.getDstCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrcPort().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrcPort().get_selection()) {
 					getSrcPort().cleanUp();
 				} else {
 					getSrcPort().assign(other_value.getSrcPort());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDstPort().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDstPort().get_selection()) {
 					getDstPort().cleanUp();
 				} else {
 					getDstPort().assign(other_value.getDstPort());
@@ -47554,7 +47554,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ParPort.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -47641,7 +47641,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ParPort.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ParPort_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ParPort_template());
@@ -48216,7 +48216,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new MatchingDoneType_reason_template();
 				type__ = new TitanCharString_template();
 				ptc = new TitanInteger_template();
@@ -48247,12 +48247,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public MatchingDoneType_template( final Optional<MatchingDoneType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.MatchingDoneType from an unbound optional field.");
@@ -48263,7 +48263,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingDoneType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -48303,12 +48303,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public MatchingDoneType_template assign( final Optional<MatchingDoneType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.MatchingDoneType.");
@@ -48337,28 +48337,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getReturn__type().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final MatchingDoneType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getType__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getType__().get_selection()) {
 					getType__().cleanUp();
 				} else {
 					getType__().assign(other_value.getType__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPtc().get_selection()) {
 					getPtc().cleanUp();
 				} else {
 					getPtc().assign(other_value.getPtc());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReturn__type().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReturn__type().get_selection()) {
 					getReturn__type().cleanUp();
 				} else {
 					getReturn__type().assign(other_value.getReturn__type());
@@ -48379,7 +48379,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.MatchingDoneType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -48463,7 +48463,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.MatchingDoneType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<MatchingDoneType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new MatchingDoneType_template());
@@ -49092,7 +49092,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				operation = new Port__Queue_operation_template();
 				port__name = new TitanCharString_template();
 				compref = new TitanInteger_template();
@@ -49127,12 +49127,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Port__Queue_template( final Optional<Port__Queue> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Port_Queue from an unbound optional field.");
@@ -49143,7 +49143,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__Queue_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -49183,12 +49183,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Port__Queue_template assign( final Optional<Port__Queue> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Port_Queue.");
@@ -49227,38 +49227,38 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getParam__().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Port__Queue_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().get_selection()) {
 					getMsgid().cleanUp();
 				} else {
 					getMsgid().assign(other_value.getMsgid());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAddress__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAddress__().get_selection()) {
 					getAddress__().cleanUp();
 				} else {
 					getAddress__().assign(other_value.getAddress__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParam__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParam__().get_selection()) {
 					getParam__().cleanUp();
 				} else {
 					getParam__().assign(other_value.getParam__());
@@ -49279,7 +49279,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Port_Queue.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -49369,7 +49369,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Port_Queue.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Port__Queue_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Port__Queue_template());
@@ -49851,7 +49851,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new ParallelEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -49876,12 +49876,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ParallelEvent_template( final Optional<ParallelEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ParallelEvent from an unbound optional field.");
@@ -49892,7 +49892,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ParallelEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -49932,12 +49932,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ParallelEvent_template assign( final Optional<ParallelEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ParallelEvent.");
@@ -49951,13 +49951,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ParallelEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -49978,7 +49978,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ParallelEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -50053,7 +50053,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ParallelEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ParallelEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ParallelEvent_template());
@@ -50498,7 +50498,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.FinalVerdictType.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final FinalVerdictType_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -50530,7 +50530,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.FinalVerdictType.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public FinalVerdictType_choice_template() {
@@ -50577,7 +50577,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FinalVerdictType_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -50729,7 +50729,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.FinalVerdictType.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<FinalVerdictType_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new FinalVerdictType_choice_template());
@@ -50798,7 +50798,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new FinalVerdictInfo_template();
 				}
 				single_value_union_selection = FinalVerdictType_choice.union_selection_type.ALT_Info;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (FinalVerdictInfo_template)single_value;
 		}
@@ -50823,7 +50823,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new FinalVerdictType_choice_notification_template();
 				}
 				single_value_union_selection = FinalVerdictType_choice.union_selection_type.ALT_Notification;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (FinalVerdictType_choice_notification_template)single_value;
 		}
@@ -51426,12 +51426,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public StartFunction_parameter__list_template( final Optional<StartFunction_parameter__list> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.StartFunction.parameter_list from an unbound optional field.");
@@ -51456,7 +51456,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					value_elements.add( new TitanCharString_template() );
 				}
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final StartFunction_parameter__list_template other_value) {
@@ -51487,7 +51487,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -51581,7 +51581,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public StartFunction_parameter__list_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -51621,12 +51621,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public StartFunction_parameter__list_template assign( final Optional<StartFunction_parameter__list> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.StartFunction.parameter_list.");
@@ -51827,7 +51827,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				value_elements = null;
 			}
 			if (value_elements == null) {
@@ -51879,7 +51879,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int i=0; i<elem_count; i++)
 				{
-					switch (value_elements.get(i).getSelection())
+					switch (value_elements.get(i).get_selection())
 					{
 					case OMIT_VALUE:
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.StartFunction.parameter_list containing omit element.", op_name ) );
@@ -51998,7 +51998,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Internal error: Setting an invalid type for a template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
-			setSelection(template_type);
+			set_selection(template_type);
 		}
 
 		public StartFunction_parameter__list_template listItem(final int list_index) {
@@ -52216,7 +52216,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
 				}
@@ -52226,7 +52226,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
 				}
@@ -52564,7 +52564,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__name = new TitanCharString_template();
 				operation = new Msg__port__recv_operation_template();
 				compref = new TitanInteger_template();
@@ -52599,12 +52599,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Msg__port__recv_template( final Optional<Msg__port__recv> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Msg_port_recv from an unbound optional field.");
@@ -52615,7 +52615,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Msg__port__recv_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -52655,12 +52655,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Msg__port__recv_template assign( final Optional<Msg__port__recv> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Msg_port_recv.");
@@ -52699,38 +52699,38 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getMsgid().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Msg__port__recv_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSys__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSys__name().get_selection()) {
 					getSys__name().cleanUp();
 				} else {
 					getSys__name().assign(other_value.getSys__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter().get_selection()) {
 					getParameter().cleanUp();
 				} else {
 					getParameter().assign(other_value.getParameter());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getMsgid().get_selection()) {
 					getMsgid().cleanUp();
 				} else {
 					getMsgid().assign(other_value.getMsgid());
@@ -52751,7 +52751,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Msg_port_recv.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -52841,7 +52841,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Msg_port_recv.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Msg__port__recv_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Msg__port__recv_template());
@@ -53362,7 +53362,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				name = new TitanCharString_template();
 				value__ = new TitanFloat_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -53389,12 +53389,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TimerType_template( final Optional<TimerType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TimerType from an unbound optional field.");
@@ -53405,7 +53405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TimerType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -53445,12 +53445,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TimerType_template assign( final Optional<TimerType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TimerType.");
@@ -53469,18 +53469,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getValue__().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TimerType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().get_selection()) {
 					getName().cleanUp();
 				} else {
 					getName().assign(other_value.getName());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getValue__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getValue__().get_selection()) {
 					getValue__().cleanUp();
 				} else {
 					getValue__().assign(other_value.getValue__());
@@ -53501,7 +53501,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TimerType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -53579,7 +53579,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TimerType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TimerType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TimerType_template());
@@ -53965,7 +53965,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new DefaultEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -53990,12 +53990,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public DefaultEvent_template( final Optional<DefaultEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.DefaultEvent from an unbound optional field.");
@@ -54006,7 +54006,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public DefaultEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -54046,12 +54046,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public DefaultEvent_template assign( final Optional<DefaultEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.DefaultEvent.");
@@ -54065,13 +54065,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final DefaultEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -54092,7 +54092,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.DefaultEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -54167,7 +54167,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.DefaultEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<DefaultEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new DefaultEvent_template());
@@ -54717,7 +54717,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Port__Queue_operation_template> value_list;
 
 		private void copy_template(final Port__Queue_operation_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -54800,7 +54800,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__Queue_operation_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -54810,14 +54810,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Port__Queue_operation.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Port__Queue_operation_template assign(final Port__Queue_operation.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -54839,7 +54839,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Port__Queue_operation to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -54921,7 +54921,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__Queue_operation.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Port__Queue_operation_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Port__Queue_operation_template());
@@ -55359,7 +55359,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				port__name = new TitanCharString_template();
 				reason = new MatchingProblemType_reason_template();
 				operation = new MatchingProblemType_operation_template();
@@ -55392,12 +55392,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public MatchingProblemType_template( final Optional<MatchingProblemType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.MatchingProblemType from an unbound optional field.");
@@ -55408,7 +55408,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingProblemType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -55448,12 +55448,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public MatchingProblemType_template assign( final Optional<MatchingProblemType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.MatchingProblemType.");
@@ -55487,33 +55487,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getAny__port().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final MatchingProblemType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOperation().get_selection()) {
 					getOperation().cleanUp();
 				} else {
 					getOperation().assign(other_value.getOperation());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCheck__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCheck__().get_selection()) {
 					getCheck__().cleanUp();
 				} else {
 					getCheck__().assign(other_value.getCheck__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAny__port().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAny__port().get_selection()) {
 					getAny__port().cleanUp();
 				} else {
 					getAny__port().assign(other_value.getAny__port());
@@ -55534,7 +55534,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.MatchingProblemType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -55621,7 +55621,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.MatchingProblemType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<MatchingProblemType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new MatchingProblemType_template());
@@ -56079,7 +56079,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				str__list = new Strings_str__list_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					str__list.assign(template_sel.ANY_VALUE);
@@ -56104,12 +56104,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Strings_template( final Optional<Strings> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Strings from an unbound optional field.");
@@ -56120,7 +56120,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Strings_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -56160,12 +56160,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Strings_template assign( final Optional<Strings> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Strings.");
@@ -56179,13 +56179,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getStr__list().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Strings_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getStr__list().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getStr__list().get_selection()) {
 					getStr__list().cleanUp();
 				} else {
 					getStr__list().assign(other_value.getStr__list());
@@ -56206,7 +56206,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Strings.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -56281,7 +56281,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Strings.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Strings_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Strings_template());
@@ -56721,7 +56721,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				compref = new TitanInteger_template();
 				pid = new TitanInteger_template();
 				statuscode = new TitanInteger_template();
@@ -56750,12 +56750,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public PTC__exit_template( final Optional<PTC__exit> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.PTC_exit from an unbound optional field.");
@@ -56766,7 +56766,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public PTC__exit_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -56806,12 +56806,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public PTC__exit_template assign( final Optional<PTC__exit> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.PTC_exit.");
@@ -56835,23 +56835,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getStatuscode().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final PTC__exit_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPid().get_selection()) {
 					getPid().cleanUp();
 				} else {
 					getPid().assign(other_value.getPid());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getStatuscode().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getStatuscode().get_selection()) {
 					getStatuscode().cleanUp();
 				} else {
 					getStatuscode().assign(other_value.getStatuscode());
@@ -56872,7 +56872,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.PTC_exit.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -56953,7 +56953,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.PTC_exit.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<PTC__exit_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new PTC__exit_template());
@@ -57579,7 +57579,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Port__Misc_reason_template> value_list;
 
 		private void copy_template(final Port__Misc_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -57662,7 +57662,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Port__Misc_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -57672,14 +57672,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Port__Misc_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Port__Misc_reason_template assign(final Port__Misc_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -57701,7 +57701,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Port__Misc_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -57783,7 +57783,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Port__Misc_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Port__Misc_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Port__Misc_reason_template());
@@ -58065,7 +58065,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				sequence__list = new TitanLog_sequence__list_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					sequence__list.assign(template_sel.ANY_VALUE);
@@ -58090,12 +58090,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_template( final Optional<TitanLog> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanLog from an unbound optional field.");
@@ -58106,7 +58106,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanLog_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -58146,12 +58146,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanLog_template assign( final Optional<TitanLog> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanLog.");
@@ -58165,13 +58165,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getSequence__list().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanLog_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSequence__list().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSequence__list().get_selection()) {
 					getSequence__list().cleanUp();
 				} else {
 					getSequence__list().assign(other_value.getSequence__list());
@@ -58192,7 +58192,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLog.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -58267,7 +58267,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TitanLog.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TitanLog_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TitanLog_template());
@@ -58629,7 +58629,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				text = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					text.assign(template_sel.ANY_VALUE);
@@ -58654,12 +58654,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ErrorEvent_template( final Optional<ErrorEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ErrorEvent from an unbound optional field.");
@@ -58670,7 +58670,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ErrorEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -58710,12 +58710,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ErrorEvent_template assign( final Optional<ErrorEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ErrorEvent.");
@@ -58729,13 +58729,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getText().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ErrorEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getText().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getText().get_selection()) {
 					getText().cleanUp();
 				} else {
 					getText().assign(other_value.getText());
@@ -58756,7 +58756,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ErrorEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -58831,7 +58831,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ErrorEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ErrorEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ErrorEvent_template());
@@ -59193,7 +59193,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new ExecutorEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -59218,12 +59218,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ExecutorEvent_template( final Optional<ExecutorEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ExecutorEvent from an unbound optional field.");
@@ -59234,7 +59234,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -59274,12 +59274,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ExecutorEvent_template assign( final Optional<ExecutorEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ExecutorEvent.");
@@ -59293,13 +59293,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ExecutorEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -59320,7 +59320,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ExecutorEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -59395,7 +59395,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ExecutorEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ExecutorEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ExecutorEvent_template());
@@ -59991,7 +59991,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new Parallel_reason_template();
 				alive__ = new TitanBoolean_template();
 				function__name = new TitanCharString_template();
@@ -60028,12 +60028,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Parallel_template( final Optional<Parallel> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Parallel from an unbound optional field.");
@@ -60044,7 +60044,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Parallel_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -60084,12 +60084,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Parallel_template assign( final Optional<Parallel> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Parallel.");
@@ -60133,43 +60133,43 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getDst__port().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Parallel_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAlive__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAlive__().get_selection()) {
 					getAlive__().cleanUp();
 				} else {
 					getAlive__().assign(other_value.getAlive__());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFunction__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFunction__name().get_selection()) {
 					getFunction__name().cleanUp();
 				} else {
 					getFunction__name().assign(other_value.getFunction__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrc__compref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrc__compref().get_selection()) {
 					getSrc__compref().cleanUp();
 				} else {
 					getSrc__compref().assign(other_value.getSrc__compref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrc__port().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getSrc__port().get_selection()) {
 					getSrc__port().cleanUp();
 				} else {
 					getSrc__port().assign(other_value.getSrc__port());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDst__compref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDst__compref().get_selection()) {
 					getDst__compref().cleanUp();
 				} else {
 					getDst__compref().assign(other_value.getDst__compref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDst__port().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getDst__port().get_selection()) {
 					getDst__port().cleanUp();
 				} else {
 					getDst__port().assign(other_value.getDst__port());
@@ -60190,7 +60190,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Parallel.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -60283,7 +60283,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Parallel.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Parallel_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Parallel_template());
@@ -60753,10 +60753,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(module__name.getSelection()) || module__name.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(testcase__name.getSelection()) || testcase__name.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(pid.getSelection()) || pid.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(fd__setsize.getSelection()) || fd__setsize.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(module__name.get_selection()) || module__name.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(testcase__name.get_selection()) || testcase__name.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(pid.get_selection()) || pid.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(fd__setsize.get_selection()) || fd__setsize.isBound() ) { return true; }
 			return false;
 		}
 
@@ -60766,10 +60766,10 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(module__name.getSelection()) && !module__name.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(testcase__name.getSelection()) && !testcase__name.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(pid.getSelection()) && !pid.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(fd__setsize.getSelection()) && !fd__setsize.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(module__name.get_selection()) && !module__name.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(testcase__name.get_selection()) && !testcase__name.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(pid.get_selection()) && !pid.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(fd__setsize.get_selection()) && !fd__setsize.isValue() ) { return false; }
 			return true;
 		}
 
@@ -60961,7 +60961,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new ExecutorRuntime_reason_template();
 				module__name = new TitanCharString_template();
 				testcase__name = new TitanCharString_template();
@@ -60994,12 +60994,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ExecutorRuntime_template( final Optional<ExecutorRuntime> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ExecutorRuntime from an unbound optional field.");
@@ -61010,7 +61010,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorRuntime_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -61050,12 +61050,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ExecutorRuntime_template assign( final Optional<ExecutorRuntime> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ExecutorRuntime.");
@@ -61105,33 +61105,33 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getFd__setsize().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ExecutorRuntime_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getModule__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getModule__name().get_selection()) {
 					getModule__name().cleanUp();
 				} else {
 					getModule__name().assign(other_value.getModule__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTestcase__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTestcase__name().get_selection()) {
 					getTestcase__name().cleanUp();
 				} else {
 					getTestcase__name().assign(other_value.getTestcase__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPid().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPid().get_selection()) {
 					getPid().cleanUp();
 				} else {
 					getPid().assign(other_value.getPid());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFd__setsize().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFd__setsize().get_selection()) {
 					getFd__setsize().cleanUp();
 				} else {
 					getFd__setsize().assign(other_value.getFd__setsize());
@@ -61152,7 +61152,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ExecutorRuntime.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -61247,7 +61247,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ExecutorRuntime.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ExecutorRuntime_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ExecutorRuntime_template());
@@ -61717,7 +61717,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new FinalVerdictType_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -61742,12 +61742,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public FinalVerdictType_template( final Optional<FinalVerdictType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.FinalVerdictType from an unbound optional field.");
@@ -61758,7 +61758,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FinalVerdictType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -61798,12 +61798,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public FinalVerdictType_template assign( final Optional<FinalVerdictType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.FinalVerdictType.");
@@ -61817,13 +61817,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final FinalVerdictType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -61844,7 +61844,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.FinalVerdictType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -61919,7 +61919,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.FinalVerdictType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<FinalVerdictType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new FinalVerdictType_template());
@@ -62461,7 +62461,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<FinalVerdictType_choice_notification_template> value_list;
 
 		private void copy_template(final FinalVerdictType_choice_notification_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -62544,7 +62544,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FinalVerdictType_choice_notification_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -62554,14 +62554,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type FinalVerdictType_choice_notification.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public FinalVerdictType_choice_notification_template assign(final FinalVerdictType_choice_notification.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -62583,7 +62583,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type FinalVerdictType_choice_notification to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -62665,7 +62665,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type FinalVerdictType_choice_notification.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<FinalVerdictType_choice_notification_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new FinalVerdictType_choice_notification_template());
@@ -63131,7 +63131,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<ExecutorUnqualified_reason_template> value_list;
 
 		private void copy_template(final ExecutorUnqualified_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -63214,7 +63214,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorUnqualified_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -63224,14 +63224,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type ExecutorUnqualified_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public ExecutorUnqualified_reason_template assign(final ExecutorUnqualified_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -63253,7 +63253,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type ExecutorUnqualified_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -63335,7 +63335,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorUnqualified_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<ExecutorUnqualified_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ExecutorUnqualified_reason_template());
@@ -63799,7 +63799,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Msg__port__recv_operation_template> value_list;
 
 		private void copy_template(final Msg__port__recv_operation_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -63882,7 +63882,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Msg__port__recv_operation_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -63892,14 +63892,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Msg__port__recv_operation.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Msg__port__recv_operation_template assign(final Msg__port__recv_operation.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -63921,7 +63921,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Msg__port__recv_operation to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -64003,7 +64003,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Msg__port__recv_operation.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Msg__port__recv_operation_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Msg__port__recv_operation_template());
@@ -64471,7 +64471,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<Verdict_template> value_list;
 
 		private void copy_template(final Verdict_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -64554,7 +64554,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Verdict_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -64564,14 +64564,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type Verdict.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public Verdict_template assign(final Verdict.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -64593,7 +64593,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type Verdict to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -64675,7 +64675,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type Verdict.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<Verdict_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new Verdict_template());
@@ -65177,7 +65177,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<ParallelPTC_reason_template> value_list;
 
 		private void copy_template(final ParallelPTC_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -65260,7 +65260,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ParallelPTC_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -65270,14 +65270,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type ParallelPTC_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public ParallelPTC_reason_template assign(final ParallelPTC_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -65299,7 +65299,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type ParallelPTC_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -65381,7 +65381,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ParallelPTC_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<ParallelPTC_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ParallelPTC_reason_template());
@@ -65663,7 +65663,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				value__ = new TitanFloat_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					value__.assign(template_sel.ANY_VALUE);
@@ -65688,12 +65688,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TimerGuardType_template( final Optional<TimerGuardType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TimerGuardType from an unbound optional field.");
@@ -65704,7 +65704,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TimerGuardType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -65744,12 +65744,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TimerGuardType_template assign( final Optional<TimerGuardType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TimerGuardType.");
@@ -65763,13 +65763,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getValue__().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TimerGuardType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getValue__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getValue__().get_selection()) {
 					getValue__().cleanUp();
 				} else {
 					getValue__().assign(other_value.getValue__());
@@ -65790,7 +65790,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TimerGuardType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -65865,7 +65865,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TimerGuardType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TimerGuardType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TimerGuardType_template());
@@ -66305,7 +66305,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				function__name = new TitanCharString_template();
 				compref = new TitanInteger_template();
 				parameter__list = new StartFunction_parameter__list_template();
@@ -66334,12 +66334,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public StartFunction_template( final Optional<StartFunction> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.StartFunction from an unbound optional field.");
@@ -66350,7 +66350,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public StartFunction_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -66390,12 +66390,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public StartFunction_template assign( final Optional<StartFunction> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.StartFunction.");
@@ -66419,23 +66419,23 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getParameter__list().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final StartFunction_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFunction__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getFunction__name().get_selection()) {
 					getFunction__name().cleanUp();
 				} else {
 					getFunction__name().assign(other_value.getFunction__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter__list().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getParameter__list().get_selection()) {
 					getParameter__list().cleanUp();
 				} else {
 					getParameter__list().assign(other_value.getParameter__list());
@@ -66456,7 +66456,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StartFunction.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -66537,7 +66537,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.StartFunction.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<StartFunction_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new StartFunction_template());
@@ -67064,7 +67064,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new ExecutorUnqualified_reason_template();
 				name = new TitanCharString_template();
 				addr = new TitanCharString_template();
@@ -67095,12 +67095,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ExecutorUnqualified_template( final Optional<ExecutorUnqualified> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ExecutorUnqualified from an unbound optional field.");
@@ -67111,7 +67111,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorUnqualified_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -67151,12 +67151,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ExecutorUnqualified_template assign( final Optional<ExecutorUnqualified> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ExecutorUnqualified.");
@@ -67185,28 +67185,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getPort__().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ExecutorUnqualified_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getName().get_selection()) {
 					getName().cleanUp();
 				} else {
 					getName().assign(other_value.getName());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAddr().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAddr().get_selection()) {
 					getAddr().cleanUp();
 				} else {
 					getAddr().assign(other_value.getAddr());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__().get_selection()) {
 					getPort__().cleanUp();
 				} else {
 					getPort__().assign(other_value.getPort__());
@@ -67227,7 +67227,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ExecutorUnqualified.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -67311,7 +67311,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ExecutorUnqualified.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ExecutorUnqualified_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ExecutorUnqualified_template());
@@ -67927,7 +67927,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<DefaultEnd_template> value_list;
 
 		private void copy_template(final DefaultEnd_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -68010,7 +68010,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public DefaultEnd_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -68020,14 +68020,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type DefaultEnd.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public DefaultEnd_template assign(final DefaultEnd.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -68049,7 +68049,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type DefaultEnd to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -68131,7 +68131,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type DefaultEnd.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<DefaultEnd_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new DefaultEnd_template());
@@ -68452,7 +68452,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				category = new TitanInteger_template();
 				text = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -68479,12 +68479,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Categorized_template( final Optional<Categorized> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Categorized from an unbound optional field.");
@@ -68495,7 +68495,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Categorized_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -68535,12 +68535,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Categorized_template assign( final Optional<Categorized> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Categorized.");
@@ -68559,18 +68559,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getText().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Categorized_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCategory().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCategory().get_selection()) {
 					getCategory().cleanUp();
 				} else {
 					getCategory().assign(other_value.getCategory());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getText().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getText().get_selection()) {
 					getText().cleanUp();
 				} else {
 					getText().assign(other_value.getText());
@@ -68591,7 +68591,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Categorized.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -68669,7 +68669,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Categorized.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Categorized_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Categorized_template());
@@ -69375,12 +69375,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list_template( final Optional<TitanLog_sequence__list> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanLog.sequence_list from an unbound optional field.");
@@ -69405,7 +69405,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					value_elements.add( new TitanLog_sequence__list_0_template() );
 				}
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanLog_sequence__list_template other_value) {
@@ -69436,7 +69436,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -69530,7 +69530,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanLog_sequence__list_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -69570,12 +69570,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanLog_sequence__list_template assign( final Optional<TitanLog_sequence__list> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copy_value(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanLog.sequence_list.");
@@ -69776,7 +69776,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			final template_sel old_selection = templateSelection;
 			if (old_selection != template_sel.SPECIFIC_VALUE) {
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				value_elements = null;
 			}
 			if (value_elements == null) {
@@ -69828,7 +69828,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				}
 				for (int i=0; i<elem_count; i++)
 				{
-					switch (value_elements.get(i).getSelection())
+					switch (value_elements.get(i).get_selection())
 					{
 					case OMIT_VALUE:
 						throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list containing omit element.", op_name ) );
@@ -69947,7 +69947,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Internal error: Setting an invalid type for a template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
-			setSelection(template_type);
+			set_selection(template_type);
 		}
 
 		public TitanLog_sequence__list_template listItem(final int list_index) {
@@ -70165,7 +70165,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_VALUE) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_VALUE) {
 						return true;
 					}
 				}
@@ -70175,7 +70175,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					return false;
 				}
 				for (int i = 0; i < value_elements.size(); i++) {
-					if (value_elements.get(i).getSelection() == template_sel.ANY_OR_OMIT) {
+					if (value_elements.get(i).get_selection() == template_sel.ANY_OR_OMIT) {
 						return true;
 					}
 				}
@@ -70357,7 +70357,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				numberOfTestcases = new TitanInteger_template();
 				overallStatistics = new TitanCharString_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -70384,12 +70384,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ExecutionSummaryType_template( final Optional<ExecutionSummaryType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ExecutionSummaryType from an unbound optional field.");
@@ -70400,7 +70400,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutionSummaryType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -70440,12 +70440,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ExecutionSummaryType_template assign( final Optional<ExecutionSummaryType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ExecutionSummaryType.");
@@ -70464,18 +70464,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getOverallStatistics().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ExecutionSummaryType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNumberOfTestcases().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getNumberOfTestcases().get_selection()) {
 					getNumberOfTestcases().cleanUp();
 				} else {
 					getNumberOfTestcases().assign(other_value.getNumberOfTestcases());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOverallStatistics().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getOverallStatistics().get_selection()) {
 					getOverallStatistics().cleanUp();
 				} else {
 					getOverallStatistics().assign(other_value.getOverallStatistics());
@@ -70496,7 +70496,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ExecutionSummaryType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -70574,7 +70574,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ExecutionSummaryType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ExecutionSummaryType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ExecutionSummaryType_template());
@@ -70960,7 +70960,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new MatchingEvent_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -70985,12 +70985,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public MatchingEvent_template( final Optional<MatchingEvent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.MatchingEvent from an unbound optional field.");
@@ -71001,7 +71001,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingEvent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -71041,12 +71041,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public MatchingEvent_template assign( final Optional<MatchingEvent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.MatchingEvent.");
@@ -71060,13 +71060,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final MatchingEvent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -71087,7 +71087,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.MatchingEvent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -71162,7 +71162,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.MatchingEvent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<MatchingEvent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new MatchingEvent_template());
@@ -71524,7 +71524,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				choice = new StatisticsType_choice_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
 					choice.assign(template_sel.ANY_VALUE);
@@ -71549,12 +71549,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public StatisticsType_template( final Optional<StatisticsType> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.StatisticsType from an unbound optional field.");
@@ -71565,7 +71565,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public StatisticsType_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -71605,12 +71605,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public StatisticsType_template assign( final Optional<StatisticsType> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.StatisticsType.");
@@ -71624,13 +71624,13 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getChoice().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final StatisticsType_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getChoice().get_selection()) {
 					getChoice().cleanUp();
 				} else {
 					getChoice().assign(other_value.getChoice());
@@ -71651,7 +71651,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StatisticsType.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -71726,7 +71726,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.StatisticsType.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<StatisticsType_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new StatisticsType_template());
@@ -72205,7 +72205,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				incoming = new TitanBoolean_template();
 				target__type = new TitanCharString_template();
 				port__name = new TitanCharString_template();
@@ -72236,12 +72236,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Dualface__discard_template( final Optional<Dualface__discard> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.Dualface_discard from an unbound optional field.");
@@ -72252,7 +72252,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public Dualface__discard_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -72292,12 +72292,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public Dualface__discard_template assign( final Optional<Dualface__discard> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Dualface_discard.");
@@ -72326,28 +72326,28 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getUnhandled().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final Dualface__discard_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIncoming().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIncoming().get_selection()) {
 					getIncoming().cleanUp();
 				} else {
 					getIncoming().assign(other_value.getIncoming());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTarget__type().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTarget__type().get_selection()) {
 					getTarget__type().cleanUp();
 				} else {
 					getTarget__type().assign(other_value.getTarget__type());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPort__name().get_selection()) {
 					getPort__name().cleanUp();
 				} else {
 					getPort__name().assign(other_value.getPort__name());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getUnhandled().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getUnhandled().get_selection()) {
 					getUnhandled().cleanUp();
 				} else {
 					getUnhandled().assign(other_value.getUnhandled());
@@ -72368,7 +72368,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Dualface_discard.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -72452,7 +72452,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Dualface_discard.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<Dualface__discard_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new Dualface__discard_template());
@@ -73080,7 +73080,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.MatchingEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final MatchingEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -73121,7 +73121,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.MatchingEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public MatchingEvent_choice_template() {
@@ -73177,7 +73177,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public MatchingEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -73350,7 +73350,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.MatchingEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<MatchingEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new MatchingEvent_choice_template());
@@ -73419,7 +73419,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new MatchingDoneType_template();
 				}
 				single_value_union_selection = MatchingEvent_choice.union_selection_type.ALT_MatchingDone;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (MatchingDoneType_template)single_value;
 		}
@@ -73444,7 +73444,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new MatchingSuccessType_template();
 				}
 				single_value_union_selection = MatchingEvent_choice.union_selection_type.ALT_MatchingSuccess;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (MatchingSuccessType_template)single_value;
 		}
@@ -73469,7 +73469,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new MatchingFailureType_template();
 				}
 				single_value_union_selection = MatchingEvent_choice.union_selection_type.ALT_MatchingFailure;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (MatchingFailureType_template)single_value;
 		}
@@ -73494,7 +73494,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new MatchingProblemType_template();
 				}
 				single_value_union_selection = MatchingEvent_choice.union_selection_type.ALT_MatchingProblem;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (MatchingProblemType_template)single_value;
 		}
@@ -73519,7 +73519,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new MatchingTimeout_template();
 				}
 				single_value_union_selection = MatchingEvent_choice.union_selection_type.ALT_MatchingTimeout;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (MatchingTimeout_template)single_value;
 		}
@@ -73924,7 +73924,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.FunctionEvent.choice.");
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		private void copy_template(final FunctionEvent_choice_template other_value) {
 			switch (other_value.templateSelection) {
@@ -73956,7 +73956,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of union type @TitanLoggerApi.FunctionEvent.choice.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public FunctionEvent_choice_template() {
@@ -74003,7 +74003,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public FunctionEvent_choice_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -74155,7 +74155,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Internal error: Setting an invalid list for a template of union type @TitanLoggerApi.FunctionEvent.choice.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			value_list = new ArrayList<FunctionEvent_choice_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new FunctionEvent_choice_template());
@@ -74224,7 +74224,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new TitanCharString_template();
 				}
 				single_value_union_selection = FunctionEvent_choice.union_selection_type.ALT_Unqualified;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (TitanCharString_template)single_value;
 		}
@@ -74249,7 +74249,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 					single_value = new FunctionEvent_choice_random_template();
 				}
 				single_value_union_selection = FunctionEvent_choice.union_selection_type.ALT_Random;
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 			}
 			return (FunctionEvent_choice_random_template)single_value;
 		}
@@ -74712,7 +74712,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<RandomAction_template> value_list;
 
 		private void copy_template(final RandomAction_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -74795,7 +74795,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public RandomAction_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -74805,14 +74805,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type RandomAction.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public RandomAction_template assign(final RandomAction.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -74834,7 +74834,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type RandomAction to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -74916,7 +74916,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type RandomAction.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<RandomAction_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new RandomAction_template());
@@ -75129,7 +75129,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
-			if ( optional_sel.OPTIONAL_OMIT.equals(compref.getSelection()) || compref.isBound() ) { return true; }
+			if ( optional_sel.OPTIONAL_OMIT.equals(compref.get_selection()) || compref.isBound() ) { return true; }
 			return false;
 		}
 
@@ -75139,7 +75139,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
-			if ( !optional_sel.OPTIONAL_OMIT.equals(compref.getSelection()) && !compref.isValue() ) { return false; }
+			if ( !optional_sel.OPTIONAL_OMIT.equals(compref.get_selection()) && !compref.isValue() ) { return false; }
 			return true;
 		}
 
@@ -75241,7 +75241,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				reason = new ExecutorComponent_reason_template();
 				compref = new TitanInteger_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -75268,12 +75268,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public ExecutorComponent_template( final Optional<ExecutorComponent> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.ExecutorComponent from an unbound optional field.");
@@ -75284,7 +75284,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorComponent_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -75324,12 +75324,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public ExecutorComponent_template assign( final Optional<ExecutorComponent> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.ExecutorComponent.");
@@ -75352,18 +75352,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getCompref().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final ExecutorComponent_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getReason().get_selection()) {
 					getReason().cleanUp();
 				} else {
 					getReason().assign(other_value.getReason());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getCompref().get_selection()) {
 					getCompref().cleanUp();
 				} else {
 					getCompref().assign(other_value.getCompref());
@@ -75384,7 +75384,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.ExecutorComponent.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -75464,7 +75464,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.ExecutorComponent.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<ExecutorComponent_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new ExecutorComponent_template());
@@ -75892,7 +75892,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			if (templateSelection != template_sel.SPECIFIC_VALUE) {
 				final template_sel old_selection = templateSelection;
 				cleanUp();
-				setSelection(template_sel.SPECIFIC_VALUE);
+				set_selection(template_sel.SPECIFIC_VALUE);
 				entityId = new ComponentIDType_template();
 				event__list = new TitanLog_sequence__list_0_event__list_template();
 				if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -75919,12 +75919,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list_0_template( final Optional<TitanLog_sequence__list_0> other_value ) {
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype from an unbound optional field.");
@@ -75935,7 +75935,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public TitanLog_sequence__list_0_template assign( final template_sel other_value ) {
 			checkSingleSelection(other_value);
 			cleanUp();
-			setSelection(other_value);
+			set_selection(other_value);
 			return this;
 		}
 
@@ -75975,12 +75975,12 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 		public TitanLog_sequence__list_0_template assign( final Optional<TitanLog_sequence__list_0> other_value ) {
 			cleanUp();
-			switch (other_value.getSelection()) {
+			switch (other_value.get_selection()) {
 			case OPTIONAL_PRESENT:
 				copyValue(other_value.constGet());
 				break;
 			case OPTIONAL_OMIT:
-				setSelection(template_sel.OMIT_VALUE);
+				set_selection(template_sel.OMIT_VALUE);
 				break;
 			default:
 				throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
@@ -75999,18 +75999,18 @@ public final class TitanLoggerApi extends TTCN_Module {
 			} else {
 				getEvent__list().cleanUp();
 			}
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 
 		private void copyTemplate(final TitanLog_sequence__list_0_template other_value) {
 			switch (other_value.templateSelection) {
 			case SPECIFIC_VALUE:
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEntityId().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEntityId().get_selection()) {
 					getEntityId().cleanUp();
 				} else {
 					getEntityId().assign(other_value.getEntityId());
 				}
-				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEvent__list().getSelection()) {
+				if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getEvent__list().get_selection()) {
 					getEvent__list().cleanUp();
 				} else {
 					getEvent__list().assign(other_value.getEvent__list());
@@ -76031,7 +76031,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 			default:
 				throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 			}
-			setSelection(other_value);
+			set_selection(other_value);
 		}
 
 		public boolean isPresent() {
@@ -76109,7 +76109,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 			}
 			cleanUp();
-			setSelection(template_type);
+			set_selection(template_type);
 			list_value = new ArrayList<TitanLog_sequence__list_0_template>(list_length);
 			for(int i = 0 ; i < list_length; i++) {
 				list_value.add(new TitanLog_sequence__list_0_template());
@@ -76681,7 +76681,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		private ArrayList<ExecutorComponent_reason_template> value_list;
 
 		private void copy_template(final ExecutorComponent_reason_template otherValue) {
-			setSelection(otherValue);switch (otherValue.templateSelection) {
+			set_selection(otherValue);switch (otherValue.templateSelection) {
 			case SPECIFIC_VALUE:
 				single_value = otherValue.single_value;
 				break;
@@ -76764,7 +76764,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		public ExecutorComponent_reason_template assign(final template_sel otherValue) {
 			checkSingleSelection(otherValue);
 			cleanUp();
-			setSelection(otherValue);
+			set_selection(otherValue);
 			return this;
 		}
 
@@ -76774,14 +76774,14 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assigning unknown numeric value " + otherValue + " to a template of enumerated type ExecutorComponent_reason.");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			return this;
 		}
 
 		//originally operator=
 		public ExecutorComponent_reason_template assign(final ExecutorComponent_reason.enum_type otherValue){
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue;
 			return this;
 		}
@@ -76803,7 +76803,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Assignment of an unbound value of enumerated type ExecutorComponent_reason to a template. ");
 			}
 			cleanUp();
-			setSelection(template_sel.SPECIFIC_VALUE);
+			set_selection(template_sel.SPECIFIC_VALUE);
 			single_value = otherValue.enum_value;
 			return this;
 		}
@@ -76885,7 +76885,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 				throw new TtcnError("Setting an invalid list type for a template of enumerated type ExecutorComponent_reason.");
 			}
 			cleanUp();
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<ExecutorComponent_reason_template>();
 			for(int i = 0 ; i < list_length; i++) {
 				value_list.add(new ExecutorComponent_reason_template());

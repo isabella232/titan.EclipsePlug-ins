@@ -87,7 +87,7 @@ public class TitanDefault_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported default reference template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	//originally clean_up
@@ -139,7 +139,7 @@ public class TitanDefault_template extends Base_Template {
 	public TitanDefault_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -151,7 +151,7 @@ public class TitanDefault_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = null;
 
 		return this;
@@ -160,7 +160,7 @@ public class TitanDefault_template extends Base_Template {
 	// originally operator=
 	public TitanDefault_template assign(final Default_Base otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue;
 
 		return this;
@@ -173,7 +173,7 @@ public class TitanDefault_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = otherValue.default_ptr;
 
 		return this;
@@ -274,7 +274,7 @@ public class TitanDefault_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(templateType);
+		set_selection(templateType);
 		value_list = new ArrayList<TitanDefault_template>(listLength);
 	}
 

@@ -113,7 +113,7 @@ public class TitanInteger_template extends Base_Template {
 	public TitanInteger_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -121,7 +121,7 @@ public class TitanInteger_template extends Base_Template {
 	// originally operator=
 	public TitanInteger_template assign(final int otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 
 		return this;
@@ -130,7 +130,7 @@ public class TitanInteger_template extends Base_Template {
 	// originally operator=
 	public TitanInteger_template assign(final BigInteger otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 
 		return this;
@@ -141,7 +141,7 @@ public class TitanInteger_template extends Base_Template {
 		otherValue.mustBound("Assignment of an unbound integer value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanInteger(otherValue);
 
 		return this;
@@ -190,7 +190,7 @@ public class TitanInteger_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported integer template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	@Override
@@ -272,14 +272,14 @@ public class TitanInteger_template extends Base_Template {
 		switch (templateType) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<TitanInteger_template>(listLength);
 			for (int i = 0; i < listLength; i++) {
 				value_list.add(new TitanInteger_template());
 			}
 			break;
 		case VALUE_RANGE:
-			setSelection(template_sel.VALUE_RANGE);
+			set_selection(template_sel.VALUE_RANGE);
 			min_is_present = false;
 			max_is_present = false;
 			min_is_exclusive = false;

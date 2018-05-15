@@ -716,7 +716,7 @@ public class EnumeratedGenerator {
 
 	private static void generatetemplateCopyTemplate(final StringBuilder source, final String name) {
 		source.append(MessageFormat.format("private void copy_template(final {0}_template otherValue) '{'\n", name));
-		source.append("setSelection(otherValue);");
+		source.append("set_selection(otherValue);");
 		source.append("switch (otherValue.templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value = otherValue.single_value;\n");
@@ -745,7 +745,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("public {0}_template assign(final template_sel otherValue) '{'\n", name));
 		source.append("checkSingleSelection(otherValue);\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(otherValue);\n");
+		source.append("set_selection(otherValue);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
@@ -756,7 +756,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Assigning unknown numeric value \" + otherValue + \" to a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
 
@@ -764,7 +764,7 @@ public class EnumeratedGenerator {
 		source.append("//originally operator=\n");
 		source.append(MessageFormat.format("public {0}_template assign(final {0}.enum_type otherValue)'{'\n", name));
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue;\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -787,7 +787,7 @@ public class EnumeratedGenerator {
 		source.append("throw new TtcnError(\"Assignment of an unbound value of enumerated type "+ name +" to a template. \");\n");
 		source.append("}\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
 		source.append("single_value = otherValue.enum_value;\n");
 		source.append("return this;\n");
 		source.append("}\n\n");
@@ -835,7 +835,7 @@ public class EnumeratedGenerator {
 		source.append(MessageFormat.format("throw new TtcnError(\"Setting an invalid list type for a template of enumerated type {0}.\");\n", name));
 		source.append("}\n");
 		source.append("cleanUp();\n");
-		source.append("setSelection(templateType);\n");
+		source.append("set_selection(templateType);\n");
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>();\n", name));
 		source.append("for(int i = 0 ; i < list_length; i++) {\n");
 		source.append(MessageFormat.format("value_list.add(new {0}_template());\n", name));

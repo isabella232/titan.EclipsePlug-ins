@@ -2912,7 +2912,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("if (!component_reference.isBound()) {\n");
 		source.append("throw new TtcnError(\"Performing a done operation on an unbound component reference.\");\n");
 		source.append("}\n");
-		source.append("if (value_template.getSelection() == template_sel.ANY_OR_OMIT) {\n");
+		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Done operation using '*' as matching template\");\n");
 		source.append("}\n");
 			//FIXME some more parameters needed

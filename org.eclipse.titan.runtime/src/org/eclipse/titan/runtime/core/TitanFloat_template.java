@@ -102,7 +102,7 @@ public class TitanFloat_template extends Base_Template {
 	public TitanFloat_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -110,7 +110,7 @@ public class TitanFloat_template extends Base_Template {
 	// originally operator=
 	public TitanFloat_template assign(final double otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 
 		return this;
@@ -119,7 +119,7 @@ public class TitanFloat_template extends Base_Template {
 	// originally operator=
 	public TitanFloat_template assign(final Ttcn3Float otherValue) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 
 		return this;
@@ -130,7 +130,7 @@ public class TitanFloat_template extends Base_Template {
 		otherValue.mustBound("Assignment of an unbound float value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanFloat(otherValue);
 
 		return this;
@@ -179,7 +179,7 @@ public class TitanFloat_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported float template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	@Override
@@ -266,14 +266,14 @@ public class TitanFloat_template extends Base_Template {
 		switch (templateType) {
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST:
-			setSelection(templateType);
+			set_selection(templateType);
 			value_list = new ArrayList<TitanFloat_template>(listLength);
 			for (int i = 0; i < listLength; ++i) {
 				value_list.add(new TitanFloat_template());
 			}
 			break;
 		case VALUE_RANGE:
-			setSelection(template_sel.VALUE_RANGE);
+			set_selection(template_sel.VALUE_RANGE);
 			min_is_present = false;
 			max_is_present = false;
 			min_is_exclusive = false;

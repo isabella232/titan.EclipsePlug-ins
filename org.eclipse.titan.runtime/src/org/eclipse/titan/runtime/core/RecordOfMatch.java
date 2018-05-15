@@ -1159,7 +1159,7 @@ public class RecordOfMatch {
 			final match_function_t match_function, final boolean legacy) {
 		if (value_ptr == null || value_size < 0 ||
 				template_ptr == null || template_size < 0 ||
-				template_ptr.getSelection() != template_sel.SPECIFIC_VALUE) {
+				template_ptr.get_selection() != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Internal error: match_record_of: invalid argument.");
 		}
 
@@ -1190,7 +1190,7 @@ public class RecordOfMatch {
 			throw new TtcnError("Internal error: match_set_of: invalid argument.");
 		}
 		type_of_matching match_type = type_of_matching.EXACT;
-		switch (template_ptr.getSelection()) {
+		switch (template_ptr.get_selection()) {
 		case SPECIFIC_VALUE:
 			match_type = type_of_matching.EXACT;
 			break;
@@ -1215,7 +1215,7 @@ public class RecordOfMatch {
 			final log_function_t log_function, final boolean legacy) {
 		if (value_ptr == null || value_size < 0 ||
 				template_ptr == null || template_size < 0 ||
-				template_ptr.getSelection() != template_sel.SPECIFIC_VALUE) {
+				template_ptr.get_selection() != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Internal error: log_match_heuristics: invalid argument.");
 		}
 

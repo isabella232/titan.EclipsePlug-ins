@@ -176,7 +176,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	public TitanHexString_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -184,7 +184,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	// originally operator=
 	public TitanHexString_template assign(final byte otherValue[]) {
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
 
 		return this;
@@ -195,7 +195,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		otherValue.mustBound("Assignment of an unbound hexstring value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
 
 		return this;
@@ -206,7 +206,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		otherValue.mustBound("Assignment of an unbound hexstring element to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanHexString(otherValue);
 
 		return this;
@@ -253,7 +253,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported hexstring template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	// originally operator[](int)
@@ -493,7 +493,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 
 		cleanUp();
-		setSelection(templateType);
+		set_selection(templateType);
 		if (templateType != template_sel.DECODE_MATCH) {
 			value_list = new ArrayList<TitanHexString_template>(listLength);
 			for (int i = 0; i < listLength; i++) {

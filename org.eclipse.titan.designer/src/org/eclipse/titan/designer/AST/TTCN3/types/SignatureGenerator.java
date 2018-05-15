@@ -558,7 +558,7 @@ public class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("return (({0}) field).getSelection() == template_sel.ANY_OR_OMIT;\n", exception.mJavaTemplateName));
+				source.append(MessageFormat.format("return (({0}) field).get_selection() == template_sel.ANY_OR_OMIT;\n", exception.mJavaTemplateName));
 			}
 			source.append("default:\n");
 			source.append("break;\n");

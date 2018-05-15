@@ -733,7 +733,7 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-			expression.expression.append(MessageFormat.format("switch({0}.getSelection()) '{'\n", externalId));
+			expression.expression.append(MessageFormat.format("switch({0}.get_selection()) '{'\n", externalId));
 			expression.expression.append("case UNINITIALIZED_TEMPLATE:\n");
 			expression.expression.append(MessageFormat.format("{0} = false;\n", globalId));
 			expression.expression.append("break;\n");

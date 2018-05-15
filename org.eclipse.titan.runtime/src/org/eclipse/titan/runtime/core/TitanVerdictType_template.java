@@ -53,12 +53,12 @@ public class TitanVerdictType_template extends Base_Template {
 	}
 
 	public TitanVerdictType_template(final Optional<TitanVerdictType> other_value) {
-		switch (other_value.getSelection()) {
+		switch (other_value.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(other_value.get());
 			break;
 		case OPTIONAL_OMIT:
-			setSelection(template_sel.OMIT_VALUE);
+			set_selection(template_sel.OMIT_VALUE);
 			break;
 		default:
 			throw new TtcnError("Creating a verdict template from an unbound optional field.");
@@ -103,7 +103,7 @@ public class TitanVerdictType_template extends Base_Template {
 	public TitanVerdictType_template assign(final template_sel otherValue) {
 		checkSingleSelection(otherValue);
 		cleanUp();
-		setSelection(otherValue);
+		set_selection(otherValue);
 
 		return this;
 	}
@@ -115,7 +115,7 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		single_value = new TitanVerdictType(otherValue);
 
 		return this;
@@ -126,7 +126,7 @@ public class TitanVerdictType_template extends Base_Template {
 		otherValue.mustBound("Assignment of an unbound verdict value to a template.");
 
 		cleanUp();
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 		copyValue(otherValue);
 
 		return this;
@@ -135,12 +135,12 @@ public class TitanVerdictType_template extends Base_Template {
 	// originally operator=
 	public TitanVerdictType_template assign(final Optional<TitanVerdictType> otherValue) {
 		cleanUp();
-		switch (otherValue.getSelection()) {
+		switch (otherValue.get_selection()) {
 		case OPTIONAL_PRESENT:
 			copyValue(otherValue.get());
 			break;
 		case OPTIONAL_OMIT:
-			setSelection(template_sel.OMIT_VALUE);
+			set_selection(template_sel.OMIT_VALUE);
 			break;
 		default:
 			throw new TtcnError("Assignment of an unbound optional field to a verdict template.");
@@ -162,7 +162,7 @@ public class TitanVerdictType_template extends Base_Template {
 		otherValue.mustBound("Creating a template from an unbound verdict value.");
 
 		single_value = new TitanVerdictType(otherValue);
-		setSelection(template_sel.SPECIFIC_VALUE);
+		set_selection(template_sel.SPECIFIC_VALUE);
 	}
 
 	private void copyTemplate(final TitanVerdictType_template otherValue) {
@@ -186,7 +186,7 @@ public class TitanVerdictType_template extends Base_Template {
 			throw new TtcnError("Copying an uninitialized/unsupported verdict template.");
 		}
 
-		setSelection(otherValue);
+		set_selection(otherValue);
 	}
 
 	@Override
@@ -275,7 +275,7 @@ public class TitanVerdictType_template extends Base_Template {
 		}
 
 		cleanUp();
-		setSelection(template_type);
+		set_selection(template_type);
 		value_list = new ArrayList<TitanVerdictType_template>(list_length);
 	}
 
