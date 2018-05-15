@@ -820,9 +820,9 @@ public final class TtcnLogger {
 	}
 
 	private static String get_logger_settings_str() {
-		StringBuilder new_log_message = new StringBuilder();
+		final StringBuilder new_log_message = new StringBuilder();
 
-		String timestamp_format_names[] = {"Time", "DateTime", "Seconds"};
+		final String timestamp_format_names[] = {"Time", "DateTime", "Seconds"};
 
 		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", "in development", "in development"));
 		new_log_message.append(MessageFormat.format("TimeStampFormat:={0};", timestamp_format_names[timestamp_format.ordinal()]));
@@ -832,7 +832,7 @@ public final class TtcnLogger {
 	}
 
 	public static void write_logger_settings() {
-		String new_log_message = get_logger_settings_str();
+		final String new_log_message = get_logger_settings_str();
 		//FIXME implement
 		get_logger_plugin_manager().log_log_options(new_log_message);
 	}
