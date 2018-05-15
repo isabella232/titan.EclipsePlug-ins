@@ -505,7 +505,8 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		for (int i = 0; i < getNofComponents(); i++) {
 			final CompField cf = getComponentByIndex(i);
 
-			final int l = cf.getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
+			final Type t = cf.getType();
+			final int l = t.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
 			if (l == -1) {
 				rawLength = -1;
 				return rawLength;
