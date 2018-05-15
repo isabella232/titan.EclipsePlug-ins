@@ -421,8 +421,12 @@ public class TTCN_Communication {
 				//FIXME
 				throw new TtcnError("MSG_CANCEL_DONE received, but not yet supported!");
 			case MSG_COMPONENT_STATUS:
-				//FIXME implment
-				throw new TtcnError("MSG_COMPONENT_STATUS received, but not yet supported!");
+				if (TTCN_Runtime.is_mtc()) {
+					process_component_status_mtc(msg_end);
+				} else {
+					process_component_status_ptc(msg_end);
+				}
+				break;
 			case MSG_CONNECT_LISTEN:
 				process_connect_listen();
 				break;
@@ -1068,6 +1072,83 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_killed_ack(answer);
+	}
+
+	private static void process_component_status_mtc(final int msg_end) {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final int component_reference = temp_incoming_buf.pull_int().getInt();
+		final boolean is_done = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean is_killed = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean is_any_done = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean is_all_done = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean is_any_killed = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean is_all_killed = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		if (is_done) {
+			// the return type and value are valid
+			final int verdict_int = temp_incoming_buf.pull_int().getInt();
+			final VerdictTypeEnum ptc_verdict = TitanVerdictType.VerdictTypeEnum.values()[verdict_int];
+			final String return_type = temp_incoming_buf.pull_string();
+			final int return_value_begin = temp_incoming_buf.get_pos();
+			try {
+				TTCN_Runtime.set_component_done(component_reference, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, return_value_begin);
+			} catch (TtcnError error) {
+				temp_incoming_buf.cut_message();
+				throw error;
+			}
+		}
+
+		if (is_killed) {
+			TTCN_Runtime.set_component_killed(component_reference);
+		}
+		if (is_any_done) {
+			TTCN_Runtime.set_component_done(TitanComponent.ANY_COMPREF, VerdictTypeEnum.NONE, null, null, 0, 0);
+		}
+		if (is_all_done) {
+			TTCN_Runtime.set_component_done(TitanComponent.ALL_COMPREF, VerdictTypeEnum.NONE, null, null, 0, 0);
+		}
+		if (is_any_killed) {
+			TTCN_Runtime.set_component_killed(TitanComponent.ANY_COMPREF);
+		}
+		if (is_all_killed) {
+			TTCN_Runtime.set_component_killed(TitanComponent.ALL_COMPREF);
+		}
+
+		temp_incoming_buf.cut_message();
+		if (!is_done && !is_killed && (component_reference != TitanComponent.NULL_COMPREF ||
+				(!is_any_done && !is_all_done && !is_any_killed && !is_all_killed))) {
+			throw new TtcnError("Internal error: Malformed COMPONENT_STATUS message was received.");
+		}
+	}
+
+	private static void process_component_status_ptc(final int msg_end) {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final int component_reference = temp_incoming_buf.pull_int().getInt();
+		final boolean is_done = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		final boolean is_killed = temp_incoming_buf.pull_int().getInt() == 0 ? false: true;
+		if (is_done) {
+			// the return type and value are valid
+			final int verdict_int = temp_incoming_buf.pull_int().getInt();
+			final VerdictTypeEnum ptc_verdict = TitanVerdictType.VerdictTypeEnum.values()[verdict_int];
+			final String return_type = temp_incoming_buf.pull_string();
+			final int return_value_begin = temp_incoming_buf.get_pos();
+			try {
+				TTCN_Runtime.set_component_done(component_reference, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, return_value_begin);
+			} catch (TtcnError error) {
+				temp_incoming_buf.cut_message();
+				throw error;
+			}
+		}
+
+		if (is_killed) {
+			TTCN_Runtime.set_component_killed(component_reference);
+		}
+
+		temp_incoming_buf.cut_message();
+		if (!is_done && !is_killed) {
+			throw new TtcnError("Internal error: Malformed COMPONENT_STATUS message was received.");
+		}
 	}
 
 	private static void process_connect_listen() {
