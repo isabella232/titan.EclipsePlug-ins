@@ -2016,9 +2016,10 @@ public class PortGenerator {
 	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param statement the code generated for the statement as an expression.
+	 * @param statementName the name of the statement for display in error message
 	 * @param location the location of the statement to report errors to.
 	 * */
-	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final Location location) {
+	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final String statementName, final Location location) {
 		aData.addBuiltinTypeImport("TitanAlt_Status");
 		aData.addBuiltinTypeImport("TTCN_Default");
 		aData.addBuiltinTypeImport("TtcnError");
@@ -2048,7 +2049,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (alt_flag == TitanAlt_Status.ALT_NO && default_flag == TitanAlt_Status.ALT_NO) {\n");
-		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone getcall statement failed in file {0}, line {1}.\");\n", location.getFile().getProjectRelativePath(), location.getLine()));
+		source.append(MessageFormat.format("throw new TtcnError(\"Stand-alone {0} statement failed in file {1}, line {2}.\");\n", statementName, location.getFile().getProjectRelativePath(), location.getLine()));
 		source.append("}\n");
 		source.append("TTCN_Snapshot.takeNew(true);\n");
 		source.append("}\n");

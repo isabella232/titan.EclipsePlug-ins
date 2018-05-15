@@ -268,7 +268,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression);
 
-		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getLocation());
+		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), getLocation());
 	}
 
 	@Override
