@@ -1036,7 +1036,7 @@ public class TitanInteger extends Base_Type {
 		// sign is stored separately from the number.  Default encoding of negative
 		// values in 2's complement form.
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
-			val_bits = D.bitLength()  + (p_td.raw.comp != raw_sign_t.SG_NO ? 1 : 0); // bits needed to store the value
+			val_bits = D.bitLength(); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			if (val_bits % 8 + len_bits % 8 > 8) {
