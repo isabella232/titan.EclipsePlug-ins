@@ -48,6 +48,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Omit_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.SequenceOf_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Set_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
@@ -701,8 +702,13 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public int getRawLength() {
-		int rawLength = 0;
+	public int getRawLength(final BuildTimestamp timestamp) {
+		if (rawLengthCalculated != null && !rawLengthCalculated.isLess(timestamp)) {
+			return rawLength;
+		}
+
+		rawLengthCalculated = timestamp;
+		rawLength = 0;
 		for (int i = 0; i < getNofComponents(); i++) {
 			final CompField cf = getComponentByIndex(i);
 			if (cf.isOptional()) {
@@ -711,7 +717,7 @@ public final class TTCN3_Set_Type extends TTCN3_Set_Seq_Choice_BaseType {
 			}
 
 			final Type t = cf.getType();
-			final int l = t.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
+			final int l = t.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength(timestamp);
 			if (l == -1) {
 				rawLength = -1;
 				return rawLength;

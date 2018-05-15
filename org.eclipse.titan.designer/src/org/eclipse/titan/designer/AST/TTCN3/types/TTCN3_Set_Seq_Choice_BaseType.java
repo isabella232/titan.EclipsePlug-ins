@@ -49,6 +49,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct.rawAST_codin
 import org.eclipse.titan.designer.AST.TTCN3.types.RecordSetCodeGenerator.FieldInfo;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -65,6 +66,8 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 	protected CompFieldMap compFieldMap;
 
 	private boolean componentInternal;
+	protected BuildTimestamp rawLengthCalculated;
+	protected int rawLength;
 
 	public TTCN3_Set_Seq_Choice_BaseType(final CompFieldMap compFieldMap) {
 		this.compFieldMap = compFieldMap;
@@ -1074,11 +1077,11 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							IType t2;
 							for (int i = 0; i < comp_index && codingKey.start_pos >= 0; i++) {
 								t2 = ((TTCN3_Sequence_Type)t).getComponentByIndex(i).getType();
-								if (t2.getRawLength() >= 0) {
+								if (t2.getRawLength(aData.getBuildTimstamp()) >= 0) {
 									if (((Type)t2).rawAttribute != null) {
 										codingKey.start_pos += ((Type)t2).rawAttribute.padding;
 									}
-									codingKey.start_pos += ((Type)t2).getRawLength();
+									codingKey.start_pos += ((Type)t2).getRawLength(aData.getBuildTimstamp());
 								} else {
 									codingKey.start_pos = -1;
 								}
@@ -1361,7 +1364,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						}
 					}
 					
-					element_i.raw.length = t_field.getRawLength();
+					element_i.raw.length = t_field.getRawLength(aData.getBuildTimstamp());
 					element_i.hasRaw = true;
 				} else {
 					element_i.hasRaw = false;

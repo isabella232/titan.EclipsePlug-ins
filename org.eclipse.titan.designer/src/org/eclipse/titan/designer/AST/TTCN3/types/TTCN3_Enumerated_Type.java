@@ -50,6 +50,7 @@ import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Undefined_LowerIdentifier_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Bit2IntExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.Hex2IntExpression;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -521,7 +522,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 
 	@Override
 	/** {@inheritDoc} */
-	public int getRawLength() {
+	public int getRawLength(final BuildTimestamp timestamp) {
 		if (rawAttribute != null && rawAttribute.fieldlength > 0) {
 			return rawAttribute.fieldlength;
 		}

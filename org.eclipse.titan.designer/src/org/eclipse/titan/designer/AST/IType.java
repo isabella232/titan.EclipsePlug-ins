@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.ParsedSubType;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -527,10 +528,11 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * TODO might need some optimization later.
-	 *
+	 * @param timestamp
+	 *                the time stamp of the actual build cycle.
 	 * @return the length of the raw field length of this type
 	 * */
-	public int getRawLength();
+	public int getRawLength(final BuildTimestamp timestamp);
 
 	/**
 	 * Returns the default field length of this type (in bits).

@@ -47,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Choice_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -500,13 +501,18 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 
 	@Override
 	/** {@inheritDoc} */
-	public int getRawLength() {
-		int rawLength = 0;
+	public int getRawLength(final BuildTimestamp timestamp) {
+		if (rawLengthCalculated != null && !rawLengthCalculated.isLess(timestamp)) {
+			return rawLength;
+		}
+
+		rawLengthCalculated = timestamp;
+		rawLength = 0;
 		for (int i = 0; i < getNofComponents(); i++) {
 			final CompField cf = getComponentByIndex(i);
 
 			final Type t = cf.getType();
-			final int l = t.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength();
+			final int l = t.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getRawLength(timestamp);
 			if (l == -1) {
 				rawLength = -1;
 				return rawLength;
@@ -660,11 +666,11 @@ public final class TTCN3_Choice_Type extends TTCN3_Set_Seq_Choice_BaseType {
 							IType t2;
 							for (int i = 0; i < comp_index && codingKey.start_pos >= 0; i++) {
 								t2 = ((TTCN3_Sequence_Type)t).getComponentByIndex(i).getType();
-								if (t2.getRawLength() >= 0) {
+								if (t2.getRawLength(aData.getBuildTimstamp()) >= 0) {
 									if (((Type)t2).rawAttribute != null) {
 										codingKey.start_pos += ((Type)t2).rawAttribute.padding;
 									}
-									codingKey.start_pos += ((Type)t2).getRawLength();
+									codingKey.start_pos += ((Type)t2).getRawLength(aData.getBuildTimstamp());
 								} else {
 									codingKey.start_pos = -1;
 								}

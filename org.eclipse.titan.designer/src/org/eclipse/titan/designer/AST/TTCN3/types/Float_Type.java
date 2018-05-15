@@ -36,6 +36,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ValueRange;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Value_Range_Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -340,7 +341,7 @@ public final class Float_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public int getRawLength() {
+	public int getRawLength(final BuildTimestamp timestamp) {
 		if (rawAttribute != null) {
 			return rawAttribute.fieldlength;
 		}
