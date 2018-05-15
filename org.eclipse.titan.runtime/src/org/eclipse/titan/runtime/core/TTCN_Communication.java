@@ -378,7 +378,6 @@ public class TTCN_Communication {
 			throw new TtcnError("Internal error: TTCN_Communication::process_all_messages_tc() was called in invalid state.");
 		}
 
-		//FIXME implement
 		while (incoming_buf.get().is_message()) {
 			final int msg_len = incoming_buf.get().pull_int().getInt();
 			final int msg_end = incoming_buf.get().get_pos() + msg_len;
