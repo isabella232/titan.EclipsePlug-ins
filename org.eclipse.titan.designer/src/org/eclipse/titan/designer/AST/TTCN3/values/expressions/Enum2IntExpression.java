@@ -280,6 +280,12 @@ public final class Enum2IntExpression extends Expression_Value {
 	public boolean canGenerateSingleExpression() {
 		return value.canGenerateSingleExpression();
 	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
 
 	@Override
 	/** {@inheritDoc} */
