@@ -2907,6 +2907,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final String genName = getGenNameValue(aData, source, myScope);
 		final String displayName = getTypename();
 
+		aData.addImport("java.util.concurrent.atomic.AtomicReference");
+		aData.addCommonLibraryImport("Text_Buf");
+
 		//FIXME add support for redirections
 		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template) '{'\n", genName));
 		source.append("if (!component_reference.isBound()) {\n");
@@ -2915,10 +2918,33 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("if (value_template.get_selection() == template_sel.ANY_OR_OMIT) {\n");
 		source.append("throw new TtcnError(\"Done operation using '*' as matching template\");\n");
 		source.append("}\n");
-			//FIXME some more parameters needed
-		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.getComponent(), \"{0}\");\n", displayName));
+
+		source.append("Text_Buf text_buf = new Text_Buf();\n");
+		source.append("AtomicReference<Text_Buf> text_buf_ref = new AtomicReference<Text_Buf>(text_buf);\n");
+		source.append(MessageFormat.format("TitanAlt_Status ret_val = TTCN_Runtime.component_done(component_reference.getComponent(), \"{0}\", text_buf_ref);\n", displayName));
 		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
-		source.append("//FIXME implement once decoding is supported\n");
+		source.append(MessageFormat.format("{0} return_value = new {0}();\n", genName));
+		source.append("return_value.decode_text(text_buf_ref.get());\n");
+		source.append("if (value_template.match(return_value)) {\n");
+		//FIXME add support for value redirection
+		source.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
+		source.append("TtcnLogger.log_event_str(\"PTC with component reference \");\n");
+		source.append("component_reference.log();\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" is done. Return value: {0} : \");\n", displayName));
+		source.append("return_value.log();\n");
+		source.append("TtcnLogger.end_event();\n");
+		source.append("return TitanAlt_Status.ALT_YES;\n");
+		source.append("} else {\n");
+		source.append("if (TtcnLogger.log_this_event(Severity.MATCHING_DONE)) {\n");
+		source.append("TtcnLogger.begin_event(Severity.MATCHING_DONE);\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"Done operation with type {0} on component reference \");\n", displayName));
+		source.append("component_reference.log();\n");
+		source.append("TtcnLogger.log_event_str(\" failed: Return value does not match the template: \");\n");
+		source.append("value_template.log_match(return_value, true);\n");
+		source.append("TtcnLogger.end_event();\n");
+		source.append("}\n");
+		source.append("return TitanAlt_Status.ALT_NO;\n");
+		source.append("}\n");
 		source.append("} else {\n");
 		source.append("return ret_val;\n");
 		source.append("}\n");
