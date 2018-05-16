@@ -57,14 +57,13 @@ public class TTCN_EncDec_ErrorContext {
 		final StringBuilder err_msg = new StringBuilder();
 		for (int i = 0; i < errors.size(); i++) {
 			final TTCN_EncDec_ErrorContext temp = errors.get(i);
-			if (temp.arguments == null && temp.format != null) {
-				err_msg.append(temp.format).append(' ');
-			}
-			if ((temp.arguments == null && temp.format == null) || temp == null) {
-				err_msg.append(' ');
+			if (temp.format == null) {
+				continue;
+			} else if (temp.arguments == null) {
+				err_msg.append(temp.format);
 			} else {
 				err_msg.append(String.format(temp.format, temp.arguments)).append(' ');
-			}	
+			}
 		}
 
 		err_msg.append(String.format(fmt, args));
