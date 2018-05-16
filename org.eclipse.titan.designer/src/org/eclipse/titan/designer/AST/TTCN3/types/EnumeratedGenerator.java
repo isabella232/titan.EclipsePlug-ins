@@ -306,7 +306,7 @@ public class EnumeratedGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("default:\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type '{0}''\", p_td.name));\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
 		source.append("}\n");
 		source.append("}\n\n");
 
@@ -346,7 +346,7 @@ public class EnumeratedGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("default:\n");
-		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type '{0}''\", p_td.name));\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
 		source.append("}\n");
 		source.append("}\n\n");
 

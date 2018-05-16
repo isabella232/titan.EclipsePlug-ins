@@ -657,7 +657,7 @@ public class TitanInteger extends Base_Type {
 			break;
 		}
 		default:
-			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type '{0}''", p_td.name));
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
 	}
 
@@ -689,7 +689,7 @@ public class TitanInteger extends Base_Type {
 			break;
 		}
 		default:
-			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type '{0}''", p_td.name));
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 		}
 	}
 

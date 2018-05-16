@@ -122,7 +122,7 @@ public final class OmitValue_Template extends TTCN3Template {
 		switch (templateRestriction) {
 		case TR_VALUE:
 		case TR_PRESENT:
-			usageLocation.reportSemanticError(MessageFormat.format("Restriction ''{0}'' on {1} does not allow usage of {2}", templateRestriction.getDisplayName(), definitionName, getTemplateTypeName()));
+			usageLocation.reportSemanticError(MessageFormat.format("Restriction `{0}'' on {1} does not allow usage of {2}", templateRestriction.getDisplayName(), definitionName, getTemplateTypeName()));
 			break;
 		case TR_OMIT:
 		case TR_NONE:

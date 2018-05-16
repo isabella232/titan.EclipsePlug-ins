@@ -809,7 +809,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type '{0}''\", p_td.name));\n");
+		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to encode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 
@@ -849,7 +849,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tdefault:\n");
-		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type '{0}''\", p_td.name));\n");
+		source.append("\t\t\t\tthrow new TtcnError(MessageFormat.format(\"Unknown coding method requested to decode type `{0}''\", p_td.name));\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n\n");
 

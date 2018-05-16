@@ -494,7 +494,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 		final int length = otherMinValue.length();
 		if (length != 1) {
-			throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
+			throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of `{0}''. ", length));
 		}
 		min_is_set = true;
 		min_is_exclusive = false;
@@ -513,7 +513,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 
 		final int length = otherMinValue.lengthOf().getInt();
 		if (length != 1) {
-			throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of '{0}''. ", length));
+			throw new TtcnError(MessageFormat.format("The length of the lower bound in a charstring value range template must be 1 instead of `{0}''. ", length));
 		}
 		min_is_set = true;
 		min_is_exclusive = false;
