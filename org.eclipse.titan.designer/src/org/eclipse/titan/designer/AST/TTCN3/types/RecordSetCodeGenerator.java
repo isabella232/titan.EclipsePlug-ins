@@ -2038,11 +2038,30 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
-			source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
-			source.append(MessageFormat.format("\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
-			source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
-			source.append("\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
-			source.append("\t\t\t\t\t\t}\n");
+
+			if (fi.isOptional) {
+				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}().get(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append("\t\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+				source.append("\t\t\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\t\t} else {\n");
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tif (!{0}.match_omit(legacy)) '{'\n", fi.mVarName) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0} := omit with \");\n", fi.mDisplayName ) );
+				source.append("\t\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log();\n", fi.mVarName) );
+				source.append("\t\t\t\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+				source.append("\t\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+				source.append("\t\t\t\t\t\t\t}\n");
+				source.append("\t\t\t\t\t\t}\n");
+			} else {
+				source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
+				source.append("\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+				source.append("\t\t\t\t\t\t}\n");
+			}
 		}
 		source.append("\t\t\t\t\t} else {\n");
 		source.append("\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
