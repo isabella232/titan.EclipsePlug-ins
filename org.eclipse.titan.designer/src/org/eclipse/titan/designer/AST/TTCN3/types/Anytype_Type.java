@@ -880,6 +880,7 @@ public final class Anytype_Type extends Type {
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 			closingBrackets.insert(0, "}\n");
 			final String temporalId = aData.getTemporaryVariableName();
+			aData.addCommonLibraryImport("Optional");
 			expression.expression.append(MessageFormat.format("Optional<{0}{1}> {2} = {3}.get{4}();\n",
 					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 

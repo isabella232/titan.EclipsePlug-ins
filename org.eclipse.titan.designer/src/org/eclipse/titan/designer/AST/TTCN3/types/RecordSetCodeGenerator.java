@@ -226,6 +226,7 @@ public class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			source.append( "\t\tprivate " );
 			if (fi.isOptional) {
+				aData.addCommonLibraryImport("Optional");
 				source.append("Optional<");
 				source.append( fi.mJavaTypeName );
 				source.append('>');

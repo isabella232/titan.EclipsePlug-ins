@@ -472,6 +472,7 @@ public abstract class ASN1_Set_Seq_Choice_BaseType extends ASN1Type implements I
 			expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
 			closingBrackets.insert(0, "}\n");
 			final String temporalId = aData.getTemporaryVariableName();
+			aData.addCommonLibraryImport("Optional");
 			expression.expression.append(MessageFormat.format("Optional<{0}{1}> {2} = {3}.get{4}();\n",
 					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 

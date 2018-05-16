@@ -116,6 +116,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("Restricted_Length_Template");
 		aData.addBuiltinTypeImport("Optional");
 		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addCommonLibraryImport("Optional");
 		if ( isSetOf ) {
 			aData.addBuiltinTypeImport("RecordOfMatch.log_function_t");
 		}
