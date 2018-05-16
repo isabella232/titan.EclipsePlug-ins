@@ -312,10 +312,10 @@ public final class Done_Statement extends Statement {
 			expression.expression.append(')');
 		} else if (isAny) {
 			// any component.done
-			expression.expression.append("TTCN_Runtime.component_done(TitanComponent.ANY_COMPREF)");
+			expression.expression.append("TTCN_Runtime.component_done(TitanComponent.ANY_COMPREF, null)");
 		} else {
 			// all component.done
-			expression.expression.append("TTCN_Runtime.component_done(TitanComponent.ALL_COMPREF)");
+			expression.expression.append("TTCN_Runtime.component_done(TitanComponent.ALL_COMPREF, null)");
 		}
 	}
 }
