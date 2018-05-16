@@ -1074,6 +1074,8 @@ public class LoggerPluginManager {
 			mf.getChoice().getCompref().assign(compref);
 		}
 
+		mf.getInfo().assign(info);
+
 		log(event);
 	}
 
