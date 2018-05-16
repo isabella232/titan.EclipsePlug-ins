@@ -173,7 +173,6 @@ public final class TTCN_Snapshot {
 				int selectReturn = 0;
 				if (selector.get().keys().isEmpty()) {
 					//no channels to wait for
-					//TODO this check is not needed
 					if (pollTimeout > 0) {
 						try {
 							selectReturn = selector.get().select(pollTimeout);
