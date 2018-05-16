@@ -388,6 +388,10 @@ public class PortGenerator {
 			source.append("private void remove_msg_queue_head() {\n");
 			source.append("message_queue.removeFirst();\n");
 			source.append("}\n\n");
+
+			source.append("protected void clear_queue() {\n");
+			source.append("message_queue.clear();\n");
+			source.append("}\n\n");
 		}
 
 		final boolean hasIncomingCall = portDefinition.inProcedures.size() > 0;
