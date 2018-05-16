@@ -190,6 +190,12 @@ public final class TTCN_Snapshot {
 						} catch (IOException exception) {
 							throw new TtcnError("Interrupted while taking snapshot.");
 						}
+					} else if (pollTimeout < 0) {
+						try {
+							selectReturn = selector.get().select(0);
+						} catch (IOException exception) {
+							throw new TtcnError("Interrupted while taking snapshot.");
+						}
 					} else {
 						try {
 							selectReturn = selector.get().selectNow();
