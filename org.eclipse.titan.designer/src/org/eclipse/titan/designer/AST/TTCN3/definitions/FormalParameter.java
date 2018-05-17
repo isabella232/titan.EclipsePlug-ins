@@ -1005,7 +1005,6 @@ public final class FormalParameter extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		//TODO: implement: based on access type the code needs to be more refined
-		//TODO for timers too!
 		//TODO actually formal parameters are generated in generate_code ... with sub function
 		switch (assignmentType) {
 		case A_PAR_VAL:
@@ -1018,6 +1017,10 @@ public final class FormalParameter extends Definition {
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
 			source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
+			break;
+		case A_PAR_TIMER:
+			aData.addBuiltinTypeImport("TitanTimer");
+			source.append( "TitanTimer");
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
