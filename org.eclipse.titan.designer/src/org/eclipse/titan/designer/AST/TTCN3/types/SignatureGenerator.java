@@ -456,7 +456,6 @@ public class SignatureGenerator {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case {0}:\n", i));
-				source.append(MessageFormat.format("exception_selection = exception_selection_type.ALT_{0};\n", exception.mJavaTypeName));
 				source.append(MessageFormat.format("get{0}().decode_text(text_buf);\n", exception.mJavaTypeName));
 				source.append("break;\n");
 			}
