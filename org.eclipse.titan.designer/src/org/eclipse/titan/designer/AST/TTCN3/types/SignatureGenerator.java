@@ -658,6 +658,10 @@ public class SignatureGenerator {
 					source.append(MessageFormat.format("return_value.get{0}().assign(param_{0}.valueOf());\n", formalPar.mJavaName ));
 				}
 			}
+
+			if (def.returnType != null) {
+				source.append("return_value.getreturn_value().assign(reply_value.valueOf());\n");
+			}
 			source.append("return return_value;\n");
 			source.append("}\n");
 		}
