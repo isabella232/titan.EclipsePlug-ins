@@ -837,15 +837,18 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void prepare_call(final Text_Buf outgoing_buf, final String signature_name) {
-		throw new TtcnError("prepare_call not yet implemented");
+		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_CALL.ordinal());
+		outgoing_buf.push_string(signature_name);
 	}
 
 	protected void prepare_reply(final Text_Buf outgoing_buf, final String signature_name) {
-		throw new TtcnError("prepare_reply not yet implemented");
+		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_REPLY.ordinal());
+		outgoing_buf.push_string(signature_name);
 	}
 
 	protected void prepare_exception(final Text_Buf outgoing_buf, final String signature_name) {
-		throw new TtcnError("prepare_exception not yet implemented");
+		outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_EXCEPTION.ordinal());
+		outgoing_buf.push_string(signature_name);
 	}
 
 	protected void send_data(final Text_Buf outgoing_buf, final TitanComponent destination_component) {
