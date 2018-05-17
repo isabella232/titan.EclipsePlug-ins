@@ -149,7 +149,7 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("param_{0}.assign(otherValue.get{1}());\n", formalPar.mJavaName, formalPar.mJavaName));
+				source.append(MessageFormat.format("param_{0} = new {1}(otherValue.get{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
 			}
 		}
 		source.append("}\n");
