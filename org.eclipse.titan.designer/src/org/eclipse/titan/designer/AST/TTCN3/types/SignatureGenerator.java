@@ -104,14 +104,9 @@ public class SignatureGenerator {
 		}
 
 		generateCallClass(aData, source, def);
-
-		// FIXME implement MyProc_redirect
-		source.append("// FIXME implement MyProc_redirect\n");
-
+		generateRedirectClass(aData, source, def);
 		generateReplyClass(aData, source, def);
-		// FIXME implement MyProc_reply_redirect
-		source.append("// FIXME implement MyProc_reply_redirect\n");
-
+		generateReplyRedirectClass(aData, source, def);
 		generateExceptionClass(aData, source, def);
 		generateTemplateClass(aData, source, def);
 	}
@@ -206,6 +201,58 @@ public class SignatureGenerator {
 		source.append("TtcnLogger.log_event_str(\" }\");\n");
 		source.append("}\n");
 
+		source.append("}\n");
+	}
+
+	/**
+	 * This function can be used to generate for signature types that class that handles redirections.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
+	private static void generateRedirectClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
+		source.append(MessageFormat.format("public static class {0}_call_redirect '{'\n", def.genName));
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("private {0} ptr_{1};\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+			}
+		}
+		source.append(MessageFormat.format("public {0}_call_redirect( ", def.genName));
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				if (i != 0) {
+					source.append(", ");
+				}
+
+				source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
+			}
+		}
+		source.append(" ) {\n");
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("ptr_{0} = par_{0};\n", formalPar.mJavaName));
+			}
+		}
+		source.append("}\n");
+
+		source.append(MessageFormat.format("public void set_parameters( final {0}_call call_par) '{'\n", def.genName));
+		for (int i = 0 ; i < def.formalParameters.size(); i++) {
+			final SignatureParameter formalPar = def.formalParameters.get(i);
+
+			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+				source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
+				source.append(MessageFormat.format("ptr_{0}.assign(call_par.constGet{0}());\n", formalPar.mJavaName));
+				source.append("}\n");
+			}
+		}
+		source.append("}\n");
 		source.append("}\n");
 	}
 
@@ -332,6 +379,77 @@ public class SignatureGenerator {
 			}
 			source.append("}\n");
 
+			source.append("}\n");
+		}
+	}
+
+	/**
+	 * This function can be used to generate for signature types that class that handles reply redirections.
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param def the signature definition to generate code for.
+	 * */
+	private static void generateReplyRedirectClass(final JavaGenData aData, final StringBuilder source, final SignatureDefinition def) {
+		if(!def.isNoBlock) {
+			source.append(MessageFormat.format("public static class {0}_reply_redirect '{'\n", def.genName));
+			if (def.returnType != null) {
+				source.append("// the reply value of the signature\n");
+				source.append(MessageFormat.format("private {0} ret_val_redir;\n", def.returnType.mJavaTypeName));
+			}
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					source.append(MessageFormat.format("private {0} ptr_{1};\n", formalPar.mJavaTypeName, formalPar.mJavaName));
+				}
+			}
+			source.append(MessageFormat.format("public {0}_reply_redirect( ", def.genName));
+			boolean first = true;
+			if (def.returnType != null) {
+				source.append(MessageFormat.format("final {0} return_redir", def.returnType.mJavaTypeName));
+				first = false;
+			}
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					if (!first) {
+						source.append(", ");
+					}
+					source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
+					first = false;
+				}
+			}
+			source.append(" ) {\n");
+			if (def.returnType != null) {
+				source.append(MessageFormat.format("ret_val_redir = return_redir;\n", def.returnType.mJavaTypeName));
+			}
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					source.append(MessageFormat.format("ptr_{0} = par_{0};\n", formalPar.mJavaName));
+				}
+			}
+			source.append("}\n");
+
+			source.append(MessageFormat.format("public void set_parameters( final {0}_reply reply_par) '{'\n", def.genName));
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+
+				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+					source.append(MessageFormat.format("if (ptr_{0} != null) '{'\n", formalPar.mJavaName));
+					source.append(MessageFormat.format("ptr_{0}.assign(reply_par.constGet{0}());\n", formalPar.mJavaName));
+					source.append("}\n");
+				}
+				if (def.returnType != null) {
+					source.append("if (ret_val_redir != null) {\n");
+					source.append(MessageFormat.format("ret_val_redir = reply_par.constGetreturn_value();\n", def.returnType.mJavaTypeName));
+					source.append("}\n");
+				}
+			}
+			source.append("}\n");
 			source.append("}\n");
 		}
 	}
