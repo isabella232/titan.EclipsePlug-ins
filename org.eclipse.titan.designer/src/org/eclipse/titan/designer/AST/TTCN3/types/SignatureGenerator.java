@@ -250,11 +250,11 @@ public class SignatureGenerator {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("param_{0}.assign(other_value.get{1}());\n", formalPar.mJavaName, formalPar.mJavaName));
+					source.append(MessageFormat.format("param_{0} = new {1}(other_value.get{2}());\n", formalPar.mJavaName, formalPar.mJavaTypeName, formalPar.mJavaName));
 				}
 			}
 			if (def.returnType != null) {
-				source.append("reply_value.assign(other_value.getreturn_value());\n");
+				source.append(MessageFormat.format("reply_value = new {0}(other_value.getreturn_value());\n", def.returnType.mJavaTypeName));
 			}
 			source.append("}\n");
 
