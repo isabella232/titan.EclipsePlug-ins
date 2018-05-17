@@ -812,6 +812,8 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 						source.append("break;\n");
 					}
 					source.append("}\n");
+				} else {
+					source.append("break;\n");
 				}
 			}
 			source.append("}\n");
