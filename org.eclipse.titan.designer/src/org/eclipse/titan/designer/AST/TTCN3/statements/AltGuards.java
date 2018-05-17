@@ -508,7 +508,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					// the guard operation is a receiving statement
 					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
 					altGuard.getLocation().update_location_object(aData, source);
-					statement.generateCodeExpression(aData, expression);
+					statement.generateCodeExpression(aData, expression, null);
 					canRepeat = statement.canRepeat();
 					}
 					break;
@@ -639,7 +639,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				case AG_OP: {
 					final Statement statement = ((Operation_Altguard)altGuard).getGuardStatement();
 					altGuard.getLocation().update_location_object(aData, source);
-					statement.generateCodeExpression(aData, expression);
+					statement.generateCodeExpression(aData, expression, null);
 					canRepeat = statement.canRepeat();
 					}
 					break;
@@ -729,9 +729,10 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param tempId temporary id used as prefix of local variables
+	 * @param callTimer the name of the call timer.
 	 * @param inInterleave is it used in interleave?
 	 */
-	public void generateCodeCallBody(final JavaGenData aData, final StringBuilder source, final String tempId, final boolean inInterleave) {
+	public void generateCodeCallBody(final JavaGenData aData, final StringBuilder source, final String tempId, final String callTimer, final boolean inInterleave) {
 		if (hasRepeat) {
 			source.append(MessageFormat.format("{0}:", tempId));
 		}
@@ -785,7 +786,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			expression.expression.append(MessageFormat.format("{0}_alt_flag_{1} = ", tempId, i));
 			final Statement statement = ((Operation_Altguard) altGuard).getGuardStatement();
 			statement.getLocation().update_location_object(aData, source);
-			statement.generateCodeExpression(aData, expression);
+			statement.generateCodeExpression(aData, expression, callTimer);
 			expression.mergeExpression(source);
 
 			// execution of statement block if the guard was successful

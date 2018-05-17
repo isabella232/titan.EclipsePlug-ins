@@ -568,19 +568,20 @@ public final class Call_Statement extends Statement {
 
 		if (altGuards != null) {
 			source.append("{\n");
+			final String timerName = aData.getTemporaryVariableName();
 			if (timerValue != null) {
 				aData.addBuiltinTypeImport("TitanTimer");
 
 				timerValue.getLocation().update_location_object(aData, source);
-				source.append("TitanTimer call_timer = new TitanTimer(null);\n");
+				source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(null);\n", timerName));
 				expression = new ExpressionStruct();
-				expression.expression.append("call_timer.start(");
+				expression.expression.append(MessageFormat.format("{0}.start(", timerName));
 				timerValue.generateCodeExpression(aData, expression, false);
 				expression.expression.append(')');
 				expression.mergeExpression(source);
 			}
 
-			altGuards.generateCodeCallBody(aData, source, aData.getTemporaryVariableName(), false);
+			altGuards.generateCodeCallBody(aData, source, aData.getTemporaryVariableName(), timerName, false);
 			source.append("}\n");
 		}
 	}

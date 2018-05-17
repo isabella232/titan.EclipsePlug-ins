@@ -436,8 +436,9 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression to generate the source to
+	 * @param callTimer the name of the call timer if this statement is inside a call operations body, expect null otherwise
 	 */
-	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached invalid guard statement `" + getFullName() + "''");
 		expression.expression.append("FATAL_ERROR encountered");
 	}

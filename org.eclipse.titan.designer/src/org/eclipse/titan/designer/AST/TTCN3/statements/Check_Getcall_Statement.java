@@ -259,14 +259,14 @@ public final class Check_Getcall_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
-		generateCodeExpression(aData, expression);
+		generateCodeExpression(aData, expression, null);
 
 		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), getLocation());
 	}
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
 		if (portReference != null) {
 			// the operation refers to a specific port
 			portReference.generateCode(aData, expression);
