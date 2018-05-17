@@ -616,7 +616,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (my_head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name());\n", functionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_MMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_MMUNSUCC);");
@@ -722,7 +721,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (my_head.sender_address == null) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Trigger operation on port {0} requires the address of the sender, which was not given by the test port.\", get_name()));\n");
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_MMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_MMUNSUCC);\n");
@@ -1244,7 +1242,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
@@ -1334,7 +1331,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
@@ -1412,7 +1408,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
@@ -1509,7 +1504,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
@@ -1589,7 +1583,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
@@ -1686,7 +1679,6 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (head.sender_address == null) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", printedFunctionName));
-			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (!sender_template.match(head.sender_address, false)) {\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_PMUNSUCC);\n");
