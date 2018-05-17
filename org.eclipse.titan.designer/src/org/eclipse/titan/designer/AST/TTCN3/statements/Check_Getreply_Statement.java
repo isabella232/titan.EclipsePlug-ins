@@ -391,6 +391,7 @@ public final class Check_Getreply_Statement extends Statement {
 		} else {
 			// neither from clause nor sender redirect is present
 			// the operation cannot refer to address type
+			aData.addBuiltinTypeImport("TitanComponent_template");
 			expression.expression.append("TitanComponent_template.any_compref");
 		}
 	}

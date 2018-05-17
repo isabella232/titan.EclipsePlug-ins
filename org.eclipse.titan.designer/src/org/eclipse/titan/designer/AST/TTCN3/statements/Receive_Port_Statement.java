@@ -443,11 +443,13 @@ public final class Receive_Port_Statement extends Statement {
 				ErrorReporter.INTERNAL_ERROR("Encountered a redirection with unknown type `" + getFullName() + "''");
 			}
 			if (varType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetype()==Type_type.TYPE_COMPONENT) {
+				aData.addBuiltinTypeImport("TitanComponent_template");
 				expression.expression.append("TitanComponent_template.any_compref");
 			} else {
 				expression.expression.append(MessageFormat.format("new {0}(template_sel.ANY_VALUE)", varType.getGenNameTemplate(aData, expression.expression, myStatementBlock)));
 			}
 		} else {
+			aData.addBuiltinTypeImport("TitanComponent_template");
 			expression.expression.append("TitanComponent_template.any_compref");
 		}
 
