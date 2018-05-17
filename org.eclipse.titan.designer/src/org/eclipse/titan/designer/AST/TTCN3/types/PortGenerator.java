@@ -1748,7 +1748,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateTypedIcomingCall(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("private void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
+		source.append(MessageFormat.format("protected void incoming_call(final {0}_call incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
@@ -1808,7 +1808,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateTypedIcomingReply(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("private void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
+		source.append(MessageFormat.format("protected void incoming_reply(final {0}_reply incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
@@ -1869,7 +1869,7 @@ public class PortGenerator {
 	 * @param portDefinition the definition of the port.
 	 * */
 	private static void generateTypedIcomingException(final StringBuilder source, final int index, final procedureSignatureInfo info, final PortDefinition portDefinition) {
-		source.append(MessageFormat.format("private void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
+		source.append(MessageFormat.format("protected void incoming_exception(final {0}_exception incoming_par, final int sender_component", info.mJavaTypeName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
