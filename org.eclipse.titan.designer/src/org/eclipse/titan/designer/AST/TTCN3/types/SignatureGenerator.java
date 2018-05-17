@@ -515,7 +515,7 @@ public class SignatureGenerator {
 			source.append("}\n");
 			source.append("}\n");
 
-			source.append(MessageFormat.format("public boolean log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
+			source.append(MessageFormat.format("public void log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
 			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}, \");\n", def.displayName));
 			source.append("if (exception_selection == other_value.get_selection()) {\n");
 			source.append("switch (exception_selection) {\n");
