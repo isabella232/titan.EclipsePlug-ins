@@ -613,7 +613,7 @@ public final class Assignment_Statement extends Statement {
 			if(rhsCopied) {
 				source.append("{\n");
 				if (isOptional) {
-					aData.addCommonLibraryImport("Optional");
+					aData.addBuiltinTypeImport("Optional");
 					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>({0}.class);\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 					rhsRef += ".get()";
 				} else {

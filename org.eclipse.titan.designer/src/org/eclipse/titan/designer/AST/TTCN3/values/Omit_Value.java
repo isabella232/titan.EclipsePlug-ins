@@ -135,7 +135,7 @@ public final class Omit_Value extends Value {
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
-		aData.addCommonLibraryImport("Optional");
+		aData.addBuiltinTypeImport("Optional");
 		IType governor = myGovernor;
 		if(governor == null) {
 			governor = myLastSetGovernor;
