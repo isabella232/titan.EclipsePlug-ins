@@ -651,9 +651,16 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
 			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 			final String FormalParName = formalParameter.getIdentifier().getName();
-			if (formalParameter.getAssignmentType() == Assignment_type.A_PAR_TIMER) {
+			switch (formalParameter.getAssignmentType()) {
+			case A_PAR_TIMER:
+			case A_PAR_VAL_INOUT:
+			case A_PAR_VAL_OUT:
+			case A_PAR_TEMP_INOUT:
+			case A_PAR_TEMP_OUT:
+			case A_PAR_PORT:
 				source.append(MessageFormat.format("par_{0} = {0};\n", FormalParName));
-			} else {
+				break;
+			default:
 				source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
 			}
 		}
