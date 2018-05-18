@@ -380,14 +380,12 @@ public final class Getcall_Statement extends Statement {
 				parameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 				expression.expression.append(", ");
 				generateCodeExprFromclause(aData, expression);
-//				IType signature = parameter.getTemplateBody().getMyGovernor();
-//				//FIXME handle redirect
-//				expression.expression.append(MessageFormat.format(", {0}_call_redirect(", signature.getGenNameTemplate(aData, expression.expression, myScope)));
-//				if (redirectParameter != null) {
-//					expression.expression.append("//FIXME add support for parameter redirection.\n");
-//				}
-//				expression.expression.append(") ");
-				expression.expression.append(", ");
+				final IType signature = parameter.getTemplateBody().getMyGovernor();
+				expression.expression.append(MessageFormat.format(", new {0}_call_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				if (redirectParameter != null) {
+					redirectParameter.generateCode(aData, expression, parameter, false);
+				}
+				expression.expression.append("), ");
 				if (redirectSender == null) {
 					expression.expression.append("null");
 				} else {

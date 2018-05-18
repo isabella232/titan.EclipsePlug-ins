@@ -510,8 +510,22 @@ public final class Getreply_Statement extends Statement {
 				}
 				expression.expression.append(", ");
 				generateCodeExprFromclause(aData, expression);
+				expression.expression.append(MessageFormat.format(", new {0}_reply_redirect(", signature.getGenNameValue(aData, expression.expression, myScope)));
+				if (returnType != null) {
+					if (redirectValue == null) {
+						expression.expression.append("null");
+					} else {
+						redirectValue.generateCode(aData, expression);
+					}
+					if (redirectParameter != null) {
+						expression.expression.append(", ");
+					}
+				}
+				if (redirectParameter != null) {
+					redirectParameter.generateCode(aData, expression, parameter, true);
+				}
 				//FIXME handle redirections
-				expression.expression.append(", ");
+				expression.expression.append("), ");
 				if (redirectSender == null) {
 					expression.expression.append("null");
 				} else {

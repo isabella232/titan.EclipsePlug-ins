@@ -1315,7 +1315,7 @@ public class PortGenerator {
 		final String printedFunctionName = isCheck ? "Check-getcall" : "Getcall";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		source.append("if (procedure_queue.size() == 0) {\n");
 		source.append("if(is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -1362,7 +1362,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
-		source.append("//FIXME set param_ref\n");
+		source.append(MessageFormat.format("param_ref.set_parameters(head.call_{0});\n", index));
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
 			source.append("sender_pointer.assign(head.sender_address);\n");
@@ -1483,7 +1483,7 @@ public class PortGenerator {
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
-		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (getreply_template.return_value().get_selection() == template_sel.ANY_OR_OMIT) {\n");
 			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '*' as return value matching template\");\n", printedFunctionName));
@@ -1537,7 +1537,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
-		source.append("//FIXME set param_ref\n");
+		source.append(MessageFormat.format("param_ref.set_parameters(head.reply_{0});\n", index));
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
 			source.append("sender_pointer.assign(head.sender_address);\n");
