@@ -20,7 +20,10 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -121,4 +124,11 @@ public abstract class Parameter_Redirect extends ASTNode implements ILocateableN
 	 *                tells if this parameter is an out parameter, or not.
 	 * */
 	public abstract void check(CompilationTimeStamp timestamp, Signature_Type signature, boolean isOut);
+
+	/**
+	 * Add generated java code for parameter redirection.
+	 * @param aData only used to update imports if needed
+	 * @param expression the expression for code generated
+	 */
+	public abstract void generateCode( final JavaGenData aData, final ExpressionStruct expression , final TemplateInstance matched_ti, final boolean is_out);
 }

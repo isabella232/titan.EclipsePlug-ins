@@ -14,12 +14,16 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.types.SignatureFormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.types.Signature_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -35,6 +39,9 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 	private static final String FULLNAMEPART = ".parameterassignments";
 
 	private final Parameter_Assignments assignments;
+
+	// calculated field
+	private Variable_Entries entries;
 
 	public AssignmentList_Parameter_Redirect(final Parameter_Assignments assignments) {
 		this.assignments = assignments;
@@ -152,16 +159,16 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 
 		if (!errorFlag) {
 			// converting the AssignmentList to VariableList
-			final Variable_Entries variableEntries = new Variable_Entries();
+			entries = new Variable_Entries();
 			final int upperLimit = isOut ? parameterList.getNofOutParameters() : parameterList.getNofInParameters();
 			for (int i = 0; i < upperLimit; i++) {
 				final SignatureFormalParameter parameter = isOut ? parameterList.getOutParameterByIndex(i) : parameterList
 						.getInParameterByIndex(i);
 				final String name = parameter.getIdentifier().getName();
 				if (parameterMap.containsKey(name)) {
-					variableEntries.add(new Variable_Entry(parameterMap.get(name).getReference()));
+					entries.add(new Variable_Entry(parameterMap.get(name).getReference()));
 				} else {
-					variableEntries.add(new Variable_Entry());
+					entries.add(new Variable_Entry());
 				}
 			}
 		}
@@ -196,5 +203,23 @@ public final class AssignmentList_Parameter_Redirect extends Parameter_Redirect 
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData, final ExpressionStruct expression, final TemplateInstance matched_ti, final boolean is_out) {
+		//FIXME add support for decoded
+		for (int i = 0; i < entries.getNofEntries(); i++) {
+			if (i > 0) {
+				expression.expression.append(", ");
+			}
+			final Variable_Entry entry = entries.getEntryByIndex(i);
+			final Reference ref = entry.getReference();
+			if (ref == null) {
+				expression.expression.append("null");
+			} else {
+				ref.generateCode(aData, expression);
+			}
+		}
 	}
 }
