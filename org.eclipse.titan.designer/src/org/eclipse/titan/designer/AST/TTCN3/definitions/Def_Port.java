@@ -383,10 +383,9 @@ public final class Def_Port extends Definition {
 				source.append("}\n");
 				source.append("};\n");
 			} else {
-				final String typeGenName = portType.getGenNameValue(aData, source, myScope);
-	
-				final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
-				portType.generateCodePort(aData, tempSb, dimensions);
+				final StringBuilder tempSb = new StringBuilder();
+				final String typeGenName = portType.generateCodePort(aData, tempSb, dimensions);
+				aData.getCodeForType(typeGenName).append(tempSb);
 	
 				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", typeGenName, genName));
 				source.append("@Override\n" );
@@ -412,10 +411,9 @@ public final class Def_Port extends Definition {
 			if(dimensions == null) {
 				source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameOwn(), genName, identifier.getDisplayName()));
 			} else {
-				final String typeGenName = portType.getGenNameValue(aData, source, myScope);
-	
-				final StringBuilder tempSb = aData.getCodeForType(portType.getGenNameOwn());
-				portType.generateCodePort(aData, tempSb, dimensions);
+				final StringBuilder tempSb = new StringBuilder();
+				final String typeGenName = portType.generateCodePort(aData, tempSb, dimensions);
+				aData.getCodeForType(typeGenName).append(tempSb);
 	
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGenName, genName));
 	

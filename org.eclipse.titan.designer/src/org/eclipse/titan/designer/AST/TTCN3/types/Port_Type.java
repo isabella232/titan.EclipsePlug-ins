@@ -46,9 +46,6 @@ public final class Port_Type extends Type {
 
 	private final PortTypeBody body;
 
-	private BuildTimestamp lastBuildTimestamp;
-	private String lastGenName;
-
 	public Port_Type(final PortTypeBody body) {
 		this.body = body;
 
@@ -258,12 +255,7 @@ public final class Port_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
-			lastBuildTimestamp = aData.getBuildTimstamp();
-			lastGenName = aData.getTemporaryVariableName();
-		}
-
-		return lastGenName;
+		return getGenNameOwn(scope);
 	}
 
 	@Override
@@ -286,8 +278,9 @@ public final class Port_Type extends Type {
 	 * @param source where the source code should be generated
 	 * @param dimensions the dimensions of the array to use.
 	 */
-	public void generateCodePort(final JavaGenData aData, final StringBuilder source, final ArrayDimensions dimensions) {
-		String className = getGenNameValue(aData, source, myScope);
+	public String generateCodePort(final JavaGenData aData, final StringBuilder source, final ArrayDimensions dimensions) {
+		String typeName = aData.getTemporaryVariableName();
+		String className = typeName;
 		String elementName;
 
 		for (int i = 0; i < dimensions.size(); i++) {
@@ -311,5 +304,7 @@ public final class Port_Type extends Type {
 		}
 
 		aData.addBuiltinTypeImport("TitanPortArray");
+
+		return typeName;
 	}
 }
