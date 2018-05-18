@@ -1929,7 +1929,7 @@ public class PortGenerator {
 			source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 			source.append(MessageFormat.format("{0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
-			source.append("incoming_call(incoming_par);\n");
+			source.append("incoming_call(incoming_par, sender_component);\n");
 			source.append("return true;\n");
 		}
 
@@ -1960,7 +1960,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("{0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_reply(incoming_par);\n");
+				source.append("incoming_reply(incoming_par, sender_component);\n");
 				source.append("return true;\n");
 			}
 		}
@@ -1992,7 +1992,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
 				source.append(MessageFormat.format("{0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
-				source.append("incoming_exception(incoming_par);\n");
+				source.append("incoming_exception(incoming_par, sender_component);\n");
 				source.append("return true;\n");
 			}
 		}
