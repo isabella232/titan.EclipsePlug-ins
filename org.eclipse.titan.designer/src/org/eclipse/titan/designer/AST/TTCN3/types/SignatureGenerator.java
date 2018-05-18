@@ -220,27 +220,40 @@ public class SignatureGenerator {
 				source.append(MessageFormat.format("private {0} ptr_{1};\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 			}
 		}
-		source.append(MessageFormat.format("public {0}_call_redirect( ", def.genName));
-		for (int i = 0 ; i < def.formalParameters.size(); i++) {
-			final SignatureParameter formalPar = def.formalParameters.get(i);
 
-			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				if (i != 0) {
-					source.append(", ");
-				}
-
-				source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
-			}
-		}
-		source.append(" ) {\n");
-		for (int i = 0 ; i < def.formalParameters.size(); i++) {
-			final SignatureParameter formalPar = def.formalParameters.get(i);
-
-			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
-				source.append(MessageFormat.format("ptr_{0} = par_{0};\n", formalPar.mJavaName));
-			}
-		}
+		source.append(MessageFormat.format("public {0}_call_redirect( ) '{'", def.genName));
 		source.append("}\n");
+
+		boolean longConstructorNeeded = false;
+		for (int i = 0 ; i < def.formalParameters.size() && !longConstructorNeeded; i++) {
+			if (def.formalParameters.get(i).direction != signatureParamaterDirection.PAR_OUT) {
+				longConstructorNeeded = true;
+			}
+		}
+
+		if (longConstructorNeeded) {
+			source.append(MessageFormat.format("public {0}_call_redirect( ", def.genName));
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+	
+				if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+					if (i != 0) {
+						source.append(", ");
+					}
+	
+					source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
+				}
+			}
+			source.append(" ) {\n");
+			for (int i = 0 ; i < def.formalParameters.size(); i++) {
+				final SignatureParameter formalPar = def.formalParameters.get(i);
+	
+				if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
+					source.append(MessageFormat.format("ptr_{0} = par_{0};\n", formalPar.mJavaName));
+				}
+			}
+			source.append("}\n");
+		}
 
 		source.append(MessageFormat.format("public void set_parameters( final {0}_call call_par) '{'\n", def.genName));
 		for (int i = 0 ; i < def.formalParameters.size(); i++) {
@@ -404,35 +417,55 @@ public class SignatureGenerator {
 					source.append(MessageFormat.format("private {0} ptr_{1};\n", formalPar.mJavaTypeName, formalPar.mJavaName));
 				}
 			}
+
 			source.append(MessageFormat.format("public {0}_reply_redirect( ", def.genName));
-			boolean first = true;
 			if (def.returnType != null) {
 				source.append(MessageFormat.format("final {0} return_redir", def.returnType.mJavaTypeName));
-				first = false;
-			}
-			for (int i = 0 ; i < def.formalParameters.size(); i++) {
-				final SignatureParameter formalPar = def.formalParameters.get(i);
-
-				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					if (!first) {
-						source.append(", ");
-					}
-					source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
-					first = false;
-				}
 			}
 			source.append(" ) {\n");
 			if (def.returnType != null) {
 				source.append(MessageFormat.format("ret_val_redir = return_redir;\n", def.returnType.mJavaTypeName));
 			}
-			for (int i = 0 ; i < def.formalParameters.size(); i++) {
-				final SignatureParameter formalPar = def.formalParameters.get(i);
+			source.append("}\n");
 
-				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
-					source.append(MessageFormat.format("ptr_{0} = par_{0};\n", formalPar.mJavaName));
+			boolean longConstructorNeeded = false;
+			for (int i = 0 ; i < def.formalParameters.size() && !longConstructorNeeded; i++) {
+				if (def.formalParameters.get(i).direction != signatureParamaterDirection.PAR_IN) {
+					longConstructorNeeded = true;
 				}
 			}
-			source.append("}\n");
+
+			if (longConstructorNeeded) {
+				source.append(MessageFormat.format("public {0}_reply_redirect( ", def.genName));
+				boolean first = true;
+				if (def.returnType != null) {
+					source.append(MessageFormat.format("final {0} return_redir", def.returnType.mJavaTypeName));
+					first = false;
+				}
+				for (int i = 0 ; i < def.formalParameters.size(); i++) {
+					final SignatureParameter formalPar = def.formalParameters.get(i);
+
+					if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+						if (!first) {
+							source.append(", ");
+						}
+						source.append(MessageFormat.format("final {0} par_{1}", formalPar.mJavaTypeName, formalPar.mJavaName));
+						first = false;
+					}
+				}
+				source.append(" ) {\n");
+				if (def.returnType != null) {
+					source.append(MessageFormat.format("ret_val_redir = return_redir;\n", def.returnType.mJavaTypeName));
+				}
+				for (int i = 0 ; i < def.formalParameters.size(); i++) {
+					final SignatureParameter formalPar = def.formalParameters.get(i);
+
+					if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
+						source.append(MessageFormat.format("ptr_{0} = par_{0};\n", formalPar.mJavaName));
+					}
+				}
+				source.append("}\n");
+			}
 
 			source.append(MessageFormat.format("public void set_parameters( final {0}_reply reply_par) '{'\n", def.genName));
 			for (int i = 0 ; i < def.formalParameters.size(); i++) {
@@ -443,11 +476,12 @@ public class SignatureGenerator {
 					source.append(MessageFormat.format("ptr_{0}.assign(reply_par.constGet{0}());\n", formalPar.mJavaName));
 					source.append("}\n");
 				}
-				if (def.returnType != null) {
-					source.append("if (ret_val_redir != null) {\n");
-					source.append(MessageFormat.format("ret_val_redir = reply_par.constGetreturn_value();\n", def.returnType.mJavaTypeName));
-					source.append("}\n");
-				}
+				
+			}
+			if (def.returnType != null) {
+				source.append("if (ret_val_redir != null) {\n");
+				source.append(MessageFormat.format("ret_val_redir.assign(reply_par.constGetreturn_value());\n", def.returnType.mJavaTypeName));
+				source.append("}\n");
 			}
 			source.append("}\n");
 			source.append("}\n");
