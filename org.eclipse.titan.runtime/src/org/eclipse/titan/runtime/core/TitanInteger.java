@@ -1204,9 +1204,7 @@ public class TitanInteger extends Base_Type {
 				// extract the next length octet (or partial length octet)
 				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
 				int mask = 0x80;
-				if (tmp_len_data[0] != 0) {
-					len_data = tmp_len_data[0];
-				}
+				len_data = tmp_len_data[0];
 				do {
 					++len_bits;
 					if ((tmp_len_data[0] & mask) != 0) {
@@ -1270,6 +1268,11 @@ public class TitanInteger extends Base_Type {
 				data[decode_length / 8] = len_data;
 				decode_length += partial_octet_bits;
 			}
+			byte temp_data[] = new byte[data.length];
+			for (int i = 0; i < temp_data.length; i++) {
+				temp_data[i] = (byte) data[i];
+			}
+			
 			int end_pos = decode_length;
 			int idx = (end_pos - 1) / 8;
 			boolean negativ_num = false;
