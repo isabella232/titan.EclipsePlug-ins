@@ -327,7 +327,6 @@ public class TTCN_Communication {
 			final int msg_end = incoming_buf.get().get_pos() + msg_len;
 			final int msg_type = incoming_buf.get().pull_int().getInt();
 
-			System.out.println("received hc message type " + msg_type);//FIXME only debug printout
 			switch (msg_type) {
 			case MSG_ERROR:
 				process_error();
@@ -381,7 +380,6 @@ public class TTCN_Communication {
 			final int msg_end = incoming_buf.get().get_pos() + msg_len;
 			final int msg_type = incoming_buf.get().pull_int().getInt();
 
-			System.out.println("component " + TitanComponent.self.get().componentValue+ " received tc message type " + msg_type);
 			// messages: MC -> TC
 			switch (msg_type) {
 			case MSG_ERROR:
