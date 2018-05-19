@@ -525,7 +525,7 @@ public class PortGenerator {
 			source.append(");\n");
 		}
 		source.append("} else {\n");
-		source.append("Text_Buf text_buf = new Text_Buf();\n");
+		source.append("final Text_Buf text_buf = new Text_Buf();\n");
 		source.append(MessageFormat.format("prepare_message(text_buf, \"{0}\");\n",outType.mDisplayName));
 		source.append("send_par.encode_text(text_buf);\n");
 		source.append("send_data(text_buf, destination_component);\n");
@@ -600,7 +600,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 
-		source.append("Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("final Message_queue_item my_head = message_queue.getFirst();\n");
 		source.append("if (my_head == null) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -704,7 +704,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 
-		source.append("Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("final Message_queue_item my_head = message_queue.getFirst();\n");
 		source.append("if (my_head == null) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -813,7 +813,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_PROBLEM, MessageFormat.format(\"Matching on port {0} failed: Port is not started and the queue is empty.\", get_name()));\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n\n");
-		source.append("Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("final Message_queue_item my_head = message_queue.getFirst();\n");
 		source.append("if (my_head == null) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -893,7 +893,7 @@ public class PortGenerator {
 		source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_PROBLEM, \"Matching on port {0} will drop a message: Port is not started and the queue is empty.\", get_name());\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n\n");
-		source.append("Message_queue_item my_head = message_queue.getFirst();\n");
+		source.append("final Message_queue_item my_head = message_queue.getFirst();\n");
 		source.append("if (my_head == null) {\n");
 		source.append("if (is_started) {\n");
 		source.append("return TitanAlt_Status.ALT_MAYBE;\n");
@@ -972,7 +972,7 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
-		source.append("Message_queue_item new_item = new Message_queue_item();\n");
+		source.append("final Message_queue_item new_item = new Message_queue_item();\n");
 		source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
 		source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
 		source.append("new_item.sender_component = sender_component;\n");
@@ -1013,7 +1013,7 @@ public class PortGenerator {
 			final messageTypeInfo inType = portDefinition.inMessages.get(i);
 
 			source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
-			source.append(MessageFormat.format("{0} incoming_par = new {0}();\n", inType.mJavaTypeName));
+			source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
 			source.append("incoming_message(incoming_par, sender_component);\n");
 			source.append("return true;\n");
@@ -1057,7 +1057,7 @@ public class PortGenerator {
 		}
 
 		source.append("} else {\n");
-		source.append("Text_Buf text_buf = new Text_Buf();\n");
+		source.append("final Text_Buf text_buf = new Text_Buf();\n");
 		source.append(MessageFormat.format("prepare_call(text_buf, \"{0}\");\n", info.mDisplayName));
 		source.append("call_temp.encode_text(text_buf);\n");
 		source.append("send_data(text_buf, destination_component);\n");
@@ -1120,7 +1120,7 @@ public class PortGenerator {
 				source.append("outgoing_reply(reply_temp);\n");
 			}
 			source.append("} else {\n");
-			source.append("Text_Buf text_buf = new Text_Buf();\n");
+			source.append("final Text_Buf text_buf = new Text_Buf();\n");
 			source.append(MessageFormat.format("prepare_reply(text_buf, \"{0}\");\n", info.mDisplayName));
 			source.append("reply_temp.encode_text(text_buf);\n");
 			source.append("send_data(text_buf, destination_component);\n");
@@ -1183,7 +1183,7 @@ public class PortGenerator {
 				source.append("outgoing_raise(raise_exception);\n");
 			}
 			source.append("} else {\n");
-			source.append("Text_Buf text_buf = new Text_Buf();\n");
+			source.append("final Text_Buf text_buf = new Text_Buf();\n");
 			source.append(MessageFormat.format("prepare_exception(text_buf, \"{0}\");\n", info.mDisplayName));
 			source.append("raise_exception.encode_text(text_buf);\n");
 			source.append("send_data(text_buf, destination_component);\n");
@@ -1235,7 +1235,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
+		source.append("final Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_PMUNSUCC, MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue is not the system.\", get_name()));\n");
@@ -1324,7 +1324,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
+		source.append("final Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__is__not__system, new TitanCharString(\"\"));\n");
@@ -1401,7 +1401,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
+		source.append("final Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_PMUNSUCC, MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue is not the system.\", get_name()));\n");
@@ -1497,7 +1497,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
+		source.append("final Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_PMUNSUCC, MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue is not the system.\", get_name()));\n");
@@ -1576,7 +1576,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
+		source.append("final Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_PMUNSUCC, MessageFormat.format(\"Matching on port {0} failed: Sender of the first entity in the queue is not the system.\", get_name()));\n");
@@ -1672,7 +1672,7 @@ public class PortGenerator {
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");
 		source.append("}\n");
-		source.append("Procedure_queue_item head = procedure_queue.getFirst();\n");
+		source.append("final Procedure_queue_item head = procedure_queue.getFirst();\n");
 		if (isAddress) {
 			source.append("if (head.sender_component != TitanComponent.SYSTEM_COMPREF) {\n");
 			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.procedure__, get_name(), head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.sender__is__not__system, new TitanCharString(\"\"));\n");
@@ -1766,7 +1766,7 @@ public class PortGenerator {
 			source.append("new TitanCharString(\"\"), TtcnLogger.end_event_log2str());\n");
 		}
 		source.append("}\n");
-		source.append("Procedure_queue_item newItem = new Procedure_queue_item();\n" );
+		source.append("final Procedure_queue_item newItem = new Procedure_queue_item();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.CALL_{0};\n", index));
 		source.append(MessageFormat.format("newItem.call_{0} = new {1}_call(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
@@ -1826,7 +1826,7 @@ public class PortGenerator {
 			source.append("new TitanCharString(\"\"), TtcnLogger.end_event_log2str());\n");
 		}
 		source.append("}\n");
-		source.append("Procedure_queue_item newItem = new Procedure_queue_item();\n" );
+		source.append("final Procedure_queue_item newItem = new Procedure_queue_item();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.REPLY_{0};\n", index));
 		source.append(MessageFormat.format("newItem.reply_{0} = new {1}_reply(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
@@ -1887,7 +1887,7 @@ public class PortGenerator {
 			source.append("new TitanCharString(\"\"), TtcnLogger.end_event_log2str());\n");
 		}
 		source.append("}\n");
-		source.append("Procedure_queue_item newItem = new Procedure_queue_item();\n" );
+		source.append("final Procedure_queue_item newItem = new Procedure_queue_item();\n" );
 		source.append(MessageFormat.format("newItem.item_selection = proc_selection.EXCEPTION_{0};\n", index));
 		source.append(MessageFormat.format("newItem.exception_{0} = new {1}_exception(incoming_par);\n", index, info.mJavaTypeName));
 		source.append("newItem.sender_component = sender_component;\n" );
@@ -1927,7 +1927,7 @@ public class PortGenerator {
 				source.append(" } else ");
 			}
 			source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
-			source.append(MessageFormat.format("{0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
+			source.append(MessageFormat.format("final {0}_call incoming_par = new {0}_call();\n", info.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
 			source.append("incoming_call(incoming_par, sender_component);\n");
 			source.append("return true;\n");
@@ -1958,7 +1958,7 @@ public class PortGenerator {
 				}
 				isFirst = false;
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
-				source.append(MessageFormat.format("{0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
+				source.append(MessageFormat.format("final {0}_reply incoming_par = new {0}_reply();\n", info.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
 				source.append("incoming_reply(incoming_par, sender_component);\n");
 				source.append("return true;\n");
@@ -1990,7 +1990,7 @@ public class PortGenerator {
 				}
 				isFirst = false;
 				source.append(MessageFormat.format("if (\"{0}\".equals(signature_name)) '{'\n", info.mDisplayName));
-				source.append(MessageFormat.format("{0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
+				source.append(MessageFormat.format("final {0}_exception incoming_par = new {0}_exception();\n", info.mJavaTypeName));
 				source.append("incoming_par.decode_text(incoming_buf);\n");
 				source.append("incoming_exception(incoming_par, sender_component);\n");
 				source.append("return true;\n");
