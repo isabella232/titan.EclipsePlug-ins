@@ -1388,7 +1388,7 @@ public class PortGenerator {
 	 * @param isAddress generate for address or not?
 	 * */
 	private static void generateGenericGetreply(final StringBuilder source, final PortDefinition portDefinition, final boolean isCheck, final boolean isAddress) {
-		final String functionName = isCheck ? "check_reply" : "getreply";
+		final String functionName = isCheck ? "check_getreply" : "getreply";
 		final String printedFunctionName = isCheck ? "Check-getreply" : "Getreply";
 		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
 
