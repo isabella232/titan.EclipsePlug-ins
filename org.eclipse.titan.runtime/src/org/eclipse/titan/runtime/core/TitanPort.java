@@ -657,7 +657,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 		for (final TitanPort port : PORTS.get()) {
-			switch (port.check_getreply(sender_template, sender_pointer, null)) {
+			switch (port.check_catch(sender_template, sender_pointer, null)) {
 			case ALT_YES:
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
