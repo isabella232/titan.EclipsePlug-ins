@@ -927,10 +927,12 @@ public class TTCN_Communication {
 			return;
 		}
 
-		final String module_name = temp_incoming_buf.pull_string();
-		final String definition_name = temp_incoming_buf.pull_string();
-		if (module_name == null || definition_name == null) {
-			send_error(MessageFormat.format("Message CREATE_PTC with component reference {0} contains an invalid component type.", component_reference));
+		final String component_module_name = temp_incoming_buf.pull_string();
+		final String component_definition_name = temp_incoming_buf.pull_string();
+		final String system_module_name = temp_incoming_buf.pull_string();
+		final String system_definition_name = temp_incoming_buf.pull_string();
+		if (component_module_name == null || component_definition_name == null || system_module_name == null || system_definition_name == null) {
+			send_error(MessageFormat.format("Message CREATE_PTC with component reference {0} contains an invalid component type or system type.", component_reference));
 		}
 
 		final String component_name = temp_incoming_buf.pull_string();
@@ -939,7 +941,7 @@ public class TTCN_Communication {
 		final String testcase_definition_name = temp_incoming_buf.pull_string();
 		temp_incoming_buf.cut_message();
 
-		TTCN_Runtime.process_create_ptc(component_reference, module_name, definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
+		TTCN_Runtime.process_create_ptc(component_reference, component_module_name, component_definition_name, system_module_name, system_definition_name, component_name, is_alive, testcase_module_name, testcase_definition_name);
 	}
 
 	private static void process_kill_process() {
@@ -1256,6 +1258,13 @@ public class TTCN_Communication {
 		if (translation) {
 			TitanPort.map_port(local_port, system_port, true);
 		}
+		if (!TTCN_Runtime.is_single()) {
+			if (translation) {
+				send_mapped(system_port, local_port, translation);
+			} else {
+				send_mapped(local_port, system_port, translation);
+			}
+		}
 	}
 
 	private static void process_map_ack() {
@@ -1287,6 +1296,13 @@ public class TTCN_Communication {
 		TitanPort.unmap_port(local_port, system_port, false);
 		if (translation) {
 			TitanPort.unmap_port(local_port, system_port, true);
+		}
+		if (!TTCN_Runtime.is_single()) {
+			if (translation) {
+				send_unmapped(system_port, local_port, translation);
+			} else {
+				send_unmapped(local_port, system_port, translation);
+			}
 		}
 	}
 

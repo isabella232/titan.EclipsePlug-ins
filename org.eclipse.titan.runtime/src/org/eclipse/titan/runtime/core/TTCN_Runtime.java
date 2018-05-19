@@ -66,6 +66,8 @@ public final class TTCN_Runtime {
 
 	private static ThreadLocal<String> component_type_module = new ThreadLocal<String>();
 	private static ThreadLocal<String> component_type_name = new ThreadLocal<String>();
+	private static ThreadLocal<String> system_type_module = new ThreadLocal<String>();
+	private static ThreadLocal<String> system_type_name = new ThreadLocal<String>();
 	private static ThreadLocal<String> component_name = new ThreadLocal<String>();
 	private static ThreadLocal<Boolean> is_alive = new ThreadLocal<Boolean>() {
 		@Override
@@ -319,6 +321,8 @@ public final class TTCN_Runtime {
 	private static void clean_up(){
 		component_type_module.set(null);
 		component_type_name.set(null);
+		system_type_module.set(null);
+		system_type_name.set(null);
 		component_name.set(null);
 		control_module_name = null;
 		testcaseModuleName.set(null);
@@ -365,6 +369,17 @@ public final class TTCN_Runtime {
 
 		component_type_module.set(par_component_type_module);
 		component_type_name.set(par_component_type_name);
+	}
+
+	//originally TTCN_Runtime::set_system_type
+	private static void set_system_type(final String par_system_type_module, final String par_system_type_name) {
+		if (par_system_type_module == null || par_system_type_module.length() == 0 ||
+				par_system_type_name == null || par_system_type_name.length() == 0) {
+			throw new TtcnError("Internal error: TTCN_Runtime::set_system_type: Trying to set an invalid system component type.");
+		}
+
+		system_type_module.set(par_system_type_module);
+		system_type_name.set(par_system_type_name);
 	}
 
 	// originally TTCN_Runtime::set_component_name
@@ -2013,6 +2028,7 @@ public final class TTCN_Runtime {
 		TitanTimer.saveControlTimers();
 		TTCN_Default.save_control_defaults();
 		set_testcase_name(moduleName, testcaseName);
+		set_system_type(system_comptype_module, system_comptype_name);
 		//FIXME implement command execution
 
 		TtcnLogger.log_testcase_started(moduleName, testcaseName);
@@ -2274,7 +2290,7 @@ public final class TTCN_Runtime {
 		//FIXME implement
 	}
 
-	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name, final String par_component_name, final boolean par_is_alive, final String current_testcase_module, final String current_testcase_name) {
+	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name, final String system_type_module, final String system_type_name, final String par_component_name, final boolean par_is_alive, final String current_testcase_module, final String current_testcase_name) {
 		switch (executorState.get()) {
 		case HC_ACTIVE:
 		case HC_OVERLOADED:
@@ -2297,6 +2313,7 @@ public final class TTCN_Runtime {
 
 				TitanComponent.self.set(new TitanComponent(component_reference));
 				set_component_type(component_type_module, component_type_name);
+				set_system_type(system_type_module, system_type_name);
 				set_component_name(par_component_name);
 				TTCN_Runtime.is_alive.set(par_is_alive);
 				set_testcase_name(current_testcase_module, current_testcase_name);
