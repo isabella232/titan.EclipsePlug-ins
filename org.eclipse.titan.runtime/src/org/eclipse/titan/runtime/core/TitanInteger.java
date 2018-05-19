@@ -1268,11 +1268,6 @@ public class TitanInteger extends Base_Type {
 				data[decode_length / 8] = len_data;
 				decode_length += partial_octet_bits;
 			}
-			byte temp_data[] = new byte[data.length];
-			for (int i = 0; i < temp_data.length; i++) {
-				temp_data[i] = (byte) data[i];
-			}
-			
 			int end_pos = decode_length;
 			int idx = (end_pos - 1) / 8;
 			boolean negativ_num = false;
