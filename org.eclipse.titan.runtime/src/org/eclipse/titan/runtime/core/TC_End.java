@@ -15,4 +15,8 @@ package org.eclipse.titan.runtime.core;
  */
 public class TC_End extends Error {
 
+	public TC_End() {
+		//having an explicit constructor makes it easy to put a debug breakpoint into it.
+		super();
+	}
 }
