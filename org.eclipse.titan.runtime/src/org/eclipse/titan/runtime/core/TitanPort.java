@@ -874,7 +874,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		case TRANSPORT_INET_STREAM:
 			send_data_stream(connection, outgoing_buf, false);
 			break;
-		//FIXME add support for other connection types
 		default:
 			throw new TtcnError(MessageFormat.format("Internal error: Invalid transport type ({0}) in port connection between {1} and {2}:{3}.", connection.transport_type, port_name, connection.remote_component, connection.remote_port));
 		}
@@ -998,9 +997,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			} catch (IOException e) {
 				//FIXME implement
 			}
+
 			connection.stream_socket = null;
 			break;
-		//FIXME implement rest of the transport types
 		default:
 			throw new TtcnError("Internal error: PORT::remove_connection(): invalid transport type.");
 		}
@@ -1322,7 +1321,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		switch(connection.transport_type) {
 		case TRANSPORT_INET_STREAM:
 			break;
-		//FIXME add support for other transport types.
 		default:
 			throw new TtcnError(MessageFormat.format("Internal error: Connection termination request was received on the connection of port {0} with {1}:{2}, which has an invalid transport type ({3}).", port_name, connection.remote_component, connection.remote_port, connection.transport_type));
 		}
@@ -1431,11 +1429,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			port.connect_listen_inet_stream(remote_component, remote_port);
 			break;
 		default:
-			//FIXME only inet is support for now
 			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Message CONNECT_LISTEN refers to invalid transport type ({0})", transport_type.ordinal()));
 			break;
 		}
-		//FIXME implement additional connection types
 	}
 
 	public static void process_connect(final String local_port, final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
@@ -1465,11 +1461,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			port.connect_stream(remote_component, remote_port, transport_type, text_buf);
 			break;
 		default:
-			//FIXME only inet is support for now
 			TTCN_Communication.send_connect_error(local_port, remote_component, remote_port, MessageFormat.format("Message CONNECT refers to invalid transport type ({0})", transport_type.ordinal()));
 			break;
 		}
-		//FIXME implement additional connection types
 	}
 
 	public static void process_disconnect(final String local_port, final int remote_component, final String remote_port) {
@@ -1500,7 +1494,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		case TRANSPORT_INET_STREAM:
 			port.disconnect_stream(connection);
 			break;
-		//FIXME implement the additional transport types
 		default:
 			throw new TtcnError(MessageFormat.format("Internal error: The connection of port {0} to {1}:{2} has invalid transport type ({3}) when trying to terminate the connection.", local_port, remote_component, remote_port, connection.transport_type.ordinal()));
 		}

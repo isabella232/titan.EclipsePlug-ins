@@ -153,7 +153,10 @@ public class TTCN_Communication {
 	public static enum transport_type_enum {
 		TRANSPORT_LOCAL,
 		TRANSPORT_INET_STREAM,
+		/* unsupported as it is not platform independent */
+		@Deprecated
 		TRANSPORT_UNIX_STREAM,
+		/*unused marks the current number of enumerations */
 		TRANSPORT_NUM
 	}
 
@@ -516,7 +519,6 @@ public class TTCN_Communication {
 		text_buf.push_string("release");
 		text_buf.push_string("version");
 
-		//TODO for now we only support local and inet stream based transport
 		text_buf.push_int(2);//nof supported transports
 		text_buf.push_int(transport_type_enum.TRANSPORT_LOCAL.ordinal()); //TRANSPORT_LOCAL
 		text_buf.push_int(transport_type_enum.TRANSPORT_INET_STREAM.ordinal()); //TRANSPORT_INET_STREAM
