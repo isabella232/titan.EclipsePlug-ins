@@ -277,8 +277,8 @@ public class LegacyLogger implements ILoggerPlugin {
 		case ALT_PortEvent:
 			portevent_str(returnValue, choice.getPortEvent().getChoice());
 			break;
-		//FIXME implement missing branches
 		}
+
 		return returnValue.toString();
 	}
 
@@ -733,6 +733,62 @@ public class LegacyLogger implements ILoggerPlugin {
 					returnValue.append(MessageFormat.format(", location: {0}", ptc.getTc__loc().getValue()));
 				}
 				returnValue.append('.');
+				break;
+			case ptc__created__pid:
+				returnValue.append(MessageFormat.format("PTC was created. Component reference: {0}, component type: {2}.{3}", ptc.getCompref().getInt(), ptc.getModule__().getValue(), ptc.getName().getValue()));
+				if (ptc.getCompname().lengthOf().getInt() > 0) {
+					returnValue.append(MessageFormat.format(", component name: {0}", ptc.getCompname().getValue()));
+				}
+				if (ptc.getTc__loc().lengthOf().getInt() != 0) {
+					returnValue.append(MessageFormat.format(", testcase name: {0}", ptc.getTc__loc().getValue()));
+				}
+				returnValue.append(MessageFormat.format(", process id: {0}.", ptc.getAlive__pid().getInt()));
+				break;
+			case function__started:
+				returnValue.append("Function was started.");
+				break;
+			case function__stopped:
+				returnValue.append(MessageFormat.format("Function {0} was stopped. PTC terminates.", ptc.getName().getValue()));
+				break;
+			case function__finished:
+				returnValue.append(MessageFormat.format("Function {0} finished. PTC {1}.", ptc.getName().getValue(), ptc.getAlive__pid().getInt() == 0 ? "terminates" :  "remains alive and is waiting for next start"));
+				break;
+			case function__error:
+				returnValue.append(MessageFormat.format("Function {0} finished with an error. PTC terminates.", ptc.getName().getValue()));
+				break;
+			case ptc__done:
+				returnValue.append(MessageFormat.format("PTC with component reference {0} is done.", ptc.getCompref().getInt()));
+				break;
+			case ptc__killed:
+				returnValue.append(MessageFormat.format("PTC with component reference {0} is killed.", ptc.getCompref().getInt()));
+				break;
+			case stopping__mtc:
+				returnValue.append("Stopping MTC. The current test case will be terminated.");
+				break;
+			case ptc__stopped:
+				returnValue.append(MessageFormat.format("PTC with component reference {0} was stopped.", ptc.getCompref().getInt()));
+				break;
+			case all__comps__stopped:
+				returnValue.append("All components were stopped.");
+				break;
+			case ptc__was__killed:
+				returnValue.append(MessageFormat.format("PTC with component reference {0} was killed.", ptc.getCompref().getInt()));
+				break;
+			case all__comps__killed:
+				returnValue.append("All components were killed.");
+				break;
+			case kill__request__frm__mc:
+				returnValue.append("Kill was requested from MC. Terminating idle PTC.");
+				break;
+			case mtc__finished:
+				returnValue.append("MTC finished.");
+				//TODO add process statistics
+				break;
+			case ptc__finished:
+				returnValue.append(MessageFormat.format("TC {0}({1}) finished.", ptc.getCompname().getValue(), ptc.getCompref().getInt()));
+				//TODO add process statistics
+				break;
+			case starting__function:
 				break;
 			}
 			break; 
