@@ -90,7 +90,6 @@ public class EnumeratedGenerator {
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
-		aData.addBuiltinTypeImport("RAW");
 		aData.addImport( "java.text.MessageFormat" );
 
 		final boolean rawNeeded = e_defs.hasRaw; //TODO can be forced optionally if needed
@@ -351,6 +350,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		if (rawNeeded) {
+			aData.addBuiltinTypeImport("RAW");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 
 			int min_bits = 0;
