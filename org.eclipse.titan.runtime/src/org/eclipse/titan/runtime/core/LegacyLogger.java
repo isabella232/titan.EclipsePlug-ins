@@ -1102,6 +1102,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			case reply__op:
 				returnValue.append(ps.getCheck__().getValue() ? "Check-getreply" : "Getreply");
 				op2 = "reply";
+				break;
 			case exception__op:
 				returnValue.append(ps.getCheck__().getValue() ? "Check-catch" : "Catch");
 				op2 = "exception";
