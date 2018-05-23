@@ -949,7 +949,8 @@ public class TitanInteger extends Base_Type {
 				value = 0; // substitute with zero
 			}
 		}
-			myleaf.data_array = bc = new char[length];
+
+		myleaf.data_array = bc = new char[length];
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
 			// treat the empty space between the value and the length as if it was part

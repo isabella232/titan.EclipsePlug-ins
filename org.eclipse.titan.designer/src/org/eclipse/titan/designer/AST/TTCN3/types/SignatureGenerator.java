@@ -854,12 +854,12 @@ public class SignatureGenerator {
 
 		if (def.returnType != null) {
 			source.append(MessageFormat.format("public {0}_template set_value_template(final {1} new_template) '{'\n", def.genName, def.returnType.mJavaTypeName));
-			source.append(MessageFormat.format("reply_value = new {0}(new_template);\n", def.returnType.mJavaTemplateName));
-			source.append("return this;\n");
+			source.append(MessageFormat.format("return set_value_template(new {0}(new_template));\n", def.returnType.mJavaTemplateName));
 			source.append("}\n");
 			source.append(MessageFormat.format("public {0}_template set_value_template(final {1} new_template) '{'\n", def.genName, def.returnType.mJavaTemplateName));
-			source.append("reply_value = new_template;\n");
-			source.append("return this;\n");
+			source.append(MessageFormat.format("final {0}_template temp = new {0}_template(this);\n", def.genName));
+			source.append("temp.reply_value = new_template;\n");
+			source.append("return temp;\n");
 			source.append("}\n");
 		}
 

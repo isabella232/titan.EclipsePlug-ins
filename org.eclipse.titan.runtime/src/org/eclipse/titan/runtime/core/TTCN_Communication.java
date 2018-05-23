@@ -1414,7 +1414,7 @@ public class TTCN_Communication {
 
 		temp_incoming_buf.cut_message();
 
-		System.out.println("Error message was received from MC : " + error_string);
+		throw new TtcnError("Error message was received from MC : " + error_string);
 	}
 
 	private static void process_unsupported_message(final int msg_type, final int msg_end) {
