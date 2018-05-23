@@ -480,9 +480,6 @@ public final class TTCN_Runtime {
 				clean_up();
 			}
 		} catch (final TtcnError error) {
-			TTCN_Runtime.set_error_verdict(); 
-			System.out.println(error);
-
 			returnValue = -1;
 			clean_up();
 		}
@@ -517,8 +514,6 @@ public final class TTCN_Runtime {
 			TTCN_Communication.disconnect_mc();
 			clean_up();
 		} catch (final TtcnError error) {
-			TTCN_Runtime.set_error_verdict(); 
-			System.out.println(error);
 			returnValue = -1;
 		}
 
@@ -549,8 +544,6 @@ public final class TTCN_Runtime {
 			try {
 				initialize_component_type();
 			} catch (final TtcnError error) {
-				TTCN_Runtime.set_error_verdict(); 
-				System.out.println(error);
 				TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.component__init__fail);
 				returnValue = -1;
 			}
@@ -562,8 +555,6 @@ public final class TTCN_Runtime {
 						TTCN_Communication.process_all_messages_tc();
 					} while (executorState.get() != executorStateEnum.PTC_EXIT);
 				} catch (final TtcnError error) {
-					TTCN_Runtime.set_error_verdict(); 
-					System.out.println(error);
 					TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.error__idle__ptc, null, null, 0, null, null, 0, 0);
 					returnValue = -1;
 				}
@@ -584,8 +575,6 @@ public final class TTCN_Runtime {
 			clear_component_status_table();
 			clean_up();
 		} catch (final TtcnError error) {
-			TTCN_Runtime.set_error_verdict(); 
-			System.out.println(error);
 			returnValue = -1;
 		}
 
@@ -2070,6 +2059,7 @@ public final class TTCN_Runtime {
 		default:
 			throw new TtcnError("Internal error: Ending a testcase in an invalid state.");
 		}
+
 		TitanTimer.testcaseTimer.stop();
 		terminate_component_type();
 
