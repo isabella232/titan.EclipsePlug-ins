@@ -842,6 +842,7 @@ public class TitanBitString extends Base_Type {
 		if (p_td.raw.fieldlength > limit
 				|| p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {
+				errorcontext.leaveContext();
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);

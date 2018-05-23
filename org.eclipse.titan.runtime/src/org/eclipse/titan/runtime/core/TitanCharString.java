@@ -747,6 +747,7 @@ public class TitanCharString extends Base_Type {
 		final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext();
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
+				errorContext.leaveContext();
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type '%s.'", p_td.name);

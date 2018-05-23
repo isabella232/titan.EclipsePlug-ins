@@ -662,14 +662,17 @@ public class TitanFloat extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength;
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {
+				errorcontext.leaveContext();
 				return -1;
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
 			decode_length = limit > (int) buff.unread_len_bit() ? buff.unread_len_bit() : limit;
 			float_value = new Ttcn3Float(0.0);
 			decode_length += buff.increase_pos_padd(p_td.raw.padding);
+			errorcontext.leaveContext();
 			return decode_length + prepaddlength;
 		}
 
@@ -707,6 +710,7 @@ public class TitanFloat extends Base_Type {
 			tmp = ByteBuffer.wrap(tmp_dv).getDouble();
 			if (Double.isNaN(tmp)) {
 				if (no_err) {
+					errorcontext.leaveContext();
 					return -1;
 				}
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
@@ -724,6 +728,7 @@ public class TitanFloat extends Base_Type {
 				tmp = sign != 0 ? -0.0 : 0.0;
 			} else if (exponent == 0xFF && fraction != 0) {
 				if (no_err) {
+					errorcontext.leaveContext();
 					return -1;
 				}
 				TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "Not a Number received for type %s.", p_td.name);
@@ -739,6 +744,7 @@ public class TitanFloat extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		float_value = new Ttcn3Float(tmp);
+		errorcontext.leaveContext();
 		return decode_length + prepaddlength;
 	}
 }

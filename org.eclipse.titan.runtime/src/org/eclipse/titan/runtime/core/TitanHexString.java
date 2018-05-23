@@ -725,8 +725,10 @@ public class TitanHexString extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 4) * 4 : p_td.raw.fieldlength;
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (p_td.raw.fieldlength > limit || p_td.raw.fieldlength > buff.unread_len_bit()) {
 			if (no_err) {
+				errorcontext.leaveContext();
 				return -error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s.", p_td.name);
@@ -787,6 +789,7 @@ public class TitanHexString extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		clearUnusedNibble();
+		errorcontext.leaveContext();
 		return decode_length + prepaddlength;
 	}
 }
