@@ -387,8 +387,10 @@ public class TitanBoolean extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength : 1;
+		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (decode_length > limit) {
 			if (no_err) {
+				errorcontext.leaveContext();
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, limit);
@@ -397,12 +399,14 @@ public class TitanBoolean extends Base_Type {
 		final int nof_unread_bits = buff.unread_len_bit();
 		if (decode_length > nof_unread_bits) {
 			if (no_err) {
+				errorcontext.leaveContext();
 				return -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_MSG, "There is not enough bits in the buffer to decode type %s (needed: %d, found: %d).", p_td.name, decode_length, nof_unread_bits);
 			decode_length = nof_unread_bits;
 		}
 		if (decode_length < 0) {
+			errorcontext.leaveContext();
 			return -1;
 		} else if (decode_length == 0) {
 			boolean_value = false;
@@ -439,6 +443,8 @@ public class TitanBoolean extends Base_Type {
 			boolean_value = ch != '\0';
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
+		errorcontext.leaveContext();
+		
 		return decode_length + prepaddlength;
 	}
 }

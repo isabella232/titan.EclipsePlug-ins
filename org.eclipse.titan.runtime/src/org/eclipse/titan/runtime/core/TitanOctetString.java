@@ -739,6 +739,7 @@ public class TitanOctetString extends Base_Type {
 		int decode_length = p_td.raw.fieldlength == 0 ? (limit / 8) * 8 : p_td.raw.fieldlength;
 		if (decode_length > limit || decode_length > buff.unread_len_bit()) {
 			if (no_err) {
+				errorcontext.leaveContext();
 				return -TTCN_EncDec.error_type.ET_LEN_ERR.ordinal();
 			}
 			TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There is not enough bits in the buffer to decode type '%s'.", p_td.name);
