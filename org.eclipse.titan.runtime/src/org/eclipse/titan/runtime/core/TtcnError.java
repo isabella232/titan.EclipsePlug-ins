@@ -12,18 +12,28 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 //TODO: maybe change it to exception
 public class TtcnError extends Error {
 
-	public TtcnError( final String aErrorMessage ) {
+	public TtcnError( final String errorMessage ) {
 		//FIXME implement
-		super( aErrorMessage );
+		super( errorMessage );
+		//FIXME implement
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str("Dynamic test case error: ");
+		TtcnLogger.log_event_str(errorMessage);
+		TtcnLogger.end_event();
 
+		TTCN_Runtime.set_error_verdict();
+		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 	}
 
 	// FIXME this function is not ok here.
 	// As soon as we have implemented all functions from the old core it should be moved.
 	// Till then similarity with the old structure rules.
-	public static void TtcnWarning(final String aWarningMessage) {
+	public static void TtcnWarning(final String warningMessage) {
 		//FIXME implement logging of warnings
-		System.out.println("warning: " + aWarningMessage);
+		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TtcnLogger.log_event_str("Warning: ");
+		TtcnLogger.log_event_str(warningMessage);
+		TtcnLogger.end_event();
 	}
 
 	//FIXME comment
@@ -43,6 +53,9 @@ public class TtcnError extends Error {
 			//FIXME implement
 			TtcnLogger.end_event();
 		}
+
+		TTCN_Runtime.set_error_verdict();
+		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 	}
 
 	//FIXME comment
