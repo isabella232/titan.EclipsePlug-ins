@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
+
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
 //TODO: maybe change it to exception
@@ -19,6 +22,20 @@ public class TtcnError extends Error {
 		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
 		TtcnLogger.log_event_str("Dynamic test case error: ");
 		TtcnLogger.log_event_str(errorMessage);
+		TtcnLogger.end_event();
+
+		TTCN_Runtime.set_error_verdict();
+		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
+	}
+
+	public TtcnError( final Exception exception ) {
+		//FIXME implement
+		final StringWriter error = new StringWriter();
+		exception.printStackTrace(new PrintWriter(error));
+
+		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TtcnLogger.log_event_str("Dynamic test case error: ");
+		TtcnLogger.log_event_str(error.toString());
 		TtcnLogger.end_event();
 
 		TTCN_Runtime.set_error_verdict();

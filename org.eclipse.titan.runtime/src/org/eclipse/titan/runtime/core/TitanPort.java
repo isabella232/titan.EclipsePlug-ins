@@ -198,7 +198,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				if (is_parallel) {
 					try {
 						TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
-					} catch (TtcnError e) { }
+					} catch (final TtcnError e) {
+						//intentionally empty
+					}
 				}
 				remove_connection(connection);
 			}
@@ -209,12 +211,16 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
 				try {
 					unmap(system_port, system);
-				} catch (TtcnError e) {}
+				} catch (final TtcnError e) {
+					//intentionally empty
+				}
 
 				if (is_parallel) {
 					try {
 						TTCN_Communication.send_unmapped(port_name, system_port, system);
-					} catch (TtcnError e) {}
+					} catch (final TtcnError e) {
+						//intentionally empty
+					}
 				}
 			}
 
@@ -223,7 +229,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			if (is_started || is_halted) {
 				try {
 					stop();
-				} catch (TtcnError e) {}
+				} catch (final TtcnError e) {
+					//intentionally empty
+				}
 			}
 
 			clear_queue();
@@ -994,8 +1002,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			TTCN_Snapshot.channelMap.get().remove(connection.stream_socket);
 			try {
 				connection.stream_socket.close();
-			} catch (IOException e) {
-				//FIXME implement
+			} catch (final IOException e) {
+				throw new TtcnError(e);
 			}
 
 			connection.stream_socket = null;
@@ -1083,8 +1091,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 			TTCN_Communication.send_connect_listen_ack_inet_stream(port_name, local_port, remote_component, remote_port, Inet4Address.getLocalHost());
 			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__is__waiting__for__connection__tcp, port_name, remote_component, remote_port, "TCP", -1, 0);
-		} catch (IOException e) {
-			//FIXME implement
+		} catch (final IOException e) {
+			throw new TtcnError(e);
 		}
 	}
 
@@ -1140,9 +1148,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			socketChannel.configureBlocking(false);
 			TTCN_Snapshot.channelMap.get().put(socketChannel, new_connection);
 			socketChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
-		} catch (IOException e) {
-			//FIXME implement
-			throw new TtcnError("There were some exception during connection handling");
+		} catch (final IOException e) {
+			throw new TtcnError(e);
 		}
 
 		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
@@ -1221,8 +1228,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		while (buffer.hasRemaining()) {
 			try {
 				((SocketChannel)connection.stream_socket).write(buffer);
-			} catch (IOException e) {
-				//FIXME implement
+			} catch (final IOException e) {
+				throw new TtcnError(e);
 			}
 		}
 		//FIXME implement
@@ -1247,8 +1254,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			TTCN_Communication.send_connected(port_name, connection.remote_component, connection.remote_port);
 
 			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__accepted, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
-		} catch (IOException e) {
-			//FIXME handle error
+		} catch (final IOException e) {
+			throw new TtcnError(e);
 		}
 	}
 
@@ -1294,8 +1301,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				// the connection can be removed
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			}
-		} catch (IOException e) {
-			//FIXME implement
+		} catch (final IOException e) {
+			throw new TtcnError(e);
 		}
 
 		if (connection.connection_state == port_connection.connection_state_enum.CONN_IDLE) {
