@@ -949,11 +949,7 @@ public class TitanInteger extends Base_Type {
 				value = 0; // substitute with zero
 			}
 		}
-		if (length > RAW.RAW_INT_ENC_LENGTH) { // does not fit in the small buffer
 			myleaf.data_array = bc = new char[length];
-		} else {
-			bc = myleaf.data_array;
-		}
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			int i = 0;
 			// treat the empty space between the value and the length as if it was part
@@ -968,7 +964,7 @@ public class TitanInteger extends Base_Type {
 			} while (val_bits > 0);
 			if (neg_sgbit) {
 				// the sign bit is the first bit after the length
-				final char mask = (char)(0x80 >> len_bits & 8);
+				final char mask = (char)(0x80 >> len_bits % 8);
 				bc[i - 1] |= mask;
 			}
 			// second, encode the length (ignore the last zero)
@@ -1038,7 +1034,6 @@ public class TitanInteger extends Base_Type {
 		if (p_td.raw.fieldlength == RAW.RAW_INTX) {
 			val_bits = D.bitLength(); // bits needed to store the value
 			len_bits = 1 + val_bits / 8; // bits needed to store the length
-			len_bits = 1 + val_bits / 8; // bits needed to store the length
 			if (val_bits % 8 + len_bits % 8 > 8) {
 				// the remainder of the value bits and the length bits do not fit into
 				// an octet => an extra octet is needed and the length must be increased
@@ -1080,7 +1075,7 @@ public class TitanInteger extends Base_Type {
 			// of the value, too
 			val_bits = length * 8 - len_bits;
 			// first, encode the value
-			final byte[] tmp = D.toByteArray();
+			final byte[] tmp = neg_sgbit ? D.abs().toByteArray() : D.toByteArray();
 			final int num_bytes = tmp.length;
 			do {
 				bc[i] = (char) (((num_bytes - i > 0 ? tmp[num_bytes - (i + 1)] : (twos_compl ? 0xFF : 0)) & INTX_MASKS[val_bits > 8 ? 8 : val_bits]) & 0xFF);
