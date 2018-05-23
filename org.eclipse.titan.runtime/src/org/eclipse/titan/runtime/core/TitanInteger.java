@@ -1251,6 +1251,7 @@ public class TitanInteger extends Base_Type {
 		if (decode_length < 0) {
 			return -1;
 		} else if (decode_length == 0 && partial_octet_bits == 0) {
+			boundFlag = true;
 			nativeFlag = true;
 			nativeInt = 0;
 		} else {
@@ -1314,9 +1315,11 @@ public class TitanInteger extends Base_Type {
 						D = D.negate();
 					}
 					if (D.bitLength() > 31) {
+						boundFlag = true;
 						nativeFlag = false;
 						openSSL = D;
 					} else {
+						boundFlag = true;
 						nativeFlag = true;
 						nativeInt = D.intValue();
 					}
@@ -1332,8 +1335,9 @@ public class TitanInteger extends Base_Type {
 					}
 				}
 			}
+			boundFlag = true;
 			nativeFlag = true;
-			nativeInt = negativ_num ?  -tmp : tmp;
+			nativeInt = negativ_num ? -tmp : tmp;
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		boundFlag = true;
