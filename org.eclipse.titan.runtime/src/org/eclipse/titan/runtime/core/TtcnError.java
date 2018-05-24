@@ -18,14 +18,6 @@ public class TtcnError extends Error {
 	public TtcnError( final String errorMessage ) {
 		//FIXME implement
 		super( errorMessage );
-		//FIXME implement
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str("Dynamic test case error: ");
-		TtcnLogger.log_event_str(errorMessage);
-		TtcnLogger.end_event();
-
-		TTCN_Runtime.set_error_verdict();
-		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 	}
 
 	public TtcnError( final Exception exception ) {
@@ -65,14 +57,12 @@ public class TtcnError extends Error {
 	public static void TtcnErrorEnd() {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
 			final TitanCharString error_str = TtcnLogger.end_event_log2str();
+
 			throw new TtcnError(error_str.getValue().toString());
 		} else {
 			//FIXME implement
 			TtcnLogger.end_event();
 		}
-
-		TTCN_Runtime.set_error_verdict();
-		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 	}
 
 	//FIXME comment
