@@ -124,6 +124,8 @@ public final class TtcnLogger {
 			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	private static long start_time;
 
+	private static log_event_types_t log_entity_name = log_event_types_t.LOGEVENTTYPES_NO;
+
 	public static enum component_id_selector_enum {
 		COMPONENT_ID_NAME,
 		COMPONENT_ID_COMPREF,
@@ -389,6 +391,53 @@ public final class TtcnLogger {
 
 		private TTCN_Location() {
 			// intentionally empty
+		}
+
+		public static StringBuilder print_location(final boolean print_outers, final boolean print_innermost, final log_event_types_t print_entity_name) {
+			final StringBuilder builder = new StringBuilder();
+
+			if (print_outers) {
+				for (int i = 0; i < TTCN_Location.actualSize - 1; i++) {
+					final TTCN_Location temp = TTCN_Location.locations.get(i);
+
+					temp.append_contents(builder, print_entity_name);
+				}
+			}
+			if (print_innermost) {
+				locations.get(TTCN_Location.actualSize - 1).append_contents(builder, print_entity_name);
+			}
+
+			return builder;
+		}
+
+		protected void append_contents(final StringBuilder builder, final log_event_types_t print_entity_name) {
+			if (builder.length() > 0) {
+				builder.append("->");
+			}
+
+			builder.append(file_name).append(':').append(line_number);
+			switch (entity_type) {
+			case LOCATION_CONTROLPART:
+				builder.append(MessageFormat.format("(controlpart:{0})", entity_name));
+				break;
+			case LOCATION_TESTCASE:
+				builder.append(MessageFormat.format("(testcase:{0})", entity_name));
+				break;
+			case LOCATION_ALTSTEP:
+				builder.append(MessageFormat.format("(altstep:{0})", entity_name));
+				break;
+			case LOCATION_FUNCTION:
+				builder.append(MessageFormat.format("(function:{0})", entity_name));
+				break;
+			case LOCATION_EXTERNALFUNCTION:
+				builder.append(MessageFormat.format("(externalfunction:{0})", entity_name));
+				break;
+			case LOCATION_TEMPLATE:
+				builder.append(MessageFormat.format("(template:{0})", entity_name));
+				break;
+			default:
+				break;
+			} 
 		}
 
 		/**
@@ -823,9 +872,11 @@ public final class TtcnLogger {
 		final StringBuilder new_log_message = new StringBuilder();
 
 		final String timestamp_format_names[] = {"Time", "DateTime", "Seconds"};
+		final String logeventtype_names[] = {"No", "Yes", "Subcategories"};
 
+		//FIXME insert correct version numbers
 		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", "in development", "in development"));
-		new_log_message.append(MessageFormat.format("TimeStampFormat:={0};", timestamp_format_names[timestamp_format.ordinal()]));
+		new_log_message.append(MessageFormat.format("TimeStampFormat:={0}; LogEntityName:={1};", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()]));
 		//FIXME implement rest once relevant
 
 		return new_log_message.toString();
@@ -875,6 +926,14 @@ public final class TtcnLogger {
 
 	public static log_event_types_t get_log_event_types() {
 		return log_event_types;
+	}
+
+	public static void set_log_entity_name(final log_event_types_t new_log_entity_name) {
+		log_entity_name = new_log_entity_name;
+	}
+
+	public static log_event_types_t get_log_entity_name() {
+		return log_entity_name;
 	}
 
 	public static void print_logmatch_buffer() {
