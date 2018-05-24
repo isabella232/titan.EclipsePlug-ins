@@ -70,6 +70,11 @@ public class TtcnPattern {
 	private static final Pattern PATTERN_REPETITION_RANGE = Pattern.compile( "\\(\\s*(\\d*)\\s*(,\\s*(\\d*))?\\s*\\)(.*)" );
 
 	/**
+	 * List of possible metacharacters
+	 */
+	private static final String METACHARS = "#()*+-?[\\]^{|}";
+
+	/**
 	 * converts TTCN-3 pattern to java pattern
 	 * @param ttcnPattern TTCN-3 pattern
 	 * @param nocase true for case insensitive matching
@@ -244,12 +249,24 @@ public class TtcnPattern {
 				// else is not needed, because dynamic references are already resolved
 				break;
 			}
-			//TODO: special cases: ()|
+			//NOTE: special cases: ()|
+			//      these work in the same way in TTCN-3 and java pattern, so no conversion is needed
 			default:
 				javaPattern.append(c);
 				break;
 			}
 		}
+	}
+
+	/**
+	 * @return true if character can be metacharacter, false otherwise.
+	 * Quote from TTCN-3 standard B.1.5.0:
+	 * The symbols that can appear as lexical marks in metacharacter definitions are called metacharacter symbols. They
+	 * include the following characters: "#", "(", ")", "*", "+", "-", "?", "[", "\", "]", "^", "{","|","}". When any of the
+	 * metacharacter symbols are present in a pattern, but do not form a valid metacharacter, they retain their literal value.
+	 */
+	private static boolean isMeta( final char c ) {
+		return METACHARS.indexOf(c) >= 0;
 	}
 
 	/**
@@ -265,9 +282,6 @@ public class TtcnPattern {
 										final boolean isSet, final Map< String, String > refs ) {
 		final char c = ttcnPattern.charAt(pos.getAndIncrement());
 		switch ( c ) {
-		case '\\':
-			javaPattern.append("\\\\");
-			break;
 		case 'd':
 			javaPattern.append(isSet ? "0-9" : "[0-9]");
 			break;
@@ -293,30 +307,6 @@ public class TtcnPattern {
 		case '"':
 			javaPattern.append("\\\"");
 			break;
-		case '[':
-			javaPattern.append("\\[");
-			break;
-		case ']':
-			javaPattern.append("\\]");
-			break;
-		case '-':
-			javaPattern.append("\\-");
-			break;
-		case '^':
-			javaPattern.append("\\^");
-			break;
-		case '(':
-			javaPattern.append("\\(");
-			break;
-		case ')':
-			javaPattern.append("\\)");
-			break;
-		case '#':
-			javaPattern.append("\\#");
-			break;
-		case '|':
-			javaPattern.append("\\|");
-			break;
 		case 'q':
 			convertUnicharList(ttcnPattern, pos, javaPattern);
 			break;
@@ -324,7 +314,11 @@ public class TtcnPattern {
 			convertCharsetReference(ttcnPattern, pos, javaPattern, isSet, refs);
 			break;
 		default:
-			throw new TtcnError("Escape character \\" + c + " is not supported at position " + pos.get());
+			if ( isMeta( c ) ) {
+				javaPattern.append("\\" + c);
+			} else {
+				throw new TtcnError("Escape character \\" + c + " is not supported at position " + pos.get());
+			}
 		}
 	}
 
