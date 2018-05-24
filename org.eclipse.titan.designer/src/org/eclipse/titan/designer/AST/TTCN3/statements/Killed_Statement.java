@@ -137,7 +137,7 @@ public final class Killed_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression, null);
 
-		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), getLocation());
+		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), canRepeat(), getLocation());
 	}
 
 	@Override

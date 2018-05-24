@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NamedBridgeScope;
 import org.eclipse.titan.designer.AST.NamingConventionHelper;
 import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -45,6 +46,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.T3Doc;
@@ -920,20 +922,22 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		source.append( " static final " );
 
 		// return value
+		String returnTypeName = null;
 		switch (assignmentType) {
 		case A_FUNCTION:
-			source.append( "void" );
+			returnTypeName = "void";
 			break;
 		case A_FUNCTION_RVAL:
-			source.append( returnType.getGenNameValue( aData, source, getMyScope() ) );
+			returnTypeName = returnType.getGenNameValue( aData, source, getMyScope() );
 			break;
 		case A_FUNCTION_RTEMP:
-			source.append( returnType.getGenNameTemplate( aData, source, getMyScope() ) );
+			returnTypeName = returnType.getGenNameTemplate( aData, source, getMyScope() );
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 		}
 
+		source.append(returnTypeName);
 		source.append( ' ' );
 
 		// function name
@@ -1017,9 +1021,43 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 			startFunction.append("TTCN_Runtime.function_started(function_arguments);\n");
 			StringBuilder actualParList = formalParList.generateCodeActualParlist("");
-			//FIXME handle keeping of return value
-			startFunction.append(MessageFormat.format("{0}({1});\n", genName, actualParList));
-			startFunction.append(MessageFormat.format("TTCN_Runtime.function_finished(\"{0}\");\n", identifier.getDisplayName()));
+			boolean returnValueKept = false;
+			if (assignmentType == Assignment_type.A_FUNCTION_RVAL) {
+				IType t = returnType;
+				while (true) {
+					if (t.hasDoneAttribute()) {
+						returnValueKept = true;
+
+						break;
+					} else if (t instanceof Referenced_Type) {
+						final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						IType t2 = ((Referenced_Type) t).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+						referenceChain.release();
+						if (t2.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) || t2 == t) {
+							break;
+						}
+						t = t2;
+					} else {
+						break;
+					}
+				}
+			}
+			if (returnValueKept) {
+				final String returnTypeDisplayName = returnType.getTypename();
+
+				startFunction.append(MessageFormat.format("{0} ret_val = new {0}({1}({2}));\n", returnTypeName, genName, actualParList));
+				startFunction.append("TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);\n");
+				startFunction.append(MessageFormat.format("TtcnLogger.log_event_str(\"Function {0} returned {1} : \");\n", identifier.getDisplayName(), returnTypeDisplayName));
+				startFunction.append("ret_val.log();\n");
+				startFunction.append("TtcnLogger.end_event();;\n");
+				startFunction.append("final Text_Buf text_buf = new Text_Buf();\n");
+				startFunction.append(MessageFormat.format("TTCN_Runtime.prepare_function_finished(\"{0}\", text_buf);\n", returnTypeDisplayName));
+				startFunction.append("ret_val.encode_text(text_buf);\n");
+				startFunction.append("TTCN_Runtime.send_function_finished(text_buf);\n");
+			} else {
+				startFunction.append(MessageFormat.format("{0}({1});\n", genName, actualParList));
+				startFunction.append(MessageFormat.format("TTCN_Runtime.function_finished(\"{0}\");\n", identifier.getDisplayName()));
+			}
 
 			startFunction.append("return true;\n");
 			startFunction.append("} else ");

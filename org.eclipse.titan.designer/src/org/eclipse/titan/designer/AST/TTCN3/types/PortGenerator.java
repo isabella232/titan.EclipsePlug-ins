@@ -2013,9 +2013,10 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param statement the code generated for the statement as an expression.
 	 * @param statementName the name of the statement for display in error message
+	 * @param canRepeat true if the statement can repeat.
 	 * @param location the location of the statement to report errors to.
 	 * */
-	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final String statementName, final Location location) {
+	public static void generateCodeStandalone(final JavaGenData aData, final StringBuilder source, final String statement, final String statementName, final boolean canRepeat, final Location location) {
 		aData.addBuiltinTypeImport("TitanAlt_Status");
 		aData.addBuiltinTypeImport("TTCN_Default");
 		aData.addBuiltinTypeImport("TtcnError");
@@ -2034,7 +2035,13 @@ public class PortGenerator {
 
 		source.append("if (alt_flag == TitanAlt_Status.ALT_YES) {\n");
 		source.append("break;\n");
-		source.append("}\n");
+		if (canRepeat) {
+			source.append("} else if (alt_flag == TitanAlt_Status.ALT_REPEAT) {\n");
+			source.append(MessageFormat.format("continue {0};\n", tempLabel));
+			source.append("}\n");
+		} else {
+			source.append("}\n");
+		}
 		source.append("}\n");
 		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
 		source.append("default_flag = TTCN_Default.tryAltsteps();\n");

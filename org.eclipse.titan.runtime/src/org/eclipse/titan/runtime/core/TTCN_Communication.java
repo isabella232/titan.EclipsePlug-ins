@@ -1067,7 +1067,7 @@ public class TTCN_Communication {
 		final int return_value_begin = temp_incoming_buf.get_pos();
 
 		try {
-			TTCN_Runtime.process_done_ack(answer, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, return_value_begin);
+			TTCN_Runtime.process_done_ack(answer, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, temp_incoming_buf.get_begin(), return_value_begin);
 		} finally {
 			temp_incoming_buf.cut_message();
 		}
@@ -1099,7 +1099,7 @@ public class TTCN_Communication {
 			final String return_type = temp_incoming_buf.pull_string();
 			final int return_value_begin = temp_incoming_buf.get_pos();
 			try {
-				TTCN_Runtime.set_component_done(component_reference, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, return_value_begin);
+				TTCN_Runtime.set_component_done(component_reference, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, temp_incoming_buf.get_begin(), return_value_begin);
 			} catch (TtcnError error) {
 				temp_incoming_buf.cut_message();
 				throw error;
@@ -1110,10 +1110,10 @@ public class TTCN_Communication {
 			TTCN_Runtime.set_component_killed(component_reference);
 		}
 		if (is_any_done) {
-			TTCN_Runtime.set_component_done(TitanComponent.ANY_COMPREF, VerdictTypeEnum.NONE, null, null, 0, 0);
+			TTCN_Runtime.set_component_done(TitanComponent.ANY_COMPREF, VerdictTypeEnum.NONE, null, null, 0, 0, 0);
 		}
 		if (is_all_done) {
-			TTCN_Runtime.set_component_done(TitanComponent.ALL_COMPREF, VerdictTypeEnum.NONE, null, null, 0, 0);
+			TTCN_Runtime.set_component_done(TitanComponent.ALL_COMPREF, VerdictTypeEnum.NONE, null, null, 0, 0, 0);
 		}
 		if (is_any_killed) {
 			TTCN_Runtime.set_component_killed(TitanComponent.ANY_COMPREF);
@@ -1142,7 +1142,7 @@ public class TTCN_Communication {
 			final String return_type = temp_incoming_buf.pull_string();
 			final int return_value_begin = temp_incoming_buf.get_pos();
 			try {
-				TTCN_Runtime.set_component_done(component_reference, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, return_value_begin);
+				TTCN_Runtime.set_component_done(component_reference, ptc_verdict, return_type, temp_incoming_buf.get_data(), msg_end - return_value_begin, temp_incoming_buf.get_begin(), return_value_begin);
 			} catch (TtcnError error) {
 				temp_incoming_buf.cut_message();
 				throw error;

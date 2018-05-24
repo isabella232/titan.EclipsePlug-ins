@@ -262,7 +262,7 @@ public final class Done_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		generateCodeExpression(aData, expression, null);
 
-		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), getLocation());
+		PortGenerator.generateCodeStandalone(aData, source, expression.expression.toString(), getStatementName(), canRepeat(), getLocation());
 	}
 
 	@Override
@@ -300,12 +300,18 @@ public final class Done_Statement extends Statement {
 				expression.expression.append(", ");
 				//FIXME handle decoded match
 				doneMatch.generateCode(aData, expression, Restriction_type.TR_NONE);
-				//expression.expression.append(", ");
-				//FIXME handle value redirection
+				expression.expression.append(", ");
 			} else {
 				// simple done
 				componentreference.generateCodeExpressionMandatory(aData, expression, true);
 				expression.expression.append(".done(");
+			}
+
+			if (redirect == null) {
+				expression.expression.append("null");
+			} else {
+				//FIXME handle value redirection
+				redirect.generateCode(aData, expression);
 			}
 
 			//FIXME handle index redirection

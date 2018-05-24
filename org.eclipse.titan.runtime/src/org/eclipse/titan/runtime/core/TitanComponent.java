@@ -172,14 +172,19 @@ public class TitanComponent extends Base_Type {
 	}
 
 	// originally done, TODO needs index redirection support
-	public TitanAlt_Status done() {
+	public TitanAlt_Status done(final TitanVerdictType value_redirect) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Performing done operation on an unbound component reference.");
 		}
 
 		final AtomicReference<VerdictTypeEnum> ptc_verdict = new AtomicReference<VerdictTypeEnum>(VerdictTypeEnum.NONE);
 
-		return TTCN_Runtime.component_done(componentValue, ptc_verdict);
+		final TitanAlt_Status status = TTCN_Runtime.component_done(componentValue, ptc_verdict);
+		if (value_redirect != null) {
+			value_redirect.assign(ptc_verdict.get());
+		}
+
+		return status;
 	}
 
 	// originally killed, TODO needs index redirection support
