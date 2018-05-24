@@ -444,7 +444,7 @@ public class TitanBoolean extends Base_Type {
 		}
 		decode_length += buff.increase_pos_padd(p_td.raw.padding);
 		errorcontext.leaveContext();
-		
+
 		return decode_length + prepaddlength;
 	}
 }
