@@ -1184,7 +1184,7 @@ public class TitanInteger extends Base_Type {
 						TTCN_EncDec_ErrorContext.error(error_type.ET_LEN_ERR, "There are not enough bits in the buffer to decode the length of IntX type %s (needed: %d, found: %d).", p_td.name, len_bits + 8, len_bits + limit);
 					}
 					errorContext.leaveContext();
-					
+
 					return -error_type.ET_LEN_ERR.ordinal(); 
 				} else {
 					limit -= 8;
