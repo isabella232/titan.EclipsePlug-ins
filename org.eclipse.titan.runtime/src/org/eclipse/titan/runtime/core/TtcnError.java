@@ -49,7 +49,6 @@ public class TtcnError extends Error {
 			}
 			TtcnLogger.log_event_str("Dynamic test case error: ");
 			TtcnLogger.log_event_str(errorMessage);
-			//FIXME add OS_error
 			TtcnLogger.end_event();
 	
 			TTCN_Runtime.set_error_verdict();
@@ -135,7 +134,6 @@ public class TtcnError extends Error {
 
 			throw new TtcnError(error_str.getValue().toString());
 		} else {
-			//FIXME add OS_error
 			TtcnLogger.end_event();
 			TTCN_Runtime.set_error_verdict();
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
