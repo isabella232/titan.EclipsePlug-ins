@@ -848,7 +848,6 @@ public final class Sequence_Value extends Value {
 		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
-		//FIXME generate restriction check
 		expression.expression.append(tempId);
 	}
 
