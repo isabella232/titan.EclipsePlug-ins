@@ -48,6 +48,10 @@ public class TTCN_EncDec_ErrorContext {
 		errors.remove(errors.size() - 1);
 	}
 
+	public static void resetAllContexts() {
+		errors.clear();
+	}
+
 	public void set_msg(final String fmt, final Object... args) {
 		format = fmt;
 		arguments = args;

@@ -2090,6 +2090,7 @@ public final class TTCN_Runtime {
 
 		TTCN_Default.restoreControlDefaults();
 		TitanTimer.restore_control_timers();
+		TTCN_EncDec_ErrorContext.resetAllContexts();
 
 		if (executorState.get() == executorStateEnum.MTC_PAUSED) {
 			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
