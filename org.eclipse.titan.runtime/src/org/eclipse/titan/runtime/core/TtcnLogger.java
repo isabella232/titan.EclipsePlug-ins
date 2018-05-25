@@ -403,7 +403,7 @@ public final class TtcnLogger {
 					temp.append_contents(builder, print_entity_name);
 				}
 			}
-			if (print_innermost) {
+			if (print_innermost && TTCN_Location.actualSize > 0) {
 				locations.get(TTCN_Location.actualSize - 1).append_contents(builder, print_entity_name);
 			}
 
