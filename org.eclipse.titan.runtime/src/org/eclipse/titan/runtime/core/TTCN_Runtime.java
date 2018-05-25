@@ -410,9 +410,7 @@ public final class TTCN_Runtime {
 		try {
 			return InetAddress.getLocalHost().getHostName();
 		} catch (UnknownHostException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return "unknown";
+			throw new TtcnError(e);
 		}
 	}
 
@@ -480,9 +478,6 @@ public final class TTCN_Runtime {
 				clean_up();
 			}
 		} catch (final TtcnError error) {
-			TTCN_Runtime.set_error_verdict(); 
-			System.out.println(error);
-
 			returnValue = -1;
 			clean_up();
 		}
@@ -517,9 +512,6 @@ public final class TTCN_Runtime {
 			TTCN_Communication.disconnect_mc();
 			clean_up();
 		} catch (final TtcnError error) {
-			TTCN_Runtime.set_error_verdict(); 
-			System.out.println(error);
-
 			returnValue = -1;
 		}
 
@@ -550,8 +542,6 @@ public final class TTCN_Runtime {
 			try {
 				initialize_component_type();
 			} catch (final TtcnError error) {
-				TTCN_Runtime.set_error_verdict(); 
-				System.out.println(error);
 				TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.component__init__fail);
 				returnValue = -1;
 			}
@@ -563,8 +553,6 @@ public final class TTCN_Runtime {
 						TTCN_Communication.process_all_messages_tc();
 					} while (executorState.get() != executorStateEnum.PTC_EXIT);
 				} catch (final TtcnError error) {
-					TTCN_Runtime.set_error_verdict(); 
-					System.out.println(error);
 					TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.error__idle__ptc, null, null, 0, null, null, 0, 0);
 					returnValue = -1;
 				}
@@ -573,10 +561,15 @@ public final class TTCN_Runtime {
 				// ignore errors in subsequent operations
 				try {
 					terminate_component_type();
-				} catch (final TtcnError error) { }
+				} catch (final TtcnError error) {
+					//intentionally empty
+				}
 				try {
 					TTCN_Communication.send_killed(localVerdict.get(), verdictReason.get());
-				} catch (final TtcnError error) { }
+				} catch (final TtcnError error) {
+					//intentionally empty
+				}
+
 				TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 				executorState.set(executorStateEnum.PTC_EXIT);
 			}
@@ -585,8 +578,6 @@ public final class TTCN_Runtime {
 			clear_component_status_table();
 			clean_up();
 		} catch (final TtcnError error) {
-			TTCN_Runtime.set_error_verdict(); 
-			System.out.println(error);
 			returnValue = -1;
 		}
 

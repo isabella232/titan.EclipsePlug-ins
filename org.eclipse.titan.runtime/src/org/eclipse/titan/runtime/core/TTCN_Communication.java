@@ -210,7 +210,7 @@ public class TTCN_Communication {
 				try {
 					recv_len = mc_channel.read(tempbuffer);
 				} catch (IOException e) {
-					e.printStackTrace();
+					throw new TtcnError(e);
 				}
 				if (recv_len > 0) {
 					//incoming_buf.increase_length(recv_len);
@@ -271,8 +271,7 @@ public class TTCN_Communication {
 			mc_socketchannel.get().connect(new InetSocketAddress(MC_host, MC_port));
 			//FIXME register
 		} catch (IOException e) {
-			e.printStackTrace();
-			return;
+			throw new TtcnError(e);
 		}
 		//FIXME implement
 		final MC_Connection mc_connection = new MC_Connection(mc_socketchannel.get(), incoming_buf.get());
@@ -281,9 +280,9 @@ public class TTCN_Communication {
 			TTCN_Snapshot.channelMap.get().put(mc_socketchannel.get(), mc_connection);
 			mc_socketchannel.get().register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 		} catch (IOException e) {
-			e.printStackTrace();
-			//FIXME implement
+			throw new TtcnError(e);
 		}
+
 		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.connected__to__mc);
 		is_connected.set(true);;
 	}
@@ -303,9 +302,9 @@ public class TTCN_Communication {
 			try {
 				mc_socketchannel.get().close();
 			} catch (IOException e) {
-				e.printStackTrace();
-				//FIXME
+				throw new TtcnError(e);
 			}
+
 			TTCN_Snapshot.channelMap.get().remove(mc_socketchannel);
 			//FIXME implement
 		}
@@ -842,7 +841,7 @@ public class TTCN_Communication {
 				mc_socketchannel.get().write(buffer);
 			}
 		} catch (IOException e) {
-			e.printStackTrace();
+			throw new TtcnError(e);
 		}
 		//FIXME implement
 	}

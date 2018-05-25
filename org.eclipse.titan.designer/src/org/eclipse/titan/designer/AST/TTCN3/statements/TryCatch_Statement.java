@@ -237,6 +237,7 @@ public class TryCatch_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addCommonLibraryImport("TtcnError");
 
 		final String tempId = aData.getTemporaryVariableName();
 
@@ -244,11 +245,10 @@ public class TryCatch_Statement extends Statement {
 		source.append("TTCN_Runtime.increase_try_catch_counter();\n");
 		tryBlock.generateCode(aData, source);
 
-		//FIXME: java can't catch Errors, only this way
-		source.append(MessageFormat.format("'}' catch(final Throwable {0}) '{'\n", tempId));
+		source.append(MessageFormat.format("'}' catch(final TtcnError {0}) '{'\n", tempId));
 		catchSurroundingBlock.generateCode(aData, source);
 
-		source.append(MessageFormat.format("{0} = new TitanCharString({1}.toString());\n", exceptionIdentifier.getName(), tempId));
+		source.append(MessageFormat.format("{0} = new TitanCharString({1}.get_message());\n", exceptionIdentifier.getName(), tempId));
 		catchBlock.generateCode(aData, source);
 		source.append("}\n");
 		source.append("finally {\n");
