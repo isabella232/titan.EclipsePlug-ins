@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * TTCN-3 octetstring template
@@ -82,7 +83,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 
 		final int patternLength = patternString.length();
-		final char result[] = new char[patternLength];
+		List<Character> tmp_result = new ArrayList<Character>(patternLength);
 		for (int i = 0; i < patternLength; i++) {
 			int patternValue = octetDigit1(patternString.charAt(i));
 			if (patternValue < 16) {
@@ -94,7 +95,11 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 				patternValue += octetDigit2(patternString.charAt(i));
 
 			}
-			result[i] = (char) patternValue;
+			tmp_result.add((char) patternValue);
+		}
+		char result[] = new char[tmp_result.size()];
+		for (int i = 0; i < result.length; i++) {
+			result[i] = tmp_result.get(i);
 		}
 		return result;
 	}
