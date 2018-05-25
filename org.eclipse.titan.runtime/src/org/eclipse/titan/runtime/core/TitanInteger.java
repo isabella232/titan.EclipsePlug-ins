@@ -900,6 +900,7 @@ public class TitanInteger extends Base_Type {
 
 		if (value == Integer.MIN_VALUE) {
 			final TitanInteger big_value = new TitanInteger(BigInteger.valueOf(value));
+			errorContext.leaveContext();
 			return big_value.RAW_encode_openssl(p_td, myleaf);
 		}
 
