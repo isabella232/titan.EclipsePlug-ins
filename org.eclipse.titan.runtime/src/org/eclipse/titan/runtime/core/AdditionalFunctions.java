@@ -2688,8 +2688,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanFloat rndGenerate() {
-		final double returnValue;
-		returnValue = random.nextDouble();
+		final double returnValue = random.nextDouble();
 		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
 
 		return new TitanFloat(returnValue);
