@@ -2742,7 +2742,7 @@ public final class TTCN_Runtime {
 						reason = ParallelPTC_reason.enum_type.mtc__finished;
 					} else {
 						reason = ParallelPTC_reason.enum_type.ptc__finished;
-						//FIXME implement get_component_name
+						componentName = TitanComponent.get_component_name(comp.component_reference);
 					}
 
 					//TODO add rusage info if possible
