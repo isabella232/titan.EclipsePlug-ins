@@ -621,7 +621,7 @@ public class PortGenerator {
 			source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_MMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_MMUNSUCC);");
 			source.append("TtcnLogger.log_event(\"Matching on port {0}: Sender address of the first message in the queue does not match the from clause: \", get_name());\n");
-			source.append("sender_template.log_match(new TitanComponent(my_head.sender_address), false);\n");
+			source.append("sender_template.log_match(my_head.sender_address, false);\n");
 			source.append("TtcnLogger.end_event();\n");
 			source.append("TtcnLogger.begin_event_log2str();\n");
 			source.append("sender_template.log_match(my_head.sender_address);\n");
