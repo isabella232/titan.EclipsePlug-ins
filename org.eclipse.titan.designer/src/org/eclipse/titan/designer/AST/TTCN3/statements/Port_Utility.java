@@ -770,20 +770,20 @@ public final class Port_Utility {
 	}
 
 	static void generate_code_portref(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
-		StringBuilder backup = expression.expression;
+		final StringBuilder backup = expression.expression;
 
 		expression.expression = new StringBuilder();
 		expression.expression.append(MessageFormat.format("\"{0}\"", reference.getId().getDisplayName()));
-		List<ISubReference> subreferences = reference.getSubreferences();
+		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() > 0) {
 			for (int i = 0; i < subreferences.size(); i++) {
-				ISubReference subreference = subreferences.get(i);
+				final ISubReference subreference = subreferences.get(i);
 
 				if (subreference instanceof ArraySubReference) {
 					// transform expr->expr: XXXX -> get_port_name(XXXX, index)
 					aData.addCommonLibraryImport("AdditionalFunctions");
 
-					StringBuilder temp = expression.expression;
+					final StringBuilder temp = expression.expression;
 					expression.expression = new StringBuilder("AdditionalFunctions.get_port_name(");
 					expression.expression.append(temp);
 					expression.expression.append(", ");

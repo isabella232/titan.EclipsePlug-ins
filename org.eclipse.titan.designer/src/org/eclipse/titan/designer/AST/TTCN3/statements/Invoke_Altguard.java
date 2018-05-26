@@ -336,7 +336,8 @@ public final class Invoke_Altguard extends AltGuard {
 		referenceChain.release();
 
 		if (last.getValuetype() == Value_type.ALTSTEP_REFERENCE_VALUE) {
-			Def_Altstep altstep = ((Altstep_Reference_Value)last).getReferredAltstep();
+			final Def_Altstep altstep = ((Altstep_Reference_Value)last).getReferredAltstep();
+
 			expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, expression.expression, myScope, "")));
 			actualParameterList.generateCodeAlias(aData, expression);
 		} else {

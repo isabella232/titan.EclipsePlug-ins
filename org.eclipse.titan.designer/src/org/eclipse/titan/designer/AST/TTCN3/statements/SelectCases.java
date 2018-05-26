@@ -109,7 +109,7 @@ public final class SelectCases extends ASTNode implements IIncrementallyUpdateab
 	 * @param pLoopStmt the loop statement, set only within loops.
 	 * */
 	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		for (SelectCase selectCase : select_cases) {
+		for (final SelectCase selectCase : select_cases) {
 			selectCase.getStatementBlock().setMyLaicStmt(pAltGuards, pLoopStmt);
 		}
 	}

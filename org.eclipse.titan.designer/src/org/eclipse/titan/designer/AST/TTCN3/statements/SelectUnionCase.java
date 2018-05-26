@@ -268,7 +268,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	 *                If case else is found, all the filed names are removed from the list, because all the cases are covered.
 	 */
 	public void check( final TTCN3_Choice_Type aUnionType, final List<String> aFieldNames ) {
-		for ( Identifier identifier : items ) {
+		for (final Identifier identifier : items ) {
 			// name of the union component
 			final String name = identifier.getName();
 			if ( aUnionType.hasComponentWithName( name ) ) {
@@ -338,7 +338,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 		}
 
 		if ( items != null ) {
-			for ( Identifier item : items ) {
+			for (final Identifier item : items ) {
 				if ( item instanceof Identifier ) {
 					final Identifier identifier = item;
 					reparser.updateLocation( identifier.getLocation() );
@@ -367,7 +367,7 @@ public final class SelectUnionCase extends ASTNode implements ILocateableNode, I
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if ( items != null) {
-			for ( Identifier item : items ) {
+			for (final Identifier item : items ) {
 				if ( !item.accept( v ) ) {
 					return false;
 				}

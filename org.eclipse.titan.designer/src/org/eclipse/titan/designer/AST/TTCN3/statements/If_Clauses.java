@@ -101,7 +101,7 @@ public final class If_Clauses extends ASTNode implements IIncrementallyUpdateabl
 	 * @param pLoopStmt the loop statement, set only within loops.
 	 * */
 	public void setMyLaicStmt(final AltGuards pAgs, final Statement pLoopStmt) {
-		for (If_Clause ifClause : ifclauses) {
+		for (final If_Clause ifClause : ifclauses) {
 			ifClause.getStatementBlock().setMyLaicStmt(pAgs, pLoopStmt);
 		}
 	}

@@ -275,8 +275,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 */
 	public void generateCode(final JavaGenData aData, final StringBuilder source, final String name, final AtomicBoolean unreach) {
-		ExpressionStruct expression =  new ExpressionStruct();
-		StringBuilder condition = new StringBuilder();
+		final ExpressionStruct expression =  new ExpressionStruct();
+		final StringBuilder condition = new StringBuilder();
 
 		if(templateInstances != null) {
 			for (int i = 0; i < templateInstances.getNofTis(); i++) {
@@ -292,7 +292,8 @@ public final class SelectCase extends ASTNode implements ILocateableNode, IIncre
 				if(isValue) {
 					final String genName = last.getGenNameValue(aData, expression.expression,last.getMyScope());
 					expression.expression.append(MessageFormat.format("{0} {1} = new {0} (", genName, tmp));
-					IValue value = templateBody.getValue();
+
+					final IValue value = templateBody.getValue();
 					value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 					value.generateCodeExpressionMandatory(aData, expression, true);
 

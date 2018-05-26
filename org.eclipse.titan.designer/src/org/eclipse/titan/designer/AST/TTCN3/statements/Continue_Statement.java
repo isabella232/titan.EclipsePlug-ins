@@ -100,11 +100,11 @@ public final class Continue_Statement extends Statement {
 			//	source.append("break;\n");
 			//} else
 			if (loop_stmt instanceof For_Statement) {
-				For_Statement forStatment = (For_Statement) loop_stmt;
+				final For_Statement forStatment = (For_Statement) loop_stmt;
 				forStatment.generateCodeStepAssigment(aData, source);
 				source.append("continue;\n");
 			} else if (loop_stmt instanceof DoWhile_Statement) {
-				DoWhile_Statement doWhileStatement = (DoWhile_Statement) loop_stmt;
+				final DoWhile_Statement doWhileStatement = (DoWhile_Statement) loop_stmt;
 				doWhileStatement.generateCodeConditional(aData, source);
 				source.append("continue;\n");
 			} else {

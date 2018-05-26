@@ -245,10 +245,11 @@ public final class Start_Component_Statement extends Statement {
 
 		expression.expression.append(MessageFormat.format("{0}(", func.getGenNameFromScope(aData, source, myScope, "start_")));
 		componentReference.generateCodeExpression(aData, expression, false);
-		FormalParameterList formalParameterList = function.getFormalParameterList();
+		final FormalParameterList formalParameterList = function.getFormalParameterList();
 		if (formalParameterList.getNofParameters() > 0) {
 			expression.expression.append(',');
-			ISubReference subReference = functionInstanceReference.getSubreferences().get(0);
+
+			final ISubReference subReference = functionInstanceReference.getSubreferences().get(0);
 			((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
 		}
 		expression.expression.append(')');
