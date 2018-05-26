@@ -102,6 +102,9 @@ public class SignatureGenerator {
 		if (!def.signatureExceptions.isEmpty() || !def.formalParameters.isEmpty()) {
 			aData.addBuiltinTypeImport("Base_Template.template_sel");
 		}
+		if (def.formalParameters.isEmpty()) {
+			aData.addBuiltinTypeImport("TitanNull_Type");
+		}
 
 		generateCallClass(aData, source, def);
 		generateRedirectClass(aData, source, def);
