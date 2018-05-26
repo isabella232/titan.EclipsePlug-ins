@@ -539,7 +539,7 @@ public class PortGenerator {
 			source.append("}\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_DUALSEND)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_DUALSEND);\n");
-			source.append("send_par.log;\n");
+			source.append("send_par.log();\n");
 			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(false,\"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
 			source.append("}\n\n");
 			source.append("get_default_destination();\n");
