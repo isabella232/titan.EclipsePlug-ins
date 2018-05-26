@@ -288,22 +288,27 @@ public final class Unmap_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		//FIXME this is actually more complex
 		final ExpressionStruct expression = new ExpressionStruct();
 
 		//FIXME generate code for translation
 		expression.expression.append("TTCN_Runtime.unmap_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
-		//FIXME actually _portref and based on component type
-		portReference1.generateCode(aData, expression);
-		expression.expression.append(".get_name(), ");
+		if (componentReference1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE) == null) {
+			Port_Utility.generate_code_portref(aData, expression, portReference1);
+		} else {
+			portReference1.generateCode(aData, expression);
+			expression.expression.append(".get_name(), ");
+		}
 
 		componentReference2.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
-		//FIXME actually _portref and based on component type
-		portReference2.generateCode(aData, expression);
-		expression.expression.append(".get_name()");
+		if (componentReference2.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE) == null) {
+			Port_Utility.generate_code_portref(aData, expression, portReference2);
+		} else {
+			portReference2.generateCode(aData, expression);
+			expression.expression.append(".get_name()");
+		}
 		expression.expression.append(", false)");
 
 		expression.mergeExpression(source);
