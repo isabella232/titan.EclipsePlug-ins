@@ -622,8 +622,10 @@ public class PortGenerator {
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_MMUNSUCC);");
 			source.append("TtcnLogger.log_event(\"Matching on port {0}: Sender address of the first message in the queue does not match the from clause: \", get_name());\n");
 			source.append("sender_template.log_match(new TitanComponent(my_head.sender_adress), false);\n");
-			source.append("TtcnLogger.end_event()");
-			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.end_event();\n");
+			source.append("TtcnLogger.begin_event_log2str();\n");
+			source.append("sender_template.log_match(my_head.sender_address);\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -728,7 +730,9 @@ public class PortGenerator {
 			source.append("TtcnLogger.log_event(\"Matching on port {0}: Sender address of the first message in the queue does not match the from clause: \", port_name);\n");
 			source.append("sender_template.log_match(new TitanComponent(my_head.sender_component), false);\n");
 			source.append("TtcnLogger.end_event();\n");
-			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.begin_event_log2str();\n");
+			source.append("sender_template.log_match(my_head.sender_address);\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TtcnLogger.end_event_log2str());\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 			source.append("}\n");
