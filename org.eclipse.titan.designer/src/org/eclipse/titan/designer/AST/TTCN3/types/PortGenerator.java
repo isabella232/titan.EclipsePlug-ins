@@ -1021,7 +1021,12 @@ public class PortGenerator {
 			source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 			source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
-			source.append("incoming_message(incoming_par, sender_component);\n");
+			source.append("incoming_message(incoming_par, sender_component");
+			//FIXME add support for sliding
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(", null");
+			}
+			source.append(");\n");
 			source.append("return true;\n");
 			source.append("} else ");
 		}
