@@ -64,6 +64,7 @@ public class PortGenerator {
 	 *
 	 * originally port_def
 	 * */
+	//FIXME add support for sliding
 	public static class PortDefinition {
 		/** Java type name of the port */
 		public String javaName;
@@ -985,6 +986,8 @@ public class PortGenerator {
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n");
 			source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+			source.append("} else {\n");
+			source.append("new_item.sender_address = null;\n");
 			source.append("}\n");
 		}
 		source.append("message_queue.addLast(new_item);\n");
