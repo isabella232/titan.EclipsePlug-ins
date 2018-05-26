@@ -959,6 +959,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (isStartable) {
 			aData.addBuiltinTypeImport("TitanComponent");
 			aData.addBuiltinTypeImport("Text_Buf");
+			aData.addBuiltinTypeImport("TtcnLogger.Severity");
 			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			source.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
