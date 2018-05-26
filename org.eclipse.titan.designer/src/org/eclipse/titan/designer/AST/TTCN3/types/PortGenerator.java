@@ -541,6 +541,7 @@ public class PortGenerator {
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_DUALSEND);\n");
 			source.append("send_par.log;\n");
 			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(0,\"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
+			source.append("}\n\n");
 			source.append("get_default_destination();\n");
 			source.append("outgoing_send(send_par, destination_address);\n");
 			source.append("}\n\n");
@@ -615,7 +616,7 @@ public class PortGenerator {
 			source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_MMUNSUCC, MessageFormat.format(\"Matching on port {0} failed: Sender of the first message in the queue is not the system.\" ,get_name()));\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (my_head.sender_address == null) {\n");
-			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name());\n", functionName));
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", functionName));
 			source.append("} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_MMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_MMUNSUCC);");
@@ -759,7 +760,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_MMRECV)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_MMRECV);\n");
 			source.append("my_head.sender_address.log();\n");
-			source.append("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, TitanComponent.SYSTEM_COMPREF, new TitanCharString(\"\")), TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
+			source.append("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, TitanComponent.SYSTEM_COMPREF, new TitanCharString(\"\"), TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
 		} else {
 			source.append("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMSUCCESS : TtcnLogger.Severity.MATCHING_MCSUCCESS, ");
 			source.append(" MessageFormat.format(\"Matching on port {0} succeeded.\", get_name()));\n");
@@ -780,8 +781,8 @@ public class PortGenerator {
 			source.append("default:\n");
 			source.append("throw new TtcnError(\"Internal error: unknown message\");\n");
 			source.append("}\n");
-			source.append("}\n");
 		}
+		source.append("}\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
