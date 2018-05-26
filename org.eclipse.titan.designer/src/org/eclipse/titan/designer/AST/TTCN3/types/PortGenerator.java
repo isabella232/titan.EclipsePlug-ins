@@ -653,9 +653,10 @@ public class PortGenerator {
 		if(isAddress) {
 			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_MMSUCCESS,  MessageFormat.format(\"Matching on port {0} succeeded.\", get_name()));\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_MMRECV)) {\n");
+			source.append("TtcnLogger.begin_event_log2str();\n");
+			source.append("my_head.sender_address.log();\n");
 			source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.{0} , TitanComponent.SYSTEM_COMPREF, new TitanCharString(\"\") ,", logger_operation));
-			source.append("(TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_MMRECV), my_head.sender_address.log(), TtcnLogger.end_event_log2str()), ");
-			source.append("msg_head_count+1);\n");
+			source.append("TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMSUCCESS : TtcnLogger.Severity.MATCHING_MCSUCCESS, ");
