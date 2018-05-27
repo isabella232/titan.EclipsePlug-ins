@@ -1728,7 +1728,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
-		source.append("//FIXME set param_ref\n");
+		source.append(MessageFormat.format("catch_template.set_value(head.exception_{0});\n", index));
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
 			source.append("sender_pointer.assign(head.sender_address);\n");
