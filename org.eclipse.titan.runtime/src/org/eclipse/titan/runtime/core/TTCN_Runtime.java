@@ -2580,7 +2580,7 @@ public final class TTCN_Runtime {
 		}
 	}
 
-	private static void cancel_component_done(final int component_reference) {
+	public static void cancel_component_done(final int component_reference) {
 		switch (component_reference) {
 		case TitanComponent.ANY_COMPREF:
 			if (is_mtc()) {
