@@ -641,14 +641,20 @@ public class SignatureGenerator {
 			source.append(MessageFormat.format("private {0}_exception.exception_selection_type exception_selection;\n", def.genName));
 			source.append("//originally a union which can not be mapped to Java\n");
 			source.append("private Base_Template field;\n");
+			source.append("private Base_Type redirection_field;\n");
 
-			source.append("//FIXME add support for redirection\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("public {0}_exception_template(final {1} init_template) '{'\n", def.genName, exception.mJavaTemplateName));
 				source.append(MessageFormat.format("exception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
 				source.append(MessageFormat.format("field = new {0}(init_template);\n", exception.mJavaTemplateName));
+				source.append("}\n");
+
+				source.append(MessageFormat.format("public {0}_exception_template(final {1} init_template, final {2} value_redirect) '{'\n", def.genName, exception.mJavaTemplateName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("exception_selection = {0}_exception.exception_selection_type.ALT_{1};\n", def.genName, exception.mJavaTypeName));
+				source.append(MessageFormat.format("field = new {0}(init_template);\n", exception.mJavaTemplateName));
+				source.append("redirection_field = value_redirect;\n");
 				source.append("}\n");
 			}
 
@@ -704,7 +710,23 @@ public class SignatureGenerator {
 			source.append("}\n");
 			source.append("}\n");
 
-			source.append("// FIXME implement set_value\n");
+			source.append(MessageFormat.format("public void set_value(final {0}_exception source_value) '{'\n", def.genName));
+			source.append("if (exception_selection == source_value.get_selection()) {\n");
+			source.append("switch (exception_selection) {\n");
+			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
+				final SignatureException exception = def.signatureExceptions.get(i);
+
+				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
+				source.append("if (redirection_field != null) {\n");
+				source.append(MessageFormat.format("redirection_field.assign(source_value.constGet{0}());\n", exception.mJavaTypeName));
+				source.append("}\n");
+				source.append("return;\n");
+			}
+			source.append("default:\n");
+			source.append("break;\n");
+			source.append("}\n");
+			source.append("}\n");
+			source.append("}\n\n");
 
 			source.append("public boolean is_any_or_omit() {\n");
 			source.append("switch(exception_selection) {\n");
