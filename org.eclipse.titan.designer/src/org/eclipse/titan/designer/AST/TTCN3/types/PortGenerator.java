@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
+// FIXME translation ports are not yet supported
 public class PortGenerator {
 
 	// The kind of the testport
@@ -327,8 +328,6 @@ public class PortGenerator {
 		if (hasIncomingException) {
 			generateProcessException(source, portDefinition);
 		}
-
-		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
 
 		source.append("}\n\n");
 	}
