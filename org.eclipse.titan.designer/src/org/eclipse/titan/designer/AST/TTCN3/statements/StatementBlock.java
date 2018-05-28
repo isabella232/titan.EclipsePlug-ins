@@ -425,7 +425,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	 * @param pLoopStmt the loop statement, set only within loops.
 	 * */
 	protected void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		for(Statement statment : statements) {
+		for(final Statement statment : statements) {
 			statment.setMyLaicStmt(pAltGuards, pLoopStmt);
 		}
 	}

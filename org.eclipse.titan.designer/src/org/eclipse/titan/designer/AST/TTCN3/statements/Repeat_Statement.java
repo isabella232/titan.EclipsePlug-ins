@@ -90,7 +90,8 @@ public final class Repeat_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		String label = myAltGuards.getLabel();
+		final String label = myAltGuards.getLabel();
+
 		if (label == null) {
 			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 		} else {

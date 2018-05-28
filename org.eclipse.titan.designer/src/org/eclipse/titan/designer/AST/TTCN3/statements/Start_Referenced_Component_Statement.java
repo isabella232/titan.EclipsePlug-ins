@@ -299,7 +299,7 @@ public final class Start_Referenced_Component_Statement extends Statement {
 		final IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 		if (last.getValuetype() == Value_type.FUNCTION_REFERENCE_VALUE) {
-			Definition definition = ((Function_Reference_Value)last).getReferredFunction();
+			final Definition definition = ((Function_Reference_Value)last).getReferredFunction();
 			expression.expression.append(MessageFormat.format("{0}(", definition.getGenNameFromScope(aData, source, myScope, "start_")));
 		} else {
 			dereferredValue.generateCodeExpressionMandatory(aData, expression, true);

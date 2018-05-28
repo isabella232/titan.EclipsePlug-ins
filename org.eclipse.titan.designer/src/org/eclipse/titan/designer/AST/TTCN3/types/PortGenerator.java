@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 
+// FIXME translation ports are not yet supported
 public class PortGenerator {
 
 	// The kind of the testport
@@ -64,6 +65,7 @@ public class PortGenerator {
 	 *
 	 * originally port_def
 	 * */
+	//FIXME add support for sliding
 	public static class PortDefinition {
 		/** Java type name of the port */
 		public String javaName;
@@ -327,8 +329,6 @@ public class PortGenerator {
 			generateProcessException(source, portDefinition);
 		}
 
-		source.append( "//TODO: port code generation is not yet fully implemented!\n" );
-
 		source.append("}\n\n");
 	}
 
@@ -539,8 +539,9 @@ public class PortGenerator {
 			source.append("}\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_DUALSEND)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_DUALSEND);\n");
-			source.append("send_par.log;\n");
-			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(0,\"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
+			source.append("send_par.log();\n");
+			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(false,\"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
+			source.append("}\n\n");
 			source.append("get_default_destination();\n");
 			source.append("outgoing_send(send_par, destination_address);\n");
 			source.append("}\n\n");
@@ -615,14 +616,16 @@ public class PortGenerator {
 			source.append("TtcnLogger.log_str(TtcnLogger.Severity.MATCHING_MMUNSUCC, MessageFormat.format(\"Matching on port {0} failed: Sender of the first message in the queue is not the system.\" ,get_name()));\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("} else if (my_head.sender_address == null) {\n");
-			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name());\n", functionName));
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"{0} operation on port '{'0'}' requires the address of the sender, which was not given by the test port.\", get_name()));\n", functionName));
 			source.append("} else if (!sender_template.match(my_head.sender_address, false)) {\n");
 			source.append("if(TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_MMUNSUCC)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.MATCHING_MMUNSUCC);");
 			source.append("TtcnLogger.log_event(\"Matching on port {0}: Sender address of the first message in the queue does not match the from clause: \", get_name());\n");
-			source.append("sender_template.log_match(new TitanComponent(my_head.sender_adress), false);\n");
-			source.append("TtcnLogger.end_event()");
-			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("sender_template.log_match(my_head.sender_address, false);\n");
+			source.append("TtcnLogger.end_event();\n");
+			source.append("TtcnLogger.begin_event_log2str();\n");
+			source.append("sender_template.log_match(my_head.sender_address);\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TtcnLogger.end_event_log2str());\n");
 			source.append("}\n");
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append('}');
@@ -650,9 +653,10 @@ public class PortGenerator {
 		if(isAddress) {
 			source.append("TtcnLogger.log(TtcnLogger.Severity.MATCHING_MMSUCCESS,  MessageFormat.format(\"Matching on port {0} succeeded.\", get_name()));\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_MMRECV)) {\n");
+			source.append("TtcnLogger.begin_event_log2str();\n");
+			source.append("my_head.sender_address.log();\n");
 			source.append(MessageFormat.format("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.{0} , TitanComponent.SYSTEM_COMPREF, new TitanCharString(\"\") ,", logger_operation));
-			source.append("(TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_MMRECV), my_head.sender_adress.log(), TtcnLogger.end_event_log2str()), ");
-			source.append("msg_head_count+1);\n");
+			source.append("TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
 			source.append("}\n");
 		} else {
 			source.append("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMSUCCESS : TtcnLogger.Severity.MATCHING_MCSUCCESS, ");
@@ -727,7 +731,9 @@ public class PortGenerator {
 			source.append("TtcnLogger.log_event(\"Matching on port {0}: Sender address of the first message in the queue does not match the from clause: \", port_name);\n");
 			source.append("sender_template.log_match(new TitanComponent(my_head.sender_component), false);\n");
 			source.append("TtcnLogger.end_event();\n");
-			source.append("//FIXME: TTCN_Logger::log_matching_failure() missing\n");
+			source.append("TtcnLogger.begin_event_log2str();\n");
+			source.append("sender_template.log_match(my_head.sender_address);\n");
+			source.append("TtcnLogger.log_matching_failure(TitanLoggerApi.PortType.enum_type.message__, port_name, my_head.sender_component, TitanLoggerApi.MatchingFailureType_reason.enum_type.message__does__not__match__template, TtcnLogger.end_event_log2str());\n");
 			source.append("remove_msg_queue_head();\n");
 			source.append("return TitanAlt_Status.ALT_REPEAT;\n");
 			source.append("}\n");
@@ -759,7 +765,7 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_MMRECV)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_MMRECV);\n");
 			source.append("my_head.sender_address.log();\n");
-			source.append("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, TitanComponent.SYSTEM_COMPREF, new TitanCharString(\"\")), TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
+			source.append("TtcnLogger.log_msgport_recv(get_name(), TitanLoggerApi.Msg__port__recv_operation.enum_type.trigger__op, TitanComponent.SYSTEM_COMPREF, new TitanCharString(\"\"), TtcnLogger.end_event_log2str(), msg_head_count+1);\n");
 		} else {
 			source.append("TtcnLogger.log(my_head.sender_component == TitanComponent.SYSTEM_COMPREF ? TtcnLogger.Severity.MATCHING_MMSUCCESS : TtcnLogger.Severity.MATCHING_MCSUCCESS, ");
 			source.append(" MessageFormat.format(\"Matching on port {0} succeeded.\", get_name()));\n");
@@ -780,8 +786,8 @@ public class PortGenerator {
 			source.append("default:\n");
 			source.append("throw new TtcnError(\"Internal error: unknown message\");\n");
 			source.append("}\n");
-			source.append("}\n");
 		}
+		source.append("}\n");
 		source.append("remove_msg_queue_head();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("}\n");
@@ -979,6 +985,8 @@ public class PortGenerator {
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("if (sender_address != null) {\n");
 			source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+			source.append("} else {\n");
+			source.append("new_item.sender_address = null;\n");
 			source.append("}\n");
 		}
 		source.append("message_queue.addLast(new_item);\n");
@@ -1015,7 +1023,12 @@ public class PortGenerator {
 			source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
 			source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
 			source.append("incoming_par.decode_text(incoming_buf);\n");
-			source.append("incoming_message(incoming_par, sender_component);\n");
+			source.append("incoming_message(incoming_par, sender_component");
+			//FIXME add support for sliding
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(", null");
+			}
+			source.append(");\n");
 			source.append("return true;\n");
 			source.append("} else ");
 		}
@@ -1714,7 +1727,7 @@ public class PortGenerator {
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("} else {\n");
-		source.append("//FIXME set param_ref\n");
+		source.append(MessageFormat.format("catch_template.set_value(head.exception_{0});\n", index));
 		source.append("if (sender_pointer != null) {\n");
 		if (isAddress) {
 			source.append("sender_pointer.assign(head.sender_address);\n");

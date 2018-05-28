@@ -197,8 +197,6 @@ public class EnumeratedGenerator {
 		generateTemplateLogMatch(source, e_defs.name, e_defs.displayName);
 		generateTemplateEncodeDecodeText(source, e_defs.name, e_defs.displayName);
 
-		//FIXME implement encode
-		//FIXME implement decode
 		//FIXME implement set_param
 		//FIXME implement check_restriction
 		source.append("}\n");

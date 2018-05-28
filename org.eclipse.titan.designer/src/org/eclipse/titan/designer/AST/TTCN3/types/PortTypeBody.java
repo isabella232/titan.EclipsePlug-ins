@@ -1626,10 +1626,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		case TP_INTERNAL:
 			portDefinition.testportType = TestportType.INTERNAL;
 			break;
-		case TP_ADDRESS:
+		case TP_ADDRESS: {
 			portDefinition.testportType = TestportType.ADDRESS;
-			portDefinition.addressName = "TitanAddress";
+			final IType address = getAddressType(CompilationTimeStamp.getBaseTimestamp());
+			portDefinition.addressName = address.getGenNameValue(aData, source, myScope);
 			break;
+		}
 		default:
 			portDefinition.testportType = TestportType.NORMAL;
 			//FIXME fatal error

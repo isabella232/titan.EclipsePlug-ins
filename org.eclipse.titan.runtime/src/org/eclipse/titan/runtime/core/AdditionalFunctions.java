@@ -2688,8 +2688,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanFloat rndGenerate() {
-		final double returnValue;
-		returnValue = random.nextDouble();
+		final double returnValue = random.nextDouble();
 		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
 
 		return new TitanFloat(returnValue);
@@ -2714,5 +2713,31 @@ public final class AdditionalFunctions {
 
 		setRndSeed(seed.getValue());
 		return rndGenerate();
+	}
+
+	// for internal purposes
+	public static String get_port_name(final String port_name, final int array_index) {
+		final String result = MessageFormat.format("{0}[{1}]", port_name, array_index);
+
+		return result;
+	}
+
+	public static String get_port_name(final String port_name, final TitanInteger array_index) {
+		array_index.mustBound("Using an unbound integer value for indexing an array of ports.");
+
+		return get_port_name(port_name, array_index.getInt());
+	}
+
+	public static String get_port_name(final TitanCharString port_name, final int array_index) {
+		port_name.mustBound("Internal error: Using an unbound charstring value to obtain the name of a port.");
+
+		return get_port_name(port_name.getValue().toString(), array_index);
+	}
+
+	public static String get_port_name(final TitanCharString port_name, final TitanInteger array_index) {
+		port_name.mustBound("Internal error: Using an unbound charstring value to obtain the name of a port.");
+		array_index.mustBound("Using an unbound integer value for indexing an array of ports.");
+
+		return get_port_name(port_name.getValue().toString(), array_index.getInt());
 	}
 }

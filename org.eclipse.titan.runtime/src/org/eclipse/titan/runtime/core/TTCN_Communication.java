@@ -415,8 +415,12 @@ public class TTCN_Communication {
 				process_killed_ack();
 				break;
 			case MSG_CANCEL_DONE:
-				//FIXME
-				throw new TtcnError("MSG_CANCEL_DONE received, but not yet supported!");
+				if (TTCN_Runtime.is_mtc()) {
+					process_cancel_done_mtc();
+				} else {
+					process_cancel_done_ptc();
+				}
+				break;
 			case MSG_COMPONENT_STATUS:
 				if (TTCN_Runtime.is_mtc()) {
 					process_component_status_mtc(msg_end);
@@ -602,6 +606,14 @@ public class TTCN_Communication {
 	public static void send_killed_req(final int componentReference) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_KILLED_REQ);
+		text_buf.push_int(componentReference);
+
+		send_message(text_buf);
+	}
+
+	public static void send_cancel_done_ack(final int componentReference) {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_CANCEL_DONE_ACK);
 		text_buf.push_int(componentReference);
 
 		send_message(text_buf);
@@ -1079,6 +1091,30 @@ public class TTCN_Communication {
 		temp_incoming_buf.cut_message();
 
 		TTCN_Runtime.process_killed_ack(answer);
+	}
+
+	private static void process_cancel_done_mtc() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final int component_reference = temp_incoming_buf.pull_int().getInt();
+		final boolean cancel_any = temp_incoming_buf.pull_int().getInt() == 0 ? false : true;
+		temp_incoming_buf.cut_message();
+
+		TTCN_Runtime.cancel_component_done(component_reference);
+		if (cancel_any) {
+			TTCN_Runtime.cancel_component_done(TitanComponent.ANY_COMPREF);
+		}
+		send_cancel_done_ack(component_reference);
+	}
+
+	private static void process_cancel_done_ptc() {
+		final Text_Buf temp_incoming_buf = incoming_buf.get();
+
+		final int component_reference = temp_incoming_buf.pull_int().getInt();
+		temp_incoming_buf.cut_message();
+
+		TTCN_Runtime.cancel_component_done(component_reference);
+		send_cancel_done_ack(component_reference);
 	}
 
 	private static void process_component_status_mtc(final int msg_end) {

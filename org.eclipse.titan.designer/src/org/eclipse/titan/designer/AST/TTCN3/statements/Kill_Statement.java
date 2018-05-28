@@ -167,7 +167,8 @@ public final class Kill_Statement extends Statement {
 					// the argument is a special component reference (mtc, self, etc.)
 					switch(((Expression_Value)last).getOperationType()) {
 					case MTC_COMPONENT_OPERATION: {
-						Definition myDefinition = myStatementBlock.getMyDefinition();
+						final Definition myDefinition = myStatementBlock.getMyDefinition();
+
 						if (myDefinition != null && myDefinition.getAssignmentType() == Assignment_type.A_TESTCASE) {
 							refers_to_self = true;
 						}

@@ -48,7 +48,9 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ValueofExpression;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -765,5 +767,33 @@ public final class Port_Utility {
 		template = template.setLoweridToReference(timestamp);
 
 		return template.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_TEMPLATE);
+	}
+
+	static void generate_code_portref(final JavaGenData aData, final ExpressionStruct expression, final Reference reference) {
+		final StringBuilder backup = expression.expression;
+
+		expression.expression = new StringBuilder();
+		expression.expression.append(MessageFormat.format("\"{0}\"", reference.getId().getDisplayName()));
+		final List<ISubReference> subreferences = reference.getSubreferences();
+		if (subreferences.size() > 0) {
+			for (int i = 0; i < subreferences.size(); i++) {
+				final ISubReference subreference = subreferences.get(i);
+
+				if (subreference instanceof ArraySubReference) {
+					// transform expr->expr: XXXX -> get_port_name(XXXX, index)
+					aData.addCommonLibraryImport("AdditionalFunctions");
+
+					final StringBuilder temp = expression.expression;
+					expression.expression = new StringBuilder("AdditionalFunctions.get_port_name(");
+					expression.expression.append(temp);
+					expression.expression.append(", ");
+					((ArraySubReference) subreference).getValue().generateCodeExpression(aData, expression, false);
+					expression.expression.append(')');
+				}
+			}
+		}
+
+		backup.append(expression.expression);
+		expression.expression = backup;
 	}
 }
