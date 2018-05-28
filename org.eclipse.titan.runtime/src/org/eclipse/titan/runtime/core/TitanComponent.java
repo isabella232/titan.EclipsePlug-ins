@@ -204,8 +204,8 @@ public class TitanComponent extends Base_Type {
 		return TTCN_Runtime.component_running(componentValue);
 	}
 
-	// originally alive, TODO needs index redirection support
-	public boolean alive() {
+	// originally alive
+	public boolean alive(final Index_Redirect index_redirection) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Performing alive operation on an unbound component reference.");
 		}

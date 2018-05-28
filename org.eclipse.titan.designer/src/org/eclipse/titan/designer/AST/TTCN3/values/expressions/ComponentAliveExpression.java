@@ -212,6 +212,7 @@ public final class ComponentAliveExpression extends Expression_Value {
 		}
 		expression.expression.append(".alive(");
 		//FIXME add support for index redirection
+		expression.expression.append("null");
 		expression.expression.append(')');
 	}
 }
