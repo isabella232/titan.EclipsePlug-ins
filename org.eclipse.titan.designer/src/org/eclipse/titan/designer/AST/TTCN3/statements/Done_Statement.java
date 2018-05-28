@@ -315,6 +315,7 @@ public final class Done_Statement extends Statement {
 			}
 
 			//FIXME handle index redirection
+			expression.expression.append(", null");
 			expression.expression.append(')');
 		} else if (isAny) {
 			// any component.done

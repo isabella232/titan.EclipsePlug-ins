@@ -171,8 +171,7 @@ public class TitanComponent extends Base_Type {
 		}
 	}
 
-	// originally done, TODO needs index redirection support
-	public TitanAlt_Status done(final TitanVerdictType value_redirect) {
+	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirection) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Performing done operation on an unbound component reference.");
 		}

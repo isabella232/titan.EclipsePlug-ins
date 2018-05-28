@@ -2909,9 +2909,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		aData.addImport("java.util.concurrent.atomic.AtomicReference");
 		aData.addCommonLibraryImport("Text_Buf");
+		aData.addCommonLibraryImport("Index_Redirect");
 
-		//FIXME add support for redirections
-		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template, final {0} value_redirect) '{'\n", genName));
+		source.append(MessageFormat.format("public static final TitanAlt_Status done(final TitanComponent component_reference, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
 		source.append("if (!component_reference.isBound()) {\n");
 		source.append("throw new TtcnError(\"Performing a done operation on an unbound component reference.\");\n");
 		source.append("}\n");
