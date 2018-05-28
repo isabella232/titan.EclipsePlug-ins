@@ -16,7 +16,6 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 /**
  * TTCN-3 component variable
  *
- * //FIXME a lot to implement
  * The component type from the compiler is represented as int.
  *
  * @author Kristof Szabados
@@ -45,9 +44,12 @@ public class TitanComponent extends Base_Type {
 		public String componentName;
 	}
 
-	//TODO might not be needed
-	private static int numberOfComponentNames = 0;
-	private static final ArrayList<ComponentNameStruct> componentNames = new ArrayList<TitanComponent.ComponentNameStruct>();
+	private static final ThreadLocal<ArrayList<ComponentNameStruct>> componentNames = new ThreadLocal<ArrayList<TitanComponent.ComponentNameStruct>>() {
+		@Override
+		protected ArrayList<ComponentNameStruct> initialValue() {
+			return new ArrayList<ComponentNameStruct>();
+		}
+	};
 
 	int componentValue;
 
@@ -328,23 +330,24 @@ public class TitanComponent extends Base_Type {
 		}
 
 		int min = 0;
-		if (componentNames.size() > 0) {
+		final ArrayList<ComponentNameStruct> tempComponentNames = componentNames.get();
+		if (tempComponentNames.size() > 0) {
 			// perform a binary search to find the place for the component reference
-			int max = numberOfComponentNames - 1;
+			int max = tempComponentNames.size() - 1;
 			while (min < max) {
 				final int mid = min + (max - min) / 2;
-				if (componentNames.get(mid).componentReference < component_reference) {
+				if (tempComponentNames.get(mid).componentReference < component_reference) {
 					min = mid + 1;
-				} else if (componentNames.get(mid).componentReference == component_reference) {
+				} else if (tempComponentNames.get(mid).componentReference == component_reference) {
 					min = mid;
 					break;
 				} else {
 					max = mid;
 				}
 			}
-			if (componentNames.get(min).componentReference == component_reference) {
+			if (tempComponentNames.get(min).componentReference == component_reference) {
 				// the component reference is already registered
-				final String stored_name = componentNames.get(min).componentName;
+				final String stored_name = tempComponentNames.get(min).componentName;
 				if (component_name == null || component_name.length() == 0) {
 					if (stored_name != null) {
 						throw new TtcnError(MessageFormat.format("Internal error: Trying to register component reference {0} without any name, but this component reference is already registered with name {1}.", component_reference, stored_name));
@@ -358,7 +361,7 @@ public class TitanComponent extends Base_Type {
 				}
 				return;
 			} else {
-				if (componentNames.get(min).componentReference < component_reference) {
+				if (tempComponentNames.get(min).componentReference < component_reference) {
 					min++;
 				}
 			}
@@ -371,33 +374,41 @@ public class TitanComponent extends Base_Type {
 		} else {
 			tempElement.componentName = component_name;
 		}
-		componentNames.add(min, tempElement);
-		numberOfComponentNames++;
+
+		tempComponentNames.add(min, tempElement);
 	}
 
 	public static String get_component_name(final int component_reference) {
+		final ArrayList<ComponentNameStruct> tempComponentNames = componentNames.get();
+
 		if (self.get().componentValue == component_reference) {
 			return TTCN_Runtime.get_component_name();
-		} else if(componentNames.size() > 0) {
+		} else if(tempComponentNames.size() > 0) {
 			int min = 0;
-			int max = numberOfComponentNames - 1;
+			int max = tempComponentNames.size() - 1;
 			while (min < max) {
 				final int mid = min + (max - min) / 2;
-				if (componentNames.get(mid).componentReference < component_reference) {
+				if (tempComponentNames.get(mid).componentReference < component_reference) {
 					min = mid + 1;
-				} else if (componentNames.get(mid).componentReference == component_reference) {
-					return componentNames.get(mid).componentName;
+				} else if (tempComponentNames.get(mid).componentReference == component_reference) {
+					return tempComponentNames.get(mid).componentName;
 				} else {
 					max = mid;
 				}
 			}
-			if (componentNames.get(min).componentReference != component_reference) {
+			if (tempComponentNames.get(min).componentReference != component_reference) {
 				throw new TtcnError(MessageFormat.format("Internal error: Trying to get the name of PTC with component reference {0}, but the name of the component is not registered.", component_reference));
 			}
 
-			return componentNames.get(min).componentName;
+			return tempComponentNames.get(min).componentName;
 		} else {
 			throw new TtcnError(MessageFormat.format("Internal error: Trying to get the name of PTC with component reference {0}, but there are no component names registered.", component_reference));
 		}
 	}
+
+	public static void clear_component_names() {
+		componentNames.get().clear();
+	}
+
+	//FIXME implement set_param
 }

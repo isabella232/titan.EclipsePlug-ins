@@ -58,6 +58,7 @@ public class Runtime_Parallel_main {
 		}
 
 		//FIXME implement clears
+		TitanComponent.clear_component_names();
 		TTCN_EncDec.clear_error();
 
 		TtcnLogger.terminate_logger();

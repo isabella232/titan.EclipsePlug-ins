@@ -43,6 +43,8 @@ public final class Runtime_Single_main {
 
 		TTCN_Runtime.log_verdict_statistics();
 		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__finish__single__mode);
+
+		TitanComponent.clear_component_names();
 		TtcnLogger.terminate_logger();
 		TTCN_Snapshot.terminate();
 	}

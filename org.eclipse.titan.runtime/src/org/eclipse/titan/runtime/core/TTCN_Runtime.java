@@ -2265,7 +2265,7 @@ public final class TTCN_Runtime {
 
 				//stuff from Parallel_main::main after hc_main call
 				//FIXME clear stuff before mtc_main
-				//COMPONENT::clear_component_names();
+				TitanComponent.clear_component_names();
 				//TTCN_Logger::close_file();
 				//TTCN_Logger::set_start_time();
 				mtc_main();
@@ -2317,7 +2317,7 @@ public final class TTCN_Runtime {
 				
 				//stuff from Parallel_main::main after hc_main call
 				//FIXME clear stuff before mtc_main
-				//COMPONENT::clear_component_names();
+				TitanComponent.clear_component_names();
 				//TTCN_Logger::close_file();
 				//TTCN_Logger::set_start_time();
 				ptc_main();
@@ -2331,6 +2331,7 @@ public final class TTCN_Runtime {
 
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
 		add_component(component_reference, PTC);
+		TitanComponent.register_component_name(component_reference, par_component_name);
 		//FIXME implement
 	}
 
