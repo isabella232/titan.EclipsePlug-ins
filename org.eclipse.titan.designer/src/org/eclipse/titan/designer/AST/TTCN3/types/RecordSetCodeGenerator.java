@@ -2373,6 +2373,7 @@ public class RecordSetCodeGenerator {
 
 			source.append("@Override\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("bound_flag = true;");
 			source.append("return buff.increase_pos_padd(p_td.raw.prepadding) + buff.increase_pos_padd(p_td.raw.padding);\n");
 			source.append("}\n");
 		}
@@ -2574,7 +2575,7 @@ public class RecordSetCodeGenerator {
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", classDisplayName));
 		source.append("}\n");
-		source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", className));
+		source.append(MessageFormat.format("final {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", className));
 		source.append("return ret_val;\n");
 		source.append("}\n\n");
 

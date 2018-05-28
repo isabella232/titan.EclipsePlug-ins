@@ -843,7 +843,7 @@ public class EnumeratedGenerator {
 
 	private static void generateTemplateIsBound(final StringBuilder source) {
 		source.append("public boolean isBound() {\n");
-		source.append("if (templateSelection != template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
+		source.append("if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
 		source.append("return true;\n");
