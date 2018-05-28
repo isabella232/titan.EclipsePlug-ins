@@ -151,7 +151,7 @@ public final class Killed_Statement extends Statement {
 			componentReference.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append(".killed(");
 			//FIXME handle index redirection
-			//expression.expression.append("null");
+			expression.expression.append("null");
 			expression.expression.append(')');
 		} else if (isAny) {
 			// any component.killed

@@ -186,8 +186,8 @@ public class TitanComponent extends Base_Type {
 		return status;
 	}
 
-	// originally killed, TODO needs index redirection support
-	public TitanAlt_Status killed() {
+	// originally killed
+	public TitanAlt_Status killed(final Index_Redirect index_redirection) {
 		if (componentValue == UNBOUND_COMPREF) {
 			throw new TtcnError("Performing killed operation on an unbound component reference.");
 		}
