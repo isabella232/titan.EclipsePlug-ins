@@ -47,12 +47,6 @@ public class Runtime_Parallel_main {
 			try {
 				Module_List.pre_init_modules();
 				returnValue = TTCN_Runtime.hc_main(local_addr, MC_host, MC_port);
-				if (!TTCN_Runtime.is_hc()) {
-					System.out.println("it is a HC");
-					//FIXME implement
-				} else {
-					System.out.println("it is not a HC");
-				}
 				//FIXME implement missing parts
 			} catch (TtcnError error) {
 				returnValue = -1;
