@@ -282,7 +282,6 @@ public class TitanTimer {
 	 * originally running(Index_Redirect*)
 	 */
 	public boolean running(final Index_Redirect index_redirect) {
-		//FIXME handle redirection
 		return isStarted && TTCN_Snapshot.timeNow() < timeExpires;
 	}
 

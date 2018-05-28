@@ -235,7 +235,9 @@ public final class TimerRunningExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		reference.generateCode(aData, expression);
 		generateCodeExpressionOptionalFieldReference(aData, expression, reference);
-		expression.expression.append(".running()");
-		//TODO: handle index redirection
+		expression.expression.append(".running(");
+		//FIXME add support for index redirection
+		expression.expression.append("null");
+		expression.expression.append(')');
 	}
 }
