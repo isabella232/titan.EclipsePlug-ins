@@ -66,6 +66,16 @@ public class LegacyLogger implements ILoggerPlugin {
 	 * This function represents the entry point for the legacy style logger plugin.
 	 * (still embedded in this generic class while transitioning the design)
 	 * */
+
+	private String filename_skeleton_;
+	private TtcnLogger.disk_full_action_t disk_full_action_;
+	private boolean skeleton_given_;
+	private boolean append_file_;
+	private boolean is_disk_full_;
+	private String current_filename_;
+	private int logfile_size_;
+	private int logfile_number_;
+
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
 		if (separate_file) {
 			//FIXME implement
@@ -84,6 +94,33 @@ public class LegacyLogger implements ILoggerPlugin {
 				log_console(event, severity);
 			}
 		}
+	}
+
+	public void set_file_name(String new_filename_skeleton, boolean from_config) {
+		filename_skeleton_ = "";
+		filename_skeleton_ = new_filename_skeleton;
+		if (from_config) {
+			skeleton_given_ = true;
+		}
+	}
+
+	public void set_append_file(boolean new_append_file) {
+		append_file_ = new_append_file;
+	}
+
+	public boolean set_file_size(int p_size) {
+		logfile_size_ = p_size;
+		return true;
+	}
+
+	public boolean set_file_number(int p_number) {
+		logfile_number_ = p_number;
+		return true;
+	}
+
+	public boolean set_disk_full_action(TtcnLogger.disk_full_action_t  p_disk_full_action) {
+		disk_full_action_ = p_disk_full_action;
+		return true;
 	}
 
 	/**
