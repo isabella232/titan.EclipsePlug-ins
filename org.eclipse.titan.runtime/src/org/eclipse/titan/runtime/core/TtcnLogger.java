@@ -153,6 +153,17 @@ public final class TtcnLogger {
 		}
 	}
 
+	public static class disk_full_action_t {
+		disk_full_action_type_t type;
+		int retry_interval;
+		
+		public disk_full_action_t(disk_full_action_type_t disk_type, int retry) {
+			type = disk_type;
+			retry_interval = retry;
+		}
+	}
+	
+	public static enum disk_full_action_type_t {DISKFULL_ERROR, DISKFULL_STOP, DISKFULL_RETRY, DISKFULL_DELETE};
 	public static enum timestamp_format_t {TIMESTAMP_TIME, TIMESTAMP_DATETIME, TIMESTAMP_SECONDS};
 	public static enum source_info_format_t {SINFO_NONE, SINFO_SINGLE, SINFO_STACK };
 	public static enum log_event_types_t {LOGEVENTTYPES_NO, LOGEVENTTYPES_YES, LOGEVENTTYPES_SUBCATEGORIES};
@@ -1003,6 +1014,10 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_port_queue(operation, port_name, componentReference, id, address, parameter);
 	}
 
+	public static void set_file_name(final String new_filename_skeleton, boolean from_config) {
+		//FIXME: implement
+	}
+
 	public static void set_start_time() {
 		start_time = System.currentTimeMillis();
 	}
@@ -1050,6 +1065,30 @@ public final class TtcnLogger {
 		} else {
 			emergency_log_mask.component_id = cmpt;
 		}
+	}
+
+	public static void set_append_file(boolean new_append_file) {
+		get_logger_plugin_manager().set_append_file(new_append_file);
+	}
+
+	public static boolean set_file_size(final component_id_t comp, int p_size) {
+		return get_logger_plugin_manager().set_file_size(comp, p_size);
+	}
+
+	public static boolean set_file_number(final component_id_t comp, int p_number) {
+		return get_logger_plugin_manager().set_file_number(comp, p_number);
+	}
+
+	public static boolean set_disk_full_action(final component_id_t comp, disk_full_action_t p_disk_full_action) {
+		return get_logger_plugin_manager().set_disk_full_action(comp, p_disk_full_action);
+	}
+	
+	public static void open_file() {
+		get_logger_plugin_manager().open_file();
+	}
+	
+	public static void close_file() {
+		get_logger_plugin_manager().close_file();
 	}
 
 	public static void set_emergency_logging_behaviour(final emergency_logging_behaviour_t behaviour){
