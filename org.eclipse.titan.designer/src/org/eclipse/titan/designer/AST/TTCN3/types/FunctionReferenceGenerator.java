@@ -477,7 +477,7 @@ public class FunctionReferenceGenerator {
 			break;
 		case TESTCASE:
 			source.append("try{\n");
-			source.append("final Method m = module.getClass().getDeclaredMethod(definitionName");
+			source.append("final Method m = module.getClass().getDeclaredMethod(\"testcase_\" + definitionName");
 			for(final String name : def.parameterTypeNames) {
 				source.append(MessageFormat.format(", {0}.class", name));
 			}
