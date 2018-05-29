@@ -879,7 +879,7 @@ public final class TtcnLogger {
 		}
 	}
 
-	private static String get_logger_settings_str() {
+	static String get_logger_settings_str() {
 		final StringBuilder new_log_message = new StringBuilder();
 
 		final String timestamp_format_names[] = {"Time", "DateTime", "Seconds"};
