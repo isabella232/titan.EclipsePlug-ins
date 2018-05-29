@@ -422,11 +422,11 @@ public class FunctionReferenceGenerator {
 			}
 			source.append(");\n");
 			source.append("} catch (NoSuchMethodException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent altstep {0}.{1} was received.\", moduleName, definitionName));\n");
 			source.append("} catch(IllegalAccessException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke altstep {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("} catch (InvocationTargetException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke altstep {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("}\n");
 			source.append("}\n");
 
@@ -444,11 +444,11 @@ public class FunctionReferenceGenerator {
 			}
 			source.append(");\n");
 			source.append("} catch (NoSuchMethodException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent altstep {0}.{1} was received.\", moduleName, definitionName));\n");
 			source.append("} catch(IllegalAccessException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke altstep {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("} catch (InvocationTargetException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke altstep {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("}\n");
 			source.append("}\n");
 
@@ -466,11 +466,11 @@ public class FunctionReferenceGenerator {
 			}
 			source.append(");\n");
 			source.append("} catch (NoSuchMethodException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent altstep {0}.{1} was received.\", moduleName, definitionName));\n");
 			source.append("} catch(IllegalAccessException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke altstep {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("} catch (InvocationTargetException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke function {0}.{1}.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Could not invoke altstep {0}.{1}.\", moduleName, definitionName));\n");
 			source.append("}\n");
 			source.append("}\n");
 			source.append("};\n");
@@ -511,7 +511,7 @@ public class FunctionReferenceGenerator {
 			source.append("}\n");
 			source.append("};\n");
 			source.append("} catch (NoSuchMethodException e) {\n");
-			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent function {0}.{1} was received.\", moduleName, definitionName));\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Text decoder: Reference to non-existent testcase {0}.{1} was received.\", moduleName, definitionName));\n");
 			source.append("}\n");
 			break;
 		}
