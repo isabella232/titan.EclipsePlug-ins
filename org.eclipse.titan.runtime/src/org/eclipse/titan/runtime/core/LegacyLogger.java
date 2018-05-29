@@ -51,6 +51,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.disk_full_action_type_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.log_event_types_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.source_info_format_t;
 
@@ -121,6 +122,40 @@ public class LegacyLogger implements ILoggerPlugin {
 	public boolean set_disk_full_action(TtcnLogger.disk_full_action_t  p_disk_full_action) {
 		disk_full_action_ = p_disk_full_action;
 		return true;
+	}
+	
+	public void open_file(boolean is_first) {
+		if (is_first) {
+			chk_logfile_data();
+			if (skeleton_given_) {
+				set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
+			}
+		}
+		current_filename_ = "";
+		//FIXME: implement
+	}
+	
+	public void close_file() {
+		//FIXME: implement
+	}
+	
+	private void chk_logfile_data() {
+		if (logfile_size_ == 0 && logfile_number_ != 1) {
+			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileNumber was reset to 1.", logfile_size_,logfile_number_));
+			logfile_number_ = 1;
+		}
+		if (logfile_size_ > 0 && logfile_number_ == 1) {
+			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileSize was reset to 0.", logfile_size_, logfile_number_));
+			logfile_size_ = 0;
+		}
+		if (logfile_number_ == 1 && disk_full_action_.type == disk_full_action_type_t.DISKFULL_DELETE) {
+			TtcnError.TtcnWarning("Invalid combination of LogFileNumber (= 1) and DiskFullAction (= Delete). DiskFullAction was reset to Error.");
+			disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
+		}
+		if (logfile_number_ == 1 && append_file_) {
+			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileNumber (= {0}) and AppendFile (= Yes). AppendFile was reset to No.", logfile_number_));
+			append_file_ = false;
+		}
 	}
 
 	/**

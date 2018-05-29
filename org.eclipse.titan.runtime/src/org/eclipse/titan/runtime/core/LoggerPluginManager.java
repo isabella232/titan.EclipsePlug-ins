@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.Locale;
 import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -85,6 +86,14 @@ public class LoggerPluginManager {
 		event_destination_t event_destination;
 		//etc...
 	}
+	
+	private static class LogEntry {
+		TitanLoggerApi.TitanLogEvent event_;
+		
+		public LogEntry(TitanLoggerApi.TitanLogEvent event) {
+			event_ = event;
+		}
+	}
 
 	private static ThreadLocal<log_event_struct> current_event = new ThreadLocal<LoggerPluginManager.log_event_struct>();
 	private static ThreadLocal<Stack<log_event_struct>> events = new ThreadLocal<Stack<log_event_struct>>() {
@@ -95,6 +104,8 @@ public class LoggerPluginManager {
 	};
 
 	private ArrayList<ILoggerPlugin> plugins_ = new ArrayList<ILoggerPlugin>();
+	
+	private LinkedList<LogEntry> entry_list_ = new LinkedList<LogEntry>();
 
 	public LoggerPluginManager() {
 		plugins_.add(new LegacyLogger());
@@ -236,10 +247,42 @@ public class LoggerPluginManager {
 	}
 	
 	public void open_file() {
-		//FIXME: implement
+		ThreadLocal<Boolean> is_first = new ThreadLocal<Boolean>() {
+			@Override
+			protected Boolean initialValue() {
+				return new Boolean(true);
+			}
+		};
+		boolean free_entry_list = false;
+		if (plugins_.isEmpty()) {
+			//FIXME: assert(this->n_plugins_ > 0)
+			return;
+		}
+		for (int i = 0; i < plugins_.size(); i++) {
+			plugins_.get(i).open_file(is_first.get().booleanValue());
+			if (plugins_.get(i).is_configured) {
+				free_entry_list = true;
+				for (LogEntry entry : entry_list_) {
+					if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+						String new_log_message = TtcnLogger.get_logger_settings_str();
+						entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
+						new_log_message = "";
+					}
+					plugins_.get(i).log(entry.event_, true, false, false);
+				}
+			}
+		}
+		if (free_entry_list) {
+			entry_list_.clear();
+		}
+		is_first.set(false);
 	}
+
 	public void close_file() {
-		//FIXME: implement
+		while (current_event != null) {
+			finish_event();
+		}
+		ring_buffer_dump(true);
 	}
 
 	public void begin_event(final Severity msg_severity) {
