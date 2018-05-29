@@ -162,7 +162,7 @@ public final class TtcnLogger {
 			retry_interval = retry;
 		}
 	}
-	
+
 	public static enum disk_full_action_type_t {DISKFULL_ERROR, DISKFULL_STOP, DISKFULL_RETRY, DISKFULL_DELETE};
 	public static enum timestamp_format_t {TIMESTAMP_TIME, TIMESTAMP_DATETIME, TIMESTAMP_SECONDS};
 	public static enum source_info_format_t {SINFO_NONE, SINFO_SINGLE, SINFO_STACK };
@@ -1015,7 +1015,7 @@ public final class TtcnLogger {
 	}
 
 	public static void set_file_name(final String new_filename_skeleton, boolean from_config) {
-		//FIXME: implement
+		get_logger_plugin_manager().set_file_name(new_filename_skeleton , from_config);
 	}
 
 	public static void set_start_time() {
