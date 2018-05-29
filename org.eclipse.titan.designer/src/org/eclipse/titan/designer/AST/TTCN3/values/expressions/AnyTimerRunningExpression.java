@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -24,6 +25,30 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * */
 public final class AnyTimerRunningExpression extends Expression_Value {
 	private static final String OPERATIONNAME = "any timer.running";
+
+	//FIXME any from with/without index redirection is only stored, not yet checked
+	private final Reference timerReference;
+	private final boolean any_from;
+	private final Reference index_redirect;
+
+	public AnyTimerRunningExpression() {
+		this.timerReference = null;
+		this.any_from = false;
+		this.index_redirect = null;
+	}
+
+	public AnyTimerRunningExpression(final Reference timerReference, final boolean any_from, final Reference index_redirect) {
+		this.timerReference = timerReference;
+		this.any_from = any_from;
+		this.index_redirect = index_redirect;
+
+		if (timerReference != null) {
+			timerReference.setFullNameParent(this);
+		}
+		if (index_redirect != null) {
+			index_redirect.setFullNameParent(this);
+		}
+	}
 
 	@Override
 	/** {@inheritDoc} */

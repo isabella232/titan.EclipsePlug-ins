@@ -5706,10 +5706,20 @@ pr_TimerStatements returns[Statement statement]
 	STOP
 	{ $statement = new Stop_Timer_Statement(null); } //pr_StopTimerStatement
 |	pr_AnyKeyword
-	pr_TimerKeyword
-	pr_Dot
-	pr_TimeoutKeyword
-	{ $statement = new Timeout_Statement(null); } //pr_TimeoutStatement
+	(	pr_TimerKeyword
+		pr_Dot
+		pr_TimeoutKeyword
+				{ $statement = new Timeout_Statement(null); } //pr_TimeoutStatement
+	|	pr_FromKeyword
+		r = pr_TimerRef
+		pr_Dot
+		pr_TimeoutKeyword
+		(	pr_PortRedirectSymbol
+			index = pr_IndexSpec
+				{ $statement = new Timeout_Statement($r.reference, true, $index.reference); } //pr_TimeoutStatement
+		|		{ $statement = new Timeout_Statement($r.reference, true, null); } //pr_TimeoutStatement
+		)
+	)
 )
 {
 	if($statement != null) {
@@ -5722,13 +5732,24 @@ pr_TimerOps returns[AnyTimerRunningExpression value]
 	$value = null;
 }:
 (	col = pr_AnyKeyword
-	pr_TimerKeyword
-	pr_Dot
-	endcol = RUNNING
+	(	pr_TimerKeyword
+		pr_Dot
+		RUNNING
+				{ $value = new AnyTimerRunningExpression(); }
+	|	pr_FromKeyword
+		r = pr_TimerRef
+		pr_Dot
+		RUNNING
+		(	pr_PortRedirectSymbol
+			index = pr_IndexSpec
+				{ $value = new AnyTimerRunningExpression($r.reference, true, $index.reference); } //pr_TimeoutStatement
+		|		{ $value = new AnyTimerRunningExpression($r.reference, true, null); } //pr_TimeoutStatement
+		)
+	)
 )
 {
-	$value = new AnyTimerRunningExpression();
-	$value.setLocation(getLocation( $col.start, $endcol));
+	
+	$value.setLocation(getLocation( $col.start, getStopToken()));
 };
 
 pr_TimeoutKeyword:
@@ -6606,7 +6627,17 @@ pr_GuardOp returns[Statement statement]
 			{ $statement = new Done_Statement($v.value, doneMatch, reference, false); } //Done_Statement
 		)
 |	pr_AnyKeyword
-	pr_TimerKeyword pr_Dot pr_TimeoutKeyword		{ $statement = new Timeout_Statement(null); }
+	(	pr_TimerKeyword pr_Dot pr_TimeoutKeyword		{ $statement = new Timeout_Statement(null); }
+	|	pr_FromKeyword
+		tr = pr_TimerRef
+		pr_Dot
+		pr_TimeoutKeyword
+		(	pr_PortRedirectSymbol
+			index = pr_IndexSpec
+				{ $statement = new Timeout_Statement($tr.reference, true, $index.reference); } //pr_TimeoutStatement
+		|		{ $statement = new Timeout_Statement($tr.reference, true, null); } //pr_TimeoutStatement
+		)
+	)
 |	pr_AnyKeyword
 	pr_PortKeyword
 	pr_Dot
@@ -8035,11 +8066,12 @@ pr_DeterministicModifier:
 	reportWarning( "Modifier `@deterministic' is not yet supported.", $start, getStopToken() );
 };
 
-pr_IndexSpec:
+pr_IndexSpec returns[Reference reference]:
 	i = INDEXKEYWORD
-	pr_ValueStoreSpec
+	vss = pr_ValueStoreSpec
 {
 	reportWarning( "Modifier `@index' is not yet supported.", $i );
+	$reference = $vss.reference;
 };
 
 //------------------------------------------------------

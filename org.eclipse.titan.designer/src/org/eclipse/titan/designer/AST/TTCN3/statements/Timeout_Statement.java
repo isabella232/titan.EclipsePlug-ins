@@ -30,11 +30,30 @@ public final class Timeout_Statement extends Statement {
 
 	private final Reference timerReference;
 
+	//FIXME any from with/without index redirection is only stored, not yet checked
+	private final boolean any_from;
+	private final Reference index_redirect;
+
 	public Timeout_Statement(final Reference timerReference) {
 		this.timerReference = timerReference;
+		this.any_from = false;
+		this.index_redirect = null;
 
 		if (timerReference != null) {
 			timerReference.setFullNameParent(this);
+		}
+	}
+
+	public Timeout_Statement(final Reference timerReference, final boolean any_from, final Reference index_redirect) {
+		this.timerReference = timerReference;
+		this.any_from = any_from;
+		this.index_redirect = index_redirect;
+
+		if (timerReference != null) {
+			timerReference.setFullNameParent(this);
+		}
+		if (index_redirect != null) {
+			index_redirect.setFullNameParent(this);
 		}
 	}
 
