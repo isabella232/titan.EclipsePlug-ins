@@ -59,6 +59,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__l
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 import org.eclipse.titan.runtime.core.TtcnLogger.TTCN_Location;
+import org.eclipse.titan.runtime.core.TtcnLogger.component_id_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.emergency_logging_behaviour_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
 
@@ -187,6 +188,58 @@ public class LoggerPluginManager {
 		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).log(event, log_buffered, separate_file, use_emergency_mask);
 		}
+	}
+
+	public void set_file_name(final String new_filename_skeleton, boolean from_config) {
+		for (int i = 0; i < plugins_.size(); i++) {
+			plugins_.get(i).set_file_name(new_filename_skeleton, from_config);
+		}
+	}
+
+	public void set_append_file(boolean new_append_file) {
+		for (int i = 0; i < plugins_.size(); i++) {
+			plugins_.get(i).set_append_file(new_append_file);
+		}
+	}
+
+	public boolean set_file_size(final component_id_t comp, int p_size) {
+		boolean ret_val = false;
+		for (int i = 0; i < plugins_.size(); i++) {
+			if (plugins_.get(i).set_file_size(p_size)) {
+				ret_val = true;
+			}
+		}
+
+		return ret_val;
+	}
+
+	public boolean set_file_number(final component_id_t cmpt, int p_number) {
+		boolean ret_val = false;
+		for (int i = 0; i < plugins_.size(); i++) {
+			if (plugins_.get(i).set_file_number(p_number)) {
+				ret_val = true;
+			}
+		}
+
+		return ret_val;
+	}
+
+	public boolean set_disk_full_action(final component_id_t comp, TtcnLogger.disk_full_action_t p_disk_full_action) {
+		boolean ret_val = false;
+		for (int i = 0; i < plugins_.size(); i++) {
+			if (plugins_.get(i).set_disk_full_action(p_disk_full_action)) {
+				ret_val = true;
+			}
+		}
+
+		return ret_val;
+	}
+	
+	public void open_file() {
+		//FIXME: implement
+	}
+	public void close_file() {
+		//FIXME: implement
 	}
 
 	public void begin_event(final Severity msg_severity) {
