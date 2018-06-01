@@ -21,5 +21,5 @@ public interface ILoggerPlugin {
 	boolean set_disk_full_action(final TtcnLogger.disk_full_action_t p_disk_full_action);
 	void open_file(final boolean is_first);
 	void close_file();
-	boolean is_configured = false;
+	boolean is_configured();
 }
