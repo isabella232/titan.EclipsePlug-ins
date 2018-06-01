@@ -79,8 +79,8 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean is_disk_full_;
 	private String current_filename_;
 	private int logfile_size_;
-	private int logfile_number_;
-	private int logfile_index_;
+	private int logfile_number_ = 1;
+	private int logfile_index_ = 1;
 	private int logfile_bytes_;
 	private boolean format_c_present_;
 	private boolean format_t_present_;
