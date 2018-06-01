@@ -260,7 +260,7 @@ public class LoggerPluginManager {
 		}
 		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).open_file(is_first.get().booleanValue());
-			if (plugins_.get(i).is_configured) {
+			if (plugins_.get(i).is_configured()) {
 				free_entry_list = true;
 				for (LogEntry entry : entry_list_) {
 					if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
