@@ -7,6 +7,10 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEvent_choice;
@@ -48,10 +52,10 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerEvent_choice;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerGuardType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
-import org.eclipse.titan.runtime.core.TtcnLogger.disk_full_action_type_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.log_event_types_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.source_info_format_t;
 
@@ -76,21 +80,33 @@ public class LegacyLogger implements ILoggerPlugin {
 	private String current_filename_;
 	private int logfile_size_;
 	private int logfile_number_;
+	private int logfile_index_;
+	private int logfile_bytes_;
+	private boolean format_c_present_;
+	private boolean format_t_present_;
+	private File log_fp_;
+	private boolean is_configured;
+	private File er_;
+	private BufferedWriter log_file_writer;
 
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
 		if (separate_file) {
-			//FIXME implement
+			log_file_emerg(event);
 		}
 
 		final int severityIndex = event.getSeverity().getInt();
 		final Severity severity = Severity.values()[severityIndex];
 		if (use_emergency_mask) {
-			//FIXME implement file logging
+			if (TtcnLogger.should_log_to_emergency(severity) || TtcnLogger.should_log_to_file(severity)) {
+				log_file(event, log_buffered);
+			}
 			if (TtcnLogger.should_log_to_console(severity)) {
 				log_console(event, severity);
 			}
 		} else {
-			//FIXME implement file logging
+			if (TtcnLogger.should_log_to_file(severity)) {
+				log_file(event, log_buffered);
+			}
 			if (TtcnLogger.should_log_to_console(severity)) {
 				log_console(event, severity);
 			}
@@ -125,37 +141,182 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	public void open_file(boolean is_first) {
+		//TODO: different than C++ and initial implement 
 		if (is_first) {
-			chk_logfile_data();
-			if (skeleton_given_) {
-				set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
+			//TODO: chk_logfile_data();
+			//TODO: check skeleton_given
+			set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
+		}
+		current_filename_ = get_file_name(logfile_index_);
+		if (current_filename_ != null) {
+			//TODO: create_parent_directories(current_filename_);
+			log_fp_ = new File(current_filename_);
+			if (!log_fp_.exists()) {
+				try {
+					log_fp_.createNewFile();
+				} catch (IOException e) {
+					throw new TtcnError(e);
+				}
+			} else {
+				append_file_ = true;
+			}
+			try {
+				log_file_writer = new BufferedWriter(new FileWriter(log_fp_),32768);
+			} catch (IOException e) {
+				System.err.println("Cannot open file!");
 			}
 		}
-		current_filename_ = "";
-		//FIXME: implement
+		is_configured = true;	
 	}
 	
 	public void close_file() {
-		//FIXME: implement
+		if (log_file_writer == null) {
+			return;
+		} try {
+			log_file_writer.close();
+		} catch ( IOException e ) {
+			System.err.println("Cannot close file!");
+		}
 	}
 	
-	private void chk_logfile_data() {
-		if (logfile_size_ == 0 && logfile_number_ != 1) {
-			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileNumber was reset to 1.", logfile_size_,logfile_number_));
-			logfile_number_ = 1;
+	private enum whoami{SINGLE, HC, MTC, PTC};
+	
+	/** @brief Construct the log file name, performs substitutions.
+    @return NULL if filename_skeleton is NULL or if the result would have been
+    the empty string.
+    @return an String with the actual filename.**/
+	private String get_file_name(final int idx) {
+		//TODO: initial implement
+		if (filename_skeleton_ == null) {
+			return null;
 		}
-		if (logfile_size_ > 0 && logfile_number_ == 1) {
-			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileSize was reset to 0.", logfile_size_, logfile_number_));
-			logfile_size_ = 0;
+		TtcnLogger.set_executable_name();
+		whoami whoami_variable = whoami.SINGLE;
+		if (TTCN_Runtime.is_single()) {
+			whoami_variable = whoami.SINGLE;
 		}
-		if (logfile_number_ == 1 && disk_full_action_.type == disk_full_action_type_t.DISKFULL_DELETE) {
-			TtcnError.TtcnWarning("Invalid combination of LogFileNumber (= 1) and DiskFullAction (= Delete). DiskFullAction was reset to Error.");
-			disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
+		if (TTCN_Runtime.is_hc()) {
+			whoami_variable = whoami.HC;
 		}
-		if (logfile_number_ == 1 && append_file_) {
-			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileNumber (= {0}) and AppendFile (= Yes). AppendFile was reset to No.", logfile_number_));
-			append_file_ = false;
+		if (TTCN_Runtime.is_mtc()) {
+			whoami_variable = whoami.MTC;
 		}
+		if (TTCN_Runtime.is_ptc()) {
+			whoami_variable = whoami.PTC;
+		}
+		boolean h_present = false, p_present = false, r_present = false, i_present = false;
+		format_c_present_ = false;
+		format_t_present_ = false;
+		StringBuilder ret_val = new StringBuilder();
+		for (int i = 0; i < filename_skeleton_.length(); i++) {
+			if (filename_skeleton_.charAt(i) != '%') {
+				ret_val.append(filename_skeleton_.charAt(i));
+				continue;
+			}
+			switch (filename_skeleton_.charAt(++i)) {
+			case 'c': // %c -> name of the current testcase (only on PTCs)
+				ret_val.append(TTCN_Runtime.get_testcase_name());
+				format_c_present_ = true;
+				break;
+			case 'e': // %e -> name of executable
+				ret_val.append(TtcnLogger.get_executable_name());
+				break;
+			case 'h': //%h -> hostname
+				ret_val.append(TTCN_Runtime.get_host_name());
+				h_present = true;
+				break;
+			case 'l': //%l -> login name
+				//TODO: need to test
+				ret_val.append(System.getProperty("user.name").toString());
+				break;
+			case 'n': //%n -> component name (optional)
+				switch (whoami_variable) {
+				case SINGLE:
+				case MTC:
+					ret_val.append("MTC");
+					break;
+				case HC:
+					ret_val.append("HC");
+					break;
+				case PTC:
+					ret_val.append(TTCN_Runtime.get_component_name());
+					break;
+				default:
+					break;
+				}
+				break;
+			case 'p': //%p -> process id (thread id)
+				//TODO: different from C++ getpid()
+				ret_val.append(Thread.currentThread().getId());
+				p_present = true;
+				break;
+			case 'r': //%r -> component reference
+				switch (whoami_variable) {
+				case SINGLE:
+					ret_val.append("single");
+					break;
+				case HC:
+					ret_val.append("hc");
+					break;
+				case MTC:
+					ret_val.append("mtc");
+					break;
+				case PTC:
+				default:
+					//TODO: (component)self 
+					break;
+				}
+				r_present = true;
+				break;
+			case 's': // %s -> default suffix (currently: always "log")
+				ret_val.append("log");
+				break;
+			case 't': // %t -> component type (only on PTCs)
+				ret_val.append(TTCN_Runtime.get_component_type());
+				format_t_present_ = true;
+				break;
+			case 'i': // %i -> log file index
+				if (logfile_number_ != 1) {
+					ret_val.append(idx);
+				}
+				i_present = true;
+				break;
+			case '\0':
+				i--;
+			case '%':
+				ret_val.append('%');
+				break;
+			default:
+				ret_val.append('%');
+				ret_val.append(filename_skeleton_.charAt(i));
+				break;
+			}
+		}
+
+		ThreadLocal<Boolean> already_warned = new ThreadLocal<Boolean>() {
+			@Override
+			protected Boolean initialValue() {
+				return new Boolean(false);
+			}
+		};
+		if (ret_val.length() == 0) {
+			ret_val = null;
+		} else if (whoami_variable == whoami.HC && !already_warned.get().booleanValue()) {
+			already_warned.set(true);
+			if (!h_present || (!p_present && !r_present)) {
+				TtcnError.TtcnWarning(MessageFormat.format("Skeleton {0} does not guarantee unique log file name for every test system process. It may cause unpredictable results if several test components try to write into the same log file.", filename_skeleton_));
+			}
+		}
+		if (logfile_number_ != 1 && !i_present) {
+			TtcnError.TtcnWarning(MessageFormat.format("LogFileNumber = {0}, but `%%i' is missing from the log file name skeleton. `%%i' was appended to the skeleton.", logfile_number_));
+			filename_skeleton_ = filename_skeleton_ + "%i";
+			ret_val.append(idx);
+		}
+		return ret_val.toString();
+	}
+
+	public boolean is_configured() {
+		return is_configured;
 	}
 
 	/**
@@ -178,6 +339,146 @@ public class LegacyLogger implements ILoggerPlugin {
 		System.out.println(event_str);
 
 		return true;
+	}
+	
+	private boolean log_file_emerg(final TitanLoggerApi.TitanLogEvent event) {
+		//TODO: initial implement
+		boolean write_succes = true;
+		String event_str = event_to_string(event, false);
+		if (event_str == null) {
+			TtcnError.TtcnWarning("No text for event");
+			return true;
+		}
+		if (er_ == null) {
+			set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e_emergency.%s" : "%e-part%i_emergency.%s") : (logfile_number_ == 1 ? "%e.%h-%r_emergency.%s" : "%e.%h-%r-part%i_emergency.%s"), false);
+			String filename_emergency = get_file_name(0);
+
+			if (filename_emergency == null) {
+				// Valid filename is not available, use specific one.
+				filename_emergency = "emergency.log";
+			}
+			er_ = new File(filename_emergency);
+			if (er_ == null) {
+				//fatal error
+				throw new TtcnError(MessageFormat.format("Opening of log file {0} for writing failed.", filename_emergency));
+			}
+		}
+		write_succes = true;
+		try{
+			log_file_writer = new BufferedWriter(new FileWriter(er_), 32768);
+			log_file_writer.write(event_str);
+			log_file_writer.append("\n");
+			log_file_writer.flush();
+			log_file_writer.close();
+		} catch (IOException e) {
+			write_succes = false;
+		}
+
+		return write_succes;
+	}
+	
+	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
+		//TODO: initial implement
+		//TODO:TTCN_Logger::DISKFULL_RETRY 
+		String event_str = event_to_string(event, false);
+		if (event_str == null) {
+			TtcnError.TtcnWarning("No text for event");
+			return true;
+		}
+		int bytes_to_log = event_str.length() + 1;
+		if (logfile_size_ != 0 && logfile_bytes_ != 0 && log_buffered) {
+			if ((bytes_to_log + logfile_bytes_ + 1023) / 1024 > logfile_size_) {
+				close_file();
+				logfile_index_++;
+				// Delete oldest log file if there is a file number limitation.
+				if (logfile_number_ > 1) {
+					if (logfile_index_ > logfile_number_) {
+						String filename_to_delete = get_file_name(logfile_index_- logfile_number_);
+						File file_to_delete = new File(filename_to_delete);
+						if (file_to_delete.exists()) {
+							file_to_delete.delete();
+						}
+					}
+				}
+				open_file(false);
+			}
+		}
+		if (!log_buffered && (format_c_present_ || format_t_present_)) {
+			switch (TTCN_Runtime.get_state()) {
+			case HC_EXIT:
+			case MTC_EXIT:
+			case PTC_EXIT:
+				// Can't call get_filename(), because it may call
+				// TTCN_Runtime.get_host_name(), and TTCN_Runtime.clean_up() (which is
+				// called once) has already happened.
+				break;
+			default:
+				String new_filename = get_file_name(logfile_index_);
+				if (new_filename != current_filename_) {
+					String switched = "Switching to log file " + new_filename;
+					TitanLogEvent switched_event = new TitanLogEvent();
+					switched_event.getTimestamp().assign(event.getTimestamp());
+					switched_event.getSourceInfo__list().assign(event.getSourceInfo__list());
+					switched_event.getSeverity().assign(TtcnLogger.Severity.EXECUTOR_RUNTIME.ordinal());
+					switched_event.getLogEvent().getChoice().getUnhandledEvent().assign(switched);
+					log_file(switched_event, true);
+					close_file();
+					open_file(false);
+				}
+				break;
+			}
+		}
+
+		if (log_fp_ == null) {
+			open_file(true);
+		}
+		boolean print_success = log_to_file(event_str);
+		if (!print_success) {
+			switch (disk_full_action_.type) {
+			case DISKFULL_ERROR:
+				//fatal error
+				System.err.println("Writing to log file failed.");
+				break;
+			case DISKFULL_STOP:
+				is_disk_full_ = true;
+				break;
+			case DISKFULL_RETRY:
+				is_disk_full_ = true;
+				//TODO: save the timestamp
+				break;
+			case DISKFULL_DELETE:
+				// Try to delete older logfiles while writing fails, must leave at least
+				// two log files.  Stop with error if cannot delete more files and
+				// cannot write log.
+				break;
+			default:
+				//fatal error
+				System.err.println("LegacyLogger::log(): invalid DiskFullAction type.");
+				break;
+			}
+		} else {
+			logfile_bytes_+= bytes_to_log;
+		}
+		return true;
+	}
+	
+	private boolean log_to_file(final String message_ptr) {
+		//TODO: initial implement
+		boolean is_success = true;
+		try {
+			log_file_writer.write(message_ptr);
+		} catch (IOException e) {
+			is_success = false;
+		}
+		if (is_success) {
+			try {
+				log_file_writer.flush();
+				log_file_writer.append('\n');
+			} catch (IOException e) {
+				is_success = false;
+			}
+		}
+		return is_success;
 	}
 
 	private static void append_header(final StringBuilder returnValue, final int seconds, final int microseconds, final Severity severity, final StringBuilder sourceInfo) {
