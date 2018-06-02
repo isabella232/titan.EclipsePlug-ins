@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -123,6 +124,8 @@ public final class TtcnLogger {
 	private static final String month_names[] = { "Jan", "Feb", "Mar",
 			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	private static long start_time;
+	
+	private static String executable_name;
 
 	private static log_event_types_t log_entity_name = log_event_types_t.LOGEVENTTYPES_NO;
 
@@ -1081,6 +1084,17 @@ public final class TtcnLogger {
 
 	public static boolean set_disk_full_action(final component_id_t comp, disk_full_action_t p_disk_full_action) {
 		return get_logger_plugin_manager().set_disk_full_action(comp, p_disk_full_action);
+	}
+	
+	public static void set_executable_name() {
+		//TODO: initial implementation, more complex
+		executable_name = "";
+		executable_name = System.getProperty("user.dir");
+		executable_name = executable_name + "\\java_bin\\org\\eclipse\\titan\\generated\\" + executable_name.substring(executable_name.lastIndexOf("\\"));
+	}
+	
+	public static String get_executable_name() {
+		return executable_name;
 	}
 	
 	public static void open_file() {
