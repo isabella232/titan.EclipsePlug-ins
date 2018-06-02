@@ -403,4 +403,106 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 			array_elements[i].decode_text(text_buf);
 		}
 	}
+
+	//FIXME implement encode
+	//FIXME implement decode
+
+	public TitanAlt_Status done(final TitanVerdictType valu_redirect, final Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incrPos();
+		}
+
+		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
+		for (int i = 0; i < array_size; i++) {
+			TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(valu_redirect, index_redirect);
+			if (returnValue == TitanAlt_Status.ALT_YES) {
+				if (index_redirect != null) {
+					index_redirect.addIndex(i + indexOffset);
+				}
+
+				result = returnValue;
+				break;
+			} else if (returnValue == TitanAlt_Status.ALT_REPEAT ||
+					(returnValue == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {
+				result = returnValue;
+			}
+		}
+
+		if (index_redirect != null) {
+			index_redirect.decrPos();
+		}
+
+		return result;
+	}
+
+	public TitanAlt_Status killed(final Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incrPos();
+		}
+
+		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
+		for (int i = 0; i < array_size; i++) {
+			TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).killed(index_redirect);
+			if (returnValue == TitanAlt_Status.ALT_YES) {
+				if (index_redirect != null) {
+					index_redirect.addIndex(i + indexOffset);
+				}
+
+				result = returnValue;
+				break;
+			}
+		}
+
+		if (index_redirect != null) {
+			index_redirect.decrPos();
+		}
+
+		return result;
+	}
+
+	public boolean running(final Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incrPos();
+		}
+
+		boolean returnValue = false;
+		for (int i = 0; i < array_size; i++) {
+			returnValue = ((TitanComponent)array_elements[i]).alive(index_redirect);
+			if (returnValue) {
+				if (index_redirect != null) {
+					index_redirect.addIndex(i + indexOffset);
+				}
+				break;
+			}
+		}
+
+		if (index_redirect != null) {
+			index_redirect.decrPos();
+		}
+
+		return returnValue;
+	}
+
+	public boolean alive(final Index_Redirect index_redirect) {
+		if (index_redirect != null) {
+			index_redirect.incrPos();
+		}
+
+		boolean returnValue = false;
+		for (int i = 0; i < array_size; i++) {
+			returnValue = ((TitanComponent)array_elements[i]).alive(index_redirect);
+			if (returnValue) {
+				if (index_redirect != null) {
+					index_redirect.addIndex(i + indexOffset);
+				}
+				break;
+			}
+		}
+
+		if (index_redirect != null) {
+			index_redirect.decrPos();
+		}
+
+		return returnValue;
+	}
 }
