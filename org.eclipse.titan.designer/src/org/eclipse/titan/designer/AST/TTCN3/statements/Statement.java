@@ -7,19 +7,29 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ILocateableNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.Reference;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
+import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -359,6 +369,111 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	}
 
 	/**
+	 * Does the semantic checking of index redirections.
+	 * 
+	 * TODO this might be a too general location for this function.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param indexReference
+	 *                the reference to the redirection variable to analyze.
+	 * @param arrayDimensions
+	 *                the dimensions of the referenced definition.
+	 * @param anyFrom
+	 *                is the statement located in any from clause (might not possible because of parser rules).
+	 * @param arrayKind
+	 *                the kind of the array as string to be used in error messages.
+	 * */
+	public static void checkIndexRedirection(final CompilationTimeStamp timestamp, final Reference indexReference, final ArrayDimensions arrayDimensions, final boolean anyFrom, final String arrayKind) {
+		if (!anyFrom) {
+			indexReference.getLocation().reportSemanticError("Index redirect cannot be used without the 'any from' clause");
+		}
+
+		final IType referenceType = indexReference.checkVariableReference(timestamp);
+		if (referenceType != null) {
+			final int nofDimensions = arrayDimensions == null ? 0 : arrayDimensions.size();
+			IType lastType = referenceType.getTypeRefdLast(timestamp);
+			final Type_type tt = lastType.getTypetypeTtcn3();
+			switch (tt) {
+			case TYPE_INTEGER:
+				if (nofDimensions > 1) {
+					indexReference.getLocation().reportSemanticError(MessageFormat.format("Indices of multi-dimensional {0} arrays can only be redirected to an integer array or a record of integers", arrayKind));
+				} else if (nofDimensions == 1 && referenceType.getSubtype() != null) {
+					// make sure all possible indices are allowed by the subtype
+					final ArrayDimension dimension = arrayDimensions.get(0);
+					for (int i = 0; i < dimension.getSize(); i++) {
+						Integer_Value value = new Integer_Value(dimension.getOffset() + i);
+						referenceType.getSubtype().checkThisValue(timestamp, value);
+					}
+				}
+				break;
+			case TYPE_ARRAY:
+				if (nofDimensions == 1) {
+					indexReference.getLocation().reportSemanticError(MessageFormat.format("Indices of one-dimensional {0} arrays can only be redirected to an integer", arrayKind));
+				} else {
+					final IType ofType = ((Array_Type)lastType).getElementType();
+
+					final Type_type tt_elem = ofType.getTypeRefdLast(timestamp).getTypetypeTtcn3();
+					if (tt == tt_elem) {
+						indexReference.getLocation().reportSemanticError("The array in the index redirect must be one-dimensional");
+					} else if (tt_elem != Type_type.TYPE_INTEGER) {
+						indexReference.getLocation().reportSemanticError(MessageFormat.format("The element type of {0} in an index redirect must be integer", tt == Type_type.TYPE_ARRAY ? "an array" : "a 'record of'"));
+					}
+
+					if (nofDimensions != 0) {
+						final ArrayDimension dimension = ((Array_Type)lastType).getDimension();
+						if (dimension.getSize() != nofDimensions) {
+							indexReference.getLocation().reportSemanticError(MessageFormat.format("Size of integer array is invalid: the {0} array has {1} dimensions, but the integer array has {2} element{3}", arrayKind, nofDimensions, dimension.getSize(), dimension.getSize() == 1 ? "" : "s"));
+						} else if (referenceType.getSubtype() != null) {
+							// make sure all possible indices are allowed by the element type's subtype
+							for (int i = 0; i < nofDimensions; i++) {
+								ArrayDimension dimension_i = arrayDimensions.get(i);
+								for (int j = 0; j < dimension_i.getSize(); j++) {
+									Integer_Value value = new Integer_Value(dimension_i.getOffset() + j);
+									ofType.getSubtype().checkThisValue(timestamp, value);
+								}
+							}
+						}
+					}
+				}
+				break;
+			case TYPE_SEQUENCE_OF:
+				if (nofDimensions == 1) {
+					indexReference.getLocation().reportSemanticError(MessageFormat.format("Indices of one-dimensional {0} arrays can only be redirected to an integer", arrayKind));
+				} else {
+					final IType ofType = ((SequenceOf_Type)lastType).getOfType();
+
+					final Type_type tt_elem = ofType.getTypeRefdLast(timestamp).getTypetypeTtcn3();
+					if (tt == tt_elem) {
+						indexReference.getLocation().reportSemanticError("The 'record of' in the index redirect must be one-dimensional");
+					} else if (tt_elem != Type_type.TYPE_INTEGER) {
+						indexReference.getLocation().reportSemanticError(MessageFormat.format("The element type of {0} in an index redirect must be integer", tt == Type_type.TYPE_ARRAY ? "an array" : "a 'record of'"));
+					}
+
+					if (nofDimensions != 0 && ofType.getSubtype() != null) {
+						if (ofType.getSubtype().lengthAllowed(nofDimensions)) {
+							indexReference.getLocation().reportSemanticError(MessageFormat.format("This index redirect would result in a record of integer of length {0}, which is not allowed by the length restrictions of type `{1}''", nofDimensions, referenceType.getTypename()));
+						} else {
+							// make sure all possible indices are allowed by the element type's subtype
+							for (int i = 0; i < nofDimensions; i++) {
+								ArrayDimension dimension_i = arrayDimensions.get(i);
+								for (int j = 0; j < dimension_i.getSize(); j++) {
+									Integer_Value value = new Integer_Value(dimension_i.getOffset() + j);
+									ofType.getSubtype().checkThisValue(timestamp, value);
+								}
+							}
+						}
+					}
+				}
+				break;
+			default:
+				indexReference.getLocation().reportSemanticError(MessageFormat.format("Indices of {0} arrays can only be redirected to an integer, an integer array or a record of integers", arrayKind));
+				break;
+			}
+		}
+	}
+
+	/**
 	 * Checks the properties of the statement, that can only be checked
 	 * after the semantic check was completely run.
 	 * <p>
@@ -441,5 +556,61 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached invalid guard statement `" + getFullName() + "''");
 		expression.expression.append("FATAL_ERROR encountered");
+	}
+
+	/**
+	 * Generate the code for the index redirection part of statements (that have one).
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param expression the expression to generate the source to.
+	 * @param indexRedirection the reference to use as the redirection target.
+	 * @param scope the scope of the statement.
+	 */
+	public static void generateCodeIndexRedirect(final JavaGenData aData, final ExpressionStruct expression, final Reference indexRedirection, final Scope scope) {
+		ExpressionStruct refExpression = new ExpressionStruct();
+		indexRedirection.generateCode(aData, refExpression);
+		if (refExpression.preamble.length() > 0) {
+			expression.preamble.append(refExpression.preamble);
+		}
+
+		final String tempId = aData.getTemporaryVariableName();
+		IType typeReference = indexRedirection.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+		expression.preamble.append(MessageFormat.format("final {0} {1} = {2};\n", typeReference.getGenNameValue(aData, expression.expression, scope), tempId, refExpression.expression));
+
+		aData.addBuiltinTypeImport("Index_Redirect");
+
+		expression.expression.append("new Index_Redirect() {\n");
+		expression.expression.append("@Override\n");
+		expression.expression.append("public void addIndex(int p_index) {\n");
+		expression.expression.append("super.addIndex(p_index);\n");
+		IType last = typeReference.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		switch(last.getTypetypeTtcn3()) {
+		case TYPE_INTEGER:
+			expression.expression.append(MessageFormat.format("{0}.assign(p_index);\n", tempId));
+			break;
+		case TYPE_SEQUENCE_OF:
+			expression.expression.append(MessageFormat.format("{0}.getAt(pos).assign(p_index);\n", tempId));
+			break;
+		case TYPE_ARRAY: {
+			ArrayDimension dimension = ((Array_Type)last).getDimension();
+			long offset = dimension.getOffset();
+			String offsetString;
+			if (offset == 0) {
+				offsetString = "";
+			} else if (offset < 0) {
+				offsetString = MessageFormat.format(" - {0}", -offset);
+			} else {
+				offsetString = MessageFormat.format(" + {0}", offset);
+			}
+			expression.expression.append(MessageFormat.format("{0}.getAt(pos{1}).assign(p_index);\n", tempId, offsetString));
+			break;
+		}
+		default:
+			//FATAL error
+			break;
+		}
+
+		expression.expression.append("}\n");
+		expression.expression.append("}\n");
 	}
 }

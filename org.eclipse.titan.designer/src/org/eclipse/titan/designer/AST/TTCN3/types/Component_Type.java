@@ -399,9 +399,11 @@ public final class Component_Type extends Type {
 	 * @param timestamp the timestamp of the actual semantic check cycle.
 	 * @param value the value to be checked
 	 * @param expected_value the value kind expected from the actual parameter.
+	 * @param anyFrom is the reference used from any from context
 	 * */
-	public static void checkExpressionOperandComponentRefernce(final CompilationTimeStamp timestamp,
-			final IValue value, final String operationName) {
+	public static IType checkExpressionOperandComponentRefernce(final CompilationTimeStamp timestamp,
+			final IValue value, final String operationName, final boolean anyFrom) {
+		IType returnValue;
 		switch (value.getValuetype()) {
 		case EXPRESSION_VALUE: {
 			final Expression_Value expression = (Expression_Value) value;
@@ -411,71 +413,116 @@ public final class Component_Type extends Type {
 				chain.release();
 				if (last == null || last.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
 
-				IType type = last.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-				if (type == null) {
+				returnValue = last.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
 
-				type = type.getTypeRefdLast(timestamp);
+				IType type = returnValue.getTypeRefdLast(timestamp);
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					value.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
+				return returnValue;
 			}
-			break; }
+
+			return null;
+		}
 		case REFERENCED_VALUE: {
 			final Reference reference = ((Referenced_Value) value).getReference();
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
 			if (assignment == null) {
 				value.setIsErroneous(true);
-				return;
+				return null;
 			}
 
 
 			switch (assignment.getAssignmentType()) {
 			case A_CONST: {
-				IType type = ((Def_Const) assignment).getType(timestamp).getFieldType(
+				returnValue = ((Def_Const) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
 
+				IType type = returnValue.getTypeRefdLast(timestamp);
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
 
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 
 				IValue tempValue = ((Def_Const) assignment).getValue();
 				if (tempValue == null) {
-					return;
+					return null;
 				}
 
 				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tempValue = tempValue.getReferencedSubValue(timestamp, reference, 1, chain);
 				chain.release();
 				if (tempValue == null) {
-					return;
+					return null;
 				}
 				chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				tempValue = tempValue.getValueRefdLast(timestamp, chain);
@@ -484,161 +531,290 @@ public final class Component_Type extends Type {
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'' refers to the `null'' component reference", operationName));
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
 				if (!Value_type.EXPRESSION_VALUE.equals(tempValue.getValuetype())) {
-					return;
+					return null;
 				}
 				switch (((Expression_Value) tempValue).getOperationType()) {
 				case MTC_COMPONENT_OPERATION:
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'' refers to the component reference of the `mtc''", operationName));
 					value.setIsErroneous(true);
-					return;
+					return null;
 				case COMPONENT_NULL_OPERATION:
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'' refers to the `null'' component reference", operationName));
 					value.setIsErroneous(true);
-					return;
+					return null;
 				case SYSTEM_COMPONENT_OPERATION:
 					reference.getLocation().reportSemanticError(MessageFormat.format(
 							"The first operand of operation `{0}'' refers to the component reference of the `system''", operationName));
 					value.setIsErroneous(true);
-					return;
+					return null;
 				default:
 					break;
 				}
 				break; }
 			case A_EXT_CONST: {
-				IType type = ((Def_ExternalConst) assignment).getType(timestamp).getFieldType(
+				returnValue = ((Def_ExternalConst) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
 
+				IType type = returnValue.getTypeRefdLast(timestamp);
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
 
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 				break; }
 			case A_MODULEPAR: {
-				IType type = ((Def_ModulePar) assignment).getType(timestamp).getFieldType(
+				returnValue = ((Def_ModulePar) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
+
+				IType type = returnValue.getTypeRefdLast(timestamp);
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 				break; }
 			case A_VAR: {
-				IType type = ((Def_Var) assignment).getType(timestamp).getFieldType(
+				returnValue = ((Def_Var) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
 
+				IType type = returnValue.getTypeRefdLast(timestamp);
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
 
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 				break; }
 			case A_FUNCTION_RVAL: {
-				IType type = ((Def_Function) assignment).getType(timestamp).getFieldType(
+				returnValue = ((Def_Function) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
 
+				IType type = returnValue.getTypeRefdLast(timestamp);
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
 
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 				break; }
 			case A_EXT_FUNCTION_RVAL: {
-				IType type = ((Def_Extfunction) assignment).getType(timestamp).getFieldType(
+				returnValue = ((Def_Extfunction) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
+				IType type = returnValue.getTypeRefdLast(timestamp);
 
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
 
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 				break; }
 			case A_PAR_VAL:
 			case A_PAR_VAL_IN:
 			case A_PAR_VAL_OUT:
 			case A_PAR_VAL_INOUT: {
-				IType type = ((FormalParameter) assignment).getType(timestamp).getFieldType(
+				returnValue = ((FormalParameter) assignment).getType(timestamp).getFieldType(
 						timestamp, reference, 1, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-				if (type == null) {
+				if (returnValue == null) {
 					value.setIsErroneous(true);
-					return;
+					return null;
 				}
-				type = type.getTypeRefdLast(timestamp);
+				IType type = returnValue.getTypeRefdLast(timestamp);
 
 				if( type.getIsErroneous(timestamp)) {
 					value.setIsErroneous(true);
-					return; //don't let spread an earlier mistake
+					return null; //don't let spread an earlier mistake
 				}
-				if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-					reference.getLocation().reportSemanticError(MessageFormat.format(
-							"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
-							operationName, type.getTypename()));
-					value.setIsErroneous(true);
-					return;
+
+				if (anyFrom) {
+					if (!Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+
+					while (Type_type.TYPE_ARRAY.equals(type.getTypetype())) {
+						type = ((Array_Type)type).getElementType().getTypeRefdLast(timestamp);
+					}
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						value.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component array reference was expected instead of array of type `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
+				} else {
+					if (!Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+						reference.getLocation().reportSemanticError(MessageFormat.format(
+								"The first operand of operation `{0}'': Type mismatch: component reference was expected instead of `{1}''",
+								operationName, type.getTypename()));
+						value.setIsErroneous(true);
+						return null;
+					}
 				}
 				break; }
 			default:
@@ -646,12 +822,13 @@ public final class Component_Type extends Type {
 						"The first operand of operation `{0}'' should be a component reference instead of `{1}''",
 						operationName, assignment.getDescription()));
 				value.setIsErroneous(true);
-				return;
+				return null;
 			}
-			break; }
+			return returnValue;
+		}
 		default:
 			// the error was already reported if possible.
-			return;
+			return null;
 		}
 	}
 

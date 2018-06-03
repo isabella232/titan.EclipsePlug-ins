@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IReferencingType;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -27,8 +28,10 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -43,20 +46,26 @@ public final class Done_Statement extends Statement {
 	private static final String FULLNAMEPART1 = "componentreference";
 	private static final String FULLNAMEPART2 = "donematch";
 	private static final String FULLNAMEPART3 = "redirection";
+	private static final String FULLNAMEPART4 = ".redirectIndex";
 	private static final String STATEMENT_NAME = "done";
 
 	private final Value componentreference;
 	private final TemplateInstance doneMatch;
-	private final Reference redirect;
+	private final Reference redirectValue;
 
 	//when componentReference is null, this show if the killed was called with any component or all component
 	private final boolean isAny;
+	//FIXME index redirection only stored not check or generated
+	private final boolean any_from;
+	private final Reference redirectIndex;
 
-	public Done_Statement(final Value componentreference, final TemplateInstance doneMatch, final Reference redirect, final boolean isAny) {
+	public Done_Statement(final Value componentreference, final TemplateInstance doneMatch, final Reference redirectValue, final boolean isAny, final boolean any_from, final Reference redirectIndex) {
 		this.componentreference = componentreference;
 		this.doneMatch = doneMatch;
-		this.redirect = redirect;
+		this.redirectValue = redirectValue;
 		this.isAny = isAny;
+		this.any_from = any_from;
+		this.redirectIndex = redirectIndex;
 
 		if (componentreference != null) {
 			componentreference.setFullNameParent(this);
@@ -64,8 +73,11 @@ public final class Done_Statement extends Statement {
 		if (doneMatch != null) {
 			doneMatch.setFullNameParent(this);
 		}
-		if (redirect != null) {
-			redirect.setFullNameParent(this);
+		if (redirectValue != null) {
+			redirectValue.setFullNameParent(this);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setFullNameParent(this);
 		}
 	}
 
@@ -90,8 +102,10 @@ public final class Done_Statement extends Statement {
 			return builder.append(FULLNAMEPART1);
 		} else if (doneMatch == child) {
 			return builder.append(FULLNAMEPART2);
-		} else if (redirect == child) {
+		} else if (redirectValue == child) {
 			return builder.append(FULLNAMEPART3);
+		} else if (redirectIndex == child) {
+			return builder.append(FULLNAMEPART4);
 		}
 
 		return builder;
@@ -107,8 +121,11 @@ public final class Done_Statement extends Statement {
 		if (doneMatch != null) {
 			doneMatch.setMyScope(scope);
 		}
-		if (redirect != null) {
-			redirect.setMyScope(scope);
+		if (redirectValue != null) {
+			redirectValue.setMyScope(scope);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setMyScope(scope);
 		}
 	}
 
@@ -131,7 +148,7 @@ public final class Done_Statement extends Statement {
 			return;
 		}
 
-		Port_Utility.checkComponentReference(timestamp, this, componentreference, false, false);
+		IType referencedType = Port_Utility.checkComponentReference(timestamp, this, componentreference, false, false, any_from);
 
 		if (componentreference == null) {
 			lastTimeChecked = timestamp;
@@ -140,7 +157,7 @@ public final class Done_Statement extends Statement {
 
 		if (doneMatch != null) {
 			final boolean[] valueRedirectChecked = new boolean[] { false };
-			final IType returnType = Port_Utility.getIncomingType(timestamp, doneMatch, redirect, valueRedirectChecked);
+			final IType returnType = Port_Utility.getIncomingType(timestamp, doneMatch, redirectValue, valueRedirectChecked);
 			if (returnType == null) {
 				doneMatch.getLocation().reportSemanticError("Cannot determine the return type for value returning done");
 			} else {
@@ -171,16 +188,32 @@ public final class Done_Statement extends Statement {
 					returnType.setIsErroneous(true);
 				}
 
+				if (any_from) {
+					returnType.getTypeRefdLast(timestamp).set_needs_any_from_done();
+				}
 				doneMatch.check(timestamp, returnType);
 				if (!valueRedirectChecked[0]) {
-					Port_Utility.checkValueRedirect(timestamp, redirect, returnType);
+					Port_Utility.checkValueRedirect(timestamp, redirectValue, returnType);
 				}
 			}
 
-		} else if (redirect != null) {
-			redirect.getLocation().reportSemanticError("Redirect cannot be used for the return value without a matching template");
-			Port_Utility.checkValueRedirect(timestamp, redirect, null);
-			redirect.setUsedOnLeftHandSide();
+		} else if (redirectValue != null) {
+			redirectValue.getLocation().reportSemanticError("Redirect cannot be used for the return value without a matching template");
+			Port_Utility.checkValueRedirect(timestamp, redirectValue, null);
+			redirectValue.setUsedOnLeftHandSide();
+		}
+
+		if (redirectIndex != null && referencedType != null) {
+			referencedType = referencedType.getTypeRefdLast(timestamp);
+			final ArrayDimensions temp = new ArrayDimensions();
+			while (referencedType.getTypetype() == Type_type.TYPE_ARRAY) {
+				temp.add(((Array_Type)referencedType).getDimension());
+				referencedType = ((Array_Type)referencedType).getElementType();
+			}
+			checkIndexRedirection(timestamp, redirectIndex, temp, any_from, "component");
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setUsedOnLeftHandSide();
 		}
 
 		lastTimeChecked = timestamp;
@@ -189,7 +222,7 @@ public final class Done_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public List<Integer> getPossibleExtensionStarterTokens() {
-		if (redirect != null) {
+		if (redirectValue != null) {
 			return null;
 		}
 
@@ -222,9 +255,14 @@ public final class Done_Statement extends Statement {
 			reparser.updateLocation(doneMatch.getLocation());
 		}
 
-		if (redirect != null) {
-			redirect.updateSyntax(reparser, false);
-			reparser.updateLocation(redirect.getLocation());
+		if (redirectValue != null) {
+			redirectValue.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectValue.getLocation());
+		}
+
+		if (redirectIndex != null) {
+			redirectIndex.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectIndex.getLocation());
 		}
 	}
 
@@ -237,8 +275,11 @@ public final class Done_Statement extends Statement {
 		if (doneMatch != null) {
 			doneMatch.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (redirect != null) {
-			redirect.findReferences(referenceFinder, foundIdentifiers);
+		if (redirectValue != null) {
+			redirectValue.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -251,7 +292,10 @@ public final class Done_Statement extends Statement {
 		if (doneMatch != null && !doneMatch.accept(v)) {
 			return false;
 		}
-		if (redirect != null && !redirect.accept(v)) {
+		if (redirectValue != null && !redirectValue.accept(v)) {
+			return false;
+		}
+		if (redirectIndex != null && !redirectIndex.accept(v)) {
 			return false;
 		}
 		return true;
@@ -307,15 +351,19 @@ public final class Done_Statement extends Statement {
 				expression.expression.append(".done(");
 			}
 
-			if (redirect == null) {
+			if (redirectValue == null) {
 				expression.expression.append("null");
 			} else {
 				//FIXME handle value redirection
-				redirect.generateCode(aData, expression);
+				redirectValue.generateCode(aData, expression);
 			}
 
-			//FIXME handle index redirection
-			expression.expression.append(", null");
+			expression.expression.append(", ");
+			if (redirectIndex == null) {
+				expression.expression.append("null");
+			} else {
+				generateCodeIndexRedirect(aData, expression, redirectIndex, getMyScope());
+			}
 			expression.expression.append(')');
 		} else if (isAny) {
 			// any component.done

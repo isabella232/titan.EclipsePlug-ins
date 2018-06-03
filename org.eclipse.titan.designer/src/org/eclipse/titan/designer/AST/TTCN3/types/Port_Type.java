@@ -298,6 +298,9 @@ public final class Port_Type extends Type {
 			source.append(MessageFormat.format("public {0}({0} otherValue) '{'\n", className));
 			source.append("super(otherValue);\n");
 			source.append("}\n");
+
+			PortGenerator.generatePortArrayBodyMembers(aData, source, body.generateDefinitionForCodeGeneration(aData, source), dimension.getSize(), dimension.getOffset());
+
 			source.append("}\n\n");
 
 			className = elementName;

@@ -79,6 +79,10 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		array_size = length;
 	}*/
 
+	public int getOffset() {
+		return indexOffset;
+	}
+
 	public void setOffset(final int offset) {
 		indexOffset = offset;
 	}
@@ -407,14 +411,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	//FIXME implement encode
 	//FIXME implement decode
 
-	public TitanAlt_Status done(final TitanVerdictType valu_redirect, final Index_Redirect index_redirect) {
+	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(valu_redirect, index_redirect);
+			TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(value_redirect, index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexOffset);

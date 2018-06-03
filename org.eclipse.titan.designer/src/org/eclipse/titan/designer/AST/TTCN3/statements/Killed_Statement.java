@@ -11,11 +11,16 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Type_type;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -26,19 +31,35 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Kristof Szabados
  * */
 public final class Killed_Statement extends Statement {
-	private static final String FULLNAMEPART = ".componentreference";
+	private static final String FULLNAMEPART1 = ".componentreference";
+	private static final String FULLNAMEPART2 = ".redirectIndex";
 	private static final String STATEMENT_NAME = "killed";
 
 	private final Value componentReference;
 	//when componentReference is null, this show if the killed was called with any component or all component
 	private final boolean isAny;
+	
+	//FIXME does not yet handle value redirection
+	final Reference redirect;
+	//FIXME index redirection only stored not check or generated
+	private final boolean anyFrom;
+	private final Reference redirectIndex;
 
-	public Killed_Statement(final Value componentReference, final boolean isAny) {
+	public Killed_Statement(final Value componentReference, final Reference redirect, final boolean isAny, final boolean any_from, final Reference redirectIndex) {
 		this.componentReference = componentReference;
 		this.isAny = isAny;
+		this.redirect = redirect;
+		this.anyFrom = any_from;
+		this.redirectIndex = redirectIndex;
 
 		if (componentReference != null) {
 			componentReference.setFullNameParent(this);
+		}
+		if (redirect != null) {
+			redirect.setFullNameParent(this);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setFullNameParent(this);
 		}
 	}
 
@@ -60,7 +81,9 @@ public final class Killed_Statement extends Statement {
 		final StringBuilder builder = super.getFullName(child);
 
 		if (componentReference == child) {
-			return builder.append(FULLNAMEPART);
+			return builder.append(FULLNAMEPART1);
+		} else if (redirectIndex == child) {
+			return builder.append(FULLNAMEPART2);
 		}
 
 		return builder;
@@ -72,6 +95,9 @@ public final class Killed_Statement extends Statement {
 		super.setMyScope(scope);
 		if (componentReference != null) {
 			componentReference.setMyScope(scope);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setMyScope(scope);
 		}
 	}
 
@@ -94,7 +120,20 @@ public final class Killed_Statement extends Statement {
 			return;
 		}
 
-		Port_Utility.checkComponentReference(timestamp, this, componentReference, false, false);
+		IType referencedType = Port_Utility.checkComponentReference(timestamp, this, componentReference, false, false, anyFrom);
+
+		if (redirectIndex != null && referencedType != null) {
+			referencedType = referencedType.getTypeRefdLast(timestamp);
+			final ArrayDimensions temp = new ArrayDimensions();
+			while (referencedType.getTypetype() == Type_type.TYPE_ARRAY) {
+				temp.add(((Array_Type)referencedType).getDimension());
+				referencedType = ((Array_Type)referencedType).getElementType();
+			}
+			checkIndexRedirection(timestamp, redirectIndex, temp, anyFrom, "component");
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setUsedOnLeftHandSide();
+		}
 
 		lastTimeChecked = timestamp;
 	}
@@ -110,22 +149,32 @@ public final class Killed_Statement extends Statement {
 			componentReference.updateSyntax(reparser, false);
 			reparser.updateLocation(componentReference.getLocation());
 		}
+
+		if (redirectIndex != null) {
+			redirectIndex.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectIndex.getLocation());
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (componentReference == null) {
-			return;
+		if (componentReference != null) {
+			componentReference.findReferences(referenceFinder, foundIdentifiers);
 		}
 
-		componentReference.findReferences(referenceFinder, foundIdentifiers);
+		if (redirectIndex != null) {
+			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (componentReference != null && !componentReference.accept(v)) {
+			return false;
+		}
+		if (redirectIndex != null && !redirectIndex.accept(v)) {
 			return false;
 		}
 		return true;
@@ -150,8 +199,11 @@ public final class Killed_Statement extends Statement {
 			// compref.killed
 			componentReference.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append(".killed(");
-			//FIXME handle index redirection
-			expression.expression.append("null");
+			if (redirectIndex == null) {
+				expression.expression.append("null");
+			} else {
+				generateCodeIndexRedirect(aData, expression, redirectIndex, getMyScope());
+			}
 			expression.expression.append(')');
 		} else if (isAny) {
 			// any component.killed

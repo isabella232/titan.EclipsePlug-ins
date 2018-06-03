@@ -106,6 +106,10 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public RawAST rawAttribute = null;
 
 	private boolean hasDone = false;
+	/** Indicates that the component array version (used with the help of the
+	 * 'any from' clause) of the 'done' function needs to be generated for
+	 *  this type. */
+	boolean needs_any_from_done = false;
 
 	/** The list of parsed sub-type restrictions before they are converted */
 	protected List<ParsedSubType> parsedRestrictions = null;
@@ -2908,6 +2912,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final String displayName = getTypename();
 
 		aData.addImport("java.util.concurrent.atomic.AtomicReference");
+		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addCommonLibraryImport("Index_Redirect");
 
@@ -2951,6 +2956,33 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("return ret_val;\n");
 		source.append("}\n");
 		source.append("}\n");
+
+		if (needs_any_from_done) {
+			source.append(MessageFormat.format("public static TitanAlt_Status done(final TitanValueArray<TitanComponent> component_array, final {0}_template value_template, final {0} value_redirect, final Index_Redirect index_redirect) '{'\n", genName));
+			source.append("if (index_redirect != null) {\n");
+			source.append("index_redirect.incrPos();\n");
+			source.append("}\n");
+
+			source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+			source.append("for (int i = 0; i < component_array.n_elem(); i++) {\n");
+			source.append("final TitanAlt_Status ret_val = done((TitanComponent)component_array.getAt(i), value_template, value_redirect, index_redirect);\n");
+			source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+			source.append("if (index_redirect != null) {\n");
+			source.append("index_redirect.addIndex(i + component_array.getOffset());\n");
+			source.append("}\n");
+			source.append("result = ret_val;\n");
+			source.append("break;\n");
+			source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+			source.append("result = ret_val;\n");
+			source.append("}\n");
+			source.append("}\n");
+			source.append("if (index_redirect != null) {\n");
+			source.append("index_redirect.decrPos();\n");
+			source.append("}\n");
+
+			source.append("return result;\n");
+			source.append("}\n");
+		}
 	}
 
 	/**
@@ -3087,5 +3119,12 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	public INamedNode getOwner() {
 		return owner;
+	}
+
+	/**
+	 * Indicates that the type needs to have any from done support.
+	 * */
+	public void set_needs_any_from_done() {
+		needs_any_from_done = true;
 	}
 }

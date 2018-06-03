@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -61,7 +62,7 @@ public final class Port_Utility {
 	private static final String VALUEREDIRECTTYPEMISSMATCH = "Type mismatch in value redirect:"
 			+ " A variable of type `{0}'' was expected instead of `{1}''";
 	private static final String PORTINCONTROLPART = "Port operation is not allowed in the control part";
-	private static final String PORTREFERENCEEXPECTED = "Reference to a port or port parameter was expected instead of {0}";
+	private static final String PORTREFERENCEEXPECTED = "Reference to a port {0} was expected instead of {1}";
 	private static final String SIGNATUREEXPECTED1 = "Reference to a signature was expceted instead of {0}";
 	private static final String SIGNATUREEXPECTED2 = "Reference to a signature was expected instead of port type `{0}''";
 	private static final String SIGNATUREEXPECTED3 = "Reference to a signature was expected instead of data type `{0}''";
@@ -89,16 +90,17 @@ public final class Port_Utility {
 	 *                an error to)
 	 * @param portReference
 	 *                the port reference to be checked
+	 * @param anyFrom if the port reference is used in any from context
 	 *
 	 * @return the port type of the reference if it is a correct port
 	 *         reference, or null otherwise
 	 * */
-	public static Port_Type checkPortReference(final CompilationTimeStamp timestamp, final Statement source, final Reference portReference) {
+	public static Port_Type checkPortReference(final CompilationTimeStamp timestamp, final Statement source, final Reference portReference, final boolean anyFrom) {
 		if (source.getMyStatementBlock() != null && source.getMyStatementBlock().getMyDefinition() == null) {
 			source.getLocation().reportSemanticError(PORTINCONTROLPART);
 		}
 
-		return checkPortReference(timestamp, portReference);
+		return checkPortReference(timestamp, portReference, anyFrom);
 	}
 
 	/**
@@ -109,11 +111,12 @@ public final class Port_Utility {
 	 *                the timestamp of the actual build cycle.
 	 * @param portReference
 	 *                the port reference to be checked
+	 * @param anyFrom if the port reference is used in any from context
 	 *
 	 * @return the port type of the reference if it is a correct port
 	 *         reference, or null otherwise
 	 * */
-	public static Port_Type checkPortReference(final CompilationTimeStamp timestamp, final Reference portReference) {
+	public static Port_Type checkPortReference(final CompilationTimeStamp timestamp, final Reference portReference, final boolean anyFrom) {
 		if (portReference == null) {
 			return null;
 		}
@@ -128,15 +131,22 @@ public final class Port_Utility {
 		case A_PORT:
 			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
 			if (dimensions != null) {
-				dimensions.checkIndices(timestamp, portReference, "port", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
-			} else if (portReference.getSubreferences().size() > 1) {
-				portReference.getLocation().reportSemanticError(
+				dimensions.checkIndices(timestamp, portReference, "port", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, anyFrom);
+			} else {
+				if (anyFrom) {
+					portReference.getLocation().reportSemanticError("Reference to a port array was expected instead of a port");
+				} else if (portReference.getSubreferences().size() > 1) {
+					portReference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to single {0} cannot have field or array sub-references",
 								assignment.getDescription()));
+				}
 			}
 			result = ((Def_Port) assignment).getType(timestamp);
 			break;
 		case A_PAR_PORT:
+			if (anyFrom) {
+				portReference.getLocation().reportSemanticError("Reference to a port array was expected instead of a port parameter");
+			}
 			if (portReference.getSubreferences().size() > 1) {
 				portReference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to {0} cannot have field or array sub-references",
@@ -145,7 +155,7 @@ public final class Port_Utility {
 			result = ((FormalParameter) assignment).getType(timestamp);
 			break;
 		default:
-			portReference.getLocation().reportSemanticError(MessageFormat.format(PORTREFERENCEEXPECTED, assignment.getAssignmentName()));
+			portReference.getLocation().reportSemanticError(MessageFormat.format(PORTREFERENCEEXPECTED, anyFrom ? "array" : "or port parameter", assignment.getAssignmentName()));
 			break;
 		}
 
@@ -225,12 +235,13 @@ public final class Port_Utility {
 	 *                tells if the mtc component is allowed or not.
 	 * @param allowSystem
 	 *                tells if the system component is allowed or not.
+	 * @param any_from tell if the value is in any from context
 	 *
 	 * @return the referenced component type, or null if there were
 	 *         problems.
 	 * */
-	public static Component_Type checkComponentReference(final CompilationTimeStamp timestamp, final Statement source, final IValue value,
-			final boolean allowMtc, final boolean allowSystem) {
+	public static IType checkComponentReference(final CompilationTimeStamp timestamp, final Statement source, final IValue value,
+			final boolean allowMtc, final boolean allowSystem, final boolean any_from) {
 		if (source.getMyStatementBlock() != null && source.getMyStatementBlock().getMyDefinition() == null) {
 			source.getLocation().reportSemanticError(COMPONENTOPINCONTROLPART);
 		}
@@ -250,10 +261,10 @@ public final class Port_Utility {
 			final Expression_Value expression = (Expression_Value) last;
 			switch (expression.getOperationType()) {
 			case APPLY_OPERATION:
-				if (!Type_type.TYPE_COMPONENT.equals(last.getExpressionReturntype(timestamp,
-						Expected_Value_type.EXPECTED_DYNAMIC_VALUE))) {
-					value.getLocation().reportSemanticError(VALUERETURNEXPECTED);
-				}
+//				if (!Type_type.TYPE_COMPONENT.equals(last.getExpressionReturntype(timestamp,
+//						Expected_Value_type.EXPECTED_DYNAMIC_VALUE))) {
+//					value.getLocation().reportSemanticError(VALUERETURNEXPECTED);
+//				}
 				break;
 			case COMPONENT_NULL_OPERATION:
 				value.getLocation().reportSemanticError(MessageFormat.format(NULLCOMPONENTREFERENCE, source.getStatementName()));
@@ -299,7 +310,17 @@ public final class Port_Utility {
 		if (result.getIsErroneous(timestamp)) {
 			return null;
 		} else if (Type_type.TYPE_COMPONENT.equals(result.getTypetype())) {
-			return (Component_Type) result;
+			if (!any_from) {
+				return (Component_Type) result;
+			}
+		} else if (Type_type.TYPE_ARRAY.equals(result.getTypetype())) {
+			IType elementType = ((Array_Type) result).getElementType().getTypeRefdLast(timestamp);
+			while (Type_type.TYPE_ARRAY.equals(elementType.getTypetype())) {
+				elementType = ((Array_Type) elementType).getElementType().getTypeRefdLast(timestamp);
+			}
+			if (Type_type.TYPE_COMPONENT.equals(elementType.getTypetype())) {
+				return result;
+			}
 		}
 
 		value.getLocation().reportSemanticError(MessageFormat.format(COMPONENTTYPEMISMATCH, result.getTypename()));
@@ -329,7 +350,7 @@ public final class Port_Utility {
 	 * */
 	public static IType checkConnectionEndpoint(final CompilationTimeStamp timestamp, final Statement source, final Value componentReference,
 			final PortReference portReference, final boolean allowSystem) {
-		final IType componentType = checkComponentReference(timestamp, source, componentReference, true, allowSystem);
+		final IType componentType = checkComponentReference(timestamp, source, componentReference, true, allowSystem, false);
 		if (portReference == null) {
 			return componentType;
 		}
@@ -406,7 +427,7 @@ public final class Port_Utility {
 
 		final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
 		if (dimensions != null) {
-			dimensions.checkIndices(timestamp, portReference, "port", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+			dimensions.checkIndices(timestamp, portReference, "port", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 		} else if (portReference.getSubreferences().size() > 1) {
 			portReference.getLocation().reportSemanticError(
 					MessageFormat.format("Port `{0}'' is not an array. The reference cannot have field or array sub-references",
@@ -567,7 +588,7 @@ public final class Port_Utility {
 					} else if (Type_type.TYPE_COMPONENT.equals(last.getTypetype())) {
 						if (Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())) {
 							checkComponentReference(timestamp, source,
-									((SpecificValue_Template) templateBody).getSpecificValue(), true, true);
+									((SpecificValue_Template) templateBody).getSpecificValue(), true, true, false);
 						}
 					} else {
 						final String message = MessageFormat.format(
@@ -624,7 +645,7 @@ public final class Port_Utility {
 		}
 
 		if (addressType == null) {
-			checkComponentReference(timestamp, source, toClause, true, true);
+			checkComponentReference(timestamp, source, toClause, true, true, false);
 		} else {
 			// detect possible enumerated values (address may be an
 			// enumerated type)
@@ -644,7 +665,7 @@ public final class Port_Utility {
 				addressType.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 						false, false, true, false, false));
 			} else {
-				checkComponentReference(timestamp, source, temp, true, true);
+				checkComponentReference(timestamp, source, temp, true, true, false);
 			}
 		}
 	}

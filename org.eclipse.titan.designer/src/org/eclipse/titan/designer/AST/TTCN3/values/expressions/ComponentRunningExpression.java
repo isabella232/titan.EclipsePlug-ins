@@ -13,14 +13,19 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
+import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -31,17 +36,23 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 /**
  * @author Kristof Szabados
  * */
-public final class ComponentRunnningExpression extends Expression_Value {
+public final class ComponentRunningExpression extends Expression_Value {
 	private static final String OPERATIONNAME = "component running";
 
 	private final IValue value;
-	//FIXME missing support for index redirection
+	private final boolean anyfrom;
+	private final Reference indexRedirection;
 
-	public ComponentRunnningExpression(final IValue value) {
+	public ComponentRunningExpression(final IValue value, final Reference index_redirection, final boolean anyFrom) {
 		this.value = value;
+		this.indexRedirection = index_redirection;
+		this.anyfrom = anyFrom;
 
 		if (value != null) {
 			value.setFullNameParent(this);
+		}
+		if (index_redirection != null) {
+			index_redirection.setFullNameParent(this);
 		}
 	}
 
@@ -72,6 +83,9 @@ public final class ComponentRunnningExpression extends Expression_Value {
 		if (value != null) {
 			value.setMyScope(scope);
 		}
+		if (indexRedirection != null) {
+			indexRedirection.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -82,6 +96,9 @@ public final class ComponentRunnningExpression extends Expression_Value {
 		if (value != null) {
 			value.setCodeSection(codeSection);
 		}
+		if (indexRedirection != null) {
+			indexRedirection.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -91,6 +108,8 @@ public final class ComponentRunnningExpression extends Expression_Value {
 
 		if (value == child) {
 			return builder.append(OPERAND);
+		} else if (value == child) {
+			return builder.append(REDIRECTINDEX);
 		}
 
 		return builder;
@@ -123,9 +142,20 @@ public final class ComponentRunnningExpression extends Expression_Value {
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		final IValue tempValue = value.setLoweridToReference(timestamp);
-		Component_Type.checkExpressionOperandComponentRefernce(timestamp, tempValue, OPERATIONNAME);
+		IType t = Component_Type.checkExpressionOperandComponentRefernce(timestamp, tempValue, OPERATIONNAME, anyfrom);
 
 		checkExpressionDynamicPart(expectedValue, OPERATIONNAME, false, true, false);
+
+		if (indexRedirection != null && t != null) {
+			t = t.getTypeRefdLast(timestamp);
+
+			ArrayDimensions temp = new ArrayDimensions();
+			while (t.getTypetype() == Type_type.TYPE_ARRAY) {
+				temp.add(((Array_Type)t).getDimension());
+				t = ((Array_Type)t).getElementType().getTypeRefdLast(timestamp);
+			}
+			Statement.checkIndexRedirection(timestamp, indexRedirection,temp, anyfrom, "timer");
+		}
 	}
 
 	@Override
@@ -171,16 +201,23 @@ public final class ComponentRunnningExpression extends Expression_Value {
 		} else if (value != null) {
 			throw new ReParseException();
 		}
+
+		if (indexRedirection != null) {
+			indexRedirection.updateSyntax(reparser, false);
+			reparser.updateLocation(indexRedirection.getLocation());
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (value == null) {
-			return;
+		if (value != null) {
+			value.findReferences(referenceFinder, foundIdentifiers);
 		}
 
-		value.findReferences(referenceFinder, foundIdentifiers);
+		if (indexRedirection != null) {
+			indexRedirection.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -189,6 +226,11 @@ public final class ComponentRunnningExpression extends Expression_Value {
 		if (value != null && !value.accept(v)) {
 			return false;
 		}
+
+		if (indexRedirection != null && !indexRedirection.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -201,7 +243,10 @@ public final class ComponentRunnningExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		//FIXME && reference != null
+		if (indexRedirection != null) {
+			return false;
+		}
+
 		return value.canGenerateSingleExpression();
 	}
 
@@ -212,9 +257,13 @@ public final class ComponentRunnningExpression extends Expression_Value {
 		if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
 			generateCodeExpressionOptionalFieldReference(aData, expression, ((Referenced_Value)value).getReference());
 		}
+
 		expression.expression.append(".running(");
-		//FIXME add support for index redirection
-		expression.expression.append("null");
+		if (indexRedirection == null) {
+			expression.expression.append("null");
+		} else {
+			Statement.generateCodeIndexRedirect(aData, expression, indexRedirection, getMyScope());
+		}
 		expression.expression.append(')');
 	}
 }

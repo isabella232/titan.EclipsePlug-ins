@@ -169,7 +169,7 @@ public final class SizeOfExpression extends Expression_Value {
 			return -1;
 		}
 
-		dimensions.checkIndices(timestamp, ref, assignment.getAssignmentName(), true, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+		dimensions.checkIndices(timestamp, ref, assignment.getAssignmentName(), true, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 		final List<ISubReference> subreferences = ref.getSubreferences();
 		int referencedDimensions;
 		if (subreferences.size() > 1) {

@@ -82,7 +82,7 @@ public final class Clear_Statement extends Statement {
 			return;
 		}
 
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference);
+		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference, false);
 		if (portType != null && !portType.getPortBody().hasQueue(timestamp)) {
 			portReference.getLocation().reportSemanticError(MessageFormat.format(QUEUELESSPORT, portType.getTypename()));
 		}

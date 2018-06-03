@@ -1177,4 +1177,9 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	TypeOwner_type getOwnertype();
 	INamedNode getOwner();
+
+	/**
+	 * Indicates that the type needs to have any from done support.
+	 * */
+	public void set_needs_any_from_done();
 }

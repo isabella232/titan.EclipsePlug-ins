@@ -145,7 +145,7 @@ public final class TimerReadExpression extends Expression_Value {
 		case A_TIMER: {
 			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 			if (dimensions != null) {
-				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 			} else if (reference.getSubreferences().size() > 1) {
 				reference.getLocation().reportSemanticError(
 						MessageFormat.format(OPERANDERROR, assignment.getIdentifier().getDisplayName()));

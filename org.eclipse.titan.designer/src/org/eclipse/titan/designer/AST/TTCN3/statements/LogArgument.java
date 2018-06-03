@@ -323,7 +323,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
 			if (dimensions != null) {
 				dimensions.checkIndices(timestamp, reference, assignment.getAssignmentName(), true,
-						Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+						Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 			} else if (reference.getSubreferences().size() > 1) {
 				getLocation().reportSemanticError(
 						MessageFormat.format("Reference to single {0} cannot have field or array sub-references",
@@ -336,7 +336,7 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 			if (dimensions != null) {
 				dimensions.checkIndices(timestamp, reference, assignment.getAssignmentName(), true,
-						Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+						Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
 			} else if (reference.getSubreferences().size() > 1) {
 				getLocation().reportSemanticError(
 						MessageFormat.format("Reference to single {0} cannot have field or array sub-references",

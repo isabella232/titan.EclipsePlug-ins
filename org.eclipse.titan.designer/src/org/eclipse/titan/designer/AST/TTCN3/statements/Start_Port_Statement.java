@@ -78,7 +78,7 @@ public final class Start_Port_Statement extends Statement {
 			return;
 		}
 
-		Port_Utility.checkPortReference(timestamp, this, portReference);
+		Port_Utility.checkPortReference(timestamp, this, portReference, false);
 
 		lastTimeChecked = timestamp;
 	}

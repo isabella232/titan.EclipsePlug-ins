@@ -223,7 +223,7 @@ public final class Call_Statement extends Statement {
 			return;
 		}
 
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference);
+		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference, false);
 
 		if (parameter == null) {
 			return;

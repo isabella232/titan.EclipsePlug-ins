@@ -76,7 +76,7 @@ public final class Stop_Timer_Statement extends Statement {
 			return;
 		}
 
-		Start_Timer_Statement.checkTimerReference(timestamp, timerReference);
+		Start_Timer_Statement.checkTimerReference(timestamp, timerReference, false);
 
 		lastTimeChecked = timestamp;
 	}

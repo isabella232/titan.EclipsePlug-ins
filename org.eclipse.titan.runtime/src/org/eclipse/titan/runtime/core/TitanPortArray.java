@@ -172,7 +172,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	// originally check_receive
-	public TitanAlt_Status checkReceive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
+	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_ptr, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {
 			index_redirect.incrPos();
 		}

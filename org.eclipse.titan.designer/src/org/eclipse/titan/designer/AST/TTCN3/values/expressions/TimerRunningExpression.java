@@ -22,6 +22,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Timer;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Statement;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -40,11 +41,29 @@ public final class TimerRunningExpression extends Expression_Value {
 
 	private final Reference reference;
 
+	private final boolean any_from;
+	private final Reference indexRedirection;
+
 	public TimerRunningExpression(final Reference reference) {
 		this.reference = reference;
+		this.any_from = false;
+		this.indexRedirection = null;
 
 		if (reference != null) {
 			reference.setFullNameParent(this);
+		}
+	}
+
+	public TimerRunningExpression(final Reference reference, final boolean any_from, final Reference index_redirect) {
+		this.reference = reference;
+		this.any_from = any_from;
+		this.indexRedirection = index_redirect;
+
+		if (reference != null) {
+			reference.setFullNameParent(this);
+		}
+		if (index_redirect != null) {
+			index_redirect.setFullNameParent(this);
 		}
 	}
 
@@ -77,6 +96,9 @@ public final class TimerRunningExpression extends Expression_Value {
 		if (reference != null) {
 			reference.setMyScope(scope);
 		}
+		if (indexRedirection != null) {
+			indexRedirection.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -87,6 +109,9 @@ public final class TimerRunningExpression extends Expression_Value {
 		if (reference != null) {
 			reference.setCodeSection(codeSection);
 		}
+		if (indexRedirection != null) {
+			indexRedirection.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -96,6 +121,8 @@ public final class TimerRunningExpression extends Expression_Value {
 
 		if (reference == child) {
 			return builder.append(OPERAND);
+		} else if (indexRedirection == child) {
+			return builder.append(REDIRECTINDEX);
 		}
 
 		return builder;
@@ -141,7 +168,7 @@ public final class TimerRunningExpression extends Expression_Value {
 		case A_TIMER: {
 			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 			if (dimensions != null) {
-				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, any_from);
 			} else if (reference.getSubreferences().size() > 1) {
 				reference.getLocation().reportSemanticError(
 						MessageFormat.format(OPERANDERROR, assignment.getIdentifier().getDisplayName()));
@@ -161,6 +188,10 @@ public final class TimerRunningExpression extends Expression_Value {
 		}
 
 		checkExpressionDynamicPart(expectedValue, OPERATIONNAME, true, true, false);
+
+		if (indexRedirection != null) {
+			Statement.checkIndexRedirection(timestamp, indexRedirection, assignment == null ? null : ((Def_Timer)assignment).getDimensions(), any_from, "timer");
+		}
 	}
 
 	@Override
@@ -195,16 +226,22 @@ public final class TimerRunningExpression extends Expression_Value {
 			reference.updateSyntax(reparser, false);
 			reparser.updateLocation(reference.getLocation());
 		}
+		if (indexRedirection != null) {
+			indexRedirection.updateSyntax(reparser, false);
+			reparser.updateLocation(indexRedirection.getLocation());
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (reference == null) {
-			return;
+		if (reference != null) {
+			reference.findReferences(referenceFinder, foundIdentifiers);
 		}
 
-		reference.findReferences(referenceFinder, foundIdentifiers);
+		if (indexRedirection != null) {
+			indexRedirection.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -213,13 +250,21 @@ public final class TimerRunningExpression extends Expression_Value {
 		if (reference != null && !reference.accept(v)) {
 			return false;
 		}
+
+		if (indexRedirection != null && !indexRedirection.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		//TODO if r2 return false
+		if (indexRedirection != null) {
+			return false;
+		}
+
 		return reference != null && reference.hasSingleExpression();
 	}
 
@@ -235,8 +280,11 @@ public final class TimerRunningExpression extends Expression_Value {
 		reference.generateCode(aData, expression);
 		generateCodeExpressionOptionalFieldReference(aData, expression, reference);
 		expression.expression.append(".running(");
-		//FIXME add support for index redirection
-		expression.expression.append("null");
+		if (indexRedirection == null) {
+			expression.expression.append("null");
+		} else {
+			Statement.generateCodeIndexRedirect(aData, expression, indexRedirection, getMyScope());
+		}
 		expression.expression.append(')');
 	}
 }

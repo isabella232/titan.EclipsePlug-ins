@@ -110,7 +110,7 @@ public final class Start_Timer_Statement extends Statement {
 
 		lastTimeChecked = timestamp;
 
-		checkTimerReference(timestamp, timerReference);
+		checkTimerReference(timestamp, timerReference, false);
 
 		if (timerValue == null) {
 			final Assignment assignment = timerReference.getRefdAssignment(timestamp, true);
@@ -148,7 +148,7 @@ public final class Start_Timer_Statement extends Statement {
 		}
 	}
 
-	public static void checkTimerReference(final CompilationTimeStamp timestamp, final Reference reference) {
+	public static void checkTimerReference(final CompilationTimeStamp timestamp, final Reference reference, final boolean anyFrom) {
 		if (reference == null) {
 			return;
 		}
@@ -162,7 +162,7 @@ public final class Start_Timer_Statement extends Statement {
 		case A_TIMER:
 			final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 			if (dimensions != null) {
-				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+				dimensions.checkIndices(timestamp, reference, "timer", false, Expected_Value_type.EXPECTED_DYNAMIC_VALUE, anyFrom);
 			} else if (reference.getSubreferences().size() > 1) {
 				reference.getLocation().reportSemanticError(
 						MessageFormat.format("Reference to a single {0} cannot have field or array sub-references",

@@ -987,6 +987,14 @@ public final class SubType implements IIncrementallyUpdateable {
 		}
 	}
 
+	public boolean lengthAllowed(final int length) {
+		if (lengthRestriction == null) {
+			return true;
+		}
+
+		return lengthRestriction.isElement(new SizeLimit(length));
+	}
+
 	/**
 	 * Checks if a given value is valid according to this sub-type.
 	 *

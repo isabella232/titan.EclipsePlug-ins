@@ -38,21 +38,26 @@ public final class Trigger_Port_Statement extends Statement {
 	private static final String FULLNAMEPART3 = ".from";
 	private static final String FULLNAMEPART4 = ".redirectvalue";
 	private static final String FULLNAMEPART5 = ".redirectsender";
+	private static final String FULLNAMEPART6 = ".redirectIndex";
 	private static final String STATEMENT_NAME = "trigger";
 
 	private final Reference portReference;
+	private final boolean anyFrom;
 	private final TemplateInstance receiveParameter;
 	private final TemplateInstance fromClause;
 	private final Reference redirectValue;
 	private final Reference redirectSender;
+	private final Reference redirectIndex;
 
-	public Trigger_Port_Statement(final Reference portReference, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
-			final Reference redirectValue, final Reference redirectSender) {
+	public Trigger_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
+			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
 		this.portReference = portReference;
+		this.anyFrom = anyFrom;
 		this.receiveParameter = receiveParameter;
 		this.fromClause = fromClause;
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
+		this.redirectIndex = redirectIndex;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -68,6 +73,9 @@ public final class Trigger_Port_Statement extends Statement {
 		}
 		if (redirectSender != null) {
 			redirectSender.setFullNameParent(this);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setFullNameParent(this);
 		}
 	}
 
@@ -98,6 +106,8 @@ public final class Trigger_Port_Statement extends Statement {
 			return builder.append(FULLNAMEPART4);
 		} else if (redirectSender == child) {
 			return builder.append(FULLNAMEPART5);
+		} else if (redirectIndex == child) {
+			return builder.append(FULLNAMEPART6);
 		}
 
 		return builder;
@@ -122,6 +132,9 @@ public final class Trigger_Port_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.setMyScope(scope);
 		}
+		if (redirectIndex != null) {
+			redirectIndex.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -143,8 +156,8 @@ public final class Trigger_Port_Statement extends Statement {
 			return;
 		}
 
-		Receive_Port_Statement.checkReceivingStatement(timestamp, this, "trigger", portReference, receiveParameter, fromClause,
-				redirectValue, redirectSender);
+		Receive_Port_Statement.checkReceivingStatement(timestamp, this, "trigger", portReference, anyFrom, receiveParameter, fromClause,
+				redirectValue, redirectSender, redirectIndex);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
@@ -152,6 +165,10 @@ public final class Trigger_Port_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
 		}
+		if (redirectIndex != null) {
+			redirectIndex.setUsedOnLeftHandSide();
+		}
+
 		lastTimeChecked = timestamp;
 	}
 
@@ -216,6 +233,11 @@ public final class Trigger_Port_Statement extends Statement {
 			redirectSender.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectSender.getLocation());
 		}
+
+		if (redirectIndex != null) {
+			redirectIndex.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectIndex.getLocation());
+		}
 	}
 
 	@Override
@@ -236,6 +258,9 @@ public final class Trigger_Port_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectIndex != null) {
+			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -254,6 +279,9 @@ public final class Trigger_Port_Statement extends Statement {
 			return false;
 		}
 		if (redirectSender != null && !redirectSender.accept(v)) {
+			return false;
+		}
+		if (redirectIndex != null && !redirectIndex.accept(v)) {
 			return false;
 		}
 		return true;
@@ -317,8 +345,12 @@ public final class Trigger_Port_Statement extends Statement {
 
 		//FIXME also if translate
 		if (portReference != null) {
-			//FIXME handle index redirection
-			expression.expression.append(", null");
+			expression.expression.append(",");
+			if (redirectIndex == null) {
+				expression.expression.append("null");
+			} else {
+				generateCodeIndexRedirect(aData, expression, redirectIndex, getMyScope());
+			}
 		}
 
 		expression.expression.append( ')' );

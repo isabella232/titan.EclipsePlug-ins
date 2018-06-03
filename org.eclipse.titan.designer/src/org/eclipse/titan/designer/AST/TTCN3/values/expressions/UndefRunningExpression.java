@@ -35,12 +35,19 @@ public final class UndefRunningExpression extends Expression_Value {
 	private final Reference reference;
 
 	private Expression_Value realExpression;
+	private final boolean anyfrom;
+	private final Reference index_redirection;
 
-	public UndefRunningExpression(final Reference reference) {
+	public UndefRunningExpression(final Reference reference, final Reference index_redirection, final boolean anyFrom) {
 		this.reference = reference;
+		this.index_redirection = index_redirection;
+		this.anyfrom = anyFrom;
 
 		if (reference != null) {
 			reference.setFullNameParent(this);
+		}
+		if (index_redirection != null) {
+			index_redirection.setFullNameParent(this);
 		}
 	}
 
@@ -54,6 +61,9 @@ public final class UndefRunningExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
 		if (lhs == reference.getRefdAssignment(timestamp, false)) {
+			return true;
+		}
+		if (lhs == index_redirection.getRefdAssignment(timestamp, false)) {
 			return true;
 		}
 
@@ -76,6 +86,9 @@ public final class UndefRunningExpression extends Expression_Value {
 		if (reference != null) {
 			reference.setMyScope(scope);
 		}
+		if (index_redirection != null) {
+			index_redirection.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -89,6 +102,9 @@ public final class UndefRunningExpression extends Expression_Value {
 		if (realExpression != null) {
 			realExpression.setCodeSection(codeSection);
 		}
+		if (index_redirection != null) {
+			index_redirection.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -98,6 +114,8 @@ public final class UndefRunningExpression extends Expression_Value {
 
 		if (reference == child) {
 			return builder.append(OPERAND);
+		} else if (index_redirection == child) {
+			return builder.append(REDIRECTINDEX);
 		}
 
 		return builder;
@@ -144,7 +162,7 @@ public final class UndefRunningExpression extends Expression_Value {
 		switch (assignment.getAssignmentType()) {
 		case A_TIMER:
 		case A_PAR_TIMER: {
-			realExpression = new TimerRunningExpression(reference);
+			realExpression = new TimerRunningExpression(reference, anyfrom, index_redirection);
 			realExpression.setMyScope(getMyScope());
 			realExpression.setFullNameParent(this);
 			realExpression.setLocation(getLocation());
@@ -165,7 +183,7 @@ public final class UndefRunningExpression extends Expression_Value {
 			value.setMyScope(getMyScope());
 			value.setFullNameParent(this);
 			value.getValueRefdLast(timestamp, referenceChain);
-			realExpression = new ComponentRunnningExpression(value);
+			realExpression = new ComponentRunningExpression(value, index_redirection, anyfrom);
 			realExpression.setMyScope(getMyScope());
 			realExpression.setFullNameParent(this);
 			realExpression.setLocation(getLocation());
@@ -215,22 +233,31 @@ public final class UndefRunningExpression extends Expression_Value {
 			reference.updateSyntax(reparser, false);
 			reparser.updateLocation(reference.getLocation());
 		}
+		if (index_redirection != null) {
+			index_redirection.updateSyntax(reparser, false);
+			reparser.updateLocation(index_redirection.getLocation());
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (reference == null) {
-			return;
+		if (reference != null) {
+			reference.findReferences(referenceFinder, foundIdentifiers);
 		}
 
-		reference.findReferences(referenceFinder, foundIdentifiers);
+		if (index_redirection != null) {
+			index_redirection.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (reference != null && !reference.accept(v)) {
+			return false;
+		}
+		if (index_redirection != null && !index_redirection.accept(v)) {
 			return false;
 		}
 		return true;

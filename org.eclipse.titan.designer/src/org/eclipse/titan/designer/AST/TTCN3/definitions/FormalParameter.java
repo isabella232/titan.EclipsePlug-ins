@@ -590,7 +590,7 @@ public final class FormalParameter extends Definition {
 			case A_TIMER:
 				final ArrayDimensions dimensions = ((Def_Timer) assignment).getDimensions();
 				if (dimensions != null) {
-					dimensions.checkIndices(timestamp, reference, "timer", false, expectedValue);
+					dimensions.checkIndices(timestamp, reference, "timer", false, expectedValue, false);
 				} else if (reference.getSubreferences().size() > 1) {
 					reference.getLocation().reportSemanticError(
 							MessageFormat.format(SUBREFERENCEERROR1, assignment.getDescription()));
@@ -666,7 +666,7 @@ public final class FormalParameter extends Definition {
 		case A_PORT:
 			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
 			if (dimensions != null) {
-				dimensions.checkIndices(timestamp, reference, "port", false, expectedValue);
+				dimensions.checkIndices(timestamp, reference, "port", false, expectedValue, false);
 			} else if (reference.getSubreferences().size() > 1) {
 				reference.getLocation().reportSemanticError(MessageFormat.format(SUBREFERENCEERROR1, assignment.getDescription()));
 			}

@@ -10,11 +10,13 @@ package org.eclipse.titan.designer.AST.TTCN3.statements;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Timer;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -25,19 +27,19 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Kristof Szabados
  * */
 public final class Timeout_Statement extends Statement {
-	private static final String FULLNAMEPART = ".timerreference";
+	private static final String FULLNAMEPART1 = ".timerreference";
+	private static final String FULLNAMEPART2 = ".redirectIndex";
 	private static final String STATEMENT_NAME = "timeout";
 
 	private final Reference timerReference;
 
-	//FIXME any from with/without index redirection is only stored, not yet checked
 	private final boolean any_from;
-	private final Reference index_redirect;
+	private final Reference indexRedirection;
 
 	public Timeout_Statement(final Reference timerReference) {
 		this.timerReference = timerReference;
 		this.any_from = false;
-		this.index_redirect = null;
+		this.indexRedirection = null;
 
 		if (timerReference != null) {
 			timerReference.setFullNameParent(this);
@@ -47,7 +49,7 @@ public final class Timeout_Statement extends Statement {
 	public Timeout_Statement(final Reference timerReference, final boolean any_from, final Reference index_redirect) {
 		this.timerReference = timerReference;
 		this.any_from = any_from;
-		this.index_redirect = index_redirect;
+		this.indexRedirection = index_redirect;
 
 		if (timerReference != null) {
 			timerReference.setFullNameParent(this);
@@ -75,7 +77,9 @@ public final class Timeout_Statement extends Statement {
 		final StringBuilder builder = super.getFullName(child);
 
 		if (timerReference == child) {
-			return builder.append(FULLNAMEPART);
+			return builder.append(FULLNAMEPART1);
+		} else if (indexRedirection == child) {
+			return builder.append(FULLNAMEPART2);
 		}
 
 		return builder;
@@ -87,6 +91,9 @@ public final class Timeout_Statement extends Statement {
 		super.setMyScope(scope);
 		if (timerReference != null) {
 			timerReference.setMyScope(scope);
+		}
+		if (indexRedirection != null) {
+			indexRedirection.setMyScope(scope);
 		}
 	}
 
@@ -109,7 +116,12 @@ public final class Timeout_Statement extends Statement {
 			return;
 		}
 
-		Start_Timer_Statement.checkTimerReference(timestamp, timerReference);
+		Start_Timer_Statement.checkTimerReference(timestamp, timerReference, any_from);
+
+		if (timerReference != null && indexRedirection != null) {
+			final Assignment assignment = timerReference.getRefdAssignment(timestamp, false);
+			checkIndexRedirection(timestamp, indexRedirection, assignment == null ? null : ((Def_Timer)assignment).getDimensions(), any_from, "timer");
+		}
 
 		lastTimeChecked = timestamp;
 	}
@@ -164,8 +176,13 @@ public final class Timeout_Statement extends Statement {
 			expression.expression.append("TitanTimer.anyTimeout()");
 		} else {
 			timerReference.generateCode(aData, expression);
-			expression.expression.append(".timeout()");
-			//TODO handle index redirection
+			expression.expression.append(".timeout(");
+			if (indexRedirection == null) {
+				expression.expression.append("null");
+			} else {
+				generateCodeIndexRedirect(aData, expression, indexRedirection, getMyScope());
+			}
+			expression.expression.append(")");
 		}
 	}
 }

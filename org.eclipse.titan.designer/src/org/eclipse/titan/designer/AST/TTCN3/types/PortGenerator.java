@@ -2121,4 +2121,292 @@ public class PortGenerator {
 			source.append("}\n");
 		}
 	}
+
+	/**
+	 * This function can be used to generate the necessary member functions of port array types
+	 *
+	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * */
+	public static void generatePortArrayBodyMembers(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final long arraySize, final long indexOffset) {
+		aData.addBuiltinTypeImport("Index_Redirect");
+
+		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+			final messageTypeInfo inType = portDefinition.inMessages.get(i);
+
+			generateArrayBodyTypedReceive(source, i, inType, false, arraySize, indexOffset);
+			generateArrayBodyTypedReceive(source, i, inType, true, arraySize, indexOffset);
+			generateArrayBodyTypeTrigger(source, i, inType, arraySize, indexOffset);
+		}
+
+		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
+			final procedureSignatureInfo info = portDefinition.inProcedures.get(i);
+
+			generateArrayBodyTypedGetcall(source, portDefinition, i, info, false, false, arraySize, indexOffset);
+			generateArrayBodyTypedGetcall(source, portDefinition, i, info, true, false, arraySize, indexOffset);
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				generateArrayBodyTypedGetcall(source, portDefinition, i, info, false, true, arraySize, indexOffset);
+				generateArrayBodyTypedGetcall(source, portDefinition, i, info, true, true, arraySize, indexOffset);
+			}
+		}
+
+		boolean hasIncomingReply = false;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (!info.isNoBlock) {
+				hasIncomingReply = true;
+			}
+		}
+		boolean hasIncomingException = false;
+		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+			final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+			if (info.hasExceptions) {
+				hasIncomingException = true;
+			}
+		}
+
+		if (hasIncomingReply) {
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+				if (!portDefinition.outProcedures.get(i).isNoBlock) {
+					generateArrayBodyTypedGetreply(source, portDefinition, i, info, false, false, arraySize, indexOffset);
+					generateArrayBodyTypedGetreply(source, portDefinition, i, info, true, false, arraySize, indexOffset);
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						generateArrayBodyTypedGetreply(source, portDefinition, i, info, false, true, arraySize, indexOffset);
+						generateArrayBodyTypedGetreply(source, portDefinition, i, info, true, true, arraySize, indexOffset);
+					}
+				}
+			}
+		}
+
+		if (hasIncomingException) {
+			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
+				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
+
+				if (portDefinition.outProcedures.get(i).hasExceptions) {
+					generateArrayBodyTypedGetexception(source, portDefinition, i, info, false, false, arraySize, indexOffset);
+					generateArrayBodyTypedGetexception(source, portDefinition, i, info, true, false, arraySize, indexOffset);
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						generateArrayBodyTypedGetexception(source, portDefinition, i, info, false, true, arraySize, indexOffset);
+						generateArrayBodyTypedGetexception(source, portDefinition, i, info, true, true, arraySize, indexOffset);
+					}
+				}
+			}
+		}
+	}
+
+	/**
+	 * This function generates the receive or check(receive) function for a array of port type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param inType the information about the incoming message.
+	 * @param isCheck generate the check or the non-checking version.
+	 * @param arraySize the size of the array.
+	 * @param indexOffset the index offset of this array.
+	 * */
+	private static void generateArrayBodyTypedReceive(final StringBuilder source, final int index, final messageTypeInfo inType, final boolean isCheck, final long arraySize, final long indexOffset) {
+		final String typeValueName = inType.mJavaTypeName;
+		final String typeTemplateName = inType.mJavaTemplateName;
+		final String functionName = isCheck ? "check_receive" : "receive";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1} value_template, final {2} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, typeTemplateName, typeValueName));
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.incrPos();\n");
+		source.append("}\n");
+
+		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(value_template, value_redirect, sender_template, sender_pointer, index_redirect);\n", functionName));
+		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append("}\n");
+		source.append("result = ret_val;\n");
+		source.append("break;\n");
+		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("result = ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.decrPos();\n");
+		source.append("}\n");
+
+		source.append("return result;\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the trigger function for an array of port type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param inType the information about the incoming message.
+	 * @param isCheck generate the check or the non-checking version.
+	 * @param arraySize the size of the array.
+	 * @param indexOffset the index offset of this array.
+	 * */
+	private static void generateArrayBodyTypeTrigger(final StringBuilder source, final int index, final messageTypeInfo inType, final long arraySize, final long indexOffset) {
+		final String typeValueName = inType.mJavaTypeName;
+		final String typeTemplateName = inType.mJavaTemplateName;
+
+		source.append(MessageFormat.format("public TitanAlt_Status trigger(final {0} value_template, final {1} value_redirect, final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) '{'\n", typeTemplateName, typeValueName));
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.incrPos();\n");
+		source.append("}\n");
+
+		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append("final TitanAlt_Status ret_val = getAt(i).trigger(value_template, value_redirect, sender_template, sender_pointer, index_redirect);\n");
+		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append("}\n");
+		source.append("result = ret_val;\n");
+		source.append("break;\n");
+		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("result = ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.decrPos();\n");
+		source.append("}\n");
+
+		source.append("return result;\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the getcall or check(getcall) function for an array of port type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
+	 * @param arraySize the size of the array.
+	 * @param indexOffset the index offset of this array.
+	 * */
+	private static void generateArrayBodyTypedGetcall(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
+		final String functionName = isCheck ? "check_getcall" : "getcall";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getcall_template, final {2}_template sender_template, final {1}_call_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.incrPos();\n");
+		source.append("}\n");
+
+		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getcall_template, sender_template, param_ref, sender_pointer, index_redirect);\n", functionName));
+		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append("}\n");
+		source.append("result = ret_val;\n");
+		source.append("break;\n");
+		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("result = ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.decrPos();\n");
+		source.append("}\n");
+
+		source.append("return result;\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the getreply or check(getreply) function for an array of port type
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
+	 * @param arraySize the size of the array.
+	 * @param indexOffset the index offset of this array.
+	 * */
+	private static void generateArrayBodyTypedGetreply(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
+		final String functionName = isCheck ? "check_getreply" : "getreply";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_template getreply_template, final {2}_template sender_template, final {1}_reply_redirect param_ref, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.incrPos();\n");
+		source.append("}\n");
+
+		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(getreply_template, sender_template, param_ref, sender_pointer, index_redirect);\n", functionName));
+		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append("}\n");
+		source.append("result = ret_val;\n");
+		source.append("break;\n");
+		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("result = ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.decrPos();\n");
+		source.append("}\n");
+
+		source.append("return result;\n");
+		source.append("}\n");
+	}
+
+	/**
+	 * This function generates the get_exception or check(catch) function.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param portDefinition the definition of the port.
+	 * @param index the index this signature type has in the selector.
+	 * @param info the information about the signature.
+	 * @param isCheck generate the check or the non-checking version.
+	 * @param isAddress generate for address or not?
+	 * @param arraySize the size of the array.
+	 * @param indexOffset the index offset of this array.
+	 * */
+	private static void generateArrayBodyTypedGetexception(final StringBuilder source, final PortDefinition portDefinition, final int index, final procedureSignatureInfo info, final boolean isCheck, final boolean isAddress, final long arraySize, final long indexOffset) {
+		final String functionName = isCheck ? "check_catch" : "get_exception";
+		final String senderType = isAddress ? portDefinition.addressName : "TitanComponent";
+
+		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.incrPos();\n");
+		source.append("}\n");
+
+		source.append("TitanAlt_Status result = TitanAlt_Status.ALT_NO;\n");
+		source.append(MessageFormat.format("for (int i = 0; i < {0}; i++) '{'\n", arraySize));
+		source.append(MessageFormat.format("final TitanAlt_Status ret_val = getAt(i).{0}(catch_template, sender_template, sender_pointer, index_redirect);\n", functionName));
+		source.append("if (ret_val == TitanAlt_Status.ALT_YES) {\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append(MessageFormat.format("index_redirect.addIndex(i + {0});\n", indexOffset));
+		source.append("}\n");
+		source.append("result = ret_val;\n");
+		source.append("break;\n");
+		source.append("} else if (ret_val == TitanAlt_Status.ALT_REPEAT || (ret_val == TitanAlt_Status.ALT_MAYBE && result == TitanAlt_Status.ALT_NO)) {\n");
+		source.append("result = ret_val;\n");
+		source.append("}\n");
+		source.append("}\n");
+		source.append("if (index_redirect != null) {\n");
+		source.append("index_redirect.decrPos();\n");
+		source.append("}\n");
+
+		source.append("return result;\n");
+		source.append("}\n");
+	}
 }

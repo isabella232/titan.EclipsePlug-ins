@@ -118,13 +118,14 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	 *            message.
 	 * @param allowSlicing true if the slicing of the array is allowed
 	 * @param expectedValue the kind of value expected here.
+	 * @param anyFrom the reference is used in any from context.
 	 *
 	 * */
 	public void checkIndices(final CompilationTimeStamp timestamp, final Reference reference, final String definitionName,
-			final boolean allowSlicing, final Expected_Value_type expectedValue) {
+			final boolean allowSlicing, final Expected_Value_type expectedValue, final boolean anyFrom) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences.size() == 1) {
-			if (!allowSlicing) {
+			if (!allowSlicing && !anyFrom) {
 				reference.getLocation().reportSemanticError(MessageFormat.format(ARRAYINDEXEXPECTED, definitionName));
 				return;
 			}
@@ -147,13 +148,16 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 		}
 
 		if (nofSubrefs < nofDimensions) {
-			if (!allowSlicing) {
+			if (!allowSlicing && !anyFrom) {
 				reference.getLocation().reportSemanticError(
 						MessageFormat.format(TOOFEWINDICES, definitionName, nofDimensions, nofSubrefs, nofSubrefs > 1 ? "indices" : "index"));
 			}
 		} else if (nofSubrefs > nofDimensions) {
 			reference.getLocation().reportSemanticError(
 					MessageFormat.format(TOOMANYINDICES, definitionName, nofDimensions, nofSubrefs, nofDimensions > 1 ? "s" : ""));
+		} else if (anyFrom) {
+			reference.getLocation().reportSemanticError(
+					MessageFormat.format("Too many indices in a reference to a {0} array with the 'any from' clause : the reference has as many array indices as the array has dimensions ({1})", definitionName, nofSubrefs));
 		}
 	}
 

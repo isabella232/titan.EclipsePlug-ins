@@ -104,7 +104,7 @@ public final class Kill_Statement extends Statement {
 			return;
 		}
 
-		Port_Utility.checkComponentReference(timestamp, this, componentReference, true, false);
+		Port_Utility.checkComponentReference(timestamp, this, componentReference, true, false, false);
 
 		lastTimeChecked = timestamp;
 	}

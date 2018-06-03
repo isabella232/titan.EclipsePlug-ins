@@ -38,28 +38,33 @@ public final class Check_Catch_Statement extends Statement {
 	private static final String FULLNAMEPART4 = ".from";
 	private static final String FULLNAMEPART5 = ".redirecvalue";
 	private static final String FULLNAMEPART6 = ".redirectSender";
+	private static final String FULLNAMEPART7 = ".redirectIndex";
 	private static final String STATEMENT_NAME = "check-catch";
 
 	private final Reference portReference;
+	private final boolean anyfrom;
 	private final Reference signatureReference;
 	private final TemplateInstance parameter;
 	private final boolean timeout;
 	private final TemplateInstance fromClause;
 	private final Reference redirectValue;
 	private final Reference redirectSender;
+	private final Reference redirectIndex;
 
 	// calculated field
 	private Signature_Type signature;
 
-	public Check_Catch_Statement(final Reference portReference, final Reference signatureReference, final TemplateInstance parameter,
-			final boolean timeout, final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender) {
+	public Check_Catch_Statement(final Reference portReference, final boolean anyFrom, final Reference signatureReference, final TemplateInstance parameter,
+			final boolean timeout, final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
 		this.portReference = portReference;
+		this.anyfrom = anyFrom;
 		this.signatureReference = signatureReference;
 		this.parameter = parameter;
 		this.timeout = timeout;
 		this.fromClause = fromClause;
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
+		this.redirectIndex = redirectIndex;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -78,6 +83,9 @@ public final class Check_Catch_Statement extends Statement {
 		}
 		if (redirectSender != null) {
 			redirectSender.setFullNameParent(this);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setFullNameParent(this);
 		}
 	}
 
@@ -110,6 +118,8 @@ public final class Check_Catch_Statement extends Statement {
 			return builder.append(FULLNAMEPART5);
 		} else if (redirectSender == child) {
 			return builder.append(FULLNAMEPART6);
+		} else if (redirectIndex == child) {
+			return builder.append(FULLNAMEPART7);
 		}
 
 		return builder;
@@ -137,6 +147,9 @@ public final class Check_Catch_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.setMyScope(scope);
 		}
+		if (redirectIndex != null) {
+			redirectIndex.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -162,14 +175,17 @@ public final class Check_Catch_Statement extends Statement {
 			signature = Port_Utility.checkSignatureReference(timestamp, signatureReference);
 		}
 
-		Catch_Statement.checkCatch(timestamp, this, "check-catch", portReference, signatureReference, parameter, timeout, fromClause,
-				redirectValue, redirectSender);
+		Catch_Statement.checkCatch(timestamp, this, "check-catch", portReference, anyfrom, signatureReference, parameter, timeout, fromClause,
+				redirectValue, redirectSender, redirectIndex);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
 		}
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setUsedOnLeftHandSide();
 		}
 
 		lastTimeChecked = timestamp;
@@ -242,6 +258,11 @@ public final class Check_Catch_Statement extends Statement {
 			redirectSender.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectSender.getLocation());
 		}
+
+		if (redirectIndex != null) {
+			redirectIndex.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectIndex.getLocation());
+		}
 	}
 
 	@Override
@@ -265,6 +286,9 @@ public final class Check_Catch_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (redirectIndex != null) {
+			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -286,6 +310,9 @@ public final class Check_Catch_Statement extends Statement {
 			return false;
 		}
 		if (redirectSender != null && !redirectSender.accept(v)) {
+			return false;
+		}
+		if (redirectIndex != null && !redirectIndex.accept(v)) {
 			return false;
 		}
 		return true;
@@ -333,8 +360,12 @@ public final class Check_Catch_Statement extends Statement {
 			redirectSender.generateCode(aData, expression);
 		}
 		if (portReference != null) {
-			//FIXME handle index redirection
-			expression.expression.append(", null");
+			expression.expression.append(", ");
+			if (redirectIndex == null) {
+				expression.expression.append("null");
+			} else {
+				generateCodeIndexRedirect(aData, expression, redirectIndex, getMyScope());
+			}
 		}
 		expression.expression.append(')');
 	}

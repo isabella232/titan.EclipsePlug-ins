@@ -27,7 +27,6 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
-import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -121,7 +120,7 @@ public final class Start_Component_Statement extends Statement {
 
 		lastTimeChecked = timestamp;
 
-		final Component_Type componentType = Port_Utility.checkComponentReference(timestamp, this, componentReference, false, false);
+		final IType componentType = Port_Utility.checkComponentReference(timestamp, this, componentReference, false, false, false);
 		final Assignment assignment = functionInstanceReference.getRefdAssignment(timestamp, true);
 		if (assignment == null) {
 			return;

@@ -17,9 +17,11 @@ import org.eclipse.titan.designer.parsers.Parser_Helper;
 public class PortRedirect_Helper {
 	public Reference redirectValue;
 	public Reference redirectSender;
+	public Reference redirectIndex;
 
-	public PortRedirect_Helper(final Reference redirectValue, final Reference redirectSender) {
+	public PortRedirect_Helper(final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
 		this.redirectValue = redirectValue;
 		this.redirectSender = redirectSender;
+		this.redirectIndex = redirectIndex;
 	}
 }

@@ -141,7 +141,7 @@ public final class Raise_Statement extends Statement {
 			return;
 		}
 
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference);
+		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference, false);
 
 		IType signature = Port_Utility.checkSignatureReference(timestamp, signatureReference);
 

@@ -28,7 +28,6 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
-import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Function_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
@@ -128,10 +127,10 @@ public final class Start_Referenced_Component_Statement extends Statement {
 
 		lastTimeChecked = timestamp;
 
-		Component_Type compType = null;
+		IType compType = null;
 
 		if (componentReference != null) {
-			compType = Port_Utility.checkComponentReference(timestamp, this, componentReference, false, false);
+			compType = Port_Utility.checkComponentReference(timestamp, this, componentReference, false, false, false);
 		}
 
 		if (dereferredValue == null) {

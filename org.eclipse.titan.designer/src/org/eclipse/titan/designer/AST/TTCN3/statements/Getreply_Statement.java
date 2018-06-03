@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
@@ -20,6 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -60,26 +62,31 @@ public final class Getreply_Statement extends Statement {
 	private static final String FULLNAMEPART5 = ".redirecvalue";
 	private static final String FULLNAMEPART6 = ".parameters";
 	private static final String FULLNAMEPART7 = ".redirectSender";
+	private static final String FULLNAMEPART8 = ".redirectIndex";
 	private static final String STATEMENT_NAME = "getreply";
 
 	private final Reference portReference;
+	private final boolean anyFrom;
 	private final TemplateInstance parameter;
 	private final TemplateInstance valueMatch;
 	private final TemplateInstance fromClause;
 	private final Reference redirectValue;
 	private final Parameter_Redirect redirectParameter;
 	private final Reference redirectSender;
+	private final Reference redirectIndex;
 
-	public Getreply_Statement(final Reference portReference, final TemplateInstance parameter, final TemplateInstance valueMatch,
+	public Getreply_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
 			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
-			final Reference redirectSender) {
+			final Reference redirectSender, final Reference redirectIndex) {
 		this.portReference = portReference;
+		this.anyFrom = anyFrom;
 		this.parameter = parameter;
 		this.valueMatch = valueMatch;
 		this.fromClause = fromClause;
 		this.redirectValue = redirectValue;
 		this.redirectParameter = redirectParameter;
 		this.redirectSender = redirectSender;
+		this.redirectIndex = redirectIndex;
 
 		if (portReference != null) {
 			portReference.setFullNameParent(this);
@@ -101,6 +108,9 @@ public final class Getreply_Statement extends Statement {
 		}
 		if (redirectSender != null) {
 			redirectSender.setFullNameParent(this);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.setFullNameParent(this);
 		}
 	}
 
@@ -143,6 +153,8 @@ public final class Getreply_Statement extends Statement {
 			return builder.append(FULLNAMEPART6);
 		} else if (redirectSender == child) {
 			return builder.append(FULLNAMEPART7);
+		} else if (redirectSender == child) {
+			return builder.append(FULLNAMEPART8);
 		}
 
 		return builder;
@@ -173,6 +185,9 @@ public final class Getreply_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.setMyScope(scope);
 		}
+		if (redirectIndex != null) {
+			redirectIndex.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -194,8 +209,8 @@ public final class Getreply_Statement extends Statement {
 			return;
 		}
 
-		checkGetreply(timestamp, this, "getreply", portReference, parameter, valueMatch, fromClause, redirectValue, redirectParameter,
-				redirectSender);
+		checkGetreply(timestamp, this, "getreply", portReference, anyFrom, parameter, valueMatch, fromClause, redirectValue, redirectParameter,
+				redirectSender, redirectIndex);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
@@ -203,15 +218,18 @@ public final class Getreply_Statement extends Statement {
 		if (redirectSender != null) {
 			redirectSender.setUsedOnLeftHandSide();
 		}
+		if (redirectIndex != null) {
+			redirectIndex.setUsedOnLeftHandSide();
+		}
 
 		lastTimeChecked = timestamp;
 	}
 
 	public static void checkGetreply(final CompilationTimeStamp timestamp, final Statement source, final String statementName,
-			final Reference portReference, final TemplateInstance parameter, final TemplateInstance valueMatch,
+			final Reference portReference, final boolean anyFrom, final TemplateInstance parameter, final TemplateInstance valueMatch,
 			final TemplateInstance fromClause, final Reference redirectValue, final Parameter_Redirect redirectParameter,
-			final Reference redirectSender) {
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, source, portReference);
+			final Reference redirectSender, final Reference redirectIndex) {
+		final Port_Type portType = Port_Utility.checkPortReference(timestamp, source, portReference, anyFrom);
 		if (parameter == null) {
 			if (portType != null) {
 				final PortTypeBody body = portType.getPortBody();
@@ -341,6 +359,11 @@ public final class Getreply_Statement extends Statement {
 		}
 
 		Port_Utility.checkFromClause(timestamp, source, portType, fromClause, redirectSender);
+
+		if (redirectIndex != null && portReference != null) {
+			final Assignment assignment = portReference.getRefdAssignment(timestamp, false);
+			checkIndexRedirection(timestamp, redirectIndex, assignment == null ? null : ((Def_Port)assignment).getDimensions(), anyFrom, "port");
+		}
 	}
 
 	@Override
@@ -421,6 +444,11 @@ public final class Getreply_Statement extends Statement {
 			redirectSender.updateSyntax(reparser, false);
 			reparser.updateLocation(redirectSender.getLocation());
 		}
+
+		if (redirectIndex != null) {
+			redirectIndex.updateSyntax(reparser, false);
+			reparser.updateLocation(redirectIndex.getLocation());
+		}
 	}
 
 	@Override
@@ -446,6 +474,9 @@ public final class Getreply_Statement extends Statement {
 		}
 		if (redirectSender != null) {
 			redirectSender.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (redirectIndex != null) {
+			redirectIndex.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -473,6 +504,10 @@ public final class Getreply_Statement extends Statement {
 		if (redirectSender != null && !redirectSender.accept(v)) {
 			return false;
 		}
+		if (redirectIndex != null && !redirectIndex.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -541,8 +576,13 @@ public final class Getreply_Statement extends Statement {
 					redirectSender.generateCode(aData, expression);
 				}
 			}
-			//FIXME handle index redirection
-			expression.expression.append(", null");
+
+			expression.expression.append(",");
+			if (redirectIndex == null) {
+				expression.expression.append("null");
+			} else {
+				generateCodeIndexRedirect(aData, expression, redirectIndex, getMyScope());
+			}
 		} else {
 			// the operation refers to any port
 			expression.expression.append("TitanPort.any_getreply(");

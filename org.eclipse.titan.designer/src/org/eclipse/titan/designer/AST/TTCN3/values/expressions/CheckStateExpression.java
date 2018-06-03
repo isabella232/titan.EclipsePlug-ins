@@ -172,7 +172,7 @@ public final class CheckStateExpression extends Expression_Value {
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
 		//check mPortReference
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, portReference);
+		final Port_Type portType = Port_Utility.checkPortReference(timestamp, portReference, false);
 		if (portType != null && !portType.getPortBody().hasQueue(timestamp)) {
 			portReference.getLocation().reportSemanticError(MessageFormat.format(NOINCOMINGQUEUE, portType.getTypename()));
 		}

@@ -1576,7 +1576,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *
 	 * FIXME the implementation only serves as a minimal testing setup
 	 */
-	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
+
+		PortGenerator.generateClass(aData, source, portDefinition);
+	}
+
+	//FIXME comment
+	public PortDefinition generateDefinitionForCodeGeneration(final JavaGenData aData, final StringBuilder source) {
 		final String genName = myType.getGenNameOwn();
 		final Scope myScope = myType.getMyScope();
 
@@ -1673,6 +1680,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
-		PortGenerator.generateClass(aData, source, portDefinition);
+		return portDefinition;
 	}
 }

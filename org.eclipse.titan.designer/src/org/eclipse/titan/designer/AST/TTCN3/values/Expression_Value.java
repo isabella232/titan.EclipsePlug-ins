@@ -45,6 +45,7 @@ public abstract class Expression_Value extends Value {
 	protected static final String OPERAND2 = ".<operand2>";
 	protected static final String OPERAND3 = ".<operand3>";
 	protected static final String OPERAND4 = ".<operand4>";
+	protected static final String REDIRECTINDEX = ".redirectIndex";
 
 	public enum Operation_type {
 		/** unary plus (+). */						UNARYPLUS_OPERATION,
