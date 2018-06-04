@@ -555,7 +555,7 @@ public final class TypeHierarchy {
 				MTCComponentExpression.class, SizeOfExpression.class, Float2StrExpression.class, DivideExpression.class,
 				ComponentNullExpression.class, AnyTimerRunningExpression.class, RNDExpression.class, Hex2OctExpression.class,
 				UndefRunningExpression.class, ApplyExpression.class, Char2OctExpression.class, AndExpression.class,
-				RemainderExpression.class, ComponentRunnningExpression.class, ShiftRightExpression.class,
+				RemainderExpression.class, ComponentRunningExpression.class, ShiftRightExpression.class,
 				ActivateExpression.class, MultiplyExpression.class, Str2HexExpression.class, UnaryMinusExpression.class,
 				And4bExpression.class, TestcasenameExpression.class, Str2OctExpression.class, IsBoundExpression.class,
 				GreaterThanExpression.class, IsPresentExpression.class, AnyComponentAliveExpression.class,

@@ -39,7 +39,7 @@ public class UnusedStartedFuncRetVal extends BaseModuleCodeSmellSpotter {
 			final CompilationTimeStamp timestamp = CompilationTimeStamp.getBaseTimestamp();
 			final Start_Component_Statement s = (Start_Component_Statement) node;
 
-			final Component_Type compType = Port_Utility.checkComponentReference(timestamp, s, s.getComponent(), false, false);
+			final IType compType = Port_Utility.checkComponentReference(timestamp, s, s.getComponent(), false, false, false);
 
 			final Assignment assignment = s.getFunctionInstanceReference().getRefdAssignment(timestamp, false);
 			if (assignment == null) {
