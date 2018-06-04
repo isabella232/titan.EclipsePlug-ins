@@ -306,7 +306,7 @@ options{
 }
 
 pr_ConfigFile:
-	(	s = pr_Section
+	(	pr_Section
 	)+
 	EOF
 ;
@@ -822,11 +822,11 @@ pr_PlainLoggingParam
 		{	logParamEntry.setDiskFullActionRoot( $ctx );
 			logParamEntry.setDiskFullAction( $dfa.ctx );
 		}
-|	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_Number
+|	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
 		{	logParamEntry.setLogfileNumberRoot( $ctx );
 			logParamEntry.setLogfileNumber( $lfn.ctx );
 		}
-|	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_Number
+|	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
 		{	logParamEntry.setLogfileSizeRoot( $ctx );
 			logParamEntry.setLogfileSize( $lfs.ctx );
 		}
@@ -879,7 +879,7 @@ pr_PlainLoggingParam
 	{	logParamEntry.getPluginSpecificParam().add(
 			new LoggingSectionHandler.PluginSpecificParam( $ctx, $o1.ctx, $o2.ctx, $o1.text ) );
 	}
-|   EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_Number
+|   EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLogging( $el.ctx );
 	}
@@ -914,7 +914,7 @@ pr_BufferAllOrMasked:
 
 pr_DiskFullActionValue:
 (	DISKFULLACTIONVALUE
-|	DISKFULLACTIONVALUERETRY ( LPAREN NUMBER RPAREN )?
+|	DISKFULLACTIONVALUERETRY ( LPAREN NATURAL_NUMBER RPAREN )?
 )
 ;
 
@@ -933,8 +933,8 @@ pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
 
 pt_TestComponentID:
 (	pr_Identifier
-|	pr_Number
-|	MTCKeyword
+|	pr_NaturalNumber
+|	MTCKEYWORD
 |	STAR
 )
 ;
@@ -1196,7 +1196,7 @@ pr_StructuredValue2:
 
 pr_ComponentID:
 (	pr_Identifier
-|	pr_Number
+|	pr_NaturalNumber
 |	MTC
 |	SYSTEM
 |	STAR
@@ -1262,21 +1262,21 @@ pr_IntegerUnaryExpression returns [CFGNumber number]:
 ;
 
 pr_IntegerPrimaryExpression returns [CFGNumber number]:
-(	a = pr_Number	{	$number = $a.number;	}
+(	a = pr_NaturalNumber	{	$number = $a.number;	}
 |	LPAREN b = pr_IntegerAddExpression RPAREN	{	$number = $b.number;	}
 )
 ;
 
-pr_Number returns [CFGNumber number]:
-(	a = NUMBER	{$number = new CFGNumber($a.text);}
-|	macro = pr_MacroNumber { $number = $macro.number; }
+pr_NaturalNumber returns [CFGNumber number]:
+(	a = NATURAL_NUMBER	{$number = new CFGNumber($a.text);}
+|	macro = pr_MacroNaturalNumber { $number = $macro.number; }
 |	TTCN3IDENTIFIER // module parameter name
 		{	$number = new CFGNumber( "1" ); // value is unknown yet, but it should not be null
 		}
 )
 ;
 
-pr_MacroNumber returns [CFGNumber number]:
+pr_MacroNaturalNumber returns [CFGNumber number]:
 (	macro1 = MACRO_INT
 		{	String value = getTypedMacroValue( $macro1, DEFINITION_NOT_FOUND_INT );
 			$number = new CFGNumber( value.length() > 0 ? value : "0" );
@@ -1366,7 +1366,7 @@ pr_GroupItem:
 ;
 
 pr_DNSName:
-(	NUMBER
+(	NATURAL_NUMBER
 |	FLOAT
 |	DNSNAME
 )
@@ -1431,7 +1431,7 @@ pr_StarModuleName:
 ;
 
 pr_ParameterValue:
-	pr_ParameterExpression pr_LengthMatch? IFPRESENTKeyword?
+	pr_ParameterExpression pr_LengthMatch? IFPRESENTKEYWORD?
 ;
 
 //module parameter expression, it can contain previously defined module parameters
@@ -1457,10 +1457,10 @@ pr_ParameterExpression:
 ;
 
 pr_LengthMatch:
-	LENGTHKeyword LPAREN pr_LengthBound
+	LENGTHKEYWORD LPAREN pr_LengthBound
 	(	RPAREN
 	|	DOTDOT
-		(	pr_LengthBound | INFINITYKeyword	)
+		(	pr_LengthBound | INFINITYKEYWORD	)
 		RPAREN
 	)
 ;
@@ -1474,18 +1474,18 @@ pr_SimpleParameterValue:
 |	pr_HStringValue
 |	pr_OStringValue
 |	pr_UniversalOrNotStringValue
-|	OMITKeyword
+|	OMITKEYWORD
 |	pr_EnumeratedValue
 |	pr_NULLKeyword
-|	MTCKeyword
-|	SYSTEMKeyword
+|	MTCKEYWORD
+|	SYSTEMKEYWORD
 |	pr_CompoundValue
 |	ANYVALUE
 |	STAR
 |	pr_IntegerRange
 |	pr_FloatRange
 |	pr_StringRange
-|	PATTERNKeyword pr_PatternChunkList
+|	PATTERNKEYWORD pr_PatternChunkList
 |	pr_BStringMatch
 |	pr_HStringMatch
 |	pr_OStringMatch
@@ -1558,7 +1558,7 @@ pr_ArithmeticUnaryExpression returns [CFGNumber number]:
 
 pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
 (	a = pr_Float	{$number = $a.number;}
-|	b = pr_Number	{$number = $b.number;}
+|	b = pr_NaturalNumber	{$number = $b.number;}
 |	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
 )
 ;
@@ -1590,12 +1590,12 @@ pr_Boolean returns [String string]:
 ;
 
 pr_ObjIdValue:
-	OBJIDKeyword	BEGINCHAR	pr_ObjIdComponent+	ENDCHAR
+	OBJIDKEYWORD	BEGINCHAR	pr_ObjIdComponent+	ENDCHAR
 ;
 
 pr_ObjIdComponent:
-(	pr_Number
-|	pr_Identifier LPAREN pr_Number RPAREN
+(	pr_NaturalNumber
+|	pr_Identifier LPAREN pr_NaturalNumber RPAREN
 )
 ;
 
@@ -1663,7 +1663,7 @@ pr_UniversalOrNotStringValue:
 ;
 
 pr_Quadruple:
-	CHARKeyword
+	CHARKEYWORD
 	LPAREN
 	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
 	RPAREN
@@ -1674,7 +1674,7 @@ pr_EnumeratedValue:
 ;
 
 pr_NULLKeyword:
-	NULLKeyword
+	NULLKEYWORD
 ;
 
 pr_CompoundValue:
@@ -1690,8 +1690,8 @@ pr_CompoundValue:
     pr_ParameterValue (COMMA pr_ParameterValue)+
     RPAREN
 |	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUPERSETKeyword LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUBSETKeyword LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	SUPERSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	SUBSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
 )
 ;
 
@@ -1710,7 +1710,7 @@ pr_ParameterValueOrNotUsedSymbol:
 
 pr_ArrayItem:
 	pr_ParameterValueOrNotUsedSymbol
-|	PERMUTATIONKeyword LPAREN pr_TemplateItemList RPAREN
+|	PERMUTATIONKEYWORD LPAREN pr_TemplateItemList RPAREN
 ;
 
 pr_TemplateItemList:
@@ -1725,16 +1725,16 @@ pr_IndexValue:
 
 pr_IntegerRange:
 	LPAREN
-	(	MINUS INFINITYKeyword DOTDOT (pr_IntegerValueExpression | INFINITYKeyword)
-	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKeyword)
+	(	MINUS INFINITYKEYWORD DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
+	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
 	)
 	RPAREN
 ;
 
 pr_FloatRange:
 	LPAREN
-	(	MINUS INFINITYKeyword DOTDOT (pr_FloatValueExpression | INFINITYKeyword)
-	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKeyword)
+	(	MINUS INFINITYKEYWORD DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
+	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
 	)
 	RPAREN
 ;

@@ -130,14 +130,12 @@ tokens {
 	BEGINCHAR,
 	BEGINCONTROLPART,
 	BEGINTESTCASE,
-	BIN,
-	BINMATCH,
 	BINO,
 	BITSTRING,
 	BITSTRINGMATCH,
 	BOOL,
 	BS,
-	CHARKeyword,
+	CHARKEYWORD,
 	COMMA,
 	COMPLEMENTKEYWORD,
 	CONCATCHAR,
@@ -153,22 +151,19 @@ tokens {
 	FALSE,
 	FL,
 	FLOAT,
-	HEX,
 	HEXFILTER,
-	HEXMATCH,
 	HEXSTRING,
 	HEXSTRINGMATCH,
 	HN,
 	HS,
 	ID,
-	IDENTIFIER,
-	IFPRESENTKeyword,
+	IFPRESENTKEYWORD,
 	INCONC_VERDICT,
-	INFINITYKeyword,
+	INFINITYKEYWORD,
 	INT,
 	IPV6,
 	KILLTIMER,
-	LENGTHKeyword,
+	LENGTHKEYWORD,
 	LOCALADDRESS,
 	LOGICALOR,
 	LOGICALOR,
@@ -187,22 +182,20 @@ tokens {
 	MACRO_OSTR,
 	MINUS,
 	MTC,
-	NANKeyword,
+	NANKEYWORD,
+	NATURAL_NUMBER,
 	NO,
 	NONE_VERDICT,
-	NULLKeyword,
-	NUMBER,
+	NULLKEYWORD,
 	NUMHCS,
-	OBJIDKeyword,
-	OCT,
+	OBJIDKEYWORD,
 	OCTETSTRING,
 	OCTETSTRINGMATCH,
-	OCTMATCH,
-	OMITKeyword,
+	OMITKEYWORD,
 	OS,
 	PASS_VERDICT,
-	PATTERNKeyword,
-	PERMUTATIONKeyword,
+	PATTERNKEYWORD,
+	PERMUTATIONKEYWORD,
 	PLUS,
 	RPAREN,
 	SEMICOLON,
@@ -212,8 +205,8 @@ tokens {
 	STAR,
 	STRING,
 	STRINGOP,
-	SUBSETKeyword,
-	SUPERSETKeyword,
+	SUBSETKEYWORD,
+	SUPERSETKEYWORD,
 	SYSTEM,
 	TCPPORT,
 	TRUE,
@@ -338,17 +331,16 @@ PROFILER_SECTION1:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS1:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS1:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT1:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT1:	'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
 }	-> type(BLOCK_COMMENT), channel(HIDDEN);
-fragment DOT1:	'.';
 SEMICOLON1:		';' -> type(SEMICOLON);
 PLUS1:			'+' -> type(PLUS);
 MINUS1:			'-' -> type(MINUS);
@@ -361,25 +353,25 @@ RPAREN1:		')'
 {	popInterval();
 } -> type(RPAREN);
 
-KILLTIMER1 : ( 'killtimer' | 'Killtimer' | 'killTimer' | 'KillTimer' ) -> type(KILLTIMER);
-LOCALADDRESS1 : ( 'localaddress' | 'Localaddress' | 'localAddress' | 'LocalAddress') -> type(LOCALADDRESS);
-NUMHCS1 : ( 'numhcs' | 'Numhcs' | 'numHCs' | 'NumHCs' ) -> type(NUMHCS);
-TCPPORT1 : ( 'tcpport' | 'TCPport' | 'tcpPort' | 'TCPPort' ) -> type(TCPPORT);
-UNIXSOCKETS1 : ( 'UnixSocketsEnabled' | 'UnixSocketsenabled' | 'UnixsocketsEnabled' | 'Unixsocketsenabled' | 'unixSocketsEnabled' | 'unixSocketsenabled' | 'unixsocketsEnabled' | 'unixsocketsenabled' ) -> type(UNIXSOCKETS);
+KILLTIMER1: ( 'killtimer' | 'Killtimer' | 'killTimer' | 'KillTimer' ) -> type(KILLTIMER);
+LOCALADDRESS1: ( 'localaddress' | 'Localaddress' | 'localAddress' | 'LocalAddress') -> type(LOCALADDRESS);
+NUMHCS1: ( 'numhcs' | 'Numhcs' | 'numHCs' | 'NumHCs' ) -> type(NUMHCS);
+TCPPORT1: ( 'tcpport' | 'TCPport' | 'tcpPort' | 'TCPPort' ) -> type(TCPPORT);
+UNIXSOCKETS1: ( 'UnixSocketsEnabled' | 'UnixSocketsenabled' | 'UnixsocketsEnabled' | 'Unixsocketsenabled' | 'unixSocketsEnabled' | 'unixSocketsenabled' | 'unixsocketsEnabled' | 'unixsocketsenabled' ) -> type(UNIXSOCKETS);
 ASSIGNMENTCHAR1:	':=' -> type(ASSIGNMENTCHAR);
-YES1 : 				( 'yes' | 'Yes' | 'YES' ) -> type(YES);
+YES1: 				( 'yes' | 'Yes' | 'YES' ) -> type(YES);
 NO1: 				( 'no' | 'No' | 'NO' ) -> type(NO);
-NUMBER1 :			[0-9]+ -> type(NUMBER);
+NATURAL_NUMBER1:	[0-9]+ -> type(NATURAL_NUMBER);
 STRINGOP1:			'&'  (('='))? -> type(STRINGOP);
-fragment FR_NUMBER1:[0-9];
+fragment FR_DIGIT1:	[0-9];
 FLOAT1:
 (
-	FR_NUMBER1+
+	FR_DIGIT1+
 	(
-		'.' FR_NUMBER1+ (('E' | 'e') ('+' | '-')? FR_NUMBER1+)?
+		'.' FR_DIGIT1+ (('E' | 'e') ('+' | '-')? FR_DIGIT1+)?
 	)
-|	'.' FR_NUMBER1+ (('E' | 'e') ('+' | '-')? FR_NUMBER1+)?
-|	FR_NUMBER1+ ('E' | 'e') ('+' | '-')? FR_NUMBER1+
+|	'.' FR_DIGIT1+ (('E' | 'e') ('+' | '-')? FR_DIGIT1+)?
+|	FR_DIGIT1+ ('E' | 'e') ('+' | '-')? FR_DIGIT1+
 ) -> type(FLOAT);
 fragment FR_HOSTNAME1:
 (
@@ -391,11 +383,11 @@ fragment FR_HOSTNAME1:
 ;
 DNSNAME1:
 (
-  (FR_HOSTNAME1) ('/' FR_NUMBER1+)?
+  (FR_HOSTNAME1) ('/' FR_DIGIT1+)?
 ) -> type(DNSNAME);
 fragment FR_LETTER1:	[A-Za-z];
-fragment FR_TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_NUMBER1+ | '_')*;
-TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_NUMBER1+ | '_')* -> type(TTCN3IDENTIFIER);
+fragment FR_TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_DIGIT1+ | '_')*;
+TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_DIGIT1+ | '_')* -> type(TTCN3IDENTIFIER);
 HN1:					'hostname' -> type(HN);
 MACRO_HOSTNAME1: 		'$' '{' (WS1)? FR_TTCN3IDENTIFIER10 (WS1)? ',' (WS1)?  HN1 (WS1)? '}' -> type(MACRO_HOSTNAME);
 INT1:					'integer' -> type(INT);
@@ -462,16 +454,16 @@ PROFILER_SECTION2:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS2:	[ \t\r\n\f]+  -> type(WS),channel(HIDDEN);
+WS2:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT2:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT2:	'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 //same as STRING, but it is handled differently
 INCLUDE_FILENAME:		'"' .*? '"';
@@ -527,22 +519,22 @@ PROFILER_SECTION3:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS3:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS3:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT3:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT3:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON3:			';' -> type(SEMICOLON);
 DOT3:				'.' -> type(DOT);
 STAR3:				'*' -> type(STAR);
-fragment LETTER3:	[A-Z|a-z];
-fragment NUMBER3:	[0-9];
-TTCN3IDENTIFIER3:	LETTER3 (LETTER3 | NUMBER3 | '_')* -> type(TTCN3IDENTIFIER);
+fragment FR_LETTER3:	[A-Z|a-z];
+fragment FR_DIGIT3:	[0-9];
+TTCN3IDENTIFIER3:	FR_LETTER3 (FR_LETTER3 | FR_DIGIT3 | '_')* -> type(TTCN3IDENTIFIER);
 
 //ordered include section
 mode ORDERED_INCLUDE_SECTION_MODE;
@@ -595,16 +587,16 @@ PROFILER_SECTION4:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS4:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS4:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT4:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT4:	'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 //same as STRING, but it is handled differently
 ORDERED_INCLUDE_FILENAME:		'"' .*? '"';
@@ -660,16 +652,16 @@ PROFILER_SECTION5:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS5:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS5:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT5:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT5:	'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 IPV6_5:
   ( 'A'..'F' | 'a'..'f' | '0'..'9' )*
   ':'
@@ -682,9 +674,9 @@ IPV6_5:
   ( '/' ( '0'..'9' )+ )?
  -> type(IPV6);
 
-fragment LETTER5:	[A-Z|a-z];
-fragment NUMBER5:	[0-9];
-fragment FR_TTCN3IDENTIFIER5:	LETTER5 (LETTER5 | NUMBER5 | '_')*;
+fragment FR_LETTER5:	[A-Z|a-z];
+fragment FR_DIGIT5:	[0-9];
+fragment FR_TTCN3IDENTIFIER5:	FR_LETTER5 (FR_LETTER5 | FR_DIGIT5 | '_')*;
 TTCN3IDENTIFIER5:	FR_TTCN3IDENTIFIER5 -> type(TTCN3IDENTIFIER);
 BEGINCHAR5:			'{'
 {	pushInterval( interval_type.NORMAL );
@@ -694,12 +686,12 @@ ENDCHAR5:			'}'
 } -> type(ENDCHAR);
 MACRORVALUE5:		[0-9|A-Z|a-z|.|_|-]+ -> type(MACRORVALUE);
 ASSIGNMENTCHAR5:	':'? '=' -> type(ASSIGNMENTCHAR);
-fragment ESCAPE_WO_QUOTE5 :	'\\' (  '\\' | '\'' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
-fragment ESCAPE5 :	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE_WO_QUOTE5:	'\\' (  '\\' | '\'' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE5:	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING5:
 (
 	'"'
-	(	ESCAPE5
+	(	FR_ESCAPE5
 	|	~('"' | '\n' | '\r')
 	|	'\n'
 	|	'\r'
@@ -708,7 +700,7 @@ STRING5:
 	'"'
 |
 	'\\"'
-	(	ESCAPE_WO_QUOTE5
+	(	FR_ESCAPE_WO_QUOTE5
 	|	~( '\\' | '"' )
 	)*
 	'\\"'
@@ -739,18 +731,18 @@ MACRO5:
 	'$' FR_TTCN3IDENTIFIER5
 |	'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? '}'
 ) -> type(MACRO);
-BIN5:				[01] -> type(BIN);
-BITSTRING5:			'\'' (BIN5)* '\'' 'B' -> type(BITSTRING);
-HEX5:				[0-9A-Fa-f] -> type(HEX);
-HEXSTRING5:			'\'' (HEX5)* '\'' 'H' -> type(HEXSTRING);
-OCT5:				HEX5 HEX5 -> type(OCT);
-OCTETSTRING5:		'\'' (OCT5)* '\'' 'O' -> type(OCTETSTRING);
-BINMATCH5:			( BIN5 | '?' | '*' ) -> type(BINMATCH);
-BITSTRINGMATCH5:	'\'' (BINMATCH5)* '\'' 'B' -> type(BITSTRINGMATCH);
-HEXMATCH5:			( HEX5 | '?' | '*' ) -> type(HEXMATCH);
-HEXSTRINGMATCH5:	'\'' (HEXMATCH5)* '\'' 'H' -> type(HEXSTRINGMATCH);
-OCTMATCH5:			( OCT5 | '?' | '*' ) -> type(OCTMATCH);
-OCTETSTRINGMATCH5:	'\'' (OCTMATCH5)* '\'' 'O' -> type(OCTETSTRINGMATCH);
+fragment FR_BINDIGIT5:	[01];
+BITSTRING5:			'\'' FR_BINDIGIT5* '\'' 'B' -> type(BITSTRING);
+fragment FR_HEXDIGIT5:	[0-9A-Fa-f];
+HEXSTRING5:			'\'' FR_HEXDIGIT5* '\'' 'H' -> type(HEXSTRING);
+fragment FR_OCTDIGIT5:	FR_HEXDIGIT5 FR_HEXDIGIT5;
+OCTETSTRING5:		'\'' FR_OCTDIGIT5* '\'' 'O' -> type(OCTETSTRING);
+fragment FR_BINDIGITMATCH5:	( FR_BINDIGIT5 | '?' | '*' );
+BITSTRINGMATCH5:	'\'' FR_BINDIGITMATCH5* '\'' 'B' -> type(BITSTRINGMATCH);
+fragment FR_HEXDIGITMATCH5:	( FR_HEXDIGIT5 | '?' | '*' );
+HEXSTRINGMATCH5:	'\'' FR_HEXDIGITMATCH5* '\'' 'H' -> type(HEXSTRINGMATCH);
+fragment FR_OCTDIGITMATCH5:	( FR_OCTDIGIT5 | '?' | '*' );
+OCTETSTRINGMATCH5:	'\'' FR_OCTDIGITMATCH5* '\'' 'O' -> type(OCTETSTRINGMATCH);
 
 
 //external command section
@@ -804,16 +796,16 @@ PROFILER_SECTION6:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS6:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS6:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT6:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT6:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON6: 		';' -> type(SEMICOLON);
 ASSIGNMENTCHAR6:	':=' -> type(ASSIGNMENTCHAR);
 STRING6:			'"' .*? '"' -> type(STRING);
@@ -828,9 +820,8 @@ ENDTESTCASE6:		( 'endtestcase' | 'Endtestcase' | 'endTestcase' | 'EndTestcase' |
 | 'EndTestCase' | 'endTestCase' | 'EndtestCase' ) -> type(ENDTESTCASE);
 
 fragment FR_LETTER6:	[A-Za-z];
-fragment FR_NUMBER6:	[0-9];
-fragment FR_DOT6:		'.';
-fragment FR_TTCN3IDENTIFIER6:	FR_LETTER6 (FR_LETTER6 | FR_NUMBER6 | '_')*;
+fragment FR_DIGIT6:	[0-9];
+fragment FR_TTCN3IDENTIFIER6:	FR_LETTER6 (FR_LETTER6 | FR_DIGIT6 | '_')*;
 CSTR6:				'charstring' -> type(CSTR);
 MACRO_EXP_CSTR6:	'$' '{' (WS6)? FR_TTCN3IDENTIFIER6 (WS6)? ',' (WS6)? CSTR6 (WS6)? '}' -> type(MACRO_EXP_CSTR);
 MACRO6:
@@ -890,21 +881,20 @@ PROFILER_SECTION7:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS7:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS7:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT7:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT7:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 fragment FR_LETTER7:	[A-Za-z];
-fragment FR_NUMBER7:	[0-9];
-fragment FR_DOT7:		'.';
-fragment FR_TTCN3IDENTIFIER7:	FR_LETTER7 (FR_LETTER7 | FR_NUMBER7 | '_')*;
-TTCN3IDENTIFIER7:	FR_LETTER7 (FR_LETTER7 | FR_NUMBER7 | '_')* -> type(TTCN3IDENTIFIER);
+fragment FR_DIGIT7:	[0-9];
+fragment FR_TTCN3IDENTIFIER7:	FR_LETTER7 (FR_LETTER7 | FR_DIGIT7 | '_')*;
+TTCN3IDENTIFIER7:	FR_LETTER7 (FR_LETTER7 | FR_DIGIT7 | '_')* -> type(TTCN3IDENTIFIER);
 STAR7:				'*' -> type(STAR);
 PLUS7:				'+' -> type(PLUS);
 MINUS7:				'-' -> type(MINUS);
@@ -915,7 +905,7 @@ SQUAREOPEN7:		'['
 SQUARECLOSE7:		']'
 {	popInterval();
 } -> type(SQUARECLOSE);
-NUMBER7 :			[0-9]+ -> type(NUMBER);
+NATURAL_NUMBER7:	[0-9]+ -> type(NATURAL_NUMBER);
 SEMICOLON7:			';' -> type(SEMICOLON);
 DOT7:				'.' -> type(DOT);
 ASSIGNMENTCHAR7:	':=' -> type(ASSIGNMENTCHAR);
@@ -927,11 +917,11 @@ RPAREN7:			')'
 } -> type(RPAREN);
 MTC7:				'mtc' -> type(MTC);
 SYSTEM7:			'system' -> type(SYSTEM);
-fragment ESCAPE7 :	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE7:	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING7:
 '"'
 (
-	ESCAPE5
+	FR_ESCAPE7
 |	~('"' | '\n' | '\r')
 |	'\n'
 |	'\r'
@@ -1003,34 +993,33 @@ PROFILER_SECTION8:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS8:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS8:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT8:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT8:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 fragment FR_LETTER8:	[A-Za-z];
-fragment FR_NUMBER8:	[0-9];
-fragment FR_DOT8:		'.';
-fragment FR_TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_NUMBER8+ | '_')*;
-TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_NUMBER8+ | '_')* -> type(TTCN3IDENTIFIER);
+fragment FR_DIGIT8:	[0-9];
+fragment FR_TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_DIGIT8+ | '_')*;
+TTCN3IDENTIFIER8:	FR_LETTER8 (FR_LETTER8 | FR_DIGIT8+ | '_')* -> type(TTCN3IDENTIFIER);
 SEMICOLON8:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR8:	':=' -> type(ASSIGNMENTCHAR);
 STAR8:				'*' -> type(STAR);
 COMMA8:				',' -> type(COMMA);
-NUMBER8:			[0-9]+ -> type(NUMBER);
+NATURAL_NUMBER8:	[0-9]+ -> type(NATURAL_NUMBER);
 FLOAT8:
 (
-	FR_NUMBER8+
+	FR_DIGIT8+
 	(
-		'.' FR_NUMBER8+ (('E' | 'e') ('+' | '-')? FR_NUMBER8+)?
+		'.' FR_DIGIT8+ (('E' | 'e') ('+' | '-')? FR_DIGIT8+)?
 	)
-|	'.' FR_NUMBER8+ (('E' | 'e') ('+' | '-')? FR_NUMBER8+)?
-|	FR_NUMBER8+ ('E' | 'e') ('+' | '-')? FR_NUMBER8+
+|	'.' FR_DIGIT8+ (('E' | 'e') ('+' | '-')? FR_DIGIT8+)?
+|	FR_DIGIT8+ ('E' | 'e') ('+' | '-')? FR_DIGIT8+
 ) -> type(FLOAT);
 fragment FR_HOSTNAME8:
 (
@@ -1042,7 +1031,7 @@ fragment FR_HOSTNAME8:
 ;
 DNSNAME8:
 (
-  (FR_HOSTNAME8) ('/' FR_NUMBER8+)?
+  (FR_HOSTNAME8) ('/' FR_DIGIT8+)?
 ) -> type(DNSNAME);
 ID8: 'identifier' -> type(ID);
 MACRO_ID8:		'$' '{' (WS8)? FR_TTCN3IDENTIFIER8 (WS8)? ',' (WS8)?  ID8 (WS8)? '}' -> type(MACRO_ID);
@@ -1098,16 +1087,16 @@ PROFILER_SECTION9:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS9:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS9:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT9:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT9:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON9:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR9:	':'? '=' -> type(ASSIGNMENTCHAR);
 CONCATCHAR9:		'&=' -> type(CONCATCHAR);
@@ -1132,38 +1121,38 @@ SQUAREOPEN9:		'['
 SQUARECLOSE9:		']'
 {	popInterval();	} -> type(SQUARECLOSE);
 AND9:				'&' -> type(AND);
-fragment ESCAPE9 :	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE9:	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 
 NONE_VERDICT9:		'none' -> type(NONE_VERDICT);
 PASS_VERDICT9:		'pass' -> type(PASS_VERDICT);
 INCONC_VERDICT9:	'inconc' -> type(INCONC_VERDICT);
 FAIL_VERDICT9:		'fail' -> type(FAIL_VERDICT);
 ERROR_VERDICT9:		'error' -> type(ERROR_VERDICT);
-CHARKeyword9:		'char' -> type(CHARKeyword);
-OBJIDKeyword9:		'objid' -> type(OBJIDKeyword);
-OMITKeyword9:		'omit' -> type(OMITKeyword);
-NULLKeyword9:		( 'null' | 'NULL' ) -> type(NULLKeyword);
-MTCKeyword9:		'mtc' -> type(MTCKeyword);
-SYSTEMKeyword9:		'system' -> type(SYSTEMKeyword);
-INFINITYKeyword9:	'infinity' -> type(INFINITYKeyword);
-NANKeyword9:		'not_a_number' -> type(NANKeyword);
-IFPRESENTKeyword9:	'ifpresent' -> type(IFPRESENTKeyword);
-LENGTHKeyword9:		'length' -> type(LENGTHKeyword);
+CHARKEYWORD9:		'char' -> type(CHARKEYWORD);
+OBJIDKEYWORD9:		'objid' -> type(OBJIDKEYWORD);
+OMITKEYWORD9:		'omit' -> type(OMITKEYWORD);
+NULLKEYWORD9:		( 'null' | 'NULL' ) -> type(NULLKEYWORD);
+MTCKEYWORD9:		'mtc' -> type(MTCKEYWORD);
+SYSTEMKEYWORD9:		'system' -> type(SYSTEMKEYWORD);
+INFINITYKEYWORD9:	'infinity' -> type(INFINITYKEYWORD);
+NANKEYWORD9:		'not_a_number' -> type(NANKEYWORD);
+IFPRESENTKEYWORD9:	'ifpresent' -> type(IFPRESENTKEYWORD);
+LENGTHKEYWORD9:		'length' -> type(LENGTHKEYWORD);
 COMPLEMENTKEYWORD9:	'complement' -> type(COMPLEMENTKEYWORD);
-PATTERNKeyword9:	'pattern' -> type(PATTERNKeyword);
-PERMUTATIONKeyword9:'permutation' -> type(PERMUTATIONKeyword);
-SUPERSETKeyword9:	'superset' -> type(SUPERSETKeyword);
-SUBSETKeyword9:		'subset' -> type(SUBSETKeyword);
+PATTERNKEYWORD9:	'pattern' -> type(PATTERNKEYWORD);
+PERMUTATIONKEYWORD9:'permutation' -> type(PERMUTATIONKEYWORD);
+SUPERSETKEYWORD9:	'superset' -> type(SUPERSETKEYWORD);
+SUBSETKEYWORD9:		'subset' -> type(SUBSETKEYWORD);
 TRUE9:				'true' -> type(TRUE);
 FALSE9:				'false' -> type(FALSE);
 ANYVALUE9:			'?' -> type(ANYVALUE);
 fragment FR_LETTER9:[A-Za-z];
-fragment FR_NUMBER9:[0-9];
-fragment FR_TTCN3IDENTIFIER9:	FR_LETTER9 (FR_LETTER9 | FR_NUMBER9+ | '_')*;
+fragment FR_DIGIT9:	[0-9];
+fragment FR_TTCN3IDENTIFIER9:	FR_LETTER9 (FR_LETTER9 | FR_DIGIT9+ | '_')*;
 TTCN3IDENTIFIER9:	FR_TTCN3IDENTIFIER9 -> type(TTCN3IDENTIFIER);
 ID9:				'identifier' -> type(ID);
 MACRO_ID9:			'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)?  ID9 (WS9)? '}' -> type(MACRO_ID);
-NUMBER9 :			[0-9]+ -> type(NUMBER);
+NATURAL_NUMBER9:	[0-9]+ -> type(NATURAL_NUMBER);
 INT9:				'integer' -> type(INT);
 MACRO_INT9:			'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? INT9 (WS9)? '}' -> type(MACRO_INT);
 BOOL9:				'boolean' -> type(BOOL);
@@ -1175,33 +1164,33 @@ MACRO_EXP_CSTR9:	'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? CSTR9 (WS9
 
 FLOAT9:
 (
-	FR_NUMBER9+
+	FR_DIGIT9+
 	(
-		'.' FR_NUMBER9+ (('E' | 'e') ('+' | '-')? FR_NUMBER9+)?
+		'.' FR_DIGIT9+ (('E' | 'e') ('+' | '-')? FR_DIGIT9+)?
 	)
-|	'.' FR_NUMBER9+ (('E' | 'e') ('+' | '-')? FR_NUMBER9+)?
-|	FR_NUMBER9+ ('E' | 'e') ('+' | '-')? FR_NUMBER9+
+|	'.' FR_DIGIT9+ (('E' | 'e') ('+' | '-')? FR_DIGIT9+)?
+|	FR_DIGIT9+ ('E' | 'e') ('+' | '-')? FR_DIGIT9+
 ) -> type(FLOAT);
-BIN9:				[01] -> type(BIN);
-BITSTRING9:			'\'' (BIN9)* '\'' 'B' -> type(BITSTRING);
+fragment FR_BINDIGIT9:	[01];
+BITSTRING9:			'\'' FR_BINDIGIT9* '\'' 'B' -> type(BITSTRING);
 BS9:				'bitstring' -> type(BS);
 MACRO_BSTR9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? BS9 (WS9)? '}' -> type(MACRO_BSTR);
-HEX9:				[0-9A-Fa-f] -> type(HEX);
-HEXSTRING9:			'\'' (HEX9)* '\'' 'H' -> type(HEXSTRING);
+fragment FR_HEXDIGIT9:	[0-9A-Fa-f];
+HEXSTRING9:			'\'' FR_HEXDIGIT9* '\'' 'H' -> type(HEXSTRING);
 HS9:				'hexstring' -> type(HS);
 MACRO_HSTR9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? HS9 (WS9)? '}' -> type(MACRO_HSTR);
-OCT9:				HEX9 HEX9 -> type(OCT);
-OCTETSTRING9:		'\'' (OCT9)* '\'' 'O' -> type(OCTETSTRING);
+fragment FR_OCTDIGIT9:	FR_HEXDIGIT9 FR_HEXDIGIT9;
+OCTETSTRING9:		'\'' FR_OCTDIGIT9* '\'' 'O' -> type(OCTETSTRING);
 OS9:				'octetstring' -> type(OS);
 MACRO_OSTR9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? OS9 (WS9)? '}' -> type(MACRO_OSTR);
 BINO9:				'binaryoctet' -> type(BINO);
 MACRO_BINARY9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? BINO9 (WS9)? '}' -> type(MACRO_BINARY);
-BINMATCH9:			( BIN9 | '?' | '*' ) -> type(BINMATCH);
-BITSTRINGMATCH9:	'\'' (BINMATCH9)* '\'' 'B' -> type(BITSTRINGMATCH);
-HEXMATCH9:			( HEX9 | '?' | '*' ) -> type(HEXMATCH);
-HEXSTRINGMATCH9:	'\'' (HEXMATCH9)* '\'' 'H' -> type(HEXSTRINGMATCH);
-OCTMATCH9:			( OCT9 | '?' | '*' ) -> type(OCTMATCH);
-OCTETSTRINGMATCH9:	'\'' (OCTMATCH9)* '\'' 'O' -> type(OCTETSTRINGMATCH);
+fragment FR_BINDIGITMATCH9:	( FR_BINDIGIT9 | '?' | '*' );
+BITSTRINGMATCH9:	'\'' FR_BINDIGITMATCH9* '\'' 'B' -> type(BITSTRINGMATCH);
+fragment FR_HEXDIGITMATCH9:	( FR_HEXDIGIT9 | '?' | '*' );
+HEXSTRINGMATCH9:	'\'' FR_HEXDIGITMATCH9* '\'' 'H' -> type(HEXSTRINGMATCH);
+fragment FR_OCTDIGITMATCH9:	( FR_OCTDIGIT9 | '?' | '*' );
+OCTETSTRINGMATCH9:	'\'' FR_OCTDIGITMATCH9* '\'' 'O' -> type(OCTETSTRINGMATCH);
 MACRO9:
 (
 	'$' FR_TTCN3IDENTIFIER9
@@ -1211,7 +1200,7 @@ MACRO9:
 STRING9:
 '"'
 (
-	ESCAPE9
+	FR_ESCAPE9
 |	~('"' | '\n' | '\r')
 |	'\n'
 |	'\r'
@@ -1271,22 +1260,22 @@ PROFILER_SECTION10:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS10:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS10:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT10:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT10:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 SEMICOLON10:			';' -> type(SEMICOLON);
 STAR10:					'*' -> type(STAR);
 ASSIGNMENTCHAR10:		':=' -> type(ASSIGNMENTCHAR);
 fragment FR_LETTER10:	[A-Za-z];
-fragment FR_NUMBER10:	[0-9];
-fragment FR_TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_NUMBER10+ | '_')*;
+fragment FR_DIGIT10:	[0-9];
+fragment FR_TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')*;
 
 IPV6_10:
   ( 'A'..'F' | 'a'..'f' | '0'..'9' )*
@@ -1300,18 +1289,18 @@ IPV6_10:
   ( '/' ( '0'..'9' )+ )?
  -> type(IPV6);
 
-NUMBER10:				[0-9]+ -> type(NUMBER);
+NATURAL_NUMBER10:	[0-9]+ -> type(NATURAL_NUMBER);
 FLOAT10:
 (
-	FR_NUMBER10+
+	FR_DIGIT10+
 	(
-		'.' FR_NUMBER10+ (('E' | 'e') ('+' | '-')? FR_NUMBER10+)?
+		'.' FR_DIGIT10+ (('E' | 'e') ('+' | '-')? FR_DIGIT10+)?
 	)
-|	'.' FR_NUMBER10+ (('E' | 'e') ('+' | '-')? FR_NUMBER10+)?
-|	FR_NUMBER10+ ('E' | 'e') ('+' | '-')? FR_NUMBER10+
+|	'.' FR_DIGIT10+ (('E' | 'e') ('+' | '-')? FR_DIGIT10+)?
+|	FR_DIGIT10+ ('E' | 'e') ('+' | '-')? FR_DIGIT10+
 ) -> type(FLOAT);
 
-TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_NUMBER10+ | '_')* -> type(TTCN3IDENTIFIER);
+TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')* -> type(TTCN3IDENTIFIER);
 fragment FR_HOSTNAME10:
 (
 	'A'..'Z' | 'a'..'z' | '0'..'9' | ':')
@@ -1323,7 +1312,7 @@ fragment FR_HOSTNAME10:
 
 DNSNAME10:
 (
-  (FR_HOSTNAME10) ('/' FR_NUMBER10+)?
+  (FR_HOSTNAME10) ('/' FR_DIGIT10+)?
 ) -> type(DNSNAME);
 ID10:					'identifier' -> type(ID);
 MACRO_ID10:				'$' '{' (WS10)? FR_TTCN3IDENTIFIER10 (WS10)? ',' (WS10)?  ID10 (WS10)? '}' -> type(MACRO_ID);
@@ -1386,16 +1375,16 @@ PROFILER_SECTION11:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS11:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS11:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT11:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
-BLOCK_COMMENT11:		'/*' .*? '*/'
+) -> type(LINE_COMMENT), channel(HIDDEN);
+BLOCK_COMMENT11:	'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 TTCN_EXECUTOR1:		'TTCN_EXECUTOR';	TTCN_ERROR1:	'TTCN_ERROR';		TTCN_WARNING1:		'TTCN_WARNING';
 TTCN_PORTEVENT1:	'TTCN_PORTEVENT';	TTCN_TIMEROP1:	'TTCN_TIMEROP';		TTCN_VERDICTOP1:	'TTCN_VERDICTOP';
@@ -1447,7 +1436,7 @@ VERDICTOP_UNQUALIFIED: 'VERDICTOP_UNQUALIFIED'; WARNING_UNQUALIFIED: 'WARNING_UN
 COMPACT: 'Compact' | 'compact';
 DETAILED: 'Detailed' | 'detailed';
 SUBCATEGORIES: 'SubCategories' | 'Subcategories' | 'subCategories' | 'subcategories';
-MTCKeyword: 'mtc';  SYSTEMKeyword: 'system';
+MTCKEYWORD: 'mtc';  SYSTEMKEYWORD: 'system';
 LOGGERPLUGINS: 'LoggerPlugins' | 'Loggerplugins' | 'loggerPlugins' | 'loggerplugins';
 
 APPENDFILE: 'appendfile' | 'Appendfile' | 'appendFile' | 'AppendFile';
@@ -1501,18 +1490,18 @@ RPAREN11:				')'
 
 
 fragment FR_LETTER11:	[A-Za-z];
-fragment FR_NUMBER11:	[0-9];
-fragment FR_TTCN3IDENTIFIER11:	FR_LETTER11 (FR_LETTER11 | FR_NUMBER11+ | '_')*;
-TTCN3IDENTIFIER11:	FR_LETTER11 (FR_LETTER11 | FR_NUMBER11+ | '_')* -> type(TTCN3IDENTIFIER);
-NUMBER11:				[0-9]+ -> type(NUMBER);
+fragment FR_DIGIT11:	[0-9];
+fragment FR_TTCN3IDENTIFIER11:	FR_LETTER11 (FR_LETTER11 | FR_DIGIT11+ | '_')*;
+TTCN3IDENTIFIER11:	FR_LETTER11 (FR_LETTER11 | FR_DIGIT11+ | '_')* -> type(TTCN3IDENTIFIER);
+NATURAL_NUMBER11:		[0-9]+ -> type(NATURAL_NUMBER);
 FLOAT11:
 (
-	FR_NUMBER11+
+	FR_DIGIT11+
 	(
-		'.' FR_NUMBER11+ (('E' | 'e') ('+' | '-')? FR_NUMBER11+)?
+		'.' FR_DIGIT11+ (('E' | 'e') ('+' | '-')? FR_DIGIT11+)?
 	)
-|	'.' FR_NUMBER11+ (('E' | 'e') ('+' | '-')? FR_NUMBER11+)?
-|	FR_NUMBER11+ ('E' | 'e') ('+' | '-')? FR_NUMBER11+
+|	'.' FR_DIGIT11+ (('E' | 'e') ('+' | '-')? FR_DIGIT11+)?
+|	FR_DIGIT11+ ('E' | 'e') ('+' | '-')? FR_DIGIT11+
 ) -> type(FLOAT);
 
 BOOL11:				'boolean' -> type(BOOL);
@@ -1581,60 +1570,59 @@ PROFILER_SECTION12:				'[PROFILER]'
 	pushInterval( section_type.PROFILER );
 }	-> type(PROFILER_SECTION),mode(PROFILER_SECTION_MODE);
 
-WS12:	[ \t\r\n\f]+ -> type(WS),channel(HIDDEN);
+WS12:	[ \t\r\n\f]+ -> type(WS), channel(HIDDEN);
 LINE_COMMENT12:
 (
 	'//' ~[\r\n]*
 |	'#' ~[\r\n]*
-) -> type(LINE_COMMENT),channel(HIDDEN);
+) -> type(LINE_COMMENT), channel(HIDDEN);
 BLOCK_COMMENT12:		'/*' .*? '*/'
 {	pushInterval( interval_type.MULTILINE_COMMENT );
 	popInterval();
-}	-> type(BLOCK_COMMENT),channel(HIDDEN);
+}	-> type(BLOCK_COMMENT), channel(HIDDEN);
 
 CONCATCHAR12:			'&=' -> type(CONCATCHAR);
-HEX12:					[0-9|A-F|a-f] -> type(HEX);
-HEXFILTER12:			(HEX12)+ -> type(HEXFILTER);
+fragment FR_HEX12:		[0-9|A-F|a-f];
+HEXFILTER12:			FR_HEX12+ -> type(HEXFILTER);
 SEMICOLON12:			';' -> type(SEMICOLON);
 ASSIGNMENTCHAR12:		':=' -> type(ASSIGNMENTCHAR);
 LOGICALOR12:			'|' -> type(LOGICALOR);
 AND12:					'&' -> type(AND);
 /* settings */
-DISABLEPROFILER : 'DisableProfiler'; DISABLECOVERAGE : 'DisableCoverage'; DATABASEFILE : 'DatabaseFile';
-AGGREGATEDATA : 'AggregateData'; STATISTICSFILE : 'StatisticsFile'; DISABLESTATISTICS : 'DisableStatistics';
-STATISTICSFILTER : 'StatisticsFilter'; STARTAUTOMATICALLY : 'StartAutomatically';
-NETLINETIMES : 'NetLineTimes'; NETFUNCTIONTIMES : 'NetFunctionTimes';
+DISABLEPROFILER: 'DisableProfiler'; DISABLECOVERAGE: 'DisableCoverage'; DATABASEFILE: 'DatabaseFile';
+AGGREGATEDATA: 'AggregateData'; STATISTICSFILE: 'StatisticsFile'; DISABLESTATISTICS: 'DisableStatistics';
+STATISTICSFILTER: 'StatisticsFilter'; STARTAUTOMATICALLY: 'StartAutomatically';
+NETLINETIMES: 'NetLineTimes'; NETFUNCTIONTIMES: 'NetFunctionTimes';
 
 /* statistics filters (single) */
-NUMBEROFLINES : 'NumberOfLines'; LINEDATARAW : 'LineDataRaw'; FUNCDATARAW : 'FuncDataRaw';
-LINEAVGRAW : 'LineAvgRaw'; FUNCAVGRAW : 'FuncAvgRaw';
-LINETIMESSORTEDBYMOD : 'LineTimesSortedByMod'; FUNCTIMESSORTEDBYMOD : 'FuncTimesSortedByMod';
-LINETIMESSORTEDTOTAL : 'LineTimesSortedTotal'; FUNCTIMESSORTEDTOTAL : 'FuncTimesSortedTotal';
-LINECOUNTSORTEDBYMOD : 'LineCountSortedByMod'; FUNCCOUNTSORTEDBYMOD : 'FuncCountSortedByMod';
-LINECOUNTSORTEDTOTAL : 'LineCountSortedTotal'; FUNCCOUNTSORTEDTOTAL : 'FuncCountSortedTotal';
-LINEAVGSORTEDBYMOD : 'LineAvgSortedByMod'; FUNCAVGSORTEDBYMOD : 'FuncAvgSortedByMod';
-LINEAVGSORTEDTOTAL : 'LineAvgSortedTotal'; FUNCAVGSORTEDTOTAL : 'FuncAvgSortedTotal';
-TOP10LINETIMES : 'Top10LineTimes'; TOP10FUNCTIMES : 'Top10FuncTimes';
-TOP10LINECOUNT : 'Top10LineCount'; TOP10FUNCCOUNT : 'Top10FuncCount';
-TOP10LINEAVG : 'Top10LineAvg'; TOP10FUNCAVG : 'Top10FuncAvg';
-UNUSEDLINES : 'UnusedLines'; UNUSEDFUNC : 'UnusedFunc';
+NUMBEROFLINES: 'NumberOfLines'; LINEDATARAW: 'LineDataRaw'; FUNCDATARAW: 'FuncDataRaw';
+LINEAVGRAW: 'LineAvgRaw'; FUNCAVGRAW: 'FuncAvgRaw';
+LINETIMESSORTEDBYMOD: 'LineTimesSortedByMod'; FUNCTIMESSORTEDBYMOD: 'FuncTimesSortedByMod';
+LINETIMESSORTEDTOTAL: 'LineTimesSortedTotal'; FUNCTIMESSORTEDTOTAL: 'FuncTimesSortedTotal';
+LINECOUNTSORTEDBYMOD: 'LineCountSortedByMod'; FUNCCOUNTSORTEDBYMOD: 'FuncCountSortedByMod';
+LINECOUNTSORTEDTOTAL: 'LineCountSortedTotal'; FUNCCOUNTSORTEDTOTAL: 'FuncCountSortedTotal';
+LINEAVGSORTEDBYMOD: 'LineAvgSortedByMod'; FUNCAVGSORTEDBYMOD: 'FuncAvgSortedByMod';
+LINEAVGSORTEDTOTAL: 'LineAvgSortedTotal'; FUNCAVGSORTEDTOTAL: 'FuncAvgSortedTotal';
+TOP10LINETIMES: 'Top10LineTimes'; TOP10FUNCTIMES: 'Top10FuncTimes';
+TOP10LINECOUNT: 'Top10LineCount'; TOP10FUNCCOUNT: 'Top10FuncCount';
+TOP10LINEAVG: 'Top10LineAvg'; TOP10FUNCAVG: 'Top10FuncAvg';
+UNUSEDLINES: 'UnusedLines'; UNUSEDFUNC: 'UnusedFunc';
 
 /* statistics filters (grouped) */
-ALLRAWDATA : 'AllRawData';
-LINEDATASORTEDBYMOD : 'LineDataSortedByMod'; FUNCDATASORTEDBYMOD : 'FuncDataSortedByMod';
-LINEDATASORTEDTOTAL : 'LineDataSortedTotal'; FUNCDATASORTEDTOTAL : 'FuncDataSortedTotal';
-LINEDATASORTED : 'LineDataSorted'; FUNCDATASORTED : 'FuncDataSorted'; ALLDATASORTED : 'AllDataSorted';
-TOP10LINEDATA : 'Top10LineData'; TOP10FUNCDATA : 'Top10FuncData'; TOP10ALLDATA : 'Top10AllData';
-UNUSEDATA : 'UnusedData'; ALL : 'All';
+ALLRAWDATA: 'AllRawData';
+LINEDATASORTEDBYMOD: 'LineDataSortedByMod'; FUNCDATASORTEDBYMOD: 'FuncDataSortedByMod';
+LINEDATASORTEDTOTAL: 'LineDataSortedTotal'; FUNCDATASORTEDTOTAL: 'FuncDataSortedTotal';
+LINEDATASORTED: 'LineDataSorted'; FUNCDATASORTED: 'FuncDataSorted'; ALLDATASORTED: 'AllDataSorted';
+TOP10LINEDATA: 'Top10LineData'; TOP10FUNCDATA: 'Top10FuncData'; TOP10ALLDATA: 'Top10AllData';
+UNUSEDATA: 'UnusedData'; ALL: 'All';
 
 TRUE12:							'true' -> type(TRUE);
 FALSE12:						'false' -> type(FALSE);
 STRING12:						'"' .*? '"' -> type(STRING);
 fragment FR_LETTER12:			[A-Za-z];
-fragment FR_NUMBER12:			[0-9];
-fragment FR_TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_NUMBER12+ | '_')*;
-TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_NUMBER12+ | '_')* -> type(TTCN3IDENTIFIER);
-IDENTIFIER12:		FR_TTCN3IDENTIFIER12 -> type(IDENTIFIER);
+fragment FR_DIGIT12:			[0-9];
+fragment FR_TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_DIGIT12+ | '_')*;
+TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_DIGIT12+ | '_')* -> type(TTCN3IDENTIFIER);
 
 MACRO12:
 (
