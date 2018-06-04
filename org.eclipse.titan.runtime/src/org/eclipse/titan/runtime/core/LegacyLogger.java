@@ -56,6 +56,8 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TtcnLogger.disk_full_action_t;
+import org.eclipse.titan.runtime.core.TtcnLogger.disk_full_action_type_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.log_event_types_t;
 import org.eclipse.titan.runtime.core.TtcnLogger.source_info_format_t;
 
@@ -73,21 +75,21 @@ public class LegacyLogger implements ILoggerPlugin {
 	 * */
 
 	private String filename_skeleton_;
-	private TtcnLogger.disk_full_action_t disk_full_action_;
-	private boolean skeleton_given_;
+	private TtcnLogger.disk_full_action_t disk_full_action_ = new disk_full_action_t(disk_full_action_type_t.DISKFULL_ERROR, 0);
+	private boolean skeleton_given_ = false;
 	private boolean append_file_;
-	private boolean is_disk_full_;
+	private boolean is_disk_full_ = false;
 	private String current_filename_;
-	private int logfile_size_;
+	private int logfile_size_ = 0;
 	private int logfile_number_ = 1;
 	private int logfile_index_ = 1;
-	private int logfile_bytes_;
-	private boolean format_c_present_;
-	private boolean format_t_present_;
+	private int logfile_bytes_ = 0;
+	private boolean format_c_present_ = false;
+	private boolean format_t_present_ = false;
 	private File log_fp_;
 	private boolean is_configured;
 	private File er_;
-	private BufferedWriter log_file_writer;
+	private ThreadLocal<BufferedWriter> log_file_writer = new ThreadLocal<BufferedWriter>(){};
 
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
 		if (separate_file) {
@@ -143,9 +145,10 @@ public class LegacyLogger implements ILoggerPlugin {
 	public void open_file(boolean is_first) {
 		//TODO: different than C++ and initial implement 
 		if (is_first) {
-			//TODO: chk_logfile_data();
-			//TODO: check skeleton_given
-			set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
+			chk_log_file();
+			if (!skeleton_given_) {
+				set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e.%s" : "%e-part%i.%s") : (logfile_number_ == 1 ? "%e.%h-%r.%s" : "%e.%h-%r-part%i.%s"), false);
+			}
 		}
 		current_filename_ = get_file_name(logfile_index_);
 		if (current_filename_ != null) {
@@ -161,7 +164,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				append_file_ = true;
 			}
 			try {
-				log_file_writer = new BufferedWriter(new FileWriter(log_fp_),32768);
+				log_file_writer.set(new BufferedWriter(new FileWriter(log_fp_),32768));
 			} catch (IOException e) {
 				System.err.println("Cannot open file!");
 			}
@@ -173,7 +176,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		if (log_file_writer == null) {
 			return;
 		} try {
-			log_file_writer.close();
+			log_file_writer.get().close();
 		} catch ( IOException e ) {
 			System.err.println("Cannot close file!");
 		}
@@ -314,6 +317,25 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		return ret_val.toString();
 	}
+	
+	private void chk_log_file() {
+		if (logfile_size_ == 0 && logfile_number_ != 1) {
+			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileNumber was reset to 1.", logfile_size_ , logfile_number_));
+			logfile_number_ = 1;
+		}
+		if (logfile_size_ > 0 && logfile_number_ == 1) {
+			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileSize (= {0}) and LogFileNumber (= {1}). LogFileSize was reset to 0.", logfile_size_, logfile_number_));
+			logfile_size_ = 0;
+		}
+		if (logfile_number_ == 1 && disk_full_action_.type == disk_full_action_type_t.DISKFULL_DELETE) {
+			TtcnError.TtcnWarning("Invalid combination of LogFileNumber (= 1) and DiskFullAction (= Delete). DiskFullAction was reset to Error.");
+			disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
+		}
+		if (logfile_number_ != 1 && append_file_) {
+			TtcnError.TtcnWarning(MessageFormat.format("Invalid combination of LogFileNumber (= {0}) and AppendFile (= Yes). AppendFile was reset to No.", logfile_number_));
+			append_file_ = false;
+		}
+	}
 
 	public boolean is_configured() {
 		return is_configured;
@@ -365,11 +387,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		write_succes = true;
 		try{
-			log_file_writer = new BufferedWriter(new FileWriter(er_), 32768);
-			log_file_writer.write(event_str);
-			log_file_writer.append("\n");
-			log_file_writer.flush();
-			log_file_writer.close();
+			log_file_writer.set(new BufferedWriter(new FileWriter(er_), 32768));
+			log_file_writer.get().write(event_str);
+			log_file_writer.get().append("\n");
+			log_file_writer.get().flush();
+			log_file_writer.get().close();
 		} catch (IOException e) {
 			write_succes = false;
 		}
@@ -466,14 +488,14 @@ public class LegacyLogger implements ILoggerPlugin {
 		//TODO: initial implement
 		boolean is_success = true;
 		try {
-			log_file_writer.write(message_ptr);
+			log_file_writer.get().write(message_ptr);
 		} catch (IOException e) {
 			is_success = false;
 		}
 		if (is_success) {
 			try {
-				log_file_writer.flush();
-				log_file_writer.append('\n');
+				log_file_writer.get().flush();
+				log_file_writer.get().append('\n');
 			} catch (IOException e) {
 				is_success = false;
 			}
