@@ -185,17 +185,8 @@ public final class MatchExpression extends Expression_Value {
 		final IValue temporalValue = localGovernor.checkThisValueRef(timestamp, value);
 		localGovernor.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE,
 				false, false, true, false, false));
-		//FIXME check value against governor
 
 		template.checkThisTemplateGeneric(timestamp, localGovernor, templateInstance.getDerivedReference()!= null, false, false, true, false, null);
-
-		try {
-			ExpressionUtilities.checkExpressionOperatorCompatibility(timestamp, this, referenceChain, Expected_Value_type.EXPECTED_TEMPLATE, value, templateInstance);
-		} catch (StackOverflowError e) {
-			ErrorReporter.logExceptionStackTrace("Stack overflow was detected while analysing `" + getFullName() + "'", e.getCause());
-			getLocation().reportSemanticError("Titan was unable to analyse this statement");
-			setIsErroneous(true);
-		}
 
 		if (getIsErroneous(timestamp)) {
 			return;
