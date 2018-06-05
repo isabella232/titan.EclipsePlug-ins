@@ -76,8 +76,10 @@ public class LegacyLogger implements ILoggerPlugin {
 
 	private String filename_skeleton_;
 	private TtcnLogger.disk_full_action_t disk_full_action_ = new disk_full_action_t(disk_full_action_type_t.DISKFULL_ERROR, 0);
+	private int disk_full_time_seconds = 0;
+	private int disk_full_time_microseconds = 0;
 	private boolean skeleton_given_ = false;
-	private boolean append_file_;
+	private boolean append_file_ = false;
 	private boolean is_disk_full_ = false;
 	private String current_filename_;
 	private int logfile_size_ = 0;
@@ -89,7 +91,17 @@ public class LegacyLogger implements ILoggerPlugin {
 	private File log_fp_;
 	private boolean is_configured;
 	private File er_;
-	private ThreadLocal<BufferedWriter> log_file_writer = new ThreadLocal<BufferedWriter>(){};
+	private ThreadLocal<BufferedWriter> log_file_writer = new ThreadLocal<BufferedWriter>(){
+		@Override
+		protected BufferedWriter initialValue(){
+			try{
+				return new BufferedWriter(new FileWriter(log_fp_),32768);
+			} catch (IOException e) {
+				return null;
+			}
+		}
+	};
+	
 
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
 		if (separate_file) {
@@ -180,6 +192,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		} catch ( IOException e ) {
 			System.err.println("Cannot close file!");
 		}
+		log_fp_ = null;
 	}
 	
 	private enum whoami{SINGLE, HC, MTC, PTC};
@@ -401,7 +414,28 @@ public class LegacyLogger implements ILoggerPlugin {
 	
 	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
 		//TODO: initial implement
-		//TODO:TTCN_Logger::DISKFULL_RETRY 
+		if (is_disk_full_) {
+			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
+				int event_timestamp_seconds = event.getTimestamp().getSeconds().getInt();
+				int event_timestamp_microseconds = event.getTimestamp().getMicroSeconds().getInt();
+				int diff_seconds = 0;
+				int diff_microseconds = 0;
+				// If the specified time period has elapsed retry logging to file.
+				if (event_timestamp_microseconds < disk_full_time_microseconds) {
+					diff_seconds = event_timestamp_seconds - disk_full_time_seconds - 1;
+					diff_microseconds = event_timestamp_microseconds + (1000000 - disk_full_time_microseconds);
+				} else {
+					diff_seconds = event_timestamp_seconds - disk_full_time_seconds;
+					diff_microseconds = event_timestamp_microseconds - disk_full_time_microseconds;
+				}
+				if (diff_seconds >= disk_full_action_.retry_interval) {
+					is_disk_full_ = false;
+				} else {
+					return false;
+				}
+				return false;
+			}
+		}
 		String event_str = event_to_string(event, false);
 		if (event_str == null) {
 			TtcnError.TtcnWarning("No text for event");
@@ -466,12 +500,37 @@ public class LegacyLogger implements ILoggerPlugin {
 				break;
 			case DISKFULL_RETRY:
 				is_disk_full_ = true;
-				//TODO: save the timestamp
+				disk_full_time_seconds = event.getTimestamp().getSeconds().getInt();
+				disk_full_time_microseconds = event.getTimestamp().getMicroSeconds().getInt();
 				break;
 			case DISKFULL_DELETE:
 				// Try to delete older logfiles while writing fails, must leave at least
 				// two log files.  Stop with error if cannot delete more files and
 				// cannot write log.
+				if (logfile_number_ == 0) {
+					logfile_number_ = logfile_index_;
+				}
+				while (!print_success && logfile_number_ > 2) {
+					logfile_number_--;
+					if (logfile_index_ > logfile_number_) {
+						String filename_to_delete = get_file_name(logfile_index_ - logfile_number_);
+						File file_to_delete = new File(filename_to_delete);
+						boolean remove_ret_val = false;
+						if (file_to_delete.exists()) {
+							remove_ret_val = file_to_delete.delete();
+						}
+						if (!remove_ret_val) {
+							break;
+						}
+						print_success = log_to_file(event_str);
+					}
+				}
+				if (!print_success) {
+					//fatal_error
+					System.err.println("Writing to log file failed.");
+				} else {
+					logfile_bytes_ = bytes_to_log;
+				}
 				break;
 			default:
 				//fatal error
