@@ -253,8 +253,10 @@ public class TitanCharString extends Base_Type {
 		if (n_chars < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a charstring.");
 		}
+
+		val_ptr = new StringBuilder(n_chars);
 		if (n_chars > 0) {
-			val_ptr = new StringBuilder(n_chars);
+			
 			final byte[] temp = new byte[n_chars];
 			text_buf.pull_raw(n_chars, temp);
 			for (int i = 0; i < n_chars; i++) {

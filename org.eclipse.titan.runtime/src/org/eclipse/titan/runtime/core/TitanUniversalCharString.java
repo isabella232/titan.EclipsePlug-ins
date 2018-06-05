@@ -822,9 +822,10 @@ public class TitanUniversalCharString extends Base_Type {
 		if (n_uchars < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for an universal charstring.");
 		}
+
 		charstring = false;
+		val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 		if (n_uchars > 0) {
-			val_ptr = new ArrayList<TitanUniversalChar>(n_uchars);
 			for (int i = 0; i < n_uchars; i++) {
 				final byte buf[] = new byte[4];
 				text_buf.pull_raw(4, buf);

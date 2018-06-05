@@ -334,8 +334,10 @@ public class TitanOctetString extends Base_Type {
 		if (n_octets < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for an octetstring.");
 		}
+
+		val_ptr = new char[n_octets];
 		if (n_octets > 0) {
-			val_ptr = new char[n_octets];
+			
 			final byte[] temp = new byte[n_octets];
 			text_buf.pull_raw(n_octets, temp);
 			for (int i = 0; i < n_octets; i++) {

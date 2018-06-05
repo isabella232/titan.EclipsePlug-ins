@@ -718,9 +718,10 @@ public class TitanBitString extends Base_Type {
 		if (n_bits < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a bitstring.");
 		}
+
+		final int bytes = (n_bits + 7) / 8;
+		bits_ptr = new int[bytes];
 		if (n_bits > 0) {
-			final int bytes = (n_bits + 7) / 8;
-			bits_ptr = new int[bytes];
 			final byte[] temp = new byte[bytes];
 			text_buf.pull_raw(bytes, temp);
 			for (int i = 0; i < bytes; i++) {

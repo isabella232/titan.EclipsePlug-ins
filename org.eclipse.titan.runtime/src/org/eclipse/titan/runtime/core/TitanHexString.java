@@ -336,8 +336,9 @@ public class TitanHexString extends Base_Type {
 		if (n_nibbles < 0) {
 			throw new TtcnError("Text decoder: Invalid length was received for a hexstring.");
 		}
+
+		nibbles_ptr = new byte[n_nibbles];
 		if (n_nibbles > 0) {
-			nibbles_ptr = new byte[n_nibbles];
 			text_buf.pull_raw(n_nibbles, nibbles_ptr);
 		}
 	}
