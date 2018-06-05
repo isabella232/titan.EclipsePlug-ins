@@ -2631,7 +2631,7 @@ public final class TTCN_Runtime {
 			if (component_index >= tempTables.size()) {
 				// component_reference is still not in the table
 				// the table has to be extended at the end
-				for (int i = tempTables.size(); i < component_index; i++) {
+				for (int i = tempTables.size(); i <= component_index; i++) {
 					final component_status_table_struct temp = new component_status_table_struct();
 					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 					temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
