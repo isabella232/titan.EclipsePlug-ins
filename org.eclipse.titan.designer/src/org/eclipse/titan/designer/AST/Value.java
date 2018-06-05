@@ -16,7 +16,9 @@ import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TypeFactory;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.IsValueExpression;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -206,6 +208,40 @@ public abstract class Value extends GovernedSimple implements IReferenceChainEle
 	@Override
 	public abstract IValue getReferencedSubValue(final CompilationTimeStamp timestamp, final Reference reference, int actualSubReference,
 			final IReferenceChain refChain);
+
+	/**
+	 * Checks the current value for the role of string encoding in decode match templates.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 * @param lhs an assignment to check against self referencing.
+	 *
+	 * @return true if the value contains a reference to lhs
+	 * */
+	public boolean checkStringEncoding(final CompilationTimeStamp timestamp, final Assignment lhs) {
+		setLoweridToReference(timestamp);
+
+		boolean selfReference = new CharString_Type().checkThisValue(timestamp, this, lhs, new ValueCheckingOptions(Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false, false, false, false, false));
+		if (!isUnfoldable(timestamp)) {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			IValue last = getValueRefdLast(timestamp, referenceChain);
+			referenceChain.release();
+
+			if (last.getValuetype() == Value_type.CHARSTRING_VALUE) {
+				final String encodingName = ((Charstring_Value)last).getValue();
+				if (!encodingName.equals("UTF-8")
+					&& !encodingName.equals("UTF-16")
+					&& !encodingName.equals("UTF-32")
+					&& !encodingName.equals("UTF-32LE")
+					&& !encodingName.equals("UTF-32BE")) {
+					getLocation().reportSemanticError(MessageFormat.format("`{0}'' is not a valid encoding format", encodingName));
+				}
+			} else {
+				getLocation().reportSemanticError("Cannot use this value in charstring value context");
+			}
+		}
+
+		return selfReference;
+	}
 
 	/**
 	 * Creates a value of the provided type from the actual value if that is possible.

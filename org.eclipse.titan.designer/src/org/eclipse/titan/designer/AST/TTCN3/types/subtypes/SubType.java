@@ -1180,7 +1180,8 @@ public final class SubType implements IIncrementallyUpdateable {
 		case INDEXED_TEMPLATE_LIST:
 		case NAMED_TEMPLATE_LIST:
 		case VALUE_RANGE:
-			// FIXME implement checking
+		case ALL_FROM:
+		case DECODE_MATCH:
 			break;
 		case SUPERSET_MATCH: {
 			if (subtypeType != SubType_type.ST_SETOF) {

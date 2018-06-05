@@ -168,7 +168,7 @@ public final class ObjectDescriptor_Type extends ASN1Type {
 	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
-		CharString_Type.checkThisTemplateString(timestamp, this, template, isModified);
+		CharString_Type.checkThisTemplateString(timestamp, this, template, isModified, implicitOmit, lhs);
 
 		return false;
 	}

@@ -74,8 +74,10 @@ public interface ITTCN3Template extends IGovernedSimple {
 		/** universal charstring pattern. */
 		USTR_PATTERN,
 		/** all from template type, hides its real type*/
-		ALL_FROM
-		//FIXME missing support for decmatch and template concat
+		ALL_FROM,
+		/** decode match. */
+		DECODE_MATCH
+		//FIXME missing support for template concat
 	}
 
 	public enum Completeness_type {

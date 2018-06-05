@@ -175,7 +175,7 @@ public final class UniversalString_Type extends ASN1Type {
 	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template, final boolean isModified,
 			final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
-		UniversalCharstring_Type.checkThisTemplateString(timestamp, this, template, isModified);
+		UniversalCharstring_Type.checkThisTemplateString(timestamp, this, template, isModified, implicitOmit, lhs);
 
 		return false;
 	}

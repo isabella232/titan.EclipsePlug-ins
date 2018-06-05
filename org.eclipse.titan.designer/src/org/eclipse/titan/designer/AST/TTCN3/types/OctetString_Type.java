@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
+import org.eclipse.titan.designer.AST.TTCN3.templates.DecodeMatch_template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
@@ -207,15 +208,19 @@ public final class OctetString_Type extends ASN1Type {
 		registerUsage(template);
 		template.setMyGovernor(this);
 
+		boolean selfReference = false;
 		switch (template.getTemplatetype()) {
 		case OSTR_PATTERN:
+			break;
+		case DECODE_MATCH:
+			selfReference = ((DecodeMatch_template)template).checkThisTemplateString(timestamp, this, implicitOmit, lhs);
 			break;
 		default:
 			template.getLocation().reportSemanticError(MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName()));
 			break;
 		}
 
-		return false;
+		return selfReference;
 	}
 
 	@Override

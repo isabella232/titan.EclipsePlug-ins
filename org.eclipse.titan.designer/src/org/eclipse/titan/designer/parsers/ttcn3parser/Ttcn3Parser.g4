@@ -2416,15 +2416,15 @@ pr_DecodedContentMatch returns[TTCN3Template template]
 	Value value = null;
 	TemplateInstance templateInstance = null;
 }:
-	pr_DecodedMatchKeyword
+	col = pr_DecodedMatchKeyword
 	(	pr_LParen
 		v = pr_SingleExpression { value = $v.value; }
 		pr_RParen
 	)?
 	ti = pr_InLineTemplate { templateInstance = $ti.templateInstance; }
 {
-	//TODO: create template object using value and templateInstance
-	//$template = new DecodedContentMatch( value, templateInstance );
+	$template = new DecodeMatch_template( value, templateInstance );
+	$template.setLocation(getLocation( $col.start, $ti.stop));
 }
 ;
 

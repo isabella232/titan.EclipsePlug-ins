@@ -28,6 +28,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.templates.CharString_Pattern_Template;
+import org.eclipse.titan.designer.AST.TTCN3.templates.DecodeMatch_template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PatternString.PatternType;
@@ -220,7 +221,7 @@ public final class UniversalCharstring_Type extends Type {
 	public boolean checkThisTemplate(final CompilationTimeStamp timestamp, final ITTCN3Template template,
 			final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		registerUsage(template);
-		checkThisTemplateString(timestamp, this, template, isModified);
+		checkThisTemplateString(timestamp, this, template, isModified, implicitOmit, lhs);
 
 		return false;
 	}
@@ -233,13 +234,18 @@ public final class UniversalCharstring_Type extends Type {
 	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * @param type the universal charstring type used for the check.
 	 * @param template the template to be checked by the type.
-	 * @param isModified true if the template is a modified template
+	 * @param isModified true if the template is a modified template.
+	 * @param implicitOmit true if the implicit omit optional attribute was set for the template, false otherwise.
+	 * @param lhs the assignment to check against.
+	 *
+	 * @return true if the value contains a reference to lhs
 	 * */
-	public static void checkThisTemplateString(final CompilationTimeStamp timestamp, final Type type,
-			final ITTCN3Template template, final boolean isModified) {
+	public static boolean checkThisTemplateString(final CompilationTimeStamp timestamp, final Type type,
+			final ITTCN3Template template, final boolean isModified, final boolean implicitOmit, final Assignment lhs) {
 		template.setMyGovernor(type);
 
 		PatternString ps = null;
+		boolean selfReference = false;
 
 		switch (template.getTemplatetype()) {
 		case VALUE_RANGE: {
@@ -282,11 +288,16 @@ public final class UniversalCharstring_Type extends Type {
 			// FIXME implement as soon as charstring pattern templates become handled
 			ps = ((UnivCharString_Pattern_Template) template).getPatternstring();
 			break;
+		case DECODE_MATCH:
+			selfReference = ((DecodeMatch_template)template).checkThisTemplateString(timestamp, type, implicitOmit, lhs);
+			break;
 		default:
 			template.getLocation().reportSemanticError(
 					MessageFormat.format(TEMPLATENOTALLOWED, template.getTemplateTypeName(), type.getTypename()));
 			break;
 		}
+
+		return selfReference;
 	}
 
 	private static IValue checkBoundary(final CompilationTimeStamp timestamp, final Type type, final Value value,
