@@ -636,13 +636,25 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 
 	/**
 	 * Determines the method of encoding or decoding for values of this type
-	 * based on its attributes and on encoder or decoder function definitions
-	 * with this type as their input or output. An error is displayed if the
-	 * coding method cannot be determined.
+	 * based on its attributes and on encoder or decoder function
+	 * definitions with this type as their input or output. An error is
+	 * displayed if the coding method cannot be determined.
 	 *
 	 * @note Because this check depends on the checks of other AST elements
-	 * (external functions), it is sometimes delayed to the end of the semantic
-	 * analysis. */
+	 *       (external functions), it is sometimes delayed to the end of the
+	 *       semantic analysis.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param encode
+	 *                true if used for encoding, false for decoding.
+	 * @param usageModule
+	 *                the module where the type is used (unused kept for
+	 *                backward compatibility).
+	 * @param delayed
+	 *                in some case it is needed to delay this check till the
+	 *                end of the semantic checking.
+	 * */
 	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed);
 
 	/**
