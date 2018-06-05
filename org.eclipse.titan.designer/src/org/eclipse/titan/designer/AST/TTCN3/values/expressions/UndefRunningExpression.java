@@ -63,9 +63,6 @@ public final class UndefRunningExpression extends Expression_Value {
 		if (lhs == reference.getRefdAssignment(timestamp, false)) {
 			return true;
 		}
-		if (lhs == index_redirection.getRefdAssignment(timestamp, false)) {
-			return true;
-		}
 
 		return false;
 	}
