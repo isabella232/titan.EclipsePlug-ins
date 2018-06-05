@@ -2611,7 +2611,8 @@ public final class TTCN_Runtime {
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.get_component_status_table_index: invalid component reference: {0}.", component_reference));
 		}
 
-		if (component_status_table.get().size() == 0) {
+		final ArrayList<component_status_table_struct> tempTables = component_status_table.get();
+		if (tempTables.size() == 0) {
 			//the table is empty, this will be the first entry
 			final component_status_table_struct temp = new component_status_table_struct();
 			temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2620,17 +2621,17 @@ public final class TTCN_Runtime {
 			temp.return_type = null;
 			temp.return_value = null;
 
-			component_status_table.get().add(temp);
+			tempTables.add(temp);
 			component_status_table_offset.set(component_reference);
 
 			return 0;
 		} else if (component_reference >= component_status_table_offset.get().intValue()) {
 			// the table contains at least one entry that is smaller than component_reference
 			final int component_index = component_reference - component_status_table_offset.get().intValue();
-			if (component_index >= component_status_table.get().size()) {
+			if (component_index >= tempTables.size()) {
 				// component_reference is still not in the table
 				// the table has to be extended at the end
-				for (int i = component_status_table.get().size(); i < component_index; i++) {
+				for (int i = tempTables.size(); i < component_index; i++) {
 					final component_status_table_struct temp = new component_status_table_struct();
 					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 					temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2638,7 +2639,7 @@ public final class TTCN_Runtime {
 					temp.return_type = null;
 					temp.return_value = null;
 
-					component_status_table.get().add(i, temp);
+					tempTables.add(i, temp);
 				}
 			}
 
@@ -2646,7 +2647,7 @@ public final class TTCN_Runtime {
 		} else {
 			// component_reference has to be inserted before the existing table
 			final int offset_diff = component_status_table_offset.get().intValue() - component_reference;
-			final int new_size = component_status_table.get().size() + offset_diff;
+			final int new_size = tempTables.size() + offset_diff;
 			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
 			for (int i = 0; i < offset_diff; i++) {
 				final component_status_table_struct temp = new component_status_table_struct();
@@ -2658,7 +2659,7 @@ public final class TTCN_Runtime {
 
 				temp_table.add(i, temp);
 			}
-			component_status_table.get().addAll(0, temp_table);
+			tempTables.addAll(0, temp_table);
 			component_status_table_offset.set(component_reference);
 
 			return 0;
