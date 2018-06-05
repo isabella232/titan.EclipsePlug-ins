@@ -177,8 +177,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		}
 
 		boolean selfReference = target.getTemplateBody().checkThisTemplateGeneric(timestamp, targetType, target.getDerivedReference() == null ? false : true, false, true, true, implicitOmit, lhs);
-		IType codingType = targetType;
-		//FIXME implement: add codingType.checkCoding(false, template.getMyScope().getModuleScope());
+		targetType.checkCoding(timestamp, false, getMyScope().getModuleScope(), false);
 
 		if (stringEncoding != null) {
 			if (type.getTypetype() != Type_type.TYPE_UCHARSTRING) {

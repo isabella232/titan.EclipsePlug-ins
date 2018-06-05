@@ -635,6 +635,17 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void checkCodingAttributes(final CompilationTimeStamp timestamp, IReferenceChain refChain);
 
 	/**
+	 * Determines the method of encoding or decoding for values of this type
+	 * based on its attributes and on encoder or decoder function definitions
+	 * with this type as their input or output. An error is displayed if the
+	 * coding method cannot be determined.
+	 *
+	 * @note Because this check depends on the checks of other AST elements
+	 * (external functions), it is sometimes delayed to the end of the semantic
+	 * analysis. */
+	public void checkCoding(final CompilationTimeStamp timestamp, final boolean encode, final Module usageModule, final boolean delayed);
+
+	/**
 	 * If the type does not have its raw attribute, generate and check a default one.
 	 *
 	 * @param timestamp
