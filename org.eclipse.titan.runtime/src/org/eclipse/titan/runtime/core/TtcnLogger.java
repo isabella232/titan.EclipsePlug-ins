@@ -1090,7 +1090,7 @@ public final class TtcnLogger {
 		//TODO: initial implementation, more complex
 		executable_name = "";
 		executable_name = System.getProperty("user.dir");
-		executable_name = executable_name + "\\java_bin\\org\\eclipse\\titan\\generated\\" + executable_name.substring(executable_name.lastIndexOf("\\"));
+		executable_name = executable_name + "\\java_bin\\org\\eclipse\\titan\\generated\\" + executable_name.substring(executable_name.lastIndexOf("\\") + 1);
 	}
 	
 	public static String get_executable_name() {
