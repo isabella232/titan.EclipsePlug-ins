@@ -376,10 +376,6 @@ public class LegacyLogger implements ILoggerPlugin {
 	 * Not the final implementation though.
 	 * */
 	private static boolean log_console(final TitanLoggerApi.TitanLogEvent event, final Severity msg_severity) {
-		//FIXME once we have objects calculating the time will have to be moved earlier.
-		//FIXME a bit more complicated in reality
-
-		//Time
 		final String event_str = event_to_string(event, true);
 		if (event_str == null) {
 			TtcnError.TtcnWarning("No text for event");
@@ -387,7 +383,22 @@ public class LegacyLogger implements ILoggerPlugin {
 			return false;
 		}
 
-		System.out.println(event_str);
+		if (!TTCN_Communication.send_log(event.getTimestamp().getSeconds().getInt(), event.getTimestamp().getMicroSeconds().getInt(), event.getSeverity().getInt(), event_str)) {
+			// The event text shall be printed to stderr when there is no control
+			// connection towards MC (e.g. in single mode or in case of network
+			// error).
+			if (event_str.length() > 0) {
+				// Write the location info to the console for user logs only.
+				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.getSourceInfo__list().lengthOf().getInt() > 0) {
+					int stackdepth = event.getSourceInfo__list().lengthOf().getInt();
+					LocationInfo loc = event.getSourceInfo__list().getAt(stackdepth - 1);
+					System.err.print(MessageFormat.format("{0}:{1}", loc.getFilename().getValue(), loc.getLine().getInt()));
+				}
+
+				System.err.print(event_str);
+			}
+			System.err.println();
+		}
 
 		return true;
 	}
