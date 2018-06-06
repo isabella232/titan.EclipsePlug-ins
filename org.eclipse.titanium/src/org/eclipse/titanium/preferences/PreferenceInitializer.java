@@ -59,7 +59,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.MODULENAME_IN_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.TYPENAME_IN_DEFINITION.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.MAGIC_CONSTANTS.getPreferenceName(), GeneralConstants.IGNORE);
-
+		preferenceStore.setDefault(ProblemTypePreference.DEFINITION_NAME_TOO_LONG.getPreferenceName(), GeneralConstants.WARNING);
+		preferenceStore.setDefault(PreferenceConstants.DEFINITION_NAME_TOO_LONG_LENGTH, 42);
 		preferenceStore.setDefault(ProblemTypePreference.TOO_MANY_PARAMETERS.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.TOO_MANY_PARAMETERS_SIZE, 7);
 		preferenceStore.setDefault(ProblemTypePreference.TOO_COMPLEX_EXPRESSIONS.getPreferenceName(), GeneralConstants.IGNORE);
@@ -198,7 +199,6 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.CLUSTER_AUTO_FOLDER, true);
 		preferenceStore.setDefault(PreferenceConstants.CLUSTER_AUTO_REGEXP, true);
 		preferenceStore.setDefault(PreferenceConstants.CLUSTER_AUTO_NAME, true);
-
 	}
 
 	private static void setSmellImpactAndBaseLine(final IPreferenceStore preferenceStore, final CodeSmellType t, final int imp, final int bl) {

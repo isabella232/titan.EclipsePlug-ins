@@ -69,6 +69,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 
 	private static final String DESCRIPTION = "Preferences on reporting code smells";
 
+	private static final String REPORT_DEFINITION_NAME_TOO_LONG_LENGTH="The length of the definition name shoud not exceed";
+
 	private static final String[][] IGNORE_WARNING_ERROR = new String[][] { { "Ignore", GeneralConstants.IGNORE },
 			{ "Warning", GeneralConstants.WARNING }, { "Error", GeneralConstants.ERROR } };
 
@@ -89,6 +91,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.EMPTY_STATEMENT_BLOCK, "Empty statement blocks in the source code usually means,\n"
 				+ "that the developer planned to write some code there to handle some use cases,\n"
 				+ "but forgot to finish his work ... or is right now in the process of finishing it");
+		m.put(ProblemTypePreference.DEFINITION_NAME_TOO_LONG, "The definition name you have defined is too long");
 		m.put(ProblemTypePreference.GOTO,
 				"In almost all cases the usage of goto should be forbidden as it can very easily breaks the principles of"
 						+ " structured/well designed source code.");
@@ -237,6 +240,10 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			final Composite comp = new Composite(sec, 0);
 			comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
+
+			createField(comp,ProblemTypePreference.DEFINITION_NAME_TOO_LONG);
+			createIntegerEditor(comp, PreferenceConstants.DEFINITION_NAME_TOO_LONG_LENGTH, REPORT_DEFINITION_NAME_TOO_LONG_LENGTH);
+
 			createField(comp, ProblemTypePreference.LOGIC_INVERSION);
 			createField(comp, ProblemTypePreference.MODULENAME_IN_DEFINITION);
 			createField(comp, ProblemTypePreference.TYPENAME_IN_DEFINITION);

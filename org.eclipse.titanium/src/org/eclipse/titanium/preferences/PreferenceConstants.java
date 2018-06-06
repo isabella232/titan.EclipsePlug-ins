@@ -43,6 +43,11 @@ public final class PreferenceConstants {
 	public static final String CLUSTER_SPACE = "Check_Space_In_Name";
 	public static final String CLUSTER_SMALL_LARGE = "Check_SmallLarga_Alt_In_Name";
 	public static final String CLUSTER_DEPTH = "Cluster_Split_Depth";
+
+	//FunctionNameCluster
+	public static final String DEFINITION_NAME_TOO_LONG="Max_Length_Of_Function";
+	public static final String DEFINITION_NAME_TOO_LONG_LENGTH = ProblemTypePreference.DEFINITION_NAME_TOO_LONG.getPreferenceName() + SIZE_POSTFIX;
+
 	// AutomaticCluster
 	public static final String CLUSTER_ITERATION = "Max_Auto_Iterations";
 	public static final String CLUSTER_SIZE_LIMIT = "Max_Auto_Cluster_Number";

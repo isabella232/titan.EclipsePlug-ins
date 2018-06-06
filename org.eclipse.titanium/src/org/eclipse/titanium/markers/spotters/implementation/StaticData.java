@@ -40,6 +40,7 @@ public final class StaticData {
 		m.put(CodeSmellType.CONSECUTIVE_ASSIGNMENTS, new BaseModuleCodeSmellSpotter[] { new ConsecutiveAssignments() });
 		m.put(CodeSmellType.CONVERT_TO_ENUM, new BaseModuleCodeSmellSpotter[] { new ConvertToEnum() });
 		m.put(CodeSmellType.EMPTY_STATEMENT_BLOCK, new BaseModuleCodeSmellSpotter[] { new EmptyStatementBlock() });
+		m.put(CodeSmellType.DEFINITION_NAME_TOO_LONG, new BaseModuleCodeSmellSpotter[]{ new DefinitionNameTooLong() });
 		m.put(CodeSmellType.GOTO, new BaseModuleCodeSmellSpotter[] { new Goto() });
 		m.put(CodeSmellType.IF_INSTEAD_ALTGUARD, new BaseModuleCodeSmellSpotter[] { new IfInsteadAltguard() });
 		m.put(CodeSmellType.IF_INSTEAD_RECEIVE_TEMPLATE, new BaseModuleCodeSmellSpotter[] { new IfInsteadReceiveTemplate() });
