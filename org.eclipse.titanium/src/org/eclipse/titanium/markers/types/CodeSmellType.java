@@ -56,6 +56,7 @@ public enum CodeSmellType implements ProblemType{
 	SIZECHECK_IN_LOOP("Size check in loop", 0.0, 1.0, 5.0),
 	STOP_IN_FUNCTION("Stop in function", 0.5, 2.5, 50.0),
 	SWITCH_ON_BOOLEAN("Switch on boolean", 0.5, 1.0, 2.0),
+	TOO_COMPLEX_OF_TYPE("Too complex of type", 0.0, 0.0, 0.0), // 0.0, 0.0, 0.0 FIXME
 	TOO_COMPLEX_EXPRESSIONS("Too complex expression", 1.0, 2.0, 8.0),
 	TOO_MANY_PARAMETERS("Too many parameters", 1.0, 3.0, 37.0),
 	TOO_MANY_STATEMENTS("Too many statements", 2.0, 6.0, 50.0),

@@ -61,6 +61,7 @@ public enum ProblemTypePreference {
 	RECEIVE_ANY_TEMPLATE("Report receive statements accepting any value", EnumSet.of(CodeSmellType.RECEIVE_ANY_TEMPLATE)),
 	STOP_IN_FUNCTION("Report stop statement in functions", EnumSet.of(CodeSmellType.STOP_IN_FUNCTION)),
 	SWITCH_ON_BOOLEAN("Report switching on boolean value", EnumSet.of(CodeSmellType.SWITCH_ON_BOOLEAN)),
+	TOO_COMPLEX_OF_TYPE("Report the too complex of type usage", EnumSet.of(CodeSmellType.TOO_COMPLEX_OF_TYPE)),
 	TOO_COMPLEX_EXPRESSIONS("Report TTCN-3 expressions that are too complex", EnumSet.of(CodeSmellType.TOO_COMPLEX_EXPRESSIONS)),
 	TOO_MANY_PARAMETERS("Report TTCN-3 definitions that have too many parameters", EnumSet.of(CodeSmellType.TOO_MANY_PARAMETERS)),
 	TOO_MANY_STATEMENTS("Report statement blocks that have too many statements", EnumSet.of(CodeSmellType.TOO_MANY_STATEMENTS)),

@@ -78,6 +78,7 @@ public final class StaticData {
 		m.put(CodeSmellType.SIZECHECK_IN_LOOP, new BaseModuleCodeSmellSpotter[] { new SizeCheckInLoop() });
 		m.put(CodeSmellType.STOP_IN_FUNCTION, new BaseModuleCodeSmellSpotter[] { new StopInFunction() });
 		m.put(CodeSmellType.SWITCH_ON_BOOLEAN, new BaseModuleCodeSmellSpotter[] { new SwitchOnBoolean() });
+		m.put(CodeSmellType.TOO_COMPLEX_OF_TYPE, new BaseModuleCodeSmellSpotter[] { new TooComplexOfType() });
 		m.put(CodeSmellType.TOO_COMPLEX_EXPRESSIONS, new BaseModuleCodeSmellSpotter[] { new TooComplexExpression.For(),
 				new TooComplexExpression.While(), new TooComplexExpression.DoWhile(), new TooComplexExpression.If(),
 				new TooComplexExpression.Assignments() });
