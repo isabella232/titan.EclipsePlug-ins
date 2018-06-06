@@ -827,6 +827,40 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static boolean send_log(final int seconds, final int microseconds, final int event_severity, final String message_text) {
+		if (is_connected.get()) {
+			final Text_Buf text_buf = new Text_Buf();
+			text_buf.push_int(MSG_LOG);
+			text_buf.push_int(seconds);
+			text_buf.push_int(microseconds);
+			text_buf.push_int(event_severity);
+			text_buf.push_int(message_text.length());
+			text_buf.push_raw_front(message_text.length(), message_text.getBytes());
+			send_message(text_buf);
+
+			/* If an ERROR message (indicating a version mismatch) arrives from MC
+			   in state HC_IDLE (i.e. before CONFIGURE) it shall be
+			   printed to the console as well. */
+			if (TTCN_Runtime.get_state() == executorStateEnum.HC_IDLE) {
+				return false;
+			}
+
+			return true;
+		} else {
+			switch (TTCN_Runtime.get_state()) {
+			case HC_EXIT:
+			case MTC_INITIAL:
+			case MTC_EXIT:
+			case PTC_INITIAL:
+			case PTC_EXIT:
+				/* Do not print the first/last few lines of logs to the console even if ConsoleMask is set to LOG_ALL */
+				return true;
+			default:
+				return false;
+			}
+		}
+	}
+
 	public static void send_error(final String message) {
 		final Text_Buf text_buf = new Text_Buf();
 		text_buf.push_int(MSG_ERROR);
