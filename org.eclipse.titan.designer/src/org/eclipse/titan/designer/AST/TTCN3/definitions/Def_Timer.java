@@ -656,7 +656,7 @@ public final class Def_Timer extends Definition {
 				} else {
 					if (defaultDuration.canGenerateSingleExpression()) {
 						//known in compile time
-						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}, {2}\");\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
+						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
 					} else {
 						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 
@@ -720,7 +720,7 @@ public final class Def_Timer extends Definition {
 			} else {
 				if (defaultDuration.canGenerateSingleExpression()) {
 					//known in compile time
-					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}, {2}\");\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
+					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
 				} else {
 					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 
