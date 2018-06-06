@@ -283,7 +283,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					break;
 				case PTC:
 				default:
-					//TODO: (component)self 
+					ret_val.append(TitanComponent.self.get().getComponent());
 					break;
 				}
 				r_present = true;
