@@ -14,7 +14,7 @@ package org.eclipse.titan.runtime.core;
  */
 class DecMatchStruct {
 
-	private IDecMatch instance;
+	private IDecode_Match instance;
 
 	public void log() {
 		// TODO Auto-generated method stub

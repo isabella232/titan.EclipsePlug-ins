@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.templates;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -16,6 +18,7 @@ import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -172,6 +175,7 @@ public class DecodeMatch_template extends TTCN3Template {
 			return false;
 		}
 
+		targetType.check(timestamp);
 		if (target.getType() != null && targetType instanceof IReferencingType) {
 			targetType = targetType.getTypeRefdLast(timestamp);
 		}
@@ -205,10 +209,105 @@ public class DecodeMatch_template extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		//FIXME implement
+		aData.addBuiltinTypeImport("IDecode_Match");
+		aData.addBuiltinTypeImport("TTCN_Buffer");
+		aData.addBuiltinTypeImport("TitanOctetString");
+		aData.addCommonLibraryImport("TtcnError");
+		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
+		aData.addBuiltinTypeImport("Base_Template.template_sel");
+
+		final String tempVariableName = aData.getTemporaryVariableName();
+		final IType targetType = target.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+
+		final String targetTypeName = targetType.getGenNameValue(aData, source, myScope);
+		final String targetTemplateName = targetType.getGenNameTemplate(aData, source, myScope);
+		source.append(MessageFormat.format("class dec_match_{0} implements IDecode_Match '{'\n", tempVariableName));
+		source.append(MessageFormat.format("{0} target;\n", targetTemplateName));
+		source.append(MessageFormat.format("{0} dec_val;\n", targetTypeName));
+
+		source.append(MessageFormat.format("public dec_match_{0}(final {1} target) '{'\n", tempVariableName, targetTemplateName));
+		source.append("this.target = target;\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public boolean match(final TTCN_Buffer buffer) {\n");
+		source.append(MessageFormat.format("dec_val = new {0}();\n", targetTypeName));
+		source.append("boolean ret_val;\n");
+		source.append("TitanOctetString os = new TitanOctetString();\n");
+		source.append("buffer.get_string(os);\n");
+		source.append(MessageFormat.format("if ({0}_decoder(os, dec_val, {0}_default_coding).operatorNotEquals(0)) '{'\n", targetType.getGenNameCoder(aData, source, myScope)));
+		source.append("TtcnError.TtcnWarning(\"Decoded content matching failed, because the data could not be decoded.\");\n");
+		source.append("ret_val = false;\n");
+		source.append("} else if (os.lengthOf().operatorNotEquals(0)) {\n");
+		source.append("TtcnError.TtcnWarning(MessageFormat.format(\"Decoded content matching failed, because the buffer was not empty after decoding. Remaining octets: {0}.\", os.lengthOf().getInt()));\n");
+		source.append("ret_val = false;\n");
+		source.append("} else {\n");
+		source.append("ret_val = target.match(dec_val, true);\n");
+		source.append("}\n");
+		source.append("if (!ret_val) {\n");
+		source.append("dec_val = null;\n");
+		source.append("}\n");
+		source.append("return ret_val;\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public void log() {\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}: \");\n", targetTypeName));
+		source.append("target.log();\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public Object get_dec_res() {\n");
+		source.append("return dec_val;\n");
+		source.append("}\n");
+
+		source.append("@Override\n");
+		source.append("public TTCN_Typedescriptor get_type_descr() {\n");
+		source.append(MessageFormat.format("return {0}_descr_;\n", targetType.getGenNameTypeDescriptor(aData, source, myScope)));
+		source.append("}\n");
+		source.append( "};\n" );
+
+		source.append(MessageFormat.format("{0}.setType(template_sel.DECODE_MATCH, 0);\n", name));
+		source.append("{\n");
+		// generate the decoding target into a temporary
+		final String target_tempID = aData.getTemporaryVariableName();
+		if (target.getDerivedReference() == null) {
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", targetTemplateName, target_tempID));
+		} else {
+			final ExpressionStruct referencedExpression = new ExpressionStruct();
+			target.getDerivedReference().generateCode(aData, referencedExpression);
+			if (referencedExpression.preamble.length() > 0) {
+				source.append(referencedExpression.preamble);
+			}
+
+			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", targetTemplateName, target_tempID, referencedExpression.expression));
+			if (referencedExpression.postamble.length() > 0) {
+				source.append(referencedExpression.postamble);
+			}
+		}
+
+		target.getTemplateBody().generateCodeInit(aData, source, target_tempID);
+
+		// the string encoding format might be an expression, generate its preamble here
+		final ExpressionStruct codingExpression = new ExpressionStruct();
+		if (stringEncoding != null) {
+			stringEncoding.generateCodeExpression(aData, codingExpression, true);
+			if (codingExpression.preamble.length() > 0 ) {
+				source.append(codingExpression.preamble);
+			}
+		}
+
+		// initialize the decmatch template with an instance of the new class
+		// (pass the temporary template to the new instance's constructor) and
+		// the encoding format if it's an universal charstring
+
+		//FIXME implement tmp_2.set_decmatch(new dec_match_tmp_3(tmp_4));
+		source.append("}\n");
+
 		source.append( "\t//TODO: " );
 		source.append( getClass().getSimpleName() );
-		source.append( ".generateCodeInit() is not implemented!\n" );
+		source.append( ".generateCodeInit() is not yet completely implemented!\n" );
 	}
 
 	
