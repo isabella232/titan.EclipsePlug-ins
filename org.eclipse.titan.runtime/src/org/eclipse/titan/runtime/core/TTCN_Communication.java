@@ -935,6 +935,7 @@ public class TTCN_Communication {
 		//FIXME process config string
 		// for now assume successful processing
 		boolean success = true;
+		TtcnLogger.open_file();
 		if (success) {
 			try {
 				Module_List.post_init_modules();

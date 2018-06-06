@@ -33,6 +33,7 @@ public final class Runtime_Single_main {
 		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 		Module_List.pre_init_modules();
 
+		TtcnLogger.open_file();
 		TtcnLogger.write_logger_settings();
 
 		Module_List.post_init_modules();

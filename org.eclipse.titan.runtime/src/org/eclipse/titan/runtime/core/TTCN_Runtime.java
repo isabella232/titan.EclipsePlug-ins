@@ -496,6 +496,7 @@ public final class TTCN_Runtime {
 		//FIXME implement rest
 		int returnValue = 0;
 
+		TtcnLogger.open_file();
 		TtcnLogger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__started);
 
 		try {
@@ -524,6 +525,7 @@ public final class TTCN_Runtime {
 		//FIXME implement rest
 		int returnValue = 0;
 
+		TtcnLogger.open_file();
 		TtcnLogger.begin_event(Severity.EXECUTOR_COMPONENT);
 		TtcnLogger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
 		TitanComponent.self.get().log();
