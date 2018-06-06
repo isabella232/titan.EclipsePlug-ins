@@ -164,7 +164,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		current_filename_ = get_file_name(logfile_index_);
 		if (current_filename_ != null) {
-			//TODO: create_parent_directories(current_filename_);
+			create_parent_directories(current_filename_);
 			log_fp_ = new File(current_filename_);
 			if (!log_fp_.exists()) {
 				try {
@@ -193,6 +193,10 @@ public class LegacyLogger implements ILoggerPlugin {
 			System.err.println("Cannot close file!");
 		}
 		log_fp_ = null;
+	}
+	
+	public boolean is_configured() {
+		return is_configured;
 	}
 	
 	private enum whoami{SINGLE, HC, MTC, PTC};
@@ -350,8 +354,20 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 	}
 
-	public boolean is_configured() {
-		return is_configured;
+	private void create_parent_directories(final String path_name) {
+		String path_backup = null;
+		for (int i = 0; i < path_name.length(); i++) {
+			if (path_name.charAt(i) == '\\') {
+				path_backup = path_name.substring(0,i+1);
+				File path_backup_file = new File(path_backup);
+				if (!path_backup_file.exists()) {
+					if (!path_backup_file.mkdir()) {
+						//fatal error
+						System.err.println(MessageFormat.format("Creation of {0} directory failed!", path_backup));
+					}
+				}
+			}
+		}
 	}
 
 	/**
