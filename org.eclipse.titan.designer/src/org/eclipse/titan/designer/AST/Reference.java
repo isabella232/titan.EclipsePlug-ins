@@ -999,6 +999,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			case A_VAR:
 			case A_VAR_TEMPLATE:
 			case A_PORT:
+			case A_TIMER:
 				expression.expression.append(".get()");
 				break;
 			default:

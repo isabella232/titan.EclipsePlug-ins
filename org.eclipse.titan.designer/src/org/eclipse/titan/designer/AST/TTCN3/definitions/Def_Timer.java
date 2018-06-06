@@ -577,67 +577,126 @@ public final class Def_Timer extends Definition {
 
 		aData.addBuiltinTypeImport( "TitanTimer" );
 
-		if(dimensions == null) {
-			// single timer instance
-			if (defaultDuration == null) {
-				source.append("TitanTimer ");
-				source.append(genName);
-				source.append(" = new TitanTimer(\"");
-				source.append(identifier.getDisplayName());
-				source.append("\");\n");
-			} else {
-				if (defaultDuration.canGenerateSingleExpression()) {
-					//known in compile time
-					source.append("TitanTimer ");
-					source.append(genName);
-					source.append(" = new TitanTimer(\"");
-					source.append(identifier.getDisplayName());
-					source.append("\", ");
-					source.append(defaultDuration.generateSingleExpression(aData));
-					source.append(");\n");
+		if (getMyScope() instanceof ComponentTypeBody) {
+			if(dimensions == null) {
+				// single timer instance
+				if (defaultDuration == null) {
+					source.append(MessageFormat.format("ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
+					source.append("@Override\n" );
+					source.append("protected TitanTimer initialValue() {\n");
+					source.append(MessageFormat.format("return new TitanTimer(\"{0}\");\n", identifier.getDisplayName()));
+					source.append("}\n");
+					source.append("};\n");
 				} else {
-					source.append("TitanTimer ");
-					source.append(genName);
-					source.append(" = new TitanTimer(\"");
-					source.append(identifier.getDisplayName());
-					source.append("\");\n");
+					if (defaultDuration.canGenerateSingleExpression()) {
+						//known in compile time
+						source.append(MessageFormat.format("ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
+						source.append("@Override\n" );
+						source.append("protected TitanTimer initialValue() {\n");
+						source.append(MessageFormat.format("return new TitanTimer(\"{1}\", {2});\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
+						source.append("}\n");
+						source.append("};\n");
+					} else {
+						source.append(MessageFormat.format("ThreadLocal<TitanTimer> {0} = new ThreadLocal<TitanTimer>() '{'\n", genName));
+						source.append("@Override\n" );
+						source.append("protected TitanTimer initialValue() {\n");
+						source.append(MessageFormat.format("return new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
+						source.append("}\n");
+						source.append("};\n");
 
-					final ExpressionStruct expression = new ExpressionStruct();
-					expression.expression.append(genName);
-					expression.expression.append(".setDefaultDuration(");
+						final ExpressionStruct expression = new ExpressionStruct();
+						expression.expression.append(genName);
+						expression.expression.append(".get().setDefaultDuration(");
 
-					defaultDuration.generateCodeExpression(aData, expression, true);
+						defaultDuration.generateCodeExpression(aData, expression, true);
 
-					expression.expression.append(')');
-					expression.mergeExpression(aData.getPostInit());
+						expression.expression.append(')');
+						expression.mergeExpression(aData.getPostInit());
+					}
 				}
+
+
+				if ( defaultDuration != null ) {
+					defaultDuration.generateCodeInit(aData, initComp, genName + ".get()" );
+				} else if (cleanUp) {
+					initComp.append(genName);
+					initComp.append(".get().cleanUp();\n");
+				}
+
+			} else {
+				aData.addBuiltinTypeImport("TitanTimerArray");
+
+				final ArrayList<String> classNames= new ArrayList<String>();
+				final ExpressionStruct expression = new ExpressionStruct();
+				final String elementName = generateClassCode(aData, sb, classNames);
+
+				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", elementName, genName));
+				source.append("@Override\n" );
+				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", elementName));
+				source.append(MessageFormat.format("return new {0}();\n",elementName));
+				source.append("}\n");
+				source.append("};\n");
+
+				if (defaultDuration != null) {
+					generateCodeArrayDuration(aData, initComp, genName + ".get()", classNames, defaultDuration, 0);
+				}
+
+				expression.expression.append(genName);
+				expression.expression.append(".get().setName(\"");
+				expression.expression.append(identifier.getDisplayName());
+				expression.expression.append("\");\n");
+
+				expression.mergeExpression(aData.getPreInit());
 			}
-
-
-			if ( defaultDuration != null ) {
-				defaultDuration.generateCodeInit(aData, initComp, genName );
-			} else if (cleanUp) {
-				initComp.append(genName);
-				initComp.append(".cleanUp();\n");
-			}
-
 		} else {
-			final ArrayList<String> classNames= new ArrayList<String>();
-			final ExpressionStruct expression = new ExpressionStruct();
-			aData.addBuiltinTypeImport("TitanTimerArray");
-			final String elementName = generateClassCode(aData, sb, classNames);
-			source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
+			if(dimensions == null) {
+				// single timer instance
+				if (defaultDuration == null) {
+					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
+				} else {
+					if (defaultDuration.canGenerateSingleExpression()) {
+						//known in compile time
+						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}, {2}\");\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
+					} else {
+						source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 
-			if (defaultDuration != null) {
-				generateCodeArrayDuration(aData, initComp, genName, classNames, defaultDuration, 0);
+						final ExpressionStruct expression = new ExpressionStruct();
+						expression.expression.append(genName);
+						expression.expression.append(".setDefaultDuration(");
+
+						defaultDuration.generateCodeExpression(aData, expression, true);
+
+						expression.expression.append(')');
+						expression.mergeExpression(aData.getPostInit());
+					}
+				}
+
+
+				if ( defaultDuration != null ) {
+					defaultDuration.generateCodeInit(aData, initComp, genName );
+				} else if (cleanUp) {
+					initComp.append(genName);
+					initComp.append(".cleanUp();\n");
+				}
+
+			} else {
+				final ArrayList<String> classNames= new ArrayList<String>();
+				final ExpressionStruct expression = new ExpressionStruct();
+				aData.addBuiltinTypeImport("TitanTimerArray");
+				final String elementName = generateClassCode(aData, sb, classNames);
+				source.append(MessageFormat.format(" {0} {1} = new {0}();\n",elementName, genName));
+
+				if (defaultDuration != null) {
+					generateCodeArrayDuration(aData, initComp, genName, classNames, defaultDuration, 0);
+				}
+
+				expression.expression.append(genName);
+				expression.expression.append(".setName(\"");
+				expression.expression.append(identifier.getDisplayName());
+				expression.expression.append("\");\n");
+
+				expression.mergeExpression(aData.getPreInit());
 			}
-
-			expression.expression.append(genName);
-			expression.expression.append(".setName(\"");
-			expression.expression.append(identifier.getDisplayName());
-			expression.expression.append("\");\n");
-
-			expression.mergeExpression(aData.getPreInit());
 		}
 
 		sb.append(source);
@@ -657,27 +716,13 @@ public final class Def_Timer extends Definition {
 		if(dimensions == null) {
 			// single timer instance
 			if (defaultDuration == null) {
-				source.append("TitanTimer ");
-				source.append(genName);
-				source.append(" = new TitanTimer(\"");
-				source.append(identifier.getDisplayName());
-				source.append("\");\n");
+				source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 			} else {
 				if (defaultDuration.canGenerateSingleExpression()) {
 					//known in compile time
-					source.append("TitanTimer ");
-					source.append(genName);
-					source.append(" = new TitanTimer(\"");
-					source.append(identifier.getDisplayName());
-					source.append("\", ");
-					source.append(defaultDuration.generateSingleExpression(aData));
-					source.append(");\n");
+					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}, {2}\");\n", genName, identifier.getDisplayName(), defaultDuration.generateSingleExpression(aData)));
 				} else {
-					source.append("TitanTimer ");
-					source.append(genName);
-					source.append(" = new TitanTimer(\"");
-					source.append(identifier.getDisplayName());
-					source.append("\");\n");
+					source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(\"{1}\");\n", genName, identifier.getDisplayName()));
 
 					final ExpressionStruct expression = new ExpressionStruct();
 					expression.expression.append(genName);
