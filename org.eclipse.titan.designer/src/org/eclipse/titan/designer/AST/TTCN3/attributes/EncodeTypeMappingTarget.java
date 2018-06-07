@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -123,7 +124,16 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 		if (targetType != null) {
 			targetType.check(timestamp);
 		}
-		// FIXME implement once has_encoding is available.
+
+		if (!source.hasEncoding(timestamp, encodeAttribute.getEncodingType(), encodeAttribute.getOptions())) {
+			source.getLocation().reportSemanticError(MessageFormat.format("Source type `{0}'' does not support {1} encoding", source.getTypename(), encodeAttribute.getEncodingType().getEncodingName()));
+		}
+
+		final Type streamType = Type.getStreamType(encodeAttribute.getEncodingType(), 1);
+		if (streamType != null && !streamType.isIdentical(timestamp, targetType)) {
+			targetType.getLocation().reportSemanticError(MessageFormat.format("Target type of {0} encoding should be `{1}'' instead of `{1}''", encodeAttribute.getEncodingType().getEncodingName(), streamType.getTypename(), targetType.getTypename()));
+		}
+
 		if (errorBehaviorAttribute != null) {
 			errorBehaviorAttribute.getErrrorBehaviorList().check(timestamp);
 		}
