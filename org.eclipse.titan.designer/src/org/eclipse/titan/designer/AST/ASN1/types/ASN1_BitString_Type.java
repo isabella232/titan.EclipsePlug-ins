@@ -332,12 +332,7 @@ public final class ASN1_BitString_Type extends ASN1Type {
 						}
 						builder.setCharAt(bitIndex, '1');
 					} else {
-						// FIXME Most probably we were
-						// not able to build the
-						// semantic structure for
-						// something, because it is not
-						// yet supported, like
-						// referenced values in sets
+						// FIXME Most probably we were not able to build the semantic structure for something, because it is not yet supported, like referenced values in sets
 					}
 				}
 

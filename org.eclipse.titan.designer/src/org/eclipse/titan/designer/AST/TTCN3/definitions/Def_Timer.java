@@ -760,9 +760,7 @@ public final class Def_Timer extends Definition {
 		referenceChain.release();
 
 		if (v.getValuetype() != Value_type.SEQUENCEOF_VALUE) {
-			// FIXME: throw
-			// FATAL_ERROR("Def_Timer::generate_code_array_duration()");
-			// ErrorReporter.INTERNAL_ERROR()
+			// FIXME: throw FATAL_ERROR("Def_Timer::generate_code_array_duration()"); ErrorReporter.INTERNAL_ERROR()
 			return;
 		}
 

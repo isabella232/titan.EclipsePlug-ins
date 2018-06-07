@@ -72,8 +72,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
 public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	private static final String NONEMPTYEXPECTED = "A non-empty value was expected for type `{0}''";
 
-	// TODO these are duplicates,
-	//  try to find a way to remove them without too much pain.
+	// TODO these are duplicates, try to find a way to remove them without too much pain.
 	private static final String VALUELISTNOTATIONERRORASN1 = "Value list notation cannot be used for SET type `{0}''";
 	private static final String SETVALUEXPECTEDASN1 = "SET value was expected for type `{0}''";
 	private static final String NONEXISTENTFIELDASN1 = "Reference to a non-existent component `{0}'' of SET type `{1}''";

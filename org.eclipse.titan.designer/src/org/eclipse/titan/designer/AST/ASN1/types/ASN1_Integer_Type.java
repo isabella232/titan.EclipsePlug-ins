@@ -318,11 +318,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 					converted.copyGeneralProperties(value);
 					((Named_Integer_Value) last).setCalculatedValue(converted);
 				} else {
-					// FIXME Most probably we were not able
-					// to build the semantic structure for
-					// something, because it is not yet
-					// supported, like referenced values in
-					// sets
+					// FIXME Most probably we were not able to build the semantic structure for something, because it is not yet supported, like referenced values in sets
 				}
 			}
 			break;
@@ -382,11 +378,7 @@ public final class ASN1_Integer_Type extends ASN1Type {
 					converted.copyGeneralProperties(value);
 					((Named_Integer_Value) last).setCalculatedValue(converted);
 				} else {
-					// FIXME Most probably we were not able
-					// to build the semantic structure for
-					// something, because it is not yet
-					// supported, like referenced values in
-					// sets
+					// FIXME Most probably we were not able to build the semantic structure for something, because it is not yet supported, like referenced values in sets
 				}
 			}
 			break;
