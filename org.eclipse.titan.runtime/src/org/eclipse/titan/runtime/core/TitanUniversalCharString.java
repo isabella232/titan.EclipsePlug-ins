@@ -1395,8 +1395,6 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public void encode_utf8(final TTCN_Buffer buf, final boolean addBOM) {
-		// FIXME: implement
-		System.out.println("encode_utf8: ");
 		// Add BOM
 		if (addBOM) {
 			buf.put_c((char)0xEF);
