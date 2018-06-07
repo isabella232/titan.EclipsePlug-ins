@@ -10,6 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+
 /**
  * TTCN-3 hexstring template
  *
@@ -35,10 +39,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 	/** reference counter for pattern_value */
 	private int pattern_value_ref_count;
 
-	private DecMatchStruct dec_match;
-
-	/** reference counter for dec_match */
-	private int dec_match_ref_count;
+	private IDecode_Match dec_match;
 
 	public TitanHexString_template() {
 		// do nothing
@@ -138,15 +139,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			}
 			break;
 		case DECODE_MATCH:
-			if (dec_match_ref_count > 1) {
-				dec_match_ref_count--;
-			}
-			else if (dec_match_ref_count == 1) {
-				dec_match = null;
-			}
-			else {
-				throw new TtcnError("Internal error: Invalid reference counter in a decoded content match.");
-			}
+			dec_match = null;
 			break;
 		default:
 			break;
@@ -245,9 +238,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			pattern_value_ref_count++;
 			break;
 		case DECODE_MATCH:
-			//TODO: use copyList()
 			dec_match = otherValue.dec_match;
-			dec_match_ref_count++;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported hexstring template.");
@@ -341,8 +332,16 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
 		case STRING_PATTERN:
 			return match_pattern(pattern_value, otherValue);
-		//TODO: implement
-		//case DECODE_MATCH:
+		case DECODE_MATCH: {
+			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
+			TTCN_EncDec.clear_error();
+			final TitanOctetString os = new TitanOctetString(AdditionalFunctions.hex2oct(otherValue));
+			final TTCN_Buffer buffer = new TTCN_Buffer(os);
+			final boolean ret_val = dec_match.match(buffer);
+			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_DEFAULT);
+			TTCN_EncDec.clear_error();
+			return ret_val;
+		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported hexstring template.");
 		}
@@ -515,6 +514,30 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		}
 
 		return value_list.get(listIndex);
+	}
+
+	public void set_decmatch(final IDecode_Match dec_match) {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Setting the decoded content matching mechanism of a non-decmatch hexstring template.");
+		}
+
+		this.dec_match = dec_match;
+	}
+
+	public Object get_decmatch_dec_res() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the decoding result of a non-decmatch hexstring template.");
+		}
+
+		return dec_match.get_dec_res();
+	}
+
+	public TTCN_Typedescriptor get_decmatch_type_descr() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the decoded type's descriptor in a non-decmatch hexstring template.");
+		}
+
+		return dec_match.get_type_descr();
 	}
 
 	public void log() {

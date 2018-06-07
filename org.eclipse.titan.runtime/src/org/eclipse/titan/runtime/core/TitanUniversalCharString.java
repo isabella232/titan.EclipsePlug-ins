@@ -1727,4 +1727,27 @@ public class TitanUniversalCharString extends Base_Type {
 		errorcontext.leaveContext();
 		return dec_len;
 	}
+
+	public static CharCoding get_character_coding(final String codingString, final String contextString) {
+		CharCoding newCoding = CharCoding.UTF_8;
+		if (codingString != null && !codingString.equals("UTF-8")) {
+			if ("UTF-16".equals(codingString)) {
+				newCoding = CharCoding.UTF16;
+			} else if("UTF-16LE".equals(codingString)) {
+				newCoding = CharCoding.UTF16LE;
+			} else if("UTF-16BE".equals(codingString)) {
+				newCoding = CharCoding.UTF16BE;
+			} else if("UTF-32".equals(codingString)) {
+				newCoding = CharCoding.UTF32;
+			} else if("UTF-32LE".equals(codingString)) {
+				newCoding = CharCoding.UTF32LE;
+			} else if("UTF-32BE".equals(codingString)) {
+				newCoding = CharCoding.UTF32BE;
+			} else {
+				throw new TtcnError(MessageFormat.format("Invalid string serialization for {0}.", contextString));
+			}
+		}
+
+		return newCoding;
+	}
 }

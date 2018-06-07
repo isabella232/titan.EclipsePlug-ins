@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Pattern;
 
+import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
+
 /**
  * TTCN-3 universal charstring template
  *
@@ -20,6 +25,10 @@ import java.util.regex.Pattern;
  * @author Andrea Palfi
  */
 public class TitanUniversalCharString_template extends Restricted_Length_Template {
+	static class Unichar_Decmatch {
+		IDecode_Match dec_match;
+		CharCoding coding;
+	}
 
 	private TitanUniversalCharString single_value;
 
@@ -44,6 +53,8 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 	/** originally pattern_value/nocase */
 	private boolean pattern_value_nocase;
+
+	private Unichar_Decmatch dec_match;
 
 	public TitanUniversalCharString_template() {
 		// do nothing
@@ -131,7 +142,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			pattern_string = null;
 			break;
 		case DECODE_MATCH:
-			//TODO
+			dec_match = null;
 			break;
 		default:
 			break;
@@ -286,7 +297,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			pattern_value_nocase = otherValue.pattern_value_nocase;
 			break;
 		case DECODE_MATCH:
-
+			dec_match = otherValue.dec_match;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported charstring template to a universal charstring template.");
@@ -328,6 +339,9 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			pattern_string = new TitanCharString(otherValue.pattern_string);
 			pattern_value_regexp_init = false;
 			pattern_value_nocase = otherValue.pattern_value_nocase;
+			break;
+		case DECODE_MATCH:
+			dec_match = otherValue.dec_match;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported universal charstring template.");
@@ -438,6 +452,32 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 				return TtcnPattern.match(otherValue.toUtf(), pattern_value_posix_regexp, pattern_value_nocase);
 			}
 			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.toString()));
+		case DECODE_MATCH: {
+			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
+			TTCN_EncDec.clear_error();
+			final TTCN_Buffer buffer = new TTCN_Buffer();
+			switch (dec_match.coding) {
+			case UTF_8:
+				otherValue.encode_utf8(buffer, false);
+				break;
+			case UTF16:
+			case UTF16LE:
+			case UTF16BE:
+				otherValue.encode_utf16(buffer, dec_match.coding);
+				break;
+			case UTF32:
+			case UTF32LE:
+			case UTF32BE:
+				otherValue.encode_utf32(buffer, dec_match.coding);
+				break;
+			default:
+				throw new TtcnError("Internal error: Invalid string serialization for universal charstring template with decoded content matching.");
+			}
+			final boolean ret_val = dec_match.dec_match.match(buffer);
+			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_DEFAULT);
+			TTCN_EncDec.clear_error();
+			return ret_val;
+		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported universal charstring template.");
 		}
@@ -676,6 +716,49 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		}
 
 		max_is_exclusive = maxExclusive;
+	}
+
+	public void set_decmatch(final IDecode_Match dec_match) {
+		set_decmatch(dec_match, (String)null);
+	}
+
+	public void set_decmatch(final IDecode_Match dec_match, final String codingString) {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Setting the decoded content matching mechanism of a non-decmatch universal charstring template.");
+		}
+
+		CharCoding new_coding = TitanUniversalCharString.get_character_coding(codingString, "decoded content match");
+		this.dec_match = new Unichar_Decmatch();
+		this.dec_match.dec_match = dec_match;
+		this.dec_match.coding = new_coding;
+	}
+
+	public void set_decmatch(final IDecode_Match dec_match, final TitanCharString codingString) {
+		set_decmatch(dec_match, codingString.getValue().toString());
+	}
+
+	public Object get_decmatch_dec_res() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the decoding result of a non-decmatch universal charstring template.");
+		}
+
+		return dec_match.dec_match.get_dec_res();
+	}
+
+	public CharCoding get_decmatch_str_enc() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the encoding format of a non-decmatch universal charstring template.");
+		}
+
+		return dec_match.coding;
+	}
+
+	public TTCN_Typedescriptor get_decmatch_type_descr() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the decoded type's descriptor in a non-decmatch universal charstring template.");
+		}
+
+		return dec_match.dec_match.get_type_descr();
 	}
 
 	public void log() {

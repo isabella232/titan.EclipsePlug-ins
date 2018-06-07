@@ -301,14 +301,15 @@ public class DecodeMatch_template extends TTCN3Template {
 		// initialize the decmatch template with an instance of the new class
 		// (pass the temporary template to the new instance's constructor) and
 		// the encoding format if it's an universal charstring
+		source.append(MessageFormat.format("{0}.set_decmatch(new dec_match_{1}({2})", name, tempVariableName, target_tempID));
+		if (codingExpression.expression.length() > 0) {
+			source.append(", ").append(codingExpression.expression);
+		}
+		source.append(");\n");
+		if (codingExpression.postamble.length() > 0) {
+			source.append(codingExpression.postamble);
+		}
 
-		//FIXME implement tmp_2.set_decmatch(new dec_match_tmp_3(tmp_4));
 		source.append("}\n");
-
-		source.append( "\t//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCodeInit() is not yet completely implemented!\n" );
 	}
-
-	
 }

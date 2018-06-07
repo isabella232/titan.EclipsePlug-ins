@@ -11,6 +11,12 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.regex.Pattern;
 
+import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
+import org.eclipse.titan.runtime.core.TitanUniversalCharString_template.Unichar_Decmatch;
+
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 charstring template
@@ -42,8 +48,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 	/** originally pattern_value/nocase */
 	boolean pattern_value_nocase;
 
-	//TODO: implement
-	//private unichar_decmatch_struct dec_match;
+	protected Unichar_Decmatch dec_match;
 
 	public TitanCharString_template() {
 		//do nothing
@@ -104,7 +109,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			pattern_value_posix_regexp = null;
 			break;
 		case DECODE_MATCH:
-			//TODO
+			dec_match = null;
 			break;
 		default:
 			break;
@@ -203,9 +208,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			}
 			break;
 		case DECODE_MATCH:
-			//TODO: implement
-			//dec_match = other_value.dec_match;
-			//dec_match->ref_count++;
+			dec_match = otherValue.dec_match;
 			break;
 		default:
 			throw new TtcnError("Copying an uninitialized/unsupported charstring template.");
@@ -350,6 +353,15 @@ public class TitanCharString_template extends Restricted_Length_Template {
 				return TtcnPattern.match(otherValue.toString(), pattern_value_posix_regexp, pattern_value_nocase);
 			}
 			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", single_value.toString()));
+		case DECODE_MATCH: {
+			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
+			TTCN_EncDec.clear_error();
+			final TTCN_Buffer buffer = new TTCN_Buffer(otherValue);
+			final boolean ret_val = dec_match.dec_match.match(buffer);
+			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_DEFAULT);
+			TTCN_EncDec.clear_error();
+			return ret_val;
+		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported charstring template.");
 		}
@@ -576,6 +588,32 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		max_is_exclusive = maxExclusive;
 	}
 
+	public void set_decmatch(final IDecode_Match dec_match) {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Setting the decoded content matching mechanism of a non-decmatch charstring template.");
+		}
+
+		this.dec_match = new Unichar_Decmatch();
+		this.dec_match.dec_match = dec_match;
+		this.dec_match.coding = CharCoding.UTF_8;
+	}
+
+	public Object get_decmatch_dec_res() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the decoding result of a non-decmatch charstring template.");
+		}
+
+		return dec_match.dec_match.get_dec_res();
+	}
+
+	public TTCN_Typedescriptor get_decmatch_type_descr() {
+		if (templateSelection != template_sel.DECODE_MATCH) {
+			throw new TtcnError("Retrieving the decoded type's descriptor in a non-decmatch charstring template.");
+		}
+
+		return dec_match.dec_match.get_type_descr();
+	}
+
 	public void log() {
 		switch (templateSelection) {
 		case STRING_PATTERN:
@@ -633,7 +671,8 @@ public class TitanCharString_template extends Restricted_Length_Template {
 			TtcnLogger.log_char(')');
 			break;
 		case DECODE_MATCH:
-			//FIXME: implement decode match
+			TtcnLogger.log_event_str("decmatch ");
+			dec_match.dec_match.log();
 			break;
 		default:
 			log_generic();
