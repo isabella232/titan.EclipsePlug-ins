@@ -599,8 +599,59 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			if (EncodingPrototype_type.NONE.equals(prototype)) {
 				location.reportSemanticError("Attribute `decode' cannot be used without `prototype'");
 			}
-			// FIXME implement once we know what encoding is set for
-			// a type
+
+			if (inputType != null) {
+				switch (encodingType) {
+				case TEXT: {
+					final Type streamType = Type.getStreamType(encodingType, 0);
+					final Type streamType2 = Type.getStreamType(encodingType, 1);
+					final Type streamType3 = Type.getStreamType(encodingType, 2);
+					if (!streamType.isIdentical(timestamp, inputType) &&
+							!streamType2.isIdentical(timestamp, inputType) &&
+							!streamType3.isIdentical(timestamp, inputType)) {
+						inputType.getLocation().reportSemanticError(MessageFormat.format("The input type of {0} decoding should be `{1}'', `{2}'' or `{3}'' instead of `{4}''",
+								encodingType.getEncodingName(), streamType.getTypename(), streamType2.getTypename(), streamType3.getTypename(), inputType.getTypename()));
+					}
+					break;
+				}
+				case CUSTOM:
+				case PER:{
+					// custom and PER encodings only support the bitstring stream type
+					final Type streamType = Type.getStreamType(encodingType, 0);
+					if (!streamType.isIdentical(timestamp, inputType)) {
+						inputType.getLocation().reportSemanticError(MessageFormat.format("The input type of {0} decoding should be `{1}'' instead of `{2}''",
+								encodingType.getEncodingName(), streamType.getTypename(), inputType.getTypename()));
+					}
+					break;
+				}
+				default:{
+					final Type streamType = Type.getStreamType(encodingType, 0);
+					final Type streamType2 = Type.getStreamType(encodingType, 1);
+					if (!streamType.isIdentical(timestamp, inputType) &&
+							!streamType2.isIdentical(timestamp, inputType)) {
+						outputType.getLocation().reportSemanticError(MessageFormat.format("The input type of {0} decoding should be `{1}'' or `{2}'' instead of `{3}''",
+								encodingType.getEncodingName(), streamType.getTypename(), streamType2.getTypename(), inputType.getTypename()));
+					}
+					break;
+				}
+				}
+			}
+			if (outputType != null && !outputType.hasEncoding(timestamp, encodingType, encodingOptions)) {
+				if (encodingType == MessageEncoding_type.CUSTOM) {
+					outputType.getLocation().reportSemanticError(MessageFormat.format("Output type `{0}'' does not support custom encoding `{1}''", outputType.getTypename(), encodingOptions));
+				} else {
+					outputType.getLocation().reportSemanticError(MessageFormat.format("Output type `{0}'' does not support {1} encoding", outputType.getTypename(), encodingType.getEncodingName()));
+				}
+			} else {
+				if (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER) {
+					if (prototype != EncodingPrototype_type.SLIDING) {
+						getLocation().reportSemanticError(MessageFormat.format("Only `prototype(sliding)' is allowed for {0} decoding functions", encodingType.getEncodingName()));
+					} else if (outputType != null && outputType instanceof IReferencingType){
+						((IReferencingType)outputType).getTypeRefd(timestamp, null).setDecodingFunction(encodingType == MessageEncoding_type.PER ? "PER" : encodingOptions, this);
+					}
+					// functionEncodingType = ExternalFunctionEncodingType_type.MANUAL;
+				}
+			}
 			if (errorBehaviorList != null) {
 				errorBehaviorList.check(timestamp);
 			}
