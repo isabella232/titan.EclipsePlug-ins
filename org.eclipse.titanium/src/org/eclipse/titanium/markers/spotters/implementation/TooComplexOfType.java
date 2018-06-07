@@ -16,6 +16,9 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
+/**
+ * @author Zoltan Koch
+ * */
 public class TooComplexOfType extends BaseModuleCodeSmellSpotter {
 	private static final String ERROR_MESSAGE = "Too complex of type expression. Please consider to create a separate type.";
 	
