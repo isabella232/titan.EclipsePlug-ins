@@ -136,6 +136,8 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.READONLY_VARIABLE, "When a definition was declared to be changeable, but is never modified");
 		m.put(ProblemTypePreference.SELECT_COVERAGE, "When using a select statement with enumeration type, all the possible \n" +
 				"enumeration values should be handled in the select statement");
+		m.put(ProblemTypePreference.SELECT_UNION, "When using a select statement with union type, consider it to use the\n" +
+				"new select union statement");
 		m.put(ProblemTypePreference.SELECT_WITH_NUMBERS_SORTED, "When using a select statement with integer value type, the \n"
 				+ "cases should be incremental ordered.");
 		m.put(ProblemTypePreference.SETVERDICT_WITHOUT_REASON,
@@ -302,6 +304,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.ISBOUND_WITHOUT_ELSE);
 			createField(comp, ProblemTypePreference.CONVERT_TO_ENUM);
 			createField(comp, ProblemTypePreference.SELECT_COVERAGE);
+			createField(comp, ProblemTypePreference.SELECT_UNION);
 			createField(comp, ProblemTypePreference.SELECT_WITH_NUMBERS_SORTED);
 			createField(comp, ProblemTypePreference.ISVALUE_WITH_VALUE);
 			createField(comp, ProblemTypePreference.ITERATE_ON_WRONG_ARRAY);

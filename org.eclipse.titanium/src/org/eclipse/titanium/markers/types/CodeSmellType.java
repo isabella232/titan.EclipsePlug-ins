@@ -50,6 +50,7 @@ public enum CodeSmellType implements ProblemType{
 	READONLY_INOUT_PARAM("Readonly inout formal parameter", 0.0, 2.0, 5.0),
 	RECEIVE_ANY_TEMPLATE("Receive any template", 0.5, 1.0, 6.0),
 	SELECT_COVERAGE("Select coverage", 1.0, 5.0, 15.0),
+	SELECT_UNION("Select union", 1.0, 5.0, 15.0),
 	// numbers copied from select_coverage assuming they are of the same difficulty
 	SELECT_WITH_NUMBERS_SORTED("Select with numbers not sorted", 1.0, 5.0, 15.0),
 	SETVERDICT_WITHOUT_REASON("Setverdict without reason", 0.5, 1.0, 2.0),

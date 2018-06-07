@@ -93,6 +93,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.TOO_MANY_CONSECUTIVE_ASSIGNMENTS_SIZE, 4);
 		preferenceStore.setDefault(ProblemTypePreference.CONVERT_TO_ENUM.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_COVERAGE.getPreferenceName(), GeneralConstants.IGNORE);
+		preferenceStore.setDefault(ProblemTypePreference.SELECT_UNION.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_WITH_NUMBERS_SORTED.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.ON_THE_FLY_SMELLS, false);
 
