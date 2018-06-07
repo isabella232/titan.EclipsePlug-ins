@@ -24,7 +24,8 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 
 /**
  * @author Kristof Szabados
- * */
+ * @author Arpad Lovassy
+ */
 public final class CodeScanner extends RuleBasedScanner {
 
 	public static final String[] KEYWORDS = new String[] { "activate", "address", "alive", "all", "alt", "altstep", "and", "and4b", "any",
@@ -38,7 +39,7 @@ public final class CodeScanner extends RuleBasedScanner {
 
 	public static final String[] TITANSPECIFICKEYWORDS = new String[] { "@try", "@catch" };
 
-	public static final String[] TEMPLATE_MATCH = new String[] { "complement", "ifpresent", "subset", "superset", "permutation" };
+	public static final String[] TEMPLATE_MATCH = new String[] { "complement", "decmatch", "ifpresent", "subset", "superset", "permutation" };
 
 	public static final String[] TYPES = new String[] { "anytype", "bitstring", "boolean", "char", "charstring", "default", "float", "hexstring",
 		"integer", "objid", "octetstring", "universal", "verdicttype", "timer" };
