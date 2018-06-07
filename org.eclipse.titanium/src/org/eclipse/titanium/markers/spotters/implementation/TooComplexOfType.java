@@ -20,7 +20,7 @@ import org.eclipse.titanium.markers.types.CodeSmellType;
  * @author Zoltan Koch
  * */
 public class TooComplexOfType extends BaseModuleCodeSmellSpotter {
-	private static final String ERROR_MESSAGE = "Too complex of type expression. Please consider to create a separate type.";
+	private static final String ERROR_MESSAGE = "Too complex of type description. Can be simplified by creating a new type from the 'of' type with the restricton.";
 	
 	private final CompilationTimeStamp timestamp;
 
