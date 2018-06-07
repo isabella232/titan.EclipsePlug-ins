@@ -89,6 +89,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.ISVALUE_WITH_VALUE.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.ITERATE_ON_WRONG_ARRAY.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.CONSECUTIVE_ASSIGNMENTS.getPreferenceName(), GeneralConstants.IGNORE);
+		preferenceStore.setDefault(ProblemTypePreference.TOO_COMPLEX_OF_TYPE.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.TOO_MANY_CONSECUTIVE_ASSIGNMENTS_SIZE, 4);
 		preferenceStore.setDefault(ProblemTypePreference.CONVERT_TO_ENUM.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_COVERAGE.getPreferenceName(), GeneralConstants.IGNORE);
@@ -171,6 +172,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		// SemanticProblemType.INCORRECT_SHIFT_ROTATE_SIZE, 2, ); // TODO:
 		// missing label in ExRotSize in the xls
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.SIZECHECK_IN_LOOP, 2, 1000);
+		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.TOO_COMPLEX_OF_TYPE, 2, 2000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.TOO_COMPLEX_EXPRESSIONS, 2, 1000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.READONLY_INOUT_PARAM, 2, 4000);
 		setSmellImpactAndBaseLine(preferenceStore, CodeSmellType.READONLY_OUT_PARAM, 2, 50000);
