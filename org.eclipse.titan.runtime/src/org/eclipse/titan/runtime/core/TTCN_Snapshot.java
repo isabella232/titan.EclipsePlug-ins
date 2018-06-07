@@ -66,7 +66,7 @@ public final class TTCN_Snapshot {
 		try {
 			selector.set(Selector.open());
 		} catch (IOException exception) {
-
+			throw new TtcnError(exception);
 		}
 
 		else_branch_found.set(false);
@@ -78,7 +78,7 @@ public final class TTCN_Snapshot {
 		try {
 			selector.set(Selector.open());
 		} catch (IOException exception) {
-
+			throw new TtcnError(exception);
 		}
 	}
 
