@@ -478,16 +478,24 @@ pr_FunctionReference returns[Reference reference]:
 ;
 
 pr_EncodeMapping returns[EncodeMappingHelper helper]
-	:
+	locals[boolean hasErrorBehaviorAttribute]:
 (
-	encodeAttribute = pr_EncodeAttribute
+	encodeAttribute = pr_EncodeAttribute {$hasErrorBehaviorAttribute = false;}
 	(
 		errorBehaviorAttribute = pr_ErrorBehaviorAttribute
 	)?
 	(
-		printingAttribute = pr_PrintingAttribute
+		printingAttribute = pr_PrintingAttribute {$hasErrorBehaviorAttribute = true;}
 	)?
-);
+)
+{
+	if ($hasErrorBehaviorAttribute) {
+		$helper = new EncodeMappingHelper($encodeAttribute.attribute, $errorBehaviorAttribute.attribute);
+	}
+	else {
+		$helper = new EncodeMappingHelper($encodeAttribute.attribute, null);
+	}
+};
 
 pr_DecodeMapping returns[EncodeMappingHelper helper]
 	locals[boolean hasErrorBehaviorAttribute]:
