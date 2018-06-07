@@ -934,7 +934,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
-		//FIXME implement error handling
 		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
 		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
@@ -990,7 +989,6 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_EncDec.error_type");
 		aData.addCommonLibraryImport("TtcnLogger");
 
-		//FIXME implement get_string, error handling and other variants
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
 		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
