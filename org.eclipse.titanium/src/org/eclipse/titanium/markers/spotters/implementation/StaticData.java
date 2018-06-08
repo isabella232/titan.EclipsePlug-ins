@@ -73,6 +73,7 @@ public final class StaticData {
 		m.put(CodeSmellType.READONLY_INOUT_PARAM, new BaseModuleCodeSmellSpotter[] { new ReadOnlyInOutPar() });
 		m.put(CodeSmellType.RECEIVE_ANY_TEMPLATE, new BaseModuleCodeSmellSpotter[] { new ReceiveAnyTemplate() });
 		m.put(CodeSmellType.SELECT_COVERAGE, new BaseModuleCodeSmellSpotter[] { new SelectCoverage() });
+		m.put(CodeSmellType.SELECT_UNION, new BaseModuleCodeSmellSpotter[] { new SelectUnion() });
 		m.put(CodeSmellType.SELECT_WITH_NUMBERS_SORTED, new BaseModuleCodeSmellSpotter[] { new SelectWithNumbersSorted() });
 		m.put(CodeSmellType.SETVERDICT_WITHOUT_REASON, new BaseModuleCodeSmellSpotter[] { new VerdictWithoutReason() });
 		m.put(CodeSmellType.SHORTHAND, new BaseModuleCodeSmellSpotter[] { new Shorthand() });

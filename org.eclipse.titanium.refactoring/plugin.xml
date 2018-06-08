@@ -149,6 +149,16 @@
           id="org.eclipse.titanium.commands.InsertFieldFromEditor"
           name="InsertFieldFromEditor">
     </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.select_union.ChangeToSelectUnionActionFromEditor"
+          id="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
+          name="ChangeToSelectUnionFromEditor">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.select_union.ChangeToSelectUnionActionFromBrowser"
+          id="org.eclipse.titanium.commands.ChangeToSelectUnionFromBrowser"
+          name="ChangeToSelectUnionFromBrowser">
+    </command>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -228,6 +238,12 @@
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.InsertFieldFromEditor"
                  label="Insert field">
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
+                 label="Change union to select union">
            </command>
         </menu>
      </menuContribution>
@@ -345,6 +361,18 @@
            <command
                  commandId="org.eclipse.titanium.commands.InsertFieldProject"
                  label="Insert field">
+                 <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.ChangeToSelectUnionFromBrowser"
+                 label="Change union to select union">
                  <visibleWhen checkEnabled="false">
                      <with variable="selection">  
                         <iterate operator="and">

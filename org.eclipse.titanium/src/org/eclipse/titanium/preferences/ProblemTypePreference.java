@@ -55,6 +55,7 @@ public enum ProblemTypePreference {
 	READONLY_VARIABLE("Report read only variables", EnumSet.of(CodeSmellType.READONLY_LOC_VARIABLE, CodeSmellType.READONLY_OUT_PARAM,
 			CodeSmellType.READONLY_INOUT_PARAM)),
 	SELECT_COVERAGE("Report insufficient coverage of select statements", EnumSet.of(CodeSmellType.SELECT_COVERAGE)),
+	SELECT_UNION("Report unions that can be transformed into select unions", EnumSet.of(CodeSmellType.SELECT_UNION)),
 	SELECT_WITH_NUMBERS_SORTED("Report disordered cases of select statements", EnumSet.of(CodeSmellType.SELECT_WITH_NUMBERS_SORTED)),
 	SETVERDICT_WITHOUT_REASON("Report setverdict without reason", EnumSet.of(CodeSmellType.SETVERDICT_WITHOUT_REASON)),
 	SHORTHAND("Report the usage of shorthand statements", EnumSet.of(CodeSmellType.SHORTHAND)),
