@@ -163,6 +163,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 				"Initializing variables at declaration time is better performance wise, than assigning a value later");
 		m.put(ProblemTypePreference.UNNECESSARY_CONTROLS, "Report controls that can be identified to be unnecessary in compilation time.\n"
 				+ "For example when the conditional expression of an if statements evaluates to false in compilation time.");
+		m.put(ProblemTypePreference.UNNECESSARY_ARRAYS, "Report when arrays are used in code.");
 		m.put(ProblemTypePreference.UNNECESSARY_VALUEOF, "Report when 'valueof' is applied to an actual value, thus having no effect");
 		m.put(ProblemTypePreference.UNUSED_FUNTION_RETURN_VALUES, "When a function returns a value or a template, but it is not used.");
 		m.put(ProblemTypePreference.UNUSED_GLOBAL_DEFINITION, "When a module level definition is never read/written.\n"
@@ -261,6 +262,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
 			createField(comp, ProblemTypePreference.INFINITE_LOOP);
+			createField(comp, ProblemTypePreference.UNNECESSARY_ARRAYS);
 			createField(comp, ProblemTypePreference.UNINITIALIZED_VARIABLE);
 			createField(comp, ProblemTypePreference.SIZECHECK_IN_LOOP);
 			createField(comp, ProblemTypePreference.CONSECUTIVE_ASSIGNMENTS);
