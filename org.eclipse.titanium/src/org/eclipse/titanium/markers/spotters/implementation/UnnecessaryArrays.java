@@ -1,3 +1,10 @@
+/******************************************************************************
+ * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v1.0
+ * which accompanies this distribution, and is available at
+ * http://www.eclipse.org/legal/epl-v10.html
+ ******************************************************************************/
 package org.eclipse.titanium.markers.spotters.implementation;
 
 import java.util.ArrayList;
@@ -12,13 +19,13 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
+
 /**
 @author Török Gábor
 **/
 public class UnnecessaryArrays extends BaseModuleCodeSmellSpotter {
 
-	private static final String ERROR_MESSAGE = "Usage of array statement"
-			+ " can slow the compile time";
+	private static final String ERROR_MESSAGE = "Arrays can slow compilation, consider using record of types";
 	protected final CompilationTimeStamp timestamp;
 	public UnnecessaryArrays() {
 			super(CodeSmellType.UNNECESSARY_ARRAYS);
