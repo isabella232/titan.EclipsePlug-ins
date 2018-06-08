@@ -159,6 +159,16 @@
           id="org.eclipse.titanium.commands.ChangeToSelectUnionFromBrowser"
           name="ChangeToSelectUnionFromBrowser">
     </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.slicing.SlicingActionFromEditor"
+          id="org.eclipse.titanium.commands.SlicingModule"
+          name="SlicingModule">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.slicing.SlicingActionFromBrowser"
+          id="org.eclipse.titanium.commands.SlicingProject"
+          name="SlicingProject">
+    </command>
   </extension>
   <extension
         point="org.eclipse.ui.menus">
@@ -244,6 +254,12 @@
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.ChangeToSelectUnionFromEditor"
                  label="Change union to select union">
+           </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.SlicingModule"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.SlicingModule"
+                 label="Slicing">
            </command>
         </menu>
      </menuContribution>
@@ -382,6 +398,18 @@
                      </with>
                    </visibleWhen>
            </command>
+           <command
+                 commandId="org.eclipse.titanium.commands.SlicingProject"
+                 label="Slicing">
+                 <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
+           </command>
         </menu>
      </menuContribution>
   </extension>
@@ -500,6 +528,18 @@
 	                     </with>
 	                   </visibleWhen>
 	           </command>
+	           <command
+	                  commandId="org.eclipse.titanium.commands.SlicingProject"
+	                  label="Slicing">
+	                  <visibleWhen checkEnabled="false">
+                        <with variable="selection">  
+                           <iterate operator="and">
+                              <adapt type="org.eclipse.core.resources.IResource">
+                              </adapt>  
+                           </iterate>
+                        </with>
+                      </visibleWhen>
+	            </command>
             </menu>
       </menuContribution>
    </extension>
