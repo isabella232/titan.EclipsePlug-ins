@@ -70,6 +70,7 @@ public enum ProblemTypePreference {
 			.of(CodeSmellType.TYPENAME_IN_DEFINITION)),
 	UNCOMMENTED_FUNCTION("Report uncommented functions", EnumSet.of(CodeSmellType.UNCOMMENTED_FUNCTION)),
 	UNINITIALIZED_VARIABLE("Report uninitialized variable", EnumSet.of(CodeSmellType.UNINITIALIZED_VARIABLE)),
+	UNNECESSARY_ARRAYS("Report unnecessary arrays",EnumSet.of(CodeSmellType.UNNECESSARY_ARRAYS)),
 	UNNECESSARY_CONTROLS("Report unnecessary controls", EnumSet.of(CodeSmellType.UNNECESSARY_CONTROLS)),
 	UNNECESSARY_VALUEOF("Report unnecessary 'valueof' operation", EnumSet.of(CodeSmellType.UNNECESSARY_VALUEOF)),
 	UNUSED_FUNTION_RETURN_VALUES("Report unused function return values", EnumSet.of(CodeSmellType.UNUSED_FUNTION_RETURN_VALUES,

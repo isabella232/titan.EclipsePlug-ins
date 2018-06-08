@@ -95,7 +95,8 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_COVERAGE.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.SELECT_WITH_NUMBERS_SORTED.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.ON_THE_FLY_SMELLS, false);
-
+		preferenceStore.setDefault(ProblemTypePreference.UNNECESSARY_ARRAYS.getPreferenceName(), GeneralConstants.WARNING);
+		
 		// Initialize default values of metrics
 		for (final IMetricEnum metric : MetricGroup.knownMetrics()) {
 			final String name = metric.id();
@@ -201,6 +202,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(PreferenceConstants.CLUSTER_AUTO_FOLDER, true);
 		preferenceStore.setDefault(PreferenceConstants.CLUSTER_AUTO_REGEXP, true);
 		preferenceStore.setDefault(PreferenceConstants.CLUSTER_AUTO_NAME, true);
+
 	}
 
 	private static void setSmellImpactAndBaseLine(final IPreferenceStore preferenceStore, final CodeSmellType t, final int imp, final int bl) {

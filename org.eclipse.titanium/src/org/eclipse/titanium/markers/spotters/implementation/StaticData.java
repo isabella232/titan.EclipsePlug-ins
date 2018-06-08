@@ -99,6 +99,7 @@ public final class StaticData {
 		m.put(CodeSmellType.UNUSED_LOCAL_DEFINITION, new BaseModuleCodeSmellSpotter[] { new UnusedLocalDefinition() });
 		m.put(CodeSmellType.VISIBILITY_IN_DEFINITION, new BaseModuleCodeSmellSpotter[] { new Visibility() });
 		m.put(CodeSmellType.RUNS_ON_SCOPE_REDUCTION, new BaseModuleCodeSmellSpotter[] {new RunsOnScopeReduction() });
+		m.put(CodeSmellType.UNNECESSARY_ARRAYS, new BaseModuleCodeSmellSpotter[] {new UnnecessaryArrays() });
 
 		return Collections.unmodifiableMap(m);
 	}
