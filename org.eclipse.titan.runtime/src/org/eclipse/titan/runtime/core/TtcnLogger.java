@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -507,6 +506,9 @@ public final class TtcnLogger {
 		}
 	}
 
+	public static final int majorVersion = 2;
+	public static final int minorVersion = 2;
+
 	static StringBuilder logMatchBuffer = new StringBuilder();
 	static boolean logMatchPrinted = false;
 	static matching_verbosity_t matching_verbosity = matching_verbosity_t.VERBOSITY_COMPACT;
@@ -889,8 +891,9 @@ public final class TtcnLogger {
 		final String logeventtype_names[] = {"No", "Yes", "Subcategories"};
 
 		//FIXME insert correct version numbers
-		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", "in development", "in development"));
-		new_log_message.append(MessageFormat.format("TimeStampFormat:={0}; LogEntityName:={1};", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()]));
+		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", majorVersion, minorVersion));
+		new_log_message.append(MessageFormat.format("TimeStampFormat:={0}; LogEntityName:={1}; LogEventTypes:=FIXME;", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()]));
+		new_log_message.append(MessageFormat.format("SourceInfoFormat:=FIXME; FIXME.FileMask:=FIXME; FIXME.ConsoleMask:=FIXME;", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()]));
 		//FIXME implement rest once relevant
 
 		return new_log_message.toString();
