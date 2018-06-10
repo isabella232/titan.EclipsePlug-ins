@@ -516,11 +516,11 @@ public class TTCN_Communication {
 		//Module_List.push_version(text_buf);
 
 		//FIXME fill with correct machine info
-		text_buf.push_string("node");
-		text_buf.push_string("machine");
-		text_buf.push_string("sysname");
-		text_buf.push_string("release");
-		text_buf.push_string("version");
+		text_buf.push_string("FIXME");//node
+		text_buf.push_string("FIXME");//machine
+		text_buf.push_string("FIXME");//sysname
+		text_buf.push_string("FIXME");//release
+		text_buf.push_string("FIXME");//version
 
 		text_buf.push_int(2);//nof supported transports
 		text_buf.push_int(transport_type_enum.TRANSPORT_LOCAL.ordinal()); //TRANSPORT_LOCAL
