@@ -252,6 +252,13 @@ public class TTCN_Communication {
 		if (is_connected.get()) {
 			throw new TtcnError("Trying to change the address of MC, but there is an existing connection.");
 		}
+		if (MC_host == null) {
+			throw new TtcnError("TTCN_Communication.set_mc_address: internal error: invalid host name.");
+		}
+		if (MC_port < 0) {
+			throw new TtcnError(MessageFormat.format("TTCN_Communication.set_mc_address: internal error: invalid TCP port. {0}", MC_port));
+		}
+
 		//FIXME implement
 		TTCN_Communication.MC_host = MC_host;
 		TTCN_Communication.MC_port = MC_port;
