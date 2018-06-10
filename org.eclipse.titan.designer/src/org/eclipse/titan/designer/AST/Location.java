@@ -401,8 +401,22 @@ public class Location {
 		}
 	}
 
-	//TODO some parts still missing
-	public void create_location_object(final JavaGenData aData, final StringBuilder source, final String entity_type, final String entityName) {
+	/**
+	 * Generates a Java code fragment that instantiates a runtime location
+	 * object containing the file name and source line information carried
+	 * by this. The generation of location objects is optional, it is
+	 * controlled by a command line switch.
+	 * 
+	 * @param aData
+	 *                only used to update imports.
+	 * @param source
+	 *                the source code extend
+	 * @param entityType
+	 *                the kind of the entity thislocation belongs to.
+	 * @param entityName
+	 *                the name of the entity the location belongs to.
+	 * */
+	public void create_location_object(final JavaGenData aData, final StringBuilder source, final String entityType, final String entityName) {
 		if (file != null && line > 0) {
 			if (aData.getAddSourceInfo()) {
 				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location");
@@ -410,26 +424,45 @@ public class Location {
 
 				source.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", ", file.getName()));
 				source.append(line);
-				source.append(MessageFormat.format(", entity_type_t.LOCATION_{0}, \"{1}\");\n", entity_type, entityName));
-				//FIXME implement rest
+				source.append(MessageFormat.format(", entity_type_t.LOCATION_{0}, \"{1}\");\n", entityType, entityName));
+				//TODO add coverage and profiling support if needed
 			}
 		}
 	}
 
+	/**
+	 * Generates a Java code fragment that leaves the innermost runtime
+	 * location object. The function is used at the end of statement blocks.
+	 * 
+	 * @param aData
+	 *                only used to update imports.
+	 * @param source
+	 *                the source code extend
+	 * */
 	public void release_location_object(final JavaGenData aData, final StringBuilder source) {
 		if (file != null && line > 0) {
 			if (aData.getAddSourceInfo()) {
 				source.append("current_location.leave();\n");
-				//FIXME implement rest
+				//TODO add coverage and profiling support if needed
 			}
 		}
 	}
 
+	/**
+	 * Generates a Java code fragment that updates the line number
+	 * information of the innermost runtime location object. The function is
+	 * used by subsequent statements of statement blocks.
+	 * 
+	 * @param aData
+	 *                only used to update imports.
+	 * @param source
+	 *                the source code extend
+	 * */
 	public void update_location_object(final JavaGenData aData, final StringBuilder source) {
 		if (file != null && line > 0) {
 			if (aData.getAddSourceInfo()) {
 				source.append("current_location.update_lineno(").append(line).append(");\n");
-				//FIXME implement rest
+				//TODO add coverage and profiling support if needed
 			} else {
 				source.append("/* ").append(file.getName()).append(", line ").append(line).append(" */\n");
 			}
