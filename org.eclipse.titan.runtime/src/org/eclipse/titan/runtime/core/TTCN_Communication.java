@@ -523,10 +523,10 @@ public class TTCN_Communication {
 		//Module_List.push_version(text_buf);
 
 		//FIXME fill with correct machine info
-		text_buf.push_string("FIXME");//node
-		text_buf.push_string("FIXME");//machine
-		text_buf.push_string("FIXME");//sysname
-		text_buf.push_string("FIXME");//release
+		text_buf.push_string(TTCN_Runtime.get_host_name());//node
+		text_buf.push_string(System.getProperty("os.arch"));//machine
+		text_buf.push_string(System.getProperty("os.name"));//sysname
+		text_buf.push_string(System.getProperty("os.version"));//release
 		text_buf.push_string("FIXME");//version
 
 		text_buf.push_int(2);//nof supported transports
