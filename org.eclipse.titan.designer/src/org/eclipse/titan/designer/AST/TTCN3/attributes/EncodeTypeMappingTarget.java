@@ -131,7 +131,7 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 
 		final Type streamType = Type.getStreamType(encodeAttribute.getEncodingType(), 1);
 		if (streamType != null && !streamType.isIdentical(timestamp, targetType)) {
-			targetType.getLocation().reportSemanticError(MessageFormat.format("Target type of {0} encoding should be `{1}'' instead of `{1}''", encodeAttribute.getEncodingType().getEncodingName(), streamType.getTypename(), targetType.getTypename()));
+			targetType.getLocation().reportSemanticError(MessageFormat.format("Target type of {0} encoding should be `{1}'' instead of `{2}''", encodeAttribute.getEncodingType().getEncodingName(), streamType.getTypename(), targetType.getTypename()));
 		}
 
 		if (errorBehaviorAttribute != null) {

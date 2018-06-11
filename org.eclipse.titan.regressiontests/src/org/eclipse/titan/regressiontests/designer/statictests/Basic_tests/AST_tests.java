@@ -119,7 +119,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> attribute_tests_ttcn_initializer() {
 		//attribute_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(189);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(191);
 		int lineNum = 54;
 		markersToCheck.add(new MarkerToCheck("The function must have one parameter instead of 0 for attribute `prototype(convert)'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 4;
@@ -210,7 +210,10 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("Attribute `decode' cannot be used without `prototype'",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 7;
 		markersToCheck.add(new MarkerToCheck("Duplicate definition with name `f_encode_good' was declared here again",  lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 24;
+		lineNum += 20;
+		markersToCheck.add(new MarkerToCheck("Target type of BER encoding should be `octetstring' instead of `integer'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Source type of BER encoding should be `octetstring' instead of `integer'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 3;
 		markersToCheck.add(new MarkerToCheck("The input type of external function `@attribute_tests.f_encode_good' must be the same as the source type of the mapping: `integer' was expected instead of `charstring'",  lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 6;
 		markersToCheck.add(new MarkerToCheck("Attributes `address' and `internal' cannot be used at the same time",  lineNum, IMarker.SEVERITY_ERROR));
