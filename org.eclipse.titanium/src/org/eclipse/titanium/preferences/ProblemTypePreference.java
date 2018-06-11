@@ -29,6 +29,7 @@ public enum ProblemTypePreference {
 	LANGUAGE_MIXING("Report modules with different language restrictions", EnumSet.of(CodeSmellType.LANGUAGE_MIXING)),
 	CONSECUTIVE_ASSIGNMENTS("Report consecutive assignments", EnumSet.of(CodeSmellType.CONSECUTIVE_ASSIGNMENTS)),
 	CONVERT_TO_ENUM("Report usage of non-enumeration types in select statements", EnumSet.of(CodeSmellType.CONVERT_TO_ENUM)),
+	DUPLICATE_NAME("Report usage of duplicate name",EnumSet.of(CodeSmellType.DUPLICATE_NAME)),
 	EMPTY_STATEMENT_BLOCK("Report empty statement blocks", EnumSet.of(CodeSmellType.EMPTY_STATEMENT_BLOCK)),
 	DEFINITION_NAME_TOO_LONG("Report usuage of how long function name should be",EnumSet.of(CodeSmellType.DEFINITION_NAME_TOO_LONG)),
 	GOTO("Report the usage of label and goto statements", EnumSet.of(CodeSmellType.GOTO)),

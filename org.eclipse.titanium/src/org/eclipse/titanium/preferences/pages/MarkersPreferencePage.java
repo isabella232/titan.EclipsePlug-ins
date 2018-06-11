@@ -95,6 +95,9 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.GOTO,
 				"In almost all cases the usage of goto should be forbidden as it can very easily breaks the principles of"
 						+ " structured/well designed source code.");
+		m.put(ProblemTypePreference.DUPLICATE_NAME,
+				"In almost all cases the usage of same name is discouraged as it can introduce confusion"
+						+ " in structured/well designed source code.");
 		m.put(ProblemTypePreference.IF_INSTEAD_ALTGUARD, "When an alt branch begins with an if statement,"
 				+ " it should be considered whether it might be changed to an alt guard");
 		m.put(ProblemTypePreference.IF_INSTEAD_RECEIVE_TEMPLATE,
@@ -251,6 +254,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			createField(comp, ProblemTypePreference.MODULENAME_IN_DEFINITION);
 			createField(comp, ProblemTypePreference.TYPENAME_IN_DEFINITION);
 			createField(comp, ProblemTypePreference.MAGIC_CONSTANTS);
+			createField(comp, ProblemTypePreference.DUPLICATE_NAME);
 			sec.addExpansionListener(new CustomExpansionListener(comp));
 			sec.setClient(comp);
 			sec.setExpanded(false);

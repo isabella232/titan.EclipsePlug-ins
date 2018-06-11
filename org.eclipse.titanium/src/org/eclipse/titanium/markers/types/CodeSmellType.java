@@ -74,7 +74,8 @@ public enum CodeSmellType implements ProblemType{
 	UNUSED_LOCAL_DEFINITION("Unused local definition",0.0, 0.5, 1.5),
 	VISIBILITY_IN_DEFINITION("Visibility in definition", 0.0, 0.5, 4.5),
 	RUNS_ON_SCOPE_REDUCTION("Runs on scope reduction",0.0, 0.0, 0.0), //FIXME: valid parameters 
-	UNNECESSARY_ARRAYS("Unnecessary arrays",0.0,0.0,0.0);//FIXME: valid parameters
+	UNNECESSARY_ARRAYS("Unnecessary arrays",0.0,0.0,0.0),//FIXME: valid parameters
+	DUPLICATE_NAME("Duplicate name",0.0,0.0,0.0);//FIXME: valid parameters
 
 	public static final String MARKER_ID = "org.eclipse.titanium.markers.CodeSmellMarker";
 	public static final String PROBLEM = "problem";

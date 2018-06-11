@@ -61,6 +61,7 @@ public class PreferenceInitializer extends AbstractPreferenceInitializer {
 		preferenceStore.setDefault(ProblemTypePreference.MAGIC_CONSTANTS.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(ProblemTypePreference.DEFINITION_NAME_TOO_LONG.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(PreferenceConstants.DEFINITION_NAME_TOO_LONG_LENGTH, 42);
+		preferenceStore.setDefault(ProblemTypePreference.DUPLICATE_NAME.getPreferenceName(), GeneralConstants.WARNING);
 		preferenceStore.setDefault(ProblemTypePreference.TOO_MANY_PARAMETERS.getPreferenceName(), GeneralConstants.IGNORE);
 		preferenceStore.setDefault(PreferenceConstants.TOO_MANY_PARAMETERS_SIZE, 7);
 		preferenceStore.setDefault(ProblemTypePreference.TOO_COMPLEX_EXPRESSIONS.getPreferenceName(), GeneralConstants.IGNORE);
