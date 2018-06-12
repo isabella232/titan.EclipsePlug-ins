@@ -2144,6 +2144,7 @@ public class RecordSetCodeGenerator {
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
 
+			source.append(MessageFormat.format("\t\t\t\t{0} = new {1}();\n", fi.mVarName, fi.mJavaTemplateTypeName ) );
 			source.append(MessageFormat.format("\t\t\t\t{0}.decode_text(text_buf);\n", fi.mVarName ) );
 		}
 		source.append("\t\t\t\tbreak;\n");
