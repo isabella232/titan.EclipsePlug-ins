@@ -98,7 +98,12 @@ public final class TTCN_Runtime {
 	};
 
 	//in the compiler in_ttcn_try_block
-	private static int ttcn_try_block_counter = 0;
+	private static ThreadLocal<Integer> ttcn_try_block_counter = new ThreadLocal<Integer>() {
+		@Override
+		protected Integer initialValue() {
+			return 0;
+		}
+	};
 
 	private static ThreadLocal<Integer> create_done_killed_compref = new ThreadLocal<Integer>() {
 		@Override
@@ -287,15 +292,15 @@ public final class TTCN_Runtime {
 	}
 
 	public static void increase_try_catch_counter() {
-		ttcn_try_block_counter++;
+		ttcn_try_block_counter.set(ttcn_try_block_counter.get() + 1);
 	}
 
 	public static void decrease_try_catch_counter() {
-		ttcn_try_block_counter--;
+		ttcn_try_block_counter.set(ttcn_try_block_counter.get() - 1);
 	}
 
 	public static boolean is_in_ttcn_try_block() {
-		return ttcn_try_block_counter > 0;
+		return ttcn_try_block_counter.get() > 0;
 	}
 
 	//originally in_controlpart
