@@ -97,8 +97,8 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 						try	{
 							File zipFile = new File(backupDir, projectName + "_" + dateTime + ".zip");
 							zipFile.createNewFile();
-							try (ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile))) {
-
+							try {
+								ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
 								File f;
 
 								Iterator<ModuleStruct> ttcn3Files = makefileGenerator.getTtcn3Modules().iterator();
