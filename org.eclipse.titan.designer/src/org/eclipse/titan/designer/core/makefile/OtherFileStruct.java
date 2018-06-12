@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.core.makefile;
 /**
  * @author Szabolcs Beres
  * */
-final class OtherFileStruct implements Comparable<OtherFileStruct> {
+public final class OtherFileStruct implements Comparable<OtherFileStruct> {
 	/** if null the file is in the current working directory */
 	private String directory;
 	private String originalLocation;

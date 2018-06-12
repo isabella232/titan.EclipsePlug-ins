@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.core.makefile;
 /**
  * @author Szabolcs Beres
  * */
-final class ModuleStruct implements Comparable<ModuleStruct> {
+public final class ModuleStruct implements Comparable<ModuleStruct> {
 	/** if null the file is in the current working directory */
 	private String directory;
 	private String originalLocation;

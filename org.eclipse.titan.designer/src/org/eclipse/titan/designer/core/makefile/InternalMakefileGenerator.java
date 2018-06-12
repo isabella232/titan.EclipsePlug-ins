@@ -124,6 +124,14 @@ public final class InternalMakefileGenerator {
 	 */
 	private boolean useCrossCompilation = false;
 
+	private List<IProject> reachableProjects;
+	
+	private boolean centralStorage;
+	
+	public InternalMakefileGenerator(IProject project) {
+		this.project = project;
+	}
+	
 	/**
 	 * Converts all directories used to generate the Makefile to relative
 	 * pathnames based on the working directory.
@@ -556,7 +564,7 @@ public final class InternalMakefileGenerator {
 	 * @param project the project for which the Makefile should be
 	 *                generated.
 	 */
-	public void generateMakefile(final IProject project) {
+	public void generateMakefile() {
 
 		if(Cygwin.isMissingInOSWin32()) {
 			ErrorReporter.logError(MISSING_CYGWIN);
@@ -566,7 +574,6 @@ public final class InternalMakefileGenerator {
 		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
-		this.project = project;
 		this.projectLocation = project.getLocation().toOSString();
 		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 
@@ -581,74 +588,9 @@ public final class InternalMakefileGenerator {
 			return;
 		}
 
-		boolean centralStorage = false;
-		try {
-			MakefileGeneratorVisitor visitor = new MakefileGeneratorVisitor(this, project);
-			project.accept(visitor);
-			centralStorage = !visitor.getCentralStorages().isEmpty();
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			return;
-		}
 
-		List<IProject> reachableProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
-		boolean foundClosedProject = false;
-		for (IProject reachableProject : reachableProjects) {
-			if (!reachableProject.isAccessible()) {
-				final StringBuilder builder = new StringBuilder("The project `" + reachableProject.getName()
-						+ "' (reachable from project `" + project.getName()
-						+ "') is not accessible.");
-				final IProject[] referencingProjects = reachableProject.getReferencingProjects();
-				if (referencingProjects != null && referencingProjects.length > 0) {
-					builder.append(" The project `").append(reachableProject.getName()).append("' is referenced directly by");
-					for (IProject referencingProject : referencingProjects) {
-						builder.append(" `").append(referencingProject.getName()).append('\'');
-					}
-				}
-				ErrorReporter.logError(builder.toString());
-				foundClosedProject = true;
-			} else if (!reachableProject.equals(project)) {
-				centralStorage = true;
-				try {
-					reachableProject.accept(new MakefileGeneratorVisitor(this, reachableProject));
-				} catch (CoreException e) {
-					ErrorReporter.logExceptionStackTrace(e);
-					return;
-				}
-			}
-		}
-
-		if (foundClosedProject) {
-			ErrorReporter.parallelErrorDisplayInMessageDialog("Error during Makefile generation",
-					"A makefile can not be generated for project " + project.getName() + "\n"
-							+ "Some of the projects referenced by it are not accessible.\n"
-							+ "Please check the error log for more details.");
-			return;
-		}
-
-		try {
-			codeSplittingMode = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
-					MakefileCreationData.CODE_SPLITTING_PROPERTY));
-			if (codeSplittingMode == null || GeneralConstants.NONE.equals(codeSplittingMode)) {
-				codeSplittingMode = GeneralConstants.NONE;
-			} else if (!GeneralConstants.TYPE.equals(codeSplittingMode)) {
-				try {
-					Integer.parseInt(codeSplittingMode);
-				} catch (NumberFormatException ex) {
-					ErrorReporter.logExceptionStackTrace(ex);
-					codeSplittingMode = GeneralConstants.NONE;
-				}
-			}
-		} catch (CoreException e) {
-			ErrorReporter.logExceptionStackTrace(e);
-			return;
-		}
-
-		// Add the Makefile to the other files, as it will belong there
-		// once we create it
-		OtherFileStruct otherFile = new OtherFileStruct(null, null, "Makefile");
-		otherFiles.add(otherFile);
-
+		gatherInformation();
+		
 		if (!useAbsolutePathNames) {
 			convertDirsToRelative();
 		}
@@ -2259,6 +2201,76 @@ public final class InternalMakefileGenerator {
 		}
 	}
 
+	public void gatherInformation() {
+		centralStorage = false;
+		try {
+			MakefileGeneratorVisitor visitor = new MakefileGeneratorVisitor(this, project);
+			project.accept(visitor);
+			centralStorage = !visitor.getCentralStorages().isEmpty();
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+			return;
+		}
+	
+		reachableProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
+		boolean foundClosedProject = false;
+		for (IProject reachableProject : reachableProjects) {
+			if (!reachableProject.isAccessible()) {
+				final StringBuilder builder = new StringBuilder("The project `" + reachableProject.getName()
+						+ "' (reachable from project `" + project.getName()
+						+ "') is not accessible.");
+				final IProject[] referencingProjects = reachableProject.getReferencingProjects();
+				if (referencingProjects != null && referencingProjects.length > 0) {
+					builder.append(" The project `").append(reachableProject.getName()).append("' is referenced directly by");
+					for (IProject referencingProject : referencingProjects) {
+						builder.append(" `").append(referencingProject.getName()).append('\'');
+					}
+				}
+				ErrorReporter.logError(builder.toString());
+				foundClosedProject = true;
+			} else if (!reachableProject.equals(project)) {
+				centralStorage = true;
+				try {
+					reachableProject.accept(new MakefileGeneratorVisitor(this, reachableProject));
+				} catch (CoreException e) {
+					ErrorReporter.logExceptionStackTrace(e);
+					return;
+				}
+			}
+		}
+	
+		if (foundClosedProject) {
+			ErrorReporter.parallelErrorDisplayInMessageDialog("Error during Makefile generation",
+					"A makefile can not be generated for project " + project.getName() + "\n"
+							+ "Some of the projects referenced by it are not accessible.\n"
+							+ "Please check the error log for more details.");
+			return;
+		}
+	
+		try {
+			codeSplittingMode = project.getPersistentProperty(new QualifiedName(ProjectBuildPropertyData.QUALIFIER,
+					MakefileCreationData.CODE_SPLITTING_PROPERTY));
+			if (codeSplittingMode == null || GeneralConstants.NONE.equals(codeSplittingMode)) {
+				codeSplittingMode = GeneralConstants.NONE;
+			} else if (!GeneralConstants.TYPE.equals(codeSplittingMode)) {
+				try {
+					Integer.parseInt(codeSplittingMode);
+				} catch (NumberFormatException ex) {
+					ErrorReporter.logExceptionStackTrace(ex);
+					codeSplittingMode = GeneralConstants.NONE;
+				}
+			}
+		} catch (CoreException e) {
+			ErrorReporter.logExceptionStackTrace(e);
+			return;
+		}
+	
+		// Add the Makefile to the other files, as it will belong there
+		// once we create it
+		OtherFileStruct otherFile = new OtherFileStruct(null, null, "Makefile");
+		otherFiles.add(otherFile);
+	}
+	
 	private StringBuilder appendExecutableTarget(final StringBuilder contents, final String allObjects, final boolean externalLibrariesDisabled) {
 		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
@@ -2795,5 +2807,41 @@ public final class InternalMakefileGenerator {
 
 	public void setAllProjectsUseSymbolicLinks(final boolean allProjectsUseSymbolicLinks) {
 		this.allProjectsUseSymbolicLinks = allProjectsUseSymbolicLinks;
+	}
+
+	public String getProjectLocation() {
+		return projectLocation;
+	}
+
+	public List<ModuleStruct> getTtcn3Modules() {
+		return ttcn3Modules;
+	}
+
+	public List<ModuleStruct> getTtcnppModules() {
+		return ttcnppModules;
+	}
+
+	public List<TTCN3IncludeFileStruct> getTtcn3IncludeFiles() {
+		return ttcn3IncludeFiles;
+	}
+
+	public List<ModuleStruct> getAsn1modules() {
+		return asn1modules;
+	}
+
+	public List<UserStruct> getUserFiles() {
+		return userFiles;
+	}
+
+	public List<OtherFileStruct> getOtherFiles() {
+		return otherFiles;
+	}
+
+	public List<BaseDirectoryStruct> getAdditionallyIncludedFolders() {
+		return additionallyIncludedFolders;
+	}
+
+	public List<IProject> getReachableProjects() {
+		return reachableProjects;
 	}
 }
