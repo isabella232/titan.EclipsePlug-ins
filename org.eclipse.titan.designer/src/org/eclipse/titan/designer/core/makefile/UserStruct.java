@@ -10,7 +10,7 @@ package org.eclipse.titan.designer.core.makefile;
 /**
  * @author Szabolcs Beres
  * */
-final class UserStruct implements Comparable<UserStruct> {
+public final class UserStruct implements Comparable<UserStruct> {
 	/** if null the file is in the current working directory */
 	private String directory;
 	private String originalSourceLocation;

@@ -370,8 +370,8 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				// instead of just deleting it
 				// this looks better on the user interface as
 				// the file does not disappears from the user.
-				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator();
-				makefileGenerator.generateMakefile(project);
+				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(project);
+				makefileGenerator.generateMakefile();
 			} else {
 				File file = new File(workingDir.toOSString() + File.separatorChar + MAKEFILE);
 				if (file.exists()) {
@@ -445,8 +445,8 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				// instead of just deleting it
 				// this looks better on the user interface as
 				// the file does not disappear from the user.
-				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator();
-				makefileGenerator.generateMakefile(project);
+				InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(project);
+				makefileGenerator.generateMakefile();
 			} else {
 				final TITANJob buildJob = new TITANJob(BUILD_PROCESS, new HashMap<String, IFile>(), workingDir.toFile(),
 						project);
@@ -627,8 +627,8 @@ public final class TITANBuilder extends IncrementalProjectBuilder {
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		if (ProjectBuildPropertyData.useInternalMakefilegeneration(getProject())) {
-			InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator();
-			makefileGenerator.generateMakefile(getProject());
+			InternalMakefileGenerator makefileGenerator = new InternalMakefileGenerator(getProject());
+			makefileGenerator.generateMakefile();
 		} else {
 			List<String> command = ExternalMakefileGenerator.createMakefileGeneratorCommand(getProject());
 			buildJob.addCommand(command, CREATE_MAKEFILE);
