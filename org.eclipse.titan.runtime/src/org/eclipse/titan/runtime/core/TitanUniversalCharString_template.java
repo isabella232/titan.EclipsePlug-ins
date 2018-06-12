@@ -948,6 +948,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		case STRING_PATTERN:
 			//FIXME implement for pattern
 		case SPECIFIC_VALUE:
+			single_value = new TitanUniversalCharString();
 			single_value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:

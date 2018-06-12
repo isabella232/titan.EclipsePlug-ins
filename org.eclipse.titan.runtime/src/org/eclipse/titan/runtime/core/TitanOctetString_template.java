@@ -784,6 +784,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
+			single_value = new TitanOctetString();
 			single_value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:

@@ -897,6 +897,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:
 			//FIXME implement for pattern
 		case SPECIFIC_VALUE:
+			single_value = new TitanCharString();
 			single_value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:
@@ -911,8 +912,10 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case VALUE_RANGE:
 			final byte[] temp = new byte[1];
 			text_buf.pull_raw(1, temp);
+			min_value = new TitanCharString();
 			min_value.getValue().setCharAt(0, (char)temp[0]);
 			text_buf.pull_raw(1, temp);
+			max_value = new TitanCharString();
 			max_value.getValue().setCharAt(0, (char)temp[0]);
 			min_is_set = true;
 			max_is_set = true;
