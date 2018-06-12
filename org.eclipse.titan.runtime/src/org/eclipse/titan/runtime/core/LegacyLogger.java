@@ -199,6 +199,23 @@ public class LegacyLogger implements ILoggerPlugin {
 		return is_configured;
 	}
 	
+	private void fatal_error(final String err_msg, Object... args) {
+		System.err.println("Fatal error during logging: ");
+		if (args == null || err_msg == null) {
+			System.err.println(" (Unkown error!)");
+		}
+		if (args == null && err_msg != null) {
+			System.err.println(err_msg);
+		}
+		if (args != null && err_msg != null) {
+			MessageFormat err_str = new MessageFormat(err_msg);
+			err_str.format(args);
+			System.err.println(err_str.toString());
+		}
+		System.err.println("Exiting.\n");
+		System.exit(1);
+	}
+
 	private enum whoami{SINGLE, HC, MTC, PTC};
 	
 	/** @brief Construct the log file name, performs substitutions.
@@ -362,8 +379,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				File path_backup_file = new File(path_backup);
 				if (!path_backup_file.exists()) {
 					if (!path_backup_file.mkdir()) {
-						//fatal error
-						System.err.println(MessageFormat.format("Creation of {0} directory failed!", path_backup));
+						fatal_error("Creation of directory {0} failed when trying to open log file {1}.", path_backup, path_name);
 					}
 				}
 			}
@@ -421,8 +437,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 			er_ = new File(filename_emergency);
 			if (er_ == null) {
-				//fatal error
-				throw new TtcnError(MessageFormat.format("Opening of log file {0} for writing failed.", filename_emergency));
+				fatal_error("Opening of log file {0} for writing failed.", filename_emergency);
 			}
 		}
 		write_succes = true;
@@ -519,8 +534,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		if (!print_success) {
 			switch (disk_full_action_.type) {
 			case DISKFULL_ERROR:
-				//fatal error
-				System.err.println("Writing to log file failed.");
+				fatal_error("Writing to log file failed.");
 				break;
 			case DISKFULL_STOP:
 				is_disk_full_ = true;
@@ -553,15 +567,13 @@ public class LegacyLogger implements ILoggerPlugin {
 					}
 				}
 				if (!print_success) {
-					//fatal_error
-					System.err.println("Writing to log file failed.");
+					fatal_error("Writing to log file failed.");
 				} else {
 					logfile_bytes_ = bytes_to_log;
 				}
 				break;
 			default:
-				//fatal error
-				System.err.println("LegacyLogger::log(): invalid DiskFullAction type.");
+				fatal_error("LegacyLogger.log(): invalid DiskFullAction type.");
 				break;
 			}
 		} else {
@@ -910,7 +922,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append(MessageFormat.format("Initializing module {0} finished.", rt.getModule__name().get().getValue()));
 				break;
 			case mtc__created:
-				returnValue.append(MessageFormat.format("MTC was created. Process id: %ld.", rt.getPid().get().getInt()));
+				returnValue.append(MessageFormat.format("MTC was created. Process id: {0}.", rt.getPid().get().getInt()));
 				break;
 			case overload__check:
 				returnValue.append("Trying to create a dummy child process to verify if the host is still overloaded.");
