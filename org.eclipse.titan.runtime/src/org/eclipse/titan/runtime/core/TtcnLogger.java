@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.File;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -1092,10 +1093,17 @@ public final class TtcnLogger {
 	public static void set_executable_name() {
 		//TODO: initial implementation, more complex
 		executable_name = "";
-		executable_name = System.getProperty("user.dir");
-		executable_name = executable_name + "\\java_bin\\org\\eclipse\\titan\\generated\\" + executable_name.substring(executable_name.lastIndexOf("\\") + 1);
+		boolean is_jar = TtcnLogger.class.getResource("TtcnLogger.class").toString().startsWith("jar:");
+		if (is_jar) {
+			executable_name = System.getProperty("user.dir") + "\\";
+			String file_name = new File(TtcnLogger.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
+			executable_name = executable_name + file_name.replace(".jar", "");
+		} else {
+			executable_name = System.getProperty("user.dir");
+			executable_name = executable_name + "\\" + executable_name.substring(executable_name.lastIndexOf("\\") + 1);
+		}
 	}
-	
+
 	public static String get_executable_name() {
 		return executable_name;
 	}
