@@ -518,14 +518,16 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			transfer.decode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			list_value = new ArrayList<TitanEmbedded_PDV_identification_syntaxes_template>(text_buf.pull_int().getInt());
-			for (int i = 0; i < list_value.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int size = text_buf.pull_int().getInt();
+			list_value = new ArrayList<TitanEmbedded_PDV_identification_syntaxes_template>(size);
+			for (int i = 0; i < size; i++) {
 				final TitanEmbedded_PDV_identification_syntaxes_template temp = new TitanEmbedded_PDV_identification_syntaxes_template();
 				temp.decode_text(text_buf);
 				list_value.add(temp);
 			}
 			break;
+		}
 		default:
 			throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type EMBEDDED PDV.identification.syntaxes.");
 		}

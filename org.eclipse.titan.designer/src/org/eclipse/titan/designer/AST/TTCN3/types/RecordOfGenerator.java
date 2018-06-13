@@ -2201,9 +2201,9 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\tcase VALUE_LIST:\n");
 		aSb.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
-		aSb.append("\t\t\t\tfinal int temp = text_buf.pull_int().getInt();\n");
-		aSb.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(temp);\n", genName));
-		aSb.append("\t\t\t\tfor (int i = 0; i < temp; i++) {\n");
+		aSb.append("\t\t\t\tfinal int size = text_buf.pull_int().getInt();\n");
+		aSb.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(size);\n", genName));
+		aSb.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		aSb.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp2 = new {0}_template();\n", genName));
 		aSb.append("\t\t\t\t\ttemp2.decode_text(text_buf);\n");
 		aSb.append("\t\t\t\t\tlist_value.add(temp2);\n");

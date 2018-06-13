@@ -560,14 +560,16 @@ public class TitanInteger_template extends Base_Template {
 			single_value = text_buf.pull_int();
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			value_list = new ArrayList<TitanInteger_template>(text_buf.pull_int().getInt());
-			for (int i = 0; i < value_list.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int size = text_buf.pull_int().getInt();
+			value_list = new ArrayList<TitanInteger_template>(size);
+			for (int i = 0; i < size; i++) {
 				final TitanInteger_template temp = new TitanInteger_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);
 			}
 			break;
+		}
 		case VALUE_RANGE:
 			min_is_present = text_buf.pull_int().getInt() != 0;
 			if (min_is_present) {

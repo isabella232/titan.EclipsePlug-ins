@@ -462,14 +462,16 @@ public class TitanVerdictType_template extends Base_Template {
 			single_value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			value_list = new ArrayList<TitanVerdictType_template>(text_buf.pull_int().getInt());
-			for (int i = 0; i < value_list.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int size = text_buf.pull_int().getInt();
+			value_list = new ArrayList<TitanVerdictType_template>(size);
+			for (int i = 0; i < size; i++) {
 				final TitanVerdictType_template temp = new TitanVerdictType_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);
 			}
 			break;
+		}
 		default:
 			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a verdict template.");
 		}

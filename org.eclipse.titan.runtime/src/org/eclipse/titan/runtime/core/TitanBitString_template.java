@@ -707,14 +707,16 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			single_value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			value_list = new ArrayList<TitanBitString_template>(text_buf.pull_int().getInt());
-			for (int i = 0; i < value_list.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int size = text_buf.pull_int().getInt();
+			value_list = new ArrayList<TitanBitString_template>(size);
+			for (int i = 0; i < size; i++) {
 				final TitanBitString_template temp = new TitanBitString_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);
 			}
 			break;
+		}
 		case STRING_PATTERN: {
 			final int n_elements = text_buf.pull_int().getInt();
 			pattern_value = new int[n_elements];

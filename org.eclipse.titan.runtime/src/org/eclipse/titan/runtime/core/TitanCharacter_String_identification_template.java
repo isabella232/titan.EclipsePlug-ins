@@ -720,9 +720,9 @@ public class TitanCharacter_String_identification_template extends Base_Template
 		}
 		case VALUE_LIST:
 		case COMPLEMENTED_LIST: {
-			final int temp = text_buf.pull_int().getInt();
-			value_list = new ArrayList<TitanCharacter_String_identification_template>(temp);
-			for (int i = 0; i < temp; i++) {
+			final int size = text_buf.pull_int().getInt();
+			value_list = new ArrayList<TitanCharacter_String_identification_template>(size);
+			for (int i = 0; i < size; i++) {
 				final TitanCharacter_String_identification_template temp2 = new TitanCharacter_String_identification_template();
 				temp2.decode_text(text_buf);
 				value_list.add(temp2);

@@ -1433,9 +1433,9 @@ public class UnionGenerator {
 		source.append("}\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST: {\n");
-		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(temp);\n", genName));
-		source.append("for (int i = 0; i < temp; i++) {\n");
+		source.append("final int size = text_buf.pull_int().getInt();\n");
+		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(size);\n", genName));
+		source.append("for (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("final {0}_template temp2 = new {0}_template();\n", genName));
 		source.append("temp2.decode_text(text_buf);\n");
 		source.append("value_list.add(temp2);\n");

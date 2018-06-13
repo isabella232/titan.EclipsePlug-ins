@@ -952,14 +952,16 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			single_value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			value_list = new ArrayList<TitanUniversalCharString_template>(text_buf.pull_int().getInt());
-			for (int i = 0; i < value_list.size(); i++) {
+		case COMPLEMENTED_LIST: {
+			final int size = text_buf.pull_int().getInt();
+			value_list = new ArrayList<TitanUniversalCharString_template>(size);
+			for (int i = 0; i < size; i++) {
 				final TitanUniversalCharString_template temp = new TitanUniversalCharString_template();
 				temp.decode_text(text_buf);
 				value_list.add(temp);
 			}
 			break;
+		}
 		case VALUE_RANGE:
 			final byte[] buf = new byte[8];
 			text_buf.pull_raw(8, buf);
