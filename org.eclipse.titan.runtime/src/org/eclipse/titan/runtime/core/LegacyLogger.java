@@ -91,14 +91,10 @@ public class LegacyLogger implements ILoggerPlugin {
 	private File log_fp_;
 	private boolean is_configured;
 	private File er_;
-	private ThreadLocal<BufferedWriter> log_file_writer = new ThreadLocal<BufferedWriter>(){
+	private static final ThreadLocal<BufferedWriter> log_file_writer = new ThreadLocal<BufferedWriter>(){
 		@Override
 		protected BufferedWriter initialValue(){
-			try{
-				return new BufferedWriter(new FileWriter(log_fp_),32768);
-			} catch (IOException e) {
-				return null;
-			}
+			return null;
 		}
 	};
 
@@ -191,9 +187,11 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	public void close_file() {
-		if (log_file_writer == null) {
+		if (log_file_writer.get() == null) {
 			return;
-		} try {
+		}
+
+		try {
 			log_file_writer.get().close();
 		} catch ( IOException e ) {
 			System.err.println("Cannot close file!");
