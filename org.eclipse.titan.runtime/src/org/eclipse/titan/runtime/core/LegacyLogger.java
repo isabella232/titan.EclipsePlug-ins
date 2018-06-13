@@ -101,7 +101,13 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 		}
 	};
-	
+
+	private static final ThreadLocal<Boolean> already_warned = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return new Boolean(false);
+		}
+	};
 
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
 		if (separate_file) {
@@ -330,12 +336,6 @@ public class LegacyLogger implements ILoggerPlugin {
 			}
 		}
 
-		ThreadLocal<Boolean> already_warned = new ThreadLocal<Boolean>() {
-			@Override
-			protected Boolean initialValue() {
-				return new Boolean(false);
-			}
-		};
 		if (ret_val.length() == 0) {
 			ret_val = null;
 		} else if (whoami_variable == whoami.HC && !already_warned.get().booleanValue()) {
