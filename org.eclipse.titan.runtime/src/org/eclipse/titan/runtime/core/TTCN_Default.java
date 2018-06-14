@@ -18,22 +18,37 @@ public final class TTCN_Default {
 	// TODO check why does this never decrease
 	private static int defaultCount = 0;
 	private static int backupCount = 0;
-	private static final LinkedList<Default_Base> DEFAULTS = new LinkedList<Default_Base>();
-	private static final LinkedList<Default_Base> BACKUP_DEFAULTS = new LinkedList<Default_Base>();
-	private static boolean controlDefaultsSaved = false;
+	private static final ThreadLocal<LinkedList<Default_Base>> DEFAULTS = new ThreadLocal<LinkedList<Default_Base>>() {
+		@Override
+		protected LinkedList<Default_Base> initialValue() {
+			return new LinkedList<Default_Base>();
+		}
+	};
+	private static final ThreadLocal<LinkedList<Default_Base>> BACKUP_DEFAULTS = new ThreadLocal<LinkedList<Default_Base>>() {
+		@Override
+		protected LinkedList<Default_Base> initialValue() {
+			return new LinkedList<Default_Base>();
+		}
+	};
+	private static ThreadLocal<Boolean> controlDefaultsSaved = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return false;
+		}
+	};
 
 	private TTCN_Default() {
 		//intentionally empty to disable instantiation
 	}
 
 	public static int activate(final Default_Base newDefault) {
-		DEFAULTS.addLast(newDefault);
+		DEFAULTS.get().addLast(newDefault);
 		return defaultCount++;
 	}
 
 	public static void deactivate(final Default_Base removableDefault) {
-		if (DEFAULTS.contains(removableDefault)) {
-			DEFAULTS.remove(removableDefault);
+		if (DEFAULTS.get().contains(removableDefault)) {
+			DEFAULTS.get().remove(removableDefault);
 			return;
 		}
 
@@ -52,14 +67,14 @@ public final class TTCN_Default {
 	}
 
 	public static void deactivateAll() {
-		DEFAULTS.clear();
+		DEFAULTS.get().clear();
 	}
 
 	public static TitanAlt_Status tryAltsteps() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 
-		for (int i = DEFAULTS.size() - 1; i >= 0; i--) {
-			final Default_Base actualDefault = DEFAULTS.get(i);
+		for (int i = DEFAULTS.get().size() - 1; i >= 0; i--) {
+			final Default_Base actualDefault = DEFAULTS.get().get(i);
 			switch (actualDefault.call_altstep()) {
 			case ALT_YES:
 				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.finish.ordinal());
@@ -87,8 +102,8 @@ public final class TTCN_Default {
 		} else if (par_default == null) {
 			TtcnLogger.log_event_str("null");
 		} else {
-			for (int i = 0; i < DEFAULTS.size(); i++) {
-				final Default_Base actualDefault = DEFAULTS.get(i);
+			for (int i = 0; i < DEFAULTS.get().size(); i++) {
+				final Default_Base actualDefault = DEFAULTS.get().get(i);
 				if (actualDefault == par_default) {
 					actualDefault.log();
 					return;
@@ -100,40 +115,40 @@ public final class TTCN_Default {
 
 	// originally TTCN_Default::save_control_defaults
 	public static void save_control_defaults() {
-		if (controlDefaultsSaved) {
+		if (controlDefaultsSaved.get()) {
 			throw new TtcnError("Internal error: Control part defaults are already saved.");
 		}
 
-		BACKUP_DEFAULTS.addAll(DEFAULTS);
-		DEFAULTS.clear();
+		BACKUP_DEFAULTS.get().addAll(DEFAULTS.get());
+		DEFAULTS.get().clear();
 		backupCount = defaultCount;
 		defaultCount = 0;
-		controlDefaultsSaved = true;
+		controlDefaultsSaved.set(true);
 	}
 
 	// originally TTCN_Default::restore_control_defaults
 	public static void restoreControlDefaults() {
-		if (!controlDefaultsSaved) {
+		if (!controlDefaultsSaved.get()) {
 			throw new TtcnError("Internal error: Control part defaults are not saved.");
 		}
 
-		if (!DEFAULTS.isEmpty()) {
+		if (!DEFAULTS.get().isEmpty()) {
 			throw new TtcnError("Internal Error: There are defaults. Control part defaults can not be restored.");
 		}
 
-		DEFAULTS.addAll(BACKUP_DEFAULTS);
-		BACKUP_DEFAULTS.clear();
+		DEFAULTS.get().addAll(BACKUP_DEFAULTS.get());
+		BACKUP_DEFAULTS.get().clear();
 		defaultCount = backupCount;
 		backupCount = 0;
-		controlDefaultsSaved = false;
+		controlDefaultsSaved.set(false);
 	}
 
 	// originally TTCN_Default::reset_counter
 	public static void resetCounter() {
-		if (controlDefaultsSaved) {
+		if (controlDefaultsSaved.get()) {
 			throw new TtcnError("Internal error: Default counter cannot be reset when the control part defaults are saved.");
 		}
-		if (!DEFAULTS.isEmpty()) {
+		if (!DEFAULTS.get().isEmpty()) {
 			throw new TtcnError("Internal error: Default counter cannot be reset when there are active defaults.");
 		}
 
