@@ -151,7 +151,7 @@ public final class Deactivate_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Default");
 		if (deactivate == null) {
-			source.append("TTCN_Default.deactivateAll();\n");
+			source.append("TTCN_Default.deactivate_all();\n");
 			return;
 		}
 

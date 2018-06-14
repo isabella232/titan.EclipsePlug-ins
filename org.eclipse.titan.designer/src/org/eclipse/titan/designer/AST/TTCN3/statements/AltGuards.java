@@ -565,7 +565,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 		if( !hasElseBranch) {
 			aData.addCommonLibraryImport("TTCN_Default");
 			source.append(MessageFormat.format("if ({0}_default_flag == TitanAlt_Status.ALT_MAYBE) '{'\n", label));
-			source.append(MessageFormat.format("{0}_default_flag = TTCN_Default.tryAltsteps();\n", label));
+			source.append(MessageFormat.format("{0}_default_flag = TTCN_Default.try_altsteps();\n", label));
 			source.append(MessageFormat.format("if ({0}_default_flag == TitanAlt_Status.ALT_YES || {0}_default_flag == TitanAlt_Status.ALT_BREAK) '{'\n", label));
 			source.append("break;\n");
 			source.append(MessageFormat.format("} else if({0}_default_flag == TitanAlt_Status.ALT_REPEAT) '{'\n", label));

@@ -350,7 +350,7 @@ public final class TTCN_Runtime {
 		if (component_type_module.get() != null && component_type_name.get() != null) {
 			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.terminating__component, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
 
-			TTCN_Default.deactivateAll();
+			TTCN_Default.deactivate_all();
 			TitanTimer.allStop();
 			TitanPort.deactivate_all();
 
@@ -1985,8 +1985,8 @@ public final class TTCN_Runtime {
 	}
 
 	public static void end_controlpart() {
-		TTCN_Default.deactivateAll();
-		TTCN_Default.resetCounter();
+		TTCN_Default.deactivate_all();
+		TTCN_Default.reset_counter();
 		TitanTimer.allStop();
 		TtcnLogger.log_controlpart_start_stop(control_module_name, true);
 		//FIXME implement execute_command
@@ -2095,7 +2095,7 @@ public final class TTCN_Runtime {
 		any_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
 		all_component_killed_status = TitanAlt_Status.ALT_UNCHECKED;
 
-		TTCN_Default.restoreControlDefaults();
+		TTCN_Default.restore_control_defaults();
 		TitanTimer.restore_control_timers();
 		TTCN_EncDec_ErrorContext.resetAllContexts();
 

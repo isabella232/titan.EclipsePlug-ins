@@ -620,7 +620,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		source.append("}\n");
 		source.append("}\n");
 		source.append("if (default_flag != TitanAlt_Status.ALT_NO) {\n");
-		source.append("default_flag = TTCN_Default.tryAltsteps();\n");
+		source.append("default_flag = TTCN_Default.try_altsteps();\n");
 		source.append("if (default_flag == TitanAlt_Status.ALT_YES || default_flag == TitanAlt_Status.ALT_BREAK) {\n");
 		source.append("return;\n");
 		source.append("} else if (default_flag == TitanAlt_Status.ALT_REPEAT) {\n");

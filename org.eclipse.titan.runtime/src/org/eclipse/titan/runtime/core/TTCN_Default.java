@@ -66,11 +66,11 @@ public final class TTCN_Default {
 		}
 	}
 
-	public static void deactivateAll() {
+	public static void deactivate_all() {
 		DEFAULTS.get().clear();
 	}
 
-	public static TitanAlt_Status tryAltsteps() {
+	public static TitanAlt_Status try_altsteps() {
 		TitanAlt_Status returnValue = TitanAlt_Status.ALT_NO;
 
 		for (int i = DEFAULTS.get().size() - 1; i >= 0; i--) {
@@ -127,7 +127,7 @@ public final class TTCN_Default {
 	}
 
 	// originally TTCN_Default::restore_control_defaults
-	public static void restoreControlDefaults() {
+	public static void restore_control_defaults() {
 		if (!controlDefaultsSaved.get()) {
 			throw new TtcnError("Internal error: Control part defaults are not saved.");
 		}
@@ -144,7 +144,7 @@ public final class TTCN_Default {
 	}
 
 	// originally TTCN_Default::reset_counter
-	public static void resetCounter() {
+	public static void reset_counter() {
 		if (controlDefaultsSaved.get()) {
 			throw new TtcnError("Internal error: Default counter cannot be reset when the control part defaults are saved.");
 		}
