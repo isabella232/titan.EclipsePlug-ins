@@ -312,7 +312,7 @@ public final class DecodeExpression extends Expression_Value {
 				break;
 			}
 		}
-	
+
 		if (dynamicEncoding != null) {
 			dynamicEncoding.setLoweridToReference(timestamp);
 			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
@@ -566,7 +566,7 @@ public final class DecodeExpression extends Expression_Value {
 
 		final String bufferID = aData.getTemporaryVariableName();
 		final String returnValueID = aData.getTemporaryVariableName();
-		// TOOD add handling for non-built-in encoding
+		// TODO add handling for non-built-in encoding
 		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
 		expression.preamble.append("TTCN_EncDec.clear_error();\n");
 		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.bit2oct({1}));\n", bufferID, expression1.expression));
@@ -574,7 +574,7 @@ public final class DecodeExpression extends Expression_Value {
 		expression.preamble.append(MessageFormat.format("if ({0}.operatorEquals(0)) '{'\n", returnValueID));
 		expression.preamble.append(MessageFormat.format("{0}.assign(AdditionalFunctions.oct2bit({1}));\n", expression1.expression, bufferID));
 		expression.preamble.append("}\n");
-		// TOOD add handling for non-built-in encoding
+		// TODO add handling for non-built-in encoding
 		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n");
 		expression.preamble.append("TTCN_EncDec.clear_error();\n");
 
