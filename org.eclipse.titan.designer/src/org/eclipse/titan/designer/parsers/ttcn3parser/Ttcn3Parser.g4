@@ -7701,11 +7701,20 @@ pr_PredefinedOps returns[Value value]
 	)
 	pr_RParen { $value = new Log2StrExpression(logArguments); }
 |	DECVALUE
+	{	Value encodingInfo = null;
+		Value dynamicEncoding = null;
+	}
 	pr_LParen
 	r1 = pr_SizeofARG
 	pr_Comma
 	r2 = pr_SizeofARG
-	pr_RParen	{	$value = new DecodeExpression($r1.reference, $r2.reference); }
+	(	pr_Comma
+		ex1 = pr_SingleExpression { encodingInfo = $ex1.value;}
+		(	pr_Comma
+			ex2 = pr_SingleExpression {dynamicEncoding = $ex2.value; }
+		)?
+	)?
+	pr_RParen	{	$value = new DecodeExpression($r1.reference, $r2.reference, encodingInfo, dynamicEncoding); }
 |   TESTCASENAME
 	pr_LParen
 	pr_RParen	{	$value = new TestcasenameExpression(); }
@@ -7717,6 +7726,7 @@ pr_PredefinedOps returns[Value value]
 |	ENCVALUE_UNICHAR
 	{	Value stringSerialization = null;
 		Value encodingInfo = null;
+		Value dynamicEncoding = null;
 	}
 	pr_LParen
 	//template (value) any_type
@@ -7729,12 +7739,17 @@ pr_PredefinedOps returns[Value value]
 		// universal charstring
 		ei = pr_SingleExpression { encodingInfo = $ei.value; }
 	)?
+	(	pr_Comma
+		// universal charstring
+		de = pr_SingleExpression { dynamicEncoding = $de.value; }
+	)?
 	pr_RParen
-	{	$value = new EncvalueUnicharExpression( $inpar.templateInstance, stringSerialization, encodingInfo );	}
+	{	$value = new EncvalueUnicharExpression( $inpar.templateInstance, stringSerialization, encodingInfo, dynamicEncoding );	}
 
 |	DECVALUE_UNICHAR
 	{	Value stringSerialization = null;
 		Value decodingInfo = null;
+		Value dynamicEncoding = null;
 	}
 	pr_LParen
 	// universal charstring
@@ -7750,8 +7765,12 @@ pr_PredefinedOps returns[Value value]
 		// universal charstring
 		di = pr_SingleExpression { decodingInfo = $di.value; }
 	)?
+	(	pr_Comma
+		// universal charstring
+		de = pr_SingleExpression { dynamicEncoding = $de.value; }
+	)?
 	pr_RParen
-	{	$value = new DecvalueUnicharExpression( $encodedValue.reference, $decodedValue.reference, stringSerialization, decodingInfo );	}
+	{	$value = new DecvalueUnicharExpression( $encodedValue.reference, $decodedValue.reference, stringSerialization, decodingInfo, dynamicEncoding );	}
 |	HOSTID
 	{	Value idKind = null;
 	}

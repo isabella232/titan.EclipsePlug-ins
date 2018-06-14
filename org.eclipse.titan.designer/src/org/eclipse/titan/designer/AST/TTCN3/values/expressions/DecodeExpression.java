@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -47,17 +48,27 @@ public final class DecodeExpression extends Expression_Value {
 
 	private final Reference reference1;
 	private final Reference reference2;
-	//FIXME missing support for third and forth parameter
+	private final Value encodingInfo;
+	private final Value dynamicEncoding;
+	//FIXME add check and code generation for third and forth parameter
 
-	public DecodeExpression(final Reference reference1, final Reference reference2) {
+	public DecodeExpression(final Reference reference1, final Reference reference2, final Value encodingInfo, final Value dynamicEncoding) {
 		this.reference1 = reference1;
 		this.reference2 = reference2;
+		this.encodingInfo = encodingInfo;
+		this.dynamicEncoding = dynamicEncoding;
 
 		if (reference1 != null) {
 			reference1.setFullNameParent(this);
 		}
 		if (reference2 != null) {
 			reference2.setFullNameParent(this);
+		}
+		if (encodingInfo != null) {
+			encodingInfo.setFullNameParent(this);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setFullNameParent(this);
 		}
 	}
 
@@ -87,6 +98,12 @@ public final class DecodeExpression extends Expression_Value {
 		builder.append('(').append(reference1.getDisplayName());
 		builder.append(", ");
 		builder.append(reference2.getDisplayName());
+		if (encodingInfo != null) {
+			builder.append(", ").append(encodingInfo.createStringRepresentation());
+		}
+		if (dynamicEncoding != null) {
+			builder.append(", ").append(dynamicEncoding.createStringRepresentation());
+		}
 		builder.append(')');
 		return builder.toString();
 	}
@@ -101,6 +118,12 @@ public final class DecodeExpression extends Expression_Value {
 		if (reference2 != null) {
 			reference2.setMyScope(scope);
 		}
+		if (encodingInfo != null) {
+			encodingInfo.setMyScope(scope);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -114,6 +137,12 @@ public final class DecodeExpression extends Expression_Value {
 		if (reference2 != null) {
 			reference2.setCodeSection(codeSection);
 		}
+		if (encodingInfo != null) {
+			encodingInfo.setCodeSection(codeSection);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -121,8 +150,14 @@ public final class DecodeExpression extends Expression_Value {
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (reference1 == child || reference2 == child) {
-			return builder.append(OPERAND);
+		if (reference1 == child) {
+			return builder.append(OPERAND1);
+		} else if (reference2 == child) {
+			return builder.append(OPERAND2);
+		} else if (encodingInfo != null) {
+			return builder.append(OPERAND3);
+		} else if (dynamicEncoding != null) {
+			return builder.append(OPERAND4);
 		}
 
 		return builder;
@@ -340,6 +375,16 @@ public final class DecodeExpression extends Expression_Value {
 		if (referenceChain.add(this)) {
 			checkRecursionHelper(timestamp, reference1, referenceChain);
 			checkRecursionHelper(timestamp, reference2, referenceChain);
+			if (encodingInfo != null) {
+				referenceChain.markState();
+				encodingInfo.checkRecursions(timestamp, referenceChain);
+				referenceChain.previousState();
+			}
+			if (dynamicEncoding != null) {
+				referenceChain.markState();
+				dynamicEncoding.checkRecursions(timestamp, referenceChain);
+				referenceChain.previousState();
+			}
 		}
 	}
 
@@ -358,6 +403,14 @@ public final class DecodeExpression extends Expression_Value {
 			reference2.updateSyntax(reparser, false);
 			reparser.updateLocation(reference2.getLocation());
 		}
+		if (encodingInfo != null) {
+			encodingInfo.updateSyntax(reparser, false);
+			reparser.updateLocation(encodingInfo.getLocation());
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.updateSyntax(reparser, false);
+			reparser.updateLocation(dynamicEncoding.getLocation());
+		}
 	}
 
 	@Override
@@ -368,6 +421,12 @@ public final class DecodeExpression extends Expression_Value {
 		}
 		if (reference2 != null) {
 			reference2.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (encodingInfo != null) {
+			encodingInfo.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -380,6 +439,13 @@ public final class DecodeExpression extends Expression_Value {
 		if (reference2 != null && !reference2.accept(v)) {
 			return false;
 		}
+		if (encodingInfo != null && !encodingInfo.accept(v)) {
+			return false;
+		}
+		if (dynamicEncoding != null && !dynamicEncoding.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -403,6 +469,12 @@ public final class DecodeExpression extends Expression_Value {
 					actualParameterList.reArrangeInitCode(aData, source, usageModule);
 				}
 			}
+		}
+		if (encodingInfo != null) {
+			encodingInfo.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 
