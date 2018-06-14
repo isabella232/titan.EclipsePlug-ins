@@ -16,12 +16,15 @@ import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.Coding_Type;
+import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
+import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.values.ISO2022String_Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -191,6 +194,49 @@ public final class UniversalCharstring_Value extends Value {
 		default:
 			return false;
 		}
+	}
+
+	/**
+	 * Checks that the value is a valid dynamic encoding string for the specified type.
+	 *
+	 * @param timestamp the time stamp of the actual semantic check cycle.
+	 * @param type the type to check against
+	 *
+	 * @return true if the provided type does not have a coding with this name.
+	 * */
+	public boolean checkDynamicEncodingString(final CompilationTimeStamp timestamp, final IType type) {
+		final IType ct = type.getTypeWithCodingTable(timestamp, false);
+		if (ct == null) {
+			return false;
+		}
+
+		boolean errorFound = false;
+		for (int i = 0; i < value.length(); i++) {
+			final UniversalChar temp = value.get(i);
+
+			if (temp.group() != 0 || temp.plane() != 0 || temp.row() != 0) {
+				errorFound = true;
+				break;
+			}
+		}
+
+		if (!errorFound) {
+			final String str = value.getString();
+			final MessageEncoding_type coding = Type.getEncodingType(str);
+			final boolean builtIn = !coding.equals(MessageEncoding_type.PER) && !coding.equals(MessageEncoding_type.CUSTOM);
+			errorFound = true;
+			final List<Coding_Type> codingTable = ct.getCodingTable();
+			for (int i = 0; i < codingTable.size(); i++) {
+				final Coding_Type temp = codingTable.get(i);
+				if (builtIn == temp.builtIn && ((builtIn && coding == temp.builtInCoding) ||
+						(!builtIn && str.equals(temp.customCoding.name)))) {
+					errorFound = false;
+					break;
+				}
+			}
+		}
+
+		return errorFound;
 	}
 
 	@Override

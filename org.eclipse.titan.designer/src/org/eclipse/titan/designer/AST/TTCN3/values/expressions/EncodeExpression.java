@@ -15,17 +15,20 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -37,15 +40,26 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class EncodeExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "Cannot determine the argument type of `encvalue' operation";
 	private static final String OPERANDERROR2 = "The operand of the `encvalue' operation cannot be encoded";
+	private static final String SECONDOPERANDERROR = "The second operand of the `encvalue' operation should be a universal charstring value";
+	private static final String THIRDOPERANDERROR = "The third operand of the `encvalue' operation should be a universal charstring value";
 
 	private final TemplateInstance templateInstance;
-	//FIXME missing support for second and third parameter
+	private final Value encodingInfo;
+	private final Value dynamicEncoding;
 
-	public EncodeExpression(final TemplateInstance templateInstance) {
+	public EncodeExpression(final TemplateInstance templateInstance, final Value encodingInfo, final Value dynamicEncoding) {
 		this.templateInstance = templateInstance;
+		this.encodingInfo = encodingInfo;
+		this.dynamicEncoding = dynamicEncoding;
 
 		if (templateInstance != null) {
 			templateInstance.setFullNameParent(this);
+		}
+		if (encodingInfo != null) {
+			encodingInfo.setFullNameParent(this);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setFullNameParent(this);
 		}
 	}
 
@@ -73,7 +87,16 @@ public final class EncodeExpression extends Expression_Value {
 		}
 
 		final StringBuilder builder = new StringBuilder();
-		builder.append("encvalue(").append(templateInstance.createStringRepresentation()).append(')');
+		builder.append("encvalue(");
+		builder.append(templateInstance.createStringRepresentation());
+		if (encodingInfo != null) {
+			builder.append(", ").append(encodingInfo.createStringRepresentation());
+		}
+		if (dynamicEncoding != null) {
+			builder.append(", ").append(dynamicEncoding.createStringRepresentation());
+		}
+		builder.append(')');
+
 		return builder.toString();
 	}
 
@@ -85,6 +108,12 @@ public final class EncodeExpression extends Expression_Value {
 		if (templateInstance != null) {
 			templateInstance.setMyScope(scope);
 		}
+		if (encodingInfo != null) {
+			encodingInfo.setMyScope(scope);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -95,6 +124,12 @@ public final class EncodeExpression extends Expression_Value {
 		if (templateInstance != null) {
 			templateInstance.setCodeSection(codeSection);
 		}
+		if (encodingInfo != null) {
+			encodingInfo.setCodeSection(codeSection);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -103,7 +138,11 @@ public final class EncodeExpression extends Expression_Value {
 		final StringBuilder builder = super.getFullName(child);
 
 		if (templateInstance == child) {
-			return builder.append(OPERAND);
+			return builder.append(OPERAND1);
+		} else if (encodingInfo != null) {
+			return builder.append(OPERAND2);
+		} else if (dynamicEncoding != null) {
+			return builder.append(OPERAND3);
 		}
 
 		return builder;
@@ -186,6 +225,56 @@ public final class EncodeExpression extends Expression_Value {
 		default:
 			break;
 		}
+
+		if (encodingInfo != null) {
+			encodingInfo.setLoweridToReference(timestamp);
+			final Type_type tempType = encodingInfo.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType) {
+			case TYPE_UCHARSTRING:
+				encodingInfo.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				location.reportSemanticError(SECONDOPERANDERROR);
+				setIsErroneous(true);
+				break;
+			}
+		}
+
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setLoweridToReference(timestamp);
+			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType) {
+			case TYPE_UCHARSTRING: {
+				final IValue lastValue = dynamicEncoding.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				if (!dynamicEncoding.isUnfoldable(timestamp)) {
+					boolean errorFound = false;
+					if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+						errorFound = ((UniversalCharstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+					} else if (Value_type.CHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+						errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+					}
+					if (errorFound) {
+						dynamicEncoding.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
+					}
+				}
+				break;
+			}
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				location.reportSemanticError(THIRDOPERANDERROR);
+				setIsErroneous(true);
+				break;
+			}
+
+			
+		}
 	}
 
 	@Override
@@ -214,6 +303,16 @@ public final class EncodeExpression extends Expression_Value {
 			referenceChain.markState();
 			templateInstance.checkRecursions(timestamp, referenceChain);
 			referenceChain.previousState();
+			if (encodingInfo != null) {
+				referenceChain.markState();
+				encodingInfo.checkRecursions(timestamp, referenceChain);
+				referenceChain.previousState();
+			}
+			if (dynamicEncoding != null) {
+				referenceChain.markState();
+				dynamicEncoding.checkRecursions(timestamp, referenceChain);
+				referenceChain.previousState();
+			}
 		}
 	}
 
@@ -228,16 +327,28 @@ public final class EncodeExpression extends Expression_Value {
 			templateInstance.updateSyntax(reparser, false);
 			reparser.updateLocation(templateInstance.getLocation());
 		}
+		if (encodingInfo != null) {
+			encodingInfo.updateSyntax(reparser, false);
+			reparser.updateLocation(encodingInfo.getLocation());
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.updateSyntax(reparser, false);
+			reparser.updateLocation(dynamicEncoding.getLocation());
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (templateInstance == null) {
-			return;
+		if (templateInstance != null) {
+			templateInstance.findReferences(referenceFinder, foundIdentifiers);
 		}
-
-		templateInstance.findReferences(referenceFinder, foundIdentifiers);
+		if (encodingInfo != null) {
+			encodingInfo.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -246,6 +357,13 @@ public final class EncodeExpression extends Expression_Value {
 		if (templateInstance != null && !templateInstance.accept(v)) {
 			return false;
 		}
+		if (encodingInfo != null && !encodingInfo.accept(v)) {
+			return false;
+		}
+		if (dynamicEncoding != null && !dynamicEncoding.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -254,6 +372,12 @@ public final class EncodeExpression extends Expression_Value {
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (templateInstance != null) {
 			templateInstance.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (encodingInfo != null) {
+			encodingInfo.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 
@@ -279,7 +403,7 @@ public final class EncodeExpression extends Expression_Value {
 		}
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
-		//FIXME handle third parameter
+		//FIXME generate code for second and third parameter
 		expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
 
 		final String tempID = aData.getTemporaryVariableName();

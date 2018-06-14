@@ -7773,6 +7773,8 @@ pr_PredefinedOps1 returns[Value value]
 @init {
 	$value = null;
 	Value code_string = null;
+	Value v1 = null;
+	Value v2 = null;
 }:
 (	BIT2HEX
 	pr_LParen	v = pr_SingleExpression
@@ -7859,8 +7861,15 @@ pr_PredefinedOps1 returns[Value value]
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Unichar2CharExpression($v.value); }
 |	ENCVALUE
-	pr_LParen	t = pr_TemplateInstance
-	pr_RParen	{	$value = new EncodeExpression($t.templateInstance); }
+	pr_LParen
+	t = pr_TemplateInstance
+	(	pr_Comma
+		ex1 = pr_SingleExpression { v1 = $ex1.value;}
+		(	pr_Comma
+			ex2 = pr_SingleExpression {v2 = $ex2.value; }
+		)?
+	)?
+	pr_RParen	{	$value = new EncodeExpression($t.templateInstance, v1, v2); }
 |	ENUM2INT
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new Enum2IntExpression($v.value); }
