@@ -272,8 +272,6 @@ public final class EncodeExpression extends Expression_Value {
 				setIsErroneous(true);
 				break;
 			}
-
-			
 		}
 	}
 
@@ -403,8 +401,14 @@ public final class EncodeExpression extends Expression_Value {
 		}
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
-		//FIXME generate code for second and third parameter
-		expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		if (dynamicEncoding == null) {
+			expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		} else {
+			dynamicEncoding.generateCodeExpression(aData, expression3, true);
+			if (expression3.preamble.length() > 0) {
+				expression.preamble.append(expression3.preamble);
+			}
+		}
 
 		final String tempID = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString();\n", tempID));
