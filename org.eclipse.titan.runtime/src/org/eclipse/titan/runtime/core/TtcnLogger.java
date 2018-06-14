@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.core.runtime.Path;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
@@ -1095,12 +1096,12 @@ public final class TtcnLogger {
 		executable_name = "";
 		boolean is_jar = TtcnLogger.class.getResource("TtcnLogger.class").toString().startsWith("jar:");
 		if (is_jar) {
-			executable_name = System.getProperty("user.dir") + "\\";
+			executable_name = System.getProperty("user.dir") + File.separator;
 			String file_name = new File(TtcnLogger.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
 			executable_name = executable_name + file_name.replace(".jar", "");
 		} else {
 			executable_name = System.getProperty("user.dir");
-			executable_name = executable_name + "\\" + executable_name.substring(executable_name.lastIndexOf("\\") + 1);
+			executable_name = executable_name + File.separator + executable_name.substring(executable_name.lastIndexOf(File.separator) + 1);
 		}
 	}
 
