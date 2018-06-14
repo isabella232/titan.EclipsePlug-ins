@@ -17,7 +17,6 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
@@ -26,13 +25,16 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Referenced_Template;
+import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -45,12 +47,13 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class DecodeExpression extends Expression_Value {
 	private static final String OPERANDERROR1 = "The first operand of the `decvalue' operation should be a bitstring value";
 	private static final String OPERANDERROR2 = "The second operand of the `decvalue' operation is unable to hold a decoded value";
+	private static final String OPERANDERROR3 = "The third operand of the `decvalue' operation should be a universal charstring value";
+	private static final String OPERANDERROR4 = "The fourth operand of the `decvalue' operation should be a universal charstring value";
 
 	private final Reference reference1;
 	private final Reference reference2;
 	private final Value encodingInfo;
 	private final Value dynamicEncoding;
-	//FIXME add check and code generation for third and forth parameter
 
 	public DecodeExpression(final Reference reference1, final Reference reference2, final Value encodingInfo, final Value dynamicEncoding) {
 		this.reference1 = reference1;
@@ -241,21 +244,39 @@ public final class DecodeExpression extends Expression_Value {
 		}
 	}
 
-	private void checkSecondExpressionOperand(final CompilationTimeStamp timestamp){
+	/**
+	 * Checks the parameters of the expression and if they are valid in
+	 * their position in the expression or not.
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param referenceChain
+	 *                a reference chain to detect cyclic references.
+	 * @param expectedValue
+	 *                the kind of the value to be expected
+	 * */
+	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain, final Expected_Value_type expectedValue) {
+		if (reference1 == null || reference2 == null) {
+			return;
+		}
+		checkFirstExpressionOperand(timestamp);
+
+		//check second parameter
 		final Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
 			setIsErroneous(true);
 			return;
 		}
-		IType temporalType = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference2, 1,
+		final IType type = temporalAssignment.getType(timestamp).getFieldType(timestamp, reference2, 1,
 				Expected_Value_type.EXPECTED_DYNAMIC_VALUE, false);
-		if (temporalType == null) {
+		if (type == null) {
 			setIsErroneous(true);
 			return;
 		}
-		temporalType = temporalType.getTypeRefdLast(timestamp);
-		switch (temporalType.getTypetype()) {
+
+		final IType lastType = type.getTypeRefdLast(timestamp);
+		switch (lastType.getTypetype()) {
 		case TYPE_UNDEFINED:
 		case TYPE_NULL:
 		case TYPE_REFERENCED:
@@ -267,31 +288,60 @@ public final class DecodeExpression extends Expression_Value {
 		case TYPE_FUNCTION:
 		case TYPE_ALTSTEP:
 		case TYPE_TESTCASE:
-			// if (!isErroneous) {
 			reference2.getLocation().reportSemanticError(OPERANDERROR2);
 			setIsErroneous(true);
-			// }
 			break;
 		default:
 			break;
 		}
-	}
 
-	/**
-	 * Checks the parameters of the expression and if they are valid in
-	 * their position in the expression or not.
-	 *
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 * */
-	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
-		if (reference1 == null || reference2 == null) {
-			return;
+		if (encodingInfo != null) {
+			encodingInfo.setLoweridToReference(timestamp);
+			final Type_type tempType = encodingInfo.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType) {
+			case TYPE_UCHARSTRING:
+				encodingInfo.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				location.reportSemanticError(OPERANDERROR3);
+				setIsErroneous(true);
+				break;
+			}
 		}
-		checkFirstExpressionOperand(timestamp);
-		checkSecondExpressionOperand(timestamp);
+	
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setLoweridToReference(timestamp);
+			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType) {
+			case TYPE_UCHARSTRING: {
+				final IValue lastValue = dynamicEncoding.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				if (!dynamicEncoding.isUnfoldable(timestamp)) {
+					boolean errorFound = false;
+					if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+						errorFound = ((UniversalCharstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+					} else if (Value_type.CHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+						errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+					}
+					if (errorFound) {
+						dynamicEncoding.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
+					}
+				}
+				break;
+			}
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				location.reportSemanticError(OPERANDERROR4);
+				setIsErroneous(true);
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -306,7 +356,7 @@ public final class DecodeExpression extends Expression_Value {
 		lastTimeChecked = timestamp;
 		lastValue = this;
 
-		checkExpressionOperands(timestamp, referenceChain);
+		checkExpressionOperands(timestamp, referenceChain, expectedValue);
 
 		return lastValue;
 	}
@@ -505,8 +555,15 @@ public final class DecodeExpression extends Expression_Value {
 		final boolean isOptional = fieldType.fieldIsOptional(reference2.getSubreferences());
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
-		//TODO add support for 5th parameter
-		expression3.expression.append(MessageFormat.format("{0}_default_coding", fieldType.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		if (dynamicEncoding == null) {
+			expression3.expression.append(MessageFormat.format("{0}_default_coding", fieldType.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		} else {
+			dynamicEncoding.generateCodeExpression(aData, expression3, true);
+			if (expression3.preamble.length() > 0) {
+				expression.preamble.append(expression3.preamble);
+			}
+		}
+
 		final String bufferID = aData.getTemporaryVariableName();
 		final String returnValueID = aData.getTemporaryVariableName();
 		// TOOD add handling for non-built-in encoding
