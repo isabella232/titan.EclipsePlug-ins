@@ -15,9 +15,9 @@ import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -29,6 +29,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.CharstringExtractor;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -46,29 +47,32 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class EncvalueUnicharExpression extends Expression_Value {
 	private static final String OPERAND1_ERROR1 = "Cannot determine the type of the 1st operand of the `encvalue_unichar' operation";
 	private static final String OPERAND1_ERROR2 = "The 1st operand of the `encvalue_unichar' operation cannot be encoded";
-
 	private static final String OPERAND2_ERROR1 = "The 2nd operand of the `encvalue_unichar' operation should be a charstring value";
-
 	private static final String OPERAND3_ERROR1 = "The 3rd operand of the `encvalue_unichar' operation should be a universal charstring value";
+	private static final String OPERAND4_ERROR1 = "The 4th operand of the `encvalue_unichar' operation should be a universal charstring value";
 
 	private final TemplateInstance templateInstance1;
-	private final Value value2;
-	private final Value value3;
-	//FIXME missing support for forth parameter
+	private final Value serialization;
+	private final Value encodingInfo;
+	private final Value dynamicEncoding;
 
-	public EncvalueUnicharExpression(final TemplateInstance templateInstance1, final Value value2, final Value value3) {
+	public EncvalueUnicharExpression(final TemplateInstance templateInstance1, final Value serialization, final Value encodingInfo, final Value dynamicEncoding) {
 		this.templateInstance1 = templateInstance1;
-		this.value2 = value2;
-		this.value3 = value3;
+		this.serialization = serialization;
+		this.encodingInfo = encodingInfo;
+		this.dynamicEncoding = dynamicEncoding;
 
 		if (templateInstance1 != null) {
 			templateInstance1.setFullNameParent(this);
 		}
-		if (value2 != null) {
-			value2.setFullNameParent(this);
+		if (serialization != null) {
+			serialization.setFullNameParent(this);
 		}
-		if (value3 != null) {
-			value3.setFullNameParent(this);
+		if (encodingInfo != null) {
+			encodingInfo.setFullNameParent(this);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setFullNameParent(this);
 		}
 	}
 
@@ -84,10 +88,13 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		if (templateInstance1 != null && templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
 			return true;
 		}
-		if (value2 != null && value2.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (serialization != null && serialization.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
-		if (value3 != null && value3.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+		if (encodingInfo != null && encodingInfo.checkExpressionSelfReferenceValue(timestamp, lhs)) {
+			return true;
+		}
+		if (dynamicEncoding != null && dynamicEncoding.checkExpressionSelfReferenceValue(timestamp, lhs)) {
 			return true;
 		}
 
@@ -100,9 +107,11 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		final StringBuilder builder = new StringBuilder("encvalue_unichar(");
 		builder.append(templateInstance1.createStringRepresentation());
 		builder.append(", ");
-		builder.append(value2 == null ? "null" : value2.createStringRepresentation());
+		builder.append(serialization == null ? "null" : serialization.createStringRepresentation());
 		builder.append(", ");
-		builder.append(value3 == null ? "null" : value3.createStringRepresentation());
+		builder.append(encodingInfo == null ? "null" : encodingInfo.createStringRepresentation());
+		builder.append(", ");
+		builder.append(dynamicEncoding == null ? "null" : dynamicEncoding.createStringRepresentation());
 		builder.append(')');
 		return builder.toString();
 	}
@@ -115,11 +124,14 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		if (templateInstance1 != null) {
 			templateInstance1.setMyScope(scope);
 		}
-		if (value2 != null) {
-			value2.setMyScope(scope);
+		if (serialization != null) {
+			serialization.setMyScope(scope);
 		}
-		if (value3 != null) {
-			value3.setMyScope(scope);
+		if (encodingInfo != null) {
+			encodingInfo.setMyScope(scope);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setMyScope(scope);
 		}
 	}
 
@@ -131,11 +143,14 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		if (templateInstance1 != null) {
 			templateInstance1.setCodeSection(codeSection);
 		}
-		if (value2 != null) {
-			value2.setCodeSection(codeSection);
+		if (serialization != null) {
+			serialization.setCodeSection(codeSection);
 		}
-		if (value3 != null) {
-			value3.setCodeSection(codeSection);
+		if (encodingInfo != null) {
+			encodingInfo.setCodeSection(codeSection);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setCodeSection(codeSection);
 		}
 	}
 
@@ -146,10 +161,12 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 
 		if (templateInstance1 == child) {
 			return builder.append(OPERAND1);
-		} else if (value2 == child) {
+		} else if (serialization == child) {
 			return builder.append(OPERAND2);
-		} else if (value3 == child) {
+		} else if (encodingInfo == child) {
 			return builder.append(OPERAND3);
+		} else if (dynamicEncoding == child) {
+			return builder.append(OPERAND4);
 		}
 
 		return builder;
@@ -182,27 +199,6 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
 			final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		//check template1
-		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
-		//check value2
-		checkExpressionOperand2(timestamp, expectedValue, referenceChain);
-		//check value3
-		checkExpressionOperand3(timestamp, expectedValue, referenceChain);
-	}
-
-	/**
-	 * Checks the 1st operand
-	 * in template (value) any_type
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain ) {
 		if (templateInstance1 == null) {
 			setIsErroneous(true);
 			return;
@@ -254,86 +250,84 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		default:
 			break;
 		}
-	}
 
-	/**
-	 * Checks the 2nd operand
-	 * in charstring (optional)
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperand2( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain ) {
-		if (value2 == null) {
-			return;
-		}
+		if (serialization != null) {
+			serialization.setLoweridToReference(timestamp);
+			final Type_type tempType = serialization.getExpressionReturntype(timestamp, expectedValue);
 
-		value2.setLoweridToReference(timestamp);
-		final Type_type tempType = value2.getExpressionReturntype(timestamp, expectedValue);
+			switch (tempType) {
+			case TYPE_CHARSTRING:
+				final IValue last = serialization.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				if (!last.isUnfoldable(timestamp)) {
+					final String originalString = ((Charstring_Value) last).getValue();
+					final CharstringExtractor cs = new CharstringExtractor( originalString );
+					if ( cs.isErrorneous() ) {
+						serialization.getLocation().reportSemanticError( cs.getErrorMessage() );
+						setIsErroneous(true);
+					}
+				}
 
-		switch (tempType) {
-		case TYPE_CHARSTRING:
-			final IValue last = value2.getValueRefdLast(timestamp, expectedValue, referenceChain);
-			if (!last.isUnfoldable(timestamp)) {
-				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor( originalString );
-				if ( cs.isErrorneous() ) {
-					value2.getLocation().reportSemanticError( cs.getErrorMessage() );
+				break;
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				if (!isErroneous) {
+					location.reportSemanticError(OPERAND2_ERROR1);
 					setIsErroneous(true);
 				}
+				break;
 			}
-
-			break;
-		case TYPE_UNDEFINED:
-			setIsErroneous(true);
-			break;
-		default:
-			if (!isErroneous) {
-				location.reportSemanticError(OPERAND2_ERROR1);
-				setIsErroneous(true);
-			}
-			break;
-		}
-	}
-
-	/**
-	 * Checks the 3rd operand
-	 * in universal charstring (optional)
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperand3( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain ) {
-		if (value3 == null) {
-			return;
 		}
 
-		value3.setLoweridToReference(timestamp);
-		final Type_type tempType = value3.getExpressionReturntype(timestamp, expectedValue);
+		if (encodingInfo != null) {
+			encodingInfo.setLoweridToReference(timestamp);
+			final Type_type tempType = encodingInfo.getExpressionReturntype(timestamp, expectedValue);
 
-		switch (tempType) {
-		case TYPE_CHARSTRING:
-		case TYPE_UCHARSTRING:
-			break;
-		case TYPE_UNDEFINED:
-			setIsErroneous(true);
-			break;
-		default:
-			if (!isErroneous) {
-				location.reportSemanticError(OPERAND3_ERROR1);
+			switch (tempType) {
+			case TYPE_CHARSTRING:
+			case TYPE_UCHARSTRING:
+				break;
+			case TYPE_UNDEFINED:
 				setIsErroneous(true);
+				break;
+			default:
+				if (!isErroneous) {
+					location.reportSemanticError(OPERAND3_ERROR1);
+					setIsErroneous(true);
+				}
+				break;
 			}
-			break;
+		}
+
+		if (dynamicEncoding != null) {
+			dynamicEncoding.setLoweridToReference(timestamp);
+			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType) {
+			case TYPE_UCHARSTRING: {
+				final IValue lastValue = dynamicEncoding.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				if (!dynamicEncoding.isUnfoldable(timestamp)) {
+					boolean errorFound = false;
+					if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+						errorFound = ((UniversalCharstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+					} else if (Value_type.CHARSTRING_VALUE.equals(lastValue.getValuetype())) {
+						errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+					}
+					if (errorFound) {
+						dynamicEncoding.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
+					}
+				}
+				break;
+			}
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				location.reportSemanticError(OPERAND4_ERROR1);
+				setIsErroneous(true);
+				break;
+			}
 		}
 	}
 
@@ -365,14 +359,19 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 				templateInstance1.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
-			if (value2 != null) {
+			if (serialization != null) {
 				referenceChain.markState();
-				value2.checkRecursions(timestamp, referenceChain);
+				serialization.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
-			if (value3 != null) {
+			if (encodingInfo != null) {
 				referenceChain.markState();
-				value3.checkRecursions(timestamp, referenceChain);
+				encodingInfo.checkRecursions(timestamp, referenceChain);
+				referenceChain.previousState();
+			}
+			if (dynamicEncoding != null) {
+				referenceChain.markState();
+				dynamicEncoding.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
 		}
@@ -390,14 +389,19 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 			reparser.updateLocation(templateInstance1.getLocation());
 		}
 
-		if (value2 != null) {
-			value2.updateSyntax(reparser, false);
-			reparser.updateLocation(value2.getLocation());
+		if (serialization != null) {
+			serialization.updateSyntax(reparser, false);
+			reparser.updateLocation(serialization.getLocation());
 		}
 
-		if (value3 != null) {
-			value3.updateSyntax(reparser, false);
-			reparser.updateLocation(value3.getLocation());
+		if (encodingInfo != null) {
+			encodingInfo.updateSyntax(reparser, false);
+			reparser.updateLocation(encodingInfo.getLocation());
+		}
+
+		if (dynamicEncoding != null) {
+			dynamicEncoding.updateSyntax(reparser, false);
+			reparser.updateLocation(dynamicEncoding.getLocation());
 		}
 	}
 
@@ -407,11 +411,14 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		if (templateInstance1 != null) {
 			templateInstance1.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (value2 != null) {
-			value2.findReferences(referenceFinder, foundIdentifiers);
+		if (serialization != null) {
+			serialization.findReferences(referenceFinder, foundIdentifiers);
 		}
-		if (value3 != null) {
-			value3.findReferences(referenceFinder, foundIdentifiers);
+		if (encodingInfo != null) {
+			encodingInfo.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -421,12 +428,16 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		if (templateInstance1 != null && !templateInstance1.accept(v)) {
 			return false;
 		}
-		if (value2 != null && !value2.accept(v)) {
+		if (serialization != null && !serialization.accept(v)) {
 			return false;
 		}
-		if (value3 != null && !value3.accept(v)) {
+		if (encodingInfo != null && !encodingInfo.accept(v)) {
 			return false;
 		}
+		if (dynamicEncoding != null && !dynamicEncoding.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -436,11 +447,14 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		if (templateInstance1 != null) {
 			templateInstance1.reArrangeInitCode(aData, source, usageModule);
 		}
-		if (value2 != null) {
-			value2.reArrangeInitCode(aData, source, usageModule);
+		if (serialization != null) {
+			serialization.reArrangeInitCode(aData, source, usageModule);
 		}
-		if (value3 != null) {
-			value3.reArrangeInitCode(aData, source, usageModule);
+		if (encodingInfo != null) {
+			encodingInfo.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (dynamicEncoding != null) {
+			dynamicEncoding.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 
@@ -460,11 +474,11 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		}
 
 		String v2_code;
-		if (value2 == null) {
+		if (serialization == null) {
 			v2_code = "\"UTF-8\"";
 		} else {
 			final ExpressionStruct tempExpression = new ExpressionStruct();
-			value2.generateCodeExpressionMandatory(aData, tempExpression, true);
+			serialization.generateCodeExpressionMandatory(aData, tempExpression, true);
 			final String tempID = aData.getTemporaryVariableName();
 			expression.preamble.append(MessageFormat.format("TitanCharString {0} = {1};\n", tempID, tempExpression.expression));
 			expression.preamble.append(MessageFormat.format("if ({0}.operatorNotEquals(\"UTF-8\") && {0}.operatorNotEquals(\"UTF-16\") && {0}.operatorNotEquals(\"UTF-16LE\") && {0}.operatorNotEquals(\"UTF-16BE\") && {0}.operatorNotEquals(\"UTF-32\") && {0}.operatorNotEquals(\"UTF-32LE\") && {0}.operatorNotEquals(\"UTF-32BE\")) '{'\n", tempID));
@@ -481,8 +495,14 @@ public final class EncvalueUnicharExpression extends Expression_Value {
 		}
 
 		final ExpressionStruct expression3 = new ExpressionStruct();
-		//FIXME handle 4th parameter
-		expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		if (dynamicEncoding == null) {
+			expression3.expression.append(MessageFormat.format("{0}_default_coding", governor.getGenNameDefaultCoding(aData, expression.expression, scope)));
+		} else {
+			dynamicEncoding.generateCodeExpression(aData, expression3, true);
+			if (expression3.preamble.length() > 0) {
+				expression.preamble.append(expression3.preamble);
+			}
+		}
 
 		final String tempID = aData.getTemporaryVariableName();
 		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString();\n", tempID));
