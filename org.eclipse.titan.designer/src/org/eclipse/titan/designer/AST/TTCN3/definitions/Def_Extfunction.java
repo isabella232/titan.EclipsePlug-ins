@@ -1107,7 +1107,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (prototype != EncodingPrototype_type.SLIDING) {
 			// checking for remaining data in the buffer if decoding was successful
 			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
-			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() -1 && TtcnLogger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
+			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() && TtcnLogger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
 			source.append( "ttcn_buffer.cut();\n" );
 			source.append( MessageFormat.format( "{0} remaining_stream = new {0}();\n", inputType.getGenNameValue(aData, source, myScope)) );
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
