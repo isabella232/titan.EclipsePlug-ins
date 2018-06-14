@@ -647,7 +647,9 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 					if (prototype != EncodingPrototype_type.SLIDING) {
 						getLocation().reportSemanticError(MessageFormat.format("Only `prototype(sliding)' is allowed for {0} decoding functions", encodingType.getEncodingName()));
 					} else if (outputType != null && outputType instanceof IReferencingType){
-						((IReferencingType)outputType).getTypeRefd(timestamp, null).setDecodingFunction(encodingType == MessageEncoding_type.PER ? "PER" : encodingOptions, this);
+						final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						((IReferencingType)outputType).getTypeRefd(timestamp, chain).setDecodingFunction(encodingType == MessageEncoding_type.PER ? "PER" : encodingOptions, this);
+						chain.release();
 					}
 					// functionEncodingType = ExternalFunctionEncodingType_type.MANUAL;
 				}
