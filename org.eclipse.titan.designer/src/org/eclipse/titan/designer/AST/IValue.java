@@ -33,7 +33,7 @@ public interface IValue extends IGovernedSimple, IIdentifierContainer, IVisitabl
 		REAL_VALUE,
 		/** charstring. */
 		CHARSTRING_VALUE,
-		/** universal charstrin. */
+		/** universal charstring. */
 		UNIVERSALCHARSTRING_VALUE,
 		/** omit value. */
 		OMIT_VALUE,
