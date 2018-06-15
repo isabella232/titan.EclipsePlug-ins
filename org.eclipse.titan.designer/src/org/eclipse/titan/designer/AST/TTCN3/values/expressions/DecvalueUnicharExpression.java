@@ -777,17 +777,21 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 
 		final String bufferID = aData.getTemporaryVariableName();
 		final String returnValueID = aData.getTemporaryVariableName();
-		// TODO add handling for non-built-in encoding
-		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
-		expression.preamble.append("TTCN_EncDec.clear_error();\n");
+		if (fieldType.hasBuiltInEncoding()) {
+			expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_WARNING);\n");
+			expression.preamble.append("TTCN_EncDec.clear_error();\n");
+		}
+
 		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.unichar2oct({1}, {2}));\n", bufferID, expression1.expression, v3_code));
 		expression.preamble.append(MessageFormat.format("TitanInteger {0} = new TitanInteger({1}_decoder({2}, {3}{4}, {5}));\n", returnValueID, fieldType.getGenNameCoder(aData, expression.expression, scope), bufferID, expression2.expression, isOptional? ".get()":"", expression3.expression));
 		expression.preamble.append(MessageFormat.format("if ({0}.operatorEquals(0)) '{'\n", returnValueID));
 		expression.preamble.append(MessageFormat.format("{0} = AdditionalFunctions.oct2unichar({1}, {2});\n", expression1.expression, bufferID, v3_code));
 		expression.preamble.append("}\n");
-		// TODO add handling for non-built-in encoding
-		expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n");
-		expression.preamble.append("TTCN_EncDec.clear_error();\n");
+
+		if (fieldType.hasBuiltInEncoding()) {
+			expression.preamble.append("TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n");
+			expression.preamble.append("TTCN_EncDec.clear_error();\n");
+		}
 
 		expression.expression.append(returnValueID);
 		if (expression1.postamble.length() > 0) {

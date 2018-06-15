@@ -2760,6 +2760,28 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	}
 
 	/**
+	 * Returns true if the type supports at least one built-in encoding.
+	 * Only used with new codec handling.
+	 * 
+	 * @return true if the type supports at least one built-in encoding.
+	 * */
+	public boolean hasBuiltInEncoding() {
+		final IType t = getTypeWithCodingTable(CompilationTimeStamp.getBaseTimestamp(), false);
+		if (t == null) {
+			return false;
+		}
+
+		final List<Coding_Type> codingTable = t.getCodingTable();
+		for (int i = 0; i < codingTable.size(); i++) {
+			if (codingTable.get(i).builtIn) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
 	 * Returns whether the type needs an explicit Java alias and/or
 	 * an alias to a type descriptor of another type. It returns true for those
 	 * types that are defined in module-level type definitions hence are

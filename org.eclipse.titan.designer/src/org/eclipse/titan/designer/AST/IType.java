@@ -1041,6 +1041,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void getEnclosingField(final int offset, final ReferenceFinder rf);
 
 	/**
+	 * Returns true if the type supports at least one built-in encoding.
+	 * Only used with new codec handling.
+	 * 
+	 * @return true if the type supports at least one built-in encoding.
+	 * */
+	public boolean hasBuiltInEncoding();
+
+	/**
 	 * Returns the name of this type as it can be generated into the code.
 	 *
 	 * @return The name of the Java type in the generated code.
