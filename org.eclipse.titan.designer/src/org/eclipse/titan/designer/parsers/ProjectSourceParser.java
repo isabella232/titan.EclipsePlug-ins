@@ -1032,7 +1032,9 @@ public final class ProjectSourceParser {
 
 					try {
 						temp.join();
-						temp2.join();
+						if (temp2 != null) {
+							temp2.join();
+						}
 					} catch (Exception e) {
 						ErrorReporter.logExceptionStackTrace(e);
 					}
