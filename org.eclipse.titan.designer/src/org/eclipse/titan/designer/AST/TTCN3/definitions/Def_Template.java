@@ -548,7 +548,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			final FormalParameter baseFormalpar = baseParameters.getParameterByIndex(i);
 			final FormalParameter localFormalpar = formalParList.getParameterByIndex(i);
 
-			if (baseFormalpar.getAssignmentType() != localFormalpar.getAssignmentType()) {
+			if (!baseFormalpar.getAssignmentType().semanticallyEquals(localFormalpar.getAssignmentType())) {
 				localFormalpar.getLocation().reportSemanticError(
 						MessageFormat.format(DIFFERENTPARAMETERKINDS, baseTemplate.getFullName(),
 								baseFormalpar.getAssignmentName(), localFormalpar.getAssignmentName()));
