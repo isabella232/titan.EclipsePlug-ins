@@ -659,7 +659,8 @@ public final class Referenced_Value extends Value {
 		return reference.hasSingleExpression();
 	}
 
-	//FIXME comment
+	@Override
+	/** {@inheritDoc} */
 	public boolean returnsNative() {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
