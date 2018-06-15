@@ -41,7 +41,6 @@ public final class Killed_Statement extends Statement {
 	
 	//FIXME does not yet handle value redirection
 	final Reference redirect;
-	//FIXME index redirection only stored not check or generated
 	private final boolean anyFrom;
 	private final Reference redirectIndex;
 

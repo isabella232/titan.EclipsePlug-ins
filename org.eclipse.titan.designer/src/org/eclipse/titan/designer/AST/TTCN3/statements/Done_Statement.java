@@ -55,7 +55,6 @@ public final class Done_Statement extends Statement {
 
 	//when componentReference is null, this show if the killed was called with any component or all component
 	private final boolean isAny;
-	//FIXME index redirection only stored not check or generated
 	private final boolean any_from;
 	private final Reference redirectIndex;
 
@@ -354,7 +353,7 @@ public final class Done_Statement extends Statement {
 			if (redirectValue == null) {
 				expression.expression.append("null");
 			} else {
-				//FIXME handle value redirection
+				// value redirection present
 				redirectValue.generateCode(aData, expression);
 			}
 
