@@ -14,7 +14,6 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-import org.eclipse.core.runtime.Path;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
@@ -401,8 +400,18 @@ public final class TtcnLogger {
 		entity_type_t entity_type;
 		String entity_name;
 
-		static final ArrayList<TTCN_Location> locations = new ArrayList<TtcnLogger.TTCN_Location>();
-		static int actualSize = 0;
+		static final ThreadLocal<ArrayList<TTCN_Location>> locations = new ThreadLocal<ArrayList<TTCN_Location>>() {
+			@Override
+			protected ArrayList<TTCN_Location> initialValue() {
+				return new ArrayList<TTCN_Location>();
+			}
+		};
+		static ThreadLocal<Integer> actualSize = new ThreadLocal<Integer>() {
+			@Override
+			protected Integer initialValue() {
+				return 0;
+			}
+		};
 
 		private TTCN_Location() {
 			// intentionally empty
@@ -412,14 +421,14 @@ public final class TtcnLogger {
 			final StringBuilder builder = new StringBuilder();
 
 			if (print_outers) {
-				for (int i = 0; i < TTCN_Location.actualSize - 1; i++) {
-					final TTCN_Location temp = TTCN_Location.locations.get(i);
+				for (int i = 0; i < TTCN_Location.actualSize.get() - 1; i++) {
+					final TTCN_Location temp = TTCN_Location.locations.get().get(i);
 
 					temp.append_contents(builder, print_entity_name);
 				}
 			}
-			if (print_innermost && TTCN_Location.actualSize > 0) {
-				locations.get(TTCN_Location.actualSize - 1).append_contents(builder, print_entity_name);
+			if (print_innermost && TTCN_Location.actualSize.get() > 0) {
+				locations.get().get(TTCN_Location.actualSize.get() - 1).append_contents(builder, print_entity_name);
 			}
 
 			return builder;
@@ -466,14 +475,14 @@ public final class TtcnLogger {
 		public static TTCN_Location enter(final String file_name, final int line_number, final entity_type_t entity_type, final String entity_name) {
 			TTCN_Location temp;
 
-			if (locations.size() > actualSize) {
-				temp = locations.get(actualSize);
+			if (locations.get().size() > actualSize.get()) {
+				temp = locations.get().get(actualSize.get());
 			} else {
 				temp = new TTCN_Location();
-				locations.add(temp);
+				locations.get().add(temp);
 			}
 
-			actualSize++;
+			actualSize.set(actualSize.get() + 1);
 
 			if (file_name == null) {
 				temp.file_name = "<unknown file>";
@@ -504,7 +513,7 @@ public final class TtcnLogger {
 		 * Used to leave a new location block / statement block.
 		 * */
 		public void leave() {
-			actualSize--;
+			actualSize.set(actualSize.get() - 1);
 		}
 	}
 

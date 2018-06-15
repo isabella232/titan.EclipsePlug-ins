@@ -759,12 +759,12 @@ public class LoggerPluginManager {
 		event.getTimestamp().assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
 
 		final TitanLogEvent_sourceInfo__list srcinfo = event.getSourceInfo__list();
-		if (TTCN_Location.actualSize == 0) {
+		if (TTCN_Location.actualSize.get() == 0) {
 			srcinfo.assign(TitanNull_Type.NULL_VALUE);
 		} else {
-			for (int i = 0; i < TTCN_Location.actualSize; i++) {
+			for (int i = 0; i < TTCN_Location.actualSize.get(); i++) {
 				final LocationInfo loc = srcinfo.getAt(i);
-				final TTCN_Location temp = TTCN_Location.locations.get(i);
+				final TTCN_Location temp = TTCN_Location.locations.get().get(i);
 
 				loc.getFilename().assign(temp.file_name);
 				loc.getLine().assign(temp.line_number);
