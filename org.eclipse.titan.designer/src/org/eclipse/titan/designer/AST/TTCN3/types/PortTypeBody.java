@@ -1582,7 +1582,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		PortGenerator.generateClass(aData, source, portDefinition);
 	}
 
-	//FIXME comment
+	/**
+	 * Creates a PortDefinition data structure for code generation from the data of this port type body.
+	 *
+	 * @param aData only used to update imports if needed
+	 * @param source the source code generated
+	 *
+	 * @return the data returned.
+	 */
 	public PortDefinition generateDefinitionForCodeGeneration(final JavaGenData aData, final StringBuilder source) {
 		final String genName = myType.getGenNameOwn();
 		final Scope myScope = myType.getMyScope();
