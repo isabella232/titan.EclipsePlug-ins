@@ -721,7 +721,7 @@ public final class Set_Value extends Value {
 				if(compField.isOptional() /*&& fieldValue.isCompound() */) {
 					embeddedName.append(".get()");
 				}
-				//TODO add extra handling for optional fields
+
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
 				aData.addBuiltinTypeImport( "Base_Template.template_sel" );
