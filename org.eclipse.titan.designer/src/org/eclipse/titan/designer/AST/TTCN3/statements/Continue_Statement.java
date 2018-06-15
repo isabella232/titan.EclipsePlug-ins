@@ -63,11 +63,9 @@ public final class Continue_Statement extends Statement {
 		}
 
 		if (loop_stmt != null) {
-			// FIXME:
-			// loop_stmt->loop.has_cnt=true;
+			// FIXME: loop_stmt->loop.has_cnt=true;
 			if (altGuards != null) {
-				//FIXME:
-				// loop_stmt->loop.has_cnt_in_ags=true;
+				//FIXME: loop_stmt->loop.has_cnt_in_ags=true;
 			}
 		} else {
 			location.reportSemanticError(INCORRECTUSAGE);
