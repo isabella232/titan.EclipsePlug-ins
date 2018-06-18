@@ -372,7 +372,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private void create_parent_directories(final String path_name) {
 		String path_backup = null;
 		for (int i = 0; i < path_name.length(); i++) {
-			if (path_name.charAt(i) == '\\') {
+			if (path_name.charAt(i) == File.separatorChar) {
 				path_backup = path_name.substring(0,i+1);
 				File path_backup_file = new File(path_backup);
 				if (!path_backup_file.exists()) {
