@@ -332,9 +332,10 @@ public class LoggerPluginManager {
 			break;
 		}
 
-		events.get().pop();
-		if (!events.get().isEmpty()) {
-			current_event.set(events.get().peek());
+		final Stack<log_event_struct> localEvents = events.get();
+		localEvents.pop();
+		if (!localEvents.isEmpty()) {
+			current_event.set(localEvents.peek());
 		} else {
 			current_event.set(null);
 		}
@@ -347,10 +348,10 @@ public class LoggerPluginManager {
 		}
 
 		final TitanCharString ret_val = new TitanCharString(current_event.get().buffer);
-
-		events.get().pop();
-		if (!events.get().isEmpty()) {
-			current_event.set(events.get().peek());
+		final Stack<log_event_struct> localEvents = events.get();
+		localEvents.pop();
+		if (!localEvents.isEmpty()) {
+			current_event.set(localEvents.peek());
 		} else {
 			current_event.set(null);
 		}
@@ -762,9 +763,11 @@ public class LoggerPluginManager {
 		if (TTCN_Location.actualSize.get() == 0) {
 			srcinfo.assign(TitanNull_Type.NULL_VALUE);
 		} else {
-			for (int i = 0; i < TTCN_Location.actualSize.get(); i++) {
+			final int localSize = TTCN_Location.actualSize.get();
+			final ArrayList<TTCN_Location> localLocations = TTCN_Location.locations.get();
+			for (int i = 0; i < localSize; i++) {
 				final LocationInfo loc = srcinfo.getAt(i);
-				final TTCN_Location temp = TTCN_Location.locations.get().get(i);
+				final TTCN_Location temp = localLocations.get(i);
 
 				loc.getFilename().assign(temp.file_name);
 				loc.getLine().assign(temp.line_number);

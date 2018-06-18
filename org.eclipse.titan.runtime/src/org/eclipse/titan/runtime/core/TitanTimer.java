@@ -119,11 +119,12 @@ public class TitanTimer {
 	 * Add the current timer instance to the end of the running timers list.
 	 * */
 	private void addToList() {
-		if (TIMERS.get().contains(this)) {
+		final LinkedList<TitanTimer> localTimers = TIMERS.get();
+		if (localTimers.contains(this)) {
 			return;
 		}
 
-		TIMERS.get().addLast(this);
+		localTimers.addLast(this);
 	}
 
 	/**
@@ -338,8 +339,9 @@ public class TitanTimer {
 	 * (empty the list)
 	 * */
 	public static void allStop() {
-		while (TIMERS.get().size() != 0) {
-			TIMERS.get().get(0).stop();
+		final LinkedList<TitanTimer> localTimers = TIMERS.get();
+		while (localTimers.size() != 0) {
+			localTimers.get(0).stop();
 		}
 	}
 
@@ -426,9 +428,10 @@ public class TitanTimer {
 			throw new TtcnError("Internal error: Control part timers are already saved.");
 		}
 
-		if (!TIMERS.get().isEmpty()) {
-			BACKUP_TIMERS.get().addAll(TIMERS.get());
-			TIMERS.get().clear();
+		final LinkedList<TitanTimer> localTimers = TIMERS.get();
+		if (!localTimers.isEmpty()) {
+			BACKUP_TIMERS.get().addAll(localTimers);
+			localTimers.clear();
 		}
 		controlTimerSaved = true;
 	}
@@ -443,9 +446,10 @@ public class TitanTimer {
 			throw new TtcnError("Internal error: There are active timers. Control part timers cannot be restored.");
 		}
 
-		if (!BACKUP_TIMERS.get().isEmpty()) {
-			TIMERS.get().addAll(BACKUP_TIMERS.get());
-			BACKUP_TIMERS.get().clear();
+		final LinkedList<TitanTimer> localBackupTimers = BACKUP_TIMERS.get();
+		if (!localBackupTimers.isEmpty()) {
+			TIMERS.get().addAll(localBackupTimers);
+			localBackupTimers.clear();
 		}
 		controlTimerSaved = false;
 	}

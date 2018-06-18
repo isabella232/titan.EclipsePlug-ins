@@ -859,7 +859,8 @@ public final class TTCN_Runtime {
 			return TitanAlt_Status.ALT_NO;
 		} else {
 			final int index = get_component_status_table_index(component_reference);
-			switch (component_status_table.get().get(index).done_status) {
+			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+			switch (local_status_table.get(index).done_status) {
 			case ALT_UNCHECKED:
 				switch (executorState.get()) {
 				case MTC_TESTCASE:
@@ -873,20 +874,20 @@ public final class TTCN_Runtime {
 				}
 
 				TTCN_Communication.send_done_req(component_reference);
-				component_status_table.get().get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+				local_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
 				// wait for DONE_ACK
 				wait_for_state_change();
 
 				return TitanAlt_Status.ALT_REPEAT;
 			case ALT_YES:
-				if (component_status_table.get().get(index).return_type == null) {
+				if (local_status_table.get(index).return_type == null) {
 					TtcnLogger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__no__return);
 					return TitanAlt_Status.ALT_NO;
 				}
 
-				if (component_status_table.get().get(index).return_type.equals(return_type)) {
-					component_status_table.get().get(index).return_value.rewind();
-					text_buf.set(component_status_table.get().get(index).return_value);
+				if (local_status_table.get(index).return_type.equals(return_type)) {
+					local_status_table.get(index).return_value.rewind();
+					text_buf.set(local_status_table.get(index).return_value);
 
 					return TitanAlt_Status.ALT_YES;
 				} else {
@@ -1066,17 +1067,18 @@ public final class TTCN_Runtime {
 		}
 
 		final int index = get_component_status_table_index(component_reference);
+		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
 		// a successful killed operation on the component reference implies done
-		if (component_status_table.get().get(index).killed_status == TitanAlt_Status.ALT_YES) {
+		if (local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
 			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
 			if (ptc_verdict != null) {
-				ptc_verdict.set(component_status_table.get().get(index).local_verdict);
+				ptc_verdict.set(local_status_table.get(index).local_verdict);
 			}
 
 			return TitanAlt_Status.ALT_YES;
 		}
 
-		switch (component_status_table.get().get(index).done_status) {
+		switch (local_status_table.get(index).done_status) {
 		case ALT_UNCHECKED:
 			switch (executorState.get()) {
 			case MTC_TESTCASE:
@@ -1090,7 +1092,7 @@ public final class TTCN_Runtime {
 			}
 
 			TTCN_Communication.send_done_req(component_reference);
-			component_status_table.get().get(index).done_status = TitanAlt_Status.ALT_MAYBE;
+			local_status_table.get(index).done_status = TitanAlt_Status.ALT_MAYBE;
 			create_done_killed_compref.set(component_reference);
 			// wait for DONE_ACK
 			wait_for_state_change();
@@ -1099,7 +1101,7 @@ public final class TTCN_Runtime {
 		case ALT_YES:
 			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
 			if (ptc_verdict != null) {
-				ptc_verdict.set(component_status_table.get().get(index).local_verdict);
+				ptc_verdict.set(local_status_table.get(index).local_verdict);
 			}
 
 			return TitanAlt_Status.ALT_YES;
@@ -1121,9 +1123,10 @@ public final class TTCN_Runtime {
 		}
 
 		// the operation is successful if there is a component reference with a successful done or killed operation
-		for ( int i = 0; i < component_status_table.get().size(); i++) {
-			if (component_status_table.get().get(i).done_status == TitanAlt_Status.ALT_YES ||
-					component_status_table.get().get(i).killed_status == TitanAlt_Status.ALT_YES) {
+		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+		for ( int i = 0; i < local_status_table.size(); i++) {
+			if (local_status_table.get(i).done_status == TitanAlt_Status.ALT_YES ||
+					local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
 				TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
 
 				return TitanAlt_Status.ALT_YES;
@@ -1260,8 +1263,9 @@ public final class TTCN_Runtime {
 		}
 
 		// the operation is successful if there is a component reference with a successful killed operation
-		for (int i = 0; i < component_status_table.get().size(); i++) {
-			if (component_status_table.get().get(i).killed_status == TitanAlt_Status.ALT_YES) {
+		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+		for (int i = 0; i < local_status_table.size(); i++) {
+			if (local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
 				TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__successful);
 
 				return TitanAlt_Status.ALT_YES;
@@ -1340,8 +1344,9 @@ public final class TTCN_Runtime {
 		// look into the component status tables
 		if (in_component_status_table(component_reference)) {
 			final int index = get_component_status_table_index(component_reference);
-			if (component_status_table.get().get(index).done_status == TitanAlt_Status.ALT_YES ||
-					component_status_table.get().get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
+					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
 				return false;
 			}
 		}
@@ -1511,8 +1516,9 @@ public final class TTCN_Runtime {
 
 		// the operation is successful if there is a component reference with a
 		// successful killed operation
-		for (int i = 0; i < component_status_table.get().size(); i++) {
-			if (component_status_table.get().get(i).killed_status == TitanAlt_Status.ALT_YES) {
+		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+		for (int i = 0; i < local_status_table.size(); i++) {
+			if (local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
 				return false;
 			}
 		}
@@ -1543,8 +1549,9 @@ public final class TTCN_Runtime {
 		// do nothing if a successful done or killed operation was performed on the component reference
 		if (in_component_status_table(component_reference)) {
 			final int index = get_component_status_table_index(component_reference);
-			if (component_status_table.get().get(index).done_status == TitanAlt_Status.ALT_YES ||
-					component_status_table.get().get(index).killed_status == TitanAlt_Status.ALT_YES) {
+			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
+			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
+					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
 				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
 
 				return;
@@ -2618,8 +2625,8 @@ public final class TTCN_Runtime {
 			throw new TtcnError(MessageFormat.format("Internal error: TTCN_Runtime.get_component_status_table_index: invalid component reference: {0}.", component_reference));
 		}
 
-		final ArrayList<component_status_table_struct> tempTables = component_status_table.get();
-		if (tempTables.size() == 0) {
+		final ArrayList<component_status_table_struct> localTables = component_status_table.get();
+		if (localTables.size() == 0) {
 			//the table is empty, this will be the first entry
 			final component_status_table_struct temp = new component_status_table_struct();
 			temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2628,17 +2635,17 @@ public final class TTCN_Runtime {
 			temp.return_type = null;
 			temp.return_value = null;
 
-			tempTables.add(temp);
+			localTables.add(temp);
 			component_status_table_offset.set(component_reference);
 
 			return 0;
 		} else if (component_reference >= component_status_table_offset.get().intValue()) {
 			// the table contains at least one entry that is smaller than component_reference
 			final int component_index = component_reference - component_status_table_offset.get().intValue();
-			if (component_index >= tempTables.size()) {
+			if (component_index >= localTables.size()) {
 				// component_reference is still not in the table
 				// the table has to be extended at the end
-				for (int i = tempTables.size(); i <= component_index; i++) {
+				for (int i = localTables.size(); i <= component_index; i++) {
 					final component_status_table_struct temp = new component_status_table_struct();
 					temp.done_status = TitanAlt_Status.ALT_UNCHECKED;
 					temp.killed_status = TitanAlt_Status.ALT_UNCHECKED;
@@ -2646,7 +2653,7 @@ public final class TTCN_Runtime {
 					temp.return_type = null;
 					temp.return_value = null;
 
-					tempTables.add(i, temp);
+					localTables.add(i, temp);
 				}
 			}
 
@@ -2654,7 +2661,7 @@ public final class TTCN_Runtime {
 		} else {
 			// component_reference has to be inserted before the existing table
 			final int offset_diff = component_status_table_offset.get().intValue() - component_reference;
-			final int new_size = tempTables.size() + offset_diff;
+			final int new_size = localTables.size() + offset_diff;
 			final ArrayList<component_status_table_struct> temp_table = new ArrayList<TTCN_Runtime.component_status_table_struct>();
 			for (int i = 0; i < offset_diff; i++) {
 				final component_status_table_struct temp = new component_status_table_struct();
@@ -2666,7 +2673,7 @@ public final class TTCN_Runtime {
 
 				temp_table.add(i, temp);
 			}
-			tempTables.addAll(0, temp_table);
+			localTables.addAll(0, temp_table);
 			component_status_table_offset.set(component_reference);
 
 			return 0;

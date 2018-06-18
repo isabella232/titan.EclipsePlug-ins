@@ -420,15 +420,17 @@ public final class TtcnLogger {
 		public static StringBuilder print_location(final boolean print_outers, final boolean print_innermost, final log_event_types_t print_entity_name) {
 			final StringBuilder builder = new StringBuilder();
 
+			final int localSize = TTCN_Location.actualSize.get();
+			final ArrayList<TTCN_Location> localLocations = TTCN_Location.locations.get();
 			if (print_outers) {
-				for (int i = 0; i < TTCN_Location.actualSize.get() - 1; i++) {
-					final TTCN_Location temp = TTCN_Location.locations.get().get(i);
+				for (int i = 0; i < localSize - 1; i++) {
+					final TTCN_Location temp = localLocations.get(i);
 
 					temp.append_contents(builder, print_entity_name);
 				}
 			}
-			if (print_innermost && TTCN_Location.actualSize.get() > 0) {
-				locations.get().get(TTCN_Location.actualSize.get() - 1).append_contents(builder, print_entity_name);
+			if (print_innermost && localSize > 0) {
+				localLocations.get(localSize - 1).append_contents(builder, print_entity_name);
 			}
 
 			return builder;
