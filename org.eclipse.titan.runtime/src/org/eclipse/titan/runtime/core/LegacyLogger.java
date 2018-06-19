@@ -585,10 +585,19 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean log_to_file(final String message_ptr) {
 		//TODO: initial implement
 		boolean is_success = true;
-		try {
-			log_file_writer.get().write(message_ptr);
-		} catch (IOException e) {
-			is_success = false;
+		//TODO: need to test the append
+		if (append_file_) {
+			try {
+				log_file_writer.get().append(message_ptr);
+			} catch (IOException e) {
+				is_success = false;
+			}
+		} else {
+			try {
+				log_file_writer.get().write(message_ptr);
+			} catch (IOException e) {
+				is_success = false;
+			}
 		}
 		if (is_success) {
 			try {
