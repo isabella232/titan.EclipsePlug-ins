@@ -41,7 +41,7 @@ public class Runtime_Parallel_main {
 		try {
 			TTCN_Snapshot.initialize();
 			TtcnLogger.initialize_logger();
-			//TTCN_Logger::set_executable_name(argv[0]);
+			TtcnLogger.set_executable_name();
 			TtcnLogger.set_start_time();
 
 			try {
