@@ -28,6 +28,7 @@ public final class Runtime_Single_main {
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
 		TtcnLogger.initialize_logger();
+		TtcnLogger.set_executable_name();
 		TtcnLogger.set_start_time();
 
 		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);

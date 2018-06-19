@@ -213,8 +213,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		if (args != null && err_msg != null) {
 			MessageFormat err_str = new MessageFormat(err_msg);
-			err_str.format(args);
-			System.err.println(err_str.toString());
+			System.err.println(err_str.format(args));
 		}
 		System.err.println("Exiting.\n");
 		System.exit(1);
@@ -231,7 +230,6 @@ public class LegacyLogger implements ILoggerPlugin {
 		if (filename_skeleton_ == null) {
 			return null;
 		}
-		TtcnLogger.set_executable_name();
 		whoami whoami_variable = whoami.SINGLE;
 		if (TTCN_Runtime.is_single()) {
 			whoami_variable = whoami.SINGLE;
@@ -251,7 +249,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < filename_skeleton_.length(); i++) {
 			if (filename_skeleton_.charAt(i) != '%') {
-				ret_val.append(filename_skeleton_.charAt(i));
+				if (filename_skeleton_.charAt(i) == '/' || filename_skeleton_.charAt(i) == '\\') {
+					ret_val.append(File.separatorChar);
+				} else {
+					ret_val.append(filename_skeleton_.charAt(i));
+				}
 				continue;
 			}
 			switch (filename_skeleton_.charAt(++i)) {
