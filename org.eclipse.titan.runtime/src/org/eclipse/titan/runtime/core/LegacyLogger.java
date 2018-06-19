@@ -213,8 +213,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		if (args != null && err_msg != null) {
 			MessageFormat err_str = new MessageFormat(err_msg);
-			err_str.format(args);
-			System.err.println(err_str.toString());
+			System.err.println(err_str.format(args));
 		}
 		System.err.println("Exiting.\n");
 		System.exit(1);
@@ -231,7 +230,6 @@ public class LegacyLogger implements ILoggerPlugin {
 		if (filename_skeleton_ == null) {
 			return null;
 		}
-		TtcnLogger.set_executable_name();
 		whoami whoami_variable = whoami.SINGLE;
 		if (TTCN_Runtime.is_single()) {
 			whoami_variable = whoami.SINGLE;
@@ -251,7 +249,11 @@ public class LegacyLogger implements ILoggerPlugin {
 		StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < filename_skeleton_.length(); i++) {
 			if (filename_skeleton_.charAt(i) != '%') {
-				ret_val.append(filename_skeleton_.charAt(i));
+				if (filename_skeleton_.charAt(i) == '/' || filename_skeleton_.charAt(i) == '\\') {
+					ret_val.append(File.separatorChar);
+				} else {
+					ret_val.append(filename_skeleton_.charAt(i));
+				}
 				continue;
 			}
 			switch (filename_skeleton_.charAt(++i)) {
@@ -372,7 +374,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private void create_parent_directories(final String path_name) {
 		String path_backup = null;
 		for (int i = 0; i < path_name.length(); i++) {
-			if (path_name.charAt(i) == '\\') {
+			if (path_name.charAt(i) == File.separatorChar) {
 				path_backup = path_name.substring(0,i+1);
 				File path_backup_file = new File(path_backup);
 				if (!path_backup_file.exists()) {
@@ -583,10 +585,19 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean log_to_file(final String message_ptr) {
 		//TODO: initial implement
 		boolean is_success = true;
-		try {
-			log_file_writer.get().write(message_ptr);
-		} catch (IOException e) {
-			is_success = false;
+		//TODO: need to test the append
+		if (append_file_) {
+			try {
+				log_file_writer.get().append(message_ptr);
+			} catch (IOException e) {
+				is_success = false;
+			}
+		} else {
+			try {
+				log_file_writer.get().write(message_ptr);
+			} catch (IOException e) {
+				is_success = false;
+			}
 		}
 		if (is_success) {
 			try {

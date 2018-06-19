@@ -1112,7 +1112,8 @@ public final class TtcnLogger {
 			executable_name = executable_name + file_name.replace(".jar", "");
 		} else {
 			executable_name = System.getProperty("user.dir");
-			executable_name = executable_name + File.separator + executable_name.substring(executable_name.lastIndexOf(File.separator) + 1);
+			//TODO: need to test
+			executable_name = executable_name.substring(executable_name.lastIndexOf(File.separator) + 1);
 		}
 	}
 
