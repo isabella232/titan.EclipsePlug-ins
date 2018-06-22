@@ -793,7 +793,6 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
-	//TODO not yet called from generated code
 	public void log_testcase_finished(final String module_name, final String definition_name, final VerdictTypeEnum verdict, final String reason) {
 		if (!TtcnLogger.log_this_event(Severity.TESTCASE_FINISH) && TtcnLogger.get_emergency_logging() <= 0) {
 			return;
