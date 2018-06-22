@@ -122,7 +122,11 @@ public class LoggerPluginManager {
 			}
 		}
 
-		//FIXME implement file closing
+		if (do_close_file) {
+			for (int i = 0; i < plugins_.size(); i++) {
+				plugins_.get(i).close_file();
+			}
+		}
 
 		ring_buffer.clear();
 	}
