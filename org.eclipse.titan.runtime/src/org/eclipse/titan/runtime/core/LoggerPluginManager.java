@@ -122,7 +122,11 @@ public class LoggerPluginManager {
 			}
 		}
 
-		//FIXME implement file closing
+		if (do_close_file) {
+			for (int i = 0; i < plugins_.size(); i++) {
+				plugins_.get(i).close_file();
+			}
+		}
 
 		ring_buffer.clear();
 	}
@@ -793,7 +797,6 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
-	//TODO not yet called from generated code
 	public void log_testcase_finished(final String module_name, final String definition_name, final VerdictTypeEnum verdict, final String reason) {
 		if (!TtcnLogger.log_this_event(Severity.TESTCASE_FINISH) && TtcnLogger.get_emergency_logging() <= 0) {
 			return;

@@ -1199,7 +1199,6 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_testcase_started(module_name, definition_name);
 	}
 
-	//TODO not yet called from generated code
 	public static void log_testcase_finished(final String module_name, final String definition_name, final VerdictTypeEnum verdict, final String reason) {
 		get_logger_plugin_manager().log_testcase_finished(module_name, definition_name, verdict, reason);
 	}

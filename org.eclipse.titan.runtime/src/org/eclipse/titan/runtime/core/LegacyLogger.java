@@ -175,7 +175,13 @@ public class LegacyLogger implements ILoggerPlugin {
 					throw new TtcnError(e);
 				}
 			} else {
-				append_file_ = true;
+				if (log_file_writer.get() != null) {
+					try {
+						log_file_writer.get().close();
+					} catch (IOException e) {
+						System.err.println("Cannot close file writer!");
+					}
+				}
 			}
 			try {
 				log_file_writer.set(new BufferedWriter(new FileWriter(log_fp_),32768));
@@ -183,11 +189,13 @@ public class LegacyLogger implements ILoggerPlugin {
 				System.err.println("Cannot open file!");
 			}
 		}
+
+		logfile_bytes_ = 0;
 		is_configured = true;	
 	}
 	
 	public void close_file() {
-		if (log_file_writer.get() == null) {
+		if (log_file_writer.get() == null || log_fp_ == null) {
 			return;
 		}
 
@@ -484,8 +492,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			return true;
 		}
 		int bytes_to_log = event_str.length() + 1;
-		if (logfile_size_ != 0 && logfile_bytes_ != 0 && log_buffered) {
+		if (logfile_size_ != 0 && logfile_bytes_ != 0 && !log_buffered) {
 			if ((bytes_to_log + logfile_bytes_ + 1023) / 1024 > logfile_size_) {
+				// Close current log file and open the next one.
 				close_file();
 				logfile_index_++;
 				// Delete oldest log file if there is a file number limitation.
@@ -520,6 +529,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					switched_event.getSeverity().assign(TtcnLogger.Severity.EXECUTOR_RUNTIME.ordinal());
 					switched_event.getLogEvent().getChoice().getUnhandledEvent().assign(switched);
 					log_file(switched_event, true);
+					switched = null;
 					close_file();
 					open_file(false);
 				}
@@ -569,7 +579,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				if (!print_success) {
 					fatal_error("Writing to log file failed.");
 				} else {
-					logfile_bytes_ = bytes_to_log;
+					logfile_bytes_ += bytes_to_log;
 				}
 				break;
 			default:
