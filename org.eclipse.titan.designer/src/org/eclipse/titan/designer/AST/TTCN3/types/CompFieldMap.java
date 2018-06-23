@@ -258,16 +258,18 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 		if (lastCompilationTimeStamp != null && !lastCompilationTimeStamp.isLess(timestamp)) {
 			return;
 		}
+
 		checkUniqueness(timestamp);
 		if (myType == null) {
 			return;
 		}
+
 		final Type parentType = myType.get();
 		lastCompilationTimeStamp = timestamp;
 		for (int i = 0, size = fields.size(); i < size; i++) {
 			final CompField field = fields.get(i);
 			final Type fieldType = field.getType();
-			fieldType.setGenName(myType.get().getGenNameOwn(), field.getIdentifier().getName());
+			fieldType.setGenName(parentType.getGenNameOwn(), field.getIdentifier().getName());
 			fieldType.setParentType(parentType);
 			field.check(timestamp);
 		}
