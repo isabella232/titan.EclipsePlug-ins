@@ -4900,8 +4900,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public Strings_str__list concatenate(final TitanNull_Type nullValue) {
-			final Strings_str__list ret_val = new Strings_str__list(this);
-			return ret_val;
+			return new Strings_str__list(this);
 		}
 
 		//originally operator<<=
@@ -11899,8 +11898,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list_0_event__list concatenate(final TitanNull_Type nullValue) {
-			final TitanLog_sequence__list_0_event__list ret_val = new TitanLog_sequence__list_0_event__list(this);
-			return ret_val;
+			return new TitanLog_sequence__list_0_event__list(this);
 		}
 
 		//originally operator<<=
@@ -32206,8 +32204,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLogEvent_sourceInfo__list concatenate(final TitanNull_Type nullValue) {
-			final TitanLogEvent_sourceInfo__list ret_val = new TitanLogEvent_sourceInfo__list(this);
-			return ret_val;
+			return new TitanLogEvent_sourceInfo__list(this);
 		}
 
 		//originally operator<<=
@@ -51121,8 +51118,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public StartFunction_parameter__list concatenate(final TitanNull_Type nullValue) {
-			final StartFunction_parameter__list ret_val = new StartFunction_parameter__list(this);
-			return ret_val;
+			return new StartFunction_parameter__list(this);
 		}
 
 		//originally operator<<=
@@ -69070,8 +69066,7 @@ public final class TitanLoggerApi extends TTCN_Module {
 		}
 
 		public TitanLog_sequence__list concatenate(final TitanNull_Type nullValue) {
-			final TitanLog_sequence__list ret_val = new TitanLog_sequence__list(this);
-			return ret_val;
+			return new TitanLog_sequence__list(this);
 		}
 
 		//originally operator<<=

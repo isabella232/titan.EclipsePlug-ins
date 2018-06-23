@@ -428,8 +428,7 @@ public class RecordOfGenerator {
 
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0} concatenate(final TitanNull_Type nullValue) '{'\n", genName ) );
-		source.append( MessageFormat.format( "\t\tfinal {0} ret_val = new {0}(this);\n", genName ) );
-		source.append("\t\treturn ret_val;\n");
+		source.append( MessageFormat.format( "\t\treturn new {0}(this);\n", genName ) );
 		source.append("\t}\n");
 	}
 

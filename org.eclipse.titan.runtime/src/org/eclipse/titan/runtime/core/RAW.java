@@ -503,8 +503,7 @@ public class RAW {
 			return 0;
 		}
 
-		final int bits = a.bitLength();
-		return bits;
+		return a.bitLength();
 	}
 
 	public static int RAW_encode_enum_type(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf, final int integer_value, final int min_bits_enum) {

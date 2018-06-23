@@ -100,8 +100,7 @@ public class TitanHexString_Element {
 		dest_ptr[0] = str_val.get_nibble(nibble_pos);
 		System.arraycopy(src_ptr, 0, dest_ptr, 1, n_nibbles);
 
-		final TitanHexString ret_val = new TitanHexString(dest_ptr);
-		return ret_val;
+		return new TitanHexString(dest_ptr);
 	}
 
 	// originally operator+

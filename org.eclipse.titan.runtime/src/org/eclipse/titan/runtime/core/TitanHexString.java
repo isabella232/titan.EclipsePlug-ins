@@ -419,8 +419,7 @@ public class TitanHexString extends Base_Type {
 		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
 		System.arraycopy(otherValue.nibbles_ptr, 0, temp, nibbles_ptr.length, otherValue.nibbles_ptr.length);
 
-		final TitanHexString result = new TitanHexString(temp);
-		return result;
+		return new TitanHexString(temp);
 	}
 
 	// originally operator+
@@ -432,9 +431,7 @@ public class TitanHexString extends Base_Type {
 		System.arraycopy(nibbles_ptr, 0, temp, 0, nibbles_ptr.length);
 		temp[ nibbles_ptr.length ] = (byte) otherValue.get_nibble();
 
-		final TitanHexString result = new TitanHexString(temp);
-
-		return result;
+		return new TitanHexString(temp);
 	}
 
 	// originally operator~

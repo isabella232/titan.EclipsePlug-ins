@@ -91,8 +91,7 @@ public class TitanOctetString extends Base_Type {
 	 * @return value of the octet
 	 */
 	private static char octet2value(final char aHexDigit1, final char aHexDigit2) {
-		final char result = (char) (16 * TitanHexString.hexdigit2byte(aHexDigit1) + TitanHexString.hexdigit2byte(aHexDigit2));
-		return result;
+		return (char) (16 * TitanHexString.hexdigit2byte(aHexDigit1) + TitanHexString.hexdigit2byte(aHexDigit2));
 	}
 
 	/** Return the nibble at index i
@@ -370,9 +369,7 @@ public class TitanOctetString extends Base_Type {
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		System.arraycopy(otherValue.val_ptr, 0, temp, val_ptr.length, otherValue.val_ptr.length);
 
-		final TitanOctetString result = new TitanOctetString(temp);
-
-		return result;
+		return new TitanOctetString(temp);
 	}
 
 	public TitanOctetString concatenate(final TitanOctetString_Element otherValue) {
@@ -383,9 +380,7 @@ public class TitanOctetString extends Base_Type {
 		System.arraycopy(val_ptr, 0, temp, 0, val_ptr.length);
 		temp[val_ptr.length] = otherValue.get_nibble();
 
-		final TitanOctetString result = new TitanOctetString(temp);
-
-		return result;
+		return new TitanOctetString(temp);
 	}
 
 	// originally operator~

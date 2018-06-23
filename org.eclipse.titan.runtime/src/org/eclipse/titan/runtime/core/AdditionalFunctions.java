@@ -2717,9 +2717,7 @@ public final class AdditionalFunctions {
 
 	// for internal purposes
 	public static String get_port_name(final String port_name, final int array_index) {
-		final String result = MessageFormat.format("{0}[{1}]", port_name, array_index);
-
-		return result;
+		return MessageFormat.format("{0}[{1}]", port_name, array_index);
 	}
 
 	public static String get_port_name(final String port_name, final TitanInteger array_index) {
