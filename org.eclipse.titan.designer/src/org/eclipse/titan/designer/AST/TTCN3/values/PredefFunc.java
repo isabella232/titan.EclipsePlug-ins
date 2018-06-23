@@ -31,13 +31,13 @@ public class PredefFunc {
 
 		private static final long serialVersionUID = -5356312750957137499L;
 
-		public DecodeException(String msg) {
+		public DecodeException(final String msg) {
 			super(msg);
 		}
 		
 	}
 
-	public static char hexdigit_to_char(char hexdigit) throws DecodeException {
+	public static char hexdigit_to_char(final char hexdigit) throws DecodeException {
 		if (hexdigit < 10) {
 			return (char) ('0' + hexdigit);
 		} else if (hexdigit < 16) {
