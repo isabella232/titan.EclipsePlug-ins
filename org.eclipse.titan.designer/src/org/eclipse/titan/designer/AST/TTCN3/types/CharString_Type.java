@@ -55,15 +55,25 @@ public final class CharString_Type extends Type {
 	private static final String TOOLONGBOUNDARYERROR = "The {0} boundary must be a charstring value containing a single character.";
 
 	public static enum CharCoding {
-		UNKNOWN,
-		ASCII,
-		UTF_8,
-		UTF16,
-		UTF16BE,
-		UTF16LE,
-		UTF32,
-		UTF32BE,
-		UTF32LE
+		UNKNOWN("<unknown>"),
+		ASCII("ASCII"),
+		UTF_8("UTF-8"),
+		UTF16("UTF-16"),
+		UTF16BE("UTF-16BE"),
+		UTF16LE("UTF-16LE"),
+		UTF32("UTF-32"),
+		UTF32BE("UTF-32BE"),
+		UTF32LE("UTF-32LE");
+
+		final String name;
+
+		CharCoding(final String name) {
+			this.name = name;
+		}
+
+		public String getName() {
+			return name;
+		}
 	}
 
 	@Override
