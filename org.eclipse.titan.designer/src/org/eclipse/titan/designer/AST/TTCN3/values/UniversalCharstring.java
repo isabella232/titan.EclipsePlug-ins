@@ -57,7 +57,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 				//cannot happen
 			}
 		}
-		final CharCoding coding = PredefFunc.getCharCoding(octet_str.toString());
+		final CharCoding coding = PredefFunc.get_stringencoding(octet_str.toString());
 		if (CharCoding.UTF_8 == coding) {
 			try {
 				UniversalCharstring ucs = PredefFunc.decode_utf8(octet_str.toString(), CharCoding.UTF_8);

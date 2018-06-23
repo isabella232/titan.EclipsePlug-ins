@@ -307,47 +307,7 @@ public class PredefFunc {
 		return CharCoding.UTF_8;
 	}
 
-	//TODO: remove
-	/*
-	public static String get_stringencoding(final String encoded_value) throws DecodeException {
-		final int length = encoded_value.length();
-		if (0 == length) {
-			return "<unknown>";
-		}
-
-		if ( length % 2 != 0 ) {
-			throw new DecodeException( MessageFormat.format(
-					"get_stringencoding(): Wrong string. The number of nibbles ({0}) in string " +
-							"shall be divisible by 2", length ));
-			//TODO: remove
-			//return "<unknown>";
-		}
-
-		if      (findBom(encoded_value, utf32be)) return "UTF-32BE";
-		else if (findBom(encoded_value, utf32le)) return "UTF-32LE";
-		else if (findBom(encoded_value, utf16be)) return "UTF-16BE";
-		else if (findBom(encoded_value, utf16le)) return "UTF-16LE";
-		else if (findBom(encoded_value, utf8)) return "UTF-8";
-
-		final StringBuilder uc_str = new StringBuilder();
-		final String ret;
-		for (int i = 0; i < length / 2; ++i) {
-			uc_str.append(str2uchar(encoded_value.charAt(2 * i), encoded_value.charAt(2 * i + 1)));
-		}
-
-		if (is_ascii(length / 2, uc_str.toString()) == CharCoding.ASCII) {
-			ret = "ASCII";
-		} else if (CharCoding.UTF_8 == is_utf8(length / 2, uc_str.toString())) {
-			ret = "UTF-8";
-		} else {
-			ret = "<unknown>";
-		}
-
-		return ret;
-	}
-	*/
-
-	public static CharCoding getCharCoding(final String encoded_value) {
+	public static CharCoding get_stringencoding(final String encoded_value) {
 		final int length = encoded_value.length();
 		if (0 == length) {
 			return CharCoding.UNKNOWN;
