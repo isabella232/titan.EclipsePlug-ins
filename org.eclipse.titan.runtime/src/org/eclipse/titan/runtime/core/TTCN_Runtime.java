@@ -2559,7 +2559,7 @@ public final class TTCN_Runtime {
 				temp_struct.return_type = return_type;
 				temp_struct.return_value = new Text_Buf();
 				//TODO can this be done faster?
-				byte[] temp = new byte[return_value_len];
+				final byte[] temp = new byte[return_value_len];
 				System.arraycopy(data, buffer_begin + return_value_begin, temp, 0, return_value_len);
 				temp_struct.return_value.push_raw(return_value_len, temp);
 			} else {

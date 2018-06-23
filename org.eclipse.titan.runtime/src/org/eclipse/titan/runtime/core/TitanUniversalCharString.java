@@ -1690,7 +1690,7 @@ public class TitanUniversalCharString extends Base_Type {
 	
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
 		final TitanCharString buff_str = new TitanCharString();
-		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		final int dec_len = buff_str.RAW_decode(p_td, buff, limit, top_bit_ord);
 		final char[] tmp_val_ptr = buff_str.getValue().toString().toCharArray();
 		if(buff_str.isBound()) {

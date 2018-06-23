@@ -30,7 +30,7 @@ public class TtcnError extends Error {
 
 	public TtcnError( final String errorMessage ) {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			StringBuilder error_str = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
+			final StringBuilder error_str = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
 			if (error_str.length() > 0) {
 				error_str.append(' ');
 			}
@@ -41,7 +41,7 @@ public class TtcnError extends Error {
 		} else {
 			TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
 			if (TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_NONE) {
-				StringBuilder loc = TTCN_Location.print_location(false, true, log_event_types_t.LOGEVENTTYPES_NO);
+				final StringBuilder loc = TTCN_Location.print_location(false, true, log_event_types_t.LOGEVENTTYPES_NO);
 				if (loc.length() > 0) {
 					TtcnLogger.log_event_str(loc.toString());
 					TtcnLogger.log_event_str(": ");
@@ -63,7 +63,7 @@ public class TtcnError extends Error {
 	 * */
 	public TtcnError( final Exception exception ) {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			StringBuilder error_str = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
+			final StringBuilder error_str = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
 			if (error_str.length() > 0) {
 				error_str.append(' ');
 			}
@@ -113,7 +113,7 @@ public class TtcnError extends Error {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
 			TtcnLogger.begin_event_log2str();
 
-			StringBuilder loc = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
+			final StringBuilder loc = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
 			if (loc.length() > 0) {
 				TtcnLogger.log_event_str(loc.toString());
 				TtcnLogger.log_event_str(" ");

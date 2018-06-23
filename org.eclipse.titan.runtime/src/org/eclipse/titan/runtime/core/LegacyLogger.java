@@ -219,7 +219,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			System.err.println(err_msg);
 		}
 		if (args != null && err_msg != null) {
-			MessageFormat err_str = new MessageFormat(err_msg);
+			final MessageFormat err_str = new MessageFormat(err_msg);
 			System.err.println(err_str.format(args));
 		}
 		System.err.println("Exiting.\n");
@@ -383,7 +383,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		for (int i = 0; i < path_name.length(); i++) {
 			if (path_name.charAt(i) == File.separatorChar) {
 				path_backup = path_name.substring(0,i+1);
-				File path_backup_file = new File(path_backup);
+				final File path_backup_file = new File(path_backup);
 				if (!path_backup_file.exists()) {
 					if (!path_backup_file.mkdir()) {
 						fatal_error("Creation of directory {0} failed when trying to open log file {1}.", path_backup, path_name);
@@ -413,8 +413,8 @@ public class LegacyLogger implements ILoggerPlugin {
 			if (event_str.length() > 0) {
 				// Write the location info to the console for user logs only.
 				if (msg_severity == Severity.USER_UNQUALIFIED && event_str.startsWith(":") && event.getSourceInfo__list().lengthOf().getInt() > 0) {
-					int stackdepth = event.getSourceInfo__list().lengthOf().getInt();
-					LocationInfo loc = event.getSourceInfo__list().getAt(stackdepth - 1);
+					final int stackdepth = event.getSourceInfo__list().lengthOf().getInt();
+					final LocationInfo loc = event.getSourceInfo__list().getAt(stackdepth - 1);
 					System.err.print(MessageFormat.format("{0}:{1}", loc.getFilename().getValue(), loc.getLine().getInt()));
 				}
 
@@ -429,7 +429,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private boolean log_file_emerg(final TitanLoggerApi.TitanLogEvent event) {
 		//TODO: initial implement
 		boolean write_succes = true;
-		String event_str = event_to_string(event, false);
+		final String event_str = event_to_string(event, false);
 		if (event_str == null) {
 			TtcnError.TtcnWarning("No text for event");
 			return true;
@@ -465,8 +465,8 @@ public class LegacyLogger implements ILoggerPlugin {
 		//TODO: initial implement
 		if (is_disk_full_) {
 			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
-				int event_timestamp_seconds = event.getTimestamp().getSeconds().getInt();
-				int event_timestamp_microseconds = event.getTimestamp().getMicroSeconds().getInt();
+				final int event_timestamp_seconds = event.getTimestamp().getSeconds().getInt();
+				final int event_timestamp_microseconds = event.getTimestamp().getMicroSeconds().getInt();
 				int diff_seconds = 0;
 				int diff_microseconds = 0;
 				// If the specified time period has elapsed retry logging to file.
@@ -485,12 +485,14 @@ public class LegacyLogger implements ILoggerPlugin {
 				return false;
 			}
 		}
-		String event_str = event_to_string(event, false);
+
+		final String event_str = event_to_string(event, false);
 		if (event_str == null) {
 			TtcnError.TtcnWarning("No text for event");
 			return true;
 		}
-		int bytes_to_log = event_str.length() + 1;
+
+		final int bytes_to_log = event_str.length() + 1;
 		if (logfile_size_ != 0 && logfile_bytes_ != 0 && !log_buffered) {
 			if ((bytes_to_log + logfile_bytes_ + 1023) / 1024 > logfile_size_) {
 				// Close current log file and open the next one.
@@ -499,8 +501,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				// Delete oldest log file if there is a file number limitation.
 				if (logfile_number_ > 1) {
 					if (logfile_index_ > logfile_number_) {
-						String filename_to_delete = get_file_name(logfile_index_- logfile_number_);
-						File file_to_delete = new File(filename_to_delete);
+						final String filename_to_delete = get_file_name(logfile_index_- logfile_number_);
+						final File file_to_delete = new File(filename_to_delete);
 						if (file_to_delete.exists()) {
 							file_to_delete.delete();
 						}
@@ -518,11 +520,11 @@ public class LegacyLogger implements ILoggerPlugin {
 				// TTCN_Runtime.get_host_name(), and TTCN_Runtime.clean_up() (which is
 				// called once) has already happened.
 				break;
-			default:
-				String new_filename = get_file_name(logfile_index_);
+			default: {
+				final String new_filename = get_file_name(logfile_index_);
 				if (new_filename != current_filename_) {
 					String switched = "Switching to log file " + new_filename;
-					TitanLogEvent switched_event = new TitanLogEvent();
+					final TitanLogEvent switched_event = new TitanLogEvent();
 					switched_event.getTimestamp().assign(event.getTimestamp());
 					switched_event.getSourceInfo__list().assign(event.getSourceInfo__list());
 					switched_event.getSeverity().assign(TtcnLogger.Severity.EXECUTOR_RUNTIME.ordinal());
@@ -533,6 +535,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					open_file(false);
 				}
 				break;
+			}
 			}
 		}
 
@@ -563,8 +566,8 @@ public class LegacyLogger implements ILoggerPlugin {
 				while (!print_success && logfile_number_ > 2) {
 					logfile_number_--;
 					if (logfile_index_ > logfile_number_) {
-						String filename_to_delete = get_file_name(logfile_index_ - logfile_number_);
-						File file_to_delete = new File(filename_to_delete);
+						final String filename_to_delete = get_file_name(logfile_index_ - logfile_number_);
+						final File file_to_delete = new File(filename_to_delete);
 						boolean remove_ret_val = false;
 						if (file_to_delete.exists()) {
 							remove_ret_val = file_to_delete.delete();

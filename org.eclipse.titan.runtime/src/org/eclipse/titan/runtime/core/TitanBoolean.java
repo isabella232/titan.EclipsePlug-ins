@@ -387,7 +387,7 @@ public class TitanBoolean extends Base_Type {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;
 		int decode_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength : 1;
-		TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
+		final TTCN_EncDec_ErrorContext errorcontext = new TTCN_EncDec_ErrorContext();
 		if (decode_length > limit) {
 			if (no_err) {
 				errorcontext.leaveContext();

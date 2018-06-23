@@ -727,7 +727,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			throw new TtcnError("Setting the decoded content matching mechanism of a non-decmatch universal charstring template.");
 		}
 
-		CharCoding new_coding = TitanUniversalCharString.get_character_coding(codingString, "decoded content match");
+		final CharCoding new_coding = TitanUniversalCharString.get_character_coding(codingString, "decoded content match");
 		this.dec_match = new Unichar_Decmatch();
 		this.dec_match.dec_match = dec_match;
 		this.dec_match.coding = new_coding;

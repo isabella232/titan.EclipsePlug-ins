@@ -84,7 +84,7 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 		}
 
 		final int patternLength = patternString.length();
-		List<Character> tmp_result = new ArrayList<Character>(patternLength);
+		final List<Character> tmp_result = new ArrayList<Character>(patternLength);
 		for (int i = 0; i < patternLength; i++) {
 			int patternValue = octetDigit1(patternString.charAt(i));
 			if (patternValue < 16) {

@@ -1105,10 +1105,10 @@ public final class TtcnLogger {
 	public static void set_executable_name() {
 		//TODO: initial implementation, more complex
 		executable_name = "";
-		boolean is_jar = TtcnLogger.class.getResource("TtcnLogger.class").toString().startsWith("jar:");
+		final boolean is_jar = TtcnLogger.class.getResource("TtcnLogger.class").toString().startsWith("jar:");
 		if (is_jar) {
 			executable_name = System.getProperty("user.dir") + File.separator;
-			String file_name = new File(TtcnLogger.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
+			final String file_name = new File(TtcnLogger.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
 			executable_name = executable_name + file_name.replace(".jar", "");
 		} else {
 			executable_name = System.getProperty("user.dir");

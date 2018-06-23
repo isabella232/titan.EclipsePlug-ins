@@ -418,7 +418,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(value_redirect, index_redirect);
+			final TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).done(value_redirect, index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexOffset);
@@ -446,7 +446,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 		TitanAlt_Status result = TitanAlt_Status.ALT_NO;
 		for (int i = 0; i < array_size; i++) {
-			TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).killed(index_redirect);
+			final TitanAlt_Status returnValue = ((TitanComponent)array_elements[i]).killed(index_redirect);
 			if (returnValue == TitanAlt_Status.ALT_YES) {
 				if (index_redirect != null) {
 					index_redirect.addIndex(i + indexOffset);
