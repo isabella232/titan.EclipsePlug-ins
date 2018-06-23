@@ -96,8 +96,15 @@ public class ProjectSourceCompiler {
 		}
 	}
 
-	//FIXME comment
-	public static void generateSingleMain(final IProject project, final Collection<Module> modules, final boolean aDebug) throws CoreException {
+	/**
+	 * Generates the class that will be the entry point for single mode execution.
+	 *
+	 * @param project the project in which the code is generated.
+	 * @param modules the list of modules generated during this build.
+	 *
+	 * @throws CoreException if file operations can not be performed.
+	 * */
+	public static void generateSingleMain(final IProject project, final Collection<Module> modules) throws CoreException {
 		IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
 		IFile file = folder.getFile( "Single_main.java");
 		createDir( folder );
@@ -154,8 +161,15 @@ public class ProjectSourceCompiler {
 		}
 	}
 
-	//FIXME comment
-	public static void generateParallelMain(final IProject project, final Collection<Module> modules, final boolean aDebug) throws CoreException {
+	/**
+	 * Generates the class that will be the entry point for parallel mode execution.
+	 *
+	 * @param project the project in which the code is generated.
+	 * @param modules the list of modules generated during this build.
+	 *
+	 * @throws CoreException if file operations can not be performed.
+	 * */
+	public static void generateParallelMain(final IProject project, final Collection<Module> modules) throws CoreException {
 		IFolder folder = project.getFolder( DIR_GENERATED_ROOT );
 		IFile file = folder.getFile( "Parallel_main.java");
 		createDir( folder );
