@@ -698,7 +698,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (reference1 != null) {
 			final List<ISubReference> subreferences = reference1.getSubreferences();
-			if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
+			if (subreferences != null && !subreferences.isEmpty() && subreferences.get(0) instanceof ParameterisedSubReference) {
 				final ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
 				if (actualParameterList != null) {
 					actualParameterList.reArrangeInitCode(aData, source, usageModule);
@@ -707,7 +707,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 		}
 		if (reference2 != null) {
 			final List<ISubReference> subreferences = reference2.getSubreferences();
-			if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
+			if (subreferences != null && !subreferences.isEmpty() && subreferences.get(0) instanceof ParameterisedSubReference) {
 				final ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
 				if (actualParameterList != null) {
 					actualParameterList.reArrangeInitCode(aData, source, usageModule);
