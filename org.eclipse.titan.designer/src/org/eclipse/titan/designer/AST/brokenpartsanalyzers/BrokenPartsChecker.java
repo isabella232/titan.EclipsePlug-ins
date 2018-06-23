@@ -60,7 +60,7 @@ public final class BrokenPartsChecker {
 
 		progress.done();
 	}
-	//TODO check if this can be merged with the following one
+
 	private void generalChecker() {
 		progress.setTaskName("Semantic check");
 		progress.setWorkRemaining(selectionMethod.getModulesToCheck().size());
