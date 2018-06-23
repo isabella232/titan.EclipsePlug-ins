@@ -129,33 +129,33 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 	}
 
-	public void set_file_name(String new_filename_skeleton, boolean from_config) {
+	public void set_file_name(final String new_filename_skeleton, final boolean from_config) {
 		filename_skeleton_ = new_filename_skeleton;
 		if (from_config) {
 			skeleton_given_ = true;
 		}
 	}
 
-	public void set_append_file(boolean new_append_file) {
+	public void set_append_file(final boolean new_append_file) {
 		append_file_ = new_append_file;
 	}
 
-	public boolean set_file_size(int p_size) {
+	public boolean set_file_size(final int p_size) {
 		logfile_size_ = p_size;
 		return true;
 	}
 
-	public boolean set_file_number(int p_number) {
+	public boolean set_file_number(final int p_number) {
 		logfile_number_ = p_number;
 		return true;
 	}
 
-	public boolean set_disk_full_action(TtcnLogger.disk_full_action_t  p_disk_full_action) {
+	public boolean set_disk_full_action(final TtcnLogger.disk_full_action_t  p_disk_full_action) {
 		disk_full_action_ = p_disk_full_action;
 		return true;
 	}
 	
-	public void open_file(boolean is_first) {
+	public void open_file(final boolean is_first) {
 		//TODO: different than C++ and initial implement 
 		if (is_first) {
 			chk_log_file();
@@ -210,7 +210,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		return is_configured;
 	}
 	
-	private void fatal_error(final String err_msg, Object... args) {
+	private void fatal_error(final String err_msg, final Object... args) {
 		System.err.println("Fatal error during logging: ");
 		if (args == null || err_msg == null) {
 			System.err.println(" (Unkown error!)");

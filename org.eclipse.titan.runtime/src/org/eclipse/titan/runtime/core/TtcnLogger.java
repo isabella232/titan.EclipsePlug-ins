@@ -160,7 +160,7 @@ public final class TtcnLogger {
 		disk_full_action_type_t type;
 		int retry_interval;
 		
-		public disk_full_action_t(disk_full_action_type_t disk_type, int retry) {
+		public disk_full_action_t(final disk_full_action_type_t disk_type, final int retry) {
 			type = disk_type;
 			retry_interval = retry;
 		}
@@ -1033,7 +1033,7 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_port_queue(operation, port_name, componentReference, id, address, parameter);
 	}
 
-	public static void set_file_name(final String new_filename_skeleton, boolean from_config) {
+	public static void set_file_name(final String new_filename_skeleton, final boolean from_config) {
 		get_logger_plugin_manager().set_file_name(new_filename_skeleton , from_config);
 	}
 
@@ -1086,11 +1086,11 @@ public final class TtcnLogger {
 		}
 	}
 
-	public static void set_append_file(boolean new_append_file) {
+	public static void set_append_file(final boolean new_append_file) {
 		get_logger_plugin_manager().set_append_file(new_append_file);
 	}
 
-	public static boolean set_file_size(final component_id_t comp, int p_size) {
+	public static boolean set_file_size(final component_id_t comp, final int p_size) {
 		return get_logger_plugin_manager().set_file_size(comp, p_size);
 	}
 
@@ -1098,7 +1098,7 @@ public final class TtcnLogger {
 		return get_logger_plugin_manager().set_file_number(comp, p_number);
 	}
 
-	public static boolean set_disk_full_action(final component_id_t comp, disk_full_action_t p_disk_full_action) {
+	public static boolean set_disk_full_action(final component_id_t comp, final disk_full_action_t p_disk_full_action) {
 		return get_logger_plugin_manager().set_disk_full_action(comp, p_disk_full_action);
 	}
 	

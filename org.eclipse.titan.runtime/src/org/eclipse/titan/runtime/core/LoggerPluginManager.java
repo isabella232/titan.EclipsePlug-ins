@@ -90,7 +90,7 @@ public class LoggerPluginManager {
 	private static class LogEntry {
 		TitanLoggerApi.TitanLogEvent event_;
 		
-		public LogEntry(TitanLoggerApi.TitanLogEvent event) {
+		public LogEntry(final TitanLoggerApi.TitanLogEvent event) {
 			event_ = event;
 		}
 	}
@@ -205,19 +205,19 @@ public class LoggerPluginManager {
 		}
 	}
 
-	public void set_file_name(final String new_filename_skeleton, boolean from_config) {
+	public void set_file_name(final String new_filename_skeleton, final boolean from_config) {
 		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).set_file_name(new_filename_skeleton, from_config);
 		}
 	}
 
-	public void set_append_file(boolean new_append_file) {
+	public void set_append_file(final boolean new_append_file) {
 		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).set_append_file(new_append_file);
 		}
 	}
 
-	public boolean set_file_size(final component_id_t comp, int p_size) {
+	public boolean set_file_size(final component_id_t comp, final int p_size) {
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_file_size(p_size)) {
@@ -228,7 +228,7 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_file_number(final component_id_t cmpt, int p_number) {
+	public boolean set_file_number(final component_id_t cmpt, final int p_number) {
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_file_number(p_number)) {
@@ -239,7 +239,7 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_disk_full_action(final component_id_t comp, TtcnLogger.disk_full_action_t p_disk_full_action) {
+	public boolean set_disk_full_action(final component_id_t comp, final TtcnLogger.disk_full_action_t p_disk_full_action) {
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_disk_full_action(p_disk_full_action)) {
