@@ -239,15 +239,15 @@ public class PredefFunc {
 
 		int length_of_BOM = 0;
 		final String upperCaseString = encoded_value.toUpperCase();
-		if (findBom(upperCaseString, utf32be)) {
+		if (upperCaseString.startsWith(utf32be)) {
 			length_of_BOM = utf32be.length();
-		} else if (findBom(upperCaseString, utf32le)) {
+		} else if (upperCaseString.startsWith(utf32le)) {
 			length_of_BOM = utf32le.length();
-		} else if (findBom(upperCaseString, utf16be)) {
+		} else if (upperCaseString.startsWith(utf16be)) {
 			length_of_BOM = utf16be.length();
-		} else if (findBom(upperCaseString, utf16le)) {
+		} else if (upperCaseString.startsWith(utf16le)) {
 			length_of_BOM = utf16le.length();
-		} else if (findBom(upperCaseString, utf8)) {
+		} else if (upperCaseString.startsWith(utf8)) {
 			length_of_BOM = utf8.length();
 		} else {
 			// no BOM found
@@ -319,15 +319,15 @@ public class PredefFunc {
 		}
 
 		final String upperCaseString = encoded_value.toUpperCase();
-		if (findBom(upperCaseString, utf32be)) {
+		if (upperCaseString.startsWith(utf32be)) {
 			return CharCoding.UTF32BE;
-		} else if (findBom(upperCaseString, utf32le)) {
+		} else if (upperCaseString.startsWith(utf32le)) {
 			return CharCoding.UTF32LE;
-		} else if (findBom(upperCaseString, utf16be)) {
+		} else if (upperCaseString.startsWith(utf16be)) {
 			return CharCoding.UTF16BE;
-		} else if (findBom(upperCaseString, utf16le)) {
+		} else if (upperCaseString.startsWith(utf16le)) {
 			return CharCoding.UTF16LE;
-		} else if (findBom(upperCaseString, utf8)) {
+		} else if (upperCaseString.startsWith(utf8)) {
 			return CharCoding.UTF_8;
 		}
 
