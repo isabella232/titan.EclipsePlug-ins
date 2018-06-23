@@ -130,7 +130,6 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	public void set_file_name(String new_filename_skeleton, boolean from_config) {
-		filename_skeleton_ = "";
 		filename_skeleton_ = new_filename_skeleton;
 		if (from_config) {
 			skeleton_given_ = true;
