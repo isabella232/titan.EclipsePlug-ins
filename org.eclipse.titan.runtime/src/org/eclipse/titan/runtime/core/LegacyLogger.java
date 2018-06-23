@@ -918,8 +918,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				returnValue.append("Performing error recovery.");
 				break;
 			case executor__start__single__mode:
-				//TODO correct number
-				returnValue.append(MessageFormat.format("TTCN-3 Test Executor started in single mode. Version:  {0} .", TTCN_Runtime.PRODUCT_NUMBER));
+				returnValue.append(MessageFormat.format("TTCN-3 Test Executor started in single mode. Version: {0} .", TTCN_Runtime.PRODUCT_NUMBER));
 				break;
 			case executor__finish__single__mode:
 				returnValue.append("TTCN-3 Test Executor finished in single mode.");
