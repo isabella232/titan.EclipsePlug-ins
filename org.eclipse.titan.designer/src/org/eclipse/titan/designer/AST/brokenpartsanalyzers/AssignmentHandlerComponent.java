@@ -96,7 +96,7 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 			addReason("It uses " + otherName + "@" + other.getAssignment().getMyScope().getModuleScope().getIdentifier().getDisplayName() + " which is infected.");
 		}
 	}
-	//TODO ez lehetne boolean ?
+
 	private Set<String> computeInfectedFields(final String definitionName) {
 		final Set<String> result = new HashSet<String>();
 		for (Map.Entry<Definition, Set<String>> entry : componentDefinitions.entrySet()) {
@@ -107,6 +107,7 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 				}
 			}
 		}
+
 		return result;
 	}
 
