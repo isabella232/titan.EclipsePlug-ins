@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Charstring_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.PredefFunc;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -189,7 +190,7 @@ public final class GetStringencodingExpression extends Expression_Value {
 		switch (last.getValuetype()) {
 		case OCTETSTRING_VALUE: {
 			final String octetString = ((Octetstring_Value) last).getValue();
-			lastValue = new Charstring_Value(calculateValue(octetString));
+			lastValue = new Charstring_Value(PredefFunc.get_stringencoding(octetString).getName());
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
@@ -199,19 +200,6 @@ public final class GetStringencodingExpression extends Expression_Value {
 		}
 
 		return lastValue;
-	}
-
-	public String calculateValue(final String octetString) {
-		//TODO: reimplement
-		final StringBuilder builder = new StringBuilder();
-		final byte[] bytes = octetString.getBytes();
-
-		for (int i = 0; i < bytes.length / 2; i++) {
-			final int c = 16 * BitstringUtilities.charToHexdigit(bytes[2 * i]) + BitstringUtilities.charToHexdigit(bytes[2 * i + 1]);
-			builder.append((char) c);
-		}
-
-		return builder.toString();
 	}
 
 	@Override
