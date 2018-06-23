@@ -317,6 +317,21 @@ public final class Sequence_Value extends Value {
 	}
 
 	/**
+	 * Inserts the provided named value to the list of named values in this sequence.
+	 * <p>
+	 * Right now is only used to add implicit omit elements.
+	 *
+	 * @param value the named value to add.
+	 * @param index the index at which to insert.
+	 * */
+	public void insertNamedValue(final NamedValue value, final int index) {
+		if (value != null) {
+			values.insertNamedValue(value, index);
+			value.setMyScope(myScope);
+		}
+	}
+
+	/**
 	 * Remove all named values that were not parsed,
 	 * but generated during previous semantic checks.
 	 * */

@@ -687,8 +687,8 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final Identifier id = getComponentByIndex(i).getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
-						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
-								new Omit_Value(), false));
+						value.insertNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
+								new Omit_Value(), false), i);
 					} else {
 						value.getLocation().reportSemanticError(
 								MessageFormat.format(isAsn ? MISSINGFIELDASN1 : MISSINGFIELDTTCN3,

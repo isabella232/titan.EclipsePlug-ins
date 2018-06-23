@@ -92,6 +92,15 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 		value.setFullNameParent(this);
 	}
 
+	public void insertNamedValue(final NamedValue value, final int index) {
+		if (value == null || value.getName() == null) {
+			return;
+		}
+
+		values.add(index, value);
+		value.setFullNameParent(this);
+	}
+
 	/**
 	 * Remove all named values that were not parsed, but generated during
 	 * previous semantic checks.
