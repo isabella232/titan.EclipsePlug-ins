@@ -101,7 +101,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	private static final ThreadLocal<Boolean> already_warned = new ThreadLocal<Boolean>() {
 		@Override
 		protected Boolean initialValue() {
-			return new Boolean(false);
+			return Boolean.FALSE;
 		}
 	};
 

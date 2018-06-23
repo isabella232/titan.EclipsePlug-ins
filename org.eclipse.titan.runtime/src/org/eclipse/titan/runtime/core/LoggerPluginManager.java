@@ -106,7 +106,7 @@ public class LoggerPluginManager {
 	private static ThreadLocal<Boolean> is_first = new ThreadLocal<Boolean>() {
 		@Override
 		protected Boolean initialValue() {
-			return new Boolean(true);
+			return Boolean.TRUE;
 		}
 	};
 
