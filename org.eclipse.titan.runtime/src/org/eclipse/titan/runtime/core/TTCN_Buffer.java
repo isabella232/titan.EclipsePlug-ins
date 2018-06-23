@@ -483,7 +483,8 @@ public class TTCN_Buffer {
 					data = new char[new_size];
 				} else {
 					data = new char[data_ptr.length];
-				}  // FIXME: originally memmove
+				}
+
 				System.arraycopy(data_ptr, buf_pos, data, 0, new_len);
 				data_ptr = data;
 			} else {
