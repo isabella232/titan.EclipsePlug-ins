@@ -103,6 +103,13 @@ public class LoggerPluginManager {
 		}
 	};
 
+	private static ThreadLocal<Boolean> is_first = new ThreadLocal<Boolean>() {
+		@Override
+		protected Boolean initialValue() {
+			return new Boolean(true);
+		}
+	};
+
 	private ArrayList<ILoggerPlugin> plugins_ = new ArrayList<ILoggerPlugin>();
 	
 	private LinkedList<LogEntry> entry_list_ = new LinkedList<LogEntry>();
@@ -251,12 +258,6 @@ public class LoggerPluginManager {
 	}
 	
 	public void open_file() {
-		ThreadLocal<Boolean> is_first = new ThreadLocal<Boolean>() {
-			@Override
-			protected Boolean initialValue() {
-				return new Boolean(true);
-			}
-		};
 		boolean free_entry_list = false;
 		if (plugins_.isEmpty()) {
 			//FIXME: assert(this->n_plugins_ > 0)
