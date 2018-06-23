@@ -239,12 +239,17 @@ public class PredefFunc {
 
 		int length_of_BOM = 0;
 
-		if      (findBom(encoded_value, utf32be)) length_of_BOM = utf32be.length();
-		else if (findBom(encoded_value, utf32le)) length_of_BOM = utf32le.length();
-		else if (findBom(encoded_value, utf16be)) length_of_BOM = utf16be.length();
-		else if (findBom(encoded_value, utf16le)) length_of_BOM = utf16le.length();
-		else if (findBom(encoded_value, utf8)) length_of_BOM = utf8.length();
-		else {
+		if (findBom(encoded_value, utf32be)) {
+			length_of_BOM = utf32be.length();
+		} else if (findBom(encoded_value, utf32le)) {
+			length_of_BOM = utf32le.length();
+		} else if (findBom(encoded_value, utf16be)) {
+			length_of_BOM = utf16be.length();
+		} else if (findBom(encoded_value, utf16le)) {
+			length_of_BOM = utf16le.length();
+		} else if (findBom(encoded_value, utf8)) {
+			length_of_BOM = utf8.length();
+		} else {
 			// no BOM found
 			return encoded_value;
 		}
@@ -353,11 +358,17 @@ public class PredefFunc {
 			return CharCoding.UNKNOWN;
 		}
 
-		if      (findBom(encoded_value, utf32be)) return CharCoding.UTF32BE;
-		else if (findBom(encoded_value, utf32le)) return CharCoding.UTF32LE;
-		else if (findBom(encoded_value, utf16be)) return CharCoding.UTF16BE;
-		else if (findBom(encoded_value, utf16le)) return CharCoding.UTF16LE;
-		else if (findBom(encoded_value, utf8)) return CharCoding.UTF_8;
+		if (findBom(encoded_value, utf32be)) {
+			return CharCoding.UTF32BE;
+		} else if (findBom(encoded_value, utf32le)) {
+			return CharCoding.UTF32LE;
+		} else if (findBom(encoded_value, utf16be)) {
+			return CharCoding.UTF16BE;
+		} else if (findBom(encoded_value, utf16le)) {
+			return CharCoding.UTF16LE;
+		} else if (findBom(encoded_value, utf8)) {
+			return CharCoding.UTF_8;
+		}
 
 		final StringBuilder uc_str = new StringBuilder();
 		final CharCoding ret;
@@ -478,8 +489,7 @@ public class PredefFunc {
 									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("0x%02X", octet)));
 				}
 				continuing_ptr.add((char) (octet & 0x3F));
-			} 
-			else {
+			} else {
 				if (start_pos + i == n_uc) {
 					if (i > 0) {
 						// only a part of octets is missing
@@ -540,6 +550,8 @@ public class PredefFunc {
 			}
 			else if (uc_str.charAt(i) <= 0xDF) {
 				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
+
+				//TODO this might be better oof with bytes or integers instead of chars.
 				final List<Character> octets = new ArrayList<Character>();
 				octets.add( (char) (uc_str.charAt(i) & 0x1F) );
 				fill_continuing_octets(1, octets, length / 2, uc_str, i + 1, ucstr.length());
