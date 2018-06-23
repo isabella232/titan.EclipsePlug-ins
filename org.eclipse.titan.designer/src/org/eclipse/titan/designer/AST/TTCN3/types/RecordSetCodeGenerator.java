@@ -818,7 +818,7 @@ public class RecordSetCodeGenerator {
 					}
 					genRawFieldChecker(source, cur_choice, false);
 					if (fieldInfo.isOptional) {
-						source.append(")");
+						source.append(')');
 					}
 					source.append(") {\n");
 					genRawTagChecker(source, cur_choice);
@@ -832,7 +832,7 @@ public class RecordSetCodeGenerator {
 					}
 					genRawFieldChecker(source, fieldInfo.raw.presence, false);
 					if (fieldInfo.isOptional) {
-						source.append(")");
+						source.append(')');
 					}
 					source.append(") {\n");
 					genRawTagChecker(source, fieldInfo.raw.presence);
@@ -2959,7 +2959,7 @@ public class RecordSetCodeGenerator {
 					genRawFieldChecker(source, cur_choice, true);
 					source.append(") {\n");
 					source.append(MessageFormat.format("selected_field = {0};\n", cur_choice.fieldnum));
-					source.append("}");
+					source.append('}');
 				} else {
 					other = cur_choice.fieldnum;
 				}
@@ -3130,7 +3130,7 @@ public class RecordSetCodeGenerator {
 		}
 		if (fieldInfo.isOptional) {
 			source.append("}\n");
-			source.append("}");
+			source.append('}');
 			if (tempRawOption.tag_type > 0) {
 				source.append("\n}");
 			}

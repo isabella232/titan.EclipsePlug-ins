@@ -473,7 +473,7 @@ public class PortGenerator {
 			source.append(portDefinition.varDefs);
 		}
 		if (portDefinition.varInit != null) {
-			source.append("\n");
+			source.append('\n');
 			source.append("private void init_port_variables() {\n");
 			source.append(portDefinition.varInit);
 			source.append("}\n\n");
