@@ -345,7 +345,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 
 		if (ret_val.length() == 0) {
-			ret_val = null;
+			return null;
 		} else if (whoami_variable == whoami.HC && !already_warned.get().booleanValue()) {
 			already_warned.set(true);
 			if (!h_present || (!p_present && !r_present)) {
