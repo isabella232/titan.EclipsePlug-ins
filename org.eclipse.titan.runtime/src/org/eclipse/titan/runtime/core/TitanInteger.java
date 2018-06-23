@@ -878,7 +878,7 @@ public class TitanInteger extends Base_Type {
 	 * TTCN_Typedescriptor_t.  It must be public because called by
 	 * another types during encoding.  Returns the length of encoded data.  */
 
-	public static int INTX_MASKS[] = { 0 /* dummy */, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
+	public static final int INTX_MASKS[] = { 0 /* dummy */, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
 
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		if (!nativeFlag) {
