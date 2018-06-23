@@ -13,8 +13,6 @@ import java.util.ArrayList;
 /**
  * TTCN-3 component template
  *
- *  //FIXME a lot to implement
- *
  * @author Kristof Szabados
  * @author Andrea Pálfi
  */
