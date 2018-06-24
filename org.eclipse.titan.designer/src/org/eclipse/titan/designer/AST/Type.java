@@ -2876,7 +2876,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (codingTable.size() > 0 || rawAttribute != null) {
 			return getGenNameOwn(scope);
 		}
-		//TODO add support for custom encoder/decoder
+
+		// if it has its own custom encoder or decoder functions set, then it needs its own coder functions
+		for (int i = 0; i < codingTable.size(); i++) {
+			final Coding_Type tempCodingType = codingTable.get(i);
+			if (!tempCodingType.builtIn && (tempCodingType.customCoding.encoders.containsKey(this) ||
+					tempCodingType.customCoding.decoders.containsKey(this))) {
+				return getGenNameOwn(scope);
+			}
+		}
 
 		if (this instanceof IReferencingType) {
 			final IReferenceChain refChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
