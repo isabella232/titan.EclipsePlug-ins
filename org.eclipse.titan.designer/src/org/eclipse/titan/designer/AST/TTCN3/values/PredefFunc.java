@@ -447,7 +447,7 @@ public class PredefFunc {
 				if ((octet & 0xC0) != 0x80) {
 					throw new DecodeException(MessageFormat.format(
 							"decode_utf8(): Malformed: At character position {0}, octet position {1}: {2} is " +
-									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("0x%02X", octet)));
+									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("0x%02X", (byte)octet)));
 				}
 				continuing_ptr.add((char) (octet & 0x3F));
 			} else {
@@ -507,7 +507,7 @@ public class PredefFunc {
 				throw new DecodeException(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: continuing " +
 								"octet {2} without leading octet.", ucstr.length(),
-								i, String.format("0x%02X",uc_str.charAt(i))));
+								i, String.format("0x%02X", (byte)uc_str.charAt(i))));
 			}
 			else if (uc_str.charAt(i) <= 0xDF) {
 				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
@@ -604,7 +604,7 @@ public class PredefFunc {
 				// not used code points: FE and FF => malformed
 				throw new DecodeException(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: " +
-								"unused/reserved octet {2}.", ucstr.length(), i, String.format("0x%02X", uc_str.charAt(i))));
+								"unused/reserved octet {2}.", ucstr.length(), i, String.format("0x%02X", (byte)uc_str.charAt(i))));
 			}
 		}
 		return ucstr;
