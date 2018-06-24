@@ -449,6 +449,7 @@ public class PredefFunc {
 							"decode_utf8(): Malformed: At character position {0}, octet position {1}: {2} is " +
 									"not a valid continuing octet.", uchar_pos, start_pos + i, String.format("0x%02X", (byte)octet)));
 				}
+
 				continuing_ptr.add((char) (octet & 0x3F));
 			} else {
 				if (start_pos + i == n_uc) {
@@ -459,8 +460,7 @@ public class PredefFunc {
 										"of {3} continuing octets {4} missing from the end of the stream.",
 										uchar_pos, start_pos + i, n_continuing - i, n_continuing,
 										n_continuing - i > 1 ? "are" : "is"));
-					}
-					else {
+					} else {
 						// all octets are missing
 						throw new DecodeException(MessageFormat.format(
 								"decode_utf8(): Incomplete: At character position {0}, octet position {1}: {2} " +
@@ -468,6 +468,7 @@ public class PredefFunc {
 										start_pos, n_continuing, n_continuing > 1 ? "s are" : " is"));
 					}
 				}
+
 				continuing_ptr.add((char) 0);
 			}
 		}
@@ -488,9 +489,9 @@ public class PredefFunc {
 		for (int i = 0; i < length / 2; ++i) {
 			uc_str.append(str2uchar(ostr.charAt(2 * i), ostr.charAt(2 * i + 1)));
 		}
+
 		final UniversalCharstring ucstr = new UniversalCharstring();
 		final int start = check_BOM(CharCoding.UTF_8, length /2, uc_str.toString());
-
 		for (int i = start; i < length / 2;) {
 			// perform the decoding character by character
 			if (uc_str.charAt(i) <= 0x7F) {
@@ -501,15 +502,13 @@ public class PredefFunc {
 				final char c = uc_str.charAt(i);
 				ucstr.append(new UniversalChar(g, p, r, c));
 				++i;
-			}
-			else if (uc_str.charAt(i) <= 0xBF) {
+			} else if (uc_str.charAt(i) <= 0xBF) {
 				// continuing octet (10xxxxxx) without leading octet ==> malformed
 				throw new DecodeException(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: continuing " +
 								"octet {2} without leading octet.", ucstr.length(),
 								i, String.format("0x%02X", (byte)uc_str.charAt(i))));
-			}
-			else if (uc_str.charAt(i) <= 0xDF) {
+			} else if (uc_str.charAt(i) <= 0xDF) {
 				// character encoded on 2 octets: 110xxxxx 10xxxxxx (11 useful bits)
 
 				//TODO this might be better oof with bytes or integers instead of chars.
@@ -525,10 +524,10 @@ public class PredefFunc {
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 2-octet " +
 									"encoding for quadruple (0, 0, 0, {2}).", ucstr.length(), i, c));
 				}
+
 				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 2;
-			} 
-			else if (uc_str.charAt(i) <= 0xEF) {
+			} else if (uc_str.charAt(i) <= 0xEF) {
 				// character encoded on 3 octets: 1110xxxx 10xxxxxx 10xxxxxx
 				// (16 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
@@ -543,10 +542,10 @@ public class PredefFunc {
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 3-octet " +
 									"encoding for quadruple (0, 0, {2}, {3}).", ucstr.length(), i, r, c));
 				}
+
 				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 3;
-			} 
-			else if (uc_str.charAt(i) <= 0xF7) {
+			} else if (uc_str.charAt(i) <= 0xF7) {
 				// character encoded on 4 octets: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				// (21 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
@@ -561,10 +560,10 @@ public class PredefFunc {
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 4-octet " +
 									"encoding for quadruple (0, 0, {2}, {3}).", ucstr.length(), i, r, c));
 				}
+
 				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 4;
-			}
-			else if (uc_str.charAt(i) <= 0xFB) {
+			} else if (uc_str.charAt(i) <= 0xFB) {
 				// character encoded on 5 octets: 111110xx 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx (26 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
@@ -579,10 +578,10 @@ public class PredefFunc {
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 5-octet " +
 									"encoding for quadruple (0, {2}, {3}, {4}).", ucstr.length(), i, p, r, c));
 				}
+
 				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 5;
-			}
-			else if (uc_str.charAt(i) <= 0xFD) {
+			} else if (uc_str.charAt(i) <= 0xFD) {
 				// character encoded on 6 octets: 1111110x 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx 10xxxxxx (31 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
@@ -597,16 +596,17 @@ public class PredefFunc {
 							"decode_utf8(): Overlong: At character position {0}, octet position {1}: 6-octet " +
 									"encoding for quadruple ({2}, {3}, {4}, {5}).", ucstr.length(), i, g, p, r, c));
 				}
+
 				ucstr.append(new UniversalChar(g, p, r, c));
 				i += 6;
-			}
-			else {
+			} else {
 				// not used code points: FE and FF => malformed
 				throw new DecodeException(MessageFormat.format(
 						"decode_utf8(): Malformed: At character position {0}, octet position {1}: " +
 								"unused/reserved octet {2}.", ucstr.length(), i, String.format("0x%02X", (byte)uc_str.charAt(i))));
 			}
 		}
+
 		return ucstr;
 	}
 }

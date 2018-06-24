@@ -57,6 +57,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 				//cannot happen
 			}
 		}
+
 		final CharCoding coding = PredefFunc.get_stringencoding(octet_str.toString());
 		if (CharCoding.UTF_8 == coding) {
 			try {
@@ -74,6 +75,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			mErrorneous = true;
 			mErrorMessage = cs.getErrorMessage();
 		}
+
 		final String extracted = cs.getExtractedString();
 		if ( extracted != null ) {
 			value = new ArrayList<UniversalChar>(extracted.length());
