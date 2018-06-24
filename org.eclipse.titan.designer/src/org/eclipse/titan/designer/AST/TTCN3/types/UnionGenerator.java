@@ -164,7 +164,7 @@ public class UnionGenerator {
 
 		//FIXME implement set_param
 		//FIXME implement check_restriction
-		source.append( "\t\t//TODO: implement set_param, encode, decode, check_restriction !\n" );
+		source.append( "\t\t//TODO: implement set_param, check_restriction !\n" );
 		source.append("}\n");
 	}
 
