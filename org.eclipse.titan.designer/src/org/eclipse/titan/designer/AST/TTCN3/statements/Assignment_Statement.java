@@ -622,7 +622,7 @@ public final class Assignment_Statement extends Statement {
 			}
 
 			final IValue value = template.getValue();
-			// TODO handle needs_conv
+			// TODO handle the needs conversion case
 			if (reference.getSubreferences().size() > 1) {
 				if(value.canGenerateSingleExpression()) {
 					final ExpressionStruct expression = new ExpressionStruct();
@@ -659,7 +659,7 @@ public final class Assignment_Statement extends Statement {
 					reference.generateCode(aData, leftExpression);
 
 					if (rhsCopied) {
-						//TODO handle needs conversion case
+						//TODO handle the needs conversion case
 						value.generateCodeInit(aData, source, rhsRef);
 					} else if (isOptional) {
 						leftExpression.expression.append(".get()");
@@ -678,7 +678,7 @@ public final class Assignment_Statement extends Statement {
 					if (rhsCopied) {
 						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
 					} else {
-						//TODO handle needs conversion
+						//TODO handle the needs conversion case
 						value.generateCodeInit(aData, source, tempID);
 					}
 
@@ -722,7 +722,7 @@ public final class Assignment_Statement extends Statement {
 				source.append("{\n");
 				source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), rhsCopy));
 			}
-			// TODO handle needs_conv
+			// TODO handle the needs conversion case
 			if (reference.getSubreferences().size() > 1) {
 				if((templateRestriction != Restriction_type.TR_NONE || !generateRestrictionCheck) && template.hasSingleExpression()) {
 					final ExpressionStruct expression = new ExpressionStruct();
@@ -742,7 +742,7 @@ public final class Assignment_Statement extends Statement {
 					reference.generateCode(aData, expression);
 
 					if (rhsCopied) {
-						//TODO handle needs conversion case
+						//TODO handle the needs conversion case
 						template.generateCodeInit(aData, source, rhsCopy);
 					}
 
@@ -754,7 +754,7 @@ public final class Assignment_Statement extends Statement {
 					if (rhsCopied) {
 						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
 					} else {
-						//TODO handle needs conversion case
+						//TODO handle the needs conversion case
 						if (Type_type.TYPE_SEQUENCE_OF.equals(governor.getTypetype()) || Type_type.TYPE_ARRAY.equals(governor.getTypetype())) {
 							source.append(MessageFormat.format("{0}.removeAllPermutations();\n", tempID));
 						}
