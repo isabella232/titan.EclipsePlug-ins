@@ -111,6 +111,18 @@ public final class AdditionalFunctions {
 	private static enum str2floatState { S_INITIAL, S_FIRST_M, S_ZERO_M, S_MORE_M, S_FIRST_F, S_MORE_F,
 		S_INITIAL_E, S_FIRST_E, S_ZERO_E, S_MORE_E, S_END, S_ERR }
 
+	private static final String code_table = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
+	private static int[] decode_table = new int[] {
+		    80, 80, 80, 80, 80, 80, 80, 80,   80, 80, 80, 80, 80, 80, 80, 80,
+		    80, 80, 80, 80, 80, 80, 80, 80,   80, 80, 80, 80, 80, 80, 80, 80,
+		    80, 80, 80, 80, 80, 80, 80, 80,   80, 80, 80, 62, 80, 80, 80, 63,
+		    52, 53, 54, 55, 56, 57, 58, 59,   60, 61, 80, 80, 80, 70, 80, 80,
+		    80,  0,  1,  2,  3,  4,  5,  6,    7,  8,  9, 10, 11, 12, 13, 14,
+		    15, 16, 17, 18, 19, 20, 21, 22,   23, 24, 25, 80, 80, 80, 80, 80,
+		    80, 26, 27, 28, 29, 30, 31, 32,   33, 34, 35, 36, 37, 38, 39, 40,
+		    41, 42, 43, 44, 45, 46, 47, 48,   49, 50, 51, 80, 80, 80, 80, 80
+		};
+
 	private AdditionalFunctions() {
 		//intentionally private to disable instantiation
 	}
@@ -687,19 +699,118 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(tmp_str);
 	}
 
-	public static TitanOctetString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
-		//FIXME implement
-		throw new TtcnError("encode_base64 not yet supported!!!");
+	public static TitanCharString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
+		final char pad = '=';
+		final char[] p_msg = msg.getValue();
+		int msgPos = 0;
+		int octets_left = msg.lengthOf().getInt();
+		char[] output = new char[((octets_left*22) >> 4) + 7];
+		int outpotPos = 0;
+		int n_4chars = 0;
+		boolean linebreaks = use_linebreaks.getValue();
+		while (octets_left >= 3) {
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
+			n_4chars++;
+			if (linebreaks && n_4chars >= 19 && octets_left != 3) {
+				output[outpotPos++] = '\r';
+				output[outpotPos++] = '\n';
+				n_4chars = 0;
+			}
+			msgPos += 3;
+			octets_left -= 3;
+		}
+		switch (octets_left) {
+		case 1:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
+			output[outpotPos++] = pad;
+			output[outpotPos++] = pad;
+			break;
+		case 2:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
+			output[outpotPos++] = pad;
+			break;
+		default:
+			break;
+		}
+
+		return new TitanCharString(new String(output, 0, outpotPos));
 	}
 
-	public static TitanOctetString encode_base64(final TitanOctetString msg) {
-		//FIXME implement
-		throw new TtcnError("encode_base64 not yet supported!!!");
+	public static TitanCharString encode_base64(final TitanOctetString msg) {
+		final char pad = '=';
+		final char[] p_msg = msg.getValue();
+		int msgPos = 0;
+		int octets_left = msg.lengthOf().getInt();
+		char[] output = new char[((octets_left*22) >> 4) + 7];
+		int outpotPos = 0;
+		while (octets_left >= 3) {
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 1] << 2) | (p_msg[msgPos + 2] >> 6)) & 0x3f);
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 2] & 0x3f);
+			msgPos += 3;
+			octets_left -= 3;
+		}
+		switch (octets_left) {
+		case 1:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 0] << 4) & 0x3f);
+			output[outpotPos++] = pad;
+			output[outpotPos++] = pad;
+			break;
+		case 2:
+			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
+			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
+			output[outpotPos++] = code_table.charAt((p_msg[msgPos + 1] << 2) & 0x3f);
+			output[outpotPos++] = pad;
+			break;
+		default:
+			break;
+		}
+
+		return new TitanCharString(new String(output, 0, outpotPos));
 	}
 
 	public static TitanOctetString decode_base64(final TitanCharString b64) {
-		//FIXME implement
-		throw new TtcnError("decode_base64 not yet supported!!!");
+		byte[] p_b64 = b64.getValue().toString().getBytes();
+		int b64Pos = 0;
+		int chars_left = b64.lengthOf().getInt();
+		char[] output = new char[((chars_left >> 2) + 1 ) * 3 ];
+		int outpotPos = 0;
+		int bits = 0;
+		int n_bits = 0;
+
+		while (chars_left-- > 0) {
+			if (p_b64[b64Pos] > 0 && decode_table[p_b64[b64Pos]] < 64) {
+				bits <<= 6;
+				bits |= decode_table[p_b64[b64Pos]];
+				n_bits += 6;
+				if (n_bits >= 8) {
+					output[outpotPos++] = (char)(( bits >> (n_bits - 8)) & 0xff);
+					n_bits -= 8;
+				}
+			} else if (p_b64[b64Pos] == '=') {
+				break;
+			} else {
+				if (p_b64[b64Pos] == '\r' && p_b64[b64Pos + 1] == '\n') {
+					b64Pos++; // skip \n too
+				} else {
+					throw new TtcnError(String.format("Error: Invalid character in Base64 encoded data: 0x%02X", p_b64[b64Pos]));
+				}
+			}
+
+			b64Pos++;
+		}
+
+		char[] result = new char[outpotPos];
+		System.arraycopy(output, 0, result, 0, outpotPos);
+		return new TitanOctetString(result);
 	}
 
 	// C.12 - bit2int
