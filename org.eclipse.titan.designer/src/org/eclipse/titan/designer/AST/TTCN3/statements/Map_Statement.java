@@ -301,7 +301,6 @@ public final class Map_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		//FIXME this is actually more complex
 		final ExpressionStruct expression = new ExpressionStruct();
 
 		//FIXME generate code for translation
