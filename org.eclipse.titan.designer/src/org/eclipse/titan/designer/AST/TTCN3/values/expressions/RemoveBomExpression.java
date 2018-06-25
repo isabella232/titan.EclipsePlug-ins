@@ -13,16 +13,15 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
-import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -106,11 +105,7 @@ public final class RemoveBomExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		if (value == null) {
-			return true;
-		}
-
-		return value.isUnfoldable(timestamp, expectedValue, referenceChain);
+		return true;
 	}
 
 	/**
@@ -167,38 +162,7 @@ public final class RemoveBomExpression extends Expression_Value {
 
 		checkExpressionOperands(timestamp, expectedValue, referenceChain);
 
-		if (getIsErroneous(timestamp)) {
-			return lastValue;
-		}
-
-		if (isUnfoldable(timestamp, referenceChain)) {
-			return lastValue;
-		}
-
-		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
-		if (last.getIsErroneous(timestamp)) {
-			setIsErroneous(true);
-			return lastValue;
-		}
-
-		switch (last.getValuetype()) {
-		case OCTETSTRING_VALUE: {
-			final String octetString = ((Octetstring_Value) last).getValue();
-			lastValue = new Octetstring_Value(calculateValue(octetString));
-			lastValue.copyGeneralProperties(this);
-			break;
-		}
-		default:
-			setIsErroneous(true);
-			break;
-		}
-
 		return lastValue;
-	}
-
-	public String calculateValue(final String octetString) {
-		//TODO: reimplement
-		return "remove_bom()";
 	}
 
 	@Override

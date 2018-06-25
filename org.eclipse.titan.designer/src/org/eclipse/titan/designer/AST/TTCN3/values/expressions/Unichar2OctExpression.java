@@ -13,19 +13,15 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
-import org.eclipse.titan.designer.AST.TTCN3.values.Octetstring_Value;
-import org.eclipse.titan.designer.AST.TTCN3.values.UniversalChar;
-import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring;
-import org.eclipse.titan.designer.AST.TTCN3.values.UniversalCharstring_Value;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -135,11 +131,7 @@ public final class Unichar2OctExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public boolean isUnfoldable(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		if (value == null || code_string != null) {
-			return true;
-		}
-
-		return value.isUnfoldable(timestamp, expectedValue, referenceChain);
+		return true;
 	}
 
 	/**
@@ -219,29 +211,6 @@ public final class Unichar2OctExpression extends Expression_Value {
 
 		checkExpressionOperands(timestamp, expectedValue, referenceChain);
 
-		if (getIsErroneous(timestamp) || isUnfoldable(timestamp, referenceChain)) {
-			return lastValue;
-		}
-
-		final IValue last = value.getValueRefdLast(timestamp, referenceChain);
-		if (last.getIsErroneous(timestamp)) {
-			setIsErroneous(true);
-			return lastValue;
-		}
-
-		switch (last.getValuetype()) {
-		case UNIVERSALCHARSTRING_VALUE: {
-			final UniversalCharstring string = ((UniversalCharstring_Value) last).getValue();
-			final UniversalChar uchar = string.get(0);
-			final byte[] bytes = new byte[] { (byte) uchar.cell() };
-			lastValue = new Octetstring_Value(new String(bytes));
-			break;
-		}
-		default:
-			return this;
-		}
-
-		lastValue.copyGeneralProperties(this);
 		return lastValue;
 	}
 
