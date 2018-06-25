@@ -213,4 +213,14 @@ public final class DecodeBase64Expression extends Expression_Value {
 			value.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.decode_base64( ");
+		value.generateCodeExpressionMandatory(aData, expression, true);
+		expression.expression.append(" )");
+	}
 }

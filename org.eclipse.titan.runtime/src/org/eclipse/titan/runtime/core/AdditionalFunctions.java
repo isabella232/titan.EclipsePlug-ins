@@ -687,6 +687,21 @@ public final class AdditionalFunctions {
 		return new TitanOctetString(tmp_str);
 	}
 
+	public static TitanOctetString encode_base64(final TitanOctetString msg, final TitanBoolean use_linebreaks) {
+		//FIXME implement
+		throw new TtcnError("encode_base64 not yet supported!!!");
+	}
+
+	public static TitanOctetString encode_base64(final TitanOctetString msg) {
+		//FIXME implement
+		throw new TtcnError("encode_base64 not yet supported!!!");
+	}
+
+	public static TitanOctetString decode_base64(final TitanCharString b64) {
+		//FIXME implement
+		throw new TtcnError("decode_base64 not yet supported!!!");
+	}
+
 	// C.12 - bit2int
 	public static TitanInteger bit2int(final TitanBitString value) {
 		value.mustBound("The argument of function bit2int() is an unbound bitstring value.");

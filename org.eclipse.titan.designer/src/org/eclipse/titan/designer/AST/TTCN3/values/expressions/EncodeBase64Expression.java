@@ -277,4 +277,18 @@ public final class EncodeBase64Expression extends Expression_Value {
 			useLineBreaks.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("AdditionalFunctions");
+
+		expression.expression.append("AdditionalFunctions.encode_base64( ");
+		value.generateCodeExpressionMandatory(aData, expression, true);
+		if (useLineBreaks != null) {
+			expression.expression.append(", ");
+			useLineBreaks.generateCodeExpressionMandatory(aData, expression, true);
+		}
+		expression.expression.append(" )");
+	}
 }
