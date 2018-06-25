@@ -91,10 +91,11 @@ public final class Module_List {
 		} else {
 			try {
 				module.control();
+			} catch (TtcnError TC_error) {
+				TtcnLogger.log_str(Severity.ERROR_UNQUALIFIED, MessageFormat.format("Unrecoverable error in control part of module {0}. Execution aborted.", module_name));
 			} catch (TC_End TC_end) {
 				TtcnLogger.log_str(Severity.FUNCTION_UNQUALIFIED, MessageFormat.format("Control part of module {0} was stopped.", module_name));
 			}
-			//FIXME implement
 		}
 	}
 
