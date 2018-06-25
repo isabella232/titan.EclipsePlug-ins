@@ -72,7 +72,6 @@ public final class Module_List {
 		}
 
 		module.start_ptc_function(function_name, function_arguments);
-		//FIXME start_function error messages
 	}
 
 	//originally Module_List::initialize_component
