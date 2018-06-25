@@ -15,8 +15,6 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 /**
  * The base class of handling modules
  *
- * TODO: lots to implement
- *
  * @author Kristof Szabados
  */
 public final class Module_List {
@@ -29,7 +27,8 @@ public final class Module_List {
 	public static void add_module(final TTCN_Module module) {
 		modules.add(module);
 	}
-
+//FIXME implement remove module
+	//FIXME implement single_control_part
 	public static TTCN_Module lookup_module(final String module_name) {
 		for (final TTCN_Module module : modules) {
 			if (module.name.equals(module_name)) {
@@ -84,6 +83,9 @@ public final class Module_List {
 		}
 	}
 
+	//FIXME implement initialize_system_port
+	//FIXME add support for module parameters
+
 	public static void execute_control(final String module_name) {
 		final TTCN_Module module = lookup_module(module_name);
 		if (module == null) {
@@ -116,4 +118,8 @@ public final class Module_List {
 			module.execute_all_testcases();
 		}
 	}
+
+	//FIXME implement print version
+	//FIXME implement list_testcases
+	//FIXME implement push_version
 }
