@@ -475,6 +475,10 @@ public class RAW {
 		CALC_POINTER /**< calculated field for POINTERTO */
 	}
 
+	private RAW() {
+		//intentionally empty
+	}
+
 	/**
 	 * Return the number of bits needed to represent an integer value `a'.  The
 	 * sign bit is added for negative values.  It has a different implementation
