@@ -33,7 +33,6 @@ public class TitanObjectid extends Base_Type {
 			throw new TtcnError("Initializing an objid value with a negative number of components.");
 		}
 
-		// TODO check n_components >= 2
 		n_components = init_n_components;
 		overflow_idx = -1;
 		components_ptr = new ArrayList<TitanInteger>(values.length);
@@ -47,7 +46,6 @@ public class TitanObjectid extends Base_Type {
 			throw new TtcnError("Initializing an objid value with a negative number of components.");
 		}
 
-		// TODO check n_components >= 2
 		n_components = init_n_components;
 		overflow_idx = -1;
 		components_ptr = new ArrayList<TitanInteger>();
