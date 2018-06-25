@@ -1239,7 +1239,7 @@ public final class TTCN3Module extends Module {
 				return false;
 			}
 		}
-		// TODO: versionNumber
+
 		return true;
 	}
 
