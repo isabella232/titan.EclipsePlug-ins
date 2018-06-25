@@ -147,48 +147,44 @@ public final class Unichar2OctExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		if (value == null) {
-			return;
-		}
+		if (value != null) {
+			value.setLoweridToReference(timestamp);
+			final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
 
-		value.setLoweridToReference(timestamp);
-		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
-
-		switch (tempType) {
-		case TYPE_UCHARSTRING:
-			//TODO: implement missing part if range check is needed
-			break;
-		case TYPE_UNDEFINED:
-			setIsErroneous(true);
-			break;
-		default:
-			if (!value.getIsErroneous(timestamp)) {
-				location.reportSemanticError(OPERANDERROR1);
+			switch (tempType) {
+			case TYPE_UCHARSTRING:
+				value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
+			case TYPE_UNDEFINED:
 				setIsErroneous(true);
+				break;
+			default:
+				if (!value.getIsErroneous(timestamp)) {
+					location.reportSemanticError(OPERANDERROR1);
+					setIsErroneous(true);
+				}
+				break;
 			}
-			break;
 		}
 
-		if (code_string == null) {
-			return;
-		}
+		if (code_string != null) {
+			code_string.setLoweridToReference(timestamp);
+			final Type_type tempType2 = code_string.getExpressionReturntype(timestamp, expectedValue);
 
-		code_string.setLoweridToReference(timestamp);
-		final Type_type tempType2 = code_string.getExpressionReturntype(timestamp, expectedValue);
-
-		switch (tempType2) {
-		case TYPE_CHARSTRING:
-			//TODO: implement missing part if range check is needed
-			return;
-		case TYPE_UNDEFINED:
-			setIsErroneous(true);
-			return;
-		default:
-			if (!code_string.getIsErroneous(timestamp)) {
-				location.reportSemanticError(OPERANDERROR2);
+			switch (tempType2) {
+			case TYPE_CHARSTRING:
+				code_string.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				return;
+			case TYPE_UNDEFINED:
 				setIsErroneous(true);
+				return;
+			default:
+				if (!code_string.getIsErroneous(timestamp)) {
+					location.reportSemanticError(OPERANDERROR2);
+					setIsErroneous(true);
+				}
+				return;
 			}
-			return;
 		}
 	}
 

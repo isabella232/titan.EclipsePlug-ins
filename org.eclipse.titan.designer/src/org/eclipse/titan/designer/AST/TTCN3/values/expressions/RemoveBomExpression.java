@@ -130,7 +130,7 @@ public final class RemoveBomExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_OCTETSTRING:
-			//TODO: implement missing part if range check is needed
+			value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			return;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
