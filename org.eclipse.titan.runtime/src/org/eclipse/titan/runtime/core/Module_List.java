@@ -27,7 +27,11 @@ public final class Module_List {
 	public static void add_module(final TTCN_Module module) {
 		modules.add(module);
 	}
-//FIXME implement remove module
+
+	public static void remove_module(final TTCN_Module module) {
+		modules.remove(module);
+	}
+
 	//FIXME implement single_control_part
 	public static TTCN_Module lookup_module(final String module_name) {
 		for (final TTCN_Module module : modules) {
