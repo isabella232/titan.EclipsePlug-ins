@@ -368,22 +368,10 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 		return Declaration.createInstance(this);
 	}
 
-	//TODO: use abstract method in abstract class to make sure, that all child class have separate implementation
 	/**
-	 * Add generated java code on this level
-	 * @param aData the generated java code with other info
+	 * Add generated java code for this module.
+	 * 
+	 * @param aData the generated java code with other info.
 	 */
-	//public abstract void generateCode( final JavaGenData aData );
-
-	/**
-	 * Add generated java code on this level.
-	 * @param aData the generated java code with other info
-	 */
-	public void generateCode( final JavaGenData aData ) {
-		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateCode() is not implemented!\n" );
-	}
+	public abstract void generateCode( final JavaGenData aData );
 }
