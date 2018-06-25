@@ -7908,8 +7908,8 @@ pr_PredefinedOps1 returns[Value value]
 	pr_RParen	{	$value = new Unichar2OctExpression($v.value, code_string); }
 |	ENCODE_BASE64
 	pr_LParen	v = pr_SingleExpression
-	(pr_Comma pr_BooleanExpression)?
-	pr_RParen	{	$value = new EncodeBase64Expression($v.value); }
+	(pr_Comma v3 = pr_BooleanExpression { code_string = $v3.value; } )?
+	pr_RParen	{	$value = new EncodeBase64Expression($v.value, code_string); }
 |	DECODE_BASE64
 	pr_LParen	v = pr_SingleExpression
 	pr_RParen	{	$value = new DecodeBase64Expression($v.value); }

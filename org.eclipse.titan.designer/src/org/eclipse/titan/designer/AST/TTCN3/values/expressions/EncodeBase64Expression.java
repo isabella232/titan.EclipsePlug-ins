@@ -33,16 +33,21 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Kristof Szabados
  * */
 public final class EncodeBase64Expression extends Expression_Value {
-	private static final String OPERANDERROR1 = "The operand of the `encode_base64' operation should be an octetstring value";
+	private static final String OPERANDERROR1 = "The first operand of the `encode_base64' operation should be an octetstring value";
+	private static final String OPERANDERROR2 = "The second operand of the `encode_base64' operation should be a boolean value";
 
 	private final Value value;
-	//FIXME missing support for second parameter
+	private final Value useLineBreaks;
 
-	public EncodeBase64Expression(final Value value) {
+	public EncodeBase64Expression(final Value value, final Value useLineBreaks) {
 		this.value = value;
+		this.useLineBreaks = useLineBreaks;
 
 		if (value != null) {
 			value.setFullNameParent(this);
+		}
+		if (useLineBreaks != null) {
+			useLineBreaks.setFullNameParent(this);
 		}
 	}
 
@@ -66,7 +71,13 @@ public final class EncodeBase64Expression extends Expression_Value {
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder();
-		builder.append("encode_base64(").append(value.createStringRepresentation()).append(')');
+		builder.append("encode_base64(").append(value.createStringRepresentation());
+		if (useLineBreaks!= null) {
+			builder.append(", ").append(useLineBreaks.createStringRepresentation());
+		}
+
+		builder.append(')');
+
 		return builder.toString();
 	}
 
@@ -78,6 +89,9 @@ public final class EncodeBase64Expression extends Expression_Value {
 		if (value != null) {
 			value.setMyScope(scope);
 		}
+		if (useLineBreaks != null) {
+			useLineBreaks.setMyScope(scope);
+		}
 	}
 
 	@Override
@@ -88,6 +102,9 @@ public final class EncodeBase64Expression extends Expression_Value {
 		if (value != null) {
 			value.setCodeSection(codeSection);
 		}
+		if (useLineBreaks != null) {
+			useLineBreaks.setCodeSection(codeSection);
+		}
 	}
 
 	@Override
@@ -96,7 +113,9 @@ public final class EncodeBase64Expression extends Expression_Value {
 		final StringBuilder builder = super.getFullName(child);
 
 		if (value == child) {
-			return builder.append(OPERAND);
+			return builder.append(OPERAND1);
+		} else if (useLineBreaks == child) {
+			return builder.append(OPERAND2);
 		}
 
 		return builder;
@@ -132,26 +151,46 @@ public final class EncodeBase64Expression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		if (value == null) {
-			return;
+		if (value != null) {
+			value.setLoweridToReference(timestamp);
+			final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType) {
+			case TYPE_OCTETSTRING:
+				value.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
+			case TYPE_UNDEFINED:
+				setIsErroneous(true);
+				break;
+			default:
+				if (!isErroneous) {
+					location.reportSemanticError(OPERANDERROR1);
+					setIsErroneous(true);
+				}
+				break;
+			}
 		}
 
-		value.setLoweridToReference(timestamp);
-		final Type_type tempType = value.getExpressionReturntype(timestamp, expectedValue);
+		
 
-		switch (tempType) {
-		case TYPE_OCTETSTRING:
-			//TODO: implement missing part if range check is needed
-			return;
-		case TYPE_UNDEFINED:
-			setIsErroneous(true);
-			return;
-		default:
-			if (!isErroneous) {
-				location.reportSemanticError(OPERANDERROR1);
+		if (useLineBreaks != null) {
+			useLineBreaks.setLoweridToReference(timestamp);
+			final Type_type tempType2 = useLineBreaks.getExpressionReturntype(timestamp, expectedValue);
+
+			switch (tempType2) {
+			case TYPE_BOOL:
+				useLineBreaks.getValueRefdLast(timestamp, expectedValue, referenceChain);
+				break;
+			case TYPE_UNDEFINED:
 				setIsErroneous(true);
+				break;
+			default:
+				if (!isErroneous) {
+					location.reportSemanticError(OPERANDERROR2);
+					setIsErroneous(true);
+				}
+				break;
 			}
-			return;
 		}
 	}
 
@@ -215,6 +254,11 @@ public final class EncodeBase64Expression extends Expression_Value {
 			value.checkRecursions(timestamp, referenceChain);
 			referenceChain.previousState();
 		}
+		if (referenceChain.add(this) && useLineBreaks != null) {
+			referenceChain.markState();
+			useLineBreaks.checkRecursions(timestamp, referenceChain);
+			referenceChain.previousState();
+		}
 	}
 
 	@Override
@@ -228,16 +272,23 @@ public final class EncodeBase64Expression extends Expression_Value {
 			value.updateSyntax(reparser, false);
 			reparser.updateLocation(value.getLocation());
 		}
+
+		if (useLineBreaks != null) {
+			useLineBreaks.updateSyntax(reparser, false);
+			reparser.updateLocation(useLineBreaks.getLocation());
+		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (value == null) {
-			return;
+		if (value != null) {
+			value.findReferences(referenceFinder, foundIdentifiers);
 		}
 
-		value.findReferences(referenceFinder, foundIdentifiers);
+		if (useLineBreaks != null) {
+			useLineBreaks.findReferences(referenceFinder, foundIdentifiers);
+		}
 	}
 
 	@Override
@@ -246,6 +297,10 @@ public final class EncodeBase64Expression extends Expression_Value {
 		if (value != null && !value.accept(v)) {
 			return false;
 		}
+		if (useLineBreaks != null && !useLineBreaks.accept(v)) {
+			return false;
+		}
+
 		return true;
 	}
 
@@ -254,6 +309,9 @@ public final class EncodeBase64Expression extends Expression_Value {
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		if (value != null) {
 			value.reArrangeInitCode(aData, source, usageModule);
+		}
+		if (useLineBreaks != null) {
+			useLineBreaks.reArrangeInitCode(aData, source, usageModule);
 		}
 	}
 }
