@@ -41,17 +41,6 @@ public class TitanObjectid extends Base_Type {
 		}
 	}
 
-	public TitanObjectid(final int init_n_components, final TitanInteger init_components) {
-		if (init_n_components < 0) {
-			throw new TtcnError("Initializing an objid value with a negative number of components.");
-		}
-
-		n_components = init_n_components;
-		overflow_idx = -1;
-		components_ptr = new ArrayList<TitanInteger>();
-		components_ptr.add(init_components);
-	}
-
 	public TitanObjectid(final TitanObjectid otherValue) {
 		if (otherValue.components_ptr == null) {
 			throw new TtcnError("Copying an unbound objid value.");
