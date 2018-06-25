@@ -490,14 +490,14 @@ public final class AdditionalFunctions {
 		return new TitanInteger((int) value);
 	}
 
-	public static TitanInteger char2int(String value) {
-		//TODO this way of working is strange in the compiler, check later
+	public static TitanInteger char2int(final String value) {
 		if (value == null) {
-			value = "";
+			throw new TtcnError("The length of the argument in function char2int() must be exactly 1 instead of 0.");
 		}
 		if (value.length() != 1) {
 			throw new TtcnError(MessageFormat.format("The length of the argument in function char2int() must be exactly 1 instead of {0}.", value.length()));
 		}
+
 		return char2int(value.charAt(0));
 	}
 
