@@ -98,7 +98,7 @@ public class CodeSmellChecker {
 				new Expectation("uninitialized variable", CodeSmellType.UNINITIALIZED_VARIABLE)
 						.shouldHave("init__var", new Integer[] { 4, 5 }),
 				new Expectation("unnecessary control", CodeSmellType.UNNECESSARY_CONTROLS)
-						.shouldHave("overcomp", new Integer[] { 8, 11, 14, 18, 21, 22, 26, 26, 33 }), // TODO: why is this duplicated in line 26?
+						.shouldHave("overcomp", new Integer[] { 8, 11, 14, 18, 21, 22, 26, 26, 33 }),
 				new Expectation("unnecessary valueof", CodeSmellType.UNNECESSARY_VALUEOF)
 						.shouldHave("omit__valueof", new Integer[] { 9, 10 }),
 				new Expectation("unused function return values", CodeSmellType.UNUSED_FUNTION_RETURN_VALUES)
