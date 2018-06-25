@@ -89,7 +89,6 @@ public final class Module_List {
 		if (module == null) {
 			throw new TtcnError(MessageFormat.format("Module {0} does not exist.", module_name));
 		} else {
-			//FIXME check for control part
 			try {
 				module.control();
 			} catch (TC_End TC_end) {
