@@ -202,6 +202,8 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 		return source;
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
 		return true;
 	}
