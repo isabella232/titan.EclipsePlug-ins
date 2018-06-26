@@ -70,8 +70,16 @@ public final class ValueRange extends ASTNode implements IIncrementallyUpdateabl
 		return min;
 	}
 
+	public boolean isMinExclusive() {
+		return minExclusive;
+	}
+
 	public Value getMax() {
 		return max;
+	}
+
+	public boolean isMaxExclusive() {
+		return maxExclusive;
 	}
 
 	@Override

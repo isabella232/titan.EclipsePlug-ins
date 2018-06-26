@@ -264,7 +264,20 @@ public final class Integer_Type extends Type {
 					template.setIsErroneous(true);
 				}
 			}
-			//TODO some checks are still missing
+			if (lower != null && range.getMax() == null) {
+				checkBoundaryInfinity(timestamp, lower, true);
+			}
+			if (range.getMin() == null && upper != null) {
+				checkBoundaryInfinity(timestamp, upper, false);
+			}
+			if (range.getMin() == null && range.isMinExclusive()) {
+				template.getLocation().reportSemanticError("invalid lower boundary, -infinity cannot be excluded from an integer template range");
+				template.setIsErroneous(true);
+			}
+			if (range.getMax() == null && range.isMaxExclusive()) {
+				template.getLocation().reportSemanticError("invalid upper boundary, infinity cannot be excluded from an integer template range");
+				template.setIsErroneous(true);
+			}
 			break;
 		case VALUE_LIST:
 			final ValueList_Template temp = (ValueList_Template) template;
@@ -329,6 +342,25 @@ public final class Integer_Type extends Type {
 		}
 
 		return temp;
+	}
+
+	private void checkBoundaryInfinity(final CompilationTimeStamp timestamp, final IValue value, final boolean isUpper) {
+		if (value == null) {
+			return;
+		}
+
+		value.setMyGovernor(this);
+		IValue temp = checkThisValueRef(timestamp, value);
+		checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_STATIC_VALUE, false, false, true, false, false));
+		temp = temp.getValueRefdLast(timestamp, Expected_Value_type.EXPECTED_STATIC_VALUE, null);
+		if (temp.getValuetype() == Value_type.OMIT_VALUE) {
+			value.getLocation().reportSemanticError("`omit' value is not allowed in this context");
+			value.setIsErroneous(true);
+			return;
+		}
+		if (subType != null) {
+			//FIXME implement subtype check
+		}
 	}
 
 	@Override
