@@ -2653,7 +2653,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		// encoder and decoder functions
-		aData.addBuiltinTypeImport("TitanBitString");
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport("TitanOctetString");
 		aData.addCommonLibraryImport("TtcnError");
@@ -2697,6 +2696,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						decoderString.append(MessageFormat.format("throw new TtcnError(\"Multiple `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 					} else {
 						aData.addCommonLibraryImport("AdditionalFunctions");
+						aData.addBuiltinTypeImport("TitanBitString");
 
 						decoderString.append("TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
 						decoderString.append(MessageFormat.format("TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
