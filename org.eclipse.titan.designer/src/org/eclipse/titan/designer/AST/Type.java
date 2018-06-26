@@ -1839,7 +1839,19 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		return checkThisTemplateRef(timestamp,t,Expected_Value_type.EXPECTED_TEMPLATE, null);
 	}
 
-	//FIXME comment
+	/**
+	 * Checks the provided index as a part of a string.
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param indexValue
+	 *                the index value to be checked.
+	 * @param expectedIndex
+	 *                the expected kind of the index value.
+	 * @param refChain
+	 *                a chain of references used to detect circular
+	 *                references.
+	 * */
 	protected void checkStringIndex(final CompilationTimeStamp timestamp, final Value indexValue, final Expected_Value_type expectedIndex, final IReferenceChain refChain) {
 		if (indexValue != null) {
 			indexValue.setLoweridToReference(timestamp);
