@@ -13,7 +13,11 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import org.eclipse.titan.runtime.core.AdditionalFunctions;
+import org.eclipse.titan.runtime.core.Base_Template;
+import org.eclipse.titan.runtime.core.Base_Type;
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Optional;
 import org.eclipse.titan.runtime.core.Optional.optional_sel;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -21,11 +25,32 @@ import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
 import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
 import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
 import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
+import org.eclipse.titan.runtime.core.RecordOfMatch;
 import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
+import org.eclipse.titan.runtime.core.Record_Of_Template;
+import org.eclipse.titan.runtime.core.Restricted_Length_Template;
+import org.eclipse.titan.runtime.core.TTCN_Buffer;
+import org.eclipse.titan.runtime.core.TTCN_EncDec;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
+import org.eclipse.titan.runtime.core.TTCN_EncDec_ErrorContext;
+import org.eclipse.titan.runtime.core.TTCN_Module;
+import org.eclipse.titan.runtime.core.Text_Buf;
+import org.eclipse.titan.runtime.core.TitanBoolean;
+import org.eclipse.titan.runtime.core.TitanBoolean_template;
+import org.eclipse.titan.runtime.core.TitanCharString;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
+import org.eclipse.titan.runtime.core.TitanCharString_template;
+import org.eclipse.titan.runtime.core.TitanFloat;
+import org.eclipse.titan.runtime.core.TitanFloat_template;
+import org.eclipse.titan.runtime.core.TitanInteger;
+import org.eclipse.titan.runtime.core.TitanInteger_template;
+import org.eclipse.titan.runtime.core.TitanNull_Type;
+import org.eclipse.titan.runtime.core.TitanOctetString;
+import org.eclipse.titan.runtime.core.TitanUniversalCharString;
+import org.eclipse.titan.runtime.core.TtcnError;
+import org.eclipse.titan.runtime.core.TtcnLogger;
 import org.eclipse.titan.runtime.core.TtcnLogger.TTCN_Location;
 import org.eclipse.titan.runtime.core.TtcnLogger.TTCN_Location.entity_type_t;
 
@@ -800,27 +825,27 @@ public static final TitanUniversalCharString Port__Misc_default_coding = new Tit
 public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null);
 public static final TitanUniversalCharString anytype_default_coding = new TitanUniversalCharString("XER");
 public static void MatchingEvent_choice_matchingFailure_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_choice_matchingFailure_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_choice_matchingFailure_decoder( final TitanOctetString input_stream, final MatchingFailureType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_matchingFailure_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -836,27 +861,27 @@ return new TitanInteger(1);
 }
 
 public static void VerdictOp_choice_getVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictOp_choice_getVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictOp_choice_getVerdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictOp_choice_getVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -872,27 +897,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__mapped_incoming_encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__mapped_incoming_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__mapped_incoming_decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__mapped_incoming_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -908,27 +933,27 @@ return new TitanInteger(1);
 }
 
 public static void Categorized_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Categorized_text_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Categorized_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Categorized_text_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -944,27 +969,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_portMisc_encoder(final Port__Misc input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Misc' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_portMisc_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_portMisc_decoder( final TitanOctetString input_stream, final Port__Misc output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Misc' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_portMisc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -980,27 +1005,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_setState_encoder(final Setstate input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Setstate' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_setState_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_setState_decoder( final TitanOctetString input_stream, final Setstate output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Setstate' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_setState_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -1016,27 +1041,27 @@ return new TitanInteger(1);
 }
 
 public static void Parallel_dst__compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_dst__compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_dst__compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_dst__compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -1837,27 +1862,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void DefaultOp_encoder(final DefaultOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultOp_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultOp_decoder( final TitanOctetString input_stream, final DefaultOp output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultOp_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -1873,27 +1898,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_module___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_module___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_module___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_module___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -1909,27 +1934,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_executorConfigdata_encoder(final ExecutorConfigdata input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorConfigdata' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_executorConfigdata_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_executorConfigdata_decoder( final TitanOctetString input_stream, final ExecutorConfigdata output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorConfigdata' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_executorConfigdata_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -2787,27 +2812,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void VerdictOp_choice_encoder(final VerdictOp_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictOp.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictOp_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictOp_choice_decoder( final TitanOctetString input_stream, final VerdictOp_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictOp.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictOp_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -2823,27 +2848,27 @@ return new TitanInteger(1);
 }
 
 public static void DefaultEvent_choice_defaultopExit_encoder(final DefaultOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultEvent_choice_defaultopExit_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultEvent_choice_defaultopExit_decoder( final TitanOctetString input_stream, final DefaultOp output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultEvent_choice_defaultopExit_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -2859,27 +2884,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_controlpartStart_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_controlpartStart_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_controlpartStart_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_controlpartStart_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -2895,27 +2920,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__mapped_msgid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__mapped_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__mapped_msgid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__mapped_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -4101,27 +4126,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void FinalVerdictInfo_encoder(final FinalVerdictInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_decoder( final TitanOctetString input_stream, final FinalVerdictInfo output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -4764,27 +4789,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TimerEvent_encoder(final TimerEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_decoder( final TitanOctetString input_stream, final TimerEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -5585,27 +5610,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void MatchingSuccessType_encoder(final MatchingSuccessType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingSuccessType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingSuccessType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingSuccessType_decoder( final TitanOctetString input_stream, final MatchingSuccessType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingSuccessType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingSuccessType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -6564,27 +6589,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Proc__port__out_encoder(final Proc__port__out input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_out' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__out_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__out_decoder( final TitanOctetString input_stream, final Proc__port__out output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_out' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__out_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -6600,27 +6625,27 @@ return new TitanInteger(1);
 }
 
 public static void VerdictOp_choice_setVerdict_encoder(final SetVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.SetVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictOp_choice_setVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictOp_choice_setVerdict_decoder( final TitanOctetString input_stream, final SetVerdictType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.SetVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictOp_choice_setVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -7961,27 +7986,27 @@ public static class Strings_str__list_template extends Record_Of_Template {
 	}
 }
 public static void Strings_str__list_encoder(final Strings_str__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings.str_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Strings_str__list_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Strings_str__list_decoder( final TitanOctetString input_stream, final Strings_str__list output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings.str_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Strings_str__list_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9195,27 +9220,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void ExecutorEvent_choice_encoder(final ExecutorEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_decoder( final TitanOctetString input_stream, final ExecutorEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9231,27 +9256,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9790,27 +9815,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 
 public static void TimerAnyTimeoutType_encoder(final TimerAnyTimeoutType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerAnyTimeoutType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerAnyTimeoutType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerAnyTimeoutType_decoder( final TitanOctetString input_stream, final TimerAnyTimeoutType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerAnyTimeoutType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerAnyTimeoutType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9826,27 +9851,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_nonePercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_nonePercent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_nonePercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_nonePercent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9862,27 +9887,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorRuntime_testcase__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorRuntime_testcase__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorRuntime_testcase__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_testcase__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9898,27 +9923,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingFailureType_port__type_encoder(final PortType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_port__type_decoder( final TitanOctetString input_stream, final PortType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9934,27 +9959,27 @@ return new TitanInteger(1);
 }
 
 public static void Parallel_alive___encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_alive___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_alive___decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_alive___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -9970,27 +9995,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanSingleLogEvent_event_encoder(final TitanLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanSingleLogEvent_event_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanSingleLogEvent_event_decoder( final TitanOctetString input_stream, final TitanLogEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanSingleLogEvent_event_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -10006,27 +10031,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingProblemType_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingProblemType_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingProblemType_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -11031,27 +11056,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void SetVerdictType_encoder(final SetVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.SetVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(SetVerdictType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger SetVerdictType_decoder( final TitanOctetString input_stream, final SetVerdictType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.SetVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(SetVerdictType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -11067,27 +11092,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_alive__pid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_alive__pid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_alive__pid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_alive__pid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -11103,27 +11128,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__recv_msgid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_msgid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -11139,27 +11164,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_unhandledEvent_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_unhandledEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_unhandledEvent_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_unhandledEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -11175,27 +11200,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorUnqualified_addr_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorUnqualified_addr_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorUnqualified_addr_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_addr_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -11973,27 +11998,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Parallel_reason_encoder(final Parallel_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Parallel.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_reason_decoder( final TitanOctetString input_stream, final Parallel_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Parallel.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12009,27 +12034,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_userLog_encoder(final Strings input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_userLog_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_userLog_decoder( final TitanOctetString input_stream, final Strings output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_userLog_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12045,27 +12070,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutionSummaryType_numberOfTestcases_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutionSummaryType_numberOfTestcases_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutionSummaryType_numberOfTestcases_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutionSummaryType_numberOfTestcases_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12081,27 +12106,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_procPortSend_encoder(final Proc__port__out input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_out' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_procPortSend_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_procPortSend_decoder( final TitanOctetString input_stream, final Proc__port__out output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_out' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_procPortSend_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12117,27 +12142,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Misc_new__size_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_new__size_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_new__size_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_new__size_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12153,27 +12178,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_pass___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_pass___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_pass___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_pass___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12189,27 +12214,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_msgPortRecv_encoder(final Msg__port__recv input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_msgPortRecv_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_msgPortRecv_decoder( final TitanOctetString input_stream, final Msg__port__recv output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_msgPortRecv_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12953,27 +12978,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void PortType_encoder(final PortType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortType_decoder( final TitanOctetString input_stream, final PortType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -12989,27 +13014,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingFailureType_choice_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_choice_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_choice_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_choice_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13025,27 +13050,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorComponent_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorComponent_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorComponent_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorComponent_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13061,27 +13086,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_portState_encoder(final Port__State input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_State' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_portState_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_portState_decoder( final TitanOctetString input_stream, final Port__State output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_State' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_portState_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13097,27 +13122,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_dualDiscard_encoder(final Dualface__discard input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_discard' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_dualDiscard_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_dualDiscard_decoder( final TitanOctetString input_stream, final Dualface__discard output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_discard' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_dualDiscard_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13133,27 +13158,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_is__ptc_encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_is__ptc_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_is__ptc_decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_is__ptc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13169,27 +13194,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_verdict__reason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_verdict__reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_verdict__reason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_verdict__reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13832,27 +13857,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void WarningEvent_encoder(final WarningEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.WarningEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(WarningEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger WarningEvent_decoder( final TitanOctetString input_stream, final WarningEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.WarningEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(WarningEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -13868,27 +13893,27 @@ return new TitanInteger(1);
 }
 
 public static void SetVerdictType_newReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(SetVerdictType_newReason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger SetVerdictType_newReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(SetVerdictType_newReason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -14636,27 +14661,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void ParPort_operation_encoder(final ParPort_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParPort.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParPort_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParPort_operation_decoder( final TitanOctetString input_stream, final ParPort_operation output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParPort.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -15378,27 +15403,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ComponentIDType_encoder(final ComponentIDType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ComponentIDType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ComponentIDType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ComponentIDType_decoder( final TitanOctetString input_stream, final ComponentIDType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ComponentIDType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ComponentIDType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -15414,27 +15439,27 @@ return new TitanInteger(1);
 }
 
 public static void StartFunction_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StartFunction_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StartFunction_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StartFunction_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -15450,27 +15475,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_controlpartErrors_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_controlpartErrors_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_controlpartErrors_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_controlpartErrors_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -15486,27 +15511,27 @@ return new TitanInteger(1);
 }
 
 public static void SetVerdictType_localVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(SetVerdictType_localVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger SetVerdictType_localVerdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(SetVerdictType_localVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -16847,27 +16872,27 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 	}
 }
 public static void TitanLog_sequence__list_0_event__list_encoder(final TitanLog_sequence__list_0_event__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLog_sequence__list_0_event__list_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLog_sequence__list_0_event__list_decoder( final TitanOctetString input_stream, final TitanLog_sequence__list_0_event__list output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog.sequence_list.oftype.event_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLog_sequence__list_0_event__list_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -18971,27 +18996,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void LogEventType_choice_encoder(final LogEventType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LogEventType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_decoder( final TitanOctetString input_stream, final LogEventType_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LogEventType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -19007,27 +19032,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingDoneType_type___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingDoneType_type___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingDoneType_type___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingDoneType_type___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -19043,27 +19068,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_ptc__verdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_ptc__verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_ptc__verdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_ptc__verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -19921,27 +19946,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void DefaultEvent_choice_encoder(final DefaultEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultEvent_choice_decoder( final TitanOctetString input_stream, final DefaultEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -20710,27 +20735,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void TestcaseEvent_choice_encoder(final TestcaseEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseEvent_choice_decoder( final TitanOctetString input_stream, final TestcaseEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -20746,27 +20771,27 @@ return new TitanInteger(1);
 }
 
 public static void VerdictOp_choice_finalVerdict_encoder(final FinalVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictOp_choice_finalVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictOp_choice_finalVerdict_decoder( final TitanOctetString input_stream, final FinalVerdictType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictOp_choice_finalVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -21522,27 +21547,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void MatchingDoneType_reason_encoder(final MatchingDoneType_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingDoneType.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingDoneType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingDoneType_reason_decoder( final TitanOctetString input_stream, final MatchingDoneType_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingDoneType.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingDoneType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -21558,27 +21583,27 @@ return new TitanInteger(1);
 }
 
 public static void Strings_str__list_0_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Strings_str__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Strings_str__list_0_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Strings_str__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22323,27 +22348,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ExecutorConfigdata_encoder(final ExecutorConfigdata input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorConfigdata' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorConfigdata_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorConfigdata_decoder( final TitanOctetString input_stream, final ExecutorConfigdata output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorConfigdata' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorConfigdata_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22359,27 +22384,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_timeoutTimer_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_timeoutTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_timeoutTimer_decoder( final TitanOctetString input_stream, final TimerType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_timeoutTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22395,27 +22420,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingSuccessType_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingSuccessType_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingSuccessType_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingSuccessType_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22431,27 +22456,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__State_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__State_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__State_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__State_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22467,27 +22492,27 @@ return new TitanInteger(1);
 }
 
 public static void DefaultOp_end_encoder(final DefaultEnd input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEnd' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultOp_end_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultOp_end_decoder( final TitanOctetString input_stream, final DefaultEnd output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEnd' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultOp_end_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22503,27 +22528,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorRuntime_pid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorRuntime_pid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorRuntime_pid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_pid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -22539,27 +22564,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__discard_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__discard_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__discard_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__discard_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -23439,27 +23464,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void LocationInfo_encoder(final LocationInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LocationInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LocationInfo_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LocationInfo_decoder( final TitanOctetString input_stream, final LocationInfo output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LocationInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LocationInfo_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -24102,27 +24127,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TestcaseEvent_encoder(final TestcaseEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseEvent_decoder( final TitanOctetString input_stream, final TestcaseEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -25336,27 +25361,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void TimerEvent_choice_encoder(final TimerEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_decoder( final TitanOctetString input_stream, final TimerEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -26303,27 +26328,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void StatisticsType_choice_encoder(final StatisticsType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_decoder( final TitanOctetString input_stream, final StatisticsType_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -26339,27 +26364,27 @@ return new TitanInteger(1);
 }
 
 public static void TimestampType_microSeconds_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimestampType_microSeconds_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimestampType_microSeconds_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimestampType_microSeconds_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -27476,27 +27501,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Port__Misc_encoder(final Port__Misc input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Misc' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_decoder( final TitanOctetString input_stream, final Port__Misc output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Misc' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -27512,27 +27537,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Misc_ip__address_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_ip__address_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_ip__address_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_ip__address_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -28728,27 +28753,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ParallelPTC_encoder(final ParallelPTC input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelPTC' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_decoder( final TitanOctetString input_stream, final ParallelPTC output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelPTC' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29502,27 +29527,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void LocationInfo_ent__type_encoder(final LocationInfo_ent__type input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LocationInfo.ent_type' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LocationInfo_ent__type_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LocationInfo_ent__type_decoder( final TitanOctetString input_stream, final LocationInfo_ent__type output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LocationInfo.ent_type' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LocationInfo_ent__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29538,27 +29563,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_inconc___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_inconc___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_inconc___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_inconc___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29574,27 +29599,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__in_operation_encoder(final Port__oper input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_operation_decoder( final TitanOctetString input_stream, final Port__oper output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29610,27 +29635,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_parallelEvent_encoder(final ParallelEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_parallelEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_parallelEvent_decoder( final TitanOctetString input_stream, final ParallelEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_parallelEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29646,27 +29671,27 @@ return new TitanInteger(1);
 }
 
 public static void TestcaseEvent_choice_testcaseFinished_encoder(final TestcaseType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseEvent_choice_testcaseFinished_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseEvent_choice_testcaseFinished_decoder( final TitanOctetString input_stream, final TestcaseType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseEvent_choice_testcaseFinished_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29682,27 +29707,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Misc_remote__port_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_remote__port_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_remote__port_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_remote__port_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29718,27 +29743,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanSingleLogEvent_entityId_encoder(final ComponentIDType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ComponentIDType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanSingleLogEvent_entityId_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanSingleLogEvent_entityId_decoder( final TitanOctetString input_stream, final ComponentIDType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ComponentIDType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanSingleLogEvent_entityId_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29754,27 +29779,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__out_operation_encoder(final Port__oper input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__out_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__out_operation_decoder( final TitanOctetString input_stream, final Port__oper output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__out_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29790,27 +29815,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorConfigdata_param___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorConfigdata_param___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorConfigdata_param___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorConfigdata_param___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -29826,27 +29851,27 @@ return new TitanInteger(1);
 }
 
 public static void PTC__exit_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PTC__exit_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PTC__exit_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PTC__exit_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -30512,27 +30537,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void MatchingTimeout_encoder(final MatchingTimeout input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingTimeout' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingTimeout_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingTimeout_decoder( final TitanOctetString input_stream, final MatchingTimeout output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingTimeout' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingTimeout_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -31175,27 +31200,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void VerdictOp_encoder(final VerdictOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictOp_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictOp_decoder( final TitanOctetString input_stream, final VerdictOp output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictOp_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -31947,27 +31972,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void MatchingProblemType_reason_encoder(final MatchingProblemType_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingProblemType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingProblemType_reason_decoder( final TitanOctetString input_stream, final MatchingProblemType_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -31983,27 +32008,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Queue_param___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_param___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_param___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_param___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -32801,27 +32826,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void ExecutorRuntime_reason_encoder(final ExecutorRuntime_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorRuntime.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorRuntime_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorRuntime_reason_decoder( final TitanOctetString input_stream, final ExecutorRuntime_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorRuntime.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -33575,27 +33600,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void MatchingFailureType_reason_encoder(final MatchingFailureType_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_reason_decoder( final TitanOctetString input_stream, final MatchingFailureType_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -33611,27 +33636,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorRuntime_module__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorRuntime_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorRuntime_module__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -34353,27 +34378,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TitanSingleLogEvent_encoder(final TitanSingleLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanSingleLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanSingleLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanSingleLogEvent_decoder( final TitanOctetString input_stream, final TitanSingleLogEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanSingleLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanSingleLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -34389,27 +34414,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_procPortRecv_encoder(final Proc__port__in input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_in' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_procPortRecv_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_procPortRecv_decoder( final TitanOctetString input_stream, final Proc__port__in output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_in' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_procPortRecv_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -35161,27 +35186,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void MatchingProblemType_operation_encoder(final MatchingProblemType_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingProblemType_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingProblemType_operation_decoder( final TitanOctetString input_stream, final MatchingProblemType_operation output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -35197,27 +35222,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_msgPortSend_encoder(final Msg__port__send input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_send' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_msgPortSend_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_msgPortSend_decoder( final TitanOctetString input_stream, final Msg__port__send output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_send' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_msgPortSend_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -35233,27 +35258,27 @@ return new TitanInteger(1);
 }
 
 public static void LocationInfo_filename_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LocationInfo_filename_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LocationInfo_filename_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LocationInfo_filename_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -35269,27 +35294,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_guardTimer_encoder(final TimerGuardType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerGuardType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_guardTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_guardTimer_decoder( final TitanOctetString input_stream, final TimerGuardType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerGuardType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_guardTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -35305,27 +35330,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingFailureType_choice_system___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_choice_system___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_choice_system___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_choice_system___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -36094,27 +36119,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void MatchingFailureType_choice_encoder(final MatchingFailureType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_choice_decoder( final TitanOctetString input_stream, final MatchingFailureType_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -36866,27 +36891,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void ExecutorConfigdata_reason_encoder(final ExecutorConfigdata_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorConfigdata.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorConfigdata_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorConfigdata_reason_decoder( final TitanOctetString input_stream, final ExecutorConfigdata_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorConfigdata.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorConfigdata_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -37608,27 +37633,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void QualifiedName_encoder(final QualifiedName input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.QualifiedName' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(QualifiedName_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger QualifiedName_decoder( final TitanOctetString input_stream, final QualifiedName output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.QualifiedName' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(QualifiedName_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -37644,27 +37669,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Queue_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38465,27 +38490,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void FunctionEvent_choice_random_encoder(final FunctionEvent_choice_random input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent.choice.random' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_choice_random_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_choice_random_decoder( final TitanOctetString input_stream, final FunctionEvent_choice_random output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent.choice.random' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_choice_random_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38501,27 +38526,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingEvent_choice_matchingTimeout_encoder(final MatchingTimeout input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingTimeout' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_choice_matchingTimeout_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_choice_matchingTimeout_decoder( final TitanOctetString input_stream, final MatchingTimeout output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingTimeout' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_matchingTimeout_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38537,27 +38562,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanLogEvent_severity_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLogEvent_severity_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLogEvent_severity_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLogEvent_severity_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38573,27 +38598,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__out_sys__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__out_sys__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__out_sys__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__out_sys__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38609,27 +38634,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__in_parameter_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_parameter_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38645,27 +38670,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Misc_tcp__port_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_tcp__port_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_tcp__port_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_tcp__port_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -38681,27 +38706,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerType_name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerType_name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerType_name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerType_name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -39581,27 +39606,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Dualface__mapped_encoder(final Dualface__mapped input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_mapped' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__mapped_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__mapped_decoder( final TitanOctetString input_stream, final Dualface__mapped output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_mapped' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__mapped_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -40942,27 +40967,27 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 	}
 }
 public static void TitanLogEvent_sourceInfo__list_encoder(final TitanLogEvent_sourceInfo__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent.sourceInfo_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLogEvent_sourceInfo__list_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLogEvent_sourceInfo__list_decoder( final TitanOctetString input_stream, final TitanLogEvent_sourceInfo__list output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent.sourceInfo_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLogEvent_sourceInfo__list_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -41786,27 +41811,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void VerdictType_encoder(final VerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictType_decoder( final TitanOctetString input_stream, final VerdictType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -41822,27 +41847,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_functionEvent_encoder(final FunctionEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_functionEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_functionEvent_decoder( final TitanOctetString input_stream, final FunctionEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_functionEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -41858,27 +41883,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_matchingEvent_encoder(final MatchingEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_matchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_matchingEvent_decoder( final TitanOctetString input_stream, final MatchingEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_matchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -41894,27 +41919,27 @@ return new TitanInteger(1);
 }
 
 public static void DefaultOp_id_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultOp_id_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultOp_id_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultOp_id_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -41930,27 +41955,27 @@ return new TitanInteger(1);
 }
 
 public static void TestcaseType_name_encoder(final QualifiedName input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.QualifiedName' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseType_name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseType_name_decoder( final TitanOctetString input_stream, final QualifiedName output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.QualifiedName' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseType_name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -42696,27 +42721,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Port__State_operation_encoder(final Port__State_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_State.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__State_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__State_operation_decoder( final TitanOctetString input_stream, final Port__State_operation output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_State.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__State_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -42732,27 +42757,27 @@ return new TitanInteger(1);
 }
 
 public static void Setstate_info_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Setstate_info_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Setstate_info_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Setstate_info_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -42768,27 +42793,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_executorEvent_encoder(final ExecutorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_executorEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_executorEvent_decoder( final TitanOctetString input_stream, final ExecutorEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_executorEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -42804,27 +42829,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_controlpartFinish_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_controlpartFinish_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_controlpartFinish_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_controlpartFinish_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -42840,27 +42865,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorUnqualified_port___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorUnqualified_port___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorUnqualified_port___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_port___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -42876,27 +42901,27 @@ return new TitanInteger(1);
 }
 
 public static void LocationInfo_line_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LocationInfo_line_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LocationInfo_line_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LocationInfo_line_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43642,27 +43667,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Port__oper_encoder(final Port__oper input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__oper_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__oper_decoder( final TitanOctetString input_stream, final Port__oper output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__oper_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43678,27 +43703,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelEvent_choice_parallelPort_encoder(final ParPort input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParPort' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelEvent_choice_parallelPort_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelEvent_choice_parallelPort_decoder( final TitanOctetString input_stream, final ParPort output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParPort' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelEvent_choice_parallelPort_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43714,27 +43739,27 @@ return new TitanInteger(1);
 }
 
 public static void ComponentIDType_id_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ComponentIDType_id_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ComponentIDType_id_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ComponentIDType_id_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43750,27 +43775,27 @@ return new TitanInteger(1);
 }
 
 public static void DefaultOp_name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultOp_name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultOp_name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultOp_name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43786,27 +43811,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingSuccessType_port__type_encoder(final PortType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingSuccessType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingSuccessType_port__type_decoder( final TitanOctetString input_stream, final PortType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingSuccessType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43822,27 +43847,27 @@ return new TitanInteger(1);
 }
 
 public static void ParPort_dstPort_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParPort_dstPort_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParPort_dstPort_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_dstPort_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43858,27 +43883,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingDoneType_return__type_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingDoneType_return__type_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingDoneType_return__type_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingDoneType_return__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43894,27 +43919,27 @@ return new TitanInteger(1);
 }
 
 public static void WarningEvent_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(WarningEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger WarningEvent_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(WarningEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -43930,27 +43955,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_portQueue_encoder(final Port__Queue input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Queue' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_portQueue_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_portQueue_decoder( final TitanOctetString input_stream, final Port__Queue output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Queue' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_portQueue_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -44672,27 +44697,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TimestampType_encoder(final TimestampType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimestampType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimestampType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimestampType_decoder( final TitanOctetString input_stream, final TimestampType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimestampType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimestampType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -45493,27 +45518,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Setstate_encoder(final Setstate input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Setstate' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Setstate_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Setstate_decoder( final TitanOctetString input_stream, final Setstate output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Setstate' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Setstate_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -45529,27 +45554,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_verdictOp_encoder(final VerdictOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_verdictOp_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_verdictOp_decoder( final TitanOctetString input_stream, final VerdictOp output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.VerdictOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_verdictOp_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -45565,27 +45590,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_inconcPercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_inconcPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_inconcPercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_inconcPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -45601,27 +45626,27 @@ return new TitanInteger(1);
 }
 
 public static void VerdictType_fromVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictType_fromVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictType_fromVerdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictType_fromVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -45637,27 +45662,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelEvent_choice_parallelPTC_encoder(final ParallelPTC input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelPTC' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelEvent_choice_parallelPTC_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelEvent_choice_parallelPTC_decoder( final TitanOctetString input_stream, final ParallelPTC output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelPTC' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelEvent_choice_parallelPTC_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -46695,27 +46720,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Proc__port__in_encoder(final Proc__port__in input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_in' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_decoder( final TitanOctetString input_stream, final Proc__port__in output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Proc_port_in' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -47595,27 +47620,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TitanLogEvent_encoder(final TitanLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLogEvent_decoder( final TitanOctetString input_stream, final TitanLogEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -48969,27 +48994,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void StatisticsType_choice_verdictStatistics_encoder(final StatisticsType_choice_verdictStatistics input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType.choice.verdictStatistics' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_decoder( final TitanOctetString input_stream, final StatisticsType_choice_verdictStatistics output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType.choice.verdictStatistics' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -49005,27 +49030,27 @@ return new TitanInteger(1);
 }
 
 public static void ParPort_dstCompref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParPort_dstCompref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParPort_dstCompref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_dstCompref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -49041,27 +49066,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingSuccessType_info_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingSuccessType_info_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingSuccessType_info_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingSuccessType_info_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -49077,27 +49102,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__send_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__send_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__send_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__send_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -49113,27 +49138,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__send_parameter_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__send_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__send_parameter_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__send_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -49149,27 +49174,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_none___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_none___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_none___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_none___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -49812,27 +49837,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void LogEventType_encoder(final LogEventType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LogEventType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_decoder( final TitanOctetString input_stream, final LogEventType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LogEventType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -50554,27 +50579,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Port__State_encoder(final Port__State input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_State' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__State_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__State_decoder( final TitanOctetString input_stream, final Port__State output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_State' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__State_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -51375,27 +51400,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TestcaseType_encoder(final TestcaseType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseType_decoder( final TitanOctetString input_stream, final TestcaseType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -51411,27 +51436,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanLogEvent_timestamp_encoder(final TimestampType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimestampType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLogEvent_timestamp_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLogEvent_timestamp_decoder( final TitanOctetString input_stream, final TimestampType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimestampType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLogEvent_timestamp_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -52289,27 +52314,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void ParallelEvent_choice_encoder(final ParallelEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelEvent_choice_decoder( final TitanOctetString input_stream, final ParallelEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -52325,27 +52350,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingTimeout_timer__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingTimeout_timer__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingTimeout_timer__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingTimeout_timer__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -52917,27 +52942,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void anytype_encoder(final anytype input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.anytype' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(anytype_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger anytype_decoder( final TitanOctetString input_stream, final anytype output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.anytype' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(anytype_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -53580,27 +53605,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void PortEvent_encoder(final PortEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_decoder( final TitanOctetString input_stream, final PortEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -53616,27 +53641,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -53652,27 +53677,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_warningLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_warningLog_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_warningLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_warningLog_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -55153,27 +55178,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void PortEvent_choice_encoder(final PortEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_decoder( final TitanOctetString input_stream, final PortEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -55974,27 +55999,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Msg__port__send_encoder(final Msg__port__send input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_send' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__send_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__send_decoder( final TitanOctetString input_stream, final Msg__port__send output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_send' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__send_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56010,27 +56035,27 @@ return new TitanInteger(1);
 }
 
 public static void StartFunction_parameter__list_0_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StartFunction_parameter__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StartFunction_parameter__list_0_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StartFunction_parameter__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56046,27 +56071,27 @@ return new TitanInteger(1);
 }
 
 public static void ComponentIDType_name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ComponentIDType_name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ComponentIDType_name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ComponentIDType_name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56082,27 +56107,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__in_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56118,27 +56143,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingEvent_choice_matchingSuccess_encoder(final MatchingSuccessType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingSuccessType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_choice_matchingSuccess_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_choice_matchingSuccess_decoder( final TitanOctetString input_stream, final MatchingSuccessType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingSuccessType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_matchingSuccess_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56154,27 +56179,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_fail___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_fail___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_fail___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_fail___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56190,27 +56215,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__recv_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56226,27 +56251,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_executorRuntime_encoder(final ExecutorRuntime input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorRuntime' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_executorRuntime_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_executorRuntime_decoder( final TitanOctetString input_stream, final ExecutorRuntime output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorRuntime' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_executorRuntime_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56262,27 +56287,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_defaultEvent_encoder(final DefaultEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_defaultEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_defaultEvent_decoder( final TitanOctetString input_stream, final DefaultEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_defaultEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56298,27 +56323,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_errorLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_errorLog_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_errorLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_errorLog_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56334,27 +56359,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_errorPercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_errorPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_errorPercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_errorPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56370,27 +56395,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_local__verdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_local__verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_local__verdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_local__verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -56406,27 +56431,27 @@ return new TitanInteger(1);
 }
 
 public static void Parallel_src__compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_src__compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_src__compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_src__compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57069,27 +57094,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void FunctionEvent_encoder(final FunctionEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_decoder( final TitanOctetString input_stream, final FunctionEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57105,27 +57130,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_stopTimer_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_stopTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_stopTimer_decoder( final TitanOctetString input_stream, final TimerType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_stopTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57141,27 +57166,27 @@ return new TitanInteger(1);
 }
 
 public static void ErrorEvent_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ErrorEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ErrorEvent_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ErrorEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57177,27 +57202,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutionSummaryType_overallStatistics_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutionSummaryType_overallStatistics_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutionSummaryType_overallStatistics_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutionSummaryType_overallStatistics_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57213,27 +57238,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__send_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__send_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__send_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__send_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57249,27 +57274,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_executorComponent_encoder(final ExecutorComponent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_executorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_executorComponent_decoder( final TitanOctetString input_stream, final ExecutorComponent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_executorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57285,27 +57310,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorRuntime_fd__setsize_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorRuntime_fd__setsize_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorRuntime_fd__setsize_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_fd__setsize_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57321,27 +57346,27 @@ return new TitanInteger(1);
 }
 
 public static void Parallel_function__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_function__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_function__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_function__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -57357,27 +57382,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_testcaseOp_encoder(final TestcaseEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_testcaseOp_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_testcaseOp_decoder( final TitanOctetString input_stream, final TestcaseEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TestcaseEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_testcaseOp_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58336,27 +58361,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void MatchingFailureType_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_decoder( final TitanOctetString input_stream, final MatchingFailureType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58372,27 +58397,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingProblemType_check___encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingProblemType_check___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingProblemType_check___decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_check___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58408,27 +58433,27 @@ return new TitanInteger(1);
 }
 
 public static void LocationInfo_ent__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LocationInfo_ent__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LocationInfo_ent__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LocationInfo_ent__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58444,27 +58469,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingEvent_choice_matchingDone_encoder(final MatchingDoneType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingDoneType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_choice_matchingDone_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_choice_matchingDone_decoder( final TitanOctetString input_stream, final MatchingDoneType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingDoneType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_matchingDone_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58480,27 +58505,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__recv_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58516,27 +58541,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_timeoutAnyTimer_encoder(final TimerAnyTimeoutType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerAnyTimeoutType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_timeoutAnyTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_timeoutAnyTimer_decoder( final TitanOctetString input_stream, final TimerAnyTimeoutType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerAnyTimeoutType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_timeoutAnyTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58552,27 +58577,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingFailureType_info_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_info_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_info_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_info_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58588,27 +58613,27 @@ return new TitanInteger(1);
 }
 
 public static void DefaultEvent_choice_defaultopDeactivate_encoder(final DefaultOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultEvent_choice_defaultopDeactivate_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultEvent_choice_defaultopDeactivate_decoder( final TitanOctetString input_stream, final DefaultOp output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultEvent_choice_defaultopDeactivate_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58624,27 +58649,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_new__verdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_new__verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_new__verdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_new__verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58660,27 +58685,27 @@ return new TitanInteger(1);
 }
 
 public static void Parallel_dst__port_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_dst__port_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_dst__port_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_dst__port_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58696,27 +58721,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_ptc__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_ptc__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_ptc__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_ptc__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58732,27 +58757,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Queue_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58768,27 +58793,27 @@ return new TitanInteger(1);
 }
 
 public static void TestcaseEvent_choice_testcaseStarted_encoder(final QualifiedName input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.QualifiedName' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseEvent_choice_testcaseStarted_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseEvent_choice_testcaseStarted_decoder( final TitanOctetString input_stream, final QualifiedName output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.QualifiedName' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseEvent_choice_testcaseStarted_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -58804,27 +58829,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictInfo_ptc__compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictInfo_ptc__compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictInfo_ptc__compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictInfo_ptc__compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -59783,27 +59808,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ParPort_encoder(final ParPort input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParPort' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParPort_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParPort_decoder( final TitanOctetString input_stream, final ParPort output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParPort' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -59819,27 +59844,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_actionEvent_encoder(final Strings input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_actionEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_actionEvent_decoder( final TitanOctetString input_stream, final Strings output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_actionEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -60719,27 +60744,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void MatchingDoneType_encoder(final MatchingDoneType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingDoneType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingDoneType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingDoneType_decoder( final TitanOctetString input_stream, final MatchingDoneType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingDoneType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingDoneType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -60755,27 +60780,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanLog_sequence__list_0_event__list_0_encoder(final TitanLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLog_sequence__list_0_event__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLog_sequence__list_0_event__list_0_decoder( final TitanOctetString input_stream, final TitanLogEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLogEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLog_sequence__list_0_event__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -60791,27 +60816,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingFailureType_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingFailureType_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingFailureType_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -60827,27 +60852,27 @@ return new TitanInteger(1);
 }
 
 public static void TestcaseType_reason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseType_reason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -61885,27 +61910,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Port__Queue_encoder(final Port__Queue input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Queue' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_decoder( final TitanOctetString input_stream, final Port__Queue output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Queue' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -62548,27 +62573,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ParallelEvent_encoder(final ParallelEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelEvent_decoder( final TitanOctetString input_stream, final ParallelEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -63337,27 +63362,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void FinalVerdictType_choice_encoder(final FinalVerdictType_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictType_choice_decoder( final TitanOctetString input_stream, final FinalVerdictType_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictType_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -63373,27 +63398,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_logOptions_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_logOptions_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_logOptions_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_logOptions_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -64734,27 +64759,27 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 	}
 }
 public static void StartFunction_parameter__list_encoder(final StartFunction_parameter__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StartFunction.parameter_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StartFunction_parameter__list_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StartFunction_parameter__list_decoder( final TitanOctetString input_stream, final StartFunction_parameter__list output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StartFunction.parameter_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StartFunction_parameter__list_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -65792,27 +65817,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Msg__port__recv_encoder(final Msg__port__recv input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_decoder( final TitanOctetString input_stream, final Msg__port__recv output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -65828,27 +65853,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanLogEvent_logEvent_encoder(final LogEventType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LogEventType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLogEvent_logEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLogEvent_logEvent_decoder( final TitanOctetString input_stream, final LogEventType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LogEventType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLogEvent_logEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -66570,27 +66595,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TimerType_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerType_decoder( final TitanOctetString input_stream, final TimerType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -67233,27 +67258,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void DefaultEvent_encoder(final DefaultEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultEvent_decoder( final TitanOctetString input_stream, final DefaultEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -67269,27 +67294,27 @@ return new TitanInteger(1);
 }
 
 public static void TestcaseType_verdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TestcaseType_verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TestcaseType_verdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TestcaseType_verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -67305,27 +67330,27 @@ return new TitanInteger(1);
 }
 
 public static void Parallel_src__port_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_src__port_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_src__port_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_src__port_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -67341,27 +67366,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__discard_unhandled_encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__discard_unhandled_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__discard_unhandled_decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__discard_unhandled_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -68113,27 +68138,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Port__Queue_operation_encoder(final Port__Queue_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Queue.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_operation_decoder( final TitanOctetString input_stream, final Port__Queue_operation output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Queue.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -68149,27 +68174,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanLogEvent_sourceInfo__list_0_encoder(final LocationInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LocationInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLogEvent_sourceInfo__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLogEvent_sourceInfo__list_0_decoder( final TitanOctetString input_stream, final LocationInfo output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.LocationInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLogEvent_sourceInfo__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -68185,27 +68210,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerType_value___encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerType_value___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerType_value___decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerType_value___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -69164,27 +69189,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void MatchingProblemType_encoder(final MatchingProblemType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingProblemType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingProblemType_decoder( final TitanOctetString input_stream, final MatchingProblemType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -69827,27 +69852,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Strings_encoder(final Strings input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Strings_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Strings_decoder( final TitanOctetString input_stream, final Strings output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Strings' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Strings_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -69863,27 +69888,27 @@ return new TitanInteger(1);
 }
 
 public static void Setstate_state_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Setstate_state_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Setstate_state_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Setstate_state_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -70684,27 +70709,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void PTC__exit_encoder(final PTC__exit input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PTC_exit' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PTC__exit_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PTC__exit_decoder( final TitanOctetString input_stream, final PTC__exit output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PTC_exit' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PTC__exit_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -70720,27 +70745,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_executorMisc_encoder(final ExecutorUnqualified input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualified' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_executorMisc_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_executorMisc_decoder( final TitanOctetString input_stream, final ExecutorUnqualified output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualified' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_executorMisc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -71520,27 +71545,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Port__Misc_reason_encoder(final Port__Misc_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Misc.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_reason_decoder( final TitanOctetString input_stream, final Port__Misc_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_Misc.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -71556,27 +71581,27 @@ return new TitanInteger(1);
 }
 
 public static void QualifiedName_testcase__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(QualifiedName_testcase__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger QualifiedName_testcase__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(QualifiedName_testcase__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -72219,27 +72244,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TitanLog_encoder(final TitanLog input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLog_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLog_decoder( final TitanOctetString input_stream, final TitanLog output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLog_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -72882,27 +72907,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ErrorEvent_encoder(final ErrorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ErrorEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ErrorEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ErrorEvent_decoder( final TitanOctetString input_stream, final ErrorEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ErrorEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ErrorEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -72918,27 +72943,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingProblemType_any__port_encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingProblemType_any__port_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingProblemType_any__port_decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_any__port_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -72954,27 +72979,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_portEvent_encoder(final PortEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_portEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_portEvent_decoder( final TitanOctetString input_stream, final PortEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_portEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -72990,27 +73015,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingDoneType_ptc_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingDoneType_ptc_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingDoneType_ptc_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingDoneType_ptc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73026,27 +73051,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__recv_parameter_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_parameter_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73062,27 +73087,27 @@ return new TitanInteger(1);
 }
 
 public static void VerdictType_toVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictType_toVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictType_toVerdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictType_toVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73098,27 +73123,27 @@ return new TitanInteger(1);
 }
 
 public static void VerdictType_verdictReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(VerdictType_verdictReason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger VerdictType_verdictReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictType_verdictReason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73761,27 +73786,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ExecutorEvent_encoder(final ExecutorEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_decoder( final TitanOctetString input_stream, final ExecutorEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73797,27 +73822,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_passPercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_passPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_passPercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_passPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73833,27 +73858,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_extcommandStart_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_extcommandStart_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_extcommandStart_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_extcommandStart_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -73869,27 +73894,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_compname_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_compname_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_compname_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_compname_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -75006,27 +75031,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Parallel_encoder(final Parallel input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Parallel' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Parallel_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Parallel_decoder( final TitanOctetString input_stream, final Parallel output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Parallel' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Parallel_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -76077,27 +76102,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ExecutorRuntime_encoder(final ExecutorRuntime input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorRuntime' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorRuntime_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorRuntime_decoder( final TitanOctetString input_stream, final ExecutorRuntime output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorRuntime' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -76113,27 +76138,27 @@ return new TitanInteger(1);
 }
 
 public static void FunctionEvent_choice_random_operation_encoder(final RandomAction input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.RandomAction' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_choice_random_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_choice_random_operation_decoder( final TitanOctetString input_stream, final RandomAction output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.RandomAction' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_choice_random_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -76149,27 +76174,27 @@ return new TitanInteger(1);
 }
 
 public static void SetVerdictType_oldVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(SetVerdictType_oldVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger SetVerdictType_oldVerdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(SetVerdictType_oldVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -76185,27 +76210,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__in_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -76848,27 +76873,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void FinalVerdictType_encoder(final FinalVerdictType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictType_decoder( final TitanOctetString input_stream, final FinalVerdictType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -77612,27 +77637,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void FinalVerdictType_choice_notification_encoder(final FinalVerdictType_choice_notification input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType.choice.notification' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictType_choice_notification_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictType_choice_notification_decoder( final TitanOctetString input_stream, final FinalVerdictType_choice_notification output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictType.choice.notification' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictType_choice_notification_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -78380,27 +78405,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void ExecutorUnqualified_reason_encoder(final ExecutorUnqualified_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualified.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorUnqualified_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorUnqualified_reason_decoder( final TitanOctetString input_stream, final ExecutorUnqualified_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualified.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -78416,27 +78441,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__out_parameter_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__out_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__out_parameter_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__out_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -78452,27 +78477,27 @@ return new TitanInteger(1);
 }
 
 public static void ParPort_srcCompref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParPort_srcCompref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParPort_srcCompref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_srcCompref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -79218,27 +79243,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Msg__port__recv_operation_encoder(final Msg__port__recv_operation input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_operation_decoder( final TitanOctetString input_stream, final Msg__port__recv_operation output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv.operation' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_operation_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -79254,27 +79279,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__mapped_target__type_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__mapped_target__type_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__mapped_target__type_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__mapped_target__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -79290,27 +79315,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Misc_remote__component_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_remote__component_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_remote__component_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_remote__component_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -79326,27 +79351,27 @@ return new TitanInteger(1);
 }
 
 public static void ParPort_srcPort_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParPort_srcPort_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParPort_srcPort_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_srcPort_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -79362,27 +79387,27 @@ return new TitanInteger(1);
 }
 
 public static void QualifiedName_module__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(QualifiedName_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger QualifiedName_module__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(QualifiedName_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -80132,27 +80157,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void Verdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Verdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Verdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -80168,27 +80193,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_tc__loc_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_tc__loc_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_tc__loc_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_tc__loc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -80204,27 +80229,27 @@ return new TitanInteger(1);
 }
 
 public static void FunctionEvent_choice_random_intseed_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_choice_random_intseed_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_choice_random_intseed_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_choice_random_intseed_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -80240,27 +80265,27 @@ return new TitanInteger(1);
 }
 
 public static void PTC__exit_statuscode_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PTC__exit_statuscode_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PTC__exit_statuscode_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PTC__exit_statuscode_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -80276,27 +80301,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_statistics_encoder(final StatisticsType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_statistics_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_statistics_decoder( final TitanOctetString input_stream, final StatisticsType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_statistics_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -80312,27 +80337,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_debugLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_debugLog_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_debugLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_debugLog_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81116,27 +81141,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void ParallelPTC_reason_encoder(final ParallelPTC_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelPTC.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_reason_decoder( final TitanOctetString input_stream, final ParallelPTC_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ParallelPTC.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81152,27 +81177,27 @@ return new TitanInteger(1);
 }
 
 public static void Categorized_category_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Categorized_category_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Categorized_category_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Categorized_category_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81188,27 +81213,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorUnqualified_name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorUnqualified_name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorUnqualified_name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81224,27 +81249,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Misc_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Misc_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Misc_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Misc_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81887,27 +81912,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TimerGuardType_encoder(final TimerGuardType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerGuardType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerGuardType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerGuardType_decoder( final TitanOctetString input_stream, final TimerGuardType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerGuardType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerGuardType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81923,27 +81948,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_startTimer_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_startTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_startTimer_decoder( final TitanOctetString input_stream, final TimerType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_startTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -81959,27 +81984,27 @@ return new TitanInteger(1);
 }
 
 public static void SetVerdictType_newVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(SetVerdictType_newVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger SetVerdictType_newVerdict_decoder( final TitanOctetString input_stream, final Verdict output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(SetVerdictType_newVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -82780,27 +82805,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void StartFunction_encoder(final StartFunction input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StartFunction' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StartFunction_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StartFunction_decoder( final TitanOctetString input_stream, final StartFunction output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StartFunction' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StartFunction_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -82816,27 +82841,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_failPercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_failPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_failPercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_failPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -83716,27 +83741,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ExecutorUnqualified_encoder(final ExecutorUnqualified input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualified' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorUnqualified_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorUnqualified_decoder( final TitanOctetString input_stream, final ExecutorUnqualified output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualified' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -83752,27 +83777,27 @@ return new TitanInteger(1);
 }
 
 public static void StartFunction_function__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StartFunction_function__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StartFunction_function__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StartFunction_function__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -83788,27 +83813,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_timerEvent_encoder(final TimerEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_timerEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_timerEvent_decoder( final TitanOctetString input_stream, final TimerEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_timerEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -83824,27 +83849,27 @@ return new TitanInteger(1);
 }
 
 public static void TitanLog_sequence__list_0_entityId_encoder(final ComponentIDType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ComponentIDType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLog_sequence__list_0_entityId_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLog_sequence__list_0_entityId_decoder( final TitanOctetString input_stream, final ComponentIDType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ComponentIDType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLog_sequence__list_0_entityId_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -84590,27 +84615,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void DefaultEnd_encoder(final DefaultEnd input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEnd' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultEnd_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultEnd_decoder( final TitanOctetString input_stream, final DefaultEnd output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultEnd' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultEnd_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -84626,27 +84651,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Queue_msgid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_msgid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -85368,27 +85393,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Categorized_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Categorized_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Categorized_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Categorized_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -85404,27 +85429,27 @@ return new TitanInteger(1);
 }
 
 public static void Port__Queue_address___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Port__Queue_address___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Port__Queue_address___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Port__Queue_address___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -85440,27 +85465,27 @@ return new TitanInteger(1);
 }
 
 public static void ExecutorEvent_choice_extcommandSuccess_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorEvent_choice_extcommandSuccess_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorEvent_choice_extcommandSuccess_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorEvent_choice_extcommandSuccess_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -86801,27 +86826,27 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 	}
 }
 public static void TitanLog_sequence__list_encoder(final TitanLog_sequence__list input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog.sequence_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLog_sequence__list_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLog_sequence__list_decoder( final TitanOctetString input_stream, final TitanLog_sequence__list output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog.sequence_list' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLog_sequence__list_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -86837,27 +86862,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__out_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__out_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__out_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__out_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -86873,27 +86898,27 @@ return new TitanInteger(1);
 }
 
 public static void MatchingEvent_choice_matchingProblem_encoder(final MatchingProblemType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_choice_matchingProblem_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_choice_matchingProblem_decoder( final TitanOctetString input_stream, final MatchingProblemType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_matchingProblem_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -86909,27 +86934,27 @@ return new TitanInteger(1);
 }
 
 public static void DefaultEvent_choice_defaultopActivate_encoder(final DefaultOp input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(DefaultEvent_choice_defaultopActivate_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger DefaultEvent_choice_defaultopActivate_decoder( final TitanOctetString input_stream, final DefaultOp output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.DefaultOp' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultEvent_choice_defaultopActivate_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -86945,27 +86970,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__out_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__out_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__out_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__out_compref_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -86981,27 +87006,27 @@ return new TitanInteger(1);
 }
 
 public static void StatisticsType_choice_verdictStatistics_error___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_choice_verdictStatistics_error___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_choice_verdictStatistics_error___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_choice_verdictStatistics_error___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87017,27 +87042,27 @@ return new TitanInteger(1);
 }
 
 public static void FunctionEvent_choice_unqualified_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_choice_unqualified_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_choice_unqualified_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_choice_unqualified_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87053,27 +87078,27 @@ return new TitanInteger(1);
 }
 
 public static void FinalVerdictType_choice_info_encoder(final FinalVerdictInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FinalVerdictType_choice_info_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FinalVerdictType_choice_info_decoder( final TitanOctetString input_stream, final FinalVerdictInfo output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FinalVerdictType_choice_info_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87089,27 +87114,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelPTC_status_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelPTC_status_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelPTC_status_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_status_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87125,27 +87150,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_unqualifiedTimer_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_unqualifiedTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_unqualifiedTimer_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_unqualifiedTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87161,27 +87186,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__discard_incoming_encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__discard_incoming_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__discard_incoming_decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__discard_incoming_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87197,27 +87222,27 @@ return new TitanInteger(1);
 }
 
 public static void FunctionEvent_choice_random_retval_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_choice_random_retval_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_choice_random_retval_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_choice_random_retval_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87939,27 +87964,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ExecutionSummaryType_encoder(final ExecutionSummaryType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutionSummaryType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutionSummaryType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutionSummaryType_decoder( final TitanOctetString input_stream, final ExecutionSummaryType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutionSummaryType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutionSummaryType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -87975,27 +88000,27 @@ return new TitanInteger(1);
 }
 
 public static void Setstate_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Setstate_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Setstate_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Setstate_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88011,27 +88036,27 @@ return new TitanInteger(1);
 }
 
 public static void LogEventType_choice_executionSummary_encoder(final ExecutionSummaryType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutionSummaryType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(LogEventType_choice_executionSummary_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger LogEventType_choice_executionSummary_decoder( final TitanOctetString input_stream, final ExecutionSummaryType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutionSummaryType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_executionSummary_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88047,27 +88072,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerEvent_choice_readTimer_encoder(final TimerType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerEvent_choice_readTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerEvent_choice_readTimer_decoder( final TitanOctetString input_stream, final TimerType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TimerType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerEvent_choice_readTimer_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88083,27 +88108,27 @@ return new TitanInteger(1);
 }
 
 public static void TimerGuardType_value___encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimerGuardType_value___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimerGuardType_value___decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimerGuardType_value___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88119,27 +88144,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__in_check___encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_check___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_check___decoder( final TitanOctetString input_stream, final TitanBoolean output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_check___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88155,27 +88180,27 @@ return new TitanInteger(1);
 }
 
 public static void ParallelEvent_choice_parallelPTC__exit_encoder(final PTC__exit input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PTC_exit' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ParallelEvent_choice_parallelPTC__exit_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ParallelEvent_choice_parallelPTC__exit_decoder( final TitanOctetString input_stream, final PTC__exit output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PTC_exit' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelEvent_choice_parallelPTC__exit_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88191,27 +88216,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__discard_target__type_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__discard_target__type_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__discard_target__type_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__discard_target__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88854,27 +88879,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void MatchingEvent_encoder(final MatchingEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_decoder( final TitanOctetString input_stream, final MatchingEvent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -88890,27 +88915,27 @@ return new TitanInteger(1);
 }
 
 public static void Dualface__mapped_value___encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__mapped_value___descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__mapped_value___decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__mapped_value___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -89553,27 +89578,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void StatisticsType_encoder(final StatisticsType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(StatisticsType_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger StatisticsType_decoder( final TitanOctetString input_stream, final StatisticsType output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(StatisticsType_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -90453,27 +90478,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void Dualface__discard_encoder(final Dualface__discard input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_discard' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Dualface__discard_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Dualface__discard_decoder( final TitanOctetString input_stream, final Dualface__discard output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_discard' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Dualface__discard_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -90489,27 +90514,27 @@ return new TitanInteger(1);
 }
 
 public static void TimestampType_seconds_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TimestampType_seconds_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TimestampType_seconds_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TimestampType_seconds_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -90525,27 +90550,27 @@ return new TitanInteger(1);
 }
 
 public static void PortEvent_choice_dualMapped_encoder(final Dualface__mapped input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_mapped' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PortEvent_choice_dualMapped_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PortEvent_choice_dualMapped_decoder( final TitanOctetString input_stream, final Dualface__mapped output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_mapped' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_dualMapped_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -91581,27 +91606,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void MatchingEvent_choice_encoder(final MatchingEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(MatchingEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger MatchingEvent_choice_decoder( final TitanOctetString input_stream, final MatchingEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -91617,27 +91642,27 @@ return new TitanInteger(1);
 }
 
 public static void SetVerdictType_oldReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(SetVerdictType_oldReason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger SetVerdictType_oldReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(SetVerdictType_oldReason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -92406,27 +92431,27 @@ throw new TtcnError("Text decoder: Unrecognized selector was received in a templ
 		//TODO: implement set_param, check_restriction !
 }
 public static void FunctionEvent_choice_encoder(final FunctionEvent_choice input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(FunctionEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger FunctionEvent_choice_decoder( final TitanOctetString input_stream, final FunctionEvent_choice output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FunctionEvent.choice' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(FunctionEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -93170,27 +93195,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void RandomAction_encoder(final RandomAction input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.RandomAction' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(RandomAction_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger RandomAction_decoder( final TitanOctetString input_stream, final RandomAction output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.RandomAction' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(RandomAction_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -93206,27 +93231,27 @@ return new TitanInteger(1);
 }
 
 public static void Proc__port__in_msgid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Proc__port__in_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Proc__port__in_msgid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -93971,27 +93996,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void ExecutorComponent_encoder(final ExecutorComponent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorComponent_decoder( final TitanOctetString input_stream, final ExecutorComponent output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -94007,27 +94032,27 @@ return new TitanInteger(1);
 }
 
 public static void PTC__exit_pid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(PTC__exit_pid_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger PTC__exit_pid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PTC__exit_pid_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -94043,27 +94068,27 @@ return new TitanInteger(1);
 }
 
 public static void Msg__port__recv_sys__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(Msg__port__recv_sys__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger Msg__port__recv_sys__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_sys__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -94785,27 +94810,27 @@ final int size = text_buf.pull_int().getInt();
 		}
 }
 public static void TitanLog_sequence__list_0_encoder(final TitanLog_sequence__list_0 input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog.sequence_list.oftype' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(TitanLog_sequence__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger TitanLog_sequence__list_0_decoder( final TitanOctetString input_stream, final TitanLog_sequence__list_0 output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanLog.sequence_list.oftype' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(TitanLog_sequence__list_0_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
@@ -95555,27 +95580,27 @@ throw new TtcnError("Text decoder: An unknown/unsupported selection was received
 }
 }
 public static void ExecutorComponent_reason_encoder(final ExecutorComponent_reason input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
 input_value.encode(ExecutorComponent_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
 public static TitanInteger ExecutorComponent_reason_decoder( final TitanOctetString input_stream, final ExecutorComponent_reason output_value, final TitanUniversalCharString coding_name) {
-AtomicInteger extra_options = new AtomicInteger(0);
-TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TtcnLogger.begin_event_log2str();
 coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent.reason' does not support {0} encoding", TtcnLogger.end_event_log2str()));
 }
-TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorComponent_reason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
