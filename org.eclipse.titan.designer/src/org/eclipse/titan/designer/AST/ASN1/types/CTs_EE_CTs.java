@@ -284,8 +284,7 @@ public final class CTs_EE_CTs extends ASTNode {
 	public void getEnclosingField(final int offset, final ReferenceFinder rf) {
 		for (final CompField field : components) {
 			if (field.getLocation().containsOffset(offset)
-					// TODO: remove the below line when the above line
-					// starts to work (location problem)
+					// TODO: remove the below line when the above line starts to work (location problem)
 					|| field.getIdentifier().getLocation().containsOffset(offset)) {
 				rf.type = myType;
 				rf.fieldId = field.getIdentifier();
