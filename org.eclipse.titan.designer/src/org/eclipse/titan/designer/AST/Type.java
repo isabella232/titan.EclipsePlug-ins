@@ -2698,8 +2698,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						aData.addCommonLibraryImport("AdditionalFunctions");
 						aData.addBuiltinTypeImport("TitanBitString");
 
-						decoderString.append("TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
-						decoderString.append(MessageFormat.format("TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
+						decoderString.append("final TitanBitString bit_stream = new TitanBitString(AdditionalFunctions.oct2bit(input_stream));\n");
+						decoderString.append(MessageFormat.format("final TitanInteger ret_val = {0}(bit_stream, output_value);\n", decoderFunction.functionDefinition.getGenNameFromScope(aData, source, myScope, "")));
 						decoderString.append("input_stream.assign(AdditionalFunctions.bit2oct(bit_stream));\n");
 						decoderString.append("return ret_val;\n");
 					}
@@ -2724,8 +2724,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			aData.addCommonLibraryImport("TTCN_EncDec");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 
-			encoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
-			encoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
+			encoderString.append("final AtomicInteger extra_options = new AtomicInteger(0);\n");
+			encoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
 			encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
 		}
 		encoderString.append("TtcnLogger.begin_event_log2str();\n");
@@ -2735,15 +2735,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			aData.addCommonLibraryImport("TTCN_Buffer");
 
 			encoderString.append("}\n");
-			encoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
+			encoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();\n");
 			encoderString.append(MessageFormat.format("input_value.encode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
 			encoderString.append("ttcnBuffer.get_string(output_stream);\n");
 		}
 		encoderString.append("}\n\n");
 
 		if (checkString.length() > 0) {
-			decoderString.append("AtomicInteger extra_options = new AtomicInteger(0);\n");
-			decoderString.append("TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
+			decoderString.append("final AtomicInteger extra_options = new AtomicInteger(0);\n");
+			decoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
 			decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
 		}
 		decoderString.append("TtcnLogger.begin_event_log2str();\n");
@@ -2751,7 +2751,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
 			decoderString.append("}\n");
-			decoderString.append("TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
+			decoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
 			decoderString.append(MessageFormat.format("output_value.decode({0}_descr_, ttcnBuffer, codingType, extra_options.get());\n", getGenNameTypeDescriptor(aData, source, myScope)));
 			decoderString.append("switch (TTCN_EncDec.get_last_error_type()) {\n");
 			decoderString.append("case ET_NONE:\n");
