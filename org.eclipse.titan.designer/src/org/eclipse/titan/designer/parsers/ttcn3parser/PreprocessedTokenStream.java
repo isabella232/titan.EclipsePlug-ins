@@ -554,7 +554,6 @@ public class PreprocessedTokenStream extends CommonTokenStream {
 											-1, -1, IMarker.SEVERITY_ERROR, IMarker.PRIORITY_NORMAL);
 									unsupportedConstructs.add(marker);
 								} else {
-								//TODO: Makes the Eclipse slow down
 									processIncludeDirective(ppDirective);
 								}
 							}
