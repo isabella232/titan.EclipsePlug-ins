@@ -168,8 +168,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (definition != null && subReferences != null) {
-			// TODO: the following for() does not work because
-			// qualifiers were not semantically analyzed
+			// TODO: the following for() does not work because qualifiers were not semantically analyzed
 			for (ISubReference sr : subReferences) {
 				sr.findReferences(referenceFinder, foundIdentifiers);
 			}
