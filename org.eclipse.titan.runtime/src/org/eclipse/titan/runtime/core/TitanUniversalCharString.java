@@ -1053,7 +1053,6 @@ public class TitanUniversalCharString extends Base_Type {
 		// allocate enough memory, start from clean state
 		cleanUp();
 		charstring = false;
-		// FIXME: init_struct(lenghtUnichars)
 		val_ptr = new ArrayList<TitanUniversalChar>(lenghtUnichars);
 		for (int i = 0; i < lenghtUnichars; i++) {
 			val_ptr.add(new TitanUniversalChar());
