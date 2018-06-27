@@ -353,13 +353,13 @@ pr_XAssocElement returns [RawAST.rawAST_single_tag singleTag]:
 (	id = IDENTIFIER
 	COMMA
 	(	list = pr_XkeyIdOrIdList { $singleTag = new RawAST.rawAST_single_tag();
-					$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
+					if ($id != null) {$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) ); }
 					$singleTag.keyList = $list.singleTag.keyList;}
 	|	OTHERWISE		{ $singleTag = new RawAST.rawAST_single_tag();
-					$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
+					if ($id != null) {$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) ); }
 					$singleTag.keyList = null;}
 	|	JSONOTHERWISEKeyword		{ $singleTag = new RawAST.rawAST_single_tag();
-					$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) );
+					if ($id != null) {$singleTag.fieldName = new Identifier( Identifier_type.ID_TTCN, $id.text, getLocation( $id ) ); }
 					$singleTag.keyList = null;}
 	)
 
@@ -554,11 +554,11 @@ pr_XRecordFieldRef returns [Identifier identifier]:
 
 pr_XStructFieldRef returns [ArrayList<Identifier> values]:
 (	id1 = IDENTIFIER		{$values = new ArrayList<Identifier>();
-					if ($id1.text != null) {
+					if ($id1 != null && $id1.text != null) {
 						$values.add(new Identifier( Identifier_type.ID_TTCN, $id1.text, getLocation( $id1 ) ));
 					}}
 	(	DOT
-		id2 = IDENTIFIER	{if ($id2.text != null) {
+		id2 = IDENTIFIER	{if ($id2 != null && $id2.text != null) {
 						$values.add(new Identifier( Identifier_type.ID_TTCN, $id2.text, getLocation( $id2 ) ));
 					}}
 	)*
