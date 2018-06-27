@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.values.expressions;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -21,6 +22,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
@@ -220,5 +222,26 @@ public class Ttcn2StringExpression extends Expression_Value {
 		if (templateInstance != null) {
 			templateInstance.reArrangeInitCode(aData, source, usageModule);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TitanCharString");
+
+		expression.preamble.append( "TtcnLogger.begin_event_log2str();\n");
+		ExpressionStruct expression2 = new ExpressionStruct();
+		if (templateInstance != null) {
+			templateInstance.generateCode(aData, expression2, Restriction_type.TR_NONE);
+			expression2.expression.append(".log();\n");
+
+			expression.preamble.append(expression2.preamble);
+			expression.preamble.append(expression2.expression);
+		}
+		String tempId = aData.getTemporaryVariableName();
+		expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
+
+		expression.expression.append(tempId);
 	}
 }
