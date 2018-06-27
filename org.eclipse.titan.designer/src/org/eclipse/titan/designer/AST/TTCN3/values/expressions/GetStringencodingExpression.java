@@ -141,7 +141,7 @@ public final class GetStringencodingExpression extends Expression_Value {
 
 		switch (tempType) {
 		case TYPE_OCTETSTRING:
-			//TODO: implement missing part if range check is needed
+			value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			return;
 		case TYPE_UNDEFINED:
 			setIsErroneous(true);
@@ -190,7 +190,7 @@ public final class GetStringencodingExpression extends Expression_Value {
 		switch (last.getValuetype()) {
 		case OCTETSTRING_VALUE: {
 			final String octetString = ((Octetstring_Value) last).getValue();
-			lastValue = new Charstring_Value(PredefFunc.get_stringencoding(octetString).getName());
+			lastValue = new Charstring_Value(PredefFunc.get_stringencoding(octetString, getLocation()).getName());
 			lastValue.copyGeneralProperties(this);
 			break;
 		}
