@@ -140,9 +140,9 @@ public final class TTCN_Snapshot {
 				long pollTimeout = 0;
 				boolean handleTimer = false;
 				if (blockExecution) {
-					//FIXME this is way more complex
 					final Changeable_Double timerTimeout = new Changeable_Double(0.0);
 					final boolean isTimerTimeout = TitanTimer.getMinExpiration(timerTimeout);
+					//FIXME timeout handle still needed
 					if (isTimerTimeout) {
 						timeout = timerTimeout.getValue();
 						final double currentTime = timeNow();
