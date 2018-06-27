@@ -618,11 +618,7 @@ public final class Def_Timer extends Definition {
 
 				if ( defaultDuration != null ) {
 					defaultDuration.generateCodeInit(aData, initComp, genName + ".get()" );
-				} else if (cleanUp) {
-					initComp.append(genName);
-					initComp.append(".get().cleanUp();\n");
 				}
-
 			} else {
 				aData.addBuiltinTypeImport("TitanTimerArray");
 
@@ -674,11 +670,7 @@ public final class Def_Timer extends Definition {
 
 				if ( defaultDuration != null ) {
 					defaultDuration.generateCodeInit(aData, initComp, genName );
-				} else if (cleanUp) {
-					initComp.append(genName);
-					initComp.append(".cleanUp();\n");
 				}
-
 			} else {
 				final ArrayList<String> classNames= new ArrayList<String>();
 				final ExpressionStruct expression = new ExpressionStruct();
