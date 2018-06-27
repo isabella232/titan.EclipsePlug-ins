@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
+import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -151,7 +152,7 @@ public final class TTCN_Snapshot {
 								pollTimeout = (long)Math.floor(blockTime * 1000);
 								handleTimer = true;
 							} else {
-								//FIXME log warning
+								TtcnError.TtcnWarning(MessageFormat.format("The time needed for the first timer expiry is {0} seconds. The operating system does not support such long waiting at once. The maximum time of blocking was set to {1} seconds (ca. {2} days).", blockTime, MAX_BLOCK_TIME, MAX_BLOCK_TIME / 86400));
 								timeout = currentTime + MAX_BLOCK_TIME;
 								pollTimeout = MAX_BLOCK_TIME * 1000;
 								handleTimer = true;
