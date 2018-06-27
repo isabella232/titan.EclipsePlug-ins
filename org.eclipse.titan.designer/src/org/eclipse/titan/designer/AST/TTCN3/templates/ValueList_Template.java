@@ -283,7 +283,7 @@ public final class ValueList_Template extends CompositeTemplate {
 					if (template.needsTemporaryReference()) {
 						final String tempId = aData.getTemporaryVariableName();
 						source.append("{\n");
-						source.append(MessageFormat.format("{0} {1} = {2}.listItem({3}{4});\n", typeName, tempId, name, i, shifty));
+						source.append(MessageFormat.format("final {0} {1} = {2}.listItem({3}{4});\n", typeName, tempId, name, i, shifty));
 						template.generateCodeInit(aData, source, tempId);
 						source.append("}\n");
 					} else {
@@ -300,7 +300,7 @@ public final class ValueList_Template extends CompositeTemplate {
 				if (template.needsTemporaryReference()) {
 					final String tempId = aData.getTemporaryVariableName();
 					source.append("{\n");
-					source.append(MessageFormat.format("{0} {1} = {2}.listItem({3});\n", typeName, tempId, name, i));
+					source.append(MessageFormat.format("final {0} {1} = {2}.listItem({3});\n", typeName, tempId, name, i));
 					template.generateCodeInit(aData, source, tempId);
 					source.append("}\n");
 				} else {

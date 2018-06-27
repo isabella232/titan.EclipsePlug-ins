@@ -860,7 +860,7 @@ public final class Sequence_Value extends Value {
 
 		final String tempId = aData.getTemporaryVariableName();
 		final String genName = governor.getGenNameValue(aData, expression.expression, myScope);
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(genName);
 		generateCodeInit(aData, expression.preamble, tempId);
 		expression.expression.append(tempId);

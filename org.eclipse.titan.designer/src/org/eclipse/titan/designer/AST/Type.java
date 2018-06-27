@@ -3144,7 +3144,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 		final String temporalIndexId = aData.getTemporaryVariableName();
 		expression.expression.append(MessageFormat.format("if({0}) '{'\n", globalId));
-		expression.expression.append(MessageFormat.format("TitanInteger {0} = ", temporalIndexId));
+		expression.expression.append(MessageFormat.format("final TitanInteger {0} = ", temporalIndexId));
 		last.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(";\n");
 		expression.expression.append(MessageFormat.format("{0} = {1}.isGreaterThanOrEqual(0) && {1}.isLessThan({2}.lengthOf());\n",

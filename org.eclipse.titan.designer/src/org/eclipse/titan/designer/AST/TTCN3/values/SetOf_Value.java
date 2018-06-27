@@ -648,12 +648,12 @@ public final class SetOf_Value extends Value {
 					source.append("{\n");
 					final Value index = indexedValue.getIndex().getValue();
 					if (index.getValuetype().equals(Value_type.INTEGER_VALUE)) {
-						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
+						source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, ((Integer_Value) index).getValue()));
 					} else {
 						final String tempId2 = aData.getTemporaryVariableName();
-						source.append(MessageFormat.format("TitanInteger {0} = new TitanInteger();\n", tempId2));
+						source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempId2));
 						index.generateCodeInit(aData, source, tempId2);
-						source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
+						source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", ofTypeName, tempId1, name, tempId2));
 					}
 					indexedValue.getValue().generateCodeInit(aData, source, tempId1);
 					source.append("}\n");
@@ -704,7 +704,7 @@ public final class SetOf_Value extends Value {
 
 		final String tempId = aData.getTemporaryVariableName();
 		final String genName = myLastSetGovernor.getGenNameValue(aData, expression.expression, myScope);
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNamePrefix(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);
 		expression.expression.append(tempId);

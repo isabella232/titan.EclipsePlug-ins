@@ -197,7 +197,7 @@ public final class LogArguments extends ASTNode implements IIncrementallyUpdatea
 			arguments.get( i ).generateCode(aData, expression.preamble);
 		}
 		String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
+		expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
 		expression.expression.append(tempId);
 	}
 }

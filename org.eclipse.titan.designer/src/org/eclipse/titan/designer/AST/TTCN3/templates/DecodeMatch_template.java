@@ -279,7 +279,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		// generate the decoding target into a temporary
 		final String target_tempID = aData.getTemporaryVariableName();
 		if (target.getDerivedReference() == null) {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", targetTemplateName, target_tempID));
+			source.append(MessageFormat.format("final {0} {1} = new {0}();\n", targetTemplateName, target_tempID));
 		} else {
 			final ExpressionStruct referencedExpression = new ExpressionStruct();
 			target.getDerivedReference().generateCode(aData, referencedExpression);
@@ -287,7 +287,7 @@ public class DecodeMatch_template extends TTCN3Template {
 				source.append(referencedExpression.preamble);
 			}
 
-			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", targetTemplateName, target_tempID, referencedExpression.expression));
+			source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", targetTemplateName, target_tempID, referencedExpression.expression));
 			if (referencedExpression.postamble.length() > 0) {
 				source.append(referencedExpression.postamble);
 			}

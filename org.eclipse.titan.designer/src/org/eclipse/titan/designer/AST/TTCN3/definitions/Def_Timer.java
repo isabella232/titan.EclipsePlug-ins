@@ -817,10 +817,10 @@ public final class Def_Timer extends Definition {
 					final String tempId1 = aData.getTemporaryVariableName();
 					final String tempIdX = aData.getTemporaryVariableName();
 					source.append("{\n");
-					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
+					source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempIdX));
 					index.generateCodeInit(aData, source, tempIdX);
 
-					source.append(MessageFormat.format("{0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
+					source.append(MessageFormat.format("final {0} {1} = {2}.getAt({3});\n", classNames.get(classNames.size() - startDim - 2), tempId1, genName, tempIdX));
 					generateCodeArrayDuration(aData, source, tempId1, classNames, (Value) v_elem, startDim + 1);
 					source.append("}\n");
 				}
@@ -835,7 +835,7 @@ public final class Def_Timer extends Definition {
 					final ExpressionStruct expression = new ExpressionStruct();
 					final String tempIdX = aData.getTemporaryVariableName();
 					source.append("{\n");
-					source.append("TitanInteger " + tempIdX + " = new TitanInteger();\n");
+					source.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger();\n", tempIdX));
 					v_elemIndex.generateCodeInit(aData, source, tempIdX);
 
 					final String embeddedName = MessageFormat.format("{0}.getAt(", genName);

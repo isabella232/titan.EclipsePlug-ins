@@ -483,7 +483,7 @@ public final class Template_List extends CompositeTemplate {
 		final String genName = governor.getGenNameTemplate(aData, expression.expression, myScope);
 		final String tempId = aData.getTemporaryVariableName();
 
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", genName, tempId));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 		setGenNameRecursive(tempId);
 		generateCodeInit(aData, expression.preamble, tempId);
 

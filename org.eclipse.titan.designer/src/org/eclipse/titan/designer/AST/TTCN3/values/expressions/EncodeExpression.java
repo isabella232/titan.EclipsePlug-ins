@@ -411,7 +411,7 @@ public final class EncodeExpression extends Expression_Value {
 		}
 
 		final String tempID = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString();\n", tempID));
+		expression.preamble.append(MessageFormat.format("final TitanOctetString {0} = new TitanOctetString();\n", tempID));
 		expression.preamble.append(MessageFormat.format("{0}_encoder({1}{2}, {3}, {4});\n", governor.getGenNameCoder(aData, expression.expression, scope), expression2.expression, isValue?"":".valueOf()", tempID, expression3.expression));
 		expression.expression.append(MessageFormat.format("AdditionalFunctions.oct2bit({0})", tempID));
 		if (expression2.postamble.length() > 0) {

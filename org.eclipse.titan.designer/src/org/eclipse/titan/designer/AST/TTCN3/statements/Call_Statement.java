@@ -573,7 +573,7 @@ public final class Call_Statement extends Statement {
 				aData.addBuiltinTypeImport("TitanTimer");
 
 				timerValue.getLocation().update_location_object(aData, source);
-				source.append(MessageFormat.format("TitanTimer {0} = new TitanTimer(null);\n", timerName));
+				source.append(MessageFormat.format("final TitanTimer {0} = new TitanTimer(null);\n", timerName));
 				expression = new ExpressionStruct();
 				expression.expression.append(MessageFormat.format("{0}.start(", timerName));
 				timerValue.generateCodeExpression(aData, expression, false);

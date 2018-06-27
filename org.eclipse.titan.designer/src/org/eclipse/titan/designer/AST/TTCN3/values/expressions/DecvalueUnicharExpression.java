@@ -754,7 +754,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			final ExpressionStruct tempExpression = new ExpressionStruct();
 			serialization.generateCodeExpressionMandatory(aData, tempExpression, true);
 			final String tempID = aData.getTemporaryVariableName();
-			expression.preamble.append(MessageFormat.format("TitanCharString {0} = {1};\n", tempID, tempExpression.expression));
+			expression.preamble.append(MessageFormat.format("final TitanCharString {0} = {1};\n", tempID, tempExpression.expression));
 			expression.preamble.append(MessageFormat.format("if ({0}.operatorNotEquals(\"UTF-8\") && {0}.operatorNotEquals(\"UTF-16\") && {0}.operatorNotEquals(\"UTF-16LE\") && {0}.operatorNotEquals(\"UTF-16BE\") && {0}.operatorNotEquals(\"UTF-32\") && {0}.operatorNotEquals(\"UTF-32LE\") && {0}.operatorNotEquals(\"UTF-32BE\")) '{'\n", tempID));
 			expression.preamble.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"decvalue_unichar: Invalid encoding parameter: '{'0'}'\", {0}));\n", tempID));
 			expression.preamble.append("}\n");

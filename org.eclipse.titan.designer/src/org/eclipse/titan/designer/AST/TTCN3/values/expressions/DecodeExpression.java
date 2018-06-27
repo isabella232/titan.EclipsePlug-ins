@@ -571,8 +571,8 @@ public final class DecodeExpression extends Expression_Value {
 			expression.preamble.append("TTCN_EncDec.clear_error();\n");
 		}
 
-		expression.preamble.append(MessageFormat.format("TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.bit2oct({1}));\n", bufferID, expression1.expression));
-		expression.preamble.append(MessageFormat.format("TitanInteger {0} = new TitanInteger({1}_decoder({2}, {3}{4}, {5}));\n", returnValueID, fieldType.getGenNameCoder(aData, expression.expression, scope), bufferID, expression2.expression, isOptional? ".get()":"", expression3.expression));
+		expression.preamble.append(MessageFormat.format("final TitanOctetString {0} = new TitanOctetString(AdditionalFunctions.bit2oct({1}));\n", bufferID, expression1.expression));
+		expression.preamble.append(MessageFormat.format("final TitanInteger {0} = new TitanInteger({1}_decoder({2}, {3}{4}, {5}));\n", returnValueID, fieldType.getGenNameCoder(aData, expression.expression, scope), bufferID, expression2.expression, isOptional? ".get()":"", expression3.expression));
 		expression.preamble.append(MessageFormat.format("if ({0}.operatorEquals(0)) '{'\n", returnValueID));
 		expression.preamble.append(MessageFormat.format("{0}.assign(AdditionalFunctions.oct2bit({1}));\n", expression1.expression, bufferID));
 		expression.preamble.append("}\n");

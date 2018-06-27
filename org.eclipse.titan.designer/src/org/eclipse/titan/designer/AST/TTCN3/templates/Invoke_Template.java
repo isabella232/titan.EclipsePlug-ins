@@ -423,7 +423,7 @@ public final class Invoke_Template extends TTCN3Template {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("{0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
 

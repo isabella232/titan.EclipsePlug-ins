@@ -237,9 +237,9 @@ public final class SelectCase_Statement extends Statement {
 		final String tmp = aData.getTemporaryVariableName();
 
 		if (last.returnsNative()) {
-			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", type, tmp, name));
+			source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", type, tmp, name));
 		} else {
-			source.append(MessageFormat.format("{0} {1} = {2};\n", type, tmp, name));
+			source.append(MessageFormat.format("final {0} {1} = {2};\n", type, tmp, name));
 		}
 
 		selectcases.generateCode(aData, source, tmp);

@@ -1460,7 +1460,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 			closingBrackets.insert(0, "}\n");
 			final String temporalId = aData.getTemporaryVariableName();
 			aData.addBuiltinTypeImport("Optional");
-			expression.expression.append(MessageFormat.format("Optional<{0}{1}> {2} = {3}.get{4}();\n",
+			expression.expression.append(MessageFormat.format("final Optional<{0}{1}> {2} = {3}.get{4}();\n",
 					nextType.getGenNameValue(aData, expression.expression, myScope), isTemplate?"_template":"", temporalId, externalId, FieldSubReference.getJavaGetterName( fieldId.getName())));
 
 			if (subReferenceIndex == subreferences.size()-1) {

@@ -617,7 +617,7 @@ public final class Assignment_Statement extends Statement {
 					source.append(MessageFormat.format("Optional<{0}> {1} = new Optional<{0}>({0}.class);\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 					rhsRef += ".get()";
 				} else {
-					source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
+					source.append(MessageFormat.format("final {0} {1} = new {0}();\n", template.getMyGovernor().getGenNameValue(aData, source, myScope), rhsCopy));
 				}
 			}
 
@@ -670,9 +670,9 @@ public final class Assignment_Statement extends Statement {
 					if (reference.refersToStringElement()) {
 						//LHS is a string element
 						aData.addBuiltinTypeImport(typeGenname + "_Element");
-						source.append(MessageFormat.format("{0}_Element {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
+						source.append(MessageFormat.format("final {0}_Element {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
 					} else {
-						source.append(MessageFormat.format("{0} {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
+						source.append(MessageFormat.format("final {0} {1} = {2};\n", typeGenname, tempID, leftExpression.expression));
 					}
 					source.append(leftExpression.postamble);
 					if (rhsCopied) {
@@ -720,7 +720,7 @@ public final class Assignment_Statement extends Statement {
 			final String rhsCopy = aData.getTemporaryVariableName();
 			if(rhsCopied) {
 				source.append("{\n");
-				source.append(MessageFormat.format("{0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), rhsCopy));
+				source.append(MessageFormat.format("final {0} {1} = new {0}();\n", template.getMyGovernor().getGenNameTemplate(aData, source, myScope), rhsCopy));
 			}
 			// TODO handle the needs conversion case
 			if (reference.getSubreferences().size() > 1) {
@@ -749,7 +749,7 @@ public final class Assignment_Statement extends Statement {
 					source.append("{\n");
 					source.append(expression.preamble);
 					final IType governor = template.getMyGovernor();
-					source.append(MessageFormat.format("{0} {1} = {2};\n", governor.getGenNameTemplate(aData, source, template.getMyScope()), tempID, expression.expression));
+					source.append(MessageFormat.format("final {0} {1} = {2};\n", governor.getGenNameTemplate(aData, source, template.getMyScope()), tempID, expression.expression));
 					source.append(expression.postamble);
 					if (rhsCopied) {
 						source.append(MessageFormat.format("{0}.assign({1});\n", tempID, rhsCopy));
