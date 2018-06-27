@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.RecordOfMatch.answer;
 import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
 import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
-import org.eclipse.titan.runtime.core.Record_Of_Template.Pair_of_elements;
 
 /**
  * @author Farkas Izabella Ingrid
