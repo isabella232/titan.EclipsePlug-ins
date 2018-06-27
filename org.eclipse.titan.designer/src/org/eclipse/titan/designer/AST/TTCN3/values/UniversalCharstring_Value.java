@@ -51,7 +51,7 @@ public final class UniversalCharstring_Value extends Value {
 
 	protected UniversalCharstring_Value(final Charstring_Value original) {
 		copyGeneralProperties(original);
-		value = new UniversalCharstring(original.getValue());
+		value = new UniversalCharstring(original.getValue(), original.getLocation());
 	}
 
 	@Override

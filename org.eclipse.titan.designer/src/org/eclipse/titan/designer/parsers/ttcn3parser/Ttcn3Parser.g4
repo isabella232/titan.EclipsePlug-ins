@@ -6061,7 +6061,7 @@ pr_CharStringValue returns[Value value]
 		{	if(UniversalCharstring.isCharstring($string_value.string)) {
 				$value = new Charstring_Value($string_value.string);
 			} else {
-				$value = new UniversalCharstring_Value( new UniversalCharstring($string_value.string));
+				$value = new UniversalCharstring_Value( new UniversalCharstring($string_value.string, getLocation( $start, $start)));
 			}
 		}
 |	ustring_value = pr_Quadruple { $value = new UniversalCharstring_Value($ustring_value.string); }

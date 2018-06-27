@@ -405,7 +405,7 @@ public final class StringConcatenationExpression extends Expression_Value {
 			final String string1 = ((Charstring_Value) last1).getValue();
 			if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(last2.getValuetype())) {
 				final UniversalCharstring string2 = ((UniversalCharstring_Value) last2).getValue();
-				lastValue = new UniversalCharstring_Value(new UniversalCharstring(string1).append(string2));
+				lastValue = new UniversalCharstring_Value(new UniversalCharstring(string1, last1.getLocation()).append(string2));
 			} else {
 				final String string2 = ((Charstring_Value) last2).getValue();
 				lastValue = new Charstring_Value(string1 + string2);

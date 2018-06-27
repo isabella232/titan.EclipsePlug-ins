@@ -4,6 +4,7 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 
 /**
@@ -307,14 +308,15 @@ public class PredefFunc {
 		return CharCoding.UTF_8;
 	}
 
-	public static CharCoding get_stringencoding(final String encoded_value) {
+	public static CharCoding get_stringencoding(final String encoded_value, final Location location) {
 		final int length = encoded_value.length();
 		if (0 == length) {
 			return CharCoding.UNKNOWN;
 		}
 
 		if ( length % 2 != 0 ) {
-			// Wrong string. The number of nibbles ({0}) in string shall be divisible by 2
+			location.reportSemanticError(MessageFormat.format("get_stringencoding(): Wrong string. The number of nibbles ({0}) in string shall be divisible by 2", length));
+
 			return CharCoding.UNKNOWN;
 		}
 

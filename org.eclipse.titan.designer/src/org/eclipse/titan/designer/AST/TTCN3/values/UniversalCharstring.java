@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type.CharCoding;
 import org.eclipse.titan.designer.AST.TTCN3.values.PredefFunc.DecodeException;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -43,7 +44,8 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 * Constructor
 	 * @param aValue TTCN-3 charstring value, it can contain escape characters
 	 */
-	public UniversalCharstring(final String string) {
+	public UniversalCharstring(final String string, final Location location) {
+		//TODO: this kind of check might be better done at semantic checking time.
 		//TODO: make UTF-8 checking faster, converting each string to octetstring is not very effective (also on the C++ side)
 		// Check for UTF8 encoding and decode it
 		// in case the editor encoded the TTCN-3 file with UTF-8
@@ -58,7 +60,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			}
 		}
 
-		final CharCoding coding = PredefFunc.get_stringencoding(octet_str.toString());
+		final CharCoding coding = PredefFunc.get_stringencoding(octet_str.toString(), location);
 		if (CharCoding.UTF_8 == coding) {
 			try {
 				UniversalCharstring ucs = PredefFunc.decode_utf8(octet_str.toString(), CharCoding.UTF_8);

@@ -373,7 +373,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			case CHARSTRING_VALUE:
 				sc = new StringSetConstraint(StringSubtypeTreeElement.StringType.UNIVERSAL_CHARSTRING,
 						StringSetConstraint.ConstraintType.VALUE_CONSTRAINT, new UStringValueConstraint(
-								new UniversalCharstring(((Charstring_Value) last).getValue())));
+								new UniversalCharstring(((Charstring_Value) last).getValue(), last.getLocation())));
 				break;
 			case UNIVERSALCHARSTRING_VALUE:
 				sc = new StringSetConstraint(StringSubtypeTreeElement.StringType.UNIVERSAL_CHARSTRING,
@@ -666,7 +666,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			UniversalCharstring minString;
 			switch (vmin.getValuetype()) {
 			case CHARSTRING_VALUE:
-				minString = new UniversalCharstring(((Charstring_Value) vmin).getValue());
+				minString = new UniversalCharstring(((Charstring_Value) vmin).getValue(), vmin.getLocation());
 				break;
 			case UNIVERSALCHARSTRING_VALUE:
 				minString = ((UniversalCharstring_Value) vmin).getValue();
@@ -677,7 +677,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			UniversalCharstring maxString;
 			switch (vmax.getValuetype()) {
 			case CHARSTRING_VALUE:
-				maxString = new UniversalCharstring(((Charstring_Value) vmax).getValue());
+				maxString = new UniversalCharstring(((Charstring_Value) vmax).getValue(), vmax.getLocation());
 				break;
 			case UNIVERSALCHARSTRING_VALUE:
 				maxString = ((UniversalCharstring_Value) vmax).getValue();
@@ -1082,7 +1082,7 @@ public final class SubType implements IIncrementallyUpdateable {
 				isValid = subtypeConstraint.isElement(((Charstring_Value) last).getValue());
 				break;
 			case ST_UNIVERSAL_CHARSTRING:
-				isValid = subtypeConstraint.isElement(new UniversalCharstring(((Charstring_Value) last).getValue()));
+				isValid = subtypeConstraint.isElement(new UniversalCharstring(((Charstring_Value) last).getValue(), last.getLocation()));
 				break;
 			default:
 				ErrorReporter.INTERNAL_ERROR();

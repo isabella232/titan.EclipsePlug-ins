@@ -257,14 +257,14 @@ public final class UniversalCharstring_Type extends Type {
 			if (lower != null && upper != null) {
 				UniversalCharstring value1;
 				if (Value_type.CHARSTRING_VALUE.equals(lower.getValuetype())) {
-					value1 = new UniversalCharstring(((Charstring_Value) lower).getValue());
+					value1 = new UniversalCharstring(((Charstring_Value) lower).getValue(), lower.getLocation());
 				} else {
 					value1 = ((UniversalCharstring_Value) lower).getValue();
 				}
 
 				UniversalCharstring value2;
 				if (Value_type.CHARSTRING_VALUE.equals(upper.getValuetype())) {
-					value2 = new UniversalCharstring(((Charstring_Value) upper).getValue());
+					value2 = new UniversalCharstring(((Charstring_Value) upper).getValue(), upper.getLocation());
 				} else {
 					value2 = ((UniversalCharstring_Value) upper).getValue();
 				}
