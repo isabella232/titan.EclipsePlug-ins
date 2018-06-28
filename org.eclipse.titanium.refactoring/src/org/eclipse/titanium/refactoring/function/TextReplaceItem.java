@@ -217,13 +217,14 @@ final class TextReplaceItem implements Comparator<TextReplaceItem>, Comparable<T
 
 		int o0 = arg0.getLocation().getOffset();
 		int o1 = arg1.getLocation().getOffset();
-		final int comp1 = (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
+		final int comp1 = (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);
 		if (comp1 != 0) {
 			return comp1;
 		}
+
 		o0 = arg0.getLocation().getEndOffset();
 		o1 = arg1.getLocation().getEndOffset();
-		return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
+		return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);
 	}
 	@Override
 	public int compareTo(final TextReplaceItem arg0) {

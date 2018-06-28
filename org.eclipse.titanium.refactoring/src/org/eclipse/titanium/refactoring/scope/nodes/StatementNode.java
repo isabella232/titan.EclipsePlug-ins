@@ -256,7 +256,7 @@ public class StatementNode extends Node {
 			final int ind0 = it0.next();
 			final int ind1 = it1.next();
 			if (ind0 != ind1) {
-				return (ind0 < ind1) ? -1 : ((ind0 == ind1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
+				return (ind0 < ind1) ? -1 : ((ind0 == ind1) ? 0 : 1);
 			}
 		}
 		ErrorReporter.logError("StatementNode.compareCurrentPositionTo(): Erroneous state: " + Utils.createLocationString(astNode));

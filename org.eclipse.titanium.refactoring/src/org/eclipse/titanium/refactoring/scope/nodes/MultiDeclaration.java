@@ -79,11 +79,12 @@ public class MultiDeclaration {
 			final Location loc1 = ds1.getDefinition().getLocation();
 			final int o0 = loc0.getOffset();
 			final int o1 = loc1.getOffset();
-			final int result = (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
+			final int result = (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);
 			if (result == 0 && ds0 != ds1) {
 				ErrorReporter.logError("MultiDeclarationComparator: " +
 						"Overlapping Variable declarations at: " + loc0.getOffset() + "-" + loc0.getEndOffset() + " in file: " + loc0.getFile());
 			}
+
 			return result;
 		}
 

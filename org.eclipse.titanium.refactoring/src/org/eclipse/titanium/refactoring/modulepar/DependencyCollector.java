@@ -260,7 +260,7 @@ public class DependencyCollector {
 
 			final int o0 = getNodeOffset(arg0);
 			final int o1 = getNodeOffset(arg1);
-			return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
+			return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);
 		}
 
 	}
