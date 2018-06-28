@@ -128,6 +128,9 @@ public final class TtcnLogger {
 	private static String executable_name;
 
 	private static log_event_types_t log_entity_name = log_event_types_t.LOGEVENTTYPES_NO;
+	
+	/// The default log format is the legacy (original) format.
+	private static data_log_format_t data_log_format = data_log_format_t.LF_LEGACY;
 
 	public static enum component_id_selector_enum {
 		COMPONENT_ID_NAME,
@@ -174,6 +177,9 @@ public final class TtcnLogger {
 
 	public static enum matching_verbosity_t { VERBOSITY_COMPACT, VERBOSITY_FULL };
 	public static enum extcommand_t {EXTCOMMAND_START, EXTCOMMAND_SUCCESS };
+
+	/** Values and templates can be logged in the following formats */
+	public static enum data_log_format_t { LF_LEGACY, LF_TTCN };
 
 	public static void set_matching_verbosity(final matching_verbosity_t v) {
 		matching_verbosity = v;
@@ -764,12 +770,29 @@ public final class TtcnLogger {
 	}
 
 	public static void log_event_uninitialized() {
-		log_event_str("<uninitialized template>");
+		switch (data_log_format) {
+		case LF_LEGACY:
+			log_event_str("<uninitialized template>");
+			break;
+		case LF_TTCN:
+			log_char('-');
+			break;
+		default:
+			log_event_str("<unknown>");
+		}
 	}
 
 	public static void log_event_enum(final String enum_name_str, final int enum_value) {
-		//FIXME this is a bit more complicated
-		log_event("%s (%d)", enum_name_str, enum_value);
+		switch (data_log_format) {
+		case LF_LEGACY:
+			log_event("%s (%d)", enum_name_str, enum_value);
+			break;
+		case LF_TTCN:
+			log_event_str(enum_name_str);
+			break;
+		default:
+			log_event_str("<unknown>");
+		}
 	}
 
 	public static boolean isPrintable(final char c) {
@@ -866,7 +889,16 @@ public final class TtcnLogger {
 	}
 
 	public static void log_event_unbound() {
-		log_event_str("<unbound>");
+		switch (data_log_format) {
+		case LF_LEGACY:
+			log_event_str("<unbound>");
+			break;
+		case LF_TTCN:
+			log_char('-');
+			break;
+		default:
+			log_event_str("<unknown>");
+		}
 	}
 
 	public static void log_octet( final char aOctet ) {
@@ -964,6 +996,14 @@ public final class TtcnLogger {
 
 	public static log_event_types_t get_log_entity_name() {
 		return log_entity_name;
+	}
+	
+	public static data_log_format_t get_log_format() {
+		return data_log_format;
+	}
+	
+	public static void set_log_format(final data_log_format_t p_data_log_format) {
+		data_log_format = p_data_log_format;
 	}
 
 	public static void print_logmatch_buffer() {
@@ -1112,7 +1152,6 @@ public final class TtcnLogger {
 			executable_name = executable_name + file_name.replace(".jar", "");
 		} else {
 			executable_name = System.getProperty("user.dir");
-			//TODO: need to test
 			executable_name = executable_name.substring(executable_name.lastIndexOf(File.separator) + 1);
 		}
 	}
