@@ -105,6 +105,19 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 	};
 
+	public void reset() {
+		disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
+		disk_full_action_.retry_interval = 0;
+		logfile_size_ = 0;
+		logfile_number_ = 1;
+		logfile_bytes_ = 0;
+		logfile_index_ = 1;
+		is_disk_full_ = false;
+		skeleton_given_ = false;
+		append_file_ = false;
+		is_configured = false;
+	}
+
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {
 		if (separate_file) {
 			log_file_emerg(event);
@@ -233,7 +246,6 @@ public class LegacyLogger implements ILoggerPlugin {
     the empty string.
     @return an String with the actual filename.**/
 	private String get_file_name(final int idx) {
-		//TODO: initial implement
 		if (filename_skeleton_ == null) {
 			return null;
 		}
@@ -276,7 +288,6 @@ public class LegacyLogger implements ILoggerPlugin {
 				h_present = true;
 				break;
 			case 'l': //%l -> login name
-				//TODO: need to test
 				ret_val.append(System.getProperty("user.name").toString());
 				break;
 			case 'n': //%n -> component name (optional)
@@ -427,7 +438,6 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	private boolean log_file_emerg(final TitanLoggerApi.TitanLogEvent event) {
-		//TODO: initial implement
 		boolean write_succes = true;
 		final String event_str = event_to_string(event, false);
 		if (event_str == null) {
@@ -435,12 +445,12 @@ public class LegacyLogger implements ILoggerPlugin {
 			return true;
 		}
 		if (er_ == null) {
-			set_file_name(TTCN_Runtime.is_single() ? (logfile_number_ == 1 ? "%e_emergency.%s" : "%e-part%i_emergency.%s") : (logfile_number_ == 1 ? "%e.%h-%r_emergency.%s" : "%e.%h-%r-part%i_emergency.%s"), false);
 			String filename_emergency = get_file_name(0);
-
 			if (filename_emergency == null) {
 				// Valid filename is not available, use specific one.
 				filename_emergency = "emergency.log";
+			} else {
+				filename_emergency += "_emergency";
 			}
 			er_ = new File(filename_emergency);
 			if (er_ == null) {
@@ -462,7 +472,6 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	private boolean log_file(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered) {
-		//TODO: initial implement
 		if (is_disk_full_) {
 			if (disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
 				final int event_timestamp_seconds = event.getTimestamp().getSeconds().getInt();
@@ -595,7 +604,6 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 	
 	private boolean log_to_file(final String message_ptr) {
-		//TODO: initial implement
 		boolean is_success = true;
 		//TODO: need to test the append
 		if (append_file_) {
