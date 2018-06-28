@@ -215,9 +215,8 @@ public final class LogArgument extends ASTNode implements ILocateableNode, IIncr
 			return;
 		}
 
-		//TODO: Is the next part necessary ???
 		temp.setMyGovernor(governor);
-		governor.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, true, true, true, true, false));//TODO:WHY
+		governor.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_TEMPLATE, false, false, true, false, false));
 
 		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 		if (ArgumentType.Value.equals(internalLogArgument.getArgumentType()) && !temp.isUnfoldable(timestamp)) {
