@@ -255,9 +255,10 @@ class ChangeCreator {
 			if (!f0.equals(f1)) {
 				return f0.getFullPath().toString().compareTo(f1.getFullPath().toString());
 			}
+
 			final int o0 = arg0.getLocation().getOffset();
 			final int o1 = arg1.getLocation().getOffset();
-			return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);//TODO update with Java 1.7 to Integer.compare
+			return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);
 		}
 
 	}
