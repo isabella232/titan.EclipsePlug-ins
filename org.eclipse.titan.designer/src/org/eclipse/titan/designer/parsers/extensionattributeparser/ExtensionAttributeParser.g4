@@ -54,8 +54,6 @@ import org.eclipse.titan.designer.AST.TTCN3.types.*;
 
 /*
  * @author Kristof Szabados
- *
- * FIXME location information is incorrect yet
  * */
 options {
 tokenVocab=ExtensionAttributeLexer;
