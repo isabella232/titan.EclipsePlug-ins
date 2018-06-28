@@ -13,6 +13,7 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public interface ILoggerPlugin {
+	void reset();
 	void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask);
 	void set_file_name(final String new_filename_skeleton, final boolean from_config);
 	void set_append_file(final boolean new_append_file);
