@@ -16,16 +16,19 @@ import org.eclipse.titan.executor.tabpages.maincontroller.MctrCliMainControllerT
  * */
 public final class LaunchShortcut extends org.eclipse.titan.executor.executors.LaunchShortcut {
 	@Override
+	/** {@inheritDoc} */
 	protected String getConfigurationId() {
 		return "org.eclipse.titan.executor.executors.mctr.cli.LaunchConfigurationDelegate";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getDialogTitle() {
 		return "Select (parallel) mctr_cli mode execution configuration";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration, final IProject project, final String configFilePath) {
 		return MctrCliMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath);
 	}

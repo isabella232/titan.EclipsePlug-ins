@@ -32,8 +32,11 @@ import org.eclipse.titan.executor.tabpages.hostcontrollers.HostControllersTab;
 import org.eclipse.ui.IEditorPart;
 import org.eclipse.ui.dialogs.ElementListSelectionDialog;
 
-//FIXME comment
 /**
+ * This class lets the user create a launch configuration via a shortcut.
+ * By selecting a project and the proper type of launch configuration in the runs on menu, a temporal launch configuration is created.
+ * If this is a new launch configuration it is saved with a temporal name, if something with the same selection input can be found it is reused.
+ * 
  * @author Kristof Szabados
  * */
 public abstract class LaunchShortcut implements ILaunchShortcut {
@@ -50,6 +53,14 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 	public abstract boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration,
 			final IProject project, final String configFilePath);
 
+	/**
+	 * Creates a working copy of the launch configuration from the available information,
+	 * that can be used to initialize the pages of the launch configuration.
+	 *
+	 *  @param project the project to use.
+	 *  @param file the file selected by the user.
+	 *  @param mode one of the launch modes defined by the launch manager
+	 * */
 	protected ILaunchConfigurationWorkingCopy getWorkingCopy(final IProject project, final IFile file, final String mode) {
 
 		try {
@@ -103,12 +114,14 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void launch(final IEditorPart editor, final String mode) {
 		// Execution from editors is not supported
 		ErrorReporter.INTERNAL_ERROR("LaunchShortcut.launch called from an editor even though it is no registered to support such calls.");
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public final void launch(final ISelection selection, final String mode) {
 		if (!(selection instanceof IStructuredSelection)) {
 			return;

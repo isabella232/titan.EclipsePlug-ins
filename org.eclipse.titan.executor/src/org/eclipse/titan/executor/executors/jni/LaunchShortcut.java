@@ -17,16 +17,19 @@ import org.eclipse.titan.executor.tabpages.maincontroller.JNIMainControllerTab;
 public final class LaunchShortcut extends org.eclipse.titan.executor.executors.LaunchShortcut {
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getConfigurationId() {
 		return "org.eclipse.titan.executor.executors.jni.LaunchConfigurationDelegate";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	protected String getDialogTitle() {
 		return "Select (parallel) jni mode execution configuration";
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration, final IProject project, final String configFilePath) {
 		return JNIMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath);
 	}
