@@ -52,9 +52,7 @@ public final class Macro_InternalLogArgument extends InternalLogArgument {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
-		//FIXME somewhat more complicated
 		if (value != null) {
-			//TODO this will be the final code generator
 			if (value.canGenerateSingleExpression()) {
 				expression.expression.append(MessageFormat.format("TtcnLogger.log_event_Str({0})", value.generateSingleExpression(aData)));
 			} else {
