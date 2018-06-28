@@ -2670,8 +2670,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			if (!tempCodingType.builtIn) {
 				//encoder
 				encoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
-				//TODO handle reference if needed
-				CoderFunction_Type encoderFunction = tempCodingType.customCoding.encoders.get(this);
+				final CoderFunction_Type encoderFunction = tempCodingType.customCoding.encoders.get(this);
 				if (encoderFunction == null) {
 					encoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' encoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 				} else {
@@ -2687,8 +2686,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 				// decoder
 				decoderString.append(MessageFormat.format("if (coding_name.operatorEquals(\"{0}\")) '{'\n", tempCodingType.customCoding.name));
-				//TODO handle reference if needed
-				CoderFunction_Type decoderFunction = tempCodingType.customCoding.decoders.get(this);
+				final CoderFunction_Type decoderFunction = tempCodingType.customCoding.decoders.get(this);
 				if (decoderFunction == null) {
 					decoderString.append(MessageFormat.format("throw new TtcnError(\"No `{0}'' decoding function defined for type `{1}''\");\n", tempCodingType.customCoding.name, getTypename()));
 				} else {
