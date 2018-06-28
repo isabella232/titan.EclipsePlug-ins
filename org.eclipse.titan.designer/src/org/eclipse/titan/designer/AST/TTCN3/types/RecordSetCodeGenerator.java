@@ -159,6 +159,7 @@ public class RecordSetCodeGenerator {
 		generateGettersSetters( source, fieldInfos );
 		generateSizeOf( source, fieldInfos );
 		generateLog( source, fieldInfos );
+		generateValueSetImplicitOmit(source, fieldInfos);
 		generateValueEncodeDecodeText(source, fieldInfos);
 		generateValueEncodeDecode(aData, source, className, classDisplayname, fieldInfos, isSet, rawNeeded, raw);
 
@@ -529,6 +530,34 @@ public class RecordSetCodeGenerator {
 		}
 		aSb.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
 		aSb.append("\t\t}\n");
+	}
+
+	/**
+	 * Generate set_implicit_omit.
+	 *
+	 * @param aSb the output, where the java code is written
+	 * @param aNamesList sequence field variable and type names
+	 */
+	private static void generateValueSetImplicitOmit(final StringBuilder aSb, final List<FieldInfo> aNamesList) {
+		aSb.append("\t\t@Override\n");
+		aSb.append("\t\tpublic void set_implicit_omit() {\n");
+
+		for (int i = 0 ; i < aNamesList.size(); i++) {
+			final FieldInfo fieldInfo = aNamesList.get(i);
+
+			if (fieldInfo.isOptional) {
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isBound()) '{'\n", fieldInfo.mVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\t\t{0}.set_implicit_omit();\n", fieldInfo.mVarName ) );
+				aSb.append("\t\t\t} else {\n");
+				aSb.append( MessageFormat.format( "\t\t\t\t{0}.assign(template_sel.OMIT_VALUE);\n", fieldInfo.mVarName ) );
+				aSb.append("\t\t\t}\n");
+			} else {
+				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isBound()) '{'\n", fieldInfo.mVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\t\t{0}.set_implicit_omit();\n", fieldInfo.mVarName ) );
+				aSb.append("\t\t\t}\n");
+			}
+		}
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**

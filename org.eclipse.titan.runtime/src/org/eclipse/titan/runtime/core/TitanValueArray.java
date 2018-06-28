@@ -87,6 +87,12 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		indexOffset = offset;
 	}
 
+	@Override
+	public void set_implicit_omit() {
+		for (int i = 0; i < array_size; ++i) {
+			array_elements[i].set_implicit_omit();
+		}
+	}
 
 	@Override
 	public boolean isPresent() {

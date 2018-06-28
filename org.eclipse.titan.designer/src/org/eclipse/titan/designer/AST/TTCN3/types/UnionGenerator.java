@@ -118,6 +118,9 @@ public class UnionGenerator {
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
 		generateValueLog(source, fieldInfos);
+		if (fieldInfos.size() > 0) {
+			generateValueSetImplicitOmit(source, fieldInfos);
+		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded, hasRaw, raw);
 		//FIXME implement set_param
@@ -451,6 +454,30 @@ public class UnionGenerator {
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("}\n");
+	}
+
+	/**
+	 * Generate set_implicit_omit.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 */
+	private static void generateValueSetImplicitOmit(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void set_implicit_omit() {\n");
+		source.append("switch (union_selection) {\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
+		}
+		source.append("field.set_implicit_omit();\n");
+		source.append("break;\n");
+
+		source.append("default:\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**

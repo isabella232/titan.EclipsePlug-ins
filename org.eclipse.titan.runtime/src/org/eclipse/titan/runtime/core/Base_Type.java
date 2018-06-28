@@ -108,6 +108,10 @@ public abstract class Base_Type {
 		TtcnLogger.end_event();
 	}
 
+	public void set_implicit_omit() {
+		//default implementation is intentionally empty
+	}
+
 	public abstract void encode_text(final Text_Buf text_buf);
 
 	public abstract void decode_text(final Text_Buf text_buf);

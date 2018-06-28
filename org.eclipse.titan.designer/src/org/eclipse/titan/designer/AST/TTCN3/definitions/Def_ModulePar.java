@@ -64,6 +64,9 @@ public final class Def_ModulePar extends Definition {
 	private final Type type;
 	private final Value defaultValue;
 
+	//store for code generation if the last semantic checking found implicit omit for this module parameter.
+	private boolean hasImplicitOmit;
+
 	public Def_ModulePar(final Identifier identifier, final Type type, final Value defaultValue) {
 		super(identifier);
 		this.type = type;
@@ -161,6 +164,7 @@ public final class Def_ModulePar extends Definition {
 		T3Doc.check(this.getCommentLocation(), KIND);
 
 		isUsed = false;
+		hasImplicitOmit = false;
 
 		NamingConventionHelper.checkConvention(PreferenceConstants.REPORTNAMINGCONVENTION_MODULEPAR, identifier, this);
 		NamingConventionHelper.checkNameContents(identifier, getMyScope().getModuleScope().getIdentifier(), getDescription());
@@ -196,11 +200,13 @@ public final class Def_ModulePar extends Definition {
 			break;
 		}
 
+		hasImplicitOmit = hasImplicitOmitAttribute(timestamp);
+
 		if (defaultValue != null) {
 			defaultValue.setMyGovernor(type);
 			final IValue temporalValue = type.checkThisValueRef(timestamp, defaultValue);
 			type.checkThisValue(timestamp, temporalValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, true, false,
-					true, hasImplicitOmitAttribute(timestamp), false));
+					true, hasImplicitOmit, false));
 			defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
 		}
 	}
@@ -416,7 +422,10 @@ public final class Def_ModulePar extends Definition {
 		}
 		sb.append(source);
 
-		//TODO remaining functionality: implicit omit
+		if (hasImplicitOmit) {
+			aData.getPostInit().append(MessageFormat.format("{0}.set_implicit_omit();\n", genName));
+		}
+
 		final StringBuilder moduleParamaterSetting = aData.getSetModuleParameters();
 		moduleParamaterSetting.append(MessageFormat.format("if(par_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
 		moduleParamaterSetting.append(MessageFormat.format("{0}.set_param(param);\n", genName));

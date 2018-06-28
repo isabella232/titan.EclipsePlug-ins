@@ -80,6 +80,7 @@ public class RecordOfGenerator {
 		generateValueToString( source );
 		generateValueReplace( source, genName, ofTypeName, displayName );
 		generateValueLog( source );
+		generateValueSetImplicitOmit(source);
 		generateValueEncodeDecodeText(source, ofTypeName, displayName);
 		generateValueEncodeDecode(source, ofTypeName, displayName, rawNeeded);
 
@@ -750,6 +751,24 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n");
 		source.append("\t\tTtcnLogger.log_event_str(\" }\");\n");
 		source.append("\t}\n");
+	}
+
+	/**
+	 * Generate set_implicit_omit.
+	 *
+	 * @param source where the source code is to be generated.
+	 */
+	private static void generateValueSetImplicitOmit(final StringBuilder source) {
+		source.append("\t\t@Override\n");
+		source.append("\t\tpublic void set_implicit_omit() {\n");
+		source.append("\t\t\tif(valueElements == null) {\n");
+		source.append("\t\t\t\treturn;\n");
+		source.append("\t\t\t}\n");
+
+		source.append("\t\t\tfor (int i = 0; i < valueElements.size(); i++) {\n");
+		source.append("\t\t\t\tvalueElements.get(i).set_implicit_omit();\n");
+		source.append("\t\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**

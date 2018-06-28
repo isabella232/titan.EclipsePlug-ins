@@ -428,7 +428,6 @@ public final class Def_ModulePar_Template extends Definition {
 		}
 		sb.append(source);
 
-		//TODO remaining functionality: implicit omit
 		final StringBuilder moduleParamaterSetting = aData.getSetModuleParameters();
 		moduleParamaterSetting.append(MessageFormat.format("if(par_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
 		moduleParamaterSetting.append(MessageFormat.format("{0}.set_param(param);\n", genName));
