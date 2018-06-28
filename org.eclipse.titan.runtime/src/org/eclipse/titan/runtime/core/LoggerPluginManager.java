@@ -137,6 +137,43 @@ public class LoggerPluginManager {
 
 		ring_buffer.clear();
 	}
+	
+	// If an event appears before any logger is configured we have to pre-buffer it.
+	public void internal_prebuff_logevent(final TitanLogEvent event) {
+		LogEntry new_entry = new LogEntry(event);
+		if (entry_list_ == null) {
+			entry_list_ = new LinkedList<LogEntry>();
+			entry_list_.add(new_entry);
+		} else {
+			entry_list_.add(new_entry);
+		}
+	}
+	
+	// When the loggers get configured we have to log everything we have buffered so far
+	public void internal_log_prebuff_logevent() {
+		if (entry_list_ == null) {
+			return;
+		} else {
+			for (LogEntry entry : entry_list_) {
+				if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+					String new_log_message = TtcnLogger.get_logger_settings_str();
+					entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
+					new_log_message = null;
+				}
+				internal_log_to_all(entry.event_, true, false, false);
+			}
+		}
+		entry_list_.clear();
+	}
+
+	public boolean plugins_ready() {
+		for (int i = 0; i < plugins_.size(); i++) {
+			if (plugins_.get(i).is_configured()) {
+				return true;
+			}
+		}
+		return false;
+	}
 
 	/**
 	 * The internal logging function representing the interface between the logger and the loggerPluginManager.
@@ -147,7 +184,12 @@ public class LoggerPluginManager {
 	 * quickly becoming deprecated
 	 * */
 	private void log(final TitanLoggerApi.TitanLogEvent event) {
-		//FIXME handle pre-buffered events
+		if (!plugins_ready()) {
+			// buffer quick events
+			internal_prebuff_logevent(event);
+		}
+		// Init phase, log prebuffered events first if any.
+		internal_log_prebuff_logevent();
 
 		if (TtcnLogger.get_emergency_logging() == 0) {
 			// emergency logging is not needed

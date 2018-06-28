@@ -1313,7 +1313,6 @@ public class TitanInteger extends Base_Type {
 					}
 					if (twos_compl != 0) {
 						final BigInteger D_tmp = BigInteger.ZERO;
-						D_tmp.setBit(D.bitLength());
 						D = D.subtract(D_tmp);
 					} else if (negativ_num) {
 						D = D.negate();
