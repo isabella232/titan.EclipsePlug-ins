@@ -34,6 +34,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -513,7 +514,9 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 
 			// perform the modifications on the temporary variable
 			templateBody.generateCodeInit(aData, expression.preamble, tempId);
-			//TODO implement runtime restriction check
+			if (templateRestriction != Restriction_type.TR_NONE) {
+				TemplateRestriction.generateRestrictionCheckCode(aData, expression.preamble, location, tempId, templateRestriction);
+			}
 
 			expression.expression.append(tempId);
 		} else {
@@ -558,7 +561,10 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 					// the embedded referenced templates shall be visited
 					template.reArrangeInitCode(aData, source, usageModule);
 
-					//FIXME implement
+					// the constants used for default values have to be initialized now
+					if (assignment.getMyScope().getModuleScope() == usageModule) {
+						formalParameterList.generateCodeDefaultValues(aData, source);
+					}
 				} else {
 					// the referred template is not parameterized
 					// its entire body has to be initialized now
