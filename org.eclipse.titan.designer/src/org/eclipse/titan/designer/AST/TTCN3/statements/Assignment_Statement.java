@@ -330,7 +330,7 @@ public final class Assignment_Statement extends Statement {
 				}
 				break;
 			default:
-				value.getLocation().reportSemanticError(OMITTOMANDATORYASSIGNMENT1);//TODO:check this!!!
+				value.getLocation().reportSemanticError(OMITTOMANDATORYASSIGNMENT1);
 				value.setIsErroneous(true);
 				isErroneous = true;
 				break;
