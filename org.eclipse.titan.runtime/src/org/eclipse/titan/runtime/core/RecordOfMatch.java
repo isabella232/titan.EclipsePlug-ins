@@ -25,7 +25,15 @@ public class RecordOfMatch {
 	 */
 	public interface match_function_t {
 
-		//TODO: comment
+		/**
+		 * Match subsequent values and templates, during matching of set of -s..
+		 *
+		 * @param value_ptr the value object.
+		 * @param object the template object.
+		 * @param i the index of the value element to be logged.
+		 * @param j the index of the template element to be logged.
+		 * @param legacy use legacy logging.
+		 * */
 		boolean match(Base_Type value_ptr, int value_index, Restricted_Length_Template template_ptr, int template_index, boolean legacy);
 	}
 
@@ -35,7 +43,15 @@ public class RecordOfMatch {
 	 */
 	public interface compare_function_t {
 
-		//TODO: comment
+		/**
+		 * Compare subsequent values and templates, during equivalency comparisons of set of -s..
+		 *
+		 * @param value_ptr the value object.
+		 * @param object the template object.
+		 * @param i the index of the value element to be logged.
+		 * @param j the index of the template element to be logged.
+		 * @param legacy use legacy logging.
+		 * */
 		boolean compare(Base_Type left_ptr, int left_index, Base_Type right_ptr, int right_index);
 	}
 
@@ -45,16 +61,26 @@ public class RecordOfMatch {
 	 */
 	public interface log_function_t {
 
-		//TODO: comment
+		/**
+		 * Logs the matching of subsequent values and templates, during match logging.
+		 *
+		 * @param value_ptr the value object.
+		 * @param object the template object.
+		 * @param i the index of the value element to be logged.
+		 * @param j the index of the template element to be logged.
+		 * @param legacy use legacy logging.
+		 * */
 		void log(Base_Type value_ptr, Restricted_Length_Template object, int i, int j, boolean legacy);
 	}
 
-	// TODO: comment
+	/**
+	 * Used by the internal permutation matcher to tell if it was successful, if it failed, or the template has no chance of matching the value.
+	 * */
 	public enum answer {
 		FAILURE, SUCCESS, NO_CHANCE
 	};
 
-	// TODO: comment
+	// when matching set of -s, this enum tells to treat the set as a subset, superset or do exact matching.
 	public enum type_of_matching {
 		SUBSET, EXACT, SUPERSET
 	};
