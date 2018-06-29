@@ -946,7 +946,8 @@ public final class TtcnLogger {
 
 	public static void write_logger_settings() {
 		final String new_log_message = get_logger_settings_str();
-		//FIXME implement
+		// If we get called too early (and become buffered), the logger options
+		// must be updated.  By default the initial values are used.
 		get_logger_plugin_manager().log_log_options(new_log_message);
 	}
 
