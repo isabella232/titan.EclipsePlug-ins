@@ -718,7 +718,6 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		//TODO: ???
 		return getGenNameOwn(scope);
 	}
 
