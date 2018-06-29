@@ -455,7 +455,6 @@ public class TTCN_Buffer {
 	public void get_string(final TitanUniversalCharString p_cs) {
 		p_cs.cleanUp();
 		if (buf_len > 0) {
-			// TODO what if not multiple of 4 ?
 			final List<TitanUniversalChar> data = new ArrayList<TitanUniversalChar>(data_ptr.length / 4);
 			for (int i = 0; i < buf_len / 4; i++) {
 				data.add(new TitanUniversalChar(data_ptr[4 * i], data_ptr[4 * i + 1], data_ptr[4 * i + 2], data_ptr[4 * i + 3]));
@@ -1254,12 +1253,7 @@ public class TTCN_Buffer {
 		}
 		final RAW_coding_par cp = new RAW_coding_par(raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,
 				raw_order_t.ORDER_LSB, fieldorder);
-
-		char[] str = new char[s.length()];//TODO maybe can be faster
-		for (int i = 0; i < s.length(); i++) {
-			str[i] = s.charAt(i);
-		}
-
+		char[] str = s.toCharArray();
 		int length = len;
 		while (length > 0) {
 			put_b(length > pat_len ? pat_len : length, str, cp, 0);
