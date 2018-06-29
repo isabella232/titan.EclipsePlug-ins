@@ -23,7 +23,6 @@ import org.eclipse.titan.designer.editors.DocumentTracker;
 import org.eclipse.titan.designer.editors.EditorTracker;
 import org.eclipse.titan.designer.editors.GlobalIntervalHandler;
 import org.eclipse.titan.designer.parsers.GlobalParser;
-import org.eclipse.titan.designer.parsers.ProjectConfigurationParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;

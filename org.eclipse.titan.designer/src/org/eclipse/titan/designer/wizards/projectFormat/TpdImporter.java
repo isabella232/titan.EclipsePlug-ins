@@ -62,7 +62,6 @@ import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.graphics.ImageCache;
-import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
 import org.eclipse.titan.designer.properties.data.DOMErrorHandlerImpl;
 import org.eclipse.titan.designer.properties.data.ProjectBuildPropertyData;

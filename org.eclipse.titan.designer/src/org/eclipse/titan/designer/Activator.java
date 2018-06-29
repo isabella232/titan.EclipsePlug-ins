@@ -43,7 +43,6 @@ import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.MarkerHandler;
 import org.eclipse.titan.designer.core.CompilerVersionInformationCollector;
 import org.eclipse.titan.designer.core.ProjectBasedBuilder;
-import org.eclipse.titan.designer.core.SymbolicLinkHandler;
 import org.eclipse.titan.designer.core.TITANBuilder;
 import org.eclipse.titan.designer.core.TITANNature;
 import org.eclipse.titan.designer.extensions.ExtensionHandler;
