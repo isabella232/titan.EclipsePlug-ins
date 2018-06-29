@@ -296,7 +296,19 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		setSize(size);
 	}
 
-	//TODO: TEMPLATE_ARRAY(const OPTIONAL< VALUE_ARRAY<T_value...>)
+	public TitanTemplateArray(final Optional<TitanValueArray<Tvalue>> other_value) {
+		cleanUp();
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copy_value(other_value.get());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Creating an array template from an unbound optional field.");
+		}
+	}
 
 	//FIXME: actualization
 	public void setSize(final int length) {
@@ -397,7 +409,20 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return this;
 	}
 
-	//TODO: operator=(Optional...)
+	public TitanTemplateArray<Tvalue, Ttemplate> assign(final Optional<TitanValueArray<Tvalue>> other_value) {
+		cleanUp();
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copy_value(other_value.get());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Assignment of an unbound optional field to an array template.");
+		}
+		return this;
+	}
 
 	// originally operator=
 	public TitanTemplateArray<Tvalue, Ttemplate> assign(final TitanTemplateArray<Tvalue,Ttemplate> otherValue) {
