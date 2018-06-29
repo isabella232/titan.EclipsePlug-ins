@@ -651,7 +651,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	@Override
 	/** {@inheritDoc} */
 	public void encode_text(final Text_Buf text_buf) {
-		encode_text_restricted(text_buf);
+		encode_text_permutation(text_buf);
 
 		switch (templateSelection) {
 		case OMIT_VALUE:
@@ -680,7 +680,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	/** {@inheritDoc} */
 	public void decode_text(final Text_Buf text_buf) {
 		cleanUp();
-		decode_text_restricted(text_buf);
+		decode_text_permutation(text_buf);
 
 		switch (templateSelection) {
 		case OMIT_VALUE:
