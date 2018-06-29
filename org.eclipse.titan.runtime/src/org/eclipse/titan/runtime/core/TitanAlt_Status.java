@@ -15,8 +15,6 @@ package org.eclipse.titan.runtime.core;
  * @author Kristof Szabados
  */
 public enum TitanAlt_Status {
-	// TODO we might not need the ALT prefix in Java
-	// TODO check if we use unchecked and maybe correctly
 
 	// the branch status was not yet checked
 	ALT_UNCHECKED,
