@@ -806,7 +806,6 @@ public class TitanCharString extends Base_Type {
 		}
 		if (p_td.raw.length_restrition != -1 && decode_length > p_td.raw.length_restrition) {
 			if (p_td.raw.endianness == raw_order_t.ORDER_MSB) {
-				// TODO: need to check
 				val_ptr.insert(0, val_ptr.toString().toCharArray(), 0, val_ptr.length());
 			}
 		}
