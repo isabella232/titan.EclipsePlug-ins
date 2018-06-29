@@ -341,9 +341,6 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return new TitanInteger(array_size);
 	}
 
-	//TODO: void set_param(Module_Param)
-	//TODO: set_param
-
 	@Override
 	public String toString() {
 		final StringBuilder str = new StringBuilder("{");
@@ -414,8 +411,29 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		}
 	}
 
-	//FIXME implement encode
-	//FIXME implement decode
+	@Override
+	/** {@inheritDoc} */
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_JSON:
+			//TODO: implement
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type {0}", p_td.name));
+		}
+	}
+	
+	@Override
+	/** {@inheritDoc} */
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_JSON:
+			//TODO: implement
+			break;
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type {0}", p_td.name));
+		}
+	}
 
 	public TitanAlt_Status done(final TitanVerdictType value_redirect, final Index_Redirect index_redirect) {
 		if (index_redirect != null) {

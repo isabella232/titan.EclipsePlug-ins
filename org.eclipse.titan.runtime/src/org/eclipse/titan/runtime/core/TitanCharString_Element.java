@@ -252,10 +252,4 @@ public class TitanCharString_Element {
 			TtcnLogger.log_event_unbound();
 		}
 	}
-
-	//TODO: operatorEquals((TitanUniversalCharString) test
-	//TODO: operatorEquals((TitanUniversalCharString_Element) test
-	//TODO: operatorNotEquals((TitanUniversalCharString) test
-	//TODO: operatorNotEquals((TitanUniversalCharString_Element) test
-
 }
