@@ -1268,9 +1268,9 @@ public class LoggerPluginManager {
 		fill_common_fields(event, event_severity);
 		final ParPort pp = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPort();
 		pp.getOperation().assign(operation);
-		pp.getSrcCompref().assign(src_compref);//TODO needs adjusting
+		pp.getSrcCompref().assign(adjust_compref(src_compref));
 		pp.getSrcPort().assign(src_port);
-		pp.getDstCompref().assign(dst_compref); //TODO needs adjusting
+		pp.getDstCompref().assign(adjust_compref(dst_compref));
 		pp.getDstPort().assign(dst_port);
 
 		log(event);
