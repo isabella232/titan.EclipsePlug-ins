@@ -19,7 +19,9 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
+import org.eclipse.titan.designer.AST.TTCN3.values.Function_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -147,9 +149,21 @@ public final class Function_Applied_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
 		final IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
-		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
-			//TODO Optimize for easily resolvable value
+		if (last.getValuetype().equals(Value_type.FUNCTION_REFERENCE_VALUE)) {
+			final Function_Reference_Value refdValue = (Function_Reference_Value)last;
+			final Definition definition = refdValue.getReferredFunction();
+
+			expression.expression.append(definition.getGenNameFromScope(aData, source, myScope, ""));
+			expression.expression.append("(");
+			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
+				actualParameterList2.generateCodeAlias(aData, expression);
+			}
+			expression.expression.append(')');
+			expression.mergeExpression(source);
+
+			return;
 		}
+
 		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".invoke(");
 

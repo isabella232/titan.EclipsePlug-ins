@@ -19,7 +19,9 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
+import org.eclipse.titan.designer.AST.TTCN3.values.Altstep_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -160,7 +162,18 @@ public final class Altstep_Applied_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		final IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		if (last.getValuetype().equals(Value_type.ALTSTEP_REFERENCE_VALUE)) {
-			//TODO Optimize for easily resolvable value
+			final Altstep_Reference_Value refdValue = (Altstep_Reference_Value)last;
+			final Def_Altstep definition = refdValue.getReferredAltstep();
+
+			expression.expression.append(definition.getGenNameFromScope(aData, source, myScope, ""));
+			expression.expression.append("(");
+			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
+				actualParameterList2.generateCodeAlias(aData, expression);
+			}
+			expression.expression.append(')');
+			expression.mergeExpression(source);
+
+			return;
 		}
 		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".invoke_standalone(");

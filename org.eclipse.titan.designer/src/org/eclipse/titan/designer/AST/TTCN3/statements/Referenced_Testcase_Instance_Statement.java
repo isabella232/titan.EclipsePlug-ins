@@ -22,10 +22,12 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ParsedActualParameters;
 import org.eclipse.titan.designer.AST.TTCN3.types.Testcase_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Testcase_Reference_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -238,7 +240,24 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 		final ExpressionStruct expression = new ExpressionStruct();
 		final IValue last = dereferredValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE, null);
 		if (last.getValuetype().equals(Value_type.TESTCASE_REFERENCE_VALUE)) {
-			//TODO Optimize for easily resolvable value
+			final Testcase_Reference_Value refdValue = (Testcase_Reference_Value)last;
+			final Def_Testcase definition = refdValue.getReferredTestcase();
+
+			expression.expression.append(MessageFormat.format("testcase_{0}(", definition.getGenNameFromScope(aData, source, myScope, "")));
+			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
+				actualParameterList2.generateCodeAlias(aData, expression);
+				expression.expression.append(", ");
+			}
+			if (timerValue == null) {
+				expression.expression.append("false, new TitanFloat( new Ttcn3Float( 0.0 ) ))");
+			} else {
+				expression.expression.append("true, ");
+				timerValue.generateCodeExpression(aData, expression, true);
+				expression.expression.append(')');
+			}
+			expression.mergeExpression(source);
+
+			return;
 		}
 
 		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
