@@ -96,7 +96,6 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 		builder.append(")(");
 		// TODO implement more precise create_stringRepresentation
 		builder.append("...");
-		builder.append(')');
 		if (timerValue != null) {
 			builder.append(", ");
 			builder.append(timerValue.createStringRepresentation());
