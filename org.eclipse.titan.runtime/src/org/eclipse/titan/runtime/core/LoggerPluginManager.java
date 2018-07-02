@@ -1257,8 +1257,7 @@ public class LoggerPluginManager {
 			event_severity = Severity.PARALLEL_PORTMAP;
 			break;
 		default:
-			//FIXME invalid
-			return;
+			throw new TtcnError("Invalid operation");
 		}
 
 		if (!TtcnLogger.log_this_event(event_severity) && (TtcnLogger.get_emergency_logging() <= 0)) {
