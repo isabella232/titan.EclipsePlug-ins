@@ -434,7 +434,6 @@ public class LoggerPluginManager {
 	}
 
 	public void log_char(final char c) {
-		// TODO: correct log_char
 		if (current_event != null) {
 			if (current_event.get().event_destination == event_destination_t.ED_NONE || c == '\0') {
 				return;
