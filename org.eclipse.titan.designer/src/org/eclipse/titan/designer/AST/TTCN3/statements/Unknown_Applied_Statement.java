@@ -147,6 +147,7 @@ public final class Unknown_Applied_Statement extends Statement {
 				realStatement = new Function_Applied_Statement(dereferredValue, actualParameterList, tempActualParameters);
 				realStatement.setFullNameParent(this);
 				realStatement.setLocation(location);
+				realStatement.setMyScope(myScope);
 				realStatement.setMyStatementBlock(getMyStatementBlock(), statementIndex);
 			}
 			realStatement.check(timestamp);
@@ -165,6 +166,7 @@ public final class Unknown_Applied_Statement extends Statement {
 				realStatement = new Altstep_Applied_Statement(dereferredValue, actualParameterList, tempActualParameters);
 				realStatement.setFullNameParent(this);
 				realStatement.setLocation(location);
+				realStatement.setMyScope(myScope);
 				realStatement.setMyStatementBlock(getMyStatementBlock(), statementIndex);
 			}
 			realStatement.check(timestamp);
