@@ -329,8 +329,6 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 		return (T)array_elements[index.getInt()];
 	}
 
-	//TODO: void set_implicit_omit()
-
 	// originally n_elem()
 	public int n_elem() {
 		return array_size;
