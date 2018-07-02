@@ -784,9 +784,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, getGenNameValue(aData, source, myScope)));
 				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, getGenNameTemplate(aData, source, myScope)));
 			}
-
-			//TODO: implement: package of the imported class is unknown
 		}
+
 		if (!isAsn()) {
 			if (hasDoneAttribute()) {
 				generateCodeDone(aData, source);

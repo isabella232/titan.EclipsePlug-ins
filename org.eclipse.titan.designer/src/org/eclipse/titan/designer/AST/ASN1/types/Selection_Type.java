@@ -369,8 +369,6 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 				source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referencedLast.getGenNameValue(aData, source, myScope)));
 				source.append(MessageFormat.format("\tpublic static class {0}_template extends {1} '{' '}'\n", ownName, referencedLast.getGenNameTemplate(aData, source, myScope)));
 			}
-
-			//TODO: implement: package of the imported class is unknown
 		}
 
 		generateCodeForCodingHandlers(aData, source);
