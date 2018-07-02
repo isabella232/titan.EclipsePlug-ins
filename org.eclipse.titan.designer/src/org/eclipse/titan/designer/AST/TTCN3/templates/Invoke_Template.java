@@ -106,8 +106,7 @@ public final class Invoke_Template extends TTCN3Template {
 		builder.append(value.createStringRepresentation());
 		builder.append(".invoke(");
 		if (actualParameterList != null) {
-			// TODO implement more precise
-			// create_StringRepresentation
+			// TODO implement more precise create_StringRepresentation
 			builder.append("...");
 		}
 		builder.append(')');
