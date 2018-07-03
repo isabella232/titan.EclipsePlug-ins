@@ -20,7 +20,7 @@ public final class DocumentTracker {
 
 	/** private constructor to disable instantiation */
 	private DocumentTracker() {
-		// TODO Auto-generated constructor stub
+		// intentionally empty
 	}
 
 	/**

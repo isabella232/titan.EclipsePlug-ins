@@ -55,7 +55,7 @@ public class OrganizeImportsFromBrowser extends AbstractHandler implements IObje
 
 	@Override
 	public void setActivePart(final IAction action, final IWorkbenchPart targetPart) {
-		// TODO Auto-generated method stub
+		// intentionally empty
 	}
 	
 	private void performOrganizeImport() {
