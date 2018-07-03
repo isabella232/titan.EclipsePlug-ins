@@ -1426,6 +1426,7 @@ public final class ProjectFileHandler {
 			if (Node.TEXT_NODE == child.getNodeType()) {
 				//don't remove all whitespace! Free text options could not be used! See Bug536582
 				child.setTextContent(child.getNodeValue().replaceAll("\\n", ""));
+			} else {
 				if (sibling == null) {
 					root.appendChild(document.createTextNode(ProjectFileHandler.getXMLIndentation(level)));
 				} else if (Node.TEXT_NODE != sibling.getNodeType()) {
