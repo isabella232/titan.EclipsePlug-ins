@@ -90,6 +90,7 @@ public final class FormalParameter extends Definition {
 	// the default parameter after semantic check
 	private ActualParameter actualDefaultParameter;
 	private Assignment_type realAssignmentType;
+	private boolean usedAsLValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private FormalParameterList myParameterList;
 	private boolean isLazy;
@@ -103,6 +104,7 @@ public final class FormalParameter extends Definition {
 		realAssignmentType = assignmentType;
 		this.type = type;
 		this.defaultValue = defaultValue;
+		usedAsLValue = false;
 		this.templateRestriction = templateRestriction;
 		this.isLazy = isLazy;
 
@@ -122,6 +124,7 @@ public final class FormalParameter extends Definition {
 		realAssignmentType = assignmentType;
 		this.type = other.type;
 		this.defaultValue = other.defaultValue;
+		usedAsLValue = false;
 		this.templateRestriction = other.templateRestriction;
 		this.isLazy = other.isLazy;
 		this.myScope = other.myScope;
@@ -321,16 +324,22 @@ public final class FormalParameter extends Definition {
 			return;
 		}
 
-		final Definition definition = myParameterList.getMyDefinition();
-		if (definition == null) {
-			return;
-		}
+		if (!usedAsLValue) {
+			final Definition definition = myParameterList.getMyDefinition();
+			if (definition == null) {
+				return;
+			}
 
-		if (Assignment_type.A_TEMPLATE.semanticallyEquals(definition.getAssignmentType())) {
-			reference.getLocation().reportSemanticError(
-					MessageFormat.format(
-							"Parameter `{0}'' of the template cannot be passed further as `out'' or `inout'' parameter",
-							identifier.getDisplayName()));
+			if (Assignment_type.A_TEMPLATE.semanticallyEquals(definition.getAssignmentType())) {
+				reference.getLocation().reportSemanticError(
+						MessageFormat.format(
+								"Parameter `{0}'' of the template cannot be passed further as `out'' or `inout'' parameter",
+								identifier.getDisplayName()));
+			} else {
+				//TODO only in normal evaluation
+				setGenName(identifier.getName() + "_shadow");
+				usedAsLValue = true;
+			}
 		}
 	}
 
@@ -354,6 +363,7 @@ public final class FormalParameter extends Definition {
 		}
 
 		lastTimeChecked = timestamp;
+		usedAsLValue = false;
 
 		if (type != null) {
 			type.check(timestamp);
@@ -1028,7 +1038,7 @@ public final class FormalParameter extends Definition {
 
 		source.append( ' ' );
 		// parameter name
-		source.append( getGenName() );
+		source.append( identifier.getName() );
 
 		//TODO: implement: handle default value
 	}
@@ -1065,6 +1075,31 @@ public final class FormalParameter extends Definition {
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
+		}
+	}
+
+	/**
+	 * Generate Java code for the shadow of this formal parameter if needed.
+	 * These variables are used to let the user change in parameters value inside th function, with no effect outside of it.
+	 *
+	 * generate_shadow_object in the compiler
+	 *
+	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 */
+	public void generateCodeShadowObject(final JavaGenData aData, final StringBuilder source) {
+		if (usedAsLValue) {
+			switch (assignmentType) {
+			case A_PAR_VAL:
+			case A_PAR_VAL_IN:
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", type.getGenNameValue(aData, source, myScope), getGenName(), identifier.getName()));
+				break;
+			case A_PAR_TEMP_IN:
+				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", type.getGenNameTemplate(aData, source, myScope), getGenName(), identifier.getName()));
+				break;
+			default:
+				break;
+			}
 		}
 	}
 

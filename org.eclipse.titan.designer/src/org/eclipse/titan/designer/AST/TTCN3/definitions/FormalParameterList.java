@@ -1219,4 +1219,19 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 
 		return result;
 	}
+
+	/**
+	 * Generate Java code for the shadows of formal parameters if needed.
+	 * These variables are used to let the user change in parameters value inside th function, with no effect outside of it.
+	 *
+	 * generate_shadow_objects in the compiler
+	 *
+	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 */
+	public void generateCodeShadowObjects(final JavaGenData aData, final StringBuilder source) {
+		for ( int i = 0 ; i < parameters.size(); i++) {
+			parameters.get(i).generateCodeShadowObject(aData, source);
+		}
+	}
 }

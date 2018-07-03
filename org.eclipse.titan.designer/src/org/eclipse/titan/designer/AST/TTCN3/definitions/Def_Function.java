@@ -950,6 +950,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 		source.append( ") {\n" );
 		getLocation().create_location_object(aData, source, "FUNCTION", getIdentifier().getDisplayName());
+		formalParList.generateCodeShadowObjects(aData, source);
 		block.generateCode(aData, source);
 		if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
 			getLocation().release_location_object(aData, source);

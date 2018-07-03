@@ -573,8 +573,6 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		final String genName = getGenName();
 		formalParList.setGenName(genName);
 
-		//FIXME handle location object
-
 		final StringBuilder body = new StringBuilder();
 		getLocation().create_location_object(aData, body, "ALTSTEP", getIdentifier().getDisplayName());
 		block.generateCode(aData, body);
@@ -582,7 +580,9 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		final StringBuilder formalParListCode = new StringBuilder();
 		formalParList.generateCode(aData, formalParListCode);
-		// FIXME generate code defval and shadow objects
+
+		final StringBuilder shadowObjects = new StringBuilder();
+		formalParList.generateCodeShadowObjects(aData, shadowObjects);
 
 		aData.addBuiltinTypeImport("TitanAlt_Status");
 		aData.addBuiltinTypeImport("TTCN_Default");
@@ -593,6 +593,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		source.append(MessageFormat.format("private static final TitanAlt_Status {0}_instance({1})\n", genName, fullParamaterList));
 		source.append("{\n");
+		source.append(shadowObjects);
 		source.append(body);
 		source.append("}\n\n");
 
