@@ -884,6 +884,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					}
 				}
 				if (rawPar.crosstaglist != null) {
+					boolean errorFound = false;
 					for (int c = 0; c < rawPar.crosstaglist.size(); c++) {
 						final rawAST_single_tag singleTag = rawPar.crosstaglist.get(c);
 						final Identifier idf = singleTag.fieldName;
@@ -891,30 +892,39 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 						case TYPE_TTCN3_CHOICE:
 						case TYPE_TTCN3_SEQUENCE:
 						case TYPE_TTCN3_SET:
-							if(!((TTCN3_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(idf.getName())) {
+							if (idf == null) {
+								getLocation().reportSemanticError("Field member in RAW parameter CROSSTAG cannot be 'omit'");
+								errorFound = true;
+							} else if(!((TTCN3_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(idf.getName())) {
 								idf.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf.getDisplayName()));
+								errorFound = true;
 							}
 							break;
 						case TYPE_ASN1_CHOICE:
 						case TYPE_ASN1_SEQUENCE:
 						case TYPE_ASN1_SET:
-							if(!((ASN1_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(idf)) {
+							if (idf == null) {
+								getLocation().reportSemanticError("Field member in RAW parameter CROSSTAG cannot be 'omit'");
+								errorFound = true;
+							} else if(!((ASN1_Set_Seq_Choice_BaseType)fieldTypeLast).hasComponentWithName(idf)) {
 								idf.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf.getDisplayName()));
+								errorFound = true;
 							}
 							break;
 						default:
 							fieldId.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldmember type in RAW parameter CROSSTAG for field {0}.", fieldId.getDisplayName()));
+							errorFound = true;
 							break;
 						}
 
 
-						if (singleTag.keyList != null) {
+						if (!errorFound && singleTag.keyList != null) {
 							for (int a = 0; a < singleTag.keyList.size(); a++) {
 								IType t2 = this;
-								boolean errorFound = false;
+								boolean errorFound2 = false;
 								boolean allow_omit = false;
 								final rawAST_tag_field_value tagField = singleTag.keyList.get(a);
-								for (int b = 0; b < tagField.keyField.names.size() && !errorFound; b++) {
+								for (int b = 0; b < tagField.keyField.names.size() && !errorFound2; b++) {
 									final Identifier idf2 = tagField.keyField.names.get(b);
 									CompField cf2 = null;
 									switch (t2.getTypetype()) {
@@ -923,7 +933,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 									case TYPE_TTCN3_SET:
 										if(!((TTCN3_Set_Seq_Choice_BaseType)t2).hasComponentWithName(idf2.getName())) {
 											idf2.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf2.getDisplayName()));
-											errorFound = true;
+											errorFound2 = true;
 										} else {
 											cf2 = ((TTCN3_Set_Seq_Choice_BaseType)t2).getComponentByName(idf2.getName());
 										}
@@ -933,36 +943,36 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 									case TYPE_ASN1_SET:
 										if(!((ASN1_Set_Seq_Choice_BaseType)t2).hasComponentWithName(idf2)) {
 											idf2.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldname in RAW parameter CROSSTAG for field {0}: {1}", fieldId.getDisplayName(), idf2.getDisplayName()));
-											errorFound = true;
+											errorFound2 = true;
 										} else {
 											cf2 = ((ASN1_Set_Seq_Choice_BaseType)t2).getComponentByName(idf2);
 										}
 										break;
 									default:
 										fieldId.getLocation().reportSemanticError(MessageFormat.format("Invalid fieldmember type in RAW parameter CROSSTAG for field {0}.", fieldId.getDisplayName()));
-										errorFound = true;
+										errorFound2 = true;
 										break;
 									}
 									if (b == 0) {
 										final int fieldIndex = getComponentIndexByName(idf2);
 										if (fieldIndex == i) {
 											idf2.getLocation().reportSemanticError(MessageFormat.format("RAW parameter CROSSTAG for field `{0}'' cannot refer to the field itself", idf2.getDisplayName()));
-											errorFound = true;
+											errorFound2 = true;
 										} else if (fieldIndex > i) {
 											if (cField.isOptional()) {//TODO || fieldType.getRawLength() < 0 
 												idf2.getLocation().reportSemanticError(MessageFormat.format("Field `{0}'' that CROSSTAG refers to must precede field `{1}'' or field `{1}'' must be mandatory with fixed length", idf2.getDisplayName(), fieldId.getDisplayName()));
-												errorFound = true;
+												errorFound2 = true;
 											}
 										}
 									}
-									if (!errorFound) {
+									if (!errorFound2) {
 										t2 = cf2.getType().getTypeRefdLast(timestamp);
 										if (b == tagField.keyField.names.size() - 1 && cf2.isOptional()) {
 											allow_omit = true;
 										}
 									}
 								}
-								if (!errorFound) {
+								if (!errorFound2) {
 									final Value v = singleTag.keyList.get(a).v_value;
 									if (v != null) {
 										v.setMyScope(getMyScope());
@@ -1321,6 +1331,10 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 							key.v_value.generateCodeExpression(aData, expression, true);
 							codingKey.expression = expression;
 							codingKey.isOmitValue = key.v_value.getValuetype() == Value_type.OMIT_VALUE;
+							if (codingKey.isOmitValue && key.keyField.names.size() != 1) {
+								getLocation().reportSemanticError("omit value with multiple fields in CROSSTAG");
+								break;
+							}
 
 							IType t = this;
 							for (int b = 0; b < key.keyField.names.size(); b++) {

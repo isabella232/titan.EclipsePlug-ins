@@ -365,7 +365,7 @@ pr_XAssocElement returns [RawAST.rawAST_single_tag singleTag]:
 
 |	OMIT
 	COMMA
-	(	pr_XkeyIdOrIdList	{ $singleTag = new RawAST.rawAST_single_tag();
+	(	list = pr_XkeyIdOrIdList	{ $singleTag = new RawAST.rawAST_single_tag();
 					$singleTag.fieldName = null;
 					$singleTag.keyList = $list.singleTag.keyList;}
 	|	OTHERWISE		{ $singleTag = new RawAST.rawAST_single_tag();

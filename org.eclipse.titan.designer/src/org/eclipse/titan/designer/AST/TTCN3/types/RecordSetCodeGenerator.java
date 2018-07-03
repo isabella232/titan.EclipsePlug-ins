@@ -882,9 +882,6 @@ public class RecordSetCodeGenerator {
 							genRawFieldChecker(source, cur_choice, false);
 							source.append(") {\n");
 							if (cur_choice.fields.get(0).isOmitValue) {
-								if (cur_choice.fields.get(0).fields.size() != 1) {
-									//FIXME report error "omit value with multiple fields in CROSSTAG"
-								}
 								source.append(MessageFormat.format("encoded_length -= myleaf.nodes[{0}].length;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
 								source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
 								
