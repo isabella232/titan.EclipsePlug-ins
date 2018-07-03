@@ -11,18 +11,25 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
+ * The base interface for classes that can be re-parsed incrementally.
+ *
+ * ASN.1 values do not support incremental re-parsing, they throw ReParseException.
+ *
  * @author Kristof Szabados
  * */
-//FIXME ASN1 values can never be incrementally parsed, that should be an error
 public interface IIncrementallyUpdateable {
 
 	/**
-	 *  Handles the incremental parsing of this value.
+	 * Handles the incremental parsing of this value.
 	 *
-	 *  @param reparser the parser doing the incremental parsing.
-	 *  @param isDamaged true if the location contains the damaged area,
-	 *    false if only its' location needs to be updated.
-	 * @throws ReParseException TODO
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
+	 * @throws ReParseException
+	 *                 when the mechanism was not able to handle the
+	 *                 re-parsing need at a node.
 	 * */
 	void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException;
 }
