@@ -9,6 +9,8 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+
 /**
  * TTCN-3 verdict type
  * originally VERDICTTYPE
@@ -187,8 +189,7 @@ public class TitanVerdictType extends Base_Type {
 		}
 
 		if (!silent) {
-			//TODO
-			//TTCN_EncDec_ErrorContext.error(TTCN_EncDec.ET_INVAL_MSG, "Invalid value for verdicttype: '%s'", v);
+			TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Invalid value for verdicttype: '%s'", v);
 		}
 
 		return VerdictTypeEnum.UNBOUND;
