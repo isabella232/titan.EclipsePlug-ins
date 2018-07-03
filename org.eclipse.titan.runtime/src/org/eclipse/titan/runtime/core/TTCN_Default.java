@@ -15,7 +15,6 @@ import java.util.LinkedList;
  * @author Kristof Szabados
  * */
 public final class TTCN_Default {
-	// TODO check why does this never decrease
 	private static int defaultCount = 0;
 	private static int backupCount = 0;
 	private static final ThreadLocal<LinkedList<Default_Base>> DEFAULTS = new ThreadLocal<LinkedList<Default_Base>>() {
