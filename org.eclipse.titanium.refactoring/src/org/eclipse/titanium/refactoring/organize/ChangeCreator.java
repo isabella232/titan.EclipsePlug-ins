@@ -122,8 +122,7 @@ public class ChangeCreator {
 		} catch (BadLocationException e) {
 			ErrorReporter.logExceptionStackTrace("Error while organizing imports", e);
 		} catch (CoreException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			ErrorReporter.logExceptionStackTrace("Error while organizing imports", e1);
 		}
 		
 		return tfc;
