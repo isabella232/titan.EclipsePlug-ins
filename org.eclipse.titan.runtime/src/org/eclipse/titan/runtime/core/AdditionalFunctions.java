@@ -2807,7 +2807,6 @@ public final class AdditionalFunctions {
 
 	public static void setRndSeed(final double floatSeed) {
 		TitanFloat.checkNumeric(floatSeed,"The seed value of function rnd()");
-		// FIXME: method caste double from long
 		random.setSeed((long)floatSeed);
 		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
 		rndSeedSet = true;
