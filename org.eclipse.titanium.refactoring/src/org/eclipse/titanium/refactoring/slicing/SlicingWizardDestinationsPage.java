@@ -44,6 +44,7 @@ public class SlicingWizardDestinationsPage extends UserInputWizardPage {
 	private SlicingRefactoring refactoring;
 	private CheckboxTreeViewer tree;
 	protected static boolean displayZeros;
+	private Button displayZerosCheckBox;
 	
 	SlicingWizardDestinationsPage(final String name, SlicingRefactoring refactoring) {
 		super(name);
@@ -128,7 +129,8 @@ public class SlicingWizardDestinationsPage extends UserInputWizardPage {
 		final Text excludedModulesField = new Text(comp, SWT.FILL);
 		
 		
-		Button displayZerosCheckBox = new Button(comp, SWT.CHECK);
+		displayZerosCheckBox = new Button(comp, SWT.CHECK);
+		displayZerosCheckBox.setSelection(displayZeros);
 		displayZerosCheckBox.setText("Display destinations with 0 value");
 		displayZerosCheckBox.addSelectionListener(new SelectionAdapter() {
 
@@ -160,7 +162,6 @@ public class SlicingWizardDestinationsPage extends UserInputWizardPage {
 		            	refactoring.getSettings().setExcludedModuleNames(pattern);
 		            	refactoring.getSettings().setChanged(true);
 		            }
-		            System.out.println("Pattern: "+pattern.toString()+" "+refactoring.getSettings().isChanged());
 		            refreshTree();
 		            setErrorMessage(null);
 		        } catch (PatternSyntaxException exception) {
@@ -196,9 +197,7 @@ public class SlicingWizardDestinationsPage extends UserInputWizardPage {
 					else {
 						tree.setSubtreeChecked(event.getElement(), false);
 						((FunctionData)event.getElement()).setFinalDestination(null);
-					}
-					//((FunctionData)event.getElement()).setToBeMoved(event.getChecked());
-					
+					}					
 				}
 				else if (event.getElement() instanceof Destination) {
 					Destination dest = (Destination)event.getElement();
@@ -307,7 +306,11 @@ class DestinationDataProvider implements ITreeContentProvider {
 					@Override
 					public int compare(Destination arg0, Destination arg1) {
 						int val = (-1)*(arg0.getRating() - arg1.getRating());
-						if (val == 0) {
+						int val2 = 0;
+						if (val == 0 && arg0.getNewImports() != -1) {
+							val2 = arg1.getNewImports() - arg0.getNewImports();
+						}
+						if (val == 0 && val2 == 0) {
 							return arg0.getModule().getIdentifier().getDisplayName().compareTo(arg1.getModule().getIdentifier().getDisplayName());
 						}
 						return val;

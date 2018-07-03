@@ -43,6 +43,7 @@ import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.VisibilityModifier;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -99,13 +100,28 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 		}
 
 		final CompositeChange cchange = new CompositeChange("SlicingRefactoring");
+		boolean  first = true;
 		for (Map.Entry<Module, List<FunctionData>> entry : functions.entrySet()) {
-			final ChangeCreator chCreator = new ChangeCreator((IFile)entry.getKey().getLocation().getFile(), settings, entry.getValue());
-			chCreator.perform();
-			final Change ch = chCreator.getChange();
-			if (ch != null) {
-				cchange.add(ch);
-			}			
+			if (first) {
+				final ChangeCreator chCreator = new ChangeCreator((IFile)entry.getKey().getLocation().getFile(), settings, entry.getValue(), 
+						projects.iterator().next(), new HashMap<Module, List<Module>>());
+				chCreator.perform();
+				final Change ch = chCreator.getChange();
+				if (ch != null) {
+					cchange.add(ch);
+				}
+				first = false;
+			}
+			else {
+				final ChangeCreator chCreator = new ChangeCreator((IFile)entry.getKey().getLocation().getFile(), settings, entry.getValue(), 
+						projects.iterator().next());
+				chCreator.perform();
+				final Change ch = chCreator.getChange();
+				if (ch != null) {
+					cchange.add(ch);
+				}
+			}
+						
 		}
 		return cchange;
 	}
@@ -158,6 +174,9 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 		for (ILocateableNode node : ttcn3module.getDefinitions()) {
 			if (node instanceof Def_Function) {
 				Def_Function fun = (Def_Function)node;
+				if (fun.getVisibilityModifier().equals(VisibilityModifier.Private)) {
+					continue;
+				}
 				ReferenceVisitor refVis = new ReferenceVisitor();
 				fun.accept(refVis);
 				boolean dependent = false;
@@ -176,6 +195,7 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 					functions.get(ttcn3module).add(fd);
 				}
 			} 
+			
 			progress.worked(1);
 		}
 		return functions.get(ttcn3module);
@@ -194,19 +214,21 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 						switch (settings.getMethod()) {
 							case LENGTH: 
 								chooseModuleByLength(usedModules, fun);
+								addUnusedModules(fun, usedModules);
 								break;
 							case IMPORTS:
 								chooseModuleByImports(usedModules, fun);
 								break;
 							case LENGTHANDIMPORTS:
 								chooseModuleByLengthAndImports(usedModules, fun);
+								addUnusedModules(fun, usedModules);
 								break;
 						}
 					}
 					if (settings.getMethod().equals(SlicingMethod.COMPONENT)) {
 						chooseModuleByComponent(fun);
 					}
-					addUnusedModules(fun, usedModules);
+					//addUnusedModules(fun, usedModules);
 				}
 			}
 		}
@@ -291,34 +313,43 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 		List<Module> filteredList = filterByExcludedNames(usedModules);
 		if (filteredList.size() > 0) {
 			List<Entry<Module, Integer>> list = countMissingImports(filteredList, function);
-	        destinationModule = list.get(0).getKey();
+	        destinationModule = list.get(0).getKey();  
 	        int min = list.get(0).getValue();
+	        function.addDestination(destinationModule, 100, min);
 	        list.remove(0);
 	        for (Entry<Module, Integer> e : list) {
 	        	if (e.getValue() == min) {
 	        		function.addDestination(e.getKey(), 100, e.getValue());
 	        	}
 	        	else {
-	        		double value = (double)min*100 / (double)e.getValue();
 	        		function.addDestination(e.getKey(), (int)((double)min*100 / (double)e.getValue()), e.getValue());
 	        	}
 	        }
-			function.addDestination(destinationModule, 100, min);
+	        
+	        List<Module> filteredList2 = filterByExcludedNames(selectedModules);
+	        List<Entry<Module, Integer>> list2 = countMissingImports(filteredList2, function);
+	        for (Entry<Module, Integer> e : list2) {
+	        	if (!usedModules.contains(e.getKey()) && !function.getModule().equals(e.getKey())) {
+	        		function.addDestination(e.getKey(), 0, e.getValue());
+	        	}
+	        }
+			
 		}
-		//function.setFinalDestination(new Destination(destinationModule, 100, function, min));
 	}
 	
 	private List<Entry<Module, Integer>> countMissingImports(List<Module> usedModules, FunctionData function) {
 		Map<Module, Integer> importsCounter = new HashMap<Module, Integer>();
 		for (Module m : usedModules) {
-			int counter = 0;
-			List<Module> imports = ((TTCN3Module)m).getImportedModules();
-			for (Module m2 : usedModules) {
-				if (!m.equals(m2) && imports.contains(m2)) {
-					counter++;
+			if (m instanceof TTCN3Module) {
+				int counter = 0;
+				List<Module> imports = ((TTCN3Module)m).getImportedModules();
+				for (Module m2 : usedModules) {
+					if (!m.equals(m2) && imports.contains(m2)) {
+						counter++;
+					}
 				}
+				importsCounter.put(m, usedModules.size() - counter - 1);
 			}
-			importsCounter.put(m, usedModules.size() - counter - 1);
 		}
 		
 		List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(importsCounter.entrySet());
@@ -385,65 +416,67 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 	
 	public void chooseModuleByComponent(FunctionData function) {
 		Component_Type comp = function.getDefiniton().getRunsOnType(CompilationTimeStamp.getBaseTimestamp());
-		Map<Module, Integer> compCounter = new HashMap<Module, Integer>();
-		List<Component_Type> extendedComps = new ArrayList<Component_Type>();
-		for (ComponentTypeBody ctb : comp.getComponentBody().getExtensions().getComponentBodies()) {
-			if (!extendedComps.contains(ctb)) {
-				extendedComps.add(ctb.getMyType());
-			}
-		}
-		
-		for (int i=0; i<extendedComps.size(); i++) {
-			Component_Type ct = extendedComps.get(i);
-			for (ComponentTypeBody ctb : ct.getComponentBody().getExtensions().getComponentBodies()) {
+		if (comp != null) {
+			Map<Module, Integer> compCounter = new HashMap<Module, Integer>();
+			List<Component_Type> extendedComps = new ArrayList<Component_Type>();
+			for (ComponentTypeBody ctb : comp.getComponentBody().getExtensions().getComponentBodies()) {
 				if (!extendedComps.contains(ctb)) {
 					extendedComps.add(ctb.getMyType());
 				}
 			}
-		}
-		
-		
-		for(IProject project : projects) {
-			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
-			List<Module> modules = filterByExcludedNames(new ArrayList<Module>(projectSourceParser.getModules()));
-			for (Module m : modules) {
-				if (!m.equals(function.getModule())) {
-					ModuleVisitor vis = new ModuleVisitor(comp, extendedComps);
-					m.accept(vis);
-					compCounter.put(m, vis.getCounter());
+			
+			for (int i=0; i<extendedComps.size(); i++) {
+				Component_Type ct = extendedComps.get(i);
+				for (ComponentTypeBody ctb : ct.getComponentBody().getExtensions().getComponentBodies()) {
+					if (!extendedComps.contains(ctb)) {
+						extendedComps.add(ctb.getMyType());
+					}
 				}
 			}
-		}	
-		
-		List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(compCounter.entrySet());
-		
-		Collections.sort(list, new Comparator<Entry<Module, Integer>>() {
-			@Override
-			public int compare(Entry<Module, Integer> m1, Entry<Module, Integer> m2) {
-				return (-1)*m1.getValue().compareTo(m2.getValue());
-			}
-		});
-		destinationModule = list.get(0).getKey();
-		int max = list.get(0).getValue();
-		if (max > 0) {
-			function.addDestination(list.get(0).getKey(), 100, -1);
-		}
-		else {
-			function.addDestination(list.get(0).getKey(), 0, -1);
-		}
-		for (int i=1; i<list.size(); i++) {
-			if (max == 0) {
-				function.addDestination(list.get(i).getKey(), 0, -1);
-			}
-			else if (list.get(i).getValue() == max) {
-				function.addDestination(list.get(i).getKey(), 100, -1);
+			
+			for(IProject project : projects) {
+				final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+				List<Module> modules = filterByExcludedNames(new ArrayList<Module>(projectSourceParser.getModules()));
+				for (Module m : modules) {
+					if (!m.equals(function.getModule())) {
+						ModuleVisitor vis = new ModuleVisitor(comp, extendedComps);
+						m.accept(vis);
+						compCounter.put(m, vis.getCounter());
+					}
+				}
+			}	
+			
+			List<Entry<Module, Integer>> list = new ArrayList<Entry<Module, Integer>>(compCounter.entrySet());
+			
+			Collections.sort(list, new Comparator<Entry<Module, Integer>>() {
+				@Override
+				public int compare(Entry<Module, Integer> m1, Entry<Module, Integer> m2) {
+					return (-1)*m1.getValue().compareTo(m2.getValue());
+				}
+			});
+			destinationModule = list.get(0).getKey();
+			int max = list.get(0).getValue();
+			if (max > 0) {
+				function.addDestination(list.get(0).getKey(), 100, -1);
 			}
 			else {
-				double val = (double)list.get(i).getValue() / (double)max;
-				function.addDestination(list.get(i).getKey(), (int)(val*100), -1);
+				function.addDestination(list.get(0).getKey(), 0, -1);
+			}
+			for (int i=1; i<list.size(); i++) {
+				if (!(list.get(i).getValue() == 0 & !selectedModules.contains(list.get(i).getKey()))) {
+					if (max == 0) {
+						function.addDestination(list.get(i).getKey(), 0, -1);
+					}
+					else if (list.get(i).getValue() == max) {
+						function.addDestination(list.get(i).getKey(), 100, -1);
+					}
+					else {
+						double val = (double)list.get(i).getValue() / (double)max;
+						function.addDestination(list.get(i).getKey(), (int)(val*100), -1);
+					}
+				}
 			}
 		}
-		//function.setFinalDestination(new Destination(destinationModule, 100, function, -1));
 	}
 	
 	public void addUnusedModules(FunctionData fun, List<Module> usedModules) {
@@ -504,7 +537,6 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 								|| components.contains(componentType))) {
 					counter++;
 				}
-				//locations.add((Reference)node);
 			}
 			return V_CONTINUE;
 		}
@@ -512,23 +544,7 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 		public int getCounter() {
 			return counter;
 		}
-		
-		
-		private static class LocationComparator implements Comparator<ILocateableNode> {
 
-			@Override
-			public int compare(final ILocateableNode arg0, final ILocateableNode arg1) {
-				final IResource f0 = arg0.getLocation().getFile();
-				final IResource f1 = arg1.getLocation().getFile();
-				if (!f0.equals(f1)) {
-					return f0.getFullPath().toString().compareTo(f1.getFullPath().toString());
-				}
-
-				final int o0 = arg0.getLocation().getOffset();
-				final int o1 = arg1.getLocation().getOffset();
-				return (o0 < o1) ? -1 : ((o0 == o1) ? 0 : 1);
-			}
-		}
 	}
 
 	

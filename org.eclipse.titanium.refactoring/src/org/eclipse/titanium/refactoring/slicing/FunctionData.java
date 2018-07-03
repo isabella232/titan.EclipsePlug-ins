@@ -25,6 +25,7 @@ public class FunctionData implements Comparable<FunctionData> {
 	private List<Module> usedModules;
 	private Destination finalDestination;
 	private SlicingMethod method;
+	private List<Module> usedBy;
 	
 	public FunctionData(Def_Function definiton, String functionBody) {
 		this.definiton = definiton;
@@ -32,6 +33,7 @@ public class FunctionData implements Comparable<FunctionData> {
 		toBeMoved = true;
 		destinations = new ArrayList<Destination>();
 		usedModules = new ArrayList<Module>();
+		usedBy = new ArrayList<Module>();
 	}
 	
 	public void setToBeMoved(boolean toBeMoved) {
@@ -52,6 +54,10 @@ public class FunctionData implements Comparable<FunctionData> {
 	
 	public void addUsedModules(List<Module> modules) {
 		usedModules.addAll(modules);
+	}
+	
+	public void addUsedBy(Module m) {
+		usedBy.add(m);
 	}
 	
 	public void setUsedModules(List<Module> modules) {
@@ -91,6 +97,10 @@ public class FunctionData implements Comparable<FunctionData> {
 	
 	public List<Module> getUsedModules() {
 		return usedModules;
+	}
+	
+	public List<Module> getUsedBy() {
+		return usedBy;
 	}
 	
 	public Destination getFinalDestination() {

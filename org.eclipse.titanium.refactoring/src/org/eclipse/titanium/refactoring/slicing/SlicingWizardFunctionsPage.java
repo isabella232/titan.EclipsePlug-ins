@@ -83,14 +83,19 @@ public class SlicingWizardFunctionsPage extends UserInputWizardPage {
 		
 		tree.addCheckStateListener(new ICheckStateListener() {
 			public void checkStateChanged(final CheckStateChangedEvent event) {
-				if (event.getElement() instanceof Module && event.getChecked() && refactoring.getFunctions().get(event.getElement()).isEmpty()) {
+				if (event.getElement() instanceof Module 
+						&& event.getChecked() 
+						&& refactoring.getFunctions().get(event.getElement()).isEmpty()) {
 					WorkspaceJob wj = new WorkspaceJob("Find functions in module: "+event.getElement()) {
 						@Override
 						public IStatus runInWorkspace(final IProgressMonitor monitor) {
 							try {
-								SubMonitor progress = SubMonitor.convert(monitor, ((TTCN3Module)event.getElement()).getDefinitions().getNofAssignments());
+								SubMonitor progress = SubMonitor.convert(monitor, ((TTCN3Module)event.getElement())
+																.getDefinitions()
+																.getNofAssignments());
 								progress.setTaskName("Analysis of module: "+event.getElement());
-								final Object[] children = refactoring.selectMovableFunctions((TTCN3Module)event.getElement(), progress).toArray();
+								final Object[] children = refactoring.selectMovableFunctions((TTCN3Module)event.getElement(), progress)
+															.toArray();
 								progress.done();
 								Display.getDefault().syncExec(new Runnable() {
 									@Override
@@ -272,7 +277,7 @@ class DataLabelProvider extends LabelProvider {
 		else if (element instanceof Destination) {
 			Destination dest = (Destination)element;
 			if (dest.getNewImports() != -1) {
-				return dest.getModule().getIdentifier().getDisplayName()+"                     "+dest.getRating()+" ("+dest.getNewImports()+" new imports)";
+				return dest.getModule().getIdentifier().getDisplayName()+"                     "+dest.getRating()+" ("+dest.getNewImports()+" new import(s))";
 			}
 			else {
 				return dest.getModule().getIdentifier().getDisplayName()+"                     "+dest.getRating();
