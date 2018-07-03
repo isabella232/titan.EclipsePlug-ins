@@ -215,7 +215,6 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	@Override
 	/** {@inheritDoc} */
 	public TokenFactory<?> getTokenFactory() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -228,6 +227,6 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	@Override
 	/** {@inheritDoc} */
 	public void setTokenFactory(final TokenFactory<?> arg0) {
-		assert(false);
+		//Do nothing
 	}
 }
