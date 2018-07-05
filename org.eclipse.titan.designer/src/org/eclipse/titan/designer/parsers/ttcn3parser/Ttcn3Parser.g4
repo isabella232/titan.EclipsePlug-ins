@@ -2705,6 +2705,7 @@ pr_FunctionDef returns[Def_Function def_func]
 	StatementBlock statementBlock = null;
 	Configuration_Helper runsonHelper = new Configuration_Helper();
 	ReturnType_Helper returnHelper = null;
+	Reference portReference = null;
 	Type returnType = null;
 	boolean returnsTemplate = false;
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
@@ -2716,6 +2717,10 @@ pr_FunctionDef returns[Def_Function def_func]
 	( p = pr_FunctionFormalParList { parameters = $p.parList; } )?
 	end = pr_RParen
 	( pr_RunsOnSpec[runsonHelper] )?
+	pr_AltOrTcConfigSpec[ runsonHelper ]
+	(	pr_PortKeyword
+		pr = pr_Port	{portReference = $pr.reference;}
+	)?
 	( rh = pr_ReturnType
 		{	returnHelper = $rh.helper;
 			if(returnHelper != null) {
@@ -2731,7 +2736,7 @@ pr_FunctionDef returns[Def_Function def_func]
 	if($i.identifier != null && statementBlock != null) {
 		if(parameters == null) { parameters = new FormalParameterList(new ArrayList<FormalParameter>()); }
 		parameters.setLocation(getLocation( $start1.start, $end.stop));
-		$def_func = new Def_Function($i.identifier, parameters, runsonHelper.runsonReference, returnType, returnsTemplate, templateRestriction, statementBlock);
+		$def_func = new Def_Function($i.identifier, parameters, runsonHelper.runsonReference, runsonHelper.mtcReference, runsonHelper.systemReference, portReference, returnType, returnsTemplate, templateRestriction, statementBlock);
 		$def_func.setLocation(getLocation( $col.start, $s.stop));
 		$def_func.setCommentLocation( getLastCommentLocation( $start ) );
 	}
@@ -2879,6 +2884,7 @@ pr_FunctionStatement returns[Statement statement]
 | s6 = pr_VerdictStatements			{ $statement = $s6.statement; }
 | s7 = pr_SUTStatements				{ $statement = $s7.statement; }
 | s8 = pr_TestcaseStopStatement		{ $statement = $s8.statement; }
+| s9 = pr_SetStateStatement		{ $statement = $s9.statement; }
 );
 
 pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
@@ -2896,6 +2902,21 @@ pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
 	$statement = new TestcaseStop_Statement(logArguments);
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
+
+// FIXME needs to return specific type
+pr_SetStateStatement returns[Statement statement]:
+(	pr_PortKeyword DOT SETSTATE
+	pr_LParen
+	pr_SingleExpression
+	(	pr_Comma
+		pr_TemplateInstance
+	)?
+	pr_RParen
+)
+{
+	reportUnsupportedConstruct( "port.setstate is not yet supported!", $start, getStopToken() );
+};
+
 
 pr_FunctionInstance returns[Reference temporalReference]
 @init {
@@ -3222,6 +3243,12 @@ pr_ConfigSpec returns[Configuration_Helper helper]
 	( pr_SystemSpec[ $helper ] )?
 );
 
+pr_AltOrTcConfigSpec [Configuration_Helper helper]:
+(
+	(pr_MTCSpec[ $helper ])?
+	(pr_SystemSpec[ $helper ])?
+);
+
 pr_SystemSpec [Configuration_Helper helper]:
 (	pr_SystemKeyword
 	r = pr_ComponentType
@@ -3230,8 +3257,20 @@ pr_SystemSpec [Configuration_Helper helper]:
 	$helper.systemReference = $r.reference;
 };
 
+pr_MTCSpec [Configuration_Helper helper]:
+(	pr_MTCKeyword
+	r = pr_ComponentType
+)
+{
+	$helper.mtcReference = $r.reference;
+};
+
 pr_SystemKeyword:
 	SYSTEM
+;
+
+pr_MTCKeyword:
+	MTC
 ;
 
 pr_TestcaseInstanceOp returns[Value value]
@@ -3380,6 +3419,7 @@ pr_AltstepDef returns[ Def_Altstep  def_altstep]
 	( p = pr_FunctionFormalParList { parameters = $p.parList;} )?
 	end = pr_RParen
 	( pr_RunsOnSpec[ runsonHelper ] )?
+	pr_AltOrTcConfigSpec[ runsonHelper ]
 	blockstart = pr_BeginChar
 	( d = pr_AltstepLocalDefList { definitions = $d.definitions; } )?
 	a = pr_AltGuardList { altGuards = $a.altGuards; }
@@ -3399,7 +3439,7 @@ pr_AltstepDef returns[ Def_Altstep  def_altstep]
 		if(parameters == null) { parameters = new FormalParameterList(new ArrayList<FormalParameter>()); }
 		parameters.setLocation(getLocation( $start1.start, $end.stop));
 		altGuards.setLocation(getLocation( $a.start, $a.stop));
-		$def_altstep = new Def_Altstep($i.identifier, parameters, runsonHelper.runsonReference, statementBlock, altGuards);
+		$def_altstep = new Def_Altstep($i.identifier, parameters, runsonHelper.runsonReference, runsonHelper.mtcReference, runsonHelper.systemReference, statementBlock, altGuards);
 		$def_altstep.setLocation(getLocation( $col.start, $endcol.stop));
 	}
 };
@@ -4964,12 +5004,12 @@ pr_CommunicationStatements returns[Statement statement]
 }:
 (	(	r = pr_Port
 		pr_Dot
-		(	s1 = pr_PortSendOp[$r.reference]				{ $statement = $s1.statement; }	//pr_SendStatement
+		(	s1 = pr_PortSendOp[$r.reference, false]				{ $statement = $s1.statement; }	//pr_SendStatement
 		|	s2 = pr_PortCallOp[$r.reference]				{ $statement = $s2.statement; }	//pr_CallStatement
 		|	s3 = pr_PortReplyOp[$r.reference]				{ $statement = $s3.statement; }	//pr_ReplyStatement
 		|	s4 = pr_PortRaiseOp[$r.reference]				{ $statement = $s4.statement; }	//pr_RaiseStatement
-		|	s5 = pr_PortReceiveOp[$r.reference, false, false]		{ $statement = $s5.statement; }	//pr_ReceiveStatement
-		|	s6 = pr_PortTriggerOp[$r.reference, false]				{ $statement = $s6.statement; }	//pr_TriggerStatement
+		|	s5 = pr_PortReceiveOp[$r.reference, false, false, false]	{ $statement = $s5.statement; }	//pr_ReceiveStatement
+		|	s6 = pr_PortTriggerOp[$r.reference, false]			{ $statement = $s6.statement; }	//pr_TriggerStatement
 		|	s7 = pr_PortGetCallOp[$r.reference, false, false]		{ $statement = $s7.statement; }	//pr_GetCallStatement
 		|	s8 = pr_PortGetReplyOp[$r.reference, false, false]		{ $statement = $s8.statement; }	//pr_GetReplyStatement
 		|	s9 = pr_PortCatchOp[$r.reference, false, false]		{ $statement = $s9.statement; }	//pr_CatchStatement
@@ -4980,20 +5020,23 @@ pr_CommunicationStatements returns[Statement statement]
 		|	HALT 	{ $statement = new Halt_Statement($r.reference); } //pr_HaltStatement
 		)
 	)
+|	pr_PortKeyword
+	pr_Dot
+	s1 = pr_PortSendOp[null, true]	{ $statement = $s1.statement; }	//pr_SendStatement
 |	(	pr_AnyKeyword
 		(	pr_PortKeyword
 			pr_Dot
-			(	s11 = pr_PortReceiveOp[null, false, false]		{ $statement = $s11.statement; }	//pr_ReceiveStatement
+			(	s11 = pr_PortReceiveOp[null, false, false, false]	{ $statement = $s11.statement; }	//pr_ReceiveStatement
 			|	s12 = pr_PortTriggerOp[null, false]			{ $statement = $s12.statement; }	//pr_TriggerStatement
 			|	s13 = pr_PortGetCallOp[null, false, false]		{ $statement = $s13.statement; }	//pr_GetCallStatement
-			|	s14 = pr_PortGetReplyOp[null, false, false]	{ $statement = $s14.statement; }	//pr_GetReplyStatement
+			|	s14 = pr_PortGetReplyOp[null, false, false]		{ $statement = $s14.statement; }	//pr_GetReplyStatement
 			|	s15 = pr_PortCatchOp[null, false, false]		{ $statement = $s15.statement; }	//pr_CatchStatement
 			|	s16 = pr_PortCheckOp[null, false]				{ $statement = $s16.statement; }	//pr_CheckStatement
 			)
 		|	pr_FromKeyword
 			r2 = pr_VariableRef
 			pr_Dot
-			(	s17 = pr_PortReceiveOp[$r2.reference, false, true]		{ $statement = $s17.statement; }
+			(	s17 = pr_PortReceiveOp[$r2.reference, false, true, false]		{ $statement = $s17.statement; }
 			|	s18 = pr_PortTriggerOp[$r2.reference, true]				{ $statement = $s18.statement; }
 			|	s19 = pr_PortGetCallOp[$r2.reference, false, true]		{ $statement = $s19.statement; }
 			|	s20 = pr_PortCatchOp[$r2.reference, false, true]		{ $statement = $s20.statement; }
@@ -5018,7 +5061,7 @@ pr_CommunicationStatements returns[Statement statement]
 	}
 };
 
-pr_PortSendOp [Reference reference]
+pr_PortSendOp [Reference reference, boolean translate]
 	returns[Statement statement]
 @init {
 	$statement = null;
@@ -5032,7 +5075,7 @@ pr_PortSendOp [Reference reference]
 	( t = pr_ToClause { toClause = $t.value; } )?
 )
 {
-	$statement = new Send_Statement($reference, parameter, toClause);
+	$statement = new Send_Statement($reference, parameter, toClause, translate);
 };
 
 pr_SendOpKeyword:
@@ -5216,7 +5259,7 @@ pr_PortOrAny returns[Reference reference]
 	pr_PortKeyword
 );
 
-pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from]
+pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from, boolean translate]
 	returns[Statement statement]
 @init {
 	$statement = null;
@@ -5237,13 +5280,13 @@ pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from]
 		if( $is_check ) {
 			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null );
 		} else {
-			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null );
+			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
 		}
 	} else {
 		if( $is_check ) {
 			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex );
 		} else {
-			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex );
+			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
 		}
 	}
 	$statement.setLocation(getLocation( $start, getStopToken()));
@@ -5661,7 +5704,7 @@ pr_CheckPortOpsPresent [Reference reference, boolean is_any_from]
 @init {
 	$statement = null;
 }:
-(	s1 = pr_PortReceiveOp[$reference, true, is_any_from] { $statement = $s1.statement; }
+(	s1 = pr_PortReceiveOp[$reference, true, is_any_from, false] { $statement = $s1.statement; }
 |	s2 = pr_PortGetCallOp[$reference, true, is_any_from] { $statement = $s2.statement; }
 |	s3 = pr_PortGetReplyOp[$reference, true, is_any_from] { $statement = $s3.statement; }
 |	s4 = pr_PortCatchOp[$reference, true, is_any_from] { $statement = $s4.statement; }
@@ -6804,7 +6847,7 @@ pr_GuardOp returns[Statement statement]
 |	pr_AnyKeyword
 	(	pr_PortKeyword
 		pr_Dot
-		(	s1 = pr_PortReceiveOp[null, false, false]		{ $statement = $s1.statement; }
+		(	s1 = pr_PortReceiveOp[null, false, false, false]	{ $statement = $s1.statement; }
 		|	s2 = pr_PortTriggerOp[null, false]			{ $statement = $s2.statement; }
 		|	s3 = pr_PortGetCallOp[null, false, false]		{ $statement = $s3.statement; }
 		|	s4 = pr_PortCatchOp[null, false, false]			{ $statement = $s4.statement; }
@@ -6814,7 +6857,7 @@ pr_GuardOp returns[Statement statement]
 	|	pr_FromKeyword
 		r = pr_VariableRef
 		pr_Dot
-		(	s7 = pr_PortReceiveOp[$r.reference, false, true]	{ $statement = $s7.statement; }
+		(	s7 = pr_PortReceiveOp[$r.reference, false, true, false]	{ $statement = $s7.statement; }
 		|	s8 = pr_PortTriggerOp[$r.reference, true]		{ $statement = $s8.statement; }
 		|	s9 = pr_PortGetCallOp[$r.reference, false, true]	{ $statement = $s9.statement; }
 		|	s10 = pr_PortCatchOp[$r.reference, false, true]		{ $statement = $s10.statement; }
@@ -6825,13 +6868,16 @@ pr_GuardOp returns[Statement statement]
 |	r = pr_VariableRef
 	pr_Dot
 	(	pr_TimeoutKeyword						{ $statement = new Timeout_Statement($r.reference); }
-	|	s13 = pr_PortReceiveOp[$r.reference, false, false]		{ $statement = $s13.statement; }
+	|	s13 = pr_PortReceiveOp[$r.reference, false, false, false]	{ $statement = $s13.statement; }
 	|	s14 = pr_PortTriggerOp[$r.reference, false]			{ $statement = $s14.statement; }
 	|	s15 = pr_PortGetCallOp[$r.reference, false, false]		{ $statement = $s15.statement; }
 	|	s16 = pr_PortCatchOp[$r.reference, false, false]		{ $statement = $s16.statement; }
 	|	s17 = pr_PortCheckOp[$r.reference, false]			{ $statement = $s17.statement; }
 	|	s18 = pr_PortGetReplyOp[$r.reference, false, false]		{ $statement = $s18.statement; }
 	)
+|	pr_PortKeyword
+	pr_Dot
+	s13 = pr_PortReceiveOp[null, false, false, true]		{ $statement = $s13.statement; }
 )
 {
 	if($statement != null) {
@@ -7616,6 +7662,7 @@ pr_OpCall returns[Value value]
 |	v5 = pr_ActivateOp			{ $value = $v5.value; }
 |	v6 = pr_ReferOp				{ $value = $v6.value; }
 |	v7 = pr_CheckStateOp		{ $value = $v7.value; }
+|	v8 = pr_GetRefOp		{ $value = $v8.value; }
 );
 
 pr_CheckStateOp returns[Value value]
@@ -7651,6 +7698,21 @@ pr_CheckStateOp returns[Value value]
 
 pr_CheckStateKeyword:
 	CHECKSTATE
+;
+
+//FIXME needs to be supported
+pr_GetRefOp returns[Value value]:
+(	pr_PortKeyword
+	pr_Dot
+	pr_GetrefKeyword
+	pr_LParen
+	pr_RParen
+)
+{
+};
+
+pr_GetrefKeyword:
+	GETREF
 ;
 
 pr_PredefinedOps returns[Value value]

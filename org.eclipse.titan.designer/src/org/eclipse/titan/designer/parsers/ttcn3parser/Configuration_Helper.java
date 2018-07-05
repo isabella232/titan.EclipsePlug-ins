@@ -17,5 +17,6 @@ import org.eclipse.titan.designer.parsers.Parser_Helper;
 public class Configuration_Helper {
 	public Reference runsonReference = null;
 	public Reference systemReference = null;
+	public Reference mtcReference = null;
 	public boolean runsOnSelf = false;
 }

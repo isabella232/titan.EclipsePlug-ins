@@ -38,6 +38,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
+ * 
+ * FIXME add support for translate
  * */
 public final class Send_Statement extends Statement {
 	private static final String SENDONPORT = "Message-based operation `send'' is not applicable to a procedure-based port of type `{0}''";
@@ -59,7 +61,7 @@ public final class Send_Statement extends Statement {
 	private final TemplateInstance parameter;
 	private final IValue toClause;
 
-	public Send_Statement(final Reference portReference, final TemplateInstance parameter, final IValue toClause) {
+	public Send_Statement(final Reference portReference, final TemplateInstance parameter, final IValue toClause, final boolean translate) {
 		this.portReference = portReference;
 		this.parameter = parameter;
 		this.toClause = toClause;

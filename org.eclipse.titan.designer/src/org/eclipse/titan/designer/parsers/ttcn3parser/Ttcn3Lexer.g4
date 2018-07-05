@@ -52,8 +52,8 @@ import Ttcn3BaseLexer;
   FOR: 'for';                       FRIEND: 'friend';                 FROM: 'from';
   FUNCTION: 'function';
 
-  GETCALL: 'getcall';               GETREPLY: 'getreply';             GETVERDICT: 'getverdict';
-  GOTO: 'goto';                     GROUP: 'group';
+  GETCALL: 'getcall';               GETREF: 'getref';                 GETREPLY: 'getreply';
+  GETVERDICT: 'getverdict';         GOTO: 'goto';                     GROUP: 'group';
 
   HALT: 'halt';                     HEXSTRING: 'hexstring';           HOSTID: 'hostid';
 
@@ -91,8 +91,9 @@ import Ttcn3BaseLexer;
 
   SELECT: 'select';                 SELF: 'self';                     SEND: 'send';
   SENDER: 'sender';                 SET: 'set';                       SETVERDICT: 'setverdict';
-  SIGNATURE: 'signature';           START: 'start';                   STOP: 'stop';
-  SUBSET: 'subset';                 SUPERSET: 'superset';             SYSTEM: 'system';
+  SETSTATE: 'setstate';             SIGNATURE: 'signature';           START: 'start';
+  STOP: 'stop';                     SUBSET: 'subset';                 SUPERSET: 'superset';
+  SYSTEM: 'system';
 
   TEMPLATE: 'template';             TESTCASE: 'testcase';             TIMEOUT: 'timeout';
   TIMER: 'timer';                   TO: 'to';                         TRIGGER: 'trigger';

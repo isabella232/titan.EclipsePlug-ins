@@ -38,6 +38,8 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 
 /**
  * @author Kristof Szabados
+ *
+ * FIXME add support for translate
  * */
 public final class Receive_Port_Statement extends Statement {
 	private static final String MESSAGEBASEOPERATIONONPROCEDUREPORT = "Massage-based operation `{0}'' is not applicable"
@@ -69,7 +71,7 @@ public final class Receive_Port_Statement extends Statement {
 	private final Reference redirectIndex;
 
 	public Receive_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
-			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
+			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final boolean translate) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
 		this.receiveParameter = receiveParameter;

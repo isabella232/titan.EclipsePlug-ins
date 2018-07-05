@@ -179,8 +179,8 @@ tokens {
   FOR,                        FRIEND,                     FROM,
   FUNCTION,
 
-  GETCALL,                    GETREPLY,                   GETVERDICT,
-  GOTO,                       GROUP,
+  GETCALL,                    GETREF,                     GETREPLY,
+  GETVERDICT,                 GOTO,                       GROUP,
 
   HALT,                       HEXSTRING,                  HOSTID,
 
@@ -218,8 +218,9 @@ tokens {
 
   SELECT,                     SELF,                       SEND,
   SENDER,                     SET,                        SETVERDICT,
-  SIGNATURE,                  START,                      STOP,
-  SUBSET,                     SUPERSET,                   SYSTEM,
+  SETSTATE,                   SIGNATURE,                  START,
+  STOP,                       SUBSET,                     SUPERSET,
+  SYSTEM,
 
   TEMPLATE,                   TESTCASE,                   TIMEOUT,
   TIMER,                      TO,                         TRIGGER,

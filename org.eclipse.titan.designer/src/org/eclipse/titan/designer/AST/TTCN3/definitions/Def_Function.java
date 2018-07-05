@@ -16,6 +16,7 @@ import java.util.Set;
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
@@ -46,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Referenced_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -64,6 +66,8 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_Function class represents TTCN3 function definitions.
  *
  * @author Kristof Szabados
+ * 
+ * FIXME finish support for mtc, ststem and port reference (code generation missing)
  * */
 public final class Def_Function extends Definition implements IParameterisedAssignment {
 	/**
@@ -97,6 +101,9 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	private static final String FULLNAMEPART2 = ".<formal_parameter_list>";
 	private static final String FULLNAMEPART3 = ".<type>";
 	private static final String FULLNAMEPART4 = ".<statement_block>";
+	private static final String FULLNAMEPART5 = ".<mtc_type>";
+	private static final String FULLNAMEPART6 = ".<system_type>";
+	private static final String FULLNAMEPART7 = ".<port_type>";
 	public static final String PORTRETURNNOTALLOWED = "Functions can not return ports";
 
 	private static final String DASHALLOWEDONLYFORTEMPLATES = "Using not used symbol (`-') as the default parameter"
@@ -112,6 +119,12 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	private final FormalParameterList formalParList;
 	private final Reference runsOnRef;
 	private Component_Type runsOnType = null;
+	private final Reference mtcReference;
+	private Component_Type mtcType = null;
+	private final Reference systemReference;
+	private Component_Type systemType = null;
+	private final Reference portReference;
+	private IType portType = null;
 	private final Type returnType;
 	private final boolean returnsTemplate;
 	private final TemplateRestriction.Restriction_type templateRestriction;
@@ -125,6 +138,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	private NamedBridgeScope bridgeScope = null;
 
 	public Def_Function(final Identifier identifier, final FormalParameterList formalParameters, final Reference runsOnRef,
+			final Reference mtcReference, final Reference systemReference, final Reference portReference,
 			final Type returnType, final boolean returnsTemplate, final TemplateRestriction.Restriction_type templateRestriction,
 			final StatementBlock block) {
 		super(identifier);
@@ -136,6 +150,9 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.setFullNameParent(this);
 		}
 		this.runsOnRef = runsOnRef;
+		this.mtcReference = mtcReference;
+		this.systemReference = systemReference;
+		this.portReference = portReference;
 		this.returnType = returnType;
 		this.returnsTemplate = returnsTemplate;
 		this.templateRestriction = templateRestriction;
@@ -151,6 +168,15 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 		if (runsOnRef != null) {
 			runsOnRef.setFullNameParent(this);
+		}
+		if (mtcReference != null) {
+			mtcReference.setFullNameParent(this);
+		}
+		if (systemReference != null) {
+			systemReference.setFullNameParent(this);
+		}
+		if (portReference != null) {
+			portReference.setFullNameParent(this);
 		}
 		if (returnType != null) {
 			returnType.setOwnertype(TypeOwner_type.OT_FUNCTION_DEF, this);
@@ -181,6 +207,12 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			return builder.append(FULLNAMEPART3);
 		} else if (block == child) {
 			return builder.append(FULLNAMEPART4);
+		} else if (mtcReference == child) {
+			return builder.append(FULLNAMEPART5);
+		} else if (systemReference == child) {
+			return builder.append(FULLNAMEPART6);
+		} else if (portReference == child) {
+			return builder.append(FULLNAMEPART7);
 		}
 
 		return builder;
@@ -252,6 +284,15 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (runsOnRef != null) {
 			runsOnRef.setMyScope(bridgeScope);
 		}
+		if (mtcReference != null) {
+			mtcReference.setMyScope(bridgeScope);
+		}
+		if (systemReference != null) {
+			systemReference.setMyScope(bridgeScope);
+		}
+		if (portReference != null) {
+			portReference.setMyScope(bridgeScope);
+		}
 		formalParList.setMyScope(bridgeScope);
 		if (returnType != null) {
 			returnType.setMyScope(bridgeScope);
@@ -279,6 +320,24 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		return runsOnType;
 	}
 
+	public Component_Type getMtcType(final CompilationTimeStamp timestamp) {
+		check(timestamp);
+
+		return mtcType;
+	}
+
+	public Component_Type getSystemType(final CompilationTimeStamp timestamp) {
+		check(timestamp);
+
+		return systemType;
+	}
+
+	public IType getPortType(final CompilationTimeStamp timestamp) {
+		check(timestamp);
+
+		return portType;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
@@ -297,6 +356,9 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		isUsed = false;
 		runsOnType = null;
+		mtcType = null;
+		systemType = null;
+		portType = null;
 		isStartable = false;
 
 		if (runsOnRef != null) {
@@ -311,6 +373,14 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					formalParList.setMyScope(tempScope);
 				}
 			}
+		}
+
+		if (mtcReference != null) {
+			mtcType = mtcReference.chkComponentypeReference(timestamp);
+		}
+
+		if (systemReference != null) {
+			systemType = systemReference.chkComponentypeReference(timestamp);
 		}
 
 		boolean canSkip = false;
@@ -340,6 +410,21 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (formalParList.hasNotusedDefaultValue()) {
 			formalParList.getLocation().reportSemanticError(DASHALLOWEDONLYFORTEMPLATES);
 			return;
+		}
+
+		if (portReference != null) {
+			final Assignment assignment = portReference.getRefdAssignment(timestamp, false);
+			if (assignment != null) {
+				portType = assignment.getType(timestamp);
+				if (portType != null) {
+					if (portType.getTypetype() == Type_type.TYPE_PORT) {
+						final Scope tempScope = new PortScope((Port_Type)portType, myScope);
+						formalParList.setMyScope(tempScope);
+					} else {
+						portReference.getLocation().reportSemanticError(MessageFormat.format("Reference `{0}'' does not refer to a port type.", portReference.getDisplayName()));
+					}
+				}
+			}
 		}
 
 		// decision of startability
@@ -770,6 +855,54 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				}
 			}
 
+			if (mtcReference != null) {
+				if (enveloped) {
+					mtcReference.updateSyntax(reparser, false);
+					reparser.updateLocation(mtcReference.getLocation());
+				} else if (reparser.envelopsDamage(mtcReference.getLocation())) {
+					try {
+						mtcReference.updateSyntax(reparser, true);
+						enveloped = true;
+						reparser.updateLocation(mtcReference.getLocation());
+					} catch (ReParseException e) {
+						removeBridge();
+						throw e;
+					}
+				}
+			}
+
+			if (systemReference != null) {
+				if (enveloped) {
+					systemReference.updateSyntax(reparser, false);
+					reparser.updateLocation(systemReference.getLocation());
+				} else if (reparser.envelopsDamage(systemReference.getLocation())) {
+					try {
+						systemReference.updateSyntax(reparser, true);
+						enveloped = true;
+						reparser.updateLocation(systemReference.getLocation());
+					} catch (ReParseException e) {
+						removeBridge();
+						throw e;
+					}
+				}
+			}
+
+			if (portReference != null) {
+				if (enveloped) {
+					portReference.updateSyntax(reparser, false);
+					reparser.updateLocation(portReference.getLocation());
+				} else if (reparser.envelopsDamage(portReference.getLocation())) {
+					try {
+						portReference.updateSyntax(reparser, true);
+						enveloped = true;
+						reparser.updateLocation(portReference.getLocation());
+					} catch (ReParseException e) {
+						removeBridge();
+						throw e;
+					}
+				}
+			}
+
 			if (returnType != null) {
 				if (enveloped) {
 					returnType.updateSyntax(reparser, false);
@@ -838,6 +971,21 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			reparser.updateLocation(runsOnRef.getLocation());
 		}
 
+		if (mtcReference != null) {
+			mtcReference.updateSyntax(reparser, false);
+			reparser.updateLocation(mtcReference.getLocation());
+		}
+
+		if (systemReference != null) {
+			systemReference.updateSyntax(reparser, false);
+			reparser.updateLocation(systemReference.getLocation());
+		}
+
+		if (portReference != null) {
+			portReference.updateSyntax(reparser, false);
+			reparser.updateLocation(portReference.getLocation());
+		}
+
 		if (returnType != null) {
 			returnType.updateSyntax(reparser, false);
 			reparser.updateLocation(returnType.getLocation());
@@ -877,6 +1025,15 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (runsOnRef != null) {
 			runsOnRef.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (mtcReference != null) {
+			mtcReference.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (systemReference != null) {
+			systemReference.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (portReference != null) {
+			portReference.findReferences(referenceFinder, foundIdentifiers);
+		}
 		if (block != null) {
 			block.findReferences(referenceFinder, foundIdentifiers);
 		}
@@ -895,6 +1052,15 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			return false;
 		}
 		if (runsOnRef != null && !runsOnRef.accept(v)) {
+			return false;
+		}
+		if (mtcReference != null && !mtcReference.accept(v)) {
+			return false;
+		}
+		if (systemReference != null && !systemReference.accept(v)) {
+			return false;
+		}
+		if (portReference != null && !portReference.accept(v)) {
 			return false;
 		}
 		if (block != null && !block.accept(v)) {

@@ -47,12 +47,16 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  * The Def_Altstep class represents TTCN3 altstep definitions.
  *
  * @author Kristof Szabados
+ * 
+ * FIXME add support for mtc and system reference
  * */
 public final class Def_Altstep extends Definition implements IParameterisedAssignment {
 	private static final String FULLNAMEPART1 = ".<formal_parameter_list>";
 	private static final String FULLNAMEPART2 = ".<runs_on_type>";
 	private static final String FULLNAMEPART3 = ".<block>";
 	private static final String FULLNAMEPART4 = ".<guards>";
+	private static final String FULLNAMEPART5 = ".<mtc_type>";
+	private static final String FULLNAMEPART6 = ".<system_type>";
 
 	private static final String DASHALLOWEDONLYFORTEMPLATES = "Using not used symbol (`-') as the default parameter"
 			+ " is allowed only for modified templates";
@@ -66,15 +70,21 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 	private final FormalParameterList formalParList;
 	private final Reference runsOnRef;
 	private Component_Type runsOnType = null;
+	private final Reference mtcRef;
+	private Component_Type mtcType = null;
+	private final Reference systemRef;
+	private Component_Type systemType = null;
 	private final StatementBlock block;
 	private final AltGuards altGuards;
 	private NamedBridgeScope bridgeScope = null;
 
 	public Def_Altstep(final Identifier identifier, final FormalParameterList formalParameters, final Reference runsOnRef,
-			final StatementBlock block, final AltGuards altGuards) {
+			final Reference mtcReference, final Reference systemReference, final StatementBlock block, final AltGuards altGuards) {
 		super(identifier);
 		this.formalParList = formalParameters;
 		this.runsOnRef = runsOnRef;
+		this.mtcRef = mtcReference;
+		this.systemRef = systemReference;
 		this.block = block;
 		this.altGuards = altGuards;
 
@@ -84,6 +94,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		}
 		if (runsOnRef != null) {
 			runsOnRef.setFullNameParent(this);
+		}
+		if (mtcReference != null) {
+			mtcReference.setFullNameParent(this);
+		}
+		if (systemReference != null) {
+			systemReference.setFullNameParent(this);
 		}
 		if (block != null) {
 			block.setMyDefinition(this);
@@ -116,6 +132,10 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			return builder.append(FULLNAMEPART3);
 		} else if (altGuards == child) {
 			return builder.append(FULLNAMEPART4);
+		} else if (mtcRef == child) {
+			return builder.append(FULLNAMEPART5);
+		} else if (systemRef == child) {
+			return builder.append(FULLNAMEPART6);
 		}
 
 		return builder;
@@ -171,6 +191,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		if (runsOnRef != null) {
 			runsOnRef.setMyScope(bridgeScope);
 		}
+		if (mtcRef != null) {
+			mtcRef.setMyScope(bridgeScope);
+		}
+		if (systemRef != null) {
+			systemRef.setMyScope(bridgeScope);
+		}
 		formalParList.setMyScope(bridgeScope);
 		if (block != null) {
 			block.setMyScope(formalParList);
@@ -211,6 +237,8 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		isUsed = false;
 		runsOnType = null;
+		mtcType = null;
+		systemType = null;
 		lastTimeChecked = timestamp;
 
 		T3Doc.check(this.getCommentLocation(), KIND);
@@ -227,6 +255,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 					formalParList.setMyScope(tempScope);
 				}
 			}
+		}
+		if (mtcRef != null) {
+			mtcType = mtcRef.chkComponentypeReference(timestamp);
+		}
+		if (systemRef != null) {
+			systemType = systemRef.chkComponentypeReference(timestamp);
 		}
 
 		if (formalParList.hasNotusedDefaultValue()) {
@@ -428,6 +462,38 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 				}
 			}
 
+			if (mtcRef != null) {
+				if (enveloped) {
+					mtcRef.updateSyntax(reparser, false);
+					reparser.updateLocation(mtcRef.getLocation());
+				} else if (reparser.envelopsDamage(mtcRef.getLocation())) {
+					try {
+						mtcRef.updateSyntax(reparser, true);
+						enveloped = true;
+						reparser.updateLocation(mtcRef.getLocation());
+					} catch (ReParseException e) {
+						removeBridge();
+						throw e;
+					}
+				}
+			}
+
+			if (systemRef != null) {
+				if (enveloped) {
+					systemRef.updateSyntax(reparser, false);
+					reparser.updateLocation(systemRef.getLocation());
+				} else if (reparser.envelopsDamage(systemRef.getLocation())) {
+					try {
+						systemRef.updateSyntax(reparser, true);
+						enveloped = true;
+						reparser.updateLocation(systemRef.getLocation());
+					} catch (ReParseException e) {
+						removeBridge();
+						throw e;
+					}
+				}
+			}
+
 			if (altGuards != null) {
 				if (enveloped) {
 					altGuards.updateSyntax(reparser, false);
@@ -496,6 +562,16 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			reparser.updateLocation(runsOnRef.getLocation());
 		}
 
+		if (mtcRef != null) {
+			mtcRef.updateSyntax(reparser, false);
+			reparser.updateLocation(mtcRef.getLocation());
+		}
+
+		if (systemRef != null) {
+			systemRef.updateSyntax(reparser, false);
+			reparser.updateLocation(systemRef.getLocation());
+		}
+
 		if (block != null) {
 			block.updateSyntax(reparser, false);
 			reparser.updateLocation(block.getLocation());
@@ -532,6 +608,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		if (runsOnRef != null) {
 			runsOnRef.findReferences(referenceFinder, foundIdentifiers);
 		}
+		if (mtcRef != null) {
+			mtcRef.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (systemRef != null) {
+			systemRef.findReferences(referenceFinder, foundIdentifiers);
+		}
 		if (block != null) {
 			block.findReferences(referenceFinder, foundIdentifiers);
 		}
@@ -550,6 +632,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			return false;
 		}
 		if (runsOnRef != null && !runsOnRef.accept(v)) {
+			return false;
+		}
+		if (mtcRef != null && !mtcRef.accept(v)) {
+			return false;
+		}
+		if (systemRef != null && !systemRef.accept(v)) {
 			return false;
 		}
 		if (block != null && !block.accept(v)) {

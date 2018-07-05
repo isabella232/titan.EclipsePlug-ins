@@ -330,6 +330,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		return outSignatures;
 	}
 
+	/**
+	 * @return the list of variable definitions in this port
+	 * */
+	public Definitions getVariableDefinitions() {
+		return vardefs;
+	}
+
 	/** @returns true if this port is internal, false otherwise */
 	public boolean isInternal() {
 		return TestPortAPI_type.TP_INTERNAL.equals(testportType);
