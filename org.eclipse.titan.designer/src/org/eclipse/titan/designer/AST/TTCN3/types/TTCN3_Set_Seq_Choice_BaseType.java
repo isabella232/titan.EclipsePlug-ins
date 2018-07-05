@@ -884,10 +884,11 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 					}
 				}
 				if (rawPar.crosstaglist != null) {
-					boolean errorFound = false;
 					for (int c = 0; c < rawPar.crosstaglist.size(); c++) {
 						final rawAST_single_tag singleTag = rawPar.crosstaglist.get(c);
 						final Identifier idf = singleTag.fieldName;
+						boolean errorFound = false;
+
 						switch (fieldTypeLast.getTypetype()) {
 						case TYPE_TTCN3_CHOICE:
 						case TYPE_TTCN3_SEQUENCE:
