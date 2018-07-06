@@ -12,13 +12,12 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.Scope;
-import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TTCN3Scope;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -33,7 +32,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * */
 public class PortScope extends TTCN3Scope {
 
-	private final IType portType;
+	private final Port_Type portType;
 	private final Definitions variableDefinitions;
 
 	public PortScope(final Port_Type portType, final Scope parentScope) {
@@ -45,6 +44,19 @@ public class PortScope extends TTCN3Scope {
 			variableDefinitions = portType.getPortBody().getVariableDefinitions();
 		}
 		setParentScope(parentScope);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public PortScope getScopePort() {
+		return this;
+	}
+
+	/**
+	 * @return the port type this scope was created from.
+	 * */
+	public Port_Type getPortType() {
+		return portType;
 	}
 
 	@Override

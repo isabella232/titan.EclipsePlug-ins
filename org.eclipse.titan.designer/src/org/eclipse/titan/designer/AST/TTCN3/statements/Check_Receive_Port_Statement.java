@@ -157,7 +157,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 			return;
 		}
 
-		Receive_Port_Statement.checkReceivingStatement(timestamp, this, "check-receive", portReference, anyFrom, receiveParameter, fromClause,
+		Receive_Port_Statement.checkReceivingStatement(timestamp, this, "check-receive", portReference, anyFrom, false, receiveParameter, fromClause,
 				redirectValue, redirectSender, redirectIndex);
 
 		if (redirectValue != null) {

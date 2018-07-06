@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.PortScope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
@@ -39,7 +40,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 /**
  * @author Kristof Szabados
  * 
- * FIXME add support for translate
  * */
 public final class Send_Statement extends Statement {
 	private static final String SENDONPORT = "Message-based operation `send'' is not applicable to a procedure-based port of type `{0}''";
@@ -58,11 +58,13 @@ public final class Send_Statement extends Statement {
 	private static final String STATEMENT_NAME = "send";
 
 	private final Reference portReference;
+	private final boolean translate;
 	private final TemplateInstance parameter;
 	private final IValue toClause;
 
 	public Send_Statement(final Reference portReference, final TemplateInstance parameter, final IValue toClause, final boolean translate) {
 		this.portReference = portReference;
+		this.translate = translate;
 		this.parameter = parameter;
 		this.toClause = toClause;
 
@@ -109,7 +111,7 @@ public final class Send_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		if (portReference != null) {
+		if (portReference != null && !translate) {
 			portReference.setMyScope(scope);
 		}
 		if (parameter != null) {
@@ -127,9 +129,23 @@ public final class Send_Statement extends Statement {
 			return;
 		}
 
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, this, portReference, false);
+		Port_Type portType;
+		if (translate) {
+			PortScope ps = myStatementBlock.getScopePort();
+			if (ps != null) {
+				portType = ps.getPortType();
+			} else {
+				getLocation().reportSemanticError("Cannot determine the type of the port: Missing port clause on the function.");
+				lastTimeChecked = timestamp;
+
+				return;
+			}
+		} else {
+			portType = Port_Utility.checkPortReference(timestamp, this, portReference, false);
+		}
 
 		if (parameter == null) {
+			lastTimeChecked = timestamp;
 			return;
 		}
 
@@ -270,8 +286,13 @@ public final class Send_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
-		portReference.generateCode(aData, expression);
-		expression.expression.append(".send(");
+
+		if (!translate) {
+			portReference.generateCode(aData, expression);
+			expression.expression.append(".send(");
+		} else {
+			expression.expression.append("send(");
+		}
 
 		final TTCN3Template templateBody = parameter.getTemplateBody();
 		if (parameter.getDerivedReference() == null && Template_type.SPECIFIC_VALUE.equals(templateBody.getTemplatetype())

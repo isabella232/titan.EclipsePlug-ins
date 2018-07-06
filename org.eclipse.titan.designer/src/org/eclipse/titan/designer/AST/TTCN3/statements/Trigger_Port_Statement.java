@@ -156,7 +156,7 @@ public final class Trigger_Port_Statement extends Statement {
 			return;
 		}
 
-		Receive_Port_Statement.checkReceivingStatement(timestamp, this, "trigger", portReference, anyFrom, receiveParameter, fromClause,
+		Receive_Port_Statement.checkReceivingStatement(timestamp, this, "trigger", portReference, anyFrom, false, receiveParameter, fromClause,
 				redirectValue, redirectSender, redirectIndex);
 
 		if (redirectValue != null) {

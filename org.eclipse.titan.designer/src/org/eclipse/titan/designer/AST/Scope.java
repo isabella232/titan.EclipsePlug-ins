@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ControlPart;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.PortScope;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.RunsOnScope;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
 import org.eclipse.titan.designer.AST.TTCN3.types.Altstep_Type;
@@ -210,6 +211,18 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		}
 
 		return parentScope.getScopeRunsOn();
+	}
+
+	/**
+	 * @return the scope unit of the hierarchy that belongs to a runs on `port'
+	 *         clause, or null.
+	 * */
+	public PortScope getScopePort() {
+		if (parentScope == null) {
+			return null;
+		}
+
+		return parentScope.getScopePort();
 	}
 
 	/**

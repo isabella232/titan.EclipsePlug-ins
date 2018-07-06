@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Port;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.PortScope;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
@@ -39,7 +40,6 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.Ttcn3Lexer;
 /**
  * @author Kristof Szabados
  *
- * FIXME add support for translate
  * */
 public final class Receive_Port_Statement extends Statement {
 	private static final String MESSAGEBASEOPERATIONONPROCEDUREPORT = "Massage-based operation `{0}'' is not applicable"
@@ -64,6 +64,7 @@ public final class Receive_Port_Statement extends Statement {
 
 	private final Reference portReference;
 	private final boolean anyFrom;
+	private final boolean translate;
 	private final TemplateInstance receiveParameter;
 	private final TemplateInstance fromClause;
 	private final Reference redirectValue;
@@ -74,6 +75,7 @@ public final class Receive_Port_Statement extends Statement {
 			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final boolean translate) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
+		this.translate = translate;
 		this.receiveParameter = receiveParameter;
 		this.fromClause = fromClause;
 		this.redirectValue = redirectValue;
@@ -159,7 +161,7 @@ public final class Receive_Port_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		if (portReference != null) {
+		if (portReference != null && !translate) {
 			portReference.setMyScope(scope);
 		}
 		if (receiveParameter != null) {
@@ -198,7 +200,7 @@ public final class Receive_Port_Statement extends Statement {
 			return;
 		}
 
-		checkReceivingStatement(timestamp, this, "receive", portReference, anyFrom, receiveParameter, fromClause, redirectValue, redirectSender, redirectIndex);
+		checkReceivingStatement(timestamp, this, "receive", portReference, anyFrom, translate, receiveParameter, fromClause, redirectValue, redirectSender, redirectIndex);
 
 		if (redirectValue != null) {
 			redirectValue.setUsedOnLeftHandSide();
@@ -224,6 +226,8 @@ public final class Receive_Port_Statement extends Statement {
 	 *                the name of the original statement.
 	 * @param portReference
 	 *                the port reference.
+	 * @param anyFrom is it an any from receive?
+	 * @param translate is it receiving on a translation port?
 	 * @param receiveParameter
 	 *                the receiving parameter.
 	 * @param fromClause
@@ -234,9 +238,21 @@ public final class Receive_Port_Statement extends Statement {
 	 *                the sender redirection of the statement.
 	 * */
 	public static void checkReceivingStatement(final CompilationTimeStamp timestamp, final Statement origin, final String statementName,
-			final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
+			final Reference portReference, final boolean anyFrom, final boolean translate, final TemplateInstance receiveParameter, final TemplateInstance fromClause,
 			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
-		final Port_Type portType = Port_Utility.checkPortReference(timestamp, origin, portReference, anyFrom);
+		Port_Type portType;
+		if (translate) {
+			PortScope ps = origin.getMyStatementBlock().getScopePort();
+			if (ps != null) {
+				portType = ps.getPortType();
+			} else {
+				origin.getLocation().reportSemanticError("Cannot determine the type of the port: Missing port clause on the function.");
+
+				return;
+			}
+		} else {
+			portType = Port_Utility.checkPortReference(timestamp, origin, portReference, anyFrom);
+		}
 
 		if (receiveParameter == null) {
 			if (portType != null && Type_type.TYPE_PORT.equals(portType.getTypetype())) {
@@ -295,7 +311,7 @@ public final class Receive_Port_Statement extends Statement {
 					portReference.getLocation().reportSemanticError(
 							MessageFormat.format(NOINCOMINGMESSAGETYPES, portType.getTypename()));
 				}
-			} else if (portReference == null) {
+			} else if (portReference == null && !translate) {
 				// any port
 				receiveParameter.getLocation().reportSemanticError(MessageFormat.format(ANYPORTWITHPARAMETER, statementName));
 				if (redirectValue != null) {
@@ -452,10 +468,13 @@ public final class Receive_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
-		//FIXME handle translation too
-		if (portReference != null) {
-			portReference.generateCode(aData, expression);
-			expression.expression.append(".receive(");
+		if (portReference != null || translate) {
+			if (!translate) {
+				portReference.generateCode(aData, expression);
+				expression.expression.append(".receive(");
+			} else {
+				expression.expression.append("receive(");
+			}
 			if (receiveParameter != null) {
 				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 				expression.expression.append(", ");
@@ -496,8 +515,7 @@ public final class Receive_Port_Statement extends Statement {
 			redirectSender.generateCode(aData, expression);
 		}
 
-		//FIXME also if translate
-		if (portReference != null) {
+		if (portReference != null || translate) {
 			expression.expression.append(",");
 			if (redirectIndex == null) {
 				expression.expression.append("null");
