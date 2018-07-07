@@ -1515,15 +1515,10 @@ pr_MessageListIn[PortTypeBody body]:
 	t = pr_AllOrTypeList{ $body.addInTypes($t.types); }
 	(	pr_FromKeyword
 		mtl = pr_MessageListFromAttributeList
-		{	for ( final IType type : $t.types ) {
-				if ( type instanceof Type ) {
-					final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
-					typeMapping.setLocation(getLocation($t.start, $mtl.stop));
-					$body.addInMapping( typeMapping );
-				} else {
-					ErrorReporter.INTERNAL_ERROR();
-				}
-			}
+		{	final IType type = $t.types.get($t.types.size() - 1);
+			final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
+			typeMapping.setLocation(getLocation($t.start, $mtl.stop));
+			$body.addInMapping( typeMapping );
 		}
 	)?
 ;
@@ -1532,15 +1527,10 @@ pr_MessageListOut[PortTypeBody body]:
 	t = pr_AllOrTypeList{ $body.addOutTypes($t.types); }
 	(	pr_ToKeyword
 		mtl = pr_MessageListToAttributeList
-		{	for ( final IType type : $t.types ) {
-				if ( type instanceof Type ) {
-					final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
-					typeMapping.setLocation(getLocation($t.start, $mtl.stop));
-					$body.addOutMapping( typeMapping );
-				} else {
-					ErrorReporter.INTERNAL_ERROR();
-				}
-			}
+		{	final IType type = $t.types.get($t.types.size() - 1);
+			final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
+			typeMapping.setLocation(getLocation($t.start, $mtl.stop));
+			$body.addOutMapping( typeMapping );
 		}
 	)?
 ;
