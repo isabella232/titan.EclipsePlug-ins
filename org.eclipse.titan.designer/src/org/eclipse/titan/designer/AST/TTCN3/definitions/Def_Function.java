@@ -415,6 +415,17 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			return;
 		}
 
+		prototype = EncodingPrototype_type.NONE;
+		inputType = null;
+		outputType = null;
+
+		if (withAttributesPath != null) {
+			withAttributesPath.checkGlobalAttributes(timestamp, false);
+			withAttributesPath.checkAttributes(timestamp);
+			analyzeExtensionAttributes(timestamp);
+			checkPrototype(timestamp);
+		}
+
 		if (portReference != null) {
 			final Assignment assignment = portReference.getRefdAssignment(timestamp, false);
 			if (assignment != null) {
@@ -466,17 +477,6 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 			block.postCheck();
 			block.setCodeSection(CodeSectionType.CS_INLINE);
-		}
-
-		prototype = EncodingPrototype_type.NONE;
-		inputType = null;
-		outputType = null;
-
-		if (withAttributesPath != null) {
-			withAttributesPath.checkGlobalAttributes(timestamp, false);
-			withAttributesPath.checkAttributes(timestamp);
-			analyzeExtensionAttributes(timestamp);
-			checkPrototype(timestamp);
 		}
 	}
 
