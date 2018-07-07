@@ -1517,7 +1517,9 @@ pr_MessageListIn[PortTypeBody body]:
 		mtl = pr_MessageListFromAttributeList
 		{	for ( final IType type : $t.types ) {
 				if ( type instanceof Type ) {
-					$body.addInMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
+					final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
+					typeMapping.setLocation(getLocation($t.start, $mtl.stop));
+					$body.addInMapping( typeMapping );
 				} else {
 					ErrorReporter.INTERNAL_ERROR();
 				}
@@ -1532,7 +1534,9 @@ pr_MessageListOut[PortTypeBody body]:
 		mtl = pr_MessageListToAttributeList
 		{	for ( final IType type : $t.types ) {
 				if ( type instanceof Type ) {
-					//$body.addOutMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
+					final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
+					typeMapping.setLocation(getLocation($t.start, $mtl.stop));
+					$body.addOutMapping( typeMapping );
 				} else {
 					ErrorReporter.INTERNAL_ERROR();
 				}
@@ -1563,6 +1567,7 @@ pr_MessageListFromAttribute returns[TypeMappingTarget mappingTarget]:
 	pr_LParen
 	pr_RParen
 {	$mappingTarget = new FunctionTypeMappingTarget( $outerInType.type, $inFunction.reference );
+	$mappingTarget.setLocation(getLocation($start, getStopToken()));
 };
 
 pr_MessageListToAttributeList returns[TypeMappingTargets mappingTargetList]
@@ -1583,6 +1588,7 @@ pr_MessageListToAttribute returns[TypeMappingTarget mappingTarget]:
 	pr_LParen
 	pr_RParen
 {	$mappingTarget = new FunctionTypeMappingTarget( $outerOutType.type, $outFunction.reference );
+	$mappingTarget.setLocation(getLocation($start, getStopToken()));
 };
 
 pr_MessageKeyword:
