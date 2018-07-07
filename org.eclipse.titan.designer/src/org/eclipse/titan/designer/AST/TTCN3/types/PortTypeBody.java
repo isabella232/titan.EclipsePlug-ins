@@ -385,6 +385,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *
 	 * @param providerReference the reference pointing to the provider port
 	 * @param legacy is it in legacy syntax?
+	 * 
+	 *TODO check if we should de this in one step.
 	 * */
 	public void addUserAttribute(final List<Reference> providerReferences, final boolean legacy) {
 		portType = PortType_type.PT_USER;
@@ -762,7 +764,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				inMappings.check(timestamp, myType, legacy, true);
 			}
 			// FIXME checkMapTranslation();
-			vardefs.check(timestamp);
+			if (vardefs != null) {
+				vardefs.check(timestamp);
+			}
 		}
 	}
 
@@ -780,6 +784,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		lastTimeAttributesChecked = lastTimeChecked;
 
 		final List<SingleWithAttribute> realAttributes = withAttributesPath.getRealAttributes(timestamp);
+		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
 
 		SingleWithAttribute attribute;
 		List<AttributeSpecification> specifications = null;
@@ -802,29 +807,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
-		if (specifications == null) {
-			return;
-		}
-
-		final List<ExtensionAttribute> attributes = new ArrayList<ExtensionAttribute>();
-		AttributeSpecification specification;
-		for (int i = 0; i < specifications.size(); i++) {
-			specification = specifications.get(i);
-			final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
-			analyzer.parse(specification);
-			final List<ExtensionAttribute> temp = analyzer.getAttributes();
-			if (temp != null) {
-				attributes.addAll(temp);
+		if (specifications != null) {
+			AttributeSpecification specification;
+			for (int i = 0; i < specifications.size(); i++) {
+				specification = specifications.get(i);
+				final ExtensionAttributeAnalyzer analyzer = new ExtensionAttributeAnalyzer();
+				analyzer.parse(specification);
+				final List<ExtensionAttribute> temp = analyzer.getAttributes();
+				if (temp != null) {
+					attributes.addAll(temp);
+				}
 			}
-		}
-
-		if (attributes.isEmpty()) {
-			return;
 		}
 
 		//clear the old attributes
 		testportType = TestPortAPI_type.TP_REGULAR;
-		portType = PortType_type.PT_REGULAR;
+		//portType = PortType_type.PT_REGULAR;
 
 		// check the new attributes
 		for (int i = 0; i < attributes.size(); i++) {
