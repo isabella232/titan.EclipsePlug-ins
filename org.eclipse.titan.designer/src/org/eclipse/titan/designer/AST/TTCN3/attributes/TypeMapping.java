@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -102,8 +103,14 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
+	 * @param portType
+	 *                the type of the mapping port.
+	 * @param legacy
+	 *                is this the legacy behavior.
+	 * @param incoming
+	 *                is it mapping in incoming direction?
 	 * */
-	public void check(final CompilationTimeStamp timestamp) {
+	public void check(final CompilationTimeStamp timestamp, final Port_Type portType, final boolean legacy, final boolean incoming) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
@@ -117,7 +124,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 		boolean hasNonSliding = false;
 		for (int i = 0, size = nofTargets; i < size; i++) {
 			final TypeMappingTarget target = mappingTargets.getTargetByIndex(i);
-			target.check(timestamp, source_type);
+			target.check(timestamp, source_type, portType, legacy, incoming);
 			if (nofTargets > 1) {
 				switch (target.getTypeMappingType()) {
 				case DISCARD:

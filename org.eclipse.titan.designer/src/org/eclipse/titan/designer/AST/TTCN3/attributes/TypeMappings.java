@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -69,7 +70,6 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 	}
 
 	public boolean hasMappingForType(final CompilationTimeStamp timestamp, final IType type) {
-		check(timestamp);
 		if (type.getIsErroneous(timestamp)) {
 			return true;
 		}
@@ -78,8 +78,6 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 	}
 
 	public TypeMapping getMappingForType(final CompilationTimeStamp timestamp, final IType type) {
-		check(timestamp);
-
 		return mappingsMap.get(type.getTypename());
 	}
 
@@ -126,8 +124,14 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
+	 * @param portType
+	 *                the type of the mapping port.
+	 * @param legacy
+	 *                is this the legacy behavior.
+	 * @param incoming
+	 *                is it mapping in incoming direction?
 	 * */
-	public void check(final CompilationTimeStamp timestamp) {
+	public void check(final CompilationTimeStamp timestamp, final Port_Type portType, final boolean legacy, final boolean incoming) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
@@ -137,7 +141,7 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 		mappingsMap.clear();
 		for (int i = 0, size = mappings.size(); i < size; i++) {
 			final TypeMapping mapping = mappings.get(i);
-			mapping.check(timestamp);
+			mapping.check(timestamp, portType, legacy, incoming);
 			final Type sourceType = mapping.getSourceType();
 
 			if (sourceType != null && !sourceType.getTypeRefdLast(timestamp).getIsErroneous(timestamp)) {

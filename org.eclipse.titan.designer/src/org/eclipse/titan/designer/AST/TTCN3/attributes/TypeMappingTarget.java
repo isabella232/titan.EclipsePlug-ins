@@ -12,6 +12,7 @@ import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -56,6 +57,14 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 	 *
 	 * @param timestamp
 	 *                the timestamp of the actual semantic check cycle.
+	 * @param sourceType
+	 *                the type used as source for the mapping.
+	 * @param portType
+	 *                the type of the mapping port.
+	 * @param legacy
+	 *                is this the legacy behavior.
+	 * @param incoming
+	 *                is it mapping in incoming direction?
 	 * */
-	public abstract void check(final CompilationTimeStamp timestamp, final Type source);
+	public abstract void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming);
 }

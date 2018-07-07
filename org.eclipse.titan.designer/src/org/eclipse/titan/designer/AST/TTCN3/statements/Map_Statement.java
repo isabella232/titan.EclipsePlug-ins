@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.PortType_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -52,6 +53,7 @@ public final class Map_Statement extends Statement {
 	private final PortReference portReference1;
 	private final Value componentReference2;
 	private final PortReference portReference2;
+	private boolean translate = false;
 
 	public Map_Statement(final Value componentReference1, final PortReference portReference1, final Value componentReference2,
 			final PortReference portReference2) {
@@ -210,27 +212,64 @@ public final class Map_Statement extends Statement {
 			return;
 		}
 
-		if (body1 == null || body2 == null || portType1 == null || portType2 == null) {
+		if (body1 == null || body2 == null) {
+			if (body1 != null && body1.isInternal()) {
+				portReference1.getLocation().reportSemanticWarning(MessageFormat.format("Port type `{0}'' was marked as `internal''", portType1.getTypename()));
+			}
+			if (body2 != null && body2.isInternal()) {
+				portReference2.getLocation().reportSemanticWarning(MessageFormat.format("Port type `{0}'' was marked as `internal''", portType2.getTypename()));
+			}
+
+			if ((body1 != null && !body1.isLegacy() && body1.getPortType() == PortType_type.PT_USER) ||
+					(body2 != null && !body2.isLegacy() && body2.getPortType() == PortType_type.PT_USER)) {
+				getLocation().reportSemanticWarning(MessageFormat.format("This mapping is not done in translation mode, because the {0} endpoint is unknown", body1 != null ? "second" : "first"));
+			}
+
 			return;
 		}
-
+		
 		if (cref1IsTestcomponents || cref2IsSystem) {
-			if (!body1.isMappable(timestamp, body2)) {
+			translate = !body1.isLegacy() && body1.isTranslate(body2);
+			if (!translate && !body1.isMappable(timestamp, body2)) {
 				location.reportSemanticError(MessageFormat.format(INCONSISTENTMAPPING1, portType1.getTypename(),
 						portType2.getTypename()));
 				body1.reportMappingErrors(timestamp, body2);
 			}
+			if (!translate && !body1.mapCanReceiveOrSend(body2)) {
+				getLocation().reportSemanticWarning(MessageFormat.format("Port type `{0}'' cannot send or receive from system port type `{1}''.", portType1.getTypename(), portType2.getTypename()));
+			}
 		} else if (cref2IsTestcomponent || cref1IsSystem) {
-			if (!body2.isMappable(timestamp, body1)) {
+			translate = !body2.isLegacy() && body2.isTranslate(body1);
+			if (!translate && !body2.isMappable(timestamp, body1)) {
 				location.reportSemanticError(MessageFormat.format(INCONSISTENTMAPPING2, portType1.getTypename(),
 						portType2.getTypename()));
 				body2.reportMappingErrors(timestamp, body1);
 			}
+			if (!translate && !body2.mapCanReceiveOrSend(body1)) {
+				getLocation().reportSemanticWarning(MessageFormat.format("Port type `{0}'' cannot send or receive from system port type `{1}''.", portType2.getTypename(), portType1.getTypename()));
+			}
 		} else {
 			// we don't know which one is the system port
-			if (!body1.isMappable(timestamp, body2) && !body2.isMappable(timestamp, body1)) {
+			boolean firstMappedToSecond = !body1.isLegacy() && body1.isTranslate(body2);
+			boolean secondMappedToFirst = !body2.isLegacy() && body2.isTranslate(body1);;
+			translate = firstMappedToSecond || secondMappedToFirst;
+
+			if (!translate && !body1.isMappable(timestamp, body2) && !body2.isMappable(timestamp, body1)) {
 				location.reportSemanticError(MessageFormat.format(INCONSISTENTMAPPING3, portType1.getTypename(),
 						portType2.getTypename()));
+			}
+		}
+
+		if (!translate) {
+			if (body1.isInternal()) {
+				portReference1.getLocation().reportSemanticWarning(MessageFormat.format("Port type `{0}'' was marked as `internal''", portType1.getTypename()));
+			}
+			if (body2.isInternal()) {
+				portReference2.getLocation().reportSemanticWarning(MessageFormat.format("Port type `{0}'' was marked as `internal''", portType2.getTypename()));
+			}
+			if ((!body1.isLegacy() && body1.getPortType() == PortType_type.PT_USER) ||
+					(!body2.isLegacy() && body2.getPortType() == PortType_type.PT_USER)) {
+				getLocation().reportSemanticWarning("This mapping is not done in translation mode");
 			}
 		}
 	}
@@ -303,7 +342,7 @@ public final class Map_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		//FIXME generate code for translation
+		//TODO why the checks here?
 		expression.expression.append("TTCN_Runtime.map_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
@@ -322,7 +361,11 @@ public final class Map_Statement extends Statement {
 			portReference2.generateCode(aData, expression);
 			expression.expression.append(".get_name()");
 		}
-		expression.expression.append(", false)");
+		if (translate) {
+			expression.expression.append(", true)");
+		} else {
+			expression.expression.append(", false)");
+		}
 
 		expression.mergeExpression(source);
 	}

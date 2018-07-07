@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -96,7 +97,7 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public void check(final CompilationTimeStamp timestamp, final Type source) {
+	public void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
@@ -131,11 +132,14 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 		case A_EXT_FUNCTION:
 		case A_EXT_FUNCTION_RVAL:
 		case A_EXT_FUNCTION_RTEMP:
-			extfunctionReferenced = (Def_Extfunction) assignment;
-			referencedPrototype = extfunctionReferenced.getPrototype();
-			inputType = extfunctionReferenced.getInputType();
-			outputType = extfunctionReferenced.getOutputType();
-			break;
+			// External functions are not allowed when the standard like behavior is used
+			if (legacy) {
+				extfunctionReferenced = (Def_Extfunction) assignment;
+				referencedPrototype = extfunctionReferenced.getPrototype();
+				inputType = extfunctionReferenced.getInputType();
+				outputType = extfunctionReferenced.getOutputType();
+				break;
+			}
 		default:
 			functionReference.getLocation().reportSemanticError(
 					MessageFormat.format("Reference to a function or external function was expected instead of {0}",
@@ -143,23 +147,73 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 			return;
 		}
 
-		if (EncodingPrototype_type.NONE.equals(referencedPrototype)) {
+		if (legacy && EncodingPrototype_type.NONE.equals(referencedPrototype)) {
 			functionReference.getLocation().reportSemanticError(
 					MessageFormat.format("The referenced {0} does not have `prototype'' attribute", assignment.getDescription()));
 			return;
 		}
 
-		if (inputType != null && source != null && !source.isIdentical(timestamp, inputType)) {
+		if (!legacy && !EncodingPrototype_type.FAST.equals(referencedPrototype)) {
+			functionReference.getLocation().reportSemanticError(
+					MessageFormat.format("The referenced {0} does not have `prototype'' fast attribute", assignment.getDescription()));
+			return;
+		}
+
+		if (legacy && inputType != null && sourceType != null && !sourceType.isIdentical(timestamp, inputType)) {
 			final String message = MessageFormat
 					.format("The input type of {0} must be the same as the source type of the mapping: `{1}'' was expected instead of `{2}''",
-							assignment.getDescription(), source.getTypename(), inputType.getTypename());
-			source.getLocation().reportSemanticError(message);
+							assignment.getDescription(), sourceType.getTypename(), inputType.getTypename());
+			sourceType.getLocation().reportSemanticError(message);
 		}
-		if (outputType != null && !targetType.isIdentical(timestamp, outputType)) {
+		if (legacy && outputType != null && !targetType.isIdentical(timestamp, outputType)) {
 			final String message = MessageFormat
 					.format("The output type of {0} must be the same as the target type of the mapping: `{1}'' was expected instead of `{2}''",
 							assignment.getDescription(), targetType.getTypename(), outputType.getTypename());
 			targetType.getLocation().reportSemanticError(message);
+		}
+
+		//  The standard like behavior has different function param checking
+		if (!legacy) {
+			// In the error message the source type is the target_type
+			// and the target type is the source_type for a reason.
+			// Reason: In the new standard like behavior the conversion functions 
+			// has the correct param order for in and out parameters
+			// (which is more logical than the old behavior)
+			// For example:
+			// in octetstring from integer with int_to_oct()
+			//         |              |             |
+			//    target_type     source_type   conv. func.
+			if (incoming) {
+				if (inputType != null && !targetType.isIdentical(timestamp, inputType)) {
+					final String message = MessageFormat
+							.format("The input type of {0} must be the same as the source type of the mapping: `{1}'' was expected instead of `{2}''",
+									assignment.getDescription(), targetType.getTypename(), inputType.getTypename());
+					targetType.getLocation().reportSemanticError(message);
+				}
+				if (outputType != null && !sourceType.isIdentical(timestamp, outputType)) {
+					final String message = MessageFormat
+							.format("The output type of {0} must be the same as the target type of the mapping: `{1}'' was expected instead of `{2}''",
+									assignment.getDescription(), sourceType.getTypename(), outputType.getTypename());
+					targetType.getLocation().reportSemanticError(message);
+				}
+			} else {
+				// For example:
+				// out octetstring to integer with oct_to_int()
+				//         |              |             |
+				//    source_type     target_type   conv. func.
+				if (inputType != null && !sourceType.isIdentical(timestamp, inputType)) {
+					final String message = MessageFormat
+							.format("The input type of {0} must be the same as the source type of the mapping: `{1}'' was expected instead of `{2}''",
+									assignment.getDescription(), sourceType.getTypename(), inputType.getTypename());
+					targetType.getLocation().reportSemanticError(message);
+				}
+				if (outputType != null && !targetType.isIdentical(timestamp, outputType)) {
+					final String message = MessageFormat
+							.format("The output type of {0} must be the same as the target type of the mapping: `{1}'' was expected instead of `{2}''",
+									assignment.getDescription(), targetType.getTypename(), outputType.getTypename());
+					targetType.getLocation().reportSemanticError(message);
+				}
+			}
 		}
 	}
 

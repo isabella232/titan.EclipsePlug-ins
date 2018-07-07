@@ -107,6 +107,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private PortType_type portType;
 
 	private Port_Type myType;
+	private boolean legacy = true;
 
 	private List<IType> inTypes = null;
 	private boolean inAll = false;
@@ -120,8 +121,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private TypeSet inSignatures;
 	private TypeSet outSignatures;
 
-	private Reference providerReference;
-	private IType providerType;
+	private ArrayList<Reference> providerReferences = new ArrayList<Reference>();
+	private ArrayList<IType> providerTypes = new ArrayList<IType>();
+	private ArrayList<IType> mapperTypes = new ArrayList<IType>();
 	private TypeMappings inMappings;
 	private TypeMappings outMappings;
 
@@ -183,8 +185,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		} else if (outSignatures == child) {
 			return builder.append(FULLNAMEPART7);
 		}
-		if (providerReference == child) {
-			return builder.append(".<provider_ref>");
+		for (int i = 0; i < providerReferences.size(); i++) {
+			if (providerReferences.get(i) == child) {
+				return builder.append(".<provider_ref>");
+			}
 		}
 		if (inMappings == child) {
 			return builder.append(".<inMappings>");
@@ -272,8 +276,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				inoutTypes.get(i).setMyScope(scope);
 			}
 		}
-		if (providerReference != null) {
-			providerReference.setMyScope(scope);
+		for (int i = 0; i < providerReferences.size(); i++) {
+			providerReferences.get(i).setMyScope(scope);
 		}
 		if (inMappings != null) {
 			inMappings.setMyScope(scope);
@@ -299,7 +303,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	}
 
 	public IType getProviderType() {
-		return providerType;
+		return providerTypes.get(0);
 	}
 
 	/**
@@ -355,8 +359,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		IType t = null;
 		// in case of 'user' port types the address visible and supported by the 'provider' port type is relevant
-		if (PortType_type.PT_USER.equals(portType) && providerType != null) {
-			t = providerType;
+		if (PortType_type.PT_USER.equals(portType) && providerTypes.size() > 0) {
+			t = providerTypes.get(0);
 		} else {
 			t = myType;
 		}
@@ -370,8 +374,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * */
 	private void addProviderAttribute() {
 		portType = PortType_type.PT_PROVIDER;
-		providerReference = null;
-		providerType = null;
+		providerReferences.clear();
+		providerTypes.clear();
 		inMappings = null;
 		outMappings = null;
 	}
@@ -384,12 +388,17 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * @param inMappings the incoming mappings.
 	 * @param outMappings the outgoing mappings.
 	 * */
-	public void addUserAttribute(final Reference providerReference, final TypeMappings inMappings, final TypeMappings outMappings) {
+	public void addUserAttribute(final ArrayList<Reference> providerReferences, final TypeMappings inMappings, final TypeMappings outMappings, final boolean legacy) {
 		portType = PortType_type.PT_USER;
-		this.providerReference = providerReference;
-		this.providerReference.setFullNameParent(new BridgingNamedNode(this, ".<provider_ref>"));
-		this.providerReference.setMyScope(myType.getMyScope());
-		providerType = null;
+		this.providerReferences.clear();
+		for (int i = 0; i < providerReferences.size(); i++) {
+			final Reference temp = providerReferences.get(i);
+
+			this.providerReferences.add(temp);
+			temp.setFullNameParent(new BridgingNamedNode(this, ".<provider_ref>"));
+			temp.setMyScope(myType.getMyScope());
+		}
+		providerTypes.clear();
 
 		this.inMappings = inMappings;
 		if (inMappings != null) {
@@ -402,6 +411,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			this.outMappings.setFullNameParent(new BridgingNamedNode(this, ".<outMappings>"));
 			this.outMappings.setMyScope(myType.getMyScope());
 		}
+
+		this.legacy = legacy;
 	}
 
 	/**
@@ -461,77 +472,84 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * @param timestamp the time stamp of the actual semantic check cycle.
 	 * */
 	private void checkUserAttribute(final CompilationTimeStamp timestamp) {
-		if (providerReference == null) {
-			return;
-		}
-
-		providerType = null;
+		providerTypes.clear();
 		PortTypeBody providerBody = null;
-		final Assignment assignment = providerReference.getRefdAssignment(timestamp, true);
-		if (assignment != null) {
-			if (Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType())) {
-				final IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
-				if (Type_type.TYPE_PORT.equals(type.getTypetype())) {
-					providerType = type;
-					providerBody = ((Port_Type) type).getPortBody();
+		for (int p = 0; p < providerReferences.size(); p++) {
+			providerBody = null;
+			final Assignment assignment = providerReferences.get(p).getRefdAssignment(timestamp, true);
+			if (assignment != null) {
+				if (Assignment_type.A_TYPE.semanticallyEquals(assignment.getAssignmentType())) {
+					final IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
+					if (Type_type.TYPE_PORT.equals(type.getTypetype())) {
+						boolean found = false;
+						// Provider types can only be given once.
+						for (int i = 0; i < providerTypes.size(); i++) {
+							if (providerTypes.get(i) == type) {
+								found = true;
+								myType.getLocation().reportSemanticError(MessageFormat.format("Duplicate port mappings, the type `{0}'' appears more than once.", type.getTypename()));
+								break;
+							}
+						}
+						if (!found) {
+							providerTypes.add(type);
+							providerBody = ((Port_Type) type).getPortBody();
+							if (!legacy) {
+								providerBody.addMapperType(myType);
+							}
+						}
+					} else {
+						providerReferences.get(0).getLocation().reportSemanticError(
+								MessageFormat.format("Type reference `{0}'' does not refer to a port type", providerReferences.get(0).getDisplayName()));
+					}
 				} else {
-					providerReference.getLocation().reportSemanticError(
-							MessageFormat.format("Type reference `{0}'' does not refer to a port type", providerReference.getDisplayName()));
+					providerReferences.get(0).getLocation().reportSemanticError(
+							MessageFormat.format("Reference `{0}'' does not refer to a type", providerReferences.get(0).getDisplayName()));
 				}
-			} else {
-				providerReference.getLocation().reportSemanticError(
-						MessageFormat.format("Reference `{0}'' does not refer to a type", providerReference.getDisplayName()));
 			}
-		}
 
-		// checking the consistency of attributes in this and provider_body
-		if (providerBody != null && !TestPortAPI_type.TP_INTERNAL.equals(testportType)) {
-			if (!PortType_type.PT_PROVIDER.equals(providerBody.portType)) {
-				providerReference.getLocation().reportSemanticError(
-						MessageFormat.format("The referenced port type `{0}'' must have the `provider'' attribute", providerType.getTypename()));
-			}
-			switch (providerBody.testportType) {
-			case TP_REGULAR:
-				if (TestPortAPI_type.TP_ADDRESS.equals(testportType)) {
-					providerReference.getLocation().reportSemanticError(
-							MessageFormat.format("Attribute `address'' cannot be used because the provider port type `{0}''"
-									+ " does not have attribute `address''", providerType.getTypename()));
+			// checking the consistency of attributes in this and provider_body
+			if (providerBody != null && !TestPortAPI_type.TP_INTERNAL.equals(testportType)) {
+				if (!PortType_type.PT_PROVIDER.equals(providerBody.portType)) {
+					providerReferences.get(p).getLocation().reportSemanticError(
+							MessageFormat.format("The referenced port type `{0}'' must have the `provider'' attribute", providerTypes.get(providerTypes.size() - 1).getTypename()));
 				}
-				break;
-			case TP_INTERNAL:
-				providerReference.getLocation().reportSemanticError(
-						MessageFormat.format("Missing attribute `internal''. Provider port type `{0}'' has attribute `internal'',"
-								+ " which must be also present here", providerType.getTypename()));
-				break;
-			case TP_ADDRESS:
-				break;
-			default:
-				break;
+				switch (providerBody.testportType) {
+				case TP_REGULAR:
+					if (TestPortAPI_type.TP_ADDRESS.equals(testportType)) {
+						providerReferences.get(p).getLocation().reportSemanticError(
+								MessageFormat.format("Attribute `address'' cannot be used because the provider port type `{0}''"
+										+ " does not have attribute `address''", providerTypes.get(providerTypes.size() - 1).getTypename()));
+					}
+					break;
+				case TP_INTERNAL:
+					providerReferences.get(p).getLocation().reportSemanticError(
+							MessageFormat.format("Missing attribute `internal''. Provider port type `{0}'' has attribute `internal'',"
+									+ " which must be also present here", providerTypes.get(providerTypes.size() - 1).getTypename()));
+					break;
+				case TP_ADDRESS:
+					break;
+				default:
+					break;
+				}
+				// inherit the test port API type from the provider
+				testportType = providerBody.testportType;
 			}
-			// inherit the test port API type from the provider
-			testportType = providerBody.testportType;
 		}
 
 		// check the incoming mappings
-		if (inMappings != null && inMappings.getNofMappings() != 0) {
-			inMappings.check(timestamp);
+		if (legacy && inMappings != null && inMappings.getNofMappings() != 0) {
+			inMappings.check(timestamp, myType, legacy, true);
 
 			if (providerBody != null) {
 				if (providerBody.inMessages != null) {
 					// check if all source types are present on the `in' list of the provider
 					for (int i = 0, size = inMappings.getNofMappings(); i < size; i++) {
 						final Type sourceType = inMappings.getMappingByIndex(i).getSourceType();
-						//						if(sourceType == null) {
-						//							inMappings.getMappingByIndex(i).getLocation().reportSemanticError(MessageFormat.format(
-						//							"Source type of the `in'' mapping is unknown"
-						//							 + " on the list of incoming messages in provider port type `{0}''", providerType.getTypename() ));
-						//							continue;
-						//						}
 						if (sourceType != null && !providerBody.inMessages.hasType(timestamp, sourceType)) {
 							sourceType.getLocation().reportSemanticError(MessageFormat.format(
 									"Source type `{0}'' of the `in'' mapping is not present "
 											+ "on the list of incoming messages in provider port type `{1}''",
-											sourceType.getTypename(), providerType.getTypename()));
+											sourceType.getTypename(), providerTypes.get(0).getTypename()));
 						}
 					}
 
@@ -541,14 +559,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						if (!inMappings.hasMappingForType(timestamp, messageType)) {
 							inMappings.getLocation().reportSemanticError(MessageFormat.format(
 									"Incoming message type `{0}'' of provider port type `{1}'' is not handled by the incoming mappings",
-									messageType.getTypename(), providerType.getTypename()));
+									messageType.getTypename(), providerTypes.get(0).getTypename()));
 							inMappings.hasMappingForType(timestamp, messageType);
 						}
 					}
 				} else {
 					inMappings.getLocation().reportSemanticError(MessageFormat.format(
 							"Invalid incoming mappings. Provider port type `{0}' does not have incoming message types'",
-							providerType.getTypename()));
+							providerTypes.get(0).getTypename()));
 				}
 			}
 
@@ -564,13 +582,13 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					}
 				}
 			}
-		} else if (providerBody != null && providerBody.inMessages != null) {
+		} else if (legacy && providerBody != null && providerBody.inMessages != null) {
 			location.reportSemanticError(MessageFormat.format(
-					"Missing `in'' mappings to handle the incoming message types of provider port type `{0}''", providerType.getTypename()));
+					"Missing `in'' mappings to handle the incoming message types of provider port type `{0}''", providerTypes.get(0).getTypename()));
 		}
 
-		if (outMappings != null && outMappings.getNofMappings() != 0) {
-			outMappings.check(timestamp);
+		if (legacy && outMappings != null && outMappings.getNofMappings() != 0) {
+			outMappings.check(timestamp, myType, legacy, false);
 
 			if (outMessages != null) {
 				// check if all source types are present on the `in' list of the provider
@@ -607,12 +625,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							targetType.getLocation().reportSemanticError(MessageFormat.format(
 									"Target type `{0}'' of the `out'' mapping is not present "
 											+ "on the list of outgoing messages in provider port type `{1}''",
-											targetType.getTypename(), providerType.getTypename()));
+											targetType.getTypename(), providerTypes.get(0).getTypename()));
 						}
 					}
 				}
 			}
-		} else if (outMessages != null) {
+		} else if (legacy && outMessages != null) {
 			location.reportSemanticError(MessageFormat.format(
 					"Missing `out'' mapping to handle the outgoing message types of user port type `{0}''", myType.getTypename()));
 		}
@@ -622,7 +640,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			return;
 		}
 
-		if (inSignatures != null) {
+		if (legacy && inSignatures != null) {
 			for (int i = 0, size = inSignatures.getNofTypes(); i < size; i++) {
 				final IType signatureType = inSignatures.getTypeByIndex(i);
 				if (providerBody.inSignatures == null || !providerBody.inSignatures.hasType(timestamp, signatureType)) {
@@ -633,7 +651,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							signatureType.getLocation().reportSemanticError(MessageFormat.format(
 									"Incoming signature `{0}'' of user port type `{1}'' is not present on the list "
 											+ "of incoming signatures in provider port type `{2}''",
-											signatureType.getTypename(), myType.getTypename(), providerType.getTypename()));
+											signatureType.getTypename(), myType.getTypename(), providerTypes.get(0).getTypename()));
 						}
 					}
 				}
@@ -646,7 +664,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					location.reportSemanticError(MessageFormat.format(
 							"Incoming signature `{0}'' of provider port type `{1}'' "
 									+ "is not present on the list of incoming signatures in user port type `{2}''",
-									signatureType.getTypename(), providerType.getTypename(), myType.getTypename()));
+									signatureType.getTypename(), providerTypes.get(0).getTypename(), myType.getTypename()));
 				}
 			}
 		}
@@ -657,7 +675,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					signatureType.getLocation().reportSemanticError(MessageFormat.format(
 							"Outgoing signature `{0}'' of user port type `{1}'' is not present "
 									+ "on the list of outgoing signatures in provider port type `{2}''",
-									signatureType.getTypename(), myType.getTypename(), providerType.getTypename()));
+									signatureType.getTypename(), myType.getTypename(), providerTypes.get(0).getTypename()));
 				}
 			}
 		}
@@ -672,11 +690,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							location.reportSemanticError(MessageFormat.format(
 									"Outgoing signature `{0}'' of provider port type `{1}'' is not present "
 											+ "on the list of outgoing signatures in user port type `{2}''",
-											signatureType.getTypename(), providerType.getTypename(), myType.getTypename()));
+											signatureType.getTypename(), providerTypes.get(0).getTypename(), myType.getTypename()));
 						}
 					}
 				}
 			}
+		}
+
+		if (!legacy) {
+			if (outMappings != null) {
+				outMappings.check(timestamp, myType, legacy, false);
+			}
+			if (inMappings != null) {
+				inMappings.check(timestamp, myType, legacy, true);
+			}
+			// FIXME checkMapTranslation();
+			vardefs.check(timestamp);
 		}
 	}
 
@@ -784,7 +813,11 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						extensionAttribute.getLocation().reportSemanticWarning("Duplicate attribute `provider'");
 						break;
 					case PT_USER:
-						extensionAttribute.getLocation().reportSemanticError("Attributes `user' and `provider' cannot be used at the same time");
+						if (legacy) {
+							extensionAttribute.getLocation().reportSemanticError("Attributes `user' and `provider' cannot be used at the same time");
+						} else {
+							extensionAttribute.getLocation().reportSemanticError("The `provider' attribute cannot be used on translation ports");
+						}
 						break;
 					default:
 						break;
@@ -799,14 +832,20 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						extensionAttribute.getLocation().reportSemanticError("Attributes `provider' and `user' cannot be used at the same time");
 						break;
 					case PT_USER:
-						extensionAttribute.getLocation().reportSemanticError("Duplicate attribute `user'");
+						if (legacy) {
+							extensionAttribute.getLocation().reportSemanticError("Duplicate attribute `user'");
+						} else {
+							extensionAttribute.getLocation().reportSemanticError("Attribute `user' cannot be used on translation ports.");
+						}
 						break;
 					default:
 						break;
 					}
 
 					final UserPortTypeAttribute user = (UserPortTypeAttribute) portAttribute;
-					addUserAttribute(user.getReference(), user.getInMappings(), user.getOutMappings());
+					final ArrayList<Reference> references = new ArrayList<Reference>();
+					references.add(user.getReference());
+					addUserAttribute(references, user.getInMappings(), user.getOutMappings(), true);
 					break;
 				default:
 					break;
@@ -1110,6 +1149,64 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				}
 			}
 		}
+	}
+
+	/**
+	 * @other the other porttypebody to compare to.
+	 *
+	 * @return true if this porttypeBody has translation capabilities towards the other.
+	 * */
+	public boolean isTranslate(final PortTypeBody other) {
+		for (int i = 0; i < providerTypes.size(); i++) {
+			if (providerTypes.get(i) == other.getMyType()) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	/**
+	 * Special case when mapping a port that has out procedure/message but 
+	 * the other does not have any, and other has in procedure/message but 'this'  
+	 * does not have any. In that case it is not possible to send or receive anything.
+	 *
+	 * @param other the other porttypebody
+	 * 
+	 * @return true if a map operation could use this porttypebody for sending/receiving.
+	 * */
+	public boolean mapCanReceiveOrSend(final PortTypeBody other) {
+		if (operationMode == OperationModes.OP_Message && (outMessages == null || outMessages.getNofTypes() == 0) &&
+				(other.inMessages == null || other.inMessages.getNofTypes() == 0)) {
+			return false;
+		}
+
+		if (operationMode == OperationModes.OP_Procedure && (outSignatures == null || outSignatures.getNofTypes() == 0) &&
+				(other.inSignatures == null || other.inSignatures.getNofTypes() == 0)) {
+			return false;
+		}
+
+		if (operationMode == OperationModes.OP_Mixed &&
+				(outMessages == null || outMessages.getNofTypes() == 0) &&
+				(other.inMessages == null || other.inMessages.getNofTypes() == 0) &&
+				(outSignatures == null || outSignatures.getNofTypes() == 0) &&
+				(other.inSignatures == null || other.inSignatures.getNofTypes() == 0)) {
+			return false;
+		}
+
+		return true;
+	}
+
+	public Port_Type getMyType() {
+		return myType;
+	}
+
+	public boolean isLegacy() {
+		return legacy;
+	}
+
+	public void addMapperType(final IType type) {
+		mapperTypes.add(type);
 	}
 
 	/**
@@ -1529,8 +1626,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				t.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
-		if (providerReference != null) {
-			providerReference.findReferences(referenceFinder, foundIdentifiers);
+		for (int i = 0; i < providerReferences.size(); i++) {
+			providerReferences.get(i).findReferences(referenceFinder, foundIdentifiers);
 		}
 		if (inMappings != null) {
 			inMappings.findReferences(referenceFinder, foundIdentifiers);
@@ -1564,8 +1661,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				}
 			}
 		}
-		if (providerReference!=null && !providerReference.accept(v)) {
-			return false;
+		for (int i = 0; i < providerReferences.size(); i++) {
+			if (!providerReferences.get(i).accept(v)) {
+				return false;
+			}
 		}
 		if (inMappings!=null && !inMappings.accept(v)) {
 			return false;
@@ -1617,6 +1716,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 				final messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
 				portDefinition.outMessages.add(info);
+				//FIXME handle legacy and translation
 			}
 		}
 
@@ -1657,6 +1757,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			portDefinition.testportType = TestportType.NORMAL;
 			//FIXME fatal error
 		}
+
+		//FIXME handle legacy and translation
 
 		if (vardefs != null) {
 			portDefinition.varDefs = new StringBuilder();

@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -38,7 +39,7 @@ public final class DiscardTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public void check(final CompilationTimeStamp timestamp, final Type source) {
+	public void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}

@@ -13,6 +13,7 @@ import java.util.List;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
@@ -49,17 +50,17 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public void check(final CompilationTimeStamp timestamp, final Type source) {
+	public void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
 
 		lastTimeChecked = timestamp;
 
-		if (source != null && !source.isIdentical(timestamp, targetType)) {
+		if (sourceType != null && !sourceType.isIdentical(timestamp, targetType)) {
 			targetType.getLocation().reportSemanticError(
 					MessageFormat.format("The source and target types must be the same: `{0}'' was expected instead of `{1}''",
-							source.getTypename(), targetType.getTypename()));
+							sourceType.getTypename(), targetType.getTypename()));
 		}
 	}
 

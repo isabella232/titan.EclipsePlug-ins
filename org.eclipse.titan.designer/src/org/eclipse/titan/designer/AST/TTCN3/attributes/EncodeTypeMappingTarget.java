@@ -15,6 +15,7 @@ import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -114,7 +115,7 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public void check(final CompilationTimeStamp timestamp, final Type source) {
+	public void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
@@ -125,8 +126,8 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 			targetType.check(timestamp);
 		}
 
-		if (!source.hasEncoding(timestamp, encodeAttribute.getEncodingType(), encodeAttribute.getOptions())) {
-			source.getLocation().reportSemanticError(MessageFormat.format("Source type `{0}'' does not support {1} encoding", source.getTypename(), encodeAttribute.getEncodingType().getEncodingName()));
+		if (!sourceType.hasEncoding(timestamp, encodeAttribute.getEncodingType(), encodeAttribute.getOptions())) {
+			sourceType.getLocation().reportSemanticError(MessageFormat.format("Source type `{0}'' does not support {1} encoding", sourceType.getTypename(), encodeAttribute.getEncodingType().getEncodingName()));
 		}
 
 		final Type streamType = Type.getStreamType(encodeAttribute.getEncodingType(), 1);
