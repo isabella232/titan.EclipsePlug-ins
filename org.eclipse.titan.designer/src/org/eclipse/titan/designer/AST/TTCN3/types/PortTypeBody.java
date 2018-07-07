@@ -382,6 +382,27 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	/**
 	 * Marks that this port type body belongs to a user port.
+	 *
+	 * @param providerReference the reference pointing to the provider port
+	 * @param legacy is it in legacy syntax?
+	 * */
+	public void addUserAttribute(final List<Reference> providerReferences, final boolean legacy) {
+		portType = PortType_type.PT_USER;
+		this.providerReferences.clear();
+		for (int i = 0; i < providerReferences.size(); i++) {
+			final Reference temp = providerReferences.get(i);
+
+			this.providerReferences.add(temp);
+			temp.setFullNameParent(new BridgingNamedNode(this, ".<provider_ref>"));
+			temp.setMyScope(myType.getMyScope());
+		}
+		providerTypes.clear();
+
+		this.legacy = legacy;
+	}
+
+	/**
+	 * Marks that this port type body belongs to a user port.
 	 * Also sets all mappings using the provided data.
 	 *
 	 * @param providerReference the reference pointing to the provider port
@@ -413,6 +434,34 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		this.legacy = legacy;
+	}
+
+	/**
+	 * Adds an in mapping to the list of known mappings.
+	 *
+	 * @param providerReference the reference pointing to the provider port
+	 * @param legacy is it in legacy syntax?
+	 * */
+	public void addInMapping(final TypeMapping inMapping) {
+		inMappings.addMapping(inMapping);
+		if (inMapping != null) {
+			inMapping.setFullNameParent(new BridgingNamedNode(this, ".<inMappings>"));
+			inMapping.setMyScope(myType.getMyScope());
+		}
+	}
+
+	/**
+	 * Adds an in mapping to the list of known mappings.
+	 *
+	 * @param providerReference the reference pointing to the provider port
+	 * @param legacy is it in legacy syntax?
+	 * */
+	public void addOutMapping(final TypeMapping outMapping) {
+		outMappings.addMapping(outMapping);
+		if (outMapping != null) {
+			outMapping.setFullNameParent(new BridgingNamedNode(this, ".<outMappings>"));
+			outMapping.setMyScope(myType.getMyScope());
+		}
 	}
 
 	/**
@@ -1606,6 +1655,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				}
 			}
 		}
+		//FIXME update inmappings, outmappings,vardefs
 	}
 
 	@Override
@@ -1634,6 +1684,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		if (outMappings != null) {
 			outMappings.findReferences(referenceFinder, foundIdentifiers);
+		}
+		if (vardefs != null) {
+			vardefs.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
 
@@ -1670,6 +1723,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			return false;
 		}
 		if (outMappings!=null && !outMappings.accept(v)) {
+			return false;
+		}
+		if (vardefs!=null && !vardefs.accept(v)) {
 			return false;
 		}
 		return true;

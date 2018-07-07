@@ -1481,8 +1481,7 @@ pr_MessageAttribs returns[PortTypeBody body]
 (	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); }
 	(	opt = pr_PortMap
 		{	final List<Reference> outerPortTypeRefs = $opt.outerPortTypeRefs;
-			//TODO: fill data
-			//$body.addProviderReferenceList( outerPortTypeRefs );
+			$body.addUserAttribute(outerPortTypeRefs, false);
 		}
 	)?
 	pr_BeginChar
@@ -1517,8 +1516,7 @@ pr_MessageListIn[PortTypeBody body]:
 		mtl = pr_MessageListFromAttributeList
 		{	for ( final IType type : $t.types ) {
 				if ( type instanceof Type ) {
-					//TODO: fill data
-					//$body.addInMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
+					$body.addInMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
 				} else {
 					ErrorReporter.INTERNAL_ERROR();
 				}
@@ -1533,7 +1531,6 @@ pr_MessageListOut[PortTypeBody body]:
 		mtl = pr_MessageListToAttributeList
 		{	for ( final IType type : $t.types ) {
 				if ( type instanceof Type ) {
-					//TODO: fill data
 					//$body.addOutMapping( new TypeMapping( (Type)type, $mtl.mappingTargetList ) );
 				} else {
 					ErrorReporter.INTERNAL_ERROR();
