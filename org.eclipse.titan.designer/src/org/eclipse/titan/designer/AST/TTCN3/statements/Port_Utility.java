@@ -437,7 +437,7 @@ public final class Port_Utility {
 		Port_Type portType = ((Def_Port) assignment).getType(timestamp);
 		if (portType != null) {
 			final PortTypeBody portBody = portType.getPortBody();
-			if (PortType_type.PT_USER.equals(portBody.getPortType())) {
+			if (PortType_type.PT_USER.equals(portBody.getPortType()) && portBody.isLegacy()) {
 				final IType providerType = portBody.getProviderType();
 				if (providerType instanceof Port_Type) {
 					portType = (Port_Type) providerType;

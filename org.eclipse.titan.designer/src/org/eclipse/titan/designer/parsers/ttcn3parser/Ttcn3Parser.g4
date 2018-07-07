@@ -1427,11 +1427,11 @@ pr_PortDef returns[ Def_Type def_type]
 	b = pr_PortDefAttribs
 )
 {
-	if($i.identifier != null && $b.body != null) {
-		Type type = new Port_Type($b.body);
-		type.setLocation(getLocation( $col.start, $b.stop));
+	if($i.identifier != null && $b.portType != null && $b.body != null) {
+		//Type type = new Port_Type($b.body);
+		$b.portType.setLocation(getLocation( $col.start, $b.stop));
 
-		$def_type = new Def_Type($i.identifier, type);
+		$def_type = new Def_Type($i.identifier, $b.portType);
 		$def_type.setCommentLocation( getLastCommentLocation( $start ) );
 	}
 };
@@ -1460,13 +1460,13 @@ pr_PortMap returns [ List<Reference> outerPortTypeRefs ]
 	)*
 ;
 
-pr_PortDefAttribs returns[PortTypeBody body]
+pr_PortDefAttribs returns[Port_Type portType, PortTypeBody body]
 @init {
 	$body = null;
 }:
-(	b = pr_MessageAttribs { $body = $b.body; }
-|	b2 = pr_ProcedureAttribs { $body = $b2.body; }
-|	b3 = pr_MixedAttribs { $body = $b3.body; }
+(	b = pr_MessageAttribs { $portType = $b.portType; $body = $b.body; }
+|	b2 = pr_ProcedureAttribs { $portType = $b.portType; $body = $b2.body; }
+|	b3 = pr_MixedAttribs { $portType = $b.portType; $body = $b3.body; }
 )
 {
 	if($body != null) {
@@ -1474,11 +1474,12 @@ pr_PortDefAttribs returns[PortTypeBody body]
 	}
 };
 
-pr_MessageAttribs returns[PortTypeBody body]
+pr_MessageAttribs returns[Port_Type portType, PortTypeBody body]
 @init {
 	$body = null;
 }:
-(	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); }
+(	pr_MessageKeyword { $body = new PortTypeBody(OperationModes.OP_Message); 
+			    $portType = new Port_Type($body);}
 	(	opt = pr_PortMap
 		{	final List<Reference> outerPortTypeRefs = $opt.outerPortTypeRefs;
 			$body.addUserAttribute(outerPortTypeRefs, false);
@@ -1612,11 +1613,12 @@ pr_TypeList returns[List<IType> types]
 	)*
 );
 
-pr_ProcedureAttribs returns[PortTypeBody body]
+pr_ProcedureAttribs returns[Port_Type portType, PortTypeBody body]
 @init {
 	$body = null;
 }:
-(	pr_ProcedureKeyword { $body = new PortTypeBody(OperationModes.OP_Procedure); }
+(	pr_ProcedureKeyword { $body = new PortTypeBody(OperationModes.OP_Procedure);
+				$portType = new Port_Type($body);}
 	pr_BeginChar
 	(	pr_ProcedureList[$body]
 		pr_SemiColon?
@@ -1634,13 +1636,14 @@ pr_ProcedureList[PortTypeBody body]:
 |  INOUT	t = pr_AllOrTypeList{ $body.addInoutTypes($t.types); }
 );
 
-pr_MixedAttribs returns[PortTypeBody body]
+pr_MixedAttribs returns[Port_Type portType, PortTypeBody body]
 @init {
 	$body = null;
 }:
 (	col = pr_MixedKeyword
 		{
 			$body = new PortTypeBody(OperationModes.OP_Mixed);
+			$portType = new Port_Type($body);
 			reportWarning( "Mixed ports are deprecated and may be fully removed in a future edition of the TTCN-3 standard ", $col.start, $col.stop );
 		}
 	pr_BeginChar

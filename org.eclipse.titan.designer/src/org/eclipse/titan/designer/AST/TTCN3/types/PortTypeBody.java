@@ -443,6 +443,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * @param legacy is it in legacy syntax?
 	 * */
 	public void addInMapping(final TypeMapping inMapping) {
+		if (inMappings == null) {
+			inMappings = new TypeMappings();
+		}
+
 		inMappings.addMapping(inMapping);
 		if (inMapping != null) {
 			inMapping.setFullNameParent(new BridgingNamedNode(this, ".<inMappings>"));
@@ -457,6 +461,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 * @param legacy is it in legacy syntax?
 	 * */
 	public void addOutMapping(final TypeMapping outMapping) {
+		if (outMappings == null) {
+			outMappings = new TypeMappings();
+		}
+
 		outMappings.addMapping(outMapping);
 		if (outMapping != null) {
 			outMapping.setFullNameParent(new BridgingNamedNode(this, ".<outMappings>"));
