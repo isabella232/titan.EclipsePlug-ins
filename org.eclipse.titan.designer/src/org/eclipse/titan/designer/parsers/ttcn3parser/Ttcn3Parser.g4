@@ -1465,8 +1465,8 @@ pr_PortDefAttribs returns[Port_Type portType, PortTypeBody body]
 	$body = null;
 }:
 (	b = pr_MessageAttribs { $portType = $b.portType; $body = $b.body; }
-|	b2 = pr_ProcedureAttribs { $portType = $b.portType; $body = $b2.body; }
-|	b3 = pr_MixedAttribs { $portType = $b.portType; $body = $b3.body; }
+|	b2 = pr_ProcedureAttribs { $portType = $b2.portType; $body = $b2.body; }
+|	b3 = pr_MixedAttribs { $portType = $b3.portType; $body = $b3.body; }
 )
 {
 	if($body != null) {
