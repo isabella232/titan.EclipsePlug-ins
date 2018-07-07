@@ -48,7 +48,6 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  *
  * @author Kristof Szabados
  * 
- * FIXME add support for mtc and system reference
  * */
 public final class Def_Altstep extends Definition implements IParameterisedAssignment {
 	private static final String FULLNAMEPART1 = ".<formal_parameter_list>";

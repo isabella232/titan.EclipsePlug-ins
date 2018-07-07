@@ -67,7 +67,6 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
  *
  * @author Kristof Szabados
  * 
- * FIXME finish support for mtc, ststem and port reference (code generation missing)
  * */
 public final class Def_Function extends Definition implements IParameterisedAssignment {
 	/**
