@@ -360,6 +360,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		portType = null;
 		isStartable = false;
 
+		if (runsOnRef != null && portReference != null) {
+			runsOnRef.getLocation().reportSemanticError("A `runs on' and a `port' clause cannot be present at the same time.");
+		}
+
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);
 			if (runsOnType != null) {
