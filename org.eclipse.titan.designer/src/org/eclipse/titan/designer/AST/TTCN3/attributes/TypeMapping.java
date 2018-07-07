@@ -157,6 +157,11 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 					case SLIDING:
 						hasSliding = true;
 						break;
+					case FAST:
+						// New standard like behavior has no such limit
+						if (!legacy) {
+							break;
+						}
 					default:
 						if (function != null) {
 							final String message = MessageFormat
