@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.statements;
 
+import java.text.MessageFormat;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
@@ -20,8 +21,10 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.Integer_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -189,10 +192,28 @@ public class SetState_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		//FIXME implement
-		source.append( "\t\t" );
-		source.append( "//TODO: " );
-		source.append( getClass().getSimpleName() );
-		source.append( ".generateCode() is not implemented!\n" );
+		aData.addCommonLibraryImport("TTCN_Runtime");
+
+		ExpressionStruct expression = new ExpressionStruct();
+		expression.expression.append("TTCN_Runtime.set_port_state(");
+		value.generateCodeExpression(aData, expression, true);
+
+		expression.expression.append(", ");
+		if (templateInstance == null) {
+			expression.expression.append("new TitanCharString(\"\"), false)");
+		} else {
+			expression.preamble.append( "TtcnLogger.begin_event_log2str();\n");
+
+			ExpressionStruct expression2 = new ExpressionStruct();
+			templateInstance.generateCode(aData, expression2, Restriction_type.TR_NONE);
+			expression2.expression.append(".log()");
+			expression2.mergeExpression(expression.preamble);
+			
+			String tempId = aData.getTemporaryVariableName();
+			expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
+			expression.expression.append(MessageFormat.format("{0}, false)", tempId));
+		}
+
+		expression.mergeExpression(source);
 	}
 }
