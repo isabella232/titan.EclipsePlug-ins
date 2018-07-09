@@ -178,7 +178,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			is_active = true;
 			msg_head_count = 0;
 			proc_head_count = 0;
-			//FIXME add translation port support
+
+			if (system_mappings.size() == 0) {
+				init_port_variables();
+			}
 		}
 	}
 
@@ -950,6 +953,20 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		return false;
 	}
 
+	/**
+	 * Resets the port type variables to null after unmap
+	 * */
+	protected void reset_port_variables() {
+		// intentionally empty
+	}
+
+	/**
+	 * Initializes the port variables after map
+	 * */
+	protected void init_port_variables() {
+		// intentionally empty
+	}
+
 	private port_connection add_connection(final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		int index = -1;
 		int i = -1;
@@ -1386,7 +1403,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	// FIXME handle translation ports
 	private final void unmap(final String system_port, final boolean translation) {
 		int deletion_position;
 		for (deletion_position = 0; deletion_position < system_mappings.size(); deletion_position++) {
@@ -1405,7 +1421,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		user_unmap(system_port);
 
-		// FIXME implement
+		if (system_mappings.size() == 0) {
+			reset_port_variables();
+		}
+		// FIXME implement logging
 	}
 
 	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final transport_type_enum transport_type) {

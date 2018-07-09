@@ -474,7 +474,8 @@ public class PortGenerator {
 		}
 		if (portDefinition.varInit != null) {
 			source.append('\n');
-			source.append("private void init_port_variables() {\n");
+			source.append("@Override\n");
+			source.append("protected void init_port_variables() {\n");
 			source.append(portDefinition.varInit);
 			source.append("}\n\n");
 		}
