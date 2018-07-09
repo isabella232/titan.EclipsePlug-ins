@@ -42,6 +42,8 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_ty
 import org.eclipse.titan.designer.AST.TTCN3.templates.SpecificValue_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimensions;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -656,51 +658,63 @@ public final class FormalParameter extends Definition {
 		}
 
 		final ITTCN3Template parameterTemplate = actualParameter.getTemplateBody();
-		if (!(parameterTemplate instanceof SpecificValue_Template) || !((SpecificValue_Template) parameterTemplate).isReference()) {
+		if (((SpecificValue_Template) parameterTemplate).isReference()) {
+			final Reference reference = ((SpecificValue_Template) parameterTemplate).getReference();
+			final Assignment assignment = reference.getRefdAssignment(timestamp, true);
+			if (assignment == null) {
+				final ActualParameter temp = new Value_ActualParameter(null);
+				temp.setIsErroneous();
+				return temp;
+			}
+
+			Type referredType;
+			switch (assignment.getAssignmentType()) {
+			case A_PORT:
+				final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
+				if (dimensions != null) {
+					dimensions.checkIndices(timestamp, reference, "port", false, expectedValue, false);
+				} else if (reference.getSubreferences().size() > 1) {
+					reference.getLocation().reportSemanticError(MessageFormat.format(SUBREFERENCEERROR1, assignment.getDescription()));
+				}
+				referredType = ((Def_Port) assignment).getType(timestamp);
+				break;
+			case A_PAR_PORT:
+				if (reference.getSubreferences().size() > 1) {
+					reference.getLocation().reportSemanticError(MessageFormat.format(SUBREFERENCEERROR3, assignment.getDescription()));
+				}
+				referredType = ((FormalParameter) assignment).getType(timestamp);
+				break;
+			default:
+				reference.getLocation().reportSemanticError(MessageFormat.format(PORTEXPECTED, assignment.getDescription()));
+				final ActualParameter temp = new Value_ActualParameter(null);
+				temp.setIsErroneous();
+				return temp;
+			}
+
+			if (referredType != null && type != null && !type.isIdentical(timestamp, referredType)) {
+				reference.getLocation().reportSemanticError(
+						MessageFormat.format(TYPEMISMATCH, type.getTypename(), referredType.getTypename()));
+			}
+
+			return new Referenced_ActualParameter(reference);
+		} else {
+			if (parameterTemplate instanceof SpecificValue_Template) {
+				IValue value = ((SpecificValue_Template) parameterTemplate).getValue();
+				if (value.getValuetype().equals(Value_type.EXPRESSION_VALUE) && ((Expression_Value)value).getOperationType().equals(Operation_type.GETPORTREFERENCE_OPERATION)) {
+					value.setMyGovernor(type);
+					final IValue temp = type.checkThisValueRef(timestamp, value);
+					type.checkThisValue(timestamp, temp, null, new ValueCheckingOptions(expectedValue, false, false, true, false, false));
+
+					return new Value_ActualParameter(temp);
+				}
+			}
+
 			actualParameter.getLocation().reportSemanticError("Reference to a port or port parameter was expected for a port parameter");
+
 			final ActualParameter temp = new Value_ActualParameter(null);
 			temp.setIsErroneous();
 			return temp;
 		}
-
-		final Reference reference = ((SpecificValue_Template) parameterTemplate).getReference();
-		final Assignment assignment = reference.getRefdAssignment(timestamp, true);
-		if (assignment == null) {
-			final ActualParameter temp = new Value_ActualParameter(null);
-			temp.setIsErroneous();
-			return temp;
-		}
-
-		Type referredType;
-		switch (assignment.getAssignmentType()) {
-		case A_PORT:
-			final ArrayDimensions dimensions = ((Def_Port) assignment).getDimensions();
-			if (dimensions != null) {
-				dimensions.checkIndices(timestamp, reference, "port", false, expectedValue, false);
-			} else if (reference.getSubreferences().size() > 1) {
-				reference.getLocation().reportSemanticError(MessageFormat.format(SUBREFERENCEERROR1, assignment.getDescription()));
-			}
-			referredType = ((Def_Port) assignment).getType(timestamp);
-			break;
-		case A_PAR_PORT:
-			if (reference.getSubreferences().size() > 1) {
-				reference.getLocation().reportSemanticError(MessageFormat.format(SUBREFERENCEERROR3, assignment.getDescription()));
-			}
-			referredType = ((FormalParameter) assignment).getType(timestamp);
-			break;
-		default:
-			reference.getLocation().reportSemanticError(MessageFormat.format(PORTEXPECTED, assignment.getDescription()));
-			final ActualParameter temp = new Value_ActualParameter(null);
-			temp.setIsErroneous();
-			return temp;
-		}
-
-		if (referredType != null && type != null && !type.isIdentical(timestamp, referredType)) {
-			reference.getLocation().reportSemanticError(
-					MessageFormat.format(TYPEMISMATCH, type.getTypename(), referredType.getTypename()));
-		}
-
-		return new Referenced_ActualParameter(reference);
 	}
 
 	/**

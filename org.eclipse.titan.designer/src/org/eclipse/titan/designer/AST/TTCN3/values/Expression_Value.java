@@ -162,7 +162,8 @@ public abstract class Expression_Value extends Value {
 		/** any2unistr(in template any_type invalue) return universal charstring */	ANY2UNISTR_OPERATION,
 		/** any port "." checkstate "(" SingleExpression ")" */	ANY_CHECKSTATE_OPERATION,
 		/** all port "." checkstate "(" SingleExpression ")" */	ALL_CHECKSTATE_OPERATION,
-		/** Port "." checkstate "(" SingleExpression ")" */	CHECKSTATE_OPERATION
+		/** Port "." checkstate "(" SingleExpression ")" */	CHECKSTATE_OPERATION,
+		/** port.getref() */ GETPORTREFERENCE_OPERATION
 		//FIXME missing: BSON2JSON, CBOR2JSON, JSON2BSON, JSON2CBOR, OPTYPE_GET_PORT_REF
 	}
 

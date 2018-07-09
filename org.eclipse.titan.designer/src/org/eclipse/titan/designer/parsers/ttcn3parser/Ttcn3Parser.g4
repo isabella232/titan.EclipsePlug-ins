@@ -7700,7 +7700,6 @@ pr_CheckStateKeyword:
 	CHECKSTATE
 ;
 
-//FIXME needs to be supported
 pr_GetRefOp returns[Value value]:
 (	pr_PortKeyword
 	pr_Dot
@@ -7709,6 +7708,8 @@ pr_GetRefOp returns[Value value]:
 	pr_RParen
 )
 {
+	$value = new GetPortReferenceExpression();
+	$value.setLocation(getLocation( $start, getStopToken()));
 };
 
 pr_GetrefKeyword:
