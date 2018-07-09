@@ -150,6 +150,8 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		S_STOP_PORT,
 		/** halt port. */
 		S_HALT_PORT,
+		/** set the state of the port. */
+		S_SETSTATE,
 		// component statements
 		/** start component. */
 		S_START_COMPONENT,

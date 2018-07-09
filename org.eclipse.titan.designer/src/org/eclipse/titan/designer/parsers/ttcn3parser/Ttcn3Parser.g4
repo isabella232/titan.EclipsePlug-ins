@@ -2900,17 +2900,21 @@ pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
 };
 
 // FIXME needs to return specific type
-pr_SetStateStatement returns[Statement statement]:
+pr_SetStateStatement returns[Statement statement]
+@init {
+	TemplateInstance templateInstance = null;
+}:
 (	pr_PortKeyword DOT SETSTATE
 	pr_LParen
-	pr_SingleExpression
+	v = pr_SingleExpression
 	(	pr_Comma
-		pr_TemplateInstance
+		ti = pr_TemplateInstance {templateInstance = $ti.templateInstance;}
 	)?
 	pr_RParen
 )
 {
-	reportUnsupportedConstruct( "port.setstate is not yet supported!", $start, getStopToken() );
+	$statement = new SetState_Statement($v.value, templateInstance);
+	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
 
