@@ -158,6 +158,19 @@ public final class TTCN_Runtime {
 	// storing all started threads MTC and all PTC -s
 	private static ArrayList<Thread> threads = new ArrayList<Thread>();
 
+	private static ThreadLocal<Integer> translation_count = new ThreadLocal<Integer>() {
+		@Override
+		protected Integer initialValue() {
+			return 0;
+		}
+	};
+	private static ThreadLocal<TitanPort> port = new ThreadLocal<TitanPort>() {
+		@Override
+		protected TitanPort initialValue() {
+			return null;
+		}
+	};
+
 	private TTCN_Runtime() {
 		// private constructor to disable accidental instantiation
 	}
@@ -288,6 +301,47 @@ public final class TTCN_Runtime {
 			return true;
 		default:
 			return false;
+		}
+	}
+
+	public static void set_port_state(final TitanInteger state, final TitanCharString info, final boolean bySystem) {
+		if (translation_count.get() > 0) {
+			if (port == null) {
+				throw new TtcnError("Internal error: TTCN_Runtime.set_port_state: The port is null.");
+			} else {
+				int low_end = bySystem ? -1 : 0;
+				if (state.getInt() < low_end || state.getInt() > 4) {
+					translation_count.set(translation_count.get().intValue() - 1);
+					throw new TtcnError("The value of the first parameter in the setstate operation must be 0, 1, 2, 3 or 4.");
+				}
+				//FIXME implement rest
+			}
+		} else {
+			translation_count.set(translation_count.get().intValue() - 1);
+			throw new TtcnError("setstate operation was called without being in a translation procedure.");
+		}
+	}
+
+	public static TitanPort get_translation_port() {
+		if (port.get() == null) {
+			throw new TtcnError("Operation 'port.getref' was called while not in a port translation procedure.");
+		}
+
+		return port.get();
+	}
+
+	public static void set_translation_mode(final boolean enabled, final TitanPort p_port) {
+		if (enabled) {
+			translation_count.set(translation_count.get().intValue() + 1 );
+		} else {
+			translation_count.set(translation_count.get().intValue() - 1 );
+			if (translation_count.get() < 0) {
+				translation_count.set(0);
+			}
+		}
+
+		if (translation_count.get() == 0 || p_port != null) {
+			port.set(p_port);
 		}
 	}
 
