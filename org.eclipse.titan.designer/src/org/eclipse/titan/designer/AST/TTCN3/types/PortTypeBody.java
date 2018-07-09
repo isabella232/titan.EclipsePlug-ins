@@ -122,7 +122,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private TypeSet outSignatures;
 
 	private ArrayList<Reference> providerReferences = new ArrayList<Reference>();
-	private ArrayList<IType> providerTypes = new ArrayList<IType>();
+	private ArrayList<Port_Type> providerTypes = new ArrayList<Port_Type>();
 	private ArrayList<IType> mapperTypes = new ArrayList<IType>();
 	private TypeMappings inMappings;
 	private TypeMappings outMappings;
@@ -550,7 +550,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							}
 						}
 						if (!found) {
-							providerTypes.add(type);
+							providerTypes.add((Port_Type)type);
 							providerBody = ((Port_Type) type).getPortBody();
 							if (!legacy) {
 								providerBody.addMapperType(myType);
