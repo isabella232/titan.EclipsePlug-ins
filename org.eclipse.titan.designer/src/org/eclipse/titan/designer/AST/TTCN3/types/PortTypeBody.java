@@ -529,6 +529,118 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	}
 
 	/**
+	 * Check the translation mapping reated attributes.
+	 * 
+	 * @param timestamp the timestamp of the actual semantic checking iteration.
+	 * */
+	private void checkMapTranslation(final CompilationTimeStamp timestamp) {
+		final TypeSet mappingIns = new TypeSet();
+
+		if (inMappings != null) {
+			for (int i = 0; i < inMappings.getNofMappings(); i++) {
+				final TypeMapping mapping = inMappings.getMappingByIndex(i);
+				for (int j = 0; j < mapping.getNofTargets(); j++) {
+					final Type targetType = mapping.getTargetByIndex(j).getTargetType();
+					if (!mappingIns.hasType(timestamp, targetType)) {
+						mappingIns.addType(targetType);
+					}
+				}
+			}
+		}
+
+		for (int i = 0; i < providerTypes.size(); i++) {
+			final Port_Type providerType = providerTypes.get(i);
+			final PortTypeBody providerBody = providerType.getPortBody();
+			if (providerBody.inMessages != null) {
+				for (int j = 0; j < providerBody.inMessages.getNofTypes(); j++) {
+					boolean found = false;
+					if (inoutTypes != null) {
+						for (int k = 0; k < inoutTypes.size(); k++) {
+							if (providerBody.inMessages.hasType(timestamp, inoutTypes.get(k))) {
+								found = true;
+								break;
+							}
+						}
+					}
+
+					final IType inMessageType = providerBody.inMessages.getTypeByIndex(j);
+					if (((inMessages != null && inMessages.hasType(timestamp, inMessageType)) // Provider in message is present in the port in message
+							|| mappingIns.hasType(timestamp, inMessageType) // Provider in message is present in one of the in mappings
+							|| found // Provider in message is present in the inout list of the port 
+							) == false) {
+						getLocation().reportSemanticError(MessageFormat.format("Incoming message type `{0}'' is not present in the in(out) message list or in the from mapping types, coming from port: `{1}''.", inMessageType.getTypename(), providerType.getIdentifier().getDisplayName()));
+					}
+				}
+			}
+
+			if (inoutTypes != null) {
+				for (int j = 0; j < inoutTypes.size(); j++) {
+					final IType inoutType = inoutTypes.get(j);
+					boolean foundIn = false;
+					if (providerBody.inMessages != null) {
+						// If the inout message of the port is present on the provider in message list
+						for (int k = 0; k < providerBody.inMessages.getNofTypes(); k++) {
+							final IType inType = providerBody.inMessages.getTypeByIndex(k);
+							if (inoutType.getTypename().equals(inType.getTypename())) {
+								foundIn = true;
+								break;
+							}
+						}
+					}
+					boolean foundOut = false;
+					if (providerBody.outMessages != null) {
+						// If the inout message of the port is present on the provider out message list
+						for (int k = 0; k < providerBody.outMessages.getNofTypes(); k++) {
+							final IType outType = providerBody.outMessages.getTypeByIndex(k);
+							if (inoutType.getTypename().equals(outType.getTypename())) {
+								foundOut = true;
+								break;
+							}
+						}
+					}
+
+					if (!foundIn || !foundOut) {
+						getLocation().reportSemanticError(MessageFormat.format("Inout message type `{0}'' is not present on the in and out messages or the inout messages of port `{1}''.", inoutType.getTypename(), providerType.getIdentifier().getDisplayName()));
+					}
+				}
+			}
+
+			if (outTypes != null) {
+				for (int j = 0; j < outTypes.size(); j++) {
+					boolean found = false;
+					if (providerBody.outMessages != null) {
+						// If the inout message of the port is present on the provider out message list
+						for (int k = 0; k < providerBody.outMessages.getNofTypes(); k++) {
+							if (outMessages.hasType(timestamp, providerBody.outMessages.getTypeByIndex(k))) {
+								found = true;
+								break;
+							}
+						}
+					}
+
+					// Check if the port's out message list contains at least one of the 
+					// type's target mappings.
+					if (!found) {
+						if (outMappings.hasMappingForType(timestamp, outMessages.getTypeByIndex(j))) {
+							TypeMapping typeMapping = outMappings.getMappingForType(timestamp, outMessages.getTypeByIndex(j));
+							for (int k = 0; k < typeMapping.getNofTargets(); k++) {
+								if (providerBody.outMessages.hasType(timestamp, typeMapping.getTargetByIndex(k).getTargetType())) {
+									found = true;
+									break;
+								}
+							}
+						}
+					}
+
+					if (!found) {
+						getLocation().reportSemanticError(MessageFormat.format("Neither out message type `{0}'', nor one of its target mappings are present in the out or inout message list of the port `{1}''.", outTypes.get(j).getTypename(), providerType.getIdentifier().getDisplayName()));
+					}
+				}
+			}
+		}
+	}
+
+	/**
 	 * Checks the attributes for the specific case when the port is of user type.
 	 *
 	 * @param timestamp the time stamp of the actual semantic check cycle.
@@ -766,7 +878,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			if (inMappings != null) {
 				inMappings.check(timestamp, myType, legacy, true);
 			}
-			// FIXME checkMapTranslation();
+			checkMapTranslation(timestamp);
 			if (vardefs != null) {
 				vardefs.check(timestamp);
 			}
