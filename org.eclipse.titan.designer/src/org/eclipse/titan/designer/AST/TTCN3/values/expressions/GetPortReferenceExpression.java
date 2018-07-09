@@ -119,15 +119,23 @@ public class GetPortReferenceExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean canGenerateSingleExpression() {
-		return true;
+		return false;
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//FIXME implement
-		expression.expression.append( "\t//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCodeExpressionExpression() is not implemented!\n" );
+		aData.addCommonLibraryImport("TTCN_Runtime");
+		aData.addCommonLibraryImport("TtcnError");
+		aData.addBuiltinTypeImport("TitanPort");
+
+		final String tempId = aData.getTemporaryVariableName();
+		final String portName = type.getGenNameValue(aData, expression.expression, myScope);
+		expression.preamble.append(MessageFormat.format("TitanPort {0} = TTCN_Runtime.get_translation_port();\n", tempId));
+		expression.preamble.append(MessageFormat.format("if (!({0} instanceof {1})) '{'\n", tempId, portName));
+		expression.preamble.append(MessageFormat.format("throw new TtcnError(\"Internal error: Conversion of port reference to type `{0}' failed.\");\n", type.getTypename()));
+		expression.preamble.append("}\n");
+
+		expression.expression.append(MessageFormat.format("({0}) {1}", portName, tempId));
 	}
 }
