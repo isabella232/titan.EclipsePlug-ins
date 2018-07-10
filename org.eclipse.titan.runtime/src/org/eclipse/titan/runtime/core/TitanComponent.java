@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
+import org.eclipse.titan.runtime.core.TtcnLogger.component_id_selector_enum;
 
 /**
  * TTCN-3 component variable
@@ -31,6 +32,20 @@ public class TitanComponent extends Base_Type {
 	public static final int UNBOUND_COMPREF = -3;
 	//Pseudo-component for logging when the MTC is executing a controlpart
 	public static final int CONTROL_COMPREF = -4;
+
+	//TODO temporary location
+	public enum Component_id_selector {
+		COMPONENT_ID_NAME,
+		COMPONENT_ID_COMPREF,
+		COMPONENT_ID_ALL,
+		COMPONENT_ID_SYSTEM
+	}
+
+	public class Component_Id_type {
+		public component_id_selector_enum id_selector;
+		public int id_component;
+		public String id_name;
+	}
 
 	public static ThreadLocal<TitanComponent> self = new ThreadLocal<TitanComponent>() {
 		@Override

@@ -27,6 +27,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
+import org.eclipse.titan.runtime.core.TitanComponent.Component_Id_type;
+import org.eclipse.titan.runtime.core.TtcnLogger.component_id_selector_enum;
 
 /**
  * The base class of test ports
@@ -169,6 +171,92 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		return null;
+	}
+
+	private static class Port_Parameter {
+		public Component_Id_type component_id;
+		public String port_name;
+		public String parameter_name;
+		public String parameter_value;
+	}
+
+	private static final ThreadLocal<LinkedList<Port_Parameter>> PORT_PARAMETERS = new ThreadLocal<LinkedList<Port_Parameter>>() {
+		@Override
+		protected LinkedList<Port_Parameter> initialValue() {
+			return new LinkedList<Port_Parameter>();
+		}
+	};
+
+	private static void apply_parameter(final Port_Parameter parameter) {
+		if (parameter.port_name == null) {
+			// the parameter refers to all ports (*)
+			for (final TitanPort port : PORTS.get()) {
+				port.set_parameter(parameter.parameter_name, parameter.parameter_value);
+			}
+		} else {
+			final TitanPort port = lookup_by_name(parameter.port_name, false);
+			if (port != null) {
+				port.set_parameter(parameter.parameter_name, parameter.parameter_value);
+			}
+		}
+	}
+
+	private void set_system_parameters(final String system_port) {
+		for (Port_Parameter parameter : PORT_PARAMETERS.get()) {
+			if (parameter.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_SYSTEM && (parameter.port_name == null || parameter.port_name.equals(system_port))) {
+				set_parameter(parameter.parameter_name, parameter.parameter_value);
+			}
+		}
+	}
+
+	public static void add_parameter(final Component_Id_type component_id, final String port_name, final String parameter_name, final String parameter_value) {
+		Port_Parameter newParameter = new Port_Parameter();
+
+		newParameter.component_id.id_selector = component_id.id_selector;
+		switch (component_id.id_selector) {
+		case COMPONENT_ID_NAME:
+			newParameter.component_id.id_name = component_id.id_name;
+			break;
+		case COMPONENT_ID_COMPREF:
+			newParameter.component_id.id_component = component_id.id_component;
+			break;
+		default:
+			break;
+		}
+
+		if (port_name != null) {
+			newParameter.port_name = port_name;
+		}
+		newParameter.parameter_name = parameter_name;
+		newParameter.parameter_value = parameter_value;
+
+		PORT_PARAMETERS.get().add(newParameter);
+	}
+
+	public static void clear_parameters() {
+		PORT_PARAMETERS.get().clear();
+	}
+
+	public static void set_parameters(final int component_reference, final String component_name) {
+		for (Port_Parameter parameter : PORT_PARAMETERS.get()) {
+			switch (parameter.component_id.id_selector) {
+			case COMPONENT_ID_NAME:
+				if (component_name != null && parameter.component_id.id_name.equals(component_name)) {
+					apply_parameter(parameter);
+				}
+				break;
+			case COMPONENT_ID_COMPREF:
+				if (parameter.component_id.id_component == component_reference) {
+					apply_parameter(parameter);
+				}
+				break;
+			case COMPONENT_ID_ALL:
+				apply_parameter(parameter);
+				break;
+			default:
+				break;
+			}
+		}
 	}
 
 	//originally PORT::activate_port
@@ -760,6 +848,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 
 		return returnValue;
+	}
+
+	public void set_parameter(final String parameter_name, final String parameter_value) {
+		TtcnError.TtcnWarning(MessageFormat.format("Test port parameter {0} is not supported on port {1}.", parameter_name, parameter_value));
 	}
 
 	protected void Install_Handler(final Set<SelectableChannel> read_channels, final Set<SelectableChannel> write_channels, final double call_interval) throws IOException {
@@ -1379,7 +1471,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	// FIXME handle translation ports
 	private final void map(final String system_port, final boolean translation) {
 		if (!is_active) {
 			throw new TtcnError(MessageFormat.format("Inactive port {0} cannot be mapped.", port_name));
@@ -1391,6 +1482,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 						port_name, system_port));
 				return;
 			}
+		}
+
+		if (translation) {
+			set_system_parameters(port_name);
+		} else {
+			set_system_parameters(system_port);
 		}
 
 		user_map(system_port);
