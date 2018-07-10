@@ -1075,31 +1075,38 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
-		final String genName = getGenName();
-		if (formalParList != null) {
-			formalParList.setGenName(genName);
-		}
-
 		if (portType != null) {
 			return;
 		}
 
-		//TODO add support for functions with port clause
 		final StringBuilder sb = aData.getSrc();
-		generateCodeInternal(aData, sb, genName);
+		generateCodeInternal(aData, sb);
 	}
 
+	/**
+	 * Generate Java code for a translation function, into the body of its port type.
+	 *
+	 * @param aData  the structure to put imports into and get temporal variable names from.
+	 * @param source the source to extend with the generated code (port generator member).
+	 * */
 	public void generateCodePortBody( final JavaGenData aData, final StringBuilder source ) {
+		generateCodeInternal(aData, source);
+	}
+
+	/**
+	 * Generate Java code for a function definition, to a given source code target.
+	 * 
+	 * TODO the compiler could also benefit from such a separation
+	 * 
+	 * @param aData  the structure to put imports into and get temporal variable names from.
+	 * @param source the source to extend with the generated code.
+	 * */
+	private void generateCodeInternal( final JavaGenData aData, final StringBuilder source) {
 		final String genName = getGenName();
 		if (formalParList != null) {
 			formalParList.setGenName(genName);
 		}
 
-		generateCodeInternal(aData, source, genName);
-	}
-
-	//TODO the compiler could also benefit from such a separation
-	private void generateCodeInternal( final JavaGenData aData, final StringBuilder source, final String genName ) {
 		final StringBuilder tempSource = new StringBuilder();
 		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
 			tempSource.append( "private" );
