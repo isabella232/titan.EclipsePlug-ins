@@ -1395,6 +1395,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		user_map(system_port);
 
+		if (translation) {
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, system_port, TitanComponent.SYSTEM_COMPREF, port_name,  null, -1, 0);
+		} else {
+			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, port_name, TitanComponent.SYSTEM_COMPREF, system_port,  null, -1, 0);
+		}
+
 		// the mapping shall be registered in the table only if user_map() was successful
 		system_mappings.add(system_port);
 		if (system_mappings.size() > 1) {
@@ -1424,7 +1430,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (system_mappings.size() == 0) {
 			reset_port_variables();
 		}
-		// FIXME implement logging
+
+		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__unmapped__from__system, port_name, TitanComponent.SYSTEM_COMPREF, system_port,  null, -1, 0);
 	}
 
 	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final transport_type_enum transport_type) {
@@ -1573,7 +1580,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 					throw new TtcnError(MessageFormat.format("Internal error: Port {0} is connected with local port {1}, but port {1} does not have a connection to {0}.", destination_port, source_port));
 				}
 			}
-			//FIXME
+
+			TtcnError.TtcnWarning(MessageFormat.format("Port {0} does not have connection with local port {1}. Disconnect operation had no effect.", source_port, destination_port));
 		} else {
 			final TitanPort destinationPort = lookup_by_name(destination_port, false);
 			sourcePort.remove_local_connection(connection);
