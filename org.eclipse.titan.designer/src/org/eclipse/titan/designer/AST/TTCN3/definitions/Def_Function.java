@@ -1080,15 +1080,36 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			formalParList.setGenName(genName);
 		}
 
+		if (portType != null) {
+			return;
+		}
+
 		//TODO add support for functions with port clause
 		final StringBuilder sb = aData.getSrc();
-		final StringBuilder source = new StringBuilder();
-		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
-			source.append( "private" );
-		} else {
-			source.append( "public" );
+		generateCodeInternal(aData, sb, genName);
+	}
+
+	public void generateCodePortBody( final JavaGenData aData, final StringBuilder source ) {
+		final String genName = getGenName();
+		if (formalParList != null) {
+			formalParList.setGenName(genName);
 		}
-		source.append( " static final " );
+
+		generateCodeInternal(aData, source, genName);
+	}
+
+	//TODO the compiler could also benefit from such a separation
+	private void generateCodeInternal( final JavaGenData aData, final StringBuilder source, final String genName ) {
+		final StringBuilder tempSource = new StringBuilder();
+		if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
+			tempSource.append( "private" );
+		} else {
+			tempSource.append( "public" );
+		}
+		if (portType == null) {
+			tempSource.append(" static");
+		}
+		tempSource.append( " final " );
 
 		// return value
 		String returnTypeName = null;
@@ -1097,34 +1118,34 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			returnTypeName = "void";
 			break;
 		case A_FUNCTION_RVAL:
-			returnTypeName = returnType.getGenNameValue( aData, source, getMyScope() );
+			returnTypeName = returnType.getGenNameValue( aData, tempSource, getMyScope() );
 			break;
 		case A_FUNCTION_RTEMP:
-			returnTypeName = returnType.getGenNameTemplate( aData, source, getMyScope() );
+			returnTypeName = returnType.getGenNameTemplate( aData, tempSource, getMyScope() );
 			break;
 		default:
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
 		}
 
-		source.append(returnTypeName);
-		source.append( ' ' );
+		tempSource.append(returnTypeName);
+		tempSource.append( ' ' );
 
 		// function name
-		source.append( genName );
+		tempSource.append( genName );
 
 		// arguments
-		source.append( '(' );
+		tempSource.append( '(' );
 		if ( formalParList != null ) {
-			formalParList.generateCode( aData, source );
+			formalParList.generateCode( aData, tempSource );
 		}
-		source.append( ") {\n" );
-		getLocation().create_location_object(aData, source, "FUNCTION", getIdentifier().getDisplayName());
-		formalParList.generateCodeShadowObjects(aData, source);
-		block.generateCode(aData, source);
+		tempSource.append( ") {\n" );
+		getLocation().create_location_object(aData, tempSource, "FUNCTION", getIdentifier().getDisplayName());
+		formalParList.generateCodeShadowObjects(aData, tempSource);
+		block.generateCode(aData, tempSource);
 		if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
-			getLocation().release_location_object(aData, source);
+			getLocation().release_location_object(aData, tempSource);
 		}
-		source.append( "}\n" );
+		tempSource.append( "}\n" );
 
 		if (isStartable) {
 			aData.addBuiltinTypeImport("TitanComponent");
@@ -1132,36 +1153,36 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			aData.addBuiltinTypeImport("TtcnLogger.Severity");
 			aData.addCommonLibraryImport("TTCN_Runtime");
 
-			source.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
+			tempSource.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
 			if (formalParList != null && formalParList.getNofParameters() > 0) {
-				source.append(", ");
-				formalParList.generateCode(aData, source);
+				tempSource.append(", ");
+				formalParList.generateCode(aData, tempSource);
 			}
-			source.append(") {\n");
-			source.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
+			tempSource.append(") {\n");
+			tempSource.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
+			tempSource.append(MessageFormat.format("TtcnLogger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					if (i > 0) {
-						source.append("TtcnLogger.log_event_str(\", \");\n");
+						tempSource.append("TtcnLogger.log_event_str(\", \");\n");
 					}
-					source.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
+					tempSource.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
 				}
 			}
-			source.append("TtcnLogger.log_event_str(\") on component \");\n");
-			source.append("component_reference.log();\n");
-			source.append("TtcnLogger.log_char('.');\n");
-			source.append("TtcnLogger.end_event();\n");
+			tempSource.append("TtcnLogger.log_event_str(\") on component \");\n");
+			tempSource.append("component_reference.log();\n");
+			tempSource.append("TtcnLogger.log_char('.');\n");
+			tempSource.append("TtcnLogger.end_event();\n");
 
-			source.append("final Text_Buf text_buf = new Text_Buf();\n");
-			source.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
+			tempSource.append("final Text_Buf text_buf = new Text_Buf();\n");
+			tempSource.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
-					source.append(MessageFormat.format("{0}.encode_text(text_buf);\n", formalParList.getParameterByIndex(i).getGenName()));
+					tempSource.append(MessageFormat.format("{0}.encode_text(text_buf);\n", formalParList.getParameterByIndex(i).getGenName()));
 				}
 			}
-			source.append("TTCN_Runtime.send_start_component(text_buf);\n");
-			source.append("}\n");
+			tempSource.append("TTCN_Runtime.send_start_component(text_buf);\n");
+			tempSource.append("}\n");
 
 			//entry into start function
 			final StringBuilder startFunction = aData.getStartPTCFunction();
@@ -1234,6 +1255,6 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			startFunction.append("} else ");
 		}
 
-		sb.append(source);
+		source.append(tempSource);
 	}
 }

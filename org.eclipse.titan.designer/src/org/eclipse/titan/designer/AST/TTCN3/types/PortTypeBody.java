@@ -36,14 +36,18 @@ import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.AttributeSpecification;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ExtensionAttribute.ExtensionAttribute_type;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.FunctionTypeMappingTarget;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.PortTypeAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.TypeMapping;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.TypeMappingTarget;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.TypeMappingTarget.TypeMapping_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.TypeMappings;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.UserPortTypeAttribute;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
@@ -1936,41 +1940,96 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		//FIXME handle legacy and translation
+		if (portType == PortType_type.PT_USER) {
+			//FIXME implement
+			if (legacy) {
+				//FIXME implement
+			} else {
+				//FIXME implement
+				if (vardefs != null) {
+					portDefinition.varDefs = new StringBuilder();
+					portDefinition.varInit = new StringBuilder();
+					for (int i = 0; i < vardefs.getNofAssignments(); i++) {
+						final Definition def = vardefs.getAssignmentByIndex(i);
+						String type = "";
+						switch (def.getAssignmentType()) {
+						case A_VAR:
+							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
+							if(((Def_Var)def).getInitialValue() == null) {
+								portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
+							} else {
+								def.generateCodeInitComp(aData, portDefinition.varInit, def);
+							}
+							break;
+						case A_CONST:
+							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
+							def.generateCodeInitComp(aData, portDefinition.varInit, def);
+							break;
+						case A_VAR_TEMPLATE:
+							type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source, myScope);
+							if(((Def_Var_Template)def).getInitialValue() == null) {
+								portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
+							} else {
+								def.generateCodeInitComp(aData, portDefinition.varInit, def);
+							}
+							break;
+						default:
+							//FATAL ERROR
+							break;
+						}
 
-		if (vardefs != null) {
-			portDefinition.varDefs = new StringBuilder();
-			portDefinition.varInit = new StringBuilder();
-			for (int i = 0; i < vardefs.getNofAssignments(); i++) {
-				final Definition def = vardefs.getAssignmentByIndex(i);
-				String type = "";
-				switch (def.getAssignmentType()) {
-				case A_VAR:
-					type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
-					if(((Def_Var)def).getInitialValue() == null) {
-						portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
-					} else {
-						def.generateCodeInitComp(aData, portDefinition.varInit, def);
+						portDefinition.varDefs.append(MessageFormat.format("private {0} {1} = new {0}();\n", type, def.getGenName()));
 					}
-					break;
-				case A_CONST:
-					type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameValue(aData, source, myScope);
-					def.generateCodeInitComp(aData, portDefinition.varInit, def);
-					break;
-				case A_VAR_TEMPLATE:
-					type = def.getType(CompilationTimeStamp.getBaseTimestamp()).getGenNameTemplate(aData, source, myScope);
-					if(((Def_Var_Template)def).getInitialValue() == null) {
-						portDefinition.varInit.append(MessageFormat.format("{0}.cleanUp();\n", def.getGenName()));
-					} else {
-						def.generateCodeInitComp(aData, portDefinition.varInit, def);
-					}
-					break;
-				default:
-					//FATAL ERROR
-					break;
 				}
 
-				portDefinition.varDefs.append(MessageFormat.format("private {0} {1} = new {0}();\n", type, def.getGenName()));
+				//collect and handle all of the functions with `port' clause belonging to this port type
+				HashSet<Def_Function> functions = new HashSet<Def_Function>();
+				if (outMappings != null) {
+					for (int i = 0; i < outMappings.getNofMappings(); i++) {
+						final TypeMapping mapping = outMappings.getMappingByIndex(i);
+						for (int j = 0; j < mapping.getNofTargets(); j++) {
+							final TypeMappingTarget mappingTarget = mapping.getTargetByIndex(j);
+							if (mappingTarget.getTypeMappingType() == TypeMapping_type.FUNCTION) {
+								final Def_Function function = ((FunctionTypeMappingTarget)mappingTarget).getFunction();
+								final IType functionPortType = function.getPortType(CompilationTimeStamp.getBaseTimestamp());
+								if (functionPortType != null && functionPortType == myType && !functions.contains(function)) {
+									function.generateCodePortBody(aData, portDefinition.translationFunctions);
+									functions.add(function);
+								}
+							}
+						}
+					}
+				}
+				if (inMappings != null) {
+					for (int i = 0; i < inMappings.getNofMappings(); i++) {
+						final TypeMapping mapping = inMappings.getMappingByIndex(i);
+						for (int j = 0; j < mapping.getNofTargets(); j++) {
+							final TypeMappingTarget mappingTarget = mapping.getTargetByIndex(j);
+							if (mappingTarget.getTypeMappingType() == TypeMapping_type.FUNCTION) {
+								final Def_Function function = ((FunctionTypeMappingTarget)mappingTarget).getFunction();
+								final IType functionPortType = function.getPortType(CompilationTimeStamp.getBaseTimestamp());
+								if (functionPortType != null && functionPortType == myType && !functions.contains(function)) {
+									function.generateCodePortBody(aData, portDefinition.translationFunctions);
+									functions.add(function);
+								}
+							}
+						}
+					}
+				}
 			}
+		} else {
+			// "internal provider" is the same as "internal"
+			//FIXME implement
+		}
+
+		if (portType == PortType_type.PT_PROVIDER) {
+			//FIXEM implement
+		}
+
+
+
+		if (portType == PortType_type.PT_PROVIDER) {
+			//FIXEM implement
 		}
 
 		return portDefinition;

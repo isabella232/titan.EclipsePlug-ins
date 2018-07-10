@@ -88,6 +88,7 @@ public class PortGenerator {
 
 		public StringBuilder varDefs;
 		public StringBuilder varInit;
+		public StringBuilder translationFunctions = new StringBuilder();
 
 		/** The type of the testport */
 		public TestportType testportType;
@@ -479,6 +480,9 @@ public class PortGenerator {
 			source.append(portDefinition.varInit);
 			source.append("}\n\n");
 		}
+
+		source.append("//translation functions with port clause belonging to this port type\n");
+		source.append(portDefinition.translationFunctions);
 
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
 		source.append("super(port_name);\n");
