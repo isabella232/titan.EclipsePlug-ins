@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTNode;
@@ -53,7 +54,9 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageMappedTypeInfo;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortDefinition;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortType;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.TestportType;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.messageTypeInfo;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.procedureSignatureInfo;
@@ -1882,6 +1885,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		final Scope myScope = myType.getMyScope();
 
 		final PortDefinition portDefinition = new PortDefinition(genName, getFullName());
+		portDefinition.legacy = legacy;
 		if (inMessages != null) {
 			for (int i = 0 ; i < inMessages.getNofTypes(); i++) {
 				final IType inType = inMessages.getTypeByIndex(i);
@@ -1894,10 +1898,28 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		if (outMessages != null) {
 			for (int i = 0 ; i < outMessages.getNofTypes(); i++) {
 				final IType outType = outMessages.getTypeByIndex(i);
+				final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
 
-				final messageTypeInfo info = new messageTypeInfo(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
-				portDefinition.outMessages.add(info);
-				//FIXME handle legacy and translation
+				if (portType == PortType_type.PT_USER && (legacy || outMappings != null)) {
+					if (legacy || outMappings.hasMappingForType(CompilationTimeStamp.getBaseTimestamp(), outType)) {
+						final TypeMapping mapping = outMappings.getMappingForType(CompilationTimeStamp.getBaseTimestamp(), outType);
+						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
+						for (int j = 0; j < mapping.getNofTargets(); j++) {
+							final AtomicBoolean hasSliding = new AtomicBoolean();
+							final PortGenerator.MessageTypeMappingTarget tempTarget = mapping.getTargetByIndex(j).fillTypeMappingTarget(aData, source, outType, myScope, hasSliding);
+
+							tempTarget.targetIndex = -1;
+							mappedType.targets.add(tempTarget);
+						}
+					} else if (!legacy){
+						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
+
+						final PortGenerator.MessageTypeMappingTarget tempTarget = new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
+						mappedType.targets.add(tempTarget);
+					}
+				}
+
+				portDefinition.outMessages.add(mappedType);
 			}
 		}
 
@@ -1941,10 +1963,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		//FIXME handle legacy and translation
 		if (portType == PortType_type.PT_USER) {
-			//FIXME implement
+			portDefinition.portType = PortType.USER;
+
 			if (legacy) {
 				//FIXME implement
 			} else {
+				// non-legacy standard like behavior
 				//FIXME implement
 				if (vardefs != null) {
 					portDefinition.varDefs = new StringBuilder();
@@ -2019,6 +2043,11 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		} else {
 			// "internal provider" is the same as "internal"
+			if (portType == PortType_type.PT_PROVIDER && testportType != TestPortAPI_type.TP_INTERNAL) {
+				portDefinition.portType = PortType.PROVIDER;
+			} else {
+				portDefinition.portType = PortType.REGULAR;
+			}
 			//FIXME implement
 		}
 

@@ -9,15 +9,21 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageMappingType_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -159,5 +165,37 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope scope, final AtomicBoolean hasSliding) {
+		String targetTypeName = null;
+		String targetTemplateName = null;
+		String displayName = null;
+
+		hasSliding.set(false);
+		if (targetType != null) {
+			targetTypeName = outType.getGenNameValue(aData, source, scope);
+			targetTemplateName = outType.getGenNameTemplate(aData, source, scope);
+			displayName = outType.getTypename();
+		}
+
+		String typeDescriptorName = outType.getGenNameTypeDescriptor(aData, source, scope);
+		String encodingType = decodeAttribute.getEncodingType().getEncodingName();
+		String encodingOptions = null;
+		if (decodeAttribute.getOptions() != null) {
+			encodingOptions = decodeAttribute.getOptions();
+		}
+		StringBuilder errorBehaviour = new StringBuilder();
+		if (errorBehaviorAttribute != null) {
+			errorBehaviorAttribute.getErrrorBehaviorList().generateCode(aData, errorBehaviour);
+		} else {
+			aData.addCommonLibraryImport("TTCN_EncDec");
+
+			errorBehaviour.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
+		}
+
+		return new PortGenerator.MessageTypeMappingTarget(targetTypeName, targetTemplateName, displayName, typeDescriptorName, encodingType, encodingOptions, errorBehaviour.toString(), MessageMappingType_type.DECODE);
 	}
 }

@@ -7,12 +7,18 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -67,4 +73,16 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 	 *                is it mapping in incoming direction?
 	 * */
 	public abstract void check(final CompilationTimeStamp timestamp, final Type sourceType, final Port_Type portType, final boolean legacy, final boolean incoming);
+
+	/**
+	 * Creates and populates the necessary object so that code can be generated to this type mapping target.
+	 * 
+	 * @param aData only used to update imports if needed
+	 * @param source the source to report errors to.
+	 * @param outType the messagetype the mapping belongs to.
+	 * @param scope the scope under which to generate the code.
+	 * @param hasSliding this parameter is used to return if this type mapping target uses sliding decoding.
+	 * 
+	 * */
+	public abstract MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope scope, final AtomicBoolean hasSliding);
 }

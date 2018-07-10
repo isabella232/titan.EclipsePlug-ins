@@ -7,9 +7,16 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.IType;
+import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -52,5 +59,13 @@ public final class DiscardTypeMappingTarget extends TypeMappingTarget {
 	protected boolean memberAccept(final ASTVisitor v) {
 		// no members
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope myScope, final AtomicBoolean hasSliding) {
+		hasSliding.set(false);
+
+		return new PortGenerator.MessageTypeMappingTarget();
 	}
 }

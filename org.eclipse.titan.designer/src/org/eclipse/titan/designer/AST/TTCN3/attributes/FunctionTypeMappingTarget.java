@@ -9,10 +9,12 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import java.text.MessageFormat;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
+import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -21,7 +23,11 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.FunctionPrototype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -238,5 +244,43 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope scope, final AtomicBoolean hasSliding) {
+		String targetTypeName = null;
+		String targetTemplateName = null;
+		String displayName = null;
+
+		hasSliding.set(false);
+		if (targetType != null) {
+			targetTypeName = outType.getGenNameValue(aData, source, scope);
+			targetTemplateName = outType.getGenNameTemplate(aData, source, scope);
+			displayName = outType.getTypename();
+		}
+
+		String functionName = functionReferenced.getGenNameFromScope(aData, source, scope, "");
+		String functionDisplayName = functionReferenced.getFullName();
+		FunctionPrototype_Type prototype = null;
+		switch (functionReferenced.getPrototype()) {
+		case CONVERT:
+			prototype = FunctionPrototype_Type.CONVERT;
+			break;
+		case FAST:
+			prototype = FunctionPrototype_Type.FAST;
+			break;
+		case BACKTRACK:
+			prototype = FunctionPrototype_Type.BACKTRACK;
+			break;
+		case SLIDING:
+			prototype = FunctionPrototype_Type.SLIDING;
+			hasSliding.set(true);
+			break;
+		default:
+			break;
+		}
+
+		return new PortGenerator.MessageTypeMappingTarget(targetTypeName, targetTemplateName, displayName, functionName, functionDisplayName, prototype);
 	}
 }

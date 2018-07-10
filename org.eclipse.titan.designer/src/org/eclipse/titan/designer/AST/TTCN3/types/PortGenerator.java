@@ -12,8 +12,11 @@ public class PortGenerator {
 	// The kind of the testport
 	public enum TestportType {NORMAL, INTERNAL, ADDRESS};
 
+	// The kind of the port extension
+	public enum PortType {REGULAR, PROVIDER, USER};
+
 	/**
-	 * Structure to describe in and out messages.
+	 * Structure to describe in messages.
 	 *
 	 * originally port_msg_type is something like this
 	 * */
@@ -36,6 +39,133 @@ public class PortGenerator {
 			mJavaTypeName = messageType;
 			mJavaTemplateName = messageTemplate;
 			mDisplayName = displayName;
+		}
+	}
+
+	public static enum MessageMappingType_type {
+		SIMPLE, DISCARD, FUNCTION, ENCODE, DECODE
+	};
+
+	public static enum FunctionPrototype_Type {
+		CONVERT, FAST, BACKTRACK, SLIDING
+	};
+
+	/**
+	 * Structure to describe message mapping targets of an out parameter.
+	 *
+	 * originally port_msg_type_mapping_target is something like this
+	 * */
+	public static class MessageTypeMappingTarget {
+		private String targetName;
+		private String targetTemplate;
+		private String targetDisplayName;
+		public int targetIndex;
+		private MessageMappingType_type mappingType;
+
+		//only relevant for function style mapping
+		private String functionDisplayName;
+		private String functionName;
+		private FunctionPrototype_Type functionPrototype;
+
+		//only relevant for encdec style mapping
+		private String encdecTypedesriptorName;
+		private String encdecEncodingType;
+		private String encdecEncodingOptions;
+		private String encdecErrorBehaviour;
+
+		/**
+		 * The constructor for discard mapping targets
+		 * */
+		public MessageTypeMappingTarget() {
+			this.mappingType = MessageMappingType_type.DISCARD;
+		}
+
+		/**
+		 * The constructor for simple mapping targets.
+		 *
+		 * @param messageType the string representing the value type of this message in the generated code.
+		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param displayName the string representing the name to be displayed for the user.
+		 * */
+		public MessageTypeMappingTarget(final String targetType, final String targetTemplate, final String displayName) {
+			this.targetName = targetType;
+			this.targetTemplate = targetTemplate;
+			this.targetDisplayName = displayName;
+			this.mappingType = MessageMappingType_type.SIMPLE;
+		}
+
+		/**
+		 * The constructor for function mapping targets.
+		 *
+		 * @param messageType the string representing the value type of this message in the generated code.
+		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param functionName the string representing the name of the function.
+		 * @param functionDisplayName the string representing the function in error messages.
+		 * @param functionPrototype the prototype of the function.
+		 * */
+		public MessageTypeMappingTarget(final String targetType, final String targetTemplate, final String displayName, final String functionName, final String functionDisplayName, final FunctionPrototype_Type functionPrototype) {
+			this.targetName = targetType;
+			this.targetTemplate = targetTemplate;
+			this.targetDisplayName = displayName;
+			this.functionName = functionName;
+			this.functionDisplayName = functionDisplayName;
+			this.functionPrototype = functionPrototype;
+
+			this.mappingType = MessageMappingType_type.FUNCTION;
+		}
+
+		/**
+		 * The constructor for function mapping targets.
+		 *
+		 * @param messageType the string representing the value type of this message in the generated code.
+		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param displayName the string representing the name to be displayed for the user.
+		 * @param typedescriptorName the string representing the typedescriptor.
+		 * @param encodingType the string representing the encoding type.
+		 * @param encodingOptions the string representing the options of the encoding type.
+		 * @param errorbeviour the string representing the errorbehiour setting code.
+		 * @param mappingType encode or decode
+		 * */
+		public MessageTypeMappingTarget(final String targetType, final String targetTemplate, final String displayName, final String typedescriptorName, final String encodingType, final String encodingOptions, final String errorbeviour, final MessageMappingType_type mappingType) {
+			this.targetName = targetType;
+			this.targetTemplate = targetTemplate;
+			this.targetDisplayName = displayName;
+			this.encdecTypedesriptorName = typedescriptorName;
+			this.encdecEncodingType = encodingType;
+			this.encdecEncodingOptions = encodingOptions;
+			this.encdecErrorBehaviour = errorbeviour;
+			this.mappingType = mappingType;
+		}
+	}
+
+	/**
+	 * Structure to describe out messages.
+	 *
+	 * originally port_msg_mapped_type is something like this
+	 * */
+	public static class MessageMappedTypeInfo {
+		/** Java type name of the message */
+		private String mJavaTypeName;
+
+		/** Java template name of the message */
+		private String mJavaTemplateName;
+
+		/** The name to be displayed to the user */
+		private String mDisplayName;
+
+		public ArrayList<MessageTypeMappingTarget> targets = null;
+
+		/**
+		 * @param messageType the string representing the value type of this message in the generated code.
+		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param displayName the string representing the name to be displayed for the user.
+		 * */
+		public MessageMappedTypeInfo(final String messageType, final String messageTemplate, final String displayName) {
+			mJavaTypeName = messageType;
+			mJavaTemplateName = messageTemplate;
+			mDisplayName = displayName;
+			//TODO targets
 		}
 	}
 
@@ -80,18 +210,24 @@ public class PortGenerator {
 		public ArrayList<messageTypeInfo> inMessages = new ArrayList<PortGenerator.messageTypeInfo>();
 
 		/** The list of outgoing messages */
-		public ArrayList<messageTypeInfo> outMessages = new ArrayList<PortGenerator.messageTypeInfo>();
+		public ArrayList<MessageMappedTypeInfo> outMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>();
 
 		public ArrayList<procedureSignatureInfo> inProcedures = new ArrayList<PortGenerator.procedureSignatureInfo>();
 
 		public ArrayList<procedureSignatureInfo> outProcedures = new ArrayList<PortGenerator.procedureSignatureInfo>();
 
+		/** The type of the testport */
+		public TestportType testportType;
+		public PortType portType;
+		//provider_msg_outlist
+		//mapper names
+		//provider message in
+		public boolean has_sliding;
+		public boolean legacy;
+
 		public StringBuilder varDefs;
 		public StringBuilder varInit;
 		public StringBuilder translationFunctions = new StringBuilder();
-
-		/** The type of the testport */
-		public TestportType testportType;
 
 		public PortDefinition(final String genName, final String displayName) {
 			javaName = genName;
@@ -151,7 +287,7 @@ public class PortGenerator {
 		generateDeclaration(source, portDefinition);
 
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
-			final messageTypeInfo outType = portDefinition.outMessages.get(i);
+			final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
 
 			generateSend(source, outType, portDefinition);
 		}
@@ -199,6 +335,21 @@ public class PortGenerator {
 			generateRaiseFunction(source, info, portDefinition);
 		}
 
+		if (portDefinition.portType == PortType.USER) {
+			//FIXME: get_provider_port
+		}
+
+		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
+			//FIXME: add_port, remove_port
+			source.append("public boolean in_translation_mode() {\n");
+			//FIXME implement properly once pre-requisites are handled
+			source.append("return false;\n");
+			source.append("}\n");
+
+			//FIXME change_port_state, reset_port_variables
+		}
+		//FIXME add_port, remove_port, set_parameter
+		
 		//FIXME more complicated conditional
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
@@ -503,7 +654,7 @@ public class PortGenerator {
 	 * @param outType the information about the outgoing message.
 	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateSend(final StringBuilder source, final messageTypeInfo outType, final PortDefinition portDefinition) {
+	private static void generateSend(final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
@@ -518,23 +669,44 @@ public class PortGenerator {
 		source.append("send_par.log();\n");
 		source.append("TtcnLogger.log_msgport_send(get_name(), destination_component.getComponent(), TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
-		source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
-		if (portDefinition.testportType == TestportType.INTERNAL) {
-			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
-		} else {
-			source.append("get_default_destination();\n");
-			source.append("outgoing_send(send_par");
-			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(", null");
+		if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
+				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
+			// If not in translation mode then send message as normally would.
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
+					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
+				source.append("if (!in_translation_mode()) {\n");
 			}
-			source.append(");\n");
+			/* the same message type goes through the external interface */
+			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			if (portDefinition.testportType == TestportType.INTERNAL) {
+				source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
+			} else {
+				source.append("get_default_destination();\n");
+				source.append(MessageFormat.format("outgoing_{0}send(send_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				source.append(");\n");
+			}
+			source.append("} else {\n");
+			source.append("final Text_Buf text_buf = new Text_Buf();\n");
+			source.append(MessageFormat.format("prepare_message(text_buf, \"{0}\");\n",outType.mDisplayName));
+			source.append("send_par.encode_text(text_buf);\n");
+			source.append("send_data(text_buf, destination_component);\n");
+			source.append("}\n");
+
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
+					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
+				source.append("} else {\n");
+				//FIXME
+				source.append("//FIXME generate_send_mapping\n");
+				source.append("}\n");
+			}
+		} else {
+			/* the message type is mapped to another outgoing type of the external interface */
+			//FIXME 1814
+			source.append("//FIXME generate_send_mapping\n");
 		}
-		source.append("} else {\n");
-		source.append("final Text_Buf text_buf = new Text_Buf();\n");
-		source.append(MessageFormat.format("prepare_message(text_buf, \"{0}\");\n",outType.mDisplayName));
-		source.append("send_par.encode_text(text_buf);\n");
-		source.append("send_data(text_buf, destination_component);\n");
-		source.append("}\n");
 		source.append("}\n\n");
 
 		if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -548,7 +720,12 @@ public class PortGenerator {
 			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(false,\"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
 			source.append("}\n\n");
 			source.append("get_default_destination();\n");
-			source.append("outgoing_send(send_par, destination_address);\n");
+			if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)) {
+				source.append("outgoing_send(send_par, destination_address);\n");
+			} else {
+				//FIXME
+				source.append("//FIXME generate_send_mapping\n");
+			}
 			source.append("}\n\n");
 		}
 
@@ -580,6 +757,14 @@ public class PortGenerator {
 				source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
 			}
 			source.append(");\n\n");
+			//FIXME outgoing_mapped_send functions to be generated correctly
+			source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outType.mJavaTypeName));
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+			}
+			source.append(") {\n");
+			source.append("//FIXME not yet supported\n");
+			source.append("}\n\n");
 		}
 	}
 
