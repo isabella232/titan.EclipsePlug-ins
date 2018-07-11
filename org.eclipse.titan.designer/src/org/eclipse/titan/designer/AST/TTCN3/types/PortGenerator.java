@@ -2,6 +2,7 @@ package org.eclipse.titan.designer.AST.TTCN3.types;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -354,21 +355,66 @@ public class PortGenerator {
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			//FIXME implement set_param
 
+			// only print one outgoing_send for each type
+			final HashSet<String> used = new HashSet<String>();
 			for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
-				final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
-				source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par", outType.mJavaTypeName));
-				if (portDefinition.testportType == TestportType.ADDRESS) {
-					source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+				final MessageMappedTypeInfo outMessage = portDefinition.outMessages.get(i);
+				boolean found = used.contains(outMessage.mJavaTypeName);
+				if (!found) {
+					// Internal ports with translation capability do not need the implementable outgoing_send functions.
+					if (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy) {
+						source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
+						if (portDefinition.testportType == TestportType.ADDRESS) {
+							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+						}
+						source.append(");\n\n");
+					}
+
+					// When port translation is enabled
+					// we call the outgoing_mapped_send instead of outgoing_send,
+					// and this function will call one of the mapped port's outgoing_send
+					// functions, or its own outgoing_send function.
+					// This is for the types that are present in the out message list of the port
+					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
+						source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outMessage.mJavaTypeName));
+						if (portDefinition.testportType == TestportType.ADDRESS) {
+							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+						}
+						source.append(") {\n");
+						//FIXME outgoing_mapped_send functions to be generated correctly
+						source.append("//FIXME not yet supported\n");
+						source.append("}\n\n");
+					}
+
+					used.add(outMessage.mJavaTypeName);
 				}
-				source.append(");\n\n");
-				//FIXME outgoing_mapped_send functions to be generated correctly
-				source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outType.mJavaTypeName));
-				if (portDefinition.testportType == TestportType.ADDRESS) {
-					source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+			}
+
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
+				for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
+					final MessageMappedTypeInfo outMessage = portDefinition.outMessages.get(i);
+					for (int j = 0; j < outMessage.targets.size(); j++) {
+						final MessageTypeMappingTarget target = outMessage.targets.get(j);
+						boolean found = used.contains(target.targetName);
+						if (!found) {
+							// When standard like port translated port is present,
+							// We call the outgoing_mapped_send instead of outgoing_send,
+							// and this function will call one of the mapped port's outgoing_send
+							// functions, or its own outgoing_send function.
+							// This is for the mapping target types.
+							source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", target.targetName));
+							if (portDefinition.testportType == TestportType.ADDRESS) {
+								source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+							}
+							source.append(") {\n");
+							//FIXME outgoing_mapped_send functions to be generated correctly
+							source.append("//FIXME not yet supported\n");
+							source.append("}\n\n");
+
+							used.add(target.targetName);
+						}
+					}
 				}
-				source.append(") {\n");
-				source.append("//FIXME not yet supported\n");
-				source.append("}\n\n");
 			}
 
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
@@ -678,7 +724,7 @@ public class PortGenerator {
 	 * @param source where the source code is to be generated.
 	 * @param portDefinition the definition of the port.
 	 * @param mappedType the information about the outgoing message.
-	 * @param hasAddress true if the tzpe has address
+	 * @param hasAddress true if the type has address
 	 * */
 	private static void generateSendMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasAddress) {
 		boolean hasBuffer = false;
