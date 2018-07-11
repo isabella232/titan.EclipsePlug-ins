@@ -1091,6 +1091,13 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		// intentionally empty
 	}
 
+	/**
+	 * Changes the state of the port.
+	 * */
+	public void change_port_state(final translation_port_state state) {
+		// intentionally empty
+	} 
+
 	private port_connection add_connection(final int remote_component, final String remote_port, final transport_type_enum transport_type) {
 		int index = -1;
 		int i = -1;

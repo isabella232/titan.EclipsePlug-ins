@@ -315,8 +315,10 @@ public final class TTCN_Runtime {
 					translation_count.set(translation_count.get().intValue() - 1);
 					throw new TtcnError("The value of the first parameter in the setstate operation must be 0, 1, 2, 3 or 4.");
 				}
-				//FIXME implement rest
-				TtcnLogger.log_setstate(port.get().get_name(), translation_port_state.getByCode(state), new TitanCharString(info));
+
+				final translation_port_state realState = translation_port_state.getByCode(state);
+				port.get().change_port_state(realState);
+				TtcnLogger.log_setstate(port.get().get_name(), realState, new TitanCharString(info));
 			}
 		} else {
 			translation_count.set(translation_count.get().intValue() - 1);
