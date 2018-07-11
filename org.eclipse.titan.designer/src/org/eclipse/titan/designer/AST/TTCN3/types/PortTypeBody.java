@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
@@ -54,7 +55,9 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definitions;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.TTCN3Module;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.FunctionPrototype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageMappedTypeInfo;
+import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortDefinition;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.PortType;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.TestportType;
@@ -1961,7 +1964,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			//FIXME fatal error
 		}
 
-		//FIXME handle legacy and translation
+
 		if (portType == PortType_type.PT_USER) {
 			portDefinition.portType = PortType.USER;
 
@@ -1971,10 +1974,39 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				portDefinition.providerMessageOutList.add(temp);
 
 				PortTypeBody providerBody = providerTypes.get(0).getPortBody();
-				if (providerBody.inMessages == null) {
-					//FIXME implement rest
-				} else {
-					//FIXME implement
+				if (providerBody.inMessages != null) {
+					portDefinition.providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>(providerBody.inMessages.getNofTypes());
+					for (int i = 0; i < providerBody.inMessages.getNofTypes(); i++) {
+						final IType type = providerBody.inMessages.getTypeByIndex(i);
+						final String typeName = type.getGenNameValue(aData, source, myScope);
+						final String templateName = type.getGenNameTemplate(aData, source, myScope);
+						final String displayName = type.getTypename();
+						final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(typeName, templateName, displayName);
+
+						final TypeMapping mapping = inMappings.getMappingForType(CompilationTimeStamp.getBaseTimestamp(), type);
+						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
+						for (int j = 0; j < mapping.getNofTargets(); j++) {
+							final TypeMappingTarget target = mapping.getTargetByIndex(j);
+							final AtomicBoolean sliding = new AtomicBoolean();
+							final MessageTypeMappingTarget mtmTarget = target.fillTypeMappingTarget(aData, source, type, myScope, sliding);
+							mappedType.targets.add(mtmTarget);
+							portDefinition.has_sliding |= sliding.get();
+
+							final Type targetType = target.getTargetType();
+							if (targetType == null) {
+								// the message will be discarded: fill in a dummy index
+								mtmTarget.targetIndex = -1;
+							} else {
+								if (inMessages.hasType(CompilationTimeStamp.getBaseTimestamp(), targetType)) {
+									mtmTarget.targetIndex = inMessages.getIndexByType(targetType);
+								} else {
+									mtmTarget.targetIndex = -1;
+								}
+							}
+						}
+
+						portDefinition.providerInMessages.add(mappedType);
+					}
 				}
 			} else {
 				// non-legacy standard like behavior
@@ -1994,7 +2026,78 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(name, names);
 					portDefinition.providerMessageOutList.add(temp);
 				}
-				//FIXME implement
+
+				if (inMessages != null) {
+					portDefinition.providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>(inMessages.getNofTypes());
+					// First we insert the in messages with simple conversion (no conversion)
+					// into a set called pdef.provider_msg_in.elements
+					for (int i = 0; i < inMessages.getNofTypes(); i++) {
+						final IType type = inMessages.getTypeByIndex(i);
+						final String typeName = type.getGenNameValue(aData, source, myScope);
+						final String templateName = type.getGenNameTemplate(aData, source, myScope);
+						final String displayName = type.getTypename();
+						final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(typeName, templateName, displayName);
+
+						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
+						final String targetType = type.getGenNameValue(aData, source, myScope);
+						final String targetTemplate = type.getGenNameTemplate(aData, source, myScope);
+						final String targetDisplayName = type.getTypename();
+						final MessageTypeMappingTarget mtmTarget = new MessageTypeMappingTarget(targetType, targetTemplate, targetDisplayName);
+						mtmTarget.targetIndex = inMessages.getIndexByType(type);
+						mappedType.targets.add(mtmTarget);
+
+						portDefinition.providerInMessages.add(mappedType);
+					}
+				}
+
+				if (inMappings != null) {
+					// Secondly we insert the mappings into the pdef.
+					// We collect the mapping sources for each distinct mapping targets.
+					// Kind of reverse what we did in the legacy behaviour.
+					for (int j = 0; j < inMappings.getNofMappings(); j++) {
+						final TypeMapping mapping = inMappings.getMappingByIndex(j);
+						for (int u = 0; u < mapping.getNofTargets(); u++) {
+							final TypeMappingTarget mappingTarget = mapping.getTargetByIndex(u);
+							final Type mappingTargetType = mappingTarget.getTargetType();
+
+							MessageMappedTypeInfo mappedType = null;
+							for (int k = 0; k < portDefinition.providerInMessages.size(); k++) {
+								if (portDefinition.providerInMessages.get(k).mDisplayName.equals(mappingTargetType.getTypename())) {
+									mappedType = portDefinition.providerInMessages.get(k);
+									break;
+								}
+							}
+
+							if (mappedType == null) {
+								// Mapping target not found. Create new port_msg_mapped_type
+								final String typeName = mappingTargetType.getGenNameValue(aData, source, myScope);
+								final String templeName = mappingTargetType.getGenNameTemplate(aData, source, myScope);
+								final String displayName = mappingTargetType.getTypename();
+								mappedType = new MessageMappedTypeInfo(typeName, templeName, displayName);
+								portDefinition.providerInMessages.add(mappedType);
+							}
+
+							// Insert the mapping source as the mapped target's target.
+							final Def_Function targetFunction = ((FunctionTypeMappingTarget) mappingTarget).getFunction();
+							final String functionName = targetFunction.getGenNameFromScope(aData, source, myScope, "");
+							final String functionDisplayName = targetFunction.getFullName();
+							final Type sourceType = mapping.getSourceType();
+							final String targetType = sourceType.getGenNameValue(aData, source, myScope);
+							final String targetTemplate = sourceType.getGenNameTemplate(aData, source, myScope);
+							final String targetDisplayName = sourceType.getTypename();
+
+							final MessageTypeMappingTarget newTarget = new MessageTypeMappingTarget(targetType, targetTemplate, targetDisplayName, functionName, functionDisplayName, FunctionPrototype_Type.FAST);
+							if (mappedType.targets == null) {
+								mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>();
+							}
+							mappedType.targets.add(newTarget);
+							if (inMessages.hasType(CompilationTimeStamp.getBaseTimestamp(), sourceType)) {
+								newTarget.targetIndex = inMessages.getIndexByType(sourceType);
+							}
+						}
+					}
+				}
+
 				if (vardefs != null) {
 					portDefinition.varDefs = new StringBuilder();
 					portDefinition.varInit = new StringBuilder();
@@ -2083,10 +2186,18 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			}
 		}
 
-
+		// TODO will we need to generate testport skeleton here, or can we find a better way?
 
 		if (portType == PortType_type.PT_PROVIDER) {
-			//FIXEM implement
+			for (int i = 0; i < mapperTypes.size(); i++) {
+				final Module portModule = mapperTypes.get(i).getMyScope().getModuleScope();
+				final Module myModule = myType.getMyScope().getModuleScope();
+				if (myModule == portModule) {
+					continue;
+				}
+
+				aData.addInterModuleImport(portModule.getIdentifier().getName());
+			}
 		}
 
 		return portDefinition;

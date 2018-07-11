@@ -153,7 +153,7 @@ public class PortGenerator {
 		private String mJavaTemplateName;
 
 		/** The name to be displayed to the user */
-		private String mDisplayName;
+		public String mDisplayName;
 
 		public ArrayList<MessageTypeMappingTarget> targets = null;
 
@@ -239,7 +239,9 @@ public class PortGenerator {
 		public ArrayList<portMessageProvider> providerMessageOutList;
 
 		public ArrayList<String> mapperNames;
-		//FIXME provider message in
+
+		public ArrayList<MessageMappedTypeInfo> providerInMessages = new ArrayList<PortGenerator.MessageMappedTypeInfo>();
+
 		public boolean has_sliding;
 		public boolean legacy;
 

@@ -107,6 +107,24 @@ public final class TypeSet extends ASTNode {
 	}
 
 	/**
+	 * Calculates the index of the provided type in this set.
+	 *
+	 * @param type the type to search for.
+	 *
+	 * @return the index of the type, or -1 if not found.
+	 * */
+	public int getIndexByType(final IType type) {
+		final String name = type.getTypename();
+		for (int i = 0, size = types.size(); i < size; i++) {
+			if (types.get(i).getTypename().equals(name)) {
+				return i;
+			}
+		}
+
+		return -1;
+	}
+
+	/**
 	 * Checks if a type with the provided name is present in the set or not.
 	 *
 	 * @param name the name to look for.
