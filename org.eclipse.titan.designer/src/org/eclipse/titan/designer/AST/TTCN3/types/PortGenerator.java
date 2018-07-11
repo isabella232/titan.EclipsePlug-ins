@@ -237,7 +237,8 @@ public class PortGenerator {
 		public PortType portType;
 
 		public ArrayList<portMessageProvider> providerMessageOutList;
-		//FIXME mapper names
+
+		public ArrayList<String> mapperNames;
 		//FIXME provider message in
 		public boolean has_sliding;
 		public boolean legacy;
@@ -434,8 +435,55 @@ public class PortGenerator {
 			}
 			source.append("}\n\n");
 		}
-		//FIXME mapper_name
-		
+
+		// Port type variables in the provider types.
+		if (portDefinition.mapperNames != null) {
+			source.append("public void add_port(final TitanPort port) {\n");
+			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
+				final String name = portDefinition.mapperNames.get(i);
+
+				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("if (p_{0} == null) '{'\n", i));
+				source.append(MessageFormat.format("p_{0} = new ArrayList<{1}>();\n", i, name));
+				source.append("}\n");
+				source.append(MessageFormat.format("n_{0}++;\n", i));
+				source.append(MessageFormat.format("p_{0}.add(({1}) port);\n", i, name));
+				source.append("return;\n");
+				source.append("}\n");
+			}
+
+			source.append("throw new TtcnError(\"Internal error: Adding invalid port type.\");\n");
+			source.append("}\n\n");
+
+			source.append("public void remove_port(final TitanPort port) {\n");
+			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
+				final String name = portDefinition.mapperNames.get(i);
+
+				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("if (p_{0}.remove(port)) '{'\n", i));
+				source.append(MessageFormat.format("n_{0}--;\n", i));
+				source.append("}\n");
+				source.append(MessageFormat.format("if (n_{0} == 0) '{'\n", i));
+				source.append(MessageFormat.format("p_{0} = null;\n", i));
+				source.append("}\n");
+
+				source.append("return;\n");
+				source.append("}\n");
+			}
+
+			source.append("throw new TtcnError(\"Internal error: Removing invalid port type.\");\n");
+			source.append("}\n\n");
+
+			source.append("protected void reset_port_variables() {\n");
+			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
+				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", i));
+				source.append(MessageFormat.format("p_{0}.get(i).remove_port(this);\n", i));
+				source.append("}\n");
+				source.append(MessageFormat.format("p_{0} = null;\n", i));
+				source.append(MessageFormat.format("n_{0} = 0;\n", i));
+			}
+			source.append("}\n\n");
+		}
 
 		if ((portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) &&
 				(portDefinition.portType == PortType.REGULAR || (portDefinition.portType == PortType.USER && !portDefinition.legacy))) {
@@ -602,11 +650,12 @@ public class PortGenerator {
 			}
 		}
 
-		//FIXME only if mapper names
-		for (int i = 0; i < portDefinition.outMessages.size(); i++) {
-			source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par) '{'\n", portDefinition.outMessages.get(i).mJavaTypeName));
-			source.append("outgoing_send(send_par);\n");
-			source.append("}\n\n");
+		if (portDefinition.mapperNames != null && portDefinition.mapperNames.size() > 0) {
+			for (int i = 0; i < portDefinition.outMessages.size(); i++) {
+				source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par) '{'\n", portDefinition.outMessages.get(i).mJavaTypeName));
+				source.append("outgoing_send(send_par);\n");
+				source.append("}\n\n");
+			}
 		}
 
 		if (portDefinition.inProcedures.size() > 0) {
@@ -896,6 +945,13 @@ public class PortGenerator {
 			source.append(portDefinition.translationFunctions);
 		}
 
+		if (portDefinition.mapperNames != null) {
+			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
+				source.append(MessageFormat.format("private ArrayList<{0}> p_{1};\n", portDefinition.mapperNames.get(i), i));
+				source.append(MessageFormat.format("private int n_{0};\n", i));
+			}
+		}
+
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
 		source.append("super(port_name);\n");
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
@@ -906,7 +962,12 @@ public class PortGenerator {
 
 			source.append("port_state = translation_port_state.UNSET;\n");
 		}
-		//FIXME handle mapper names
+		if (portDefinition.mapperNames != null) {
+			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
+				source.append(MessageFormat.format("p_{0} = null;\n", i));
+				source.append(MessageFormat.format("n_{0} = 0;\n", i));
+			}
+		}
 		source.append("}\n\n");
 
 		//FIXME more complicated conditional
@@ -1565,15 +1626,34 @@ public class PortGenerator {
 	 * */
 	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
+		String visibility;
+		if ((portDefinition.portType == PortType.USER && !portDefinition.legacy) ||
+				(portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null)) {
+			visibility = "public";
+		} else {
+			visibility = "private";
+		}
 
-		source.append(MessageFormat.format("private void incoming_message(final {0} incoming_par, final int sender_component", typeValueName));
+		source.append(MessageFormat.format("{0} void incoming_message(final {1} incoming_par, final int sender_component", visibility, typeValueName));
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
 		source.append(") {\n");
+		if (portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null) {
+			// We forward the incoming_message to the mapped port
+			for (int j = 0; j < portDefinition.mapperNames.size(); j++) {
+				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
+				source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
+				source.append(MessageFormat.format("p_{0}.get(i).incoming_message(incoming_par, sender_component);\n", j));
+				source.append("return;\n");
+				source.append("}\n");
+				source.append("}\n");
+			}
+		}
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
+		//FIXME log_this_event and generate_incoming_mapping might be missing
 		source.append("final Message_queue_item new_item = new Message_queue_item();\n");
 		source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
 		source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));

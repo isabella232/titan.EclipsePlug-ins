@@ -2077,7 +2077,10 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 
 		if (portType == PortType_type.PT_PROVIDER) {
-			//FIXEM implement
+			portDefinition.mapperNames = new ArrayList<String>(mapperTypes.size());
+			for (int i = 0; i < mapperTypes.size(); i++) {
+				portDefinition.mapperNames.add(mapperTypes.get(i).getGenNameValue(aData, source, myScope));
+			}
 		}
 
 
