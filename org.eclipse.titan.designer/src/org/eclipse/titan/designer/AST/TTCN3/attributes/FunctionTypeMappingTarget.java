@@ -248,16 +248,16 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope scope, final AtomicBoolean hasSliding) {
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding) {
 		String targetTypeName = null;
 		String targetTemplateName = null;
 		String displayName = null;
 
 		hasSliding.set(false);
 		if (targetType != null) {
-			targetTypeName = outType.getGenNameValue(aData, source, scope);
-			targetTemplateName = outType.getGenNameTemplate(aData, source, scope);
-			displayName = outType.getTypename();
+			targetTypeName = targetType.getGenNameValue(aData, source, scope);
+			targetTemplateName = targetType.getGenNameTemplate(aData, source, scope);
+			displayName = targetType.getTypename();
 		}
 
 		String functionName = functionReferenced.getGenNameFromScope(aData, source, scope, "");

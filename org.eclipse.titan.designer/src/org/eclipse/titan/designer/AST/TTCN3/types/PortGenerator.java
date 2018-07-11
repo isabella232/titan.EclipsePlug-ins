@@ -289,7 +289,7 @@ public class PortGenerator {
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 			final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
 
-			generateSend(source, outType, portDefinition);
+			generateSend(aData, source, outType, portDefinition);
 		}
 
 		if (portDefinition.inMessages.size() > 0) {
@@ -352,6 +352,25 @@ public class PortGenerator {
 		
 		//FIXME more complicated conditional
 		if (portDefinition.testportType != TestportType.INTERNAL) {
+			//FIXME implement set_param
+
+			for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
+				final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
+				source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par", outType.mJavaTypeName));
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+				}
+				source.append(");\n\n");
+				//FIXME outgoing_mapped_send functions to be generated correctly
+				source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outType.mJavaTypeName));
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
+				}
+				source.append(") {\n");
+				source.append("//FIXME not yet supported\n");
+				source.append("}\n\n");
+			}
+
 			for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 				final procedureSignatureInfo info = portDefinition.outProcedures.get(i);
 
@@ -621,19 +640,24 @@ public class PortGenerator {
 			source.append("}\n\n");
 		}
 
-		if (portDefinition.varDefs != null) {
-			source.append(portDefinition.varDefs);
-		}
-		if (portDefinition.varInit != null) {
-			source.append('\n');
-			source.append("@Override\n");
-			source.append("protected void init_port_variables() {\n");
-			source.append(portDefinition.varInit);
-			source.append("}\n\n");
-		}
+		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
+			//FIXME povider_msg_outlist
+			source.append("translation_port_state port_state = translation_port_state.UNSET;\n");
 
-		source.append("//translation functions with port clause belonging to this port type\n");
-		source.append(portDefinition.translationFunctions);
+			if (portDefinition.varDefs != null) {
+				source.append(portDefinition.varDefs);
+			}
+			if (portDefinition.varInit != null) {
+				source.append('\n');
+				source.append("@Override\n");
+				source.append("protected void init_port_variables() {\n");
+				source.append(portDefinition.varInit);
+				source.append("}\n\n");
+			}
+
+			source.append("//translation functions with port clause belonging to this port type\n");
+			source.append(portDefinition.translationFunctions);
+		}
 
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
 		source.append("super(port_name);\n");
@@ -650,11 +674,166 @@ public class PortGenerator {
 	/**
 	 * This function generates the sending functions.
 	 *
+	 * @param aData only used to update imports if needed.
+	 * @param source where the source code is to be generated.
+	 * @param portDefinition the definition of the port.
+	 * @param mappedType the information about the outgoing message.
+	 * @param hasAddress true if the tzpe has address
+	 * */
+	private static void generateSendMapping(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition, final MessageMappedTypeInfo mappedType, final boolean hasAddress) {
+		boolean hasBuffer = false;
+		boolean hasDiscard = false;
+		boolean reportError = false;
+		if (portDefinition.testportType == TestportType.INTERNAL && portDefinition.legacy) {
+			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
+			source.append(");\n");
+		}
+
+		for (int i = 0; i < mappedType.targets.size(); i++) {
+			final MessageTypeMappingTarget target = mappedType.targets.get(i);
+			boolean hasCondition = false;
+			if (target.mappingType == MessageMappingType_type.DISCARD) {
+				/* "discard" should always be the last mapping */
+				hasDiscard = true;
+				break;
+			} else if(target.mappingType == MessageMappingType_type.DECODE && !hasBuffer) {
+				aData.addBuiltinTypeImport("TTCN_Buffer");
+
+				source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(send_par);\n");
+				/* has_buffer will be set to TRUE later */
+			}
+			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+				// Mappings should only happen if the port it is mapped to has the same outgoing message type as the mapping target.
+				source.append("if (false");
+				//FIXME implement once provider_msg_outlist is ready
+				source.append(") {\n");
+				// Beginning of the loop of the PARTIALLY_TRANSLATED case to process all messages
+				source.append("do {\n");
+				source.append("TTCN_Runtime.set_translation_mode(true, this);\n");
+				source.append("TTCN_Runtime.set_port_state(-1, \"by test environment\", true);\n");
+			}
+			if (mappedType.targets.size() > 1) {
+				source.append("{\n");
+			}
+			switch (target.mappingType) {
+			case FUNCTION:
+				source.append(MessageFormat.format("// out mapping with a prototype({0}) function\n", target.functionPrototype.name()));
+				switch (target.functionPrototype) {
+				case CONVERT:
+					//FIXME
+					break;
+				case FAST:
+					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("{0}(send_par, mapped_par);\n", target.functionName));
+					if (!portDefinition.legacy) {
+						hasCondition = true;
+					}
+					break;
+				case SLIDING:
+					//FIXME
+					break;
+				case BACKTRACK:
+					//FIXME
+					break;
+				default:
+					break;
+				}
+				break;
+			case ENCODE:
+				//FIXME implement
+				break;
+			case DECODE:
+				//FIXME implement
+				break;
+			default:
+				break;
+			}
+
+			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+				source.append("TTCN_Runtime.set_translation_mode(false, null);\n");
+				source.append("if (port_state == translation_port_state.TRANSLATED || port_state == translation_port_state.PARTIALLY_TRANSLATED) {\n");
+			}
+
+			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_DUALSEND)) {\n");
+			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_DUALSEND);\n");
+			source.append("mapped_par.log();\n");
+			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(false, \"{0}\", TtcnLogger.end_event_log2str(), 0);\n", target.targetDisplayName));
+			source.append("}\n");
+			if (hasAddress) {
+				source.append("outgoing_send(mapped_par, destination_address);\n");
+			} else {
+				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
+					source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
+					source.append(MessageFormat.format("outgoing_{0}send(mapped_par", portDefinition.portType == PortType.USER && !portDefinition.legacy ? "mapped_": ""));
+					if (portDefinition.testportType == TestportType.ADDRESS) {
+						source.append(", null");
+					}
+					source.append(");\n");
+					source.append("} else {\n");
+				}
+
+				source.append("final Text_Buf text_buf = new Text_Buf();\n");
+				source.append(MessageFormat.format("prepare_message(text_buf, \"{0}\");\n", target.targetDisplayName));
+				source.append("send_par.encode_text(text_buf);\n");
+				source.append("send_data(text_buf, destination_component);\n");
+				if (portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) {
+					source.append("}\n");
+				}
+			}
+			if (hasCondition) {
+				if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+					source.append("if (port_state != translation_port_state.PARTIALLY_TRANSLATED) {\n");
+				}
+				source.append("return;\n");
+				if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+					source.append("}\n");
+				}
+				if (portDefinition.legacy) {
+					source.append("}\n");
+				}
+				reportError = true;
+			}
+
+			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+				source.append("} else if (port_state == translation_port_state.FRAGMENTED || port_state == translation_port_state.DISCARDED) {\n");
+				source.append("return;\n");
+				source.append("} else if (port_state == translation_port_state.UNSET) {\n");
+				source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"The state of the port '{'0'}' remained unset after the mapping function {0} finished.\", get_name()));\n", target.functionDisplayName));
+				source.append("}\n");
+			}
+			if (mappedType.targets.size() > 1) {
+				source.append("}\n");
+			}
+			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+				// End of the do while loop to process all the messages
+				source.append("} while (port_state == translation_port_state.PARTIALLY_TRANSLATED);\n");
+				// end of the outgoing messages of port with mapping target check
+				source.append("}\n");
+			}
+		}
+		if (hasDiscard) {
+			if (mappedType.targets.size() > 1) {
+				/* there are other mappings, which failed */
+				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(0, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
+			} else {
+				/* this is the only mapping */
+				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(0, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
+			}
+		} else {
+			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Outgoing message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
+		}
+	}
+
+	/**
+	 * This function generates the sending functions.
+	 *
+	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param outType the information about the outgoing message.
 	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateSend(final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
+	private static void generateSend(final JavaGenData aData, final StringBuilder source, final MessageMappedTypeInfo outType, final PortDefinition portDefinition) {
 		source.append(MessageFormat.format("public void send(final {0} send_par, final TitanComponent destination_component) '{'\n", outType.mJavaTypeName));
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Sending a message on port {0}, which is not started.\", get_name()));\n");
@@ -698,14 +877,12 @@ public class PortGenerator {
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
 					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
 				source.append("} else {\n");
-				//FIXME
-				source.append("//FIXME generate_send_mapping\n");
+				generateSendMapping(aData, source, portDefinition, outType, false);
 				source.append("}\n");
 			}
 		} else {
 			/* the message type is mapped to another outgoing type of the external interface */
-			//FIXME 1814
-			source.append("//FIXME generate_send_mapping\n");
+			generateSendMapping(aData, source, portDefinition, outType, false);
 		}
 		source.append("}\n\n");
 
@@ -717,14 +894,13 @@ public class PortGenerator {
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_DUALSEND)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_DUALSEND);\n");
 			source.append("send_par.log();\n");
-			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(false,\"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
+			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(false, \"{0}\", TtcnLogger.end_event_log2str(), 0);\n ",outType.mDisplayName));
 			source.append("}\n\n");
 			source.append("get_default_destination();\n");
 			if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)) {
 				source.append("outgoing_send(send_par, destination_address);\n");
 			} else {
-				//FIXME
-				source.append("//FIXME generate_send_mapping\n");
+				generateSendMapping(aData, source, portDefinition, outType, true);
 			}
 			source.append("}\n\n");
 		}
@@ -749,23 +925,6 @@ public class PortGenerator {
 		source.append(MessageFormat.format("final {0} send_par_value = send_par.valueOf();\n", outType.mJavaTypeName));
 		source.append("send(send_par_value, new TitanComponent(get_default_destination()));\n");
 		source.append("}\n\n");
-
-		// FIXME a bit more complex expression
-		if (portDefinition.testportType != TestportType.INTERNAL) {
-			source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par", outType.mJavaTypeName));
-			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
-			}
-			source.append(");\n\n");
-			//FIXME outgoing_mapped_send functions to be generated correctly
-			source.append(MessageFormat.format("public void outgoing_mapped_send(final {0} send_par", outType.mJavaTypeName));
-			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
-			}
-			source.append(") {\n");
-			source.append("//FIXME not yet supported\n");
-			source.append("}\n\n");
-		}
 	}
 
 	/**

@@ -63,7 +63,7 @@ public final class DiscardTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope myScope, final AtomicBoolean hasSliding) {
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope myScope, final AtomicBoolean hasSliding) {
 		hasSliding.set(false);
 
 		return new PortGenerator.MessageTypeMappingTarget();

@@ -89,13 +89,13 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 
 	@Override
 	/** {@inheritDoc} */
-	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope myScope, final AtomicBoolean hasSliding) {
+	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope myScope, final AtomicBoolean hasSliding) {
 		hasSliding.set(false);
 
 		if (targetType == null) {
 			return new PortGenerator.MessageTypeMappingTarget(null, null, null);
 		}
 		
-		return new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
+		return new PortGenerator.MessageTypeMappingTarget(targetType.getGenNameValue(aData, source, myScope), targetType.getGenNameTemplate(aData, source, myScope), targetType.getTypename());
 	}
 }

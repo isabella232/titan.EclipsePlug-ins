@@ -84,5 +84,5 @@ public abstract class TypeMappingTarget extends ASTNode implements ILocateableNo
 	 * @param hasSliding this parameter is used to return if this type mapping target uses sliding decoding.
 	 * 
 	 * */
-	public abstract MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType outType, final Scope scope, final AtomicBoolean hasSliding);
+	public abstract MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding);
 }
