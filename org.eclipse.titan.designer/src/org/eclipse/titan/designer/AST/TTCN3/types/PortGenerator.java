@@ -192,6 +192,21 @@ public class PortGenerator {
 	}
 
 	/**
+	 * Structure to describe message providers.
+	 *
+	 * originally port_msg_provider is something like this
+	 * */
+	public static class portMessageProvider {
+		private String name;
+		private ArrayList<String> outMessageTypeNames;
+
+		public portMessageProvider(final String name, final ArrayList<String> outMessageTypeNames) {
+			this.name = name;
+			this.outMessageTypeNames = outMessageTypeNames;
+		}
+	}
+
+	/**
 	 * Structure describing all data needed to generate the port.
 	 *
 	 * originally port_def
@@ -220,6 +235,8 @@ public class PortGenerator {
 		/** The type of the testport */
 		public TestportType testportType;
 		public PortType portType;
+
+		public ArrayList<portMessageProvider> providerMessageOutList;
 		//provider_msg_outlist
 		//mapper names
 		//provider message in
@@ -381,8 +398,43 @@ public class PortGenerator {
 							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
 						}
 						source.append(") {\n");
-						//FIXME outgoing_mapped_send functions to be generated correctly
-						source.append("//FIXME not yet supported\n");
+						for (int j = 0; j < portDefinition.providerMessageOutList.size(); j++) {
+							final portMessageProvider tempMessageProvider = portDefinition.providerMessageOutList.get(j);
+							found = false;
+							for (int k = 0; k < tempMessageProvider.outMessageTypeNames.size(); k++) {
+								if (outMessage.mJavaTypeName.equals(tempMessageProvider.outMessageTypeNames.get(k))) {
+									found = true;
+									break;
+								}
+							}
+
+							if (found) {
+								// Call outgoing_public_send so the outgoing_send can remain
+								source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", j));
+								source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", j));
+								source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par);\n", j));
+								source.append("return;\n");
+								source.append("}\n");
+								source.append("}\n");
+							}
+						}
+
+						found = false;
+						//TODO this might be always true !
+						for (int j = 0; j < portDefinition.outMessages.size(); j++) {
+							if (portDefinition.outMessages.get(j).mJavaTypeName.equals(outMessage.mJavaTypeName)) {
+								found = true;
+								break;
+							}
+						}
+						if (found && (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy)) {
+							source.append("outgoing_send(send_par);\n");
+						} else if (portDefinition.testportType == TestportType.INTERNAL && !portDefinition.legacy) {
+							source.append("throw new TtcnError(\"Cannot send message without successful mapping on a internal port with translation capability.\");\n");
+						} else {
+							source.append(MessageFormat.format("throw new TtcnError(\"Cannot send message correctly with type {0}.\");\n", outMessage.mJavaTypeName));
+						}
+
 						source.append("}\n\n");
 					}
 
@@ -407,8 +459,39 @@ public class PortGenerator {
 								source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
 							}
 							source.append(") {\n");
-							//FIXME outgoing_mapped_send functions to be generated correctly
-							source.append("//FIXME not yet supported\n");
+							for (int k = 0; k < portDefinition.providerMessageOutList.size(); k++) {
+								final portMessageProvider tempMessageProvider = portDefinition.providerMessageOutList.get(k);
+								found = false;
+								for (int l = 0; l < tempMessageProvider.outMessageTypeNames.size(); l++) {
+									if (target.targetName.equals(tempMessageProvider.outMessageTypeNames.get(l))) {
+										found = true;
+										break;
+									}
+								}
+
+								if (found) {
+									// Call outgoing_public_send so the outgoing_send can remain
+									source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", k));
+									source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", k));
+									source.append(MessageFormat.format("p_{0}.get(i).outgoing_public_send(send_par);\n", k));
+									source.append("return;\n");
+									source.append("}\n");
+									source.append("}\n");
+								}
+							}
+
+							found = false;
+							for (int k = 0; k < portDefinition.outMessages.size(); k++) {
+								if (portDefinition.outMessages.get(k).mJavaTypeName.equals(target.targetName)) {
+									found = true;
+									break;
+								}
+							}
+							if (found) {
+								source.append("outgoing_send(send_par);\n");
+							} else {
+								source.append(MessageFormat.format("throw new TtcnError(\"Cannot send message correctly {0}.\");\n", target.targetName));
+							}
 							source.append("}\n\n");
 
 							used.add(target.targetName);
@@ -448,6 +531,13 @@ public class PortGenerator {
 					source.append(");\n");
 				}
 			}
+		}
+
+		//FIXME only if mapper names
+		for (int i = 0; i < portDefinition.outMessages.size(); i++) {
+			source.append(MessageFormat.format("public void outgoing_public_send(final {0} send_par) '{'\n", portDefinition.outMessages.get(i).mJavaTypeName));
+			source.append("outgoing_send(send_par);\n");
+			source.append("}\n\n");
 		}
 
 		if (portDefinition.inProcedures.size() > 0) {
@@ -687,8 +777,11 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
-			//FIXME povider_msg_outlist
-			source.append("translation_port_state port_state = translation_port_state.UNSET;\n");
+			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+				source.append(MessageFormat.format("private ArrayList<{0}> p_{1};\n", portDefinition.providerMessageOutList.get(i).name, i));
+				source.append(MessageFormat.format("private int n_{0};\n", i));
+			}
+			source.append("private translation_port_state port_state = translation_port_state.UNSET;\n");
 
 			if (portDefinition.varDefs != null) {
 				source.append(portDefinition.varDefs);

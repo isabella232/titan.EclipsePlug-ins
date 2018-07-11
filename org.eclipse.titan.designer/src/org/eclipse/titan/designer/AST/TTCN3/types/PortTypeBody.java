@@ -1966,9 +1966,34 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			portDefinition.portType = PortType.USER;
 
 			if (legacy) {
-				//FIXME implement
+				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>();
+				final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(providerTypes.get(0).getGenNameValue(aData, source, myScope), null);
+				portDefinition.providerMessageOutList.add(temp);
+
+				PortTypeBody providerBody = providerTypes.get(0).getPortBody();
+				if (providerBody.inMessages == null) {
+					//FIXME implement rest
+				} else {
+					//FIXME implement
+				}
 			} else {
 				// non-legacy standard like behavior
+				portDefinition.providerMessageOutList = new ArrayList<PortGenerator.portMessageProvider>(providerTypes.size());
+				for (int i = 0; i < providerTypes.size(); i++) {
+					final Port_Type providerType = providerTypes.get(i);
+					final String name = providerType.getGenNameValue(aData, source, myScope);
+					final PortTypeBody providerTypeBody = providerType.getPortBody();
+					ArrayList<String> names = null;
+					if (providerTypeBody.outMessages != null) {
+						names = new ArrayList<String>(providerTypeBody.outMessages.getNofTypes());
+						for (int j = 0; j < providerTypeBody.outMessages.getNofTypes(); j++) {
+							names.add(providerTypeBody.outMessages.getTypeByIndex(j).getGenNameValue(aData, source, myScope));
+						}
+					}
+
+					final PortGenerator.portMessageProvider temp = new PortGenerator.portMessageProvider(name, names);
+					portDefinition.providerMessageOutList.add(temp);
+				}
 				//FIXME implement
 				if (vardefs != null) {
 					portDefinition.varDefs = new StringBuilder();
