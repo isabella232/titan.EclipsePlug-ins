@@ -38,6 +38,38 @@ import org.eclipse.titan.runtime.core.TtcnLogger.component_id_selector_enum;
  * @author Kristof Szabados
  */
 public class TitanPort extends Channel_And_Timeout_Event_Handler {
+	public enum translation_port_state {
+		UNSET(-1),
+		TRANSLATED(0),
+		NOT_TRANSLATED(1),
+		FRAGMENTED(2),
+		PARTIALLY_TRANSLATED(3),
+		DISCARDED(4);
+
+		private int code;
+
+		translation_port_state(final int code) {
+			this.code = code;
+		}
+
+		public static translation_port_state getByCode(final int code) {
+			switch(code) {
+			case 0:
+				return TRANSLATED;
+			case 1:
+				return NOT_TRANSLATED;
+			case 2:
+				return FRAGMENTED;
+			case 3:
+				return PARTIALLY_TRANSLATED;
+			case 4:
+				return DISCARDED;
+			default:
+				return UNSET;
+			}
+		}
+	};
+
 	// originally the list stored in list_head list_tail
 	private static final ThreadLocal<LinkedList<TitanPort>> PORTS = new ThreadLocal<LinkedList<TitanPort>>() {
 		@Override
