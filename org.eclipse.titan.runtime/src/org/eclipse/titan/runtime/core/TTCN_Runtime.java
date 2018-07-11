@@ -18,6 +18,7 @@ import java.util.concurrent.atomic.AtomicReference;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
+import org.eclipse.titan.runtime.core.TitanPort.translation_port_state;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
@@ -304,22 +305,27 @@ public final class TTCN_Runtime {
 		}
 	}
 
-	public static void set_port_state(final TitanInteger state, final TitanCharString info, final boolean bySystem) {
+	public static void set_port_state(final int state, final String info, final boolean bySystem) {
 		if (translation_count.get() > 0) {
 			if (port == null) {
 				throw new TtcnError("Internal error: TTCN_Runtime.set_port_state: The port is null.");
 			} else {
 				int low_end = bySystem ? -1 : 0;
-				if (state.getInt() < low_end || state.getInt() > 4) {
+				if (state < low_end || state > 4) {
 					translation_count.set(translation_count.get().intValue() - 1);
 					throw new TtcnError("The value of the first parameter in the setstate operation must be 0, 1, 2, 3 or 4.");
 				}
 				//FIXME implement rest
+				TtcnLogger.log_setstate(port.get().get_name(), translation_port_state.getByCode(state), new TitanCharString(info));
 			}
 		} else {
 			translation_count.set(translation_count.get().intValue() - 1);
 			throw new TtcnError("setstate operation was called without being in a translation procedure.");
 		}
+	}
+
+	public static void set_port_state(final TitanInteger state, final TitanCharString info, final boolean bySystem) {
+		set_port_state(state.getInt(), info.getValue().toString(), bySystem);
 	}
 
 	public static TitanPort get_translation_port() {
