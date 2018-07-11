@@ -354,19 +354,88 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.portType == PortType.USER) {
-			//FIXME: get_provider_port
+			source.append("public TitanPort get_provider_port() {\n");
+			source.append("get_default_destination();\n");
+			if (portDefinition.legacy) {
+				source.append("return this;\n");
+			} else {
+				for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+					source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", i));
+					source.append(MessageFormat.format("if (p_{0}.get(i) != null) '{'\n", i));
+					source.append(MessageFormat.format("return p_{0}.get(i);\n", i));
+					source.append("}\n");
+					source.append("}\n");
+				}
+
+				source.append("return null;\n");
+			}
+			
+			source.append("}\n\n");
 		}
 
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
-			//FIXME: add_port, remove_port
-			source.append("public boolean in_translation_mode() {\n");
-			//FIXME implement properly once pre-requisites are handled
-			source.append("return false;\n");
-			source.append("}\n");
+			source.append("public void add_port(final TitanPort port) {\n");
+			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+				final String name = portDefinition.providerMessageOutList.get(i).name;
 
-			//FIXME change_port_state, reset_port_variables
+				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("if (p_{0} == null) '{'\n", i));
+				source.append(MessageFormat.format("p_{0} = new ArrayList<{1}>();\n", i, name));
+				source.append("}\n");
+				source.append(MessageFormat.format("n_{0}++;\n", i));
+				source.append(MessageFormat.format("p_{0}.add(({1}) port);\n", i, name));
+				source.append("return;\n");
+				source.append("}\n");
+			}
+
+			source.append("throw new TtcnError(\"Internal error: Adding invalid port type.\");\n");
+			source.append("}\n\n");
+
+			source.append("public void remove_port(final TitanPort port) {\n");
+			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+				final String name = portDefinition.providerMessageOutList.get(i).name;
+
+				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("if (p_{0}.remove(port)) '{'\n", i));
+				source.append(MessageFormat.format("n_{0}--;\n", i));
+				source.append("}\n");
+				source.append(MessageFormat.format("if (n_{0} == 0) '{'\n", i));
+				source.append(MessageFormat.format("p_{0} = null;\n", i));
+				source.append("}\n");
+
+				source.append("return;\n");
+				source.append("}\n");
+			}
+
+			source.append("throw new TtcnError(\"Internal error: Removing invalid port type.\");\n");
+			source.append("}\n\n");
+
+			source.append("public boolean in_translation_mode() {\n");
+			source.append("return ");
+			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+				if (i > 0) {
+					source.append(" || ");
+				}
+				source.append(MessageFormat.format("n_{0} != 0", i));
+			}
+			source.append(";\n");
+			source.append("}\n\n");
+
+			source.append("public void change_port_state(final translation_port_state state) {\n");
+			source.append("port_state = state;\n");
+			source.append("}\n\n");
+
+			source.append("protected void reset_port_variables() {\n");
+			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+				source.append(MessageFormat.format("for (int i = 0; i < n_{0}; i++) '{'\n", i));
+				source.append(MessageFormat.format("p_{0}.get(i).remove_port(this);\n", i));
+				source.append("}\n");
+				source.append(MessageFormat.format("p_{0} = null;\n", i));
+				source.append(MessageFormat.format("n_{0} = 0;\n", i));
+			}
+			source.append("}\n\n");
 		}
-		//FIXME add_port, remove_port, set_parameter
+		//FIXME set_parameter
 		
 		//FIXME more complicated conditional
 		if (portDefinition.testportType != TestportType.INTERNAL) {
@@ -800,6 +869,15 @@ public class PortGenerator {
 
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
 		source.append("super(port_name);\n");
+		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
+			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
+				source.append(MessageFormat.format("p_{0} = null;\n", i));
+				source.append(MessageFormat.format("n_{0} = 0;\n", i));
+			}
+
+			source.append("port_state = translation_port_state.UNSET;\n");
+		}
+		//FIXME handle mapper names
 		source.append("}\n\n");
 
 		//FIXME more complicated conditional
