@@ -237,9 +237,8 @@ public class PortGenerator {
 		public PortType portType;
 
 		public ArrayList<portMessageProvider> providerMessageOutList;
-		//provider_msg_outlist
-		//mapper names
-		//provider message in
+		//FIXME mapper names
+		//FIXME provider message in
 		public boolean has_sliding;
 		public boolean legacy;
 
@@ -270,7 +269,6 @@ public class PortGenerator {
 		aData.addImport("java.util.LinkedList");
 		aData.addImport("java.text.MessageFormat");
 		aData.addBuiltinTypeImport("Index_Redirect");
-		aData.addBuiltinTypeImport( "TitanPort" );
 		aData.addBuiltinTypeImport( "TitanAlt_Status" );
 		aData.addBuiltinTypeImport( "TitanComponent");
 		aData.addBuiltinTypeImport( "TitanOctetString");
@@ -280,9 +278,10 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport("TitanLoggerApi");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
-		if (portDefinition.testportType != TestportType.INTERNAL) {
-			aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
-		}
+		//FIXME
+//		if (portDefinition.testportType != TestportType.INTERNAL) {
+//			aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
+//		}
 
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
@@ -302,7 +301,7 @@ public class PortGenerator {
 		}
 
 
-		generateDeclaration(source, portDefinition);
+		generateDeclaration(aData, source, portDefinition);
 
 		for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 			final MessageMappedTypeInfo outType = portDefinition.outMessages.get(i);
@@ -435,10 +434,11 @@ public class PortGenerator {
 			}
 			source.append("}\n\n");
 		}
-		//FIXME set_parameter
+		//FIXME mapper_name
 		
-		//FIXME more complicated conditional
-		if (portDefinition.testportType != TestportType.INTERNAL) {
+
+		if ((portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) &&
+				(portDefinition.portType == PortType.REGULAR || (portDefinition.portType == PortType.USER && !portDefinition.legacy))) {
 			//FIXME implement set_param
 
 			// only print one outgoing_send for each type
@@ -711,22 +711,51 @@ public class PortGenerator {
 	/**
 	 * This function generates the declaration of the generated port type class.
 	 *
+	 * @param aData only used to update imports if needed.
 	 * @param source where the source code is to be generated.
 	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateDeclaration(final StringBuilder source, final PortDefinition portDefinition) {
+	private static void generateDeclaration(final JavaGenData aData, final StringBuilder source, final PortDefinition portDefinition) {
 		String className;
 		String baseClassName;
-		String abstractNess;
+		String abstractNess = "";
 		if (portDefinition.testportType == TestportType.INTERNAL) {
-			abstractNess = "";
 			className = portDefinition.javaName;
 			baseClassName = "TitanPort";
+
+			aData.addBuiltinTypeImport( "TitanPort" );
 		} else {
+			switch (portDefinition.portType) {
+			case USER:
+				if (portDefinition.legacy) {
+					className = portDefinition.javaName;
+					baseClassName = portDefinition.providerMessageOutList.get(0).name + "_PROVIDER";
+
+					aData.addImport("org.eclipse.titan.user_provided." + baseClassName);
+					break;
+				}
+				// else fall through
+			case REGULAR:
+				className = portDefinition.javaName + "_BASE";
+				baseClassName = "TitanPort";
+				abstractNess = "abstract";
+
+				aData.addBuiltinTypeImport( "TitanPort" );
+				aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
+				break;
+			case PROVIDER:
+				className = portDefinition.javaName;
+				baseClassName = portDefinition.javaName + "_PROVIDER";
+
+				aData.addImport("org.eclipse.titan.user_provided." + baseClassName);
+				break;
+			default:
+				className = "invalid port type";
+				baseClassName = "invalid port type";
+				break;
+			}
 			// FIXME more complicated
-			abstractNess = "abstract";
-			className = portDefinition.javaName + "_BASE";
-			baseClassName = "TitanPort";
+			
 		}
 		source.append(MessageFormat.format("public static {0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
