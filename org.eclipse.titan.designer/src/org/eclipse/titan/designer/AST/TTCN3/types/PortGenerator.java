@@ -1015,7 +1015,14 @@ public class PortGenerator {
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
 				// Mappings should only happen if the port it is mapped to has the same outgoing message type as the mapping target.
 				source.append("if (false");
-				//FIXME implement once provider_msg_outlist is ready
+				for (int j = 0; j < portDefinition.providerMessageOutList.size(); j++) {
+					final portMessageProvider provider = portDefinition.providerMessageOutList.get(j);
+					for (int k = 0; k < provider.outMessageTypeNames.size(); k++) {
+						if (target.targetName.equals(provider.outMessageTypeNames.get(k))) {
+							source.append(MessageFormat.format(" || n_{0} != 0", j));
+						}
+					}
+				}
 				source.append(") {\n");
 				// Beginning of the loop of the PARTIALLY_TRANSLATED case to process all messages
 				source.append("do {\n");
