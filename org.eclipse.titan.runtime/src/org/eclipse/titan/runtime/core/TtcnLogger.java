@@ -1221,10 +1221,9 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_dualport_discard(incoming, target_type, port_name, unhandled);
 	}
 
-//	FIXME enable once translation ports are supported
-//	public static void log_setstate(final TitanCharString port_name, final translation_port_state state, final TitanCharString info) {
-//		get_logger_plugin_manager().log_setstate(port_name, state, info);
-//	}
+	public static void log_setstate(final String port_name, final TitanPort.translation_port_state state, final TitanCharString info) {
+		get_logger_plugin_manager().log_setstate(port_name, state, info);
+	}
 
 	public static void log_setverdict(final VerdictTypeEnum newVerdict, final VerdictTypeEnum oldVerdict, final VerdictTypeEnum localVerdict,
 			final String oldReason, final String newReason) {

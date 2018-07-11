@@ -49,6 +49,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__in;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Proc__port__out;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.QualifiedName;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.SetVerdictType;
+import org.eclipse.titan.runtime.core.TitanLoggerApi.Setstate;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.StatisticsType_choice_verdictStatistics;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TestcaseType;
@@ -758,6 +759,43 @@ public class LoggerPluginManager {
 		dual.getTarget__type().assign(target_type);
 		dual.getPort__name().assign(port_name);
 		dual.getUnhandled().assign(unhandled);
+
+		log(event);
+	}
+
+	public void log_setstate(final String port_name, final TitanPort.translation_port_state state, final TitanCharString info) {
+		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_SETSTATE) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, Severity.PORTEVENT_SETSTATE);
+
+		final Setstate setstate = event.getLogEvent().getChoice().getPortEvent().getChoice().getSetState();
+		setstate.getPort__name().assign(port_name);
+		setstate.getInfo().assign(info);
+		switch (state) {
+		case UNSET:
+			setstate.getState().assign("unset");
+			break;
+		case TRANSLATED:
+			setstate.getState().assign("translated");
+			break;
+		case NOT_TRANSLATED:
+			setstate.getState().assign("not translated");
+			break;
+		case FRAGMENTED:
+			setstate.getState().assign("fragemnted");
+			break;
+		case PARTIALLY_TRANSLATED:
+			setstate.getState().assign("partially translated");
+			break;
+		case DISCARDED:
+			setstate.getState().assign("discarded");
+			break;
+		default:
+			break;
+		}
 
 		log(event);
 	}
