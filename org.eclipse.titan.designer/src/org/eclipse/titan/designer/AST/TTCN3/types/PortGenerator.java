@@ -166,7 +166,6 @@ public class PortGenerator {
 			mJavaTypeName = messageType;
 			mJavaTemplateName = messageTemplate;
 			mDisplayName = displayName;
-			//TODO targets
 		}
 	}
 
@@ -805,8 +804,6 @@ public class PortGenerator {
 				baseClassName = "invalid port type";
 				break;
 			}
-			// FIXME more complicated
-			
 		}
 		source.append(MessageFormat.format("public static {0} class {1} extends {2} '{'\n", abstractNess, className, baseClassName));
 
