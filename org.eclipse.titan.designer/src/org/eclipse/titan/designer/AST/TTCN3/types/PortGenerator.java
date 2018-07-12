@@ -1699,20 +1699,42 @@ public class PortGenerator {
 	 * */
 	private static void generateProcessMessage(final StringBuilder source, final PortDefinition portDefinition) {
 		source.append("protected boolean process_message(final String message_type, final Text_Buf incoming_buf, final int sender_component, final TitanOctetString slider) {\n");
-		for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
-			final messageTypeInfo inType = portDefinition.inMessages.get(i);
-
-			source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
-			source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
-			source.append("incoming_par.decode_text(incoming_buf);\n");
-			source.append("incoming_message(incoming_par, sender_component");
-			//FIXME add support for sliding
-			if (portDefinition.testportType == TestportType.ADDRESS) {
-				source.append(", null");
+		if (portDefinition.portType == PortType.USER) {
+			for (int i = 0 ; i < portDefinition.providerInMessages.size(); i++) {
+				final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
+	
+				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+				source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
+				source.append("incoming_par.decode_text(incoming_buf);\n");
+				source.append("incoming_message(incoming_par, sender_component");
+				if (portDefinition.has_sliding) {
+					source.append(", slider");
+				}
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				source.append(");\n");
+				source.append("return true;\n");
+				source.append("} else ");
 			}
-			source.append(");\n");
-			source.append("return true;\n");
-			source.append("} else ");
+		} else {
+			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+				final messageTypeInfo inType = portDefinition.inMessages.get(i);
+	
+				source.append(MessageFormat.format("if (\"{0}\".equals(message_type)) '{'\n", inType.mDisplayName));
+				source.append(MessageFormat.format("final {0} incoming_par = new {0}();\n", inType.mJavaTypeName));
+				source.append("incoming_par.decode_text(incoming_buf);\n");
+				source.append("incoming_message(incoming_par, sender_component");
+				if (portDefinition.has_sliding) {
+					source.append(", slider");
+				}
+				if (portDefinition.testportType == TestportType.ADDRESS) {
+					source.append(", null");
+				}
+				source.append(");\n");
+				source.append("return true;\n");
+				source.append("} else ");
+			}
 		}
 
 		source.append("return false;\n");
