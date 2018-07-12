@@ -145,6 +145,11 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 				inputType = extfunctionReferenced.getInputType();
 				outputType = extfunctionReferenced.getOutputType();
 				break;
+			} else {
+				functionReference.getLocation().reportSemanticError(
+						MessageFormat.format("Reference to a function was expected instead of {0}",
+								assignment.getDescription()));
+				return;
 			}
 		default:
 			functionReference.getLocation().reportSemanticError(
