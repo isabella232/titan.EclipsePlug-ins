@@ -1049,7 +1049,7 @@ public class PortGenerator {
 				source.append(MessageFormat.format("// out mapping with a prototype({0}) function\n", target.functionPrototype.name()));
 				switch (target.functionPrototype) {
 				case CONVERT:
-					//FIXME
+					source.append(MessageFormat.format("{0} mapped_par = {1}(send_par);\n", target.targetName, target.functionName));
 					break;
 				case FAST:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
@@ -1059,20 +1059,48 @@ public class PortGenerator {
 					}
 					break;
 				case SLIDING:
-					//FIXME
+					aData.addBuiltinTypeImport("TitanOctetString");
+
+					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+					source.append("TitanOctetString send_copy = new TitanOctetString(send_par);\n");
+					source.append(MessageFormat.format("if ({0}(send_copy, mapped_par).operatorNotEquals(1)) '{'\n", target.functionName));
 					break;
 				case BACKTRACK:
-					//FIXME
+					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+					source.append(MessageFormat.format("if({0}(send_par, mapped_par).operatorEquals(0)) '{'\n", target.functionName));
+					hasCondition = true;
 					break;
 				default:
 					break;
 				}
 				break;
 			case ENCODE:
-				//FIXME implement
+				aData.addBuiltinTypeImport("TTCN_Buffer");
+				aData.addBuiltinTypeImport("TTCN_EncDec");
+
+				source.append("// out mapping with a built-in encoder\n");
+				source.append(target.encdecErrorBehaviour);
+				source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
+				source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+				source.append("ttcn_buffer(mapped_par);\n");
 				break;
 			case DECODE:
-				//FIXME implement
+				aData.addBuiltinTypeImport("TTCN_Buffer");
+				aData.addBuiltinTypeImport("TTCN_EncDec");
+
+				source.append("// out mapping with a built-in decoder\n");
+				if (hasBuffer) {
+					source.append("ttcn_buffer.rewind();\n");
+				} else {
+					hasBuffer = true;
+				}
+				source.append(target.encdecErrorBehaviour);
+				source.append("TTCN_EncDec.clear_Error();\n");
+				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
+				source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				source.append("if (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
+				hasCondition = true;
 				break;
 			default:
 				break;
