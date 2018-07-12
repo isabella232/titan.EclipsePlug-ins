@@ -2484,7 +2484,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format("public TitanAlt_Status {0}(final {1}_exception_template catch_template, final {2}_template sender_template, final {2} sender_pointer, final Index_Redirect index_redirect) '{'\n", functionName, info.mJavaTypeName, senderType));
 		if (info.hasReturnValue) {
 			source.append("if (catch_template.is_any_or_omit()) {\n");
-			source.append("throw new TtcnError(\"Catch operation using '*' as matching template\");\n");
+			source.append(MessageFormat.format("throw new TtcnError(\"{0} operation using '''*''' as matching template\");\n", printedFunctionName));
 			source.append("}\n");
 		}
 		source.append("if (procedure_queue.size() == 0) {\n");
