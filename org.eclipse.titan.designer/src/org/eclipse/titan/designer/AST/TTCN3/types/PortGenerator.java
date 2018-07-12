@@ -335,7 +335,6 @@ public class PortGenerator {
 			generateTypedReceive(source, i, inType, false);
 			generateTypedReceive(source, i, inType, true);
 			generateTypeTrigger(source, i, inType);
-			generateTypedIncomminMessage(source, i, inType, portDefinition);
 		}
 
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
@@ -720,6 +719,22 @@ public class PortGenerator {
 						generateTypedGetexception(source, portDefinition, i, info, true, true);
 					}
 				}
+			}
+		}
+
+		if (portDefinition.portType == PortType.USER) {
+			for (int i = 0 ; i < portDefinition.providerInMessages.size(); i++) {
+				final MessageMappedTypeInfo inType = portDefinition.providerInMessages.get(i);
+
+
+				generateTypedIncommingMessageUser(source, i, inType, portDefinition);
+			}
+		} else {
+			for (int i = 0 ; i < portDefinition.inMessages.size(); i++) {
+				final messageTypeInfo inType = portDefinition.inMessages.get(i);
+
+
+				generateTypedIncommingMessageProvider(source, i, inType, portDefinition);
 			}
 		}
 
@@ -1623,18 +1638,101 @@ public class PortGenerator {
 	}
 
 	/**
-	 * This function generates the incoming_message function for a type
+	 * This function generates the incoming_message function for a type, for a user port
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param index the index this message type has in the declaration the port type.
+	 * @param mappedType the information about the incoming message.
+	 * @param portDefinition the definition of the port.
+	 * */
+	private static void generateTypedIncommingMessageUser(final StringBuilder source, final int index, final MessageMappedTypeInfo mappedType, final PortDefinition portDefinition) {
+		final String typeValueName = mappedType.mJavaTypeName;
+		final boolean isSimple = (!portDefinition.legacy || (mappedType.targets != null && mappedType.targets.size() == 1)) && mappedType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE;
+		String visibility;
+		if (!portDefinition.legacy) {
+			visibility = "public";
+		} else {
+			visibility = "private";
+		}
+
+		source.append(MessageFormat.format("{0} void incoming_message(final {1} incoming_par, final int sender_component", visibility, typeValueName));
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
+		}
+		source.append(") {\n");
+		source.append("if (!is_started) {\n");
+		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
+		source.append("}\n");
+		//FIXME handle sliding
+		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
+		source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", mappedType.mDisplayName));
+		source.append("incoming_par.log();\n");
+		source.append("final TitanCharString log_parameter = TtcnLogger.end_event_log2str();\n");
+		//FIXME handle address
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), new TitanCharString(\"\"), log_parameter);\n");
+		source.append("}\n");
+
+		if (!isSimple || !portDefinition.legacy) {
+			if (!portDefinition.legacy && !isSimple && mappedType.targets == null) {
+				source.append("if (in_translation_mode()) {\n");
+			} else if (!portDefinition.legacy && isSimple && mappedType.targets.size() == 1) {
+				source.append("if (in_translation_mode()) {\n");
+			}
+			//FIXME generate_incoming_mapping(portDefinition, mappedType, isSimple);
+			if (!portDefinition.legacy && !isSimple && mappedType.targets == null) {
+				source.append("}\n");
+			} else if (!portDefinition.legacy && isSimple && mappedType.targets.size() == 1) {
+				source.append("}\n");
+			}
+		}
+
+		if (isSimple) {
+			source.append("final Message_queue_item new_item = new Message_queue_item();\n");
+			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
+			source.append(MessageFormat.format("new_item.message = new {0}(incoming_par);\n", typeValueName));
+			source.append("new_item.sender_component = sender_component;\n");
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append("if (sender_address != null) {\n");
+				source.append(MessageFormat.format("new_item.sender_address = new {0}(sender_address);\n", portDefinition.addressName));
+				source.append("} else {\n");
+				source.append("new_item.sender_address = null;\n");
+				source.append("}\n");
+			}
+			source.append("message_queue.addLast(new_item);\n");
+		}
+		source.append("}\n\n");
+
+		//TODO might be able to extract
+		if (portDefinition.testportType != TestportType.INTERNAL) {
+			if (portDefinition.testportType == TestportType.ADDRESS) {
+				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address);\n");
+				source.append("}\n");
+
+				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n");
+				source.append("}\n\n");
+			} else {
+				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
+				source.append("}\n\n");
+			}
+		}
+	}
+
+	/**
+	 * This function generates the incoming_message function for a type, for a provider or regular port
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param index the index this message type has in the declaration the port type.
 	 * @param inType the information about the incoming message.
 	 * @param portDefinition the definition of the port.
 	 * */
-	private static void generateTypedIncomminMessage(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
+	private static void generateTypedIncommingMessageProvider(final StringBuilder source, final int index, final messageTypeInfo inType, final PortDefinition portDefinition) {
 		final String typeValueName = inType.mJavaTypeName;
 		String visibility;
-		if ((portDefinition.portType == PortType.USER && !portDefinition.legacy) ||
-				(portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null)) {
+		if (portDefinition.portType == PortType.PROVIDER && portDefinition.mapperNames != null) {
 			visibility = "public";
 		} else {
 			visibility = "private";
@@ -1659,7 +1757,6 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
-		//FIXME handle sliding
 		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
 		source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", inType.mDisplayName));
@@ -1682,6 +1779,7 @@ public class PortGenerator {
 		source.append("message_queue.addLast(new_item);\n");
 		source.append("}\n\n");
 
+		//TODO could extract
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
