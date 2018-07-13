@@ -482,7 +482,10 @@ public class PortGenerator {
 
 		if ((portDefinition.testportType != TestportType.INTERNAL || !portDefinition.legacy) &&
 				(portDefinition.portType == PortType.REGULAR || (portDefinition.portType == PortType.USER && !portDefinition.legacy))) {
-			//FIXME implement set_param
+			if (portDefinition.testportType == TestportType.INTERNAL && !portDefinition.legacy) {
+				// Implement set_parameter to remove warnings from it in the TitanPort class.
+				source.append("public void set_parameter(final String parameter_name, final String parameter_value) {}\n");
+			}
 
 			// only print one outgoing_send for each type
 			final HashSet<String> used = new HashSet<String>();
