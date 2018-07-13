@@ -1694,7 +1694,7 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
-		//FIXME handle sliding
+
 		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
