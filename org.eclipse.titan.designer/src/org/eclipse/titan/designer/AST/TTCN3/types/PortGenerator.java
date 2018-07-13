@@ -1684,6 +1684,9 @@ public class PortGenerator {
 		}
 
 		source.append(MessageFormat.format("{0} void incoming_message(final {1} incoming_par, final int sender_component", visibility, typeValueName));
+		if (portDefinition.has_sliding) {
+			source.append(", final TitanOctetString slider");
+		}
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append(MessageFormat.format(", final {0} sender_address", portDefinition.addressName));
 		}
