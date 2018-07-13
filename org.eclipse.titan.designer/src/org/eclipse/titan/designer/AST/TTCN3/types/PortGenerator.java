@@ -1739,7 +1739,6 @@ public class PortGenerator {
 		}
 		source.append("}\n\n");
 
-		//TODO might be able to extract
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
@@ -1823,7 +1822,6 @@ public class PortGenerator {
 		source.append("message_queue.addLast(new_item);\n");
 		source.append("}\n\n");
 
-		//TODO could extract
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
