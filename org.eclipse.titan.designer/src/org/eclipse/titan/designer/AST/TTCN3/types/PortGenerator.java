@@ -854,6 +854,9 @@ public class PortGenerator {
 
 			source.append("protected void clear_queue() {\n");
 			source.append("message_queue.clear();\n");
+			if (portDefinition.has_sliding) {
+				source.append("sliding_buffer = new TitanOctetString(\"\");\n");
+			}
 			source.append("}\n\n");
 		}
 
@@ -924,6 +927,9 @@ public class PortGenerator {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
 			}
+			if (portDefinition.has_sliding) {
+				source.append("TitanOctetString sliding_buffer;\n");
+			}
 			source.append("}\n");
 			source.append("private LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
 			source.append("private void remove_proc_queue_head() {\n");
@@ -963,7 +969,9 @@ public class PortGenerator {
 
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
 		source.append("super(port_name);\n");
-		//FIXME sliding_buffer might be needed
+		if (portDefinition.has_sliding) {
+			source.append("sliding_buffer = new TitanOctetString(\"\");\n");
+		}
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
 				source.append(MessageFormat.format("p_{0} = null;\n", i));
