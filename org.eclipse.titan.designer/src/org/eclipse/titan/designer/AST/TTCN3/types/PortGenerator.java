@@ -279,10 +279,6 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport("TitanLoggerApi");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
-		//FIXME
-//		if (portDefinition.testportType != TestportType.INTERNAL) {
-//			aData.addImport("org.eclipse.titan.user_provided." + portDefinition.javaName);
-//		}
 
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
