@@ -210,7 +210,6 @@ public class PortGenerator {
 	 *
 	 * originally port_def
 	 * */
-	//FIXME add support for sliding
 	public static class PortDefinition {
 		/** Java type name of the port */
 		public String javaName;
