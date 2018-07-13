@@ -1693,12 +1693,20 @@ public class PortGenerator {
 		source.append("}\n");
 		//FIXME handle sliding
 		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+			source.append("TtcnLogger.log_char('(');\n");
+			source.append("sender_address.log();\n");
+			source.append("TtcnLogger.log_char(')');\n");
+			source.append("final TitanCharString log_sender_address = TtcnLogger.end_event_log2str();\n");
+		} else {
+			source.append("final TitanCharString log_sender_address = new TitanCharString(\"\");\n");
+		}
 		source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", mappedType.mDisplayName));
 		source.append("incoming_par.log();\n");
 		source.append("final TitanCharString log_parameter = TtcnLogger.end_event_log2str();\n");
-		//FIXME handle address
-		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), new TitanCharString(\"\"), log_parameter);\n");
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), log_sender_address, log_parameter);\n");
 		source.append("}\n");
 
 		if (!isSimple || !portDefinition.legacy) {
@@ -1786,12 +1794,20 @@ public class PortGenerator {
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
 		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
+		if (portDefinition.testportType == TestportType.ADDRESS) {
+			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+			source.append("TtcnLogger.log_char('(');\n");
+			source.append("sender_address.log();\n");
+			source.append("TtcnLogger.log_char(')');\n");
+			source.append("final TitanCharString log_sender_address = TtcnLogger.end_event_log2str();\n");
+		} else {
+			source.append("final TitanCharString log_sender_address = new TitanCharString(\"\");\n");
+		}
 		source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", inType.mDisplayName));
 		source.append("incoming_par.log();\n");
 		source.append("final TitanCharString log_parameter = TtcnLogger.end_event_log2str();\n");
-		//FIXME handle address
-		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), new TitanCharString(\"\"), log_parameter);\n");
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), log_sender_address, log_parameter);\n");
 		source.append("}\n");
 		source.append("final Message_queue_item new_item = new Message_queue_item();\n");
 		source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));
