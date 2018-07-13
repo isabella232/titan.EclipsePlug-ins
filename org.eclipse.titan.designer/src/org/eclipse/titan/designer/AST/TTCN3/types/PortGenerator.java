@@ -963,6 +963,7 @@ public class PortGenerator {
 
 		source.append(MessageFormat.format("public {0}( final String port_name) '{'\n", className));
 		source.append("super(port_name);\n");
+		//FIXME sliding_buffer might be needed
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
 				source.append(MessageFormat.format("p_{0} = null;\n", i));
@@ -979,8 +980,8 @@ public class PortGenerator {
 		}
 		source.append("}\n\n");
 
-		//FIXME more complicated conditional
-		if (portDefinition.testportType == TestportType.INTERNAL) {
+		if (portDefinition.testportType == TestportType.INTERNAL || portDefinition.portType != PortType.REGULAR) {
+			// the default argument is needed if the generated class implements the port type (i.e. it is not a base class)
 			source.append(MessageFormat.format("public {0}( ) '{'\n", className));
 			source.append(MessageFormat.format("this((String)null);\n", className));
 			source.append("}\n\n");
