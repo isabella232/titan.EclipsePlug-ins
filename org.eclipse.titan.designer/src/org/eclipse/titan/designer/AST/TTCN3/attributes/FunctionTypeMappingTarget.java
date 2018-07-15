@@ -255,13 +255,11 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 	/** {@inheritDoc} */
 	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding) {
 		String targetTypeName = null;
-		String targetTemplateName = null;
 		String displayName = null;
 
 		hasSliding.set(false);
 		if (targetType != null) {
 			targetTypeName = targetType.getGenNameValue(aData, source, scope);
-			targetTemplateName = targetType.getGenNameTemplate(aData, source, scope);
 			displayName = targetType.getTypename();
 		}
 
@@ -286,6 +284,6 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 			break;
 		}
 
-		return new PortGenerator.MessageTypeMappingTarget(targetTypeName, targetTemplateName, displayName, functionName, functionDisplayName, prototype);
+		return new PortGenerator.MessageTypeMappingTarget(targetTypeName, displayName, functionName, functionDisplayName, prototype);
 	}
 }

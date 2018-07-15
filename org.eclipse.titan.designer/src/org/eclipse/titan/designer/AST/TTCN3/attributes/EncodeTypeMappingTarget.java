@@ -173,13 +173,11 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 	/** {@inheritDoc} */
 	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding) {
 		String targetTypeName = null;
-		String targetTemplateName = null;
 		String displayName = null;
 
 		hasSliding.set(false);
 		if (targetType != null) {
 			targetTypeName = targetType.getGenNameValue(aData, source, scope);
-			targetTemplateName = targetType.getGenNameTemplate(aData, source, scope);
 			displayName = targetType.getTypename();
 		}
 
@@ -198,6 +196,6 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 			errorBehaviour.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		}
 
-		return new PortGenerator.MessageTypeMappingTarget(targetTypeName, targetTemplateName, displayName, typeDescriptorName, encodingType, encodingOptions, errorBehaviour.toString(), MessageMappingType_type.ENCODE);
+		return new PortGenerator.MessageTypeMappingTarget(targetTypeName, displayName, typeDescriptorName, encodingType, encodingOptions, errorBehaviour.toString(), MessageMappingType_type.ENCODE);
 	}
 }

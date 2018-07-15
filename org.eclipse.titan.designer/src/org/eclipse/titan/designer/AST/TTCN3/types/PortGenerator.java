@@ -69,7 +69,6 @@ public class PortGenerator {
 	 * */
 	public static class MessageTypeMappingTarget {
 		private String targetName;
-		private String targetTemplate;
 		private String targetDisplayName;
 		public int targetIndex;
 		private MessageMappingType_type mappingType;
@@ -95,13 +94,11 @@ public class PortGenerator {
 		/**
 		 * The constructor for simple mapping targets.
 		 *
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param targetType the string representing the value type of this message in the generated code.
 		 * @param displayName the string representing the name to be displayed for the user.
 		 * */
-		public MessageTypeMappingTarget(final String targetType, final String targetTemplate, final String displayName) {
+		public MessageTypeMappingTarget(final String targetType, final String displayName) {
 			this.targetName = targetType;
-			this.targetTemplate = targetTemplate;
 			this.targetDisplayName = displayName;
 			this.mappingType = MessageMappingType_type.SIMPLE;
 		}
@@ -109,16 +106,14 @@ public class PortGenerator {
 		/**
 		 * The constructor for function mapping targets.
 		 *
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param targetType the string representing the value type of this message in the generated code.
 		 * @param displayName the string representing the name to be displayed for the user.
 		 * @param functionName the string representing the name of the function.
 		 * @param functionDisplayName the string representing the function in error messages.
 		 * @param functionPrototype the prototype of the function.
 		 * */
-		public MessageTypeMappingTarget(final String targetType, final String targetTemplate, final String displayName, final String functionName, final String functionDisplayName, final FunctionPrototype_Type functionPrototype) {
+		public MessageTypeMappingTarget(final String targetType, final String displayName, final String functionName, final String functionDisplayName, final FunctionPrototype_Type functionPrototype) {
 			this.targetName = targetType;
-			this.targetTemplate = targetTemplate;
 			this.targetDisplayName = displayName;
 			this.functionName = functionName;
 			this.functionDisplayName = functionDisplayName;
@@ -130,18 +125,16 @@ public class PortGenerator {
 		/**
 		 * The constructor for function mapping targets.
 		 *
-		 * @param messageType the string representing the value type of this message in the generated code.
-		 * @param messageTemplate the string representing the template type of this message in the generated code.
+		 * @param targetType the string representing the value type of this message in the generated code.
 		 * @param displayName the string representing the name to be displayed for the user.
 		 * @param typedescriptorName the string representing the typedescriptor.
 		 * @param encodingType the string representing the encoding type.
 		 * @param encodingOptions the string representing the options of the encoding type.
-		 * @param errorbeviour the string representing the errorbehiour setting code.
+		 * @param errorbeviour the string representing the errorbehaviour setting code.
 		 * @param mappingType encode or decode
 		 * */
-		public MessageTypeMappingTarget(final String targetType, final String targetTemplate, final String displayName, final String typedescriptorName, final String encodingType, final String encodingOptions, final String errorbeviour, final MessageMappingType_type mappingType) {
+		public MessageTypeMappingTarget(final String targetType, final String displayName, final String typedescriptorName, final String encodingType, final String encodingOptions, final String errorbeviour, final MessageMappingType_type mappingType) {
 			this.targetName = targetType;
-			this.targetTemplate = targetTemplate;
 			this.targetDisplayName = displayName;
 			this.encdecTypedesriptorName = typedescriptorName;
 			this.encdecEncodingType = encodingType;

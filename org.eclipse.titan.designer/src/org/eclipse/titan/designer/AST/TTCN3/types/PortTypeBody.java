@@ -1917,7 +1917,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					} else if (!legacy){
 						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
 
-						final PortGenerator.MessageTypeMappingTarget tempTarget = new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source, myScope), outType.getGenNameTemplate(aData, source, myScope), outType.getTypename());
+						final PortGenerator.MessageTypeMappingTarget tempTarget = new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source, myScope), outType.getTypename());
 						mappedType.targets.add(tempTarget);
 					}
 				}
@@ -2040,9 +2040,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
 						final String targetType = type.getGenNameValue(aData, source, myScope);
-						final String targetTemplate = type.getGenNameTemplate(aData, source, myScope);
 						final String targetDisplayName = type.getTypename();
-						final MessageTypeMappingTarget mtmTarget = new MessageTypeMappingTarget(targetType, targetTemplate, targetDisplayName);
+						final MessageTypeMappingTarget mtmTarget = new MessageTypeMappingTarget(targetType, targetDisplayName);
 						mtmTarget.targetIndex = inMessages.getIndexByType(type);
 						mappedType.targets.add(mtmTarget);
 
@@ -2083,10 +2082,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							final String functionDisplayName = targetFunction.getFullName();
 							final Type sourceType = mapping.getSourceType();
 							final String targetType = sourceType.getGenNameValue(aData, source, myScope);
-							final String targetTemplate = sourceType.getGenNameTemplate(aData, source, myScope);
 							final String targetDisplayName = sourceType.getTypename();
 
-							final MessageTypeMappingTarget newTarget = new MessageTypeMappingTarget(targetType, targetTemplate, targetDisplayName, functionName, functionDisplayName, FunctionPrototype_Type.FAST);
+							final MessageTypeMappingTarget newTarget = new MessageTypeMappingTarget(targetType, targetDisplayName, functionName, functionDisplayName, FunctionPrototype_Type.FAST);
 							if (mappedType.targets == null) {
 								mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>();
 							}
