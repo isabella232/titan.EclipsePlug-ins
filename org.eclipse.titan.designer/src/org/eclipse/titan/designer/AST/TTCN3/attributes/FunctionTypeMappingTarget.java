@@ -263,10 +263,21 @@ public final class FunctionTypeMappingTarget extends TypeMappingTarget {
 			displayName = targetType.getTypename();
 		}
 
-		String functionName = functionReferenced.getGenNameFromScope(aData, source, scope, "");
-		String functionDisplayName = functionReferenced.getFullName();
+		String functionName;
+		String functionDisplayName;
 		FunctionPrototype_Type prototype = null;
-		switch (functionReferenced.getPrototype()) {
+		EncodingPrototype_type prototype_type;
+		if (functionReferenced != null) {
+			functionName = functionReferenced.getGenNameFromScope(aData, source, scope, "");
+			functionDisplayName = functionReferenced.getFullName();
+			prototype_type = functionReferenced.getPrototype();
+		} else {
+			functionName = extfunctionReferenced.getGenNameFromScope(aData, source, scope, "");
+			functionDisplayName = extfunctionReferenced.getFullName();
+			prototype_type = extfunctionReferenced.getPrototype();
+		}
+
+		switch (prototype_type) {
 		case CONVERT:
 			prototype = FunctionPrototype_Type.CONVERT;
 			break;
