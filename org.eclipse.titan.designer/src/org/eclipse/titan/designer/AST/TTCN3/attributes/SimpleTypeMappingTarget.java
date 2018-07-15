@@ -12,6 +12,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
@@ -29,6 +30,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * @author Kristof Szabados
  * */
 public final class SimpleTypeMappingTarget extends TypeMappingTarget {
+	private static final String FULLNAMEPART1 = ".<target_type>";
 
 	private final Type targetType;
 
@@ -52,6 +54,27 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 	/** {@inheritDoc} */
 	public Type getTargetType() {
 		return targetType;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getFullName(final INamedNode child) {
+		final StringBuilder builder = super.getFullName(child);
+
+		if (targetType == child) {
+			return builder.append(FULLNAMEPART1);
+		}
+
+		return builder;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void setMyScope(final Scope scope) {
+		super.setMyScope(scope);
+		if (targetType != null) {
+			targetType.setMyScope(scope);
+		}
 	}
 
 	@Override
