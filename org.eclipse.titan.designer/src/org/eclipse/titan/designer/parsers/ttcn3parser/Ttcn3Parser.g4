@@ -2899,8 +2899,7 @@ pr_TestcaseStopStatement returns[TestcaseStop_Statement statement]
 	$statement.setLocation(getLocation( $start, getStopToken()));
 };
 
-// FIXME needs to return specific type
-pr_SetStateStatement returns[Statement statement]
+pr_SetStateStatement returns[SetState_Statement statement]
 @init {
 	TemplateInstance templateInstance = null;
 }:
