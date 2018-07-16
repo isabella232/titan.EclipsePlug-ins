@@ -1887,10 +1887,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	/**
 	 * Add generated java code on this level.
+	 *
 	 * @param aData only used to update imports if needed
 	 * @param source the source code generated
-	 *
-	 * FIXME the implementation only serves as a minimal testing setup
 	 */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final PortDefinition portDefinition = generateDefinitionForCodeGeneration(aData, source);
@@ -1984,7 +1983,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		}
 		default:
 			portDefinition.testportType = TestportType.NORMAL;
-			//FIXME fatal error
+
 		}
 
 
@@ -2197,7 +2196,6 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 			} else {
 				portDefinition.portType = PortType.REGULAR;
 			}
-			//FIXME implement
 		}
 
 		if (portType == PortType_type.PT_PROVIDER) {
