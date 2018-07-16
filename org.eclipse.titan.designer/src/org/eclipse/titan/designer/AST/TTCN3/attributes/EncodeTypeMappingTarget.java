@@ -25,6 +25,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappi
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an encoding type mapping target.
@@ -143,6 +145,29 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 
 		if (errorBehaviorAttribute != null) {
 			errorBehaviorAttribute.getErrrorBehaviorList().check(timestamp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		if (targetType != null) {
+			targetType.updateSyntax(reparser, false);
+			reparser.updateLocation(targetType.getLocation());
+		}
+
+		if (encodeAttribute != null) {
+			encodeAttribute.updateSyntax(reparser, false);
+			reparser.updateLocation(encodeAttribute.getLocation());
+		}
+
+		if (errorBehaviorAttribute != null) {
+			errorBehaviorAttribute.updateSyntax(reparser, false);
+			reparser.updateLocation(errorBehaviorAttribute.getLocation());
 		}
 	}
 

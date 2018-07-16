@@ -18,8 +18,11 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ILocateableNode;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Location;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a list of error behavior settings in the codec API of the run-time
@@ -27,7 +30,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  */
-public final class ErrorBehaviorList extends ASTNode implements ILocateableNode {
+public final class ErrorBehaviorList extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String[] VALID_TYPES = { "UNBOUND", "INCOMPL_ANY", "ENC_ENUM", "INCOMPL_MSG", "LEN_FORM", "INVAL_MSG", "REPR",
 		"CONSTRAINT", "TAG", "SUPERFL", "EXTENSION", "DEC_ENUM", "DEC_DUPFLD", "DEC_MISSFLD", "DEC_OPENTYPE", "DEC_UCSTR", "LEN_ERR",
 		"SIGN_ERR", "INCOMP_ORDER", "TOKEN_ERR", "LOG_MATCHING", "FLOAT_TR", "FLOAT_NAN", "OMITTED_TAG" };
@@ -171,6 +174,19 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode 
 		}
 
 		lastTimeChecked = timestamp;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		for (ErrorBehaviorSetting setting : settings) {
+			setting.updateSyntax(reparser, false);
+			reparser.updateLocation(setting.getLocation());
+		}
 	}
 
 	@Override

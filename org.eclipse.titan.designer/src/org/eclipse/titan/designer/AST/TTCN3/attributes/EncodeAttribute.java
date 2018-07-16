@@ -9,7 +9,10 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IType.MessageEncoding_type;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a single encode attribute on an external function, used to
@@ -18,7 +21,7 @@ import org.eclipse.titan.designer.AST.IVisitableNode;
  *
  * @author Kristof Szabados
  * */
-public final class EncodeAttribute extends ExtensionAttribute implements IVisitableNode {
+public final class EncodeAttribute extends ExtensionAttribute implements IVisitableNode, IIncrementallyUpdateable {
 
 	private final MessageEncoding_type encodingType;
 	private final String options;
@@ -40,6 +43,14 @@ public final class EncodeAttribute extends ExtensionAttribute implements IVisita
 
 	public String getOptions() {
 		return options;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
 	}
 
 	@Override

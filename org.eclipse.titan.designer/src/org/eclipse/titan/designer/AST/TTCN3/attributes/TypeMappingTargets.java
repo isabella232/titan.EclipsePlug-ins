@@ -15,7 +15,10 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents the list of type mapping targets provided in a single type
@@ -23,7 +26,7 @@ import org.eclipse.titan.designer.AST.Scope;
  *
  * @author Kristof Szabados
  * */
-public final class TypeMappingTargets extends ASTNode {
+public final class TypeMappingTargets extends ASTNode implements IIncrementallyUpdateable {
 	private final List<TypeMappingTarget> targets;
 
 	public TypeMappingTargets() {
@@ -63,6 +66,19 @@ public final class TypeMappingTargets extends ASTNode {
 		super.setMyScope(scope);
 		for (int i = 0, size = targets.size(); i < size; i++) {
 			targets.get(i).setMyScope(scope);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		for (TypeMappingTarget tmt : targets) {
+			tmt.updateSyntax(reparser, false);
+			reparser.updateLocation(tmt.getLocation());
 		}
 	}
 

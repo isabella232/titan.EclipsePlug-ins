@@ -20,11 +20,14 @@ import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Extfunction;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function.EncodingPrototype_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a single type mapping, where a type is mapped to a list of mapping
@@ -32,7 +35,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  * */
-public final class TypeMapping extends ASTNode implements ILocateableNode {
+public final class TypeMapping extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private static final String FULLNAMEPART = ".<source_type>";
 
 	private final Type source_type;
@@ -197,6 +200,23 @@ public final class TypeMapping extends ASTNode implements ILocateableNode {
 		}
 
 		lastTimeChecked = timestamp;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		if (source_type != null) {
+			source_type.updateSyntax(reparser, false);
+			reparser.updateLocation(source_type.getLocation());
+		}
+
+		if (mappingTargets != null) {
+			mappingTargets.updateSyntax(reparser, false);
+		}
 	}
 
 	@Override

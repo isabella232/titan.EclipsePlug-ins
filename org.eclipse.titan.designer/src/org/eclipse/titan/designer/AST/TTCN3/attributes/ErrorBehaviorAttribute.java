@@ -9,7 +9,10 @@ package org.eclipse.titan.designer.AST.TTCN3.attributes;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.IVisitableNode;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a single error behavior attribute (which can hold a list of error
@@ -18,7 +21,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  * */
-public final class ErrorBehaviorAttribute extends ExtensionAttribute implements IVisitableNode {
+public final class ErrorBehaviorAttribute extends ExtensionAttribute implements IVisitableNode, IIncrementallyUpdateable {
 
 	private final ErrorBehaviorList list;
 
@@ -52,6 +55,19 @@ public final class ErrorBehaviorAttribute extends ExtensionAttribute implements 
 		}
 
 		lastTimeChecked = timestamp;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		if (list != null) {
+			list.updateSyntax(reparser, false);
+			reparser.updateLocation(list.getLocation());
+		}
 	}
 
 	@Override

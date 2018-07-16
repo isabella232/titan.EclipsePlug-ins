@@ -21,17 +21,20 @@ import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents a list of type mappings.
  *
  * @author Kristof Szabados
  * */
-public final class TypeMappings extends ASTNode implements ILocateableNode {
+public final class TypeMappings extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	private final List<TypeMapping> mappings;
 	private final Map<String, TypeMapping> mappingsMap;
 
@@ -156,6 +159,21 @@ public final class TypeMappings extends ASTNode implements ILocateableNode {
 					mappingsMap.put(sourceName, mapping);
 				}
 			}
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		for (int i = 0, size = mappings.size(); i < size; i++) {
+			final TypeMapping mapping = mappings.get(i);
+
+			mapping.updateSyntax(reparser, false);
+			reparser.updateLocation(mapping.getLocation());
 		}
 	}
 

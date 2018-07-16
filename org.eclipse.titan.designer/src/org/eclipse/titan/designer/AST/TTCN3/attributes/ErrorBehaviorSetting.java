@@ -11,6 +11,9 @@ import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represent an error behavior setting in the codec API of the run-time
@@ -19,7 +22,7 @@ import org.eclipse.titan.designer.AST.NULL_Location;
  *
  * @author Kristof Szabados
  */
-public final class ErrorBehaviorSetting extends ASTNode {
+public final class ErrorBehaviorSetting extends ASTNode implements IIncrementallyUpdateable {
 	private final String errorType;
 	private final String errorHandling;
 
@@ -49,6 +52,15 @@ public final class ErrorBehaviorSetting extends ASTNode {
 
 	public String getErrorHandling() {
 		return errorHandling;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
 	}
 
 	@Override

@@ -25,6 +25,8 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an decoding type mapping target.
@@ -141,6 +143,29 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 
 		if (errorBehaviorAttribute != null) {
 			errorBehaviorAttribute.check(timestamp);
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		if (targetType != null) {
+			targetType.updateSyntax(reparser, false);
+			reparser.updateLocation(targetType.getLocation());
+		}
+
+		if (decodeAttribute != null) {
+			decodeAttribute.updateSyntax(reparser, false);
+			reparser.updateLocation(decodeAttribute.getLocation());
+		}
+
+		if (errorBehaviorAttribute != null) {
+			errorBehaviorAttribute.updateSyntax(reparser, false);
+			reparser.updateLocation(errorBehaviorAttribute.getLocation());
 		}
 	}
 

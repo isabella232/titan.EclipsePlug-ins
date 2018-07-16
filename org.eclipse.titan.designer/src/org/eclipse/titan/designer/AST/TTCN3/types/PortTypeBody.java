@@ -1786,7 +1786,30 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				}
 			}
 		}
-		//FIXME update inmappings, outmappings,vardefs
+		for (int i = 0; i < providerReferences.size(); i++) {
+			final Reference reference = providerReferences.get(i);
+
+			reference.updateSyntax(reparser, false);
+			reparser.updateLocation(reference.getLocation());
+		}
+		if (inMappings != null) {
+			inMappings.updateSyntax(reparser, false);
+			reparser.updateLocation(inMappings.getLocation());
+		}
+		if (outMappings != null) {
+			outMappings.updateSyntax(reparser, false);
+			reparser.updateLocation(outMappings.getLocation());
+		}
+		if (vardefs != null) {
+			for (int i = 0; i < vardefs.getNofAssignments(); i++) {
+				final Definition definition = vardefs.getAssignmentByIndex(i);
+
+				definition.updateSyntax(reparser, false);
+				reparser.updateLocation(definition.getLocation());
+			}
+
+			reparser.updateLocation(vardefs.getLocation());
+		}
 	}
 
 	@Override

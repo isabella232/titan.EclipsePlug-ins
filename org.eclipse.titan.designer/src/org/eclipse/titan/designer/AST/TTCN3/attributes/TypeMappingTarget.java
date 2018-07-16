@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortGenerator.MessageTypeMappingTarget;
 import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -26,7 +27,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  *
  * @author Kristof Szabados
  * */
-public abstract class TypeMappingTarget extends ASTNode implements ILocateableNode {
+public abstract class TypeMappingTarget extends ASTNode implements ILocateableNode, IIncrementallyUpdateable {
 	public enum TypeMapping_type {
 		SIMPLE, DISCARD, FUNCTION, ENCODE, DECODE
 	}

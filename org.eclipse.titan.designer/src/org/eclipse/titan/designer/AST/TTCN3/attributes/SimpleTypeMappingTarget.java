@@ -23,6 +23,8 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Port_Type;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
+import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
+import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 
 /**
  * Represents an simple type mapping target (source == target).
@@ -90,6 +92,19 @@ public final class SimpleTypeMappingTarget extends TypeMappingTarget {
 			targetType.getLocation().reportSemanticError(
 					MessageFormat.format("The source and target types must be the same: `{0}'' was expected instead of `{1}''",
 							sourceType.getTypename(), targetType.getTypename()));
+		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
+		if (isDamaged) {
+			throw new ReParseException();
+		}
+
+		if (targetType != null) {
+			targetType.updateSyntax(reparser, false);
+			reparser.updateLocation(targetType.getLocation());
 		}
 	}
 
