@@ -564,7 +564,8 @@ public class PortGenerator {
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 				for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 					final MessageMappedTypeInfo outMessage = portDefinition.outMessages.get(i);
-					for (int j = 0; j < outMessage.targets.size(); j++) {
+					final int nofTargets = outMessage.targets == null ? 0 : outMessage.targets.size();
+					for (int j = 0; j < nofTargets; j++) {
 						final MessageTypeMappingTarget target = outMessage.targets.get(j);
 						boolean found = used.contains(target.targetName);
 						if (!found) {
@@ -1215,10 +1216,10 @@ public class PortGenerator {
 		source.append("send_par.log();\n");
 		source.append("TtcnLogger.log_msgport_send(get_name(), destination_component.getComponent(), TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
-		if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
+		if (portDefinition.portType != PortType.USER || (outType.targets != null && outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
 				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
 			// If not in translation mode then send message as normally would.
-			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && outType.targets != null && (
 					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
 				source.append("if (!in_translation_mode()) {\n");
 			}
@@ -1241,7 +1242,7 @@ public class PortGenerator {
 			source.append("send_data(text_buf, destination_component);\n");
 			source.append("}\n");
 
-			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && outType.targets != null && (
 					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
 				source.append("} else {\n");
 				generateSendMapping(aData, source, portDefinition, outType, false);
