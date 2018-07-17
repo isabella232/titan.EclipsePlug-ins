@@ -139,6 +139,22 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean isCompatibleByPort(final CompilationTimeStamp timestamp, final IType otherType) {
+		check(timestamp);
+		otherType.check(timestamp);
+
+		final IType t1 = getTypeRefdLast(timestamp);
+		final IType t2 = otherType.getTypeRefdLast(timestamp);
+
+		if (t1.getIsErroneous(timestamp) || t2.getIsErroneous(timestamp)) {
+			return true;
+		}
+
+		return t1.isCompatibleByPort(timestamp, otherType);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);

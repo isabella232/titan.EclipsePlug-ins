@@ -11,13 +11,14 @@ import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
-import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
+import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
@@ -104,6 +105,11 @@ public final class Altstep_Instance_Statement extends Statement {
 
 		if (myStatementBlock != null) {
 			myStatementBlock.checkRunsOnScope(timestamp, assignment, reference, "call");
+			if (assignment instanceof Def_Altstep) {
+				boolean inControlPart = myStatementBlock.getControlPart() != null;
+				myStatementBlock.checkMTCScope(timestamp, ((Def_Altstep) assignment).getMTCType(timestamp), reference, "call" + assignment.getDescription(), inControlPart);
+				myStatementBlock.checkSystemScope(timestamp, ((Def_Altstep) assignment).getSystemType(timestamp), reference, "call" + assignment.getDescription(), inControlPart);
+			}
 		}
 	}
 

@@ -14,6 +14,8 @@ import org.eclipse.jface.text.templates.Template;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.ArraySubReference;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
+import org.eclipse.titan.designer.AST.Assignments;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
@@ -21,6 +23,7 @@ import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.IValue.Value_type;
+import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceChain;
@@ -125,6 +128,54 @@ public final class Component_Type extends Type {
 		}
 
 		return Type_type.TYPE_COMPONENT.equals(temp.getTypetype()) && componentBody.isCompatible(timestamp, ((Component_Type) temp).componentBody);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean isCompatibleByPort(final CompilationTimeStamp timestamp, final IType otherType) {
+		check(timestamp);
+		otherType.check(timestamp);
+
+		final IType t2 = otherType.getTypeRefdLast(timestamp);
+		if (t2.getTypetype() != Type_type.TYPE_COMPONENT) {
+			return false;
+		}
+
+		if (getIsErroneous(timestamp) || t2.getIsErroneous(timestamp)) {
+			return false;
+		}
+
+		final ComponentTypeBody b2 = ((Component_Type)t2).getComponentBody();
+
+		// Does b2 contains every port with the same type and name as this?
+		Assignments b1Assignments = componentBody.getAssignmentsScope();
+		for (int i = 0; i < b1Assignments.getNofAssignments(); i++) {
+			final Assignment assignment = b1Assignments.getAssignmentByIndex(i);
+			if (assignment.getAssignmentType() == Assignment_type.A_PORT) {
+				final IType portType = assignment.getType(timestamp).getTypeRefdLast(timestamp);
+				final Identifier identifier = assignment.getIdentifier();
+				boolean found = false;
+				final Assignments b2Assignments = b2.getAssignmentsScope();
+				for (int j = 0; j < b2Assignments.getNofAssignments(); j++) {
+					final Assignment assignment2 = b2Assignments.getAssignmentByIndex(j);
+					final Identifier identifier2 = assignment2.getIdentifier();
+					if (identifier.equals(identifier2) && assignment2.getAssignmentType() == Assignment_type.A_PORT) {
+						final IType portType2 = assignment2.getType(timestamp).getTypeRefdLast(timestamp);
+						if (portType.equals(portType2)) {
+							found = true;
+							break;
+						} else {
+							return false;
+						}
+					}
+				}
+				if (!found) {
+					return false;
+				}
+			}
+		}
+
+		return true;
 	}
 
 	@Override

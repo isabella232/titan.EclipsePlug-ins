@@ -952,6 +952,17 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 			final TypeCompatibilityInfo.Chain leftChain, final TypeCompatibilityInfo.Chain rightChain);
 
 	/**
+	 * Check if the port definitions of the component types are the same
+	 *
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param otherType
+	 *                the type to check against
+	 * @return true if they are identical, false otherwise
+	 * */
+	boolean isCompatibleByPort(final CompilationTimeStamp timestamp, final IType otherType);
+
+	/**
 	 * Returns whether this type is identical to the parameter type.
 	 *
 	 * @param timestamp

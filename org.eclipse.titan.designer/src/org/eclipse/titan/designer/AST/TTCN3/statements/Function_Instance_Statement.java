@@ -107,6 +107,11 @@ public final class Function_Instance_Statement extends Statement {
 
 		if (myStatementBlock != null) {
 			myStatementBlock.checkRunsOnScope(timestamp, assignment, reference, "call");
+			if (assignment instanceof Def_Function) {
+				boolean inControlPart = myStatementBlock.getControlPart() != null;
+				myStatementBlock.checkMTCScope(timestamp, ((Def_Function) assignment).getMtcType(timestamp), reference, "call" + assignment.getDescription(), inControlPart);
+				myStatementBlock.checkSystemScope(timestamp, ((Def_Function) assignment).getSystemType(timestamp), reference, "call" + assignment.getDescription(), inControlPart);
+			}
 		}
 
 		switch (assignment.getAssignmentType()) {

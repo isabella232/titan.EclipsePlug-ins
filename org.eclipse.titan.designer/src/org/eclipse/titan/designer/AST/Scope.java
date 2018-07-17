@@ -368,6 +368,78 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	}
 
 	/**
+	 * Checks the 'mtc' clause of assignment if it can be called from this scope unit
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param mtcComponentType
+	 *                the system component type of the assignment.
+	 * @param errorLocation
+	 *                the location to report the error to.
+	 * @param description
+	 *                the name of the operation and description of assignment.
+	 * @param inControlPart 
+	 *                is the function called from a control part?
+	 * */
+	public void checkMTCScope(final CompilationTimeStamp timestamp, final Component_Type mtcComponentType, final ILocateableNode errorLocation,
+			final String description, final boolean inControlPart) {
+		if (mtcComponentType == null) {
+			// definitions without 'mtc' can be called from anywhere
+			return;
+		}
+
+		if (inControlPart) {
+			errorLocation.getLocation().reportSemanticError("Function with mtc or system clause is not allowed in control part.");
+			return;
+		}
+
+		final Component_Type componentType = getMtcSystemComponentType(timestamp, false);
+		if (componentType != null) {
+			if (!mtcComponentType.isCompatibleByPort(timestamp, componentType)) {
+				// the 'mtc' clause of the referred definition is not compatible
+				// with that of the current scope (i.e. the referring definition)
+				errorLocation.getLocation().reportSemanticError(MessageFormat.format("Mtc clause mismatch: A definition that runs on component type `{0}'' cannot {1}, which mtc clause is `{2}''", componentType.getTypename(), description, mtcComponentType.getTypename()));
+			}
+		}
+	}
+
+	/**
+	 * Checks the 'system' clause of assignment if it can be called from this scope unit
+	 *
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param systemComponentType
+	 *                the system component type of the assignment.
+	 * @param errorLocation
+	 *                the location to report the error to.
+	 * @param description
+	 *                the name of the operation and description of assignment.
+	 * @param inControlPart 
+	 *                is the function called from a control part?
+	 * */
+	public void checkSystemScope(final CompilationTimeStamp timestamp, final Component_Type systemComponentType, final ILocateableNode errorLocation,
+			final String description, final boolean inControlPart) {
+		if (systemComponentType == null) {
+			// definitions without 'mtc' can be called from anywhere
+			return;
+		}
+
+		if (inControlPart) {
+			errorLocation.getLocation().reportSemanticError("Function with mtc or system clause is not allowed in control part.");
+			return;
+		}
+
+		final Component_Type componentType = getMtcSystemComponentType(timestamp, false);
+		if (componentType != null) {
+			if (!systemComponentType.isCompatibleByPort(timestamp, componentType)) {
+				// the 'mtc' clause of the referred definition is not compatible
+				// with that of the current scope (i.e. the referring definition)
+				errorLocation.getLocation().reportSemanticError(MessageFormat.format("Mtc clause mismatch: A definition that runs on component type `{0}'' cannot {1}, which mtc clause is `{2}''", componentType.getTypename(), description, systemComponentType.getTypename()));
+			}
+		}
+	}
+
+	/**
 	 * Finds and returns the smallest sub-scope of the current scope, which
 	 * still physically encloses the provided position.
 	 *

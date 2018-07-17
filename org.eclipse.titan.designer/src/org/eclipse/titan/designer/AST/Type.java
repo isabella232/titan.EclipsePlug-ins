@@ -2000,6 +2000,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean isCompatibleByPort(final CompilationTimeStamp timestamp, final IType otherType) {
+		check(timestamp);
+		otherType.check(timestamp);
+
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public boolean isIdentical(final CompilationTimeStamp timestamp, final IType type) {
 		check(timestamp);
 		type.check(timestamp);
