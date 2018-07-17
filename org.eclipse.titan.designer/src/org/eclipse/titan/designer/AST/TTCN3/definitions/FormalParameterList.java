@@ -83,7 +83,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	private static final String CANNOTBESTARTED = "a parameter or embedded in a parameter of a function used in a start operation."
 			+ " {0} `{1}'' cannot be start on a parallel test component";
 	private static final String WILLREMAINUNCHANGED =
-		"{0} `{1}'' started on parallel test components. Its `out' and `inout' parameters will remain unchanged at the end of the operation.";
+		"{0} `{1}'' started on parallel test components. Its `out'' and `inout'' parameters will remain unchanged at the end of the operation.";
 
 	private final List<FormalParameter> parameters = new ArrayList<FormalParameter>();
 	private Location location = NULL_Location.INSTANCE;
