@@ -14,12 +14,13 @@ import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.designer.GeneralConstants;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
-import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -110,6 +111,10 @@ public final class Function_Instance_Statement extends Statement {
 
 		switch (assignment.getAssignmentType()) {
 		case A_FUNCTION_RVAL:
+			if (((Def_Function)assignment).getPortType(timestamp) != null) {
+				location.reportSemanticError("Function with `port' clause cannot be called directly.");
+			}
+			// fall through
 		case A_EXT_FUNCTION_RVAL:
 			location.reportConfigurableSemanticProblem(
 					Platform.getPreferencesService().getString(ProductConstants.PRODUCT_ID_DESIGNER,
