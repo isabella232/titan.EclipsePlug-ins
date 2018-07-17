@@ -578,7 +578,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							|| mappingIns.hasType(timestamp, inMessageType) // Provider in message is present in one of the in mappings
 							|| found // Provider in message is present in the inout list of the port 
 							) == false) {
-						getLocation().reportSemanticError(MessageFormat.format("Incoming message type `{0}'' is not present in the in(out) message list or in the from mapping types, coming from port: `{1}''.", inMessageType.getTypename(), providerType.getIdentifier().getDisplayName()));
+						getLocation().reportSemanticError(MessageFormat.format("Incoming message type `{0}'' is not present in the in(out) message list or in the from mapping types, coming from port: `{1}''.", inMessageType.getTypename(), providerType.getGenNameOwn()));
 					}
 				}
 			}
@@ -610,7 +610,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					}
 
 					if (!foundIn || !foundOut) {
-						getLocation().reportSemanticError(MessageFormat.format("Inout message type `{0}'' is not present on the in and out messages or the inout messages of port `{1}''.", inoutType.getTypename(), providerType.getIdentifier().getDisplayName()));
+						getLocation().reportSemanticError(MessageFormat.format("Inout message type `{0}'' is not present on the in and out messages or the inout messages of port `{1}''.", inoutType.getTypename(), providerType.getGenNameOwn()));
 					}
 				}
 			}
@@ -643,7 +643,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 					}
 
 					if (!found) {
-						getLocation().reportSemanticError(MessageFormat.format("Neither out message type `{0}'', nor one of its target mappings are present in the out or inout message list of the port `{1}''.", outTypes.get(j).getTypename(), providerType.getIdentifier().getDisplayName()));
+						getLocation().reportSemanticError(MessageFormat.format("Neither out message type `{0}'', nor one of its target mappings are present in the out or inout message list of the port `{1}''.", outTypes.get(j).getTypename(), providerType.getGenNameOwn()));
 					}
 				}
 			}
