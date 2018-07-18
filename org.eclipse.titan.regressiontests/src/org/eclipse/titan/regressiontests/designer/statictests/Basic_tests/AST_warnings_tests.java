@@ -1231,11 +1231,11 @@ public class AST_warnings_tests {
 		lineNum += 12;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 102;
-		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests3' started on parallel test components. Its `out and `inout parameters will remain unchanged at the end of the operation.",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_startTests3' started on parallel test components. Its `out' and `inout' parameters will remain unchanged at the end of the operation.",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 11;
 		markersToCheck.add(new MarkerToCheck("Function `@statement_tests.f_runsonothercomponent' returns a template of type `integer', which cannot be retrieved when the test component terminates",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 19;
-		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests3' started on parallel test components. Its `out and `inout parameters will remain unchanged at the end of the operation.",  lineNum, IMarker.SEVERITY_WARNING));
+		markersToCheck.add(new MarkerToCheck("Functions of type `@statement_tests.t_functionstartTests3' started on parallel test components. Its `out' and `inout' parameters will remain unchanged at the end of the operation.",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 20;
 		markersToCheck.add(new MarkerToCheck("Control never reaches this statement",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 27;
