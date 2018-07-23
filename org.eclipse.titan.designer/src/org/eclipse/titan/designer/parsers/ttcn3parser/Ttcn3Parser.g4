@@ -2088,7 +2088,7 @@ pr_TemplateBody returns[ TTCN3Template template]
 )
 {
 	if( $template != null ) {
-		//TODO: set location
+		$template.setLocation(getLocation( $start, getStopToken()));
 	}
 };
 
