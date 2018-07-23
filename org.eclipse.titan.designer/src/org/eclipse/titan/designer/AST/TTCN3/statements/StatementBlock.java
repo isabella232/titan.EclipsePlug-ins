@@ -1065,7 +1065,7 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 				}
 			}
 		}
-		// TODO: labelMap
+
 		if (v.leave(this) == ASTVisitor.V_ABORT) {
 			return false;
 		}
