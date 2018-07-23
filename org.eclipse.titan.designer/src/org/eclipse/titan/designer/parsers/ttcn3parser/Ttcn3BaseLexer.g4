@@ -91,12 +91,6 @@ import org.eclipse.titan.designer.AST.Location;
     intervalDetector.initRootInterval(length);
   }
 
-  private Location lastPPDirectiveLocation = null;
-
-  public Location getLastPPDirectiveLocation() {
-  	return lastPPDirectiveLocation;
-  }
-
   /**
    * true, if todo/fixme markers can be placed by the lexer,
    *       typically it is set if full parsing is done
@@ -296,8 +290,6 @@ BLOCK_COMMENT:	'/*' .*? '*/'
 
 //TODO: check that nothing else preceeds it in current line
 PREPROCESSOR_DIRECTIVE:
-//TODO
-//{ int ppLine = getLine(); int ppOffset = getOffset(); }
 (   '#'
 	(
 		{ isTTCNPP }? (
@@ -309,11 +301,6 @@ PREPROCESSOR_DIRECTIVE:
 		{ !isTTCNPP }? ( (' '|'\t')* ('0'..'9')+ (' '|'\t')+ CSTRING ('0'..'9'|' '|'\t')* )
 	)
 )
-//TODO
-//
-//{
-//	lastPPDirectiveLocation = new Location(actualFile, ppLine, ppOffset, getOffset());
-//}
 {if (!isTTCNPP) {skip();};};
 
 IDENTIFIER:
