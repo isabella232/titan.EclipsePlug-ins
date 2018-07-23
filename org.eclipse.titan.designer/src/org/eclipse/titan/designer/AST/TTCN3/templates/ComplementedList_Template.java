@@ -152,11 +152,6 @@ public final class ComplementedList_Template extends CompositeTemplate {
 			boolean hasAnyOrOmit = false;
 			for (int i = 0, size = templates.getNofTemplates(); i < size; i++) {
 				final TTCN3Template component = templates.getTemplateByIndex(i);
-
-				// === if OMIT_VALUE then hasOmitValue=true and break ====
-				// componentType == ITTCN3Template.Template_type.OMIT_VALUE does not work
-				// TODO: put this if-block to a higher level
-				//TODO: avoid NPE (?)
 				if(Template_type.SPECIFIC_VALUE.equals(component.getTemplatetype())){
 					final IValue value = ((SpecificValue_Template) component).getSpecificValue();
 					if( Value_type.OMIT_VALUE.equals(value.getValuetype())){
