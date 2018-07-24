@@ -284,7 +284,7 @@ public class RAW {
 					buf.put_b(length - align_length, data_array, coding_par, align);
 				if (ext_bit_handling > 1) {
 					buf.stop_ext_bit();
-				} else if (ext_bit != ext_bit_t.EXT_BIT_NO && !(ext_bit_handling != 0)) {
+				} else if (ext_bit != ext_bit_t.EXT_BIT_NO && ext_bit_handling == 0) {
 					buf.stop_ext_bit();
 				}
 			} else {
@@ -295,11 +295,11 @@ public class RAW {
 					if (nodes[a] != null) {
 						nodes[a].fill_buf(buf);
 					}
-					if (ext_bit != ext_bit_t.EXT_BIT_NO && rec_of && !(ext_bit_handling != 0)) {
+					if (ext_bit != ext_bit_t.EXT_BIT_NO && rec_of && ext_bit_handling == 0) {
 						buf.set_last_bit(ext_bit != ext_bit_t.EXT_BIT_YES);
 					}
 				}
-				if (!(ext_bit_handling != 0)) {
+				if (ext_bit_handling == 0) {
 					if (ext_bit != ext_bit_t.EXT_BIT_NO && !rec_of) {
 						buf.stop_ext_bit();
 					} else if (ext_bit != ext_bit_t.EXT_BIT_NO && rec_of) {

@@ -165,7 +165,7 @@ public final class Template_List extends CompositeTemplate {
 			}
 
 			final int nofElements = getNofTemplates();
-			if (!(index < nofElements)) {
+			if (index >= nofElements) {
 				final String message = MessageFormat
 						.format("Index overflow in a template of `sequence of'' type `{0}'': the index is {1}, but the template has only {2} elements",
 								tempType.getTypename(), index, nofElements);
@@ -184,7 +184,7 @@ public final class Template_List extends CompositeTemplate {
 			}
 
 			final int nofElements = getNofTemplates();
-			if (!(index < nofElements)) {
+			if (index >= nofElements) {
 				final String message = MessageFormat
 						.format("Index overflow in a template of `set of'' type `{0}'': the index is {1}, but the template has only {2} elements",
 								tempType.getTypename(), index, nofElements);
