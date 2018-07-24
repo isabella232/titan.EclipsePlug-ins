@@ -21,7 +21,7 @@ import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
 /**
-@author Török Gábor
+@author Torok Gabor
 **/
 public class UnnecessaryArrays extends BaseModuleCodeSmellSpotter {
 
