@@ -40,7 +40,7 @@ import java.util.regex.Pattern;
 	private final static int SEVERITY_INFO    = 0;
 	private final static int SEVERITY_WARNING = 1;
 	private final static int SEVERITY_ERROR   = 2;
-	
+
 	private final static int PRIORITY_LOW     = 0;
 	private final static int PRIORITY_NORMAL  = 1;
 	private final static int PRIORITY_HIGH    = 2;
