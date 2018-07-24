@@ -31,7 +31,7 @@ public enum ProblemTypePreference {
 	CONVERT_TO_ENUM("Report usage of non-enumeration types in select statements", EnumSet.of(CodeSmellType.CONVERT_TO_ENUM)),
 	DUPLICATE_NAME("Report usage of duplicate name",EnumSet.of(CodeSmellType.DUPLICATE_NAME)),
 	EMPTY_STATEMENT_BLOCK("Report empty statement blocks", EnumSet.of(CodeSmellType.EMPTY_STATEMENT_BLOCK)),
-	DEFINITION_NAME_TOO_LONG("Report usuage of how long function name should be",EnumSet.of(CodeSmellType.DEFINITION_NAME_TOO_LONG)),
+	DEFINITION_NAME_TOO_LONG("Report usuage of long definition names",EnumSet.of(CodeSmellType.DEFINITION_NAME_TOO_LONG)),
 	GOTO("Report the usage of label and goto statements", EnumSet.of(CodeSmellType.GOTO)),
 	IF_INSTEAD_ALTGUARD("Report alt branches that should use alt guards", EnumSet.of(CodeSmellType.IF_INSTEAD_ALTGUARD)),
 	IF_INSTEAD_RECEIVE_TEMPLATE("Report alt branches that should use receive template", EnumSet.of(CodeSmellType.IF_INSTEAD_RECEIVE_TEMPLATE)),
