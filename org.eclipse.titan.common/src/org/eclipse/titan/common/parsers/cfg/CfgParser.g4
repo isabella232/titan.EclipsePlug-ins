@@ -1,5 +1,19 @@
 parser grammar CfgParser;
 
+/*
+ ******************************************************************************
+ * Copyright (c) 2000-2018 Ericsson Telecom AB
+ * All rights reserved. This program and the accompanying materials
+ * are made available under the terms of the Eclipse Public License v2.0
+ * which accompanies this distribution, and is available at
+ * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
+ ******************************************************************************
+*/
+
+options{
+	tokenVocab = CfgLexer;
+}
+
 @header {
 import org.antlr.v4.runtime.tree.TerminalNodeImpl;
 import org.eclipse.titan.common.parsers.TITANMarker;
@@ -299,10 +313,6 @@ import java.util.regex.Pattern;
 		node.parent = aParent;
 		return node;
 	}
-}
-
-options{
-	tokenVocab=CfgLexer;
 }
 
 pr_ConfigFile:
@@ -790,7 +800,7 @@ pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> ent
 	$entries = new ArrayList<LoggingSectionHandler.LoggerPluginEntry>();
 }:
 	lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
-	(	COMMA lpe = pr_LoggerPluginEntry  { $entries.add( $lpe.entry ); }
+	(	COMMA lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
 	)*
 ;
 
@@ -806,7 +816,7 @@ pr_PlainLoggingParam
 )?
 {	LogParamEntry logParamEntry = loggingSectionHandler.componentPlugin(componentName, pluginName);
 }
-(   FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
+(	FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
 		{	logParamEntry.setFileMaskRoot( $ctx );
 			logParamEntry.setFileMask( $fileMask.ctx );
 			Map<LoggingBit, ParseTree> loggingBitMask = $fileMask.loggingBitMask;
@@ -879,15 +889,15 @@ pr_PlainLoggingParam
 	{	logParamEntry.getPluginSpecificParam().add(
 			new LoggingSectionHandler.PluginSpecificParam( $ctx, $o1.ctx, $o2.ctx, $o1.text ) );
 	}
-|   EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
+|	EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLogging( $el.ctx );
 	}
-|   EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR elb = pr_BufferAllOrMasked
+|	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR elb = pr_BufferAllOrMasked
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLoggingBehaviour( $elb.ctx );
 	}
-|   EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
+|	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
 	{	logParamEntry.setLogEntityNameRoot( $ctx );
 		logParamEntry.setEmergencyLoggingMask( $elm.ctx );
 		Map<LoggingBit, ParseTree> loggingBitMask = $elm.loggingBitMask;
@@ -1189,7 +1199,7 @@ pr_StructuredValue:
 ;
 
 pr_StructuredValue2:
-(  	pr_MacroAssignment
+(	pr_MacroAssignment
 |	pr_SimpleValue
 )?
 ;
@@ -1339,7 +1349,7 @@ pr_GroupItem:
 }
 (	a = pr_Identifier
 	ASSIGNMENTCHAR
-	(	STAR {  memberlist.add("*");  }
+	(	STAR {	memberlist.add("*");	}
 	|	(	c = pr_DNSName	{	memberlist.add( $c.text );
 								group.getGroupItems().add( new GroupSectionHandler.GroupItem( $c.ctx ) );
 							}
@@ -1679,16 +1689,16 @@ pr_NULLKeyword:
 
 pr_CompoundValue:
 (	BEGINCHAR
-    (	/* empty */
+	(	/* empty */
 	|	pr_FieldValue	(	COMMA pr_FieldValue	)*
-	|	pr_ArrayItem	(	COMMA pr_ArrayItem		)*
-    |	pr_IndexValue	(	COMMA pr_IndexValue	)*
+	|	pr_ArrayItem	(	COMMA pr_ArrayItem	)*
+	|	pr_IndexValue	(	COMMA pr_IndexValue	)*
 	)
 	ENDCHAR
 |	LPAREN
-    /* at least 2 elements to avoid shift/reduce conflicts with IntegerValue and FloatValue rules */
-    pr_ParameterValue (COMMA pr_ParameterValue)+
-    RPAREN
+	/* at least 2 elements to avoid shift/reduce conflicts with pr_IntegerValueExpression and pr_FloatValueExpression rules */
+	pr_ParameterValue (COMMA pr_ParameterValue)+
+	RPAREN
 |	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
 |	SUPERSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
 |	SUBSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN

@@ -89,7 +89,7 @@ import org.eclipse.titan.common.parsers.cfg.CfgInterval.section_type;
 	 */
 	public void popIntervalNonHidden() {
 		mIntervalDetector.popInterval( mNonHiddenTokenStartCharIndex + mNonHiddenToken.getText().length(),
-		                               mNonHiddenTokenStartLine );
+									   mNonHiddenTokenStartLine );
 	}
 
 	@Override
@@ -362,7 +362,7 @@ ASSIGNMENTCHAR1:	':=' -> type(ASSIGNMENTCHAR);
 YES1: 				( 'yes' | 'Yes' | 'YES' ) -> type(YES);
 NO1: 				( 'no' | 'No' | 'NO' ) -> type(NO);
 NATURAL_NUMBER1:	[0-9]+ -> type(NATURAL_NUMBER);
-STRINGOP1:			'&'  (('='))? -> type(STRINGOP);
+STRINGOP1:			'&'	'='? -> type(STRINGOP);
 fragment FR_DIGIT1:	[0-9];
 FLOAT1:
 (
@@ -374,34 +374,33 @@ FLOAT1:
 |	FR_DIGIT1+ ('E' | 'e') ('+' | '-')? FR_DIGIT1+
 ) -> type(FLOAT);
 fragment FR_HOSTNAME1:
-(
-	'A'..'Z' | 'a'..'z' | '0'..'9' | ':')
-  (
-  	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
-  	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
-  )*
+	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
+	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
+	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
+	)*
 ;
+
 DNSNAME1:
-(
-  (FR_HOSTNAME1) ('/' FR_DIGIT1+)?
+(	FR_HOSTNAME1
+	('/' FR_DIGIT1+)?
 ) -> type(DNSNAME);
 fragment FR_LETTER1:	[A-Za-z];
 fragment FR_TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_DIGIT1+ | '_')*;
 TTCN3IDENTIFIER1:	FR_LETTER1 (FR_LETTER1 | FR_DIGIT1+ | '_')* -> type(TTCN3IDENTIFIER);
 HN1:					'hostname' -> type(HN);
-MACRO_HOSTNAME1: 		'$' '{' (WS1)? FR_TTCN3IDENTIFIER10 (WS1)? ',' (WS1)?  HN1 (WS1)? '}' -> type(MACRO_HOSTNAME);
+MACRO_HOSTNAME1: 		'$' '{' WS1? FR_TTCN3IDENTIFIER10 WS1? ',' WS1? HN1 WS1? '}' -> type(MACRO_HOSTNAME);
 INT1:					'integer' -> type(INT);
-MACRO_INT1:				'$' '{' (WS1)? FR_TTCN3IDENTIFIER1 (WS1)? ',' (WS1)? INT1 (WS1)? '}' -> type(MACRO_INT);
+MACRO_INT1:				'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? INT1 WS1? '}' -> type(MACRO_INT);
 MACRO1:
 (
 	'$' FR_TTCN3IDENTIFIER1
-|	'$' '{' (WS1)? FR_TTCN3IDENTIFIER1 (WS1)? '}'
+|	'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? '}'
 ) -> type(MACRO);
 CSTR1: 					'charstring' -> type(CSTR);
-MACRO_EXP_CSTR1:		'$' '{' (WS1)? FR_TTCN3IDENTIFIER1 (WS1)? ',' (WS1)? CSTR1 (WS1)? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR1:		'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? CSTR1 WS1? '}' -> type(MACRO_EXP_CSTR);
 STRING1:				'"' .*? '"' -> type(STRING);
 FL1:					'float' -> type(FL);
-MACRO_FLOAT1:			'$' '{' (WS1)? FR_TTCN3IDENTIFIER1 (WS1)? ',' (WS1)? FL1 (WS1)? '}' -> type(MACRO_FLOAT);
+MACRO_FLOAT1:			'$' '{' WS1? FR_TTCN3IDENTIFIER1 WS1? ',' WS1? FL1 WS1? '}' -> type(MACRO_FLOAT);
 
 //include section
 mode INCLUDE_SECTION_MODE;
@@ -663,15 +662,15 @@ BLOCK_COMMENT5:	'/*' .*? '*/'
 	popInterval();
 }	-> type(BLOCK_COMMENT), channel(HIDDEN);
 IPV6_5:
-  ( 'A'..'F' | 'a'..'f' | '0'..'9' )*
-  ':'
-  ( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
-  (
-    ( '0'..'9' )
-    ( '0'..'9' | '.' )*
-  )?
-  ( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
-  ( '/' ( '0'..'9' )+ )?
+	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
+	':'
+	( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
+	(
+		( '0'..'9' )
+		( '0'..'9' | '.' )*
+	)?
+	( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
+	( '/' ( '0'..'9' )+ )?
  -> type(IPV6);
 
 fragment FR_LETTER5:	[A-Z|a-z];
@@ -686,8 +685,8 @@ ENDCHAR5:			'}'
 } -> type(ENDCHAR);
 MACRORVALUE5:		[0-9|A-Z|a-z|.|_|-]+ -> type(MACRORVALUE);
 ASSIGNMENTCHAR5:	':'? '=' -> type(ASSIGNMENTCHAR);
-fragment FR_ESCAPE_WO_QUOTE5:	'\\' (  '\\' | '\'' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
-fragment FR_ESCAPE5:	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE_WO_QUOTE5:	'\\' ( '\\' | '\'' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE5:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING5:
 (
 	'"'
@@ -707,29 +706,29 @@ STRING5:
 ) -> type(STRING);
 
 ID5:				'identifier' -> type(ID);
-MACRO_ID5:			'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)?  ID5 (WS5)? '}' -> type(MACRO_ID);
+MACRO_ID5:			'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? ID5 WS5? '}' -> type(MACRO_ID);
 INT5:				'integer' -> type(INT);
-MACRO_INT5:			'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? INT5 (WS5)? '}' -> type(MACRO_INT);
+MACRO_INT5:			'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? INT5 WS5? '}' -> type(MACRO_INT);
 BOOL5:				'boolean' -> type(BOOL);
-MACRO_BOOL5:		'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? BOOL5 (WS5)? '}' -> type(MACRO_BOOL);
+MACRO_BOOL5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? BOOL5 WS5? '}' -> type(MACRO_BOOL);
 FL5:				'float' -> type(FL);
-MACRO_FLOAT5:		'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? FL5 (WS5)? '}' -> type(MACRO_FLOAT);
+MACRO_FLOAT5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? FL5 WS5? '}' -> type(MACRO_FLOAT);
 CSTR5:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR5:	'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? CSTR5 (WS5)? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR5:	'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? CSTR5 WS5? '}' -> type(MACRO_EXP_CSTR);
 BS5:				'bitstring' -> type(BS);
-MACRO_BSTR5:		'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? BS5 (WS5)? '}' -> type(MACRO_BSTR);
+MACRO_BSTR5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? BS5 WS5? '}' -> type(MACRO_BSTR);
 HS5:				'hexstring' -> type(HS);
-MACRO_HSTR5:		'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? HS5 (WS5)? '}' -> type(MACRO_HSTR);
+MACRO_HSTR5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? HS5 WS5? '}' -> type(MACRO_HSTR);
 OS5:				'octetstring' -> type(OS);
-MACRO_OSTR5:		'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? OS5 (WS5)? '}' -> type(MACRO_OSTR);
+MACRO_OSTR5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? OS5 WS5? '}' -> type(MACRO_OSTR);
 BINO5:				'binaryoctet' -> type(BINO);
-MACRO_BINARY5:		'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)? BINO5 (WS5)? '}' -> type(MACRO_BINARY);
+MACRO_BINARY5:		'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? BINO5 WS5? '}' -> type(MACRO_BINARY);
 HN5:				'hostname' -> type(HN);
-MACRO_HOSTNAME5: 	'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? ',' (WS5)?  HN5 (WS5)? '}' -> type(MACRO_HOSTNAME);
+MACRO_HOSTNAME5: 	'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? ',' WS5? HN5 WS5? '}' -> type(MACRO_HOSTNAME);
 MACRO5:
 (
 	'$' FR_TTCN3IDENTIFIER5
-|	'$' '{' (WS5)? FR_TTCN3IDENTIFIER5 (WS5)? '}'
+|	'$' '{' WS5? FR_TTCN3IDENTIFIER5 WS5? '}'
 ) -> type(MACRO);
 fragment FR_BINDIGIT5:	[01];
 BITSTRING5:			'\'' FR_BINDIGIT5* '\'' 'B' -> type(BITSTRING);
@@ -823,11 +822,11 @@ fragment FR_LETTER6:	[A-Za-z];
 fragment FR_DIGIT6:	[0-9];
 fragment FR_TTCN3IDENTIFIER6:	FR_LETTER6 (FR_LETTER6 | FR_DIGIT6 | '_')*;
 CSTR6:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR6:	'$' '{' (WS6)? FR_TTCN3IDENTIFIER6 (WS6)? ',' (WS6)? CSTR6 (WS6)? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR6:	'$' '{' WS6? FR_TTCN3IDENTIFIER6 WS6? ',' WS6? CSTR6 WS6? '}' -> type(MACRO_EXP_CSTR);
 MACRO6:
 (
 	'$' FR_TTCN3IDENTIFIER6
-|	'$' '{' (WS6)? FR_TTCN3IDENTIFIER6 (WS6)? '}'
+|	'$' '{' WS6? FR_TTCN3IDENTIFIER6 WS6? '}'
 ) -> type(MACRO);
 
 //testport parameters
@@ -917,7 +916,7 @@ RPAREN7:			')'
 } -> type(RPAREN);
 MTC7:				'mtc' -> type(MTC);
 SYSTEM7:			'system' -> type(SYSTEM);
-fragment FR_ESCAPE7:	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE7:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING7:
 '"'
 (
@@ -929,18 +928,18 @@ STRING7:
 )*
 '"'
  -> type(STRING);
-STRINGOP7:			'&'  (('='))? -> type(STRINGOP);
+STRINGOP7:	'&'	'='? -> type(STRINGOP);
 MACRO7:
 (
 	'$' FR_TTCN3IDENTIFIER7
-|	'$' '{' (WS7)? FR_TTCN3IDENTIFIER7 (WS7)? '}'
+|	'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? '}'
 ) -> type(MACRO);
 ID7: 'identifier' -> type(ID);
 INT7: 'integer' -> type(INT);
 CSTR7: 'charstring' -> type(CSTR);
-MACRO_INT7:		'$' '{' (WS7)? FR_TTCN3IDENTIFIER7 (WS7)? ',' (WS7)? INT7 (WS7)? '}' -> type(MACRO_INT);
-MACRO_ID7:		'$' '{' (WS7)? FR_TTCN3IDENTIFIER7 (WS7)? ',' (WS7)?  ID7 (WS7)? '}' -> type(MACRO_ID);
-MACRO_EXP_CSTR7:'$' '{' (WS7)? FR_TTCN3IDENTIFIER7 (WS7)? ',' (WS7)? CSTR7 (WS7)? '}' -> type(MACRO_EXP_CSTR);
+MACRO_INT7:		'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? ',' WS7? INT7 WS7? '}' -> type(MACRO_INT);
+MACRO_ID7:		'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? ',' WS7? ID7 WS7? '}' -> type(MACRO_ID);
+MACRO_EXP_CSTR7:'$' '{' WS7? FR_TTCN3IDENTIFIER7 WS7? ',' WS7? CSTR7 WS7? '}' -> type(MACRO_EXP_CSTR);
 
 //groups parameters
 mode GROUPS_SECTION_MODE;
@@ -1022,19 +1021,18 @@ FLOAT8:
 |	FR_DIGIT8+ ('E' | 'e') ('+' | '-')? FR_DIGIT8+
 ) -> type(FLOAT);
 fragment FR_HOSTNAME8:
-(
-	'A'..'Z' | 'a'..'z' | '0'..'9' | ':')
-  (
-  	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
-  	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
-  )*
+	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
+	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
+	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
+	)*
 ;
+
 DNSNAME8:
-(
-  (FR_HOSTNAME8) ('/' FR_DIGIT8+)?
+(	FR_HOSTNAME8
+	('/' FR_DIGIT8+)?
 ) -> type(DNSNAME);
 ID8: 'identifier' -> type(ID);
-MACRO_ID8:		'$' '{' (WS8)? FR_TTCN3IDENTIFIER8 (WS8)? ',' (WS8)?  ID8 (WS8)? '}' -> type(MACRO_ID);
+MACRO_ID8:		'$' '{' WS8? FR_TTCN3IDENTIFIER8 WS8? ',' WS8? ID8 WS8? '}' -> type(MACRO_ID);
 
 //module parameters
 mode MODULE_PARAMETERS_SECTION_MODE;
@@ -1121,7 +1119,7 @@ SQUAREOPEN9:		'['
 SQUARECLOSE9:		']'
 {	popInterval();	} -> type(SQUARECLOSE);
 AND9:				'&' -> type(AND);
-fragment FR_ESCAPE9:	'\\' (  '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
+fragment FR_ESCAPE9:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 
 NONE_VERDICT9:		'none' -> type(NONE_VERDICT);
 PASS_VERDICT9:		'pass' -> type(PASS_VERDICT);
@@ -1151,16 +1149,16 @@ fragment FR_DIGIT9:	[0-9];
 fragment FR_TTCN3IDENTIFIER9:	FR_LETTER9 (FR_LETTER9 | FR_DIGIT9+ | '_')*;
 TTCN3IDENTIFIER9:	FR_TTCN3IDENTIFIER9 -> type(TTCN3IDENTIFIER);
 ID9:				'identifier' -> type(ID);
-MACRO_ID9:			'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)?  ID9 (WS9)? '}' -> type(MACRO_ID);
+MACRO_ID9:			'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? ID9 WS9? '}' -> type(MACRO_ID);
 NATURAL_NUMBER9:	[0-9]+ -> type(NATURAL_NUMBER);
 INT9:				'integer' -> type(INT);
-MACRO_INT9:			'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? INT9 (WS9)? '}' -> type(MACRO_INT);
+MACRO_INT9:			'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? INT9 WS9? '}' -> type(MACRO_INT);
 BOOL9:				'boolean' -> type(BOOL);
-MACRO_BOOL9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? BOOL9 (WS9)? '}' -> type(MACRO_BOOL);
+MACRO_BOOL9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? BOOL9 WS9? '}' -> type(MACRO_BOOL);
 FL9:				'float' -> type(FL);
-MACRO_FLOAT9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? FL9 (WS9)? '}' -> type(MACRO_FLOAT);
+MACRO_FLOAT9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? FL9 WS9? '}' -> type(MACRO_FLOAT);
 CSTR9:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR9:	'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? CSTR9 (WS9)? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR9:	'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? CSTR9 WS9? '}' -> type(MACRO_EXP_CSTR);
 
 FLOAT9:
 (
@@ -1174,17 +1172,17 @@ FLOAT9:
 fragment FR_BINDIGIT9:	[01];
 BITSTRING9:			'\'' FR_BINDIGIT9* '\'' 'B' -> type(BITSTRING);
 BS9:				'bitstring' -> type(BS);
-MACRO_BSTR9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? BS9 (WS9)? '}' -> type(MACRO_BSTR);
+MACRO_BSTR9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? BS9 WS9? '}' -> type(MACRO_BSTR);
 fragment FR_HEXDIGIT9:	[0-9A-Fa-f];
 HEXSTRING9:			'\'' FR_HEXDIGIT9* '\'' 'H' -> type(HEXSTRING);
 HS9:				'hexstring' -> type(HS);
-MACRO_HSTR9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? HS9 (WS9)? '}' -> type(MACRO_HSTR);
+MACRO_HSTR9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? HS9 WS9? '}' -> type(MACRO_HSTR);
 fragment FR_OCTDIGIT9:	FR_HEXDIGIT9 FR_HEXDIGIT9;
 OCTETSTRING9:		'\'' FR_OCTDIGIT9* '\'' 'O' -> type(OCTETSTRING);
 OS9:				'octetstring' -> type(OS);
-MACRO_OSTR9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? OS9 (WS9)? '}' -> type(MACRO_OSTR);
+MACRO_OSTR9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? OS9 WS9? '}' -> type(MACRO_OSTR);
 BINO9:				'binaryoctet' -> type(BINO);
-MACRO_BINARY9:		'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? ',' (WS9)? BINO9 (WS9)? '}' -> type(MACRO_BINARY);
+MACRO_BINARY9:		'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? ',' WS9? BINO9 WS9? '}' -> type(MACRO_BINARY);
 fragment FR_BINDIGITMATCH9:	( FR_BINDIGIT9 | '?' | '*' );
 BITSTRINGMATCH9:	'\'' FR_BINDIGITMATCH9* '\'' 'B' -> type(BITSTRINGMATCH);
 fragment FR_HEXDIGITMATCH9:	( FR_HEXDIGIT9 | '?' | '*' );
@@ -1194,7 +1192,7 @@ OCTETSTRINGMATCH9:	'\'' FR_OCTDIGITMATCH9* '\'' 'O' -> type(OCTETSTRINGMATCH);
 MACRO9:
 (
 	'$' FR_TTCN3IDENTIFIER9
-|	'$' '{' (WS9)? FR_TTCN3IDENTIFIER9 (WS9)? '}'
+|	'$' '{' WS9? FR_TTCN3IDENTIFIER9 WS9? '}'
 ) -> type(MACRO);
 //STRING9:			'"' .*? '"' -> type(STRING);
 STRING9:
@@ -1278,15 +1276,15 @@ fragment FR_DIGIT10:	[0-9];
 fragment FR_TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')*;
 
 IPV6_10:
-  ( 'A'..'F' | 'a'..'f' | '0'..'9' )*
-  ':'
-  ( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
-  (
-    ( '0'..'9' )
-    ( '0'..'9' | '.' )*
-  )?
-  ( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
-  ( '/' ( '0'..'9' )+ )?
+	( 'A'..'F' | 'a'..'f' | '0'..'9' )*
+	':'
+	( 'A'..'F' | 'a'..'f' | '0'..'9' | ':' )+
+	(
+		( '0'..'9' )
+		( '0'..'9' | '.' )*
+	)?
+	( '%' ( 'A'..'Z' | 'a'..'z' | '0'..'9' )+ )?
+	( '/' ( '0'..'9' )+ )?
  -> type(IPV6);
 
 NATURAL_NUMBER10:	[0-9]+ -> type(NATURAL_NUMBER);
@@ -1302,26 +1300,24 @@ FLOAT10:
 
 TTCN3IDENTIFIER10:	FR_LETTER10 (FR_LETTER10 | FR_DIGIT10+ | '_')* -> type(TTCN3IDENTIFIER);
 fragment FR_HOSTNAME10:
-(
-	'A'..'Z' | 'a'..'z' | '0'..'9' | ':')
-  (
-  	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
-  	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
-  )*
+	('A'..'Z' | 'a'..'z' | '0'..'9' | ':')
+	(	'A'..'Z' | 'a'..'z' | '0'..'9' | ':' | '%' | '.'
+	|	('_' | '-') ('A'..'Z' | 'a'..'z' | '0'..'9')
+	)*
 ;
 
 DNSNAME10:
-(
-  (FR_HOSTNAME10) ('/' FR_DIGIT10+)?
+(	FR_HOSTNAME10
+	('/' FR_DIGIT10+)?
 ) -> type(DNSNAME);
 ID10:					'identifier' -> type(ID);
-MACRO_ID10:				'$' '{' (WS10)? FR_TTCN3IDENTIFIER10 (WS10)? ',' (WS10)?  ID10 (WS10)? '}' -> type(MACRO_ID);
+MACRO_ID10:				'$' '{' WS10? FR_TTCN3IDENTIFIER10 WS10? ',' WS10? ID10 WS10? '}' -> type(MACRO_ID);
 HN10:					'hostname' -> type(HN);
-MACRO_HOSTNAME10: 		'$' '{' (WS10)? FR_TTCN3IDENTIFIER10 (WS10)? ',' (WS10)?  HN10 (WS10)? '}' -> type(MACRO_HOSTNAME);
+MACRO_HOSTNAME10: 		'$' '{' WS10? FR_TTCN3IDENTIFIER10 WS10? ',' WS10? HN10 WS10? '}' -> type(MACRO_HOSTNAME);
 MACRO10:
 (
 	'$' FR_TTCN3IDENTIFIER10
-|	'$' '{' (WS10)? FR_TTCN3IDENTIFIER10 (WS10)? '}'
+|	'$' '{' WS10? FR_TTCN3IDENTIFIER10 WS10? '}'
 ) -> type(MACRO);
 
 //logging section
@@ -1436,7 +1432,7 @@ VERDICTOP_UNQUALIFIED: 'VERDICTOP_UNQUALIFIED'; WARNING_UNQUALIFIED: 'WARNING_UN
 COMPACT: 'Compact' | 'compact';
 DETAILED: 'Detailed' | 'detailed';
 SUBCATEGORIES: 'SubCategories' | 'Subcategories' | 'subCategories' | 'subcategories';
-MTCKEYWORD: 'mtc';  SYSTEMKEYWORD: 'system';
+MTCKEYWORD: 'mtc'; SYSTEMKEYWORD: 'system';
 LOGGERPLUGINS: 'LoggerPlugins' | 'Loggerplugins' | 'loggerPlugins' | 'loggerplugins';
 
 APPENDFILE: 'appendfile' | 'Appendfile' | 'appendFile' | 'AppendFile';
@@ -1477,7 +1473,7 @@ ENDCHAR11:				'}'
 {	popInterval();
 } -> type(ENDCHAR);
 COMMA11:				',' -> type(COMMA);
-STRINGOP11:				'&'  (('='))? -> type(STRINGOP);
+STRINGOP11:				'&'	'='? -> type(STRINGOP);
 LOGICALOR11:			'|' -> type(LOGICALOR);
 TRUE11:					'true' -> type(TRUE);
 FALSE11:				'false' -> type(FALSE);
@@ -1505,17 +1501,17 @@ FLOAT11:
 ) -> type(FLOAT);
 
 BOOL11:				'boolean' -> type(BOOL);
-MACRO_BOOL11:		'$' '{' (WS11)? FR_TTCN3IDENTIFIER11 (WS11)? ',' (WS11)?  BOOL11 (WS11)? '}' -> type(MACRO_BOOL);
+MACRO_BOOL11:		'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? BOOL11 WS11? '}' -> type(MACRO_BOOL);
 ID11:				'identifier' -> type(ID);
-MACRO_ID11:			'$' '{' (WS11)? FR_TTCN3IDENTIFIER11 (WS11)? ',' (WS11)?  ID11 (WS11)? '}' -> type(MACRO_ID);
+MACRO_ID11:			'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? ID11 WS11? '}' -> type(MACRO_ID);
 INT11:				'integer' -> type(INT);
-MACRO_INT11:		'$' '{' (WS11)? FR_TTCN3IDENTIFIER11 (WS11)? ',' (WS11)? INT11 (WS11)? '}' -> type(MACRO_INT);
+MACRO_INT11:		'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? INT11 WS11? '}' -> type(MACRO_INT);
 CSTR11:				'charstring' -> type(CSTR);
-MACRO_EXP_CSTR11:	'$' '{' (WS11)? FR_TTCN3IDENTIFIER11 (WS11)? ',' (WS11)? CSTR11 (WS11)? '}' -> type(MACRO_EXP_CSTR);
+MACRO_EXP_CSTR11:	'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? ',' WS11? CSTR11 WS11? '}' -> type(MACRO_EXP_CSTR);
 MACRO11:
 (
 	'$' FR_TTCN3IDENTIFIER11
-|	'$' '{' (WS11)? FR_TTCN3IDENTIFIER11 (WS11)? '}'
+|	'$' '{' WS11? FR_TTCN3IDENTIFIER11 WS11? '}'
 ) -> type(MACRO);
 STRING11:			'"' .*? '"' -> type(STRING);
 
@@ -1627,5 +1623,5 @@ TTCN3IDENTIFIER12:	FR_LETTER12 (FR_LETTER12 | FR_DIGIT12+ | '_')* -> type(TTCN3I
 MACRO12:
 (
 	'$' FR_TTCN3IDENTIFIER12
-|	'$' '{' (WS12)? FR_TTCN3IDENTIFIER12 (WS12)? '}'
+|	'$' '{' WS12? FR_TTCN3IDENTIFIER12 WS12? '}'
 ) -> type(MACRO);
