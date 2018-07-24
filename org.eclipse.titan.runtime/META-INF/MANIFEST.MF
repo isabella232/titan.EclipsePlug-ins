@@ -4,7 +4,9 @@ Bundle-Name: Runtime
 Bundle-SymbolicName: org.eclipse.titan.runtime
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.ui,
- org.eclipse.core.runtime
+ org.eclipse.core.runtime,
+ org.antlr.runtime;bundle-version="4.3.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Bundle-ActivationPolicy: lazy
 Export-Package: org.eclipse.titan.runtime.core
+Import-Package: org.eclipse.core.resources
