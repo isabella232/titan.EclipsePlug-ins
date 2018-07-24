@@ -630,7 +630,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 					// Check if the port's out message list contains at least one of the 
 					// type's target mappings.
-					if (!found) {
+					if (!found && outMappings != null) {
 						if (outMappings.hasMappingForType(timestamp, outMessages.getTypeByIndex(j))) {
 							TypeMapping typeMapping = outMappings.getMappingForType(timestamp, outMessages.getTypeByIndex(j));
 							for (int k = 0; k < typeMapping.getNofTargets(); k++) {
