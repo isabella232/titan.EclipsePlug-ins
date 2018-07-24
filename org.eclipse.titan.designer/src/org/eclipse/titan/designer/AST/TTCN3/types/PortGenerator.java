@@ -1220,7 +1220,7 @@ public class PortGenerator {
 				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
 			// If not in translation mode then send message as normally would.
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && outType.targets != null && (
-					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
+					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
 				source.append("if (!in_translation_mode()) {\n");
 			}
 			/* the same message type goes through the external interface */
@@ -1243,7 +1243,7 @@ public class PortGenerator {
 			source.append("}\n");
 
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && outType.targets != null && (
-					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE))) {
+					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
 				source.append("} else {\n");
 				generateSendMapping(aData, source, portDefinition, outType, false);
 				source.append("}\n");
