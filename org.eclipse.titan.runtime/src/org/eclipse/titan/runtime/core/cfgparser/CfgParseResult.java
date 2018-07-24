@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.cfgparser;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,7 +15,6 @@ import java.util.Map;
 
 import org.antlr.v4.runtime.ParserRuleContext;
 import org.antlr.v4.runtime.Token;
-import org.eclipse.core.resources.IFile;
 
 /**
  * Record to store extracted data from cfg file parsing
@@ -108,14 +108,14 @@ public class CfgParseResult {
 		private Token mMacroToken;
 
 		/** file for the error marker */
-		private IFile mFile;
+		private File mFile;
 
 		/** error marker if macro is not found */
 		private TITANMarker mErrorMarker;
 
 		public Macro( final String aMacroName,
 					  final Token aMacroToken,
-					  final IFile aFile,
+					  final File aFile,
 					  final TITANMarker aErrorMarker ) {
 			mMacroName = aMacroName;
 			mMacroToken = aMacroToken;
@@ -131,7 +131,7 @@ public class CfgParseResult {
 			return mMacroToken;
 		}
 
-		public IFile getFile() {
+		public File getFile() {
 			return mFile;
 		}
 
@@ -271,7 +271,7 @@ public class CfgParseResult {
 
 	public void addMacro( final String aMacroName,
 						  final Token aMacroToken,
-						  final IFile aFile,
+						  final File aFile,
 						  final TITANMarker aErrorMarker ) {
 		getMacros().add( new Macro( aMacroName, aMacroToken, aFile, aErrorMarker ) );
 	}

@@ -15,11 +15,10 @@ options{
 }
 
 @header {
-import org.eclipse.core.resources.IMarker;
-import org.eclipse.core.resources.IFile;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.LoggingSectionHandler.LogParamEntry;
 
+import java.io.File;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
@@ -38,13 +37,21 @@ import java.util.regex.Pattern;
 	private static final String DEFINITION_NOT_FOUND_FLOAT   = "No macro or environmental variable defined %s could be found, using 0.0 as a replacement value.";
 	private static final String DEFINITION_NOT_FOUND_BOOLEAN = "Could not resolve definition: %s using \"true\" as a replacement.";
 
+	private final static int SEVERITY_INFO    = 0;
+	private final static int SEVERITY_WARNING = 1;
+	private final static int SEVERITY_ERROR   = 2;
+	
+	private final static int PRIORITY_LOW     = 0;
+	private final static int PRIORITY_NORMAL  = 1;
+	private final static int PRIORITY_HIGH    = 2;
+
 	// pattern for matching macro string, for example: \$a, \${a}
 	private final static Pattern PATTERN_MACRO = Pattern.compile("\\$\\s*\\{?\\s*([A-Za-z][A-Za-z0-9_]*)\\s*\\}?");
 
 	// pattern for matching typed macro string, for example: ${a, float}
 	private final static Pattern PATTERN_TYPED_MACRO = Pattern.compile("\\$\\s*\\{\\s*([A-Za-z][A-Za-z0-9_]*)\\s*,\\s*[A-Za-z][A-Za-z0-9_]*\\s*\\}");
 
-	private IFile mActualFile = null;
+	private File mActualFile = null;
 
 	private Map<String, String> mEnvVariables;
 
@@ -92,7 +99,7 @@ import java.util.regex.Pattern;
 		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
 
-	public void setActualFile(IFile file) {
+	public void setActualFile(File file) {
 		mActualFile = file;
 	}
 
@@ -198,8 +205,7 @@ import java.util.regex.Pattern;
 	 * @return the created error marker
 	 */
 	public TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
-		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, IMarker.SEVERITY_ERROR,
-												 IMarker.PRIORITY_NORMAL );
+		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, SEVERITY_ERROR, PRIORITY_NORMAL );
 		return marker;
 	}
 
@@ -1027,7 +1033,7 @@ pr_deprecatedEventTypeSet [ List<LoggingBit> loggingBitMask ]:
 |  a15 = TTCN_DEBUG1		{ loggingBitMask.add(LoggingBit.DEBUG); }
 )
 {	reportWarning(new TITANMarker("Deprecated logging option " + $start.getText(), $start.getLine(),
-		$start.getStartIndex(), $start.getStopIndex(), IMarker.SEVERITY_WARNING, IMarker.PRIORITY_NORMAL));
+		$start.getStartIndex(), $start.getStopIndex(), SEVERITY_WARNING, PRIORITY_NORMAL));
 }
 ;
 

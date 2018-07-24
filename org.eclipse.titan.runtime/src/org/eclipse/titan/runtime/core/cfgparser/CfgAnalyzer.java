@@ -8,6 +8,9 @@
 package org.eclipse.titan.runtime.core.cfgparser;
 
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.Reader;
@@ -17,8 +20,6 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.UnbufferedCharStream;
-import org.eclipse.core.resources.IFile;
-import org.eclipse.core.runtime.CoreException;
 
 /**
  * 
@@ -33,10 +34,10 @@ public final class CfgAnalyzer {
 	 * @param file the file to parse, and report the errors to
 	 * @param code the contents of an editor, or null.
 	 */
-	public void parse(final IFile file, final String code) {
+	public void parse(final File file, final String code) {
 		String fileName = "<unknown file>";
 		if ( file != null ) {
-			fileName = file.getFullPath().toOSString();
+			fileName = file.getName();
 		}
 		directParse(file, fileName, code);
 	}
@@ -49,14 +50,14 @@ public final class CfgAnalyzer {
 	 * @param fileName the name of the file, to refer to.
 	 * @param code the contents of an editor, or null.
 	 */
-	public void directParse(final IFile file, final String fileName, final String code) {
+	public void directParse(final File file, final String fileName, final String code) {
 		final Reader reader;
 		if (null != code) {
 			reader = new StringReader(code);
 		} else if (null != file) {
 			try {
-				reader = new BufferedReader(new InputStreamReader(file.getContents(), StandardCharsets.UTF8));
-			} catch (CoreException e) {
+				reader = new BufferedReader(new InputStreamReader( new FileInputStream(file), StandardCharsets.UTF8));
+			} catch (FileNotFoundException e) {
 				//TODO
 				//ErrorReporter.logExceptionStackTrace("Could not get the contents of `" + fileName + "'", e);
 				return;
@@ -92,7 +93,7 @@ public final class CfgAnalyzer {
 		}
 	}
 
-	public static boolean process_config_file(IFile config_file) {
+	public static boolean process_config_file(File config_file) {
 		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 		cfgAnalyzer.directParse(config_file, config_file.getName(), null);
 		return false;

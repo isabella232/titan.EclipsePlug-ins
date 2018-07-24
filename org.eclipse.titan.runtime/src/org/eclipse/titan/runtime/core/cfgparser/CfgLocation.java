@@ -7,8 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core.cfgparser;
 
+import java.io.File;
+
 import org.antlr.v4.runtime.Token;
-import org.eclipse.core.resources.IFile;
 
 /**
  * The Location class represents a location in configuration files.  It was
@@ -19,7 +20,7 @@ import org.eclipse.core.resources.IFile;
  * @author Arpad Lovassy
  */
 public final class CfgLocation {
-	private IFile file;
+	private File file;
 	private int line;
 	private int offset;
 	private int endOffset;
@@ -33,19 +34,19 @@ public final class CfgLocation {
 	 * @param aEndToken the last token, its end position will be used for the location.
 	 *                  NOTE: end position is the column index after the token's last character.
 	 */
-	public CfgLocation( final IFile aFile, final Token aStartToken, final Token aEndToken ) {
+	public CfgLocation( final File aFile, final Token aStartToken, final Token aEndToken ) {
 		setLocation( aFile, aStartToken.getLine(), aStartToken.getStartIndex(),
 				aEndToken.getStopIndex() + 1 );
 	}
 
-	private final void setLocation(final IFile file, final int line, final int offset, final int endOffset) {
+	private final void setLocation(final File file, final int line, final int offset, final int endOffset) {
 		this.file = file;
 		this.line = line;
 		this.offset = offset;
 		this.endOffset = endOffset;
 	}
 
-	public IFile getFile() {
+	public File getFile() {
 		return file;
 	}
 
