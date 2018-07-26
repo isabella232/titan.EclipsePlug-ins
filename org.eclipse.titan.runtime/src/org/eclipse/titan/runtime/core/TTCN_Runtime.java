@@ -655,6 +655,13 @@ public final class TTCN_Runtime {
 		return returnValue;
 	}
 
+	//originally initialize_system_port
+	public static void initialize_system_port(final String port_name)
+	{
+		 Module_List.initialize_system_port(system_type_module.get(),
+		  system_type_name.get(), port_name);
+	}
+
 	//originally create_component
 	public static int create_component(final String createdComponentTypeModule, final String createdComponentTypeName,
 			String createdComponentName, String createdComponentLocation, final boolean createdComponentAlive) {
@@ -1584,7 +1591,7 @@ public final class TTCN_Runtime {
 				return false;
 			}
 		}
-		
+
 		// the decision cannot be made locally, MC must be asked
 		if (executorState.get() != executorStateEnum.MTC_TESTCASE) {
 			throw new TtcnError("Internal error: Executing 'all component.alive' in invalid state.");
@@ -2347,7 +2354,7 @@ public final class TTCN_Runtime {
 				mtc_main();
 				//FIXME close down stuff after mtc_main
 			}
-			
+
 		};
 
 		threads.add(MTC);
@@ -2390,7 +2397,7 @@ public final class TTCN_Runtime {
 				executorState.set(executorStateEnum.PTC_INITIAL);
 
 				//What now???
-				
+
 				//stuff from Parallel_main::main after hc_main call
 				//FIXME clear stuff before mtc_main
 				TitanComponent.clear_component_names();
@@ -2399,7 +2406,7 @@ public final class TTCN_Runtime {
 				ptc_main();
 				//FIXME close down stuff after mtc_main
 			}
-			
+
 		};
 
 		threads.add(PTC);
