@@ -1020,7 +1020,7 @@ public class PortGenerator {
 		if (portDefinition.testportType == TestportType.INTERNAL && portDefinition.legacy) {
 			source.append("if (destination_component.operatorEquals(TitanComponent.SYSTEM_COMPREF)) {\n");
 			source.append("throw new TtcnError(MessageFormat.format(\"Message cannot be sent to system on internal port {0}.\", get_name()));\n");
-			source.append(");\n");
+			source.append("}\n");
 		}
 
 		for (int i = 0; i < mappedType.targets.size(); i++) {
