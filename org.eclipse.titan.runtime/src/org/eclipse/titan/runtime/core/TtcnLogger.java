@@ -1221,6 +1221,10 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_dualport_discard(incoming, target_type, port_name, unhandled);
 	}
 
+	public static void log_dualport_discard(final boolean incoming, final String target_type, final String port_name, final boolean unhandled) {
+		get_logger_plugin_manager().log_dualport_discard(incoming, target_type, port_name, unhandled);
+	}
+
 	public static void log_setstate(final String port_name, final TitanPort.translation_port_state state, final TitanCharString info) {
 		get_logger_plugin_manager().log_setstate(port_name, state, info);
 	}

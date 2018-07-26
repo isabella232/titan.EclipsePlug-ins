@@ -763,6 +763,23 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
+	public void log_dualport_discard(final boolean incoming, final String target_type, final String port_name, final boolean unhandled) {
+		final Severity severity = incoming ? Severity.PORTEVENT_DUALRECV : Severity.PORTEVENT_DUALSEND;
+		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+			return;
+		}
+
+		final TitanLogEvent event = new TitanLogEvent();
+		fill_common_fields(event, severity);
+		final Dualface__discard dual = event.getLogEvent().getChoice().getPortEvent().getChoice().getDualDiscard();
+		dual.getIncoming().assign(incoming);
+		dual.getTarget__type().assign(target_type);
+		dual.getPort__name().assign(port_name);
+		dual.getUnhandled().assign(unhandled);
+
+		log(event);
+	}
+
 	public void log_setstate(final String port_name, final TitanPort.translation_port_state state, final TitanCharString info) {
 		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_SETSTATE) && TtcnLogger.get_emergency_logging() <= 0) {
 			return;

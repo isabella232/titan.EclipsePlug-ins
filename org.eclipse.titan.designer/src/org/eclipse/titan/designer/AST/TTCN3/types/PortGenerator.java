@@ -1183,10 +1183,10 @@ public class PortGenerator {
 		if (hasDiscard) {
 			if (mappedType.targets.size() > 1) {
 				/* there are other mappings, which failed */
-				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(0, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(false, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
 			} else {
 				/* this is the only mapping */
-				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(0, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(false, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
 			}
 		} else if (reportError) {
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Outgoing message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
@@ -1836,10 +1836,10 @@ public class PortGenerator {
 		if (hasDiscard) {
 			if (mappedType.targets.size() > 1) {
 				/* there are other mappings, which failed */
-				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(1, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(true, \"{0}\", get_name(), true);\n", mappedType.mDisplayName));
 			} else {
 				/* this is the only mapping */
-				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(1, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
+				source.append(MessageFormat.format("TtcnLogger.log_dualport_discard(true, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
 			}
 		} else if (reportError && !hasSimple) {
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Incomming message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
