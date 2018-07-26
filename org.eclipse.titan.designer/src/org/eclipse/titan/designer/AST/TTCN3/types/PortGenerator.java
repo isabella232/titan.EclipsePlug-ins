@@ -1738,7 +1738,7 @@ public class PortGenerator {
 					break;
 				case BACKTRACK:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("boolean success_flag = {0}(incoming_par, mapped_par) == 0;\n", target.functionName));
+					source.append(MessageFormat.format("boolean success_flag = {0}(incoming_par, mapped_par).operatorEquals(0);\n", target.functionName));
 					source.append("if (success_flag) {\n");
 					hasCondition = true;
 					break;
