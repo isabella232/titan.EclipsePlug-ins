@@ -87,7 +87,16 @@ public final class Module_List {
 		}
 	}
 
-	//FIXME implement initialize_system_port
+
+	static void initialize_system_port(final String module_name, final String component_type,final String port_name)
+	{
+		TTCN_Module system_module = lookup_module(module_name);
+		if (system_module == null) {
+			throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not exist.", module_name));
+		}
+		//FIXME implement system_module->initialize_system_port_func
+	}
+
 	//FIXME add support for module parameters
 
 	public static void execute_control(final String module_name) {

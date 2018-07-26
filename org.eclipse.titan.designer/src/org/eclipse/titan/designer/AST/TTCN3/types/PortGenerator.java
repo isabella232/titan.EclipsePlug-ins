@@ -499,7 +499,7 @@ public class PortGenerator {
 				if (!found) {
 					// Internal ports with translation capability do not need the implementable outgoing_send functions.
 					if (portDefinition.testportType != TestportType.INTERNAL || portDefinition.legacy) {
-						source.append(MessageFormat.format("public abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
+						source.append(MessageFormat.format("protected abstract void outgoing_send(final {0} send_par", outMessage.mJavaTypeName));
 						if (portDefinition.testportType == TestportType.ADDRESS) {
 							source.append(MessageFormat.format(", {0} destination_address", portDefinition.addressName));
 						}

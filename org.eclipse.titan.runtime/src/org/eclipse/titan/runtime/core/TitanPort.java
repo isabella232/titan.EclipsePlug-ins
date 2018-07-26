@@ -86,7 +86,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	};
 
 	//FIXME implement the remaining features
-	private static final class port_connection extends Channel_And_Timeout_Event_Handler {
+	protected static final class port_connection extends Channel_And_Timeout_Event_Handler {
 		static enum connection_data_type_enum {CONN_DATA_LAST, CONN_DATA_MESSAGE, CONN_DATA_CALL, CONN_DATA_REPLY, CONN_DATA_EXCEPTION};
 		static enum connection_state_enum {CONN_IDLE, CONN_LISTENING, CONN_CONNECTED, CONN_LAST_MSG_SENT, CONN_LAST_MSG_RCVD};
 
@@ -327,7 +327,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				}
 				remove_connection(connection);
 			}
-	
+
 			// terminate all mappings
 			while (!system_mappings.isEmpty()) {
 				final String system_port = system_mappings.get(0);
@@ -1267,7 +1267,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	private void connect_stream(final int remote_component, final String remote_port, final transport_type_enum transport_type, final Text_Buf text_buf) {
 		//FIXME implement properly (not even local address pulling is ok now)
-		
+
 		// family, port, addr, zero
 		final byte family[] = new byte[2];
 		text_buf.pull_raw(2, family);
@@ -1737,6 +1737,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public static void map_port(final String component_port, final String system_port, final boolean translation) {
+		if (translation) {
+			TTCN_Runtime.initialize_system_port(system_port);
+		}
+
 		final String port_name = translation ? system_port : component_port;
 		final TitanPort port = lookup_by_name(port_name, translation);
 		if (port == null) {
@@ -1761,6 +1765,10 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public static void unmap_port(final String component_port, final String system_port, final boolean translation) {
+		if (translation) {
+			TTCN_Runtime.initialize_system_port(system_port);
+		}
+		
 		final String port_name = translation ? system_port : component_port;
 		final TitanPort port = lookup_by_name(port_name, translation);
 		if (port == null) {
