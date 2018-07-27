@@ -197,14 +197,15 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 	public MessageTypeMappingTarget fillTypeMappingTarget(final JavaGenData aData, final StringBuilder source, final IType sourceType, final Scope scope, final AtomicBoolean hasSliding) {
 		String targetTypeName = null;
 		String displayName = null;
+		String typeDescriptorName = null;
 
 		hasSliding.set(false);
 		if (targetType != null) {
 			targetTypeName = targetType.getGenNameValue(aData, source, scope);
 			displayName = targetType.getTypename();
+			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
 		}
 
-		String typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
 		String encodingType = decodeAttribute.getEncodingType().getEncodingName();
 		String encodingOptions = null;
 		if (decodeAttribute.getOptions() != null) {
