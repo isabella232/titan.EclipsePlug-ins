@@ -1135,7 +1135,7 @@ public final class TtcnLogger {
 		return get_logger_plugin_manager().set_file_size(comp, p_size);
 	}
 
-	public static boolean set_file_number(final component_id_t comp, int p_number) {
+	public static boolean set_file_number(final component_id_t comp, final int p_number) {
 		return get_logger_plugin_manager().set_file_number(comp, p_number);
 	}
 
