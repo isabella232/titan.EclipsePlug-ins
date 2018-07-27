@@ -1113,7 +1113,7 @@ public class RecordSetCodeGenerator {
 
 						source.append("{\n");
 						source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 						if (repeatable) {
 							source.append(MessageFormat.format("field_map[{0}] == 0", i));
 						} else {
