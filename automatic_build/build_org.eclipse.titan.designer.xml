@@ -90,30 +90,30 @@
 			</fileset>
 		</apply>
 		<apply executable="java" parallel="false" verbose="true" timeout="60000" failonerror="true">
-					<arg value="-classpath" />
-					<arg value="${antlr4.jar.location}" />
-					<arg value="org.antlr.v4.Tool" />
-					<srcfile/>
-					<arg value="-no-listener" />
-					<arg value="-no-visitor" />
-					<arg value="-encoding" />
-					<arg value="UTF-8" />
-					<arg value="-package" />
-					<arg value="org.eclipse.titan.designer.parsers.variantattributeparser" />
-					<!--
-					  Parsers are dependent to the *.token files (these are generated from  lexer),
-					  so the directory of the *.token file is added as lib
-					  NOTE: If parser g4 compilation is made from that directory, then -lib is not needed
-					-->
-					<arg value="-lib" />
-					<arg value="${antlr.src.dir.variantattribute}" />
+			<arg value="-classpath" />
+			<arg value="${antlr4.jar.location}" />
+			<arg value="org.antlr.v4.Tool" />
+			<srcfile/>
+			<arg value="-no-listener" />
+			<arg value="-no-visitor" />
+			<arg value="-encoding" />
+			<arg value="UTF-8" />
+			<arg value="-package" />
+			<arg value="org.eclipse.titan.designer.parsers.variantattributeparser" />
+			<!--
+			  Parsers are dependent to the *.token files (these are generated from  lexer),
+			  so the directory of the *.token file is added as lib
+			  NOTE: If parser g4 compilation is made from that directory, then -lib is not needed
+			-->
+			<arg value="-lib" />
+			<arg value="${antlr.src.dir.variantattribute}" />
 
-					<fileset dir="${antlr.src.dir}" >
-						<include name="variantattributeparser/VariantAttributeLexer.g4" />
-						<include name="variantattributeparser/VariantAttributeParser.g4" />
-						<!-- TODO: add new g4 files here -->
-					</fileset>
-				</apply>
+			<fileset dir="${antlr.src.dir}" >
+				<include name="variantattributeparser/VariantAttributeLexer.g4" />
+				<include name="variantattributeparser/VariantAttributeParser.g4" />
+				<!-- TODO: add new g4 files here -->
+			</fileset>
+		</apply>
 		<apply executable="java" parallel="false" verbose="true" timeout="60000" failonerror="true">
 			<arg value="-classpath" />
 			<arg value="${antlr4.jar.location}" />
@@ -159,7 +159,6 @@
 			<arg value="${antlr.src.dir.ttcn3}" />
 
 			<fileset dir="${antlr.src.dir}" >
-				<include name="ttcn3parser/Ttcn3BaseLexer.g4" />
 				<include name="ttcn3parser/Ttcn3Lexer.g4" />
 				<include name="ttcn3parser/Ttcn3KeywordlessLexer.g4" />
 				<include name="ttcn3parser/Ttcn3CharstringLexer.g4" />
