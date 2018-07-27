@@ -1032,8 +1032,8 @@ public class RecordSetCodeGenerator {
 								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
 								source.append("buff.set_pos_bit(fl_start_pos);\n");
 								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operatorEquals({1})) '{'\n", j, cur_field_list.expression.expression));
-								source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-								source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
+								source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+								source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
 								source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
 								genRawFieldChecker(source, cur_choice, true);
 								source.append(")) {\n");
@@ -1066,8 +1066,8 @@ public class RecordSetCodeGenerator {
 							if (flag_needed) {
 								source.append("if (!already_failed) {\n");
 							}
-							source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-							source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, 3));
+							source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, 3));
 							source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
 							genRawFieldChecker(source, cur_choice, true);
 							source.append(")) {\n");
@@ -1112,8 +1112,8 @@ public class RecordSetCodeGenerator {
 						}
 
 						source.append("{\n");
-						source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 						if (repeatable) {
 							source.append(MessageFormat.format("field_map[{0}] == 0", i));
 						} else {
@@ -1163,8 +1163,8 @@ public class RecordSetCodeGenerator {
 							source.append(MessageFormat.format("&& (force_omit == null || !force_omit.shouldOmit({0}))", i));
 						}
 						source.append(") {\n");
-						source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
-						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName, i));
+						source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("final int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName, i));
 						source.append(MessageFormat.format("if (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
 						source.append("decoded_length += decoded_field_length;\n");
 						source.append("limit -= decoded_field_length;\n");
@@ -3071,7 +3071,7 @@ public class RecordSetCodeGenerator {
 		if (expression.preamble.length() > 0) {
 			source.append(expression.preamble);
 		}
-		source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+		source.append(MessageFormat.format("final RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
 		source.append(MessageFormat.format("decoded_field_length = get{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 		source.append(expression.expression);
 		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
