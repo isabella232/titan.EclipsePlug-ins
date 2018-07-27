@@ -903,10 +903,21 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		boolean hasOptional = false;
 		for ( final CompField compField : compFieldMap.fields ) {
 			final IType cfType = compField.getType();
+			final IType lastType = cfType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+			boolean ofType;
+			switch (lastType.getTypetype()) {
+			case TYPE_SEQUENCE_OF:
+			case TYPE_SET_OF:
+				ofType = true;
+				break;
+			default:
+				ofType = false;
+				break;
+			}
 			final FieldInfo fi = new FieldInfo(cfType.getGenNameValue( aData, source, getMyScope() ),
 					cfType.getGenNameTemplate( aData, source, getMyScope() ),
 					compField.getIdentifier().getName(), compField.getIdentifier().getDisplayName(), compField.isOptional(),
-					false, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
+					ofType, cfType.getClass().getSimpleName(), cfType.getGenNameTypeDescriptor(aData, source, myScope));
 			hasOptional |= compField.isOptional();
 			namesList.add( fi );
 		}

@@ -38,6 +38,7 @@ import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_ext_bit_group;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_field_list;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_single_tag;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_tag_field_value;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawASTStruct;
@@ -880,6 +881,51 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 								final IValue tempValue = t.checkThisValueRef(timestamp, v);
 								t.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT, false, false, false, false, false));
 							}
+						}
+					}
+				}
+				if (rawPar.forceOmit != null) {
+					for (int j = 0; j < rawPar.forceOmit.lists.size(); j++) {
+						final rawAST_field_list fieldList = rawPar.forceOmit.lists.get(j);
+						IType t = fieldTypeLast;
+						boolean erroneous = false;
+						boolean isOptional = false;
+						for (int k = 0; k < fieldList.names.size(); k++) {
+							Identifier idf = fieldList.names.get(k);
+							t = t.getTypeRefdLast(timestamp);
+							switch (t.getTypetype()) {
+							case TYPE_TTCN3_CHOICE:
+							case TYPE_TTCN3_SEQUENCE:
+							case TYPE_TTCN3_SET:
+								if(!((TTCN3_Set_Seq_Choice_BaseType)t).hasComponentWithName(idf.getName())) {
+									idf.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter FORCEOMIT for field {1}", idf.getDisplayName(), fieldId.getDisplayName()));
+									erroneous = true;
+								} else {
+									CompField cf = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByName(idf.getName());
+									t = cf.getType();
+									isOptional = cf.isOptional();
+								}
+								break;
+							case TYPE_ASN1_CHOICE:
+							case TYPE_ASN1_SEQUENCE:
+							case TYPE_ASN1_SET:
+								if(!((ASN1_Set_Seq_Choice_BaseType)t).hasComponentWithName(idf)) {
+									idf.getLocation().reportSemanticError(MessageFormat.format("Invalid field name `{0}'' in RAW parameter FORCEOMIT for field {1}", idf.getDisplayName(), fieldId.getDisplayName()));
+									erroneous = true;
+								} else {
+									CompField cf = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentByName(idf);
+									t = cf.getType();
+									isOptional = cf.isOptional();
+								}
+								break;
+							default:
+								idf.getLocation().reportSemanticError(MessageFormat.format("Invalid field type in RAW parameter FORCEOMIT for field {0}.", fieldId.getDisplayName()));
+								erroneous = true;
+								break;
+							}
+						}
+						if (!erroneous && !isOptional) {
+							fieldId.getLocation().reportSemanticError(MessageFormat.format("RAW parameter FORCEOMIT for field {0} does not refer to an optional field.", fieldId.getDisplayName()));
 						}
 					}
 				}

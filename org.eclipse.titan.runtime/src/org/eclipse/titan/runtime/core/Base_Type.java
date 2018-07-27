@@ -9,6 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
@@ -170,7 +171,7 @@ public abstract class Base_Type {
 	 *                 in case of not being implemented
 	 * */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
-		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);
+		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
 	}
 
 	/**
@@ -196,12 +197,13 @@ public abstract class Base_Type {
 	 *                default TRUE. May be FALSE for a REPEATABLE record-of
 	 *                inside a set, if an element has been successfully
 	 *                decoded.
+	 * @param forceOmit indicates how optional fields should be treated, according to the force omit coding variant.
 	 * @return length of decoded field, or a negative number for error
 	 *
 	 * @throws TtcnError
 	 *                 in case of not being implemented
 	 * */
-	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {
+	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
 		throw new TtcnError(MessageFormat.format("RAW decoding requested for type `{0}'' which has no RAW encoding method.", p_td.name));
 	}
 }

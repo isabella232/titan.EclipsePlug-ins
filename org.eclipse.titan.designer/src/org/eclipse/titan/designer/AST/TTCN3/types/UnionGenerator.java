@@ -99,6 +99,7 @@ public class UnionGenerator {
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
@@ -652,7 +653,7 @@ public class UnionGenerator {
 			source.append("}\n\n");
 
 			source.append("@Override\n");
-			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 			source.append("limit -= prepaddlength;\n");
 			source.append("int decoded_length = 0;\n");
@@ -661,9 +662,11 @@ public class UnionGenerator {
 			source.append("switch (sel_field) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
-				source.append(MessageFormat.format("case {0}:\n", i));
-				source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("case {0}: '{'\n", i));
+				source.append(MessageFormat.format("RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+				source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, no_err, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 				source.append("break;\n");
+				source.append("}\n");
 			}
 			source.append("default:\n");
 			source.append("break;\n");
@@ -745,7 +748,7 @@ public class UnionGenerator {
 							}
 							if (tempVariable.decoded_for_element == -1) {
 								source.append(MessageFormat.format("buff.set_pos_bit(starting_pos + {0});\n", cur_field_list.start_pos));
-								source.append(MessageFormat.format("decoded_{0}_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", variableIndex, tempVariable.typedescriptor));
+								source.append(MessageFormat.format("decoded_{0}_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, null);\n", variableIndex, tempVariable.typedescriptor));
 							}
 							tempVariable.decoded_for_element = i;
 							source.append(MessageFormat.format("if (decoded_{0}_length > 0) '{'\n", variableIndex));
@@ -758,7 +761,8 @@ public class UnionGenerator {
 							}
 							source.append(") {\n");
 							source.append("buff.set_pos_bit(starting_pos);\n");
-							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 							source.append("if (decoded_length > 0) {\n");
 							source.append("if (");
 							genRawFieldChecker(source, cur_choice, true);
@@ -782,7 +786,8 @@ public class UnionGenerator {
 						if (cur_choice.fields.get(j).start_pos < 0) {
 							source.append("if (already_failed) {\n");
 							source.append("buff.set_pos_bit(starting_pos);\n");
-							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("RAW_Force_Omit field_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
 							source.append("if (decoded_length > 0) {\n");
 							source.append("if (");
 							genRawFieldChecker(source, cur_choice, true);
@@ -804,7 +809,8 @@ public class UnionGenerator {
 					final rawAST_coding_taglist cur_choice = raw.taglist.list.get(-1 * tag_type[i] - 1);
 
 					source.append("buff.set_pos_bit(starting_pos);\n");
-					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
 					source.append("if (decoded_length >= 0) {\n");
 					source.append("if (");
 					genRawFieldChecker(source, cur_choice, true);
@@ -818,7 +824,8 @@ public class UnionGenerator {
 				if (tag_type[i] == 0) {
 					final FieldInfo fieldInfo = fieldInfos.get(i);
 					source.append("buff.set_pos_bit(starting_pos);\n");
-					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+					source.append(MessageFormat.format("decoded_length = get{0}().RAW_decode({1}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{2}_force_omit);\n", fieldInfo.mJavaVarName, fieldInfo.mTypeDescriptorName, i));
 					source.append("if (decoded_length >= 0) {\n");
 					source.append("return decoded_length + buff.increase_pos_padd(p_td.raw.padding) + prepaddlength;\n");
 					source.append("}\n");

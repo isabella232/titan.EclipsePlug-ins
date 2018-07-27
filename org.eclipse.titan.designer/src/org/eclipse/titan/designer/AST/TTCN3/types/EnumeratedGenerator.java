@@ -349,6 +349,7 @@ public class EnumeratedGenerator {
 
 		if (rawNeeded) {
 			aData.addBuiltinTypeImport("RAW");
+			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 
 			int min_bits = 0;
@@ -374,7 +375,7 @@ public class EnumeratedGenerator {
 			source.append("}\n");
 
 			source.append("@Override\n");
-			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("AtomicInteger decoded_value = new AtomicInteger(0);\n");
 			source.append(MessageFormat.format("int decoded_length = RAW.RAW_decode_enum_type(p_td, buff, limit, top_bit_ord, decoded_value, {0}, no_err);\n", min_bits));
 			source.append("if (decoded_length < 0) {\n");

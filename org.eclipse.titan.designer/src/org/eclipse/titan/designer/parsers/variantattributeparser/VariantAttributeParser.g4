@@ -130,6 +130,7 @@ pr_XSingleRAWEncodingDef:
 |	pr_XTagDef				{raw_f = true;}
 |	pr_XCrossTagDef				{raw_f = true;}
 |	pr_XPresenceDef				{raw_f = true;}
+|	pr_XForceOmitDef			{raw_f = true;}
 |	fieldlength = pr_XFieldLengthDef	{rawstruct.fieldlength = $fieldlength.multiplier * lengthMultiplier; raw_f = true;}
 |	pr_XPtrOffsetDef			{ raw_f = true;}
 |	align = pr_XAlignDef			{rawstruct.align = $align.leftOrRight; raw_f = true;}
@@ -423,6 +424,25 @@ pr_XPresenceDef:
 	)
 	SEMICOLON?
 	RPAREN
+);
+
+pr_XForceOmitDef:
+(	FORCEOMIT
+	LPAREN
+	a = pr_XStructFieldRefList
+	RPAREN
+) {
+	if ($a.values != null) {
+		rawstruct.forceOmit.lists.addAll($a.values);
+	}
+};
+
+pr_XStructFieldRefList returns [ArrayList<RawAST.rawAST_field_list> values]:
+(	a = pr_XStructFieldRef		{$values = new ArrayList<RawAST.rawAST_field_list>();
+					if ($a.values != null) {RawAST.rawAST_field_list temp = new RawAST.rawAST_field_list(); temp.names = $a.values; $values.add(temp);}}
+	(	COMMA
+		b = pr_XStructFieldRef	{if ($b.values != null) {RawAST.rawAST_field_list temp = new RawAST.rawAST_field_list(); temp.names = $b.values; $values.add(temp);}}
+	)*
 );
 
 pr_XFieldLengthDef returns [int multiplier]:

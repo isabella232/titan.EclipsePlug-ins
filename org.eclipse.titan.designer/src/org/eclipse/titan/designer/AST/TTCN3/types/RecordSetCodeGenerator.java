@@ -122,6 +122,7 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("TtcnLogger");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
@@ -929,7 +930,7 @@ public class RecordSetCodeGenerator {
 			source.append("}\n\n");
 
 			source.append("@Override\n");
-			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			if (isSet) {
 				int mand_num = 0;
 				for (int i = 0; i < fieldInfos.size(); i++) {
@@ -996,7 +997,11 @@ public class RecordSetCodeGenerator {
 							}
 						}
 
-						source.append(MessageFormat.format("if (field_map[{0}] == 0) '{'\n", i));
+						source.append(MessageFormat.format("if (field_map[{0}] == 0", i));
+						if (fieldInfo.isOptional) {
+							source.append(MessageFormat.format(" && (force_omit == null || !force_omit.shouldOmit({0}))", i));
+						}
+						source.append(") {\n");
 						if (flag_needed) {
 							source.append("boolean already_failed = true;\n");
 						}
@@ -1024,10 +1029,11 @@ public class RecordSetCodeGenerator {
 								source.append("}\n");
 								source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", cur_field_list.fields.get(cur_field_list.fields.size() - 1).type, j));
 								source.append(MessageFormat.format("buff.set_pos_bit(fl_start_pos + {0});\n", cur_field_list.start_pos));
-								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
+								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
 								source.append("buff.set_pos_bit(fl_start_pos);\n");
 								source.append(MessageFormat.format("if (temporal_decoded_length > 0 && temporal_{0}.operatorEquals({1})) '{'\n", j, cur_field_list.expression.expression));
-								source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName));
+								source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+								source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, i));
 								source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
 								genRawFieldChecker(source, cur_choice, true);
 								source.append(")) {\n");
@@ -1060,7 +1066,8 @@ public class RecordSetCodeGenerator {
 							if (flag_needed) {
 								source.append("if (!already_failed) {\n");
 							}
-							source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+							source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, local_top_order, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional? ".get()" : "", fieldInfo.mTypeDescriptorName, 3));
 							source.append(MessageFormat.format("if (decoded_field_length {0} 0 && (", fieldInfo.isOptional ? ">" : ">="));
 							genRawFieldChecker(source, cur_choice, true);
 							source.append(")) {\n");
@@ -1092,18 +1099,27 @@ public class RecordSetCodeGenerator {
 						boolean repeatable;
 						if (fieldInfo.ofType && fieldInfo.raw != null && fieldInfo.raw.repeatable == RawAST.XDEFYES) {
 							repeatable = true;
+							if (fieldInfo.isOptional) {
+								source.append(MessageFormat.format("if (force_omit == null || !force_omit.shouldOmit({0}))", i));
+							}
 						} else {
 							repeatable = false;
-							source.append(MessageFormat.format("if (field_map[{0}] == 0) ", i));
+							source.append(MessageFormat.format("if (field_map[{0}] == 0 ", i));
+							if (fieldInfo.isOptional) {
+								source.append(MessageFormat.format("&& (force_omit == null || !force_omit.shouldOmit({0}))", i));
+							}
+							source.append(")");
 						}
 
 						source.append("{\n");
+						source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
 						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 						if (repeatable) {
-							source.append(MessageFormat.format("field_map[{0}]);\n", i));
+							source.append(MessageFormat.format("field_map[{0}] == 0", i));
 						} else {
-							source.append("true);\n");
+							source.append("true");
 						}
+						source.append(MessageFormat.format(", field_{0}_force_omit);\n", i));
 
 						source.append(MessageFormat.format("if (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
 						source.append("decoded_length += decoded_field_length;\n");
@@ -1142,8 +1158,13 @@ public class RecordSetCodeGenerator {
 					final int tag_type = raw_options.get(i).tag_type;
 
 					if (tag_type > 0 && raw.taglist.list.get(tag_type - 1).fields.size() == 0) {
-						source.append(MessageFormat.format("if (field_map[{0}] == 0) ", i));
-						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, ", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("if (field_map[{0}] == 0 ", i));
+						if (fieldInfo.isOptional) {
+							source.append(MessageFormat.format("&& (force_omit == null || !force_omit.shouldOmit({0}))", i));
+						}
+						source.append(") {\n");
+						source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
+						source.append(MessageFormat.format("int decoded_field_length = {0}{1}.RAW_decode({2}_descr_, buff, limit, top_bit_ord, true, -1, true, field_{3}_force_omit);\n", fieldInfo.mVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName, i));
 						source.append(MessageFormat.format("if (decoded_field_length {0} 0) '{'\n", fieldInfo.isOptional ? ">" : ">="));
 						source.append("decoded_length += decoded_field_length;\n");
 						source.append("limit -= decoded_field_length;\n");
@@ -1168,7 +1189,7 @@ public class RecordSetCodeGenerator {
 				source.append("}\n");
 
 				if (mand_num > 0) {
-					source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", fieldInfos.size()));
+					source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", mand_num));
 					source.append("return limit > 0 ? -1 : TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
 					source.append("}\n");
 				}
@@ -2401,7 +2422,7 @@ public class RecordSetCodeGenerator {
 			source.append("}\n");
 
 			source.append("@Override\n");
-			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call) {\n");
+			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("bound_flag = true;");
 			source.append("return buff.increase_pos_padd(p_td.raw.prepadding) + buff.increase_pos_padd(p_td.raw.padding);\n");
 			source.append("}\n");
@@ -3034,6 +3055,9 @@ public class RecordSetCodeGenerator {
 			source.append(MessageFormat.format("limit = end_of_available_data - start_of_field{0};\n", i));
 		}
 		if (fieldInfo.isOptional) {
+			source.append(MessageFormat.format("if (force_omit != null && force_omit.shouldOmit({0})) '{'\n", i));
+			source.append(MessageFormat.format("get{0}().assign(template_sel.OMIT_VALUE);\n", fieldInfo.mJavaVarName));
+			source.append("} else {\n");
 			source.append("int fl_start_pos = buff.get_pos_bit();\n");
 		}
 
@@ -3047,6 +3071,7 @@ public class RecordSetCodeGenerator {
 		if (expression.preamble.length() > 0) {
 			source.append(expression.preamble);
 		}
+		source.append(MessageFormat.format("RAW_Force_Omit field_{0}_force_omit = new RAW_Force_Omit({0}, force_omit, {1}_descr_.raw.forceomit);\n", i, fieldInfo.mTypeDescriptorName));
 		source.append(MessageFormat.format("decoded_field_length = get{0}(){1}.RAW_decode({2}_descr_, buff, ", fieldInfo.mJavaVarName, fieldInfo.isOptional ? ".get()":"", fieldInfo.mTypeDescriptorName));
 		source.append(expression.expression);
 		source.append(MessageFormat.format(", local_top_order, {0}", fieldInfo.isOptional ? "true": "no_err"));
@@ -3066,7 +3091,7 @@ public class RecordSetCodeGenerator {
 		if (!found) {
 			source.append(", true");
 		}
-		source.append(");\n");
+		source.append(MessageFormat.format(", field_{0}_force_omit);\n", i));
 
 		if (delayed_decode) {
 			source.append(MessageFormat.format("if ( decoded_field_length != {0}) '{'\n", fieldInfo.raw.length));
@@ -3155,6 +3180,7 @@ public class RecordSetCodeGenerator {
 			}
 		}
 		if (fieldInfo.isOptional) {
+			source.append("}\n");
 			source.append("}\n");
 			source.append('}');
 			if (tempRawOption.tag_type > 0) {

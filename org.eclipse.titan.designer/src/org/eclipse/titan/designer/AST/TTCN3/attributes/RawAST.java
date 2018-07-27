@@ -40,6 +40,10 @@ public class RawAST {
 		public Value v_value;
 	}
 
+	public static class rawAST_force_omit {
+		public ArrayList<rawAST_field_list> lists = new ArrayList<RawAST.rawAST_field_list>();
+	}
+
 	public static class rawAST_single_tag {
 		public Identifier fieldName;
 		public ArrayList<rawAST_tag_field_value> keyList;
@@ -103,6 +107,7 @@ public class RawAST {
 	public ArrayList<rawAST_single_tag> taglist;
 	
 	public rawAST_single_tag presence = new rawAST_single_tag(); // Presence indicator expressions for an optional field
+	public rawAST_force_omit forceOmit = new rawAST_force_omit(); //forces lower level optional fields to be omitted
 	public int toplevelind;
 	public rawAST_toplevel toplevel = new rawAST_toplevel();
 	public int length_restriction;
@@ -151,6 +156,7 @@ public class RawAST {
 			crosstaglist = null;
 			taglist = null;
 			presence = new rawAST_single_tag();
+			forceOmit = new rawAST_force_omit();
 			toplevelind = other.toplevelind;
 			toplevel.bitorder = other.toplevel.bitorder;
 			length_restriction = other.length_restriction;
@@ -186,6 +192,7 @@ public class RawAST {
 		crosstaglist = null;
 		taglist = null;
 		presence = new rawAST_single_tag();
+		forceOmit = new rawAST_force_omit();
 		toplevelind = 0;
 		toplevel.bitorder = XDEFDEFAULT;
 		length_restriction = -1;

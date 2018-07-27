@@ -51,6 +51,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
+		aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
@@ -888,11 +889,11 @@ public class RecordOfGenerator {
 
 			source.append("\t\t@Override\n");
 			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {\n");
-			source.append("\t\t\treturn RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true);\n");
+			source.append("\t\t\treturn RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);\n");
 			source.append("\t\t}\n\n");
 
 			source.append("\t\t@Override\n");
-			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call) {\n");
+			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("\t\t\tint prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 			source.append("\t\t\tlimit -= prepaddlength;\n");
 			source.append("\t\t\tint decoded_length = 0;\n");
@@ -909,7 +910,7 @@ public class RecordOfGenerator {
 			source.append("\t\t\t\t\tsel_field = p_td.raw.fieldlength;\n");
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\tfor (a = 0; a < sel_field; a++) {\n");
-			source.append("\t\t\t\t\tdecoded_field_length = getAt(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true);\n");
+			source.append("\t\t\t\t\tdecoded_field_length = getAt(a + start_field).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
 			source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
 			source.append("\t\t\t\t\t\treturn decoded_field_length;\n");
 			source.append("\t\t\t\t\t}\n");
@@ -930,7 +931,7 @@ public class RecordOfGenerator {
 			source.append("\t\t\t\t}\n");
 			source.append("\t\t\t\twhile (limit > 0) {\n");
 			source.append("\t\t\t\t\tstart_of_field = buff.get_pos_bit();\n");
-			source.append("\t\t\t\t\tdecoded_field_length = getAt(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true);\n");
+			source.append("\t\t\t\t\tdecoded_field_length = getAt(a).RAW_decode(p_td.oftype_descr, buff, limit, top_bit_ord, true, -1, true, null);\n");
 			source.append("\t\t\t\t\tif (decoded_field_length < 0) {\n");
 			source.append("\t\t\t\t\t\tvalueElements.remove(a);\n");
 			source.append("\t\t\t\t\t\tbuff.set_pos_bit(start_of_field);\n");

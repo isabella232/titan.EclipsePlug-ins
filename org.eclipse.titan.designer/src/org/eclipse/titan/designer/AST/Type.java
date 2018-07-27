@@ -37,6 +37,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifier;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.Qualifiers;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute;
+import org.eclipse.titan.designer.AST.TTCN3.attributes.RawAST.rawAST_field_list;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Modifier_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
@@ -2480,14 +2481,14 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		globalVariable.append(", null");//the descriptor of the oftype is set in the preinit part.
-		switch (getTypetype()) {
+		switch (last.getTypetype()) {
 		case TYPE_SEQUENCE_OF: {
 			final StringBuilder preInit = aData.getPreInit();
-			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SequenceOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SequenceOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
 			break;}
 		case TYPE_SET_OF:{
 			final StringBuilder preInit = aData.getPreInit();
-			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SetOf_Type)this).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
+			preInit.append(MessageFormat.format("{0}_descr_.oftype_descr = {1}_descr_;\n", genname, ((SetOf_Type)last).getOfType().getGenNameTypeDescriptor(aData, source, myScope)));
 			break;}
 		default:
 			break;
@@ -2609,12 +2610,65 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 		str.append(rawAttribute.length_restriction).append(',');
 		if (rawAttribute.stringformat == CharCoding.UTF_8) {
-			str.append("CharCoding.UTF_8);\n");
+			str.append("CharCoding.UTF_8");
 		} else if (rawAttribute.stringformat == CharCoding.UTF16) {
-			str.append("CharCoding.UTF16);\n");
+			str.append("CharCoding.UTF16");
 		} else {
-			str.append("CharCoding.UNKNOWN);\n");
+			str.append("CharCoding.UNKNOWN");
 		}
+
+		str.append(',');
+		if (rawAttribute.forceOmit.lists.size() == 0) {
+			str.append(" null");
+		} else {
+			String force_omit_name = MessageFormat.format("{0}_raw_force_omit", genname);
+			StringBuilder force_omit_string = new StringBuilder();
+
+			force_omit_string.append(MessageFormat.format("static final ArrayList<RAW.RAW_Field_List> {0}_lists = new ArrayList<RAW.RAW_Field_List>();\n", force_omit_name));
+			force_omit_string.append(MessageFormat.format("static final RAW.RAW_Force_Omit {0} = new RAW.RAW_Force_Omit({1}, {2}_raw_force_omit_lists);\n", force_omit_name, rawAttribute.forceOmit.lists.size(), genname));
+
+			aData.addGlobalVariable(force_omit_name, force_omit_string.toString());
+
+			StringBuilder preInit = aData.getPreInit();
+			for (int i = 0; i < rawAttribute.forceOmit.lists.size(); i++) {
+				final rawAST_field_list fieldList = rawAttribute.forceOmit.lists.get(i);
+				IType t = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				preInit.append(MessageFormat.format("{0}_lists.add(", force_omit_name));
+				for (int j = 0; j < fieldList.names.size(); j++) {
+					Identifier name = fieldList.names.get(j);
+
+					switch (t.getTypetype()) {
+					case TYPE_TTCN3_CHOICE:
+					case TYPE_TTCN3_SEQUENCE:
+					case TYPE_TTCN3_SET: {
+						int index = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentIndexByName(name);
+						t = ((TTCN3_Set_Seq_Choice_BaseType)t).getComponentByName(name.getName()).getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						preInit.append(MessageFormat.format("new RAW.RAW_Field_List({0} ,", index));
+						break;
+					}
+					case TYPE_ASN1_CHOICE:
+					case TYPE_ASN1_SEQUENCE:
+					case TYPE_ASN1_SET: {
+						int index = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentIndexByName(name);
+						t = ((ASN1_Set_Seq_Choice_BaseType)t).getComponentByName(name).getType().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+						preInit.append(MessageFormat.format("new RAW.RAW_Field_List({0} ,", index));
+						break;
+					}
+					default:
+						break;
+					}
+					
+				}
+				preInit.append("null");
+				for (int j = 0; j < fieldList.names.size(); j++) {
+					preInit.append(")");
+				}
+				preInit.append(");\n");
+			}
+
+			str.append(force_omit_name);
+		}
+		str.append(");\n");
 
 		aData.addGlobalVariable(descriptorName, str.toString());
 

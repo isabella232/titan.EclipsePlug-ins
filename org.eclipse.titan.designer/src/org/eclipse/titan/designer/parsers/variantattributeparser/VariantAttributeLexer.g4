@@ -97,6 +97,7 @@ LENGTHINDEXKeyword: 'LENGTHINDEX' -> mode(RawCodec_MODE);
 TAGKeyword: 'TAG' -> mode(RawCodec_MODE);
 CROSSTAGKeyword: 'CROSSTAG' -> mode(RawCodec_MODE);
 PRESENCEKeyword: 'PRESENCE' -> mode(RawCodec_MODE);
+FORCEOMIT: 'FORCEOMIT' -> mode(RawCodec_MODE);
 FIELDLENGTHKeyword: 'FIELDLENGTH' -> mode(RawCodec_MODE);
 FORMATKeyword: 'FORMAT' -> type(FIELDLENGTHKeyword), mode(RawCodec_MODE);
 ALIGNKeyword: 'ALIGN' -> mode(RawCodec_MODE);
