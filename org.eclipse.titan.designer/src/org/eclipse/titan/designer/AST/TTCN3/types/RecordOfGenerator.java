@@ -849,9 +849,9 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\t\torder = raw_order_t.ORDER_MSB;\n");
 		source.append("\t\t\t\t\tbreak;\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tint rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("\t\t\t\tif (rawr < 0) {\n");
-		source.append("\t\t\t\t\terror_type temp = error_type.values()[-rawr];\n");
+		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
 		source.append("\t\t\t\t\tswitch(temp) {\n");
 		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
 		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");

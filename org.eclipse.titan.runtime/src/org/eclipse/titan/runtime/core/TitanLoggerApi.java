@@ -1272,9 +1272,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -2231,9 +2231,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -3267,9 +3267,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -4305,9 +4305,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -5020,9 +5020,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -5893,9 +5893,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -7115,9 +7115,9 @@ public static class Strings_str__list extends Base_Type {
 					order = raw_order_t.ORDER_MSB;
 					break;
 				}
-				int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
-					error_type temp = error_type.values()[-rawr];
+					final error_type temp = error_type.values()[-rawr];
 					switch(temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
@@ -8419,9 +8419,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -9452,9 +9452,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -10322,9 +10322,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -11608,9 +11608,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -12588,9 +12588,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -13373,9 +13373,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -14271,9 +14271,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -14866,9 +14866,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -16001,9 +16001,9 @@ public static class TitanLog_sequence__list_0_event__list extends Base_Type {
 					order = raw_order_t.ORDER_MSB;
 					break;
 				}
-				int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
-					error_type temp = error_type.values()[-rawr];
+					final error_type temp = error_type.values()[-rawr];
 					switch(temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
@@ -17645,9 +17645,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -19365,9 +19365,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -20209,9 +20209,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -21157,9 +21157,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -21792,9 +21792,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -22821,9 +22821,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -23643,9 +23643,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -24560,9 +24560,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -25692,9 +25692,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -26699,9 +26699,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -27898,9 +27898,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -29137,9 +29137,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -30034,9 +30034,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -30716,9 +30716,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -31582,9 +31582,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -32436,9 +32436,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -33210,9 +33210,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -33841,9 +33841,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -34796,9 +34796,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -35593,9 +35593,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -36501,9 +36501,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -37096,9 +37096,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -37900,9 +37900,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -38963,9 +38963,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -40096,9 +40096,9 @@ public static class TitanLogEvent_sourceInfo__list extends Base_Type {
 					order = raw_order_t.ORDER_MSB;
 					break;
 				}
-				int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
-					error_type temp = error_type.values()[-rawr];
+					final error_type temp = error_type.values()[-rawr];
 					switch(temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
@@ -41202,9 +41202,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -42331,9 +42331,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -43277,9 +43277,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -44160,9 +44160,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -44928,9 +44928,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -45971,9 +45971,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -46977,9 +46977,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -48033,9 +48033,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -49353,9 +49353,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -50042,9 +50042,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -50810,9 +50810,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -51733,9 +51733,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -52540,9 +52540,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -53121,9 +53121,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -54212,9 +54212,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -55409,9 +55409,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -56610,9 +56610,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -57665,9 +57665,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -59112,9 +59112,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -60101,9 +60101,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -61161,9 +61161,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -62089,9 +62089,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -62836,9 +62836,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -63888,9 +63888,9 @@ public static class StartFunction_parameter__list extends Base_Type {
 					order = raw_order_t.ORDER_MSB;
 					break;
 				}
-				int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
-					error_type temp = error_type.values()[-rawr];
+					final error_type temp = error_type.values()[-rawr];
 					switch(temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
@@ -65068,9 +65068,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -66058,9 +66058,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -66774,9 +66774,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -67748,9 +67748,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -68493,9 +68493,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -69368,9 +69368,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -70119,9 +70119,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -71155,9 +71155,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -71760,9 +71760,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -72423,9 +72423,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -73302,9 +73302,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -74229,9 +74229,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -75330,9 +75330,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -76389,9 +76389,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -77247,9 +77247,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -78015,9 +78015,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -78853,9 +78853,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -79767,9 +79767,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -80751,9 +80751,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -81428,9 +81428,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -82215,9 +82215,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -83098,9 +83098,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -84225,9 +84225,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -84856,9 +84856,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -85955,9 +85955,9 @@ public static class TitanLog_sequence__list extends Base_Type {
 					order = raw_order_t.ORDER_MSB;
 					break;
 				}
-				int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
-					error_type temp = error_type.values()[-rawr];
+					final error_type temp = error_type.values()[-rawr];
 					switch(temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
@@ -87427,9 +87427,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -88395,9 +88395,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -89094,9 +89094,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -89835,9 +89835,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -90915,9 +90915,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -91905,9 +91905,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -92805,9 +92805,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -93440,9 +93440,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -94273,9 +94273,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
@@ -95190,9 +95190,9 @@ default:
 order = raw_order_t.ORDER_MSB;
 break;
 }
-int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
-error_type temp = error_type.values()[-rawr];
+final error_type temp = error_type.values()[-rawr];
 switch(temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:

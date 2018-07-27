@@ -575,9 +575,9 @@ public class UnionGenerator {
 		source.append("order = raw_order_t.ORDER_MSB;\n");
 		source.append("break;\n");
 		source.append("}\n");
-		source.append("int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
+		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("if (rawr < 0) {\n");
-		source.append("error_type temp = error_type.values()[-rawr];\n");
+		source.append("final error_type temp = error_type.values()[-rawr];\n");
 		source.append("switch(temp) {\n");
 		source.append("case ET_INCOMPL_MSG:\n");
 		source.append("case ET_LEN_ERR:\n");
