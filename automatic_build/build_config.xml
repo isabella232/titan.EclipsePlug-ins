@@ -65,6 +65,7 @@
 	<!-- directory names etc -->
 	<!-- These properties should not be changed -->
 	<property name="common.name" value="org.eclipse.titan.common"/>
+	<property name="runtime.name" value="org.eclipse.titan.runtime"/>
 	<property name="designer.name" value="org.eclipse.titan.designer"/>
 	<property name="executor.name" value="org.eclipse.titan.executor"/>
 	<property name="help.name" value="org.eclipse.titan.help"/>

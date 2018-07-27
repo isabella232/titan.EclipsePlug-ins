@@ -24,6 +24,10 @@
 		<pathelement location="${build.dir}/${common.name}/bin"/>
 	</path>
 
+	<path id="runtime.classpath">
+		<pathelement location="${build.dir}/${runtime.name}/bin"/>
+	</path>
+
 	<path id="designer.classpath">
 		<pathelement location="${build.dir}/${designer.name}/bin"/>
 	</path>
