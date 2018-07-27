@@ -1768,7 +1768,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		if (translation) {
 			TTCN_Runtime.initialize_system_port(system_port);
 		}
-		
+
 		final String port_name = translation ? system_port : component_port;
 		final TitanPort port = lookup_by_name(port_name, translation);
 		if (port == null) {
