@@ -449,7 +449,7 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		// own type
-		source.append(MessageFormat.format("public static int enum2int({0} enumPar) '{'\n", name));
+		source.append(MessageFormat.format("public static int enum2int(final {0} enumPar) '{'\n", name));
 		source.append("if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {\n");
 		source.append("throw new TtcnError(\"The argument of function enum2int() is an \"+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? \"unbound\":\"invalid\") +\" value of enumerated type {0}.\");\n");
 		source.append("}\n");

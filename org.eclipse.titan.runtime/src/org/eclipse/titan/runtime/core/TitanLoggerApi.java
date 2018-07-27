@@ -11514,7 +11514,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Parallel_reason enumPar) {
+public static int enum2int(final Parallel_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -12494,7 +12494,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(PortType enumPar) {
+public static int enum2int(final PortType enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -14177,7 +14177,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(ParPort_operation enumPar) {
+public static int enum2int(final ParPort_operation enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -21063,7 +21063,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(MatchingDoneType_reason enumPar) {
+public static int enum2int(final MatchingDoneType_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -29043,7 +29043,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(LocationInfo_ent__type enumPar) {
+public static int enum2int(final LocationInfo_ent__type enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -31488,7 +31488,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(MatchingProblemType_reason enumPar) {
+public static int enum2int(final MatchingProblemType_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -32342,7 +32342,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(ExecutorRuntime_reason enumPar) {
+public static int enum2int(final ExecutorRuntime_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -33116,7 +33116,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(MatchingFailureType_reason enumPar) {
+public static int enum2int(final MatchingFailureType_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -34702,7 +34702,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(MatchingProblemType_operation enumPar) {
+public static int enum2int(final MatchingProblemType_operation enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -36407,7 +36407,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(ExecutorConfigdata_reason enumPar) {
+public static int enum2int(final ExecutorConfigdata_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -42237,7 +42237,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Port__State_operation enumPar) {
+public static int enum2int(final Port__State_operation enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -43183,7 +43183,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Port__oper enumPar) {
+public static int enum2int(final Port__oper enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -67654,7 +67654,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Port__Queue_operation enumPar) {
+public static int enum2int(final Port__Queue_operation enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -71061,7 +71061,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Port__Misc_reason enumPar) {
+public static int enum2int(final Port__Misc_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -77153,7 +77153,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(FinalVerdictType_choice_notification enumPar) {
+public static int enum2int(final FinalVerdictType_choice_notification enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -77921,7 +77921,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(ExecutorUnqualified_reason enumPar) {
+public static int enum2int(final ExecutorUnqualified_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -78759,7 +78759,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Msg__port__recv_operation enumPar) {
+public static int enum2int(final Msg__port__recv_operation enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -79673,7 +79673,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(Verdict enumPar) {
+public static int enum2int(final Verdict enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -80657,7 +80657,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(ParallelPTC_reason enumPar) {
+public static int enum2int(final ParallelPTC_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -84131,7 +84131,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(DefaultEnd enumPar) {
+public static int enum2int(final DefaultEnd enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -92711,7 +92711,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(RandomAction enumPar) {
+public static int enum2int(final RandomAction enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
@@ -95096,7 +95096,7 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar==enum
 return enumPar.enum_num;
 }
 
-public static int enum2int(ExecutorComponent_reason enumPar) {
+public static int enum2int(final ExecutorComponent_reason enumPar) {
 if (enumPar.enum_value == enum_type.UNBOUND_VALUE || enumPar.enum_value == enum_type.UNKNOWN_VALUE) {
 throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_value==enum_type.UNBOUND_VALUE ? "unbound":"invalid") +" value of enumerated type {0}.");
 }
