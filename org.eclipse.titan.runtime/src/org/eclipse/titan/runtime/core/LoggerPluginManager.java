@@ -141,7 +141,7 @@ public class LoggerPluginManager {
 	
 	// If an event appears before any logger is configured we have to pre-buffer it.
 	public void internal_prebuff_logevent(final TitanLogEvent event) {
-		LogEntry new_entry = new LogEntry(event);
+		final LogEntry new_entry = new LogEntry(event);
 		if (entry_list_ == null) {
 			entry_list_ = new LinkedList<LogEntry>();
 			entry_list_.add(new_entry);
@@ -155,7 +155,7 @@ public class LoggerPluginManager {
 		if (entry_list_ == null) {
 			return;
 		} else {
-			for (LogEntry entry : entry_list_) {
+			for (final LogEntry entry : entry_list_) {
 				if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
 					String new_log_message = TtcnLogger.get_logger_settings_str();
 					entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
@@ -310,7 +310,7 @@ public class LoggerPluginManager {
 			plugins_.get(i).open_file(is_first.get().booleanValue());
 			if (plugins_.get(i).is_configured()) {
 				free_entry_list = true;
-				for (LogEntry entry : entry_list_) {
+				for (final LogEntry entry : entry_list_) {
 					if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
 						String new_log_message = TtcnLogger.get_logger_settings_str();
 						entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);

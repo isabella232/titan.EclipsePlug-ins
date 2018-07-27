@@ -707,7 +707,7 @@ public final class AdditionalFunctions {
 		char[] output = new char[((octets_left*22) >> 4) + 7];
 		int outpotPos = 0;
 		int n_4chars = 0;
-		boolean linebreaks = use_linebreaks.getValue();
+		final boolean linebreaks = use_linebreaks.getValue();
 		while (octets_left >= 3) {
 			output[outpotPos++] = code_table.charAt(p_msg[msgPos + 0] >> 2);
 			output[outpotPos++] = code_table.charAt(((p_msg[msgPos + 0] << 4) | (p_msg[msgPos + 1] >> 4)) & 0x3f);
@@ -778,7 +778,7 @@ public final class AdditionalFunctions {
 	}
 
 	public static TitanOctetString decode_base64(final TitanCharString b64) {
-		byte[] p_b64 = b64.getValue().toString().getBytes();
+		final byte[] p_b64 = b64.getValue().toString().getBytes();
 		int b64Pos = 0;
 		int chars_left = b64.lengthOf().getInt();
 		char[] output = new char[((chars_left >> 2) + 1 ) * 3 ];
@@ -808,8 +808,9 @@ public final class AdditionalFunctions {
 			b64Pos++;
 		}
 
-		char[] result = new char[outpotPos];
+		final char[] result = new char[outpotPos];
 		System.arraycopy(output, 0, result, 0, outpotPos);
+
 		return new TitanOctetString(result);
 	}
 

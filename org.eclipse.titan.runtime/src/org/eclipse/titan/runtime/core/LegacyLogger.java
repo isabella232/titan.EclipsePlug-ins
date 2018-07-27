@@ -265,7 +265,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		boolean h_present = false, p_present = false, r_present = false, i_present = false;
 		format_c_present_ = false;
 		format_t_present_ = false;
-		StringBuilder ret_val = new StringBuilder();
+		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < filename_skeleton_.length(); i++) {
 			if (filename_skeleton_.charAt(i) != '%') {
 				if (filename_skeleton_.charAt(i) == '/' || filename_skeleton_.charAt(i) == '\\') {

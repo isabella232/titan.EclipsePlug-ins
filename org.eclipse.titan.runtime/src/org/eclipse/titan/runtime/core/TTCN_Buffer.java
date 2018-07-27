@@ -1253,7 +1253,7 @@ public class TTCN_Buffer {
 		}
 		final RAW_coding_par cp = new RAW_coding_par(raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,
 				raw_order_t.ORDER_LSB, fieldorder);
-		char[] str = s.toCharArray();
+		final char[] str = s.toCharArray();
 		int length = len;
 		while (length > 0) {
 			put_b(length > pat_len ? pat_len : length, str, cp, 0);

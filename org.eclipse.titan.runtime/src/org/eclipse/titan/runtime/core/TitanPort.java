@@ -234,7 +234,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private void set_system_parameters(final String system_port) {
-		for (Port_Parameter parameter : PORT_PARAMETERS.get()) {
+		for (final Port_Parameter parameter : PORT_PARAMETERS.get()) {
 			if (parameter.component_id.id_selector == component_id_selector_enum.COMPONENT_ID_SYSTEM && (parameter.port_name == null || parameter.port_name.equals(system_port))) {
 				set_parameter(parameter.parameter_name, parameter.parameter_value);
 			}
@@ -242,7 +242,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public static void add_parameter(final Component_Id_type component_id, final String port_name, final String parameter_name, final String parameter_value) {
-		Port_Parameter newParameter = new Port_Parameter();
+		final Port_Parameter newParameter = new Port_Parameter();
 
 		newParameter.component_id.id_selector = component_id.id_selector;
 		switch (component_id.id_selector) {
@@ -270,7 +270,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public static void set_parameters(final int component_reference, final String component_name) {
-		for (Port_Parameter parameter : PORT_PARAMETERS.get()) {
+		for (final Port_Parameter parameter : PORT_PARAMETERS.get()) {
 			switch (parameter.component_id.id_selector) {
 			case COMPONENT_ID_NAME:
 				if (component_name != null && component_name.equals(parameter.component_id.id_name)) {

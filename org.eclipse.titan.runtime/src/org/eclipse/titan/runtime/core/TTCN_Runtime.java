@@ -310,7 +310,7 @@ public final class TTCN_Runtime {
 			if (port == null) {
 				throw new TtcnError("Internal error: TTCN_Runtime.set_port_state: The port is null.");
 			} else {
-				int low_end = bySystem ? -1 : 0;
+				final int low_end = bySystem ? -1 : 0;
 				if (state < low_end || state > 4) {
 					translation_count.set(translation_count.get().intValue() - 1);
 					throw new TtcnError("The value of the first parameter in the setstate operation must be 0, 1, 2, 3 or 4.");
