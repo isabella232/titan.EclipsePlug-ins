@@ -127,5 +127,9 @@ if ( %baseTokens ) {
     print "  $_ $baseTokens{$_}\n" for ( keys %baseTokens );
 }
 
+if ( $error == 0 ) {
+    print"Ttcn3BaseLexer and Ttcn3Lexer have the same tokens, OK\n";
+}
+
 exit( $error );
 

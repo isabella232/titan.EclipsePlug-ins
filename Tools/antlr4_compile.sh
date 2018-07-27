@@ -29,6 +29,12 @@ DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 WORKSPACE_PATH=$DIR/..
 
+# Titan Runtime
+cd $WORKSPACE_PATH/org.eclipse.titan.runtime/src/org/eclipse/titan/runtime/core/cfgparser/
+$ANTLR4 RuntimeCfgLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.runtime.core.cfgparser
+$ANTLR4 RuntimeCfgParser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.runtime.core.cfgparser
+
+# Titan Common
 cd $WORKSPACE_PATH/org.eclipse.titan.common/src/org/eclipse/titan/common/parsers/cfg/
 $ANTLR4 CfgLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.common.parsers.cfg
 $ANTLR4 CfgParser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.common.parsers.cfg
@@ -43,7 +49,6 @@ $ANTLR4 Asn1Parser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.ecli
 cd $WORKSPACE_PATH/org.eclipse.titan.designer/src/org/eclipse/titan/designer/parsers/ttcn3parser/
 $ANTLR4 PreprocessorDirectiveLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 PreprocessorDirectiveParser.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
-$ANTLR4 Ttcn3BaseLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 Ttcn3Lexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 Ttcn3KeywordlessLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
 $ANTLR4 Ttcn3CharstringLexer.g4 -no-listener -no-visitor -encoding UTF-8 -package org.eclipse.titan.designer.parsers.ttcn3parser
