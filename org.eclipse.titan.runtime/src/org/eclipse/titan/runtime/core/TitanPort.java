@@ -273,7 +273,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		for (Port_Parameter parameter : PORT_PARAMETERS.get()) {
 			switch (parameter.component_id.id_selector) {
 			case COMPONENT_ID_NAME:
-				if (component_name != null && parameter.component_id.id_name.equals(component_name)) {
+				if (component_name != null && component_name.equals(parameter.component_id.id_name)) {
 					apply_parameter(parameter);
 				}
 				break;
