@@ -872,7 +872,7 @@ public class RecordOfGenerator {
 		source.append("\t\t}\n\n");
 
 		if (rawNeeded) {
-			source.append("\t\t@Override\n");
+			source.append("@Override\n");
 			source.append("\t\tpublic int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("\t\t\tint encoded_length = 0;\n");
 			source.append("\t\t\tint encoded_num_of_records = p_td.raw.fieldlength != 0 ? Math.min(valueElements.size(), p_td.raw.fieldlength): this.valueElements.size();\n");
@@ -887,14 +887,14 @@ public class RecordOfGenerator {
 			source.append("\t\t\treturn myleaf.length = encoded_length;\n");
 			source.append("\t\t}\n\n");
 
-			source.append("\t\t@Override\n");
+			source.append("@Override\n");
 			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {\n");
 			source.append("\t\t\treturn RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);\n");
 			source.append("\t\t}\n\n");
 
-			source.append("\t\t@Override\n");
+			source.append("@Override\n");
 			source.append("\t\tpublic int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
-			source.append("\t\t\tint prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+			source.append("\t\t\tfinal int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 			source.append("\t\t\tlimit -= prepaddlength;\n");
 			source.append("\t\t\tint decoded_length = 0;\n");
 			source.append("\t\t\tint decoded_field_length = 0;\n");

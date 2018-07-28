@@ -1092,7 +1092,7 @@ public class PortGenerator {
 
 				source.append("// out mapping with a built-in encoder\n");
 				source.append(target.encdecErrorBehaviour);
-				source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
+				source.append("final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
 				source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 				source.append("ttcn_buffer.get_string(mapped_par);\n");
@@ -1752,7 +1752,7 @@ public class PortGenerator {
 
 				source.append("// in mapping with a built-in encoder\n");
 				source.append(target.encdecErrorBehaviour);
-				source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
+				source.append("final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
 				source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
 				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 				source.append("ttcn_buffer.get_string(mapped_par);\n");

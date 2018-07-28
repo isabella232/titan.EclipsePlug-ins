@@ -988,7 +988,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( "TtcnLogger.end_event();\n" );
 		source.append( "}\n" );
 		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
-		source.append( "TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
+		source.append( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
 		source.append( MessageFormat.format( "{0}.encode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, 0);\n", firstParName, inputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName()) );
 
 		//FIXME implement JSON and XER specific parts
@@ -1011,7 +1011,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (outputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
-			source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
+			source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
 			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
 			source.append( MessageFormat.format("{0} = AdditionalFunctions.oct2bit(tmp_os);\n", resultName));
 		} else {
@@ -1111,12 +1111,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
 			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() && TtcnLogger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
 			source.append( "ttcn_buffer.cut();\n" );
-			source.append( MessageFormat.format( "{0} remaining_stream = new {0}();\n", inputType.getGenNameValue(aData, source, myScope)) );
+			
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
-				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
+				source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
 				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-				source.append( "remaining_stream = AdditionalFunctions.oct2bit(tmp_os);\n" );
+				source.append( MessageFormat.format( "final {0} remaining_stream = AdditionalFunctions.oct2bit(tmp_os);\n", inputType.getGenNameValue(aData, source, myScope)) );
 			} else {
+				source.append( MessageFormat.format( "final {0} remaining_stream = new {0}();\n", inputType.getGenNameValue(aData, source, myScope)) );
 				source.append( "ttcn_buffer.get_string(remaining_stream);\n" );
 			}
 

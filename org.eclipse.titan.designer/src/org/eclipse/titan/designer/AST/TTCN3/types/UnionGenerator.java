@@ -722,7 +722,7 @@ public class UnionGenerator {
 			for (int i = 0; i < tempVariableList.size(); i++) {
 				final TemporalVariable tempVariable = tempVariableList.get(i);
 				if (tempVariable.use_counter > 1) {
-					source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", tempVariable.type, i));
+					source.append(MessageFormat.format("final {0} temporal_{1} = new {0}();\n", tempVariable.type, i));
 					source.append(MessageFormat.format("int decoded_{0}_length = 0;\n", i));
 				}
 			}
@@ -748,7 +748,7 @@ public class UnionGenerator {
 
 							source.append("if (!already_failed) {\n");
 							if (tempVariable.use_counter == 1) {
-								source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", tempVariable.type, variableIndex));
+								source.append(MessageFormat.format("final {0} temporal_{1} = new {0}();\n", tempVariable.type, variableIndex));
 								source.append(MessageFormat.format("int decoded_{0}_length;\n", variableIndex));
 							}
 							if (tempVariable.decoded_for_element == -1) {
@@ -1568,7 +1568,7 @@ public class UnionGenerator {
 			for (int l = 0; l < tempField.fields.size(); l++) {
 				source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", temp_tag, l, tempField.fields.get(l).nthfield));
 			}
-			source.append(MessageFormat.format("RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
+			source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
 			source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
 			source.append("if (temp_leaf != null) {\n");
 			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));

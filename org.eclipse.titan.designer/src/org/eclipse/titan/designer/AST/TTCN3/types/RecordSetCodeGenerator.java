@@ -887,7 +887,7 @@ public class RecordSetCodeGenerator {
 								source.append(MessageFormat.format("myleaf.nodes[{0}] = null;\n", cur_choice.fields.get(0).fields.get(0).nthfield));
 								
 							} else {
-								source.append(MessageFormat.format("RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
+								source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos = new RAW_enc_tr_pos(myleaf.curr_pos.level + {0}, new int[] '{'", cur_choice.fields.get(0).fields.size()));
 								for (int ll = 0 ; ll < cur_choice.fields.get(0).fields.size(); ll++) {
 									if (ll > 0) {
 										source.append(',');
@@ -895,7 +895,7 @@ public class RecordSetCodeGenerator {
 									source.append(cur_choice.fields.get(0).fields.get(ll).nthfield);
 								}
 								source.append("});\n");
-								source.append("RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
+								source.append("final RAW_enc_tree temp_leaf = myleaf.get_node(pr_pos);\n");
 								source.append("if (temp_leaf != null) {\n");
 								source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", cur_choice.fields.get(0).expression.expression, cur_choice.fields.get(0).fields.get(cur_choice.fields.get(0).fields.size()-1).typedesc));
 								source.append("} else {\n");
@@ -938,7 +938,7 @@ public class RecordSetCodeGenerator {
 						mand_num++;
 					}
 				}
-				source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+				source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 				source.append("limit -= prepaddlength;\n");
 				source.append("int decoded_length = 0;\n");
 				source.append("int field_map[] = new int[]{");
@@ -969,7 +969,7 @@ public class RecordSetCodeGenerator {
 				source.append("}\n");
 
 				source.append("while (limit > 0) {\n");
-				source.append("int fl_start_pos = buff.get_pos_bit();\n");
+				source.append("final int fl_start_pos = buff.get_pos_bit();\n");
 				for (int i = 0 ; i < fieldInfos.size(); i++) {
 					// tagged fields
 					final FieldInfo fieldInfo = fieldInfos.get(i);
@@ -1027,7 +1027,7 @@ public class RecordSetCodeGenerator {
 								source.append("{\n");
 								source.append("temporal_top_order = top_bit_ord;\n");
 								source.append("}\n");
-								source.append(MessageFormat.format("{0} temporal_{1} = new {0}();\n", cur_field_list.fields.get(cur_field_list.fields.size() - 1).type, j));
+								source.append(MessageFormat.format("final {0} temporal_{1} = new {0}();\n", cur_field_list.fields.get(cur_field_list.fields.size() - 1).type, j));
 								source.append(MessageFormat.format("buff.set_pos_bit(fl_start_pos + {0});\n", cur_field_list.start_pos));
 								source.append(MessageFormat.format("temporal_decoded_length = temporal_{0}.RAW_decode({1}_descr_, buff, limit, temporal_top_order, true, -1, true, null);\n", j, cur_field_list.fields.get(cur_field_list.fields.size() - 1).typedesc));
 								source.append("buff.set_pos_bit(fl_start_pos);\n");
@@ -1195,7 +1195,7 @@ public class RecordSetCodeGenerator {
 				}
 				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
 			} else {
-				source.append("int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
+				source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 				source.append("limit -= prepaddlength;\n");
 				source.append("int last_decoded_pos = buff.get_pos_bit();\n");
 				source.append("int decoded_length = 0;\n");
@@ -1236,7 +1236,7 @@ public class RecordSetCodeGenerator {
 					source.append("}\n");
 				}
 				if (hasPointer.get()) {
-					source.append("int end_of_available_data = last_decoded_pos + limit;\n");
+					source.append("final int end_of_available_data = last_decoded_pos + limit;\n");
 				}
 				for (int i = 0; i < fieldInfos.size(); i++) {
 					if (raw_options.get(i).pointerof > 0) {
@@ -2879,7 +2879,7 @@ public class RecordSetCodeGenerator {
 			for (int l = 0; l < tempField.fields.size(); l++) {
 				source.append(MessageFormat.format("new_pos{0}[myleaf.curr_pos.level + {1}] = {2};\n", temp_tag, l, tempField.fields.get(l).nthfield));
 			}
-			source.append(MessageFormat.format("RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
+			source.append(MessageFormat.format("final RAW_enc_tr_pos pr_pos{0} = new RAW_enc_tr_pos(myleaf.curr_pos.level + {1}, new_pos{2});\n", temp_tag, tempField.fields.size(), temp_tag));
 			source.append(MessageFormat.format("temp_leaf = myleaf.get_node(pr_pos{0});\n", temp_tag));
 			source.append("if (temp_leaf != null) {\n");
 			source.append(MessageFormat.format("{0}.RAW_encode({1}_descr_, temp_leaf);\n", tempField.expression.expression, tempField.fields.get(tempField.fields.size() - 1).type));
@@ -3058,7 +3058,7 @@ public class RecordSetCodeGenerator {
 			source.append(MessageFormat.format("if (force_omit != null && force_omit.shouldOmit({0})) '{'\n", i));
 			source.append(MessageFormat.format("get{0}().assign(template_sel.OMIT_VALUE);\n", fieldInfo.mJavaVarName));
 			source.append("} else {\n");
-			source.append("int fl_start_pos = buff.get_pos_bit();\n");
+			source.append("final int fl_start_pos = buff.get_pos_bit();\n");
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
