@@ -109,7 +109,7 @@ public class UnionGenerator {
 		generateValueConstructors(source, genName, fieldInfos);
 		generateValueCopyValue(source, genName, displayName, fieldInfos);
 		generateValueAssign(source, genName, displayName, fieldInfos);
-		generateValueCleanup(source);
+		generateValueCleanup(source, fieldInfos);
 		generateValueIsChosen(source, displayName);
 		generateValueIsBound(source);
 		generateValueIsValue(source, fieldInfos);
@@ -148,7 +148,7 @@ public class UnionGenerator {
 		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
-		generateTemplateDeclaration(source, genName);
+		generateTemplateDeclaration(source, genName, fieldInfos);
 		generatetemplateCopyValue(aData, source, genName, displayName, fieldInfos);
 		generateTemplateConstructors(source, genName);
 		generateTemplateCleanup(source, fieldInfos);
@@ -162,7 +162,7 @@ public class UnionGenerator {
 		generateTemplateIsPresent(source);
 		generateTemplateMatchOmit(source);
 		generateTemplateGetterSetters(source, genName, displayName, fieldInfos);
-		generateTemplateLog(source);
+		generateTemplateLog(source, fieldInfos);
 		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
 		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
 
@@ -187,8 +187,10 @@ public class UnionGenerator {
 		}
 		source.append(" };\n");
 		source.append("private union_selection_type union_selection;\n");
-		source.append("//originally a union which can not be mapped to Java\n");
-		source.append("private Base_Type field;\n");
+		if (!fieldInfos.isEmpty()) {
+			source.append("//originally a union which can not be mapped to Java\n");
+			source.append("private Base_Type field;\n");
+		}
 	}
 
 	/**
@@ -265,11 +267,14 @@ public class UnionGenerator {
 	 * Generate the clean_up function
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param fieldInfos the list of information about the fields.
 	 * */
-	private static void generateValueCleanup(final StringBuilder source) {
+	private static void generateValueCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("//originally clean_up\n");
 		source.append("public void cleanUp() {\n");
-		source.append("field = null;\n");
+		if (!fieldInfos.isEmpty()) {
+			source.append("field = null;\n");
+		}
 		source.append("union_selection = union_selection_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
@@ -844,12 +849,15 @@ public class UnionGenerator {
 	 *
 	 * @param source where the source code is to be generated.
 	 * @param genName the name of the generated class representing the union/choice type.
+	 * @param fieldInfos the list of information about the fields.
 	 * */
-	private static void generateTemplateDeclaration(final StringBuilder source, final String genName) {
+	private static void generateTemplateDeclaration(final StringBuilder source, final String genName, final List<FieldInfo> fieldInfos) {
 		source.append("//if single value which value?\n");
 		source.append(MessageFormat.format("private {0}.union_selection_type single_value_union_selection;\n", genName));
-		source.append("//originally a union which can not be mapped to Java\n");
-		source.append("private Base_Template single_value;\n");
+		if (!fieldInfos.isEmpty()) {
+			source.append("//originally a union which can not be mapped to Java\n");
+			source.append("private Base_Template single_value;\n");
+		}
 		source.append("// value_list part\n");
 		source.append(MessageFormat.format("private ArrayList<{0}_template> value_list;\n\n", genName));
 	}
@@ -960,8 +968,8 @@ public class UnionGenerator {
 			source.append("default:\n");
 			source.append("break;\n");
 			source.append("}\n");
+			source.append("single_value = null;\n");
 		}
-		source.append("single_value = null;\n");
 		source.append("break;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
@@ -1325,12 +1333,15 @@ public class UnionGenerator {
 	 * Generate log
 	 *
 	 * @param source where the source code is to be generated.
+	 * @param fieldInfos the list of information about the fields.
 	 * */
-	private static void generateTemplateLog(final StringBuilder source) {
+	private static void generateTemplateLog(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("single_value.log();\n");
+		if (!fieldInfos.isEmpty()) {
+			source.append("single_value.log();\n");
+		}
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
 		source.append("TtcnLogger.log_event_str(\"complement\");\n");
@@ -1429,7 +1440,9 @@ public class UnionGenerator {
 		source.append("break;\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("text_buf.push_int(single_value_union_selection.ordinal());\n");
-		source.append("single_value.encode_text(text_buf);\n");
+		if (!fieldInfos.isEmpty()) {
+			source.append("single_value.encode_text(text_buf);\n");
+		}
 		source.append("break;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
