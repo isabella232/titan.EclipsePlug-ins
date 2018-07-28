@@ -513,7 +513,7 @@ public final class Signature_Type extends Type {
 	private boolean checkThisNamedTemplateList(final CompilationTimeStamp timestamp, final Named_Template_List template, final boolean isModified, final Assignment lhs) {
 		final Map<String, NamedTemplate> componentMap = new HashMap<String, NamedTemplate>();
 		boolean inSynch = true;
-		final int nofTypeParameters =  getNofParameters();  //TODO:  alternatives:formalParList.getNofInParameters(); formalParList.getNofOutParameters()
+		final int nofTypeParameters =  getNofParameters();
 		final int nofTemplateComponents = template.getNofTemplates();
 
 		int tI = 0;
