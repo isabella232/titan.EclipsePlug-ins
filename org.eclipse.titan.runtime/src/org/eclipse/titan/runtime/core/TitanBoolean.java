@@ -357,7 +357,8 @@ public class TitanBoolean extends Base_Type {
 		}
 	}
 
-
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		char bc[];
 		final int loc_length = p_td.raw.fieldlength != 0 ? p_td.raw.fieldlength : 1;
@@ -384,6 +385,8 @@ public class TitanBoolean extends Base_Type {
 		return myleaf.length = loc_length;
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;

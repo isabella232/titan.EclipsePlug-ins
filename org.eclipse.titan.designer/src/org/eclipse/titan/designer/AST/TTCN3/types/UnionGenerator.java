@@ -626,6 +626,7 @@ public class UnionGenerator {
 			}
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("int encoded_length = 0;\n");
 			source.append("myleaf.isleaf = false;\n");
@@ -658,6 +659,7 @@ public class UnionGenerator {
 			source.append("}\n\n");
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);\n");
 			source.append("limit -= prepaddlength;\n");

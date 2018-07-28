@@ -789,6 +789,8 @@ public class TitanBitString extends Base_Type {
 		}
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		if (!isBound()) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, "Encoding an unbound value.");
@@ -832,6 +834,8 @@ public class TitanBitString extends Base_Type {
 		return myleaf.length = bl + align_length;
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
 	}

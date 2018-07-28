@@ -370,12 +370,14 @@ public class EnumeratedGenerator {
 			}
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append(MessageFormat.format("return RAW.RAW_encode_enum_type(p_td, myleaf, enum_value.enum_num, {0});\n", min_bits));
 			source.append("}\n");
 
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("final AtomicInteger decoded_value = new AtomicInteger(0);\n");
 			source.append(MessageFormat.format("final int decoded_length = RAW.RAW_decode_enum_type(p_td, buff, limit, top_bit_ord, decoded_value, {0}, no_err);\n", min_bits));

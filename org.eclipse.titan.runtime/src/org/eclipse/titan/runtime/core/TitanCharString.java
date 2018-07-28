@@ -704,8 +704,9 @@ public class TitanCharString extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
 		}
 	}
-	
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		int bl = val_ptr.length() * 8; // bit length
 		int align_length = p_td.raw.fieldlength > 0 ? p_td.raw.fieldlength - bl : 0;
@@ -738,11 +739,15 @@ public class TitanCharString extends Base_Type {
 
 		return myleaf.length = bl + align_length;
 	}
-	
+
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
 	}
-	
+
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);
 		limit -= prepaddlength;

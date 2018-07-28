@@ -881,6 +881,8 @@ public class TitanInteger extends Base_Type {
 
 	public static final int INTX_MASKS[] = { 0 /* dummy */, 0x01, 0x03, 0x07, 0x0F, 0x1F, 0x3F, 0x7F, 0xFF };
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {
 		if (!nativeFlag) {
 			return RAW_encode_openssl(p_td, myleaf);
@@ -1144,10 +1146,14 @@ public class TitanInteger extends Base_Type {
 		return myleaf.length;
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, final int limit, final raw_order_t top_bit_ord) {
 		return RAW_decode(p_td, buff, limit, top_bit_ord, false, -1, true, null);
 	}
 
+	@Override
+	/** {@inheritDoc} */
 	public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {
 		boundFlag = false;
 		final int prepaddlength = buff.increase_pos_padd(p_td.raw.prepadding);

@@ -668,6 +668,7 @@ public class RecordSetCodeGenerator {
 			set_raw_options(isSet, fieldInfos, raw != null, raw, raw_options, hasLengthto, hasPointer, hasCrosstag, has_ext_bit);
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("if (!isBound()) {\n");
 			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
@@ -930,6 +931,7 @@ public class RecordSetCodeGenerator {
 			source.append("}\n\n");
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			if (isSet) {
 				int mand_num = 0;
@@ -2414,6 +2416,7 @@ public class RecordSetCodeGenerator {
 
 		if (rawNeeded) {
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_encode(final TTCN_Typedescriptor p_td, final RAW_enc_tree myleaf) {\n");
 			source.append("if (!isBound()) {\n");
 			source.append("TTCN_EncDec_ErrorContext.error(error_type.ET_UNBOUND, \"Encoding an unbound value.\", \"\");\n");
@@ -2422,6 +2425,7 @@ public class RecordSetCodeGenerator {
 			source.append("}\n");
 
 			source.append("@Override\n");
+			source.append("/** {@inheritDoc} */\n");
 			source.append("public int RAW_decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer buff, int limit, final raw_order_t top_bit_ord, final boolean no_err, final int sel_field, final boolean first_call, final RAW_Force_Omit force_omit) {\n");
 			source.append("bound_flag = true;");
 			source.append("return buff.increase_pos_padd(p_td.raw.prepadding) + buff.increase_pos_padd(p_td.raw.padding);\n");
