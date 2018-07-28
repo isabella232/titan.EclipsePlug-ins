@@ -60,7 +60,7 @@ public class TTCN_Module {
 	}
 
 	public boolean init_comp_type(final String component_type, final boolean init_base_comps) {
-		return false;
+		throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not have component types.", name));
 	}
 
 	public void control() {
