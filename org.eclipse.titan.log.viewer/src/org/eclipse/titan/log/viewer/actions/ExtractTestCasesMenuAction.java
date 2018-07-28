@@ -45,7 +45,7 @@ public class ExtractTestCasesMenuAction extends AbstractHandler implements IActi
 	public ExtractTestCasesMenuAction() {
 	}
 
-	public void run(final ISelection selection) {
+	private void run(final ISelection selection) {
 		if (selection == null) {
 			return;
 		}

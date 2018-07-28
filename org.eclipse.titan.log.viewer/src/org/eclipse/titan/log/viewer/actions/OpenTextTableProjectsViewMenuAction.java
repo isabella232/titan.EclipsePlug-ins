@@ -32,7 +32,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * Menu action for opening the text table view from the Projects tab in the Navigator view
  *
  */
-//TODO remove unnecessary functions after conversion
 public class OpenTextTableProjectsViewMenuAction extends AbstractHandler implements IActionDelegate, Observer {
 
 	private IStructuredSelection selection;
@@ -65,7 +64,7 @@ public class OpenTextTableProjectsViewMenuAction extends AbstractHandler impleme
 		return null;
 	}
 
-	public void run(final IStructuredSelection selection) {
+	private void run(final IStructuredSelection selection) {
 		if (selection == null) {
 			return;
 		}

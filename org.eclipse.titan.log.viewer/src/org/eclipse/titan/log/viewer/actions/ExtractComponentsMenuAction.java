@@ -41,7 +41,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * This action extracts components from a TITAN log file, and adds
  * the components to the Components Visual Order list
  */
-//TODO remove unnecessary functions after conversion
 public class ExtractComponentsMenuAction extends AbstractHandler implements IActionDelegate {
 
 	private ISelection selection;
@@ -64,7 +63,7 @@ public class ExtractComponentsMenuAction extends AbstractHandler implements IAct
 	}
 
 
-	public void run(final ISelection selection) {
+	private void run(final ISelection selection) {
 		List<String> components = null;
 		if (selection == null) {
 			return;

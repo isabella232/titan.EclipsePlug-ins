@@ -57,7 +57,6 @@ import org.eclipse.ui.handlers.HandlerUtil;
  * Menu action for opening the statistical view from the Projects tab in the Navigator view
  *
  */
-//TODO remove unnecessary functions after conversion
 public class OpenStatisticalViewMenuAction extends AbstractHandler implements IActionDelegate, Observer {
 
 	private IStructuredSelection selection;
@@ -91,7 +90,7 @@ public class OpenStatisticalViewMenuAction extends AbstractHandler implements IA
 		return null;
 	}
 
-	public void run(final IStructuredSelection selection) {
+	private void run(final IStructuredSelection selection) {
 		this.logFileMetaData = null;
 		this.logFileIsSupported = true;
 		if (this.selection == null) {
