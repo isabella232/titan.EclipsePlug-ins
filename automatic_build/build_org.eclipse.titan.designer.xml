@@ -159,6 +159,7 @@
 			<arg value="${antlr.src.dir.ttcn3}" />
 
 			<fileset dir="${antlr.src.dir}" >
+				<include name="ttcn3parser/Ttcn3BaseLexer.g4" />
 				<include name="ttcn3parser/Ttcn3Lexer.g4" />
 				<include name="ttcn3parser/Ttcn3KeywordlessLexer.g4" />
 				<include name="ttcn3parser/Ttcn3CharstringLexer.g4" />
