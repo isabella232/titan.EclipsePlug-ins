@@ -88,6 +88,9 @@ public class EnumeratedGenerator {
 		aData.addBuiltinTypeImport("TitanInteger");
 		aData.addBuiltinTypeImport( "Base_Type" );
 		aData.addBuiltinTypeImport( "Base_Template" );
+		aData.addBuiltinTypeImport("RAW");
+		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
+		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addImport( "java.text.MessageFormat" );
@@ -348,7 +351,6 @@ public class EnumeratedGenerator {
 		source.append("}\n\n");
 
 		if (rawNeeded) {
-			aData.addBuiltinTypeImport("RAW");
 			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 			aData.addImport("java.util.concurrent.atomic.AtomicInteger");
 

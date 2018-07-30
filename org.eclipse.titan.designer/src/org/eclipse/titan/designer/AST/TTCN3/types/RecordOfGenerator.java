@@ -48,10 +48,8 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("AdditionalFunctions");
 		aData.addBuiltinTypeImport("RecordOfMatch");
 		aData.addBuiltinTypeImport("TtcnLogger");
-		aData.addBuiltinTypeImport("RAW.ext_bit_t");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
-		aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
@@ -62,6 +60,10 @@ public class RecordOfGenerator {
 		}
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+		if (rawNeeded) {
+			aData.addBuiltinTypeImport("RAW.ext_bit_t");
+			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
+		}
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 

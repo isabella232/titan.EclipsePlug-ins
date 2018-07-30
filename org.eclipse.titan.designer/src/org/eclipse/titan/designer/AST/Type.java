@@ -2621,6 +2621,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		if (rawAttribute.forceOmit.lists.size() == 0) {
 			str.append(" null");
 		} else {
+			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
+
 			String force_omit_name = MessageFormat.format("{0}_raw_force_omit", genname);
 			StringBuilder force_omit_string = new StringBuilder();
 

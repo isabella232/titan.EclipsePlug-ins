@@ -122,7 +122,6 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("TtcnLogger");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
-		aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
@@ -135,6 +134,9 @@ public class RecordSetCodeGenerator {
 		}
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+		if (rawNeeded) {
+			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
+		}
 
 		if (fieldInfos.isEmpty()) {
 			generateEmptyValueClass(aData, source, className, classDisplayname, rawNeeded);

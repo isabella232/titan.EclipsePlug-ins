@@ -99,10 +99,12 @@ public class UnionGenerator {
 		aData.addBuiltinTypeImport("TTCN_EncDec.coding_type");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
-		aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
+		if (rawNeeded) {
+			aData.addBuiltinTypeImport("RAW.RAW_Force_Omit");
+		}
 
 		source.append(MessageFormat.format("public static class {0} extends Base_Type '{'\n", genName));
 		generateValueDeclaration(source, genName, fieldInfos);
