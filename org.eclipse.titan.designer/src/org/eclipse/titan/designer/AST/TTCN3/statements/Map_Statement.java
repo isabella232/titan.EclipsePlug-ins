@@ -349,7 +349,7 @@ public final class Map_Statement extends Statement {
 		if (componentReference1.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE) == null) {
 			Port_Utility.generate_code_portref(aData, expression, portReference1);
 		} else {
-			portReference1.generateCode(aData, expression);
+			portReference1.generateCode(aData, expression, getMyScope());
 			expression.expression.append(".get_name(), ");
 		}
 
@@ -358,7 +358,7 @@ public final class Map_Statement extends Statement {
 		if (componentReference2.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_DYNAMIC_VALUE) == null) {
 			Port_Utility.generate_code_portref(aData, expression, portReference2);
 		} else {
-			portReference2.generateCode(aData, expression);
+			portReference2.generateCode(aData, expression, getMyScope());
 			expression.expression.append(".get_name()");
 		}
 		if (translate) {

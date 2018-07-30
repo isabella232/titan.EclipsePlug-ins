@@ -1151,7 +1151,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	}
 
 	// originally fieldOrArrayRefs
-	private void generateCode(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate, final boolean isConst, IType type) {
+	protected void generateCode(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate, final boolean isConst, IType type) {
 		for ( int i = 1; i < subReferences.size(); i++) {
 			if (type != null) {
 				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
