@@ -1152,7 +1152,9 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		}
 		block.generateCode(aData, tempSource);
 		if (block.hasReturn(CompilationTimeStamp.getBaseTimestamp()) != ReturnStatus_type.RS_YES) {
-			getLocation().release_location_object(aData, tempSource);
+			if (block.getSize() == 0 || !block.getStatementByIndex(block.getSize() - 1).isTerminating(CompilationTimeStamp.getBaseTimestamp())) {
+				getLocation().release_location_object(aData, tempSource);
+			}
 		}
 		tempSource.append( "}\n" );
 
