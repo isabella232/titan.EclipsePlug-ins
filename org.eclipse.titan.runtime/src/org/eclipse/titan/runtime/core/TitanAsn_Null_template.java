@@ -16,7 +16,7 @@ import org.eclipse.titan.runtime.core.TitanAsn_Null.Asn_Null_Type;
  * ASN.1 NULL type template
  *
  * @author Kristof Szabados
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanAsn_Null_template extends Base_Template {
 	private ArrayList<TitanAsn_Null_template> value_list;

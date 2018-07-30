@@ -15,7 +15,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 /**
  * TTCN-3 verdict type template
  * @author Arpad Lovassy
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanVerdictType_template extends Base_Template {
 

@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * TTCN-3 default template
  *
  * @author Kristof Szabados
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  *
  */
 public class TitanDefault_template extends Base_Template {

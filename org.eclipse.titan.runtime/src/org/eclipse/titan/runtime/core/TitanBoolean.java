@@ -20,7 +20,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * TTCN-3 boolean
  * @author Arpad Lovassy
  * @author Gergo Ujhelyi
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanBoolean extends Base_Type {
 

@@ -13,7 +13,7 @@ import java.util.ArrayList;
 /**
  * TTCN-3 float template
  * @author Farkas Izabella Ingrid
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  *
  * Not yet complete rewrite
  */

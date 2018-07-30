@@ -14,7 +14,7 @@ import java.util.ArrayList;
  * TTCN-3 component template
  *
  * @author Kristof Szabados
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  */
 public class TitanComponent_template extends Base_Template {
 	public static final TitanComponent_template any_compref = new TitanComponent_template(template_sel.ANY_VALUE);

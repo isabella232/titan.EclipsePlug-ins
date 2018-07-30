@@ -18,7 +18,7 @@ import org.eclipse.titan.runtime.core.RecordOfMatch.type_of_matching;
 
 /**
  * @author Farkas Izabella Ingrid
- * @author Andrea Pálfi
+ * @author Andrea Palfi
  *
  * TODO recursive_permutation_match might not need to be here
  *
