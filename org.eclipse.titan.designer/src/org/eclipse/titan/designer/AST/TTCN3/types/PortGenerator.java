@@ -159,7 +159,7 @@ public class PortGenerator {
 		/** The name to be displayed to the user */
 		public String mDisplayName;
 
-		public ArrayList<MessageTypeMappingTarget> targets = null;
+		private ArrayList<MessageTypeMappingTarget> targets;
 
 		/**
 		 * @param messageType the string representing the value type of this message in the generated code.
@@ -170,6 +170,15 @@ public class PortGenerator {
 			mJavaTypeName = messageType;
 			mJavaTemplateName = messageTemplate;
 			mDisplayName = displayName;
+			targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>();
+		}
+
+		public void addTarget(final MessageTypeMappingTarget newTarget) {
+			this.targets.add(newTarget);
+		}
+
+		public void addTargets(final ArrayList<MessageTypeMappingTarget> newTargets) {
+			this.targets.addAll(newTargets);
 		}
 	}
 
@@ -564,8 +573,7 @@ public class PortGenerator {
 			if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
 				for (int i = 0 ; i < portDefinition.outMessages.size(); i++) {
 					final MessageMappedTypeInfo outMessage = portDefinition.outMessages.get(i);
-					final int nofTargets = outMessage.targets == null ? 0 : outMessage.targets.size();
-					for (int j = 0; j < nofTargets; j++) {
+					for (int j = 0; j < outMessage.targets.size(); j++) {
 						final MessageTypeMappingTarget target = outMessage.targets.get(j);
 						boolean found = used.contains(target.targetName);
 						if (!found) {
@@ -1216,10 +1224,10 @@ public class PortGenerator {
 		source.append("send_par.log();\n");
 		source.append("TtcnLogger.log_msgport_send(get_name(), destination_component.getComponent(), TtcnLogger.end_event_log2str());\n");
 		source.append("}\n");
-		if (portDefinition.portType != PortType.USER || (outType.targets != null && outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
+		if (portDefinition.portType != PortType.USER || (outType.targets.size() == 1 && outType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE)
 				|| (portDefinition.portType == PortType.USER && !portDefinition.legacy)) {
 			// If not in translation mode then send message as normally would.
-			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && outType.targets != null && (
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
 					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
 				source.append("if (!in_translation_mode()) {\n");
 			}
@@ -1242,7 +1250,7 @@ public class PortGenerator {
 			source.append("send_data(text_buf, destination_component);\n");
 			source.append("}\n");
 
-			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && outType.targets != null && (
+			if (portDefinition.portType == PortType.USER && !portDefinition.legacy && (
 					outType.targets.size() > 1 || (outType.targets.size() > 0 && outType.targets.get(0).mappingType != MessageMappingType_type.SIMPLE))) {
 				source.append("} else {\n");
 				generateSendMapping(aData, source, portDefinition, outType, false);
@@ -1711,7 +1719,7 @@ public class PortGenerator {
 				source.append("TTCN_Runtime.set_translation_mode(true, this);\n");
 				source.append("TTCN_Runtime.set_port_state(-1, \"by test environment.\", true);\n");
 			}
-			if (mappedType.targets != null && mappedType.targets.size() > 1) {
+			if (mappedType.targets.size() > 1) {
 				source.append("{\n");
 			}
 			switch (target.mappingType) {
@@ -1829,7 +1837,7 @@ public class PortGenerator {
 				}
 				reportError = true;
 			}
-			if (mappedType.targets != null && mappedType.targets.size() > 1) {
+			if (mappedType.targets.size() > 1) {
 				source.append("}\n");
 			}
 		}
@@ -1857,7 +1865,7 @@ public class PortGenerator {
 	 * */
 	private static void generateTypedIncommingMessageUser(final JavaGenData aData, final StringBuilder source, final int index, final MessageMappedTypeInfo mappedType, final PortDefinition portDefinition) {
 		final String typeValueName = mappedType.mJavaTypeName;
-		final boolean isSimple = (!portDefinition.legacy || (mappedType.targets != null && mappedType.targets.size() == 1)) && mappedType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE;
+		final boolean isSimple = (!portDefinition.legacy || (mappedType.targets.size() == 1)) && mappedType.targets.get(0).mappingType == MessageMappingType_type.SIMPLE;
 		String visibility;
 		if (!portDefinition.legacy) {
 			visibility = "public";
@@ -1895,14 +1903,14 @@ public class PortGenerator {
 		source.append("}\n");
 
 		if (!isSimple || !portDefinition.legacy) {
-			if (!portDefinition.legacy && !isSimple && mappedType.targets == null) {
+			if (!portDefinition.legacy && !isSimple && mappedType.targets.size() == 0) {
 				source.append("if (in_translation_mode()) {\n");
 			} else if (!portDefinition.legacy && isSimple && mappedType.targets.size() == 1) {
 				source.append("if (in_translation_mode()) {\n");
 			}
 
 			generateIncomingMapping(aData, source, portDefinition, mappedType, isSimple);
-			if (!portDefinition.legacy && !isSimple && mappedType.targets == null) {
+			if (!portDefinition.legacy && !isSimple && mappedType.targets.size() == 0) {
 				source.append("}\n");
 			} else if (!portDefinition.legacy && isSimple && mappedType.targets.size() == 1) {
 				source.append("}\n");

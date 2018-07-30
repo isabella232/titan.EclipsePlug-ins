@@ -1928,19 +1928,22 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 				if (portType == PortType_type.PT_USER && (legacy || outMappings != null)) {
 					if (legacy || outMappings.hasMappingForType(CompilationTimeStamp.getBaseTimestamp(), outType)) {
 						final TypeMapping mapping = outMappings.getMappingForType(CompilationTimeStamp.getBaseTimestamp(), outType);
-						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
+						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
 						for (int j = 0; j < mapping.getNofTargets(); j++) {
 							final AtomicBoolean hasSliding = new AtomicBoolean();
 							final PortGenerator.MessageTypeMappingTarget tempTarget = mapping.getTargetByIndex(j).fillTypeMappingTarget(aData, source, outType, myScope, hasSliding);
 
 							tempTarget.targetIndex = -1;
-							mappedType.targets.add(tempTarget);
+							targets.add(tempTarget);
 						}
+
+						mappedType.addTargets(targets);
 					} else if (!legacy){
-						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
+						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
 
 						final PortGenerator.MessageTypeMappingTarget tempTarget = new PortGenerator.MessageTypeMappingTarget(outType.getGenNameValue(aData, source, myScope), outType.getTypename());
-						mappedType.targets.add(tempTarget);
+						targets.add(tempTarget);
+						mappedType.addTargets(targets);
 					}
 				}
 
@@ -2006,12 +2009,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(typeName, templateName, displayName);
 
 						final TypeMapping mapping = inMappings.getMappingForType(CompilationTimeStamp.getBaseTimestamp(), type);
-						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
+						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(mapping.getNofTargets());
 						for (int j = 0; j < mapping.getNofTargets(); j++) {
 							final TypeMappingTarget target = mapping.getTargetByIndex(j);
 							final AtomicBoolean sliding = new AtomicBoolean();
 							final MessageTypeMappingTarget mtmTarget = target.fillTypeMappingTarget(aData, source, type, myScope, sliding);
-							mappedType.targets.add(mtmTarget);
+							targets.add(mtmTarget);
 							portDefinition.has_sliding |= sliding.get();
 
 							final Type targetType = target.getTargetType();
@@ -2027,6 +2030,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							}
 						}
 
+						mappedType.addTargets(targets);
 						portDefinition.providerInMessages.add(mappedType);
 					}
 				}
@@ -2060,13 +2064,14 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 						final String displayName = type.getTypename();
 						final MessageMappedTypeInfo mappedType = new MessageMappedTypeInfo(typeName, templateName, displayName);
 
-						mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
+						final ArrayList<PortGenerator.MessageTypeMappingTarget> targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>(1);
 						final String targetType = type.getGenNameValue(aData, source, myScope);
 						final String targetDisplayName = type.getTypename();
 						final MessageTypeMappingTarget mtmTarget = new MessageTypeMappingTarget(targetType, targetDisplayName);
 						mtmTarget.targetIndex = inMessages.getIndexByType(type);
-						mappedType.targets.add(mtmTarget);
+						targets.add(mtmTarget);
 
+						mappedType.addTargets(targets);
 						portDefinition.providerInMessages.add(mappedType);
 					}
 				}
@@ -2107,10 +2112,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 							final String targetDisplayName = sourceType.getTypename();
 
 							final MessageTypeMappingTarget newTarget = new MessageTypeMappingTarget(targetType, targetDisplayName, functionName, functionDisplayName, FunctionPrototype_Type.FAST);
-							if (mappedType.targets == null) {
-								mappedType.targets = new ArrayList<PortGenerator.MessageTypeMappingTarget>();
-							}
-							mappedType.targets.add(newTarget);
+							mappedType.addTarget(newTarget);
 							if (inMessages.hasType(CompilationTimeStamp.getBaseTimestamp(), sourceType)) {
 								newTarget.targetIndex = inMessages.getIndexByType(sourceType);
 							}
