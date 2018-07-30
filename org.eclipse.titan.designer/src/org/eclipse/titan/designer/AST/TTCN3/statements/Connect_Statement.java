@@ -223,7 +223,6 @@ public final class Connect_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		//FIXME generate code for translation
 		expression.expression.append("TTCN_Runtime.connect_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");

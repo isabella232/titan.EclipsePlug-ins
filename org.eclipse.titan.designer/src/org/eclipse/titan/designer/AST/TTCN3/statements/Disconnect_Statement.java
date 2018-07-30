@@ -216,7 +216,6 @@ public final class Disconnect_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		//FIXME generate code for translation
 		expression.expression.append("TTCN_Runtime.disconnect_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
