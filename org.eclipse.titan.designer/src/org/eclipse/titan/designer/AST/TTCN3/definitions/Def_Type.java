@@ -196,6 +196,9 @@ public final class Def_Type extends Definition {
 		T3Doc.check(this.getCommentLocation(), type.getTypetypeTtcn3().toString());
 
 		type.setGenName(getGenName());
+		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
+			((Component_Type)type).getComponentBody().setGenName(getGenName() + "_component_");
+		}
 		type.check(timestamp);
 		type.checkConstructorName(identifier.getName());
 		if ("ADDRESS".equals(identifier.getTtcnName())) {
@@ -509,7 +512,6 @@ public final class Def_Type extends Definition {
 		type.generateCode( aData, source );
 
 		if (Type_type.TYPE_COMPONENT.equals(type.getTypetype())) {
-			((Component_Type)type).getComponentBody().setGenName(genName + "_component_");
 			((Component_Type)type).getComponentBody().generateCode(aData, source);
 		}
 
