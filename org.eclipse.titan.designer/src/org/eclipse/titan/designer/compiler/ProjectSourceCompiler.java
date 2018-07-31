@@ -144,8 +144,9 @@ public class ProjectSourceCompiler {
 		for ( Module module : modules ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
 		}
-		contentBuilder.append("Runtime_Single_main.singleMain();\n");
+		contentBuilder.append("int returnValue = Runtime_Single_main.singleMain();\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
+		contentBuilder.append( "System.exit(returnValue);\n" );
 		contentBuilder.append( "}\n" );
 		contentBuilder.append( "}\n\n" );
 
@@ -209,8 +210,9 @@ public class ProjectSourceCompiler {
 		for ( Module module : modules ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
 		}
-		contentBuilder.append("Runtime_Parallel_main.parallelMain(args);\n");
+		contentBuilder.append("int returnValue = Runtime_Parallel_main.parallelMain(args);\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
+		contentBuilder.append( "System.exit(returnValue);\n" );
 		contentBuilder.append( "}\n" );
 		contentBuilder.append( "}\n\n" );
 

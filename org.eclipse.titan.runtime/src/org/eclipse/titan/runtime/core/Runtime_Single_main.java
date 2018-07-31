@@ -23,7 +23,8 @@ public final class Runtime_Single_main {
 	}
 
 	//FIXME this is much more complicated
-	public static void singleMain() {
+	public static int singleMain() {
+		int returnValue = 0;
 		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
@@ -49,5 +50,7 @@ public final class Runtime_Single_main {
 		TitanComponent.clear_component_names();
 		TtcnLogger.terminate_logger();
 		TTCN_Snapshot.terminate();
+
+		return returnValue;
 	}
 }
