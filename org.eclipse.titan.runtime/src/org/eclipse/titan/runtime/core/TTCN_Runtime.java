@@ -576,7 +576,7 @@ public final class TTCN_Runtime {
 				TTCN_Communication.process_all_messages_tc();
 			} while (executorState.get() != executorStateEnum.MTC_EXIT);
 
-
+			TtcnLogger.close_file();
 			TTCN_Communication.disconnect_mc();
 			clean_up();
 		} catch (final TtcnError error) {
