@@ -17,7 +17,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 import org.eclipse.titan.runtime.core.TitanUniversalCharString_template.Unichar_Decmatch;
 
-//TODO: Not yet complete rewrite
+//TODO: implement set_param
 /**
  * TTCN-3 charstring template
  *
@@ -854,7 +854,9 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case ANY_OR_OMIT:
 			break;
 		case STRING_PATTERN:
-			//FIXME implement for pattern
+			text_buf.push_int(pattern_value_nocase ? 1 : 0);
+			single_value.encode_text(text_buf);
+			break;
 		case SPECIFIC_VALUE:
 			single_value.encode_text(text_buf);
 			break;
@@ -894,8 +896,14 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
 			break;
-		case STRING_PATTERN:
-			//FIXME implement for pattern
+		case STRING_PATTERN:{
+			pattern_value_regexp_init = false;
+			final int temp = text_buf.pull_int().getInt();
+			pattern_value_nocase = temp == 1 ? true : false;
+			single_value = new TitanCharString();
+			single_value.decode_text(text_buf);
+			break;
+		}
 		case SPECIFIC_VALUE:
 			single_value = new TitanCharString();
 			single_value.decode_text(text_buf);
