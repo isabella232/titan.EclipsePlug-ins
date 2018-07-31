@@ -2156,7 +2156,7 @@ public final class TTCN_Runtime {
 			wait_for_state_change();
 		} else if (executorState.get() == executorStateEnum.SINGLE_TESTCASE) {
 			executorState.set(executorStateEnum.SINGLE_CONTROLPART);
-			// FIXME implement
+			// FIXME implement enable_interrupt_handler
 		}
 
 		TtcnLogger.log_testcase_finished(testcaseModuleName.get(), testcaseDefinitionName.get(), localVerdict.get(), verdictReason.get());
@@ -2415,7 +2415,7 @@ public final class TTCN_Runtime {
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
 		add_component(component_reference, PTC);
 		TitanComponent.register_component_name(component_reference, par_component_name);
-		//FIXME implement
+		//FIXME implement add_child_process
 	}
 
 	public static void process_create_ack(final int new_component) {

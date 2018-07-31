@@ -376,7 +376,7 @@ public class TTCN_Communication {
 			TTCN_Runtime.wait_terminated_processes();
 		}
 		if (check_overload && TTCN_Runtime.is_overloaded()) {
-			//FIXME implement
+			//FIXME implement check_overload
 		}
 	}
 
