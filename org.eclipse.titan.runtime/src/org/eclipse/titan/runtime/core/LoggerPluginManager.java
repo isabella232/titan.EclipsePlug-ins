@@ -327,7 +327,7 @@ public class LoggerPluginManager {
 	}
 
 	public void close_file() {
-		while (current_event != null) {
+		while (current_event.get() != null) {
 			finish_event();
 		}
 		ring_buffer_dump(true);
@@ -360,7 +360,7 @@ public class LoggerPluginManager {
 	}
 
 	public void end_event() {
-		if (current_event == null) {
+		if (current_event.get() == null) {
 			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::end_event(): not in event.");
 			return;
 		}
@@ -390,7 +390,7 @@ public class LoggerPluginManager {
 	}
 
 	public TitanCharString end_event_log2str() {
-		if (current_event == null) {
+		if (current_event.get() == null) {
 			log_unhandled_event(Severity.WARNING_UNQUALIFIED, "TTCN_Logger::end_event_log2str(): not in event.");
 			return new TitanCharString();
 		}
@@ -409,18 +409,18 @@ public class LoggerPluginManager {
 
 	public void finish_event() {
 		// There is no try-catch block to delete string targeted operations.
-		while (current_event != null && current_event.get().event_destination == event_destination_t.ED_STRING) {
+		while (current_event.get() != null && current_event.get().event_destination == event_destination_t.ED_STRING) {
 			end_event_log2str();
 		}
 
-		if (current_event != null) {
+		if (current_event.get() != null) {
 			log_event_str("<unfinished>");
 			end_event();
 		}
 	}
 
 	public void log_event_str(final String string) {
-		if (current_event != null) {
+		if (current_event.get() != null) {
 			if (current_event.get().event_destination == event_destination_t.ED_NONE) {
 				return;
 			}
@@ -435,7 +435,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_char(final char c) {
-		if (current_event != null) {
+		if (current_event.get() != null) {
 			if (current_event.get().event_destination == event_destination_t.ED_NONE || c == '\0') {
 				return;
 			}
@@ -446,7 +446,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_event_va_list(final String formatString, final Object... args) {
-		if (current_event != null) {
+		if (current_event.get() != null) {
 			if (current_event.get().event_destination == event_destination_t.ED_NONE) {
 				return;
 			}
