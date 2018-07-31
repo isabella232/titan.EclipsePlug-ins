@@ -552,6 +552,13 @@ public class TTCN_Communication {
 		send_message(text_buf);
 	}
 
+	public static void send_hc_ready() {
+		final Text_Buf text_buf = new Text_Buf();
+		text_buf.push_int(MSG_HC_READY);
+
+		send_message(text_buf);
+	}
+
 	public static void send_create_req(final String componentTypeModule, final String componentTypeName,
 			final String componentName, final String componentLocation, final boolean is_alive) {
 		final Text_Buf text_buf = new Text_Buf();

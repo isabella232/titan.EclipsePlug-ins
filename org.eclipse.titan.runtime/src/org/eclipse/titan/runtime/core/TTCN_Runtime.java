@@ -2362,7 +2362,7 @@ public final class TTCN_Runtime {
 
 		TtcnLogger.log_mtc_created(0);
 		add_component(TitanComponent.MTC_COMPREF, MTC);
-		//successful_process_creation();
+		successful_process_creation();
 
 		//FIXME implement
 	}
@@ -2415,6 +2415,7 @@ public final class TTCN_Runtime {
 		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
 		add_component(component_reference, PTC);
 		TitanComponent.register_component_name(component_reference, par_component_name);
+		successful_process_creation();
 		//FIXME implement add_child_process
 	}
 
@@ -2805,6 +2806,14 @@ public final class TTCN_Runtime {
 
 		components_by_compref.clear();
 		components_by_thread.clear();
+	}
+
+	private static void successful_process_creation() {
+		if (is_overloaded()) {
+			TTCN_Communication.send_hc_ready();
+			TTCN_Communication.disable_periodic_call();
+			executorState.set(executorStateEnum.HC_ACTIVE);
+		}
 	}
 
 	public static void wait_terminated_processes() {
