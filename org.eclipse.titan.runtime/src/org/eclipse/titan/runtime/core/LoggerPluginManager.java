@@ -371,10 +371,7 @@ public class LoggerPluginManager {
 			break;
 		case ED_FILE:
 			//FIXME implement
-			//TODO temporary solution for filtering
-			if (TtcnLogger.log_this_event(tempEventStruct.severity)) {
-				log_unhandled_event(tempEventStruct.severity, current_event.get().buffer.toString());
-			}
+			log_unhandled_event(tempEventStruct.severity, current_event.get().buffer.toString());
 			break;
 		case ED_STRING:
 			//FIXME report error
