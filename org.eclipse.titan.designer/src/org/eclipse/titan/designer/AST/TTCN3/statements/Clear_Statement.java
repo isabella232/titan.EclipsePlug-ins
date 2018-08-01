@@ -123,7 +123,7 @@ public final class Clear_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (portReference != null) {
-			source.append(MessageFormat.format("{0}.clear();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName()));
+			source.append(MessageFormat.format("{0}.get().clear();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName()));
 		} else {
 			aData.addBuiltinTypeImport("TitanPort");
 

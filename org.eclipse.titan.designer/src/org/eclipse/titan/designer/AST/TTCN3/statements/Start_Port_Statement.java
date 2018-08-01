@@ -119,7 +119,7 @@ public final class Start_Port_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (portReference != null) {
-			source.append(MessageFormat.format("{0}.start();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName()));
+			source.append(MessageFormat.format("{0}.get().start();\n", portReference.getRefdAssignment(getLastTimeChecked(), false).getGenName()));
 		} else {
 			aData.addBuiltinTypeImport("TitanPort");
 
