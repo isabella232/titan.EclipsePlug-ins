@@ -14,8 +14,6 @@ import java.util.List;
  * ASN.1 general string
  *
  * @author Kristof Szabados
- *
- * TODO this and template version might need to overwrite some functions
  */
 public class TitanGeneralString extends TitanUniversalCharString {
 	public static TitanGeneralString TTCN_ISO2022_2_GeneralString(final TitanOctetString p_os) {

@@ -14,8 +14,6 @@ import java.util.List;
  * ASN.1 graphic string
  *
  * @author Kristof Szabados
- *
- * TODO this and template version might need to overwrite some functions
  */
 public class TitanGraphicString extends TitanUniversalCharString {
 	public static TitanGraphicString TTCN_ISO2022_2_GraphicString(final TitanOctetString p_os) {

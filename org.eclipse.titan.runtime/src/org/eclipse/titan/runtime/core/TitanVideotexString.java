@@ -14,8 +14,6 @@ import java.util.List;
  * ASN.1 videotex string
  *
  * @author Kristof Szabados
- *
- * TODO this and template version might need to overwrite some functions
  */
 public class TitanVideotexString extends TitanUniversalCharString {
 	public static TitanVideotexString TTCN_ISO2022_2_VideotexString(final TitanOctetString p_os) {
