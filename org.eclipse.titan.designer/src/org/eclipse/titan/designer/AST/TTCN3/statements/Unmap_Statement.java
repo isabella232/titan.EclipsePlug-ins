@@ -329,7 +329,6 @@ public final class Unmap_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		final ExpressionStruct expression = new ExpressionStruct();
 
-		//TODO why the checks here?
 		expression.expression.append("TTCN_Runtime.unmap_port(");
 		componentReference1.generateCodeExpression(aData, expression, true);
 		expression.expression.append(", ");
