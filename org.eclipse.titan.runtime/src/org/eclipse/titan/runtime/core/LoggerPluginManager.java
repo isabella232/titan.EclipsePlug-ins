@@ -303,7 +303,7 @@ public class LoggerPluginManager {
 	public void open_file() {
 		boolean free_entry_list = false;
 		if (plugins_.isEmpty()) {
-			//FIXME: assert(this->n_plugins_ > 0)
+			//FIXME: report fatal error as this can not be.
 			return;
 		}
 		for (int i = 0; i < plugins_.size(); i++) {
