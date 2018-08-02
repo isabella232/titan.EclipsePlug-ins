@@ -35,6 +35,7 @@ import org.eclipse.core.runtime.SubMonitor;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.ltk.core.refactoring.Change;
 import org.eclipse.ltk.core.refactoring.CompositeChange;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.ILocateableNode;
@@ -146,8 +147,7 @@ public class SlicingModuleRefactoring extends SlicingRefactoring {
 			try {
 				res.accept(vis);
 			} catch (CoreException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
+				ErrorReporter.logExceptionStackTrace("Error while processing the selected resources", e);
 			}
 			selectedModules.addAll(vis.getSelectedModules());
 		}
