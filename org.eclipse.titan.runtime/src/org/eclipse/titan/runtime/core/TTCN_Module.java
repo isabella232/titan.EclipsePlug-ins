@@ -63,6 +63,10 @@ public class TTCN_Module {
 		throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not have component types.", name));
 	}
 
+	public boolean init_system_port(final String component_type, final String port_name) {
+		throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not have a system port initializer function.", name));
+	}
+
 	public void control() {
 		//FIXME report error for module not having a control part ... once configuration files will be supported.
 	}

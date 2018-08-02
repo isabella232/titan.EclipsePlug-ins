@@ -20,6 +20,7 @@ import java.util.Set;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
+import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.BridgingNamedNode;
 import org.eclipse.titan.designer.AST.FieldSubReference;
 import org.eclipse.titan.designer.AST.ILocateableNode;
@@ -948,6 +949,8 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		final StringBuilder init_comp = aData.getInitComp();
+		final StringBuilder initSystemPort = aData.getInitSystemPort();
+
 		init_comp.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
 
 		if (extendsReferences != null) {
@@ -965,8 +968,8 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 						init_comp.append(cb.getIdentifier().getDisplayName());
 						init_comp.append("\", false);\n");
 					} else {
-						init_comp.append("//TODO implement Module_List");
-						init_comp.append("Module_List::initialize_component(\"");
+						init_comp.append("//TODO implement Module_List\n");
+						init_comp.append("Module_List.initialize_component(\"");
 						init_comp.append(cb.getModuleScope().getIdentifier().getDisplayName());
 						init_comp.append("\", \"");
 						init_comp.append(cb.getIdentifier().getDisplayName());
@@ -990,6 +993,32 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		init_comp.append("return true;\n");
 		init_comp.append("} else ");
+
+		// system port initializer function
+		boolean first_port_found = false;
+		//FIXME: inherit definitions (extendsGainedDefinitions, attributeGainedDefinitions)
+		for (final Definition def : definitions ) {
+			if (def.getAssignmentType() == Assignment_type.A_PORT) {
+				if (!first_port_found) {
+					// only add a segment for this component if it has at least one port
+			        first_port_found = true;
+			        if (initSystemPort.length() > 0) {
+			        	initSystemPort.append("else ");
+			        }
+			        initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+				}
+				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
+				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
+				initSystemPort.append(".get().safe_start();\n");
+				initSystemPort.append("return true;\n");
+				initSystemPort.append("}\n");
+			}
+		}
+
+		if (first_port_found) {
+			initSystemPort.append("}\n");
+		}
+
 	}
 
 	//originally generate_code_comptype_name

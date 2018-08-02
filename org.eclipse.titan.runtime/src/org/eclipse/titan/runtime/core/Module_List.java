@@ -87,14 +87,15 @@ public final class Module_List {
 		}
 	}
 
-
+	//originally Module_List::initialize_system_port
 	static void initialize_system_port(final String module_name, final String component_type,final String port_name)
 	{
 		TTCN_Module system_module = lookup_module(module_name);
 		if (system_module == null) {
 			throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not exist.", module_name));
+		} else if (!system_module.init_system_port(component_type, port_name)) {
+			throw new TtcnError(MessageFormat.format("Internal error: Cannot find port {0} in component type {1}, or component type {2} in module {3}.", port_name, component_type, component_type, module_name));
 		}
-		//FIXME implement system_module->initialize_system_port_func
 	}
 
 	//FIXME add support for module parameters

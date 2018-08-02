@@ -401,6 +401,14 @@ public class ProjectSourceCompiler {
 			aSb.append("}\n\n");
 		}
 
+		if (aData.getInitSystemPort().length() > 0) {
+			aSb.append("public boolean init_system_port(final String component_type, final String port_name)\n");
+			aSb.append("{\n");
+			aSb.append(aData.getInitSystemPort());
+			aSb.append("return false;\n");
+			aSb.append("}\n\n");
+		}
+
 		aSb.append( "}\n" );
 	}
 
