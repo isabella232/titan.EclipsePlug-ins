@@ -35,10 +35,7 @@ import edu.uci.ics.jung.visualization.renderers.DefaultVertexLabelRenderer;
  */
 class NodeShape<V> implements Function<V, Shape> {
 	private static final int BOX_HEIGHT = 30;
-	private static final int ESTIMATED_CHARACTER_WIDTH = 8; // TODO works, but
-															// real calculations
-															// would be more
-															// robust.
+	private static final int ESTIMATED_CHARACTER_WIDTH = 8; // TODO works, but real calculations would be more robust.
 
 	private Function<V, String> labeller;
 
