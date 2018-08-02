@@ -1001,12 +1001,14 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
-			        first_port_found = true;
-			        if (initSystemPort.length() > 0) {
-			        	initSystemPort.append("else ");
-			        }
-			        initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+					first_port_found = true;
+					if (initSystemPort.length() > 0) {
+						initSystemPort.append("else ");
+					}
+
+					initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
 				}
+
 				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
 				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
 				initSystemPort.append(".get().safe_start();\n");
@@ -1014,17 +1016,19 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 				initSystemPort.append("}\n");
 			}
 		}
-		
+
 		for (final Definition def : attributeGainedDefinitions.values() ) {
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
-			        first_port_found = true;
-			        if (initSystemPort.length() > 0) {
-			        	initSystemPort.append("else ");
-			        }
-			        initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+					first_port_found = true;
+					if (initSystemPort.length() > 0) {
+						initSystemPort.append("else ");
+					}
+
+					initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
 				}
+
 				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
 				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
 				initSystemPort.append(".get().safe_start();\n");
@@ -1037,12 +1041,14 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
-			        first_port_found = true;
-			        if (initSystemPort.length() > 0) {
-			        	initSystemPort.append("else ");
-			        }
-			        initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+					first_port_found = true;
+					if (initSystemPort.length() > 0) {
+						initSystemPort.append("else ");
+					}
+
+					initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
 				}
+
 				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
 				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
 				initSystemPort.append(".get().safe_start();\n");
