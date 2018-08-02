@@ -1782,12 +1782,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else {
 			port.map(system_port, translation);
 		}
-		if (!TTCN_Runtime.is_single()) {
-			if (translation) {
-				TTCN_Communication.send_mapped(system_port, component_port, translation);
-			} else {
-				TTCN_Communication.send_mapped(component_port, system_port, translation);
+
+		if (translation) {
+			final TitanPort otherPort = lookup_by_name(component_port, false);
+			if (otherPort == null) {
+				throw new TtcnError(MessageFormat.format("Map operation refers to non-existent port {0}.", port_name));
 			}
+
+			otherPort.add_port(port);
+			port.add_port(otherPort);
 		}
 	}
 
@@ -1807,8 +1810,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else {
 			port.unmap(system_port, translation);
 		}
-		if (!TTCN_Runtime.is_single()) {
-			TTCN_Communication.send_unmapped(component_port, system_port, translation);
+
+		if (translation) {
+			final TitanPort otherPort = lookup_by_name(component_port, false);
+			if (otherPort == null) {
+				throw new TtcnError(MessageFormat.format("Unmap operation refers to non-existent port {0}.", port_name));
+			}
+
+			otherPort.remove_port(port);
+			port.remove_port(otherPort);
 		}
 	}
 
