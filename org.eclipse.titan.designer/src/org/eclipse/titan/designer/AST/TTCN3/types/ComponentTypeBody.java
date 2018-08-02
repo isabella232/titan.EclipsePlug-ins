@@ -996,8 +996,44 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 
 		// system port initializer function
 		boolean first_port_found = false;
-		//FIXME: inherit definitions (extendsGainedDefinitions, attributeGainedDefinitions)
+
 		for (final Definition def : definitions ) {
+			if (def.getAssignmentType() == Assignment_type.A_PORT) {
+				if (!first_port_found) {
+					// only add a segment for this component if it has at least one port
+			        first_port_found = true;
+			        if (initSystemPort.length() > 0) {
+			        	initSystemPort.append("else ");
+			        }
+			        initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+				}
+				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
+				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
+				initSystemPort.append(".get().safe_start();\n");
+				initSystemPort.append("return true;\n");
+				initSystemPort.append("}\n");
+			}
+		}
+		
+		for (final Definition def : attributeGainedDefinitions.values() ) {
+			if (def.getAssignmentType() == Assignment_type.A_PORT) {
+				if (!first_port_found) {
+					// only add a segment for this component if it has at least one port
+			        first_port_found = true;
+			        if (initSystemPort.length() > 0) {
+			        	initSystemPort.append("else ");
+			        }
+			        initSystemPort.append("if(\"").append(identifier.getDisplayName()).append("\".equals(component_type)) {\n");
+				}
+				initSystemPort.append("if (\"").append(def.getIdentifier().getDisplayName()).append("\".equals(port_name)) {\n");
+				initSystemPort.append(def.getGenNameFromScope(aData, source, myType.getMyScope(), ""));
+				initSystemPort.append(".get().safe_start();\n");
+				initSystemPort.append("return true;\n");
+				initSystemPort.append("}\n");
+			}
+		}
+
+		for (final Definition def : extendsGainedDefinitions.values() ) {
 			if (def.getAssignmentType() == Assignment_type.A_PORT) {
 				if (!first_port_found) {
 					// only add a segment for this component if it has at least one port
