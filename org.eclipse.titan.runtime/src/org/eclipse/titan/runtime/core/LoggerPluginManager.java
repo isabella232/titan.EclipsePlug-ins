@@ -860,7 +860,6 @@ public class LoggerPluginManager {
 	}
 
 	private void fill_common_fields(final TitanLogEvent event, final Severity severity) {
-		//FIXME implement the rest
 		final long timestamp = System.currentTimeMillis();
 		event.getTimestamp().assign(new TimestampType(new TitanInteger((int)(timestamp / 1000)), new TitanInteger((int)(timestamp % 1000))));
 
