@@ -492,7 +492,22 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	//FIXME: implement add_port, remove_port, get_provider_port
+	public void add_port(final TitanPort p) {
+		throw new TtcnError("Internal error: Calling TitanPort.add_port");
+	}
+
+	public void remove_port(final TitanPort p) {
+		throw new TtcnError("Internal error: Calling TitanPort.remove_port");
+	}
+
+	/** Returns the outer message port it is mapped to when the port works in translation mode. 
+	 * In the case of dual faced ports it returns the port object it is called on (this).
+	 * Otherwise returns null.
+	 * Emits errors when the port is mapped to more than one port or has both connections and mappings.
+	 * This function is overridden only in the class of a port with translation capability and dual faced ports. */
+	public TitanPort get_provider_port() {
+		return null;
+	}
 
 	//originally check_port_state
 	public boolean check_port_state(final String type) {
