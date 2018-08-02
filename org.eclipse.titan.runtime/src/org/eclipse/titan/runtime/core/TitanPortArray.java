@@ -133,6 +133,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		}
 	}
 
+	//originally safe_start
+	// needed by the init_system_port function
+	public void safe_start() {
+		for (int v_index = 0; v_index < array_size; v_index++) {
+			array_elements[v_index].safe_start();
+		}
+	}
+
 	public void log() {
 		TtcnLogger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {
@@ -360,7 +368,7 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 		final int ret_val = index_value - index_offset;
 		if (ret_val >= array_size) {
 			throw new TtcnError(MessageFormat.format("Index overflow when accessing an element of a port array. The index value should be between {0} and {1} instead of {2}.",
-							index_offset, index_offset + array_size - 1, index_value));
+					index_offset, index_offset + array_size - 1, index_value));
 		}
 		return ret_val;
 	}

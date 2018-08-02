@@ -44,6 +44,8 @@ public class JavaGenData {
 	/** the contents of init_comp_type */
 	private StringBuilder initComp;
 
+	private StringBuilder initSystemPort;
+
 	/** The imports with short class names */
 	private Set<String> mImports;
 
@@ -90,6 +92,7 @@ public class JavaGenData {
 		setModuleParameters = new StringBuilder();
 		startPTCFunction = new StringBuilder();
 		initComp = new StringBuilder();
+		initSystemPort = new StringBuilder();
 
 		// TreeSet keeps elements in natural order (alphabetical)
 		mImports = new TreeSet<String>();
@@ -203,6 +206,10 @@ public class JavaGenData {
 	 */
 	public StringBuilder getInitComp() {
 		return initComp;
+	}
+
+	public StringBuilder getInitSystemPort() {
+		return initSystemPort;
 	}
 
 	/**

@@ -482,6 +482,18 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
+	// activate and start a system port if it's not already started
+	// needed by the init_system_port function
+	public void safe_start()
+	{
+		if (!is_started) {
+			activate_port(true);
+			start();
+		}
+	}
+
+	//FIXME: implement add_port, remove_port, get_provider_port
+
 	//originally check_port_state
 	public boolean check_port_state(final String type) {
 		if ("Started".equals(type)) {
