@@ -968,7 +968,6 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 						init_comp.append(cb.getIdentifier().getDisplayName());
 						init_comp.append("\", false);\n");
 					} else {
-						init_comp.append("//TODO implement Module_List\n");
 						init_comp.append("Module_List.initialize_component(\"");
 						init_comp.append(cb.getModuleScope().getIdentifier().getDisplayName());
 						init_comp.append("\", \"");
