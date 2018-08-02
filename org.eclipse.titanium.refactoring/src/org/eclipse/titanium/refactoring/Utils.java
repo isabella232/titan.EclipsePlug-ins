@@ -333,16 +333,17 @@ public class Utils {
 		@Override
 		public int visit(final IVisitableNode node) {
 			prefix = prefix + "    ";
-			System.out.print(prefix + node.getClass() + "; " + node);
+			TITANDebugConsole.print(prefix + node.getClass() + "; " + node);
 			if (node instanceof ILocateableNode) {
 				final ILocateableNode ln = (ILocateableNode) node;
-				System.out.print(" loc: " + ln.getLocation().getOffset() + "-" + ln.getLocation().getEndOffset());
+				TITANDebugConsole.print(" loc: " + ln.getLocation().getOffset() + "-" + ln.getLocation().getEndOffset());
 				if (node instanceof Definition) {
 					final Definition d = (Definition) ln;
-					System.out.print(", cummloc: " + d.getCumulativeDefinitionLocation().getOffset() + "-" + d.getCumulativeDefinitionLocation().getEndOffset());
+					TITANDebugConsole.print(", cummloc: " + d.getCumulativeDefinitionLocation().getOffset() + "-" + d.getCumulativeDefinitionLocation().getEndOffset());
 				}
 			}
-			System.out.println();
+			TITANDebugConsole.println();
+
 			return V_CONTINUE;
 		}
 

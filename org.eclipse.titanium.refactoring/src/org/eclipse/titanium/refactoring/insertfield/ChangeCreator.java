@@ -40,6 +40,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Sequence_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.Sequence_Value;
+import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
@@ -258,8 +259,7 @@ class ChangeCreator {
 				if (sv.getMyGovernor() != null && sv.getMyGovernor().getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).equals(type)) {
 					locations.add(sv);
 				} else if (sv.getMyGovernor() == null && node instanceof Def_Template) {
-					//TODO debug printout
-					System.out.println("Governor NULL: "+sv.getFullName()+"   "+sv.getDefiningAssignment()+"   "+sv.toString());
+					TITANDebugConsole.println("Governor NULL: "+sv.getFullName()+"   "+sv.getDefiningAssignment()+"   "+sv.toString());
 				}
 			} else if (node instanceof TTCN3Template) {
 				final TTCN3Template tt = (TTCN3Template)node;

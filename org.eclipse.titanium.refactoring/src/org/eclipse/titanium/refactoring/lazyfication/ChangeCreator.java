@@ -31,6 +31,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
+import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.GlobalParser;
 import org.eclipse.titan.designer.parsers.ProjectSourceParser;
@@ -153,7 +154,7 @@ class ChangeCreator {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) throws CoreException {
 				for (FormalParameter fparam : fparamlist) {
-					System.out.println("reading: "+file.getName());
+					TITANDebugConsole.println("reading: "+file.getName());
 					Location typeloc = fparam.getType(CompilationTimeStamp.getBaseTimestamp()).getLocation();
 					locations_out.add(0,new Location(fparam.getLocation().getFile(), fparam.getLocation().getLine(),
 							typeloc.getOffset(), typeloc.getOffset()));

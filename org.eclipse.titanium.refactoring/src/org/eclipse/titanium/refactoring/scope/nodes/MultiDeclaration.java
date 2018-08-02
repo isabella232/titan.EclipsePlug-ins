@@ -59,7 +59,7 @@ public class MultiDeclaration {
 			ErrorReporter.logError("MultiDeclaration.addDeclarationStatement(): " +
 					"The StatementNode is already present: " + sn);
 		} else {
-			//System.out.println("MD(" + this + "), sn added: " + sn);
+			//TITANDebugConsole.println("MD(" + this + "), sn added: " + sn);
 		}
 	}
 

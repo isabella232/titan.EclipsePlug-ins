@@ -35,7 +35,7 @@ public class ExtractModuleParHeadlessRunner implements IApplication {
 			args = processArgs(cmdArguments);
 		} catch (ArgumentException e) {
 			ErrorReporter.logError(e.getMessage());
-			System.out.println(e.getMessage());
+
 			return -1;
 		}
 
@@ -46,14 +46,14 @@ public class ExtractModuleParHeadlessRunner implements IApplication {
 		final IProject sourceProj = ResourcesPlugin.getWorkspace().getRoot().getProject(sourceProjName);
 		if (sourceProj == null || !sourceProj.exists()) {
 			ErrorReporter.logError("ExtractModuleParHeadless: Source project is not exist: " + sourceProjName);
-			System.out.println("ExtractModuleParHeadless: Source project is not exist: " + sourceProjName);
+
 			return -1;
 		}
 
 		final IProject targetProj = ResourcesPlugin.getWorkspace().getRoot().getProject(targetProjName);
 		if(targetProj.exists()) {
 			ErrorReporter.logError("ExtractModuleParHeadless: Output project is already exist: " + targetProjName);
-			System.out.println("ExtractModuleParHeadless: Output project is already exist: " + targetProjName );
+
 			return -1;
 		}
 
@@ -81,11 +81,11 @@ public class ExtractModuleParHeadlessRunner implements IApplication {
 				headless.setLocation(f.toURI());
 			} catch (URISyntaxException e) {
 				ErrorReporter.logError("ExtractModuleParHeadless: Location parameter is not a valid URI.");
-				System.out.println("ExtractModuleParHeadless: Location parameter is not a valid URI. ");
+
 				return -1;
 			} catch (Exception e) {
 				ErrorReporter.logError("ExtractModuleParHeadless: " + e.getMessage());
-				System.out.println("ExtractModuleParHeadless: " + e.getMessage());
+
 				return -1;
 			}
 		}

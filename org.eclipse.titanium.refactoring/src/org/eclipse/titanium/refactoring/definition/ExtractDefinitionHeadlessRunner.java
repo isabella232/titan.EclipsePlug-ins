@@ -46,7 +46,7 @@ public class ExtractDefinitionHeadlessRunner implements IApplication {
 			args = processArgs(cmdArguments);
 		} catch (ArgumentException e) {
 			ErrorReporter.logError(e.getMessage());
-			System.out.println(e.getMessage());
+
 			return -1;
 		}
 
@@ -58,14 +58,14 @@ public class ExtractDefinitionHeadlessRunner implements IApplication {
 		final IProject sourceProj = ResourcesPlugin.getWorkspace().getRoot().getProject(sourceProjName);
 		if (sourceProj == null || !sourceProj.exists()) {
 			ErrorReporter.logError("ExtractDefinitionHeadless: Source project is not exist: " + sourceProjName);
-			System.out.println("ExtractDefinitionHeadless: Source project is not exist: " + sourceProjName);
+
 			return -1;
 		}
 
 		final IProject targetProj = ResourcesPlugin.getWorkspace().getRoot().getProject(targetProjName);
 		if(targetProj.exists()) {
 			ErrorReporter.logError("ExtractDefinitionHeadless: Output project is already exist: " + targetProjName);
-			System.out.println("ExtractDefinitionHeadless: Output project is already exist: " + targetProjName );
+
 			return -1;
 		}
 
@@ -78,20 +78,20 @@ public class ExtractDefinitionHeadlessRunner implements IApplication {
 		final Module sourceModule = parser.getModuleByName(moduleName);
 		if (sourceModule == null) {
 			ErrorReporter.logError("ExtractDefinitionHeadless: Could not find module: " + moduleName);
-			System.out.println("ExtractDefinitionHeadless: Could not find module: " + moduleName);
+
 			return -1;
 		}
 
 		final Assignment assignment = sourceModule.getAssignments().getLocalAssignmentByID(CompilationTimeStamp.getBaseTimestamp(), new Identifier(Identifier_type.ID_NAME, definitionName));
 		if (assignment == null) {
 			ErrorReporter.logError("ExtractDefinitionHeadless: Could not find definition: " + definitionName);
-			System.out.println("ExtractDefinitionHeadless: Could not find definition: " + definitionName);
+
 			return -1;
 		}
 
 		if (!(assignment instanceof Definition)) {
 			ErrorReporter.logError("ExtractDefinitionHeadless: Currently only TTCN-3 definitions can be the source definition");
-			System.out.println("ExtractDefinitionHeadless: Currently only TTCN-3 definitions can be the source definition");
+
 			return -1;
 		}
 		final Definition definition = (Definition)assignment;
@@ -120,11 +120,11 @@ public class ExtractDefinitionHeadlessRunner implements IApplication {
 				headless.setLocation(f.toURI());
 			} catch (URISyntaxException e) {
 				ErrorReporter.logError("ExtractDefinitionHeadless: Location parameter is not a valid URI.");
-				System.out.println("ExtractDefinitionHeadless: Location parameter is not a valid URI. ");
+
 				return -1;
 			} catch (Exception e) {
 				ErrorReporter.logError("ExtractDefinitionHeadless: " + e.getMessage());
-				System.out.println("ExtractDefinitionHeadless: " + e.getMessage());
+
 				return -1;
 			}
 		}
