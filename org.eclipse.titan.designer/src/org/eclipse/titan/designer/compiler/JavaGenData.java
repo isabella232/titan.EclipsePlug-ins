@@ -44,6 +44,7 @@ public class JavaGenData {
 	/** the contents of init_comp_type */
 	private StringBuilder initComp;
 
+	/** the contents of init_system_port*/
 	private StringBuilder initSystemPort;
 
 	/** The imports with short class names */
@@ -208,6 +209,9 @@ public class JavaGenData {
 		return initComp;
 	}
 
+	/**
+	 * @return the string where new init system port code is written.
+	 * */
 	public StringBuilder getInitSystemPort() {
 		return initSystemPort;
 	}
