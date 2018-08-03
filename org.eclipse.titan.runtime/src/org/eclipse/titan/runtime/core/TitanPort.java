@@ -944,12 +944,12 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	@Override
 	public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
-		//FIXME implement default
+		throw new TtcnError(MessageFormat.format("There is no Event_Handler implemented in port {0}. Event_Handler has to be implemented in the port if Install_Handler is used to specify the file descriptor and timeout events for which the port waits.", get_name()));
 	}
 
 	@Override
 	public void Handle_Timeout(final double time_since_last_call) {
-		//FIXME implement default
+		throw new TtcnError(MessageFormat.format("There is no Handle_Timeout member function implemented in port {0}. This method has to be implemented in the port if the port waits for timeouts unless the port uses Install_Handler to specify the timeout.", get_name()));
 	}
 
 	protected void user_map(final String system_port) {
