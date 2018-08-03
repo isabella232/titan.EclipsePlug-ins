@@ -53,8 +53,6 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 * limited access (file static), but `c1' is a global const reference
 	 * pointing to it.
 	 * Possible values: "const_", "modulepar_", "template_"
-	 *
-	 * TODO: check might not be needed in the Java code generator
 	 * */
 	private String genNamePrefix;
 
