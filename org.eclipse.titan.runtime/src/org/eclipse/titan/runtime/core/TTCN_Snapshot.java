@@ -12,6 +12,7 @@ import java.nio.channels.SelectableChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -55,6 +56,15 @@ public final class TTCN_Snapshot {
 			return new HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>();
 		}
 
+	};
+
+	private static ThreadLocal<ArrayList<Channel_And_Timeout_Event_Handler>> timedList = new ThreadLocal<ArrayList<Channel_And_Timeout_Event_Handler>>() {
+
+		@Override
+		protected ArrayList<Channel_And_Timeout_Event_Handler> initialValue() {
+			return new ArrayList<Event_Handler.Channel_And_Timeout_Event_Handler>();
+		}
+		
 	};
 
 	private TTCN_Snapshot() {
@@ -244,6 +254,28 @@ public final class TTCN_Snapshot {
 
 		if (TitanAlt_Status.ALT_YES == TitanTimer.testcaseTimer.timeout()) {
 			throw new TtcnError("Guard timer has expired. Execution of current test case will be interrupted.");
+		}
+	}
+
+	public static void set_timer(final Channel_And_Timeout_Event_Handler handler, final double call_interval, final boolean is_timeout, final boolean call_anyway, final boolean is_periodic) {
+		if (call_interval == 0.0) {
+			if (handler.list == timedList.get()) {
+				timedList.get().remove(handler);
+				handler.list = null;
+			}
+
+			handler.callIntervall = 0.0;
+		} else {
+			if (handler.list == null) {
+				timedList.get().add(handler);
+				handler.list = timedList.get();
+			}
+
+			handler.callIntervall = call_interval;
+			handler.last_called = timeNow();
+			handler.isTimeout = is_timeout;
+			handler.callAnyway = call_anyway;
+			handler.isPeriodic = is_periodic;
 		}
 	}
 }

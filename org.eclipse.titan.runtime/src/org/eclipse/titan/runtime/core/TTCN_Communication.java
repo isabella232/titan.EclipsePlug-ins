@@ -170,13 +170,28 @@ public class TTCN_Communication {
 
 	private static String MC_host;
 	private static int MC_port;
-	//private static Socket mc_socket;
+
 	private static ThreadLocal<SocketChannel> mc_socketchannel = new ThreadLocal<SocketChannel>() {
 		@Override
 		protected SocketChannel initialValue() {
 			return null;
 		}
 	};
+
+	private static ThreadLocal<MC_Connection> mc_connection = new ThreadLocal<TTCN_Communication.MC_Connection>() {
+		@Override
+		protected MC_Connection initialValue() {
+			return null;
+		}
+	};
+
+	private static ThreadLocal<Double> call_interval = new ThreadLocal<Double>() {
+		@Override
+		protected Double initialValue() {
+			return 0.0;
+		}
+	};
+
 	//private static DataOutputStream mc_outputstream;
 	private static ThreadLocal<Text_Buf> incoming_buf = new ThreadLocal<Text_Buf>() {
 		@Override
@@ -281,10 +296,10 @@ public class TTCN_Communication {
 			throw new TtcnError(e);
 		}
 		//FIXME implement
-		final MC_Connection mc_connection = new MC_Connection(mc_socketchannel.get(), incoming_buf.get());
+		mc_connection.set(new MC_Connection(mc_socketchannel.get(), incoming_buf.get()));
 		try {
 			mc_socketchannel.get().configureBlocking(false);
-			TTCN_Snapshot.channelMap.get().put(mc_socketchannel.get(), mc_connection);
+			TTCN_Snapshot.channelMap.get().put(mc_socketchannel.get(), mc_connection.get());
 			mc_socketchannel.get().register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 		} catch (IOException e) {
 			throw new TtcnError(e);
@@ -304,6 +319,7 @@ public class TTCN_Communication {
 
 	public static void close_mc_connection() {
 		if (is_connected.get()) {
+			call_interval.set(0.0);
 			is_connected.set(false);;
 			incoming_buf.get().reset();
 			try {
@@ -313,12 +329,27 @@ public class TTCN_Communication {
 			}
 
 			TTCN_Snapshot.channelMap.get().remove(mc_socketchannel);
-			//FIXME implement
+			TTCN_Snapshot.set_timer(mc_connection.get(), 0.0, true, true, true);
 		}
 	}
 
+	public static void enable_periodic_call() {
+		call_interval.set(1.0);
+		TTCN_Snapshot.set_timer(mc_connection.get(), call_interval.get(), true, false, true);
+	}
+
+	public static void increase_call_interval() {
+		if (call_interval.get() == null || call_interval.get() <= 0.0) {
+			throw new TtcnError("INternal error: TTCN_Communication.increase_call_interval was called when call interval is not set.");
+		}
+
+		call_interval.set(call_interval.get() * 2.0);
+		TTCN_Snapshot.set_timer(mc_connection.get(), call_interval.get(), true, false, true);
+	}
+
 	public static void disable_periodic_call() {
-		//FIXME implement
+		TTCN_Snapshot.set_timer(mc_connection.get(), 0.0, true, true, true);
+		call_interval.set(0.0);
 	}
 
 	public static void process_all_messages_hc() {

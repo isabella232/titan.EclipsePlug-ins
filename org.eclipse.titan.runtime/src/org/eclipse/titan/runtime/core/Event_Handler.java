@@ -8,6 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import java.nio.channels.SelectableChannel;
+import java.util.List;
 
 /**
  * Internal classes to help working with events.
@@ -26,6 +27,14 @@ public class Event_Handler {
 	 * Fd_And_Timeout_Event_Handler in the compiler.
 	 * */
 	static abstract class Channel_And_Timeout_Event_Handler {
+		public List<Channel_And_Timeout_Event_Handler> list;
+
+		public double callIntervall;
+		public double last_called;
+		public boolean isTimeout;
+		public boolean callAnyway;
+		public boolean isPeriodic;
+
 		//FIXME implement rest
 		public abstract void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable);
 

@@ -2816,6 +2816,13 @@ public final class TTCN_Runtime {
 		}
 	}
 
+	private static void failed_process_creation() {
+		if (executorState.get() == executorStateEnum.HC_ACTIVE) {
+			TTCN_Communication.enable_periodic_call();
+			executorState.set(executorStateEnum.HC_OVERLOADED);
+		}
+	}
+
 	public static void wait_terminated_processes() {
 		if (!is_hc()) {
 			return;

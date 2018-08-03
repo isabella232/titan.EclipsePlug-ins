@@ -361,6 +361,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 			// deactivate all event handlers
 			//FIXME implement
+			TTCN_Snapshot.set_timer(this, 0.0, true, true, true);
 			remove_from_list(system);
 			is_active = false;
 		}
@@ -926,6 +927,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				channel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_READ);
 			}
 		}
+
+		TTCN_Snapshot.set_timer(this, call_interval, true, true, true);
 	}
 
 	protected void Uninstall_Handler() throws IOException {
@@ -940,6 +943,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			channel.close();
 			TTCN_Snapshot.channelMap.get().remove(channel);
 		}
+
+		TTCN_Snapshot.set_timer(this, 0.0, true, true, true);
 	}
 
 	@Override
