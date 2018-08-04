@@ -22,7 +22,7 @@ import org.eclipse.titan.runtime.core.TitanPort.translation_port_state;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 
-/**
+/** 
  * TTCN-3 runtime class
  *
  * TODO: lots to implement
