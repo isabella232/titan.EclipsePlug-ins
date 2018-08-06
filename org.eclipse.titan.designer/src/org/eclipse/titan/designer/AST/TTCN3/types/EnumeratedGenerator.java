@@ -158,7 +158,7 @@ public class EnumeratedGenerator {
 		generateValueIsValidEnum(source, e_defs.name);
 		generateValueIntToEnum(source);
 		generateValueEnumToInt(source, e_defs.name);
-		generateValueStrToEnum(source);
+		generateValueStrToEnum(source, e_defs);
 		generateValueEnumToStr(source);
 		generateValueAsInt(source);
 		generateValueFromInt(source);
@@ -401,15 +401,30 @@ public class EnumeratedGenerator {
 		}
 	}
 
-	private static void generateValueStrToEnum(final StringBuilder source) {
-		source.append("public static enum_type str2enum(final String strPar) {\n");
-		source.append("enum_type helper;");
-		source.append("try {\n");
-		source.append("helper = enum_type.valueOf(strPar);\n");
-		source.append("} catch(IllegalArgumentException e) {\n");
-		source.append("helper = enum_type.UNBOUND_VALUE;\n");
-		source.append("}\n");
-		source.append("	return helper;\n");
+	private static void generateValueStrToEnum(final StringBuilder source, final Enum_Defs e_defs) {
+		source.append("public static enum_type str_to_enum(final String strPar) {\n");
+		for (int i = 0; i < e_defs.items.size(); i++) {
+			final Enum_field field = e_defs.items.get(i);
+
+			source.append("if (");
+			boolean first = true;
+			if (field.name != null) {
+				source.append(MessageFormat.format("\"{0}\".equals(strPar)", field.name));
+				first = false;
+			}
+			//TODO add escaped name support
+			if (field.displayName != null) {
+				if (!first) {
+					source.append(" || ");
+				}
+				source.append(MessageFormat.format("\"{0}\".equals(strPar)", field.displayName));
+			}
+			source.append(") {\n");
+			source.append(MessageFormat.format("return enum_type.{0};\n", field.name));
+			source.append("}\n");
+		}
+
+		source.append("return enum_type.UNKNOWN_VALUE;\n");
 		source.append("}\n\n");
 	}
 
