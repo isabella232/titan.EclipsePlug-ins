@@ -15,6 +15,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.AdditionalFunctions;
 import org.eclipse.titan.runtime.core.Base_Template;
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.Base_Type;
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
 import org.eclipse.titan.runtime.core.Optional;
@@ -1223,6 +1224,19 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (name.isBound()) {
+				name.set_implicit_omit();
+			}
+			if (id.isBound()) {
+				id.set_implicit_omit();
+			}
+			if (end.isBound()) {
+				end.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			name.encode_text(text_buf);
 			id.encode_text(text_buf);
@@ -2159,6 +2173,19 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_SetVerdict:
+case ALT_GetVerdict:
+case ALT_FinalVerdict:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -3210,6 +3237,37 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (is__ptc.isBound()) {
+				is__ptc.set_implicit_omit();
+			}
+			if (ptc__verdict.isBound()) {
+				ptc__verdict.set_implicit_omit();
+			}
+			if (local__verdict.isBound()) {
+				local__verdict.set_implicit_omit();
+			}
+			if (new__verdict.isBound()) {
+				new__verdict.set_implicit_omit();
+			}
+			if (verdict__reason.isBound()) {
+				verdict__reason.set_implicit_omit();
+			} else {
+				verdict__reason.assign(template_sel.OMIT_VALUE);
+			}
+			if (ptc__compref.isBound()) {
+				ptc__compref.set_implicit_omit();
+			} else {
+				ptc__compref.assign(template_sel.OMIT_VALUE);
+			}
+			if (ptc__name.isBound()) {
+				ptc__name.set_implicit_omit();
+			} else {
+				ptc__name.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			is__ptc.encode_text(text_buf);
 			ptc__verdict.encode_text(text_buf);
@@ -4260,6 +4318,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
@@ -4970,6 +5035,19 @@ if(!aOtherValue.isBound()) {
 			info.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (port__type.isBound()) {
+				port__type.set_implicit_omit();
+			}
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (info.isBound()) {
+				info.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__type.encode_text(text_buf);
@@ -5839,6 +5917,25 @@ if(!aOtherValue.isBound()) {
 			parameter.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (sys__name.isBound()) {
+				sys__name.set_implicit_omit();
+			}
+			if (parameter.isBound()) {
+				parameter.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__name.encode_text(text_buf);
@@ -7056,6 +7153,16 @@ public static class Strings_str__list extends Base_Type {
 		}
 		TtcnLogger.log_event_str(" }");
 	}
+		@Override
+		public void set_implicit_omit() {
+			if(valueElements == null) {
+				return;
+			}
+			for (int i = 0; i < valueElements.size(); i++) {
+				valueElements.get(i).set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.Strings.str_list.");
@@ -8323,6 +8430,23 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_ExecutorRuntime:
+case ALT_ExecutorConfigdata:
+case ALT_ExtcommandStart:
+case ALT_ExtcommandSuccess:
+case ALT_ExecutorComponent:
+case ALT_LogOptions:
+case ALT_ExecutorMisc:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -10269,6 +10393,29 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (newVerdict.isBound()) {
+				newVerdict.set_implicit_omit();
+			}
+			if (oldVerdict.isBound()) {
+				oldVerdict.set_implicit_omit();
+			}
+			if (localVerdict.isBound()) {
+				localVerdict.set_implicit_omit();
+			}
+			if (oldReason.isBound()) {
+				oldReason.set_implicit_omit();
+			} else {
+				oldReason.assign(template_sel.OMIT_VALUE);
+			}
+			if (newReason.isBound()) {
+				newReason.set_implicit_omit();
+			} else {
+				newReason.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			newVerdict.encode_text(text_buf);
 			oldVerdict.encode_text(text_buf);
@@ -11521,13 +11668,65 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("creating__new__ptc".equals(strPar) || "creating_new_ptc".equals(strPar) ) {
+return enum_type.creating__new__ptc;
 }
-	return helper;
+if ("function__stopped".equals(strPar) || "function_stopped".equals(strPar) ) {
+return enum_type.function__stopped;
+}
+if ("terminating__test__component__exec".equals(strPar) || "terminating_test_component_exec".equals(strPar) ) {
+return enum_type.terminating__test__component__exec;
+}
+if ("stopping__ptc".equals(strPar) || "stopping_ptc".equals(strPar) ) {
+return enum_type.stopping__ptc;
+}
+if ("stop__no__effect".equals(strPar) || "stop_no_effect".equals(strPar) ) {
+return enum_type.stop__no__effect;
+}
+if ("stopping__all__ptcs".equals(strPar) || "stopping_all_ptcs".equals(strPar) ) {
+return enum_type.stopping__all__ptcs;
+}
+if ("stop__all__no__effect".equals(strPar) || "stop_all_no_effect".equals(strPar) ) {
+return enum_type.stop__all__no__effect;
+}
+if ("killing__ptc".equals(strPar) || "killing_ptc".equals(strPar) ) {
+return enum_type.killing__ptc;
+}
+if ("kill__no__effect".equals(strPar) || "kill_no_effect".equals(strPar) ) {
+return enum_type.kill__no__effect;
+}
+if ("killing__all__ptcs".equals(strPar) || "killing_all_ptcs".equals(strPar) ) {
+return enum_type.killing__all__ptcs;
+}
+if ("kill__all__no__effect".equals(strPar) || "kill_all_no_effect".equals(strPar) ) {
+return enum_type.kill__all__no__effect;
+}
+if ("connecting__ports".equals(strPar) || "connecting_ports".equals(strPar) ) {
+return enum_type.connecting__ports;
+}
+if ("disconnecting__ports".equals(strPar) || "disconnecting_ports".equals(strPar) ) {
+return enum_type.disconnecting__ports;
+}
+if ("mapping__ports".equals(strPar) || "mapping_ports".equals(strPar) ) {
+return enum_type.mapping__ports;
+}
+if ("unmapping__ports".equals(strPar) || "unmapping_ports".equals(strPar) ) {
+return enum_type.unmapping__ports;
+}
+if ("kill__request__from__mc".equals(strPar) || "kill_request_from_mc".equals(strPar) ) {
+return enum_type.kill__request__from__mc;
+}
+if ("killing__component".equals(strPar) || "killing_component".equals(strPar) ) {
+return enum_type.killing__component;
+}
+if ("process__already__terminated".equals(strPar) || "process_already_terminated".equals(strPar) ) {
+return enum_type.process__already__terminated;
+}
+if ("compref__not__exist".equals(strPar) || "compref_not_exist".equals(strPar) ) {
+return enum_type.compref__not__exist;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -12501,13 +12700,14 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("message__".equals(strPar) || "message_".equals(strPar) ) {
+return enum_type.message__;
 }
-	return helper;
+if ("procedure__".equals(strPar) || "procedure_".equals(strPar) ) {
+return enum_type.procedure__;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -13327,6 +13527,13 @@ if(!aOtherValue.isBound()) {
 			text.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (text.isBound()) {
+				text.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			text.encode_text(text_buf);
@@ -14184,13 +14391,20 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("connect__".equals(strPar) || "connect_".equals(strPar) ) {
+return enum_type.connect__;
 }
-	return helper;
+if ("disconnect__".equals(strPar) || "disconnect_".equals(strPar) ) {
+return enum_type.disconnect__;
+}
+if ("map__".equals(strPar) || "map_".equals(strPar) ) {
+return enum_type.map__;
+}
+if ("unmap__".equals(strPar) || "unmap_".equals(strPar) ) {
+return enum_type.unmap__;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -14818,6 +15032,16 @@ if(!aOtherValue.isBound()) {
 			name.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (id.isBound()) {
+				id.set_implicit_omit();
+			}
+			if (name.isBound()) {
+				name.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			id.encode_text(text_buf);
@@ -15942,6 +16166,16 @@ public static class TitanLog_sequence__list_0_event__list extends Base_Type {
 		}
 		TtcnLogger.log_event_str(" }");
 	}
+		@Override
+		public void set_implicit_omit() {
+			if(valueElements == null) {
+				return;
+			}
+			for (int i = 0; i < valueElements.size(); i++) {
+				valueElements.get(i).set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
@@ -17489,6 +17723,33 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_ActionEvent:
+case ALT_DefaultEvent:
+case ALT_ErrorLog:
+case ALT_ExecutorEvent:
+case ALT_FunctionEvent:
+case ALT_ParallelEvent:
+case ALT_TestcaseOp:
+case ALT_PortEvent:
+case ALT_Statistics:
+case ALT_TimerEvent:
+case ALT_UserLog:
+case ALT_VerdictOp:
+case ALT_WarningLog:
+case ALT_MatchingEvent:
+case ALT_DebugLog:
+case ALT_ExecutionSummary:
+case ALT_UnhandledEvent:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -19294,6 +19555,19 @@ break;
 }
 }
 @Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_DefaultopActivate:
+case ALT_DefaultopDeactivate:
+case ALT_DefaultopExit:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
+@Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
 case ALT_DefaultopActivate:
@@ -20143,6 +20417,18 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_TestcaseStarted:
+case ALT_TestcaseFinished:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -21070,13 +21356,32 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("done__failed__wrong__return__type".equals(strPar) || "done_failed_wrong_return_type".equals(strPar) ) {
+return enum_type.done__failed__wrong__return__type;
 }
-	return helper;
+if ("done__failed__no__return".equals(strPar) || "done_failed_no_return".equals(strPar) ) {
+return enum_type.done__failed__no__return;
+}
+if ("any__component__done__successful".equals(strPar) || "any_component_done_successful".equals(strPar) ) {
+return enum_type.any__component__done__successful;
+}
+if ("any__component__done__failed".equals(strPar) || "any_component_done_failed".equals(strPar) ) {
+return enum_type.any__component__done__failed;
+}
+if ("all__component__done__successful".equals(strPar) || "all_component_done_successful".equals(strPar) ) {
+return enum_type.all__component__done__successful;
+}
+if ("any__component__killed__successful".equals(strPar) || "any_component_killed_successful".equals(strPar) ) {
+return enum_type.any__component__killed__successful;
+}
+if ("any__component__killed__failed".equals(strPar) || "any_component_killed_failed".equals(strPar) ) {
+return enum_type.any__component__killed__failed;
+}
+if ("all__component__killed__successful".equals(strPar) || "all_component_killed_successful".equals(strPar) ) {
+return enum_type.all__component__killed__successful;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -21744,6 +22049,18 @@ if(!aOtherValue.isBound()) {
 			param__.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (param__.isBound()) {
+				param__.set_implicit_omit();
+			} else {
+				param__.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -22770,6 +23087,22 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (filename.isBound()) {
+				filename.set_implicit_omit();
+			}
+			if (line.isBound()) {
+				line.set_implicit_omit();
+			}
+			if (ent__name.isBound()) {
+				ent__name.set_implicit_omit();
+			}
+			if (ent__type.isBound()) {
+				ent__type.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			filename.encode_text(text_buf);
 			line.encode_text(text_buf);
@@ -23597,6 +23930,13 @@ if(!aOtherValue.isBound()) {
 			choice.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
@@ -24464,6 +24804,23 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_ReadTimer:
+case ALT_StartTimer:
+case ALT_GuardTimer:
+case ALT_StopTimer:
+case ALT_TimeoutTimer:
+case ALT_TimeoutAnyTimer:
+case ALT_UnqualifiedTimer:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -25615,6 +25972,20 @@ break;
 }
 }
 @Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_VerdictStatistics:
+case ALT_ControlpartStart:
+case ALT_ControlpartFinish:
+case ALT_ControlpartErrors:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
+@Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
 case ALT_VerdictStatistics:
@@ -26641,6 +27012,31 @@ if(!aOtherValue.isBound()) {
 			new__size.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (remote__component.isBound()) {
+				remote__component.set_implicit_omit();
+			}
+			if (remote__port.isBound()) {
+				remote__port.set_implicit_omit();
+			}
+			if (ip__address.isBound()) {
+				ip__address.set_implicit_omit();
+			}
+			if (tcp__port.isBound()) {
+				tcp__port.set_implicit_omit();
+			}
+			if (new__size.isBound()) {
+				new__size.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -27838,6 +28234,34 @@ if(!aOtherValue.isBound()) {
 			status.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (module__.isBound()) {
+				module__.set_implicit_omit();
+			}
+			if (name.isBound()) {
+				name.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (compname.isBound()) {
+				compname.set_implicit_omit();
+			}
+			if (tc__loc.isBound()) {
+				tc__loc.set_implicit_omit();
+			}
+			if (alive__pid.isBound()) {
+				alive__pid.set_implicit_omit();
+			}
+			if (status.isBound()) {
+				status.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -29050,13 +29474,29 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("unknown".equals(strPar) || "unknown".equals(strPar) ) {
+return enum_type.unknown;
 }
-	return helper;
+if ("controlpart".equals(strPar) || "controlpart".equals(strPar) ) {
+return enum_type.controlpart;
+}
+if ("testcase__".equals(strPar) || "testcase_".equals(strPar) ) {
+return enum_type.testcase__;
+}
+if ("altstep__".equals(strPar) || "altstep_".equals(strPar) ) {
+return enum_type.altstep__;
+}
+if ("function__".equals(strPar) || "function_".equals(strPar) ) {
+return enum_type.function__;
+}
+if ("external__function".equals(strPar) || "external_function".equals(strPar) ) {
+return enum_type.external__function;
+}
+if ("template__".equals(strPar) || "template_".equals(strPar) ) {
+return enum_type.template__;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -29989,6 +30429,15 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (timer__name.isBound()) {
+				timer__name.set_implicit_omit();
+			} else {
+				timer__name.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			timer__name.encode_text(text_buf);
 		}
@@ -30670,6 +31119,13 @@ if(!aOtherValue.isBound()) {
 			choice.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
@@ -31495,13 +31951,26 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("port__not__started__and__queue__empty".equals(strPar) || "port_not_started_and_queue_empty".equals(strPar) ) {
+return enum_type.port__not__started__and__queue__empty;
 }
-	return helper;
+if ("no__incoming__types".equals(strPar) || "no_incoming_types".equals(strPar) ) {
+return enum_type.no__incoming__types;
+}
+if ("no__incoming__signatures".equals(strPar) || "no_incoming_signatures".equals(strPar) ) {
+return enum_type.no__incoming__signatures;
+}
+if ("no__outgoing__blocking__signatures".equals(strPar) || "no_outgoing_blocking_signatures".equals(strPar) ) {
+return enum_type.no__outgoing__blocking__signatures;
+}
+if ("no__outgoing__blocking__signatures__that__support__exceptions".equals(strPar) || "no_outgoing_blocking_signatures_that_support_exceptions".equals(strPar) ) {
+return enum_type.no__outgoing__blocking__signatures__that__support__exceptions;
+}
+if ("component__has__no__ports".equals(strPar) || "component_has_no_ports".equals(strPar) ) {
+return enum_type.component__has__no__ports;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -32349,13 +32818,95 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("connected__to__mc".equals(strPar) || "connected_to_mc".equals(strPar) ) {
+return enum_type.connected__to__mc;
 }
-	return helper;
+if ("disconnected__from__mc".equals(strPar) || "disconnected_from_mc".equals(strPar) ) {
+return enum_type.disconnected__from__mc;
+}
+if ("initialization__of__modules__failed".equals(strPar) || "initialization_of_modules_failed".equals(strPar) ) {
+return enum_type.initialization__of__modules__failed;
+}
+if ("exit__requested__from__mc__hc".equals(strPar) || "exit_requested_from_mc_hc".equals(strPar) ) {
+return enum_type.exit__requested__from__mc__hc;
+}
+if ("exit__requested__from__mc__mtc".equals(strPar) || "exit_requested_from_mc_mtc".equals(strPar) ) {
+return enum_type.exit__requested__from__mc__mtc;
+}
+if ("stop__was__requested__from__mc__ignored__on__idle__mtc".equals(strPar) || "stop_was_requested_from_mc_ignored_on_idle_mtc".equals(strPar) ) {
+return enum_type.stop__was__requested__from__mc__ignored__on__idle__mtc;
+}
+if ("stop__was__requested__from__mc".equals(strPar) || "stop_was_requested_from_mc".equals(strPar) ) {
+return enum_type.stop__was__requested__from__mc;
+}
+if ("stop__was__requested__from__mc__ignored__on__idle__ptc".equals(strPar) || "stop_was_requested_from_mc_ignored_on_idle_ptc".equals(strPar) ) {
+return enum_type.stop__was__requested__from__mc__ignored__on__idle__ptc;
+}
+if ("executing__testcase__in__module".equals(strPar) || "executing_testcase_in_module".equals(strPar) ) {
+return enum_type.executing__testcase__in__module;
+}
+if ("performing__error__recovery".equals(strPar) || "performing_error_recovery".equals(strPar) ) {
+return enum_type.performing__error__recovery;
+}
+if ("initializing__module".equals(strPar) || "initializing_module".equals(strPar) ) {
+return enum_type.initializing__module;
+}
+if ("initialization__of__module__finished".equals(strPar) || "initialization_of_module_finished".equals(strPar) ) {
+return enum_type.initialization__of__module__finished;
+}
+if ("stopping__current__testcase".equals(strPar) || "stopping_current_testcase".equals(strPar) ) {
+return enum_type.stopping__current__testcase;
+}
+if ("exiting".equals(strPar) || "exiting".equals(strPar) ) {
+return enum_type.exiting;
+}
+if ("host__controller__started".equals(strPar) || "host_controller_started".equals(strPar) ) {
+return enum_type.host__controller__started;
+}
+if ("host__controller__finished".equals(strPar) || "host_controller_finished".equals(strPar) ) {
+return enum_type.host__controller__finished;
+}
+if ("stopping__control__part__execution".equals(strPar) || "stopping_control_part_execution".equals(strPar) ) {
+return enum_type.stopping__control__part__execution;
+}
+if ("stopping__test__component__execution".equals(strPar) || "stopping_test_component_execution".equals(strPar) ) {
+return enum_type.stopping__test__component__execution;
+}
+if ("waiting__for__ptcs__to__finish".equals(strPar) || "waiting_for_ptcs_to_finish".equals(strPar) ) {
+return enum_type.waiting__for__ptcs__to__finish;
+}
+if ("user__paused__waiting__to__resume".equals(strPar) || "user_paused_waiting_to_resume".equals(strPar) ) {
+return enum_type.user__paused__waiting__to__resume;
+}
+if ("resuming__execution".equals(strPar) || "resuming_execution".equals(strPar) ) {
+return enum_type.resuming__execution;
+}
+if ("terminating__execution".equals(strPar) || "terminating_execution".equals(strPar) ) {
+return enum_type.terminating__execution;
+}
+if ("mtc__created".equals(strPar) || "mtc_created".equals(strPar) ) {
+return enum_type.mtc__created;
+}
+if ("overload__check".equals(strPar) || "overload_check".equals(strPar) ) {
+return enum_type.overload__check;
+}
+if ("overload__check__fail".equals(strPar) || "overload_check_fail".equals(strPar) ) {
+return enum_type.overload__check__fail;
+}
+if ("overloaded__no__more".equals(strPar) || "overloaded_no_more".equals(strPar) ) {
+return enum_type.overloaded__no__more;
+}
+if ("executor__start__single__mode".equals(strPar) || "executor_start_single_mode".equals(strPar) ) {
+return enum_type.executor__start__single__mode;
+}
+if ("executor__finish__single__mode".equals(strPar) || "executor_finish_single_mode".equals(strPar) ) {
+return enum_type.executor__finish__single__mode;
+}
+if ("fd__limits".equals(strPar) || "fd_limits".equals(strPar) ) {
+return enum_type.fd__limits;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -33123,13 +33674,29 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("sender__does__not__match__from__clause".equals(strPar) || "sender_does_not_match_from_clause".equals(strPar) ) {
+return enum_type.sender__does__not__match__from__clause;
 }
-	return helper;
+if ("sender__is__not__system".equals(strPar) || "sender_is_not_system".equals(strPar) ) {
+return enum_type.sender__is__not__system;
+}
+if ("message__does__not__match__template".equals(strPar) || "message_does_not_match_template".equals(strPar) ) {
+return enum_type.message__does__not__match__template;
+}
+if ("parameters__of__call__do__not__match__template".equals(strPar) || "parameters_of_call_do_not_match_template".equals(strPar) ) {
+return enum_type.parameters__of__call__do__not__match__template;
+}
+if ("parameters__of__reply__do__not__match__template".equals(strPar) || "parameters_of_reply_do_not_match_template".equals(strPar) ) {
+return enum_type.parameters__of__reply__do__not__match__template;
+}
+if ("exception__does__not__match__template".equals(strPar) || "exception_does_not_match_template".equals(strPar) ) {
+return enum_type.exception__does__not__match__template;
+}
+if ("not__an__exception__for__signature".equals(strPar) || "not_an_exception_for_signature".equals(strPar) ) {
+return enum_type.not__an__exception__for__signature;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -33793,6 +34360,16 @@ if(!aOtherValue.isBound()) {
 			event.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (entityId.isBound()) {
+				entityId.set_implicit_omit();
+			}
+			if (event.isBound()) {
+				event.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			entityId.encode_text(text_buf);
@@ -34709,13 +35286,26 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("receive__".equals(strPar) || "receive_".equals(strPar) ) {
+return enum_type.receive__;
 }
-	return helper;
+if ("trigger__".equals(strPar) || "trigger_".equals(strPar) ) {
+return enum_type.trigger__;
+}
+if ("getcall__".equals(strPar) || "getcall_".equals(strPar) ) {
+return enum_type.getcall__;
+}
+if ("getreply__".equals(strPar) || "getreply_".equals(strPar) ) {
+return enum_type.getreply__;
+}
+if ("catch__".equals(strPar) || "catch_".equals(strPar) ) {
+return enum_type.catch__;
+}
+if ("check__".equals(strPar) || "check_".equals(strPar) ) {
+return enum_type.check__;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -35527,6 +36117,18 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_System__:
+case ALT_Compref:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -36414,13 +37016,26 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("received__from__mc".equals(strPar) || "received_from_mc".equals(strPar) ) {
+return enum_type.received__from__mc;
 }
-	return helper;
+if ("processing__failed".equals(strPar) || "processing_failed".equals(strPar) ) {
+return enum_type.processing__failed;
+}
+if ("processing__succeeded".equals(strPar) || "processing_succeeded".equals(strPar) ) {
+return enum_type.processing__succeeded;
+}
+if ("module__has__parameters".equals(strPar) || "module_has_parameters".equals(strPar) ) {
+return enum_type.module__has__parameters;
+}
+if ("using__config__file".equals(strPar) || "using_config_file".equals(strPar) ) {
+return enum_type.using__config__file;
+}
+if ("overriding__testcase__list".equals(strPar) || "overriding_testcase_list".equals(strPar) ) {
+return enum_type.overriding__testcase__list;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -37048,6 +37663,16 @@ if(!aOtherValue.isBound()) {
 			testcase__name.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (module__name.isBound()) {
+				module__name.set_implicit_omit();
+			}
+			if (testcase__name.isBound()) {
+				testcase__name.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			module__name.encode_text(text_buf);
@@ -37850,6 +38475,19 @@ if(!aOtherValue.isBound()) {
 			intseed.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (retval.isBound()) {
+				retval.set_implicit_omit();
+			}
+			if (intseed.isBound()) {
+				intseed.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			operation.encode_text(text_buf);
@@ -38911,6 +39549,22 @@ if(!aOtherValue.isBound()) {
 			msgid.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (incoming.isBound()) {
+				incoming.set_implicit_omit();
+			}
+			if (target__type.isBound()) {
+				target__type.set_implicit_omit();
+			}
+			if (value__.isBound()) {
+				value__.set_implicit_omit();
+			}
+			if (msgid.isBound()) {
+				msgid.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			incoming.encode_text(text_buf);
@@ -40038,6 +40692,16 @@ public static class TitanLogEvent_sourceInfo__list extends Base_Type {
 		TtcnLogger.log_event_str(" }");
 	}
 		@Override
+		public void set_implicit_omit() {
+			if(valueElements == null) {
+				return;
+			}
+			for (int i = 0; i < valueElements.size(); i++) {
+				valueElements.get(i).set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			text_buf.push_int(valueElements.size());
@@ -41153,6 +41817,21 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (fromVerdict.isBound()) {
+				fromVerdict.set_implicit_omit();
+			}
+			if (toVerdict.isBound()) {
+				toVerdict.set_implicit_omit();
+			}
+			if (verdictReason.isBound()) {
+				verdictReason.set_implicit_omit();
+			} else {
+				verdictReason.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			fromVerdict.encode_text(text_buf);
 			toVerdict.encode_text(text_buf);
@@ -42244,13 +42923,17 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("started".equals(strPar) || "started".equals(strPar) ) {
+return enum_type.started;
 }
-	return helper;
+if ("stopped".equals(strPar) || "stopped".equals(strPar) ) {
+return enum_type.stopped;
+}
+if ("halted".equals(strPar) || "halted".equals(strPar) ) {
+return enum_type.halted;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -43190,13 +43873,17 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("call__op".equals(strPar) || "call_op".equals(strPar) ) {
+return enum_type.call__op;
 }
-	return helper;
+if ("exception__op".equals(strPar) || "exception_op".equals(strPar) ) {
+return enum_type.exception__op;
+}
+if ("reply__op".equals(strPar) || "reply_op".equals(strPar) ) {
+return enum_type.reply__op;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -44113,6 +44800,16 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (seconds.isBound()) {
+				seconds.set_implicit_omit();
+			}
+			if (microSeconds.isBound()) {
+				microSeconds.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			seconds.encode_text(text_buf);
 			microSeconds.encode_text(text_buf);
@@ -44878,6 +45575,19 @@ if(!aOtherValue.isBound()) {
 			info.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (state.isBound()) {
+				state.set_implicit_omit();
+			}
+			if (info.isBound()) {
+				info.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__name.encode_text(text_buf);
@@ -45916,6 +46626,28 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (check__.isBound()) {
+				check__.set_implicit_omit();
+			}
+			if (parameter.isBound()) {
+				parameter.set_implicit_omit();
+			}
+			if (msgid.isBound()) {
+				msgid.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__name.encode_text(text_buf);
 			operation.encode_text(text_buf);
@@ -46925,6 +47657,22 @@ if(!aOtherValue.isBound()) {
 			logEvent.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (timestamp.isBound()) {
+				timestamp.set_implicit_omit();
+			}
+			if (sourceInfo__list.isBound()) {
+				sourceInfo__list.set_implicit_omit();
+			}
+			if (severity.isBound()) {
+				severity.set_implicit_omit();
+			}
+			if (logEvent.isBound()) {
+				logEvent.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			timestamp.encode_text(text_buf);
@@ -47969,6 +48717,40 @@ if(!aOtherValue.isBound()) {
 			errorPercent.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (none__.isBound()) {
+				none__.set_implicit_omit();
+			}
+			if (nonePercent.isBound()) {
+				nonePercent.set_implicit_omit();
+			}
+			if (pass__.isBound()) {
+				pass__.set_implicit_omit();
+			}
+			if (passPercent.isBound()) {
+				passPercent.set_implicit_omit();
+			}
+			if (inconc__.isBound()) {
+				inconc__.set_implicit_omit();
+			}
+			if (inconcPercent.isBound()) {
+				inconcPercent.set_implicit_omit();
+			}
+			if (fail__.isBound()) {
+				fail__.set_implicit_omit();
+			}
+			if (failPercent.isBound()) {
+				failPercent.set_implicit_omit();
+			}
+			if (error__.isBound()) {
+				error__.set_implicit_omit();
+			}
+			if (errorPercent.isBound()) {
+				errorPercent.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			none__.encode_text(text_buf);
@@ -49308,6 +50090,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
@@ -49994,6 +50783,16 @@ if(!aOtherValue.isBound()) {
 			port__name.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			operation.encode_text(text_buf);
@@ -50760,6 +51559,19 @@ if(!aOtherValue.isBound()) {
 			reason.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (name.isBound()) {
+				name.set_implicit_omit();
+			}
+			if (verdict.isBound()) {
+				verdict.set_implicit_omit();
+			}
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			name.encode_text(text_buf);
@@ -51662,6 +52474,19 @@ break;
 }
 }
 @Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_ParallelPTC:
+case ALT_ParallelPTC__exit:
+case ALT_ParallelPort:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
+@Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
 case ALT_ParallelPTC:
@@ -52388,8 +53213,6 @@ return new TitanInteger(1);
 public static class anytype extends Base_Type {
 public enum union_selection_type { UNBOUND_VALUE };
 private union_selection_type union_selection;
-//originally a union which can not be mapped to Java
-private Base_Type field;
 public anytype() {
 union_selection = union_selection_type.UNBOUND_VALUE;
 };
@@ -52420,7 +53243,6 @@ throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.an
 
 //originally clean_up
 public void cleanUp() {
-field = null;
 union_selection = union_selection_type.UNBOUND_VALUE;
 }
 
@@ -52567,8 +53389,6 @@ throw new TtcnError(MessageFormat.format("Unknown coding method requested to dec
 public static class anytype_template extends Base_Template {
 //if single value which value?
 private anytype.union_selection_type single_value_union_selection;
-//originally a union which can not be mapped to Java
-private Base_Template single_value;
 // value_list part
 private ArrayList<anytype_template> value_list;
 
@@ -52616,7 +53436,6 @@ copy_template(other_value);
 public void cleanUp() {
 switch(templateSelection) {
 case SPECIFIC_VALUE:
-single_value = null;
 break;
 case VALUE_LIST:
 case COMPLEMENTED_LIST:
@@ -52831,7 +53650,6 @@ return false;
 public void log() {
 switch (templateSelection) {
 case SPECIFIC_VALUE:
-single_value.log();
 break;
 case COMPLEMENTED_LIST:
 TtcnLogger.log_event_str("complement");
@@ -52897,7 +53715,6 @@ case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:
 text_buf.push_int(single_value_union_selection.ordinal());
-single_value.encode_text(text_buf);
 break;
 case VALUE_LIST:
 case COMPLEMENTED_LIST:
@@ -53075,6 +53892,13 @@ if(!aOtherValue.isBound()) {
 			choice.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
@@ -54098,6 +54922,26 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_PortQueue:
+case ALT_PortState:
+case ALT_ProcPortSend:
+case ALT_ProcPortRecv:
+case ALT_MsgPortSend:
+case ALT_MsgPortRecv:
+case ALT_DualMapped:
+case ALT_DualDiscard:
+case ALT_SetState:
+case ALT_PortMisc:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -55360,6 +56204,19 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (parameter.isBound()) {
+				parameter.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__name.encode_text(text_buf);
 			compref.encode_text(text_buf);
@@ -56565,6 +57422,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
@@ -57611,6 +58475,25 @@ if(!aOtherValue.isBound()) {
 			info.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (port__type.isBound()) {
+				port__type.set_implicit_omit();
+			}
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (info.isBound()) {
+				info.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__type.encode_text(text_buf);
@@ -59059,6 +59942,25 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (srcCompref.isBound()) {
+				srcCompref.set_implicit_omit();
+			}
+			if (dstCompref.isBound()) {
+				dstCompref.set_implicit_omit();
+			}
+			if (srcPort.isBound()) {
+				srcPort.set_implicit_omit();
+			}
+			if (dstPort.isBound()) {
+				dstPort.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			operation.encode_text(text_buf);
 			srcCompref.encode_text(text_buf);
@@ -60049,6 +60951,22 @@ if(!aOtherValue.isBound()) {
 			return__type.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (type__.isBound()) {
+				type__.set_implicit_omit();
+			}
+			if (ptc.isBound()) {
+				ptc.set_implicit_omit();
+			}
+			if (return__type.isBound()) {
+				return__type.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -61106,6 +62024,28 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (msgid.isBound()) {
+				msgid.set_implicit_omit();
+			}
+			if (address__.isBound()) {
+				address__.set_implicit_omit();
+			}
+			if (param__.isBound()) {
+				param__.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			operation.encode_text(text_buf);
 			port__name.encode_text(text_buf);
@@ -62044,6 +62984,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
@@ -62770,6 +63717,18 @@ TtcnLogger.log_event_unbound();
 break;
 }
 }
+@Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_Info:
+case ALT_Notification:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
@@ -63829,6 +64788,16 @@ public static class StartFunction_parameter__list extends Base_Type {
 		}
 		TtcnLogger.log_event_str(" }");
 	}
+		@Override
+		public void set_implicit_omit() {
+			if(valueElements == null) {
+				return;
+			}
+			for (int i = 0; i < valueElements.size(); i++) {
+				valueElements.get(i).set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.StartFunction.parameter_list.");
@@ -65013,6 +65982,28 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (sys__name.isBound()) {
+				sys__name.set_implicit_omit();
+			}
+			if (parameter.isBound()) {
+				parameter.set_implicit_omit();
+			}
+			if (msgid.isBound()) {
+				msgid.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__name.encode_text(text_buf);
 			operation.encode_text(text_buf);
@@ -66011,6 +67002,16 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (name.isBound()) {
+				name.set_implicit_omit();
+			}
+			if (value__.isBound()) {
+				value__.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			name.encode_text(text_buf);
 			value__.encode_text(text_buf);
@@ -66728,6 +67729,13 @@ if(!aOtherValue.isBound()) {
 			choice.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
@@ -67661,13 +68669,26 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("enqueue__msg".equals(strPar) || "enqueue_msg".equals(strPar) ) {
+return enum_type.enqueue__msg;
 }
-	return helper;
+if ("enqueue__call".equals(strPar) || "enqueue_call".equals(strPar) ) {
+return enum_type.enqueue__call;
+}
+if ("enqueue__reply".equals(strPar) || "enqueue_reply".equals(strPar) ) {
+return enum_type.enqueue__reply;
+}
+if ("enqueue__exception".equals(strPar) || "enqueue_exception".equals(strPar) ) {
+return enum_type.enqueue__exception;
+}
+if ("extract__msg".equals(strPar) || "extract_msg".equals(strPar) ) {
+return enum_type.extract__msg;
+}
+if ("extract__op".equals(strPar) || "extract_op".equals(strPar) ) {
+return enum_type.extract__op;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -68439,6 +69460,25 @@ if(!aOtherValue.isBound()) {
 			any__port.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (check__.isBound()) {
+				check__.set_implicit_omit();
+			}
+			if (any__port.isBound()) {
+				any__port.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			port__name.encode_text(text_buf);
@@ -69323,6 +70363,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (str__list.isBound()) {
+				str__list.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			str__list.encode_text(text_buf);
 		}
@@ -70069,6 +71116,19 @@ if(!aOtherValue.isBound()) {
 			statuscode.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (pid.isBound()) {
+				pid.set_implicit_omit();
+			}
+			if (statuscode.isBound()) {
+				statuscode.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			compref.encode_text(text_buf);
@@ -71068,13 +72128,68 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("removing__unterminated__connection".equals(strPar) || "removing_unterminated_connection".equals(strPar) ) {
+return enum_type.removing__unterminated__connection;
 }
-	return helper;
+if ("removing__unterminated__mapping".equals(strPar) || "removing_unterminated_mapping".equals(strPar) ) {
+return enum_type.removing__unterminated__mapping;
+}
+if ("port__was__cleared".equals(strPar) || "port_was_cleared".equals(strPar) ) {
+return enum_type.port__was__cleared;
+}
+if ("local__connection__established".equals(strPar) || "local_connection_established".equals(strPar) ) {
+return enum_type.local__connection__established;
+}
+if ("local__connection__terminated".equals(strPar) || "local_connection_terminated".equals(strPar) ) {
+return enum_type.local__connection__terminated;
+}
+if ("port__is__waiting__for__connection__tcp".equals(strPar) || "port_is_waiting_for_connection_tcp".equals(strPar) ) {
+return enum_type.port__is__waiting__for__connection__tcp;
+}
+if ("port__is__waiting__for__connection__unix".equals(strPar) || "port_is_waiting_for_connection_unix".equals(strPar) ) {
+return enum_type.port__is__waiting__for__connection__unix;
+}
+if ("connection__established".equals(strPar) || "connection_established".equals(strPar) ) {
+return enum_type.connection__established;
+}
+if ("destroying__unestablished__connection".equals(strPar) || "destroying_unestablished_connection".equals(strPar) ) {
+return enum_type.destroying__unestablished__connection;
+}
+if ("terminating__connection".equals(strPar) || "terminating_connection".equals(strPar) ) {
+return enum_type.terminating__connection;
+}
+if ("sending__termination__request__failed".equals(strPar) || "sending_termination_request_failed".equals(strPar) ) {
+return enum_type.sending__termination__request__failed;
+}
+if ("termination__request__received".equals(strPar) || "termination_request_received".equals(strPar) ) {
+return enum_type.termination__request__received;
+}
+if ("acknowledging__termination__request__failed".equals(strPar) || "acknowledging_termination_request_failed".equals(strPar) ) {
+return enum_type.acknowledging__termination__request__failed;
+}
+if ("sending__would__block".equals(strPar) || "sending_would_block".equals(strPar) ) {
+return enum_type.sending__would__block;
+}
+if ("connection__accepted".equals(strPar) || "connection_accepted".equals(strPar) ) {
+return enum_type.connection__accepted;
+}
+if ("connection__reset__by__peer".equals(strPar) || "connection_reset_by_peer".equals(strPar) ) {
+return enum_type.connection__reset__by__peer;
+}
+if ("connection__closed__by__peer".equals(strPar) || "connection_closed_by_peer".equals(strPar) ) {
+return enum_type.connection__closed__by__peer;
+}
+if ("port__disconnected".equals(strPar) || "port_disconnected".equals(strPar) ) {
+return enum_type.port__disconnected;
+}
+if ("port__was__mapped__to__system".equals(strPar) || "port_was_mapped_to_system".equals(strPar) ) {
+return enum_type.port__was__mapped__to__system;
+}
+if ("port__was__unmapped__from__system".equals(strPar) || "port_was_unmapped_from_system".equals(strPar) ) {
+return enum_type.port__was__unmapped__from__system;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -71714,6 +72829,13 @@ if(!aOtherValue.isBound()) {
 			sequence__list.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (sequence__list.isBound()) {
+				sequence__list.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			sequence__list.encode_text(text_buf);
@@ -72377,6 +73499,13 @@ if(!aOtherValue.isBound()) {
 			text.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (text.isBound()) {
+				text.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			text.encode_text(text_buf);
@@ -73256,6 +74385,13 @@ if(!aOtherValue.isBound()) {
 			choice.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
@@ -74171,6 +75307,31 @@ if(!aOtherValue.isBound()) {
 			dst__port.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (alive__.isBound()) {
+				alive__.set_implicit_omit();
+			}
+			if (function__name.isBound()) {
+				function__name.set_implicit_omit();
+			}
+			if (src__compref.isBound()) {
+				src__compref.set_implicit_omit();
+			}
+			if (src__port.isBound()) {
+				src__port.set_implicit_omit();
+			}
+			if (dst__compref.isBound()) {
+				dst__compref.set_implicit_omit();
+			}
+			if (dst__port.isBound()) {
+				dst__port.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -75277,6 +76438,33 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (module__name.isBound()) {
+				module__name.set_implicit_omit();
+			} else {
+				module__name.assign(template_sel.OMIT_VALUE);
+			}
+			if (testcase__name.isBound()) {
+				testcase__name.set_implicit_omit();
+			} else {
+				testcase__name.assign(template_sel.OMIT_VALUE);
+			}
+			if (pid.isBound()) {
+				pid.set_implicit_omit();
+			} else {
+				pid.assign(template_sel.OMIT_VALUE);
+			}
+			if (fd__setsize.isBound()) {
+				fd__setsize.set_implicit_omit();
+			} else {
+				fd__setsize.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
 			module__name.encode_text(text_buf);
@@ -76344,6 +77532,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
@@ -77160,13 +78355,14 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("setting__final__verdict__of__the__test__case".equals(strPar) || "setting_final_verdict_of_the_test_case".equals(strPar) ) {
+return enum_type.setting__final__verdict__of__the__test__case;
 }
-	return helper;
+if ("no__ptcs__were__created".equals(strPar) || "no_ptcs_were_created".equals(strPar) ) {
+return enum_type.no__ptcs__were__created;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -77928,13 +79124,20 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("local__address__was__set".equals(strPar) || "local_address_was_set".equals(strPar) ) {
+return enum_type.local__address__was__set;
 }
-	return helper;
+if ("address__of__mc__was__set".equals(strPar) || "address_of_mc_was_set".equals(strPar) ) {
+return enum_type.address__of__mc__was__set;
+}
+if ("address__of__control__connection".equals(strPar) || "address_of_control_connection".equals(strPar) ) {
+return enum_type.address__of__control__connection;
+}
+if ("host__support__unix__domain__sockets".equals(strPar) || "host_support_unix_domain_sockets".equals(strPar) ) {
+return enum_type.host__support__unix__domain__sockets;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -78766,13 +79969,17 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("receive__op".equals(strPar) || "receive_op".equals(strPar) ) {
+return enum_type.receive__op;
 }
-	return helper;
+if ("check__receive__op".equals(strPar) || "check_receive_op".equals(strPar) ) {
+return enum_type.check__receive__op;
+}
+if ("trigger__op".equals(strPar) || "trigger_op".equals(strPar) ) {
+return enum_type.trigger__op;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -79680,13 +80887,23 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("v0none".equals(strPar) || "v0none".equals(strPar) ) {
+return enum_type.v0none;
 }
-	return helper;
+if ("v1pass".equals(strPar) || "v1pass".equals(strPar) ) {
+return enum_type.v1pass;
+}
+if ("v2inconc".equals(strPar) || "v2inconc".equals(strPar) ) {
+return enum_type.v2inconc;
+}
+if ("v3fail".equals(strPar) || "v3fail".equals(strPar) ) {
+return enum_type.v3fail;
+}
+if ("v4error".equals(strPar) || "v4error".equals(strPar) ) {
+return enum_type.v4error;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -80664,13 +81881,74 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("init__component__start".equals(strPar) || "init_component_start".equals(strPar) ) {
+return enum_type.init__component__start;
 }
-	return helper;
+if ("init__component__finish".equals(strPar) || "init_component_finish".equals(strPar) ) {
+return enum_type.init__component__finish;
+}
+if ("terminating__component".equals(strPar) || "terminating_component".equals(strPar) ) {
+return enum_type.terminating__component;
+}
+if ("component__shut__down".equals(strPar) || "component_shut_down".equals(strPar) ) {
+return enum_type.component__shut__down;
+}
+if ("error__idle__ptc".equals(strPar) || "error_idle_ptc".equals(strPar) ) {
+return enum_type.error__idle__ptc;
+}
+if ("ptc__created".equals(strPar) || "ptc_created".equals(strPar) ) {
+return enum_type.ptc__created;
+}
+if ("ptc__created__pid".equals(strPar) || "ptc_created_pid".equals(strPar) ) {
+return enum_type.ptc__created__pid;
+}
+if ("function__started".equals(strPar) || "function_started".equals(strPar) ) {
+return enum_type.function__started;
+}
+if ("function__stopped".equals(strPar) || "function_stopped".equals(strPar) ) {
+return enum_type.function__stopped;
+}
+if ("function__finished".equals(strPar) || "function_finished".equals(strPar) ) {
+return enum_type.function__finished;
+}
+if ("function__error".equals(strPar) || "function_error".equals(strPar) ) {
+return enum_type.function__error;
+}
+if ("ptc__done".equals(strPar) || "ptc_done".equals(strPar) ) {
+return enum_type.ptc__done;
+}
+if ("ptc__killed".equals(strPar) || "ptc_killed".equals(strPar) ) {
+return enum_type.ptc__killed;
+}
+if ("stopping__mtc".equals(strPar) || "stopping_mtc".equals(strPar) ) {
+return enum_type.stopping__mtc;
+}
+if ("ptc__stopped".equals(strPar) || "ptc_stopped".equals(strPar) ) {
+return enum_type.ptc__stopped;
+}
+if ("all__comps__stopped".equals(strPar) || "all_comps_stopped".equals(strPar) ) {
+return enum_type.all__comps__stopped;
+}
+if ("ptc__was__killed".equals(strPar) || "ptc_was_killed".equals(strPar) ) {
+return enum_type.ptc__was__killed;
+}
+if ("all__comps__killed".equals(strPar) || "all_comps_killed".equals(strPar) ) {
+return enum_type.all__comps__killed;
+}
+if ("kill__request__frm__mc".equals(strPar) || "kill_request_frm_mc".equals(strPar) ) {
+return enum_type.kill__request__frm__mc;
+}
+if ("mtc__finished".equals(strPar) || "mtc_finished".equals(strPar) ) {
+return enum_type.mtc__finished;
+}
+if ("ptc__finished".equals(strPar) || "ptc_finished".equals(strPar) ) {
+return enum_type.ptc__finished;
+}
+if ("starting__function".equals(strPar) || "starting_function".equals(strPar) ) {
+return enum_type.starting__function;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -81382,6 +82660,13 @@ if(!aOtherValue.isBound()) {
 			value__.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (value__.isBound()) {
+				value__.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			value__.encode_text(text_buf);
@@ -82165,6 +83450,19 @@ if(!aOtherValue.isBound()) {
 			parameter__list.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (function__name.isBound()) {
+				function__name.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (parameter__list.isBound()) {
+				parameter__list.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			function__name.encode_text(text_buf);
@@ -83046,6 +84344,22 @@ if(!aOtherValue.isBound()) {
 			port__.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (name.isBound()) {
+				name.set_implicit_omit();
+			}
+			if (addr.isBound()) {
+				addr.set_implicit_omit();
+			}
+			if (port__.isBound()) {
+				port__.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -84138,13 +85452,17 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("break__".equals(strPar) || "break_".equals(strPar) ) {
+return enum_type.break__;
 }
-	return helper;
+if ("finish".equals(strPar) || "finish".equals(strPar) ) {
+return enum_type.finish;
+}
+if ("repeat__".equals(strPar) || "repeat_".equals(strPar) ) {
+return enum_type.repeat__;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -84808,6 +86126,16 @@ if(!aOtherValue.isBound()) {
 			text.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (category.isBound()) {
+				category.set_implicit_omit();
+			}
+			if (text.isBound()) {
+				text.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			category.encode_text(text_buf);
@@ -85896,6 +87224,16 @@ public static class TitanLog_sequence__list extends Base_Type {
 		}
 		TtcnLogger.log_event_str(" }");
 	}
+		@Override
+		public void set_implicit_omit() {
+			if(valueElements == null) {
+				return;
+			}
+			for (int i = 0; i < valueElements.size(); i++) {
+				valueElements.get(i).set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.");
@@ -87380,6 +88718,16 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (numberOfTestcases.isBound()) {
+				numberOfTestcases.set_implicit_omit();
+			}
+			if (overallStatistics.isBound()) {
+				overallStatistics.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			numberOfTestcases.encode_text(text_buf);
 			overallStatistics.encode_text(text_buf);
@@ -88350,6 +89698,13 @@ if(!aOtherValue.isBound()) {
 			TtcnLogger.log_event_str(" }");
 		}
 		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
@@ -89048,6 +90403,13 @@ if(!aOtherValue.isBound()) {
 			choice.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
@@ -89783,6 +91145,22 @@ if(!aOtherValue.isBound()) {
 			unhandled.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (incoming.isBound()) {
+				incoming.set_implicit_omit();
+			}
+			if (target__type.isBound()) {
+				target__type.set_implicit_omit();
+			}
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (unhandled.isBound()) {
+				unhandled.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			incoming.encode_text(text_buf);
@@ -90832,6 +92210,21 @@ break;
 }
 }
 @Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_MatchingDone:
+case ALT_MatchingSuccess:
+case ALT_MatchingFailure:
+case ALT_MatchingProblem:
+case ALT_MatchingTimeout:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
+@Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
 case ALT_MatchingDone:
@@ -91840,6 +93233,18 @@ break;
 }
 }
 @Override
+public void set_implicit_omit() {
+switch (union_selection) {
+case ALT_Unqualified:
+case ALT_Random:
+field.set_implicit_omit();
+break;
+default:
+break;
+}
+}
+
+@Override
 public void encode_text(final Text_Buf text_buf) {
 switch(union_selection) {
 case ALT_Unqualified:
@@ -92718,13 +94123,14 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("read__out".equals(strPar) || "read_out".equals(strPar) ) {
+return enum_type.read__out;
 }
-	return helper;
+if ("seed".equals(strPar) || "seed".equals(strPar) ) {
+return enum_type.seed;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
@@ -93392,6 +94798,18 @@ if(!aOtherValue.isBound()) {
 			compref.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (reason.isBound()) {
+				reason.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			} else {
+				compref.assign(template_sel.OMIT_VALUE);
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			reason.encode_text(text_buf);
@@ -94225,6 +95643,16 @@ if(!aOtherValue.isBound()) {
 			event__list.log();
 			TtcnLogger.log_event_str(" }");
 		}
+		@Override
+		public void set_implicit_omit() {
+			if (entityId.isBound()) {
+				entityId.set_implicit_omit();
+			}
+			if (event__list.isBound()) {
+				event__list.set_implicit_omit();
+			}
+		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			entityId.encode_text(text_buf);
@@ -95103,13 +96531,23 @@ throw new TtcnError("The argument of function enum2int() is an "+ (enumPar.enum_
 return enumPar.enum_value.enum_num;
 }
 
-public static enum_type str2enum(final String strPar) {
-enum_type helper;try {
-helper = enum_type.valueOf(strPar);
-} catch(IllegalArgumentException e) {
-helper = enum_type.UNBOUND_VALUE;
+public static enum_type str_to_enum(final String strPar) {
+if ("mtc__started".equals(strPar) || "mtc_started".equals(strPar) ) {
+return enum_type.mtc__started;
 }
-	return helper;
+if ("mtc__finished".equals(strPar) || "mtc_finished".equals(strPar) ) {
+return enum_type.mtc__finished;
+}
+if ("ptc__started".equals(strPar) || "ptc_started".equals(strPar) ) {
+return enum_type.ptc__started;
+}
+if ("ptc__finished".equals(strPar) || "ptc_finished".equals(strPar) ) {
+return enum_type.ptc__finished;
+}
+if ("component__init__fail".equals(strPar) || "component_init_fail".equals(strPar) ) {
+return enum_type.component__init__fail;
+}
+return enum_type.UNKNOWN_VALUE;
 }
 
 public static String enum2str(final enum_type enumPar) {
