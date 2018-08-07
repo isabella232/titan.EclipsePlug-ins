@@ -444,7 +444,7 @@ public final class Template_List extends CompositeTemplate {
 			return false;
 		}
 
-		return false;
+		return templates.getNofTemplates() == 0;
 	}
 
 	@Override
@@ -454,9 +454,15 @@ public final class Template_List extends CompositeTemplate {
 			return converted.getSingleExpression(aData, castIsNeeded);
 		}
 
-		ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for template list `" + getFullName() + "''");
+		if (templates.getNofTemplates() != 0) {
+			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for template list `" + getFullName() + "''");
 
-		return new StringBuilder("FATAL_ERROR encountered");
+			return new StringBuilder("FATAL_ERROR encountered");
+		}
+
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		return new StringBuilder("TitanNull_Type.NULL_VALUE");
 	}
 
 	@Override

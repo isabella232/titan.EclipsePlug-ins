@@ -589,8 +589,25 @@ public final class Named_Template_List extends TTCN3Template {
 	@Override
 	/** {@inheritDoc} */
 	public boolean hasSingleExpression() {
-		//TODO if it has no fields and we have that in the runtime it could be
-		return false;
+		if (lengthRestriction != null || isIfpresent /* TODO:  || get_needs_conversion()*/) {
+			return false;
+		}
+
+		return namedTemplates.getNofTemplates() == 0;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
+		if (namedTemplates.getNofTemplates() != 0) {
+			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for named template list `" + getFullName() + "''");
+
+			return new StringBuilder("FATAL_ERROR encountered");
+		}
+
+		aData.addBuiltinTypeImport("TitanNull_Type");
+
+		return new StringBuilder("TitanNull_Type.NULL_VALUE");
 	}
 
 	@Override

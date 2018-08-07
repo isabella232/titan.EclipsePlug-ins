@@ -541,11 +541,15 @@ public final class Def_Var_Template extends Definition {
 			arrayType.generateCodeTemplate(aData, sb);
 		}
 
-		source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
-		if ( initialValue != null ) {
-			initialValue.generateCodeInit( aData, source, genName );
-			if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
-				TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+		if (initialValue != null && initialValue.hasSingleExpression()) {
+			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.getSingleExpression(aData, false)));
+		} else {
+			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			if ( initialValue != null ) {
+				initialValue.generateCodeInit( aData, source, genName );
+				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {
+					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
+				}
 			}
 		}
 	}
