@@ -187,7 +187,7 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 		return false;
 	}
 
-	private void copy_value(final TitanValueArray<Tvalue> otherValue) {
+	protected void copy_value(final TitanValueArray<Tvalue> otherValue) {
 		array_size = otherValue.array_size;
 		indexOffset = otherValue.indexOffset;
 		singleSize = otherValue.array_size;
