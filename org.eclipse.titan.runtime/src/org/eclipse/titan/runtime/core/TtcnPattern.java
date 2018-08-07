@@ -304,6 +304,12 @@ public class TtcnPattern {
 			//NOTE: it does nothing in pattern_p.y
 			javaPattern.append("\\b");
 			break;
+		case 'f':
+			javaPattern.append("\\f");
+			break;
+		case '\'':
+			javaPattern.append("\\\'");
+			break;
 		case '"':
 			javaPattern.append("\\\"");
 			break;
