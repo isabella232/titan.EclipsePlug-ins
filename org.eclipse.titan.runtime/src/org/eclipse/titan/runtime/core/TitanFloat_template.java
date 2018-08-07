@@ -57,6 +57,20 @@ public class TitanFloat_template extends Base_Template {
 		single_value = new TitanFloat(otherValue);
 	}
 
+	public TitanFloat_template(final Optional<TitanFloat> otherValue) {
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanFloat(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a float template from an unbound optional field.");
+		}
+	}
+
 	public TitanFloat_template(final TitanFloat_template otherValue) {
 		copyTemplate(otherValue);
 	}

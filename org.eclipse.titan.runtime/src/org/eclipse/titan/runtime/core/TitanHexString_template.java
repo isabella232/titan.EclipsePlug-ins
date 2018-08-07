@@ -57,6 +57,20 @@ public class TitanHexString_template extends Restricted_Length_Template {
 		single_value = new TitanHexString(otherValue);
 	}
 
+	public TitanHexString_template(final Optional<TitanHexString> otherValue) {
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanHexString(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a hexstring template from an unbound optional field.");
+		}
+	}
+
 	public TitanHexString_template(final TitanHexString_template otherValue) {
 		copyTemplate(otherValue);
 	}

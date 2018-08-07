@@ -49,6 +49,20 @@ public class TitanComponent_template extends Base_Template {
 		single_value = otherValue.componentValue;
 	}
 
+	public TitanComponent_template(final Optional<TitanComponent> otherValue) {
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			single_value = otherValue.constGet().componentValue;
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a component reference template from an unbound optional field.");
+		}
+	}
+
 	public TitanComponent_template(final TitanComponent_template otherValue) {
 		copyTemplate(otherValue);
 	}

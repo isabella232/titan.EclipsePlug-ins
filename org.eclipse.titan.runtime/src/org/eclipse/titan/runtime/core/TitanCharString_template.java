@@ -71,6 +71,20 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		single_value = new TitanCharString(otherValue);
 	}
 
+	public TitanCharString_template(final Optional<TitanCharString> otherValue) {
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanCharString(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a charstring template from an unbound optional field.");
+		}
+	}
+
 	public TitanCharString_template(final TitanCharString_template otherValue) {
 		copyTemplate(otherValue);
 	}

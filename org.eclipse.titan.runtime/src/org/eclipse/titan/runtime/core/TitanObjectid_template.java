@@ -40,6 +40,20 @@ public class TitanObjectid_template extends Base_Template {
 		single_value = new TitanObjectid(otherValue);
 	}
 
+	public TitanObjectid_template(final Optional<TitanObjectid> otherValue) {
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanObjectid(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a objid template from an unbound optional field.");
+		}
+	}
+
 	public TitanObjectid_template(final TitanObjectid_template otherValue) {
 
 		copyTemplate(otherValue);

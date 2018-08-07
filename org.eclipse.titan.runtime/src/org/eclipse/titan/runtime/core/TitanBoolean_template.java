@@ -46,6 +46,20 @@ public class TitanBoolean_template extends Base_Template {
 		single_value = new TitanBoolean(otherValue);
 	}
 
+	public TitanBoolean_template(final Optional<TitanBoolean> otherValue) {
+		switch (otherValue.get_selection()) {
+		case OPTIONAL_PRESENT:
+			set_selection(template_sel.SPECIFIC_VALUE);
+			single_value = new TitanBoolean(otherValue.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		case OPTIONAL_UNBOUND:
+			throw new TtcnError("Creating a boolean template from an unbound optional field.");
+		}
+	}
+
 	public TitanBoolean_template(final TitanBoolean_template otherValue) {
 		copyTemplate(otherValue);
 	}
