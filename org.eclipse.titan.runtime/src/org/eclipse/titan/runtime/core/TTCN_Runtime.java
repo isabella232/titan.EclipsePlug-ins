@@ -36,10 +36,10 @@ import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
 public final class TTCN_Runtime {
 	public static final int TTCN3_MAJOR = 6;
 	public static final int TTCN3_MINOR = 4;
-	public static final int TTCN3_PATCHLEVEL = 0;
+	public static final int TTCN3_PATCHLEVEL = 1;
 	public static final int TTCN3_BUILDNUMBER = 0;
 
-	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R4A";
+	public static final String PRODUCT_NUMBER = "CRL 113 200/6 R4B";
 
 	public enum executorStateEnum {
 		UNDEFINED_STATE,
