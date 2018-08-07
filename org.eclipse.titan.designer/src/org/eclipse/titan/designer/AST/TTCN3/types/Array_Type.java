@@ -1166,10 +1166,27 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final ArrayDimension dim = getDimension();
 
 		aData.addBuiltinTypeImport("TitanTemplateArray");
+		aData.addBuiltinTypeImport("Base_Template.template_sel");
+		aData.addBuiltinTypeImport("Optional");
 
 		source.append(MessageFormat.format("public static class {0} extends TitanTemplateArray<{1}, {2}> '{'\n", classTemplateName, ofValueType, ofTemplateType));
 		source.append(MessageFormat.format("public {0}() '{'\n", classTemplateName));
 		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
+		source.append("}\n");
+
+		source.append(MessageFormat.format("public {0}(final Optional<{1}> otherValue) '{'\n", classTemplateName, className));
+		source.append(MessageFormat.format("super({0}.class, {1}.class, {2}, {3});\n", ofValueType, ofTemplateType, dim.getSize(), dim.getOffset()));
+		source.append("switch (otherValue.get_selection()) {\n");
+		source.append("case OPTIONAL_PRESENT:\n");
+		source.append("set_selection(template_sel.SPECIFIC_VALUE);\n");
+		source.append("copy_value(otherValue.constGet());\n");
+		source.append("break;\n");
+		source.append("case OPTIONAL_OMIT:\n");
+		source.append("set_selection(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("case OPTIONAL_UNBOUND:\n");
+		source.append("throw new TtcnError(\"Creating an array template from an unbound optional field.\");\n");
+		source.append("}\n");
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public {0} valueOf() '{'\n", className));
