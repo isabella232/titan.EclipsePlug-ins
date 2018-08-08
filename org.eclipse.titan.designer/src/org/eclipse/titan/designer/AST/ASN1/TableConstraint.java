@@ -205,7 +205,7 @@ public final class TableConstraint extends Constraint {
 			// component identifiers... do they exist? yes, if the refd type is constrained
 			FieldName componentIdentifiers = atNotation.getComponentIdentifiers();
 			for (int j = 0; j < componentIdentifiers.getNofFields(); j++) {
-				Identifier identifier = componentIdentifiers.getFieldByIndex(i);
+				Identifier identifier = componentIdentifiers.getFieldByIndex(j);
 				switch (tempType.getTypetype()) {
 				case TYPE_ASN1_CHOICE: {
 					final ASN1_Choice_Type temp2 = (ASN1_Choice_Type) tempType;
