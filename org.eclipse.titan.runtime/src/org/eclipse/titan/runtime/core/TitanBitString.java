@@ -55,6 +55,17 @@ public class TitanBitString extends Base_Type {
 		n_bits = aOtherValue.n_bits;
 	}
 
+	/** Creates a TitanBitString with a single bit.
+	 * @param aOtherValue must be bound
+	 */
+	public TitanBitString(final TitanBitString_Element aOtherValue) {
+		aOtherValue.mustBound("Copying an unbound bitstring element.");
+
+		bits_ptr = new int[1];
+		bits_ptr[0] = aOtherValue.get_bit() ? 1 : 0;
+		n_bits = 1;
+	}
+
 	public TitanBitString(final int aValue) {
 		bits_ptr = new int[1];
 		bits_ptr[0] = aValue;
