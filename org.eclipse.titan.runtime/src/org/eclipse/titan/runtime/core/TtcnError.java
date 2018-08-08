@@ -35,7 +35,7 @@ public class TtcnError extends Error {
 				error_str.append(' ');
 			}
 
-			error_str.append("Dynamic testcase error: ");
+			error_str.append("Dynamic test case error: ");
 			error_str.append(errorMessage);
 			this.errorMessage = error_str.toString();
 		} else {
@@ -71,7 +71,7 @@ public class TtcnError extends Error {
 			final StringWriter error = new StringWriter();
 			exception.printStackTrace(new PrintWriter(error));
 
-			error_str.append("Dynamic testcase error: ");
+			error_str.append("Dynamic test case error: ");
 			error_str.append(error.toString());
 
 			this.errorMessage = error_str.toString();
