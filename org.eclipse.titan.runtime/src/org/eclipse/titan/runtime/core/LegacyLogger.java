@@ -639,8 +639,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			TtcnLogger.mput_severity(returnValue, severity);
 			if (TtcnLogger.get_log_event_types() == log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES) {
 				returnValue.append('_').append(TtcnLogger.severity_subcategory_names[severity.ordinal()]);
-				returnValue.append(' ');
 			}
+
+			returnValue.append(' ');
 		}
 
 		if (sourceInfo != null) {
