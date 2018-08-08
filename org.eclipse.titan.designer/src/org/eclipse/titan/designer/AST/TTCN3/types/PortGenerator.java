@@ -404,6 +404,9 @@ public class PortGenerator {
 				final String name = portDefinition.providerMessageOutList.get(i).name;
 
 				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
+				source.append(MessageFormat.format("if (p_{0} ==  null) '{'\n", i));
+				source.append("return;\n");
+				source.append("}\n");
 				source.append(MessageFormat.format("if (p_{0}.remove(port)) '{'\n", i));
 				source.append(MessageFormat.format("n_{0}--;\n", i));
 				source.append("}\n");
@@ -466,7 +469,9 @@ public class PortGenerator {
 			source.append("public void remove_port(final TitanPort port) {\n");
 			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
 				final String name = portDefinition.mapperNames.get(i);
-
+				source.append(MessageFormat.format("if (p_{0} ==  null) '{'\n", i));
+				source.append("return;\n");
+				source.append("}\n");
 				source.append(MessageFormat.format("if (port instanceof {0}) '{'\n", name));
 				source.append(MessageFormat.format("if (p_{0}.remove(port)) '{'\n", i));
 				source.append(MessageFormat.format("n_{0}--;\n", i));
