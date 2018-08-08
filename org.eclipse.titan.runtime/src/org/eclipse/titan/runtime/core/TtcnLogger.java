@@ -934,11 +934,14 @@ public final class TtcnLogger {
 
 		final String timestamp_format_names[] = {"Time", "DateTime", "Seconds"};
 		final String logeventtype_names[] = {"No", "Yes", "Subcategories"};
+		final String source_info_format_names[] = {"None", "Single", "Stack"};
 
-		//FIXME insert correct version numbers
+		final String filemask_origin = component_string(file_log_mask.component_id);
+		final String consolemask_origin = component_string(console_log_mask.component_id);
+
 		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", majorVersion, minorVersion));
-		new_log_message.append(MessageFormat.format("TimeStampFormat:={0}; LogEntityName:={1}; LogEventTypes:=FIXME;", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()]));
-		new_log_message.append(MessageFormat.format("SourceInfoFormat:=FIXME; FIXME.FileMask:=FIXME; FIXME.ConsoleMask:=FIXME;", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()]));
+		new_log_message.append(MessageFormat.format("TimeStampFormat:={0}; LogEntityName:={1}; LogEventTypes:={2};", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()], logeventtype_names[log_event_types.ordinal()]));
+		new_log_message.append(MessageFormat.format("SourceInfoFormat:={0}; {1}.FileMask:=FIXME; {2}.ConsoleMask:=FIXME;", source_info_format_names[source_info_format.ordinal()], filemask_origin, consolemask_origin));
 		//FIXME implement rest once relevant
 
 		return new_log_message.toString();
@@ -1345,5 +1348,20 @@ public final class TtcnLogger {
 
 	public static void log_par_ptc(final ParallelPTC_reason.enum_type reason, final String module, final String name, final int compref, final String compname, final String tc_loc, final int alive_pid, final int status) {
 		get_logger_plugin_manager().log_parptc(reason, module, name, compref, compname, tc_loc, alive_pid, status);
+	}
+
+	public static String component_string(final component_id_t comp_id) {
+		switch (comp_id.id_selector) {
+		case COMPONENT_ID_NAME:
+			return comp_id.id_name;
+		case COMPONENT_ID_COMPREF:
+			return Integer.toString(comp_id.id_compref);
+		case COMPONENT_ID_ALL:
+			return "*";
+		case COMPONENT_ID_SYSTEM:
+			return "<System>";
+		default:
+			return "Unknown component type !";
+		}
 	}
 }
