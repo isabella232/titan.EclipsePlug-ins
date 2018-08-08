@@ -33,6 +33,7 @@ public final class TtcnLogger {
 	public static class Logging_Bits {
 		public static final Logging_Bits log_nothing = new Logging_Bits();
 		public static final Logging_Bits log_all = new Logging_Bits();
+		public static final Logging_Bits log_everything = new Logging_Bits();
 		public static final Logging_Bits default_console_mask = new Logging_Bits();
 
 		final public boolean bits[] = new boolean[Severity.values().length];
@@ -101,6 +102,10 @@ public final class TtcnLogger {
 			log_all.bits[Severity.VERDICTOP_GETVERDICT.ordinal()] = true;
 			log_all.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 			log_all.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
+
+			for (int i = 1; i < Severity.NUMBER_OF_LOGSEVERITIES.ordinal(); i++) {
+				log_everything.bits[i] = true;
+			}
 		}
 
 		public Logging_Bits() {
@@ -109,6 +114,62 @@ public final class TtcnLogger {
 
 		public Logging_Bits(final Logging_Bits other) {
 			System.arraycopy(other.bits, 0, bits, 0, other.bits.length);
+		}
+
+		public String describe() {
+			StringBuilder result = new StringBuilder();
+			int categ = 1; //skip LOG_NOTHING
+
+			// First check whether the bits that make up LOG_ALL are all set
+			// (by comparing with log_all, which has those bits set).
+			// Remember to skip +1 for LOG_NOTHING
+			boolean logAll = true;
+			for (int i = 1; logAll && i < Severity.WARNING_UNQUALIFIED.ordinal(); i++) {
+				logAll = bits[i] == log_all.bits[i];
+			}
+			if (logAll) {
+				result.append("LOG_ALL");
+				categ = sev_categories.length - 2; // only MATCHING and DEBUG left
+			}
+
+			for ( ; categ < sev_categories.length; ++categ) {
+				int low_inc = sev_categories[categ - 1].ordinal() + 1;
+				int high_inc = sev_categories[categ].ordinal();
+
+				boolean allTrue = true;
+				for (int j = low_inc; allTrue && j <= high_inc; j++) {
+					allTrue = bits[j];
+				}
+
+				if (allTrue) {
+					// all bits for this main severity are on
+					if (result.length() != 0) {
+						result.append(" | ");
+					}
+
+					// append main severity name
+					result.append(severity_category_names[categ]);
+				} else {
+					// not all bits are on, have to append them one by one
+					for (int subcat = low_inc; subcat <= high_inc; ++subcat) {
+						if (bits[subcat]) {
+							if (result.length() != 0) {
+								result.append(" | ");
+							}
+
+							result.append(severity_category_names[categ]);
+							result.append('_');
+							result.append(severity_subcategory_names[subcat]);
+						}
+					}
+				}
+			}
+
+			if (result.length() == 0) {
+				return "LOG_NOTHING";
+			}
+
+			return result.toString();
 		}
 	}
 
@@ -938,11 +999,12 @@ public final class TtcnLogger {
 
 		final String filemask_origin = component_string(file_log_mask.component_id);
 		final String consolemask_origin = component_string(console_log_mask.component_id);
+		final String filemask_description = file_log_mask.mask.describe();
+		final String consolemask_description = console_log_mask.mask.describe();
 
 		new_log_message.append(MessageFormat.format("TTCN Logger v{0}.{1} options: ", majorVersion, minorVersion));
 		new_log_message.append(MessageFormat.format("TimeStampFormat:={0}; LogEntityName:={1}; LogEventTypes:={2};", timestamp_format_names[timestamp_format.ordinal()], logeventtype_names[log_entity_name.ordinal()], logeventtype_names[log_event_types.ordinal()]));
-		new_log_message.append(MessageFormat.format("SourceInfoFormat:={0}; {1}.FileMask:=FIXME; {2}.ConsoleMask:=FIXME;", source_info_format_names[source_info_format.ordinal()], filemask_origin, consolemask_origin));
-		//FIXME implement rest once relevant
+		new_log_message.append(MessageFormat.format("SourceInfoFormat:={0}; {1}.FileMask:={2}; {3}.ConsoleMask:={4};", source_info_format_names[source_info_format.ordinal()], filemask_origin, filemask_description, consolemask_origin, consolemask_description));
 
 		return new_log_message.toString();
 	}
