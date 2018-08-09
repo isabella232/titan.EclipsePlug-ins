@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
 /**
  * Module_Param_Length_Restriction in titan.core
  *
@@ -54,7 +56,16 @@ public class Module_Param_Length_Restriction {
 	}
 
 	public void log() {
-		//TODO: implement
+		TtcnLogger.log_event_str(MessageFormat.format(" length({0}", min));
+		if (min != max) {
+			TtcnLogger.log_event_str("..");
+			if (!has_max) {
+				TtcnLogger.log_event_str("infinity");
+			} else {
+				TtcnLogger.log_event_str(MessageFormat.format("{0}", max));
+			}
+		}
+		TtcnLogger.log_event_str(")");
 	}
 
 }
