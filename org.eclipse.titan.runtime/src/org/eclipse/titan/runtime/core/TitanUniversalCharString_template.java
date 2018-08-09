@@ -931,6 +931,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			if (!max_is_set) {
 				throw new TtcnError("Text encoder: The upper bound is not set in a universal charstring value range template.");
 			}
+
 			final byte[] buf = new byte[8];
 			buf[0] = (byte)min_value.getUc_group();
 			buf[1] = (byte)min_value.getUc_plane();
@@ -942,7 +943,10 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			buf[7] = (byte)max_value.getUc_cell();
 			text_buf.push_raw(8, buf);
 			break;
-		//FIXME implement pattern case
+		case STRING_PATTERN:
+			text_buf.push_int(pattern_value_nocase ? 1 : 0);
+			pattern_string.encode_text(text_buf);
+			break;
 		default:
 			throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported universal charstring template.");
 		}
@@ -959,8 +963,6 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
 			break;
-		case STRING_PATTERN:
-			//FIXME implement for pattern
 		case SPECIFIC_VALUE:
 			single_value = new TitanUniversalCharString();
 			single_value.decode_text(text_buf);
@@ -986,7 +988,12 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			min_is_exclusive = false;
 			max_is_exclusive = false;
 			break;
-		//FIXME implement pattern case
+		case STRING_PATTERN:
+			pattern_value_regexp_init = false;
+			pattern_value_nocase = text_buf.pull_int().getInt() == 1 ? true : false;
+			pattern_string = new TitanCharString();
+			pattern_string.decode_text(text_buf);
+			break;
 		default:
 			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a universal charstring template.");
 		}
