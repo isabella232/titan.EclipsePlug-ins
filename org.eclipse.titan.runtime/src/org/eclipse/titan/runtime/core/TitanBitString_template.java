@@ -250,7 +250,6 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			}
 			break;
 		case STRING_PATTERN:
-			//TODO: use copyList()
 			pattern_value = otherValue.pattern_value;
 			pattern_value_ref_count++;
 			break;
