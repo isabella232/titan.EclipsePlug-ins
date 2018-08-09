@@ -414,7 +414,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		switch (p_coding) {
 		case CT_JSON:
-			//TODO: implement
+			//TODO: implement JSON support
 			break;
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type {0}", p_td.name));
@@ -426,7 +426,7 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		switch (p_coding) {
 		case CT_JSON:
-			//TODO: implement
+			//TODO: implement JSON support
 			break;
 		default:
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type {0}", p_td.name));
