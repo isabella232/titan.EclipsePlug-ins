@@ -179,9 +179,6 @@ public class TitanAsn_Null_template extends Base_Template {
 				}
 			}
 			return templateSelection == template_sel.COMPLEMENTED_LIST;
-		case STRING_PATTERN: {
-			//TODO: implement
-		}
 		default:
 			throw new TtcnError("Matching with an uninitialized/unsupported template of ASN.1 NULL type.");
 		}
