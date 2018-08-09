@@ -1795,10 +1795,11 @@ public class PortGenerator {
 				source.append("TTCN_Runtime.set_translation_mode(false, null);\n");
 				source.append("if (port_state == translation_port_state.TRANSLATED || port_state == translation_port_state.PARTIALLY_TRANSLATED) {\n");
 			}
+			source.append("msg_tail_count++;\n");
 			source.append("if (TtcnLogger.log_this_event(TtcnLogger.Severity.PORTEVENT_DUALRECV)) {\n");
 			source.append("TtcnLogger.begin_event(TtcnLogger.Severity.PORTEVENT_DUALRECV);\n");
 			source.append("mapped_par.log();\n");
-			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(true, \"{0}\", TtcnLogger.end_event_log2str(), 0);\n", target.targetDisplayName));
+			source.append(MessageFormat.format("TtcnLogger.log_dualport_map(true, \"{0}\", TtcnLogger.end_event_log2str(), msg_tail_count);\n", target.targetDisplayName));
 			source.append("}\n");
 			source.append("final Message_queue_item new_item = new Message_queue_item();\n");
 			source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", target.targetIndex));
@@ -1889,6 +1890,9 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
+		if (isSimple) {
+			source.append("msg_tail_count++;\n");
+		}
 
 		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
 		if (portDefinition.testportType == TestportType.ADDRESS) {
@@ -1904,7 +1908,11 @@ public class PortGenerator {
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", mappedType.mDisplayName));
 		source.append("incoming_par.log();\n");
 		source.append("final TitanCharString log_parameter = TtcnLogger.end_event_log2str();\n");
-		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), log_sender_address, log_parameter);\n");
+		if (isSimple) {
+			source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, msg_tail_count, log_sender_address, log_parameter);\n");
+		} else {
+			source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, msg_tail_count + 1, log_sender_address, log_parameter);\n");
+		}
 		source.append("}\n");
 
 		if (!isSimple || !portDefinition.legacy) {
@@ -1991,6 +1999,7 @@ public class PortGenerator {
 		source.append("if (!is_started) {\n");
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
+		source.append("msg_tail_count++;\n");
 		source.append("if (TtcnLogger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
 		if (portDefinition.testportType == TestportType.ADDRESS) {
 			source.append("TtcnLogger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
@@ -2005,7 +2014,7 @@ public class PortGenerator {
 		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" {0} : \");\n", inType.mDisplayName));
 		source.append("incoming_par.log();\n");
 		source.append("final TitanCharString log_parameter = TtcnLogger.end_event_log2str();\n");
-		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, message_queue.size(), log_sender_address, log_parameter);\n");
+		source.append("TtcnLogger.log_port_queue(TitanLoggerApi.Port__Queue_operation.enum_type.enqueue__msg, port_name, sender_component, msg_tail_count, log_sender_address, log_parameter);\n");
 		source.append("}\n");
 		source.append("final Message_queue_item new_item = new Message_queue_item();\n");
 		source.append(MessageFormat.format("new_item.item_selection = message_selection.MESSAGE_{0};\n", index));

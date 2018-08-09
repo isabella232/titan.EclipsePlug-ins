@@ -123,6 +123,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	protected String port_name;
 	protected int msg_head_count;
+	protected int msg_tail_count;
 	protected int proc_head_count;
 	//temporary variable
 	protected int proc_tail_count;
@@ -297,6 +298,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			add_to_list(system);
 			is_active = true;
 			msg_head_count = 0;
+			msg_tail_count = 0;
 			proc_head_count = 0;
 
 			if (system_mappings.size() == 0) {
