@@ -833,7 +833,35 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			TtcnLogger.log_char(')');
 			break;
 		case DECODE_MATCH:
-			//FIXME: implement decode match
+			TtcnLogger.log_event_str("decmatch(");
+			switch (dec_match.coding) {
+			case UTF_8:
+				TtcnLogger.log_event_str("UTF-8");
+				break;
+			case UTF16:
+				TtcnLogger.log_event_str("UTF-16");
+				break;
+			case UTF16LE:
+				TtcnLogger.log_event_str("UTF-16LE");
+				break;
+			case UTF16BE:
+				TtcnLogger.log_event_str("UTF-16BE");
+				break;
+			case UTF32:
+				TtcnLogger.log_event_str("UTF-32");
+				break;
+			case UTF32LE:
+				TtcnLogger.log_event_str("UTF-32LE");
+				break;
+			case UTF32BE:
+				TtcnLogger.log_event_str("UTF-32BE");
+				break;
+			default:
+				TtcnLogger.log_event_str("<unknown coding>");
+				break;
+			}
+			TtcnLogger.log_event_str(")");
+			dec_match.dec_match.log();
 			break;
 		default:
 			log_generic();
