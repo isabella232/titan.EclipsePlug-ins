@@ -85,7 +85,6 @@ public class TitanBitString_Element {
 		return !operatorEquals(otherValue);
 	}
 
-	//FIXME: can be faster
 	//originally operator+
 	public TitanBitString concatenate(final TitanBitString otherValue) {
 		mustBound("Unbound left operand of bitstring element concatenation.");
@@ -96,9 +95,6 @@ public class TitanBitString_Element {
 		final int result[] = new int[n_bytes];
 		final int temp[] = otherValue.getValue();
 
-		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
-			result[byte_count] = 0;
-		}
 		result[0] = get_bit() ? 1 : 0;
 		for (int byte_count = 0; byte_count < n_bytes; byte_count++) {
 			result[byte_count] = (result[byte_count] | temp[byte_count] << 1) & 0xFF;
