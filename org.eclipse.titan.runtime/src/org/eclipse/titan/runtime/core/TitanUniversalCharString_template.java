@@ -990,7 +990,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 		case STRING_PATTERN:
 			pattern_value_regexp_init = false;
-			pattern_value_nocase = text_buf.pull_int().getInt() == 1 ? true : false;
+			pattern_value_nocase = text_buf.pull_int().getInt() == 1;
 			pattern_string = new TitanCharString();
 			pattern_string.decode_text(text_buf);
 			break;
