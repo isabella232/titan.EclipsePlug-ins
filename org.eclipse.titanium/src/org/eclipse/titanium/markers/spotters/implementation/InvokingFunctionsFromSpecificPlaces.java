@@ -7,23 +7,19 @@
  ******************************************************************************/
 package org.eclipse.titanium.markers.spotters.implementation;
 
-import org.eclipse.core.internal.localstore.Bucket.Entry;
-import org.eclipse.core.internal.localstore.Bucket.Visitor;
-import org.eclipse.debug.core.model.IValue;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.IVisitableNode;
-import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
-import org.eclipse.titan.designer.AST.TTCN3.statements.Alt_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Check_Port_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Check_Receive_Port_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Invoke_Altguard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Operation_Altguard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Receive_Port_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Referenced_Altguard;
-import org.eclipse.titan.designer.AST.TTCN3.types.Boolean_Type;
-import org.eclipse.titan.designer.AST.TTCN3.values.Boolean_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Referenced_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.AllComponentAliveExpression;
@@ -40,12 +36,6 @@ import org.eclipse.titan.designer.AST.TTCN3.values.expressions.RNDExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.RNDWithValueExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.TimerReadExpression;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.TimerRunningExpression;
-import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.eclipse.titan.designer.AST.IVisitableNode;
 import org.eclipse.titanium.markers.spotters.BaseModuleCodeSmellSpotter;
 import org.eclipse.titanium.markers.types.CodeSmellType;
 
@@ -114,7 +104,7 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 	public void process(final IVisitableNode node, final Problems problems) {
 		FunctionVisitor visitor = new FunctionVisitor(problems);
 
-		if (node instanceof Altguard) {
+		if (node instanceof AltGuard) {
 			final AltGuard altGuard = (AltGuard) node;
 			if (altGuard.getGuardExpression() != null) {
 				altGuard.getGuardExpression().accept(visitor);
