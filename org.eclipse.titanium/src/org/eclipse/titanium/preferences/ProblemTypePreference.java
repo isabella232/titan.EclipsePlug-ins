@@ -42,7 +42,7 @@ public enum ProblemTypePreference {
 	ISBOUND_WITHOUT_ELSE("Report the usage of isbound without else branch", EnumSet.of(CodeSmellType.ISBOUND_WITHOUT_ELSE)),
 	ISVALUE_WITH_VALUE("Report the usage of isvalue with a value as parameter", EnumSet.of(CodeSmellType.ISVALUE_WITH_VALUE)),
 	ITERATE_ON_WRONG_ARRAY("Report possible iteration on wrong array", EnumSet.of(CodeSmellType.ITERATE_ON_WRONG_ARRAY)),
-	INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES("Report operations witch not safe in blocking statements", EnumSet.of(CodeSmellType.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES)),
+	INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES("Report operations which not safe in blocking statements", EnumSet.of(CodeSmellType.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES)),
 	MAGIC_CONSTANTS("Report magic constants", EnumSet.of(CodeSmellType.MAGIC_NUMBERS, CodeSmellType.MAGIC_STRINGS)),
 	MISSING_FRIEND("Report friend declarations with missing modules", EnumSet.of(CodeSmellType.MISSING_FRIEND)),
 	MISSING_IMPORT("Missing imported module", EnumSet.of(CodeSmellType.MISSING_IMPORT)),

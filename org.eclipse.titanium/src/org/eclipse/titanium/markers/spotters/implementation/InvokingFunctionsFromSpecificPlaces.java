@@ -83,27 +83,27 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 			}
 
 			if(node instanceof RNDExpression || node instanceof RNDWithValueExpression ) {
-				Expression_Value rnd = (Expression_Value) node;
-				problems.report(rnd.getLocation(), "Random number generation change the actual snapshot");
+				Expression_Value exp = (Expression_Value) node;
+				problems.report(exp.getLocation(), "Random number generation change the actual snapshot");
 			}
 
 			if(node instanceof AllComponentAliveExpression || node instanceof AllComponentRunningExpression ||
 					node instanceof AnyComponentAliveExpression || node instanceof AnyComponentRunningExpression ||
 					node instanceof ComponentAliveExpression || node instanceof ComponentRunningExpression ) {
-				Expression_Value rnd = (Expression_Value) node;
-				problems.report(rnd.getLocation(), "State of component may change during the actual snapshot");
+				Expression_Value exp = (Expression_Value) node;
+				problems.report(exp.getLocation(), "State of component may change during the actual snapshot");
 			}
 
 			if(node instanceof AnyPortCheckStateExpression ||node instanceof AllPortCheckSateExpression || node instanceof  CheckStateExpression) {
-				Expression_Value rnd = (Expression_Value) node;
-				problems.report(rnd.getLocation(), "State of port may change during the actual snapshot");
+				Expression_Value exp = (Expression_Value) node;
+				problems.report(exp.getLocation(), "State of port may change during the actual snapshot");
 			}
 
 			if(node instanceof AnyTimerRunningExpression || 
 					node instanceof TimerRunningExpression || 
 					node instanceof TimerReadExpression) {
-				Expression_Value rnd = (Expression_Value) node;
-				problems.report(rnd.getLocation(), "State of timer may change during the actual snapshot");
+				Expression_Value exp = (Expression_Value) node;
+				problems.report(exp.getLocation(), "State of timer may change during the actual snapshot");
 			}
 			return V_CONTINUE;
 		}
@@ -114,11 +114,7 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 	public void process(final IVisitableNode node, final Problems problems) {
 		FunctionVisitor visitor = new FunctionVisitor(problems);
 
-		if (
-				node instanceof Operation_Altguard ||
-				node instanceof Invoke_Altguard ||
-				node instanceof Referenced_Altguard
-				) {
+		if (node instanceof Altguard) {
 			final AltGuard altGuard = (AltGuard) node;
 			if (altGuard.getGuardExpression() != null) {
 				altGuard.getGuardExpression().accept(visitor);
@@ -130,8 +126,7 @@ public class InvokingFunctionsFromSpecificPlaces extends BaseModuleCodeSmellSpot
 				node instanceof Check_Receive_Port_Statement ||
 				node instanceof Check_Port_Statement
 				) {
-			Receive_Port_Statement rs = (Receive_Port_Statement) node;
-			rs.accept(visitor);
+			node.accept(visitor);
 		}
 	}
 
