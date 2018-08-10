@@ -31,6 +31,7 @@ public enum CodeSmellType implements ProblemType{
 	IF_NOT_WITHOUT_ELSE("If not without else", 0.5, 1.0, 8.0),
 	INCORRECT_SHIFT_ROTATE_SIZE("Incorrect shift or rotation size", 1.0, 2.0, 8.0),
 	INFINITE_LOOP("Infinite loop", 0.0, 1.0, 3.5),
+	INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES("Invoking functions from specific places", 0.5, 1.0, 8.0),
 	ISBOUND_WITHOUT_ELSE("IsBound without else", 0.5, 1.0, 8.0),
 	ISVALUE_WITH_VALUE("IsValue with value", 0.5, 1.5, 5.0),
 	ITERATE_ON_WRONG_ARRAY("Iterate on wrong array", 1.0, 5.0, 20.0),

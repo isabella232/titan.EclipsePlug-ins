@@ -116,6 +116,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 		m.put(ProblemTypePreference.ISVALUE_WITH_VALUE, "Isvalue check on value always returns true. 'isbound' should be\n" +
 				"used to check existence. ");
 		m.put(ProblemTypePreference.ITERATE_ON_WRONG_ARRAY, "The loop parameter might be used to index the wrong list.");
+		m.put(ProblemTypePreference.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES, "When a function invoking or state checking is not safe during a snapshot.");
 		m.put(ProblemTypePreference.MAGIC_CONSTANTS,
 				"It is always recommended to extract local literal values into constants and use the constants in the code.\n"
 						+ "Since otherwise sooner or later it will be forgotten what that exact value was meaning");
@@ -224,6 +225,7 @@ public final class MarkersPreferencePage extends FieldEditorPreferencePage imple
 			comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 			comp.setLayout(new FillLayout(SWT.VERTICAL));
 			createField(comp, ProblemTypePreference.GOTO);
+			createField(comp, ProblemTypePreference.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES);
 			createField(comp, ProblemTypePreference.CIRCULAR_IMPORTATION);
 			createField(comp, ProblemTypePreference.LANGUAGE_MIXING);
 			createField(comp, ProblemTypePreference.MISSING_IMPORT);

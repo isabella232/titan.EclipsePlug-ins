@@ -51,6 +51,7 @@ public class RiskFactorPreferencePage extends PreferencePage implements IWorkben
 		insertSP(CodeSmellType.VISIBILITY_IN_DEFINITION);
 		insertSP(CodeSmellType.UNINITIALIZED_VARIABLE);
 		insertSP(CodeSmellType.GOTO);
+		insertSP(CodeSmellType.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES);
 		insertSP(CodeSmellType.UNUSED_IMPORT);
 		insertSP(CodeSmellType.UNUSED_GLOBAL_DEFINITION);
 		insertSP(CodeSmellType.UNUSED_LOCAL_DEFINITION);
