@@ -17,6 +17,7 @@ import java.util.HashMap;
 import java.util.Set;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+import org.eclipse.titan.runtime.core.Event_Handler.Channel_Event_Handler;
 
 /**
  * Utility class to help working with snapshots
@@ -50,10 +51,10 @@ public final class TTCN_Snapshot {
 		}
 	};
 
-	public static ThreadLocal<HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>> channelMap = new ThreadLocal<HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>>() {
+	public static ThreadLocal<HashMap<SelectableChannel, Channel_Event_Handler>> channelMap = new ThreadLocal<HashMap<SelectableChannel, Channel_Event_Handler>>() {
 		@Override
-		protected HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler> initialValue() {
-			return new HashMap<SelectableChannel, Channel_And_Timeout_Event_Handler>();
+		protected HashMap<SelectableChannel, Channel_Event_Handler> initialValue() {
+			return new HashMap<SelectableChannel, Channel_Event_Handler>();
 		}
 
 	};
@@ -219,7 +220,7 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
-						final Channel_And_Timeout_Event_Handler handler = channelMap.get().get(key.channel());
+						final Channel_Event_Handler handler = channelMap.get().get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable() | key.isAcceptable(), key.isWritable());
 					}
 					selectedKeys.clear();
@@ -238,7 +239,7 @@ public final class TTCN_Snapshot {
 					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
 					//call handlers
 					for (final SelectionKey key : selectedKeys) {
-						final Channel_And_Timeout_Event_Handler handler = channelMap.get().get(key.channel());
+						final Channel_Event_Handler handler = channelMap.get().get(key.channel());
 						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
 					}
 					selectedKeys.clear();

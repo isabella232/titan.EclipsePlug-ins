@@ -26,6 +26,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
+import org.eclipse.titan.runtime.core.Event_Handler.Channel_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TitanComponent.Component_Id_type;
 import org.eclipse.titan.runtime.core.TtcnLogger.component_id_selector_enum;
@@ -86,7 +87,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	};
 
 	//FIXME implement the remaining features
-	protected static final class port_connection extends Channel_And_Timeout_Event_Handler {
+	protected static final class port_connection extends Channel_Event_Handler {
 		static enum connection_data_type_enum {CONN_DATA_LAST, CONN_DATA_MESSAGE, CONN_DATA_CALL, CONN_DATA_REPLY, CONN_DATA_EXCEPTION};
 		static enum connection_state_enum {CONN_IDLE, CONN_LISTENING, CONN_CONNECTED, CONN_LAST_MSG_SENT, CONN_LAST_MSG_RCVD};
 
@@ -113,11 +114,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 					owner_port.handle_incoming_data(this);
 				}
 			}
-		}
-
-		@Override
-		public void Handle_Timeout(final double time_since_last_call) {
-			// TODO Auto-generated method stub
 		}
 	}
 
@@ -935,7 +931,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 	protected void Uninstall_Handler() throws IOException {
 		final ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
-		for (final Map.Entry<SelectableChannel, Channel_And_Timeout_Event_Handler> entry: TTCN_Snapshot.channelMap.get().entrySet()) {
+		for (final Map.Entry<SelectableChannel, Channel_Event_Handler> entry: TTCN_Snapshot.channelMap.get().entrySet()) {
 			if (entry.getValue() == this) {
 				tobeRemoved.add(entry.getKey());
 			}

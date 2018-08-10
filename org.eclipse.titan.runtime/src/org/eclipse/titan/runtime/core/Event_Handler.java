@@ -21,12 +21,21 @@ import java.util.List;
  */
 public class Event_Handler {
 
+	static abstract class Channel_Event_Handler {
+		//FIXME implement rest
+		public abstract void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable);
+
+		public void log() {
+			TtcnLogger.log_event_str("handler <invalid>");
+		}
+	}
+
 	/**
 	 * generic event handler base class so that PORTs and internal connection could use the same mechanisms.
 	 * 
 	 * Fd_And_Timeout_Event_Handler in the compiler.
 	 * */
-	static abstract class Channel_And_Timeout_Event_Handler {
+	static class Channel_And_Timeout_Event_Handler extends Channel_Event_Handler {
 		public List<Channel_And_Timeout_Event_Handler> list;
 
 		public double callIntervall;
@@ -34,10 +43,28 @@ public class Event_Handler {
 		public boolean isTimeout;
 		public boolean callAnyway;
 		public boolean isPeriodic;
+		public boolean hasEvent;
+
+		public Channel_And_Timeout_Event_Handler() {
+			callIntervall = 0.0;
+			last_called = 0.0;
+			isTimeout = true;
+			callAnyway = true;
+			isPeriodic = true;
+			hasEvent = false;
+		}
 
 		//FIXME implement rest
-		public abstract void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable);
+		public void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable) {
+			throw new TtcnError("Channel_And_Timeout_Event_Handler::Handle_Event: Erroneous usage of class Channel_And_Timeout_Event_Handler");
+		}
 
-		public abstract void Handle_Timeout(final double time_since_last_call);
+		public void Handle_Timeout(final double time_since_last_call) {
+			throw new TtcnError("Channel_And_Timeout_Event_Handler::Handle_Timeout: Erroneous usage of class Channel_And_Timeout_Event_Handler");
+		}
+
+		public void log() {
+			TtcnLogger.log_event_str("handler <unknown>");
+		}
 	}
 }
