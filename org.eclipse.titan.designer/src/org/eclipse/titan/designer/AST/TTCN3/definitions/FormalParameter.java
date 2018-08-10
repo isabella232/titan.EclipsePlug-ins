@@ -1118,6 +1118,23 @@ public final class FormalParameter extends Definition {
 	}
 
 	/**
+	 * Generates the code that cleans up an out parameter upon entering a function.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * */
+	public void generateCodeSetUnbound(final JavaGenData aData, final StringBuilder source) {
+		switch(assignmentType) {
+		case A_PAR_TEMP_OUT:
+		case A_PAR_VAL_OUT:
+			source.append(MessageFormat.format("{0}.cleanUp();\n", identifier.getName()));
+			break;
+		default:
+			break;
+		}
+	}
+
+	/**
 	 * Generates the value assignments of the default value of the parameter.
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.

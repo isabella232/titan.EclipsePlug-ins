@@ -1234,4 +1234,16 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			parameters.get(i).generateCodeShadowObject(aData, source);
 		}
 	}
+
+	/**
+	 * Generates the code that cleans up the out parameters upon entering a function.
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param source the source code generated
+	 * */
+	public void generateCodeSetUnbound(final JavaGenData aData, final StringBuilder source) {
+		for ( int i = 0 ; i < parameters.size(); i++) {
+			parameters.get(i).generateCodeSetUnbound(aData, source);
+		}
+	}
 }
