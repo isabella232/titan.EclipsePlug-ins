@@ -16,8 +16,6 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Storing and converting data for use in the internal encoder/decoder
  *
  * @author Kristof Szabados
- *
- * FIXME not yet complete
  */
 public final class Text_Buf {
 	final static private int BUF_SIZE = 1000;
