@@ -45,6 +45,7 @@ public class RiskFactorCalculator {
 		CodeSmellType.UNUSED_FUNTION_RETURN_VALUES,
 		CodeSmellType.UNUSED_STARTED_FUNCTION_RETURN_VALUES,
 		CodeSmellType.INFINITE_LOOP,
+		CodeSmellType.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES,
 		// SemanticProblemType..name(), // TODO: busy wait
 		CodeSmellType.NONPRIVATE_PRIVATE,
 		// SemanticProblemType.INCORRECT_SHIFT_ROTATE_SIZE.name(), TODO:

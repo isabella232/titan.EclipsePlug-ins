@@ -54,6 +54,7 @@ public final class StaticData {
 		m.put(CodeSmellType.ISBOUND_WITHOUT_ELSE, new BaseModuleCodeSmellSpotter[]{ new IsBoundWithoutElse() });
 		m.put(CodeSmellType.ISVALUE_WITH_VALUE, new BaseModuleCodeSmellSpotter[]{ new IsValueWithValue() });
 		m.put(CodeSmellType.ITERATE_ON_WRONG_ARRAY, new BaseModuleCodeSmellSpotter[]{ new IterateOnWrongArray() });
+		m.put(CodeSmellType.INVOKING_FUNCTIONS_FROM_SPECIFIC_PLACES, new BaseModuleCodeSmellSpotter[]{ new InvokingFunctionsFromSpecificPlaces() });
 		m.put(CodeSmellType.MAGIC_NUMBERS, new BaseModuleCodeSmellSpotter[] { new MagicNumber() });
 		m.put(CodeSmellType.MAGIC_STRINGS, new BaseModuleCodeSmellSpotter[] { new MagicString() });
 		m.put(CodeSmellType.MISSING_FRIEND, new BaseModuleCodeSmellSpotter[] { new MissingFriend() });
