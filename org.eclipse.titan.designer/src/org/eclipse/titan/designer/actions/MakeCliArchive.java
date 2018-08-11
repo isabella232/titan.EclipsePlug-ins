@@ -188,13 +188,13 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 		final StringBuffer buff = new StringBuffer();
 
 		buff.append("This archive contains the files of one or more Eclipe Titan projects.\n");
-		buff.append("\n");
+		buff.append('\n');
 		buff.append("The name of the file itself can be interpreted as follows:\n");
 		buff.append("<Project>_<Date>_<time>.tar.gz\n");
-		buff.append("\n");
+		buff.append('\n');
 		buff.append("To build it the Makefile has to be generated from sratch using the\n");
 		buff.append("\"makefilegen ./*\" command or manually created.\n");
-		buff.append("\n");
+		buff.append('\n');
 		buff.append("The original Makefile used to compile at the source system\n");
 		buff.append("is also included in this archive named \"Makefile.orig\"\n");
 
