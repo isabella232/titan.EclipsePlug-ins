@@ -180,7 +180,7 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	/** {@inheritDoc} */
 	public String getText() {
 		final StringBuilder text = new StringBuilder();
-		for (Token t : tokenList) {
+		for (final Token t : tokenList) {
 			text.append(t.getText());
 		}
 		return text.toString();

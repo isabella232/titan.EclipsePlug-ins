@@ -230,7 +230,7 @@ public final class Type_Assignment extends ASN1Assignment {
 
 		if (type != null) {
 			final StringBuilder sb = aData.getCodeForType(genName);
-			StringBuilder source = new StringBuilder();
+			final StringBuilder source = new StringBuilder();
 			type.generateCode( aData, source );
 			sb.append(source);
 		}

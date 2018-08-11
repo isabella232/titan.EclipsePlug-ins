@@ -314,7 +314,7 @@ public final class Parameterised_Reference extends Defined_Reference {
 				assignments.addAssignment(temporalAssignment);
 			}
 
-			for (List<Token> temporalActualParamater : actualParameters) {
+			for (final List<Token> temporalActualParamater : actualParameters) {
 				temporalActualParamater.clear();
 			}
 

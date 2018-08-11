@@ -99,7 +99,7 @@ public final class Ass_pard implements IIdentifierContainer, IVisitableNode {
 	 * were instanced before.
 	 * */
 	public static void resetAllInstanceCounters() {
-		for (Ass_pard pard : INSTANCED_PARAMETERIZED_ASSIGNMENTS) {
+		for (final Ass_pard pard : INSTANCED_PARAMETERIZED_ASSIGNMENTS) {
 			pard.resetInstanceCounter();
 		}
 		INSTANCED_PARAMETERIZED_ASSIGNMENTS.clear();

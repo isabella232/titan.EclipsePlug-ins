@@ -66,7 +66,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 *                the scope to be set.
 	 * */
 	public void setRightScope(final Scope rightScope) {
-		for (ASN1Assignment assignment : assignments) {
+		for (final ASN1Assignment assignment : assignments) {
 			assignment.setRightScope(rightScope);
 		}
 	}
@@ -76,7 +76,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		for (Assignment assignment : assignments) {
+		for (final Assignment assignment : assignments) {
 			if (assignment == child) {
 				return builder.append(INamedNode.DOT).append(assignment.getIdentifier().getDisplayName());
 			}
@@ -252,7 +252,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		assignmentMap.clear();
 
 		final Assignments specialAssignments = SpecialASN1Module.getSpecialModule().getAssignments();
-		for (ASN1Assignment assignment : assignments) {
+		for (final ASN1Assignment assignment : assignments) {
 			final Identifier identifier = assignment.getIdentifier();
 			final String assignmentName = identifier.getName();
 			if (specialAssignments.hasAssignmentWithId(timestamp, identifier)) {
@@ -300,7 +300,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	/** {@inheritDoc} */
 	public void addProposal(final ProposalCollector propCollector) {
 		if (null == propCollector.getReference().getModuleIdentifier()) {
-			for (ASN1Assignment assignment : assignments) {
+			for (final ASN1Assignment assignment : assignments) {
 				assignment.addProposal(propCollector, 0);
 			}
 		}
@@ -315,7 +315,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		if (null == reference.getModuleIdentifier()) {
 			final Identifier id = reference.getId();
 			final String name = id.getName();
-			for (ASN1Assignment assignment : assignments) {
+			for (final ASN1Assignment assignment : assignments) {
 				if(assignment.getIdentifier().getName().equals(name)) {
 					assignment.addDeclaration(declarationCollector, 0);
 				}
@@ -336,14 +336,14 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		// ASN.1 fields: must click on field identifier to find it
 		// TODO: remove the getLikelyLocation() hack
 		if (assignments != null) {
-			for (ASN1Assignment assignment : assignments) {
+			for (final ASN1Assignment assignment : assignments) {
 				if (assignment.getLikelyLocation().containsOffset(offset)) {
 					return assignment;
 				}
 			}
 		}
 		if (dynamic_assignments != null) {
-			for (ASN1Assignment assignment : dynamic_assignments) {
+			for (final ASN1Assignment assignment : dynamic_assignments) {
 				if (assignment.getLikelyLocation().containsOffset(offset)) {
 					return assignment;
 				}
@@ -355,10 +355,10 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		for (ASN1Assignment ass : assignments) {
+		for (final ASN1Assignment ass : assignments) {
 			ass.findReferences(referenceFinder, foundIdentifiers);
 		}
-		for (ASN1Assignment ass : dynamic_assignments) {
+		for (final ASN1Assignment ass : dynamic_assignments) {
 			ass.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -372,14 +372,14 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		case ASTVisitor.V_SKIP:
 			return true;
 		}
-		for (ASN1Assignment ass : assignments) {
+		for (final ASN1Assignment ass : assignments) {
 			if (!ass.accept(v)) {
 				return false;
 			}
 		}
 
 		final List<ASN1Assignment> tempAssignments = new ArrayList<ASN1Assignment>(dynamic_assignments);
-		for (ASN1Assignment ass : tempAssignments) {
+		for (final ASN1Assignment ass : tempAssignments) {
 			if (!ass.accept(v)) {
 				return false;
 			}
@@ -419,7 +419,7 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 */
 	public void generateCode( final JavaGenData aData ) {
 		if ( assignments != null ) {
-			for ( ASN1Assignment assignment : assignments ) {
+			for (final ASN1Assignment assignment : assignments ) {
 				assignment.generateCode( aData, false );
 			}
 		}

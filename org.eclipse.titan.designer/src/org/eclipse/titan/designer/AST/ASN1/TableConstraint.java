@@ -109,7 +109,7 @@ public final class TableConstraint extends Constraint {
 
 		objectSet.setMyScope(myType.getMyScope());
 
-		BridgingNamedNode bridge = new BridgingNamedNode(this, FULLNAMEPART);
+		final BridgingNamedNode bridge = new BridgingNamedNode(this, FULLNAMEPART);
 		objectSet.setFullNameParent(bridge);
 
 		// search the constrained type (not the reference to it)
@@ -123,7 +123,7 @@ public final class TableConstraint extends Constraint {
 					|| Type_type.TYPE_OBJECTCLASSFIELDTYPE.equals(constrainedType.getTypetype())) {
 				break;
 			} else if (constrainedType instanceof IReferencingType) {
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 				constrainedType = ((IReferencingType) constrainedType).getTypeRefd(timestamp, chain);
 				chain.release();
 			} else {
@@ -133,7 +133,7 @@ public final class TableConstraint extends Constraint {
 		}
 
 		if (Type_type.TYPE_OBJECTCLASSFIELDTYPE.equals(constrainedType.getTypetype())) {
-			ObjectClassField_Type ocfType = (ObjectClassField_Type) constrainedType;
+			final ObjectClassField_Type ocfType = (ObjectClassField_Type) constrainedType;
 			objectClassFieldname = ocfType.getObjectClassFieldName();
 			objectSet.setMyGovernor(ocfType.getMyObjectClass());
 			objectSet.check(timestamp);
@@ -203,9 +203,9 @@ public final class TableConstraint extends Constraint {
 			atNotation.setFirstComponent(parent);
 
 			// component identifiers... do they exist? yes, if the refd type is constrained
-			FieldName componentIdentifiers = atNotation.getComponentIdentifiers();
+			final FieldName componentIdentifiers = atNotation.getComponentIdentifiers();
 			for (int j = 0; j < componentIdentifiers.getNofFields(); j++) {
-				Identifier identifier = componentIdentifiers.getFieldByIndex(j);
+				final Identifier identifier = componentIdentifiers.getFieldByIndex(j);
 				switch (tempType.getTypetype()) {
 				case TYPE_ASN1_CHOICE: {
 					final ASN1_Choice_Type temp2 = (ASN1_Choice_Type) tempType;
@@ -311,12 +311,12 @@ public final class TableConstraint extends Constraint {
 				constraints.check(timestamp);
 				final TableConstraint tableConstraint = constraints.getTableConstraint();
 				if (tableConstraint != null) {
-					IType ocft = tableConstraint.constrainedType;
+					final IType ocft = tableConstraint.constrainedType;
 					if (Type_type.TYPE_OBJECTCLASSFIELDTYPE.equals(ocft.getTypetype())) {
 						atNotation.setObjectClassFieldname(((ObjectClassField_Type) ocft).getObjectClassFieldName());
 
 						IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-						ObjectSet_definition osdef1 = tableConstraint.objectSet.getRefdLast(timestamp, chain);
+						final ObjectSet_definition osdef1 = tableConstraint.objectSet.getRefdLast(timestamp, chain);
 						chain.release();
 						chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 						final ObjectSet_definition osdef2 = objectSet.getRefdLast(timestamp, chain);
@@ -359,7 +359,7 @@ public final class TableConstraint extends Constraint {
 		}
 
 		//now aObjectSet is instanceof ObjectSet_definition:
-		List<IObjectSet_Element> oses = ((ObjectSet_definition) aObjectSet).getObjectSetElements();
+		final List<IObjectSet_Element> oses = ((ObjectSet_definition) aObjectSet).getObjectSetElements();
 		for( IObjectSet_Element ose : oses) {
 			if (ose instanceof ReferencedObject) {
 				ose = ((ReferencedObject) ose).getRefdLast(aTimestamp);//fspec
@@ -374,7 +374,7 @@ public final class TableConstraint extends Constraint {
 						final FieldSetting_Type fst = (FieldSetting_Type)fs;
 						final IASN1Type type = fst.getSetting();
 						final AtomicBoolean isStrange = new AtomicBoolean();
-						Identifier id = getOpenTypeAlternativeName(aTimestamp, (Type) type, isStrange);
+						final Identifier id = getOpenTypeAlternativeName(aTimestamp, (Type) type, isStrange);
 						if (!aOpenType.hasComponentWithName(id)) {
 							aOpenType.addComponent(new CompField( id, (Type) type, false, null));
 							if (isStrange.get()) {
@@ -414,27 +414,28 @@ public final class TableConstraint extends Constraint {
 
 	//Original titan.core version: t_type->get_otaltname(is_strange);
 	private Identifier getOpenTypeAlternativeName(final CompilationTimeStamp timestamp, final Type type, final AtomicBoolean isStrange) {
-		StringBuffer sb = new StringBuffer();
+		final StringBuffer sb = new StringBuffer();
 		//TODO:  if (is_tagged() || is_constrained() || hasRawAttrs()) {
 		if (!type.getIsErroneous(timestamp) && type.isConstrained()) {
 			sb.append(type.getGenNameOwn());
 			isStrange.set(true);
 		} else if (!type.getIsErroneous(timestamp) && type instanceof Referenced_Type) {
-			Reference t_ref = ((Referenced_Type) type).getReference();
+			final Reference t_ref = ((Referenced_Type) type).getReference();
 			if (t_ref != null) {
 				final Identifier id = t_ref.getId();
 				final String dn = id.getDisplayName();
-				int i = dn.indexOf('.');
+				final int i = dn.indexOf('.');
 				if (i >= 0 && i < dn.length()) {
 					// id is not regular because t_ref is a parameterized reference
 					sb.append(id.getName());
 					isStrange.set(true);
 				} else {
-					Assignment as = t_ref.getRefdAssignment(timestamp, true);
+					final Assignment as = t_ref.getRefdAssignment(timestamp, true);
 					if( as == null) {
 						return null;
 					}
-					Scope assScope = as.getMyScope();
+
+					final Scope assScope = as.getMyScope();
 					if (assScope.getParentScope() == assScope.getModuleScope()) {
 						sb.append(id.getName());
 						isStrange.set(false);
@@ -443,8 +444,8 @@ public final class TableConstraint extends Constraint {
 						// (i.e. it points to a parameter assignment of an instantiation)
 						// perform the same examination recursively on the referenced type
 						// (which is the actual parameter)
-						IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-						IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
+						final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+						final IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 						chain.release();
 
 						return getOpenTypeAlternativeName(timestamp, (Type) referencedType, isStrange);
@@ -453,26 +454,27 @@ public final class TableConstraint extends Constraint {
 			} else {
 				// the type comes from an information object [class]
 				// examine the referenced type recursively
-				IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-				IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
+				final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+				final IType referencedType = ((Referenced_Type) type).getTypeRefd(timestamp, chain);
 				chain.release();
 
 				return getOpenTypeAlternativeName(timestamp, (Type) referencedType, isStrange);
 			}
 		} else {
-			Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
+			final Identifier tmpId1 = new Identifier(Identifier_type.ID_NAME, type.getFullName());
 			String s = tmpId1.getDisplayName();
 			//module name will be cut off:
 			if (s.startsWith("@") && s.indexOf('.') > 0) {
 				s = s.substring(s.indexOf('.') + 1);
 			}
-			Identifier tmpId2 = new Identifier(Identifier_type.ID_ASN, s);
+
+			final Identifier tmpId2 = new Identifier(Identifier_type.ID_ASN, s);
 			sb.append(tmpId2.getTtcnName());
 		}
 		// conversion to lower case initial:
 		sb.replace(0, 1, sb.substring(0, 1).toLowerCase());
 		// trick:
-		Identifier tmpId = new Identifier(Identifier_type.ID_NAME, sb.toString());
+		final Identifier tmpId = new Identifier(Identifier_type.ID_NAME, sb.toString());
 		return new Identifier(Identifier_type.ID_ASN, tmpId.getAsnName());
 	}
 
@@ -486,10 +488,10 @@ public final class TableConstraint extends Constraint {
 		if (null != mObjectSetBlock) {
 			if (mAtNotationsBlock == null) {
 				// SimpleTableConstraint
-				Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mObjectSetBlock, 0);
+				final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mObjectSetBlock, 0);
 				if (parser != null) {
 					objectSet = parser.pr_special_ObjectSetSpec().definition;
-					List<SyntacticErrorStorage> errors = parser.getErrorStorage();
+					final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 					if (null != errors && !errors.isEmpty()) {
 						objectSet = null;
 						for (int i = 0; i < errors.size(); i++) {
@@ -503,7 +505,7 @@ public final class TableConstraint extends Constraint {
 				Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mObjectSetBlock, 0);
 				if (parser != null) {
 					objectSet = parser.pr_DefinedObjectSetBlock().objectSet;
-					List<SyntacticErrorStorage> errors = parser.getErrorStorage();
+					final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 					if (null != errors && !errors.isEmpty()) {
 						objectSet = null;
 						for (int i = 0; i < errors.size(); i++) {
@@ -515,7 +517,7 @@ public final class TableConstraint extends Constraint {
 				parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mAtNotationsBlock, 0);
 				if (parser != null) {
 					atNotationList = parser.pr_AtNotationList().notationList;
-					List<SyntacticErrorStorage> errors = parser.getErrorStorage();
+					final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 					if (null != errors && !errors.isEmpty()) {
 						objectSet = null;
 						for (int i = 0; i < errors.size(); i++) {

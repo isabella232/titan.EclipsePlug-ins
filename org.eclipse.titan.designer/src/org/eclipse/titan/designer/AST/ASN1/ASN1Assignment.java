@@ -177,16 +177,16 @@ public abstract class ASN1Assignment extends Assignment {
 		} else {
 			// this assignment belongs to an instantiation of a parameterized
 			// assignment: use the name of the parent scope to obtain genname
-			StringBuilder nameBuilder = new StringBuilder("@");
+			final StringBuilder nameBuilder = new StringBuilder("@");
 			nameBuilder.append(myScope.getScopeName());
-			String displayName = identifier.getDisplayName();
-			boolean isParameterised = displayName.contains(".");
+			final String displayName = identifier.getDisplayName();
+			final boolean isParameterised = displayName.contains(".");
 			if(isParameterised) {
 				nameBuilder.append('.');
 				nameBuilder.append(displayName);
 			}
 
-			StringBuilder returnValue = new StringBuilder(Identifier.getTtcnNameFromAsnName(nameBuilder.toString()));
+			final StringBuilder returnValue = new StringBuilder(Identifier.getTtcnNameFromAsnName(nameBuilder.toString()));
 			if(isParameterised) {
 				returnValue.append("_par_");
 			}

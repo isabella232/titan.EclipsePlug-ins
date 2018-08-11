@@ -265,12 +265,12 @@ public final class Value_Assignment extends ASN1Assignment {
 		}
 
 		final StringBuilder sb = aData.getSrc();
-		StringBuilder source = new StringBuilder();
+		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			source.append( "\tpublic static " );
 		}
 		source.append( "final " );
-		String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
+		final String typeGeneratedName = type.getGenNameValue( aData, source, getMyScope() );
 		source.append( typeGeneratedName );
 		source.append( ' ' );
 		source.append( genName );
