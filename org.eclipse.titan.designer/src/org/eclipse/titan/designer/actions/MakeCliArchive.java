@@ -18,6 +18,7 @@ import org.eclipse.core.resources.IProject;
 import org.eclipse.jface.action.IAction;
 import org.eclipse.jface.viewers.ISelection;
 import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.consoles.TITANConsole;
 import org.eclipse.titan.designer.consoles.TITANDebugConsole;
 import org.eclipse.titan.designer.core.makefile.InternalMakefileGenerator;
@@ -161,11 +162,11 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 
 								zip.close();
 							} catch (IOException e1) {
-								e1.printStackTrace();
+								ErrorReporter.logExceptionStackTrace(e1);
 								TITANConsole.println("Unable to create contents of archive file");
 							}
 						} catch (IOException ioe) {
-							ioe.printStackTrace();
+							ErrorReporter.logExceptionStackTrace(ioe);
 							TITANConsole.println("Unable to create archive file");
 						}
 
@@ -205,7 +206,7 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 			zip.write(data);
 			zip.closeEntry();
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorReporter.logExceptionStackTrace(e);
 			TITANDebugConsole.println("Unable to add README to zip");
 		}
 
@@ -222,7 +223,7 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 			zip.write(buff);
 			zip.closeEntry();
 		} catch (IOException e) {
-			e.printStackTrace();
+			ErrorReporter.logExceptionStackTrace(e);
 			TITANConsole.println("Unable to add file to zip: " + input.getName());
 		}
 
