@@ -74,7 +74,7 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 	 *            The selected project in the Project explorer
 	 */
 
-	public void generateCLIArchive(ISelection selection) {
+	public void generateCLIArchive(final ISelection selection) {
 		if (selection instanceof IStructuredSelection) {
 			final IStructuredSelection structSelection = (IStructuredSelection) selection;
 			IProject singleSelectedProject;
@@ -91,59 +91,60 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 					if ((backupDir.exists()) || (!backupDir.exists() && backupDir.mkdirs())) {
 
 						// Create Zip output stream
-						String dateTime = new SimpleDateFormat("yyyyMMdd_HHmmss")
+						final String dateTime = new SimpleDateFormat("yyyyMMdd_HHmmss")
 								.format(Calendar.getInstance().getTime());
-						String projectName = singleSelectedProject.getName();
-						try	{
-							File zipFile = new File(backupDir, projectName + "_" + dateTime + ".zip");
+						final String projectName = singleSelectedProject.getName();
+						try {
+							final File zipFile = new File(backupDir, projectName + "_" + dateTime + ".zip");
 							zipFile.createNewFile();
 							try {
-								ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
+								final ZipOutputStream zip = new ZipOutputStream(new FileOutputStream(zipFile));
 								File f;
 
-								Iterator<ModuleStruct> ttcn3Files = makefileGenerator.getTtcn3Modules().iterator();
+								final Iterator<ModuleStruct> ttcn3Files = makefileGenerator.getTtcn3Modules().iterator();
 								while (ttcn3Files.hasNext()) {
-									ModuleStruct filedesc = ttcn3Files.next();
+									final ModuleStruct filedesc = ttcn3Files.next();
 									f = new File(filedesc.getOriginalLocation());
 									addToArchive(f, zip);
 								}
 
-								Iterator<ModuleStruct> ttcn3PPFiles = makefileGenerator.getTtcnppModules().iterator();
+								final Iterator<ModuleStruct> ttcn3PPFiles = makefileGenerator.getTtcnppModules().iterator();
 								while (ttcn3PPFiles.hasNext()) {
-									ModuleStruct filedesc = ttcn3PPFiles.next();
+									final ModuleStruct filedesc = ttcn3PPFiles.next();
 									f = new File(filedesc.getOriginalLocation());
 									addToArchive(f, zip);
 								}
 
-								Iterator<ModuleStruct> ASN1Files = makefileGenerator.getAsn1modules().iterator();
+								final Iterator<ModuleStruct> ASN1Files = makefileGenerator.getAsn1modules().iterator();
 								while (ASN1Files.hasNext()) {
-									ModuleStruct filedesc = ASN1Files.next();
+									final ModuleStruct filedesc = ASN1Files.next();
 									f = new File(filedesc.getOriginalLocation());
 									addToArchive(f, zip);
 								}
 
-								Iterator<UserStruct> userFiles = makefileGenerator.getUserFiles().iterator();
+								final Iterator<UserStruct> userFiles = makefileGenerator.getUserFiles().iterator();
 								while (userFiles.hasNext()) {
-									UserStruct filedesc = userFiles.next();
+									final UserStruct filedesc = userFiles.next();
 									f = new File(filedesc.getOriginalSourceLocation());
 									addToArchive(f, zip);
-									String absPath = f.getAbsolutePath();
-									String pathWithoutExt = absPath.substring(0, absPath.lastIndexOf('.') + 1);
 
-									File hFile = new File(pathWithoutExt + "h");
+									final String absPath = f.getAbsolutePath();
+									final String pathWithoutExt = absPath.substring(0, absPath.lastIndexOf('.') + 1);
+
+									final File hFile = new File(pathWithoutExt + "h");
 									if (hFile.exists()) {
 										addToArchive(hFile, zip);
 									}
 
-									File hhFile = new File(pathWithoutExt + "hh");
+									final File hhFile = new File(pathWithoutExt + "hh");
 									if (hhFile.exists()) {
 										addToArchive(hhFile, zip);
 									}
 								}
 
-								Iterator<OtherFileStruct> otherFiles = makefileGenerator.getOtherFiles().iterator();
+								final Iterator<OtherFileStruct> otherFiles = makefileGenerator.getOtherFiles().iterator();
 								while (otherFiles.hasNext()) {
-									OtherFileStruct filedesc = otherFiles.next();
+									final OtherFileStruct filedesc = otherFiles.next();
 									String loc;
 									if (filedesc.getFileName().equals("Makefile")) {
 										loc = binDir + File.separator + filedesc.getFileName();
@@ -183,8 +184,8 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 	/**
 	 * Create the README file for explaining how to deal with the archive
 	 */
-	private void createReadme(ZipOutputStream zip) {
-		StringBuffer buff = new StringBuffer();
+	private void createReadme(final ZipOutputStream zip) {
+		final StringBuffer buff = new StringBuffer();
 
 		buff.append("This archive contains the files of one or more Eclipe Titan projects.\n");
 		buff.append("\n");
@@ -197,7 +198,7 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 		buff.append("The original Makefile used to compile at the source system\n");
 		buff.append("is also included in this archive named \"Makefile.orig\"\n");
 
-		byte[] data = buff.toString().getBytes();
+		final byte[] data = buff.toString().getBytes();
 
 		try {
 			zip.putNextEntry(new ZipEntry("README"));
@@ -210,14 +211,14 @@ public class MakeCliArchive extends AbstractHandler implements IObjectActionDele
 
 	}
 
-	private void addToArchive(File input, ZipOutputStream zip) {
+	private void addToArchive(final File input, final ZipOutputStream zip) {
 		addToArchive(input, input.getName(), zip);
 	}
 
-	private void addToArchive(File input, String fileName, ZipOutputStream zip) {
+	private void addToArchive(final File input, final String fileName, final ZipOutputStream zip) {
 		try {
 			zip.putNextEntry(new ZipEntry(fileName));
-			byte[] buff = Files.readAllBytes(input.toPath());
+			final byte[] buff = Files.readAllBytes(input.toPath());
 			zip.write(buff);
 			zip.closeEntry();
 		} catch (IOException e) {
