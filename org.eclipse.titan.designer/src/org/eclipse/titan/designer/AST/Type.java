@@ -2330,9 +2330,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		}
 
 		final Module module = getMyScope().getModuleScope();
-		final Assignment assignment = module.getEnclosingAssignment(getLocation().getOffset());
-
-		return assignment;
+		return module.getEnclosingAssignment(getLocation().getOffset());
 	}
 
 	@Override
