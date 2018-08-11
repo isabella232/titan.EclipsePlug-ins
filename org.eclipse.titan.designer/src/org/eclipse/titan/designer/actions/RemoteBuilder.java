@@ -145,7 +145,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 				finalCommand.add(actualCommand);
 
 				final StringBuilder builder = new StringBuilder();
-				for (String c : finalCommand) {
+				for (final String c : finalCommand) {
 					builder.append(c + ' ');
 				}
 				TITANConsole.println(builder.toString(),stream); 
@@ -286,7 +286,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 			List<String> commands;
 			List<String> descriptions;
 
-			for (Object selected : structSelection.toList()) {
+			for (final Object selected : structSelection.toList()) {
 				if (selected instanceof IProject && TITANBuilder.isBuilderEnabled((IProject) selected)) {
 					final IProject tempProject = (IProject) selected;
 					final BuildLocation[] locations = ProjectRemoteBuildPropertyData.getBuildLocations(tempProject);
@@ -304,7 +304,7 @@ public final class RemoteBuilder extends AbstractHandler implements IObjectActio
 					commands = new ArrayList<String>();
 					descriptions = new ArrayList<String>();
 
-					for (BuildLocation location : locations) {
+					for (final BuildLocation location : locations) {
 						if (location.getActive()) {
 							hostNames.add(location.getName());
 							commands.add(location.getCommand());

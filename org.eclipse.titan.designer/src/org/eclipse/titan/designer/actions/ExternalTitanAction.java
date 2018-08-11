@@ -155,7 +155,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 		}
 		try {
 			if (!files.isEmpty()) {
-				for (IFile file : files.values()) {
+				for (final IFile file : files.values()) {
 					// As all of the on-the-fly markers will
 					// be deleted during the build, we
 					// have to mark (outdate) those files
@@ -266,7 +266,7 @@ public abstract class ExternalTitanAction extends AbstractHandler implements IWo
 				}
 			}
 
-			for (Object selected : selectionList) {
+			for (final Object selected : selectionList) {
 				if (selected instanceof IFile) {
 					buildFileList((IFile) selected);
 				} else if (selected instanceof IFolder) {

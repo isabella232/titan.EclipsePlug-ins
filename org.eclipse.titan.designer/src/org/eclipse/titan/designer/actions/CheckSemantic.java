@@ -121,7 +121,7 @@ public final class CheckSemantic extends ExternalTitanAction {
 			final String flags = TITANFlagsOptionsData.getTITANFlags(singleSelectedProject, useRuntime2);
 			command.add('-' + SEMANTIC_CHECK_FLAG + " " + flags);
 		}
-		for (String filePath : files.keySet()) {
+		for (final String filePath : files.keySet()) {
 			command.add('\'' + filePath + '\'');
 		}
 		titanJob.addCommand(command, JOB_TITLE);

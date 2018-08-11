@@ -129,7 +129,7 @@ public final class ConvertXSD2TTCN extends ExternalTitanAction {
 		command.add(PathConverter.convert(
 				new Path(pathOfTITAN + File.separatorChar + "bin" + File.separatorChar + "xsd2ttcn").toOSString(),
 				reportDebugInformation, TITANDebugConsole.getConsole()));
-		for (String filePath : files.keySet()) {
+		for (final String filePath : files.keySet()) {
 			command.add('\'' + filePath + '\'');
 		}
 		titanJob.addCommand(command, JOB_TITLE);

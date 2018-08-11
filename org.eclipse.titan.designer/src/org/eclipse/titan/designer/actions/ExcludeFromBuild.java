@@ -151,7 +151,7 @@ public final class ExcludeFromBuild extends AbstractHandler implements IObjectAc
 			final Set<IResource> resourcesToRefresh = new HashSet<IResource>();
 			final Set<IProject> projectsToRefresh = new HashSet<IProject>();
 
-			for (Object selected : structSelection.toList()) {
+			for (final Object selected : structSelection.toList()) {
 				if (selected instanceof IFile) {
 					final IFile file = (IFile) selected;
 					resourcesToRefresh.add(file);

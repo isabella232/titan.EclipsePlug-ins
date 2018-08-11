@@ -91,7 +91,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 
 		final IStructuredSelection structSelection = (IStructuredSelection) selection;
 
-		for (Object selected : structSelection.toList()) {
+		for (final Object selected : structSelection.toList()) {
 			if (selected instanceof IProject && TITANBuilder.isBuilderEnabled((IProject) selected)) {
 				final IProject tempProject = (IProject) selected;
 				try {
@@ -172,7 +172,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		final Element projectsElement = document.createElement("ReferencedProjects");
 		root.appendChild(projectsElement);
 		final IProject[] referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getReferencedProjects();
-		for (IProject tempProject : referencedProjects) {
+		for (final IProject tempProject : referencedProjects) {
 			final Element element = document.createElement("ReferencedProject");
 			element.setAttribute("name", tempProject.getName());
 			element.setAttribute("location", tempProject.getLocationURI().toString());
@@ -189,7 +189,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		root.appendChild(filesElement);
 		final TITANBuilderResourceVisitor visitor = ProjectBasedBuilder.getProjectBasedBuilder(project).getResourceVisitor();
 		final Map<String, IFile> files = visitor.getFiles();
-		for (IFile file : files.values()) {
+		for (final IFile file : files.values()) {
 			final Element element = document.createElement("File");
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
@@ -208,7 +208,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		}
 
 		final Map<String, IFile> contralStorageFiles = visitor.getCentralStorageFiles();
-		for (IFile file : contralStorageFiles.values()) {
+		for (final IFile file : contralStorageFiles.values()) {
 			final Element element = document.createElement("File");
 			final String fileLocation = file.getLocation().toString();
 			element.setAttribute("path", fileLocation);
@@ -227,7 +227,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 		}
 
 		final Map<String, IFile> filesOfReferencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getFilesofReferencedProjects();
-		for (IFile file : filesOfReferencedProjects.values()) {
+		for (final IFile file : filesOfReferencedProjects.values()) {
 			final Element element = document.createElement("File");
 			element.setAttribute("path", file.getLocationURI().toString());
 			if (win32 && file.getLocation() != null) {
@@ -370,7 +370,7 @@ public final class GenerateBuilderInformation extends AbstractHandler implements
 
 		final IStructuredSelection structSelection = (IStructuredSelection) selection;
 
-		for (Object selected : structSelection.toList()) {
+		for (final Object selected : structSelection.toList()) {
 			if (selected instanceof IProject && TITANBuilder.isBuilderEnabled((IProject) selected)) {
 				final IProject tempProject = (IProject) selected;
 				try {
