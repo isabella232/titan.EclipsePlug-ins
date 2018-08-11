@@ -1249,6 +1249,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 	 * @param expression the expression for code generated
 	 * @param isTemplate if the reference is pointing to a template
 	 * @param optype true to generate code for isbound, false otherwise
+	 * @param field the expression to be used to reach the last union's field, or null.
 	 * */
 	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final boolean isTemplate,
 			final Operation_type optype, final String field) {

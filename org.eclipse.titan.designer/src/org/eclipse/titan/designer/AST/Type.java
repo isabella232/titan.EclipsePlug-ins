@@ -3140,8 +3140,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * of the assignment where the call chain starts.
 	 * @param isTemplate is_template tells if the assignment is a template or not.
 	 * @param optype tells if the function is isbound or ispresent.
+	 * @param field the expression to be used to reach the last union's field, or null.
 	 * */
-	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, String field) {
+	public void generateCodeIsPresentBoundChosen(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 			return;
 		}
@@ -3176,6 +3177,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	 * of the assignment where the call chain starts.
 	 * @param isTemplate is_template tells if the assignment is a template or not.
 	 * @param isBound tells if the function is isbound or ispresent.
+	 * @param field the expression to be used to reach the last union's field, or null.
 	 * */
 	protected void generateCodeIspresentBound_forStrings(final JavaGenData aData, final ExpressionStruct expression, final List<ISubReference> subreferences, final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (subreferences == null || getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
