@@ -110,9 +110,10 @@ public abstract class ASN1Assignment extends Assignment {
 			return null;
 		}
 
-		String newName = getIdentifier().getAsnName() + "." + module.getIdentifier().getAsnName() + ".inst";
-		newName += assPard.newInstanceNumber(module);
-		return internalNewInstance(new Identifier(Identifier_type.ID_ASN, newName));
+		final StringBuilder newName = new StringBuilder();
+		newName.append(getIdentifier().getAsnName()).append('.').append(module.getIdentifier().getAsnName()).append(".inst");
+		newName.append(assPard.newInstanceNumber(module));
+		return internalNewInstance(new Identifier(Identifier_type.ID_ASN, newName.toString()));
 	}
 
 	/**
