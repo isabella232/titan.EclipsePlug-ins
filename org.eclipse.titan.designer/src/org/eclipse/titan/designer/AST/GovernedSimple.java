@@ -87,12 +87,13 @@ public abstract class GovernedSimple extends Governed implements IGovernedSimple
 	 * initialized.
 	 * */
 	public String get_lhs_name() {
-		String returnValue = new String();
+		final StringBuilder builder = new StringBuilder();
 		if (genNamePrefix != null) {
-			returnValue = returnValue + genNamePrefix;
+			builder.append(genNamePrefix);
 		}
-		returnValue = returnValue + getGenNameOwn();
 
-		return returnValue;
+		builder.append(getGenNameOwn());
+
+		return builder.toString();
 	}
 }
