@@ -2663,7 +2663,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				}
 				preInit.append("null");
 				for (int j = 0; j < fieldList.names.size(); j++) {
-					preInit.append(")");
+					preInit.append(')');
 				}
 				preInit.append(");\n");
 			}
