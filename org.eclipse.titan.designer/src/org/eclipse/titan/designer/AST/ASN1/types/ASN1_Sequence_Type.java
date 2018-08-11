@@ -671,7 +671,16 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 
 				if (componentValue != null) {
 					componentValue.setMyGovernor(type);
-					final IValue temporalValue = type.checkThisValueRef(timestamp, componentValue);
+					IValue temporalValue = componentValue;
+					if (componentValue.getValuetype() == Value_type.NOTUSED_VALUE) {
+						if (implicitOmit) {
+							temporalValue = componentValue.setValuetype(valueTimeStamp, Value_type.OMIT_VALUE);
+						} else {
+							continue;
+						}
+					}
+
+					temporalValue = type.checkThisValueRef(timestamp, temporalValue);
 					boolean isOptional = componentField.isOptional();
 					if (!isOptional && componentField.hasDefault() && defaultAsOptional) {
 						isOptional = true;
