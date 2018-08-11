@@ -240,7 +240,7 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 	}
 
 	@Override
-	public void generateCode(JavaGenData aData, boolean cleanUp) {
+	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
 		if (realAssignment != null) {
 			realAssignment.generateCode(aData, cleanUp);
 			return;

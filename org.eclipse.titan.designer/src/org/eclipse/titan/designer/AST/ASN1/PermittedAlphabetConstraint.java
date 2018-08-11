@@ -52,7 +52,7 @@ public class PermittedAlphabetConstraint extends Constraint {
 
 	@Override
 	/** {@inheritDoc} */
-	public void check(CompilationTimeStamp timestamp) {
+	public void check(final CompilationTimeStamp timestamp) {
 		//Not Yet supported
 		final IPreferencesService preferenceService = Platform.getPreferencesService();
 		final String option = preferenceService.getString(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.REPORTUNSUPPORTEDCONSTRUCTS, GeneralConstants.WARNING, null);
@@ -61,7 +61,7 @@ public class PermittedAlphabetConstraint extends Constraint {
 
 	@Override
 	/** {@inheritDoc} */
-	protected boolean memberAccept(ASTVisitor v) {
+	protected boolean memberAccept(final ASTVisitor v) {
 		// TODO
 		return true;
 	}
