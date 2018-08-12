@@ -345,16 +345,18 @@ public final class AndExpression extends Expression_Value {
 
 			expression.preamble.append("if (");
 			expression.preamble.append(tempId);
-			expression.preamble.append(") ");
+			expression.preamble.append(") {\n");
 
 			expression2 = new ExpressionStruct();
 			expression2.expression.append(tempId);
 			expression2.expression.append(" = ");
 			value2.generateCodeExpressionMandatory(aData, expression2, false);
 			if (!value2.returnsNative()) {
-				expression2.expression.append(".getValue() ");
+				expression2.expression.append(".getValue()");
 			}
+
 			expression2.mergeExpression(expression.preamble);
+			expression.preamble.append("}\n");
 
 			expression.expression.append(tempId);
 		} else {
