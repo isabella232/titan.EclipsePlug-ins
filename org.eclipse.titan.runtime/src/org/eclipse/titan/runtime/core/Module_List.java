@@ -10,7 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * The base class of handling modules
@@ -108,9 +108,9 @@ public final class Module_List {
 			try {
 				module.control();
 			} catch (TtcnError TC_error) {
-				TtcnLogger.log_str(Severity.ERROR_UNQUALIFIED, MessageFormat.format("Unrecoverable error in control part of module {0}. Execution aborted.", module_name));
+				TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, MessageFormat.format("Unrecoverable error in control part of module {0}. Execution aborted.", module_name));
 			} catch (TC_End TC_end) {
-				TtcnLogger.log_str(Severity.FUNCTION_UNQUALIFIED, MessageFormat.format("Control part of module {0} was stopped.", module_name));
+				TTCN_Logger.log_str(Severity.FUNCTION_UNQUALIFIED, MessageFormat.format("Control part of module {0} was stopped.", module_name));
 			}
 		}
 	}

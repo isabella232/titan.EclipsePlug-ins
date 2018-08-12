@@ -9,7 +9,7 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * Base_Template in core
@@ -120,26 +120,26 @@ public abstract class Base_Template {
 	protected void log_generic() {
 		switch (templateSelection) {
 		case UNINITIALIZED_TEMPLATE:
-			TtcnLogger.log_event_uninitialized();
+			TTCN_Logger.log_event_uninitialized();
 			break;
 		case OMIT_VALUE:
-			TtcnLogger.log_event_str("omit");
+			TTCN_Logger.log_event_str("omit");
 			break;
 		case ANY_VALUE:
-			TtcnLogger.log_char('?');
+			TTCN_Logger.log_char('?');
 			break;
 		case ANY_OR_OMIT:
-			TtcnLogger.log_char('*');
+			TTCN_Logger.log_char('*');
 			break;
 		default:
-			TtcnLogger.log_event_str("<unknown template selection>");
+			TTCN_Logger.log_event_str("<unknown template selection>");
 			break;
 		}
 	}
 
 	protected void log_ifpresent() {
 		if (is_ifPresent) {
-			TtcnLogger.log_event_str(" ifpresent");
+			TTCN_Logger.log_event_str(" ifpresent");
 		}
 	}
 
@@ -208,11 +208,11 @@ public abstract class Base_Template {
 
 	public void set_param (final Module_Parameter param) {
 		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".set_param() is not yet implemented!\n" );
-		TtcnLogger.end_event();
+		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TTCN_Logger.log_event_str( "//TODO: " );
+		TTCN_Logger.log_event_str( getClass().getSimpleName() );
+		TTCN_Logger.log_event_str( ".set_param() is not yet implemented!\n" );
+		TTCN_Logger.end_event();
 	}
 
 	public abstract void encode_text(final Text_Buf text_buf);

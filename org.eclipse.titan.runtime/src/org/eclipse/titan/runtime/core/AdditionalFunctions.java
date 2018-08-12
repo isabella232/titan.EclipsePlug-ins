@@ -1351,34 +1351,34 @@ public final class AdditionalFunctions {
 			if (state == str2intState.S_ERR) {
 				TtcnError.TtcnErrorBegin("The argument of function str2int(), which is ");
 				value.log();
-				TtcnLogger.log_event_str(", does not represent a valid integer value. Invalid character `");
-				TtcnLogger.logCharEscaped(c);
-				TtcnLogger.log_event("' was found at index %d.", i);
+				TTCN_Logger.log_event_str(", does not represent a valid integer value. Invalid character `");
+				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_event("' was found at index %d.", i);
 				TtcnError.TtcnErrorEnd();
 			}
 		}
 		if (state != str2intState.S_ZERO && state != str2intState.S_MORE && state != str2intState.S_END) {
 			TtcnError.TtcnErrorBegin("The argument of function str2int(), which is ");
 			value.log();
-			TtcnLogger.log_event_str(", does not represent a valid integer value. Premature end of the string.");
+			TTCN_Logger.log_event_str(", does not represent a valid integer value. Premature end of the string.");
 			TtcnError.TtcnErrorEnd();
 		}
 		if (leading_ws) {
 			TtcnError.TtcnWarningBegin("Leading whitespace was detected in the argument of function str2int(): ");
 			value.log();
-			TtcnLogger.log_event_str(".");
+			TTCN_Logger.log_event_str(".");
 			TtcnError.TtcnWarningEnd();
 		}
 		if (leading_zero) {
 			TtcnError.TtcnWarningBegin("Leading zero digit was detected in the argument of function str2int(): ");
 			value.log();
-			TtcnLogger.log_event_str(".");
+			TTCN_Logger.log_event_str(".");
 			TtcnError.TtcnWarningEnd();
 		}
 		if (state == str2intState.S_END) {
 			TtcnError.TtcnWarningBegin("Trailing whitespace was detected in the argument of function str2int(): ");
 			value.log();
-			TtcnLogger.log_event_str(".");
+			TTCN_Logger.log_event_str(".");
 			TtcnError.TtcnWarningEnd();
 		}
 
@@ -1391,8 +1391,8 @@ public final class AdditionalFunctions {
 		final char c = value.get_char();
 		if (c < '0' || c > '9') {
 			TtcnError.TtcnErrorBegin("The argument of function str2int(), which is a charstring element containing character `");
-			TtcnLogger.logCharEscaped(c);
-			TtcnLogger.log_event_str("', does not represent a valid integer value.");
+			TTCN_Logger.logCharEscaped(c);
+			TTCN_Logger.log_event_str("', does not represent a valid integer value.");
 			TtcnError.TtcnErrorEnd();
 		}
 		return new TitanInteger(Integer.valueOf(c - '0'));
@@ -1423,8 +1423,8 @@ public final class AdditionalFunctions {
 			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit > 0x0F) {
 				TtcnError.TtcnErrorBegin("The argument of function str2oct() shall contain hexadecimal digits only, but character `");
-				TtcnLogger.logCharEscaped(c);
-				TtcnLogger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
+				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
 			if (i % 2 != 0) {
@@ -1594,9 +1594,9 @@ public final class AdditionalFunctions {
 			if (state == str2floatState.S_ERR) {
 				TtcnError.TtcnErrorBegin("The argument of function str2float() which is ");
 				value.log();
-				TtcnLogger.log_event_str("' , does not represent a valid float value. Invalid character ");
-				TtcnLogger.logCharEscaped(c);
-				TtcnLogger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
+				TTCN_Logger.log_event_str("' , does not represent a valid float value. Invalid character ");
+				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_event_str(MessageFormat.format("' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
 		}
@@ -1616,25 +1616,25 @@ public final class AdditionalFunctions {
 		default:
 			TtcnError.TtcnErrorBegin("The argument of function str2float() which is ");
 			value.log();
-			TtcnLogger.log_event_str("' , does not represent a valid float value. Premature end of the string.");
+			TTCN_Logger.log_event_str("' , does not represent a valid float value. Premature end of the string.");
 			TtcnError.TtcnErrorEnd();
 		}
 		if (leading_ws) {
 			TtcnError.TtcnWarningBegin("Leading whitespace was detected in the argument of function str2float(): ");
 			value.log();
-			TtcnLogger.log_char('.');
+			TTCN_Logger.log_char('.');
 			TtcnError.TtcnWarningEnd();
 		}
 		if (leading_zero) {
 			TtcnError.TtcnWarningBegin("Leading zero digit was detected in the argument of function str2float(): ");
 			value.log();
-			TtcnLogger.log_char('.');
+			TTCN_Logger.log_char('.');
 			TtcnError.TtcnWarningEnd();
 		}
 		if (state == str2floatState.S_END) {
 			TtcnError.TtcnWarningBegin("Trailing whitespace was detected in the argument of function str2float(): ");
 			value.log();
-			TtcnLogger.log_char('.');
+			TTCN_Logger.log_char('.');
 			TtcnError.TtcnWarningEnd();
 		}
 
@@ -2654,8 +2654,8 @@ public final class AdditionalFunctions {
 				break;
 			default:
 				TtcnError.TtcnErrorBegin("The argument of function str2bit() shall contain characters '0' and '1' only, but character `");
-				TtcnLogger.logCharEscaped(c);
-				TtcnLogger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
+				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
 		}
@@ -2669,8 +2669,8 @@ public final class AdditionalFunctions {
 		final char c = value.get_char();
 		if (c != '0' && c != '1') {
 			TtcnError.TtcnErrorBegin("The argument of function str2bit() shall contain characters '0' and '1' only, but the given charstring element contains the character `");
-			TtcnLogger.logCharEscaped(c);
-			TtcnLogger.log_event_str("'.");
+			TTCN_Logger.logCharEscaped(c);
+			TTCN_Logger.log_event_str("'.");
 			TtcnError.TtcnErrorEnd();
 		}
 
@@ -2699,8 +2699,8 @@ public final class AdditionalFunctions {
 			final byte hexdigit = charToHexDigit(c);
 			if (hexdigit < 0x00) {
 				TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain hexadecimal digits only, but character `");
-				TtcnLogger.logCharEscaped(c);
-				TtcnLogger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
+				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_event_str(MessageFormat.format("'' was found at index {0}.", i));
 				TtcnError.TtcnErrorEnd();
 			}
 			ret_val[i] = hexdigit;
@@ -2717,8 +2717,8 @@ public final class AdditionalFunctions {
 
 		if (hexdigit < 0x00) {
 			TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character `");
-			TtcnLogger.logCharEscaped(c);
-			TtcnLogger.log_event_str("'.");
+			TTCN_Logger.logCharEscaped(c);
+			TTCN_Logger.log_event_str("'.");
 			TtcnError.TtcnErrorEnd();
 		}
 
@@ -2809,13 +2809,13 @@ public final class AdditionalFunctions {
 	public static void setRndSeed(final double floatSeed) {
 		TitanFloat.checkNumeric(floatSeed,"The seed value of function rnd()");
 		random.setSeed((long)floatSeed);
-		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
+		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.seed, floatSeed, (long)floatSeed);
 		rndSeedSet = true;
 	}
 
 	public static TitanFloat rndGenerate() {
 		final double returnValue = random.nextDouble();
-		TtcnLogger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
+		TTCN_Logger.log_random(TitanLoggerApi.RandomAction.enum_type.read__out, returnValue, 0);
 
 		return new TitanFloat(returnValue);
 	}

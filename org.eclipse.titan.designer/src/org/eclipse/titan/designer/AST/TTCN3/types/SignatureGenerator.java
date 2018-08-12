@@ -187,21 +187,21 @@ public class SignatureGenerator {
 		source.append("}\n");
 
 		source.append("public void log() {");
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : '{' \");\n", def.displayName));
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : '{' \");\n", def.displayName));
 		boolean isFirst = true;
 		for (int i = 0; i < def.formalParameters.size(); i++) {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 			if (formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 				if (isFirst) {
-					source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} := \");\n", formalPar.mJavaName));
+					source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} := \");\n", formalPar.mJavaName));
 					isFirst = false;
 				} else {
-					source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
+					source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
 				}
 				source.append(MessageFormat.format("param_{0}.log();\n", formalPar.mJavaName));
 			}
 		}
-		source.append("TtcnLogger.log_event_str(\" }\");\n");
+		source.append("TTCN_Logger.log_event_str(\" }\");\n");
 		source.append("}\n");
 
 		source.append("}\n");
@@ -372,26 +372,26 @@ public class SignatureGenerator {
 			source.append("}\n");
 
 			source.append("public void log() {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : '{' \");\n", def.displayName));
+			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : '{' \");\n", def.displayName));
 			boolean isFirst = true;
 			for (int i = 0 ; i < def.formalParameters.size(); i++) {
 				final SignatureParameter formalPar = def.formalParameters.get(i);
 
 				if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
 					if (isFirst) {
-						source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} := \");\n", formalPar.mJavaName));
+						source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} := \");\n", formalPar.mJavaName));
 						isFirst = false;
 					} else {
-						source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
+						source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
 					}
 					source.append(MessageFormat.format("param_{0}.log();\n", formalPar.mJavaName));
 				}
 			}
 			if (def.returnType != null) {
-				source.append("TtcnLogger.log_event_str(\" } value \");\n");
+				source.append("TTCN_Logger.log_event_str(\" } value \");\n");
 				source.append("reply_value.log();\n");
 			} else {
-				source.append("TtcnLogger.log_event_str(\" }\");\n");
+				source.append("TTCN_Logger.log_event_str(\" }\");\n");
 			}
 			source.append("}\n");
 
@@ -620,18 +620,18 @@ public class SignatureGenerator {
 			source.append("}\n");
 
 			source.append("public void log() {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}, \");\n", def.displayName));
+			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
+				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
 				source.append("field.log();\n");
 				source.append("break;\n");
 			}
 			source.append("default:\n");
-			source.append("TtcnLogger.log_event_str(\"<uninitialized exception>\");\n");
+			source.append("TTCN_Logger.log_event_str(\"<uninitialized exception>\");\n");
 			source.append("}\n");
 			source.append("}\n");
 
@@ -676,37 +676,37 @@ public class SignatureGenerator {
 			source.append("}\n");
 
 			source.append(MessageFormat.format("public void log_match(final {0}_exception other_value, final boolean legacy) '{'\n", def.genName));
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}, \");\n", def.displayName));
+			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}, \");\n", def.displayName));
 			source.append("if (exception_selection == other_value.get_selection()) {\n");
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
+				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
 				source.append(MessageFormat.format("field.log_match(other_value.constGet{0}(), legacy);\n", exception.mJavaTypeName));
 				source.append("break;");
 			}
 			source.append("default:\n");
-			source.append("TtcnLogger.log_event_str(\"<invalid selector>\");");
+			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
 			source.append("}\n");
 			source.append("} else {\n");
 			source.append("other_value.log();\n");
-			source.append("TtcnLogger.log_event_str(\" with \");\n");
+			source.append("TTCN_Logger.log_event_str(\" with \");\n");
 			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
-				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
+				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0} : \");\n", exception.mDisplayName));
 				source.append("field.log();\n");
 				source.append("break;");
 			}
 			source.append("default:\n");
-			source.append("TtcnLogger.log_event_str(\"<invalid selector>\");");
+			source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");");
 			source.append("}\n");
-			source.append("if (match(other_value, legacy)) TtcnLogger.log_event_str(\" matched\");\n");
-			source.append("else TtcnLogger.log_event_str(\" unmatched\");\n");
+			source.append("if (match(other_value, legacy)) TTCN_Logger.log_event_str(\" matched\");\n");
+			source.append("else TTCN_Logger.log_event_str(\" unmatched\");\n");
 			source.append("}\n");
 			source.append("}\n");
 
@@ -914,14 +914,14 @@ public class SignatureGenerator {
 			final SignatureParameter formalPar = def.formalParameters.get(i);
 
 			if (isFirst) {
-				source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName));
+				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName));
 				isFirst = false;
 			} else {
-				source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
+				source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName));
 			}
 			source.append(MessageFormat.format("param_{0}.log();\n", formalPar.mJavaName ));
 		}
-		source.append("TtcnLogger.log_event_str(\" }\");\n");
+		source.append("TTCN_Logger.log_event_str(\" }\");\n");
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public void log_match_call(final {0}_call match_value, final boolean legacy) '{'\n", def.genName));
@@ -931,15 +931,15 @@ public class SignatureGenerator {
 
 			if(formalPar.direction != signatureParamaterDirection.PAR_OUT) {
 				if (isFirst) {
-					source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
 					isFirst = false;
 				} else {
-					source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
+					source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
 				}
 				source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
 			}
 		}
-		source.append("TtcnLogger.log_event_str(\" }\");\n");
+		source.append("TTCN_Logger.log_event_str(\" }\");\n");
 		source.append("}\n");
 
 		if(!def.isNoBlock) {
@@ -951,23 +951,23 @@ public class SignatureGenerator {
 
 					if(formalPar.direction != signatureParamaterDirection.PAR_IN) {
 						if (isFirst) {
-							source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
+							source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"'{' {0} := \");\n", formalPar.mJavaName ));
 							isFirst = false;
 						} else {
-							source.append(MessageFormat.format("TtcnLogger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
+							source.append(MessageFormat.format("TTCN_Logger.log_event_str(\", {0} := \");\n", formalPar.mJavaName ));
 						}
 						source.append(MessageFormat.format("param_{0}.log_match(match_value.get{0}(), legacy);\n", formalPar.mJavaName ));
 					}
 				}
 				if (def.returnType != null) {
-					source.append("TtcnLogger.log_event_str(\" } value \");\n");
+					source.append("TTCN_Logger.log_event_str(\" } value \");\n");
 					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
 				}
 			} else {
 				if (def.returnType == null) {
-					source.append("TtcnLogger.log_event_str(\"{ } with {} matched\");\n");
+					source.append("TTCN_Logger.log_event_str(\"{ } with {} matched\");\n");
 				} else {
-					source.append("TtcnLogger.log_event_str(\"{ } with {} matched value \");\n");
+					source.append("TTCN_Logger.log_event_str(\"{ } with {} matched value \");\n");
 					source.append("reply_value.log_match(match_value.getreturn_value(), legacy);\n");
 				}
 			}

@@ -537,17 +537,17 @@ public class TTCN_Buffer {
 	}
 
 	public void log() {
-		TtcnLogger.log_event_str(MessageFormat.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
+		TTCN_Logger.log_event_str(MessageFormat.format("Buffer: size: {0}, pos: {1}, len: {2} data: (", data_ptr.length, buf_pos, buf_len));
 		if (buf_len > 0) {
 			for (int i = 0; i < buf_pos; i++) {
-				TtcnLogger.log_octet(data_ptr[i]);
+				TTCN_Logger.log_octet(data_ptr[i]);
 			}
-			TtcnLogger.log_event_str(" | ");
+			TTCN_Logger.log_event_str(" | ");
 			for (int i = buf_pos; i < buf_len; i++) {
-				TtcnLogger.log_octet(data_ptr[i]);
+				TTCN_Logger.log_octet(data_ptr[i]);
 			}
 		}
-		TtcnLogger.log_char(')');
+		TTCN_Logger.log_char(')');
 	}
 
 	/** Puts a bit string in the buffer. Use only this function if you use the buffer as bit buffer.

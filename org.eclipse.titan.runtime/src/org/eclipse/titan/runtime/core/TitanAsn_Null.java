@@ -122,9 +122,9 @@ public class TitanAsn_Null extends Base_Type {
 
 	public void log() {
 		if (boundFlag) {
-			TtcnLogger.log_event_str("NULL");
+			TTCN_Logger.log_event_str("NULL");
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

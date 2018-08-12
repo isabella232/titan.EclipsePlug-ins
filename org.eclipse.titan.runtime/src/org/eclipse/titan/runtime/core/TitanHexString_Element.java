@@ -191,11 +191,11 @@ public class TitanHexString_Element {
 
 	public void log() {
 		if (bound_flag) {
-			TtcnLogger.log_char('\'');
-			TtcnLogger.log_hex(str_val.get_nibble(nibble_pos));
-			TtcnLogger.log_event_str("'H");
+			TTCN_Logger.log_char('\'');
+			TTCN_Logger.log_hex(str_val.get_nibble(nibble_pos));
+			TTCN_Logger.log_event_str("'H");
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 }

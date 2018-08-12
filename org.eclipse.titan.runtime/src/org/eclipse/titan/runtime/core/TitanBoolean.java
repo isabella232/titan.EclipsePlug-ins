@@ -223,9 +223,9 @@ public class TitanBoolean extends Base_Type {
 	// log()
 	public void log() {
 		if (boolean_value != null) {
-			TtcnLogger.log_event_str(boolean_value.toString());
+			TTCN_Logger.log_event_str(boolean_value.toString());
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

@@ -197,7 +197,7 @@ public class TitanTimer {
 				isStarted = true;
 			}
 
-			TtcnLogger.log_timer_start(timerName, startValue);
+			TTCN_Logger.log_timer_start(timerName, startValue);
 			addToList();
 		} else {
 			if (startValue < 0.0) {
@@ -210,7 +210,7 @@ public class TitanTimer {
 			}
 
 			isStarted = true;
-			TtcnLogger.log_timer_guard(startValue);
+			TTCN_Logger.log_timer_guard(startValue);
 		}
 
 		timeStarted = TTCN_Snapshot.timeNow();
@@ -234,7 +234,7 @@ public class TitanTimer {
 		if (this != testcaseTimer) {
 			if (isStarted) {
 				isStarted = false;
-				TtcnLogger.log_timer_stop(timerName, timeExpires - timeStarted);
+				TTCN_Logger.log_timer_stop(timerName, timeExpires - timeStarted);
 				removeFromList();
 			} else {
 				TtcnError.TtcnWarning(MessageFormat.format("Stopping inactive timer {0}.", timerName));
@@ -263,7 +263,7 @@ public class TitanTimer {
 			returnValue = 0.0;
 		}
 
-		TtcnLogger.log_timer_read(timerName, returnValue);
+		TTCN_Logger.log_timer_read(timerName, returnValue);
 
 		return new TitanFloat(returnValue);
 	}
@@ -320,14 +320,14 @@ public class TitanTimer {
 
 			isStarted = false;
 			if (this != testcaseTimer) {
-				TtcnLogger.log_timer_timeout(timerName, timeExpires - timeStarted);
+				TTCN_Logger.log_timer_timeout(timerName, timeExpires - timeStarted);
 				removeFromList();
 			}
 
 			return TitanAlt_Status.ALT_YES;
 		} else {
 			if (this != testcaseTimer) {
-				TtcnLogger.log_matching_timeout(timerName);
+				TTCN_Logger.log_matching_timeout(timerName);
 			}
 
 			return TitanAlt_Status.ALT_NO;
@@ -374,7 +374,7 @@ public class TitanTimer {
 		for (final TitanTimer timer : TIMERS.get()) {
 			switch (timer.timeout(null)) {
 			case ALT_YES:
-				TtcnLogger.log_timer_any_timeout();
+				TTCN_Logger.log_timer_any_timeout();
 				return TitanAlt_Status.ALT_YES;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
@@ -386,7 +386,7 @@ public class TitanTimer {
 		}
 
 		if (returnValue == TitanAlt_Status.ALT_NO) {
-			TtcnLogger.log_matching_timeout(null);
+			TTCN_Logger.log_matching_timeout(null);
 		}
 
 		return returnValue;
@@ -457,25 +457,25 @@ public class TitanTimer {
 	// originally TIMER::log()
 	public void log() {
 		// the time is not frozen (i.e. time_now() is used)
-		TtcnLogger.log_event("timer: { name: " + timerName + ", default duration: ");
+		TTCN_Logger.log_event("timer: { name: " + timerName + ", default duration: ");
 		if (hasDefault) {
-			TtcnLogger.log_event(defaultValue + " s");
+			TTCN_Logger.log_event(defaultValue + " s");
 		} else {
-			TtcnLogger.log_event_str("none");
+			TTCN_Logger.log_event_str("none");
 		}
-		TtcnLogger.log_event_str(", state: ");
+		TTCN_Logger.log_event_str(", state: ");
 		if (isStarted) {
 			final double current_time = TTCN_Snapshot.timeNow();
 			if (current_time < timeExpires) {
-				TtcnLogger.log_event_str("running");
+				TTCN_Logger.log_event_str("running");
 			} else {
-				TtcnLogger.log_event_str("expired");
+				TTCN_Logger.log_event_str("expired");
 			}
-			TtcnLogger.log_event(", actual duration: " + (timeExpires - timeStarted) + " s,elapsed time: " + (current_time - timeStarted)
+			TTCN_Logger.log_event(", actual duration: " + (timeExpires - timeStarted) + " s,elapsed time: " + (current_time - timeStarted)
 					+ " s");
 		} else {
-			TtcnLogger.log_event_str("inactive");
+			TTCN_Logger.log_event_str("inactive");
 		}
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 }

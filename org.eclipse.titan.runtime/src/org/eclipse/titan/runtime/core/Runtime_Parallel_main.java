@@ -8,7 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * The class handling parallel mode operations.
@@ -40,9 +40,9 @@ public class Runtime_Parallel_main {
 
 		try {
 			TTCN_Snapshot.initialize();
-			TtcnLogger.initialize_logger();
-			TtcnLogger.set_executable_name();
-			TtcnLogger.set_start_time();
+			TTCN_Logger.initialize_logger();
+			TTCN_Logger.set_executable_name();
+			TTCN_Logger.set_start_time();
 
 			try {
 				Module_List.pre_init_modules();
@@ -52,7 +52,7 @@ public class Runtime_Parallel_main {
 				returnValue = -1;
 			}
 		} catch (Throwable t) {
-			TtcnLogger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
+			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
 
 			returnValue = -1;
 		}
@@ -61,7 +61,7 @@ public class Runtime_Parallel_main {
 		TitanComponent.clear_component_names();
 		TTCN_EncDec.clear_error();
 
-		TtcnLogger.terminate_logger();
+		TTCN_Logger.terminate_logger();
 		TTCN_Snapshot.terminate();
 
 		return returnValue;

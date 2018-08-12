@@ -47,7 +47,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("TitanNull_Type");
 		aData.addBuiltinTypeImport("AdditionalFunctions");
 		aData.addBuiltinTypeImport("RecordOfMatch");
-		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
@@ -119,7 +119,7 @@ public class RecordOfGenerator {
 		aData.addBuiltinTypeImport("RecordOfMatch.match_function_t");
 		aData.addBuiltinTypeImport("Restricted_Length_Template");
 		aData.addBuiltinTypeImport("Optional");
-		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_Logger");
 		if ( isSetOf ) {
 			aData.addBuiltinTypeImport("RecordOfMatch.log_function_t");
 		}
@@ -741,18 +741,18 @@ public class RecordOfGenerator {
 	private static void generateValueLog(final StringBuilder source) {
 		source.append("\tpublic void log() {\n");
 		source.append("\t\tif (valueElements == null) {\n");
-		source.append("\t\t\tTtcnLogger.log_event_unbound();\n");
+		source.append("\t\t\tTTCN_Logger.log_event_unbound();\n");
 		source.append("\t\t\treturn;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tTtcnLogger.log_event_str(\"{ \");\n");
+		source.append("\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 		source.append("\t\tfinal int size = valueElements.size();\n");
 		source.append("\t\tfor (int i = 0; i < size; i++ ) {\n");
 		source.append("\t\t\tif ( i > 0 ) {\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\tvalueElements.get(i).log();\n");
 		source.append("\t\t}\n");
-		source.append("\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t}\n");
 	}
 
@@ -2009,51 +2009,51 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\tswitch (templateSelection) {\n");
 		aSb.append("\t\t\tcase SPECIFIC_VALUE:\n");
 		aSb.append("\t\t\t\tif (value_elements.size() > 0) {\n");
-		aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\"{ \");\n");
+		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 		aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 		aSb.append("\t\t\t\t\t\tif (elem_count > 0) {\n");
-		aSb.append("\t\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		aSb.append("\t\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		aSb.append("\t\t\t\t\t\t}\n");
 		if ( !isSetOf ) {
 			aSb.append("\t\t\t\t\t\tif (permutation_starts_at(elem_count)) {\n");
-			aSb.append("\t\t\t\t\t\t\tTtcnLogger.log_event_str(\"permutation(\");\n");
+			aSb.append("\t\t\t\t\t\t\tTTCN_Logger.log_event_str(\"permutation(\");\n");
 			aSb.append("\t\t\t\t\t\t}\n");
 		}
 		aSb.append("\t\t\t\t\t\tvalue_elements.get(elem_count).log();\n");
 		if ( !isSetOf ) {
 			aSb.append("\t\t\t\t\t\tif (permutation_ends_at(elem_count)) {\n");
-			aSb.append("\t\t\t\t\t\t\tTtcnLogger.log_char(')');\n");
+			aSb.append("\t\t\t\t\t\t\tTTCN_Logger.log_char(')');\n");
 			aSb.append("\t\t\t\t\t\t}\n");
 		}
 		aSb.append("\t\t\t\t\t}\n");
-		aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		aSb.append("\t\t\t\t} else {\n");
-		aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\"{ }\");\n");
+		aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\"{ }\");\n");
 		aSb.append("\t\t\t\t}\n");
 		aSb.append("\t\t\t\tbreak;\n");
 		aSb.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		aSb.append("\t\t\t\tTtcnLogger.log_event_str(\"complement\");\n");
+		aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
 		aSb.append("\t\t\tcase VALUE_LIST:\n");
-		aSb.append("\t\t\t\tTtcnLogger.log_char('(');\n");
+		aSb.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
 		aSb.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
 		aSb.append("\t\t\t\t\tif (list_count > 0) {\n");
-		aSb.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		aSb.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		aSb.append("\t\t\t\t\t}\n");
 		aSb.append("\t\t\t\t\tlist_value.get(list_count).log();\n");
 		aSb.append("\t\t\t\t}\n");
-		aSb.append("\t\t\t\tTtcnLogger.log_char(')');\n");
+		aSb.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		aSb.append("\t\t\t\tbreak;\n");
 		if ( isSetOf ) {
 			aSb.append("\t\t\tcase SUPERSET_MATCH:\n");
 			aSb.append("\t\t\tcase SUBSET_MATCH:\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event(\"%s(\", templateSelection == template_sel.SUPERSET_MATCH ? \"superset\" : \"subset\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event(\"%s(\", templateSelection == template_sel.SUPERSET_MATCH ? \"superset\" : \"subset\");\n");
 			aSb.append("\t\t\t\tfor (int set_count = 0; set_count < set_items.size(); set_count++) {\n");
 			aSb.append("\t\t\t\t\tif (set_count > 0) {\n");
-			aSb.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+			aSb.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 			aSb.append("\t\t\t\t\t}\n");
 			aSb.append("\t\t\t\t\tset_items.get(set_count).log();\n");
 			aSb.append("\t\t\t\t}\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_char(')');\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 			aSb.append("\t\t\t\tbreak;\n");
 		}
 		aSb.append("\t\t\tdefault:\n");
@@ -2081,84 +2081,84 @@ public class RecordOfGenerator {
 		aSb.append('\n');
 		aSb.append(MessageFormat.format("\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
 		if ( isSetOf ) {
-			aSb.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+			aSb.append("\t\tif ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {\n");
 			aSb.append("\t\t\tif(match(match_value, legacy)) {\n");
-			aSb.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
-			aSb.append("\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+			aSb.append("\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
 			aSb.append("\t\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
 			aSb.append("\t\t\t\t} else {\n");
 			aSb.append("\t\t\t\t\tif(previous_size != 0) {\n");
-			aSb.append("\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
-			aSb.append("\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
-			aSb.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\":=\");\n");
+			aSb.append("\t\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
+			aSb.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\":=\");\n");
 			aSb.append("\t\t\t\t\t}\n");
 			aSb.append("\t\t\t\t}\n");
 			aSb.append("\t\t\t\tmatch_value.log();\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
 			aSb.append("\t\t\t\tlog();\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t\treturn;\n");
 			aSb.append("\t\t}\n");
 			aSb.append("\t\tmatch_value.log();\n");
-			aSb.append("\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\tTTCN_Logger.log_event_str(\" with \");\n");
 			aSb.append("\t\tlog();\n");
 			aSb.append("\t\tif (match(match_value, legacy)) {\n");
-			aSb.append("\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t} else {\n");
-			aSb.append("\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 			aSb.append("\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
 			aSb.append("\t\t\t\tRecordOfMatch.log_match_heuristics(match_value, match_value.sizeOf().getInt(), this, value_elements.size(), match_function_specific, log_function, legacy);\n");
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t}\n");
 		} else {
-			aSb.append("\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+			aSb.append("\t\tif ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {\n");
 			aSb.append("\t\t\tif(match(match_value, legacy)) {\n");
-			aSb.append("\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
 
 			aSb.append("\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
-			aSb.append("\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+			aSb.append("\t\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 			aSb.append("\t\t\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 			aSb.append("\t\t\t\t\t\tif ( !value_elements.get(elem_count).match(match_value.constGetAt(elem_count), legacy) ) {\n");
-			aSb.append("\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\"[%d]\", elem_count);\n");
+			aSb.append("\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\"[%d]\", elem_count);\n");
 			aSb.append("\t\t\t\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGetAt(elem_count), legacy );\n");
-			aSb.append("\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+			aSb.append("\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 			aSb.append("\t\t\t\t\t\t}\n");
 			aSb.append("\t\t\t\t\t}\n");
 			aSb.append("\t\t\t\t\tlog_match_length(value_elements.size());\n");
 			aSb.append("\t\t\t\t} else {\n");
-			aSb.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+			aSb.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 			aSb.append("\t\t\t\t\tmatch_value.log();\n");
-			aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
 			aSb.append("\t\t\t\t\tlog();\n");
-			aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 			aSb.append("\t\t\t\t}\n");
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t\treturn;\n");
 			aSb.append("\t\t}\n");
 			aSb.append("\t\tif (templateSelection == template_sel.SPECIFIC_VALUE && value_elements.size() > 0 && get_number_of_permutations() == 0 && value_elements.size() == match_value.sizeOf().getInt()) {\n");
-			aSb.append("\t\t\tTtcnLogger.log_event_str(\"{ \");\n");
+			aSb.append("\t\t\tTTCN_Logger.log_event_str(\"{ \");\n");
 			aSb.append("\t\t\tfor (int elem_count = 0; elem_count < value_elements.size(); elem_count++) {\n");
 			aSb.append("\t\t\t\tif (elem_count > 0) {\n");
-			aSb.append("\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+			aSb.append("\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 			aSb.append("\t\t\t\t}\n");
 			aSb.append("\t\t\t\tvalue_elements.get(elem_count).log_match( match_value.constGetAt(elem_count), legacy );\n");
 			aSb.append("\t\t\t}\n");
-			aSb.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 			aSb.append("\t\t\tlog_match_length(value_elements.size());\n");
 			aSb.append("\t\t} else {\n");
 			aSb.append("\t\t\tmatch_value.log();\n");
-			aSb.append("\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+			aSb.append("\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
 			aSb.append("\t\t\tlog();\n");
 			aSb.append("\t\t\tif ( match(match_value, legacy) ) {\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 			aSb.append("\t\t\t} else {\n");
-			aSb.append("\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+			aSb.append("\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t}\n");
@@ -2244,30 +2244,30 @@ public class RecordOfGenerator {
 /*
 	void log_matchv(final Base_Type match_value, final boolean legacy)
 	{
-		if (TtcnLogger.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+		if (TTCN_Logger.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 			if (matchv(match_value, legacy)) {
-				TtcnLogger.print_logmatch_buffer();
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.print_logmatch_buffer();
+				TTCN_Logger.log_event_str(" matched");
 			} else {
 				final Record_Of_Type recof_value = (Record_Of_Type)(match_value);
 				if (templateSelection == SPECIFIC_VALUE &&
 						single_value.n_elements > 0 && get_number_of_permutations() == 0 &&
 						single_value.n_elements == recof_value.size_of()) {
-					size_t previous_size = TtcnLogger.get_logmatch_buffer_len();
+					size_t previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					for (int elem_count = 0; elem_count < single_value.n_elements; elem_count++) {
 						if(!single_value.value_elements[elem_count].matchv(recof_value.getAt(elem_count), legacy)){
-							TtcnLogger.log_logmatch_info("[{0}]", elem_count);
+							TTCN_Logger.log_logmatch_info("[{0}]", elem_count);
 							single_value.value_elements[elem_count].log_matchv(recof_value.getAt(elem_count), legacy);
-							TtcnLogger.set_logmatch_buffer_len(previous_size);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
 						}
 					}
 					log_match_length(single_value.n_elements);
 				} else {
-					TtcnLogger.print_logmatch_buffer();
+					TTCN_Logger.print_logmatch_buffer();
 					match_value.log();
-					TtcnLogger.log_event_str(" with ");
+					TTCN_Logger.log_event_str(" with ");
 					log();
-					TtcnLogger.log_event_str(" unmatched");
+					TTCN_Logger.log_event_str(" unmatched");
 				}
 			}
 		} else {
@@ -2275,19 +2275,19 @@ public class RecordOfGenerator {
 			if (templateSelection == SPECIFIC_VALUE &&
 					single_value.n_elements > 0 && get_number_of_permutations() == 0 &&
 					single_value.n_elements == recof_value.size_of()) {
-				TtcnLogger.log_event_str("{ ");
+				TTCN_Logger.log_event_str("{ ");
 				for (int elem_count = 0; elem_count < single_value.n_elements; elem_count++) {
-					if (elem_count > 0) TtcnLogger.log_event_str(", ");
+					if (elem_count > 0) TTCN_Logger.log_event_str(", ");
 					single_value.value_elements[elem_count].log_matchv(recof_value.getAt(elem_count), legacy);
 				}
-				TtcnLogger.log_event_str(" }");
+				TTCN_Logger.log_event_str(" }");
 				log_match_length(single_value.n_elements);
 			} else {
 				match_value.log();
-				TtcnLogger.log_event_str(" with ");
+				TTCN_Logger.log_event_str(" with ");
 				log();
-				if (matchv(match_value, legacy)) TtcnLogger.log_event_str(" matched");
-				else TtcnLogger.log_event_str(" unmatched");
+				if (matchv(match_value, legacy)) TTCN_Logger.log_event_str(" matched");
+				else TTCN_Logger.log_event_str(" unmatched");
 			}
 		}
 	}

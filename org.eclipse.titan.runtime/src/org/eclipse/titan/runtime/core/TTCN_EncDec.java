@@ -312,9 +312,9 @@ public final class TTCN_EncDec {
 		} else if (coding_str.operatorEquals("OER")) {
 			return coding_type.CT_OER;
 		} else {
-			TtcnLogger.begin_event_log2str();
+			TTCN_Logger.begin_event_log2str();
 			coding_str.log();
-			throw new TtcnError(MessageFormat.format("Invalid encoding string: {0}", TtcnLogger.end_event_log2str()));
+			throw new TtcnError(MessageFormat.format("Invalid encoding string: {0}", TTCN_Logger.end_event_log2str()));
 		}
 	}
 }

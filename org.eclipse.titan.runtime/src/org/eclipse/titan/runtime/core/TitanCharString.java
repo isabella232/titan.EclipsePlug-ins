@@ -188,14 +188,14 @@ public class TitanCharString extends Base_Type {
 			final StringBuilder buffer = new StringBuilder();
 			for (int i = 0; i < val_ptr.length(); i++) {
 				final char c = val_ptr.charAt(i);
-				if (TtcnLogger.isPrintable(c)) {
+				if (TTCN_Logger.isPrintable(c)) {
 					switch (state) {
 					case NPCHAR:
 						buffer.append(" & ");
 					case INIT:
 						buffer.append("\"");
 					case PCHAR:
-						TtcnLogger.logCharEscaped(c, buffer);
+						TTCN_Logger.logCharEscaped(c, buffer);
 						break;
 					}
 					state = States.PCHAR;
@@ -222,10 +222,10 @@ public class TitanCharString extends Base_Type {
 			default:
 				break;
 			}
-			TtcnLogger.log_event_str(buffer.toString());
+			TTCN_Logger.log_event_str(buffer.toString());
 
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

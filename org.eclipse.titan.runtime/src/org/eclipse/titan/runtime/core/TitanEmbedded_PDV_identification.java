@@ -257,37 +257,37 @@ public class TitanEmbedded_PDV_identification extends Base_Type {
 	public void log() {
 		switch (union_selection) {
 		case ALT_Syntaxes:
-			TtcnLogger.log_event_str("{ Syntaxes := ");
+			TTCN_Logger.log_event_str("{ Syntaxes := ");
 			field.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Syntax:
-			TtcnLogger.log_event_str("{ Syntax := ");
+			TTCN_Logger.log_event_str("{ Syntax := ");
 			field.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Presentation__context__id:
-			TtcnLogger.log_event_str("{ Presentation__context__id := ");
+			TTCN_Logger.log_event_str("{ Presentation__context__id := ");
 			field.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Context__negotiation:
-			TtcnLogger.log_event_str("{ Context__negotiation := ");
+			TTCN_Logger.log_event_str("{ Context__negotiation := ");
 			field.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Transfer__syntax:
-			TtcnLogger.log_event_str("{ Transfer__syntax := ");
+			TTCN_Logger.log_event_str("{ Transfer__syntax := ");
 			field.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Fixed:
-			TtcnLogger.log_event_str("{ Fixed := ");
+			TTCN_Logger.log_event_str("{ Fixed := ");
 			field.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		default:
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 			break;
 		}
 	}

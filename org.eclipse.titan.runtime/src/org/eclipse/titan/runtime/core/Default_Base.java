@@ -27,7 +27,7 @@ public class Default_Base {
 	public Default_Base(final String altstepName) {
 		defaultId = TTCN_Default.activate(this);
 		this.altstepName = altstepName;
-		TtcnLogger.log_defaultop_activate(altstepName, defaultId);
+		TTCN_Logger.log_defaultop_activate(altstepName, defaultId);
 	}
 
 	public int getDefaultId() {
@@ -45,6 +45,6 @@ public class Default_Base {
 	}
 
 	public void log() {
-		TtcnLogger.log_event("default reference: altstep: %s, id: %u", altstepName, defaultId);
+		TTCN_Logger.log_event("default reference: altstep: %s, id: %u", altstepName, defaultId);
 	}
 }

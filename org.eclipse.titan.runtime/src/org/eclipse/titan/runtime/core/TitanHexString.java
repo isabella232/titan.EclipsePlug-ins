@@ -291,13 +291,13 @@ public class TitanHexString extends Base_Type {
 
 	public void log() {
 		if (nibbles_ptr != null) {
-			TtcnLogger.log_char('\'');
+			TTCN_Logger.log_char('\'');
 			for (int i = 0; i < nibbles_ptr.length; i++) {
-				TtcnLogger.log_hex(get_nibble(i));
+				TTCN_Logger.log_hex(get_nibble(i));
 			}
-			TtcnLogger.log_event_str("'H");
+			TTCN_Logger.log_event_str("'H");
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

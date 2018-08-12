@@ -29,7 +29,7 @@ import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Ha
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
 import org.eclipse.titan.runtime.core.TitanComponent.Component_Id_type;
-import org.eclipse.titan.runtime.core.TtcnLogger.component_id_selector_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
 
 /**
  * The base class of test ports
@@ -315,7 +315,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			// terminate all connections
 			while (!connection_list.isEmpty()) {
 				final port_connection connection = connection_list.getFirst();
-				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				if (is_parallel) {
 					try {
 						TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
@@ -329,7 +329,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			// terminate all mappings
 			while (!system_mappings.isEmpty()) {
 				final String system_port = system_mappings.get(0);
-				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
+				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.removing__unterminated__mapping, port_name, TitanComponent.NULL_COMPREF, system_port, null, -1, 0);
 				try {
 					unmap(system_port, system);
 				} catch (final TtcnError e) {
@@ -387,7 +387,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		}
 		clear_queue();
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__cleared, port_name, 0, "", "", -1, 0);
+		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__cleared, port_name, 0, "", "", -1, 0);
 	}
 
 	public static void all_clear() {
@@ -415,7 +415,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			user_start();
 			is_started = true;
 		}
-		TtcnLogger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.started, port_name);
+		TTCN_Logger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.started, port_name);
 	}
 
 	public static void all_start() {
@@ -443,7 +443,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing stop operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 		}
-		TtcnLogger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.stopped, port_name);
+		TTCN_Logger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.stopped, port_name);
 	}
 
 	public static void all_stop() {
@@ -469,7 +469,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else {
 			TtcnError.TtcnWarning(MessageFormat.format("Performing halt operation on port {0}, which is already stopped. The operation has no effect.", port_name));
 		}
-		TtcnLogger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.halted, port_name);
+		TTCN_Logger.log_port_state(TitanLoggerApi.Port__State_operation.enum_type.halted, port_name);
 	}
 
 	public static void all_halt() {
@@ -574,14 +574,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public TitanAlt_Status receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, false, port_name);
+		TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, false, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, false, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -603,14 +603,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public TitanAlt_Status check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, true, port_name);
+		TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, false, true, port_name);
 		return TitanAlt_Status.ALT_NO;
 	}
 
 	//originally any_receive
 	public static TitanAlt_Status any_check_receive(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, true, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.receive__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -632,7 +632,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public TitanAlt_Status trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer, final Index_Redirect index_redirect) {
-		TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, false, false, port_name);
+		TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.no__incoming__types, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, false, false, port_name);
 
 		return TitanAlt_Status.ALT_NO;
 	}
@@ -640,7 +640,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_receive
 	public static TitanAlt_Status any_trigger(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, true, false, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.trigger__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -668,7 +668,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_getcall
 	public static TitanAlt_Status any_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, false, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -696,7 +696,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_check_getcall
 	public static TitanAlt_Status any_check_getcall(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, true, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getcall__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -724,7 +724,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_getreply
 	public static TitanAlt_Status any_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, false, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -752,7 +752,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_check_getreply
 	public static TitanAlt_Status any_check_getreply(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, true, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.getreply__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -780,7 +780,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_catch
 	public static TitanAlt_Status any_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, false, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -808,7 +808,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_check_catch
 	public static TitanAlt_Status any_check_catch(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, true, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.catch__, true, true, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -887,7 +887,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	//originally any_check
 	public static TitanAlt_Status any_check(final TitanComponent_template sender_template, final TitanComponent sender_pointer) {
 		if (PORTS.get().isEmpty()) {
-			TtcnLogger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.check__, true, false, null);
+			TTCN_Logger.log_matching_problem(TitanLoggerApi.MatchingProblemType_reason.enum_type.component__has__no__ports, TitanLoggerApi.MatchingProblemType_operation.enum_type.check__, true, false, null);
 			return TitanAlt_Status.ALT_NO;
 		}
 
@@ -1238,7 +1238,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		connection.connection_state = port_connection.connection_state_enum.CONN_CONNECTED;
 		connection.local_port = other_endpoint;
 
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.local__connection__established, port_name, TitanComponent.NULL_COMPREF, other_endpoint.port_name, null, -1, 0);
+		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.local__connection__established, port_name, TitanComponent.NULL_COMPREF, other_endpoint.port_name, null, -1, 0);
 	}
 
 	private void remove_local_connection(final port_connection connection) {
@@ -1248,7 +1248,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		final TitanPort other_endpoint = connection.local_port;
 		remove_connection(connection);
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.local__connection__terminated, port_name, TitanComponent.NULL_COMPREF, other_endpoint.port_name, null, -1, 0);
+		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.local__connection__terminated, port_name, TitanComponent.NULL_COMPREF, other_endpoint.port_name, null, -1, 0);
 	}
 
 	private void connect_listen_inet_stream(final int remote_component, final String remote_port) {
@@ -1268,7 +1268,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			serverSocketChannel.register(TTCN_Snapshot.selector.get(), SelectionKey.OP_ACCEPT);
 
 			TTCN_Communication.send_connect_listen_ack_inet_stream(port_name, local_port, remote_component, remote_port, Inet4Address.getLocalHost());
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__is__waiting__for__connection__tcp, port_name, remote_component, remote_port, "TCP", -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__is__waiting__for__connection__tcp, port_name, remote_component, remote_port, "TCP", -1, 0);
 		} catch (final IOException e) {
 			throw new TtcnError(e);
 		}
@@ -1330,7 +1330,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			throw new TtcnError(e);
 		}
 
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
+		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__established, port_name, remote_component, remote_port, "TCP", -1, 0);
 	}
 
 	private void disconnect_local(final port_connection connection) {
@@ -1351,11 +1351,11 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	private void disconnect_stream(final port_connection connection) {
 		switch (connection.connection_state) {
 		case CONN_LISTENING:
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.destroying__unestablished__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.destroying__unestablished__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 			remove_connection(connection);
 			break;
 		case CONN_CONNECTED: {
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.terminating__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.terminating__connection, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 			final Text_Buf outgoing_buf = new Text_Buf();
 			outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_LAST.ordinal());
 			if (send_data_stream(connection, outgoing_buf, true)) {
@@ -1363,7 +1363,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				// waiting for confirmation from the peer
 				connection.connection_state = port_connection.connection_state_enum.CONN_LAST_MSG_SENT;
 			} else {
-				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.sending__termination__request__failed, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.sending__termination__request__failed, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				// send an acknowledgment to MC immediately to avoid deadlock
 				// in case of communication failure
 				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
@@ -1431,7 +1431,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 			TTCN_Communication.send_connected(port_name, connection.remote_component, connection.remote_port);
 
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__accepted, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__accepted, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 		} catch (final IOException e) {
 			throw new TtcnError(e);
 		}
@@ -1453,7 +1453,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				//the connection is closed
 				//FIXME implement rest
 				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
-				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__reset__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__reset__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				TtcnError.TtcnWarning(MessageFormat.format("The last outgoing messages on port {0} may be lost.", port_name));
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
 			} else if (recv_len > 0) {
@@ -1474,7 +1474,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				// the connection was closed by the peer
 				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
 				if (connection.connection_state == port_connection.connection_state_enum.CONN_LAST_MSG_RCVD) {
-					TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__closed__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+					TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.connection__closed__by__peer, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				}
 				// the connection can be removed
 				connection.connection_state = port_connection.connection_state_enum.CONN_IDLE;
@@ -1489,15 +1489,15 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			if (msg_len > 0) {
 				TtcnError.TtcnWarningBegin(MessageFormat.format("Message fragment remained in the buffer of port connection between {0} and ", port_name));
 				TitanComponent.log_component_reference(connection.remote_component);
-				TtcnLogger.log_event_str(MessageFormat.format(":{0}: ", connection.remote_port));
+				TTCN_Logger.log_event_str(MessageFormat.format(":{0}: ", connection.remote_port));
 				final byte[] msg = incoming_buffer.get_data();
 				for (int i = 0; i < msg_len; i++) {
-					TtcnLogger.log_octet((char)msg[i]);
+					TTCN_Logger.log_octet((char)msg[i]);
 				}
 				TtcnError.TtcnWarningEnd();
 			}
 
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__disconnected, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__disconnected, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 			remove_connection(connection);
 		}
 	}
@@ -1512,14 +1512,14 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 
 		switch (connection.connection_state) {
 		case CONN_CONNECTED: {
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.termination__request__received, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.termination__request__received, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 			final Text_Buf outgoing_buf = new Text_Buf();
 			outgoing_buf.push_int(port_connection.connection_data_type_enum.CONN_DATA_LAST.ordinal());
 			if (send_data_stream(connection, outgoing_buf, true)) {
 				// sending the last message was successful wait until the peer closes the transport connection
 				connection.connection_state = port_connection.connection_state_enum.CONN_LAST_MSG_RCVD;
 			} else {
-				TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.acknowledging__termination__request__failed, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
+				TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.acknowledging__termination__request__failed, port_name, connection.remote_component, connection.remote_port, null, -1, 0);
 				// send an acknowledgment to MC immediately to avoid deadlock in case of communication failure
 				TTCN_Communication.send_disconnected(port_name, connection.remote_component, connection.remote_port);
 				// the connection can be removed immediately
@@ -1562,9 +1562,9 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		user_map(system_port);
 
 		if (translation) {
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, system_port, TitanComponent.SYSTEM_COMPREF, port_name,  null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, system_port, TitanComponent.SYSTEM_COMPREF, port_name,  null, -1, 0);
 		} else {
-			TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, port_name, TitanComponent.SYSTEM_COMPREF, system_port,  null, -1, 0);
+			TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__mapped__to__system, port_name, TitanComponent.SYSTEM_COMPREF, system_port,  null, -1, 0);
 		}
 
 		// the mapping shall be registered in the table only if user_map() was successful
@@ -1597,7 +1597,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			reset_port_variables();
 		}
 
-		TtcnLogger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__unmapped__from__system, port_name, TitanComponent.SYSTEM_COMPREF, system_port,  null, -1, 0);
+		TTCN_Logger.log_port_misc(TitanLoggerApi.Port__Misc_reason.enum_type.port__was__unmapped__from__system, port_name, TitanComponent.SYSTEM_COMPREF, system_port,  null, -1, 0);
 	}
 
 	public static void process_connect_listen(final String local_port, final int remote_component, final String remote_port, final transport_type_enum transport_type) {
@@ -1615,7 +1615,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else if (port.lookup_connection_to_compref(remote_component, null) != null) {
 			TtcnError.TtcnWarningBegin(MessageFormat.format("Port {0} will have more than one connections with ports of test component ", local_port));
 			TitanComponent.log_component_reference(remote_component);
-			TtcnLogger.log_event_str(". These connections cannot be used for sending even with explicit addressing.");
+			TTCN_Logger.log_event_str(". These connections cannot be used for sending even with explicit addressing.");
 			TtcnError.TtcnWarningEnd();
 		}
 
@@ -1648,7 +1648,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		} else if (port.lookup_connection_to_compref(remote_component, null) != null) {
 			TtcnError.TtcnWarningBegin(MessageFormat.format("Port {0} will have more than one connections with ports of test component ", local_port));
 			TitanComponent.log_component_reference(remote_component);
-			TtcnLogger.log_event_str(". These connections cannot be used for sending even with explicit addressing.");
+			TTCN_Logger.log_event_str(". These connections cannot be used for sending even with explicit addressing.");
 			TtcnError.TtcnWarningEnd();
 		}
 
@@ -1833,6 +1833,6 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public void log() {
-		TtcnLogger.log_event("port %s", port_name);
+		TTCN_Logger.log_event("port %s", port_name);
 	}
 }

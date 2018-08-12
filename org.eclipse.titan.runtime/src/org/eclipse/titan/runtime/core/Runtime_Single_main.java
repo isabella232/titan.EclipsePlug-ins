@@ -8,7 +8,7 @@
 package org.eclipse.titan.runtime.core;
 
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * The class handling single mode operations.
@@ -29,16 +29,16 @@ public final class Runtime_Single_main {
 		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
 		TTCN_Snapshot.initialize();
-		TtcnLogger.initialize_logger();
-		TtcnLogger.set_executable_name();
-		TtcnLogger.set_start_time();
+		TTCN_Logger.initialize_logger();
+		TTCN_Logger.set_executable_name();
+		TTCN_Logger.set_start_time();
 
 		try {
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 			Module_List.pre_init_modules();
 
-			TtcnLogger.open_file();
-			TtcnLogger.write_logger_settings();
+			TTCN_Logger.open_file();
+			TTCN_Logger.write_logger_settings();
 
 			Module_List.post_init_modules();
 
@@ -46,17 +46,17 @@ public final class Runtime_Single_main {
 				module.control();
 			}
 		} catch (Throwable e) {
-			TtcnLogger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
+			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
 			returnValue = -1;
 		}
 		TTCN_Runtime.log_verdict_statistics();
-		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__finish__single__mode);
-		TtcnLogger.close_file();
+		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__finish__single__mode);
+		TTCN_Logger.close_file();
 		TitanPort.clear_parameters();
 		TitanComponent.clear_component_names();
 		TTCN_EncDec.clear_error();
 
-		TtcnLogger.terminate_logger();
+		TTCN_Logger.terminate_logger();
 		TTCN_Snapshot.terminate();
 		//TODO implement runtime::clean_up;
 

@@ -393,25 +393,25 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			TtcnLogger.log_char('{');
-			TtcnLogger.log_event_str(" presentation-context-id := ");
+			TTCN_Logger.log_char('{');
+			TTCN_Logger.log_event_str(" presentation-context-id := ");
 			presentation__context__id.log();
-			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" transfer-syntax := ");
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" transfer-syntax := ");
 			transfer__syntax.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_count > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				list_value.get(list_count).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		default:
 			log_generic();
@@ -435,47 +435,47 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	}
 
 	public void log_match(final TitanExternal_identification_context__negotiation match_value, final boolean legacy) {
-		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+		if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
-				TtcnLogger.print_logmatch_buffer();
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.print_logmatch_buffer();
+				TTCN_Logger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".presentation-context-id");
+						TTCN_Logger.log_logmatch_info(".presentation-context-id");
 						presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 					if( !transfer__syntax.match(match_value.constGetTransfer__syntax(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".transfer-syntax");
+						TTCN_Logger.log_logmatch_info(".transfer-syntax");
 						transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
-					TtcnLogger.print_logmatch_buffer();
+					TTCN_Logger.print_logmatch_buffer();
 					match_value.log();
-					TtcnLogger.log_event_str(" with ");
+					TTCN_Logger.log_event_str(" with ");
 					log();
-					TtcnLogger.log_event_str(" unmatched");
+					TTCN_Logger.log_event_str(" unmatched");
 				}
 			}
 			return;
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE) {
-			TtcnLogger.log_event_str("{ presentation-context-id := ");
+			TTCN_Logger.log_event_str("{ presentation-context-id := ");
 			presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
-			TtcnLogger.log_event_str("{ transfer-syntax := ");
+			TTCN_Logger.log_event_str("{ transfer-syntax := ");
 			transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();
-			TtcnLogger.log_event_str(" with ");
+			TTCN_Logger.log_event_str(" with ");
 			log();
 			if ( match(match_value, legacy) ) {
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.log_event_str(" matched");
 			} else {
-				TtcnLogger.log_event_str(" unmatched");
+				TTCN_Logger.log_event_str(" unmatched");
 			}
 		}
 	}

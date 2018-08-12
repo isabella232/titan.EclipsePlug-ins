@@ -122,16 +122,16 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	}
 	public void log() {
 		if (!isBound()) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 			return;
 		}
-		TtcnLogger.log_char('{');
-		TtcnLogger.log_event_str(" presentation-context-id := ");
+		TTCN_Logger.log_char('{');
+		TTCN_Logger.log_event_str(" presentation-context-id := ");
 		presentation__context__id.log();
-		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" transfer-syntax := ");
+		TTCN_Logger.log_char(',');
+		TTCN_Logger.log_event_str(" transfer-syntax := ");
 		transfer__syntax.log();
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 

@@ -134,8 +134,8 @@ public final class TestcaseStop_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		if (logArguments != null) {
-			aData.addCommonLibraryImport("TtcnLogger");
-			aData.addBuiltinTypeImport("TtcnLogger.Severity");
+			aData.addCommonLibraryImport("TTCN_Logger");
+			aData.addBuiltinTypeImport("TTCN_Logger.Severity");
 
 			boolean bufferedMode = true;
 			if (logArguments.getNofLogArguments() == 1) {
@@ -144,14 +144,14 @@ public final class TestcaseStop_Statement extends Statement {
 				case String:
 					// the argument is a simple string: use non-buffered mode
 					//FIXME Code::translate_string is missing for now
-					source.append(MessageFormat.format("TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
+					source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", ((String_InternalLogArgument) firstArgument.getRealArgument()).getString()));
 					bufferedMode = false;
 					break;
 				case Macro: {
 					final Macro_Value value = ((Macro_InternalLogArgument) firstArgument.getRealArgument()).getMacro();
 					if (value.canGenerateSingleExpression()) {
 						// the argument is a simple macro call: use non-buffered mode
-						source.append(MessageFormat.format("TtcnLogger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", value.generateSingleExpression(aData)));
+						source.append(MessageFormat.format("TTCN_Logger.log_str(Severity.USER_UNQUALIFIED, \"{0}\");\n", value.generateSingleExpression(aData)));
 						bufferedMode = false;
 					}
 					break;
@@ -164,11 +164,11 @@ public final class TestcaseStop_Statement extends Statement {
 			if (bufferedMode) {
 				// the argument is a complicated construct: use buffered mode
 				source.append("try {\n");
-				source.append("TtcnLogger.begin_event(TtcnLogger.Severity.USER_UNQUALIFIED);\n");
+				source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.USER_UNQUALIFIED);\n");
 				logArguments.generateCode(aData, source);
-				source.append("TtcnLogger.end_event();\n");
+				source.append("TTCN_Logger.end_event();\n");
 				source.append("} catch (Exception exception) {\n");
-				source.append("TtcnLogger.finish_event();\n");
+				source.append("TTCN_Logger.finish_event();\n");
 				source.append("throw exception;\n");
 				source.append("}\n");
 			}

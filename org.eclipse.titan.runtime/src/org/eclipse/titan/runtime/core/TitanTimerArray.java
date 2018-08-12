@@ -151,14 +151,14 @@ public class TitanTimerArray<T extends TitanTimer> extends TitanTimer {
 	}
 
 	public void log() {
-		TtcnLogger.log_event_str("{ ");
+		TTCN_Logger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {
 			if (v_index > 0) {
-				TtcnLogger.log_event_str(", ");
+				TTCN_Logger.log_event_str(", ");
 			}
 			array_elements[v_index].log();
 		}
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 	// static functions

@@ -55,11 +55,11 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimerType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.VerdictOp_choice;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
-import org.eclipse.titan.runtime.core.TtcnLogger.disk_full_action_t;
-import org.eclipse.titan.runtime.core.TtcnLogger.disk_full_action_type_t;
-import org.eclipse.titan.runtime.core.TtcnLogger.log_event_types_t;
-import org.eclipse.titan.runtime.core.TtcnLogger.source_info_format_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_type_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
 
 /**
  * A logger plugin implementing the legacy logger behaviour.
@@ -75,7 +75,7 @@ public class LegacyLogger implements ILoggerPlugin {
 	 * */
 
 	private String filename_skeleton_;
-	private TtcnLogger.disk_full_action_t disk_full_action_ = new disk_full_action_t(disk_full_action_type_t.DISKFULL_ERROR, 0);
+	private TTCN_Logger.disk_full_action_t disk_full_action_ = new disk_full_action_t(disk_full_action_type_t.DISKFULL_ERROR, 0);
 	private int disk_full_time_seconds = 0;
 	private int disk_full_time_microseconds = 0;
 	private boolean skeleton_given_ = false;
@@ -126,17 +126,17 @@ public class LegacyLogger implements ILoggerPlugin {
 		final int severityIndex = event.getSeverity().getInt();
 		final Severity severity = Severity.values()[severityIndex];
 		if (use_emergency_mask) {
-			if (TtcnLogger.should_log_to_emergency(severity) || TtcnLogger.should_log_to_file(severity)) {
+			if (TTCN_Logger.should_log_to_emergency(severity) || TTCN_Logger.should_log_to_file(severity)) {
 				log_file(event, log_buffered);
 			}
-			if (TtcnLogger.should_log_to_console(severity)) {
+			if (TTCN_Logger.should_log_to_console(severity)) {
 				log_console(event, severity);
 			}
 		} else {
-			if (TtcnLogger.should_log_to_file(severity)) {
+			if (TTCN_Logger.should_log_to_file(severity)) {
 				log_file(event, log_buffered);
 			}
-			if (TtcnLogger.should_log_to_console(severity)) {
+			if (TTCN_Logger.should_log_to_console(severity)) {
 				log_console(event, severity);
 			}
 		}
@@ -163,7 +163,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		return true;
 	}
 
-	public boolean set_disk_full_action(final TtcnLogger.disk_full_action_t  p_disk_full_action) {
+	public boolean set_disk_full_action(final TTCN_Logger.disk_full_action_t  p_disk_full_action) {
 		disk_full_action_ = p_disk_full_action;
 		return true;
 	}
@@ -281,7 +281,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				format_c_present_ = true;
 				break;
 			case 'e': // %e -> name of executable
-				ret_val.append(TtcnLogger.get_executable_name());
+				ret_val.append(TTCN_Logger.get_executable_name());
 				break;
 			case 'h': //%h -> hostname
 				ret_val.append(TTCN_Runtime.get_host_name());
@@ -536,7 +536,7 @@ public class LegacyLogger implements ILoggerPlugin {
 					final TitanLogEvent switched_event = new TitanLogEvent();
 					switched_event.getTimestamp().assign(event.getTimestamp());
 					switched_event.getSourceInfo__list().assign(event.getSourceInfo__list());
-					switched_event.getSeverity().assign(TtcnLogger.Severity.EXECUTOR_RUNTIME.ordinal());
+					switched_event.getSeverity().assign(TTCN_Logger.Severity.EXECUTOR_RUNTIME.ordinal());
 					switched_event.getLogEvent().getChoice().getUnhandledEvent().assign(switched);
 					log_file(switched_event, true);
 					switched = null;
@@ -631,14 +631,14 @@ public class LegacyLogger implements ILoggerPlugin {
 	}
 
 	private static void append_header(final StringBuilder returnValue, final int seconds, final int microseconds, final Severity severity, final StringBuilder sourceInfo) {
-		TtcnLogger.mputstr_timestamp(returnValue, TtcnLogger.get_timestamp_format(), seconds, microseconds);
+		TTCN_Logger.mputstr_timestamp(returnValue, TTCN_Logger.get_timestamp_format(), seconds, microseconds);
 
 		returnValue.append(' ');
 
-		if (TtcnLogger.get_log_event_types() != log_event_types_t.LOGEVENTTYPES_NO) {
-			TtcnLogger.mput_severity(returnValue, severity);
-			if (TtcnLogger.get_log_event_types() == log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES) {
-				returnValue.append('_').append(TtcnLogger.severity_subcategory_names[severity.ordinal()]);
+		if (TTCN_Logger.get_log_event_types() != log_event_types_t.LOGEVENTTYPES_NO) {
+			TTCN_Logger.mput_severity(returnValue, severity);
+			if (TTCN_Logger.get_log_event_types() == log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES) {
+				returnValue.append('_').append(TTCN_Logger.severity_subcategory_names[severity.ordinal()]);
 			}
 
 			returnValue.append(' ');
@@ -653,7 +653,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		final StringBuilder returnValue = new StringBuilder();
 		final StringBuilder sourceInfo = new StringBuilder();
 		if (event.getSourceInfo__list().isBound()) {
-			final source_info_format_t source_info_format = TtcnLogger.get_source_info_format();
+			final source_info_format_t source_info_format = TTCN_Logger.get_source_info_format();
 			final int stack_size = event.getSourceInfo__list().sizeOf().getInt();
 			if (stack_size > 0) {
 				int i = 0;

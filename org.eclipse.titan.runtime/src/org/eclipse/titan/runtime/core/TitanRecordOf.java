@@ -60,19 +60,19 @@ public class TitanRecordOf extends Base_Type {
 
 	public void log() {
 		if (valueElements == null) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 			return;
 		}
 
-		TtcnLogger.log_event_str("{ ");
+		TTCN_Logger.log_event_str("{ ");
 		final int size = valueElements.size();
 		for (int i = 0; i < size; i++) {
 			if (i > 0) {
-				TtcnLogger.log_event_str(", ");
+				TTCN_Logger.log_event_str(", ");
 			}
 			valueElements.get(i).log();
 		}
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 	@Override

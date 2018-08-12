@@ -2789,9 +2789,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			encoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);\n");
 			encoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
 		}
-		encoderString.append("TtcnLogger.begin_event_log2str();\n");
+		encoderString.append("TTCN_Logger.begin_event_log2str();\n");
 		encoderString.append("coding_name.log();\n");
-		encoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
+		encoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
 			aData.addCommonLibraryImport("TTCN_Buffer");
 
@@ -2807,9 +2807,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			decoderString.append("final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);\n");
 			decoderString.append(MessageFormat.format("if ({0}) '{'\n", checkString));
 		}
-		decoderString.append("TtcnLogger.begin_event_log2str();\n");
+		decoderString.append("TTCN_Logger.begin_event_log2str();\n");
 		decoderString.append("coding_name.log();\n");
-		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TtcnLogger.end_event_log2str()));\n", getTypename()));
+		decoderString.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Type `{0}'' does not support '{'0'}' encoding\", TTCN_Logger.end_event_log2str()));\n", getTypename()));
 		if (checkString.length() > 0) {
 			decoderString.append("}\n");
 			decoderString.append("final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);\n");
@@ -3069,21 +3069,21 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		source.append("if (value_redirect != null) {\n");
 		source.append("value_redirect.assign(return_value);\n");
 		source.append("}\n");
-		source.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
-		source.append("TtcnLogger.log_event_str(\"PTC with component reference \");\n");
+		source.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
+		source.append("TTCN_Logger.log_event_str(\"PTC with component reference \");\n");
 		source.append("component_reference.log();\n");
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\" is done. Return value: {0} : \");\n", displayName));
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\" is done. Return value: {0} : \");\n", displayName));
 		source.append("return_value.log();\n");
-		source.append("TtcnLogger.end_event();\n");
+		source.append("TTCN_Logger.end_event();\n");
 		source.append("return TitanAlt_Status.ALT_YES;\n");
 		source.append("} else {\n");
-		source.append("if (TtcnLogger.log_this_event(Severity.MATCHING_DONE)) {\n");
-		source.append("TtcnLogger.begin_event(Severity.MATCHING_DONE);\n");
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"Done operation with type {0} on component reference \");\n", displayName));
+		source.append("if (TTCN_Logger.log_this_event(Severity.MATCHING_DONE)) {\n");
+		source.append("TTCN_Logger.begin_event(Severity.MATCHING_DONE);\n");
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Done operation with type {0} on component reference \");\n", displayName));
 		source.append("component_reference.log();\n");
-		source.append("TtcnLogger.log_event_str(\" failed: Return value does not match the template: \");\n");
+		source.append("TTCN_Logger.log_event_str(\" failed: Return value does not match the template: \");\n");
 		source.append("value_template.log_match(return_value, true);\n");
-		source.append("TtcnLogger.end_event();\n");
+		source.append("TTCN_Logger.end_event();\n");
 		source.append("}\n");
 		source.append("return TitanAlt_Status.ALT_NO;\n");
 		source.append("}\n");

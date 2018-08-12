@@ -1162,7 +1162,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 		if (isStartable) {
 			aData.addBuiltinTypeImport("TitanComponent");
 			aData.addBuiltinTypeImport("Text_Buf");
-			aData.addBuiltinTypeImport("TtcnLogger.Severity");
+			aData.addBuiltinTypeImport("TTCN_Logger.Severity");
 			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			tempSource.append(MessageFormat.format("public static final void start_{0}(final TitanComponent component_reference", genName));
@@ -1171,20 +1171,20 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				formalParList.generateCode(aData, tempSource);
 			}
 			tempSource.append(") {\n");
-			tempSource.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
-			tempSource.append(MessageFormat.format("TtcnLogger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
+			tempSource.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
+			tempSource.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					if (i > 0) {
-						tempSource.append("TtcnLogger.log_event_str(\", \");\n");
+						tempSource.append("TTCN_Logger.log_event_str(\", \");\n");
 					}
 					tempSource.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
 				}
 			}
-			tempSource.append("TtcnLogger.log_event_str(\") on component \");\n");
+			tempSource.append("TTCN_Logger.log_event_str(\") on component \");\n");
 			tempSource.append("component_reference.log();\n");
-			tempSource.append("TtcnLogger.log_char('.');\n");
-			tempSource.append("TtcnLogger.end_event();\n");
+			tempSource.append("TTCN_Logger.log_char('.');\n");
+			tempSource.append("TTCN_Logger.end_event();\n");
 
 			tempSource.append("final Text_Buf text_buf = new Text_Buf();\n");
 			tempSource.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
@@ -1207,20 +1207,20 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGenName()));
 				}
 
-				startFunction.append("TtcnLogger.begin_event(Severity.PARALLEL_PTC);\n");
-				startFunction.append(MessageFormat.format("TtcnLogger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
+				startFunction.append("TTCN_Logger.begin_event(Severity.PARALLEL_PTC);\n");
+				startFunction.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Starting function {0}(\");\n", identifier.getDisplayName()));
 
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					if (i > 0) {
-						startFunction.append("TtcnLogger.log_event_str(\", \");\n");
+						startFunction.append("TTCN_Logger.log_event_str(\", \");\n");
 					}
 					startFunction.append(MessageFormat.format("{0}.log();\n", formalParList.getParameterByIndex(i).getGenName()));
 				}
 
-				startFunction.append("TtcnLogger.log_event_str(\").\");\n");
-				startFunction.append("TtcnLogger.end_event();\n");
+				startFunction.append("TTCN_Logger.log_event_str(\").\");\n");
+				startFunction.append("TTCN_Logger.end_event();\n");
 			} else {
-				startFunction.append(MessageFormat.format("TtcnLogger.log_str(Severity.PARALLEL_PTC, \"Starting function {0}().\");\n", identifier.getDisplayName()));
+				startFunction.append(MessageFormat.format("TTCN_Logger.log_str(Severity.PARALLEL_PTC, \"Starting function {0}().\");\n", identifier.getDisplayName()));
 			}
 
 			startFunction.append("TTCN_Runtime.function_started(function_arguments);\n");
@@ -1250,10 +1250,10 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 				final String returnTypeDisplayName = returnType.getTypename();
 
 				startFunction.append(MessageFormat.format("{0} ret_val = new {0}({1}({2}));\n", returnTypeName, genName, actualParList));
-				startFunction.append("TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);\n");
-				startFunction.append(MessageFormat.format("TtcnLogger.log_event_str(\"Function {0} returned {1} : \");\n", identifier.getDisplayName(), returnTypeDisplayName));
+				startFunction.append("TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);\n");
+				startFunction.append(MessageFormat.format("TTCN_Logger.log_event_str(\"Function {0} returned {1} : \");\n", identifier.getDisplayName(), returnTypeDisplayName));
 				startFunction.append("ret_val.log();\n");
-				startFunction.append("TtcnLogger.end_event();;\n");
+				startFunction.append("TTCN_Logger.end_event();;\n");
 				startFunction.append("final Text_Buf text_buf = new Text_Buf();\n");
 				startFunction.append(MessageFormat.format("TTCN_Runtime.prepare_function_finished(\"{0}\", text_buf);\n", returnTypeDisplayName));
 				startFunction.append("ret_val.encode_text(text_buf);\n");

@@ -202,7 +202,7 @@ public class SetState_Statement extends Statement {
 		if (templateInstance == null) {
 			expression.expression.append("new TitanCharString(\"\"), false)");
 		} else {
-			expression.preamble.append( "TtcnLogger.begin_event_log2str();\n");
+			expression.preamble.append( "TTCN_Logger.begin_event_log2str();\n");
 
 			ExpressionStruct expression2 = new ExpressionStruct();
 			templateInstance.generateCode(aData, expression2, Restriction_type.TR_NONE);
@@ -210,7 +210,7 @@ public class SetState_Statement extends Statement {
 			expression2.mergeExpression(expression.preamble);
 			
 			String tempId = aData.getTemporaryVariableName();
-			expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TtcnLogger.end_event_log2str();\n", tempId));
+			expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TTCN_Logger.end_event_log2str();\n", tempId));
 			expression.expression.append(MessageFormat.format("{0}, false)", tempId));
 		}
 

@@ -149,19 +149,19 @@ public class TitanEmbedded_PDV extends Base_Type {
 	}
 	public void log() {
 		if (!isBound()) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 			return;
 		}
-		TtcnLogger.log_char('{');
-		TtcnLogger.log_event_str(" identification := ");
+		TTCN_Logger.log_char('{');
+		TTCN_Logger.log_event_str(" identification := ");
 		identification.log();
-		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data-value-descriptor := ");
+		TTCN_Logger.log_char(',');
+		TTCN_Logger.log_event_str(" data-value-descriptor := ");
 		data__value__descriptor.log();
-		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" data-value := ");
+		TTCN_Logger.log_char(',');
+		TTCN_Logger.log_event_str(" data-value := ");
 		data__value.log();
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 	@Override

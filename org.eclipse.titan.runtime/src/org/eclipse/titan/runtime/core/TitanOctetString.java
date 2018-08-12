@@ -270,24 +270,24 @@ public class TitanOctetString extends Base_Type {
 	public void log() {
 		if (val_ptr != null) {
 			boolean onlyPrintable = true;
-			TtcnLogger.log_char('\'');
+			TTCN_Logger.log_char('\'');
 			for (int i = 0; i < val_ptr.length; i++) {
 				final char octet = val_ptr[i];
-				TtcnLogger.log_octet(octet); // get_nibble(i)
-				if (onlyPrintable && !(TtcnLogger.isPrintable(octet))) {
+				TTCN_Logger.log_octet(octet); // get_nibble(i)
+				if (onlyPrintable && !(TTCN_Logger.isPrintable(octet))) {
 					onlyPrintable = false;
 				}
 			}
-			TtcnLogger.log_event_str("'O");
+			TTCN_Logger.log_event_str("'O");
 			if (onlyPrintable && val_ptr.length > 0) {
-				TtcnLogger.log_event_str("(\"");
+				TTCN_Logger.log_event_str("(\"");
 				for (int i = 0; i < val_ptr.length; i++) {
-					TtcnLogger.logCharEscaped(val_ptr[i]);
+					TTCN_Logger.logCharEscaped(val_ptr[i]);
 				}
-				TtcnLogger.log_event_str("\")");
+				TTCN_Logger.log_event_str("\")");
 			}
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

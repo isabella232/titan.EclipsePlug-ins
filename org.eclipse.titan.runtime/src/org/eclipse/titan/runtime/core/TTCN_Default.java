@@ -60,7 +60,7 @@ public final class TTCN_Default {
 			throw new TtcnError("Performing a deactivate operation on an unbound default reference.");
 		}
 		if (removableDefault.default_ptr == null) {
-			TtcnLogger.log_defaultop_deactivate(null, 0);
+			TTCN_Logger.log_defaultop_deactivate(null, 0);
 		} else {
 			deactivate(removableDefault.default_ptr);
 		}
@@ -78,13 +78,13 @@ public final class TTCN_Default {
 			final Default_Base actualDefault = localDefaults.get(i);
 			switch (actualDefault.call_altstep()) {
 			case ALT_YES:
-				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.finish.ordinal());
+				TTCN_Logger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.finish.ordinal());
 				return TitanAlt_Status.ALT_YES;
 			case ALT_REPEAT:
-				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.repeat__.ordinal());
+				TTCN_Logger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.repeat__.ordinal());
 				return TitanAlt_Status.ALT_REPEAT;
 			case ALT_BREAK:
-				TtcnLogger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.break__.ordinal());
+				TTCN_Logger.log_defaultop_exit(actualDefault.getAlstepName(), actualDefault.getDefaultId(), TitanLoggerApi.DefaultEnd.enum_type.break__.ordinal());
 				return TitanAlt_Status.ALT_BREAK;
 			case ALT_MAYBE:
 				returnValue = TitanAlt_Status.ALT_MAYBE;
@@ -99,9 +99,9 @@ public final class TTCN_Default {
 
 	public static void log(final Default_Base par_default) {
 		if (par_default == TitanDefault.UNBOUND_DEFAULT) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		} else if (par_default == null) {
-			TtcnLogger.log_event_str("null");
+			TTCN_Logger.log_event_str("null");
 		} else {
 			final LinkedList<Default_Base> localDefaults = DEFAULTS.get();
 			for (int i = 0; i < localDefaults.size(); i++) {
@@ -111,7 +111,7 @@ public final class TTCN_Default {
 					return;
 				}
 			}
-			TtcnLogger.log_event_str("default reference: already deactivated");
+			TTCN_Logger.log_event_str("default reference: already deactivated");
 		}
 	}
 

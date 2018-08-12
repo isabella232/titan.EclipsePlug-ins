@@ -209,17 +209,17 @@ public class TitanObjectid extends Base_Type {
 
 	public void log() {
 		if (components_ptr != null) {
-			TtcnLogger.log_event_str("objid { ");
+			TTCN_Logger.log_event_str("objid { ");
 			for (int i = 0; i < n_components; i++) {
 				if (i == overflow_idx) {
-					TtcnLogger.log_event_str("overflow:");
+					TTCN_Logger.log_event_str("overflow:");
 				}
-				TtcnLogger.log_event_str(components_ptr.get(i).toString());
-				TtcnLogger.log_char(' ');
+				TTCN_Logger.log_event_str(components_ptr.get(i).toString());
+				TTCN_Logger.log_char(' ');
 			}
-			TtcnLogger.log_char('}');
+			TTCN_Logger.log_char('}');
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

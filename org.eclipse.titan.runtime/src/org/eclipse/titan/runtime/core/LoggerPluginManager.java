@@ -59,11 +59,11 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TimestampType;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__list;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
-import org.eclipse.titan.runtime.core.TtcnLogger.TTCN_Location;
-import org.eclipse.titan.runtime.core.TtcnLogger.component_id_t;
-import org.eclipse.titan.runtime.core.TtcnLogger.emergency_logging_behaviour_t;
-import org.eclipse.titan.runtime.core.TtcnLogger.extcommand_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.extcommand_t;
 
 /**
  * The logger plugin manager, is responsible for managing all the runtime registered logger plug-ins
@@ -120,7 +120,7 @@ public class LoggerPluginManager {
 	}
 
 	public void ring_buffer_dump(final boolean do_close_file) {
-		if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
+		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 			TitanLoggerApi.TitanLogEvent ringEvent;
 			while (!ring_buffer.isEmpty()) {
 				ringEvent = ring_buffer.poll();
@@ -156,8 +156,8 @@ public class LoggerPluginManager {
 			return;
 		} else {
 			for (final LogEntry entry : entry_list_) {
-				if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
-					String new_log_message = TtcnLogger.get_logger_settings_str();
+				if (entry.event_.getSeverity().getInt() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+					String new_log_message = TTCN_Logger.get_logger_settings_str();
 					entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
 					new_log_message = null;
 				}
@@ -192,7 +192,7 @@ public class LoggerPluginManager {
 		// Init phase, log prebuffered events first if any.
 		internal_log_prebuff_logevent();
 
-		if (TtcnLogger.get_emergency_logging() == 0) {
+		if (TTCN_Logger.get_emergency_logging() == 0) {
 			// emergency logging is not needed
 			internal_log_to_all(event, false, false, false);
 
@@ -202,15 +202,15 @@ public class LoggerPluginManager {
 		final int severityIndex = event.getSeverity().getInt();
 		final Severity severity = Severity.values()[severityIndex];
 
-		if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
+		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
 			internal_log_to_all(event, true, false, false);
 
 			
-			if (!TtcnLogger.should_log_to_file(severity) &&
-				TtcnLogger.should_log_to_emergency(severity)) {
+			if (!TTCN_Logger.should_log_to_file(severity) &&
+				TTCN_Logger.should_log_to_emergency(severity)) {
 				ring_buffer.offer(event);
 			}
-		} else if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
+		} else if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 			if (ring_buffer.remainingCapacity() == 0) {
 				TitanLoggerApi.TitanLogEvent ring_event;
 				ring_event = ring_buffer.poll();
@@ -223,7 +223,7 @@ public class LoggerPluginManager {
 		}
 
 		if (severity == Severity.ERROR_UNQUALIFIED || 
-				(TtcnLogger.get_emergency_logging_for_fail_verdict() &&
+				(TTCN_Logger.get_emergency_logging_for_fail_verdict() &&
 						severity == Severity.VERDICTOP_SETVERDICT &&
 						event.getLogEvent().getChoice().getVerdictOp().getChoice().getSetVerdict().getNewVerdict().operatorEquals(TitanLoggerApi.Verdict.enum_type.v3fail)) 
 				) {
@@ -231,9 +231,9 @@ public class LoggerPluginManager {
 			while (!ring_buffer.isEmpty()) {
 				ring_event = ring_buffer.poll();
 				if (ring_event != null) {
-					if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
+					if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
 						internal_log_to_all(ring_event, true, true, false);
-					} else if (TtcnLogger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
+					} else if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 						internal_log_to_all(ring_event, true, false, true);
 					}
 				}
@@ -289,7 +289,7 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_disk_full_action(final component_id_t comp, final TtcnLogger.disk_full_action_t p_disk_full_action) {
+	public boolean set_disk_full_action(final component_id_t comp, final TTCN_Logger.disk_full_action_t p_disk_full_action) {
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_disk_full_action(p_disk_full_action)) {
@@ -311,8 +311,8 @@ public class LoggerPluginManager {
 			if (plugins_.get(i).is_configured()) {
 				free_entry_list = true;
 				for (final LogEntry entry : entry_list_) {
-					if (entry.event_.getSeverity().getInt() == TtcnLogger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
-						String new_log_message = TtcnLogger.get_logger_settings_str();
+					if (entry.event_.getSeverity().getInt() == TTCN_Logger.Severity.EXECUTOR_LOGOPTIONS.ordinal()) {
+						String new_log_message = TTCN_Logger.get_logger_settings_str();
 						entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
 						new_log_message = "";
 					}
@@ -339,7 +339,7 @@ public class LoggerPluginManager {
 		current_event.set(temp);
 		temp.severity = msg_severity;
 		temp.buffer = new StringBuilder(100);
-		if (TtcnLogger.log_this_event(msg_severity)) {
+		if (TTCN_Logger.log_this_event(msg_severity)) {
 			temp.event_destination = event_destination_t.ED_FILE;
 		} else {
 			temp.event_destination = event_destination_t.ED_NONE;
@@ -461,7 +461,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_unhandled_event(final Severity severity, final String message) {
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -473,7 +473,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_log_options(final String message) {
-		if (!TtcnLogger.log_this_event(Severity.EXECUTOR_LOGOPTIONS) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.EXECUTOR_LOGOPTIONS) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -486,7 +486,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_read(final String timer_name, final double timeout_val) {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_READ) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_READ) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -500,7 +500,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_start(final String timer_name, final double start_val) {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_START) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_START) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -514,7 +514,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_guard(final double start_val) {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_GUARD) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_GUARD) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -527,7 +527,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_stop(final String timer_name, final double stop_val) {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_STOP) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_STOP) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -541,7 +541,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_timeout(final String timer_name, final double timeout_val) {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_TIMEOUT) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_TIMEOUT) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -555,7 +555,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_any_timeout() {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_TIMEOUT) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_TIMEOUT) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -567,7 +567,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_timer_unqualified(final String message) {
-		if (!TtcnLogger.log_this_event(Severity.TIMEROP_UNQUALIFIED) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TIMEROP_UNQUALIFIED) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -579,7 +579,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_matching_timeout(final String timer_name) {
-		if (!TtcnLogger.log_this_event(Severity.MATCHING_PROBLEM) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.MATCHING_PROBLEM) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -612,7 +612,7 @@ public class LoggerPluginManager {
 			throw new TtcnError("Invalid operation");
 		}
 
-		if (!TtcnLogger.log_this_event(sev) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(sev) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -644,7 +644,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_port_state(final TitanLoggerApi.Port__State_operation.enum_type operation, final String portname) {
-		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_STATE)) {
+		if (!TTCN_Logger.log_this_event(Severity.PORTEVENT_STATE)) {
 			return;
 		}
 
@@ -659,7 +659,7 @@ public class LoggerPluginManager {
 
 	public void log_procport_send(final String portname, final TitanLoggerApi.Port__oper.enum_type operation, final int componentReference, final TitanCharString system, final TitanCharString parameter) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_PMOUT : Severity.PORTEVENT_PCOUT;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -679,7 +679,7 @@ public class LoggerPluginManager {
 
 	public void log_procport_recv(final String portname, final TitanLoggerApi.Port__oper.enum_type operation, final int componentReference, final boolean check, final TitanCharString parameter, final int id) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_PMIN : Severity.PORTEVENT_PCIN;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -698,7 +698,7 @@ public class LoggerPluginManager {
 
 	public void log_msgport_send(final String portname, final int componentReference, final TitanCharString parameter) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMSEND : Severity.PORTEVENT_MCSEND;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -714,7 +714,7 @@ public class LoggerPluginManager {
 
 	public void log_msgport_recv(final String portname, final TitanLoggerApi.Msg__port__recv_operation.enum_type operation, final int componentReference, final TitanCharString system, final TitanCharString parameter, final int id) {
 		final Severity severity = componentReference == TitanComponent.SYSTEM_COMPREF ? Severity.PORTEVENT_MMRECV : Severity.PORTEVENT_MCRECV;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -735,7 +735,7 @@ public class LoggerPluginManager {
 
 	public void log_dualport_map(final boolean incoming, final String target_type, final TitanCharString value, final int id) {
 		final Severity severity = incoming ? Severity.PORTEVENT_DUALRECV : Severity.PORTEVENT_DUALSEND;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -752,7 +752,7 @@ public class LoggerPluginManager {
 
 	public void log_dualport_discard(final boolean incoming, final String target_type, final TitanCharString port_name, final boolean unhandled) {
 		final Severity severity = incoming ? Severity.PORTEVENT_DUALRECV : Severity.PORTEVENT_DUALSEND;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -769,7 +769,7 @@ public class LoggerPluginManager {
 
 	public void log_dualport_discard(final boolean incoming, final String target_type, final String port_name, final boolean unhandled) {
 		final Severity severity = incoming ? Severity.PORTEVENT_DUALRECV : Severity.PORTEVENT_DUALSEND;
-		if (!TtcnLogger.log_this_event(severity) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(severity) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -785,7 +785,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_setstate(final String port_name, final TitanPort.translation_port_state state, final TitanCharString info) {
-		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_SETSTATE) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.PORTEVENT_SETSTATE) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -823,7 +823,7 @@ public class LoggerPluginManager {
 
 	public void log_setverdict(final VerdictTypeEnum newVerdict, final VerdictTypeEnum oldVerdict, final VerdictTypeEnum localVerdict,
 			final String oldReason, final String newReason) {
-		if (!TtcnLogger.log_this_event(Severity.VERDICTOP_SETVERDICT) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.VERDICTOP_SETVERDICT) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -848,7 +848,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_getverdict(final VerdictTypeEnum verdict) {
-		if (!TtcnLogger.log_this_event(Severity.VERDICTOP_GETVERDICT) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.VERDICTOP_GETVERDICT) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -884,7 +884,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_testcase_started(final String module_name, final String definition_name) {
-		if (!TtcnLogger.log_this_event(Severity.TESTCASE_START) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TESTCASE_START) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -898,7 +898,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_testcase_finished(final String module_name, final String definition_name, final VerdictTypeEnum verdict, final String reason) {
-		if (!TtcnLogger.log_this_event(Severity.TESTCASE_FINISH) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.TESTCASE_FINISH) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -915,7 +915,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_final_verdict(final boolean is_ptc, final TitanVerdictType.VerdictTypeEnum ptc_verdict, final TitanVerdictType.VerdictTypeEnum local_verdict, final TitanVerdictType.VerdictTypeEnum new_verdict, final String verdict_reason, final int notification, final int ptc_compref, final String ptc_name) {
-		if (!TtcnLogger.log_this_event(Severity.VERDICTOP_FINAL) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.VERDICTOP_FINAL) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -948,7 +948,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_controlpart_start_stop(final String moduleName, final boolean finished) {
-		if (!TtcnLogger.log_this_event(Severity.STATISTICS_UNQUALIFIED) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.STATISTICS_UNQUALIFIED) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -965,7 +965,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_controlpart_errors(final int error_count) {
-		if (!TtcnLogger.log_this_event(Severity.STATISTICS_UNQUALIFIED) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.STATISTICS_UNQUALIFIED) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -982,7 +982,7 @@ public class LoggerPluginManager {
 			final int inconc_count, final double inconc_percent,
 			final int fail_count, final double fail_percent,
 			final int error_count, final double error_percent) {
-		if (!TtcnLogger.log_this_event(Severity.STATISTICS_VERDICT) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.STATISTICS_VERDICT) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -1005,12 +1005,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_defaultop_activate(final String name, final int id) {
-		if (!TtcnLogger.log_this_event(Severity.DEFAULTOP_ACTIVATE) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.DEFAULTOP_ACTIVATE) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.DEFAULTOP_ACTIVATE);
+		fill_common_fields(event, TTCN_Logger.Severity.DEFAULTOP_ACTIVATE);
 		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopActivate();
 		defaultop.getName().assign(name);
 		defaultop.getId().assign(id);
@@ -1020,12 +1020,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_defaultop_deactivate(final String name, final int id) {
-		if (!TtcnLogger.log_this_event(Severity.DEFAULTOP_DEACTIVATE) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.DEFAULTOP_DEACTIVATE) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.DEFAULTOP_DEACTIVATE);
+		fill_common_fields(event, TTCN_Logger.Severity.DEFAULTOP_DEACTIVATE);
 		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopDeactivate();
 		defaultop.getName().assign(name);
 		defaultop.getId().assign(id);
@@ -1035,12 +1035,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_defaultop_exit(final String name, final int id, final int x) {
-		if (!TtcnLogger.log_this_event(Severity.DEFAULTOP_EXIT) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.DEFAULTOP_EXIT) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.DEFAULTOP_EXIT);
+		fill_common_fields(event, TTCN_Logger.Severity.DEFAULTOP_EXIT);
 		final DefaultOp defaultop = event.getLogEvent().getChoice().getDefaultEvent().getChoice().getDefaultopExit();
 		defaultop.getName().assign(name);
 		defaultop.getId().assign(id);
@@ -1050,12 +1050,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_executor_runtime(final TitanLoggerApi.ExecutorRuntime_reason.enum_type reason) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_RUNTIME) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
 		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
 		exec.getReason().assign(reason);
 		exec.getModule__name().assign(template_sel.OMIT_VALUE);
@@ -1067,12 +1067,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_hc_start(final String host) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_RUNTIME) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
 		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
 		exec.getReason().assign(ExecutorRuntime_reason.enum_type.host__controller__started);
 		exec.getModule__name().get().assign(host);
@@ -1084,12 +1084,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_testcase_exec(final String testcase, final String module) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_RUNTIME) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
 		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
 		exec.getReason().assign(ExecutorRuntime_reason.enum_type.executing__testcase__in__module);
 		exec.getModule__name().get().assign(module);
@@ -1101,12 +1101,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_module_init(final String module, final boolean finish) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_RUNTIME) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
 		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
 		if (finish) {
 			exec.getReason().assign(ExecutorRuntime_reason.enum_type.initialization__of__module__finished);
@@ -1123,12 +1123,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_mtc_created(final long pid) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_RUNTIME) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_RUNTIME) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_RUNTIME);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
 		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
 		exec.getReason().assign(ExecutorRuntime_reason.enum_type.mtc__created);
 		
@@ -1141,12 +1141,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_configdata(final ExecutorConfigdata_reason.enum_type reason, final String str) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_CONFIGDATA) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_CONFIGDATA) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_CONFIGDATA);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_CONFIGDATA);
 		final ExecutorConfigdata cfg = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorConfigdata();
 		cfg.getReason().assign(reason);
 		if (str != null) {
@@ -1159,12 +1159,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_executor_component(final ExecutorComponent_reason.enum_type reason) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_COMPONENT) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_COMPONENT) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_COMPONENT);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_COMPONENT);
 		final ExecutorComponent ec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorComponent();
 		ec.getReason().assign(reason);
 		ec.getCompref().assign(template_sel.OMIT_VALUE);
@@ -1173,12 +1173,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_executor_misc(final ExecutorUnqualified_reason.enum_type reason, final String name, final String address, final int port) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_UNQUALIFIED) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_UNQUALIFIED);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_UNQUALIFIED);
 		final ExecutorUnqualified ex = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorMisc();
 		ex.getReason().assign(reason);
 		ex.getName().assign(name);
@@ -1188,13 +1188,13 @@ public class LoggerPluginManager {
 		log(event);
 	}
 
-	public void log_extcommand(final TtcnLogger.extcommand_t action, final String cmd) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.EXECUTOR_EXTCOMMAND) && (TtcnLogger.get_emergency_logging() <= 0)) {
+	public void log_extcommand(final TTCN_Logger.extcommand_t action, final String cmd) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.EXECUTOR_EXTCOMMAND) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.EXECUTOR_EXTCOMMAND);
+		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_EXTCOMMAND);
 		if (action == extcommand_t.EXTCOMMAND_START) {
 			event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExtcommandStart().assign(cmd);
 		} else {
@@ -1205,12 +1205,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_matching_done(final TitanLoggerApi.MatchingDoneType_reason.enum_type reason, final String type, final int ptc, final String return_type) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_DONE) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_DONE) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.MATCHING_DONE);
+		fill_common_fields(event, TTCN_Logger.Severity.MATCHING_DONE);
 		final MatchingDoneType mp = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingDone();
 		mp.getReason().assign(reason);
 		mp.getType__().assign(type);
@@ -1221,12 +1221,12 @@ public class LoggerPluginManager {
 	}
 
 	public void log_matching_problem(final TitanLoggerApi.MatchingProblemType_reason.enum_type reason, final TitanLoggerApi.MatchingProblemType_operation.enum_type operation, final boolean check, final boolean anyport, final String port_name) {
-		if (!TtcnLogger.log_this_event(TtcnLogger.Severity.MATCHING_PROBLEM) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(TTCN_Logger.Severity.MATCHING_PROBLEM) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
 		final TitanLogEvent event = new TitanLogEvent();
-		fill_common_fields(event, TtcnLogger.Severity.MATCHING_PROBLEM);
+		fill_common_fields(event, TTCN_Logger.Severity.MATCHING_PROBLEM);
 		final MatchingProblemType mp = event.getLogEvent().getChoice().getMatchingEvent().getChoice().getMatchingProblem();
 		mp.getReason().assign(reason);
 		mp.getAny__port().assign(anyport);
@@ -1238,7 +1238,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_random(final TitanLoggerApi.RandomAction.enum_type rndAction, final double value, final long seed) {
-		if (!TtcnLogger.log_this_event(Severity.FUNCTION_RND) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (!TTCN_Logger.log_this_event(Severity.FUNCTION_RND) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -1259,7 +1259,7 @@ public class LoggerPluginManager {
 		} else {
 			sev = (port_type == enum_type.message__) ? Severity.MATCHING_MCUNSUCC : Severity.MATCHING_PCUNSUCC;
 		}
-		if (!TtcnLogger.log_this_event(sev) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(sev) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 
@@ -1289,7 +1289,7 @@ public class LoggerPluginManager {
 			sev = port_type == enum_type.message__ ? Severity.MATCHING_MCSUCCESS : Severity.MATCHING_PCSUCCESS;
 		}
 
-		if (TtcnLogger.log_this_event(sev) && TtcnLogger.get_emergency_logging() <= 0) {
+		if (TTCN_Logger.log_this_event(sev) && TTCN_Logger.get_emergency_logging() <= 0) {
 			return;
 		}
 
@@ -1303,7 +1303,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_portconnmap(final ParPort_operation.enum_type operation, final int src_compref, final String src_port, final int dst_compref, final String dst_port) {
-		TtcnLogger.Severity event_severity;
+		TTCN_Logger.Severity event_severity;
 		switch (operation) {
 		case connect__:
 		case disconnect__:
@@ -1317,7 +1317,7 @@ public class LoggerPluginManager {
 			throw new TtcnError("Invalid operation");
 		}
 
-		if (!TtcnLogger.log_this_event(event_severity) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(event_severity) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 		
@@ -1334,14 +1334,14 @@ public class LoggerPluginManager {
 	}
 
 	public void log_parptc(final ParallelPTC_reason.enum_type reason, final String module, final String name, final int compref, final String compname, final String tc_loc, final int alive_pid, final int status) {
-		TtcnLogger.Severity event_severity;
+		TTCN_Logger.Severity event_severity;
 		if (alive_pid > 0 && reason == ParallelPTC_reason.enum_type.function__finished) {
 			event_severity = Severity.PARALLEL_UNQUALIFIED;
 		} else {
 			event_severity = Severity.PARALLEL_PTC;
 		}
 
-		if (!TtcnLogger.log_this_event(event_severity) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(event_severity) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 		
@@ -1361,7 +1361,7 @@ public class LoggerPluginManager {
 	}
 
 	public void log_port_misc(final TitanLoggerApi.Port__Misc_reason.enum_type reason, final String port_name, final int remote_component, final String remote_port, final String ip_address, final int tcp_port, final int new_size) {
-		if (!TtcnLogger.log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (TtcnLogger.get_emergency_logging() <= 0)) {
+		if (!TTCN_Logger.log_this_event(Severity.PORTEVENT_UNQUALIFIED) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
 

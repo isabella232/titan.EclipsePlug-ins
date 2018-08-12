@@ -583,12 +583,12 @@ public class TitanInteger extends Base_Type {
 	public void log() {
 		if (boundFlag) {
 			if (nativeFlag) {
-				TtcnLogger.log_event("%d", nativeInt);
+				TTCN_Logger.log_event("%d", nativeInt);
 			} else {
-				TtcnLogger.log_event("%s", openSSL.toString());
+				TTCN_Logger.log_event("%s", openSSL.toString());
 			}
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

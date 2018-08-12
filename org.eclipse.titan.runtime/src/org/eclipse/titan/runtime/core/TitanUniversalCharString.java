@@ -695,7 +695,7 @@ public class TitanUniversalCharString extends Base_Type {
 	}
 
 	public static boolean isPrintable(final TitanUniversalChar uchar) {
-		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 && TtcnLogger.isPrintable(uchar.getUc_cell());
+		return uchar.getUc_group() == 0 && uchar.getUc_plane() == 0 && uchar.getUc_row() == 0 && TTCN_Logger.isPrintable(uchar.getUc_cell());
 	}
 
 	private static enum States {
@@ -719,7 +719,7 @@ public class TitanUniversalCharString extends Base_Type {
 					case INIT:
 						buffer.append('\"');
 					case PCHAR:
-						TtcnLogger.logCharEscaped(uchar.getUc_cell(), buffer);
+						TTCN_Logger.logCharEscaped(uchar.getUc_cell(), buffer);
 						break;
 					}
 					state = States.PCHAR;
@@ -746,10 +746,10 @@ public class TitanUniversalCharString extends Base_Type {
 			default:
 				break;
 			}
-			TtcnLogger.log_event_str(buffer.toString());
+			TTCN_Logger.log_event_str(buffer.toString());
 
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 
 	}
@@ -1349,12 +1349,12 @@ public class TitanUniversalCharString extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Internal error: invalid expected coding ({0})", code));
 		}
 
-		if (TtcnLogger.log_this_event(TtcnLogger.Severity.DEBUG_UNQUALIFIED)) {
-			TtcnLogger.begin_event(TtcnLogger.Severity.DEBUG_UNQUALIFIED);
-			TtcnLogger.log_event_str("Warning: No ");
-			TtcnLogger.log_event_str(coding_str);
-			TtcnLogger.log_event_str(" Byte Order Mark(BOM) detected. It may result decoding errors");
-			TtcnLogger.end_event();
+		if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.DEBUG_UNQUALIFIED)) {
+			TTCN_Logger.begin_event(TTCN_Logger.Severity.DEBUG_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Warning: No ");
+			TTCN_Logger.log_event_str(coding_str);
+			TTCN_Logger.log_event_str(" Byte Order Mark(BOM) detected. It may result decoding errors");
+			TTCN_Logger.end_event();
 		}
 		return 0;
 	}

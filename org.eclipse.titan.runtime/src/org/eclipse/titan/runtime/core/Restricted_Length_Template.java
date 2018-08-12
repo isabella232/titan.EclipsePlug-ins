@@ -149,39 +149,39 @@ public abstract class Restricted_Length_Template extends Base_Template {
 	protected void log_restricted() {
 		switch (length_restriction_type) {
 		case SINGLE_LENGTH_RESTRICTION:
-			TtcnLogger.log_event(MessageFormat.format(" length ({0})", single_length));
+			TTCN_Logger.log_event(MessageFormat.format(" length ({0})", single_length));
 			break;
 		case NO_LENGTH_RESTRICTION:
 			break;
 		case RANGE_LENGTH_RESTRICTION:
-			TtcnLogger.log_event(MessageFormat.format(" length ({0} .. ", range_length_min_length));
+			TTCN_Logger.log_event(MessageFormat.format(" length ({0} .. ", range_length_min_length));
 			if (range_length_max_length_set) {
-				TtcnLogger.log_event(MessageFormat.format("{0})", range_length_max_length));
+				TTCN_Logger.log_event(MessageFormat.format("{0})", range_length_max_length));
 			} else {
-				TtcnLogger.log_event_str("infinity)");
+				TTCN_Logger.log_event_str("infinity)");
 			}
 			break;
 		default:
-			TtcnLogger.log_event_str("<unknown length restriction>");
+			TTCN_Logger.log_event_str("<unknown length restriction>");
 			break;
 		}
 	}
 
 	protected void log_match_length(final int value_length) {
 		if (length_restriction_type != length_restriction_type_t.NO_LENGTH_RESTRICTION) {
-			if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
+			if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 				if (!match_length(value_length)) {
-					TtcnLogger.print_logmatch_buffer();
+					TTCN_Logger.print_logmatch_buffer();
 					log_restricted();
-					TtcnLogger.log_event(MessageFormat.format(" with {0} ", value_length));
+					TTCN_Logger.log_event(MessageFormat.format(" with {0} ", value_length));
 				}
 			} else {
 				log_restricted();
-				TtcnLogger.log_event(MessageFormat.format(" with {0} ", value_length));
+				TTCN_Logger.log_event(MessageFormat.format(" with {0} ", value_length));
 				if (match_length(value_length)) {
-					TtcnLogger.log_event_str("matched");
+					TTCN_Logger.log_event_str("matched");
 				} else {
-					TtcnLogger.log_event_str("unmatched");
+					TTCN_Logger.log_event_str("unmatched");
 				}
 			}
 		}

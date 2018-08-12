@@ -383,14 +383,14 @@ public class TitanValueArray<T extends Base_Type> extends Base_Type {
 
 	@Override
 	public void log() {
-		TtcnLogger.log_event_str("{ ");
+		TTCN_Logger.log_event_str("{ ");
 		for (int elem_count = 0; elem_count < array_size; elem_count++) {
 			if (elem_count > 0) {
-				TtcnLogger.log_event_str(", ");
+				TTCN_Logger.log_event_str(", ");
 			}
 			array_elements[elem_count].log();
 		}
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 	@Override

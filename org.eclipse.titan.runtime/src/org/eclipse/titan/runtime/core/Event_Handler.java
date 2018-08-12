@@ -26,7 +26,7 @@ public class Event_Handler {
 		public abstract void Handle_Event(final SelectableChannel channel, final boolean is_readable, final boolean is_writeable);
 
 		public void log() {
-			TtcnLogger.log_event_str("handler <invalid>");
+			TTCN_Logger.log_event_str("handler <invalid>");
 		}
 	}
 
@@ -64,7 +64,7 @@ public class Event_Handler {
 		}
 
 		public void log() {
-			TtcnLogger.log_event_str("handler <unknown>");
+			TTCN_Logger.log_event_str("handler <unknown>");
 		}
 	}
 }

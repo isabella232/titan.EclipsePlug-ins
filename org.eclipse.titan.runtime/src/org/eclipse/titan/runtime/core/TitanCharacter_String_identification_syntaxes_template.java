@@ -393,25 +393,25 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			TtcnLogger.log_char('{');
-			TtcnLogger.log_event_str(" abstract := ");
+			TTCN_Logger.log_char('{');
+			TTCN_Logger.log_event_str(" abstract := ");
 			abstract_.log();
-			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" transfer := ");
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" transfer := ");
 			transfer.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_count > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				list_value.get(list_count).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		default:
 			log_generic();
@@ -435,47 +435,47 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	}
 
 	public void log_match(final TitanCharacter_String_identification_syntaxes match_value, final boolean legacy) {
-		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+		if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
-				TtcnLogger.print_logmatch_buffer();
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.print_logmatch_buffer();
+				TTCN_Logger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if( !abstract_.match(match_value.constGetAbstract_(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".abstract");
+						TTCN_Logger.log_logmatch_info(".abstract");
 						abstract_.log_match(match_value.constGetAbstract_(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 					if( !transfer.match(match_value.constGetTransfer(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".transfer");
+						TTCN_Logger.log_logmatch_info(".transfer");
 						transfer.log_match(match_value.constGetTransfer(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
-					TtcnLogger.print_logmatch_buffer();
+					TTCN_Logger.print_logmatch_buffer();
 					match_value.log();
-					TtcnLogger.log_event_str(" with ");
+					TTCN_Logger.log_event_str(" with ");
 					log();
-					TtcnLogger.log_event_str(" unmatched");
+					TTCN_Logger.log_event_str(" unmatched");
 				}
 			}
 			return;
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE) {
-			TtcnLogger.log_event_str("{ abstract := ");
+			TTCN_Logger.log_event_str("{ abstract := ");
 			abstract_.log_match(match_value.constGetAbstract_(), legacy);
-			TtcnLogger.log_event_str("{ transfer := ");
+			TTCN_Logger.log_event_str("{ transfer := ");
 			transfer.log_match(match_value.constGetTransfer(), legacy);
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();
-			TtcnLogger.log_event_str(" with ");
+			TTCN_Logger.log_event_str(" with ");
 			log();
 			if ( match(match_value, legacy) ) {
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.log_event_str(" matched");
 			} else {
-				TtcnLogger.log_event_str(" unmatched");
+				TTCN_Logger.log_event_str(" unmatched");
 			}
 		}
 	}

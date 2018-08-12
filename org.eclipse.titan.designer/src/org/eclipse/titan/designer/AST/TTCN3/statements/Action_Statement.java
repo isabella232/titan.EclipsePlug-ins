@@ -127,7 +127,7 @@ public final class Action_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
-		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
 		source.append("TTCN_Runtime.begin_action();\n");

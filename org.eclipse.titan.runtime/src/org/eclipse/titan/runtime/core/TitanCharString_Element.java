@@ -241,15 +241,15 @@ public class TitanCharString_Element {
 	public void log() {
 		if (bound_flag) {
 			final char c = str_val.getAt(char_pos).get_char();
-			if (TtcnLogger.isPrintable(c)) {
-				TtcnLogger.log_char('"');
-				TtcnLogger.logCharEscaped(c);
-				TtcnLogger.log_char('"');
+			if (TTCN_Logger.isPrintable(c)) {
+				TTCN_Logger.log_char('"');
+				TTCN_Logger.logCharEscaped(c);
+				TTCN_Logger.log_char('"');
 			} else {
-				TtcnLogger.log_event("char(0, 0, 0, {0})", (int) c);
+				TTCN_Logger.log_event("char(0, 0, 0, {0})", (int) c);
 			}
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 }

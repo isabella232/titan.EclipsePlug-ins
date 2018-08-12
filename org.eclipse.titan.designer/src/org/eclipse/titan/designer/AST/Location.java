@@ -419,8 +419,8 @@ public class Location {
 	public void create_location_object(final JavaGenData aData, final StringBuilder source, final String entityType, final String entityName) {
 		if (file != null && line > 0) {
 			if (aData.getAddSourceInfo()) {
-				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location");
-				aData.addCommonLibraryImport("TtcnLogger.TTCN_Location.entity_type_t");
+				aData.addCommonLibraryImport("TTCN_Logger.TTCN_Location");
+				aData.addCommonLibraryImport("TTCN_Logger.TTCN_Location.entity_type_t");
 
 				source.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", ", file.getName()));
 				source.append(line);

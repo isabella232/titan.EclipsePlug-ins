@@ -405,7 +405,7 @@ public class TitanFloat extends Base_Type {
 		if (float_value != null) {
 			log_float(float_value.getValue());
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 
@@ -416,15 +416,15 @@ public class TitanFloat extends Base_Type {
 	static void log_float(final double float_val) {
 		if ((float_val > -TitanFloat.MAX_DECIMAL_FLOAT && float_val <= -TitanFloat.MIN_DECIMAL_FLOAT)
 				|| (float_val >= MIN_DECIMAL_FLOAT && float_val < TitanFloat.MAX_DECIMAL_FLOAT) || (float_val == 0.0)) {
-			TtcnLogger.log_event("%f", float_val);
+			TTCN_Logger.log_event("%f", float_val);
 		} else if (float_val == PLUS_INFINITY) {
-			TtcnLogger.log_event_str("infinity");
+			TTCN_Logger.log_event_str("infinity");
 		} else if (float_val == MINUS_INFINITY) {
-			TtcnLogger.log_event_str("-infinity");
+			TTCN_Logger.log_event_str("-infinity");
 		} else if (float_val != float_val) {
-			TtcnLogger.log_event_str("not_a_number");
+			TTCN_Logger.log_event_str("not_a_number");
 		} else {
-			TtcnLogger.log_event("%e", float_val);
+			TTCN_Logger.log_event("%e", float_val);
 		}
 	}
 

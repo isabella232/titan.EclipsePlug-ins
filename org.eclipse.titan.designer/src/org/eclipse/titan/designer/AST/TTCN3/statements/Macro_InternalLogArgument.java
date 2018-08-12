@@ -54,7 +54,7 @@ public final class Macro_InternalLogArgument extends InternalLogArgument {
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
 		if (value != null) {
 			if (value.canGenerateSingleExpression()) {
-				expression.expression.append(MessageFormat.format("TtcnLogger.log_event_Str({0})", value.generateSingleExpression(aData)));
+				expression.expression.append(MessageFormat.format("TTCN_Logger.log_event_Str({0})", value.generateSingleExpression(aData)));
 			} else {
 				value.generateCodeExpression(aData, expression, true);
 				expression.expression.append(".log()");

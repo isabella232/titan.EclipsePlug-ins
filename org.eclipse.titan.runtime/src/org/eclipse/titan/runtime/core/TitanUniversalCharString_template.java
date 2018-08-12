@@ -785,82 +785,82 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 			break;
 		}
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
 				if (i > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				value_list.get(i).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		case VALUE_RANGE:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			if (min_is_exclusive) {
-				TtcnLogger.log_char('!');
+				TTCN_Logger.log_char('!');
 			}
 			if (min_is_set) {
 				if (TitanUniversalCharString.isPrintable(min_value)) {
-					TtcnLogger.log_char('"');
-					TtcnLogger.logCharEscaped(min_value.getUc_cell());
-					TtcnLogger.log_char('"');
+					TTCN_Logger.log_char('"');
+					TTCN_Logger.logCharEscaped(min_value.getUc_cell());
+					TTCN_Logger.log_char('"');
 
 				} else {
-					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)min_value.getUc_group(), (int)min_value.getUc_plane(), (int)min_value.getUc_row(), (int)min_value.getUc_cell()));
+					TTCN_Logger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)min_value.getUc_group(), (int)min_value.getUc_plane(), (int)min_value.getUc_row(), (int)min_value.getUc_cell()));
 				}
 			} else {
-				TtcnLogger.log_event_str("<unknown lower bound>");
+				TTCN_Logger.log_event_str("<unknown lower bound>");
 			}
-			TtcnLogger.log_event_str(" .. ");
+			TTCN_Logger.log_event_str(" .. ");
 			if (max_is_exclusive) {
-				TtcnLogger.log_char('!');
+				TTCN_Logger.log_char('!');
 			}
 			if (max_is_set) {
 				if (TitanUniversalCharString.isPrintable(max_value)) {
-					TtcnLogger.log_char('"');
-					TtcnLogger.logCharEscaped(max_value.getUc_cell());
-					TtcnLogger.log_char('"');
+					TTCN_Logger.log_char('"');
+					TTCN_Logger.logCharEscaped(max_value.getUc_cell());
+					TTCN_Logger.log_char('"');
 
 				} else {
-					TtcnLogger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)max_value.getUc_group(), (int)max_value.getUc_plane(), (int)max_value.getUc_row(), (int)max_value.getUc_cell()));
+					TTCN_Logger.log_event(MessageFormat.format("char({0}, {1}, {2}, {3})", (int)max_value.getUc_group(), (int)max_value.getUc_plane(), (int)max_value.getUc_row(), (int)max_value.getUc_cell()));
 				}
 			} else {
-				TtcnLogger.log_event_str("<unknown upper bound>");
+				TTCN_Logger.log_event_str("<unknown upper bound>");
 			}
 
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		case DECODE_MATCH:
-			TtcnLogger.log_event_str("decmatch(");
+			TTCN_Logger.log_event_str("decmatch(");
 			switch (dec_match.coding) {
 			case UTF_8:
-				TtcnLogger.log_event_str("UTF-8");
+				TTCN_Logger.log_event_str("UTF-8");
 				break;
 			case UTF16:
-				TtcnLogger.log_event_str("UTF-16");
+				TTCN_Logger.log_event_str("UTF-16");
 				break;
 			case UTF16LE:
-				TtcnLogger.log_event_str("UTF-16LE");
+				TTCN_Logger.log_event_str("UTF-16LE");
 				break;
 			case UTF16BE:
-				TtcnLogger.log_event_str("UTF-16BE");
+				TTCN_Logger.log_event_str("UTF-16BE");
 				break;
 			case UTF32:
-				TtcnLogger.log_event_str("UTF-32");
+				TTCN_Logger.log_event_str("UTF-32");
 				break;
 			case UTF32LE:
-				TtcnLogger.log_event_str("UTF-32LE");
+				TTCN_Logger.log_event_str("UTF-32LE");
 				break;
 			case UTF32BE:
-				TtcnLogger.log_event_str("UTF-32BE");
+				TTCN_Logger.log_event_str("UTF-32BE");
 				break;
 			default:
-				TtcnLogger.log_event_str("<unknown coding>");
+				TTCN_Logger.log_event_str("<unknown coding>");
 				break;
 			}
-			TtcnLogger.log_event_str(")");
+			TTCN_Logger.log_event_str(")");
 			dec_match.dec_match.log();
 			break;
 		default:
@@ -872,18 +872,18 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 	}
 
 	public void log_match(final TitanUniversalCharString match_value, final boolean legacy) {
-		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
-				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
-			TtcnLogger.print_logmatch_buffer();
-			TtcnLogger.log_event_str(" := ");
+		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()
+				&& TTCN_Logger.get_logmatch_buffer_len() != 0) {
+			TTCN_Logger.print_logmatch_buffer();
+			TTCN_Logger.log_event_str(" := ");
 		}
 		match_value.log();
-		TtcnLogger.log_event_str(" with ");
+		TTCN_Logger.log_event_str(" with ");
 		log();
 		if (match(match_value)) {
-			TtcnLogger.log_event_str(" matched");
+			TTCN_Logger.log_event_str(" matched");
 		} else {
-			TtcnLogger.log_event_str(" unmatched");
+			TTCN_Logger.log_event_str(" unmatched");
 		}
 	}
 

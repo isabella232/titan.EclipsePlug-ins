@@ -119,7 +119,7 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addImport("java.text.MessageFormat");
-		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
@@ -191,7 +191,7 @@ public class RecordSetCodeGenerator {
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
 		aData.addBuiltinTypeImport("Optional");
-		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_Logger");
 
 		if (fieldInfos.isEmpty()) {
 			generateEmptyTemplateClass(aData, source, className, classDisplayName, fieldInfos, hasOptional, isSet);
@@ -518,20 +518,20 @@ public class RecordSetCodeGenerator {
 	private static void generateLog(final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append("\t\tpublic void log() {\n");
 		aSb.append("\t\t\tif (!isBound()) {\n");
-		aSb.append("\t\t\t\tTtcnLogger.log_event_unbound();\n");
+		aSb.append("\t\t\t\tTTCN_Logger.log_event_unbound();\n");
 		aSb.append("\t\t\t\treturn;\n");
 		aSb.append("\t\t\t}\n");
-		aSb.append("\t\t\tTtcnLogger.log_char('{');\n");
+		aSb.append("\t\t\tTTCN_Logger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fieldInfo = aNamesList.get(i);
 
 			if (i > 0) {
-				aSb.append("\t\t\tTtcnLogger.log_char(',');\n");
+				aSb.append("\t\t\tTTCN_Logger.log_char(',');\n");
 			}
-			aSb.append(MessageFormat.format("\t\t\tTtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
+			aSb.append(MessageFormat.format("\t\t\tTTCN_Logger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
 			aSb.append(MessageFormat.format("\t\t\t{0}.log();\n", fieldInfo.mVarName));
 		}
-		aSb.append("\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		aSb.append("\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		aSb.append("\t\t}\n");
 	}
 
@@ -2033,29 +2033,29 @@ public class RecordSetCodeGenerator {
 		source.append("\t\tpublic void log() {\n");
 		source.append("\t\t\tswitch (templateSelection) {\n");
 		source.append("\t\t\tcase SPECIFIC_VALUE:\n");
-		source.append("\t\t\t\tTtcnLogger.log_char('{');\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char('{');\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fieldInfo = aNamesList.get(i);
 
 			if (i > 0) {
-				source.append("\t\t\t\tTtcnLogger.log_char(',');\n");
+				source.append("\t\t\t\tTTCN_Logger.log_char(',');\n");
 			}
-			source.append(MessageFormat.format("\t\t\t\tTtcnLogger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\" {0} := \");\n", fieldInfo.mDisplayName));
 			source.append(MessageFormat.format("\t\t\t\t{0}.log();\n", fieldInfo.mVarName));
 		}
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tcase COMPLEMENTED_LIST:\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\"complement\");\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\"complement\");\n");
 		source.append("\t\t\tcase VALUE_LIST:\n");
-		source.append("\t\t\t\tTtcnLogger.log_char('(');\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char('(');\n");
 		source.append("\t\t\t\tfor (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
 		source.append("\t\t\t\t\tif (list_count > 0) {\n");
-		source.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\", \");\n");
+		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\", \");\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t\tlist_value.get(list_count).log();\n");
 		source.append("\t\t\t\t}\n");
-		source.append("\t\t\t\tTtcnLogger.log_char(')');\n");
+		source.append("\t\t\t\tTTCN_Logger.log_char(')');\n");
 		source.append("\t\t\t\tbreak;\n");
 		source.append("\t\t\tdefault:\n");
 		source.append("\t\t\t\tlog_generic();\n");
@@ -2081,46 +2081,46 @@ public class RecordSetCodeGenerator {
 
 		source.append('\n');
 		source.append(MessageFormat.format("\t\tpublic void log_match(final {0} match_value, final boolean legacy) '{'\n", genName ) );
-		source.append("\t\t\tif ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {\n");
+		source.append("\t\t\tif ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {\n");
 		source.append("\t\t\t\tif(match(match_value, legacy)) {\n");
-		source.append("\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
-		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("\t\t\t\t} else {\n");
 		source.append("\t\t\t\t\tif (templateSelection == template_sel.SPECIFIC_VALUE) {\n");
-		source.append("\t\t\t\t\t\tfinal int previous_size = TtcnLogger.get_logmatch_buffer_len();\n");
+		source.append("\t\t\t\t\t\tfinal int previous_size = TTCN_Logger.get_logmatch_buffer_len();\n");
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
 
 			if (fi.isOptional) {
 				source.append(MessageFormat.format("\t\t\t\t\t\tif (match_value.constGet{0}().isPresent()) '{'\n", fi.mJavaVarName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}().get(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}().get(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
-				source.append("\t\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 				source.append("\t\t\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\t\t} else {\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\t\tif (!{0}.match_omit(legacy)) '{'\n", fi.mVarName) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0} := omit with \");\n", fi.mDisplayName ) );
-				source.append("\t\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+				source.append(MessageFormat.format("\t\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0} := omit with \");\n", fi.mDisplayName ) );
+				source.append("\t\t\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t\t{0}.log();\n", fi.mVarName) );
-				source.append("\t\t\t\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
-				source.append("\t\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
+				source.append("\t\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 				source.append("\t\t\t\t\t\t\t}\n");
 				source.append("\t\t\t\t\t\t}\n");
 			} else {
 				source.append(MessageFormat.format("\t\t\t\t\t\tif( !{0}.match(match_value.constGet{1}(), legacy) ) '{'\n", fi.mVarName, fi.mJavaVarName ) );
-				source.append(MessageFormat.format("\t\t\t\t\t\t\tTtcnLogger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
+				source.append(MessageFormat.format("\t\t\t\t\t\t\tTTCN_Logger.log_logmatch_info(\".{0}\");\n", fi.mDisplayName ) );
 				source.append(MessageFormat.format("\t\t\t\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
-				source.append("\t\t\t\t\t\t\tTtcnLogger.set_logmatch_buffer_len(previous_size);\n");
+				source.append("\t\t\t\t\t\t\tTTCN_Logger.set_logmatch_buffer_len(previous_size);\n");
 				source.append("\t\t\t\t\t\t}\n");
 			}
 		}
 		source.append("\t\t\t\t\t} else {\n");
-		source.append("\t\t\t\t\t\tTtcnLogger.print_logmatch_buffer();\n");
+		source.append("\t\t\t\t\t\tTTCN_Logger.print_logmatch_buffer();\n");
 		source.append("\t\t\t\t\t\tmatch_value.log();\n");
-		source.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
 		source.append("\t\t\t\t\t\tlog();\n");
-		source.append("\t\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("\t\t\t\t\t}\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t\treturn;\n");
@@ -2129,18 +2129,18 @@ public class RecordSetCodeGenerator {
 		for (int i = 0 ; i < aNamesList.size(); i++) {
 			final FieldInfo fi = aNamesList.get(i);
 
-			source.append(MessageFormat.format("\t\t\t\tTtcnLogger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
+			source.append(MessageFormat.format("\t\t\t\tTTCN_Logger.log_event_str(\"'{' {0} := \");\n", fi.mDisplayName ) );
 			source.append(MessageFormat.format("\t\t\t\t{0}.log_match(match_value.constGet{1}(), legacy);\n", fi.mVarName, fi.mJavaVarName ) );
 		}
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\" }\");\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
 		source.append("\t\t\t} else {\n");
 		source.append("\t\t\t\tmatch_value.log();\n");
-		source.append("\t\t\t\tTtcnLogger.log_event_str(\" with \");\n");
+		source.append("\t\t\t\tTTCN_Logger.log_event_str(\" with \");\n");
 		source.append("\t\t\t\tlog();\n");
 		source.append("\t\t\t\tif ( match(match_value, legacy) ) {\n");
-		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" matched\");\n");
+		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("\t\t\t\t} else {\n");
-		source.append("\t\t\t\t\tTtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
 		source.append("\t\t}\n");
@@ -2340,10 +2340,10 @@ public class RecordSetCodeGenerator {
 
 		source.append("public void log() {\n");
 		source.append("if (bound_flag) {\n");
-		source.append("TtcnLogger.log_event_str(\"{ }\");\n");
+		source.append("TTCN_Logger.log_event_str(\"{ }\");\n");
 		source.append("return;\n");
 		source.append("}\n");
-		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("}\n");
 
 		source.append("@Override\n");
@@ -2701,19 +2701,19 @@ public class RecordSetCodeGenerator {
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append("TtcnLogger.log_event_str(\"{ }\");\n");
+		source.append("TTCN_Logger.log_event_str(\"{ }\");\n");
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement\");\n");
+		source.append("TTCN_Logger.log_event_str(\"complement\");\n");
 		source.append("case VALUE_LIST:\n");
-		source.append("TtcnLogger.log_char('(');\n");
+		source.append("TTCN_Logger.log_char('(');\n");
 		source.append("for (int list_count = 0; list_count < list_value.size(); list_count++) {\n");
 		source.append("if (list_count > 0) {\n");
-		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("TTCN_Logger.log_event_str(\", \");\n");
 		source.append("}\n");
 		source.append("list_value.get(list_count).log();\n");
 		source.append("}\n");
-		source.append("TtcnLogger.log_char(')');\n");
+		source.append("TTCN_Logger.log_char(')');\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append("log_generic();\n");
@@ -2737,12 +2737,12 @@ public class RecordSetCodeGenerator {
 
 		source.append( MessageFormat.format( "public void log_match(final {0} match_value, final boolean legacy) '{'\n", className ) );
 		source.append("match_value.log();\n");
-		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("TTCN_Logger.log_event_str(\" with \");\n");
 		source.append("log();\n");
 		source.append("if ( match(match_value, legacy) ) {\n");
-		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
 		source.append("}\n\n");
 

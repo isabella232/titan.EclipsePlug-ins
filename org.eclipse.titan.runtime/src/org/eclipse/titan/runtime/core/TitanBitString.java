@@ -679,13 +679,13 @@ public class TitanBitString extends Base_Type {
 
 	public void log() {
 		if (bits_ptr != null) {
-			TtcnLogger.log_char('\'');
+			TTCN_Logger.log_char('\'');
 			for (int bit_count = 0; bit_count < n_bits; bit_count++) {
-				TtcnLogger.log_char(getBit(bit_count) ? '1' : '0');
+				TTCN_Logger.log_char(getBit(bit_count) ? '1' : '0');
 			}
-			TtcnLogger.log_event_str("'B");
+			TTCN_Logger.log_event_str("'B");
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

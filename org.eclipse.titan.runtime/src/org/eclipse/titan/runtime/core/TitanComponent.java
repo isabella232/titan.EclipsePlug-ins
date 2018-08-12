@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.component_id_selector_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
 
 /**
  * TTCN-3 component variable
@@ -182,7 +182,7 @@ public class TitanComponent extends Base_Type {
 
 	public void log() {
 		if (componentValue == UNBOUND_COMPREF) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		} else {
 			log_component_reference(componentValue);
 		}
@@ -249,20 +249,20 @@ public class TitanComponent extends Base_Type {
 	public static void log_component_reference(final int component_reference) {
 		switch (component_reference) {
 		case NULL_COMPREF:
-			TtcnLogger.log_event_str("null");
+			TTCN_Logger.log_event_str("null");
 			break;
 		case MTC_COMPREF:
-			TtcnLogger.log_event_str("mtc");
+			TTCN_Logger.log_event_str("mtc");
 			break;
 		case SYSTEM_COMPREF:
-			TtcnLogger.log_event_str("system");
+			TTCN_Logger.log_event_str("system");
 			break;
 		default: {
 			final String component_name = get_component_name(component_reference);
 			if (component_name == null) {
-				TtcnLogger.log_event_str(MessageFormat.format("{0}", component_reference));
+				TTCN_Logger.log_event_str(MessageFormat.format("{0}", component_reference));
 			} else {
-				TtcnLogger.log_event_str(MessageFormat.format("{0}({1})", component_name, component_reference));
+				TTCN_Logger.log_event_str(MessageFormat.format("{0}({1})", component_name, component_reference));
 			}
 			break;
 		}

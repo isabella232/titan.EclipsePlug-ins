@@ -122,16 +122,16 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 	}
 	public void log() {
 		if (!isBound()) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 			return;
 		}
-		TtcnLogger.log_char('{');
-		TtcnLogger.log_event_str(" abstract := ");
+		TTCN_Logger.log_char('{');
+		TTCN_Logger.log_event_str(" abstract := ");
 		abstract_.log();
-		TtcnLogger.log_char(',');
-		TtcnLogger.log_event_str(" transfer := ");
+		TTCN_Logger.log_char(',');
+		TTCN_Logger.log_event_str(" transfer := ");
 		transfer.log();
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 	@Override

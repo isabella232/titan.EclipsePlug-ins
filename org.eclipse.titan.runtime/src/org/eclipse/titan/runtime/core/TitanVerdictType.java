@@ -149,11 +149,11 @@ public class TitanVerdictType extends Base_Type {
 
 	public void log() {
 		if (isValid(verdict_value)) {
-			TtcnLogger.log_event_str(verdict_name[verdict_value.ordinal()]);
+			TTCN_Logger.log_event_str(verdict_name[verdict_value.ordinal()]);
 		} else if (verdict_value == VerdictTypeEnum.UNBOUND) {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		} else {
-			TtcnLogger.log_event(MessageFormat.format("<invalid verdict value: {0}>", verdict_value));
+			TTCN_Logger.log_event(MessageFormat.format("<invalid verdict value: {0}>", verdict_value));
 		}
 	}
 

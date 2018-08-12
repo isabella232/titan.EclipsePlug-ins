@@ -549,16 +549,16 @@ public class TitanCharacter_String_identification_template extends Base_Template
 			single_value.log();
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int list_count = 0; list_count < value_list.size(); list_count++) {
 				if (list_count > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				value_list.get(list_count).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		default:
 			log_generic();
@@ -578,80 +578,80 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 
 	public void log_match(final TitanCharacter_String_identification match_value, final boolean legacy) {
-		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy)) {
-			TtcnLogger.print_logmatch_buffer();
-			TtcnLogger.log_event_str(" matched");
+		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {
+			TTCN_Logger.print_logmatch_buffer();
+			TTCN_Logger.log_event_str(" matched");
 			return;
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
 			switch(single_value_union_selection) {
 			case ALT_Syntaxes:
-				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-					TtcnLogger.log_logmatch_info(".syntaxes");
+				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+					TTCN_Logger.log_logmatch_info(".syntaxes");
 					single_value.log_match(match_value, legacy);
 				} else {
-					TtcnLogger.log_logmatch_info("{ syntaxes := ");
+					TTCN_Logger.log_logmatch_info("{ syntaxes := ");
 					single_value.log_match(match_value, legacy);
-					TtcnLogger.log_event_str(" }");
+					TTCN_Logger.log_event_str(" }");
 				}
 			case ALT_Syntax:
-				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-					TtcnLogger.log_logmatch_info(".syntax");
+				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+					TTCN_Logger.log_logmatch_info(".syntax");
 					single_value.log_match(match_value, legacy);
 				} else {
-					TtcnLogger.log_logmatch_info("{ syntax := ");
+					TTCN_Logger.log_logmatch_info("{ syntax := ");
 					single_value.log_match(match_value, legacy);
-					TtcnLogger.log_event_str(" }");
+					TTCN_Logger.log_event_str(" }");
 				}
 			case ALT_Presentation__context__id:
-				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-					TtcnLogger.log_logmatch_info(".presentation-context-id");
+				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+					TTCN_Logger.log_logmatch_info(".presentation-context-id");
 					single_value.log_match(match_value, legacy);
 				} else {
-					TtcnLogger.log_logmatch_info("{ presentation-context-id := ");
+					TTCN_Logger.log_logmatch_info("{ presentation-context-id := ");
 					single_value.log_match(match_value, legacy);
-					TtcnLogger.log_event_str(" }");
+					TTCN_Logger.log_event_str(" }");
 				}
 			case ALT_Context__negotiation:
-				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-					TtcnLogger.log_logmatch_info(".context-negotiation");
+				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+					TTCN_Logger.log_logmatch_info(".context-negotiation");
 					single_value.log_match(match_value, legacy);
 				} else {
-					TtcnLogger.log_logmatch_info("{ context-negotiation := ");
+					TTCN_Logger.log_logmatch_info("{ context-negotiation := ");
 					single_value.log_match(match_value, legacy);
-					TtcnLogger.log_event_str(" }");
+					TTCN_Logger.log_event_str(" }");
 				}
 			case ALT_Transfer__syntax:
-				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-					TtcnLogger.log_logmatch_info(".transfer-syntax");
+				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+					TTCN_Logger.log_logmatch_info(".transfer-syntax");
 					single_value.log_match(match_value, legacy);
 				} else {
-					TtcnLogger.log_logmatch_info("{ transfer-syntax := ");
+					TTCN_Logger.log_logmatch_info("{ transfer-syntax := ");
 					single_value.log_match(match_value, legacy);
-					TtcnLogger.log_event_str(" }");
+					TTCN_Logger.log_event_str(" }");
 				}
 			case ALT_Fixed:
-				if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-					TtcnLogger.log_logmatch_info(".fixed");
+				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+					TTCN_Logger.log_logmatch_info(".fixed");
 					single_value.log_match(match_value, legacy);
 				} else {
-					TtcnLogger.log_logmatch_info("{ fixed := ");
+					TTCN_Logger.log_logmatch_info("{ fixed := ");
 					single_value.log_match(match_value, legacy);
-					TtcnLogger.log_event_str(" }");
+					TTCN_Logger.log_event_str(" }");
 				}
 			default:
-				TtcnLogger.print_logmatch_buffer();
-				TtcnLogger.log_event_str("<invalid selector>");
+				TTCN_Logger.print_logmatch_buffer();
+				TTCN_Logger.log_event_str("<invalid selector>");
 			}
 		} else {
-			TtcnLogger.print_logmatch_buffer();
+			TTCN_Logger.print_logmatch_buffer();
 			match_value.log();
-			TtcnLogger.log_event_str(" with ");
+			TTCN_Logger.log_event_str(" with ");
 			log();
 			if (match(match_value, legacy)) {
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.log_event_str(" matched");
 			} else {
-				TtcnLogger.log_event_str(" unmatched");
+				TTCN_Logger.log_event_str(" unmatched");
 			}
 		}
 	}

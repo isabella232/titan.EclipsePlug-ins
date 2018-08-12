@@ -49,8 +49,8 @@ public class TTCN_Module {
 			return;
 		}
 		post_init_called = true;
-		TtcnLogger.log_module_init(name, false);
-		TtcnLogger.log_module_init(name, true);
+		TTCN_Logger.log_module_init(name, false);
+		TTCN_Logger.log_module_init(name, true);
 	}
 
 	public boolean start_ptc_function(final String function_name, final Text_Buf function_arguments) {

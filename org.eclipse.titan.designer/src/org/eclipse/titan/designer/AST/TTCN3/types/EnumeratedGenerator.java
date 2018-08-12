@@ -177,7 +177,7 @@ public class EnumeratedGenerator {
 		aData.addBuiltinTypeImport( "Base_Template" );
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
-		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addImport( "java.text.MessageFormat" );
 		aData.addImport("java.util.ArrayList");
 
@@ -264,9 +264,9 @@ public class EnumeratedGenerator {
 	private static void generateLog(final StringBuilder source) {
 		source.append("public void log() {\n");
 		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
-		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
+		source.append("TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));\n");
 		source.append("}\n");
 		source.append("}\n\n");
 	}
@@ -1014,19 +1014,19 @@ public class EnumeratedGenerator {
 		source.append("public void log() {\n");
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
-		source.append(MessageFormat.format("TtcnLogger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
+		source.append(MessageFormat.format("TTCN_Logger.log_event_enum({0}.enum2str(single_value), {0}.enum2int(single_value));\n", name));
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement\");\n");
+		source.append("TTCN_Logger.log_event_str(\"complement\");\n");
 		source.append("case VALUE_LIST:\n");
-		source.append("TtcnLogger.log_char('(');\n");
+		source.append("TTCN_Logger.log_char('(');\n");
 		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
 		source.append("if (list_count > 0) {\n");
-		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("TTCN_Logger.log_event_str(\", \");\n");
 		source.append("}\n");
 		source.append("value_list.get(list_count).log();\n");
 		source.append("}\n");
-		source.append("TtcnLogger.log_char(')');\n");
+		source.append("TTCN_Logger.log_char(')');\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append("log_generic();\n");
@@ -1048,12 +1048,12 @@ public class EnumeratedGenerator {
 
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy)'{'\n",name));
 		source.append("match_value.log();\n");
-		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("TTCN_Logger.log_event_str(\" with \");\n");
 		source.append("log();\n");
 		source.append("if (match(match_value, legacy)) {\n");
-		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
 		source.append("}\n");
 	}

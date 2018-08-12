@@ -210,11 +210,11 @@ public class TitanOctetString_Element {
 
 	public void log() {
 		if (bound_flag) {
-			TtcnLogger.log_char('\'');
-			TtcnLogger.log_octet(str_val.get_nibble(nibble_pos));
-			TtcnLogger.log_event_str("'O");
+			TTCN_Logger.log_char('\'');
+			TTCN_Logger.log_octet(str_val.get_nibble(nibble_pos));
+			TTCN_Logger.log_event_str("'O");
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 }

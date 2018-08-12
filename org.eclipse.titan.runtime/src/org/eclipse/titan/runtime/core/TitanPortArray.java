@@ -142,14 +142,14 @@ public class TitanPortArray<T extends TitanPort> extends TitanPort {
 	}
 
 	public void log() {
-		TtcnLogger.log_event_str("{ ");
+		TTCN_Logger.log_event_str("{ ");
 		for (int v_index = 0; v_index < array_size; v_index++) {
 			if (v_index > 0) {
-				TtcnLogger.log_event_str(", ");
+				TTCN_Logger.log_event_str(", ");
 			}
 			array_elements[v_index].log();
 		}
-		TtcnLogger.log_event_str(" }");
+		TTCN_Logger.log_event_str(" }");
 	}
 
 	// alt-status priority: ALT_YES (return immediately) > ALT_REPEAT > ALT_MAYBE > ALT_NO

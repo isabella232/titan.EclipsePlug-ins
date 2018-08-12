@@ -220,11 +220,11 @@ public class TitanBitString_Element {
 
 	public void log() {
 		if (bound_flag) {
-			TtcnLogger.log_char('\'');
-			TtcnLogger.log_char(str_val.getBit(bit_pos) ? '1' : '0');
-			TtcnLogger.log_event_str("'B");
+			TTCN_Logger.log_char('\'');
+			TTCN_Logger.log_char(str_val.getBit(bit_pos) ? '1' : '0');
+			TTCN_Logger.log_event_str("'B");
 		} else {
-			TtcnLogger.log_event_unbound();
+			TTCN_Logger.log_event_unbound();
 		}
 	}
 

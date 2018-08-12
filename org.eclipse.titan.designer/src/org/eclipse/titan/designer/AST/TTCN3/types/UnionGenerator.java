@@ -92,7 +92,7 @@ public class UnionGenerator {
 		aData.addBuiltinTypeImport("Base_Type");
 		aData.addBuiltinTypeImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
-		aData.addBuiltinTypeImport("TtcnLogger");
+		aData.addBuiltinTypeImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TTCN_EncDec.error_type");
 		aData.addBuiltinTypeImport("TTCN_EncDec.raw_order_t");
@@ -451,14 +451,14 @@ public class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
 			source.append("field.log();\n");
-			source.append("TtcnLogger.log_event_str(\" }\");\n");
+			source.append("TTCN_Logger.log_event_str(\" }\");\n");
 			source.append("break;\n");
 		}
 
 		source.append("default:\n");
-		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("break;\n");
 		source.append("}\n");
 		source.append("}\n");
@@ -1348,16 +1348,16 @@ public class UnionGenerator {
 		}
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement\");\n");
+		source.append("TTCN_Logger.log_event_str(\"complement\");\n");
 		source.append("case VALUE_LIST:\n");
-		source.append("TtcnLogger.log_char('(');\n");
+		source.append("TTCN_Logger.log_char('(');\n");
 		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
 		source.append("if (list_count > 0) {\n");
-		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("TTCN_Logger.log_event_str(\", \");\n");
 		source.append("}\n");
 		source.append("value_list.get(list_count).log();\n");
 		source.append("}\n");
-		source.append("TtcnLogger.log_char(')');\n");
+		source.append("TTCN_Logger.log_char(')');\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append("log_generic();\n");
@@ -1386,9 +1386,9 @@ public class UnionGenerator {
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", genName));
-		source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() && match(match_value, legacy)) {\n");
-		source.append("TtcnLogger.print_logmatch_buffer();\n");
-		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() && match(match_value, legacy)) {\n");
+		source.append("TTCN_Logger.print_logmatch_buffer();\n");
+		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
@@ -1396,30 +1396,30 @@ public class UnionGenerator {
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-			source.append("if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
+			source.append("if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {\n");
+			source.append(MessageFormat.format("TTCN_Logger.log_logmatch_info(\".{0}\");\n", fieldInfo.mDisplayName));
 
 			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
 			source.append("} else {\n");
-			source.append(MessageFormat.format("TtcnLogger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("TTCN_Logger.log_logmatch_info(\"'{' {0} := \");\n", fieldInfo.mDisplayName));
 			source.append(MessageFormat.format("single_value.log_match(match_value.get{0}(), legacy);\n", fieldInfo.mJavaVarName));
-			source.append("TtcnLogger.log_event_str(\" }\");\n");
+			source.append("TTCN_Logger.log_event_str(\" }\");\n");
 			source.append("}\n");
 			source.append("break;\n");
 		}
 		source.append("default:\n");
-		source.append("TtcnLogger.print_logmatch_buffer();\n");
-		source.append("TtcnLogger.log_event_str(\"<invalid selector>\");\n");
+		source.append("TTCN_Logger.print_logmatch_buffer();\n");
+		source.append("TTCN_Logger.log_event_str(\"<invalid selector>\");\n");
 		source.append("}\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.print_logmatch_buffer();\n");
+		source.append("TTCN_Logger.print_logmatch_buffer();\n");
 		source.append("match_value.log();\n");
-		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("TTCN_Logger.log_event_str(\" with \");\n");
 		source.append("log();\n");
 		source.append("if (match(match_value, legacy)) {\n");
-		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
 		source.append("}\n");
 		source.append("}\n\n");

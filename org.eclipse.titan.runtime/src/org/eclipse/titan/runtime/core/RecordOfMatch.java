@@ -11,7 +11,7 @@ import java.text.MessageFormat;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
-import org.eclipse.titan.runtime.core.TtcnLogger.matching_verbosity_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
 
 /**
  * Utility class for match functionality of record of/set of/arrays
@@ -1250,7 +1250,7 @@ public class RecordOfMatch {
 		}
 
 		if (!template_ptr.match_length(value_size)) {
-			TtcnLogger.log_event("Length restriction cannot be satisfied. ");
+			TTCN_Logger.log_event("Length restriction cannot be satisfied. ");
 			return;
 		}
 
@@ -1264,16 +1264,16 @@ public class RecordOfMatch {
 		}
 
 		if (value_size < template_size - asterisks_found) {
-			TtcnLogger.print_logmatch_buffer();
+			TTCN_Logger.print_logmatch_buffer();
 			if (asterisks_found == 0) {
-				TtcnLogger.log_event(MessageFormat.format(" Too few elements in value are present: {0} was expected instead of {1}", template_size, value_size));
+				TTCN_Logger.log_event(MessageFormat.format(" Too few elements in value are present: {0} was expected instead of {1}", template_size, value_size));
 			} else {
-				TtcnLogger.log_event(MessageFormat.format(" Too few value elements are present in value: at least {0} was expected instead of {1}", template_size - asterisks_found, value_size));
+				TTCN_Logger.log_event(MessageFormat.format(" Too few value elements are present in value: at least {0} was expected instead of {1}", template_size - asterisks_found, value_size));
 			}
 			return;
 		} else if (asterisks_found == 0 && value_size > template_size) {
-			TtcnLogger.print_logmatch_buffer();
-			TtcnLogger.log_event(MessageFormat.format(" Too many elements are present in value: {0} was expected instead of {1}", template_size, value_size));
+			TTCN_Logger.print_logmatch_buffer();
+			TTCN_Logger.log_event(MessageFormat.format(" Too many elements are present in value: {0} was expected instead of {1}", template_size, value_size));
 			return;
 		}
 
@@ -1281,9 +1281,9 @@ public class RecordOfMatch {
 			return;
 		}
 
-		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
-			TtcnLogger.log_event_str(" Some hints to find the reason of mismatch: ");
-			TtcnLogger.log_event_str("{ value elements that have no pairs in the template: ");
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TTCN_Logger.get_matching_verbosity()) {
+			TTCN_Logger.log_event_str(" Some hints to find the reason of mismatch: ");
+			TTCN_Logger.log_event_str("{ value elements that have no pairs in the template: ");
 		}
 
 		boolean value_found = false;
@@ -1300,25 +1300,25 @@ public class RecordOfMatch {
 
 			unmatched_values[i] = !pair_found;
 			if (!pair_found) {
-				if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+				if (matching_verbosity_t.VERBOSITY_COMPACT != TTCN_Logger.get_matching_verbosity()) {
 					if (value_found) {
-						TtcnLogger.log_event_str(", ");
+						TTCN_Logger.log_event_str(", ");
 					} else {
 						value_found = true;
 					}
 
 					log_function.log(value_ptr, null, i, 0, legacy);
-					TtcnLogger.log_event(MessageFormat.format(" at index {0}", i));
+					TTCN_Logger.log_event(MessageFormat.format(" at index {0}", i));
 				}
 				nof_unmatched_values++;
 			}
 		}
 
-		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TTCN_Logger.get_matching_verbosity()) {
 			if (!value_found) {
-				TtcnLogger.log_event_str("none");
+				TTCN_Logger.log_event_str("none");
 			}
-			TtcnLogger.log_event_str(", template elements that have no pairs in the value: ");
+			TTCN_Logger.log_event_str(", template elements that have no pairs in the value: ");
 		}
 
 		boolean template_found = false;
@@ -1337,85 +1337,85 @@ public class RecordOfMatch {
 			}
 			unmatched_templates[i] = !pair_found;
 			if (!pair_found) {
-				if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+				if (matching_verbosity_t.VERBOSITY_COMPACT != TTCN_Logger.get_matching_verbosity()) {
 					if (template_found) {
-						TtcnLogger.log_event_str(", ");
+						TTCN_Logger.log_event_str(", ");
 					} else {
 						template_found = true;
 					}
 
 					log_function.log(null, template_ptr, 0, i, legacy);
-					TtcnLogger.log_event(MessageFormat.format(" at index {0}", i));
+					TTCN_Logger.log_event(MessageFormat.format(" at index {0}", i));
 				}
 				nof_unmatched_templates++;
 			}
 		}
 
-		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TTCN_Logger.get_matching_verbosity()) {
 			if (!template_found) {
-				TtcnLogger.log_event_str("none");
+				TTCN_Logger.log_event_str("none");
 			}
 
-			TtcnLogger.log_event_str(", matching value <-> template index pairs: ");
+			TTCN_Logger.log_event_str(", matching value <-> template index pairs: ");
 			boolean pair_found = false;
 			for (int i = 0; i < value_size; i++) {
 				for (int j = 0; j < template_size; j++) {
 					if (match_function.match(value_ptr, i, template_ptr, j, legacy)) {
 						if (pair_found) {
-							TtcnLogger.log_char(',');
+							TTCN_Logger.log_char(',');
 						} else {
-							TtcnLogger.log_char('{');
+							TTCN_Logger.log_char('{');
 							pair_found = true;
 						}
-						TtcnLogger.log_event(MessageFormat.format(" {0} <-> {1}", i, j));
+						TTCN_Logger.log_event(MessageFormat.format(" {0} <-> {1}", i, j));
 					}
 				}
 			}
 			if (pair_found) {
-				TtcnLogger.log_event_str(" }");
+				TTCN_Logger.log_event_str(" }");
 			} else {
-				TtcnLogger.log_event_str("none");
+				TTCN_Logger.log_event_str("none");
 			}
 		}
 
 		if (nof_unmatched_templates > 0 && nof_unmatched_values > 0) {
-			if (matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()) {
-				final int previous_size = TtcnLogger.get_logmatch_buffer_len();
+			if (matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
+				final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 				for (int i = 0; i < value_size; i++) {
 					if (unmatched_values[i]) {
 						for (int j = 0; j < template_size; j++) {
 							if (unmatched_templates[j]) {
-								TtcnLogger.log_logmatch_info(MessageFormat.format("[{0} <-> {1}]", i, j));
+								TTCN_Logger.log_logmatch_info(MessageFormat.format("[{0} <-> {1}]", i, j));
 								log_function.log(value_ptr, template_ptr, i, j, legacy);
 
-								TtcnLogger.set_logmatch_buffer_len(previous_size);
+								TTCN_Logger.set_logmatch_buffer_len(previous_size);
 							}
 						}
 					}
 				}
 			} else {
-				TtcnLogger.log_event_str(", matching unmatched value <-> template index pairs: ");
+				TTCN_Logger.log_event_str(", matching unmatched value <-> template index pairs: ");
 				char sep = '{';
 				for (int i = 0; i < value_size; i++) {
 					if (unmatched_values[i]) {
 						for (int j = 0; j < template_size; j++) {
 							if (unmatched_templates[j]) {
-								TtcnLogger.log_event(MessageFormat.format("{0} {1} <-> {2}:'{' ", sep, i, j));
+								TTCN_Logger.log_event(MessageFormat.format("{0} {1} <-> {2}:'{' ", sep, i, j));
 								if ('{' == sep) {
 									sep = ',';
 								}
 								log_function.log(value_ptr, template_ptr, i, j, legacy);
-								TtcnLogger.log_event_str(" }");
+								TTCN_Logger.log_event_str(" }");
 							}
 						}
 					}
 				}
 
-				TtcnLogger.log_event_str(" }");
+				TTCN_Logger.log_event_str(" }");
 			}
 		}
-		if (matching_verbosity_t.VERBOSITY_COMPACT != TtcnLogger.get_matching_verbosity()) {
-			TtcnLogger.log_event_str(" }");
+		if (matching_verbosity_t.VERBOSITY_COMPACT != TTCN_Logger.get_matching_verbosity()) {
+			TTCN_Logger.log_event_str(" }");
 		}
 	}
 }

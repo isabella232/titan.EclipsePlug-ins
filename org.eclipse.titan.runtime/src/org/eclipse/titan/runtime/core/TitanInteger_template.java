@@ -455,51 +455,51 @@ public class TitanInteger_template extends Base_Template {
 			} else {
 				tmp_str = single_value.getBigInteger().toString();
 			}
-			TtcnLogger.log_event("%s", tmp_str);
+			TTCN_Logger.log_event("%s", tmp_str);
 			break;
 			}
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
 				if (i > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				value_list.get(i).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		case VALUE_RANGE:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			if (min_is_exclusive) {
-				TtcnLogger.log_char('!');
+				TTCN_Logger.log_char('!');
 			}
 			if (min_is_present) {
 				if (min_value.isNative()) {
-					TtcnLogger.log_event("%s", Integer.toString(min_value.getInt()));
+					TTCN_Logger.log_event("%s", Integer.toString(min_value.getInt()));
 				} else {
-					TtcnLogger.log_event("%s", min_value.getBigInteger().toString());
+					TTCN_Logger.log_event("%s", min_value.getBigInteger().toString());
 				}
 			} else {
-				TtcnLogger.log_event_str("-infinity");
+				TTCN_Logger.log_event_str("-infinity");
 			}
-			TtcnLogger.log_event_str(" .. ");
+			TTCN_Logger.log_event_str(" .. ");
 
 			if (max_is_exclusive) {
-				TtcnLogger.log_char('!');
+				TTCN_Logger.log_char('!');
 			}
 			if (max_is_present) {
 				if (max_value.isNative()) {
-					TtcnLogger.log_event("%s", Integer.toString(max_value.getInt()));
+					TTCN_Logger.log_event("%s", Integer.toString(max_value.getInt()));
 				} else {
-					TtcnLogger.log_event("%s", max_value.getBigInteger().toString());
+					TTCN_Logger.log_event("%s", max_value.getBigInteger().toString());
 				}
 			} else {
-				TtcnLogger.log_event_str("infinity");
+				TTCN_Logger.log_event_str("infinity");
 			}
 
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		default:
 			log_generic();
@@ -509,18 +509,18 @@ public class TitanInteger_template extends Base_Template {
 	}
 
 	public void log_match(final TitanInteger match_value, final boolean legacy) {
-		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
-				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
-			TtcnLogger.print_logmatch_buffer();
-			TtcnLogger.log_event_str(" := ");
+		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()
+				&& TTCN_Logger.get_logmatch_buffer_len() != 0) {
+			TTCN_Logger.print_logmatch_buffer();
+			TTCN_Logger.log_event_str(" := ");
 		}
 		match_value.log();
-		TtcnLogger.log_event_str(" with ");
+		TTCN_Logger.log_event_str(" with ");
 		log();
 		if (match(match_value)) {
-			TtcnLogger.log_event_str(" matched");
+			TTCN_Logger.log_event_str(" matched");
 		} else {
-			TtcnLogger.log_event_str(" unmatched");
+			TTCN_Logger.log_event_str(" unmatched");
 		}
 	}
 

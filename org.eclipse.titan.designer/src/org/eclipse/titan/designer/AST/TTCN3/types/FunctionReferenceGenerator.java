@@ -292,9 +292,9 @@ public class FunctionReferenceGenerator {
 		source.append("@Override\n");
 		source.append("public void log() {\n");
 		source.append("if(referred_function == null) {\n");
-		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event(\"refers(%s)\", referred_function.getDefinitionName());\n");
+		source.append("TTCN_Logger.log_event(\"refers(%s)\", referred_function.getDefinitionName());\n");
 		source.append("}\n");
 		source.append("}\n");
 
@@ -778,22 +778,22 @@ public class FunctionReferenceGenerator {
 		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("if(single_value == null) {\n");
-		source.append("TtcnLogger.log_event_unbound();\n");
+		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event(\"refers(%s)\", single_value.getDefinitionName());\n");
+		source.append("TTCN_Logger.log_event(\"refers(%s)\", single_value.getDefinitionName());\n");
 		source.append("}\n");
 		source.append("break;\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append("TtcnLogger.log_event_str(\"complement\");\n");
+		source.append("TTCN_Logger.log_event_str(\"complement\");\n");
 		source.append("case VALUE_LIST:\n");
-		source.append("TtcnLogger.log_char('(');\n");
+		source.append("TTCN_Logger.log_char('(');\n");
 		source.append("for (int list_count = 0; list_count < value_list.size(); list_count++) {\n");
 		source.append("if (list_count > 0) {\n");
-		source.append("TtcnLogger.log_event_str(\", \");\n");
+		source.append("TTCN_Logger.log_event_str(\", \");\n");
 		source.append("}\n");
 		source.append("value_list.get(list_count).log();\n");
 		source.append("}\n");
-		source.append("TtcnLogger.log_char(')');\n");
+		source.append("TTCN_Logger.log_char(')');\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append("log_generic();\n");
@@ -813,12 +813,12 @@ public class FunctionReferenceGenerator {
 
 		source.append(MessageFormat.format("public void log_match(final {0} match_value, final boolean legacy) '{'\n", def.genName));
 		source.append("match_value.log();\n");
-		source.append("TtcnLogger.log_event_str(\" with \");\n");
+		source.append("TTCN_Logger.log_event_str(\" with \");\n");
 		source.append("log();\n");
 		source.append("if (match(match_value, legacy)) {\n");
-		source.append("TtcnLogger.log_event_str(\" matched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" matched\");\n");
 		source.append("} else {\n");
-		source.append("TtcnLogger.log_event_str(\" unmatched\");\n");
+		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
 		source.append("}\n");
 

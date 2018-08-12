@@ -13,7 +13,7 @@ import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
 import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * The base class of all types.
@@ -102,11 +102,11 @@ public abstract class Base_Type {
 
 	public void set_param (final Module_Parameter param) {
 		// TODO once the setting module parameters is implemented for all classes this function should become abstract
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".set_param() is not yet implemented!\n" );
-		TtcnLogger.end_event();
+		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TTCN_Logger.log_event_str( "//TODO: " );
+		TTCN_Logger.log_event_str( getClass().getSimpleName() );
+		TTCN_Logger.log_event_str( ".set_param() is not yet implemented!\n" );
+		TTCN_Logger.end_event();
 	}
 
 	public void set_implicit_omit() {
@@ -120,21 +120,21 @@ public abstract class Base_Type {
 	// originally flavour is not used for all encodings.
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		// TODO once encoding is implemented for all classes this function should become abstract
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".encode() is not yet implemented!\n" );
-		TtcnLogger.end_event();
+		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TTCN_Logger.log_event_str( "//TODO: " );
+		TTCN_Logger.log_event_str( getClass().getSimpleName() );
+		TTCN_Logger.log_event_str( ".encode() is not yet implemented!\n" );
+		TTCN_Logger.end_event();
 	}
 
 	// originally flavour is not used for all encodings.
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		// TODO once decoding is implemented for all classes this function should become abstract
-		TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-		TtcnLogger.log_event_str( "//TODO: " );
-		TtcnLogger.log_event_str( getClass().getSimpleName() );
-		TtcnLogger.log_event_str( ".decode() is not yet implemented!\n" );
-		TtcnLogger.end_event();
+		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+		TTCN_Logger.log_event_str( "//TODO: " );
+		TTCN_Logger.log_event_str( getClass().getSimpleName() );
+		TTCN_Logger.log_event_str( ".decode() is not yet implemented!\n" );
+		TTCN_Logger.end_event();
 	}
 
 	/**

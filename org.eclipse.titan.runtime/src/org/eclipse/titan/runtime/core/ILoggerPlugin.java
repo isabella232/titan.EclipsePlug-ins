@@ -19,7 +19,7 @@ public interface ILoggerPlugin {
 	void set_append_file(final boolean new_append_file);
 	boolean set_file_size(final int p_size);
 	boolean set_file_number(final int p_number);
-	boolean set_disk_full_action(final TtcnLogger.disk_full_action_t p_disk_full_action);
+	boolean set_disk_full_action(final TTCN_Logger.disk_full_action_t p_disk_full_action);
 	void open_file(final boolean is_first);
 	void close_file();
 	boolean is_configured();

@@ -219,7 +219,7 @@ public class DecodeMatch_template extends TTCN3Template {
 		aData.addBuiltinTypeImport("TTCN_Buffer");
 		aData.addBuiltinTypeImport("TitanOctetString");
 		aData.addCommonLibraryImport("TtcnError");
-		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addCommonLibraryImport("TTCN_Logger");
 		aData.addBuiltinTypeImport("Base_Type.TTCN_Typedescriptor");
 		aData.addBuiltinTypeImport("Base_Template.template_sel");
 
@@ -259,7 +259,7 @@ public class DecodeMatch_template extends TTCN3Template {
 
 		source.append("@Override\n");
 		source.append("public void log() {\n");
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}: \");\n", targetTypeName));
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}: \");\n", targetTypeName));
 		source.append("target.log();\n");
 		source.append("}\n");
 

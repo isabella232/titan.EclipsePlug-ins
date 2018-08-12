@@ -976,16 +976,16 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	private void generate_code_encode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Buffer");
 		aData.addCommonLibraryImport("TTCN_EncDec");
-		aData.addCommonLibraryImport("TtcnLogger");
-		aData.addCommonLibraryImport("TtcnLogger.Severity");
+		aData.addCommonLibraryImport("TTCN_Logger");
+		aData.addCommonLibraryImport("TTCN_Logger.Severity");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
-		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Encoding {1}: \");\n", identifier.getDisplayName(), inputType.getTypename()));
+		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Encoding {1}: \");\n", identifier.getDisplayName(), inputType.getTypename()));
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
-		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "TTCN_Logger.end_event();\n" );
 		source.append( "}\n" );
 		source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_ALL, TTCN_EncDec.error_behavior_type.EB_DEFAULT);\n" );
 		source.append( "final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n" );
@@ -1017,11 +1017,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		} else {
 			source.append( MessageFormat.format("ttcn_buffer.get_string({0});\n", resultName));
 		}
-		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
+		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Stream after encoding: \");\n", identifier.getDisplayName()));
 		source.append(MessageFormat.format( "{0}.log();\n", resultName));
-		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "TTCN_Logger.end_event();\n" );
 		source.append( "}\n" );
 		if (prototype == EncodingPrototype_type.CONVERT) {
 			source.append( "return ret_val;\n" );
@@ -1040,15 +1040,15 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_Buffer");
 		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("TTCN_EncDec.error_type");
-		aData.addCommonLibraryImport("TtcnLogger");
+		aData.addCommonLibraryImport("TTCN_Logger");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
-		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Stream before decoding: \");\n", identifier.getDisplayName()));
+		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Stream before decoding: \");\n", identifier.getDisplayName()));
 		source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
-		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "TTCN_Logger.end_event();\n" );
 		source.append( "}\n" );
 
 		if (errorBehaviorList != null) {
@@ -1078,7 +1078,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
 		}
 		if (encodingType == MessageEncoding_type.TEXT) {
-			source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
 			source.append( "TTCN_EncDec.set_error_behavior(TTCN_EncDec.error_type.ET_LOG_MATCHING, TTCN_EncDec.error_behavior_type.EB_WARNING);\n" );
 			source.append( "}\n" );
 		}
@@ -1100,16 +1100,16 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		source.append( MessageFormat.format( "{0}.decode({1}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{2}, {3});\n", resultName, outputType.getGenNameTypeDescriptor(aData, source, myScope), encodingType.getEncodingName(), generatedEncodingOptions) );
 
 		// producing debug printout of the result PDU
-		source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-		source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
-		source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Decoded {1}: \");\n", identifier.getDisplayName(), outputType.getTypename()));
+		source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+		source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Decoded {1}: \");\n", identifier.getDisplayName(), outputType.getTypename()));
 		source.append( MessageFormat.format( "{0}.log();\n", resultName) );
-		source.append( "TtcnLogger.end_event();\n" );
+		source.append( "TTCN_Logger.end_event();\n" );
 		source.append( "}\n" );
 		if (prototype != EncodingPrototype_type.SLIDING) {
 			// checking for remaining data in the buffer if decoding was successful
 			source.append( "if (TTCN_EncDec.get_last_error_type() == error_type.ET_NONE) {\n" );
-			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() && TtcnLogger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
+			source.append( "if (ttcn_buffer.get_pos() < ttcn_buffer.get_len() && TTCN_Logger.log_this_event(Severity.WARNING_UNQUALIFIED)) {\n" );
 			source.append( "ttcn_buffer.cut();\n" );
 			
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
@@ -1121,10 +1121,10 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				source.append( "ttcn_buffer.get_string(remaining_stream);\n" );
 			}
 
-			source.append( "TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);\n" );
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): Warning: Data remained at the end of the stream after successful decoding: \");\n", identifier.getDisplayName()));
+			source.append( "TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);\n" );
+			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): Warning: Data remained at the end of the stream after successful decoding: \");\n", identifier.getDisplayName()));
 			source.append( "remaining_stream.log();\n" );
-			source.append( "TtcnLogger.end_event();\n" );
+			source.append( "TTCN_Logger.end_event();\n" );
 			source.append( "}\n" );
 
 			// closing the block and returning the appropriate result or status code
@@ -1151,11 +1151,11 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			} else {
 				source.append(MessageFormat.format( "ttcn_buffer.get_string({0});\n", firstParName) );
 			}
-			source.append( "if (TtcnLogger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
-			source.append( "TtcnLogger.begin_event(Severity.DEBUG_ENCDEC);\n" );
-			source.append(MessageFormat.format("TtcnLogger.log_event_str(\"{0}(): stream after decoding: \");\n", identifier.getDisplayName()));
+			source.append( "if (TTCN_Logger.log_this_event(Severity.DEBUG_ENCDEC)) {\n" );
+			source.append( "TTCN_Logger.begin_event(Severity.DEBUG_ENCDEC);\n" );
+			source.append(MessageFormat.format("TTCN_Logger.log_event_str(\"{0}(): stream after decoding: \");\n", identifier.getDisplayName()));
 			source.append( MessageFormat.format( "{0}.log();\n", firstParName) );
-			source.append( "TtcnLogger.end_event();\n" );
+			source.append( "TTCN_Logger.end_event();\n" );
 			source.append( "}\n" );
 			source.append( "return new TitanInteger(0); }\n" );
 			source.append( "case ET_INCOMPL_MSG:\n" );

@@ -10,9 +10,9 @@ package org.eclipse.titan.runtime.core;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
-import org.eclipse.titan.runtime.core.TtcnLogger.TTCN_Location;
-import org.eclipse.titan.runtime.core.TtcnLogger.log_event_types_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
 
 /**
  * This class is used to report a Dynamic Test Case error to upper parts of the system.
@@ -30,7 +30,7 @@ public class TtcnError extends Error {
 
 	public TtcnError( final String errorMessage ) {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			final StringBuilder error_str = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
+			final StringBuilder error_str = TTCN_Location.print_location(TTCN_Logger.get_source_info_format() == TTCN_Logger.source_info_format_t.SINFO_STACK, TTCN_Logger.get_source_info_format() != TTCN_Logger.source_info_format_t.SINFO_NONE, TTCN_Logger.get_log_entity_name());
 			if (error_str.length() > 0) {
 				error_str.append(' ');
 			}
@@ -39,20 +39,20 @@ public class TtcnError extends Error {
 			error_str.append(errorMessage);
 			this.errorMessage = error_str.toString();
 		} else {
-			TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-			if (TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_NONE) {
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			if (TTCN_Logger.get_source_info_format() == TTCN_Logger.source_info_format_t.SINFO_NONE) {
 				final StringBuilder loc = TTCN_Location.print_location(false, true, log_event_types_t.LOGEVENTTYPES_NO);
 				if (loc.length() > 0) {
-					TtcnLogger.log_event_str(loc.toString());
-					TtcnLogger.log_event_str(": ");
+					TTCN_Logger.log_event_str(loc.toString());
+					TTCN_Logger.log_event_str(": ");
 				}
 			}
-			TtcnLogger.log_event_str("Dynamic test case error: ");
-			TtcnLogger.log_event_str(errorMessage);
-			TtcnLogger.end_event();
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(errorMessage);
+			TTCN_Logger.end_event();
 	
 			TTCN_Runtime.set_error_verdict();
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 		}
 	}
 
@@ -63,7 +63,7 @@ public class TtcnError extends Error {
 	 * */
 	public TtcnError( final Exception exception ) {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			final StringBuilder error_str = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
+			final StringBuilder error_str = TTCN_Location.print_location(TTCN_Logger.get_source_info_format() == TTCN_Logger.source_info_format_t.SINFO_STACK, TTCN_Logger.get_source_info_format() != TTCN_Logger.source_info_format_t.SINFO_NONE, TTCN_Logger.get_log_entity_name());
 			if (error_str.length() > 0) {
 				error_str.append(' ');
 			}
@@ -79,13 +79,13 @@ public class TtcnError extends Error {
 			final StringWriter error = new StringWriter();
 			exception.printStackTrace(new PrintWriter(error));
 	
-			TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-			TtcnLogger.log_event_str("Dynamic test case error: ");
-			TtcnLogger.log_event_str(error.toString());
-			TtcnLogger.end_event();
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(error.toString());
+			TTCN_Logger.end_event();
 	
 			TTCN_Runtime.set_error_verdict();
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 		}
 	}
 
@@ -103,51 +103,51 @@ public class TtcnError extends Error {
 	// As soon as we have implemented all functions from the old core it should be moved.
 	// Till then similarity with the old structure rules.
 	public static void TtcnWarning(final String warningMessage) {
-		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
-		TtcnLogger.log_event_str("Warning: ");
-		TtcnLogger.log_event_str(warningMessage);
-		TtcnLogger.end_event();
+		TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Warning: ");
+		TTCN_Logger.log_event_str(warningMessage);
+		TTCN_Logger.end_event();
 	}
 
 	public static void TtcnErrorBegin(final String errorMessage) {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			TtcnLogger.begin_event_log2str();
+			TTCN_Logger.begin_event_log2str();
 
-			final StringBuilder loc = TTCN_Location.print_location(TtcnLogger.get_source_info_format() == TtcnLogger.source_info_format_t.SINFO_STACK, TtcnLogger.get_source_info_format() != TtcnLogger.source_info_format_t.SINFO_NONE, TtcnLogger.get_log_entity_name());
+			final StringBuilder loc = TTCN_Location.print_location(TTCN_Logger.get_source_info_format() == TTCN_Logger.source_info_format_t.SINFO_STACK, TTCN_Logger.get_source_info_format() != TTCN_Logger.source_info_format_t.SINFO_NONE, TTCN_Logger.get_log_entity_name());
 			if (loc.length() > 0) {
-				TtcnLogger.log_event_str(loc.toString());
-				TtcnLogger.log_event_str(" ");
+				TTCN_Logger.log_event_str(loc.toString());
+				TTCN_Logger.log_event_str(" ");
 			}
 
-			TtcnLogger.log_event_str("Dynamic test case error: ");
-			TtcnLogger.log_event_str(errorMessage);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(errorMessage);
 		} else {
-			TtcnLogger.begin_event(Severity.ERROR_UNQUALIFIED);
-			TtcnLogger.log_event_str("Dynamic test case error: ");
-			TtcnLogger.log_event_str(errorMessage);
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(errorMessage);
 		}
 	}
 
 	public static void TtcnErrorEnd() {
 		if (TTCN_Runtime.is_in_ttcn_try_block()) {
-			final TitanCharString error_str = TtcnLogger.end_event_log2str();
+			final TitanCharString error_str = TTCN_Logger.end_event_log2str();
 
 			throw new TtcnError(error_str.getValue().toString());
 		} else {
-			TtcnLogger.end_event();
+			TTCN_Logger.end_event();
 			TTCN_Runtime.set_error_verdict();
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.performing__error__recovery);
 		}
 
 	}
 
 	public static void TtcnWarningBegin(final String errorMessage) {
-		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
-		TtcnLogger.log_event_str("Warning: ");
-		TtcnLogger.log_event_str(errorMessage);
+		TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Warning: ");
+		TTCN_Logger.log_event_str(errorMessage);
 	}
 
 	public static void TtcnWarningEnd() {
-		TtcnLogger.end_event();
+		TTCN_Logger.end_event();
 	}
 }

@@ -284,19 +284,19 @@ public class TitanBoolean_template extends Base_Template {
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			TtcnLogger.log_event_str(single_value.getValue() ? "true" : "false");
+			TTCN_Logger.log_event_str(single_value.getValue() ? "true" : "false");
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int i = 0; i < value_list.size(); i++) {
 				if (i > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				value_list.get(i).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		default:
 			log_generic();
@@ -306,18 +306,18 @@ public class TitanBoolean_template extends Base_Template {
 	}
 
 	public void log_match(final TitanBoolean match_value, final boolean legacy) {
-		if (TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity()
-				&& TtcnLogger.get_logmatch_buffer_len() != 0) {
-			TtcnLogger.print_logmatch_buffer();
-			TtcnLogger.log_event_str(" := ");
+		if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()
+				&& TTCN_Logger.get_logmatch_buffer_len() != 0) {
+			TTCN_Logger.print_logmatch_buffer();
+			TTCN_Logger.log_event_str(" := ");
 		}
 		match_value.log();
-		TtcnLogger.log_event_str(" with ");
+		TTCN_Logger.log_event_str(" with ");
 		log();
 		if (match(match_value)) {
-			TtcnLogger.log_event_str(" matched");
+			TTCN_Logger.log_event_str(" matched");
 		} else {
-			TtcnLogger.log_event_str(" unmatched");
+			TTCN_Logger.log_event_str(" unmatched");
 		}
 	}
 

@@ -20,7 +20,7 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.ParPort_operation;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ParallelPTC_reason;
 import org.eclipse.titan.runtime.core.TitanPort.translation_port_state;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * TTCN-3 runtime class
@@ -318,7 +318,7 @@ public final class TTCN_Runtime {
 
 				final translation_port_state realState = translation_port_state.getByCode(state);
 				port.get().change_port_state(realState);
-				TtcnLogger.log_setstate(port.get().get_name(), realState, new TitanCharString(info));
+				TTCN_Logger.log_setstate(port.get().get_name(), realState, new TitanCharString(info));
 			}
 		} else {
 			translation_count.set(translation_count.get().intValue() - 1);
@@ -410,13 +410,13 @@ public final class TTCN_Runtime {
 	//originally TTCN_Runtime::terminate_component_type
 	private static void terminate_component_type() {
 		if (component_type_module.get() != null && component_type_name.get() != null) {
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.terminating__component, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.terminating__component, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
 
 			TTCN_Default.deactivate_all();
 			TitanTimer.allStop();
 			TitanPort.deactivate_all();
 
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.component__shut__down, component_type_module.get(), component_type_name.get(), 0, null, TTCN_Runtime.get_testcase_name(), 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.component__shut__down, component_type_module.get(), component_type_name.get(), 0, null, TTCN_Runtime.get_testcase_name(), 0, 0);
 
 			component_type_module.set(null);
 			component_type_name.set(null);
@@ -523,8 +523,8 @@ public final class TTCN_Runtime {
 	public static int hc_main(final String local_addr, final String MC_host, final int MC_port) {
 		int returnValue = 0;
 		TTCN_Runtime.set_state(executorStateEnum.HC_INITIAL);
-		TtcnLogger.log_hc_start(get_host_name());
-		TtcnLogger.write_logger_settings();
+		TTCN_Logger.log_hc_start(get_host_name());
+		TTCN_Logger.write_logger_settings();
 
 		try {
 			// FIXME implement
@@ -553,7 +553,7 @@ public final class TTCN_Runtime {
 		clear_component_process_tables();
 
 		if (is_hc()) {
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.host__controller__finished);
 		}
 
 		return returnValue;
@@ -563,8 +563,8 @@ public final class TTCN_Runtime {
 		//FIXME implement rest
 		int returnValue = 0;
 
-		TtcnLogger.open_file();
-		TtcnLogger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__started);
+		TTCN_Logger.open_file();
+		TTCN_Logger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__started);
 
 		try {
 			TTCN_Communication.connect_mc();
@@ -576,14 +576,14 @@ public final class TTCN_Runtime {
 				TTCN_Communication.process_all_messages_tc();
 			} while (executorState.get() != executorStateEnum.MTC_EXIT);
 
-			TtcnLogger.close_file();
+			TTCN_Logger.close_file();
 			TTCN_Communication.disconnect_mc();
 			clean_up();
 		} catch (final TtcnError error) {
 			returnValue = -1;
 		}
 
-		TtcnLogger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__finished);
+		TTCN_Logger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__finished);
 
 		return returnValue;
 	}
@@ -592,16 +592,16 @@ public final class TTCN_Runtime {
 		//FIXME implement rest
 		int returnValue = 0;
 
-		TtcnLogger.open_file();
-		TtcnLogger.begin_event(Severity.EXECUTOR_COMPONENT);
-		TtcnLogger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
+		TTCN_Logger.open_file();
+		TTCN_Logger.begin_event(Severity.EXECUTOR_COMPONENT);
+		TTCN_Logger.log_event_str(MessageFormat.format("TTCN-3 Parallel Test Component started on {0}. Component reference: ", get_host_name()));
 		TitanComponent.self.get().log();
-		TtcnLogger.log_event_str(MessageFormat.format(", component type: {0}.{1}", component_type_module.get(), component_type_name.get()));
+		TTCN_Logger.log_event_str(MessageFormat.format(", component type: {0}.{1}", component_type_module.get(), component_type_name.get()));
 		if (component_name != null) {
-			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", component_name.get()));
+			TTCN_Logger.log_event_str(MessageFormat.format(", component name: {0}", component_name.get()));
 		}
-		TtcnLogger.log_event_str(". Version: " + PRODUCT_NUMBER + '.');
-		TtcnLogger.end_event();
+		TTCN_Logger.log_event_str(". Version: " + PRODUCT_NUMBER + '.');
+		TTCN_Logger.end_event();
 
 		//FIXME implement missing parts
 		try {
@@ -611,7 +611,7 @@ public final class TTCN_Runtime {
 			try {
 				initialize_component_type();
 			} catch (final TtcnError error) {
-				TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.component__init__fail);
+				TTCN_Logger.log_executor_component(ExecutorComponent_reason.enum_type.component__init__fail);
 				returnValue = -1;
 			}
 
@@ -622,7 +622,7 @@ public final class TTCN_Runtime {
 						TTCN_Communication.process_all_messages_tc();
 					} while (executorState.get() != executorStateEnum.PTC_EXIT);
 				} catch (final TtcnError error) {
-					TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.error__idle__ptc, null, null, 0, null, null, 0, 0);
+					TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.error__idle__ptc, null, null, 0, null, null, 0, 0);
 					returnValue = -1;
 				}
 			}
@@ -639,7 +639,7 @@ public final class TTCN_Runtime {
 					//intentionally empty
 				}
 
-				TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+				TTCN_Logger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 				executorState.set(executorStateEnum.PTC_EXIT);
 			}
 
@@ -650,7 +650,7 @@ public final class TTCN_Runtime {
 			returnValue = -1;
 		}
 
-		TtcnLogger.log_executor_component(ExecutorComponent_reason.enum_type.ptc__finished);
+		TTCN_Logger.log_executor_component(ExecutorComponent_reason.enum_type.ptc__finished);
 
 		return returnValue;
 	}
@@ -681,16 +681,16 @@ public final class TTCN_Runtime {
 			createdComponentLocation = null;
 		}
 
-		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
-		TtcnLogger.log_event_str(MessageFormat.format("Creating new {0}PTC with component type {1}.{2}", createdComponentAlive ? "alive " : "", createdComponentTypeModule, createdComponentTypeName));
+		TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TTCN_Logger.log_event_str(MessageFormat.format("Creating new {0}PTC with component type {1}.{2}", createdComponentAlive ? "alive " : "", createdComponentTypeModule, createdComponentTypeName));
 		if (createdComponentName != null) {
-			TtcnLogger.log_event_str(MessageFormat.format(", component name: {0}", createdComponentName));
+			TTCN_Logger.log_event_str(MessageFormat.format(", component name: {0}", createdComponentName));
 		}
 		if (createdComponentLocation != null) {
-			TtcnLogger.log_event_str(MessageFormat.format(", location: {0}", createdComponentName));
+			TTCN_Logger.log_event_str(MessageFormat.format(", location: {0}", createdComponentName));
 		}
-		TtcnLogger.log_char('.');
-		TtcnLogger.end_event();
+		TTCN_Logger.log_char('.');
+		TTCN_Logger.end_event();
 
 		switch (executorState.get()) {
 		case MTC_TESTCASE:
@@ -719,7 +719,7 @@ public final class TTCN_Runtime {
 
 		wait_for_state_change();
 
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created, createdComponentTypeModule, createdComponentTypeName, create_done_killed_compref.get().intValue(), createdComponentName, createdComponentLocation, createdComponentAlive ? 1: 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created, createdComponentTypeModule, createdComponentTypeName, create_done_killed_compref.get().intValue(), createdComponentName, createdComponentLocation, createdComponentAlive ? 1: 0, 0);
 
 		TitanComponent.register_component_name(create_done_killed_compref.get().intValue(), createdComponentName);
 
@@ -786,7 +786,7 @@ public final class TTCN_Runtime {
 
 		wait_for_state_change();
 
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__started, null, null, 0, null, null, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.function__started, null, null, 0, null, null, 0, 0);
 	}
 
 	public static void start_function(final String module_name, final String function_name, final Text_Buf text_buf) {
@@ -809,20 +809,20 @@ public final class TTCN_Runtime {
 			// executor_state is already set by stop_execution or kill_execution
 			switch (executorState.get()) {
 			case PTC_STOPPED:
-				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Function {0} was stopped. PTC remains alive and is waiting for next start.", function_name));
+				TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Function {0} was stopped. PTC remains alive and is waiting for next start.", function_name));
 				// send a STOPPED message without return value
 				TTCN_Communication.send_stopped(localVerdict.get(), verdictReason.get());
 
 				// return and do nothing else
 				return;
 			case PTC_EXIT:
-				TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__stopped, null, function_name, 0, null, null, 0, 0);
+				TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.function__stopped, null, function_name, 0, null, null, 0, 0);
 				break;
 			default:
 				throw new TtcnError("Internal error: PTC was stopped in invalid state.");
 			}
 		} catch (TtcnError e) {
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__error, null, function_name, 0, null, null, 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.function__error, null, function_name, 0, null, null, 0, 0);
 			executorState.set(executorStateEnum.PTC_EXIT);
 		}
 
@@ -830,7 +830,7 @@ public final class TTCN_Runtime {
 		terminate_component_type();
 		// send a STOPPED_KILLED message without return value
 		TTCN_Communication.send_stopped_killed(localVerdict.get(), verdictReason.get());
-		TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+		TTCN_Logger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 	}
 
 	public static void function_started(final Text_Buf text_buf) {
@@ -863,13 +863,13 @@ public final class TTCN_Runtime {
 		if (is_alive.get()) {
 			executorState.set(executorStateEnum.PTC_STOPPED);
 		} else {
-			TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+			TTCN_Logger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 		}
 	}
 
 	public static void function_finished(final String function_name) {
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.function__finished, null, function_name, 0, null, null, is_alive.get() ? 1 : 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.function__finished, null, function_name, 0, null, null, is_alive.get() ? 1 : 0, 0);
 
 		final Text_Buf text_buf = new Text_Buf();
 		prepare_function_finished(null, text_buf);
@@ -950,7 +950,7 @@ public final class TTCN_Runtime {
 				return TitanAlt_Status.ALT_REPEAT;
 			case ALT_YES:
 				if (local_status_table.get(index).return_type == null) {
-					TtcnLogger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__no__return);
+					TTCN_Logger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__no__return);
 					return TitanAlt_Status.ALT_NO;
 				}
 
@@ -960,7 +960,7 @@ public final class TTCN_Runtime {
 
 					return TitanAlt_Status.ALT_YES;
 				} else {
-					TtcnLogger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__wrong__return__type);
+					TTCN_Logger.log_matching_done(return_type, component_reference, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.done__failed__wrong__return__type);
 
 					return TitanAlt_Status.ALT_NO;
 				}
@@ -1067,9 +1067,9 @@ public final class TTCN_Runtime {
 	//originally stop_execution
 	public static void stop_execution() {
 		if (in_controlPart()) {
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);;
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);;
 		} else {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping test component execution.");
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping test component execution.");
 
 			if (is_ptc()) {
 				// the state variable indicates whether the component remains alive
@@ -1115,7 +1115,7 @@ public final class TTCN_Runtime {
 
 	//originally kill_execution
 	public static void kill_execution() {
-		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Terminating test component execution.");
+		TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Terminating test component execution.");
 
 		if (is_ptc()) {
 			executorState.set(executorStateEnum.PTC_EXIT);
@@ -1139,7 +1139,7 @@ public final class TTCN_Runtime {
 		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
 		// a successful killed operation on the component reference implies done
 		if (local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
 			if (ptc_verdict != null) {
 				ptc_verdict.set(local_status_table.get(index).local_verdict);
 			}
@@ -1168,7 +1168,7 @@ public final class TTCN_Runtime {
 			// always re-evaluate the current alternative using a new snapshot
 			return TitanAlt_Status.ALT_REPEAT;
 		case ALT_YES:
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__done, null, null, component_reference, null, null, 0, 0);
 			if (ptc_verdict != null) {
 				ptc_verdict.set(local_status_table.get(index).local_verdict);
 			}
@@ -1182,7 +1182,7 @@ public final class TTCN_Runtime {
 	public static TitanAlt_Status any_component_done() {
 		// the operation is never successful in single mode
 		if (is_single()) {
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__failed);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__failed);
 
 			return TitanAlt_Status.ALT_NO;
 		}
@@ -1196,7 +1196,7 @@ public final class TTCN_Runtime {
 		for ( int i = 0; i < local_status_table.size(); i++) {
 			if (local_status_table.get(i).done_status == TitanAlt_Status.ALT_YES ||
 					local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
-				TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
+				TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
 
 				return TitanAlt_Status.ALT_YES;
 			}
@@ -1204,7 +1204,7 @@ public final class TTCN_Runtime {
 
 		// a successful 'any component.killed' implies 'any component.done'
 		if (any_component_killed_status == TitanAlt_Status.ALT_YES) {
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		}
@@ -1224,11 +1224,11 @@ public final class TTCN_Runtime {
 			// always re-evaluate the current alternative using a new snapshot
 			return TitanAlt_Status.ALT_REPEAT;
 		case ALT_YES:
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		case ALT_NO:
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__failed);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__done__failed);
 
 			return TitanAlt_Status.ALT_NO;
 		default:
@@ -1239,7 +1239,7 @@ public final class TTCN_Runtime {
 	public static TitanAlt_Status all_component_done() {
 		// the operation is always successful in single mode
 		if (is_single()) {
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		}
@@ -1250,7 +1250,7 @@ public final class TTCN_Runtime {
 
 		// a successful 'all component.killed' implies 'all component.done'
 		if (all_component_killed_status == TitanAlt_Status.ALT_YES) {
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		}
@@ -1270,7 +1270,7 @@ public final class TTCN_Runtime {
 			// always re-evaluate the current alternative using a new snapshot
 			return TitanAlt_Status.ALT_REPEAT;
 		case ALT_YES:
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__done__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		default:
@@ -1313,7 +1313,7 @@ public final class TTCN_Runtime {
 			// always re-evaluate the current alternative using a new snapshot
 			return TitanAlt_Status.ALT_REPEAT;
 		case ALT_YES:
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__killed, null, null, component_reference, null, null, 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__killed, null, null, component_reference, null, null, 0, 0);
 			return TitanAlt_Status.ALT_YES;
 		default:
 			return TitanAlt_Status.ALT_MAYBE;
@@ -1322,7 +1322,7 @@ public final class TTCN_Runtime {
 
 	public static TitanAlt_Status any_component_killed() {
 		if (is_single()) {
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__failed);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__failed);
 
 			return TitanAlt_Status.ALT_NO;
 		}
@@ -1335,7 +1335,7 @@ public final class TTCN_Runtime {
 		final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
 		for (int i = 0; i < local_status_table.size(); i++) {
 			if (local_status_table.get(i).killed_status == TitanAlt_Status.ALT_YES) {
-				TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__successful);
+				TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__successful);
 
 				return TitanAlt_Status.ALT_YES;
 			}
@@ -1355,11 +1355,11 @@ public final class TTCN_Runtime {
 
 			return TitanAlt_Status.ALT_REPEAT;
 		case ALT_YES:
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		case ALT_NO:
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__failed);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.any__component__killed__failed);
 
 			return TitanAlt_Status.ALT_NO;
 		default:
@@ -1369,7 +1369,7 @@ public final class TTCN_Runtime {
 
 	public static TitanAlt_Status all_component_killed() {
 		if (is_single()) {
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__killed__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__killed__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		}
@@ -1392,7 +1392,7 @@ public final class TTCN_Runtime {
 
 			return TitanAlt_Status.ALT_REPEAT;
 		case ALT_YES:
-			TtcnLogger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__killed__successful);
+			TTCN_Logger.log_matching_done(null, 0, null, TitanLoggerApi.MatchingDoneType_reason.enum_type.all__component__killed__successful);
 
 			return TitanAlt_Status.ALT_YES;
 		default:
@@ -1605,7 +1605,7 @@ public final class TTCN_Runtime {
 	}
 
 	public static void stop_mtc() {
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.stopping__mtc, null, null, 0, null, null, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.stopping__mtc, null, null, 0, null, null, 0, 0);
 		TTCN_Communication.send_stop_req(TitanComponent.MTC_COMPREF);
 		stop_execution();
 	}
@@ -1621,7 +1621,7 @@ public final class TTCN_Runtime {
 			final ArrayList<component_status_table_struct> local_status_table = component_status_table.get();
 			if (local_status_table.get(index).done_status == TitanAlt_Status.ALT_YES ||
 					local_status_table.get(index).killed_status == TitanAlt_Status.ALT_YES) {
-				TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
+				TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not running. Stop operation had no effect.", component_reference));
 
 				return;
 			}
@@ -1638,17 +1638,17 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Executing component stop operation in invalid state.");
 		}
 
-		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Stopping PTC with component reference {0}.", component_reference));
+		TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Stopping PTC with component reference {0}.", component_reference));
 		TTCN_Communication.send_stop_req(component_reference);
 		//wait for STOP_ACK;
 		wait_for_state_change();
 
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__stopped, null, null, component_reference, null, null, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__stopped, null, null, component_reference, null, null, 0, 0);
 	}
 
 	public static void stop_all_component() {
 		if (is_single()) {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "No PTCs are running. Operation 'all component.stop' had no effect.");
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "No PTCs are running. Operation 'all component.stop' had no effect.");
 
 			return;
 		}
@@ -1660,7 +1660,7 @@ public final class TTCN_Runtime {
 		// do nothing if 'all component.done' or 'all component.killed' was successful
 		if (all_component_done_status == TitanAlt_Status.ALT_YES ||
 				all_component_killed_status == TitanAlt_Status.ALT_YES) {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "No PTCs are running. Operation 'all component.stop' had no effect.");
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "No PTCs are running. Operation 'all component.stop' had no effect.");
 
 			return;
 		}
@@ -1671,14 +1671,14 @@ public final class TTCN_Runtime {
 		}
 
 		executorState.set(executorStateEnum.MTC_STOP);
-		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping all components.");
+		TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping all components.");
 		TTCN_Communication.send_stop_req(TitanComponent.ALL_COMPREF);
 
 		//wait for STOP_ACK
 		wait_for_state_change();
 		// 'all component.done' will be successful later
 		all_component_done_status = TitanAlt_Status.ALT_YES;
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__stopped, null, null, 0, null, null, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__stopped, null, null, 0, null, null, 0, 0);
 	}
 
 	public static void kill_ptc(final int component_reference) {
@@ -1688,7 +1688,7 @@ public final class TTCN_Runtime {
 
 		// do nothing if a successful  killed operation was performed on the component reference
 		if (in_component_status_table(component_reference) && get_killed_status(component_reference) == TitanAlt_Status.ALT_YES) {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not alive anyomre. Kill operation had no effect.", component_reference));
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("PTC with component reference {0} is not alive anyomre. Kill operation had no effect.", component_reference));
 
 			return;
 		}
@@ -1705,7 +1705,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Executing kill operation in invalid state.");
 		}
 
-		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing PTC with component reference {0}.", component_reference));
+		TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing PTC with component reference {0}.", component_reference));
 		TTCN_Communication.send_kill_req(component_reference);
 		//wait for KILL_ACK;
 		wait_for_state_change();
@@ -1714,12 +1714,12 @@ public final class TTCN_Runtime {
 		final int index = get_component_status_table_index(component_reference);
 		component_status_table.get().get(index).killed_status = TitanAlt_Status.ALT_YES;
 
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__killed, null, null, component_reference, null, null, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__killed, null, null, component_reference, null, null, 0, 0);
 	}
 
 	public static void kill_all_component() {
 		if (is_single()) {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "There are no alive PTCs. Operation 'all component.kill' had no effect.");
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "There are no alive PTCs. Operation 'all component.kill' had no effect.");
 
 			return;
 		}
@@ -1730,7 +1730,7 @@ public final class TTCN_Runtime {
 
 		// do nothing if 'all component.killed' was successful
 		if (all_component_killed_status == TitanAlt_Status.ALT_YES) {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "There are no alive PTCs. Operation 'all component.kill' had no effect.");
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "There are no alive PTCs. Operation 'all component.kill' had no effect.");
 
 			return;
 		}
@@ -1741,7 +1741,7 @@ public final class TTCN_Runtime {
 		}
 
 		executorState.set(executorStateEnum.MTC_KILL);
-		TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Killing all components.");
+		TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Killing all components.");
 		TTCN_Communication.send_kill_req(TitanComponent.ALL_COMPREF);
 
 		//wait for KILL_ACK
@@ -1749,7 +1749,7 @@ public final class TTCN_Runtime {
 		// 'all component.done' and 'all component.killed' will be successful later
 		all_component_done_status = TitanAlt_Status.ALT_YES;
 		all_component_killed_status = TitanAlt_Status.ALT_YES;
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__killed, null, null, 0, null, null, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.all__comps__killed, null, null, 0, null, null, 0, 0);
 	}
 
 	private static void check_port_name(final String portName, final String operationName, final String whichArgument) {
@@ -1765,13 +1765,13 @@ public final class TTCN_Runtime {
 		check_port_name(sourePort, "connect", "first");
 		check_port_name(destinationPort, "connect", "second");
 
-		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
-		TtcnLogger.log_event_str("Connecting ports ");
+		TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Connecting ports ");
 		sourceComponent.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0} and ", sourePort));
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0} and ", sourePort));
 		destinationComponent.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
-		TtcnLogger.end_event();
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TTCN_Logger.end_event();
 
 		if (!sourceComponent.isBound()) {
 			throw new TtcnError("The first argument of connect operation contains an unbound component reference.");
@@ -1823,20 +1823,20 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.connect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
 	}
 
 	public static void disconnect_port(final TitanComponent sourceComponent, final String sourePort, final TitanComponent destinationComponent, final String destinationPort) {
 		check_port_name(sourePort, "disconnect", "first");
 		check_port_name(destinationPort, "disconnect", "second");
 
-		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
-		TtcnLogger.log_event_str("Disconnecting ports ");
+		TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Disconnecting ports ");
 		sourceComponent.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0} and ", sourePort));
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0} and ", sourePort));
 		destinationComponent.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
-		TtcnLogger.end_event();
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TTCN_Logger.end_event();
 
 		if (!sourceComponent.isBound()) {
 			throw new TtcnError("The first argument of disconnect operation contains an unbound component reference.");
@@ -1888,7 +1888,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.disconnect__, sourceComponent.getComponent(), sourePort, destinationComponent.getComponent(), destinationPort);
 	}
 
 
@@ -1897,13 +1897,13 @@ public final class TTCN_Runtime {
 		check_port_name(sourePort, "map", "first");
 		check_port_name(destinationPort, "map", "second");
 
-		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
-		TtcnLogger.log_event_str("Mapping ports ");
+		TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Mapping ports ");
 		sourceComponentRef.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0} to ", sourePort));
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0} to ", sourePort));
 		destinationComponentRef.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
-		TtcnLogger.end_event();
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TTCN_Logger.end_event();
 
 		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of map operation contains an unbound component reference.");
@@ -1970,7 +1970,7 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.map__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.map__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
 	}
 
 	//originally unmap_port
@@ -1978,13 +1978,13 @@ public final class TTCN_Runtime {
 		check_port_name(sourePort, "unmap", "first");
 		check_port_name(destinationPort, "unmap", "second");
 
-		TtcnLogger.begin_event(Severity.PARALLEL_UNQUALIFIED);
-		TtcnLogger.log_event_str("Unmapping ports ");
+		TTCN_Logger.begin_event(Severity.PARALLEL_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Unmapping ports ");
 		sourceComponentRef.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0} from ", sourePort));
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0} from ", sourePort));
 		destinationComponentRef.log();
-		TtcnLogger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
-		TtcnLogger.end_event();
+		TTCN_Logger.log_event_str(MessageFormat.format(":{0}.", destinationPort));
+		TTCN_Logger.end_event();
 
 		if (!sourceComponentRef.isBound()) {
 			throw new TtcnError("The first argument of unmap operation contains an unbound component reference.");
@@ -2051,20 +2051,20 @@ public final class TTCN_Runtime {
 			}
 		}
 
-		TtcnLogger.log_portconnmap(ParPort_operation.enum_type.unmap__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
+		TTCN_Logger.log_portconnmap(ParPort_operation.enum_type.unmap__, sourceComponentRef.componentValue, sourePort, destinationComponentRef.componentValue, destinationPort);
 	}
 
 	public static void begin_controlpart(final String moduleName) {
 		control_module_name = moduleName;
 		//FIXME implement execute_command
-		TtcnLogger.log_controlpart_start_stop(moduleName, false);
+		TTCN_Logger.log_controlpart_start_stop(moduleName, false);
 	}
 
 	public static void end_controlpart() {
 		TTCN_Default.deactivate_all();
 		TTCN_Default.reset_counter();
 		TitanTimer.allStop();
-		TtcnLogger.log_controlpart_start_stop(control_module_name, true);
+		TTCN_Logger.log_controlpart_start_stop(control_module_name, true);
 		//FIXME implement execute_command
 		control_module_name = null;
 	}
@@ -2106,7 +2106,7 @@ public final class TTCN_Runtime {
 		set_system_type(system_comptype_module, system_comptype_name);
 		//FIXME implement command execution
 
-		TtcnLogger.log_testcase_started(moduleName, testcaseName);
+		TTCN_Logger.log_testcase_started(moduleName, testcaseName);
 		if (hasTimer) {
 			TitanTimer.testcaseTimer.start(timerValue.getValue());
 		}
@@ -2150,7 +2150,7 @@ public final class TTCN_Runtime {
 		terminate_component_type();
 
 		if (executorState.get() == executorStateEnum.MTC_TESTCASE) {
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.waiting__for__ptcs__to__finish);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.waiting__for__ptcs__to__finish);
 			TTCN_Communication.send_testcase_finished(localVerdict.get(), verdictReason.get());
 			executorState.set(executorStateEnum.MTC_TERMINATING_TESTCASE);
 			wait_for_state_change();
@@ -2159,7 +2159,7 @@ public final class TTCN_Runtime {
 			// FIXME implement enable_interrupt_handler
 		}
 
-		TtcnLogger.log_testcase_finished(testcaseModuleName.get(), testcaseDefinitionName.get(), localVerdict.get(), verdictReason.get());
+		TTCN_Logger.log_testcase_finished(testcaseModuleName.get(), testcaseDefinitionName.get(), localVerdict.get(), verdictReason.get());
 
 		verdictCount[localVerdict.get().getValue()]++;
 
@@ -2176,15 +2176,15 @@ public final class TTCN_Runtime {
 		TTCN_EncDec_ErrorContext.resetAllContexts();
 
 		if (executorState.get() == executorStateEnum.MTC_PAUSED) {
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
 			wait_for_state_change();
 			if (executorState.get() != executorStateEnum.MTC_TERMINATING_EXECUTION) {
-				TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.resuming__execution);
+				TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.resuming__execution);
 			}
 		}
 		if (executorState.get() == executorStateEnum.MTC_TERMINATING_EXECUTION) {
 			executorState.set(executorStateEnum.MTC_CONTROLPART);
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.terminating__execution);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.terminating__execution);
 
 			throw new TC_End();
 		}
@@ -2212,20 +2212,20 @@ public final class TTCN_Runtime {
 		}
 
 		if (totalTestcases > 0) {
-			TtcnLogger.log_verdict_statistics(verdictCount[VerdictTypeEnum.NONE.getValue()], (100.0 * verdictCount[VerdictTypeEnum.NONE.getValue()]) / totalTestcases,
+			TTCN_Logger.log_verdict_statistics(verdictCount[VerdictTypeEnum.NONE.getValue()], (100.0 * verdictCount[VerdictTypeEnum.NONE.getValue()]) / totalTestcases,
 					verdictCount[VerdictTypeEnum.PASS.getValue()], (100.0 * verdictCount[VerdictTypeEnum.PASS.getValue()]) / totalTestcases,
 					verdictCount[VerdictTypeEnum.INCONC.getValue()], (100.0 * verdictCount[VerdictTypeEnum.INCONC.getValue()]) / totalTestcases,
 					verdictCount[VerdictTypeEnum.FAIL.getValue()], (100.0 * verdictCount[VerdictTypeEnum.FAIL.getValue()]) / totalTestcases,
 					verdictCount[VerdictTypeEnum.ERROR.getValue()], (100.0 * verdictCount[VerdictTypeEnum.ERROR.getValue()]) / totalTestcases);
 		} else {
-			TtcnLogger.log_verdict_statistics(0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0);
+			TTCN_Logger.log_verdict_statistics(0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0, 0, 0.0);
 		}
 
 		if (controlErrorCount > 0) {
-			TtcnLogger.log_controlpart_errors(controlErrorCount);
+			TTCN_Logger.log_controlpart_errors(controlErrorCount);
 		}
 
-		TtcnLogger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were" : " was", overallVerdict.getName()));
+		TTCN_Logger.log_str(Severity.STATISTICS_VERDICT, MessageFormat.format("Test execution summary: {0} test case{1} executed. Overall verdict: {2}", totalTestcases, totalTestcases > 1 ? "s were" : " was", overallVerdict.getName()));
 
 		verdictCount[VerdictTypeEnum.NONE.getValue()] = 0;
 		verdictCount[VerdictTypeEnum.PASS.getValue()] = 0;
@@ -2236,12 +2236,12 @@ public final class TTCN_Runtime {
 	}
 
 	public static void begin_action() {
-		TtcnLogger.begin_event(Severity.ACTION_UNQUALIFIED);
-		TtcnLogger.log_event_str("Action: ");
+		TTCN_Logger.begin_event(Severity.ACTION_UNQUALIFIED);
+		TTCN_Logger.log_event_str("Action: ");
 	}
 
 	public static void end_action() {
-		TtcnLogger.end_event();
+		TTCN_Logger.end_event();
 	}
 
 	public static void setverdict(final TitanVerdictType.VerdictTypeEnum newValue) {
@@ -2286,7 +2286,7 @@ public final class TTCN_Runtime {
 	//originally getverdict
 	public static TitanVerdictType get_verdict() {
 		if (verdict_enabled()) {
-			TtcnLogger.log_getverdict(localVerdict.get());
+			TTCN_Logger.log_getverdict(localVerdict.get());
 		} else if (in_controlPart()) {
 			throw new TtcnError("Getverdict operation cannot be performed in the control part.");
 		} else {
@@ -2307,15 +2307,15 @@ public final class TTCN_Runtime {
 			verdictReason.set(reason);
 			localVerdict.set(newValue);
 			if (reason == null || reason.length() == 0) {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), null, null);
+				TTCN_Logger.log_setverdict(newValue, oldVerdict, localVerdict.get(), null, null);
 			} else {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), reason, reason);
+				TTCN_Logger.log_setverdict(newValue, oldVerdict, localVerdict.get(), reason, reason);
 			}
 		} else if (localVerdict.get().getValue() == newValue.getValue()) {
 			if (reason == null || reason.length() == 0) {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), null, null);
+				TTCN_Logger.log_setverdict(newValue, oldVerdict, localVerdict.get(), null, null);
 			} else {
-				TtcnLogger.log_setverdict(newValue, oldVerdict, localVerdict.get(), reason, reason);
+				TTCN_Logger.log_setverdict(newValue, oldVerdict, localVerdict.get(), reason, reason);
 			}
 		}
 
@@ -2333,7 +2333,7 @@ public final class TTCN_Runtime {
 		}
 
 		// clean the emergency buffer
-		TtcnLogger.ring_buffer_dump(false);
+		TTCN_Logger.ring_buffer_dump(false);
 
 		final Thread MTC = new Thread() {
 
@@ -2360,7 +2360,7 @@ public final class TTCN_Runtime {
 		threads.add(MTC);
 		MTC.start();
 
-		TtcnLogger.log_mtc_created(0);
+		TTCN_Logger.log_mtc_created(0);
 		add_component(TitanComponent.MTC_COMPREF, MTC);
 		successful_process_creation();
 
@@ -2378,7 +2378,7 @@ public final class TTCN_Runtime {
 		}
 
 		// clean the emergency buffer
-		TtcnLogger.ring_buffer_dump(false);
+		TTCN_Logger.ring_buffer_dump(false);
 
 		final Thread PTC = new Thread() {
 
@@ -2412,7 +2412,7 @@ public final class TTCN_Runtime {
 		threads.add(PTC);
 		PTC.start();
 
-		TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.ptc__created__pid, component_type_module, component_type_name, component_reference, par_component_name, current_testcase_name, 0, 0);
 		add_component(component_reference, PTC);
 		TitanComponent.register_component_name(component_reference, par_component_name);
 		successful_process_creation();
@@ -2517,8 +2517,8 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Message PTC_VERDICT arrived in invalid state.");
 		}
 
-		TtcnLogger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
-		TtcnLogger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.setting__final__verdict__of__the__test__case.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+		TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 
 		final int n_PTCS = text_buf.pull_int().getInt();
 		if (n_PTCS > 0) {
@@ -2538,11 +2538,11 @@ public final class TTCN_Runtime {
 					verdictReason.set(ptc_verdict_reason);
 				}
 
-				TtcnLogger.log_final_verdict(true, ptc_verdict, localVerdict.get(), newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
+				TTCN_Logger.log_final_verdict(true, ptc_verdict, localVerdict.get(), newVerdict, ptc_verdict_reason, -1, ptc_compref, ptc_name);
 				localVerdict.set(newVerdict);
 			}
 		} else {
-			TtcnLogger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
+			TTCN_Logger.log_final_verdict(false, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), TitanLoggerApi.FinalVerdictType_choice_notification.enum_type.no__ptcs__were__created.ordinal(), TitanComponent.UNBOUND_COMPREF, null);
 		}
 
 		final boolean continueExecution = text_buf.pull_int().getInt() == 0 ? false : true;
@@ -2561,19 +2561,19 @@ public final class TTCN_Runtime {
 		switch (executorState.get()) {
 		case PTC_IDLE:
 		case PTC_STOPPED:
-			TtcnLogger.log_par_ptc(ParallelPTC_reason.enum_type.kill__request__frm__mc, null, null, 0, null, null, 0, 0);
+			TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.kill__request__frm__mc, null, null, 0, null, null, 0, 0);
 
 			// This may affect the final verdict.
 			terminate_component_type();
 
 			TTCN_Communication.send_killed(localVerdict.get(), null);
-			TtcnLogger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
+			TTCN_Logger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 			break;
 		case PTC_EXIT:
 			break;
 		default:
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, "Kill was requested from MC.");
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Kill was requested from MC.");
 
 			kill_execution();
 		}
@@ -2586,9 +2586,9 @@ public final class TTCN_Runtime {
 
 		final component_thread_struct comp = get_component_by_compref(component_reference);
 		if (comp == null) {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Component with component reference {0} does not exist. Request for killing was ignored.", component_reference));
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Component with component reference {0} does not exist. Request for killing was ignored.", component_reference));
 		} else {
-			TtcnLogger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing component with component reference {0}, thread id: {1}.", component_reference, comp.thread.getId()));
+			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Killing component with component reference {0}, thread id: {1}.", component_reference, comp.thread.getId()));
 
 			if (comp.thread_killed) {
 				TtcnError.TtcnWarning(MessageFormat.format("Process with process id {0} has been already killed. Killing it again.", comp.thread.getId()));
@@ -2847,7 +2847,7 @@ public final class TTCN_Runtime {
 					}
 
 					//TODO add rusage info if possible
-					TtcnLogger.log_par_ptc(reason, null, null, comp.component_reference, componentName, null, 0, 0);
+					TTCN_Logger.log_par_ptc(reason, null, null, comp.component_reference, componentName, null, 0, 0);
 					remove_component(comp);
 				}
 			} else {

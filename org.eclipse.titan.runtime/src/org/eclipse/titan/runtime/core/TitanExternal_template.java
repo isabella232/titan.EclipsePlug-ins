@@ -442,28 +442,28 @@ public class TitanExternal_template extends Base_Template {
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			TtcnLogger.log_char('{');
-			TtcnLogger.log_event_str(" identification := ");
+			TTCN_Logger.log_char('{');
+			TTCN_Logger.log_event_str(" identification := ");
 			identification.log();
-			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" data-value-descriptor := ");
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" data-value-descriptor := ");
 			data__value__descriptor.log();
-			TtcnLogger.log_char(',');
-			TtcnLogger.log_event_str(" data-value := ");
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" data-value := ");
 			data__value.log();
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 			break;
 		case COMPLEMENTED_LIST:
-			TtcnLogger.log_event_str("complement");
+			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:
-			TtcnLogger.log_char('(');
+			TTCN_Logger.log_char('(');
 			for (int list_count = 0; list_count < list_value.size(); list_count++) {
 				if (list_count > 0) {
-					TtcnLogger.log_event_str(", ");
+					TTCN_Logger.log_event_str(", ");
 				}
 				list_value.get(list_count).log();
 			}
-			TtcnLogger.log_char(')');
+			TTCN_Logger.log_char(')');
 			break;
 		default:
 			log_generic();
@@ -487,54 +487,54 @@ public class TitanExternal_template extends Base_Template {
 	}
 
 	public void log_match(final TitanExternal match_value, final boolean legacy) {
-		if ( TtcnLogger.matching_verbosity_t.VERBOSITY_COMPACT == TtcnLogger.get_matching_verbosity() ) {
+		if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
 			if(match(match_value, legacy)) {
-				TtcnLogger.print_logmatch_buffer();
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.print_logmatch_buffer();
+				TTCN_Logger.log_event_str(" matched");
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
-					final int previous_size = TtcnLogger.get_logmatch_buffer_len();
+					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
 					if( !identification.match(match_value.constGetIdentification(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".identification");
+						TTCN_Logger.log_logmatch_info(".identification");
 						identification.log_match(match_value.constGetIdentification(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 					if( !data__value__descriptor.match(match_value.constGetData__value__descriptor(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".data-value-descriptor");
+						TTCN_Logger.log_logmatch_info(".data-value-descriptor");
 						data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 					if( !data__value.match(match_value.constGetData__value(), legacy) ) {
-						TtcnLogger.log_logmatch_info(".data-value");
+						TTCN_Logger.log_logmatch_info(".data-value");
 						data__value.log_match(match_value.constGetData__value(), legacy);
-						TtcnLogger.set_logmatch_buffer_len(previous_size);
+						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
-					TtcnLogger.print_logmatch_buffer();
+					TTCN_Logger.print_logmatch_buffer();
 					match_value.log();
-					TtcnLogger.log_event_str(" with ");
+					TTCN_Logger.log_event_str(" with ");
 					log();
-					TtcnLogger.log_event_str(" unmatched");
+					TTCN_Logger.log_event_str(" unmatched");
 				}
 			}
 			return;
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE) {
-			TtcnLogger.log_event_str("{ identification := ");
+			TTCN_Logger.log_event_str("{ identification := ");
 			identification.log_match(match_value.constGetIdentification(), legacy);
-			TtcnLogger.log_event_str("{ data-value-descriptor := ");
+			TTCN_Logger.log_event_str("{ data-value-descriptor := ");
 			data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
-			TtcnLogger.log_event_str("{ data-value := ");
+			TTCN_Logger.log_event_str("{ data-value := ");
 			data__value.log_match(match_value.constGetData__value(), legacy);
-			TtcnLogger.log_event_str(" }");
+			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();
-			TtcnLogger.log_event_str(" with ");
+			TTCN_Logger.log_event_str(" with ");
 			log();
 			if ( match(match_value, legacy) ) {
-				TtcnLogger.log_event_str(" matched");
+				TTCN_Logger.log_event_str(" matched");
 			} else {
-				TtcnLogger.log_event_str(" unmatched");
+				TTCN_Logger.log_event_str(" unmatched");
 			}
 		}
 	}

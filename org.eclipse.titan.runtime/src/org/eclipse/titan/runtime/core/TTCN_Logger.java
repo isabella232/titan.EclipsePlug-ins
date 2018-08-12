@@ -27,7 +27,7 @@ import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
  * @author Andrea Palfi
  * @author Gergo Ujhelyi
  */
-public final class TtcnLogger {
+public final class TTCN_Logger {
 	private static LoggerPluginManager plugins_;
 
 	public static class Logging_Bits {
@@ -1211,10 +1211,10 @@ public final class TtcnLogger {
 	public static void set_executable_name() {
 		//TODO: initial implementation, more complex
 		executable_name = "";
-		final boolean is_jar = TtcnLogger.class.getResource("TtcnLogger.class").toString().startsWith("jar:");
+		final boolean is_jar = TTCN_Logger.class.getResource("TTCN_Logger.class").toString().startsWith("jar:");
 		if (is_jar) {
 			executable_name = System.getProperty("user.dir") + File.separator;
-			final String file_name = new File(TtcnLogger.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
+			final String file_name = new File(TTCN_Logger.class.getProtectionDomain().getCodeSource().getLocation().getPath()).getName();
 			executable_name = executable_name + file_name.replace(".jar", "");
 		} else {
 			executable_name = System.getProperty("user.dir");
@@ -1376,7 +1376,7 @@ public final class TtcnLogger {
 		get_logger_plugin_manager().log_executor_misc(reason, name, address, port);
 	}
 
-	public static void log_extcommand(final TtcnLogger.extcommand_t action, final String cmd) {
+	public static void log_extcommand(final TTCN_Logger.extcommand_t action, final String cmd) {
 		get_logger_plugin_manager().log_extcommand(action, cmd);
 	}
 

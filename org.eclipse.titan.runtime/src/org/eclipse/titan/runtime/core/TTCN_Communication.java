@@ -21,7 +21,7 @@ import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Ha
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
-import org.eclipse.titan.runtime.core.TtcnLogger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
  * The class handling internal communication.
@@ -305,7 +305,7 @@ public class TTCN_Communication {
 			throw new TtcnError(e);
 		}
 
-		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.connected__to__mc);
+		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.connected__to__mc);
 		is_connected.set(true);;
 	}
 
@@ -313,7 +313,7 @@ public class TTCN_Communication {
 		if (is_connected.get()) {
 			// TODO check if the missing part is needed
 			close_mc_connection();
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.disconnected__from__mc);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.disconnected__from__mc);
 		}
 	}
 
@@ -959,7 +959,7 @@ public class TTCN_Communication {
 		}
 
 		TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_CONFIGURING : executorStateEnum.HC_CONFIGURING);
-		TtcnLogger.log_configdata(ExecutorConfigdata_reason.enum_type.received__from__mc, null);
+		TTCN_Logger.log_configdata(ExecutorConfigdata_reason.enum_type.received__from__mc, null);
 
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 		final int config_str_len = local_incoming_buf.pull_int().getInt();
@@ -982,22 +982,22 @@ public class TTCN_Communication {
 		//FIXME process config string
 		// for now assume successful processing
 		boolean success = true;
-		TtcnLogger.open_file();
+		TTCN_Logger.open_file();
 		if (success) {
 			try {
 				Module_List.post_init_modules();
 			} catch (TtcnError error) {
-				TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.initialization__of__modules__failed);
+				TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.initialization__of__modules__failed);
 				success = false;
 			}
 			
 		} else {
-			TtcnLogger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__failed, null);
+			TTCN_Logger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__failed, null);
 		}
 		if (success) {
 			send_configure_ack();
 			TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_IDLE : executorStateEnum.HC_ACTIVE);
-			TtcnLogger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__succeeded, null);
+			TTCN_Logger.log_configdata(ExecutorConfigdata_reason.enum_type.processing__succeeded, null);
 		} else {
 			send_configure_nak();
 			TTCN_Runtime.set_state(to_mtc ? executorStateEnum.MTC_IDLE : executorStateEnum.HC_IDLE);
@@ -1049,7 +1049,7 @@ public class TTCN_Communication {
 
 	private static void process_exit_hc() {
 		incoming_buf.get().cut_message();
-		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.exit__requested__from__mc__hc);
+		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.exit__requested__from__mc__hc);
 		TTCN_Runtime.set_state(executorStateEnum.HC_EXIT);
 	}
 
@@ -1084,20 +1084,20 @@ public class TTCN_Communication {
 
 		switch (TTCN_Runtime.get_state()) {
 		case MTC_IDLE:
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc__ignored__on__idle__mtc);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc__ignored__on__idle__mtc);
 			break;
 		case MTC_PAUSED:
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);
 			TTCN_Runtime.set_state(executorStateEnum.MTC_TERMINATING_EXECUTION);
 			break;
 		case PTC_IDLE:
 		case PTC_STOPPED:
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc__ignored__on__idle__ptc);
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc__ignored__on__idle__ptc);
 			break;
 		case PTC_EXIT:
 			break;
 		default:
-			TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);;
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);;
 			TTCN_Runtime.stop_execution();
 			break;
 		}
@@ -1455,7 +1455,7 @@ public class TTCN_Communication {
 			throw new TtcnError("Internal error: Message EXECUTE_CONTROL arrived in invalid state.");
 		}
 
-		TtcnLogger.log(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Executing control part of module {0}.", module_name));
+		TTCN_Logger.log(Severity.PARALLEL_UNQUALIFIED, MessageFormat.format("Executing control part of module {0}.", module_name));
 
 		TTCN_Runtime.set_state(executorStateEnum.MTC_CONTROLPART);
 
@@ -1486,7 +1486,7 @@ public class TTCN_Communication {
 			throw new TtcnError("Internal error: Message EXECUTE_TESTCASE arrived in invalid state."); 
 		}
 
-		TtcnLogger.log_testcase_exec(testcase_name, module_name);
+		TTCN_Logger.log_testcase_exec(testcase_name, module_name);
 		TTCN_Runtime.set_state(executorStateEnum.MTC_CONTROLPART);
 
 		try {
@@ -1512,7 +1512,7 @@ public class TTCN_Communication {
 	private static void process_exit_mtc() {
 		incoming_buf.get().cut_message();
 		TTCN_Runtime.log_verdict_statistics();
-		TtcnLogger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.exit__requested__from__mc__mtc);
+		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.exit__requested__from__mc__mtc);
 		TTCN_Runtime.set_state(executorStateEnum.MTC_EXIT);
 	}
 
@@ -1550,15 +1550,15 @@ public class TTCN_Communication {
 	private static void process_unsupported_message(final int msg_type, final int msg_end) {
 		final Text_Buf local_incoming_buf = incoming_buf.get();
 
-		TtcnLogger.begin_event(Severity.WARNING_UNQUALIFIED);
-		TtcnLogger.log_event_str(MessageFormat.format("Unsupported message was received from MC: type (decimal): {0}, data (hexadecimal): ", msg_type));
+		TTCN_Logger.begin_event(Severity.WARNING_UNQUALIFIED);
+		TTCN_Logger.log_event_str(MessageFormat.format("Unsupported message was received from MC: type (decimal): {0}, data (hexadecimal): ", msg_type));
 
 		final byte[] data = local_incoming_buf.get_data();
 		final int begin = local_incoming_buf.get_begin();
 		for (int i = local_incoming_buf.get_pos(); i < msg_end; i++) {
-			TtcnLogger.log_octet((char)data[begin + i]);
+			TTCN_Logger.log_octet((char)data[begin + i]);
 		}
-		TtcnLogger.end_event();
+		TTCN_Logger.end_event();
 		local_incoming_buf.cut_message();
 	}
 
