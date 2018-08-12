@@ -397,7 +397,9 @@ public class ProjectSourceCompiler {
 			aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
 			aSb.append("{\n");
 			aSb.append(aData.getInitComp());
+			aSb.append("{\n");
 			aSb.append("return false;\n");
+			aSb.append("}\n");
 			aSb.append("}\n\n");
 		}
 
@@ -405,7 +407,9 @@ public class ProjectSourceCompiler {
 			aSb.append("public boolean init_system_port(final String component_type, final String port_name)\n");
 			aSb.append("{\n");
 			aSb.append(aData.getInitSystemPort());
+			aSb.append("{\n");
 			aSb.append("return false;\n");
+			aSb.append("}\n");
 			aSb.append("}\n\n");
 		}
 
