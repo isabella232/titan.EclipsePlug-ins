@@ -1112,7 +1112,7 @@ public class RecordSetCodeGenerator {
 							if (fieldInfo.isOptional) {
 								source.append(MessageFormat.format("&& (force_omit == null || !force_omit.shouldOmit({0}))", i));
 							}
-							source.append(")");
+							source.append(')');
 						}
 
 						source.append("{\n");
