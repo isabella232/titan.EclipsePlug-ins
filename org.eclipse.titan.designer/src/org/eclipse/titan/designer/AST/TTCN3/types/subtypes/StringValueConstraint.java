@@ -47,7 +47,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	public StringValueConstraint except(final SubtypeConstraint other) {
 		final StringValueConstraint o = (StringValueConstraint) other;
 		final Set<String> returnValue = new TreeSet<String>();
-		for (String str : values) {
+		for (final String str : values) {
 			if (!o.values.contains(str)) {
 				returnValue.add(str);
 			}
@@ -111,7 +111,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean needComma = false;
-		for (String str : values) {
+		for (final String str : values) {
 			if (needComma) {
 				sb.append(", ");
 			}
@@ -129,7 +129,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 		switch (rangeConstraint.getLimitType()) {
 		case SIZE: {
 			final Set<String> returnValue = new TreeSet<String>();
-			for (String str : values) {
+			for (final String str : values) {
 				if (rangeConstraint.isElement(new SizeLimit(str.length())) != ifElement) {
 					returnValue.add(str);
 				}
@@ -138,7 +138,7 @@ public final class StringValueConstraint extends SubtypeConstraint {
 		}
 		case CHAR: {
 			final Set<String> returnValue = new TreeSet<String>();
-			for (String str : values) {
+			for (final String str : values) {
 				boolean allCharsAreElements = true;
 				for (int charIndex = 0; charIndex < str.length(); charIndex++) {
 					if (!rangeConstraint.isElement(new CharLimit(str.charAt(charIndex)))) {

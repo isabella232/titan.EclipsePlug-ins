@@ -52,7 +52,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	public ValueListConstraint except(final SubtypeConstraint other) {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		final List<IValue> returnValue = new ArrayList<IValue>();
-		for (IValue v : values) {
+		for (final IValue v : values) {
 			if (!o.isElement(v)) {
 				returnValue.add(v);
 			}
@@ -65,7 +65,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	public SubtypeConstraint intersection(final SubtypeConstraint other) {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		final List<IValue> returnValue = new ArrayList<IValue>();
-		for (IValue v : values) {
+		for (final IValue v : values) {
 			if (o.isElement(v)) {
 				returnValue.add(v);
 			}
@@ -83,7 +83,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	/** {@inheritDoc} */
 	public boolean isElement(final Object o) {
 		final Value val = (Value) o;
-		for (IValue v : values) {
+		for (final IValue v : values) {
 			if (v.checkEquality(CompilationTimeStamp.getBaseTimestamp(), val)) {
 				return true;
 			}
@@ -143,7 +143,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean needComma = false;
-		for (IValue v : values) {
+		for (final IValue v : values) {
 			if (needComma) {
 				sb.append(", ");
 			}
@@ -159,7 +159,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 		final ValueListConstraint o = (ValueListConstraint) other;
 		final ArrayList<IValue> returnValue = new ArrayList<IValue>();
 		returnValue.addAll(values);
-		for (IValue v : o.values) {
+		for (final IValue v : o.values) {
 			if (!isElement(v)) {
 				returnValue.add(v);
 			}
@@ -173,7 +173,7 @@ public final class ValueListConstraint extends SubtypeConstraint {
 	 */
 	public ValueListConstraint remove(final RangeListConstraint sizeConstraint, final boolean ifElement) {
 		final ArrayList<IValue> returnValue = new ArrayList<IValue>();
-		for (IValue v : values) {
+		for (final IValue v : values) {
 			switch (v.getValuetype()) {
 			case ARRAY_VALUE:
 				if (sizeConstraint.isElement(new SizeLimit(((Array_Value) v).getNofComponents())) != ifElement) {

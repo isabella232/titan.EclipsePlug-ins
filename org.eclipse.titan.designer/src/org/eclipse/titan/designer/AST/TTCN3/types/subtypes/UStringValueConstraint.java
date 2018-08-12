@@ -46,7 +46,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	public UStringValueConstraint except(final SubtypeConstraint other) {
 		final UStringValueConstraint o = (UStringValueConstraint) other;
 		final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
-		for (UniversalCharstring str : values) {
+		for (final UniversalCharstring str : values) {
 			if (!o.values.contains(str)) {
 				returnValue.add(str);
 			}
@@ -110,7 +110,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 	public void toString(final StringBuilder sb) {
 		sb.append('(');
 		boolean needComma = false;
-		for (UniversalCharstring str : values) {
+		for (final UniversalCharstring str : values) {
 			if (needComma) {
 				sb.append(", ");
 			}
@@ -124,7 +124,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 		switch (rangeConstraint.getLimitType()) {
 		case SIZE: {
 			final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
-			for (UniversalCharstring str : values) {
+			for (final UniversalCharstring str : values) {
 				if (rangeConstraint.isElement(new SizeLimit(str.length())) != ifElement) {
 					returnValue.add(str);
 				}
@@ -133,7 +133,7 @@ public final class UStringValueConstraint extends SubtypeConstraint {
 		}
 		case UCHAR: {
 			final Set<UniversalCharstring> returnValue = new TreeSet<UniversalCharstring>();
-			for (UniversalCharstring str : values) {
+			for (final UniversalCharstring str : values) {
 				boolean allCharsAreElements = true;
 				for (int charIndex = 0; charIndex < str.length(); charIndex++) {
 					if (!rangeConstraint.isElement(new UCharLimit(str.get(charIndex)))) {

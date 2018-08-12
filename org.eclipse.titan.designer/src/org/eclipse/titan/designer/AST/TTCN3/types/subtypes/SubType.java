@@ -215,7 +215,7 @@ public final class SubType implements IIncrementallyUpdateable {
 			// try the referenced type
 			return false;
 		}
-		for (SubType st : myParents) {
+		for (final SubType st : myParents) {
 			refch.markState();
 			if (!st.checkRecursion(refch)) {
 				return false;
