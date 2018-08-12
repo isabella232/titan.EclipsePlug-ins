@@ -898,9 +898,9 @@ public class UnionGenerator {
 	 * */
 	private static void generatetemplateCopyValue(final JavaGenData aData, final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} other_value) '{'\n", genName));
-		source.append("single_value_union_selection = other_value.union_selection;\n");
+		source.append("single_value_union_selection = other_value.get_selection();\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch (other_value.union_selection) {\n");
+			source.append("switch (other_value.get_selection()) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
