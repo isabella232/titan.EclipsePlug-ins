@@ -58,8 +58,8 @@ public class ProjectSourceCompiler {
 		aModule.generateCode( data );
 
 		if (data.getAddSourceInfo() && (data.getPreInit().length() > 0 || data.getPostInit().length() > 0)) {
-			data.addCommonLibraryImport("TtcnLogger.TTCN_Location");
-			data.addCommonLibraryImport("TtcnLogger.TTCN_Location.entity_type_t");
+			data.addCommonLibraryImport("TTCN_Logger.TTCN_Location");
+			data.addCommonLibraryImport("TTCN_Logger.TTCN_Location.entity_type_t");
 		}
 		if (data.getStartPTCFunction().length() > 0) {
 			data.addBuiltinTypeImport("Text_Buf");
@@ -373,7 +373,7 @@ public class ProjectSourceCompiler {
 			aSb.append("return;\n");
 			aSb.append("}\n");
 			aSb.append("post_init_called = true;\n");
-			aSb.append("TtcnLogger.log_module_init(name, false);\n");
+			aSb.append("TTCN_Logger.log_module_init(name, false);\n");
 			if (aData.getAddSourceInfo()) {
 				aSb.append(MessageFormat.format("final TTCN_Location current_location = TTCN_Location.enter(\"{0}\", {1}, entity_type_t.LOCATION_UNKNOWN, \"{2}\");\n", sourceFile.getName(), 0, aModule.getIdentifier().getDisplayName()));
 			}
@@ -381,7 +381,7 @@ public class ProjectSourceCompiler {
 			if (aData.getAddSourceInfo()) {
 				aSb.append("current_location.leave();\n");
 			}
-			aSb.append("TtcnLogger.log_module_init(name, true);\n");
+			aSb.append("TTCN_Logger.log_module_init(name, true);\n");
 			aSb.append("}\n\n");
 		}
 
