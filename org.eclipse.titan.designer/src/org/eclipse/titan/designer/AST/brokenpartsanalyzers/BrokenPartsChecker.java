@@ -54,7 +54,7 @@ public final class BrokenPartsChecker {
 
 		monitor.subTask("Doing post semantic checks");
 
-		for (Module module : selectionMethod.getModulesToCheck()) {
+		for (final Module module : selectionMethod.getModulesToCheck()) {
 			module.postCheck();
 		}
 
@@ -65,10 +65,10 @@ public final class BrokenPartsChecker {
 		progress.setTaskName("Semantic check");
 		progress.setWorkRemaining(selectionMethod.getModulesToCheck().size());
 
-		for (Module module : selectionMethod.getModulesToSkip()) {
+		for (final Module module : selectionMethod.getModulesToSkip()) {
 			module.setSkippedFromSemanticChecking(true);
 		}
-		for (Module module : selectionMethod.getModulesToCheck()) {
+		for (final Module module : selectionMethod.getModulesToCheck()) {
 			module.setSkippedFromSemanticChecking(false);
 		}
 
@@ -90,7 +90,7 @@ public final class BrokenPartsChecker {
 		progress.setTaskName("Semantic check");
 		progress.setWorkRemaining(moduleAndBrokenDefs.size());
 
-		for (Map.Entry<Module, List<Assignment>> entry : moduleAndBrokenDefs.entrySet()) {
+		for (final Map.Entry<Module, List<Assignment>> entry : moduleAndBrokenDefs.entrySet()) {
 			final Module module = entry.getKey();
 
 			progress.subTask("Semantically checking broken parts in module: " + module.getName());

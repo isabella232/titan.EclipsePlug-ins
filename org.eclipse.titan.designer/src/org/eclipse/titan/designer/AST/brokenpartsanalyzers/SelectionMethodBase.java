@@ -62,7 +62,7 @@ public abstract class SelectionMethodBase {
 	}
 
 	protected void afterExecute() {
-		for (Module module : allModules) {
+		for (final Module module : allModules) {
 			if (!modulesToCheck.contains(module) && !modulesToSkip.contains(module)) {
 				modulesToSkip.add(module);
 			}

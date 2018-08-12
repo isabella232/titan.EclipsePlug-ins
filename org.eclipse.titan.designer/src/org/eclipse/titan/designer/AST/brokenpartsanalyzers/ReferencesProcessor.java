@@ -45,7 +45,7 @@ public abstract class ReferencesProcessor extends AssignmentHandler {
 	}
 
 	public boolean containsErroneousReference(final Set<Reference> references) {
-		for (Reference reference : references) {
+		for (final Reference reference : references) {
 			if(reference.getIsErroneous(CompilationTimeStamp.getBaseTimestamp())) {
 				return true;
 			}

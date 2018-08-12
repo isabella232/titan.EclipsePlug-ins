@@ -51,7 +51,7 @@ public final class Named_Bits extends Value {
 	public String createStringRepresentation() {
 		final StringBuilder builder = new StringBuilder("{");
 		boolean first = true;
-		for (Entry<String, Identifier> entry : identifierMap.entrySet()) {
+		for (final Entry<String, Identifier> entry : identifierMap.entrySet()) {
 			if (!first) {
 				builder.append(' ');
 			}
@@ -190,7 +190,7 @@ public final class Named_Bits extends Value {
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (identifierList != null) {
-			for (Identifier id : identifierList) {
+			for (final Identifier id : identifierList) {
 				if (!id.accept(v)) {
 					return false;
 				}

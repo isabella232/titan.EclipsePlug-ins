@@ -99,9 +99,9 @@ public final class AssignmentHandlerComponent extends ReferencesProcessor {
 
 	private Set<String> computeInfectedFields(final String definitionName) {
 		final Set<String> result = new HashSet<String>();
-		for (Map.Entry<Definition, Set<String>> entry : componentDefinitions.entrySet()) {
+		for (final Map.Entry<Definition, Set<String>> entry : componentDefinitions.entrySet()) {
 			final Set<String> references = entry.getValue();
-			for (String referene : references) {
+			for (final String referene : references) {
 				if (referene.equals(definitionName)) {
 					result.add(definitionName);
 				}

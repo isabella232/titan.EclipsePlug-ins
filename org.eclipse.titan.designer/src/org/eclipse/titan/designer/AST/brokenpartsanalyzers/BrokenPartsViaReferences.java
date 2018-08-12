@@ -139,7 +139,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 	 */
 	protected List<Module> collectStartModules(final List<Module> allModules) {
 		final List<Module> startModules = new ArrayList<Module>();
-		for (Module actualModule : allModules) {
+		for (final Module actualModule : allModules) {
 			// Collect injured modules directly into startModules, we will start the checking from these modules.
 			// Collect modules which have not been checked semantically.
 			if ((actualModule.getLastCompilationTimeStamp() == null || actualModule.isCheckRoot() || !semanticallyChecked.contains(actualModule.getName())) && !startModules.contains(actualModule) ) {
@@ -171,14 +171,14 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 
 		final Map<Module, List<Module>> invertedImports = new HashMap<Module, List<Module>>();
 
-		for (Module actualModule : allModules) {
+		for (final Module actualModule : allModules) {
 			// We have to add all module to get a correct inverted import structure.
 			// It covers the case when a module is a top-level module, so it has't got any import.
 			if (!invertedImports.containsKey(actualModule)) {
 				invertedImports.put(actualModule, new ArrayList<Module>());
 			}
 
-			for (Module actualImportedModule : actualModule.getImportedModules()) {
+			for (final Module actualImportedModule : actualModule.getImportedModules()) {
 				if (invertedImports.containsKey(actualImportedModule)) {
 					final List<Module> dependentModules = invertedImports.get(actualImportedModule);
 
@@ -203,7 +203,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 		final List<Module> result = new ArrayList<Module>();
 		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 		if (writeDebugInfo) {
-			for (Module startModule: startModules) {
+			for (final Module startModule: startModules) {
 				TITANDebugConsole.println("  ** Module " + startModule.getName() + " can not be skipped as it was not yet analyzed.", stream);
 			}
 		}
@@ -336,10 +336,10 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 	protected void collectRealBrokenParts(
 			final Map<Module, List<AssignmentHandler>> moduleAndAssignments,
 			final boolean useIncrementalParsing) {
-		for (Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
+		for (final Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
 
 			final List<Assignment> assignments = new ArrayList<Assignment>();
-			for (AssignmentHandler assignmentHandler : entry.getValue()) {
+			for (final AssignmentHandler assignmentHandler : entry.getValue()) {
 				if (!useIncrementalParsing || assignmentHandler.getIsInfected()) {
 					assignments.add(assignmentHandler.getAssignment());
 				}
@@ -354,7 +354,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 	}
 
 	public void processStartModules(final List<Module> startModules, final Map<Module, List<AssignmentHandler>> moduleAndBrokenAssignments) {
-		for (Module startModule : startModules) {
+		for (final Module startModule : startModules) {
 			if(isTooSlow()) {
 				return;
 			}
@@ -363,7 +363,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 				final Assignments startAssignments = startModule.getAssignments();
 				final List<AssignmentHandler> brokens = new ArrayList<AssignmentHandler>();
 				final List<AssignmentHandler> notBrokens = new ArrayList<AssignmentHandler>();
-				for( Assignment assignment: startAssignments){
+				for(final Assignment assignment: startAssignments){
 					MarkerHandler.markAllSemanticMarkersForRemoval(assignment);
 				}
 				for (int d = 0; d < startAssignments.getNofAssignments(); ++d) {
@@ -401,7 +401,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 				}
 
 				final List<AssignmentHandler> startAssignments = getAssignmentsFrom(startModule); //puts additional markers!
-				for (AssignmentHandler assignmentHandler : startAssignments) {
+				for (final AssignmentHandler assignmentHandler : startAssignments) {
 					assignmentHandler.initStartParts();
 					assignmentHandler.assignment.notCheckRoot();
 					assignmentHandler.addReason("Parent module's CompilationTimeStamp is null.");
@@ -447,7 +447,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 		}
 
 		final HashMap<String, AssignmentHandler> brokenMap = new HashMap<String, AssignmentHandler>(brokens.size() + notBrokens.size());
-		for(AssignmentHandler handler: brokens) {
+		for(final AssignmentHandler handler: brokens) {
 			brokenMap.put(handler.getAssignment().getIdentifier().getDisplayName(), handler);
 		}
 
@@ -459,7 +459,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 			for (int i = notBrokens.size() -1; i >=0; --i) {
 				final AssignmentHandler notBroken = notBrokens.get(i);
 				boolean found = false;
-				for (String name : notBroken.getContagiousReferences()) {
+				for (final String name : notBroken.getContagiousReferences()) {
 					if(brokenMap.containsKey(name)) {
 						notBroken.check(brokenMap.get(name));
 						found = true;
@@ -467,7 +467,7 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 					}
 				}
 				if(!found) {
-					for (String name : notBroken.getNonContagiousReferences()) {
+					for (final String name : notBroken.getNonContagiousReferences()) {
 						if(brokenMap.containsKey(name)) {
 							notBroken.check(brokenMap.get(name));
 							found = true;
@@ -504,12 +504,12 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 
 				TITANDebugConsole.println("  Detailed info:");
 
-				for (Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
+				for (final Map.Entry<Module, List<AssignmentHandler>> entry : moduleAndAssignments.entrySet()) {
 					final List<AssignmentHandler> values = entry.getValue();
 
 					TITANDebugConsole.println("    module: " + entry.getKey().getIdentifier().getDisplayName());
 
-					for (AssignmentHandler assignmentHandler : values) {
+					for (final AssignmentHandler assignmentHandler : values) {
 						TITANDebugConsole.println("         " + assignmentHandler + " | " + assignmentHandler.getReasons());
 						if(assignmentHandler.getIsInfected() || assignmentHandler.getIsContagious()) {
 							TITANDebugConsole.println("            " + (assignmentHandler.getIsInfected() ? "[+]" : "[-]") + " : infected");
@@ -535,18 +535,18 @@ public final class BrokenPartsViaReferences extends SelectionMethodBase {
 
 				});
 
-				for (Module module : modules) {
+				for (final Module module : modules) {
 					final String moduleName = module.getName();
 					TITANDebugConsole.println("    subgraph cluster_" + moduleName + " {");
 					TITANDebugConsole.println("    label=\" " + module.getIdentifier().getDisplayName() + "\";");
 
 					final List<AssignmentHandler> values = moduleAndAssignments.get(module);
 
-					for (AssignmentHandler assignmentHandler : values) {
-						for(String reference: assignmentHandler.getInfectedReferences()) {
+					for (final AssignmentHandler assignmentHandler : values) {
+						for(final String reference: assignmentHandler.getInfectedReferences()) {
 							TITANDebugConsole.println("      " + assignmentHandler.getAssignment().getIdentifier().getDisplayName() + "->" + reference + ";");
 						}
-						for(String reference: assignmentHandler.getContagiousReferences()) {
+						for(final String reference: assignmentHandler.getContagiousReferences()) {
 							TITANDebugConsole.println("      " + assignmentHandler.getAssignment().getIdentifier().getDisplayName() + "->" + reference + " [color=red];");
 						}
 					}

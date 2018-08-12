@@ -90,7 +90,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 * */
 	public void setProject(final IProject project) {
 		this.project = project;
-		for (ImportModule temp : importedModules_v) {
+		for (final ImportModule temp : importedModules_v) {
 			temp.setProject(project);
 		}
 	}
@@ -180,7 +180,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 			return;
 		}
 
-		for (ImportModule importModule : importedModules_v) {
+		for (final ImportModule importModule : importedModules_v) {
 			final Identifier identifier = importModule.getIdentifier();
 
 			if (null == identifier || null == identifier.getLocation()) {
@@ -232,7 +232,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 			LoadBalancingUtilities.astNodeChecked();
 		}
 
-		for (ImportModule importModule : importedModules_v) {
+		for (final ImportModule importModule : importedModules_v) {
 			// check the imports recursively
 			referenceChain.markState();
 			importModule.checkImports(timestamp, referenceChain, moduleStack);
@@ -248,7 +248,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 *                the timestamp of the actual semantic check cycle.
 	 **/
 	public void check(final CompilationTimeStamp timestamp) {
-		for (ImportModule importModule : importedModules_v) {
+		for (final ImportModule importModule : importedModules_v) {
 			importModule.check(timestamp);
 		}
 	}
@@ -264,7 +264,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	public List<Module> getImportedModules() {
 		final List<Module> result = new ArrayList<Module>();
 
-		for (ImportModule impmod : importedModules_v) {
+		for (final ImportModule impmod : importedModules_v) {
 			final Module module = impmod.getReferredModule();
 			if (module != null) {
 				result.add(module);
@@ -279,7 +279,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 *         module one since the last importation check.
 	 * */
 	public boolean hasUnhandledImportChanges() {
-		for (ImportModule impmod : importedModules_v) {
+		for (final ImportModule impmod : importedModules_v) {
 			if (impmod.hasUnhandledChange()) {
 				return true;
 			}
@@ -293,7 +293,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 * module.
 	 * */
 	public void checkImportedness() {
-		for (ImportModule importModule : importedModules_v) {
+		for (final ImportModule importModule : importedModules_v) {
 			importModule.postCheck();
 		}
 	}
@@ -355,7 +355,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 *                collecting the proposals.
 	 * */
 	public void addProposal(final ProposalCollector propCollector) {
-		for (ImportModule importation : importedModules_map.values()) {
+		for (final ImportModule importation : importedModules_map.values()) {
 			importation.addProposal(propCollector, module.getIdentifier());
 		}
 	}
@@ -381,13 +381,13 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 			return;
 		}
 
-		for (ImportModule importation : importedModules_map.values()) {
+		for (final ImportModule importation : importedModules_map.values()) {
 			importation.addDeclaration(declarationCollector, module.getIdentifier());
 		}
 	}
 
 	public void extractStructuralInformation(final Identifier from, final ProjectStructureDataCollector collector) {
-		for (ImportModule imported : importedModules_v) {
+		for (final ImportModule imported : importedModules_v) {
 			collector.addImportation(from, imported.getIdentifier());
 		}
 	}
@@ -396,7 +396,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (importedModules_v != null) {
-			for (ImportModule im : importedModules_v) {
+			for (final ImportModule im : importedModules_v) {
 				if (!im.accept(v)) {
 					return false;
 				}
@@ -412,7 +412,7 @@ public final class Imports extends ASTNode implements IOutlineElement, ILocateab
 	 */
 	public void generateCode( final JavaGenData aData ) {
 		if (importedModules_v != null) {
-			for (ImportModule im : importedModules_v) {
+			for (final ImportModule im : importedModules_v) {
 				aData.addInterModuleImport(im.getIdentifier().getName());
 			}
 		}
