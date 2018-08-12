@@ -904,7 +904,7 @@ public class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}(other_value.get{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
@@ -923,7 +923,7 @@ public class UnionGenerator {
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
-				source.append(MessageFormat.format("single_value = new {0}(other_value.get{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
+				source.append(MessageFormat.format("single_value = new {0}(other_value.constGet{1}());\n", fieldInfo.mJavaTemplateName, fieldInfo.mJavaVarName));
 				source.append("break;\n");
 			}
 			source.append("default:\n");
