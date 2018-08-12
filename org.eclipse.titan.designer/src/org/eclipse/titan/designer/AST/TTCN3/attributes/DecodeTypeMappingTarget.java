@@ -206,12 +206,13 @@ public final class DecodeTypeMappingTarget extends TypeMappingTarget {
 			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
 		}
 
-		String encodingType = decodeAttribute.getEncodingType().getEncodingName();
+		final String encodingType = decodeAttribute.getEncodingType().getEncodingName();
 		String encodingOptions = null;
 		if (decodeAttribute.getOptions() != null) {
 			encodingOptions = decodeAttribute.getOptions();
 		}
-		StringBuilder errorBehaviour = new StringBuilder();
+
+		final StringBuilder errorBehaviour = new StringBuilder();
 		if (errorBehaviorAttribute != null) {
 			errorBehaviorAttribute.getErrrorBehaviorList().generateCode(aData, errorBehaviour);
 		} else {

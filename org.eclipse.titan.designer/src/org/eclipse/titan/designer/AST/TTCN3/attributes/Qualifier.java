@@ -67,7 +67,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 
 	public String getDisplayName() {
 		final StringBuilder sb = new StringBuilder();
-		for (ISubReference subref : subReferences) {
+		for (final ISubReference subref : subReferences) {
 			subref.appendDisplayName(sb);
 		}
 		return sb.toString();
@@ -169,7 +169,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (definition != null && subReferences != null) {
 			// TODO: the following for() does not work because qualifiers were not semantically analyzed
-			for (ISubReference sr : subReferences) {
+			for (final ISubReference sr : subReferences) {
 				sr.findReferences(referenceFinder, foundIdentifiers);
 			}
 			if (referenceFinder.fieldId != null) {
@@ -181,7 +181,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 				final List<IType> typeArray = new ArrayList<IType>();
 				final Reference reference = new Reference(null);
 				reference.addSubReference(new FieldSubReference(definition.getIdentifier()));
-				for (ISubReference sr : subReferences) {
+				for (final ISubReference sr : subReferences) {
 					reference.addSubReference(sr);
 				}
 				reference.setLocation(location);
@@ -215,7 +215,7 @@ public final class Qualifier implements ILocateableNode, IIncrementallyUpdateabl
 			return true;
 		}
 		if (subReferences != null) {
-			for (ISubReference sr : subReferences) {
+			for (final ISubReference sr : subReferences) {
 				if (!sr.accept(v)) {
 					return false;
 				}

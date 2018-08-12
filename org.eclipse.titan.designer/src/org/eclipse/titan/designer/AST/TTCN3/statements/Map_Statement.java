@@ -250,8 +250,8 @@ public final class Map_Statement extends Statement {
 			}
 		} else {
 			// we don't know which one is the system port
-			boolean firstMappedToSecond = !body1.isLegacy() && body1.isTranslate(body2);
-			boolean secondMappedToFirst = !body2.isLegacy() && body2.isTranslate(body1);;
+			final boolean firstMappedToSecond = !body1.isLegacy() && body1.isTranslate(body2);
+			final boolean secondMappedToFirst = !body2.isLegacy() && body2.isTranslate(body1);;
 			translate = firstMappedToSecond || secondMappedToFirst;
 
 			if (!translate && !body1.isMappable(timestamp, body2) && !body2.isMappable(timestamp, body1)) {

@@ -106,7 +106,7 @@ public final class Altstep_Instance_Statement extends Statement {
 		if (myStatementBlock != null) {
 			myStatementBlock.checkRunsOnScope(timestamp, assignment, reference, "call");
 			if (assignment instanceof Def_Altstep) {
-				boolean inControlPart = myStatementBlock.getControlPart() != null;
+				final boolean inControlPart = myStatementBlock.getControlPart() != null;
 				myStatementBlock.checkMTCScope(timestamp, ((Def_Altstep) assignment).getMTCType(timestamp), reference, "call" + assignment.getDescription(), inControlPart);
 				myStatementBlock.checkSystemScope(timestamp, ((Def_Altstep) assignment).getSystemType(timestamp), reference, "call" + assignment.getDescription(), inControlPart);
 			}

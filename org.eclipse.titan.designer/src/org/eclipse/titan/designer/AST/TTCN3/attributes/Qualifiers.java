@@ -98,7 +98,7 @@ public final class Qualifiers implements IIncrementallyUpdateable, IIdentifierCo
 			return;
 		}
 
-		for (Qualifier q : qualifiers) {
+		for (final Qualifier q : qualifiers) {
 			q.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -113,7 +113,7 @@ public final class Qualifiers implements IIncrementallyUpdateable, IIdentifierCo
 			return true;
 		}
 		if (qualifiers != null) {
-			for (Qualifier q : qualifiers) {
+			for (final Qualifier q : qualifiers) {
 				if (!q.accept(v)) {
 					return false;
 				}

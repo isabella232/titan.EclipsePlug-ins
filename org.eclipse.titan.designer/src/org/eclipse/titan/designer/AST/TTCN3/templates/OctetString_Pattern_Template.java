@@ -67,7 +67,7 @@ public final class OctetString_Pattern_Template extends TTCN3Template {
 	}
 
 	public int getMinLengthOfPattern() {
-		int pattern_len = pattern.length();
+		final int pattern_len = pattern.length();
 		int retval = 0;
 		for (int i = 0; i < pattern_len; i++) {
 			switch (pattern.charAt(i)) {

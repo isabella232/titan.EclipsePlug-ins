@@ -73,7 +73,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 
 	public String createStringRepresentation() {
 		final StringBuilder sb = new StringBuilder();
-		for (NamedParameter n : namedParams) {
+		for (final NamedParameter n : namedParams) {
 			sb.append(n.createStringRepresentation()).append(", ");
 		}
 		if (!namedParams.isEmpty()) {
@@ -153,7 +153,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 			return;
 		}
 
-		for (NamedParameter namedParam : namedParams) {
+		for (final NamedParameter namedParam : namedParams) {
 			namedParam.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -162,7 +162,7 @@ public final class NamedParameters extends ASTNode implements ILocateableNode, I
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (namedParams != null) {
-			for (NamedParameter np : namedParams) {
+			for (final NamedParameter np : namedParams) {
 				if (!np.accept(v)) {
 					return false;
 				}

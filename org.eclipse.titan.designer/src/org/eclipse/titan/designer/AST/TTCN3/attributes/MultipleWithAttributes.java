@@ -121,7 +121,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 			return;
 		}
 
-		for (SingleWithAttribute attr : attributes) {
+		for (final SingleWithAttribute attr : attributes) {
 			attr.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -136,7 +136,7 @@ public final class MultipleWithAttributes implements ILocateableNode, IIncrement
 			return true;
 		}
 		if (attributes != null) {
-			for (SingleWithAttribute attr : attributes) {
+			for (final SingleWithAttribute attr : attributes) {
 				if (!attr.accept(v)) {
 					return false;
 				}

@@ -131,7 +131,7 @@ public final class Send_Statement extends Statement {
 
 		Port_Type portType;
 		if (translate) {
-			PortScope ps = myStatementBlock.getScopePort();
+			final PortScope ps = myStatementBlock.getScopePort();
 			if (ps != null) {
 				portType = ps.getPortType();
 			} else {

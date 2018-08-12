@@ -175,7 +175,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	 * @param pLoopStmt the loop statement, set only within loops.
 	 * */
 	public void setMyLaicStmt(final AltGuards pAltGuards, final Statement pLoopStmt) {
-		for (AltGuard altGuard : altGuards) {
+		for (final AltGuard altGuard : altGuards) {
 			altGuard.setMyLaicStmt(pAltGuards, pLoopStmt);
 		}
 	}
@@ -346,7 +346,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				throw new ReParseException();
 			}
 
-			for (Iterator<AltGuard> iterator = altGuards.iterator(); iterator.hasNext();) {
+			for (final Iterator<AltGuard> iterator = altGuards.iterator(); iterator.hasNext();) {
 				final AltGuard altGuard = iterator.next();
 				final Location temporalLocation = altGuard.getLocation();
 
@@ -374,7 +374,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 			return;
 		}
 
-		for (AltGuard ag : altGuards) {
+		for (final AltGuard ag : altGuards) {
 			ag.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -383,7 +383,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (altGuards != null) {
-			for (AltGuard ag : altGuards) {
+			for (final AltGuard ag : altGuards) {
 				if (!ag.accept(v)) {
 					return false;
 				}

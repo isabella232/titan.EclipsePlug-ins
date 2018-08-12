@@ -119,7 +119,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 		Qualifier omitBeforeQualifier = null;
 		Qualifier omitAfterQualifier = null;
 		final Map<Integer, List<FieldErr_Type>> embeddedFieldArrayMap = new HashMap<Integer, List<FieldErr_Type>>();
-		for (FieldErr_Type actualFieldErr : fldArray) {
+		for (final FieldErr_Type actualFieldErr : fldArray) {
 			if (actualFieldErr.subrefsArray.size() <= level) {
 				ErrorReporter.INTERNAL_ERROR();
 				return erroneousDescr;
@@ -241,14 +241,14 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 						continue;
 					}
 					boolean isInvalid = false;
-					for (Integer idx : erroneousDescr.valuesMap.keySet()) {
+					for (final Integer idx : erroneousDescr.valuesMap.keySet()) {
 						if (idx < fieldIndex) {
 							isInvalid = true;
 							break;
 						}
 					}
 					if (!isInvalid) {
-						for (Integer idx : embeddedFieldArrayMap.keySet()) {
+						for (final Integer idx : embeddedFieldArrayMap.keySet()) {
 							if (idx < fieldIndex) {
 								isInvalid = true;
 								break;
@@ -278,14 +278,14 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 						continue;
 					}
 					boolean isInvalid = false;
-					for (Integer idx : erroneousDescr.valuesMap.keySet()) {
+					for (final Integer idx : erroneousDescr.valuesMap.keySet()) {
 						if (idx > fieldIndex) {
 							isInvalid = true;
 							break;
 						}
 					}
 					if (!isInvalid) {
-						for (Integer idx : embeddedFieldArrayMap.keySet()) {
+						for (final Integer idx : embeddedFieldArrayMap.keySet()) {
 							if (idx > fieldIndex) {
 								isInvalid = true;
 								break;
@@ -346,7 +346,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 			}
 		}
 		// recursive calls to create embedded descriptors
-		for (Integer idx : embeddedFieldArrayMap.keySet()) {
+		for (final Integer idx : embeddedFieldArrayMap.keySet()) {
 			erroneousDescr.descriptorMap.put(idx, buildErroneousDescriptorTree(timestamp, embeddedFieldArrayMap.get(idx), level + 1));
 		}
 		return erroneousDescr;
@@ -372,7 +372,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		// qualifiers are searched in withAttributePath part, not here
 		if (errAttrSpecs != null) {
-			for (ErroneousAttributeSpecification eas : errAttrSpecs) {
+			for (final ErroneousAttributeSpecification eas : errAttrSpecs) {
 				eas.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -388,7 +388,7 @@ public class ErroneousAttributes implements IIdentifierContainer, IVisitableNode
 			return true;
 		}
 		if (errAttrSpecs != null) {
-			for (ErroneousAttributeSpecification eas : errAttrSpecs) {
+			for (final ErroneousAttributeSpecification eas : errAttrSpecs) {
 				if (!eas.accept(v)) {
 					return false;
 				}

@@ -46,7 +46,7 @@ public final class PatternString implements IVisitableNode {
 		patterntype = pt;
 	}
 
-	public void setContent(String s) {
+	public void setContent(final String s) {
 		content = s;
 	}
 

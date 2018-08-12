@@ -208,12 +208,13 @@ public final class EncodeTypeMappingTarget extends TypeMappingTarget {
 			typeDescriptorName = targetType.getGenNameTypeDescriptor(aData, source, scope);
 		}
 
-		String encodingType = encodeAttribute.getEncodingType().getEncodingName();
+		final String encodingType = encodeAttribute.getEncodingType().getEncodingName();
 		String encodingOptions = null;
 		if (encodeAttribute.getOptions() != null) {
 			encodingOptions = encodeAttribute.getOptions();
 		}
-		StringBuilder errorBehaviour = new StringBuilder();
+
+		final StringBuilder errorBehaviour = new StringBuilder();
 		if (errorBehaviorAttribute != null) {
 			errorBehaviorAttribute.getErrrorBehaviorList().generateCode(aData, errorBehaviour);
 		} else {

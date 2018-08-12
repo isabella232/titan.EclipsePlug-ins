@@ -1201,7 +1201,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			startFunction.append(MessageFormat.format("if(function_name.equals(\"{0}\")) '{'\n", identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
-					FormalParameter formalParameter = formalParList.getParameterByIndex(i);
+					final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 
 					formalParameter.generateCodeObject(aData, startFunction, "");
 					startFunction.append(MessageFormat.format("{0}.decode_text(function_arguments);\n", formalParameter.getGenName()));
@@ -1224,7 +1224,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			}
 
 			startFunction.append("TTCN_Runtime.function_started(function_arguments);\n");
-			StringBuilder actualParList = formalParList.generateCodeActualParlist("");
+			final StringBuilder actualParList = formalParList.generateCodeActualParlist("");
 			boolean returnValueKept = false;
 			if (assignmentType == Assignment_type.A_FUNCTION_RVAL) {
 				IType t = returnType;
@@ -1235,7 +1235,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 						break;
 					} else if (t instanceof Referenced_Type) {
 						final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-						IType t2 = ((Referenced_Type) t).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+						final IType t2 = ((Referenced_Type) t).getTypeRefd(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 						referenceChain.release();
 						if (t2.getIsErroneous(CompilationTimeStamp.getBaseTimestamp()) || t2 == t) {
 							break;

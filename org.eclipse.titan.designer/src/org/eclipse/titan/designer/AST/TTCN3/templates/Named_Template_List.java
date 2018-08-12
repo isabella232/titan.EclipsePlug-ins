@@ -565,7 +565,7 @@ public final class Named_Template_List extends TTCN3Template {
 
 		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
-			NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
+			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 
 			final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 			final String javaGetterName = FieldSubReference.getJavaGetterName(namedTemplate.getName().getName());

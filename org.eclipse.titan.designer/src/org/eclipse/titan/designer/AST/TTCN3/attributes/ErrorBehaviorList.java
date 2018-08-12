@@ -147,7 +147,7 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode,
 				}
 
 				boolean typeFound = false;
-				for (String validType : VALID_TYPES) {
+				for (final String validType : VALID_TYPES) {
 					if (validType.equals(errorType)) {
 						typeFound = true;
 						break;
@@ -161,7 +161,7 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode,
 
 			final String errorHandling = setting.getErrorHandling();
 			boolean handlingFound = false;
-			for (String validHandling : VALID_HANDLINGS) {
+			for (final String validHandling : VALID_HANDLINGS) {
 				if (validHandling.equals(errorHandling)) {
 					handlingFound = true;
 					break;
@@ -183,7 +183,7 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode,
 			throw new ReParseException();
 		}
 
-		for (ErrorBehaviorSetting setting : settings) {
+		for (final ErrorBehaviorSetting setting : settings) {
 			setting.updateSyntax(reparser, false);
 			reparser.updateLocation(setting.getLocation());
 		}
@@ -193,7 +193,7 @@ public final class ErrorBehaviorList extends ASTNode implements ILocateableNode,
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (settings != null) {
-			for (ErrorBehaviorSetting s : settings) {
+			for (final ErrorBehaviorSetting s : settings) {
 				if (!s.accept(v)) {
 					return false;
 				}

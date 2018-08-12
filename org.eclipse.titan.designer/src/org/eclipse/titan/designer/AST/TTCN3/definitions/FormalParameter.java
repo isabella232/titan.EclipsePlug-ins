@@ -699,7 +699,7 @@ public final class FormalParameter extends Definition {
 			return new Referenced_ActualParameter(reference);
 		} else {
 			if (parameterTemplate instanceof SpecificValue_Template) {
-				IValue value = ((SpecificValue_Template) parameterTemplate).getValue();
+				final IValue value = ((SpecificValue_Template) parameterTemplate).getValue();
 				if (value.getValuetype().equals(Value_type.EXPRESSION_VALUE) && ((Expression_Value)value).getOperationType().equals(Operation_type.GETPORTREFERENCE_OPERATION)) {
 					value.setMyGovernor(type);
 					final IValue temp = type.checkThisValueRef(timestamp, value);

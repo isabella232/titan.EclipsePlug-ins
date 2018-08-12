@@ -160,7 +160,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 			return;
 		}
 
-		for (TemplateInstance ti : instances) {
+		for (final TemplateInstance ti : instances) {
 			ti.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -169,7 +169,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (instances != null) {
-			for (TemplateInstance ti : instances) {
+			for (final TemplateInstance ti : instances) {
 				if (!ti.accept(v)) {
 					return false;
 				}
@@ -180,7 +180,7 @@ public final class TemplateInstances extends ASTNode implements ILocateableNode,
 
 	public String createStringRepresentation() {
 		final StringBuilder sb = new StringBuilder();
-		for (TemplateInstance ti : instances) {
+		for (final TemplateInstance ti : instances) {
 			sb.append(ti.createStringRepresentation()).append(", ");
 		}
 		if (!instances.isEmpty()) {

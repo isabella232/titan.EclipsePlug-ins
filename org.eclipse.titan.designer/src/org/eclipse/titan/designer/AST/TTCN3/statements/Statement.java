@@ -395,7 +395,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		final IType referenceType = indexReference.checkVariableReference(timestamp);
 		if (referenceType != null) {
 			final int nofDimensions = arrayDimensions == null ? 0 : arrayDimensions.size();
-			IType lastType = referenceType.getTypeRefdLast(timestamp);
+			final IType lastType = referenceType.getTypeRefdLast(timestamp);
 			final Type_type tt = lastType.getTypetypeTtcn3();
 			switch (tt) {
 			case TYPE_INTEGER:
@@ -405,7 +405,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 					// make sure all possible indices are allowed by the subtype
 					final ArrayDimension dimension = arrayDimensions.get(0);
 					for (int i = 0; i < dimension.getSize(); i++) {
-						Integer_Value value = new Integer_Value(dimension.getOffset() + i);
+						final Integer_Value value = new Integer_Value(dimension.getOffset() + i);
 						referenceType.getSubtype().checkThisValue(timestamp, value);
 					}
 				}
@@ -430,9 +430,9 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 						} else if (referenceType.getSubtype() != null) {
 							// make sure all possible indices are allowed by the element type's subtype
 							for (int i = 0; i < nofDimensions; i++) {
-								ArrayDimension dimension_i = arrayDimensions.get(i);
+								final ArrayDimension dimension_i = arrayDimensions.get(i);
 								for (int j = 0; j < dimension_i.getSize(); j++) {
-									Integer_Value value = new Integer_Value(dimension_i.getOffset() + j);
+									final Integer_Value value = new Integer_Value(dimension_i.getOffset() + j);
 									ofType.getSubtype().checkThisValue(timestamp, value);
 								}
 							}
@@ -459,9 +459,9 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 						} else {
 							// make sure all possible indices are allowed by the element type's subtype
 							for (int i = 0; i < nofDimensions; i++) {
-								ArrayDimension dimension_i = arrayDimensions.get(i);
+								final ArrayDimension dimension_i = arrayDimensions.get(i);
 								for (int j = 0; j < dimension_i.getSize(); j++) {
-									Integer_Value value = new Integer_Value(dimension_i.getOffset() + j);
+									final Integer_Value value = new Integer_Value(dimension_i.getOffset() + j);
 									ofType.getSubtype().checkThisValue(timestamp, value);
 								}
 							}
@@ -570,14 +570,14 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 * @param scope the scope of the statement.
 	 */
 	public static void generateCodeIndexRedirect(final JavaGenData aData, final ExpressionStruct expression, final Reference indexRedirection, final Scope scope) {
-		ExpressionStruct refExpression = new ExpressionStruct();
+		final ExpressionStruct refExpression = new ExpressionStruct();
 		indexRedirection.generateCode(aData, refExpression);
 		if (refExpression.preamble.length() > 0) {
 			expression.preamble.append(refExpression.preamble);
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		IType typeReference = indexRedirection.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
+		final IType typeReference = indexRedirection.checkVariableReference(CompilationTimeStamp.getBaseTimestamp());
 		expression.preamble.append(MessageFormat.format("final {0} {1} = {2};\n", typeReference.getGenNameValue(aData, expression.expression, scope), tempId, refExpression.expression));
 
 		aData.addBuiltinTypeImport("Index_Redirect");
@@ -586,7 +586,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 		expression.expression.append("@Override\n");
 		expression.expression.append("public void addIndex(int p_index) {\n");
 		expression.expression.append("super.addIndex(p_index);\n");
-		IType last = typeReference.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		final IType last = typeReference.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		switch(last.getTypetypeTtcn3()) {
 		case TYPE_INTEGER:
 			expression.expression.append(MessageFormat.format("{0}.assign(p_index);\n", tempId));
@@ -595,8 +595,8 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 			expression.expression.append(MessageFormat.format("{0}.getAt(pos).assign(p_index);\n", tempId));
 			break;
 		case TYPE_ARRAY: {
-			ArrayDimension dimension = ((Array_Type)last).getDimension();
-			long offset = dimension.getOffset();
+			final ArrayDimension dimension = ((Array_Type)last).getDimension();
+			final long offset = dimension.getOffset();
 			String offsetString;
 			if (offset == 0) {
 				offsetString = "";

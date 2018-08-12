@@ -100,7 +100,7 @@ public final class Templates extends ASTNode implements IIncrementallyUpdateable
 			return;
 		}
 
-		for (TTCN3Template template : templates) {
+		for (final TTCN3Template template : templates) {
 			template.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -109,7 +109,7 @@ public final class Templates extends ASTNode implements IIncrementallyUpdateable
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (templates != null) {
-			for (TTCN3Template t : templates) {
+			for (final TTCN3Template t : templates) {
 				if (!t.accept(v)) {
 					return false;
 				}

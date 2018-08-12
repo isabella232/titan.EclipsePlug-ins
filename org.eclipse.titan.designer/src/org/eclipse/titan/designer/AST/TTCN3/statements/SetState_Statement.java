@@ -96,7 +96,7 @@ public class SetState_Statement extends Statement {
 	}
 
 	@Override
-	public void check(CompilationTimeStamp timestamp) {
+	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
 		}
@@ -136,7 +136,7 @@ public class SetState_Statement extends Statement {
 		}
 
 		if (templateInstance != null) {
-			IType governor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
+			final IType governor = templateInstance.getExpressionGovernor(timestamp, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 			if (governor == null) {
 				templateInstance.getLocation().reportSemanticError("Cannot determine the type of the parameter.");
 			} else {
@@ -178,7 +178,7 @@ public class SetState_Statement extends Statement {
 
 	@Override
 	/** {@inheritDoc} */
-	protected boolean memberAccept(ASTVisitor v) {
+	protected boolean memberAccept(final ASTVisitor v) {
 		if (value != null && !value.accept(v)) {
 			return false;
 		}
@@ -194,7 +194,7 @@ public class SetState_Statement extends Statement {
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
 		aData.addCommonLibraryImport("TTCN_Runtime");
 
-		ExpressionStruct expression = new ExpressionStruct();
+		final ExpressionStruct expression = new ExpressionStruct();
 		expression.expression.append("TTCN_Runtime.set_port_state(");
 		value.generateCodeExpression(aData, expression, true);
 
@@ -204,12 +204,12 @@ public class SetState_Statement extends Statement {
 		} else {
 			expression.preamble.append( "TTCN_Logger.begin_event_log2str();\n");
 
-			ExpressionStruct expression2 = new ExpressionStruct();
+			final ExpressionStruct expression2 = new ExpressionStruct();
 			templateInstance.generateCode(aData, expression2, Restriction_type.TR_NONE);
 			expression2.expression.append(".log()");
 			expression2.mergeExpression(expression.preamble);
-			
-			String tempId = aData.getTemporaryVariableName();
+
+			final String tempId = aData.getTemporaryVariableName();
 			expression.preamble.append(MessageFormat.format("final TitanCharString {0} = TTCN_Logger.end_event_log2str();\n", tempId));
 			expression.expression.append(MessageFormat.format("{0}, false)", tempId));
 		}

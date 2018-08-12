@@ -181,7 +181,7 @@ public final class TypeMappings extends ASTNode implements ILocateableNode, IInc
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
 		if (mappings != null) {
-			for (TypeMapping tm : mappings) {
+			for (final TypeMapping tm : mappings) {
 				tm.findReferences(referenceFinder, foundIdentifiers);
 			}
 		}
@@ -191,7 +191,7 @@ public final class TypeMappings extends ASTNode implements ILocateableNode, IInc
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (mappings != null) {
-			for (TypeMapping tm : mappings) {
+			for (final TypeMapping tm : mappings) {
 				if (!tm.accept(v)) {
 					return false;
 				}

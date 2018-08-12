@@ -120,7 +120,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 			return;
 		}
 
-		for (IndexedTemplate indexedTemp : indexed_templates) {
+		for (final IndexedTemplate indexedTemp : indexed_templates) {
 			indexedTemp.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -129,7 +129,7 @@ public final class IndexedTemplates extends ASTNode implements IIncrementallyUpd
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (indexed_templates != null) {
-			for (IndexedTemplate it : indexed_templates) {
+			for (final IndexedTemplate it : indexed_templates) {
 				if (!it.accept(v)) {
 					return false;
 				}

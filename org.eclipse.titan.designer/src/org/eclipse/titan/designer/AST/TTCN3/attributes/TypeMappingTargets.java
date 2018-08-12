@@ -76,7 +76,7 @@ public final class TypeMappingTargets extends ASTNode implements IIncrementallyU
 			throw new ReParseException();
 		}
 
-		for (TypeMappingTarget tmt : targets) {
+		for (final TypeMappingTarget tmt : targets) {
 			tmt.updateSyntax(reparser, false);
 			reparser.updateLocation(tmt.getLocation());
 		}
@@ -89,7 +89,7 @@ public final class TypeMappingTargets extends ASTNode implements IIncrementallyU
 			return;
 		}
 
-		for (TypeMappingTarget tmt : targets) {
+		for (final TypeMappingTarget tmt : targets) {
 			tmt.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -98,7 +98,7 @@ public final class TypeMappingTargets extends ASTNode implements IIncrementallyU
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (targets != null) {
-			for (TypeMappingTarget tmt : targets) {
+			for (final TypeMappingTarget tmt : targets) {
 				if (!tmt.accept(v)) {
 					return false;
 				}

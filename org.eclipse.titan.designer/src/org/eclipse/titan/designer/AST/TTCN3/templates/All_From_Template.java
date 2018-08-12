@@ -332,7 +332,7 @@ public class All_From_Template extends TTCN3Template {
 			Reference parameterReference = null;
 			final ActualParameter actualParameter = actualParameterList.getParameter(i);
 			if (actualParameter instanceof Template_ActualParameter) {
-				TemplateInstance templateInstance = ((Template_ActualParameter)actualParameter).getTemplateInstance();
+				final TemplateInstance templateInstance = ((Template_ActualParameter)actualParameter).getTemplateInstance();
 				ITTCN3Template template = templateInstance.getTemplateBody();
 				template = template.setLoweridToReference(CompilationTimeStamp.getBaseTimestamp());
 				if(template.getTemplatetype() == Template_type.TEMPLATE_REFD) {

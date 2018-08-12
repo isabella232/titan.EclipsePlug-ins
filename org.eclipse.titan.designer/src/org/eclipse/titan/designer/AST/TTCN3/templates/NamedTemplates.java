@@ -93,7 +93,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 	public void removeGeneratedValues() {
 		if (named_templates != null) {
 			NamedTemplate temp;
-			for (Iterator<NamedTemplate> iterator = named_templates.iterator(); iterator.hasNext();) {
+			for (final Iterator<NamedTemplate> iterator = named_templates.iterator(); iterator.hasNext();) {
 				temp = iterator.next();
 				if (!temp.isParsed()) {
 					iterator.remove();
@@ -172,7 +172,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 			namedTemplateMap = new HashMap<String, NamedTemplate>(named_templates.size());
 			duplicatedNames = new ArrayList<NamedTemplate>();
 
-			for (NamedTemplate template : named_templates) {
+			for (final NamedTemplate template : named_templates) {
 				identifier = template.getName();
 				name = identifier.getName();
 				if (namedTemplateMap.containsKey(name)) {
@@ -186,14 +186,14 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 			}
 
 			if (duplicatedNames != null) {
-				for (NamedTemplate template : duplicatedNames) {
+				for (final NamedTemplate template : duplicatedNames) {
 					named_templates.remove(template);
 				}
 			}
 		}
 
 		if (duplicatedNames != null) {
-			for (NamedTemplate template : duplicatedNames) {
+			for (final NamedTemplate template : duplicatedNames) {
 				identifier = template.getName();
 				name = identifier.getName();
 				final Location namedLocation = namedTemplateMap.get(name).getName().getLocation();
@@ -247,7 +247,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 			return;
 		}
 
-		for (NamedTemplate namedTemp : named_templates) {
+		for (final NamedTemplate namedTemp : named_templates) {
 			namedTemp.findReferences(referenceFinder, foundIdentifiers);
 		}
 	}
@@ -256,7 +256,7 @@ public final class NamedTemplates extends ASTNode implements IIncrementallyUpdat
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
 		if (named_templates != null) {
-			for (NamedTemplate nt : named_templates) {
+			for (final NamedTemplate nt : named_templates) {
 				if (!nt.accept(v)) {
 					return false;
 				}

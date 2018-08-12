@@ -242,7 +242,7 @@ public final class Receive_Port_Statement extends Statement {
 			final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
 		Port_Type portType;
 		if (translate) {
-			PortScope ps = origin.getMyStatementBlock().getScopePort();
+			final PortScope ps = origin.getMyStatementBlock().getScopePort();
 			if (ps != null) {
 				portType = ps.getPortType();
 			} else {

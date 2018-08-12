@@ -197,7 +197,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder getSingleExpression(final JavaGenData aData, final boolean castIsNeeded) {
-		StringBuilder result = new StringBuilder();
+		final StringBuilder result = new StringBuilder();
 
 		ErrorReporter.INTERNAL_ERROR("FATAL ERROR while processing complemented list template `" + getFullName() + "''");
 		return result;
@@ -302,7 +302,7 @@ public final class ComplementedList_Template extends CompositeTemplate {
 					final StringBuilder storedExpression = variableReferences[i];
 					source.append(MessageFormat.format("for (int i_i = 0, i_lim = {0}.n_elem().getInt(); i_i < i_lim; ++i_i ) '{'\n", storedExpression));
 
-					String embeddedName = MessageFormat.format("{0}.listItem({1}{2} + i_i)", name, i, shifty);
+					final String embeddedName = MessageFormat.format("{0}.listItem({1}{2} + i_i)", name, i, shifty);
 					((All_From_Template) template).generateCodeInitAllFrom(aData, source, embeddedName, storedExpression);
 					source.append("}\n");
 					shifty.append(MessageFormat.format("-1 + {0}.n_elem().getInt()", storedExpression));
