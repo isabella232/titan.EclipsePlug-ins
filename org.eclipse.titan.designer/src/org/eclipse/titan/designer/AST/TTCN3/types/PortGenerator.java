@@ -1894,9 +1894,9 @@ public class PortGenerator {
 			source.append("msg_tail_count++;\n");
 		}
 
-		source.append("if (TTCN_Logger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
+		source.append("if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE)) {\n");
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("TTCN_Logger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE);\n");
 			source.append("TTCN_Logger.log_char('(');\n");
 			source.append("sender_address.log();\n");
 			source.append("TTCN_Logger.log_char(')');\n");
@@ -2000,9 +2000,9 @@ public class PortGenerator {
 		source.append("throw new TtcnError(MessageFormat.format(\"Port {0} is not started but a message has arrived on it.\", get_name()));\n");
 		source.append("}\n");
 		source.append("msg_tail_count++;\n");
-		source.append("if (TTCN_Logger.log_this_event(Severity.PORTEVENT_MQUEUE)) {\n");
+		source.append("if (TTCN_Logger.log_this_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE)) {\n");
 		if (portDefinition.testportType == TestportType.ADDRESS) {
-			source.append("TTCN_Logger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+			source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE);\n");
 			source.append("TTCN_Logger.log_char('(');\n");
 			source.append("sender_address.log();\n");
 			source.append("TTCN_Logger.log_char(')');\n");
@@ -2010,7 +2010,7 @@ public class PortGenerator {
 		} else {
 			source.append("final TitanCharString log_sender_address = new TitanCharString(\"\");\n");
 		}
-		source.append("TTCN_Logger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+		source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE);\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\" {0} : \");\n", inType.mDisplayName));
 		source.append("incoming_par.log();\n");
 		source.append("final TitanCharString log_parameter = TTCN_Logger.end_event_log2str();\n");
