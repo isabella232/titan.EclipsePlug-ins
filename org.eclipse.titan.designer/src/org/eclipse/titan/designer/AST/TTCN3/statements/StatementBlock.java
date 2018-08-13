@@ -43,6 +43,8 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IAppendableSyntax;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TTCN3Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Statement.Statement_type;
@@ -759,21 +761,38 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 	@Override
 	/** {@inheritDoc} */
 	public Component_Type getMtcSystemComponentType(final CompilationTimeStamp timestamp, final boolean isSystem) {
-		if (myDefinition == null || !Assignment_type.A_TESTCASE.semanticallyEquals(myDefinition.getAssignmentType())) {
+		if (myDefinition == null) { 
 			return null;
 		}
 
-		final Def_Testcase testcase = (Def_Testcase) myDefinition;
-		if (isSystem) {
-			final Component_Type type = testcase.getSystemType(timestamp);
-			if (type != null) {
-				return type;
-			}
-			// if the system clause is not set the type of the
-			// `system' is the same as the type of the `mtc'
-		}
+		if (Assignment_type.A_TESTCASE.semanticallyEquals(myDefinition.getAssignmentType())) {
 
-		return testcase.getRunsOnType(timestamp);
+			final Def_Testcase testcase = (Def_Testcase) myDefinition;
+			if (isSystem) {
+				final Component_Type type = testcase.getSystemType(timestamp);
+				if (type != null) {
+					return type;
+				}
+				// if the system clause is not set the type of the
+				// `system' is the same as the type of the `mtc'
+			}
+
+			return testcase.getRunsOnType(timestamp);
+
+		} else if (Assignment_type.A_FUNCTION.semanticallyEquals(myDefinition.getAssignmentType())) {
+			if (isSystem) {
+				return ((Def_Function) myDefinition).getSystemType(timestamp);
+			} else {
+				return ((Def_Function) myDefinition).getMtcType(timestamp);
+			}
+		} else if (Assignment_type.A_ALTSTEP.semanticallyEquals(myDefinition.getAssignmentType())) {
+			if (isSystem) {
+				return ((Def_Altstep) myDefinition).getSystemType(timestamp);
+			} else {
+				return ((Def_Altstep) myDefinition).getMTCType(timestamp);
+			}
+		}
+		return null;
 	}
 
 	@Override
