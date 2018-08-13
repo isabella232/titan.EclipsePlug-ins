@@ -1028,8 +1028,7 @@ public final class FormalParameter extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
-		//TODO: implement: based on access type the code needs to be more refined
-		//TODO actually formal parameters are generated in generate_code ... with sub function
+		//TODO: add lazy-fuzzy support
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
@@ -1067,9 +1066,7 @@ public final class FormalParameter extends Definition {
 	 * @param prefix the prefix to be used before the parameter names.
 	 */
 	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix) {
-		//TODO: implement: based on access type the code needs to be more refined
-		//TODO for timers too!
-		//TODO actually formal parameters are generated in generate_code ... with sub function
+		//TODO: add lazy-fuzzy support
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
@@ -1164,13 +1161,13 @@ public final class FormalParameter extends Definition {
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT:
 		case A_PAR_PORT:
-			//TODO handle lazy evaluation
+			//TODO: add lazy-fuzzy support
 			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
-			//TODO handle lazy evaluation
+			//TODO: add lazy-fuzzy support
 			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TIMER:
