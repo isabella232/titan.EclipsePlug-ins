@@ -342,10 +342,11 @@ public class ProjectSourceCompiler {
 		if (aData.getSetModuleParameters().length() > 0) {
 			aSb.append("public boolean set_module_param(final Param_Types.Module_Parameter param)\n");
 			aSb.append("{\n");
-			aSb.append("//FIXME initial implementation\n");
-			aSb.append("final String par_name = \"\";//FIXME implement\n");
+			aSb.append("final String par_name = param.get_id().get_current_name();\n");
 			aSb.append(aData.getSetModuleParameters());
+			aSb.append("{\n");
 			aSb.append("return false;\n");
+			aSb.append("}\n");
 			aSb.append("}\n\n");
 		}
 

@@ -23,7 +23,20 @@ public final class Param_Types {
 	 * FIXME a lot to implement here
 	 * Right now this is just a placeholder so that some could start working on module parameters.
 	 */
-	public class Module_Parameter {
+	public static class Module_Parameter {
+		protected Module_Param_Id id;
 
+		/**
+		 * @return the Id or error, never returns NULL (because every module parameter should have either an explicit or an implicit id when this is called)
+		 * */
+		public Module_Param_Id get_id() {
+			return id;
+		}
+	}
+
+	public static class Module_Param_Id {
+		public String get_current_name() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_current_name()");
+		}
 	}
 }
