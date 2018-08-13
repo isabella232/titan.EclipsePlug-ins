@@ -1915,19 +1915,16 @@ public class PortGenerator {
 		}
 		source.append("}\n");
 
-		if (!isSimple || !portDefinition.legacy) {
-			if (!portDefinition.legacy && !isSimple && mappedType.targets.size() > 0) {
+		if (!portDefinition.legacy) {
+			if ((!isSimple && mappedType.targets.size() > 0) || (isSimple && mappedType.targets.size() > 1)) {
 				source.append("if (in_translation_mode()) {\n");
-			} else if (!portDefinition.legacy && isSimple && mappedType.targets.size() > 1) {
-				source.append("if (in_translation_mode()) {\n");
+				generateIncomingMapping(aData, source, portDefinition, mappedType, isSimple);
+				source.append("}\n");
+			} else {
+				generateIncomingMapping(aData, source, portDefinition, mappedType, isSimple);
 			}
-
+		} else if (!isSimple) {
 			generateIncomingMapping(aData, source, portDefinition, mappedType, isSimple);
-			if (!portDefinition.legacy && !isSimple && mappedType.targets.size() > 0) {
-				source.append("}\n");
-			} else if (!portDefinition.legacy && isSimple && mappedType.targets.size() > 1) {
-				source.append("}\n");
-			}
 		}
 
 		if (isSimple) {
