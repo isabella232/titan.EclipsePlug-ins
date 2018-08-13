@@ -629,8 +629,15 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 				final IValue guardExpression = altGuard.getGuardExpression();
 				if (guardExpression != null) {
 					guardExpression.getLocation().update_location_object(aData, source);
-					guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
-					source.append(") {\n");
+					if (guardExpression.returnsNative()) {
+						guardExpression.generateCodeTmp(aData, source, "if (", blockCount);
+						source.append(") {\n");
+					} else {
+						aData.addBuiltinTypeImport( "TitanBoolean" );
+
+						guardExpression.generateCodeTmp(aData, source, "if (TitanBoolean.getNative(", blockCount);
+						source.append(") ) {\n");
+					}
 					blockCount.incrementAndGet();
 				}
 
