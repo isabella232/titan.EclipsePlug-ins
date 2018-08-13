@@ -396,7 +396,7 @@ public final class Def_ModulePar extends Definition {
 			defaultValue.setGenNameRecursive(genName);
 		}
 
-		aData.addBuiltinTypeImport("Module_Parameter");
+		aData.addBuiltinTypeImport("Param_Types");
 
 		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();

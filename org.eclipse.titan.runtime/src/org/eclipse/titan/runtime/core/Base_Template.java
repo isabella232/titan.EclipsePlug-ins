@@ -206,7 +206,7 @@ public abstract class Base_Template {
 
 	public abstract void log_match(final Base_Type match_value, final boolean legacy);
 
-	public void set_param (final Module_Parameter param) {
+	public void set_param (final Param_Types.Module_Parameter param) {
 		// TODO once the setting module parameters is implemented for all classes this function should become abstract
 		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
 		TTCN_Logger.log_event_str( "//TODO: " );
