@@ -690,7 +690,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		final StringBuilder actualParameterList = formalParList.generateCodeActualParlist("");
 		final StringBuilder fullParamaterList = formalParList.generateCode(aData);
 
-		source.append(MessageFormat.format("private static final TitanAlt_Status {0}_instance({1})\n", genName, fullParamaterList));
+		source.append(MessageFormat.format("public static final TitanAlt_Status {0}_instance({1})\n", genName, fullParamaterList));
 		source.append("{\n");
 		source.append(shadowObjects);
 		source.append(body);
@@ -774,7 +774,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		source.append("}\n\n");//closing for the _Default class
 
-		source.append(MessageFormat.format("private static final Default_Base activate_{0}({1}) '{'\n", genName, fullParamaterList));
+		source.append(MessageFormat.format("public static final Default_Base activate_{0}({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("return new {0}_Default({1});\n", genName, actualParameterList));
 		source.append("}\n\n");
 	}
