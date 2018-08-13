@@ -520,7 +520,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
 					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression);
-					source.append(')');
+					expression.expression.append(')');
 					canRepeat = true;
 					}
 					break;
