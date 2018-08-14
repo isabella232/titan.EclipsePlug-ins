@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
@@ -125,11 +126,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	private NamedBridgeScope bridgeScope = null;
 
 	/**
-	 * true, if and only if @lazy modifier is used before the definition
-	 * NOTE: currently there is no restriction of using @lazy modifier here,
-	 *       so no check is needed
+	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private boolean mIsLazy;
+	private param_eval_t eval;
 
 	public Def_Template( final TemplateRestriction.Restriction_type templateRestriction,
 			final Identifier identifier,
@@ -137,14 +136,14 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			final FormalParameterList formalParList,
 			final Reference derivedReference,
 			final TTCN3Template body,
-			final boolean aIsLazy ) {
+			final param_eval_t eval ) {
 		super(identifier);
 		this.templateRestriction = templateRestriction;
 		this.type = type;
 		this.formalParList = formalParList;
 		this.derivedReference = derivedReference;
 		this.body = body;
-		mIsLazy = aIsLazy;
+		this.eval = eval;
 
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_TEMPLATE_DEF, this);
@@ -875,10 +874,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	}
 
 	/**
-	 * @return true, if and only if @lazy modifier is used before the definition
+	 * @return how this template should be evaluated.
 	 */
-	public boolean isLazy() {
-		return mIsLazy;
+	public param_eval_t get_eval_type() {
+		return eval;
 	}
 
 	@Override

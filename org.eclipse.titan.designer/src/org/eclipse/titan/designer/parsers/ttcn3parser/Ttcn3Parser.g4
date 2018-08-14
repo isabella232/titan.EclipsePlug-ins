@@ -100,6 +100,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ErroneousAttributeSpecification.Indicator_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.*;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.statements.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
@@ -1967,11 +1968,11 @@ pr_TemplateDef returns[Def_Template def_template]
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
 	Template_definition_helper helper = new Template_definition_helper();
 	Reference derivedReference = null;
-	boolean isLazy = false;
+	param_eval_t eval = param_eval_t.NORMAL_EVAL;
 }:
 (	col = pr_TemplateKeyword
 	( t = pr_TemplateRestriction { templateRestriction = $t.templateRestriction; } )?
-	(	lf = pr_LazyOrFuzzyModifier { isLazy = $lf.isLazy; }	)?
+	lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
 	pr_BaseTemplate[helper]
 	( d = pr_DerivedDef { derivedReference = $d.reference; } )?
 	pr_AssignmentChar
@@ -1980,7 +1981,7 @@ pr_TemplateDef returns[Def_Template def_template]
 {
 	if(helper.identifier != null && helper.type != null && $b.template != null) {
 		$def_template = new Def_Template( templateRestriction, helper.identifier, helper.type, helper.formalParList,
-										  derivedReference, $b.template, isLazy );
+										  derivedReference, $b.template, eval );
 		$def_template.setLocation(getLocation( $col.start, $b.stop));
 		$def_template.setCommentLocation( getLastCommentLocation( $start ) );
 	}
@@ -4309,17 +4310,17 @@ pr_VarInstance returns[List<Definition> definitions]
 	$definitions = new ArrayList<Definition>();
 	List<Identifier> identifiers = null;
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
-	boolean isLazy = false;
+	param_eval_t eval = param_eval_t.NORMAL_EVAL;
 }:
 (	col = pr_VarKeyword
 	(	tr = pr_TemplateOptRestricted { templateRestriction = $tr.templateRestriction; }
-		(	lf = pr_LazyOrFuzzyModifier { isLazy = $lf.isLazy; }	)?
+		lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
 		t = pr_Type
 		pr_TempVarList[ $definitions, $t.type, templateRestriction ]
 	|
-		(	lf = pr_LazyOrFuzzyModifier { isLazy = $lf.isLazy; }	)?
+		lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
 		t2 = pr_Type
-		pr_VarList[ $definitions, $t2.type, isLazy ]
+		pr_VarList[ $definitions, $t2.type, eval ]
 	)
 )
 {
@@ -4375,14 +4376,14 @@ pr_SingleTempVarInstance [List<Definition> definitions, Type type, TemplateRestr
 };
 
 
-pr_VarList[List<Definition> definitions, Type type, boolean isLazy]:
-(	d = pr_SingleVarInstance[type, isLazy] { if($d.definition != null) { $definitions.add($d.definition); } }
+pr_VarList[List<Definition> definitions, Type type, param_eval_t eval]:
+(	d = pr_SingleVarInstance[type, eval] { if($d.definition != null) { $definitions.add($d.definition); } }
 	(	pr_Comma
-			d = pr_SingleVarInstance[type, isLazy] { if($d.definition != null) { $definitions.add($d.definition); } }
+			d = pr_SingleVarInstance[type, eval] { if($d.definition != null) { $definitions.add($d.definition); } }
 	)*
 );
 
-pr_SingleVarInstance[Type type, boolean isLazy] returns[Def_Var definition]
+pr_SingleVarInstance[Type type, param_eval_t eval] returns[Def_Var definition]
 @init {
 	$definition = null;
 	Value value = null;
@@ -4403,7 +4404,7 @@ pr_SingleVarInstance[Type type, boolean isLazy] returns[Def_Var definition]
 				type2.setLocation(getLocation( $d.start, $d.stop));
 			}
 		}
-		$definition = new Def_Var( $i.identifier, type2, value, $isLazy );
+		$definition = new Def_Var( $i.identifier, type2, value, $eval );
 		$definition.setLocation(getLocation( $start, getStopToken()));
 	}
 };
@@ -6222,15 +6223,15 @@ pr_FormalValuePar returns[FormalParameter parameter]
 @init {
 	$parameter = null;
 	Assignment_type assignmentType = Assignment_type.A_PAR_VAL;
-	boolean isLazy = false;
+	param_eval_t eval = param_eval_t.NORMAL_EVAL;
 	TemplateInstance default_value = null;
 }:
 (	(	IN { assignmentType = Assignment_type.A_PAR_VAL_IN; }
-		(	lf = pr_LazyOrFuzzyModifier { isLazy = $lf.isLazy; }	)?
+		lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
 	|	INOUT { assignmentType = Assignment_type.A_PAR_VAL_INOUT; }
 	|	OUT { assignmentType = Assignment_type.A_PAR_VAL_OUT; }
-	|	lf = pr_LazyOrFuzzyModifier { isLazy = $lf.isLazy; }
-	)?
+	|	lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
+	)
 	t = pr_Type
 	i = pr_Identifier
 	(   pr_AssignmentChar
@@ -6246,7 +6247,7 @@ pr_FormalValuePar returns[FormalParameter parameter]
 	)?
 )
 {
-	$parameter = new FormalParameter(TemplateRestriction.Restriction_type.TR_NONE, assignmentType, $t.type, $i.identifier, default_value, isLazy);
+	$parameter = new FormalParameter(TemplateRestriction.Restriction_type.TR_NONE, assignmentType, $t.type, $i.identifier, default_value, eval);
 	$parameter.setCommentLocation( getLastCommentLocation( $start ) );
 	$parameter.setLocation(getLocation( $start, getStopToken()));
 };
@@ -6266,7 +6267,7 @@ pr_FormalTimerPar returns[FormalParameter parameter]
 )
 {
 	$parameter = new FormalParameter( TemplateRestriction.Restriction_type.TR_NONE, Assignment_type.A_PAR_TIMER, null,
-		$i.identifier, default_value, false );
+		$i.identifier, default_value, param_eval_t.NORMAL_EVAL );
 	$parameter.setLocation(getLocation( startcol, getStopToken()));
 };
 
@@ -6276,7 +6277,7 @@ pr_FormalTemplatePar returns[FormalParameter parameter]
 	$parameter = null;
 	$assignmentType = Assignment_type.A_PAR_TEMP_IN;
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
-	boolean isLazy = false;
+	param_eval_t eval = param_eval_t.NORMAL_EVAL;
 	TemplateInstance default_value = null;
 }:
 (	(	IN { $assignmentType = Assignment_type.A_PAR_TEMP_IN; }
@@ -6284,9 +6285,7 @@ pr_FormalTemplatePar returns[FormalParameter parameter]
 	|	INOUT { $assignmentType = Assignment_type.A_PAR_TEMP_INOUT; }
 	)?
 	tr = pr_TemplateOptRestricted { templateRestriction = $tr.templateRestriction; }
-	(	{ $assignmentType == Assignment_type.A_PAR_TEMP_IN }?
-		lf = pr_LazyOrFuzzyModifier { isLazy = $lf.isLazy; }
-	)?
+	lf = pr_OptLazyOrFuzzyModifier { eval = $lf.eval; }
 	t = pr_Type
 	i = pr_Identifier
 	(   pr_AssignmentChar
@@ -6302,7 +6301,7 @@ pr_FormalTemplatePar returns[FormalParameter parameter]
 	)?
 )
 {
-	$parameter = new FormalParameter(templateRestriction, $assignmentType, $t.type, $i.identifier, default_value, isLazy);
+	$parameter = new FormalParameter(templateRestriction, $assignmentType, $t.type, $i.identifier, default_value, eval);
 	$parameter.setLocation(getLocation( $start, getStopToken()));
 };
 
@@ -8419,15 +8418,16 @@ pr_NoCaseModifier:
 	NOCASEKEYWORD
 ;
 
-pr_LazyOrFuzzyModifier returns[ boolean isLazy ]
+pr_OptLazyOrFuzzyModifier returns[ param_eval_t eval ]
 @init {
-	$isLazy = false;
+	$eval = param_eval_t.NORMAL_EVAL;
 }:
-(	LAZYKEYWORD	{ $isLazy = true; }
+(	LAZYKEYWORD	{ $eval = param_eval_t.LAZY_EVAL; }
 |	FUZZYKEYWORD
 		{
-			reportWarning( "Modifier `@fuzzy' is not yet supported.", $start, getStopToken() );
+			$eval = param_eval_t.FUZZY_EVAL;
 		}
+|	{ $eval = param_eval_t.NORMAL_EVAL; }
 )
 ;
 

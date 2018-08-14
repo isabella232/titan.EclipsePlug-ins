@@ -30,6 +30,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.IParameterisedAssignment;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Value_ActualParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.Function_Instance_Statement;
 import org.eclipse.titan.designer.AST.TTCN3.statements.If_Statement;
@@ -83,7 +84,7 @@ public class Lazy extends BaseModuleCodeSmellSpotter {
 		final Set<FormalParameter> shouldBeEvaluated = relevantNodeBuilder.collectRelevantReferences();
 
 		for (final FormalParameter formalParameter : formalParameterCollector.getItems()) {
-			final boolean isLazy = formalParameter.getIsLazy();
+			final boolean isLazy = formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL;
 
 			String message = null;
 

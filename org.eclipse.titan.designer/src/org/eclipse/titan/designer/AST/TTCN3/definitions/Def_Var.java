@@ -35,6 +35,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -70,17 +71,15 @@ public final class Def_Var extends Definition {
 	private boolean wasAssigned;
 
 	/**
-	 * true, if and only if @lazy modifier is used before the definition
-	 * NOTE: currently there is no restriction of using @lazy modifier here,
-	 *       so no check is needed
+	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private boolean mIsLazy;
+	private param_eval_t eval;
 
-	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final boolean aIsLazy ) {
+	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final param_eval_t eval ) {
 		super(identifier);
 		this.type = type;
 		this.initialValue = initialValue;
-		mIsLazy = aIsLazy;
+		this.eval = eval;
 
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_VAR_DEF, this);
@@ -462,10 +461,10 @@ public final class Def_Var extends Definition {
 	}
 
 	/**
-	 * @return true, if and only if @lazy modifier is used before the definition
+	 * @return how this variable should be evaluated.
 	 */
-	public boolean isLazy() {
-		return mIsLazy;
+	public param_eval_t get_eval_type() {
+		return eval;
 	}
 
 	@Override

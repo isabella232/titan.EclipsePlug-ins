@@ -24,6 +24,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.IParameterisedAssignment;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Value_ActualParameter;
@@ -70,7 +71,7 @@ class LazyChecker {
 		final Set<FormalParameter> shouldBeEvaluated = relevantNodeBuilder.collectRelevantReferences();
 
 		for (final FormalParameter formalParameter : formalParameterCollector.getItems()) {
-			if(!shouldBeEvaluated.contains(formalParameter) && !formalParameter.getIsLazy() ) {
+			if(!shouldBeEvaluated.contains(formalParameter) && formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL ) {
 				lazyParameterList.add(formalParameter);
 			}
 		}

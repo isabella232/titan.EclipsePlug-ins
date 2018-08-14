@@ -42,6 +42,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TTCN3Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedParameter;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedParameters;
@@ -408,11 +409,11 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 */
 	public final void checkNoLazyParams() {
 		for (int i = 0, size = parameters.size(); i < size; i++) {
-			if (parameters.get(i).getIsLazy()) {
-				final Location tempLocation = parameters.get(i).getLocation();
+			final FormalParameter formalParameter = parameters.get(i);
+			if (formalParameter.get_eval_type() != param_eval_t.NORMAL_EVAL) {
+				final Location tempLocation = formalParameter.getLocation();
 				tempLocation.reportSemanticError(MessageFormat.format(
-						"Formal parameter `{0}'' cannot be @lazy, not supported in this case.", parameters.get(i)
-						.getAssignmentName()));
+						"Formal parameter `{0}'' cannot be @{1}, not supported in this case.", formalParameter.getAssignmentName(), formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL? "lazy" : "fuzzy"));
 			}
 		}
 	}
@@ -477,17 +478,18 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				if (defaultValue != null && !defaultValue.getIsErroneous()) {
 					temp.setLocation(defaultValue.getLocation());
 				}
-				if(formalParameter.getIsLazy()) {
+
+				if(formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL) {
 					actualLazyParameters.addParameter(temp);
-				} else {
+				} else if(formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL) {
 					actualNonLazyParameters.addParameter(temp);
 				}
 			} else {
 				final ActualParameter actualParameter = formalParameter.checkActualParameter(timestamp, instance, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 				actualParameter.setLocation(instance.getLocation());
-				if(formalParameter.getIsLazy()) {
+				if(formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL) {
 					actualLazyParameters.addParameter(actualParameter);
-				} else {
+				} else if(formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL){
 					actualNonLazyParameters.addParameter(actualParameter);
 				}
 			}
@@ -500,9 +502,10 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 			if (defaultValue != null && !defaultValue.getIsErroneous()) {
 				temp.setLocation(defaultValue.getLocation());
 			}
-			if(formalParameter.getIsLazy()) {
+
+			if(formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL) {
 				actualLazyParameters.addParameter(temp);
-			} else {
+			} else if(formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL) {
 				actualNonLazyParameters.addParameter(temp);
 			}
 		}
@@ -914,8 +917,8 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				callSite.reportSemanticError(MessageFormat.format("The template restriction of the {0}th parameter is not the same: `{1}'' was expected instead of `{2}''", i, typeParameter.getTemplateRestriction().getDisplayName(), functionParameter.getTemplateRestriction().getDisplayName()));
 			}
 
-			if (typeParameter.getIsLazy() != functionParameter.getIsLazy()) {
-				callSite.reportSemanticError(MessageFormat.format("{0}th parameter @lazy-ness mismatch", i));
+			if (typeParameter.get_eval_type() != functionParameter.get_eval_type()) {
+				callSite.reportSemanticError(MessageFormat.format("{0}th parameter evaluation type (normal, @lazy or @fuzzy) mismatch", i));
 			}
 
 			if(!typeParameter.getIdentifier().equals(functionParameter.getIdentifier())) {

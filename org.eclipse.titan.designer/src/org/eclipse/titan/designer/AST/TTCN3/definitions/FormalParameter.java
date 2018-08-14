@@ -61,6 +61,12 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * */
 public final class FormalParameter extends Definition {
+	public static enum param_eval_t {
+		NORMAL_EVAL,
+		LAZY_EVAL,
+		FUZZY_EVAL
+	}
+
 	private static final String FULLNAMEPART1 = ".<type>";
 	private static final String FULLNAMEPART2 = ".<default_value>";
 	public static final String PORTTYPENOTALLOWEDAS = "Port type can not be used as {0}";
@@ -95,12 +101,12 @@ public final class FormalParameter extends Definition {
 	private boolean usedAsLValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private FormalParameterList myParameterList;
-	private boolean isLazy;
+	private param_eval_t eval;
 
 	private boolean wasAssigned;
 
 	public FormalParameter(final TemplateRestriction.Restriction_type templateRestriction, final Assignment_type assignmentType,
-			final Type type, final Identifier identifier, final TemplateInstance defaultValue, final boolean isLazy) {
+			final Type type, final Identifier identifier, final TemplateInstance defaultValue, final param_eval_t eval) {
 		super(identifier);
 		this.assignmentType = assignmentType;
 		realAssignmentType = assignmentType;
@@ -108,7 +114,7 @@ public final class FormalParameter extends Definition {
 		this.defaultValue = defaultValue;
 		usedAsLValue = false;
 		this.templateRestriction = templateRestriction;
-		this.isLazy = isLazy;
+		this.eval = eval;
 
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_FORMAL_PAR, this);
@@ -128,7 +134,7 @@ public final class FormalParameter extends Definition {
 		this.defaultValue = other.defaultValue;
 		usedAsLValue = false;
 		this.templateRestriction = other.templateRestriction;
-		this.isLazy = other.isLazy;
+		this.eval = other.eval;
 		this.myScope = other.myScope;
 		this.lastTimeChecked = other.lastTimeChecked;
 		this.location = other.location;
@@ -143,8 +149,11 @@ public final class FormalParameter extends Definition {
 		}
 	}
 
-	public boolean getIsLazy() {
-		return isLazy;
+	/**
+	 * @return how this formal parameter should be evaluated.
+	 */
+	public param_eval_t get_eval_type() {
+		return eval;
 	}
 
 	@Override
@@ -366,6 +375,10 @@ public final class FormalParameter extends Definition {
 
 		lastTimeChecked = timestamp;
 		usedAsLValue = false;
+
+		if (eval != param_eval_t.NORMAL_EVAL && (assignmentType == Assignment_type.A_PAR_TEMP_OUT || assignmentType == Assignment_type.A_PAR_TEMP_INOUT)) {
+			getLocation().reportSemanticError(MessageFormat.format("Only `in'' formal template parameters can have @{0} evaluation", eval == param_eval_t.LAZY_EVAL ? "lazy" : "fuzzy"));
+		}
 
 		if (type != null) {
 			type.check(timestamp);
@@ -1070,11 +1083,15 @@ public final class FormalParameter extends Definition {
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
+			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
 			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_TEMP_IN:
+			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
 			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));

@@ -32,6 +32,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.IParameterisedAssignment;
 import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
@@ -1049,7 +1050,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 			if (formalParameterList != null) {
 				for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
-					if (formalParameterList.getParameterByIndex(i).getIsLazy()) {
+					if (formalParameterList.getParameterByIndex(i).get_eval_type() != param_eval_t.NORMAL_EVAL) {
 						return false;
 					}
 				}

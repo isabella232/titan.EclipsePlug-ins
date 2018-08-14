@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock.ReturnStatus_type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CharString_Type;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -59,7 +60,7 @@ public class TryCatch_Statement extends Statement {
 		catchSurroundingBlock.setLocation(exceptionIdentifier.getLocation());
 		final Type strType = new CharString_Type();
 		strType.setLocation(exceptionIdentifier.getLocation());
-		final Def_Var strDefinition = new Def_Var( exceptionIdentifier, strType, null, false );
+		final Def_Var strDefinition = new Def_Var( exceptionIdentifier, strType, null, param_eval_t.NORMAL_EVAL );
 		strDefinition.setLocation(exceptionIdentifier.getLocation());
 		final Statement strStatement = new Definition_Statement(strDefinition);
 		strStatement.setLocation(exceptionIdentifier.getLocation());
