@@ -766,7 +766,6 @@ public final class StatementBlock extends TTCN3Scope implements ILocateableNode,
 		}
 
 		if (Assignment_type.A_TESTCASE.semanticallyEquals(myDefinition.getAssignmentType())) {
-
 			final Def_Testcase testcase = (Def_Testcase) myDefinition;
 			if (isSystem) {
 				final Component_Type type = testcase.getSystemType(timestamp);
