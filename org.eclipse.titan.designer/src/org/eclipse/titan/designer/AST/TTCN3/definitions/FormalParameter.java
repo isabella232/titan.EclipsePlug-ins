@@ -1042,6 +1042,8 @@ public final class FormalParameter extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		//TODO: add lazy-fuzzy support
+		source.append("final ");
+
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
@@ -1083,18 +1085,18 @@ public final class FormalParameter extends Definition {
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
-			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
-			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_TEMP_IN:
-			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
-			source.append(MessageFormat.format("{0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_TIMER:
 			aData.addBuiltinTypeImport("TitanTimer");
