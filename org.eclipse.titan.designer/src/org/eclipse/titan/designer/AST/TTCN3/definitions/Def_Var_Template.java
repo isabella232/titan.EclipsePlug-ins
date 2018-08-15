@@ -542,9 +542,9 @@ public final class Def_Var_Template extends Definition {
 		}
 
 		if (initialValue != null && initialValue.hasSingleExpression()) {
-			source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.getSingleExpression(aData, false)));
+			source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", typeGeneratedName, genName, initialValue.getSingleExpression(aData, false)));
 		} else {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			source.append(MessageFormat.format("final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 			if ( initialValue != null ) {
 				initialValue.generateCodeInit( aData, source, genName );
 				if (templateRestriction != Restriction_type.TR_NONE && generateRestrictionCheck) {

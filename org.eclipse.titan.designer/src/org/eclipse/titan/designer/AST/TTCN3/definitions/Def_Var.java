@@ -530,12 +530,12 @@ public final class Def_Var extends Definition {
 			if (initialValue.returnsNative() || initialValue.getValuetype() == Value_type.REFERENCED_VALUE
 					|| initialValue.getValuetype() == Value_type.UNDEFINED_LOWERIDENTIFIER_VALUE
 					|| type.getTypetypeTtcn3() != initialValue.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE)) {
-				source.append(MessageFormat.format("{0} {1} = new {0}({2});\n", typeGeneratedName, genName, expression.expression));
+				source.append(MessageFormat.format("final {0} {1} = new {0}({2});\n", typeGeneratedName, genName, expression.expression));
 			} else {
-				source.append(MessageFormat.format("{0} {1} = {2};\n", typeGeneratedName, genName, expression.expression));
+				source.append(MessageFormat.format("final {0} {1} = {2};\n", typeGeneratedName, genName, expression.expression));
 			}
 		} else {
-			source.append(MessageFormat.format("{0} {1} = new {0}();\n", typeGeneratedName, genName));
+			source.append(MessageFormat.format("final {0} {1} = new {0}();\n", typeGeneratedName, genName));
 			if (initialValue != null) {
 				initialValue.generateCodeInit(aData, source, genName );
 			}
