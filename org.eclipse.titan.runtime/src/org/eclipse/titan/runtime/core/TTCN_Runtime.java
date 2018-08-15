@@ -321,7 +321,6 @@ public final class TTCN_Runtime {
 				TTCN_Logger.log_setstate(port.get().get_name(), realState, new TitanCharString(info));
 			}
 		} else {
-			translation_count.set(translation_count.get().intValue() - 1);
 			throw new TtcnError("setstate operation was called without being in a translation procedure.");
 		}
 	}
