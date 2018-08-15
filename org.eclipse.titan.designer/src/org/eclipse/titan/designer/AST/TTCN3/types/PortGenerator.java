@@ -382,6 +382,7 @@ public class PortGenerator {
 		}
 
 		if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
+			aData.addBuiltinTypeImport("TitanPort");
 			source.append("public void add_port(final TitanPort port) {\n");
 			for (int i = 0; i < portDefinition.providerMessageOutList.size(); i++) {
 				final String name = portDefinition.providerMessageOutList.get(i).name;
@@ -449,6 +450,7 @@ public class PortGenerator {
 
 		// Port type variables in the provider types.
 		if (portDefinition.mapperNames != null) {
+			aData.addBuiltinTypeImport("TitanPort");
 			source.append("public void add_port(final TitanPort port) {\n");
 			for (int i = 0; i < portDefinition.mapperNames.size(); i++) {
 				final String name = portDefinition.mapperNames.get(i);
