@@ -774,6 +774,7 @@ public final class ReplaceExpression extends Expression_Value {
 		final IValue lastValue2 = value2.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 		final IValue lastValue3 = value3.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE, null);
 
+		final boolean isValue = templateInstance1.getDerivedReference() == null && templateInstance1.getTemplateBody().isValue(CompilationTimeStamp.getBaseTimestamp());
 		// TODO handle the needs conversion case
 		final Type_type expressionType = templateInstance1.getExpressionReturntype(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 		switch (expressionType) {
@@ -785,7 +786,12 @@ public final class ReplaceExpression extends Expression_Value {
 			aData.addCommonLibraryImport("AdditionalFunctions");
 
 			expression.expression.append("AdditionalFunctions.replace( ");
-			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			if (isValue) {
+				final IValue value1 = ((SpecificValue_Template) templateInstance1.getTemplateBody()).getValue();
+				value1.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			}
 			expression.expression.append(", ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
 				lastValue2.generateCodeExpressionMandatory(aData, expression, true);
@@ -801,13 +807,22 @@ public final class ReplaceExpression extends Expression_Value {
 				expression.expression.append(tempNative);
 			}
 			expression.expression.append(", ");
-			templateInstance4.generateCode(aData, expression, Restriction_type.TR_NONE);
+			if (isValue) {
+				final IValue value4 = ((SpecificValue_Template) templateInstance4.getTemplateBody()).getValue();
+				value4.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance4.generateCode(aData, expression, Restriction_type.TR_NONE);
+			}
 			expression.expression.append(')');
 			break;
 		case TYPE_SEQUENCE_OF:
 		case TYPE_SET_OF:
-			// TODO: need to test
-			templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			if (isValue) {
+				final IValue value1 = ((SpecificValue_Template) templateInstance1.getTemplateBody()).getValue();
+				value1.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance1.generateCode(aData, expression, Restriction_type.TR_NONE);
+			}
 			expression.expression.append(".replace( ");
 			if (lastValue2.isUnfoldable(CompilationTimeStamp.getBaseTimestamp()) || !((Integer_Value) lastValue2).isNative()) {
 				lastValue2.generateCodeExpressionMandatory(aData, expression, true);
@@ -823,7 +838,12 @@ public final class ReplaceExpression extends Expression_Value {
 				expression.expression.append(tempNative);
 			}
 			expression.expression.append(", ");
-			templateInstance4.generateCode(aData, expression, Restriction_type.TR_NONE);
+			if (isValue) {
+				final IValue value4 = ((SpecificValue_Template) templateInstance4.getTemplateBody()).getValue();
+				value4.generateCodeExpressionMandatory(aData, expression, true);
+			} else {
+				templateInstance4.generateCode(aData, expression, Restriction_type.TR_NONE);
+			}
 			expression.expression.append(')');
 			break;
 		default:
