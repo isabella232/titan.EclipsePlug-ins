@@ -249,7 +249,7 @@ public class TryCatch_Statement extends Statement {
 		source.append(MessageFormat.format("'}' catch(final TtcnError {0}) '{'\n", tempId));
 		catchSurroundingBlock.generateCode(aData, source);
 
-		source.append(MessageFormat.format("{0} = new TitanCharString({1}.get_message());\n", exceptionIdentifier.getName(), tempId));
+		source.append(MessageFormat.format("{0}.assign({1}.get_message());\n", exceptionIdentifier.getName(), tempId));
 		catchBlock.generateCode(aData, source);
 		source.append("}\n");
 		source.append("finally {\n");
