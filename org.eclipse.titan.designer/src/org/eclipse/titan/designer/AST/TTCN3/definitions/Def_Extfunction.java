@@ -1013,7 +1013,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 
 			source.append( "final TitanOctetString tmp_os = new TitanOctetString();\n" );
 			source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-			source.append( MessageFormat.format("{0} = AdditionalFunctions.oct2bit(tmp_os);\n", resultName));
+			source.append( MessageFormat.format("{0}.assign(AdditionalFunctions.oct2bit(tmp_os));\n", resultName));
 		} else {
 			source.append( MessageFormat.format("ttcn_buffer.get_string({0});\n", resultName));
 		}
@@ -1147,7 +1147,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 			if (inputType.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp()).getTypetypeTtcn3() == Type_type.TYPE_BITSTRING) {
 				source.append( "TitanOctetString tmp_os = new TitanOctetString();\n" );
 				source.append( "ttcn_buffer.get_string(tmp_os);\n" );
-				source.append(MessageFormat.format( "{0} = AdditionalFunctions.oct2bit(tmp_os);\n", firstParName) );
+				source.append(MessageFormat.format( "{0}.assign(AdditionalFunctions.oct2bit(tmp_os));\n", firstParName) );
 			} else {
 				source.append(MessageFormat.format( "ttcn_buffer.get_string({0});\n", firstParName) );
 			}
