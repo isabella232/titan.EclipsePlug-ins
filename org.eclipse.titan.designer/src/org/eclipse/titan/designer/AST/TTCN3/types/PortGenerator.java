@@ -869,6 +869,10 @@ public class PortGenerator {
 			}
 			source.append("}\n");
 
+			if (portDefinition.has_sliding) {
+				source.append("TitanOctetString sliding_buffer;\n");
+			}
+			
 			source.append("private LinkedList<Message_queue_item> message_queue = new LinkedList<Message_queue_item>();\n\n");
 
 			source.append("private void remove_msg_queue_head() {\n");
@@ -950,10 +954,12 @@ public class PortGenerator {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("{0} sender_address;\n", portDefinition.addressName));
 			}
+			source.append("}\n");
+			
 			if (portDefinition.has_sliding) {
 				source.append("TitanOctetString sliding_buffer;\n");
 			}
-			source.append("}\n");
+			
 			source.append("private LinkedList<Procedure_queue_item> procedure_queue = new LinkedList<Procedure_queue_item>();\n");
 			source.append("private void remove_proc_queue_head() {\n");
 			source.append("procedure_queue.removeFirst();\n");
@@ -1108,7 +1114,11 @@ public class PortGenerator {
 				source.append("// out mapping with a built-in encoder\n");
 				source.append(target.encdecErrorBehaviour);
 				source.append("final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
-				source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				if (target.encdecEncodingOptions == null)  {
+					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+				} else {
+					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				}
 				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 				source.append("ttcn_buffer.get_string(mapped_par);\n");
 				break;
@@ -1123,9 +1133,13 @@ public class PortGenerator {
 					hasBuffer = true;
 				}
 				source.append(target.encdecErrorBehaviour);
-				source.append("TTCN_EncDec.clear_Error();\n");
+				source.append("TTCN_EncDec.clear_error();\n");
 				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-				source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				if (target.encdecEncodingOptions == null) {
+					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+				} else {
+					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				}
 				source.append("if (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
 				hasCondition = true;
 				break;
@@ -1744,10 +1758,10 @@ public class PortGenerator {
 					}
 					break;
 				case SLIDING:
-					source.append("slider = slider.concatenate(incoming_par);\n");
+					source.append("slider.assign(slider.concatenate(incoming_par));\n");
 					source.append("for (;;) {\n");
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par);\n", target.functionName));
+					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).getInt();\n", target.functionName));
 					source.append("if (decoding_result == 0) {\n");
 					hasCondition = true;
 					break;
@@ -1768,7 +1782,11 @@ public class PortGenerator {
 				source.append("// in mapping with a built-in encoder\n");
 				source.append(target.encdecErrorBehaviour);
 				source.append("final TTCN_Buffer ttcn_buffer = new TTCN_Buffer();\n");
-				source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				if (target.encdecEncodingOptions == null) {
+					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+				} else {
+					source.append(MessageFormat.format("send_par.encode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				}
 				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 				source.append("ttcn_buffer.get_string(mapped_par);\n");
 				break;
@@ -1783,9 +1801,13 @@ public class PortGenerator {
 					hasBuffer = true;
 				}
 				source.append(target.encdecErrorBehaviour);
-				source.append("TTCN_EncDec.clear_Error();\n");
+				source.append("TTCN_EncDec.clear_error();\n");
 				source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
-				source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				if (target.encdecEncodingOptions == null) {
+					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, 0);\n", target.encdecTypedesriptorName, target.encdecEncodingType));
+				} else {
+					source.append(MessageFormat.format("mapped_par.decode({0}_descr_, ttcn_buffer, TTCN_EncDec.coding_type.CT_{1}, {2});\n", target.encdecTypedesriptorName, target.encdecEncodingType, target.encdecEncodingOptions));
+				}
 				source.append("if (TTCN_EncDec.get_last_error_type() == TTCN_EncDec.error_type.ET_NONE) {\n");
 				hasCondition = true;
 				break;
