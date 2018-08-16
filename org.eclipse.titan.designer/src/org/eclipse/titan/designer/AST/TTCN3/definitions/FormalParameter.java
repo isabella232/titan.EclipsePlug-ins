@@ -61,7 +61,7 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * @author Kristof Szabados
  * */
 public final class FormalParameter extends Definition {
-	public static enum param_eval_t {
+	public static enum parameterEvaluationType {
 		NORMAL_EVAL,
 		LAZY_EVAL,
 		FUZZY_EVAL
@@ -101,12 +101,12 @@ public final class FormalParameter extends Definition {
 	private boolean usedAsLValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private FormalParameterList myParameterList;
-	private param_eval_t eval;
+	private parameterEvaluationType evaluationType;
 
 	private boolean wasAssigned;
 
 	public FormalParameter(final TemplateRestriction.Restriction_type templateRestriction, final Assignment_type assignmentType,
-			final Type type, final Identifier identifier, final TemplateInstance defaultValue, final param_eval_t eval) {
+			final Type type, final Identifier identifier, final TemplateInstance defaultValue, final parameterEvaluationType evaluationType) {
 		super(identifier);
 		this.assignmentType = assignmentType;
 		realAssignmentType = assignmentType;
@@ -114,7 +114,7 @@ public final class FormalParameter extends Definition {
 		this.defaultValue = defaultValue;
 		usedAsLValue = false;
 		this.templateRestriction = templateRestriction;
-		this.eval = eval;
+		this.evaluationType = evaluationType;
 
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_FORMAL_PAR, this);
@@ -134,7 +134,7 @@ public final class FormalParameter extends Definition {
 		this.defaultValue = other.defaultValue;
 		usedAsLValue = false;
 		this.templateRestriction = other.templateRestriction;
-		this.eval = other.eval;
+		this.evaluationType = other.evaluationType;
 		this.myScope = other.myScope;
 		this.lastTimeChecked = other.lastTimeChecked;
 		this.location = other.location;
@@ -152,8 +152,8 @@ public final class FormalParameter extends Definition {
 	/**
 	 * @return how this formal parameter should be evaluated.
 	 */
-	public param_eval_t get_eval_type() {
-		return eval;
+	public parameterEvaluationType getEvaluationType() {
+		return evaluationType;
 	}
 
 	@Override
@@ -321,6 +321,13 @@ public final class FormalParameter extends Definition {
 	}
 
 	/**
+	 * @return true if the formal parameter is used as an l-value.
+	 * */
+	public boolean getUsedAsLvalue() {
+		return usedAsLValue;
+	}
+
+	/**
 	 * Checks whether the value of the parameter may be modified in the body
 	 * of the parameterized definition (in assignment, port redirect or
 	 * passing it further as 'out' or 'inout' parameter). Meaningful only
@@ -347,8 +354,9 @@ public final class FormalParameter extends Definition {
 								"Parameter `{0}'' of the template cannot be passed further as `out'' or `inout'' parameter",
 								identifier.getDisplayName()));
 			} else {
-				//TODO only in normal evaluation
-				setGenName(identifier.getName() + "_shadow");
+				if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+					setGenName(identifier.getName() + "_shadow");
+				}
 				usedAsLValue = true;
 			}
 		}
@@ -376,8 +384,8 @@ public final class FormalParameter extends Definition {
 		lastTimeChecked = timestamp;
 		usedAsLValue = false;
 
-		if (eval != param_eval_t.NORMAL_EVAL && (assignmentType == Assignment_type.A_PAR_TEMP_OUT || assignmentType == Assignment_type.A_PAR_TEMP_INOUT)) {
-			getLocation().reportSemanticError(MessageFormat.format("Only `in'' formal template parameters can have @{0} evaluation", eval == param_eval_t.LAZY_EVAL ? "lazy" : "fuzzy"));
+		if (evaluationType != parameterEvaluationType.NORMAL_EVAL && (assignmentType == Assignment_type.A_PAR_TEMP_OUT || assignmentType == Assignment_type.A_PAR_TEMP_INOUT)) {
+			getLocation().reportSemanticError(MessageFormat.format("Only `in'' formal template parameters can have @{0} evaluation", evaluationType == parameterEvaluationType.LAZY_EVAL ? "lazy" : "fuzzy"));
 		}
 
 		if (type != null) {
@@ -1041,17 +1049,30 @@ public final class FormalParameter extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
-		//TODO: add lazy-fuzzy support
 		source.append("final ");
 
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
+			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+				source.append( type.getGenNameValue( aData, source, getMyScope() ) );
+			} else {
+				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
+				source.append(MessageFormat.format("Lazy_Fuzzy_ValueExpr<{0}>", type.getGenNameValue(aData, aData.getSrc(), getMyScope())));
+			}
+			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
 			source.append( type.getGenNameValue( aData, source, getMyScope() ) );
 			break;
 		case A_PAR_TEMP_IN:
+			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+				source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
+			} else {
+				aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
+				source.append(MessageFormat.format("Lazy_Fuzzy_TemplateExpr<{0}>", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope())));
+			}
+			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
 			source.append( type.getGenNameTemplate( aData, source, getMyScope() ) );
@@ -1079,20 +1100,38 @@ public final class FormalParameter extends Definition {
 	 * @param @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param prefix the prefix to be used before the parameter names.
+	 * @param generateInitialized also call the constructor for fuzzy and lazy parameters.
 	 */
-	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix) {
-		//TODO: add lazy-fuzzy support
+	public void generateCodeObject(final JavaGenData aData, final StringBuilder source, final String prefix, final boolean generateInitialized) {
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
-			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			} else {
+				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
+				if (generateInitialized) {
+					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2} = new final Lazy_Fuzzy_ValueExpr<{0}>({3});\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
+				} else {
+					source.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}{2};\n", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), prefix, getIdentifier().getName()));
+				}
+			}
 			break;
 		case A_PAR_VAL_INOUT:
 		case A_PAR_VAL_OUT:
 			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameValue( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
 			break;
 		case A_PAR_TEMP_IN:
-			source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+				source.append(MessageFormat.format("final {0} {1}{2} = new {0}();\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+			} else {
+				aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
+				if (generateInitialized) {
+					source.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}{2} = new Lazy_Fuzzy_TemplateExpr<{0}>({3});\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName(), evaluationType == parameterEvaluationType.LAZY_EVAL ? "false" : "true"));
+				} else {
+					source.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}{2};\n", type.getGenNameTemplate( aData, source, getMyScope() ), prefix, getIdentifier().getName()));
+				}
+			}
 			break;
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
@@ -1177,16 +1216,28 @@ public final class FormalParameter extends Definition {
 		switch (assignmentType) {
 		case A_PAR_VAL:
 		case A_PAR_VAL_IN:
+			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+				result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), identifier.getName()));
+			} else {
+				aData.addBuiltinTypeImport("Lazy_Fuzzy_ValueExpr");
+				result.append(MessageFormat.format("final Lazy_Fuzzy_ValueExpr<{0}> {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), identifier.getName()));
+			}
+			break;
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT:
 		case A_PAR_PORT:
-			//TODO: add lazy-fuzzy support
 			result.append(MessageFormat.format("final {0} {1}", type.getGenNameValue(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TEMP_IN:
+			if (evaluationType == parameterEvaluationType.NORMAL_EVAL) {
+				result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
+			} else {
+				aData.addBuiltinTypeImport("Lazy_Fuzzy_TemplateExpr");
+				result.append(MessageFormat.format("final Lazy_Fuzzy_TemplateExpr<{0}> {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
+			}
+			break;
 		case A_PAR_TEMP_OUT:
 		case A_PAR_TEMP_INOUT:
-			//TODO: add lazy-fuzzy support
 			result.append(MessageFormat.format("final {0} {1}", type.getGenNameTemplate(aData, aData.getSrc(), getMyScope()), identifier.getName()));
 			break;
 		case A_PAR_TIMER:

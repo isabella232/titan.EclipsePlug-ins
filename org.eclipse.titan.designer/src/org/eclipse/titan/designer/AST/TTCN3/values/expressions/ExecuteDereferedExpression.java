@@ -334,12 +334,12 @@ public final class ExecuteDereferedExpression extends Expression_Value {
 			// the referred testcase is known
 			final Def_Testcase testcase = ((Testcase_Reference_Value)last).getReferredTestcase();
 			expression.expression.append(MessageFormat.format("{0}(", testcase.getGenNameFromScope(aData, expression.expression, myScope, "testcase_")));
-			actualParameters.generateCodeAlias(aData, expression);
+			actualParameters.generateCodeAlias(aData, expression, null);
 		} else {
 			// the referred testcase is unknown
 			value.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append(".execute(");
-			actualParameters.generateCodeAlias(aData, expression);
+			actualParameters.generateCodeAlias(aData, expression, null);
 		}
 
 		if (actualParameters.getNofParameters() > 0) {

@@ -27,6 +27,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuard;
 import org.eclipse.titan.designer.AST.TTCN3.statements.AltGuards;
 import org.eclipse.titan.designer.AST.TTCN3.statements.StatementBlock;
@@ -744,7 +745,7 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 		for (int i = 0 ; i < formalParList.getNofParameters(); i++ ) {
 			final FormalParameter formalParameter = formalParList.getParameterByIndex(i);
 			source.append("private ");
-			formalParameter.generateCodeObject(aData, source, "par_");
+			formalParameter.generateCodeObject(aData, source, "par_", false);
 		}
 		source.append(MessageFormat.format("public {0}_Default({1}) '{'\n", genName, fullParamaterList));
 		source.append(MessageFormat.format("super(\"{0}\");\n", identifier.getDisplayName()));
@@ -759,6 +760,15 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 			case A_PAR_TEMP_OUT:
 			case A_PAR_PORT:
 				source.append(MessageFormat.format("par_{0} = {0};\n", FormalParName));
+				break;
+			case A_PAR_VAL:
+			case A_PAR_VAL_IN:
+			case A_PAR_TEMP_IN:
+				if (formalParameter.getEvaluationType() == parameterEvaluationType.NORMAL_EVAL) {
+					source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));
+				} else {
+					source.append(MessageFormat.format("par_{0} = {0};\n", FormalParName));
+				}
 				break;
 			default:
 				source.append(MessageFormat.format("par_{0}.assign({0});\n", FormalParName));

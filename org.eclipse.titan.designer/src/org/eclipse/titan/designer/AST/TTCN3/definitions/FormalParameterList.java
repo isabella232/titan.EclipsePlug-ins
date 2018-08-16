@@ -42,7 +42,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.AST.TTCN3.TTCN3Scope;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template.Template_type;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedParameter;
 import org.eclipse.titan.designer.AST.TTCN3.templates.NamedParameters;
@@ -410,10 +410,10 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	public final void checkNoLazyParams() {
 		for (int i = 0, size = parameters.size(); i < size; i++) {
 			final FormalParameter formalParameter = parameters.get(i);
-			if (formalParameter.get_eval_type() != param_eval_t.NORMAL_EVAL) {
+			if (formalParameter.getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
 				final Location tempLocation = formalParameter.getLocation();
 				tempLocation.reportSemanticError(MessageFormat.format(
-						"Formal parameter `{0}'' cannot be @{1}, not supported in this case.", formalParameter.getAssignmentName(), formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL? "lazy" : "fuzzy"));
+						"Formal parameter `{0}'' cannot be @{1}, not supported in this case.", formalParameter.getAssignmentName(), formalParameter.getEvaluationType() == parameterEvaluationType.LAZY_EVAL? "lazy" : "fuzzy"));
 			}
 		}
 	}
@@ -479,17 +479,17 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 					temp.setLocation(defaultValue.getLocation());
 				}
 
-				if(formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL) {
+				if(formalParameter.getEvaluationType() == parameterEvaluationType.LAZY_EVAL) {
 					actualLazyParameters.addParameter(temp);
-				} else if(formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL) {
+				} else if(formalParameter.getEvaluationType() == parameterEvaluationType.NORMAL_EVAL) {
 					actualNonLazyParameters.addParameter(temp);
 				}
 			} else {
 				final ActualParameter actualParameter = formalParameter.checkActualParameter(timestamp, instance, Expected_Value_type.EXPECTED_DYNAMIC_VALUE);
 				actualParameter.setLocation(instance.getLocation());
-				if(formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL) {
+				if(formalParameter.getEvaluationType() == parameterEvaluationType.LAZY_EVAL) {
 					actualLazyParameters.addParameter(actualParameter);
-				} else if(formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL){
+				} else if(formalParameter.getEvaluationType() == parameterEvaluationType.NORMAL_EVAL){
 					actualNonLazyParameters.addParameter(actualParameter);
 				}
 			}
@@ -503,9 +503,9 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				temp.setLocation(defaultValue.getLocation());
 			}
 
-			if(formalParameter.get_eval_type() == param_eval_t.LAZY_EVAL) {
+			if(formalParameter.getEvaluationType() == parameterEvaluationType.LAZY_EVAL) {
 				actualLazyParameters.addParameter(temp);
-			} else if(formalParameter.get_eval_type() == param_eval_t.NORMAL_EVAL) {
+			} else if(formalParameter.getEvaluationType() == parameterEvaluationType.NORMAL_EVAL) {
 				actualNonLazyParameters.addParameter(temp);
 			}
 		}
@@ -917,7 +917,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 				callSite.reportSemanticError(MessageFormat.format("The template restriction of the {0}th parameter is not the same: `{1}'' was expected instead of `{2}''", i, typeParameter.getTemplateRestriction().getDisplayName(), functionParameter.getTemplateRestriction().getDisplayName()));
 			}
 
-			if (typeParameter.get_eval_type() != functionParameter.get_eval_type()) {
+			if (typeParameter.getEvaluationType() != functionParameter.getEvaluationType()) {
 				callSite.reportSemanticError(MessageFormat.format("{0}th parameter evaluation type (normal, @lazy or @fuzzy) mismatch", i));
 			}
 

@@ -209,7 +209,7 @@ public final class Activate_Referenced_Statement extends Statement {
 
 			expression.expression.append(MessageFormat.format("activate_{0}(", definition.getGenNameFromScope(aData, source, myScope, "")));
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
-				actualParameterList2.generateCodeAlias(aData, expression);
+				actualParameterList2.generateCodeAlias(aData, expression, definition.getFormalParameterList());
 			}
 			expression.expression.append(')');
 			expression.mergeExpression(source);
@@ -220,7 +220,7 @@ public final class Activate_Referenced_Statement extends Statement {
 		expression.expression.append(".activate(");
 
 		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
-			actualParameterList2.generateCodeAlias(aData, expression);
+			actualParameterList2.generateCodeAlias(aData, expression, null);
 		}
 
 		expression.expression.append(')');

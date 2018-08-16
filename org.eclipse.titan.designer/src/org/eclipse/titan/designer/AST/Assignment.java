@@ -12,7 +12,9 @@ import java.text.MessageFormat;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Group;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.declarationsearch.Declaration;
 import org.eclipse.titan.designer.editors.ProposalCollector;
@@ -352,7 +354,19 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 		}
 
 		returnValue.append(getGenName());
-		//TODO add support for not normal formal parameter evaluations
+		switch (getAssignmentType()) {
+		case A_PAR_VAL:
+		case A_PAR_VAL_IN:
+		case A_PAR_TEMP_IN: {
+			final FormalParameter formalParameter = (FormalParameter) this;
+			if (formalParameter.getEvaluationType() != parameterEvaluationType.NORMAL_EVAL && prefix == null) {
+				returnValue.append(".evaluate()");
+			}
+			break;
+		}
+		default:
+			break;
+		}
 
 		return returnValue.toString();
 	}

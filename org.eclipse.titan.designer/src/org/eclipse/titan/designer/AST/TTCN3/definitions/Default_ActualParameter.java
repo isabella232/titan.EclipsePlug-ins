@@ -91,10 +91,10 @@ public final class Default_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
 		//TODO needs specialized code generation at this point
 		if (defaultActualParameter != null) {
-			defaultActualParameter.generateCode(aData, expression);
+			defaultActualParameter.generateCode(aData, expression, formalParameter);
 		}
 	}
 

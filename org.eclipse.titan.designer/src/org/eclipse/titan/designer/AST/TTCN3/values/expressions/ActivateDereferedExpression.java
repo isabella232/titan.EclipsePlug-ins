@@ -291,7 +291,7 @@ public final class ActivateDereferedExpression extends Expression_Value {
 			expression.expression.append(".activate(");
 		}
 
-		actualParameters.generateCodeAlias(aData, expression);
+		actualParameters.generateCodeAlias(aData, expression, null);
 		expression.expression.append(')');
 	}
 }

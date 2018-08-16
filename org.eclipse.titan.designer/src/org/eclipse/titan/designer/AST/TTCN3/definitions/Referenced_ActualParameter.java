@@ -101,7 +101,7 @@ public final class Referenced_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression ) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
 		if (reference != null) {
 			// TODO implement properly
 			reference.generateCode(aData, expression);

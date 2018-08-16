@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Altstep;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -144,7 +145,7 @@ public final class Activate_Statement extends Statement {
 		if (!reference.getSubreferences().isEmpty()) {
 			final ISubReference subReference = reference.getSubreferences().get(0);
 			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
-				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
+				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression, ((Def_Altstep)assignment).getFormalParameterList());
 			}
 		}
 		expression.expression.append(')');

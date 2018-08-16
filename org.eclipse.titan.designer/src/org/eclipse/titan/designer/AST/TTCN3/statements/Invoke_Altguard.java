@@ -339,13 +339,13 @@ public final class Invoke_Altguard extends AltGuard {
 			final Def_Altstep altstep = ((Altstep_Reference_Value)last).getReferredAltstep();
 
 			expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, expression.expression, myScope, "")));
-			actualParameterList.generateCodeAlias(aData, expression);
+			actualParameterList.generateCodeAlias(aData, expression, altstep.getFormalParameterList());
 		} else {
 			value.generateCodeExpressionMandatory(aData, expression, true);
 			expression.expression.append(".invoke(");
 			IType governor = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 			governor = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			actualParameterList.generateCodeAlias(aData, expression);
+			actualParameterList.generateCodeAlias(aData, expression, null);
 		}
 		expression.expression.append(')');
 	}

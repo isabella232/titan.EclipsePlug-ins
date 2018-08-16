@@ -181,7 +181,7 @@ public final class ParameterisedSubReference extends ASTNode implements ISubRefe
 	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final boolean isFirst) {
 		expression.expression.append( identifier.getName() );
 		expression.expression.append( "(" );
-		actualParameters.generateCodeAlias( aData, expression );
+		actualParameters.generateCodeAlias( aData, expression, null );
 		expression.expression.append( ")" );
 	}
 }

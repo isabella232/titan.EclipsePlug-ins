@@ -8,6 +8,7 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Function;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.LazyFuzzyParamData;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -147,7 +148,7 @@ public class PortReference extends Reference {
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
 			expression.expression.append("( ");
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
-			temp.getActualParameters().generateCodeAlias(aData, expression);
+			temp.getActualParameters().generateCodeAlias(aData, expression, formalParameterList);
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
 			//the reference does not have an actual parameter list, but the assignment has
@@ -158,14 +159,18 @@ public class PortReference extends Reference {
 				if (i > 0){
 					expression.expression.append(", ");
 				}
-				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression);
+				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression, formalParameterList.getParameterByIndex(i));
 			}
 
 			//temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
-			//TODO add fuzzy handling
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
+			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, forcedScope));
+			} else {
+				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
+			}
+			//expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, forcedScope, null));
 		}
 
 		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {

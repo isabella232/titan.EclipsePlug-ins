@@ -35,7 +35,7 @@ import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.MultipleWithAttributes;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.WithAttributesPath;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -73,13 +73,13 @@ public final class Def_Var extends Definition {
 	/**
 	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private param_eval_t eval;
+	private parameterEvaluationType evaluationType;
 
-	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final param_eval_t eval ) {
+	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final parameterEvaluationType evaluationType ) {
 		super(identifier);
 		this.type = type;
 		this.initialValue = initialValue;
-		this.eval = eval;
+		this.evaluationType = evaluationType;
 
 		if (type != null) {
 			type.setOwnertype(TypeOwner_type.OT_VAR_DEF, this);
@@ -463,8 +463,8 @@ public final class Def_Var extends Definition {
 	/**
 	 * @return how this variable should be evaluated.
 	 */
-	public param_eval_t get_eval_type() {
-		return eval;
+	public parameterEvaluationType get_eval_type() {
+		return evaluationType;
 	}
 
 	@Override

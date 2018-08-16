@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction;
 import org.eclipse.titan.designer.AST.TTCN3.TemplateRestriction.Restriction_type;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -155,35 +156,44 @@ public final class Template_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
 		//TODO not complete implementation pl. copye_needed missing
 		if (template != null ) {
-			final StringBuilder expressionExpression = new StringBuilder();
-			final ExpressionStruct tempExpression = new ExpressionStruct();
-			template.generateCode(aData, tempExpression, genRestrictionCheck);
-			if(tempExpression.preamble.length() > 0) {
-				expression.preamble.append(tempExpression.preamble);
-			}
-			if(tempExpression.postamble.length() == 0) {
-				expressionExpression.append(tempExpression.expression);
+			final parameterEvaluationType eval = formalParameter == null ? parameterEvaluationType.NORMAL_EVAL : formalParameter.getEvaluationType();
+			if (eval == parameterEvaluationType.NORMAL_EVAL) {
+				final StringBuilder expressionExpression = new StringBuilder();
+				final ExpressionStruct tempExpression = new ExpressionStruct();
+				template.generateCode(aData, tempExpression, genRestrictionCheck);
+				if(tempExpression.preamble.length() > 0) {
+					expression.preamble.append(tempExpression.preamble);
+				}
+				if(tempExpression.postamble.length() == 0) {
+					expressionExpression.append(tempExpression.expression);
+				} else {
+					// make sure the postambles of the parameters are executed before the
+					// function call itself (needed if the template contains function calls
+					// with lazy or fuzzy parameters)
+					final String tempId = aData.getTemporaryVariableName();
+					template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble, myScope);
+					expression.preamble.append(" ");
+					expression.preamble.append(tempId);
+					expression.preamble.append("(");
+					expression.preamble.append(tempExpression.expression);
+					expression.preamble.append(")");
+
+					expression.preamble.append(tempExpression.postamble);
+					expressionExpression.append(tempId);
+				}
+
+				//TODO copy might be needed here
+				expression.expression.append(expressionExpression);
 			} else {
-				// make sure the postambles of the parameters are executed before the
-				// function call itself (needed if the template contains function calls
-				// with lazy or fuzzy parameters)
-				final String tempId = aData.getTemporaryVariableName();
-				template.getTemplateBody().getMyGovernor().getGenNameTemplate(aData, expression.preamble, myScope);
-				expression.preamble.append(" ");
-				expression.preamble.append(tempId);
-				expression.preamble.append("(");
-				expression.preamble.append(tempExpression.expression);
-				expression.preamble.append(")");
-
-				expression.preamble.append(tempExpression.postamble);
-				expressionExpression.append(tempId);
+				final boolean used_as_lvalue = formalParameter == null ? false : formalParameter.getUsedAsLvalue();
+				LazyFuzzyParamData.init(used_as_lvalue);
+				LazyFuzzyParamData.generateCode(aData, expression, template, genRestrictionCheck, myScope, eval == parameterEvaluationType.LAZY_EVAL);
+				LazyFuzzyParamData.clean();
+				//FIXME implement rest
 			}
-
-			//TODO copy might be needed here
-			expression.expression.append(expressionExpression);
 		}
 	}
 

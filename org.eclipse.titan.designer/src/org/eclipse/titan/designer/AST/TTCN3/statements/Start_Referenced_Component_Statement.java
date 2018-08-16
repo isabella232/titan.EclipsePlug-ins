@@ -307,7 +307,7 @@ public final class Start_Referenced_Component_Statement extends Statement {
 		componentReference.generateCodeExpression(aData, expression, false);
 		if (actualParameterList2.getNofParameters() > 0) {
 			expression.expression.append(", ");
-			actualParameterList2.generateCodeNoAlias(aData, expression);
+			actualParameterList2.generateCodeNoAlias(aData, expression, null);
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);

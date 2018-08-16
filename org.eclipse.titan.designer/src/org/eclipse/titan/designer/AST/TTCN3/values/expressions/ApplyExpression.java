@@ -333,7 +333,7 @@ public final class ApplyExpression extends Expression_Value {
 		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".invoke(");
 		if (actualParameters != null) {
-			actualParameters.generateCodeAlias(aData, expression);
+			actualParameters.generateCodeAlias(aData, expression, null);
 		}
 		expression.expression.append(")");
 	}

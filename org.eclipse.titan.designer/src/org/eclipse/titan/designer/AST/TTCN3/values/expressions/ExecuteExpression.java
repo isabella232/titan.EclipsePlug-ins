@@ -283,7 +283,7 @@ public final class ExecuteExpression extends Expression_Value {
 		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
 			final ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
 			if (actualParList.getNofParameters() > 0) {
-				actualParList.generateCodeAlias(aData, expression);
+				actualParList.generateCodeAlias(aData, expression, null);
 				expression.expression.append(", ");
 			}
 		}

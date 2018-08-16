@@ -14,6 +14,7 @@ import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Module;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -113,35 +114,44 @@ public final class Value_ActualParameter extends ActualParameter {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO not complete implementation pl. copy_needed, formal parameter missing
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
+		//TODO not complete implementation pl. copy_needed
 		if (value != null ) {
-			final StringBuilder expressionExpression = new StringBuilder();
-			final ExpressionStruct valueExpression = new ExpressionStruct();
-			value.generateCodeExpression(aData, valueExpression, true);
-			if(valueExpression.preamble.length() > 0) {
-				expression.preamble.append(valueExpression.preamble);
-			}
-			if(valueExpression.postamble.length() == 0) {
-				expressionExpression.append(valueExpression.expression);
+			final parameterEvaluationType eval = formalParameter == null ? parameterEvaluationType.NORMAL_EVAL : formalParameter.getEvaluationType();
+			if (eval == parameterEvaluationType.NORMAL_EVAL) {
+				final StringBuilder expressionExpression = new StringBuilder();
+				final ExpressionStruct valueExpression = new ExpressionStruct();
+				value.generateCodeExpression(aData, valueExpression, true);
+				if(valueExpression.preamble.length() > 0) {
+					expression.preamble.append(valueExpression.preamble);
+				}
+				if(valueExpression.postamble.length() == 0) {
+					expressionExpression.append(valueExpression.expression);
+				} else {
+					// make sure the postambles of the parameters are executed before the
+					// function call itself (needed if the value contains function calls
+					// with lazy or fuzzy parameters)
+					final String tempId = aData.getTemporaryVariableName();
+					value.getMyGovernor().getGenNameValue(aData, expression.preamble, myScope);
+					expression.preamble.append(" ");
+					expression.preamble.append(tempId);
+					expression.preamble.append("(");
+					expression.preamble.append(valueExpression.expression);
+					expression.preamble.append(")");
+	
+					expression.preamble.append(valueExpression.postamble);
+					expressionExpression.append(tempId);
+				}
+	
+				//TODO copy might be needed here
+				expression.expression.append(expressionExpression);
 			} else {
-				// make sure the postambles of the parameters are executed before the
-				// function call itself (needed if the value contains function calls
-				// with lazy or fuzzy parameters)
-				final String tempId = aData.getTemporaryVariableName();
-				value.getMyGovernor().getGenNameValue(aData, expression.preamble, myScope);
-				expression.preamble.append(" ");
-				expression.preamble.append(tempId);
-				expression.preamble.append("(");
-				expression.preamble.append(valueExpression.expression);
-				expression.preamble.append(")");
-
-				expression.preamble.append(valueExpression.postamble);
-				expressionExpression.append(tempId);
+				final boolean used_as_lvalue = formalParameter == null ? false : formalParameter.getUsedAsLvalue();
+				LazyFuzzyParamData.init(used_as_lvalue);
+				LazyFuzzyParamData.generateCode(aData, expression, value, myScope, eval == parameterEvaluationType.LAZY_EVAL);
+				LazyFuzzyParamData.clean();
+				//FIXME implement rest
 			}
-
-			//TODO copy might be needed here
-			expression.expression.append(expressionExpression);
 		}
 	}
 

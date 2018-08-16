@@ -32,9 +32,10 @@ import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Template;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Var;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameterList;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.IParameterisedAssignment;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.LazyFuzzyParamData;
 import org.eclipse.titan.designer.AST.TTCN3.types.AbstractOfType;
 import org.eclipse.titan.designer.AST.TTCN3.types.Anytype_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
@@ -974,7 +975,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
 			expression.expression.append("( ");
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
-			temp.getActualParameters().generateCodeAlias(aData, expression);
+			temp.getActualParameters().generateCodeAlias(aData, expression, formalParameterList);
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
 			//the reference does not have an actual parameter list, but the assignment has
@@ -985,14 +986,17 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				if (i > 0){
 					expression.expression.append(", ");
 				}
-				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression);
+				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression, formalParameterList.getParameterByIndex(i));
 			}
 
 			//temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
-			//TODO add fuzzy handling
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, getMyScope()));
+			} else {
+				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			}
 		}
 
 		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
@@ -1050,7 +1054,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 
 			if (formalParameterList != null) {
 				for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
-					if (formalParameterList.getParameterByIndex(i).get_eval_type() != param_eval_t.NORMAL_EVAL) {
+					if (formalParameterList.getParameterByIndex(i).getEvaluationType() != parameterEvaluationType.NORMAL_EVAL) {
 						return false;
 					}
 				}
@@ -1122,7 +1126,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			final ParameterisedSubReference temp = ((ParameterisedSubReference)subReferences.get(0));
 			final ActualParameterList actualParameterList = temp.getActualParameters();
 			if (actualParameterList != null) {
-				actualParameterList.generateCodeAlias(aData, expression);
+				actualParameterList.generateCodeAlias(aData, expression, formalParameterList);
 			}
 			expression.expression.append(" )");
 		} else if (formalParameterList != null) {
@@ -1134,14 +1138,17 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				if (i > 0){
 					expression.expression.append(", ");
 				}
-				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression);
+				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, expression, formalParameterList.getParameterByIndex(i));
 			}
 
 			//temp.getActualParameters().generateCodeAlias(aData, expression);
 			expression.expression.append(" )");
 		} else {
-			//TODO add fuzzy handling
-			expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			if (LazyFuzzyParamData.inLazyOrFuzzy()) {
+				expression.expression.append(LazyFuzzyParamData.addReferenceGenname(aData, expression.expression, referredAssignment, getMyScope()));
+			} else {
+				expression.expression.append(referredAssignment.getGenNameFromScope(aData, expression.expression, getMyScope(), null));
+			}
 		}
 
 		if (referredAssignment.getMyScope() instanceof ComponentTypeBody) {
@@ -1213,8 +1220,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				final Value value = ((ArraySubReference)subreference).getValue();
 				//TODO actually should get the last governor
 				final IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-				//TODO add support for indexing with array or record of
-				// generate "getAt" functions instead of operator[]
+				//TODO add support for indexing with array or record of generate "getAt" functions instead of operator[]
 				if (isConst) {
 					expression.expression.append(".constGetAt(");
 				} else {
@@ -1280,9 +1286,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 		if (subReferences.size() > 0 && subReferences.get(0) instanceof ParameterisedSubReference) {
 			final ParameterisedSubReference subReference = (ParameterisedSubReference) subReferences.get(0);
 			final ExpressionStruct tempExpression = new ExpressionStruct();
-			// FIXME should need the formal parameters and other
-			// options
-			subReference.getActualParameters().generateCodeAlias(aData, tempExpression);
+			subReference.getActualParameters().generateCodeAlias(aData, tempExpression, formalParameterList);
 
 			if(tempExpression.preamble.length() > 0) {
 				expression.preamble.append(tempExpression.preamble);
@@ -1295,17 +1299,14 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			final StringBuilder newId = new StringBuilder();
 			newId.append(assignment.getGenNameFromScope(aData, tempExpression.expression, getMyScope(), null));
 			newId.append("( ");
-			// FieldSubReference temp =
-			// ((FieldSubReference)subReferences.get(0));
+
 			for (int i = 0; i < formalParameterList.getNofParameters(); i++) {
 				if (i > 0) {
 					tempExpression.expression.append(", ");
 				}
-				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, tempExpression);
+				formalParameterList.getParameterByIndex(i).getDefaultValue().generateCode(aData, tempExpression, formalParameterList.getParameterByIndex(i));
 			}
 
-			// temp.getActualParameters().generateCodeAlias(aData,
-			// expression);
 			if(tempExpression.preamble.length() > 0) {
 				expression.preamble.append(tempExpression.preamble);
 			}

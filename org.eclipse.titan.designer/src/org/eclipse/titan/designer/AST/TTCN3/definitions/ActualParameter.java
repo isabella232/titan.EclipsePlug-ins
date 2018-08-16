@@ -102,8 +102,9 @@ public abstract class ActualParameter extends ASTNode implements ILocateableNode
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param expression the expression used for code generation
+	 * @param formalParameter the formal parameter this actual parameter pairs up with.
 	 */
-	public void generateCode( final JavaGenData aData, final ExpressionStruct expression) {
+	public void generateCode( final JavaGenData aData, final ExpressionStruct expression, final FormalParameter formalParameter) {
 		//default implementation
 		expression.expression.append( "\t\t" );
 		expression.expression.append( "//TODO: " );

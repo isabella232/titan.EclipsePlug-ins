@@ -245,7 +245,7 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 
 			expression.expression.append(MessageFormat.format("testcase_{0}(", definition.getGenNameFromScope(aData, source, myScope, "")));
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
-				actualParameterList2.generateCodeAlias(aData, expression);
+				actualParameterList2.generateCodeAlias(aData, expression, definition.getFormalParameterList());
 				expression.expression.append(", ");
 			}
 			if (timerValue == null) {
@@ -262,7 +262,7 @@ public final class Referenced_Testcase_Instance_Statement extends Statement {
 
 		dereferredValue.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".execute(");
-		actualParameterList2.generateCodeAlias(aData, expression);
+		actualParameterList2.generateCodeAlias(aData, expression, null);
 		if (actualParameterList2.getNofParameters() > 0) {
 			expression.expression.append(", ");
 		}

@@ -249,7 +249,7 @@ public final class Start_Component_Statement extends Statement {
 			expression.expression.append(',');
 
 			final ISubReference subReference = functionInstanceReference.getSubreferences().get(0);
-			((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
+			((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression, formalParameterList);
 		}
 		expression.expression.append(')');
 		expression.mergeExpression(source);

@@ -519,7 +519,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
-					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression);
+					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression, ((Def_Altstep)altstep).getFormalParameterList());
 					expression.expression.append(')');
 					canRepeat = true;
 					}
@@ -658,7 +658,7 @@ public final class AltGuards extends ASTNode implements IIncrementallyUpdateable
 					final Assignment altstep = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 					expression.expression.append(MessageFormat.format("{0}_instance(", altstep.getGenNameFromScope(aData, source, myScope, "")));
 					final ISubReference subreference = reference.getSubreferences().get(0);
-					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression);
+					((ParameterisedSubReference) subreference).getActualParameters().generateCodeAlias(aData, expression, ((Def_Altstep)altstep).getFormalParameterList());
 					source.append(')');
 					canRepeat = true;
 					}

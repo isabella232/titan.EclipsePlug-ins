@@ -156,7 +156,7 @@ public final class Function_Applied_Statement extends Statement {
 			expression.expression.append(definition.getGenNameFromScope(aData, source, myScope, ""));
 			expression.expression.append("(");
 			if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
-				actualParameterList2.generateCodeAlias(aData, expression);
+				actualParameterList2.generateCodeAlias(aData, expression, null);
 			}
 			expression.expression.append(')');
 			expression.mergeExpression(source);
@@ -168,7 +168,7 @@ public final class Function_Applied_Statement extends Statement {
 		expression.expression.append(".invoke(");
 
 		if (actualParameterList2 != null && actualParameterList2.getNofParameters() > 0) {
-			actualParameterList2.generateCodeAlias(aData, expression);
+			actualParameterList2.generateCodeAlias(aData, expression, null);
 		}
 
 		expression.expression.append(')');

@@ -219,7 +219,7 @@ public final class ActivateExpression extends Expression_Value {
 		if (!reference.getSubreferences().isEmpty()) {
 			final ISubReference subReference = reference.getSubreferences().get(0);
 			if (Subreference_type.parameterisedSubReference.equals(subReference.getReferenceType())) {
-				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression);
+				((ParameterisedSubReference) subReference).getActualParameters().generateCodeNoAlias(aData, expression, null);
 			}
 		}
 		expression.expression.append(')');

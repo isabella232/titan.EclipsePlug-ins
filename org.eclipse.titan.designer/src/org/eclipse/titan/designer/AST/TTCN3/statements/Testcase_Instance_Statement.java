@@ -25,6 +25,7 @@ import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.ActualParameterList;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Def_Testcase;
 import org.eclipse.titan.designer.AST.TTCN3.values.Real_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
 import org.eclipse.titan.designer.compiler.JavaGenData;
@@ -205,7 +206,7 @@ public final class Testcase_Instance_Statement extends Statement {
 		if (!subReferences.isEmpty() && subReferences.get(0) instanceof ParameterisedSubReference) {
 			final ActualParameterList actualParList = ((ParameterisedSubReference) subReferences.get(0)).getActualParameters();
 			if (actualParList.getNofParameters() > 0) {
-				actualParList.generateCodeAlias(aData, expression);
+				actualParList.generateCodeAlias(aData, expression, ((Def_Testcase)testcase).getFormalParameterList());
 				expression.expression.append(", ");
 			}
 		}
