@@ -100,7 +100,7 @@ import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attri
 import org.eclipse.titan.designer.AST.TTCN3.attributes.SingleWithAttribute.Attribute_Type;
 import org.eclipse.titan.designer.AST.TTCN3.attributes.ErroneousAttributeSpecification.Indicator_Type;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.*;
-import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.param_eval_t;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
 import org.eclipse.titan.designer.AST.TTCN3.statements.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.*;
 import org.eclipse.titan.designer.AST.TTCN3.types.PortTypeBody.OperationModes;
@@ -1968,7 +1968,7 @@ pr_TemplateDef returns[Def_Template def_template]
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
 	Template_definition_helper helper = new Template_definition_helper();
 	Reference derivedReference = null;
-	param_eval_t eval = param_eval_t.NORMAL_EVAL;
+	parameterEvaluationType eval = parameterEvaluationType.NORMAL_EVAL;
 }:
 (	col = pr_TemplateKeyword
 	( t = pr_TemplateRestriction { templateRestriction = $t.templateRestriction; } )?
@@ -4310,7 +4310,7 @@ pr_VarInstance returns[List<Definition> definitions]
 	$definitions = new ArrayList<Definition>();
 	List<Identifier> identifiers = null;
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
-	param_eval_t eval = param_eval_t.NORMAL_EVAL;
+	parameterEvaluationType eval = parameterEvaluationType.NORMAL_EVAL;
 }:
 (	col = pr_VarKeyword
 	(	tr = pr_TemplateOptRestricted { templateRestriction = $tr.templateRestriction; }
@@ -4376,14 +4376,14 @@ pr_SingleTempVarInstance [List<Definition> definitions, Type type, TemplateRestr
 };
 
 
-pr_VarList[List<Definition> definitions, Type type, param_eval_t eval]:
+pr_VarList[List<Definition> definitions, Type type, parameterEvaluationType eval]:
 (	d = pr_SingleVarInstance[type, eval] { if($d.definition != null) { $definitions.add($d.definition); } }
 	(	pr_Comma
 			d = pr_SingleVarInstance[type, eval] { if($d.definition != null) { $definitions.add($d.definition); } }
 	)*
 );
 
-pr_SingleVarInstance[Type type, param_eval_t eval] returns[Def_Var definition]
+pr_SingleVarInstance[Type type, parameterEvaluationType eval] returns[Def_Var definition]
 @init {
 	$definition = null;
 	Value value = null;
@@ -6223,7 +6223,7 @@ pr_FormalValuePar returns[FormalParameter parameter]
 @init {
 	$parameter = null;
 	Assignment_type assignmentType = Assignment_type.A_PAR_VAL;
-	param_eval_t eval = param_eval_t.NORMAL_EVAL;
+	parameterEvaluationType eval = parameterEvaluationType.NORMAL_EVAL;
 	TemplateInstance default_value = null;
 }:
 (	(	IN { assignmentType = Assignment_type.A_PAR_VAL_IN; }
@@ -6267,7 +6267,7 @@ pr_FormalTimerPar returns[FormalParameter parameter]
 )
 {
 	$parameter = new FormalParameter( TemplateRestriction.Restriction_type.TR_NONE, Assignment_type.A_PAR_TIMER, null,
-		$i.identifier, default_value, param_eval_t.NORMAL_EVAL );
+		$i.identifier, default_value, parameterEvaluationType.NORMAL_EVAL );
 	$parameter.setLocation(getLocation( startcol, getStopToken()));
 };
 
@@ -6277,7 +6277,7 @@ pr_FormalTemplatePar returns[FormalParameter parameter]
 	$parameter = null;
 	$assignmentType = Assignment_type.A_PAR_TEMP_IN;
 	TemplateRestriction.Restriction_type templateRestriction = TemplateRestriction.Restriction_type.TR_NONE;
-	param_eval_t eval = param_eval_t.NORMAL_EVAL;
+	parameterEvaluationType eval = parameterEvaluationType.NORMAL_EVAL;
 	TemplateInstance default_value = null;
 }:
 (	(	IN { $assignmentType = Assignment_type.A_PAR_TEMP_IN; }
@@ -8418,16 +8418,16 @@ pr_NoCaseModifier:
 	NOCASEKEYWORD
 ;
 
-pr_OptLazyOrFuzzyModifier returns[ param_eval_t eval ]
+pr_OptLazyOrFuzzyModifier returns[ parameterEvaluationType eval ]
 @init {
-	$eval = param_eval_t.NORMAL_EVAL;
+	$eval = parameterEvaluationType.NORMAL_EVAL;
 }:
-(	LAZYKEYWORD	{ $eval = param_eval_t.LAZY_EVAL; }
+(	LAZYKEYWORD	{ $eval = parameterEvaluationType.LAZY_EVAL; }
 |	FUZZYKEYWORD
 		{
-			$eval = param_eval_t.FUZZY_EVAL;
+			$eval = parameterEvaluationType.FUZZY_EVAL;
 		}
-|	{ $eval = param_eval_t.NORMAL_EVAL; }
+|	{ $eval = parameterEvaluationType.NORMAL_EVAL; }
 )
 ;
 
