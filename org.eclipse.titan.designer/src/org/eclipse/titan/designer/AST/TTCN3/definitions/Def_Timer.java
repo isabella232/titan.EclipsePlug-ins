@@ -366,8 +366,8 @@ public final class Def_Timer extends Definition {
 					}
 				}
 				// It's not possible to have "indexMap.size() > arraySize", since we
-		        // add only correct constant-index values into the map.  It's possible
-		        // to create partially initialized timer arrays.
+				// add only correct constant-index values into the map.  It's possible
+				// to create partially initialized timer arrays.
 				indexMap.clear();
 			}
 		} else {
