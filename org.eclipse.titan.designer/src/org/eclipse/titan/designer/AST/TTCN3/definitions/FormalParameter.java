@@ -1097,7 +1097,7 @@ public final class FormalParameter extends Definition {
 	 *
 	 * generate_code_object in the compiler
 	 *
-	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 * @param prefix the prefix to be used before the parameter names.
 	 * @param generateInitialized also call the constructor for fuzzy and lazy parameters.
@@ -1153,7 +1153,7 @@ public final class FormalParameter extends Definition {
 	 *
 	 * generate_shadow_object in the compiler
 	 *
-	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
 	public void generateCodeShadowObject(final JavaGenData aData, final StringBuilder source) {

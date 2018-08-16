@@ -1229,7 +1229,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	 *
 	 * generate_shadow_objects in the compiler
 	 *
-	 * @param @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData the structure to put imports into and get temporal variable names from.
 	 * @param source the source code generated
 	 */
 	public void generateCodeShadowObjects(final JavaGenData aData, final StringBuilder source) {
