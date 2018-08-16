@@ -667,7 +667,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 				expression.expression.append(MessageFormat.format("new {0}(", genName) );
 				if(governor.getTypetype() == Type_type.TYPE_ARRAY){
 					final Array_Type array_type = (Array_Type) governor;
-					expression.expression.append(MessageFormat.format(" {0}.class, ",array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
+					expression.expression.append(MessageFormat.format(" {0}.class, ", array_type.getElementType().getGenNameTemplate(aData, expression.expression, myScope)));
 				}
 				expression.expression.append(getSingleExpression(aData, true));
 				expression.expression.append(')');
@@ -681,7 +681,7 @@ public final class SpecificValue_Template extends TTCN3Template {
 		}
 
 		final String tempId = aData.getTemporaryVariableName();
-		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", governor.getGenNameTemplate(aData, expression.expression, myScope), tempId));
+		expression.preamble.append(MessageFormat.format("final {0} {1} = new {0}();\n", genName, tempId));
 
 		generateCodeInit(aData, expression.preamble, tempId);
 
