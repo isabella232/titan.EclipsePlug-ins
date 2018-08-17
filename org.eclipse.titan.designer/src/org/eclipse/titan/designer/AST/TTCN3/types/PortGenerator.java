@@ -1097,6 +1097,7 @@ public class PortGenerator {
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 					source.append("TitanOctetString send_copy = new TitanOctetString(send_par);\n");
 					source.append(MessageFormat.format("if ({0}(send_copy, mapped_par).operatorNotEquals(1)) '{'\n", target.functionName));
+					hasCondition = true;
 					break;
 				case BACKTRACK:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
@@ -1181,10 +1182,10 @@ public class PortGenerator {
 			if (hasCondition) {
 				if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
 					source.append("if (port_state != translation_port_state.PARTIALLY_TRANSLATED) {\n");
-				}
-				source.append("return;\n");
-				if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
+					source.append("return;\n");
 					source.append("}\n");
+				} else {
+					source.append("return;\n");
 				}
 				if (portDefinition.legacy) {
 					source.append("}\n");
@@ -1864,8 +1865,8 @@ public class PortGenerator {
 					source.append("else {\n");
 					source.append("mapped_par = null;\n");
 					source.append("}\n");
+					reportError = true;
 				}
-				reportError = true;
 			}
 			if (mappedType.targets.size() > 1) {
 				source.append("}\n");
@@ -1970,17 +1971,22 @@ public class PortGenerator {
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address);\n");
-				source.append("}\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address");
+				if (portDefinition.has_sliding) {
+					source.append(", sliding_buffer");
+				}
+				source.append(");\n}\n");
 
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n");
-				source.append("}\n\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null");
 			} else {
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
-				source.append("}\n\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF");
 			}
+			if (portDefinition.has_sliding) {
+				source.append(", sliding_buffer");
+			}
+			source.append(");\n}\n");
 		}
 	}
 
@@ -2054,17 +2060,22 @@ public class PortGenerator {
 		if (portDefinition.testportType != TestportType.INTERNAL) {
 			if (portDefinition.testportType == TestportType.ADDRESS) {
 				source.append(MessageFormat.format("protected void incoming_message(final TitanInteger incoming_par, final {0} sender_address) '{'\n", portDefinition.addressName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address);\n");
-				source.append("}\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, sender_address");
+				if (portDefinition.has_sliding) {
+					source.append(", sliding_buffer");
+				}
+				source.append(");\n}\n");
 
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null);\n");
-				source.append("}\n\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF, null");
 			} else {
 				source.append(MessageFormat.format("protected void incoming_message(final {0} incoming_par) '{'\n", typeValueName));
-				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF);\n");
-				source.append("}\n\n");
+				source.append("incoming_message(incoming_par, TitanComponent.SYSTEM_COMPREF");
 			}
+			if (portDefinition.has_sliding) {
+				source.append(", sliding_buffer");
+			}
+			source.append(");\n}\n\n");
 		}
 	}
 
