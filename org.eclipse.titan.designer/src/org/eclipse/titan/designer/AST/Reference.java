@@ -16,6 +16,7 @@ import org.eclipse.titan.designer.AST.Assignment.Assignment_type;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ISetting.Setting_type;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
+import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Assignment;
 import org.eclipse.titan.designer.AST.ASN1.types.ASN1_Choice_Type;
@@ -42,6 +43,7 @@ import org.eclipse.titan.designer.AST.TTCN3.types.Array_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.CompField;
 import org.eclipse.titan.designer.AST.TTCN3.types.ComponentTypeBody;
 import org.eclipse.titan.designer.AST.TTCN3.types.Component_Type;
+import org.eclipse.titan.designer.AST.TTCN3.types.SequenceOf_Type;
 import org.eclipse.titan.designer.AST.TTCN3.types.TTCN3_Set_Seq_Choice_BaseType;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
 import org.eclipse.titan.designer.AST.TTCN3.values.expressions.ExpressionStruct;
@@ -1218,16 +1220,46 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 				}
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 				final Value value = ((ArraySubReference)subreference).getValue();
-				//TODO actually should get the last governor
-				final IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-				//TODO add support for indexing with array or record of generate "getAt" functions instead of operator[]
-				if (isConst) {
-					expression.expression.append(".constGetAt(");
+				IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				pt = pt.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+				if (pt.getTypetype() == Type_type.TYPE_ARRAY) {
+					long length = ((Array_Type)pt).getDimension().getSize();
+					long start = ((Array_Type)pt).getDimension().getOffset();
+					// Generate the indexes as .constGetAt(x).constGetAt(y)...
+					for (long j = start; j < start + length; j++) {
+						if (isConst) {
+							expression.expression.append(".constGetAt(");
+						} else {
+							expression.expression.append(".getAt(");
+						}
+
+						value.generateCodeExpression(aData, expression, false);
+						expression.expression.append(MessageFormat.format(".constGetAt({0}))", j));
+					}
+				} else if (pt.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
+					long length = ((SequenceOf_Type)pt).getSubtype().get_length_restriction();
+					long start = 0;
+					// Generate the indexes as .constGetAt(x).constGetAt(y)...
+					for (long j = start; j < start + length; j++) {
+						if (isConst) {
+							expression.expression.append(".constGetAt(");
+						} else {
+							expression.expression.append(".getAt(");
+						}
+
+						value.generateCodeExpression(aData, expression, false);
+						expression.expression.append(MessageFormat.format(".constGetAt({0}))", j));
+					}
 				} else {
-					expression.expression.append(".getAt(");
+					if (isConst) {
+						expression.expression.append(".constGetAt(");
+					} else {
+						expression.expression.append(".getAt(");
+					}
+
+					value.generateCodeExpression(aData, expression, false);
+					expression.expression.append(")");
 				}
-				value.generateCodeExpression(aData, expression, false);
-				expression.expression.append(")");
 
 				if(type != null) {
 					switch(type.getTypetype()) {

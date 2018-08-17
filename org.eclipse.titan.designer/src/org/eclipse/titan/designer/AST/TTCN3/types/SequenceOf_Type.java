@@ -733,14 +733,77 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 
 		final ISubReference subreference = subreferences.get(actualSubReference);
 		switch (subreference.getReferenceType()) {
-		case arraySubReference:
+		case arraySubReference: {
 			final Value indexValue = ((ArraySubReference) subreference).getValue();
 			if (indexValue != null) {
 				indexValue.setLoweridToReference(timestamp);
 				final Type_type tempType = indexValue.getExpressionReturntype(timestamp, expectedIndex);
+				if (tempType == Type_type.TYPE_UNDEFINED) {
+					if (getOfType() != null) {
+						return getOfType().getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
+					}
 
-				switch (tempType) {
-				case TYPE_INTEGER:
+					return null;
+				}
+
+				IType indexingType = indexValue.getExpressionGovernor(timestamp, expectedIndex);
+				if (indexingType != null) {
+					indexingType = indexingType.getTypeRefdLast(timestamp);
+				}
+				
+				if (indexingType != null && (indexingType.getTypetype() == Type_type.TYPE_ARRAY || indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF)) {
+					// The indexer type must be of type integer
+					long length = 0;
+					if (indexingType.getTypetype() == Type_type.TYPE_ARRAY) {
+						Array_Type indexingArray = (Array_Type)indexingType;
+						if (indexingArray.getElementType().getTypetype() != Type_type.TYPE_INTEGER) {
+							subreference.getLocation().reportSemanticError("Only fixed length array or record of integer types are allowed for short-hand notation for nested indexes.");
+							return null;
+						}
+
+						length = indexingArray.getDimension().getSize();
+					} else if (indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
+						SequenceOf_Type indexingSequenceOf = (SequenceOf_Type)indexingType;
+						if (indexingSequenceOf.getOfType().getTypetype() != Type_type.TYPE_INTEGER) {
+							subreference.getLocation().reportSemanticError("Only fixed length array or record of integer types are allowed for short-hand notation for nested indexes.");
+							return null;
+						}
+
+						SubType subType = indexingSequenceOf.getSubtype();
+						if (subType == null) {
+							subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' must have single size length restriction when used as a short-hand notation for nested indexes.", indexingSequenceOf.getTypename()));
+							return null;
+						}
+
+						length = subType.get_length_restriction();
+						if (length == -1) {
+							subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' must have single size length restriction when used as a short-hand notation for nested indexes.", indexingSequenceOf.getTypename()));
+							return null;
+						}
+					}
+
+					IType embeddedType = getOfType().getTypeRefdLast(timestamp);
+					int j = 0;
+					while (j < length - 1) {
+						switch(embeddedType.getTypetype()) {
+						case TYPE_ARRAY:
+							embeddedType = ((Array_Type)embeddedType).getElementType();
+							break;
+						case TYPE_SEQUENCE_OF:
+							embeddedType = ((SequenceOf_Type)embeddedType).getOfType();
+							break;
+						case TYPE_SET_OF:
+							embeddedType = ((SetOf_Type)embeddedType).getOfType();
+							break;
+						default:
+							subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' contains too many indexes ({1}) in the short-hand notation for nested indexes.", indexingType.getTypename(), length));
+							return null;
+						}
+						j++;
+					}
+
+					return embeddedType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
+				} else if(indexingType != null && indexingType.getTypetypeTtcn3() == Type_type.TYPE_INTEGER) {
 					final IValue last = indexValue.getValueRefdLast(timestamp, expectedIndex, refChain);
 					if (Value_type.INTEGER_VALUE.equals(last.getValuetype())) {
 						final Integer_Value lastInteger = (Integer_Value) last;
@@ -755,22 +818,18 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 							indexValue.setIsErroneous(true);
 						}
 					}
-					break;
-				case TYPE_UNDEFINED:
-					indexValue.setIsErroneous(true);
-					break;
-				default:
+
+					if (getOfType() != null) {
+						return getOfType().getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
+					}
+				} else {
 					indexValue.getLocation().reportSemanticError(INTEGERINDEXEXPECTED);
 					indexValue.setIsErroneous(true);
-					break;
 				}
 			}
 
-			if (getOfType() != null) {
-				return getOfType().getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
-			}
-
 			return null;
+		}
 		case fieldSubReference:
 			subreference.getLocation().reportSemanticError(
 					MessageFormat.format(FieldSubReference.INVALIDSUBREFERENCE, ((FieldSubReference) subreference).getId().getDisplayName(),

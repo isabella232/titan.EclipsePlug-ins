@@ -47,6 +47,7 @@ import org.eclipse.titan.designer.AST.TTCN3.templates.IndexedTemplate;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Indexed_Template_List;
 import org.eclipse.titan.designer.AST.TTCN3.templates.PermutationMatch_Template;
 import org.eclipse.titan.designer.AST.TTCN3.templates.Template_List;
+import org.eclipse.titan.designer.AST.TTCN3.types.subtypes.SubType;
 import org.eclipse.titan.designer.AST.TTCN3.values.ArrayDimension;
 import org.eclipse.titan.designer.AST.TTCN3.values.Array_Value;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value.Operation_type;
@@ -855,12 +856,70 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		switch (subreference.getReferenceType()) {
 		case arraySubReference:
 			final Value indexValue = ((ArraySubReference) subreference).getValue();
-			if (dimension != null) {
-				dimension.checkIndex(timestamp, indexValue, expectedIndex);
-			}
+			indexValue.setLoweridToReference(timestamp);
 
-			if (elementType != null) {
-				return elementType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
+			IType indexingType = indexValue.getExpressionGovernor(timestamp, expectedIndex);
+			indexingType = indexingType.getTypeRefdLast(timestamp);
+			if (indexingType != null && (indexingType.getTypetype() == Type_type.TYPE_ARRAY || indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF)) {
+				// The indexer type must be of type integer
+				long length = 0;
+				if (indexingType.getTypetype() == Type_type.TYPE_ARRAY) {
+					Array_Type indexingArray = (Array_Type)indexingType;
+					if (indexingArray.getElementType().getTypetype() != Type_type.TYPE_INTEGER) {
+						subreference.getLocation().reportSemanticError("Only fixed length array or record of integer types are allowed for short-hand notation for nested indexes.");
+						return null;
+					}
+
+					length = indexingArray.getDimension().getSize();
+				} else if (indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
+					SequenceOf_Type indexingSequenceOf = (SequenceOf_Type)indexingType;
+					if (indexingSequenceOf.getOfType().getTypetype() != Type_type.TYPE_INTEGER) {
+						subreference.getLocation().reportSemanticError("Only fixed length array or record of integer types are allowed for short-hand notation for nested indexes.");
+						return null;
+					}
+
+					SubType subType = indexingSequenceOf.getSubtype();
+					if (subType == null) {
+						subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' must have single size length restriction when used as a short-hand notation for nested indexes.", indexingSequenceOf.getTypename()));
+						return null;
+					}
+
+					length = subType.get_length_restriction();
+					if (length == -1) {
+						subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' must have single size length restriction when used as a short-hand notation for nested indexes.", indexingSequenceOf.getTypename()));
+						return null;
+					}
+				}
+
+				IType embeddedType = elementType.getTypeRefdLast(timestamp);
+				int j = 0;
+				while (j < length - 1) {
+					switch(embeddedType.getTypetype()) {
+					case TYPE_ARRAY:
+						embeddedType = ((Array_Type)embeddedType).getElementType();
+						break;
+					case TYPE_SEQUENCE_OF:
+						embeddedType = ((SequenceOf_Type)embeddedType).getOfType();
+						break;
+					case TYPE_SET_OF:
+						embeddedType = ((SetOf_Type)embeddedType).getOfType();
+						break;
+					default:
+						subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' contains too many indexes ({1}) in the short-hand notation for nested indexes.", indexingType.getTypename(), length));
+						return null;
+					}
+					j++;
+				}
+
+				return embeddedType;
+			} else {
+				if (dimension != null) {
+					dimension.checkIndex(timestamp, indexValue, expectedIndex);
+				}
+
+				if (elementType != null) {
+					return elementType.getFieldType(timestamp, reference, actualSubReference + 1, internalExpectation, refChain, interruptIfOptional);
+				}
 			}
 
 			return null;
