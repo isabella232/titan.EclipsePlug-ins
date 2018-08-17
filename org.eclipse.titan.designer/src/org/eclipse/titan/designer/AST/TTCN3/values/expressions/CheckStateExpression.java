@@ -292,6 +292,12 @@ public final class CheckStateExpression extends Expression_Value {
 
 	@Override
 	/** {@inheritDoc} */
+	public boolean returnsNative() {
+		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		if (portReference != null) {
 			portReference.generateConstRef(aData, expression);
