@@ -1929,7 +1929,7 @@ public class PortGenerator {
 		} else {
 			source.append("final TitanCharString log_sender_address = new TitanCharString(\"\");\n");
 		}
-		source.append("TTCN_Logger.begin_event(Severity.PORTEVENT_MQUEUE);\n");
+		source.append("TTCN_Logger.begin_event(TTCN_Logger.Severity.PORTEVENT_MQUEUE);\n");
 		source.append(MessageFormat.format("TTCN_Logger.log_event_str(\" {0} : \");\n", mappedType.mDisplayName));
 		source.append("incoming_par.log();\n");
 		source.append("final TitanCharString log_parameter = TTCN_Logger.end_event_log2str();\n");
