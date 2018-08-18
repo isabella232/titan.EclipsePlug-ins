@@ -35,8 +35,7 @@ public abstract class TitanLaunchConfigurationDelegate extends LaunchConfigurati
 
 	@Override
 	protected IProject[] getBuildOrder(final ILaunchConfiguration configuration, final String mode) throws CoreException {
-
-		IResource[] resources = configuration.getMappedResources();
+		final IResource[] resources = configuration.getMappedResources();
 		if( resources == null) { return null; }
 		final List<IProject> result = new ArrayList<IProject>();
 		for (final IResource resource : resources) {
@@ -61,7 +60,8 @@ public abstract class TitanLaunchConfigurationDelegate extends LaunchConfigurati
 		if (!PlatformUI.isWorkbenchRunning()) {
 			return; // headless mode
 		}
-		IWorkbench workbench = PlatformUI.getWorkbench();
+
+		final IWorkbench workbench = PlatformUI.getWorkbench();
 
 		try {
 			workbench.showPerspective("org.eclipse.titan.executor.perspectives.ExecutingPerspective", workbench.getActiveWorkbenchWindow());

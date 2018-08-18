@@ -249,21 +249,21 @@ public final class ExecuteDialog extends Dialog {
 		if (null != controlparts) {
 			helper = new TreeBranch("control parts");
 			treeRoot.addChildToEnd(helper);
-			for (String name : controlparts) {
+			for (final String name : controlparts) {
 				helper.addChildToEnd(new InnerLeaf(name, ExecutableType.CONTROLPART));
 			}
 		}
 		if (null != testsets) {
 			helper = new TreeBranch("test sets");
 			treeRoot.addChildToEnd(helper);
-			for (String name : testsets) {
+			for (final String name : testsets) {
 				helper.addChildToEnd(new InnerLeaf(name, ExecutableType.TESTSET));
 			}
 		}
 		if (null != testcases) {
 			helper = new TreeBranch("testcases");
 			treeRoot.addChildToEnd(helper);
-			for (String name : testcases) {
+			for (final String name : testcases) {
 				helper.addChildToEnd(new InnerLeaf(name, ExecutableType.TESTCASE));
 			}
 		}
@@ -274,8 +274,8 @@ public final class ExecuteDialog extends Dialog {
 		}
 
 		if (null != selectedElement) {
-			for (ITreeLeaf branch : treeRoot.children()) {
-				for (ITreeLeaf leaf : ((ITreeBranch) branch).children()) {
+			for (final ITreeLeaf branch : treeRoot.children()) {
+				for (final ITreeLeaf leaf : ((ITreeBranch) branch).children()) {
 					if (selectedElement.equals(leaf.name())) {
 						rawSelection = (InnerLeaf) leaf;
 					}

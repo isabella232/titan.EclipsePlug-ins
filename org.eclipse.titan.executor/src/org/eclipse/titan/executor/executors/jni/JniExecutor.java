@@ -114,7 +114,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		super(configuration);
 
 		if (null == configFilePath) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, CONFIGFILEPATH_NULL, null);
+			final IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, CONFIGFILEPATH_NULL, null);
 			throw new CoreException(status);
 		}
 
@@ -260,8 +260,8 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 		if (automaticExecuteSectionExecution) {
 			if (!LaunchStorage.getLaunchElementMap().containsKey(launch)) {
-				ILaunchConfiguration launchConfiguration = launch.getLaunchConfiguration();
-				LaunchElement launchElement = new LaunchElement(launchConfiguration.getName(), launch);
+				final ILaunchConfiguration launchConfiguration = launch.getLaunchConfiguration();
+				final LaunchElement launchElement = new LaunchElement(launchConfiguration.getName(), launch);
 				LaunchStorage.registerLaunchElement(launchElement);
 				ExecutorStorage.registerExecutorStorage(launchElement);
 			}
@@ -339,27 +339,27 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	@Override
 	public void batchedInsertNotify(final ArrayList<String[]> s) {
 		if (loggingIsEnabled && consoleLogging) {
-			for (String[] sv : s) {
+			for (final String[] sv : s) {
 				consoleStream.println(sv[2] + ": " + sv[4]);
 			}
 		}
 
-		List<String> times = new ArrayList<String>(s.size());
-		List<Notification> tempNotifications = new ArrayList<Notification>(s.size());
+		final List<String> times = new ArrayList<String>(s.size());
+		final List<Notification> tempNotifications = new ArrayList<Notification>(s.size());
 
 		if (severityLevelExtraction) {
 			int severity;
-			for (String[] value : s) {
+			for (final String[] value : s) {
 				severity = Integer.parseInt(value[3]);
-				Formatter formatter = new Formatter();
+				final Formatter formatter = new Formatter();
 				formatter.format(DATETIMEFORMAT, new Date(Long.parseLong(value[0]) * 1000), Long.valueOf(value[1]));
 				times.add(formatter.toString());
 				tempNotifications.add(new Notification(formatter.toString(), SeverityResolver.getSeverityString(severity), value[2], value[4]));
 				formatter.close();
 			}
 		} else {
-			for (String[] value : s) {
-				Formatter formatter = new Formatter();
+			for (final String[] value : s) {
+				final Formatter formatter = new Formatter();
 				formatter.format(DATETIMEFORMAT, new Date(Long.parseLong(value[0]) * 1000), Long.valueOf(value[1]));
 				times.add(formatter.toString());
 				tempNotifications.add(new Notification(formatter.toString(), EMPTY_STRING, value[2], value[4]));
@@ -370,7 +370,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		if (verdictExtraction) {
 			for (int i = 0; i < s.size(); i++) {
 				if (executionFinishedMatcher.reset(s.get(i)[4]).matches()) {
-					String reason = executionFinishedMatcher.group(2);
+					final String reason = executionFinishedMatcher.group(2);
 					if (reasonMatcher.reset(reason).matches()) {
 						executedTests.add(new ExecutedTestcase(times.get(i), executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
 					} else {
@@ -395,7 +395,8 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		if (loggingIsEnabled && consoleLogging) {
 			consoleStream.println(source + ": " + msg);
 		}
-		Formatter formatter = new Formatter();
+
+		final Formatter formatter = new Formatter();
 		formatter.format(DATETIMEFORMAT, new Date(time.tv_sec * 1000), time.tv_usec);
 		if (severityLevelExtraction) {
 			addNotification(new Notification(formatter.toString(), SeverityResolver.getSeverityString(severity), source, msg));
@@ -405,7 +406,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 		if (verdictExtraction
 				&& executionFinishedMatcher.reset(msg).matches()) {
-			String reason = executionFinishedMatcher.group(2);
+			final String reason = executionFinishedMatcher.group(2);
 			if (reasonMatcher.reset(reason).matches()) {
 				executedTests.add(new ExecutedTestcase(formatter.toString(), executionFinishedMatcher.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
 			} else {
@@ -438,7 +439,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * */
 	@Override
 	public void statusChangeCallback() {
-		McStateEnum state = jnimw.get_state();
+		final McStateEnum state = jnimw.get_state();
 		switch (state.getValue()) {
 		case MC_LISTENING:
 		case MC_LISTENING_CONFIGURED:
@@ -505,7 +506,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		if ((new File(configFilePath)).exists()) {
 			configHandler = readConfigFile();
 
-			Map<String, String> env = new HashMap<String, String>(System.getenv());
+			final Map<String, String> env = new HashMap<String, String>(System.getenv());
 			if (!appendEnvironmentalVariables) {
 				env.clear();
 			}
@@ -533,7 +534,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 							"An error was found while processing the configuration file",
 							"Please refer to the Error Log view for further information.");
 				} else {
-					Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
+					final Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
 							"Error while processing the configuration file",
 							exception.getMessage() + "\n Please refer to the Error Log view for further information.");
@@ -542,22 +543,22 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 			}
 
 			tcpport = configHandler.getTcpPort();
-			double killTimer = configHandler.getKillTimer();
+			final double killTimer = configHandler.getKillTimer();
 			localAddress = configHandler.getLocalAddress();
 
 			jnimw.set_kill_timer(killTimer);
 			jnimw.destroy_host_groups();
 
-			Map<String, String[]> groups = configHandler.getGroups();
-			Map<String, String> components = configHandler.getComponents();
+			final Map<String, String[]> groups = configHandler.getGroups();
+			final Map<String, String> components = configHandler.getComponents();
 
-			for (Map.Entry<String, String[]> group : groups.entrySet()) {
-				for (String hostName : group.getValue()) {
+			for (final Map.Entry<String, String[]> group : groups.entrySet()) {
+				for (final String hostName : group.getValue()) {
 					jnimw.add_host(group.getKey(), hostName);
 				}
 			}
 
-			for (Map.Entry<String, String> component : components.entrySet()) {
+			for (final Map.Entry<String, String> component : components.entrySet()) {
 				jnimw.assign_component(component.getValue(), component.getKey());
 			}
 		}
@@ -576,8 +577,9 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		if (localAddress == null) {
 			localAddress = "NULL";
 		}
+
 		mcHost = localAddress;
-		int port = jnimw.start_session(localAddress, tcpport, (configHandler != null) && configHandler.unixDomainSocketEnabled());
+		final int port = jnimw.start_session(localAddress, tcpport, (configHandler != null) && configHandler.unixDomainSocketEnabled());
 		if (port == 0) {
 			// there were some errors starting the session
 			shutdownSession();
@@ -604,7 +606,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * */
 	private void startHC() {
 		startHCRequested = true;
-		int stateValue = jnimw.get_state().getValue();
+		final int stateValue = jnimw.get_state().getValue();
 		if (MC_LISTENING != stateValue && MC_LISTENING_CONFIGURED != stateValue) {
 			initialization();
 			return;
@@ -620,7 +622,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * */
 	private void configure() {
 		configureRequested = true;
-		int stateValue = jnimw.get_state().getValue();
+		final int stateValue = jnimw.get_state().getValue();
 		if (MC_HC_CONNECTED != stateValue && MC_ACTIVE != stateValue) {
 			startHC();
 			return;
@@ -638,7 +640,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * */
 	private void createMTC() {
 		createMTCRequested = true;
-		int stateValue = jnimw.get_state().getValue();
+		final int stateValue = jnimw.get_state().getValue();
 		if (MC_ACTIVE != stateValue) {
 			configure();
 			return;
@@ -666,7 +668,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
-						ExecuteDialog dialog = new ExecuteDialog(null);
+						final ExecuteDialog dialog = new ExecuteDialog(null);
 						dialog.setControlparts(availableControlParts);
 						dialog.setTestcases(availableTestcases);
 						dialog.setTestsets(availableTestSetNames);
@@ -719,7 +721,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 					configFileExecutionRequestCounter = lastTimeSelectionTime;
 					invalidSelection = false;
 				} else {
-					List<String> configurationFileElements = configHandler.getExecuteElements();
+					final List<String> configurationFileElements = configHandler.getExecuteElements();
 					if (configurationFileElements.isEmpty()) {
 						invalidSelection = true;
 						Display.getDefault().syncExec( new EmptyExecutionRunnable() );
@@ -758,9 +760,9 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 			createMTC();
 			return;
 		}
-		String testElement = executeList.remove(0);
 
-		int i = testElement.indexOf('.');
+		final String testElement = executeList.remove(0);
+		final int i = testElement.indexOf('.');
 		if (i != -1) {
 			if ("control".equals(testElement.substring(i + 1))) {
 				jnimw.execute_control(testElement.substring(0, i));
@@ -787,7 +789,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * Also stops the execution if it was not done yet.
 	 * */
 	private void exitMTC() {
-		int stateValue = jnimw.get_state().getValue();
+		final int stateValue = jnimw.get_state().getValue();
 		if (MC_EXECUTING_CONTROL == stateValue || MC_EXECUTING_TESTCASE == stateValue || MC_PAUSED == stateValue) {
 			stop();
 			return;
@@ -807,7 +809,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	protected void shutdownSession() {
 		shutdownRequested = true;
 		simpleExecutionRunning = false;
-		int stateValue = jnimw.get_state().getValue();
+		final int stateValue = jnimw.get_state().getValue();
 		if (MC_LISTENING == stateValue || MC_LISTENING_CONFIGURED == stateValue || MC_HC_CONNECTED == stateValue || MC_ACTIVE == stateValue) {
 			jnimw.shutdown_session();
 			// jnimw.terminate_internal() must be also called when shutdown is finished, see statusChangeCallback() case MC_INACTIVE
@@ -826,10 +828,10 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * Updates the information displayed about the MainController's and HostControllers actual states.
 	 * */
 	private void updateInfoDisplay() {
-		JNIMiddleWare middleware = jnimw;
-		McStateEnum mcState = middleware.get_state();
-		MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
-		String mcStateName = middleware.get_mc_state_name(mcState);
+		final JNIMiddleWare middleware = jnimw;
+		final McStateEnum mcState = middleware.get_state();
+		final MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
+		final String mcStateName = middleware.get_mc_state_name(mcState);
 		tempRoot.setStateInfo(new InformationElement("state: " + mcStateName));
 
 		HostControllerElement tempHost;
@@ -838,7 +840,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		ComponentElement tempComponent;
 		StringBuilder builder;
 
-		int nofHosts = middleware.get_nof_hosts();
+		final int nofHosts = middleware.get_nof_hosts();
 		HostStruct host;
 		for (int i = 0; i < nofHosts; i++) {
 			host = middleware.get_host_data(i);
@@ -852,9 +854,9 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 			tempHost.setOperatingSystemInfo(new InformationElement(host.system_name + " " + host.system_release + " " + host.system_version));
 			tempHost.setStateInfo(new InformationElement("State: " + middleware.get_hc_state_name(host.hc_state)));
 
-			int activeComponents = host.n_active_components;
+			final int activeComponents = host.n_active_components;
 
-			int[] components = host.components.clone();
+			final int[] components = host.components.clone();
 			middleware.release_data();
 			for (int component_index = 0; component_index < activeComponents; component_index++) {
 				comp = middleware.get_component_data(components[component_index]);
@@ -882,7 +884,8 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 					builder.append(qualifiedName.definition_name);
 					tempComponent.setExecutedInfo(new InformationElement(builder.toString()));
 				}
-				VerdictTypeEnum localVerdict = comp.local_verdict;
+
+				final VerdictTypeEnum localVerdict = comp.local_verdict;
 				if (localVerdict != null) {
 					builder = new StringBuilder("local verdict: ");
 					builder.append(localVerdict.getName());
@@ -905,7 +908,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 	 * This function changes the status of the user interface elements.
 	 */
 	private void updateGUI() {
-		int stateValue = jnimw.get_state().getValue();
+		final int stateValue = jnimw.get_state().getValue();
 
 		automaticExecution.setEnabled(!isTerminated && executeList.isEmpty());
 		startSession.setEnabled(!isTerminated && MC_INACTIVE == stateValue);
@@ -947,7 +950,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 
 	@Override
 	public void terminate(final boolean external) {
-		McStateEnum state = jnimw.get_state();
+		final McStateEnum state = jnimw.get_state();
 
 		if (MC_INACTIVE == state.getValue()) {
 			setRunning(false);
@@ -955,7 +958,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 			if (mainControllerRoot != null) {
 				mainControllerRoot.setTerminated();
 				LaunchElement launchElement = null;
-				for (Map.Entry<ILaunch, BaseExecutor> entry : ExecutorStorage.getExecutorMap().entrySet()) {
+				for (final Map.Entry<ILaunch, BaseExecutor> entry : ExecutorStorage.getExecutorMap().entrySet()) {
 					if (entry.getValue().equals(mainControllerRoot.executor())
 							&& LaunchStorage.getLaunchElementMap().containsKey(entry.getKey())) {
 						launchElement = LaunchStorage.getLaunchElementMap().get(entry.getKey());
@@ -984,7 +987,7 @@ public final class JniExecutor extends BaseExecutor implements IJNICallback {
 		String result = super.generateCfgString();
 
 		if (configHandler != null) {
-			List<Integer> disallowedNodes = new ArrayList<Integer>();
+			final List<Integer> disallowedNodes = new ArrayList<Integer>();
 
 			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
 			disallowedNodes.add(CfgLexer.DEFINE_SECTION);

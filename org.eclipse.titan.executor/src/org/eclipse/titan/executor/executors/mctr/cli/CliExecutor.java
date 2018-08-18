@@ -143,7 +143,7 @@ public final class CliExecutor extends BaseExecutor {
 		super(configuration);
 
 		if (null == configFilePath) {
-			IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, CONFIGFILEPATH_NULL, null);
+			final IStatus status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, CONFIGFILEPATH_NULL, null);
 			throw new CoreException(status);
 		}
 
@@ -154,7 +154,7 @@ public final class CliExecutor extends BaseExecutor {
 		createActions();
 
 		updateUI();
-		int mcStateRefreshTimeout = configuration.getAttribute(MCSTATEREFRESHTIMEOUT, 5);
+		final int mcStateRefreshTimeout = configuration.getAttribute(MCSTATEREFRESHTIMEOUT, 5);
 		thread = new BackgroundThread("cli state refresher", mcStateRefreshTimeout, this);
 	}
 
@@ -253,8 +253,8 @@ public final class CliExecutor extends BaseExecutor {
 	 * */
 	@Override
 	public void startSession(final ILaunch arg2) {
-		ProcessBuilder pb = new ProcessBuilder();
-		Map<String, String> env = pb.environment();
+		final ProcessBuilder pb = new ProcessBuilder();
+		final Map<String, String> env = pb.environment();
 		if (!appendEnvironmentalVariables) {
 			env.clear();
 		}
@@ -270,9 +270,9 @@ public final class CliExecutor extends BaseExecutor {
 		EnvironmentHelper.setTitanPath(env);
 		EnvironmentHelper.set_LICENSE_FILE_PATH(env);
 
-		String mctrCliPath = getMctrPath(env);
+		final String mctrCliPath = getMctrPath(env);
 
-		List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<String>();
 		command.add("sh");
 		command.add("-c");
 
@@ -285,7 +285,7 @@ public final class CliExecutor extends BaseExecutor {
 		pb.command(command);
 		pb.redirectErrorStream(true);
 		if (null != workingdirectoryPath) {
-			File workingDir = new File(workingdirectoryPath);
+			final File workingDir = new File(workingdirectoryPath);
 			if (!workingDir.exists()) {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
@@ -306,7 +306,8 @@ public final class CliExecutor extends BaseExecutor {
 			if (inputstream.markSupported()) {
 				inputstream.mark(40000);
 			}
-			BufferedReader stdout = new BufferedReader(new InputStreamReader(inputstream));
+
+			final BufferedReader stdout = new BufferedReader(new InputStreamReader(inputstream));
 			processWelcomeScreen(stdout);
 			if (inputstream.markSupported()) {
 				inputstream.reset();
@@ -319,10 +320,10 @@ public final class CliExecutor extends BaseExecutor {
 		if (null != proc) {
 			process = DebugPlugin.newProcess(arg2, proc, MAIN_CONTROLLER);
 
-			IStreamsProxy proxy = process.getStreamsProxy();
+			final IStreamsProxy proxy = process.getStreamsProxy();
 			if (null != proxy) {
-				IStreamMonitor outputStreamMonitor = proxy.getOutputStreamMonitor();
-				IStreamListener outputListener = new IStreamListener() {
+				final IStreamMonitor outputStreamMonitor = proxy.getOutputStreamMonitor();
+				final IStreamListener outputListener = new IStreamListener() {
 
 					@Override
 					public void streamAppended(final String text, final IStreamMonitor monitor) {
@@ -369,7 +370,7 @@ public final class CliExecutor extends BaseExecutor {
 								"An error was found while processing the configuration file",
 								"Please refer to the Error Log view for further information.");
 					} else {
-						Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
+						final Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
 						ErrorReporter.parallelErrorDisplayInMessageDialog(
 								"Error while processing the configuration file",
 								exception.getMessage() + "\n Please refer to the Error Log view for further information.");
@@ -403,15 +404,15 @@ public final class CliExecutor extends BaseExecutor {
 	}
 
 	private boolean isLogFolderSet() {
-		IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
-		String preferenceValue = FieldEditorPropertyPage.getOverlayedPreferenceValue(
+		final IPreferenceStore preferenceStore = Activator.getDefault().getPreferenceStore();
+		final String preferenceValue = FieldEditorPropertyPage.getOverlayedPreferenceValue(
 				preferenceStore, project, PreferenceConstants.EXECUTOR_PREFERENCE_PAGE_ID, PreferenceConstants.SET_LOG_FOLDER);
 		return Boolean.parseBoolean(preferenceValue);
 	}
 
 	private void printCommandToTitanConsole(final List<String> command) {
-		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
-		for (String c : command) {
+		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
+		for (final String c : command) {
 			stream.print(c + ' ');
 		}
 		stream.println();
@@ -443,7 +444,7 @@ public final class CliExecutor extends BaseExecutor {
 			break;
 		}
 
-		IStreamsProxy proxy = process.getStreamsProxy();
+		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (proxy != null) {
 			try {
 				proxy.write("cmtc \n");
@@ -488,7 +489,7 @@ public final class CliExecutor extends BaseExecutor {
 			public void run() {
 				boolean invalidSelection = false;
 				do {
-					ExecuteDialog dialog = new ExecuteDialog(null);
+					final ExecuteDialog dialog = new ExecuteDialog(null);
 					dialog.setControlparts(availableControlParts);
 					dialog.setTestcases(availableTestcases);
 					dialog.setTestsets(availableTestSetNames);
@@ -503,7 +504,7 @@ public final class CliExecutor extends BaseExecutor {
 						return;
 					}
 
-					String selectedName = dialog.getSelectedElement();
+					final String selectedName = dialog.getSelectedElement();
 					lastTimeSelectionType = dialog.getSelectionType();
 					lastTimeSelection = selectedName;
 					lastTimeSelectionTime = dialog.getSelectionTimes();
@@ -517,10 +518,10 @@ public final class CliExecutor extends BaseExecutor {
 						break;
 					case TESTSET:
 						invalidSelection = false;
-						int index = availableTestSetNames.indexOf(lastTimeSelection);
-						List<String> contents = availableTestSetContents.get(index);
+						final int index = availableTestSetNames.indexOf(lastTimeSelection);
+						final List<String> contents = availableTestSetContents.get(index);
 						for (int j = 0; j < lastTimeSelectionTime; j++) {
-							for (String content : contents) {
+							for (final String content : contents) {
 								executeList.add("smtc " + content + '\n');
 							}
 						}
@@ -535,7 +536,7 @@ public final class CliExecutor extends BaseExecutor {
 						break;
 					case CONFIGURATIONFILE: {
 						final ConfigFileHandler tempConfigHandler = readConfigFile();
-						List<String> configurationFileElements = tempConfigHandler.getExecuteElements();
+						final List<String> configurationFileElements = tempConfigHandler.getExecuteElements();
 						if (configurationFileElements.isEmpty()) {
 							invalidSelection = true;
 							Display.getDefault().syncExec( new EmptyExecutionRunnable() );
@@ -578,8 +579,9 @@ public final class CliExecutor extends BaseExecutor {
 		if (executeList.isEmpty()) {
 			return;
 		}
-		String testElement = executeList.remove(0);
-		IStreamsProxy proxy = process.getStreamsProxy();
+
+		final String testElement = executeList.remove(0);
+		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (proxy != null) {
 			try {
 				suspectedLastState = JniExecutor.MC_EXECUTING_TESTCASE;
@@ -598,7 +600,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * Teminates the Main Test Component.
 	 * */
 	private void terminateMainTestComponent() {
-		IStreamsProxy proxy = process.getStreamsProxy();
+		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (proxy != null) {
 			try {
 				proxy.write("emtc \n");
@@ -613,7 +615,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * Exits the Executor.
 	 * */
 	private void exit() {
-		IStreamsProxy proxy = process.getStreamsProxy();
+		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (proxy != null) {
 			try {
 				proxy.write("exit \n");
@@ -628,7 +630,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * Prints information to the console about the actual state of the system.
 	 * */
 	public void info() {
-		IStreamsProxy proxy = process.getStreamsProxy();
+		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (proxy != null) {
 			try {
 				proxy.write("info \n");
@@ -668,14 +670,14 @@ public final class CliExecutor extends BaseExecutor {
 	private void processInfoOutput(final BufferedReader stdout) {
 		Matcher matcher;
 
-		MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
+		final MainControllerElement tempRoot = new MainControllerElement("Temporal root", this);
 		readFullLineOnly(stdout);
 		if (fastLine == null) {
 			return;
 		}
 		matcher = MC_STATE_PATTERN.matcher(fastLine);
 		if (matcher.matches()) {
-			String mcStateName = matcher.group(1);
+			final String mcStateName = matcher.group(1);
 			tempRoot.setStateInfo(new InformationElement("State: " + mcStateName));
 			readFullLineOnly(stdout);
 
@@ -734,17 +736,18 @@ public final class CliExecutor extends BaseExecutor {
 	 * */
 	private void processInfoOutputHC(final BufferedReader stdout, final MainControllerElement root) {
 		HostControllerElement tempHost;
-		Matcher matcher = HOSTNAME_PATTERN.matcher(fastLine);
+		final Matcher matcher = HOSTNAME_PATTERN.matcher(fastLine);
 		if (matcher.matches()) {
 			tempHost = new HostControllerElement("Host Controller");
 			root.addHostController(tempHost);
-			String hostIPAddress = matcher.group(1);
+			final String hostIPAddress = matcher.group(1);
 			tempHost.setIPAddressInfo(new InformationElement("IP address: " + hostIPAddress));
-			String hostIpNumber = matcher.group(2);
+			final String hostIpNumber = matcher.group(2);
 			if (hostIpNumber != null && hostIpNumber.length() > 0) {
 				tempHost.setIPNumberInfo(new InformationElement("IP number: " + hostIpNumber.substring(2, hostIpNumber.length() - 1)));
 			}
-			String localHostName = matcher.group(3);
+
+			final String localHostName = matcher.group(3);
 			if (localHostName != null && localHostName.length() > 0) {
 				tempHost.setHostNameInfo(new InformationElement("Local host name: "
 						+ localHostName.substring(2, localHostName.length() - 1)));
@@ -896,7 +899,7 @@ public final class CliExecutor extends BaseExecutor {
 	 * */
 	private void testExecution() {
 		if (fastLine != null && verdictExtraction && (executionFinishedMatcher.reset(fastLine).matches())) {
-			String reason = executionFinishedMatcher.group(3);
+			final String reason = executionFinishedMatcher.group(3);
 			if (reasonMatcher.reset(reason).matches()) {
 				executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(),
 						executionFinishedMatcher.group(2), reasonMatcher.group(1), reasonMatcher.group(2)));
@@ -921,9 +924,10 @@ public final class CliExecutor extends BaseExecutor {
 		if (thread != null) {
 			thread.reset();
 		}
+
 		builder.append(text);
-		StringReader reader = new StringReader(builder.toString());
-		BufferedReader stdout = new BufferedReader(reader);
+		final StringReader reader = new StringReader(builder.toString());
+		final BufferedReader stdout = new BufferedReader(reader);
 		fastOffset = 0;
 		readFullLineOnly(stdout);
 		while (fastLine != null) {
@@ -948,8 +952,8 @@ public final class CliExecutor extends BaseExecutor {
 					fastLine.substring(consoleTimeStampLength).startsWith("MC@")) {
 				fastLine = fastLine.substring(consoleTimeStampLength);
 				addNotification(new Notification((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), "", "", fastLine));
-				int index = fastLine.indexOf(':');
-				String shortversion = fastLine.substring(index + 1);
+				final int index = fastLine.indexOf(':');
+				final String shortversion = fastLine.substring(index + 1);
 				if (SHUTDOWN_COMPLETE.equals(shortversion)) {
 					running = false;
 					executeRequested = false;
@@ -994,7 +998,7 @@ public final class CliExecutor extends BaseExecutor {
 			} else {
 				//to avoid expensive steps and using cheap comparisons instead, if possible:
 				if ( consoleTimeStampLength > 0 && consoleTimeStampLength < fastLine.length() ) {
-					Matcher m =  COMPONENT_LOG_PATTERN.matcher(fastLine);
+					final Matcher m =  COMPONENT_LOG_PATTERN.matcher(fastLine);
 					if ( m.matches()) {
 						fastLine = fastLine.substring(consoleTimeStampLength);
 					}
@@ -1034,7 +1038,8 @@ public final class CliExecutor extends BaseExecutor {
 				fastLine = null;
 				return;
 			}
-			char c = builder.charAt(fastOffset);
+
+			final char c = builder.charAt(fastOffset);
 			if (c == '\n') {
 				fastOffset++;
 				return;

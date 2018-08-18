@@ -136,7 +136,7 @@ public abstract class BasePerformanceSettingsTab extends AbstractLaunchConfigura
 	}
 
 	protected final void createLineCountArea(final Composite parent) {
-		Composite lineCountComposite = new Composite(parent, SWT.NONE);
+		final Composite lineCountComposite = new Composite(parent, SWT.NONE);
 		lineCountComposite.setLayout(new GridLayout(2, false));
 
 		prefixLabel = new Label(lineCountComposite, SWT.NONE);
@@ -157,7 +157,7 @@ public abstract class BasePerformanceSettingsTab extends AbstractLaunchConfigura
 	}
 
 	protected final void createRefreshTimeoutArea(final Composite parent) {
-		Composite lineCountComposite = new Composite(parent, SWT.NONE);
+		final Composite lineCountComposite = new Composite(parent, SWT.NONE);
 		lineCountComposite.setLayout(new GridLayout(2, false));
 
 		prefixLabel = new Label(lineCountComposite, SWT.NONE);

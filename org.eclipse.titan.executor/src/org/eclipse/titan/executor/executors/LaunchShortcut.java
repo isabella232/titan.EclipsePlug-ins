@@ -68,11 +68,11 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 			final ILaunchConfiguration[] configurations = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(configurationType);
 
 			final List<ILaunchConfiguration> candidateConfigurations = new ArrayList<ILaunchConfiguration>();
-			for (ILaunchConfiguration configuration : configurations) {
-				IResource[] resources = configuration.getMappedResources();
+			for (final ILaunchConfiguration configuration : configurations) {
+				final IResource[] resources = configuration.getMappedResources();
 				if (null != resources) {
 					boolean found = false;
-					for (IResource resource : resources) {
+					for (final IResource resource : resources) {
 						if (file.equals(resource)) {
 							found = true;
 						}
@@ -87,13 +87,13 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 				candidateConfigurations.get(0).launch(mode, null);
 				return null;
 			} else if (candidateConfigurations.size() > 1) {
-				ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
-				ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
+				final ILabelProvider labelProvider = DebugUITools.newDebugModelPresentation();
+				final ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
 				dialog.setTitle(getDialogTitle());
 				dialog.setMessage("Select existing configuration:");
 				dialog.setElements(candidateConfigurations.toArray(new ILaunchConfiguration[candidateConfigurations.size()]));
 				if (dialog.open() == Window.OK) {
-					ILaunchConfiguration result = (ILaunchConfiguration) dialog.getFirstResult();
+					final ILaunchConfiguration result = (ILaunchConfiguration) dialog.getFirstResult();
 					result.launch(mode, null);
 					labelProvider.dispose();
 					return null ;
@@ -102,7 +102,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 				labelProvider.dispose();
 			}
 			final String configurationName = "new configuration (" + file.getFullPath().toString().replace("/", "__") + ")";
-			ILaunchConfigurationWorkingCopy wc = configurationType.newInstance(null, configurationName);
+			final ILaunchConfigurationWorkingCopy wc = configurationType.newInstance(null, configurationName);
 			wc.setMappedResources(new IResource[] {project});
 			wc.setAttribute(EXECUTECONFIGFILEONLAUNCH, true);
 
@@ -138,7 +138,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 		if ((selections[0] instanceof IProject)) {
 			// try to find the cfg file:
 			project = (IProject) selections[0];
-			List<IFile> cfgFiles = ProjectFileHandler.getCfgFiles(project);
+			final List<IFile> cfgFiles = ProjectFileHandler.getCfgFiles(project);
 			if (cfgFiles.size() == 1) {
 				cfgFile = cfgFiles.get(0);
 			} else if (cfgFiles.size() > 1) {
@@ -177,7 +177,7 @@ public abstract class LaunchShortcut implements ILaunchShortcut {
 		}
 		try {
 			if (result) {
-				ILaunchConfiguration conf = wc.doSave();
+				final ILaunchConfiguration conf = wc.doSave();
 				conf.launch(mode, null);
 			}
 		} catch (CoreException e) {

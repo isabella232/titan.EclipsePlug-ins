@@ -34,7 +34,7 @@ public final class MctrCliMainControllerTab extends BaseMainControllerTab {
 
 	@Override
 	public boolean isValid(final ILaunchConfiguration launchConfig) {
-		boolean result = super.isValid(launchConfig);
+		final boolean result = super.isValid(launchConfig);
 		if (!result) {
 			return false;
 		}

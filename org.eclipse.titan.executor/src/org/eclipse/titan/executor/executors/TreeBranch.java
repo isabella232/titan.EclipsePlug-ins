@@ -25,9 +25,10 @@ public class TreeBranch extends TreeLeaf implements ITreeBranch {
 
 	@Override
 	public void dispose() {
-		for (ITreeLeaf element : children) {
+		for (final ITreeLeaf element : children) {
 			element.dispose();
 		}
+
 		children.clear();
 		super.dispose();
 	}
@@ -43,7 +44,7 @@ public class TreeBranch extends TreeLeaf implements ITreeBranch {
 	}
 
 	public final void addChildBefore(final TreeLeaf child, final TreeLeaf reference) {
-		int index = children.indexOf(reference);
+		final int index = children.indexOf(reference);
 		if (index == -1) {
 			children.add(child);
 		} else {
@@ -63,7 +64,7 @@ public class TreeBranch extends TreeLeaf implements ITreeBranch {
 	 * @param element the element whose children are to be transported.
 	 * */
 	public final void transferChildren(final TreeBranch element) {
-		for (ITreeLeaf tempElement : element.children) {
+		for (final ITreeLeaf tempElement : element.children) {
 			children.add(tempElement);
 			tempElement.parent(this);
 		}

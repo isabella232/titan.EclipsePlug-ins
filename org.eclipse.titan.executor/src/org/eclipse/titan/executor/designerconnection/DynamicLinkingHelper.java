@@ -57,7 +57,7 @@ public final class DynamicLinkingHelper {
 
 		final int oldSize = referenceChain.size();
 		referenceChain.add(actualProject);
-		for (IProject tempProject : referencedProjects) {
+		for (final IProject tempProject : referencedProjects) {
 			getAllReachableProjects(referenceChain, tempProject, knownProjects);
 		}
 		referenceChain.remove(oldSize);
@@ -79,7 +79,7 @@ public final class DynamicLinkingHelper {
 		}
 
 		final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		for (IProject project : projects) {
+		for (final IProject project : projects) {
 			if (project.isAccessible() && project.getName().equals(projectName)) {
 				try {
 					if (project.hasNature(DesignerHelper.NATURE_ID)) {

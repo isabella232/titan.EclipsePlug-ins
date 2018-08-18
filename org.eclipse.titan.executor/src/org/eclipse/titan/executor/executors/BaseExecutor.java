@@ -213,13 +213,13 @@ public abstract class BaseExecutor {
 		availableTestSetNames = configuration.getAttribute(TestSetTab.TESTSETNAMES_LABEL, (ArrayList<String>) null);
 		if (null != availableTestSetNames) {
 			availableTestSetContents = new ArrayList<List<String>>();
-			for (String testsetName : availableTestSetNames) {
+			for (final String testsetName : availableTestSetNames) {
 				availableTestSetContents.add(configuration.getAttribute(TestSetTab.TESTCASESOF_PREFIX + testsetName, (ArrayList<String>) null));
 			}
 		}
 
 		consoleLogging = configuration.getAttribute(CONSOLELOGGING, true);
-		boolean testcaseRefreshOnStart = configuration.getAttribute(TESTCASEREFRESHONSTART, true);
+		final boolean testcaseRefreshOnStart = configuration.getAttribute(TESTCASEREFRESHONSTART, true);
 		severityLevelExtraction = configuration.getAttribute(SEVERITYLEVELEXTRACTION, true);
 		maximumNotificationCount = configuration.getAttribute(MAXIMUMNOTIFICATIONLINECOUNT, 1000);
 		verdictExtraction = configuration.getAttribute(VERDICTEXTRACTION, true);
@@ -228,13 +228,13 @@ public abstract class BaseExecutor {
 		String nullString = null;
 		lastTimeSelection = configuration.getAttribute("lastTimeSelection", nullString);
 		lastTimeSelectionTime = configuration.getAttribute("lastTimeSelectionTime", 1);
-		int tempLastSelectionType = configuration.getAttribute("lastTimeSelectionType", 0);
+		final int tempLastSelectionType = configuration.getAttribute("lastTimeSelectionType", 0);
 		lastTimeSelectionType = ExecutableType.getExecutableType(tempLastSelectionType);
 
-		List<String> hostNames = configuration.getAttribute(HOSTNAMES, (ArrayList<String>) null);
-		List<String> hostWorkingDirectories = configuration.getAttribute(HOSTWORKINGDIRECTORIES, (ArrayList<String>) null);
-		List<String> hostExecutables = configuration.getAttribute(HOSTEXECUTABLES, (ArrayList<String>) null);
-		List<String> hostCommands = configuration.getAttribute(HOSTCOMMANDS, (ArrayList<String>) null);
+		final List<String> hostNames = configuration.getAttribute(HOSTNAMES, (ArrayList<String>) null);
+		final List<String> hostWorkingDirectories = configuration.getAttribute(HOSTWORKINGDIRECTORIES, (ArrayList<String>) null);
+		final List<String> hostExecutables = configuration.getAttribute(HOSTEXECUTABLES, (ArrayList<String>) null);
+		final List<String> hostCommands = configuration.getAttribute(HOSTCOMMANDS, (ArrayList<String>) null);
 		if (null != hostNames && null != hostWorkingDirectories && null != hostCommands && null != hostExecutables) {
 			final int size = hostNames.size();
 			if (size > 0 && size == hostWorkingDirectories.size()
@@ -249,14 +249,14 @@ public abstract class BaseExecutor {
 
 		//correct the testcase list
 		if (null != executablePath && executablePath.length() > 0 && testcaseRefreshOnStart) {
-			ExecutableCalculationHelper helper = BaseMainControllerTab.checkExecutable(configuration, project, URIUtil.toURI(executablePath));
+			final ExecutableCalculationHelper helper = BaseMainControllerTab.checkExecutable(configuration, project, URIUtil.toURI(executablePath));
 			if (helper.executableFileIsValid && helper.executableIsExecutable) {
 				helper.availableTestcases.toArray(new String[helper.availableTestcases.size()]);
 			}
 			if (null == availableTestcases) {
 				availableTestcases = helper.availableTestcases;
 			} else {
-				for (String testcase : helper.availableTestcases) {
+				for (final String testcase : helper.availableTestcases) {
 					if (testcase.endsWith(".control")) {
 						if (!availableControlParts.contains(testcase)) {
 							availableControlParts.add(testcase);
@@ -282,7 +282,7 @@ public abstract class BaseExecutor {
 	private String resolvePathFromAttribute(final ILaunchConfiguration configuration, final String projectLocation, final String attribute) throws CoreException {
 		String path = configuration.getAttribute(attribute, (String) null);
 		if (!isNullOrEmpty(path)) {
-			URI uri = TITANPathUtilities.resolvePathURI(path, projectLocation);
+			final URI uri = TITANPathUtilities.resolvePathURI(path, projectLocation);
 			path = URIUtil.toPath(uri).toOSString();
 		}
 		return path;
@@ -299,7 +299,7 @@ public abstract class BaseExecutor {
 	 * Disposes all the host controllers handled by this executor.
 	 * */
 	protected final void disposeHostControllers() {
-		for (HostJob job : innerHostControllers) {
+		for (final HostJob job : innerHostControllers) {
 			job.dispose();
 		}
 		innerHostControllers.clear();
@@ -314,13 +314,13 @@ public abstract class BaseExecutor {
 			return;
 		}
 
-		ILaunchConfiguration configuration = launchStarted.getLaunchConfiguration();
+		final ILaunchConfiguration configuration = launchStarted.getLaunchConfiguration();
 		if (null == configuration) {
 			return;
 		}
 
 		try {
-			ILaunchConfigurationWorkingCopy copy = configuration.getWorkingCopy();
+			final ILaunchConfigurationWorkingCopy copy = configuration.getWorkingCopy();
 			copy.setAttribute("lastTimeSelection", lastTimeSelection);
 			copy.setAttribute("lastTimeSelectionTime", lastTimeSelectionTime);
 			copy.setAttribute("lastTimeSelectionType", lastTimeSelectionType.getValue());
@@ -473,7 +473,7 @@ public abstract class BaseExecutor {
 			return;
 		}
 
-		WorkspaceJob op = new WorkspaceJob("Refreshing the project `" + project.getName() + "' to discover log files") {
+		final WorkspaceJob op = new WorkspaceJob("Refreshing the project `" + project.getName() + "' to discover log files") {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				try {
@@ -499,8 +499,9 @@ public abstract class BaseExecutor {
 					NO_HOSTCONTROLLER_SPECIFIED));
 			return;
 		}
-		ProcessBuilder pb = new ProcessBuilder();
-		Map<String, String> env = pb.environment();
+
+		final ProcessBuilder pb = new ProcessBuilder();
+		final Map<String, String> env = pb.environment();
 		if (!appendEnvironmentalVariables) {
 			env.clear();
 		}
@@ -516,7 +517,7 @@ public abstract class BaseExecutor {
 		EnvironmentHelper.setTitanPath(env);
 		EnvironmentHelper.set_LICENSE_FILE_PATH(env);
 
-		IProject actualProject = DynamicLinkingHelper.getProject(projectName);
+		final IProject actualProject = DynamicLinkingHelper.getProject(projectName);
 		if (actualProject != null) {
 			EnvironmentHelper.set_LD_LIBRARY_PATH(actualProject, env);
 		}
@@ -525,11 +526,11 @@ public abstract class BaseExecutor {
 
 		HostController controller;
 		List<String> shellCommand;
-		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
+		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		String command;
 
 		for (int i = 0; i < hostControllers.size(); i++) {
-			StringBuilder hostControllerLabel = new StringBuilder("Host Controller instance " + (i + 1));
+			final StringBuilder hostControllerLabel = new StringBuilder("Host Controller instance " + (i + 1));
 
 			controller = hostControllers.get(i);
 			command = controller.command();
@@ -546,7 +547,8 @@ public abstract class BaseExecutor {
 					path = TITANPathUtilities.resolvePathURI(controller.workingdirectory(), actualProject.getLocation().toOSString());
 				}
 			}
-			String workingDirResult = PathConverter.convert(oldStyleWorkingDir ? controller.workingdirectory() : URIUtil.toPath(path).toOSString(), true, TITANConsole.getConsole());
+
+			final String workingDirResult = PathConverter.convert(oldStyleWorkingDir ? controller.workingdirectory() : URIUtil.toPath(path).toOSString(), true, TITANConsole.getConsole());
 			command = command.replace(REPLACEABLEHOSTWORKIGNDIRECTORY, workingDirResult);
 
 			boolean oldStyleExecutable = true;
@@ -559,7 +561,8 @@ public abstract class BaseExecutor {
 					path = TITANPathUtilities.resolvePathURI(controller.executable(), actualProject.getLocation().toOSString());
 				}
 			}
-			String executableResult = PathConverter.convert(oldStyleExecutable ? controller.executable() : URIUtil.toPath(path).toOSString(), true, TITANConsole.getConsole());
+
+			final String executableResult = PathConverter.convert(oldStyleExecutable ? controller.executable() : URIUtil.toPath(path).toOSString(), true, TITANConsole.getConsole());
 			String result = PathUtil.getRelativePath(workingDirResult, executableResult);
 			if (!result.equals(executableResult)) {
 				result = "./" + result;
@@ -577,7 +580,7 @@ public abstract class BaseExecutor {
 			shellCommand.add("-c");
 			shellCommand.add(command);
 
-			for (String c : shellCommand) {
+			for (final String c : shellCommand) {
 				stream.print(c + ' ');
 			}
 			stream.println();
@@ -588,7 +591,7 @@ public abstract class BaseExecutor {
 			}
 			try {
 				proc = pb.start();
-				HostJob job = new HostJob(hostControllerLabel.toString(), proc, this);
+				final HostJob job = new HostJob(hostControllerLabel.toString(), proc, this);
 				innerHostControllers.add(job);
 				job.setPriority(Job.DECORATE);
 				job.setUser(true);
@@ -638,8 +641,9 @@ public abstract class BaseExecutor {
 	 */
 	private String getLogDir() {
 		if ( this.logFileNameDefined && mLogFileName != null ) {
-			File file = new File(mLogFileName);
-			String parent = file.getParent();
+			final File file = new File(mLogFileName);
+			final String parent = file.getParent();
+
 			return parent != null ? parent : "";
 		}
 
@@ -651,8 +655,8 @@ public abstract class BaseExecutor {
 	 * @return the generated cfg string
 	 */
 	protected String generateCfgString() {
-		StringBuilder builder = new StringBuilder();
-		String workingDirRelative = getDefaultLogFileDir();
+		final StringBuilder builder = new StringBuilder();
+		final String workingDirRelative = getDefaultLogFileDir();
 		if (workingDirRelative != null && workingDirRelative.length() != 0) {
 			builder.append("\n//This part was added by the TITAN Executor.\n");
 			builder.append("[LOGGING]\n");
@@ -661,6 +665,7 @@ public abstract class BaseExecutor {
 			builder.append(getDefaultLogFileName());
 			builder.append("\"\n\n");
 		}
+
 		return builder.toString();
 	}
 
@@ -676,7 +681,7 @@ public abstract class BaseExecutor {
 
 		final ConfigFileHandler configHandler = new ConfigFileHandler();
 		configHandler.readFromFile(configFilePath);
-		Map<String, String> env = appendEnvironmentalVariables ? new HashMap<String, String>( System.getenv() ) : new HashMap<String, String>();
+		final Map<String, String> env = appendEnvironmentalVariables ? new HashMap<String, String>( System.getenv() ) : new HashMap<String, String>();
 
 		if (environmentalVariables != null) {
 			try {
@@ -702,21 +707,22 @@ public abstract class BaseExecutor {
 			return;
 		}
 
-		String workingDirRelative = getLogDir();
+		final String workingDirRelative = getLogDir();
 		if ( workingDirRelative == null ) {
 			return;
 		}
-		String logFileFolder = workingdirectoryPath + File.separator + workingDirRelative + File.separator;
-		Path path = new Path(logFileFolder);
 
-		IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(path);
+		final String logFileFolder = workingdirectoryPath + File.separator + workingDirRelative + File.separator;
+		final Path path = new Path(logFileFolder);
+
+		final IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(path);
 		if (folder == null || !folder.exists()) {
 			return;
 		}
 
 		final StringBuilder filesThatCanNotBeDeleted = new StringBuilder();
 		try {
-			for (IResource resource : folder.members()) {
+			for (final IResource resource : folder.members()) {
 				try {
 					if (resource instanceof IFile && "log".equals(resource.getFileExtension())) {
 						resource.delete(true, new NullProgressMonitor());
@@ -766,23 +772,23 @@ public abstract class BaseExecutor {
 			return;
 		}
 
-		String workingDirRelative =  getLogDir();
+		final String workingDirRelative =  getLogDir();
 		if ( workingDirRelative == null ) {
 			return;
 		}
-		String logFileFolder = workingdirectoryPath + File.separator + workingDirRelative + File.separator;
-		Path path = new Path(logFileFolder);
 
+		final String logFileFolder = workingdirectoryPath + File.separator + workingDirRelative + File.separator;
+		final Path path = new Path(logFileFolder);
 
-		IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(path);
+		final IContainer folder = ResourcesPlugin.getWorkspace().getRoot().getContainerForLocation(path);
 		if (folder == null || !folder.exists()) {
 			return;
 		}
 
-		List<IFile> filesToMerge = new ArrayList<IFile>();
+		final List<IFile> filesToMerge = new ArrayList<IFile>();
 		try {
 			folder.refreshLocal(IResource.DEPTH_INFINITE, new NullProgressMonitor());
-			for (IResource resource : folder.members()) {
+			for (final IResource resource : folder.members()) {
 				if (resource instanceof IFile && "log".equals(resource.getFileExtension())) {
 					try {
 						if (!Boolean.valueOf(resource.getPersistentProperty(MergeLog.MERGED_FILE_PROPERTY))) {
@@ -799,7 +805,7 @@ public abstract class BaseExecutor {
 					"The log folder "+logFileFolder+ " is not accessible.");
 		}
 
-		MergeLog mergeLog = new MergeLog();
+		final MergeLog mergeLog = new MergeLog();
 		mergeLog.setShowDialog(false);
 		mergeLog.run(filesToMerge, false);
 	}
@@ -818,7 +824,7 @@ public abstract class BaseExecutor {
 		}
 
 		if (!keepTemporarilyGeneratedConfigFiles && null != temporalConfigFile && temporalConfigFile.exists()) {
-			boolean result = temporalConfigFile.delete();
+			final boolean result = temporalConfigFile.delete();
 			if (!result) {
 				ErrorReporter.logError("The temporal configuration file " + temporalConfigFile.getName() + " could not be deleted");
 				return;

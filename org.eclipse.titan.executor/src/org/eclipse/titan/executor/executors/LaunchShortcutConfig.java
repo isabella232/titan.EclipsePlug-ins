@@ -66,11 +66,11 @@ public abstract class LaunchShortcutConfig implements ILaunchShortcut {
 			final ILaunchConfigurationType configurationType = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurationType(getConfigurationId());
 			final ILaunchConfiguration[] configurations = DebugPlugin.getDefault().getLaunchManager().getLaunchConfigurations(configurationType);
 			final List<ILaunchConfiguration> candidateConfigurations = new ArrayList<ILaunchConfiguration>();
-			for (ILaunchConfiguration configuration : configurations) {
-				IResource[] resources = configuration.getMappedResources();
+			for (final ILaunchConfiguration configuration : configurations) {
+				final IResource[] resources = configuration.getMappedResources();
 				if (null != resources) {
 					boolean found = false;
-					for (IResource resource : resources) {
+					for (final IResource resource : resources) {
 						if (file.equals(resource)) {
 							found = true;
 						}

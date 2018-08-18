@@ -129,7 +129,7 @@ public final class HostControllerDialog extends Dialog {
 
 			@Override
 			public void widgetDisposed(final DisposeEvent e) {
-				for (Image image : images) {
+				for (final Image image : images) {
 					image.dispose();
 				}
 			}
@@ -161,7 +161,8 @@ public final class HostControllerDialog extends Dialog {
 		} else {
 			executablePath = TITANPathUtilities.resolvePathURI(executableText.getStringValue(), project.getLocation().toOSString());
 		}
-		String path = PathUtil.getRelativePath(URIUtil.toPath(workingDirPath).toOSString(), URIUtil.toPath(executablePath).toOSString());
+
+		final String path = PathUtil.getRelativePath(URIUtil.toPath(workingDirPath).toOSString(), URIUtil.toPath(executablePath).toOSString());
 		example = example.replace(REPLACEABLEHOSTEXECUTABLE, path);
 
 		String hostName;
@@ -186,7 +187,7 @@ public final class HostControllerDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -197,7 +198,7 @@ public final class HostControllerDialog extends Dialog {
 
 		exampleCommand = new Label(container, SWT.NONE);
 		exampleCommand.setText("example command: ");
-		GridData data = new GridData();
+		final GridData data = new GridData();
 		data.grabExcessHorizontalSpace = true;
 		data.horizontalSpan = 2;
 		data.horizontalAlignment = SWT.FILL;
@@ -211,16 +212,16 @@ public final class HostControllerDialog extends Dialog {
 	}
 
 	protected void createHostNameArea(final Composite parent) {
-		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(3, false);
+		final Composite panel = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(3, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label label = new Label(panel, SWT.NONE);
+		final Label label = new Label(panel, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setImage(images[0]);
 
-		Label hostNameLabel = new Label(panel, SWT.NONE);
+		final Label hostNameLabel = new Label(panel, SWT.NONE);
 		hostNameLabel.setText("hostname:");
 		hostNameLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		hostNameLabel.setToolTipText("The value for %Host");
@@ -235,8 +236,8 @@ public final class HostControllerDialog extends Dialog {
 	}
 
 	protected void createWorkingdirectoryArea(final Composite parent) {
-		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
+		final Composite panel = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(2, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -252,8 +253,8 @@ public final class HostControllerDialog extends Dialog {
 	}
 
 	protected void createExecutableArea(final Composite parent) {
-		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
+		final Composite panel = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(2, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
@@ -270,16 +271,16 @@ public final class HostControllerDialog extends Dialog {
 	}
 
 	protected void createCommandArea(final Composite parent) {
-		Composite panel = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(3, false);
+		final Composite panel = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(3, false);
 		panel.setLayout(layout);
 		panel.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 
-		Label label = new Label(panel, SWT.NONE);
+		final Label label = new Label(panel, SWT.NONE);
 		label.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		label.setImage(images[3]);
 
-		Label commandLabel = new Label(panel, SWT.NONE);
+		final Label commandLabel = new Label(panel, SWT.NONE);
 		commandLabel.setText("command:");
 		commandLabel.setLayoutData(new GridData(GridData.HORIZONTAL_ALIGN_BEGINNING));
 		commandLabel.setToolTipText("The command to execute.\n" + "Additonally %MCHost and %MCPort is replaced by maincontroller provided data");

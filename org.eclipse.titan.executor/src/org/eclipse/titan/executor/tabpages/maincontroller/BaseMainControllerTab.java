@@ -99,7 +99,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 		@Override
 		public void modifyText(final ModifyEvent e) {
-			Object source = e.getSource();
+			final Object source = e.getSource();
 			if (null == source) {
 				return;
 			}
@@ -117,7 +117,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 		@Override
 		public void widgetSelected(final SelectionEvent e) {
-			Object source = e.getSource();
+			final Object source = e.getSource();
 			if (null == source) {
 				return;
 			}
@@ -165,11 +165,11 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 	@Override
 	public final void createControl(final Composite parent) {
-		Composite pageComposite = new Composite(parent, SWT.NONE);
-		GridLayout pageCompositeLayout = new GridLayout();
+		final Composite pageComposite = new Composite(parent, SWT.NONE);
+		final GridLayout pageCompositeLayout = new GridLayout();
 		pageCompositeLayout.numColumns = 1;
 		pageComposite.setLayout(pageCompositeLayout);
-		GridData pageCompositeGridData = new GridData();
+		final GridData pageCompositeGridData = new GridData();
 		pageCompositeGridData.horizontalAlignment = GridData.FILL;
 		pageCompositeGridData.grabExcessHorizontalSpace = true;
 		pageCompositeGridData.grabExcessVerticalSpace = true;
@@ -212,17 +212,18 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			if (!temp.equals(configurationFileText.getStringValue())) {
 				configurationFileText.setStringValue(temp);
 			}
-			boolean tempBoolean = configuration.getAttribute(EXECUTECONFIGFILEONLAUNCH, false);
+
+			final boolean tempBoolean = configuration.getAttribute(EXECUTECONFIGFILEONLAUNCH, false);
 			if (tempBoolean != automaticExecuteSectionExecution.getSelection()) {
 				automaticExecuteSectionExecution.setSelection(tempBoolean);
 			}
 
-			IProject project = getProject();
+			final IProject project = getProject();
 			if (project == null) {
 				return;
 			}
 
-			String projectPath = project.getLocation().toOSString(); //TODO should use URI based addresses
+			final String projectPath = project.getLocation().toOSString(); //TODO should use URI based addresses
 			workingdirectoryText.setRootPath(projectPath);
 			configurationFileText.setRootPath(projectPath);
 			executableFileText.setRootPath(projectPath);
@@ -239,7 +240,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		configuration.setAttribute(CONFIGFILEPATH, configurationFileText.getStringValue());
 		configuration.setAttribute(EXECUTECONFIGFILEONLAUNCH, automaticExecuteSectionExecution.getSelection());
 
-		IProject project = getProject();
+		final IProject project = getProject();
 		configuration.setMappedResources(new IResource[] {project});
 	}
 
@@ -254,13 +255,13 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	}
 
 	protected final void createProjectEditor(final Composite parent) {
-		Font font = parent.getFont();
-		Group group = new Group(parent, SWT.NONE);
+		final Font font = parent.getFont();
+		final Group group = new Group(parent, SWT.NONE);
 		group.setText(PROJECT);
 		group.setToolTipText(PROJECT_TOOLTIP);
 		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		group.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		group.setLayout(layout);
 		group.setFont(font);
@@ -274,7 +275,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	}
 
 	protected final void createWorkingdirectoryEditor(final Composite parent) {
-		Font font = parent.getFont();
+		final Font font = parent.getFont();
 		workingDirGroup = new Group(parent, SWT.NONE);
 		if (workingDirectoryRequired) {
 			workingDirGroup.setText(WORKING_DIR_REQUIRED);
@@ -282,14 +283,14 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			workingDirGroup.setText(WORKING_DIR);
 		}
 		workingDirGroup.setToolTipText(WORKING_DIR_TOOLTIP);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		workingDirGroup.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		workingDirGroup.setLayout(layout);
 		workingDirGroup.setFont(font);
 
-		IProject project = getProject();
+		final IProject project = getProject();
 		if (project == null) {
 			workingdirectoryText = new TITANResourceLocator("working directory:", workingDirGroup, IResource.FOLDER, "");
 		} else {
@@ -301,7 +302,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	}
 
 	protected final void createExecutableEditor(final Composite parent) {
-		Font font = parent.getFont();
+		final Font font = parent.getFont();
 		executableGroup = new Group(parent, SWT.NONE);
 		if (executableRequired) {
 			executableGroup.setText(EXECUTABLE_REQUIRED);
@@ -310,14 +311,15 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			executableGroup.setText(EXECUTABLE);
 			executableGroup.setToolTipText(EXECUTABLE_TOOLTIP);
 		}
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+
+		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		executableGroup.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		executableGroup.setLayout(layout);
 		executableGroup.setFont(font);
 
-		IProject project = getProject();
+		final IProject project = getProject();
 		if (project == null) {
 			executableFileText = new TITANResourceLocator(EXECUTABLE, executableGroup, IResource.FILE, "");
 		} else {
@@ -328,18 +330,18 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	}
 
 	protected final void createConfigurationEditor(final Composite parent) {
-		Font font = parent.getFont();
+		final Font font = parent.getFont();
 		configFileGroup = new Group(parent, SWT.NONE);
 		configFileGroup.setText(CONFIGFILE);
 		configFileGroup.setToolTipText(CONFIGFILE_TOOLTIP);
-		GridData gd = new GridData(GridData.FILL_HORIZONTAL);
+		final GridData gd = new GridData(GridData.FILL_HORIZONTAL);
 		configFileGroup.setLayoutData(gd);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		configFileGroup.setLayout(layout);
 		configFileGroup.setFont(font);
 
-		IProject project = getProject();
+		final IProject project = getProject();
 		if (project == null) {
 			configurationFileText = new TITANResourceLocator(CONFIGFILE, configFileGroup, IResource.FILE, "");
 		} else {
@@ -361,13 +363,13 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	 * or constraining the search for main types to the specified project.
 	 */
 	protected final void handleProjectButtonSelected() {
-		ILabelProvider labelProvider = new WorkbenchLabelProvider();
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(getShell(), labelProvider);
+		final ILabelProvider labelProvider = new WorkbenchLabelProvider();
+		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(getShell(), labelProvider);
 		dialog.setTitle("Project selection");
 		dialog.setMessage("Select a project to constrain your search.");
-		IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
-		List<IProject> availableProjects = new ArrayList<IProject>(projects.length);
-		for (IProject project : projects) {
+		final IProject[] projects = ResourcesPlugin.getWorkspace().getRoot().getProjects();
+		final List<IProject> availableProjects = new ArrayList<IProject>(projects.length);
+		for (final IProject project : projects) {
 			try {
 				if (project.isAccessible() && project.hasNature(DesignerHelper.NATURE_ID)) {
 					availableProjects.add(project);
@@ -378,7 +380,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		}
 		dialog.setElements(availableProjects.toArray(new IProject[availableProjects.size()]));
 		if (dialog.open() == Window.OK) {
-			String projectName = ((IProject) dialog.getFirstResult()).getName();
+			final String projectName = ((IProject) dialog.getFirstResult()).getName();
 			if (!projectName.equals(projectNameText.getText())) {
 				projectNameText.setText(projectName);
 			}
@@ -393,8 +395,8 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			return null;
 		}
 
-		String projectName = projectNameText.getText();
-		IProject projectWithTitanNature = DynamicLinkingHelper.getProject(projectName);
+		final String projectName = projectNameText.getText();
+		final IProject projectWithTitanNature = DynamicLinkingHelper.getProject(projectName);
 		if (projectWithTitanNature != null) {
 			projectIsValid = true;
 		}
@@ -402,7 +404,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	}
 
 	private void handleProjectNameModified() {
-		IProject project = getProject();
+		final IProject project = getProject();
 		if (project == null) {
 			projectIsValid = false;
 			return;
@@ -410,7 +412,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 		projectIsValid = true;
 		workingdirectoryText.setStringValue(getRAWWorkingDirectoryForProject(project));
-		String executable = getExecutableForProject(project);
+		final String executable = getExecutableForProject(project);
 		if (executable != null) {
 			executableFileText.setStringValue(executable);
 		}
@@ -418,14 +420,15 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 
 	protected final void handleWorkingDirectoryModified() {
 		if (!EMPTY.equals(workingdirectoryText.getStringValue())) {
-			IProject project = getProject();
+			final IProject project = getProject();
 			URI uri;
 			if (project == null) {
 				uri = URIUtil.toURI(workingdirectoryText.getStringValue());
 			} else {
 				uri = TITANPathUtilities.resolvePathURI(workingdirectoryText.getStringValue(), getProject().getLocation().toOSString());
 			}
-			File file = new File(uri);
+
+			final File file = new File(uri);
 			if (file.exists() && file.isDirectory()) {
 				workingDirectoryIsValid = true;
 				return;
@@ -452,15 +455,15 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	 * @return the information extracted.
 	 * */
 	public static ExecutableCalculationHelper checkExecutable(final ILaunchConfiguration configuration, final IProject project, final URI executableFileName) {
-		ExecutableCalculationHelper result = new ExecutableCalculationHelper();
+		final ExecutableCalculationHelper result = new ExecutableCalculationHelper();
 
-		File file = new File(executableFileName);
+		final File file = new File(executableFileName);
 		if (!file.exists() || !file.isFile()) {
 			return result;
 		}
 
-		ProcessBuilder pb = new ProcessBuilder();
-		Map<String, String> env = pb.environment();
+		final ProcessBuilder pb = new ProcessBuilder();
+		final Map<String, String> env = pb.environment();
 		Map<String, String> tempEnvironmentalVariables;
 
 		try {
@@ -472,7 +475,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		}
 
 		if (project != null) {
-			IProject actualProject = DynamicLinkingHelper.getProject(project.getName());
+			final IProject actualProject = DynamicLinkingHelper.getProject(project.getName());
 			if (actualProject != null) {
 				EnvironmentHelper.setTitanPath(env);
 				EnvironmentHelper.set_LICENSE_FILE_PATH(env);
@@ -480,9 +483,9 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			}
 		}
 
-		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
+		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
 		Process proc;
-		String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
+		final String exename = PathConverter.convert(file.getPath(), true, TITANDebugConsole.getConsole());
 		StringBuilder lastParam = new StringBuilder(exename);
 		lastParam.append(" -v");
 		List<String> shellCommand;
@@ -492,12 +495,12 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		shellCommand.add(lastParam.toString());
 		// "sh", "-c", "exename", "-v" doesn't work :(   It has to be
 		// "sh", "-c", "exename -v"
-		for (String c : shellCommand) {
+		for (final String c : shellCommand) {
 			stream.print(c + ' ');
 		}
 		stream.println();
 		pb.command(shellCommand);
-		Pattern singlePattern = Pattern.compile("TTCN-3 Test Executor \\(single mode\\).*");
+		final Pattern singlePattern = Pattern.compile("TTCN-3 Test Executor \\(single mode\\).*");
 		result.executableIsForSingleMode = false;
 		BufferedReader stderr = null;
 		try {
@@ -529,7 +532,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		lastParam.append(" -l");
 		// replace the last parameter
 		shellCommand.set(shellCommand.size() - 1, lastParam.toString());
-		for (String c : shellCommand) {
+		for (final String c : shellCommand) {
 			stream.print(c + ' ');
 		}
 		stream.println();
@@ -545,7 +548,8 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 				result.availableTestcases.add(line);
 				stream.println(line);
 			}
-			int exitval = proc.waitFor();
+
+			final int exitval = proc.waitFor();
 			if (exitval != 0 && stderr.ready()) {
 				stream.println("Testing of the executable failed");
 				stream.println("  with value:" + exitval);
@@ -580,7 +584,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		BusyIndicator.showWhile(null, new Runnable() {
 			@Override
 			public void run() {
-				IProject project = getProject();
+				final IProject project = getProject();
 				URI uri;
 				if (project == null) {
 					uri = URIUtil.toURI(executableFileText.getStringValue());
@@ -588,16 +592,16 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 					uri = TITANPathUtilities.resolvePathURI(executableFileText.getStringValue(), getProject().getLocation().toOSString());
 				}
 
-				ExecutableCalculationHelper helper = checkExecutable(lastConfiguration, DynamicLinkingHelper.getProject(projectNameText.getText()), uri);
+				final ExecutableCalculationHelper helper = checkExecutable(lastConfiguration, DynamicLinkingHelper.getProject(projectNameText.getText()), uri);
 				executableFileIsValid = helper.executableFileIsValid;
 				executableIsExecutable = helper.executableIsExecutable;
 				executableIsForSingleMode = helper.executableIsForSingleMode;
-				List<String> availableTestcases = helper.availableTestcases;
+				final List<String> availableTestcases = helper.availableTestcases;
 
 				// find the testset tab
-				ILaunchConfigurationTab[] tabs = tabGroup.getTabs();
+				final ILaunchConfigurationTab[] tabs = tabGroup.getTabs();
 				TestSetTab testSetTab = null;
-				for (ILaunchConfigurationTab tab : tabs) {
+				for (final ILaunchConfigurationTab tab : tabs) {
 					if (tab instanceof TestSetTab) {
 						testSetTab = (TestSetTab) tab;
 					}
@@ -617,7 +621,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			return;
 		}
 
-		IProject project = getProject();
+		final IProject project = getProject();
 		URI uri;
 		if (project == null) {
 			uri = URIUtil.toURI(configurationFileText.getStringValue());
@@ -625,13 +629,13 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 			uri = TITANPathUtilities.resolvePathURI(configurationFileText.getStringValue(), getProject().getLocation().toOSString());
 		}
 
-		File file = new File(uri);
+		final File file = new File(uri);
 		if (file.exists() && file.isFile()) {
 			exceptions.clear();
-			ConfigFileHandler configHandler = new ConfigFileHandler();
+			final ConfigFileHandler configHandler = new ConfigFileHandler();
 			configHandler.readFromFile(file.getPath());
 			if (configHandler.parseExceptions().isEmpty()) {
-				Map<String, String> env = new HashMap<String, String>(System.getenv());
+				final Map<String, String> env = new HashMap<String, String>(System.getenv());
 				Map<String, String> tempEnvironmentalVariables;
 
 				try {
@@ -667,7 +671,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	 * */
 	public static String getRAWWorkingDirectoryForProject(final IProject project) {
 		try {
-			String workingDirectory = project.getPersistentProperty(
+			final String workingDirectory = project.getPersistentProperty(
 					new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,	DesignerHelper.WORKINGDIR_PROPERTY));
 			return workingDirectory;
 		} catch (CoreException e) {
@@ -686,7 +690,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	 * */
 	public static String getExecutableForProject(final IProject project) {
 		try {
-			String executable = project.getPersistentProperty(
+			final String executable = project.getPersistentProperty(
 					new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,	DesignerHelper.EXECUTABLE_PROPERTY));
 			if (executable != null) {
 				return executable;
@@ -754,7 +758,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 	                                              final IProject project, final String configFilePath, final boolean singleMode) {
 
 		configuration.setAttribute(PROJECTNAME, project.getName());
-		String workingDirectory = getRAWWorkingDirectoryForProject(project);
+		final String workingDirectory = getRAWWorkingDirectoryForProject(project);
 		if (isNullOrEmpty(workingDirectory)) {
 			ErrorReporter.parallelErrorDisplayInMessageDialog(
 					"An error was found while creating the default launch configuration for project " + project.getName(),
@@ -832,7 +836,7 @@ public abstract class BaseMainControllerTab extends AbstractLaunchConfigurationT
 		TestSetTab.setTestcases(configuration, helper.availableTestcases.toArray(new String[helper.availableTestcases.size()]));
 
 		if (!"".equals(configFilePath)) {
-			URI uri3 = TITANPathUtilities.resolvePathURI(configFilePath, project.getLocation().toOSString());
+			final URI uri3 = TITANPathUtilities.resolvePathURI(configFilePath, project.getLocation().toOSString());
 			file = new File(uri3);
 			if (!file.exists()) {
 				ErrorReporter.parallelErrorDisplayInMessageDialog(

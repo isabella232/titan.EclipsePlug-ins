@@ -104,8 +104,8 @@ public final class SingleExecutor extends BaseExecutor {
 
 		if (automaticExecuteSectionExecution) {
 			if (!LaunchStorage.getLaunchElementMap().containsKey(arg2)) {
-				ILaunchConfiguration launchConfiguration = arg2.getLaunchConfiguration();
-				LaunchElement launchElement = new LaunchElement(launchConfiguration.getName(), arg2);
+				final ILaunchConfiguration launchConfiguration = arg2.getLaunchConfiguration();
+				final LaunchElement launchElement = new LaunchElement(launchConfiguration.getName(), arg2);
 				LaunchStorage.registerLaunchElement(launchElement);
 				ExecutorStorage.registerExecutorStorage(launchElement);
 			}
@@ -139,7 +139,7 @@ public final class SingleExecutor extends BaseExecutor {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
 					public void run() {
-						ExecuteDialog dialog = new ExecuteDialog(null);
+						final ExecuteDialog dialog = new ExecuteDialog(null);
 						dialog.setControlparts(availableControlParts);
 						dialog.setTestsets(availableTestSetNames);
 						dialog.setTestcases(availableTestcases);
@@ -179,7 +179,7 @@ public final class SingleExecutor extends BaseExecutor {
 							"An error was found while processing the configuration file",
 							"Please refer to the Error Log view for further information.");
 				} else {
-					Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
+					final Throwable exception = configHandler.parseExceptions().get(configHandler.parseExceptions().size() - 1);
 					ErrorReporter.parallelErrorDisplayInMessageDialog(
 							"Error while processing the configuration file",
 							exception.getMessage() + "\n Please refer to the Error Log view for further information.");
@@ -188,7 +188,7 @@ public final class SingleExecutor extends BaseExecutor {
 				return;
 			}
 
-			List<Integer> disallowedNodes = new ArrayList<Integer>(6);
+			final List<Integer> disallowedNodes = new ArrayList<Integer>(6);
 			disallowedNodes.add(CfgLexer.MAIN_CONTROLLER_SECTION);
 			disallowedNodes.add(CfgLexer.DEFINE_SECTION);
 			disallowedNodes.add(CfgLexer.INCLUDE_SECTION);
@@ -222,14 +222,14 @@ public final class SingleExecutor extends BaseExecutor {
 				}
 				break;
 			case CONFIGURATIONFILE:
-				List<String> configurationFileElements = configHandler.getExecuteElements();
+				final List<String> configurationFileElements = configHandler.getExecuteElements();
 				if (configurationFileElements.isEmpty()) {
 					invalidSelection = true;
 					Display.getDefault().syncExec( new EmptyExecutionRunnable() );
 				} else {
 					invalidSelection = false;
 					for (int i = 0; i < lastTimeSelectionTime; i++) {
-						for (String s : configurationFileElements) {
+						for (final String s : configurationFileElements) {
 							configBuilder.append(s).append('\n');
 						}
 					}
@@ -252,9 +252,9 @@ public final class SingleExecutor extends BaseExecutor {
 			cfgFile = new File ( configFilePath );
 		}
 
-		IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
+		final IWorkspaceRoot root = ResourcesPlugin.getWorkspace().getRoot();
 		final IFile[] outputFiles = root.findFilesForLocationURI(cfgFile.toURI());
-		for (IFile outputFile : outputFiles) {
+		for (final IFile outputFile : outputFiles) {
 			try {
 				outputFile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
 			} catch (CoreException e) {
@@ -273,8 +273,8 @@ public final class SingleExecutor extends BaseExecutor {
 	 * @see #startExecution(boolean)
 	 * */
 	private void createProcess(final String actualConfigPath) {
-		ProcessBuilder pb = new ProcessBuilder();
-		Map<String, String> env = pb.environment();
+		final ProcessBuilder pb = new ProcessBuilder();
+		final Map<String, String> env = pb.environment();
 		if (!appendEnvironmentalVariables) {
 			env.clear();
 		}
@@ -301,16 +301,16 @@ public final class SingleExecutor extends BaseExecutor {
 		EnvironmentHelper.set_LICENSE_FILE_PATH(env);
 		EnvironmentHelper.set_LD_LIBRARY_PATH(DynamicLinkingHelper.getProject(projectName), env);
 
-		MessageConsole console = TITANDebugConsole.getConsole();
+		final MessageConsole console = TITANDebugConsole.getConsole();
 
-		List<String> command = new ArrayList<String>();
+		final List<String> command = new ArrayList<String>();
 		command.add("sh");
 		command.add("-c");
 		command.add(" sleep 1; cd '" + PathConverter.convert(workingdirectoryPath, true, console) + "'; '" + PathConverter.convert(executablePath, true, console)
 				+ "' '" + PathConverter.convert(actualConfigPath, true, console) + "'");
 
-		MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
-		for (String c : command) {
+		final MessageConsoleStream stream = TITANConsole.getConsole().newMessageStream();
+		for (final String c : command) {
 			stream.print(c + ' ');
 		}
 		stream.println();
@@ -318,7 +318,7 @@ public final class SingleExecutor extends BaseExecutor {
 		pb.command(command);
 		pb.redirectErrorStream(true);
 		if (null != workingdirectoryPath) {
-			File workingDir = new File(workingdirectoryPath);
+			final File workingDir = new File(workingdirectoryPath);
 			if (!workingDir.exists()) {
 				Display.getDefault().syncExec(new Runnable() {
 					@Override
@@ -334,14 +334,14 @@ public final class SingleExecutor extends BaseExecutor {
 			proc = pb.start();
 
 			if (null != mainControllerRoot) {
-				ILaunch launch = ((LaunchElement) mainControllerRoot.parent()).launch();
+				final ILaunch launch = ((LaunchElement) mainControllerRoot.parent()).launch();
 				process = DebugPlugin.newProcess(launch, proc, MAIN_CONTROLLER);
 			}
 
-			IStreamsProxy proxy = process.getStreamsProxy();
+			final IStreamsProxy proxy = process.getStreamsProxy();
 			if (null != proxy) {
-				IStreamMonitor outputstreammonitor = proxy.getOutputStreamMonitor();
-				IStreamListener listener = new IStreamListener() {
+				final IStreamMonitor outputstreammonitor = proxy.getOutputStreamMonitor();
+				final IStreamListener listener = new IStreamListener() {
 
 					@Override
 					public void streamAppended(final String text, final IStreamMonitor monitor) {
@@ -350,7 +350,7 @@ public final class SingleExecutor extends BaseExecutor {
 
 				};
 				if (null != outputstreammonitor) {
-					String temp = outputstreammonitor.getContents();
+					final String temp = outputstreammonitor.getContents();
 					processConsoleOutput(temp);
 					outputstreammonitor.addListener(listener);
 				}
@@ -372,13 +372,13 @@ public final class SingleExecutor extends BaseExecutor {
 	 * */
 	private void processConsoleOutput(final String text) {
 		builder.append(text);
-		StringReader reader = new StringReader(builder.toString());
-		BufferedReader stdout = new BufferedReader(reader);
+		final StringReader reader = new StringReader(builder.toString());
+		final BufferedReader stdout = new BufferedReader(reader);
 		fastOffset = 0;
 		readFullLineOnly(stdout);
 		while (null != fastLine) {
 			if (verdictExtraction && (executionFinished.reset(fastLine).matches())) {
-				String reason = executionFinished.group(2);
+				final String reason = executionFinished.group(2);
 				if (reasonMatcher.reset(reason).matches()) {
 					executedTests.add(new ExecutedTestcase((new Formatter()).format(PADDEDDATETIMEFORMAT, new Date()).toString(), executionFinished
 							.group(1), reasonMatcher.group(1), reasonMatcher.group(2)));
@@ -435,7 +435,8 @@ public final class SingleExecutor extends BaseExecutor {
 				fastLine = null;
 				return;
 			}
-			char c = builder.charAt(fastOffset);
+
+			final char c = builder.charAt(fastOffset);
 			if (c == '\n') {
 				fastOffset++;
 				return;
@@ -470,7 +471,7 @@ public final class SingleExecutor extends BaseExecutor {
 			mainControllerRoot.setTerminated();
 			LaunchElement launchElement = null;
 			boolean terminatedNaturally = false;
-			for (Map.Entry<ILaunch, BaseExecutor> entry : ExecutorStorage.getExecutorMap().entrySet()) {
+			for (final Map.Entry<ILaunch, BaseExecutor> entry : ExecutorStorage.getExecutorMap().entrySet()) {
 				if (entry.getValue().equals(mainControllerRoot.executor())) {
 					terminatedNaturally = entry.getKey().isTerminated();
 					if (LaunchStorage.getLaunchElementMap().containsKey(entry.getKey())) {
@@ -492,7 +493,7 @@ public final class SingleExecutor extends BaseExecutor {
 
 		}
 		if (!keepTemporarilyGeneratedConfigFiles && temporalConfigFile != null) {
-			boolean result = temporalConfigFile.delete();
+			final boolean result = temporalConfigFile.delete();
 			if (!result) {
 				ErrorReporter.logError("The temporal configuration file " + temporalConfigFile.getName() + " could not be deleted");
 				return;

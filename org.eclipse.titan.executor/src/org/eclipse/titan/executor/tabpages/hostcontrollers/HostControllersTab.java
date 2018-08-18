@@ -92,7 +92,7 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void dispose() {
-		for (Image columnImage : columnImages) {
+		for (final Image columnImage : columnImages) {
 			columnImage.dispose();
 		}
 		hostViewer = null;
@@ -131,9 +131,9 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	public void createControl(final Composite parent) {
 		mainComposite = new Composite(parent, SWT.NONE);
 		setControl(mainComposite);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		mainComposite.setLayout(layout);
 		mainComposite.setLayoutData(gridData);
@@ -147,7 +147,7 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 
 	private void createHostControllersTable(final Composite parent) {
 		tableComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 1;
@@ -159,13 +159,13 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 		tableComposite.setLayout(layout);
 		tableComposite.setLayoutData(data);
 		tableComposite.setFont(parent.getFont());
-		Label label = new Label(tableComposite, SWT.NONE);
+		final Label label = new Label(tableComposite, SWT.NONE);
 		label.setFont(parent.getFont());
 		label.setText("Host Controllers to use:");
 
 		hostViewer = new TableViewer(tableComposite, SWT.BORDER | SWT.H_SCROLL | SWT.V_SCROLL | SWT.MULTI | SWT.FULL_SELECTION);
-		Table table = hostViewer.getTable();
-		TableLayout tableLayout = new TableLayout();
+		final Table table = hostViewer.getTable();
+		final TableLayout tableLayout = new TableLayout();
 		table.setLayout(tableLayout);
 		table.setHeaderVisible(true);
 		table.setLinesVisible(true);
@@ -189,7 +189,7 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 		});
 		for (int i = 0; i < HOST_TABLE_COLUMN_HEADERS.length; i++) {
 			tableLayout.addColumnData(hostTableColumnLayouts[i]);
-			TableColumn tc = new TableColumn(table, SWT.NONE, i);
+			final TableColumn tc = new TableColumn(table, SWT.NONE, i);
 			tc.setResizable(true);
 			tc.setMoveable(true);
 			tc.setText(HOST_TABLE_COLUMN_HEADERS[i]);
@@ -198,12 +198,12 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void createTableButtons(final Composite parent) {
-		Composite buttonComposite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite buttonComposite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 1;
-		GridData data = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
+		final GridData data = new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.HORIZONTAL_ALIGN_END);
 		buttonComposite.setLayout(layout);
 		buttonComposite.setLayoutData(data);
 		buttonComposite.setFont(parent.getFont());
@@ -251,7 +251,7 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void handleNewButtonSelected() {
-		HostControllerDialog dialog = new HostControllerDialog(getShell(), getProject(), HOSTCONTROLLER);
+		final HostControllerDialog dialog = new HostControllerDialog(getShell(), getProject(), HOSTCONTROLLER);
 		dialog.setHostName("");
 		dialog.setWorkingdirectory("");
 		dialog.setExecutable("");
@@ -266,17 +266,18 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void handleEditButtonSelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-		HostController controller = (HostController) sel.getFirstElement();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final HostController controller = (HostController) sel.getFirstElement();
 		if (null == controller) {
 			return;
 		}
-		String host = controller.host();
-		String workingDirectory = controller.workingdirectory();
-		String executable = controller.executable();
-		String command = controller.command();
 
-		HostControllerDialog dialog = new HostControllerDialog(getShell(), getProject(), HOSTCONTROLLER);
+		final String host = controller.host();
+		final String workingDirectory = controller.workingdirectory();
+		final String executable = controller.executable();
+		final String command = controller.command();
+
+		final HostControllerDialog dialog = new HostControllerDialog(getShell(), getProject(), HOSTCONTROLLER);
 		dialog.setHostName(host);
 		dialog.setWorkingdirectory(workingDirectory);
 		dialog.setExecutable(executable);
@@ -293,19 +294,20 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void handleCopySelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
-		HostController controller = (HostController) sel.getFirstElement();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final HostController controller = (HostController) sel.getFirstElement();
 		if (null == controller) {
 			return;
 		}
+
 		hostViewer.add(controller.clone());
 		updateLaunchConfigurationDialog();
 	}
 
 	private void handleRemoveSelected() {
-		IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
+		final IStructuredSelection sel = (IStructuredSelection) hostViewer.getSelection();
 		hostViewer.getControl().setRedraw(false);
-		for (Iterator<?> i = sel.iterator(); i.hasNext();) {
+		for (final Iterator<?> i = sel.iterator(); i.hasNext();) {
 			hostViewer.remove(i.next());
 		}
 		hostViewer.getControl().setRedraw(true);
@@ -316,10 +318,10 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	 * @return the project set on the main controller tab, or null if none.
 	 * */
 	private IProject getProject() {
-		ILaunchConfigurationTab[] tabs = tabGroup.getTabs();
+		final ILaunchConfigurationTab[] tabs = tabGroup.getTabs();
 
 		BaseMainControllerTab maincontrollerTab = null;
-		for (ILaunchConfigurationTab tab : tabs) {
+		for (final ILaunchConfigurationTab tab : tabs) {
 			if (tab instanceof BaseMainControllerTab) {
 				maincontrollerTab = (BaseMainControllerTab) tab;
 			}
@@ -333,11 +335,11 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void handleInitialization() {
-		MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
+		final MessageConsoleStream stream = TITANDebugConsole.getConsole().newMessageStream();
 		stream.println("initializing a host controller");
 
 
-		IProject project = getProject();
+		final IProject project = getProject();
 		if (null == project) {
 			return;
 		}
@@ -345,7 +347,7 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 		stream.println(project.getName());
 
 		try {
-			String workingdirectory = project.getPersistentProperty(new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,
+			final String workingdirectory = project.getPersistentProperty(new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,
 					DesignerHelper.WORKINGDIR_PROPERTY));
 
 			String executable = project.getPersistentProperty(new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER,
@@ -359,8 +361,8 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 			stream.println(workingdirectory);
 			stream.println(executable);
 
-			TableItem[] items = hostViewer.getTable().getItems();
-			for (TableItem item : items) {
+			final TableItem[] items = hostViewer.getTable().getItems();
+			for (final TableItem item : items) {
 				hostViewer.remove(item.getData());
 			}
 			hostViewer.add(new HostController("localhost", workingdirectory, executable, "cd %Workingdirectory; %Executable %MCHost %MCPort"));
@@ -388,13 +390,13 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
-		TableItem[] items = hostViewer.getTable().getItems();
-		List<String> hostNames = new ArrayList<String>();
-		List<String> hostWorkingDirectories = new ArrayList<String>();
-		List<String> hostExecutables = new ArrayList<String>();
-		List<String> hostLoginCommands = new ArrayList<String>();
+		final TableItem[] items = hostViewer.getTable().getItems();
+		final List<String> hostNames = new ArrayList<String>();
+		final List<String> hostWorkingDirectories = new ArrayList<String>();
+		final List<String> hostExecutables = new ArrayList<String>();
+		final List<String> hostLoginCommands = new ArrayList<String>();
 		HostController controller;
-		for (TableItem item : items) {
+		for (final TableItem item : items) {
 			controller = (HostController) item.getData();
 			hostNames.add(controller.host());
 			hostWorkingDirectories.add(controller.workingdirectory());
@@ -428,16 +430,16 @@ public final class HostControllersTab extends AbstractLaunchConfigurationTab {
 	 * @param configuration the launch configuration to use.
 	 * */
 	public static boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration) {
-		List<String> hostNames = new ArrayList<String>();
-		List<String> hostWorkingDirectories = new ArrayList<String>();
-		List<String> hostExecutables = new ArrayList<String>();
-		List<String> hostLoginCommands = new ArrayList<String>();
+		final List<String> hostNames = new ArrayList<String>();
+		final List<String> hostWorkingDirectories = new ArrayList<String>();
+		final List<String> hostExecutables = new ArrayList<String>();
+		final List<String> hostLoginCommands = new ArrayList<String>();
 		hostNames.add("localhost");
 		try {
-			String workingDirectoryPath = configuration.getAttribute(WORKINGDIRECTORYPATH, (String) null);
+			final String workingDirectoryPath = configuration.getAttribute(WORKINGDIRECTORYPATH, (String) null);
 			hostWorkingDirectories.add(workingDirectoryPath);
 
-			String executablePath = configuration.getAttribute(EXECUTABLEFILEPATH, (String) null);
+			final String executablePath = configuration.getAttribute(EXECUTABLEFILEPATH, (String) null);
 			hostExecutables.add(executablePath);
 		} catch (CoreException e) {
 			return false;

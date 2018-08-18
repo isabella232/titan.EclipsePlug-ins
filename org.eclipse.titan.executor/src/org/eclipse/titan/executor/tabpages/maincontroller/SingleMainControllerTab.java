@@ -35,7 +35,7 @@ public final class SingleMainControllerTab extends BaseMainControllerTab {
 
 	@Override
 	public boolean isValid(final ILaunchConfiguration launchConfig) {
-		boolean result = super.isValid(launchConfig);
+		final boolean result = super.isValid(launchConfig);
 		if (!result) {
 			return false;
 		}
@@ -68,7 +68,7 @@ public final class SingleMainControllerTab extends BaseMainControllerTab {
 	 * @param configFilePath the path of the configuration file.
 	 * */
 	public static boolean initLaunchConfiguration(final ILaunchConfigurationWorkingCopy configuration, final IProject project, final String configFilePath) {
-		boolean result = BaseMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath, true);
+		final boolean result = BaseMainControllerTab.initLaunchConfiguration(configuration, project, configFilePath, true);
 		if (!result) {
 			return false;
 		}

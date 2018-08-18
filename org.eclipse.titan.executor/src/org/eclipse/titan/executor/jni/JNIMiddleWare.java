@@ -270,7 +270,7 @@ public final class JNIMiddleWare {
 	public void batchedProcessNotifications(final ArrayList<String> s) {
 		final String[] tempArray = new String[1];
 		final ArrayList<String[]> result = new ArrayList<String[]>();
-		for (String value : s) {
+		for (final String value : s) {
 			result.add(splitPacket(value).toArray(tempArray));
 		}
 		jniCallback.batchedInsertNotify(result);

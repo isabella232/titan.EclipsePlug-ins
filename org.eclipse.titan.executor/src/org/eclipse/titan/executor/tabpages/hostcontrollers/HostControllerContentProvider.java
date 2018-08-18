@@ -35,7 +35,7 @@ public final class HostControllerContentProvider implements IStructuredContentPr
 	@Override
 	public Object[] getElements(final Object inputElement) {
 		HostController[] elements = new HostController[0];
-		ILaunchConfiguration config = (ILaunchConfiguration) inputElement;
+		final ILaunchConfiguration config = (ILaunchConfiguration) inputElement;
 		List<String> hostNames;
 		List<String> hostWorkingDirectories;
 		List<String> hostExecutables;

@@ -58,7 +58,7 @@ public final class HostJob extends Job {
 
 	@Override
 	protected IStatus run(final IProgressMonitor monitor) {
-		IProcess process = DebugPlugin.newProcess(executor.getLaunchStarted(), proc, getName());
+		final IProcess process = DebugPlugin.newProcess(executor.getLaunchStarted(), proc, getName());
 
 		final IStreamsProxy proxy = process.getStreamsProxy();
 		if (null != proxy) {
@@ -184,7 +184,8 @@ public final class HostJob extends Job {
 				fastLine = null;
 				return;
 			}
-			char c = builder.charAt(fastOffset);
+
+			final char c = builder.charAt(fastOffset);
 			if ('\n' == c) {
 				fastOffset++;
 				return;

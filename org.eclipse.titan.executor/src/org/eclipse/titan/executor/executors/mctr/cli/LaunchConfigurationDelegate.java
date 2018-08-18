@@ -25,7 +25,7 @@ TitanLaunchConfigurationDelegate {
 
 		showExecutionPerspective();
 
-		CliExecutor executor = new CliExecutor(arg0);
+		final CliExecutor executor = new CliExecutor(arg0);
 		executor.startSession(arg2);
 	}
 

@@ -112,13 +112,13 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	}
 
 	private void createSelectionGroup(final Composite parent) {
-		Composite comp = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout(2, false);
+		final Composite comp = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout(2, false);
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		comp.setLayout(layout);
 		comp.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
-		Composite radioGroup = new Composite(comp, SWT.NONE);
+		final Composite radioGroup = new Composite(comp, SWT.NONE);
 		radioGroup.setLayout(new GridLayout());
 		radioGroup.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
 		useWorkspaceSettingsButton = createRadioButton(radioGroup, "Use workspace settings");
@@ -132,7 +132,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 			}
 		});
 		try {
-			String use = ((IResource) element).getPersistentProperty(new QualifiedName(pageId, USE_PROJECT_SETTINGS));
+			final String use = ((IResource) element).getPersistentProperty(new QualifiedName(pageId, USE_PROJECT_SETTINGS));
 			if ("true".equals(use)) {
 				useProjectSettingsButton.setSelection(true);
 				configureButton.setEnabled(false);
@@ -169,7 +169,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 
 		boolean valid = true;
 		if (editors != null) {
-			for (FieldEditor editor : editors) {
+			for (final FieldEditor editor : editors) {
 				valid = valid && editor.isValid();
 				if (!valid) {
 					break;
@@ -206,11 +206,11 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	 */
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 		if (result && isPropertyPage()) {
-			IResource resource = (IResource) element;
+			final IResource resource = (IResource) element;
 			try {
-				String value = (useProjectSettingsButton.getSelection()) ? "true" : "false";
+				final String value = (useProjectSettingsButton.getSelection()) ? "true" : "false";
 				resource.setPersistentProperty(new QualifiedName(pageId, USE_PROJECT_SETTINGS), value);
 			} catch (CoreException e) {
 				ErrorReporter.logExceptionStackTrace(e);
@@ -229,7 +229,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	public void propertyChange(final PropertyChangeEvent event) {
 
 		if (event.getProperty().equals(FieldEditor.IS_VALID)) {
-			boolean newValue = (Boolean) event.getNewValue();
+			final boolean newValue = (Boolean) event.getNewValue();
 			if (newValue) {
 				checkState();
 			} else {
@@ -246,16 +246,16 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 			return;
 		}
 
-		boolean projectSettings = useProjectSettingsButton.getSelection();
-		Composite parent = getFieldEditorParent();
-		for (FieldEditor editor : editors) {
+		final boolean projectSettings = useProjectSettingsButton.getSelection();
+		final Composite parent = getFieldEditorParent();
+		for (final FieldEditor editor : editors) {
 			editor.setEnabled(projectSettings, parent);
 		}
 	}
 
 	protected void configureWorkspaceSettings() {
 		try {
-			IPreferencePage page = this.getClass().newInstance();
+			final IPreferencePage page = this.getClass().newInstance();
 			page.setTitle(getTitle());
 			page.setImageDescriptor(image);
 			showPreferencePage(pageId, page);
@@ -268,7 +268,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 
 	protected void showPreferencePage(final String id, final IPreferencePage page) {
 		final IPreferenceNode targetNode = new PreferenceNode(id, page);
-		PreferenceManager manager = new PreferenceManager();
+		final PreferenceManager manager = new PreferenceManager();
 		manager.addToRoot(targetNode);
 		final PreferenceDialog dialog = new PreferenceDialog(getControl().getShell(), manager);
 		BusyIndicator.showWhile(getControl().getDisplay(), new Runnable() {
@@ -298,7 +298,7 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	}
 
 	public static String getOverlayedPreferenceValue(final IPreferenceStore store, final IResource resource, final String pageId, final String name) {
-		IProject project = resource.getProject();
+		final IProject project = resource.getProject();
 		String value = null;
 		if (useProjectSettings(project, pageId)) {
 			value = ResourceUtils.getPersistentProperty(resource, pageId, name);
@@ -310,7 +310,8 @@ public abstract class FieldEditorPropertyPage extends FieldEditorPreferencePage 
 	}
 
 	private static boolean useProjectSettings(final IResource resource, final String pageId) {
-		String use = ResourceUtils.getPersistentProperty(resource, pageId, FieldEditorPropertyPage.USE_PROJECT_SETTINGS);
+		final String use = ResourceUtils.getPersistentProperty(resource, pageId, FieldEditorPropertyPage.USE_PROJECT_SETTINGS);
+
 		return "true".equals(use);
 	}
 }

@@ -54,7 +54,7 @@ public final class LaunchConfigurationDelegate extends TitanLaunchConfigurationD
 			throw new CoreException(status);
 		}
 		if (JniExecutor.isRunning()) {
-			Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, "The Jni based launcher is already running.\n"
+			final Status status = new Status(IStatus.ERROR, Activator.PLUGIN_ID, IStatus.OK, "The Jni based launcher is already running.\n"
 					+ "Only one instance can be running at any time.", null);
 			throw new CoreException(status);
 		}

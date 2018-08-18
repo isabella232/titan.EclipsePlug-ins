@@ -44,7 +44,7 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 
 	@Override
 	protected void createFieldEditors() {
-		Composite parent = getFieldEditorParent();
+		final Composite parent = getFieldEditorParent();
 		setLogFolder = new BooleanFieldEditor(PreferenceConstants.SET_LOG_FOLDER, PreferenceConstants.SET_LOG_FOLDER_LABEL, parent);
 		addField(setLogFolder);
 
@@ -64,14 +64,14 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 		final Composite fieldEditorParent = getFieldEditorParent();
 
 		if (isPropertyPage() && !isProjectSettingsSelected()) {
-			for (FieldEditor editor : getFieldEditors()) {
+			for (final FieldEditor editor : getFieldEditors()) {
 				editor.setEnabled(false, fieldEditorParent);
 			}
 			return;
 		}
 
 		setLogFolder.setEnabled(true, fieldEditorParent);
-		boolean setLogFolderValue = setLogFolder.getBooleanValue();
+		final boolean setLogFolderValue = setLogFolder.getBooleanValue();
 		logFolderPath.setEnabled(setLogFolderValue, fieldEditorParent);
 		deleteLogFiles.setEnabled(setLogFolderValue, fieldEditorParent);
 		automaticMerge.setEnabled(setLogFolderValue, fieldEditorParent);
@@ -79,9 +79,9 @@ public final class ExecutorPreferencePage extends FieldEditorPropertyPage implem
 
 	@Override
 	public boolean performOk() {
-		boolean result = super.performOk();
+		final boolean result = super.performOk();
 
-		IEclipsePreferences node = (IEclipsePreferences) Platform.getPreferencesService().getRootNode()
+		final IEclipsePreferences node = (IEclipsePreferences) Platform.getPreferencesService().getRootNode()
 				.node(InstanceScope.SCOPE).node(org.eclipse.titan.executor.Activator.PLUGIN_ID);
 		if (node != null) {
 			try {

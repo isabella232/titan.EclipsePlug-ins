@@ -25,7 +25,7 @@ public final class HostControllerLabelProvider extends LabelProvider implements 
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element instanceof HostController) {
-			HostController controller = (HostController) element;
+			final HostController controller = (HostController) element;
 			switch (columnIndex) {
 			case 0:
 				return controller.host();

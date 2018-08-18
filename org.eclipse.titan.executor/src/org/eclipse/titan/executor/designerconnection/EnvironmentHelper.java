@@ -44,7 +44,7 @@ public final class EnvironmentHelper {
 	public static Map<String, String> resolveVariables(final HashMap<String, String> originalVariables) throws CoreException {
 		final Map<String, String> env = new HashMap<String, String>(originalVariables.size());
 		final IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
-		for (Map.Entry<String, String> variable : originalVariables.entrySet()) {
+		for (final Map.Entry<String, String> variable : originalVariables.entrySet()) {
 			if (null != variable.getValue()) {
 				final String finalValue = manager.performStringSubstitution(variable.getValue());
 				if (null != finalValue) {
@@ -68,7 +68,7 @@ public final class EnvironmentHelper {
 	public static Map<String, String> resolveVariables(final Map<String, String> originalVariables,
 			final Map<String, String> additionalVariables) throws CoreException {
 		final IStringVariableManager manager = VariablesPlugin.getDefault().getStringVariableManager();
-		for (Map.Entry<String, String> variable : additionalVariables.entrySet()) {
+		for (final Map.Entry<String, String> variable : additionalVariables.entrySet()) {
 			if (null != variable.getValue()) {
 				final String finalValue = manager.performStringSubstitution(variable.getValue());
 				if (null != finalValue) {
@@ -164,7 +164,7 @@ public final class EnvironmentHelper {
 			final List<IProject> knownProjects = new ArrayList<IProject>();
 			DynamicLinkingHelper.getAllReachableProjects(new ArrayList<IProject>(), actualProject, knownProjects);
 
-			for (IProject tempProject : knownProjects) {
+			for (final IProject tempProject : knownProjects) {
 				try {
 					final String workingdirectory = tempProject.getPersistentProperty(
 							new QualifiedName(DesignerHelper.PROJECT_BUILD_PROPERTYPAGE_QUALIFIER, DesignerHelper.WORKINGDIR_PROPERTY));

@@ -23,7 +23,7 @@ TitanLaunchConfigurationDelegate {
 	public void launch(final ILaunchConfiguration arg0, final String arg1, final ILaunch arg2,
 			final IProgressMonitor arg3) throws CoreException {
 		showExecutionPerspective();
-		SingleExecutor executor = new SingleExecutor(arg0);
+		final SingleExecutor executor = new SingleExecutor(arg0);
 		executor.startSession(arg2);
 	}
 }

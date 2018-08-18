@@ -35,7 +35,7 @@ public final class LaunchConfigurationTabGroup implements ILaunchConfigurationTa
 	@Override
 	public void dispose() {
 		if (null != tabs) {
-			for (ILaunchConfigurationTab tab : tabs) {
+			for (final ILaunchConfigurationTab tab : tabs) {
 				tab.dispose();
 			}
 		}
@@ -48,7 +48,7 @@ public final class LaunchConfigurationTabGroup implements ILaunchConfigurationTa
 
 	@Override
 	public void initializeFrom(final ILaunchConfiguration arg0) {
-		for (ILaunchConfigurationTab tab : tabs) {
+		for (final ILaunchConfigurationTab tab : tabs) {
 			tab.initializeFrom(arg0);
 		}
 	}
@@ -59,14 +59,14 @@ public final class LaunchConfigurationTabGroup implements ILaunchConfigurationTa
 
 	@Override
 	public void performApply(final ILaunchConfigurationWorkingCopy arg0) {
-		for (ILaunchConfigurationTab tab : tabs) {
+		for (final ILaunchConfigurationTab tab : tabs) {
 			tab.performApply(arg0);
 		}
 	}
 
 	@Override
 	public void setDefaults(final ILaunchConfigurationWorkingCopy arg0) {
-		for (ILaunchConfigurationTab tab : tabs) {
+		for (final ILaunchConfigurationTab tab : tabs) {
 			tab.setDefaults(arg0);
 		}
 	}

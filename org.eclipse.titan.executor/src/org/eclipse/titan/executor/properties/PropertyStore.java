@@ -51,8 +51,8 @@ public class PropertyStore extends PreferenceStore {
 	 * Writes modified preferences into resource properties.
 	 */
 	private void writeProperties() {
-		String[] preferences = super.preferenceNames();
-		for (String name : preferences) {
+		final String[] preferences = super.preferenceNames();
+		for (final String name : preferences) {
 			try {
 				setProperty(name, getString(name));
 			} catch (CoreException e) {
@@ -181,7 +181,7 @@ public class PropertyStore extends PreferenceStore {
 
 	@Override
 	public boolean isDefault(final String name) {
-		String defaultValue = getDefaultString(name);
+		final String defaultValue = getDefaultString(name);
 		if (defaultValue == null) {
 			return false;
 		}
