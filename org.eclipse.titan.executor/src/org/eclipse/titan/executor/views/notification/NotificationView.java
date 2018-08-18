@@ -172,7 +172,7 @@ public final class NotificationView extends ViewPart implements ISelectionListen
 		}
 		if (isFollowing && null != actualInput && actualInput instanceof LaunchElement) {
 			final List<ITreeLeaf> children = ((LaunchElement) actualInput).children();
-			for (ITreeLeaf aChildren : children) {
+			for (final ITreeLeaf aChildren : children) {
 				final BaseExecutor executor = ((MainControllerElement) aChildren).executor();
 				if (null != executor && !executor.notifications().isEmpty()) {
 					viewer.reveal(executor.notifications().get(executor.notifications().size() - 1));
@@ -187,7 +187,7 @@ public final class NotificationView extends ViewPart implements ISelectionListen
 			public void run() {
 				if (null != actualInput && actualInput instanceof LaunchElement) {
 					final List<ITreeLeaf> children = ((LaunchElement) actualInput).children();
-					for (ITreeLeaf aChildren : children) {
+					for (final ITreeLeaf aChildren : children) {
 						final BaseExecutor executor = ((MainControllerElement) aChildren).executor();
 						if (null != executor) {
 							executor.notifications().clear();
@@ -284,11 +284,11 @@ public final class NotificationView extends ViewPart implements ISelectionListen
 		try {
 			out = new PrintWriter(new FileWriter(file));
 			final List<ITreeLeaf> children = ((LaunchElement) actualInput).children();
-			for (ITreeLeaf aChildren : children) {
+			for (final ITreeLeaf aChildren : children) {
 				final BaseExecutor executor = ((MainControllerElement) aChildren).executor();
 				if (null != executor) {
-					List<Notification> tempList = executor.notifications();
-					for (Notification aTempList : tempList) {
+					final List<Notification> tempList = executor.notifications();
+					for (final Notification aTempList : tempList) {
 						out.println(aTempList.toString());
 					}
 				}

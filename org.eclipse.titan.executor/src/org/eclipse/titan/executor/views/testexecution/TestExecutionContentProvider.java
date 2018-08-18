@@ -32,7 +32,7 @@ public final class TestExecutionContentProvider implements IStructuredContentPro
 		final List<Object> list = new ArrayList<Object>();
 		if (inputElement instanceof LaunchElement) {
 			final List<ITreeLeaf> children = ((LaunchElement) inputElement).children();
-			for (ITreeLeaf aChildren : children) {
+			for (final ITreeLeaf aChildren : children) {
 				final BaseExecutor executor = ((MainControllerElement) aChildren).executor();
 				if (null != executor) {
 					list.addAll(executor.executedTests());

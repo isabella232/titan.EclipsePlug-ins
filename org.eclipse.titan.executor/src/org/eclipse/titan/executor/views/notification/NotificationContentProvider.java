@@ -29,9 +29,9 @@ public final class NotificationContentProvider implements IStructuredContentProv
 	@Override
 	public Object[] getElements(final Object inputElement) {
 		if (inputElement instanceof LaunchElement) {
-			List<ITreeLeaf> children = ((LaunchElement) inputElement).children();
-			for (ITreeLeaf aChildren : children) {
-				BaseExecutor executor = ((MainControllerElement) aChildren).executor();
+			final List<ITreeLeaf> children = ((LaunchElement) inputElement).children();
+			for (final ITreeLeaf aChildren : children) {
+				final BaseExecutor executor = ((MainControllerElement) aChildren).executor();
 				if (null != executor && null != executor.notifications()) {
 					return executor.notifications().toArray();
 				}

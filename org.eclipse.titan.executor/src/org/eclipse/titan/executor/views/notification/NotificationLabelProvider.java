@@ -34,7 +34,7 @@ public final class NotificationLabelProvider extends LabelProvider implements IT
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element instanceof Notification) {
-			Notification nElement = (Notification) element;
+			final Notification nElement = (Notification) element;
 			switch (columnIndex) {
 			case 0:
 				return nElement.getTimestamp();

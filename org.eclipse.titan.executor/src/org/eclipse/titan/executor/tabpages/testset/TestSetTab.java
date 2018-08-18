@@ -67,10 +67,10 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 	public void createControl(final Composite parent) {
 		mainComposite = new Composite(parent, SWT.NONE);
 		setControl(mainComposite);
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		layout.makeColumnsEqualWidth = true;
-		GridData gridData = new GridData();
+		final GridData gridData = new GridData();
 		gridData.horizontalAlignment = SWT.FILL;
 		mainComposite.setLayout(layout);
 		mainComposite.setLayoutData(gridData);
@@ -88,8 +88,8 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void createKnownTestCasesViewer(final Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite composite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 1;
@@ -115,8 +115,8 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		knownTestcasesViewer.setContentProvider(new TestcasesContentProvider());
 		knownTestcasesViewer.setLabelProvider(testcasesLabelProvider);
 
-		int ops = DND.DROP_COPY;
-		Transfer[] types = new Transfer[] {TestcaseTransfer.getInstance()};
+		final int ops = DND.DROP_COPY;
+		final Transfer[] types = new Transfer[] {TestcaseTransfer.getInstance()};
 		knownTestcasesViewer.addDragSupport(ops, types, new KnownTestcasesDragSourceListener(knownTestcasesViewer));
 
 		tableRoot = new TestsetTreeElement("tableRoot");
@@ -132,7 +132,7 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		availableControlparts = new ArrayList<String>();
 		availableTestcases = new ArrayList<String>();
 		String testcaseName;
-		for (String testcase : testcases) {
+		for (final String testcase : testcases) {
 			testcaseName = testcase;
 			if (testcaseName.endsWith(".control")) {
 				availableControlparts.add(testcaseName);
@@ -152,8 +152,8 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 	}
 
 	private void createTestsetViewer(final Composite parent) {
-		Composite composite = new Composite(parent, SWT.NONE);
-		GridLayout layout = new GridLayout();
+		final Composite composite = new Composite(parent, SWT.NONE);
+		final GridLayout layout = new GridLayout();
 		layout.marginHeight = 0;
 		layout.marginWidth = 0;
 		layout.numColumns = 1;
@@ -179,18 +179,18 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		testsetViewer.setContentProvider(new TestcasesContentProvider());
 		testsetViewer.setLabelProvider(testcasesLabelProvider);
 
-		int dragOps = DND.DROP_COPY | DND.DROP_MOVE;
-		Transfer[] types = new Transfer[] {TestcaseTransfer.getInstance()};
+		final int dragOps = DND.DROP_COPY | DND.DROP_MOVE;
+		final Transfer[] types = new Transfer[] {TestcaseTransfer.getInstance()};
 		testsetViewer.addDragSupport(dragOps, types, new TestsetTreeDragSourceListener(testsetViewer));
 
-		int dropOps = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_DEFAULT;
+		final int dropOps = DND.DROP_COPY | DND.DROP_MOVE | DND.DROP_DEFAULT;
 		testsetViewer.addDropSupport(dropOps, types, new TestsetTreeDropTargetListener(testsetViewer, this));
 
 		testsetViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection) event.getSelection();
+				final IStructuredSelection selection = (IStructuredSelection) event.getSelection();
 				remove.setEnabled(!selection.isEmpty());
 				rename.setEnabled(!selection.isEmpty() && (selection.getFirstElement() instanceof TestsetTreeElement));
 			}
@@ -215,15 +215,15 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 				if (null == testsetViewer) {
 					return;
 				}
-				TestsetDialog dialog = new TestsetDialog(getShell(), "Create new testset");
 
+				final TestsetDialog dialog = new TestsetDialog(getShell(), "Create new testset");
 				if (dialog.open() != Window.OK) {
 					return;
 				}
 
-				String testsetName = dialog.getTestsetName();
-				List<ITreeLeaf> children = treeRoot.children();
-				for (ITreeLeaf aChildren : children) {
+				final String testsetName = dialog.getTestsetName();
+				final List<ITreeLeaf> children = treeRoot.children();
+				for (final ITreeLeaf aChildren : children) {
 					if (aChildren.name().equals(testsetName)) {
 						return;
 					}
@@ -247,17 +247,16 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 					return;
 				}
 
-				IStructuredSelection selection = (IStructuredSelection) testsetViewer.getSelection();
-				TestsetDialog dialog = new TestsetDialog(getShell(), "Rename testset");
+				final IStructuredSelection selection = (IStructuredSelection) testsetViewer.getSelection();
+				final TestsetDialog dialog = new TestsetDialog(getShell(), "Rename testset");
 				dialog.setTestsetName(((TestsetTreeElement) selection.getFirstElement()).name());
-
 				if (dialog.open() != Window.OK) {
 					return;
 				}
 
-				String testsetName = dialog.getTestsetName();
-				List<ITreeLeaf> children = treeRoot.children();
-				for (ITreeLeaf aChildren : children) {
+				final String testsetName = dialog.getTestsetName();
+				final List<ITreeLeaf> children = treeRoot.children();
+				for (final ITreeLeaf aChildren : children) {
 					if (aChildren.name().equals(testsetName)) {
 						return;
 					}
@@ -280,10 +279,11 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 				if (null == testsetViewer || testsetViewer.getSelection().isEmpty()) {
 					return;
 				}
+
 				testsetViewer.getTree().setRedraw(false);
-				IStructuredSelection selection = (IStructuredSelection) testsetViewer.getSelection();
-				for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-					TreeLeaf element = (TreeLeaf) iterator.next();
+				final IStructuredSelection selection = (IStructuredSelection) testsetViewer.getSelection();
+				for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+					final TreeLeaf element = (TreeLeaf) iterator.next();
 					if (null != element.parent()) {
 						((TestsetTreeElement) element.parent()).remove(element);
 						element.dispose();
@@ -304,7 +304,7 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		manager.add(newTestset);
 		manager.add(rename);
 		manager.add(remove);
-		Menu menu = manager.createContextMenu(testsetViewer.getControl());
+		final Menu menu = manager.createContextMenu(testsetViewer.getControl());
 		testsetViewer.getControl().setMenu(menu);
 	}
 
@@ -327,14 +327,14 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		TestCaseTreeElement helperTestcase;
 
 		try {
-			List<String> testsetNames = configuration.getAttribute("testsetNames", (ArrayList<String>) null);
+			final List<String> testsetNames = configuration.getAttribute("testsetNames", (ArrayList<String>) null);
 			if (null != testsetNames) {
-				for (String testsetName1 : testsetNames) {
-					String testsetName = testsetName1;
+				for (final String testsetName1 : testsetNames) {
+					final String testsetName = testsetName1;
 					helperTestset = new TestsetTreeElement(testsetName);
 					treeRoot.addChildToEnd(helperTestset);
-					List<String> testCases = configuration.getAttribute("testcasesOf" + testsetName, (ArrayList<String>) null);
-					for (String testCase : testCases) {
+					final List<String> testCases = configuration.getAttribute("testcasesOf" + testsetName, (ArrayList<String>) null);
+					for (final String testCase : testCases) {
 						helperTestcase = new TestCaseTreeElement(testCase);
 						helperTestset.addChildToEnd(helperTestcase);
 					}
@@ -346,8 +346,8 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 		testsetViewer.setInput(treeRoot);
 
 		try {
-			List<String> tempAvailableTestcases = configuration.getAttribute(AVAILABLETESTCASES_LABEL, (ArrayList<String>) null);
-			List<String> tempAvailableControlParts = configuration.getAttribute(AVAILABLECONTROLPARTS_LABEL, (ArrayList<String>) null);
+			final List<String> tempAvailableTestcases = configuration.getAttribute(AVAILABLETESTCASES_LABEL, (ArrayList<String>) null);
+			final List<String> tempAvailableControlParts = configuration.getAttribute(AVAILABLECONTROLPARTS_LABEL, (ArrayList<String>) null);
 			if (tempAvailableTestcases != null && !tempAvailableTestcases.equals(availableTestcases)) {
 				setErrorMessage(TESTCASELIST_CHANGED);
 			}
@@ -361,13 +361,13 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 
 	@Override
 	public void performApply(final ILaunchConfigurationWorkingCopy configuration) {
-		List<String> testsetNames = new ArrayList<String>();
-		List<List<String>> testSets = new ArrayList<List<String>>();
+		final List<String> testsetNames = new ArrayList<String>();
+		final List<List<String>> testSets = new ArrayList<List<String>>();
 
-		for (ITreeLeaf testSet : treeRoot.children()) {
+		for (final ITreeLeaf testSet : treeRoot.children()) {
 			testsetNames.add(testSet.name());
-			List<String> testcases = new ArrayList<String>();
-			for (ITreeLeaf testcase : ((TestsetTreeElement) testSet).children()) {
+			final List<String> testcases = new ArrayList<String>();
+			for (final ITreeLeaf testcase : ((TestsetTreeElement) testSet).children()) {
 				testcases.add(testcase.name());
 			}
 			testSets.add(testcases);
@@ -399,10 +399,10 @@ public final class TestSetTab extends AbstractLaunchConfigurationTab {
 	 * @param testcases the list of testcases to be added to the launch configuration.
 	 * */
 	public static void setTestcases(final ILaunchConfigurationWorkingCopy workingCopy, final String[] testcases) {
-		List<String> availableControlparts = new ArrayList<String>();
-		List<String> availableTestcases = new ArrayList<String>();
+		final List<String> availableControlparts = new ArrayList<String>();
+		final List<String> availableTestcases = new ArrayList<String>();
 		String testcaseName;
-		for (String testcase : testcases) {
+		for (final String testcase : testcases) {
 			testcaseName = testcase;
 			if (testcaseName.endsWith(".control")) {
 				availableControlparts.add(testcaseName);

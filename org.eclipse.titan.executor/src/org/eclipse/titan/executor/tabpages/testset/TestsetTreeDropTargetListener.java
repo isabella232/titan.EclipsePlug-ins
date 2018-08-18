@@ -47,7 +47,7 @@ public final class TestsetTreeDropTargetListener extends DropTargetAdapter {
 			event.feedback = DND.FEEDBACK_SCROLL;
 			event.detail = DND.DROP_NONE;
 		} else {
-			TreeLeaf element = (TreeLeaf) event.item.getData();
+			final TreeLeaf element = (TreeLeaf) event.item.getData();
 			if (element instanceof TestsetTreeElement) {
 				event.feedback = DND.FEEDBACK_EXPAND | DND.FEEDBACK_SCROLL | DND.FEEDBACK_SELECT;
 			} else {
@@ -73,12 +73,12 @@ public final class TestsetTreeDropTargetListener extends DropTargetAdapter {
 		final TreeLeaf element = (TreeLeaf) event.item.getData();
 		final TestCaseTreeElement[] treeElements = (TestCaseTreeElement[]) event.data;
 		if (element instanceof TestsetTreeElement) {
-			for (TestCaseTreeElement treeElement : treeElements) {
+			for (final TestCaseTreeElement treeElement : treeElements) {
 				((TestsetTreeElement) element).addChildToEnd(treeElement);
 			}
 			testsetViewer.refresh(element);
 		} else {
-			for (TestCaseTreeElement treeElement : treeElements) {
+			for (final TestCaseTreeElement treeElement : treeElements) {
 				((TestsetTreeElement) element.parent()).addChildBefore(treeElement, element);
 			}
 			testsetViewer.refresh(element.parent());

@@ -41,9 +41,8 @@ public final class TestcasesLabelProvider extends LabelProvider {
 	public Image getImage(final Object element) {
 		if (element instanceof TestsetTreeElement) {
 			final List<ITreeLeaf> temp = ((TestsetTreeElement) element).children();
-			String name;
-			for (ITreeLeaf aTemp : temp) {
-				name = aTemp.name();
+			for (final ITreeLeaf aTemp : temp) {
+				final String name = aTemp.name();
 				if (availableTestcases.contains(name)
 						|| availableControlparts.contains(name)) {
 					return ImageCache.getImage("testset.gif");

@@ -33,14 +33,14 @@ public final class TestcaseTransfer extends ByteArrayTransfer {
 	}
 
 	protected TestCaseTreeElement[] fromByteArray(final byte[] bytes) {
-		DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+		final DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 		TestCaseTreeElement[] testcases = null;
 
 		try {
 			final int size = in.readInt();
 			testcases = new TestCaseTreeElement[size];
 			for (int i = 0; i < size; i++) {
-				TestCaseTreeElement testcase = new TestCaseTreeElement(in.readUTF());
+				final TestCaseTreeElement testcase = new TestCaseTreeElement(in.readUTF());
 				testcases[i] = testcase;
 			}
 		} catch (IOException e) {
@@ -88,7 +88,7 @@ public final class TestcaseTransfer extends ByteArrayTransfer {
 
 		try {
 			out.writeInt(testcases.length);
-			for (TestCaseTreeElement testcase : testcases) {
+			for (final TestCaseTreeElement testcase : testcases) {
 				out.writeUTF((testcase).name());
 			}
 

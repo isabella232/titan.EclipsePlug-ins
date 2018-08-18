@@ -30,8 +30,8 @@ public final class LaunchesListener implements ILaunchesListener2 {
 
 	@Override
 	public void launchesAdded(final ILaunch[] launches) {
-		for (ILaunch launch : launches) {
-			ILaunchConfiguration launchConfiguration = launch.getLaunchConfiguration();
+		for (final ILaunch launch : launches) {
+			final ILaunchConfiguration launchConfiguration = launch.getLaunchConfiguration();
 
 			try {
 				if (ExecutorMonitorView.isSupportedConfiguration(launchConfiguration)) {
@@ -64,8 +64,8 @@ public final class LaunchesListener implements ILaunchesListener2 {
 	@Override
 	public void launchesChanged(final ILaunch[] launches) {
 		for (int i = 0; i < launches.length; i++) {
-			ILaunch launched = launches[i];
-			List<ITreeLeaf> children = executorMonitorView.getRoot().children();
+			final ILaunch launched = launches[i];
+			final List<ITreeLeaf> children = executorMonitorView.getRoot().children();
 			for (int j = 0, size = children.size(); i < size; i++) {
 				final LaunchElement launchElement = (LaunchElement) children.get(j);
 				if (launched.equals(launchElement.launch())) {
@@ -86,7 +86,7 @@ public final class LaunchesListener implements ILaunchesListener2 {
 	@Override
 	public void launchesRemoved(final ILaunch[] launches) {
 		final TreeBranch root = executorMonitorView.getRoot();
-		for (ILaunch launched : launches) {
+		for (final ILaunch launched : launches) {
 			for (int i = root.children().size() - 1; i >= 0; i--) {
 				final ILaunch temporal = ((LaunchElement) root.children().get(i)).launch();
 				if (launched.equals(temporal)) {
@@ -106,8 +106,8 @@ public final class LaunchesListener implements ILaunchesListener2 {
 
 	@Override
 	public void launchesTerminated(final ILaunch[] launches) {
-		for (ILaunch launched : launches) {
-			for (ITreeLeaf element : executorMonitorView.getRoot().children()) {
+		for (final ILaunch launched : launches) {
+			for (final ITreeLeaf element : executorMonitorView.getRoot().children()) {
 				final LaunchElement launchElement = (LaunchElement) element;
 				if (launched.equals(launchElement.launch())) {
 					launchElement.changed();

@@ -63,7 +63,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 	public void createPartControl(final Composite parent) {
 		table = new Table(parent, SWT.SINGLE | SWT.H_SCROLL | SWT.V_SCROLL | SWT.FULL_SELECTION);
 
-		GridData gridData = new GridData(GridData.FILL_BOTH);
+		final GridData gridData = new GridData(GridData.FILL_BOTH);
 		gridData.grabExcessVerticalSpace = true;
 		gridData.horizontalSpan = 2;
 		table.setLayoutData(gridData);
@@ -73,7 +73,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		TableColumn column = new TableColumn(table, SWT.LEFT, 0);
 		column.setText("reason");
 		column.setWidth(300);
-		Image infoImage = ImageCache.getImage("information2.gif");
+		final Image infoImage = ImageCache.getImage("information2.gif");
 		column.setImage(infoImage);
 		column.setMoveable(true);
 		column.setAlignment(SWT.LEFT);
@@ -167,7 +167,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		}
 		if (isFollowing && null != actualInput && actualInput instanceof LaunchElement) {
 			final List<ITreeLeaf> children = ((LaunchElement) actualInput).children();
-			for (ITreeLeaf aChildren : children) {
+			for (final ITreeLeaf aChildren : children) {
 				final BaseExecutor executor = ((MainControllerElement) aChildren).executor();
 				if (null != executor && !executor.executedTests().isEmpty()) {
 					viewer.reveal(executor.executedTests().get(executor.executedTests().size() - 1));
@@ -196,7 +196,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 			@Override
 			public void run() {
 				if (null != executor && !executor.executedTests().isEmpty()) {
-					TableViewer tableViewer = getInstance().viewer;
+					final TableViewer tableViewer = getInstance().viewer;
 					tableViewer.setInput(executor.executedTests());
 					tableViewer.reveal(executor.executedTests().get(executor.executedTests().size() - 1));
 				}
@@ -213,10 +213,10 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		final List<ExecutedTestcase> executedTestCases = new ArrayList<ExecutedTestcase>();
 		final List<ITreeLeaf> children = ((LaunchElement) actualInput).children();
 		ITreeLeaf executorElement;
-		for (ITreeLeaf aChildren : children) {
+		for (final ITreeLeaf aChildren : children) {
 			executorElement = aChildren;
 			if (executorElement instanceof MainControllerElement) {
-				BaseExecutor executor = ((MainControllerElement) executorElement).executor();
+				final BaseExecutor executor = ((MainControllerElement) executorElement).executor();
 				if (null != executor) {
 					executedTestCases.addAll(executor.executedTests());
 				}
@@ -227,7 +227,7 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 			return;
 		}
 
-		String statistics = createStatistics(element, executedTestCases);
+		final String statistics = createStatistics(element, executedTestCases);
 		setTitleToolTip(statistics);
 	}
 
@@ -237,8 +237,8 @@ public final class TestExecutionView extends ViewPart implements ISelectionListe
 		int error = 0;
 		int none = 0;
 		int pass = 0;
-		int sum = executedTestCases.size();
-		for (ExecutedTestcase test : executedTestCases) {
+		final int sum = executedTestCases.size();
+		for (final ExecutedTestcase test : executedTestCases) {
 			if (PASS.equals(test.getVerdict())) {
 				pass++;
 			} else if (INCONC.equals(test.getVerdict())) {

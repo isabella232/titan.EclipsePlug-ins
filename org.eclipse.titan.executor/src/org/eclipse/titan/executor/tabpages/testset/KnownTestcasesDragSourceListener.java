@@ -32,7 +32,7 @@ public final class KnownTestcasesDragSourceListener extends DragSourceAdapter {
 			if (!selection.isEmpty()) {
 				final TestCaseTreeElement[] testcases = new TestCaseTreeElement[selection.size()];
 				int i = 0;
-				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
+				for (final Iterator<?> it = selection.iterator(); it.hasNext();) {
 					testcases[i] = (TestCaseTreeElement) it.next();
 					i++;
 				}

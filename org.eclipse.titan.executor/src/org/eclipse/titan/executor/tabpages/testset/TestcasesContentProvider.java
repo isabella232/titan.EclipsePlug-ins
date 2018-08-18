@@ -27,7 +27,8 @@ public final class TestcasesContentProvider implements ITreeContentProvider {
 	@Override
 	public ITreeLeaf[] getChildren(final Object parentElement) {
 		if (parentElement instanceof TestsetTreeElement) {
-			List<ITreeLeaf> temp = ((TestsetTreeElement) parentElement).children();
+			final List<ITreeLeaf> temp = ((TestsetTreeElement) parentElement).children();
+
 			return temp.toArray(new ITreeLeaf[temp.size()]);
 		}
 		return new ITreeLeaf[] {};
