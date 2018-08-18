@@ -34,13 +34,13 @@ public class PortGenerator {
 	 * */
 	public static class messageTypeInfo {
 		/** Java type name of the message */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the message */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** The name to be displayed to the user */
-		private String mDisplayName;
+		private final String mDisplayName;
 
 		/**
 		 * @param messageType the string representing the value type of this message in the generated code.
@@ -71,7 +71,7 @@ public class PortGenerator {
 		private String targetName;
 		private String targetDisplayName;
 		public int targetIndex;
-		private MessageMappingType_type mappingType;
+		private final MessageMappingType_type mappingType;
 
 		//only relevant for function style mapping
 		private String functionDisplayName;
@@ -151,15 +151,15 @@ public class PortGenerator {
 	 * */
 	public static class MessageMappedTypeInfo {
 		/** Java type name of the message */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the message */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** The name to be displayed to the user */
-		public String mDisplayName;
+		public final String mDisplayName;
 
-		private ArrayList<MessageTypeMappingTarget> targets;
+		private final ArrayList<MessageTypeMappingTarget> targets;
 
 		/**
 		 * @param messageType the string representing the value type of this message in the generated code.
@@ -188,11 +188,11 @@ public class PortGenerator {
 	 * originally port_proc_signature is something like this
 	 * */
 	public static final class procedureSignatureInfo {
-		private String mJavaTypeName;
-		private String mDisplayName;
-		private boolean isNoBlock;
-		private boolean hasExceptions;
-		private boolean hasReturnValue;
+		private final String mJavaTypeName;
+		private final String mDisplayName;
+		private final boolean isNoBlock;
+		private final boolean hasExceptions;
+		private final boolean hasReturnValue;
 
 		public procedureSignatureInfo(final String procedureType, final String displayName, final boolean isNoBlock, final boolean hasExceptions, final boolean hasReturnValue) {
 			this.mJavaTypeName = procedureType;
@@ -209,8 +209,8 @@ public class PortGenerator {
 	 * originally port_msg_provider is something like this
 	 * */
 	public static class portMessageProvider {
-		private String name;
-		private ArrayList<String> outMessageTypeNames;
+		final private String name;
+		final private ArrayList<String> outMessageTypeNames;
 
 		public portMessageProvider(final String name, final ArrayList<String> outMessageTypeNames) {
 			this.name = name;
