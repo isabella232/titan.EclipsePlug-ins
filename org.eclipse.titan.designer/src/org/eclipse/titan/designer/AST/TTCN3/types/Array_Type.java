@@ -864,7 +864,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 				// The indexer type must be of type integer
 				long length = 0;
 				if (indexingType.getTypetype() == Type_type.TYPE_ARRAY) {
-					Array_Type indexingArray = (Array_Type)indexingType;
+					final Array_Type indexingArray = (Array_Type)indexingType;
 					if (indexingArray.getElementType().getTypetype() != Type_type.TYPE_INTEGER) {
 						subreference.getLocation().reportSemanticError("Only fixed length array or record of integer types are allowed for short-hand notation for nested indexes.");
 						return null;
@@ -872,13 +872,13 @@ public final class Array_Type extends Type implements IReferenceableElement {
 
 					length = indexingArray.getDimension().getSize();
 				} else if (indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF) {
-					SequenceOf_Type indexingSequenceOf = (SequenceOf_Type)indexingType;
+					final SequenceOf_Type indexingSequenceOf = (SequenceOf_Type)indexingType;
 					if (indexingSequenceOf.getOfType().getTypetype() != Type_type.TYPE_INTEGER) {
 						subreference.getLocation().reportSemanticError("Only fixed length array or record of integer types are allowed for short-hand notation for nested indexes.");
 						return null;
 					}
 
-					SubType subType = indexingSequenceOf.getSubtype();
+					final SubType subType = indexingSequenceOf.getSubtype();
 					if (subType == null) {
 						subreference.getLocation().reportSemanticError(MessageFormat.format("The type `{0}'' must have single size length restriction when used as a short-hand notation for nested indexes.", indexingSequenceOf.getTypename()));
 						return null;

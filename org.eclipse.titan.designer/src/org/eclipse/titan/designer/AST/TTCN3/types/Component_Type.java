@@ -148,7 +148,7 @@ public final class Component_Type extends Type {
 		final ComponentTypeBody b2 = ((Component_Type)t2).getComponentBody();
 
 		// Does b2 contains every port with the same type and name as this?
-		Assignments b1Assignments = componentBody.getAssignmentsScope();
+		final Assignments b1Assignments = componentBody.getAssignmentsScope();
 		for (int i = 0; i < b1Assignments.getNofAssignments(); i++) {
 			final Assignment assignment = b1Assignments.getAssignmentByIndex(i);
 			if (assignment.getAssignmentType() == Assignment_type.A_PORT) {
