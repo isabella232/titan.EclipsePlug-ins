@@ -48,7 +48,7 @@ public final class ResourceExclusionHelper {
 				PreferenceConstants.EXCLUDED_RESOURCES, "", null);
 		final List<String> splittedList = intelligentSplit(stringList, '#', '\\');
 		boolean reportedError = false;
-		for (String item : splittedList) {
+		for (final String item : splittedList) {
 			try {
 				final Pattern pattern = Pattern.compile(item);
 				final Matcher matcher = pattern.matcher("");
@@ -74,7 +74,7 @@ public final class ResourceExclusionHelper {
 	 * @return true if the resource is to be excluded, false otherwise.
 	 * */
 	public boolean isExcludedByRegexp(final String resourceName) {
-		for (Matcher matcher : matchers) {
+		for (final Matcher matcher : matchers) {
 			matcher.reset(resourceName);
 			if (matcher.matches()) {
 				return true;

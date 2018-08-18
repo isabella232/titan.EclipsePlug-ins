@@ -143,7 +143,7 @@ public class JavaGenData {
 			return types.get(typeName);
 		}
 
-		StringBuilder temp = new StringBuilder();
+		final StringBuilder temp = new StringBuilder();
 		types.put(typeName, temp);
 		return temp;
 	}
@@ -294,7 +294,7 @@ public class JavaGenData {
 	 * TODO rethink in the compiler, should not be part of the semantic structure
 	 * */
 	public String getTemporaryVariableName() {
-		StringBuilder builder = new StringBuilder("tmp_");
+		final StringBuilder builder = new StringBuilder("tmp_");
 		tempVariableCounter++;
 		builder.append(tempVariableCounter);
 

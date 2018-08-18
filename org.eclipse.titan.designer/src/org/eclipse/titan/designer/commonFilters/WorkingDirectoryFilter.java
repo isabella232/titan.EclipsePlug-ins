@@ -121,7 +121,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 		final IFolder folder = (IFolder) element;
 		final IProject project = folder.getProject();
 		final IContainer[] workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
-		for (IContainer workingDirectory : workingDirectories) {
+		for (final IContainer workingDirectory : workingDirectories) {
 			if (workingDirectory.equals(folder)) {
 				return false;
 			}
@@ -150,7 +150,7 @@ public final class WorkingDirectoryFilter extends org.eclipse.jface.viewers.View
 		}
 
 		final IFolder folder = (IFolder) element;
-		for (IContainer workingDirectory : workingDirectories) {
+		for (final IContainer workingDirectory : workingDirectories) {
 			if (workingDirectory.equals(folder)) {
 				return false;
 			}

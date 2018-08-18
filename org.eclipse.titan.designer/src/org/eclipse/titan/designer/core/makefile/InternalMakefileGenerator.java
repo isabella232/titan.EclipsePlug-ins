@@ -137,7 +137,7 @@ public final class InternalMakefileGenerator {
 	 * pathnames based on the working directory.
 	 */
 	public void convertDirsToRelative() {
-		for (ModuleStruct module : ttcn3Modules) {
+		for (final ModuleStruct module : ttcn3Modules) {
 			if (module.getDirectory() != null) {
 				module.setDirectory(PathUtil.getRelativePath(workingDirectory, module.getDirectory()));
 			}
@@ -145,7 +145,7 @@ public final class InternalMakefileGenerator {
 				module.setOriginalLocation(PathUtil.getRelativePath(workingDirectory, module.getOriginalLocation()));
 			}
 		}
-		for (ModuleStruct module : ttcnppModules) {
+		for (final ModuleStruct module : ttcnppModules) {
 			if (module.getDirectory() != null) {
 				module.setDirectory(PathUtil.getRelativePath(workingDirectory, module.getDirectory()));
 			}
@@ -153,7 +153,7 @@ public final class InternalMakefileGenerator {
 				module.setOriginalLocation(PathUtil.getRelativePath(workingDirectory, module.getOriginalLocation()));
 			}
 		}
-		for (TTCN3IncludeFileStruct includeFile : ttcn3IncludeFiles) {
+		for (final TTCN3IncludeFileStruct includeFile : ttcn3IncludeFiles) {
 			if (includeFile.getDirectory() != null) {
 				includeFile.setDirectory(PathUtil.getRelativePath(workingDirectory, includeFile.getDirectory()));
 			}
@@ -167,7 +167,7 @@ public final class InternalMakefileGenerator {
 				includeFile.setWorkspaceLocation(PathUtil.getRelativePath(workingDirectory, includeFile.getWorkspaceLocation()));
 			}
 		}
-		for (ModuleStruct module : asn1modules) {
+		for (final ModuleStruct module : asn1modules) {
 			if (module.getDirectory() != null) {
 				module.setDirectory(PathUtil.getRelativePath(workingDirectory, module.getDirectory()));
 			}
@@ -175,7 +175,7 @@ public final class InternalMakefileGenerator {
 				module.setOriginalLocation(PathUtil.getRelativePath(workingDirectory, module.getOriginalLocation()));
 			}
 		}
-		for (UserStruct user : userFiles) {
+		for (final UserStruct user : userFiles) {
 			if (user.getDirectory() != null) {
 				user.setDirectory(PathUtil.getRelativePath(workingDirectory, user.getDirectory()));
 			}
@@ -186,7 +186,7 @@ public final class InternalMakefileGenerator {
 				user.setOriginalSourceLocation(PathUtil.getRelativePath(workingDirectory, user.getOriginalSourceLocation()));
 			}
 		}
-		for (OtherFileStruct other : otherFiles) {
+		for (final OtherFileStruct other : otherFiles) {
 			if (other.getDirectory() != null) {
 				other.setDirectory(PathUtil.getRelativePath(workingDirectory, other.getDirectory()));
 			}
@@ -195,20 +195,20 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		for (BaseDirectoryStruct dir : baseDirectories) {
+		for (final BaseDirectoryStruct dir : baseDirectories) {
 			if (dir.getDirectoryName() != null) {
 				dir.setDirectoryName(PathUtil.getRelativePath(workingDirectory, dir.getDirectoryName()));
 			}
 		}
 
-		for (BaseDirectoryStruct dir : additionallyIncludedFolders) {
+		for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
 			if (dir.getDirectoryName() != null) {
 				dir.setDirectoryName(PathUtil.getRelativePath(workingDirectory, dir.getDirectoryName()));
 			}
 		}
 
 		if (etsName != null) {
-			Path path = new Path(etsName);
+			final Path path = new Path(etsName);
 			if (path.segmentCount() > 1) {
 				etsName = PathUtil.getRelativePath(workingDirectory, etsName);
 			}
@@ -223,14 +223,15 @@ public final class InternalMakefileGenerator {
 	 * generate them in cygwin format in the Makefile.
 	 */
 	private void convertDirectories() {
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		if (!Platform.OS_WIN32.equals(Platform.getOS())) {
 			return;
 		}
-		MessageConsole conversionConsole = TITANDebugConsole.getConsole();
-		for (ModuleStruct module : ttcn3Modules) {
+
+		final MessageConsole conversionConsole = TITANDebugConsole.getConsole();
+		for (final ModuleStruct module : ttcn3Modules) {
 			if (module.getDirectory() != null) {
 				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, conversionConsole));
 			}
@@ -238,7 +239,7 @@ public final class InternalMakefileGenerator {
 				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, conversionConsole));
 			}
 		}
-		for (ModuleStruct module : ttcnppModules) {
+		for (final ModuleStruct module : ttcnppModules) {
 			if (module.getDirectory() != null) {
 				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, conversionConsole));
 			}
@@ -247,7 +248,7 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		for (TTCN3IncludeFileStruct includeFile : ttcn3IncludeFiles) {
+		for (final TTCN3IncludeFileStruct includeFile : ttcn3IncludeFiles) {
 			if (includeFile.getDirectory() != null) {
 				includeFile.setDirectory(PathConverter.convert(includeFile.getDirectory(), reportDebugInformation, conversionConsole));
 			}
@@ -257,7 +258,7 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		for (ModuleStruct module : asn1modules) {
+		for (final ModuleStruct module : asn1modules) {
 			if (module.getDirectory() != null) {
 				module.setDirectory(PathConverter.convert(module.getDirectory(), reportDebugInformation, conversionConsole));
 			}
@@ -265,7 +266,7 @@ public final class InternalMakefileGenerator {
 				module.setOriginalLocation(PathConverter.convert(module.getOriginalLocation(), reportDebugInformation, conversionConsole));
 			}
 		}
-		for (UserStruct user : userFiles) {
+		for (final UserStruct user : userFiles) {
 			if (user.getDirectory() != null) {
 				user.setDirectory(PathConverter.convert(user.getDirectory(), reportDebugInformation, conversionConsole));
 			}
@@ -278,7 +279,7 @@ public final class InternalMakefileGenerator {
 						conversionConsole));
 			}
 		}
-		for (OtherFileStruct other : otherFiles) {
+		for (final OtherFileStruct other : otherFiles) {
 			if (other.getDirectory() != null) {
 				other.setDirectory(PathConverter.convert(other.getDirectory(), reportDebugInformation, conversionConsole));
 			}
@@ -287,20 +288,20 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		for (BaseDirectoryStruct dir : baseDirectories) {
+		for (final BaseDirectoryStruct dir : baseDirectories) {
 			if (dir.getDirectoryName() != null) {
 				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, conversionConsole));
 			}
 		}
 
-		for (BaseDirectoryStruct dir : additionallyIncludedFolders) {
+		for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
 			if (dir.getDirectoryName() != null) {
 				dir.setDirectoryName(PathConverter.convert(dir.getDirectoryName(), reportDebugInformation, conversionConsole));
 			}
 		}
 
 		if (etsName != null) {
-			Path path = new Path(etsName);
+			final Path path = new Path(etsName);
 			if (path.segmentCount() > 1) {
 				etsName = PathConverter.convert(etsName, reportDebugInformation, conversionConsole);
 			}
@@ -370,18 +371,18 @@ public final class InternalMakefileGenerator {
 		boolean isErroneous = false;
 		final StringBuilder errorBuilder = new StringBuilder();
 
-		for (ModuleStruct module : ttcn3Modules) {
+		for (final ModuleStruct module : ttcn3Modules) {
 			if (hasSpecialCharacters(module.getDirectory()) || hasSpecialCharacters(module.getFileName())) {
-				String path = module.getDirectory() == null ? "" : (module.getDirectory() + File.separatorChar);
+				final String path = module.getDirectory() == null ? "" : (module.getDirectory() + File.separatorChar);
 				errorBuilder.append("The path of the TTCN-3 file `" + path + module.getFileName() + "' contains special characters,"
 						+ " that cannot be handled properly by the `make' utility and/or the shell.\n");
 				isErroneous = true;
 			}
 		}
 
-		for (ModuleStruct module : ttcnppModules) {
+		for (final ModuleStruct module : ttcnppModules) {
 			if (hasSpecialCharacters(module.getDirectory()) || hasSpecialCharacters(module.getFileName())) {
-				String path = module.getDirectory() == null ? "" : (module.getDirectory() + File.separatorChar);
+				final String path = module.getDirectory() == null ? "" : (module.getDirectory() + File.separatorChar);
 				errorBuilder.append("The path of the TTCN-3 file to be preprocessed `" + path + module.getFileName()
 						+ "' contains special characters,"
 						+ " that cannot be handled properly by the `make' utility and/or the shell.\n");
@@ -389,18 +390,18 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		for (ModuleStruct module : asn1modules) {
+		for (final ModuleStruct module : asn1modules) {
 			if (hasSpecialCharacters(module.getDirectory()) || hasSpecialCharacters(module.getFileName())) {
-				String path = module.getDirectory() == null ? "" : (module.getDirectory() + File.separatorChar);
+				final String path = module.getDirectory() == null ? "" : (module.getDirectory() + File.separatorChar);
 				errorBuilder.append("The path of the ASN.1 file `" + path + module.getFileName() + "' contains special characters,"
 						+ " that cannot be handled properly by the `make' utility and/or the shell.\n");
 				isErroneous = true;
 			}
 		}
 
-		for (UserStruct user : userFiles) {
+		for (final UserStruct user : userFiles) {
 			if (hasSpecialCharacters(user.getDirectory()) || hasSpecialCharacters(user.getFileName())) {
-				String path = user.getDirectory() == null ? "" : (user.getDirectory() + File.separatorChar);
+				final String path = user.getDirectory() == null ? "" : (user.getDirectory() + File.separatorChar);
 				if (user.isHasHHSuffix()) {
 					errorBuilder.append("The path of the C/C++ header file `" + path + user.getFileName()
 							+ "' contains special characters,"
@@ -414,9 +415,9 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		for (OtherFileStruct other : otherFiles) {
+		for (final OtherFileStruct other : otherFiles) {
 			if (hasSpecialCharacters(other.getDirectory()) || hasSpecialCharacters(other.getFileName())) {
-				String path = other.getDirectory() == null ? "" : (other.getDirectory() + File.separatorChar);
+				final String path = other.getDirectory() == null ? "" : (other.getDirectory() + File.separatorChar);
 				errorBuilder.append("The path of the file `" + path + other.getFileName() + "' contains special characters,"
 						+ "that cannot be handled properly by the `make' utility and/or the shell.\n");
 				isErroneous = true;
@@ -526,7 +527,7 @@ public final class InternalMakefileGenerator {
 	}
 
 	private StringBuilder getSplittedFilenames(final ModuleStruct module, final boolean printDir) {
-		StringBuilder contents = new StringBuilder();
+		final StringBuilder contents = new StringBuilder();
 		if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
 			contents.append(' ').append(module.generatedName(printDir, "cc", "_seq"));
 			contents.append(' ').append(module.generatedName(printDir, "cc", "_seqof"));
@@ -535,7 +536,7 @@ public final class InternalMakefileGenerator {
 			contents.append(' ').append(module.generatedName(printDir, "cc", "_union"));
 		} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 		} else {
-			int n_slices = Integer.parseInt(codeSplittingMode);
+			final int n_slices = Integer.parseInt(codeSplittingMode);
 			for (int i = 1; i < n_slices; i++) {
 				contents.append(' ').append(module.generatedName(printDir, "cc", "_part_"+i));
 			}
@@ -571,11 +572,11 @@ public final class InternalMakefileGenerator {
 			return;
 		}
 
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		this.projectLocation = project.getLocation().toOSString();
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(project);
 
 		// If not yet analyzed do it now (this will also analyze all
 		// referenced projects.)
@@ -606,7 +607,7 @@ public final class InternalMakefileGenerator {
 		checkNamingConvention();
 
 		sortFiles();
-		StringBuilder contents = new StringBuilder();
+		final StringBuilder contents = new StringBuilder();
 		contents.append("# This Makefile was generated by the TITAN Designer eclipse plug-in\n");
 		contents.append("# of the TTCN-3 Test executor version ").append(GeneralConstants.VERSION_STRING).append('\n');
 		contents.append("# for  (").append(System.getProperty("user.name")).append('@');
@@ -643,7 +644,7 @@ public final class InternalMakefileGenerator {
 
 		if (centralStorage) {
 			contents.append("# WARNING! This Makefile uses pre-compiled files from the following directories:\n");
-			for (BaseDirectoryStruct dir : baseDirectories) {
+			for (final BaseDirectoryStruct dir : baseDirectories) {
 				contents.append("# ").append(dir.name()).append('\n');
 			}
 			contents.append("# The executable tests will be consistent only if all directories use\n");
@@ -677,7 +678,7 @@ public final class InternalMakefileGenerator {
 		contents.append("# Uncomment this line to override the environment variable.\n");
 		contents.append("# TTCN3_DIR =\n");
 
-		String platform = Platform.getOS();
+		final String platform = Platform.getOS();
 		String platformString = null;
 		if (Platform.OS_LINUX.equals(platform)) {
 			platformString = "LINUX";
@@ -738,17 +739,18 @@ public final class InternalMakefileGenerator {
 		if (useRuntime2) {
 			contents.append(" -DTITAN_RUNTIME_2");
 		}
-		MessageConsole debugConsole = TITANDebugConsole.getConsole();
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PreprocessorIncludedOptionsData.getPreprocessorIncludes(reachableProject);
+
+		final MessageConsole debugConsole = TITANDebugConsole.getConsole();
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PreprocessorIncludedOptionsData.getPreprocessorIncludes(reachableProject);
 			if (optionList.length > 0) {
-				IPath location = reachableProject.getLocation();
+				final IPath location = reachableProject.getLocation();
 				if (location == null) {
 					ErrorReporter.logError("The project `"
 							+ reachableProject.getName()
 							+ "' is not located in the local file system. The extra include directories set for it will not be generated into the Makefile");
 				} else {
-					String tempProjectLocation = location.toOSString();
+					final String tempProjectLocation = location.toOSString();
 					for (String temp : optionList) {
 						temp = TITANPathUtilities.resolvePathURIForMakefile(temp, 
 								tempProjectLocation, reportDebugInformation,debugConsole);
@@ -757,25 +759,25 @@ public final class InternalMakefileGenerator {
 				}
 			}
 		}
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PreprocessorSymbolsOptionsData.getPreprocessorDefines(reachableProject);
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PreprocessorSymbolsOptionsData.getPreprocessorDefines(reachableProject);
+			for (final String option : optionList) {
 				contents.append(" -D").append(option);
 			}
 		}
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PreprocessorSymbolsOptionsData.getPreprocessorUndefines(reachableProject);
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PreprocessorSymbolsOptionsData.getPreprocessorUndefines(reachableProject);
+			for (final String option : optionList) {
 				contents.append(" -U").append(option);
 			}
 		}
 
-		for (BaseDirectoryStruct dir : baseDirectories) {
+		for (final BaseDirectoryStruct dir : baseDirectories) {
 			contents.append(" -I").append(dir.name());
 		}
 
 		if (!usingSymbolicLinks) {
-			for (BaseDirectoryStruct dir : additionallyIncludedFolders) {
+			for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
 				contents.append(" -I").append(dir.name());
 			}
 		}
@@ -784,24 +786,24 @@ public final class InternalMakefileGenerator {
 		if (preprocess) {
 			contents.append("# Flags for preprocessing TTCN-3 files:\n");
 			contents.append("CPPFLAGS_TTCN3 = -I.");
-			for (BaseDirectoryStruct dir : baseDirectories) {
+			for (final BaseDirectoryStruct dir : baseDirectories) {
 				contents.append(" -I").append(dir.name());
 			}
 			if (!usingSymbolicLinks) {
-				for (BaseDirectoryStruct dir : additionallyIncludedFolders) {
+				for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
 					contents.append(" -I").append(dir.name());
 				}
 			}
-			for (IProject reachableProject : reachableProjects) {
-				String[] optionList = PreprocessorIncludedOptionsData.getTTCN3PreprocessorIncludes(reachableProject);
+			for (final IProject reachableProject : reachableProjects) {
+				final String[] optionList = PreprocessorIncludedOptionsData.getTTCN3PreprocessorIncludes(reachableProject);
 				if (optionList.length > 0) {
-					IPath location = reachableProject.getLocation();
+					final IPath location = reachableProject.getLocation();
 					if (location == null) {
 						ErrorReporter.logError("The project `"
 								+ reachableProject.getName()
 								+ "' is not located in the local file system. The extra preprocessor include directories set for it will not be generated into the Makefile");
 					} else {
-						String tempProjectLocation = location.toOSString();
+						final String tempProjectLocation = location.toOSString();
 						for (String option : optionList) {
 							option = TITANPathUtilities.resolvePathURIForMakefile(option, 
 									tempProjectLocation, reportDebugInformation,debugConsole);
@@ -810,15 +812,15 @@ public final class InternalMakefileGenerator {
 					}
 				}
 			}
-			for (IProject reachableProject : reachableProjects) {
-				String[] optionList = PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines(reachableProject);
-				for (String option : optionList) {
+			for (final IProject reachableProject : reachableProjects) {
+				final String[] optionList = PreprocessorSymbolsOptionsData.getTTCN3PreprocessorDefines(reachableProject);
+				for (final String option : optionList) {
 					contents.append(" -D").append(option);
 				}
 			}
-			for (IProject reachableProject : reachableProjects) {
-				String[] optionList = PreprocessorSymbolsOptionsData.getTTCN3PreprocessorUndefines(reachableProject);
-				for (String option : optionList) {
+			for (final IProject reachableProject : reachableProjects) {
+				final String[] optionList = PreprocessorSymbolsOptionsData.getTTCN3PreprocessorUndefines(reachableProject);
+				for (final String option : optionList) {
 					contents.append(" -U").append(option);
 				}
 			}
@@ -871,8 +873,8 @@ public final class InternalMakefileGenerator {
 		contents.append("# The path of your OpenSSL installation:\n");
 		contents.append("# If you do not have your own one, leave it unchanged.\n");
 
-		String ttcn3Lib = useCrossCompilation ? "TARGET_" : "";
-		boolean externalLibrariesDisabled = LinkerLibrariesOptionsData.getExternalFoldersDisabled(project);
+		final String ttcn3Lib = useCrossCompilation ? "TARGET_" : "";
+		final boolean externalLibrariesDisabled = LinkerLibrariesOptionsData.getExternalFoldersDisabled(project);
 		if (externalLibrariesDisabled) {
 			contents.append("# OPENSSL_DIR = $(TTCN3_").append(ttcn3Lib).append("DIR)\n\n");
 		} else {
@@ -898,7 +900,7 @@ public final class InternalMakefileGenerator {
 		contents.append("#\n\n");
 		contents.append("# TTCN-3 modules of this project:\n");
 		contents.append("TTCN3_MODULES =");
-		for (ModuleStruct module : ttcn3Modules) {
+		for (final ModuleStruct module : ttcn3Modules) {
 			if (module.getDirectory() == null || !centralStorage) {
 				if (usingSymbolicLinks) {
 					contents.append(' ').append(module.fileName());
@@ -912,7 +914,7 @@ public final class InternalMakefileGenerator {
 			contents.append("\n\n");
 			contents.append("# TTCN-3 modules to preprocess:\n");
 			contents.append("TTCN3_PP_MODULES =");
-			for (ModuleStruct module : ttcnppModules) {
+			for (final ModuleStruct module : ttcnppModules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					if (usingSymbolicLinks) {
 						contents.append(' ').append(module.fileName());
@@ -927,7 +929,7 @@ public final class InternalMakefileGenerator {
 			contents.append("\n\n");
 			contents.append("# TTCN-3 modules used from central project(s):\n");
 			contents.append("BASE_TTCN3_MODULES =");
-			for (ModuleStruct module : ttcn3Modules) {
+			for (final ModuleStruct module : ttcn3Modules) {
 				if (module.getDirectory() != null) {
 					if (allProjectsUseSymbolicLinks) {
 						contents.append(' ').append(module.fileName());
@@ -940,7 +942,7 @@ public final class InternalMakefileGenerator {
 				contents.append("\n\n");
 				contents.append("# TTCN-3 modules to preprocess used from central project(s):\n");
 				contents.append("BASE_TTCN3_PP_MODULES =");
-				for (ModuleStruct module : ttcnppModules) {
+				for (final ModuleStruct module : ttcnppModules) {
 					if (module.getDirectory() != null) {
 						if (allProjectsUseSymbolicLinks) {
 							contents.append(' ').append(module.fileName());
@@ -956,7 +958,7 @@ public final class InternalMakefileGenerator {
 			contents.append("\n\n");
 			contents.append("# Files to include in TTCN-3 preprocessed modules:\n");
 			contents.append("TTCN3_INCLUDES =");
-			for (TTCN3IncludeFileStruct temp : ttcn3IncludeFiles) {
+			for (final TTCN3IncludeFileStruct temp : ttcn3IncludeFiles) {
 				if (usingSymbolicLinks) { 
 					contents.append(' ').append(temp.getWorkspaceLocation());
 				} else {
@@ -968,7 +970,7 @@ public final class InternalMakefileGenerator {
 		contents.append("\n\n");
 		contents.append("# ASN.1 modules of this project:\n");
 		contents.append("ASN1_MODULES =");
-		for (ModuleStruct module : asn1modules) {
+		for (final ModuleStruct module : asn1modules) {
 			if (module.getDirectory() == null || !centralStorage) {
 				if (usingSymbolicLinks) {
 					contents.append(' ').append(module.fileName());
@@ -982,7 +984,7 @@ public final class InternalMakefileGenerator {
 			contents.append("\n\n");
 			contents.append("# ASN.1 modules used from central project(s):\n");
 			contents.append("BASE_ASN1_MODULES =");
-			for (ModuleStruct module : asn1modules) {
+			for (final ModuleStruct module : asn1modules) {
 				if (module.getDirectory() != null) {
 					if (allProjectsUseSymbolicLinks) {
 						contents.append(' ').append(module.fileName());
@@ -997,7 +999,7 @@ public final class InternalMakefileGenerator {
 			contents.append("\n\n");
 			contents.append("# TTCN-3 source files generated by the C preprocessor:\n");
 			contents.append("PREPROCESSED_TTCN3_MODULES =");
-			for (ModuleStruct module : ttcnppModules) {
+			for (final ModuleStruct module : ttcnppModules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.preprocessedName(false));
 				}
@@ -1006,7 +1008,7 @@ public final class InternalMakefileGenerator {
 				contents.append("\n\n");
 				contents.append("# TTCN-3 files generated by the CPP used from central project(s):\n");
 				contents.append("BASE_PREPROCESSED_TTCN3_MODULES =");
-				for (ModuleStruct module : ttcnppModules) {
+				for (final ModuleStruct module : ttcnppModules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.preprocessedName(true));
 					}
@@ -1022,7 +1024,7 @@ public final class InternalMakefileGenerator {
 		if (gnuMake && ttcn3ModulesRegular && allProjectsUseSymbolicLinks) {
 			contents.append(" $(TTCN3_MODULES:.ttcn=.cc)");
 			if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
-				for (ModuleStruct module : ttcn3Modules) {
+				for (final ModuleStruct module : ttcn3Modules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(getSplittedFilenames(module, false));
 					}
@@ -1031,7 +1033,7 @@ public final class InternalMakefileGenerator {
 			if (preprocess) {
 				contents.append(" $(TTCN3_PP_MODULES:.ttcnpp=.cc)");
 				if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
-					for (ModuleStruct module : ttcnppModules) {
+					for (final ModuleStruct module : ttcnppModules) {
 						if (module.getDirectory() == null || !centralStorage) {
 							contents.append(getSplittedFilenames(module, false));
 						}
@@ -1039,7 +1041,7 @@ public final class InternalMakefileGenerator {
 				}
 			}
 		} else {
-			for (ModuleStruct module : ttcn3Modules) {
+			for (final ModuleStruct module : ttcn3Modules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.generatedName(false, "cc"));
 					if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
@@ -1048,7 +1050,7 @@ public final class InternalMakefileGenerator {
 				}
 			}
 			if (preprocess) {
-				for (ModuleStruct module : ttcnppModules) {
+				for (final ModuleStruct module : ttcnppModules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(' ').append(module.generatedName(false, "cc"));
 						if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
@@ -1062,14 +1064,14 @@ public final class InternalMakefileGenerator {
 		if (gnuMake && asn1ModulesRegular && allProjectsUseSymbolicLinks) {
 			contents.append(" $(ASN1_MODULES:.asn=.cc)");
 			if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
-				for (ModuleStruct module : asn1modules) {
+				for (final ModuleStruct module : asn1modules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(getSplittedFilenames(module, false));
 					}
 				}
 			}
 		} else {
-			for (ModuleStruct module : asn1modules) {
+			for (final ModuleStruct module : asn1modules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.generatedName(false, "cc"));
 					if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
@@ -1091,13 +1093,13 @@ public final class InternalMakefileGenerator {
 						contents.append(" $(TTCN3_PP_MODULES:.ttcnpp=.hh)");
 					}
 				} else {
-					for (ModuleStruct module : ttcn3Modules) {
+					for (final ModuleStruct module : ttcn3Modules) {
 						if (module.getDirectory() == null || !centralStorage) {
 							contents.append(' ').append(module.generatedName(false, "hh"));
 						}
 					}
 					if (preprocess) {
-						for (ModuleStruct module : ttcnppModules) {
+						for (final ModuleStruct module : ttcnppModules) {
 							if (module.getDirectory() == null || !centralStorage) {
 								contents.append(' ').append(module.generatedName(false, "hh"));
 							}
@@ -1107,7 +1109,7 @@ public final class InternalMakefileGenerator {
 				if (asn1ModulesRegular) {
 					contents.append(" $(ASN1_MODULES:.asn=.hh)");
 				} else {
-					for (ModuleStruct module : asn1modules) {
+					for (final ModuleStruct module : asn1modules) {
 						if (module.getDirectory() == null || !centralStorage) {
 							contents.append(' ').append(module.generatedName(false, "hh"));
 						}
@@ -1118,19 +1120,19 @@ public final class InternalMakefileGenerator {
 				contents.append(" $(GENERATED_SOURCES:.cc=.hh)");
 			}
 		} else {
-			for (ModuleStruct module : ttcn3Modules) {
+			for (final ModuleStruct module : ttcn3Modules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.generatedName(false, "hh"));
 				}
 			}
 			if (preprocess) {
-				for (ModuleStruct module : ttcnppModules) {
+				for (final ModuleStruct module : ttcnppModules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(' ').append(module.generatedName(false, "hh"));
 					}
 				}
 			}
-			for (ModuleStruct module : asn1modules) {
+			for (final ModuleStruct module : asn1modules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.generatedName(false, "hh"));
 				}
@@ -1146,7 +1148,7 @@ public final class InternalMakefileGenerator {
 			if (gnuMake && baseTTCN3ModulesRegular && allProjectsUseSymbolicLinks) {
 				contents.append(" $(BASE_TTCN3_MODULES:.ttcn=.cc)");
 				if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
-					for (ModuleStruct module : ttcn3Modules) {
+					for (final ModuleStruct module : ttcn3Modules) {
 						if (module.getDirectory() != null) {
 							contents.append(getSplittedFilenames(module, false));
 						}
@@ -1155,7 +1157,7 @@ public final class InternalMakefileGenerator {
 				if (preprocess) {
 					contents.append(" $(BASE_TTCN3_PP_MODULES:.ttcnpp=.cc)");
 					if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
-						for (ModuleStruct module : ttcnppModules) {
+						for (final ModuleStruct module : ttcnppModules) {
 							if (module.getDirectory() != null) {
 								contents.append(getSplittedFilenames(module, false));
 							}
@@ -1163,7 +1165,7 @@ public final class InternalMakefileGenerator {
 					}
 				}
 			} else {
-				for (ModuleStruct module : ttcn3Modules) {
+				for (final ModuleStruct module : ttcn3Modules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.generatedName(true, "cc"));
 						if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
@@ -1172,7 +1174,7 @@ public final class InternalMakefileGenerator {
 					}
 				}
 				if (preprocess) {
-					for (ModuleStruct module : ttcnppModules) {
+					for (final ModuleStruct module : ttcnppModules) {
 						if (module.getDirectory() != null) {
 							contents.append(' ').append(module.generatedName(true, "cc"));
 							if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
@@ -1185,14 +1187,14 @@ public final class InternalMakefileGenerator {
 			if (gnuMake && baseASN1ModulesRegular && allProjectsUseSymbolicLinks) {
 				contents.append(" $(BASE_ASN1_MODULES:.asn=.cc)");
 				if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
-					for (ModuleStruct module : asn1modules) {
+					for (final ModuleStruct module : asn1modules) {
 						if (module.getDirectory() != null) {
 							contents.append(getSplittedFilenames(module, false));
 						}
 					}
 				}
 			} else {
-				for (ModuleStruct module : asn1modules) {
+				for (final ModuleStruct module : asn1modules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.generatedName(true, "cc"));
 						if (!GeneralConstants.NONE.equals(codeSplittingMode)) {
@@ -1213,13 +1215,13 @@ public final class InternalMakefileGenerator {
 							contents.append(" $(BASE_TTCN3_PP_MODULES:.ttcnpp=.hh)");
 						}
 					} else {
-						for (ModuleStruct module : ttcn3Modules) {
+						for (final ModuleStruct module : ttcn3Modules) {
 							if (module.getDirectory() != null) {
 								contents.append(' ').append(module.generatedName(true, "hh"));
 							}
 						}
 						if (preprocess) {
-							for (ModuleStruct module : ttcnppModules) {
+							for (final ModuleStruct module : ttcnppModules) {
 								if (module.getDirectory() != null) {
 									contents.append(' ').append(module.generatedName(true, "hh"));
 								}
@@ -1229,7 +1231,7 @@ public final class InternalMakefileGenerator {
 					if (asn1ModulesRegular) {
 						contents.append(" $(BASE_ASN1_MODULES:.asn=.hh)");
 					} else {
-						for (ModuleStruct module : asn1modules) {
+						for (final ModuleStruct module : asn1modules) {
 							if (module.getDirectory() != null) {
 								contents.append(' ').append(module.generatedName(true, "hh"));
 							}
@@ -1240,19 +1242,19 @@ public final class InternalMakefileGenerator {
 					contents.append(" $(BASE_GENERATED_SOURCES:.cc=.hh)");
 				}
 			} else {
-				for (ModuleStruct module : ttcn3Modules) {
+				for (final ModuleStruct module : ttcn3Modules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.generatedName(true, "hh"));
 					}
 				}
 				if (preprocess) {
-					for (ModuleStruct module : ttcnppModules) {
+					for (final ModuleStruct module : ttcnppModules) {
 						if (module.getDirectory() != null) {
 							contents.append(' ').append(module.generatedName(true, "hh"));
 						}
 					}
 				}
-				for (ModuleStruct module : asn1modules) {
+				for (final ModuleStruct module : asn1modules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.generatedName(true, "hh"));
 					}
@@ -1265,7 +1267,7 @@ public final class InternalMakefileGenerator {
 		contents.append("and\n");
 		contents.append("# other modules:\n");
 		contents.append("USER_SOURCES =");
-		for (UserStruct user : userFiles) {
+		for (final UserStruct user : userFiles) {
 			if (user.getDirectory() == null || !centralStorage) {
 				if (!usingSymbolicLinks && user.getOriginalSourceLocation() != null) {
 					contents.append(' ').append(user.getOriginalSourceLocation());
@@ -1279,7 +1281,7 @@ public final class InternalMakefileGenerator {
 		if (gnuMake && userHeadersRegular) {
 			contents.append(" $(USER_SOURCES:.cc=.hh)");
 		} else {
-			for (UserStruct user : userFiles) {
+			for (final UserStruct user : userFiles) {
 				if (user.getDirectory() == null || !centralStorage) {
 					if (!usingSymbolicLinks && user.getOriginalHeaderLocation() != null) {
 						contents.append(' ').append(user.getOriginalHeaderLocation());
@@ -1295,7 +1297,7 @@ public final class InternalMakefileGenerator {
 			contents.append("and\n");
 			contents.append("# other modules used from central project(s):\n");
 			contents.append("BASE_USER_SOURCES =");
-			for (UserStruct user : userFiles) {
+			for (final UserStruct user : userFiles) {
 				if (user.getDirectory() != null) {
 					contents.append(' ').append(user.sourceName());
 				}
@@ -1304,7 +1306,7 @@ public final class InternalMakefileGenerator {
 			if (gnuMake && baseUserHeadersRegular) {
 				contents.append(" $(BASE_USER_SOURCES:.cc=.hh)");
 			} else {
-				for (UserStruct user : userFiles) {
+				for (final UserStruct user : userFiles) {
 					if (user.getDirectory() != null) {
 						contents.append(' ').append(user.headerName());
 					}
@@ -1320,7 +1322,7 @@ public final class InternalMakefileGenerator {
 		if (gnuMake) {
 			contents.append(" $(GENERATED_SOURCES:.cc=.o)");
 		} else {
-			for (ModuleStruct module : ttcn3Modules) {
+			for (final ModuleStruct module : ttcn3Modules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.generatedName(false, "o"));
 					if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1331,7 +1333,7 @@ public final class InternalMakefileGenerator {
 						contents.append(' ').append(module.generatedName(false, "o", "_union"));
 					} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 					} else {
-						int n_slices = Integer.parseInt(codeSplittingMode);
+						final int n_slices = Integer.parseInt(codeSplittingMode);
 						for (int i = 1; i < n_slices; i++) {
 							contents.append(' ').append(module.generatedName(false, "o", "_part_"+i));
 						}
@@ -1339,7 +1341,7 @@ public final class InternalMakefileGenerator {
 				}
 			}
 			if (preprocess) {
-				for (ModuleStruct module : ttcnppModules) {
+				for (final ModuleStruct module : ttcnppModules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(' ').append(module.generatedName(false, "o"));
 						if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1350,7 +1352,7 @@ public final class InternalMakefileGenerator {
 							contents.append(' ').append(module.generatedName(false, "o", "_union"));
 						} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 						} else {
-							int n_slices = Integer.parseInt(codeSplittingMode);
+							final int n_slices = Integer.parseInt(codeSplittingMode);
 							for (int i = 1; i < n_slices; i++) {
 								contents.append(' ').append(module.generatedName(false, "o", "_part_"+i));
 							}
@@ -1358,7 +1360,7 @@ public final class InternalMakefileGenerator {
 					}
 				}
 			}
-			for (ModuleStruct module : asn1modules) {
+			for (final ModuleStruct module : asn1modules) {
 				if (module.getDirectory() == null || !centralStorage) {
 					contents.append(' ').append(module.generatedName(false, "o"));
 					if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1369,7 +1371,7 @@ public final class InternalMakefileGenerator {
 						contents.append(' ').append(module.generatedName(false, "o", "_union"));
 					} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 					} else {
-						int n_slices = Integer.parseInt(codeSplittingMode);
+						final int n_slices = Integer.parseInt(codeSplittingMode);
 						for (int i = 1; i < n_slices; i++) {
 							contents.append(' ').append(module.generatedName(false, "o", "_part_"+i));
 						}
@@ -1381,10 +1383,9 @@ public final class InternalMakefileGenerator {
 		if (gnuMake && userSourcesRegular && usingSymbolicLinks) {
 			contents.append(" $(USER_SOURCES:.cc=.o)");
 		} else {
-			StringBuilder objectName;
-			for (UserStruct user : userFiles) {
+			for (final UserStruct user : userFiles) {
 				if (user.getDirectory() == null || !centralStorage) {
-					objectName = user.objectName();
+					final StringBuilder objectName = user.objectName();
 					if (objectName != null) {
 						contents.append(' ').append(objectName);
 					}
@@ -1400,7 +1401,7 @@ public final class InternalMakefileGenerator {
 			if (gnuMake) {
 				contents.append(" $(GENERATED_SOURCES:.cc=.so)");
 			} else {
-				for (ModuleStruct module : ttcn3Modules) {
+				for (final ModuleStruct module : ttcn3Modules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(' ').append(module.generatedName(false, "so"));
 						if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1411,7 +1412,7 @@ public final class InternalMakefileGenerator {
 							contents.append(' ').append(module.generatedName(false, "so", "_union"));
 						} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 						} else {
-							int n_slices = Integer.parseInt(codeSplittingMode);
+							final int n_slices = Integer.parseInt(codeSplittingMode);
 							for (int i = 1; i < n_slices; i++) {
 								contents.append(' ').append(module.generatedName(false, "so", "_part_"+i));
 							}
@@ -1419,7 +1420,7 @@ public final class InternalMakefileGenerator {
 					}
 				}
 				if (preprocess) {
-					for (ModuleStruct module : ttcnppModules) {
+					for (final ModuleStruct module : ttcnppModules) {
 						if (module.getDirectory() == null || !centralStorage) {
 							contents.append(' ').append(module.generatedName(false, "so"));
 							if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1430,7 +1431,7 @@ public final class InternalMakefileGenerator {
 								contents.append(' ').append(module.generatedName(false, "so", "_union"));
 							} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 							} else {
-								int n_slices = Integer.parseInt(codeSplittingMode);
+								final int n_slices = Integer.parseInt(codeSplittingMode);
 								for (int i = 1; i < n_slices; i++) {
 									contents.append(' ').append(module.generatedName(false, "so", "_part_"+i));
 								}
@@ -1438,7 +1439,7 @@ public final class InternalMakefileGenerator {
 						}
 					}
 				}
-				for (ModuleStruct module : asn1modules) {
+				for (final ModuleStruct module : asn1modules) {
 					if (module.getDirectory() == null || !centralStorage) {
 						contents.append(' ').append(module.generatedName(false, "so"));
 						if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1449,7 +1450,7 @@ public final class InternalMakefileGenerator {
 							contents.append(' ').append(module.generatedName(false, "so", "_union"));
 						} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 						} else {
-							int n_slices = Integer.parseInt(codeSplittingMode);
+							final int n_slices = Integer.parseInt(codeSplittingMode);
 							for (int i = 1; i < n_slices; i++) {
 								contents.append(' ').append(module.generatedName(false, "so", "_part_"+i));
 							}
@@ -1461,7 +1462,7 @@ public final class InternalMakefileGenerator {
 				contents.append(" $(USER_SOURCES:.cc=.so)");
 			} else {
 				StringBuilder sharedObjectName;
-				for (UserStruct user : userFiles) {
+				for (final UserStruct user : userFiles) {
 					if (user.getDirectory() == null || !centralStorage) {
 						sharedObjectName = user.specialName("so");
 						if (sharedObjectName != null) {
@@ -1480,7 +1481,7 @@ public final class InternalMakefileGenerator {
 			if (gnuMake) {
 				contents.append(" $(BASE_GENERATED_SOURCES:.cc=.o)");
 			} else {
-				for (ModuleStruct module : ttcn3Modules) {
+				for (final ModuleStruct module : ttcn3Modules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.generatedName(true, "o"));
 						if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1491,7 +1492,7 @@ public final class InternalMakefileGenerator {
 							contents.append(' ').append(module.generatedName(true, "o", "_union"));
 						} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 						} else {
-							int n_slices = Integer.parseInt(codeSplittingMode);
+							final int n_slices = Integer.parseInt(codeSplittingMode);
 							for (int i = 1; i < n_slices; i++) {
 								contents.append(' ').append(module.generatedName(true, "o", "_part_"+i));
 							}
@@ -1499,7 +1500,7 @@ public final class InternalMakefileGenerator {
 					}
 				}
 				if (preprocess) {
-					for (ModuleStruct module : ttcnppModules) {
+					for (final ModuleStruct module : ttcnppModules) {
 						if (module.getDirectory() != null) {
 							contents.append(' ').append(module.generatedName(true, "o"));
 							if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1510,7 +1511,7 @@ public final class InternalMakefileGenerator {
 								contents.append(' ').append(module.generatedName(true, "o", "_union"));
 							} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 							} else {
-								int n_slices = Integer.parseInt(codeSplittingMode);
+								final int n_slices = Integer.parseInt(codeSplittingMode);
 								for (int i = 1; i < n_slices; i++) {
 									contents.append(' ').append(module.generatedName(true, "o", "_part_"+i));
 								}
@@ -1518,7 +1519,7 @@ public final class InternalMakefileGenerator {
 						}
 					}
 				}
-				for (ModuleStruct module : asn1modules) {
+				for (final ModuleStruct module : asn1modules) {
 					if (module.getDirectory() != null) {
 						contents.append(' ').append(module.generatedName(true, "o"));
 						if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1529,7 +1530,7 @@ public final class InternalMakefileGenerator {
 							contents.append(' ').append(module.generatedName(true, "o", "_union"));
 						} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 						} else {
-							int n_slices = Integer.parseInt(codeSplittingMode);
+							final int n_slices = Integer.parseInt(codeSplittingMode);
 							for (int i = 1; i < n_slices; i++) {
 								contents.append(' ').append(module.generatedName(true, "o", "_part_"+i));
 							}
@@ -1541,7 +1542,7 @@ public final class InternalMakefileGenerator {
 				contents.append(" $(BASE_USER_SOURCES:.cc=.o)");
 			} else {
 				StringBuilder objectName;
-				for (UserStruct user : userFiles) {
+				for (final UserStruct user : userFiles) {
 					if (user.getDirectory() != null) {
 						objectName = user.objectName();
 						if (objectName != null) {
@@ -1558,7 +1559,7 @@ public final class InternalMakefileGenerator {
 				if (gnuMake) {
 					contents.append(" $(BASE_GENERATED_SOURCES:.cc=.so)");
 				} else {
-					for (ModuleStruct module : ttcn3Modules) {
+					for (final ModuleStruct module : ttcn3Modules) {
 						if (module.getDirectory() != null) {
 							contents.append(' ').append(module.generatedName(true, "so"));
 							if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1569,7 +1570,7 @@ public final class InternalMakefileGenerator {
 								contents.append(' ').append(module.generatedName(true, "so", "_union"));
 							} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 							} else {
-								int n_slices = Integer.parseInt(codeSplittingMode);
+								final int n_slices = Integer.parseInt(codeSplittingMode);
 								for (int i = 1; i < n_slices; i++) {
 									contents.append(' ').append(module.generatedName(true, "so", "_part_"+i));
 								}
@@ -1577,7 +1578,7 @@ public final class InternalMakefileGenerator {
 						}
 					}
 					if (preprocess) {
-						for (ModuleStruct module : ttcnppModules) {
+						for (final ModuleStruct module : ttcnppModules) {
 							if (module.getDirectory() != null) {
 								contents.append(' ').append(module.generatedName(true, "so"));
 								if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1588,7 +1589,7 @@ public final class InternalMakefileGenerator {
 									contents.append(' ').append(module.generatedName(true, "so", "_union"));
 								} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 								} else {
-									int n_slices = Integer.parseInt(codeSplittingMode);
+									final int n_slices = Integer.parseInt(codeSplittingMode);
 									for (int i = 1; i < n_slices; i++) {
 										contents.append(' ').append(module.generatedName(true, "so", "_part_"+i));
 									}
@@ -1596,7 +1597,7 @@ public final class InternalMakefileGenerator {
 							}
 						}
 					}
-					for (ModuleStruct module : asn1modules) {
+					for (final ModuleStruct module : asn1modules) {
 						if (module.getDirectory() != null) {
 							contents.append(' ').append(module.generatedName(true, "so"));
 							if (GeneralConstants.TYPE.equals(codeSplittingMode)) {
@@ -1607,7 +1608,7 @@ public final class InternalMakefileGenerator {
 								contents.append(' ').append(module.generatedName(true, "so", "_union"));
 							} else if (GeneralConstants.NONE.equals(codeSplittingMode)) {
 							} else {
-								int n_slices = Integer.parseInt(codeSplittingMode);
+								final int n_slices = Integer.parseInt(codeSplittingMode);
 								for (int i = 1; i < n_slices; i++) {
 									contents.append(' ').append(module.generatedName(true, "so", "_part_"+i));
 								}
@@ -1618,10 +1619,9 @@ public final class InternalMakefileGenerator {
 				if (gnuMake && baseUserSourcesRegular) {
 					contents.append(" $(BASE_USER_SOURCES:.cc=.so)");
 				} else {
-					StringBuilder sharedObjectName;
-					for (UserStruct user : userFiles) {
+					for (final UserStruct user : userFiles) {
 						if (user.getDirectory() != null) {
-							sharedObjectName = user.specialName("so");
+							final StringBuilder sharedObjectName = user.specialName("so");
 							if (sharedObjectName != null) {
 								contents.append(' ').append(sharedObjectName);
 							}
@@ -1647,7 +1647,7 @@ public final class InternalMakefileGenerator {
 		contents.append("# Other files of the project (Makefile, configuration files, etc.)\n");
 		contents.append("# that will be added to the archived source files:\n");
 		contents.append("OTHER_FILES =");
-		for (OtherFileStruct file : otherFiles) {
+		for (final OtherFileStruct file : otherFiles) {
 			if (!usingSymbolicLinks && file.getOriginalLocation() != null) {
 				contents.append(' ').append(file.getOriginalLocation());
 			} else {
@@ -1661,8 +1661,8 @@ public final class InternalMakefileGenerator {
 		contents.append("LIBRARY = " + getLibraryName() + '\n');
 		contents.append("\nTARGET = " + (library ? "$(LIBRARY)" : "$(EXECUTABLE)"));
 
-		String zlib = useCrossCompilation ? "-lz" : "";
-		String rmCommand = gnuMake ? "$(RM)" : "rm -f";
+		final String zlib = useCrossCompilation ? "-lz" : "";
+		final String rmCommand = gnuMake ? "$(RM)" : "rm -f";
 
 		contents.append("\n\n");
 		contents.append("#\n");
@@ -1673,9 +1673,9 @@ public final class InternalMakefileGenerator {
 		if (USAGE_STATS) {
 			contents.append(" -lresolv");
 		}
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Solaris");
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Solaris");
+			for (final String option : optionList) {
 				contents.append(" -l").append(option);
 			}
 		}
@@ -1684,9 +1684,9 @@ public final class InternalMakefileGenerator {
 		if (USAGE_STATS) {
 			contents.append(" -lresolv");
 		}
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Solaris8");
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Solaris8");
+			for (final String option : optionList) {
 				contents.append(" -l").append(option);
 			}
 		}
@@ -1695,25 +1695,25 @@ public final class InternalMakefileGenerator {
 		if (USAGE_STATS) {
 			contents.append(" -lpthread -lrt");
 		}
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Linux");
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Linux");
+			for (final String option : optionList) {
 				contents.append(" -l").append(option);
 			}
 		}
 		contents.append('\n');
 		contents.append("FREEBSD_LIBS = -lxml2 ").append(zlib);
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "FreeBSD");
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "FreeBSD");
+			for (final String option : optionList) {
 				contents.append(" -l").append(option);
 			}
 		}
 		contents.append('\n');
 		contents.append("WIN32_LIBS = -lxml2 ").append(zlib);
-		for (IProject reachableProject : reachableProjects) {
-			String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Win32");
-			for (String option : optionList) {
+		for (final IProject reachableProject : reachableProjects) {
+			final String[] optionList = PlatformSpecificLibrariesOptionsData.getPlatformSpecificLibraries(reachableProject, "Win32");
+			for (final String option : optionList) {
 				contents.append(" -l").append(option);
 			}
 		}
@@ -1758,7 +1758,7 @@ public final class InternalMakefileGenerator {
 
 		if (!usingSymbolicLinks) {
 			StringBuilder objectName;
-			for (UserStruct user : userFiles) {
+			for (final UserStruct user : userFiles) {
 				objectName = user.objectName();
 				if (objectName != null) {
 					contents.append(objectName + " : ");
@@ -1779,7 +1779,7 @@ public final class InternalMakefileGenerator {
 		if (incrementalDependencyRefresh) {
 			if (!usingSymbolicLinks) {
 				StringBuilder depName;
-				for (UserStruct user : userFiles) {
+				for (final UserStruct user : userFiles) {
 					depName = user.specialName("d");
 					if (depName != null) {
 						contents.append(depName + " : ");
@@ -1815,9 +1815,8 @@ public final class InternalMakefileGenerator {
 
 		if (preprocess) {
 			if (!usingSymbolicLinks) {
-				StringBuilder depName;
-				for (ModuleStruct module : ttcnppModules) {
-					depName = module.preprocessedName(true);
+				for (final ModuleStruct module : ttcnppModules) {
+					final StringBuilder depName = module.preprocessedName(true);
 					if (depName != null) {
 						contents.append(depName + " : ");
 						if (module.getOriginalLocation() != null) {
@@ -1838,7 +1837,7 @@ public final class InternalMakefileGenerator {
 		if (centralStorage) {
 			boolean isFirst = true;
 			contents.append("$(GENERATED_SOURCES) $(GENERATED_HEADERS): compile-all compile");
-			for (BaseDirectoryStruct dir : baseDirectories) {
+			for (final BaseDirectoryStruct dir : baseDirectories) {
 				if (dir.isHasModules()) {
 					if (isFirst) {
 						contents.append(" \\\n");
@@ -1943,43 +1942,43 @@ public final class InternalMakefileGenerator {
 				contents.append("\t- $(TTCN3_MODULES) $(ASN1_MODULES)\n");
 				contents.append("\ttouch $@ compile\n\n");
 			}
-			for (BaseDirectoryStruct dir : baseDirectories) {
+			for (final BaseDirectoryStruct dir : baseDirectories) {
 				if (dir.isHasModules() && !".".equals(dir.name().toString())) {
 					contents.append(dir.name()).append("/compile:");
 					if (allProjectsUseSymbolicLinks) {
-						for (ModuleStruct module : ttcn3Modules) {
-							String dirName = module.getDirectory();
+						for (final ModuleStruct module : ttcn3Modules) {
+							final String dirName = module.getDirectory();
 							if (dirName != null && dir.getDirectoryName().equals(dirName)) {
 								contents.append(' ').append(dir.name()).append('/').append(module.getFileName());
 							}
 						}
-						for (ModuleStruct module : ttcnppModules) {
-							String dirName = module.getDirectory();
+						for (final ModuleStruct module : ttcnppModules) {
+							final String dirName = module.getDirectory();
 							if (dirName != null && dir.getDirectoryName().equals(dirName)) {
 								contents.append(' ').append(dir.name()).append('/').append(module.getFileName());
 							}
 						}
-						for (ModuleStruct module : asn1modules) {
-							String dirName = module.getDirectory();
+						for (final ModuleStruct module : asn1modules) {
+							final String dirName = module.getDirectory();
 							if (dirName != null && dir.getDirectoryName().equals(dirName)) {
 								contents.append(' ').append(dir.name()).append('/').append(module.getFileName());
 							}
 						}
 					} else {
-						for (ModuleStruct module : ttcn3Modules) {
-							String dirName = module.getDirectory();
+						for (final ModuleStruct module : ttcn3Modules) {
+							final String dirName = module.getDirectory();
 							if (dirName != null && dir.getDirectoryName().equals(dirName)) {
 								contents.append(' ').append(module.getOriginalLocation());
 							}
 						}
-						for (ModuleStruct module : ttcnppModules) {
-							String dirName = module.getDirectory();
+						for (final ModuleStruct module : ttcnppModules) {
+							final String dirName = module.getDirectory();
 							if (dirName != null && dir.getDirectoryName().equals(dirName)) {
 								contents.append(' ').append(module.getOriginalLocation());
 							}
 						}
-						for (ModuleStruct module : asn1modules) {
-							String dirName = module.getDirectory();
+						for (final ModuleStruct module : asn1modules) {
+							final String dirName = module.getDirectory();
 							if (dirName != null && dir.getDirectoryName().equals(dirName)) {
 								contents.append(' ').append(module.getOriginalLocation());
 							}
@@ -2162,16 +2161,17 @@ public final class InternalMakefileGenerator {
 		contents.append("# Add your rules here if necessary...\n");
 		contents.append("#\n\n");
 
-		String makefileName = "Makefile";
+		final String makefileName = "Makefile";
 		try {
 			if (project.getLocation().isPrefixOf(workingDirectoryPath)) {
-				int matchingSegments = project.getLocation().matchingFirstSegments(workingDirectoryPath);
-				IPath samplePath = workingDirectoryPath.removeFirstSegments(matchingSegments);
-				IFolder folder = project.getFolder(samplePath);
+				final int matchingSegments = project.getLocation().matchingFirstSegments(workingDirectoryPath);
+				final IPath samplePath = workingDirectoryPath.removeFirstSegments(matchingSegments);
+				final IFolder folder = project.getFolder(samplePath);
 				if (!folder.isAccessible()) {
 					ResourceUtils.refreshResources(Arrays.asList(folder));
 				}
-				IFile sampleMakefile = project.getFile(samplePath.append("/" + makefileName));
+
+				final IFile sampleMakefile = project.getFile(samplePath.append("/" + makefileName));
 				sampleMakefile.refreshLocal(0, null);
 				if (sampleMakefile.exists()) {
 					sampleMakefile.setContents(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE
@@ -2179,10 +2179,11 @@ public final class InternalMakefileGenerator {
 				} else {
 					sampleMakefile.create(new ByteArrayInputStream(contents.toString().getBytes()), IResource.FORCE, null);
 				}
+
 				ResourceUtils.refreshResources(Arrays.asList(sampleMakefile));
 				sampleMakefile.refreshLocal(IResource.DEPTH_ZERO, new NullProgressMonitor());
 			} else {
-				IPath makefilepath = workingDirectoryPath.append(makefileName);
+				final IPath makefilepath = workingDirectoryPath.append(makefileName);
 
 				BufferedOutputStream out = null;
 				try {
@@ -2204,7 +2205,7 @@ public final class InternalMakefileGenerator {
 	public void gatherInformation() {
 		centralStorage = false;
 		try {
-			MakefileGeneratorVisitor visitor = new MakefileGeneratorVisitor(this, project);
+			final MakefileGeneratorVisitor visitor = new MakefileGeneratorVisitor(this, project);
 			project.accept(visitor);
 			centralStorage = !visitor.getCentralStorages().isEmpty();
 		} catch (CoreException e) {
@@ -2214,7 +2215,7 @@ public final class InternalMakefileGenerator {
 	
 		reachableProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
 		boolean foundClosedProject = false;
-		for (IProject reachableProject : reachableProjects) {
+		for (final IProject reachableProject : reachableProjects) {
 			if (!reachableProject.isAccessible()) {
 				final StringBuilder builder = new StringBuilder("The project `" + reachableProject.getName()
 						+ "' (reachable from project `" + project.getName()
@@ -2222,7 +2223,7 @@ public final class InternalMakefileGenerator {
 				final IProject[] referencingProjects = reachableProject.getReferencingProjects();
 				if (referencingProjects != null && referencingProjects.length > 0) {
 					builder.append(" The project `").append(reachableProject.getName()).append("' is referenced directly by");
-					for (IProject referencingProject : referencingProjects) {
+					for (final IProject referencingProject : referencingProjects) {
 						builder.append(" `").append(referencingProject.getName()).append('\'');
 					}
 				}
@@ -2267,14 +2268,14 @@ public final class InternalMakefileGenerator {
 	
 		// Add the Makefile to the other files, as it will belong there
 		// once we create it
-		OtherFileStruct otherFile = new OtherFileStruct(null, null, "Makefile");
+		final OtherFileStruct otherFile = new OtherFileStruct(null, null, "Makefile");
 		otherFiles.add(otherFile);
 	}
 	
 	private StringBuilder appendExecutableTarget(final StringBuilder contents, final String allObjects, final boolean externalLibrariesDisabled) {
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
-		MessageConsole debugConsole = TITANDebugConsole.getConsole();
+		final MessageConsole debugConsole = TITANDebugConsole.getConsole();
 		final List<IProject> referencedProjects = ProjectBasedBuilder.getProjectBasedBuilder(project).getAllReachableProjects();
 		if (dynamicLinking && library) {
 			contents.append("$(EXECUTABLE): $(LIBRARY)\n");
@@ -2287,17 +2288,17 @@ public final class InternalMakefileGenerator {
 			}
 			contents.append(gnuMake ? "$^" : allObjects);
 
-			for (IProject referencedProject : referencedProjects) {
-				String[] optionList = LinkerLibrariesOptionsData.getAdditionalObjects(referencedProject);
+			for (final IProject referencedProject : referencedProjects) {
+				final String[] optionList = LinkerLibrariesOptionsData.getAdditionalObjects(referencedProject);
 				if (optionList.length > 0) {
-					IPath location = referencedProject.getLocation();
+					final IPath location = referencedProject.getLocation();
 					if (location == null) {
 						ErrorReporter.logError("The project `" + referencedProject.getName()
 								+ "' is not located in the local file system."
 								+ " The additional object files to link against,"
 								+ " set for it will not be generated into the Makefile");
 					} else {
-						String tempProjectLocation = location.toOSString();
+						final String tempProjectLocation = location.toOSString();
 						for (String option : optionList) {
 							option = TITANPathUtilities.resolvePathURIForMakefile(option, 
 									tempProjectLocation,reportDebugInformation,debugConsole);
@@ -2313,16 +2314,16 @@ public final class InternalMakefileGenerator {
 			contents.append(" -L$(OPENSSL_DIR)/lib -L$(XMLDIR)/lib");
 		}
 
-		for (IProject referencedProject : referencedProjects) {
-			String[] optionList = LinkerLibrariesOptionsData.getLinkerSearchPaths(referencedProject);
+		for (final IProject referencedProject : referencedProjects) {
+			final String[] optionList = LinkerLibrariesOptionsData.getLinkerSearchPaths(referencedProject);
 			if (optionList.length > 0) {
-				IPath location = referencedProject.getLocation();
+				final IPath location = referencedProject.getLocation();
 				if (location == null) {
 					ErrorReporter.logError("The project `"
 							+ referencedProject.getName()
 							+ "' is not located in the local file system. The extra linker search paths set for it will not be generated into the Makefile");
 				} else {
-					String tempProjectLocation = location.toOSString();
+					final String tempProjectLocation = location.toOSString();
 					for (String temp : optionList) {
 						temp = TITANPathUtilities.resolvePathURIForMakefile(temp, 
 								tempProjectLocation, reportDebugInformation,debugConsole);
@@ -2336,9 +2337,9 @@ public final class InternalMakefileGenerator {
 		contents.append("\t-l$(TTCN3_LIB)");
 		contents.append(" -lcrypto");
 		if (!referencedProjects.isEmpty()) {
-			for (IProject tempProject : referencedProjects) {
-				String[] optionList = LinkerLibrariesOptionsData.getLinkerLibraries(tempProject);
-				for (String anOptionList : optionList) {
+			for (final IProject tempProject : referencedProjects) {
+				final String[] optionList = LinkerLibrariesOptionsData.getLinkerLibraries(tempProject);
+				for (final String anOptionList : optionList) {
 					contents.append(" -l").append(anOptionList);
 				}
 			}
@@ -2379,7 +2380,7 @@ public final class InternalMakefileGenerator {
 	 *                       </ul>
 	 */
 	private void setParameters() throws CoreException {
-		boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
+		final boolean reportDebugInformation = Platform.getPreferencesService().getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.DISPLAYDEBUGINFORMATION, false, null);
 
 		workingDirectoryPath = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
@@ -2433,7 +2434,7 @@ public final class InternalMakefileGenerator {
 				ProjectBuildPropertyData.QUALIFIER, 
 				MakefileCreationData.TARGET_EXECUTABLE_PROPERTY);
 		if (temp != null && temp.trim().length() > 0) {
-			MessageConsole debugConsole = TITANDebugConsole.getConsole();
+			final MessageConsole debugConsole = TITANDebugConsole.getConsole();
 			etsName = TITANPathUtilities.resolvePathURIForMakefile(
 					temp, projectLocation, reportDebugInformation,debugConsole);
 		} else {
@@ -2457,8 +2458,8 @@ public final class InternalMakefileGenerator {
 	 *                  directory of the actual project)
 	 */
 	public void addTTCN3Module(final IFile file, final String directory) {
-		ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
-		String moduleName = parser.containedModuleName(file);
+		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
+		final String moduleName = parser.containedModuleName(file);
 		if (moduleName == null) {
 			if (file.isSynchronized(IResource.DEPTH_ZERO)) {
 				ErrorReporter.logWarning("file " + file.getFullPath().toOSString() + " is out-of sync with the file system");
@@ -2499,8 +2500,8 @@ public final class InternalMakefileGenerator {
 	 *                  directory of the actual project)
 	 */
 	public void addASN1Module(final IFile file, final String directory) {
-		ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
-		String moduleName = parser.containedModuleName(file);
+		final ProjectSourceParser parser = GlobalParser.getProjectSourceParser(file.getProject());
+		final String moduleName = parser.containedModuleName(file);
 		if (moduleName == null) {
 			if (file.isSynchronized(IResource.DEPTH_ZERO)) {
 				ErrorReporter.logWarning("file " + file.getFullPath().toOSString() + " is out-of sync with the file system");
@@ -2541,10 +2542,10 @@ public final class InternalMakefileGenerator {
 	 *                  directory of the actual project)
 	 */
 	public void addUserHeaderFile(final IFile file, final String directory) {
-		String name = file.getName();
-		String filePrefix = name.substring(0, name.lastIndexOf('.'));
+		final String name = file.getName();
+		final String filePrefix = name.substring(0, name.lastIndexOf('.'));
 
-		for (UserStruct other : userFiles) {
+		for (final UserStruct other : userFiles) {
 			if (other.getDirectory() != null && other.getFilePrefix() != null && other.getDirectory().equals(directory)
 					&& other.getFilePrefix().equals(filePrefix)) {
 				other.setHeaderName(name);
@@ -2558,7 +2559,7 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		UserStruct userFile = new UserStruct();
+		final UserStruct userFile = new UserStruct();
 		userFile.setDirectory(directory);
 		if (file.getLocation() == null) {
 			userFile.setOriginalHeaderLocation(directory + File.separatorChar + file.getName());
@@ -2587,10 +2588,10 @@ public final class InternalMakefileGenerator {
 	 *                  directory of the actual project)
 	 */
 	public void addUserSourceFile(final IFile file, final String directory) {
-		String name = file.getName();
-		String filePrefix = name.substring(0, name.lastIndexOf('.'));
+		final String name = file.getName();
+		final String filePrefix = name.substring(0, name.lastIndexOf('.'));
 
-		for (UserStruct other : userFiles) {
+		for (final UserStruct other : userFiles) {
 			if (other.getDirectory() != null && other.getFilePrefix() != null && other.getDirectory().equals(directory)
 					&& other.getFilePrefix().equals(filePrefix)) {
 				other.setSourceName(name);
@@ -2604,13 +2605,14 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		UserStruct userFile = new UserStruct();
+		final UserStruct userFile = new UserStruct();
 		userFile.setDirectory(directory);
 		if (file.getLocation() == null) {
 			userFile.setOriginalSourceLocation(directory + File.separatorChar + file.getName());
 		} else {
 			userFile.setOriginalSourceLocation(file.getLocation().toOSString());
 		}
+
 		userFile.setFileName(name);
 		userFile.setFilePrefix(name.substring(0, name.lastIndexOf('.')));
 		userFile.setHeaderName(null);
@@ -2644,7 +2646,7 @@ public final class InternalMakefileGenerator {
 			originalLocation = null;
 		}
 
-		OtherFileStruct otherFile = new OtherFileStruct(directory, originalLocation, file.getName());
+		final OtherFileStruct otherFile = new OtherFileStruct(directory, originalLocation, file.getName());
 		otherFiles.add(otherFile);
 	}
 
@@ -2660,7 +2662,7 @@ public final class InternalMakefileGenerator {
 	 */
 	public void addPreprocessingModule(final IFile file, final String directory) {
 		preprocess = true;
-		String name = file.getName();
+		final String name = file.getName();
 		String originalLocation;
 		if (file.getLocation() == null) {
 			originalLocation = directory + File.separatorChar + file.getName();
@@ -2702,7 +2704,7 @@ public final class InternalMakefileGenerator {
 		TTCN3IncludeFileStruct includeFile = null;
 		if (usingSymbolicLinks) {
 			final IPath workingDirectoryPath = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(true);
-			String workspaceFilePath = workingDirectoryPath.toOSString() + File.separatorChar + file.getName();
+			final String workspaceFilePath = workingDirectoryPath.toOSString() + File.separatorChar + file.getName();
 
 			includeFile = new TTCN3IncludeFileStruct(parentPath.toOSString(),workingDirectoryPath.toOSString(),
 							originalLocation, workspaceFilePath, file.getName());
@@ -2730,7 +2732,7 @@ public final class InternalMakefileGenerator {
 
 		final String name = folder.toOSString();
 
-		for (BaseDirectoryStruct dir : additionallyIncludedFolders) {
+		for (final BaseDirectoryStruct dir : additionallyIncludedFolders) {
 			if (dir.getDirectoryName().equals(name)) {
 				if (dir.getDirectory() == null) {
 					dir.setDirectory(folder);
@@ -2739,7 +2741,7 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		BaseDirectoryStruct dir = new BaseDirectoryStruct(folder, name, true);
+		final BaseDirectoryStruct dir = new BaseDirectoryStruct(folder, name, true);
 
 		additionallyIncludedFolders.add(dir);
 	}
@@ -2759,7 +2761,7 @@ public final class InternalMakefileGenerator {
 
 		final String name = folder.toOSString();
 
-		for (BaseDirectoryStruct dir : baseDirectories) {
+		for (final BaseDirectoryStruct dir : baseDirectories) {
 			if (dir.getDirectoryName().equals(name)) {
 				if (dir.getDirectory() == null) {
 					dir.setDirectory(folder);
@@ -2768,7 +2770,7 @@ public final class InternalMakefileGenerator {
 			}
 		}
 
-		BaseDirectoryStruct dir = new BaseDirectoryStruct(folder, name, true);
+		final BaseDirectoryStruct dir = new BaseDirectoryStruct(folder, name, true);
 
 		baseDirectories.add(dir);
 	}
@@ -2782,13 +2784,13 @@ public final class InternalMakefileGenerator {
 	 * @param folder the folder to be added.
 	 */
 	public void addBaseDirectory(final String folder) {
-		for (BaseDirectoryStruct dir : baseDirectories) {
+		for (final BaseDirectoryStruct dir : baseDirectories) {
 			if (dir.getDirectoryName().equals(folder)) {
 				return;
 			}
 		}
 
-		BaseDirectoryStruct dir = new BaseDirectoryStruct(null, folder, true);
+		final BaseDirectoryStruct dir = new BaseDirectoryStruct(null, folder, true);
 
 		baseDirectories.add(dir);
 	}

@@ -59,7 +59,7 @@ public final class MakefileGeneratorVisitor implements IResourceVisitor {
 		this.projectVisited = project;
 		helper = new ResourceExclusionHelper();
 		workingDirectories = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryResources(false);
-		IPath path = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(false);
+		final IPath path = ProjectBasedBuilder.getProjectBasedBuilder(project).getWorkingDirectoryPath(false);
 		if (path != null) {
 			actualWorkingDirectory = path.toOSString();
 		} else {
@@ -83,20 +83,20 @@ public final class MakefileGeneratorVisitor implements IResourceVisitor {
 			return false;
 		}
 
-		URI resourceURI = resource.getLocationURI();
+		final URI resourceURI = resource.getLocationURI();
 
 		// Not having a location in the local file system is an
 		// error, but should only be reported if the resource is
 		// not excluded from build.
-		String resourceName = new Path(resourceURI.getPath()).lastSegment();
+		final String resourceName = new Path(resourceURI.getPath()).lastSegment();
 		if (resourceName.startsWith(".")) {
 			return false;
 		}
 
 		try {
-			URI resolved = resource.getWorkspace().getPathVariableManager().resolveURI(resource.getLocationURI());
-			IFileStore store = EFS.getStore(resolved);
-			IFileInfo fileInfo = store.fetchInfo();
+			final URI resolved = resource.getWorkspace().getPathVariableManager().resolveURI(resource.getLocationURI());
+			final IFileStore store = EFS.getStore(resolved);
+			final IFileInfo fileInfo = store.fetchInfo();
 			if (!fileInfo.exists()) {
 				return false;
 			}
@@ -111,10 +111,10 @@ public final class MakefileGeneratorVisitor implements IResourceVisitor {
 				}
 
 				String folder = projectVisited == makefileGenerator.getProject() ? null : actualWorkingDirectory;
-				for (URI centralStorage : getCentralStorages()) {
+				for (final URI centralStorage : getCentralStorages()) {
 					if (resourceURI.getHost() == centralStorage.getHost() && resourceURI.getPath().startsWith(centralStorage.getPath())) {
 						folder = centralStorage.getPath();
-						for (BaseDirectoryStruct dir : makefileGenerator.getBaseDirectories()) {
+						for (final BaseDirectoryStruct dir : makefileGenerator.getBaseDirectories()) {
 							if (dir.getDirectory() != null && dir.getDirectory().isPrefixOf(resource.getFullPath())) {
 								dir.setHasModules(true);
 								break;
@@ -127,8 +127,8 @@ public final class MakefileGeneratorVisitor implements IResourceVisitor {
 					folder = actualWorkingDirectory;
 				}
 
-				IFile file = (IFile) resource;
-				String extension = file.getFileExtension();
+				final IFile file = (IFile) resource;
+				final String extension = file.getFileExtension();
 				if ("ttcn3".equals(extension) || "ttcn".equals(extension)) {
 					makefileGenerator.addTTCN3Module(file, folder);
 				} else if ("asn".equals(extension) || "asn1".equals(extension)) {
@@ -146,7 +146,7 @@ public final class MakefileGeneratorVisitor implements IResourceVisitor {
 				}
 				return false;
 			case IResource.FOLDER:
-				for (IContainer workingDirectory : workingDirectories) {
+				for (final IContainer workingDirectory : workingDirectories) {
 					if (workingDirectory.equals(resource)) {
 						if (projectVisited != makefileGenerator.getProject()) {
 							makefileGenerator.addBaseDirectory(resource.getLocation());
