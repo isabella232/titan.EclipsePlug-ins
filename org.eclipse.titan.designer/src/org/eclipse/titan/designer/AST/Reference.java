@@ -1221,6 +1221,7 @@ public class Reference extends ASTNode implements ILocateableNode, IIncrementall
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 				final Value value = ((ArraySubReference)subreference).getValue();
 				IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
+				//FIXME pt might be null?
 				pt = pt.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 				if (pt.getTypetype() == Type_type.TYPE_ARRAY) {
 					long length = ((Array_Type)pt).getDimension().getSize();
