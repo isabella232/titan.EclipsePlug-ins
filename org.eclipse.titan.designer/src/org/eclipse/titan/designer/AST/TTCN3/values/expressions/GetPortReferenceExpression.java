@@ -69,7 +69,7 @@ public class GetPortReferenceExpression extends Expression_Value {
 	 *                the timestamp of the actual semantic check cycle.
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp) {
-		PortScope portScope = myScope.getScopePort();
+		final PortScope portScope = myScope.getScopePort();
 		if (portScope == null) {
 			getLocation().reportSemanticError("Operation `port.getref' can only be used in a function with a port clause.");
 			setIsErroneous(true);

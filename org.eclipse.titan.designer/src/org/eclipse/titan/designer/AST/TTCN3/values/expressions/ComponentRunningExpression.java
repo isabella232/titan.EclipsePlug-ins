@@ -149,12 +149,12 @@ public final class ComponentRunningExpression extends Expression_Value {
 		if (indexRedirection != null && t != null) {
 			t = t.getTypeRefdLast(timestamp);
 
-			ArrayDimensions temp = new ArrayDimensions();
+			final ArrayDimensions dimensions = new ArrayDimensions();
 			while (t.getTypetype() == Type_type.TYPE_ARRAY) {
-				temp.add(((Array_Type)t).getDimension());
+				dimensions.add(((Array_Type)t).getDimension());
 				t = ((Array_Type)t).getElementType().getTypeRefdLast(timestamp);
 			}
-			Statement.checkIndexRedirection(timestamp, indexRedirection,temp, anyfrom, "timer");
+			Statement.checkIndexRedirection(timestamp, indexRedirection, dimensions, anyfrom, "timer");
 		}
 	}
 
