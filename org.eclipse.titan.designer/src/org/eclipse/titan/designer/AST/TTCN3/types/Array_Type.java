@@ -859,6 +859,11 @@ public final class Array_Type extends Type implements IReferenceableElement {
 			indexValue.setLoweridToReference(timestamp);
 
 			IType indexingType = indexValue.getExpressionGovernor(timestamp, expectedIndex);
+			if (indexingType == null) {
+				//an error was already reported.
+				return null;
+			}
+
 			indexingType = indexingType.getTypeRefdLast(timestamp);
 			if (indexingType != null && (indexingType.getTypetype() == Type_type.TYPE_ARRAY || indexingType.getTypetype() == Type_type.TYPE_SEQUENCE_OF)) {
 				// The indexer type must be of type integer
