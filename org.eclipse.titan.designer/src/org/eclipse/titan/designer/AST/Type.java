@@ -428,9 +428,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 				type = compField.getType();
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
-				final Value value = ((ArraySubReference)subreference).getValue();
-				//TODO actually should get the last governor
-				final IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
 				switch(type.getTypetype()) {
 				case TYPE_SEQUENCE_OF:
 				case TYPE_SET_OF:
