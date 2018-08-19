@@ -394,64 +394,64 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		IType type = this;
 		CompField compField = null;
 		for ( int i = 1; i < subReferences.size(); i++) {
-			if (type != null) {
-				type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-			}
+			type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 
 			final ISubReference subreference = subReferences.get(i);
 			if(Subreference_type.fieldSubReference.equals(subreference.getReferenceType())) {
 				final Identifier id = ((FieldSubReference) subreference).getId();
-				if (type != null) {
-					switch(type.getTypetype()) {
-					case TYPE_TTCN3_CHOICE:
-					case TYPE_TTCN3_SEQUENCE:
-					case TYPE_TTCN3_SET:
-						compField = ((TTCN3_Set_Seq_Choice_BaseType)type).getComponentByName(id.getName());
-						break;
-					case TYPE_ANYTYPE:
-						compField = ((Anytype_Type)type).getComponentByName(id.getName());
-						break;
-					case TYPE_OPENTYPE:
-						compField = ((Open_Type)type).getComponentByName(id);
-						break;
-					case TYPE_ASN1_SEQUENCE:
-						((ASN1_Sequence_Type)type).parseBlockSequence();
-						compField = ((ASN1_Sequence_Type)type).getComponentByName(id);
-						break;
-					case TYPE_ASN1_SET:
-						((ASN1_Set_Type)type).parseBlockSet();
-						compField = ((ASN1_Set_Type)type).getComponentByName(id);
-						break;
-					case TYPE_ASN1_CHOICE:
-						((ASN1_Choice_Type)type).parseBlockChoice();
-						compField = ((ASN1_Choice_Type)type).getComponentByName(id);
-						break;
-					default:
-						return false;
-					}
-					if (compField == null) {
-						return false;
-					}
-					type = compField.getType();
+				switch(type.getTypetype()) {
+				case TYPE_TTCN3_CHOICE:
+				case TYPE_TTCN3_SEQUENCE:
+				case TYPE_TTCN3_SET:
+					compField = ((TTCN3_Set_Seq_Choice_BaseType)type).getComponentByName(id.getName());
+					break;
+				case TYPE_ANYTYPE:
+					compField = ((Anytype_Type)type).getComponentByName(id.getName());
+					break;
+				case TYPE_OPENTYPE:
+					compField = ((Open_Type)type).getComponentByName(id);
+					break;
+				case TYPE_ASN1_SEQUENCE:
+					((ASN1_Sequence_Type)type).parseBlockSequence();
+					compField = ((ASN1_Sequence_Type)type).getComponentByName(id);
+					break;
+				case TYPE_ASN1_SET:
+					((ASN1_Set_Type)type).parseBlockSet();
+					compField = ((ASN1_Set_Type)type).getComponentByName(id);
+					break;
+				case TYPE_ASN1_CHOICE:
+					((ASN1_Choice_Type)type).parseBlockChoice();
+					compField = ((ASN1_Choice_Type)type).getComponentByName(id);
+					break;
+				default:
+					return false;
 				}
+
+				if (compField == null) {
+					return false;
+				}
+
+				type = compField.getType();
 			} else if(Subreference_type.arraySubReference.equals(subreference.getReferenceType())) {
 				final Value value = ((ArraySubReference)subreference).getValue();
 				//TODO actually should get the last governor
 				final IType pt = value.getExpressionGovernor(CompilationTimeStamp.getBaseTimestamp(), Expected_Value_type.EXPECTED_TEMPLATE);
-				if(type != null) {
-					switch(type.getTypetype()) {
-					case TYPE_SEQUENCE_OF:
-					case TYPE_SET_OF:
-						type = ((AbstractOfType) type).getOfType();
-						break;
-					case TYPE_ARRAY:
-						type = ((Array_Type) type).getElementType();
-						break;
-					default:
-						type = null;
-						return false;
-					}
+				switch(type.getTypetype()) {
+				case TYPE_SEQUENCE_OF:
+				case TYPE_SET_OF:
+					type = ((AbstractOfType) type).getOfType();
+					break;
+				case TYPE_ARRAY:
+					type = ((Array_Type) type).getElementType();
+					break;
+				default:
+					type = null;
+					break;
 				}
+			}
+
+			if (type == null) {
+				return false;
 			}
 		}
 
