@@ -377,12 +377,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	@Override
 	/** {@inheritDoc} */
 	public boolean fieldIsOptional(final List<ISubReference> subReferences) {
-		//TODO there must be a better implementation
-		if (subReferences == null) {
-			return false;
-		}
-
-		if (subReferences.isEmpty()) {
+		if (subReferences == null || subReferences.isEmpty()) {
 			return false;
 		}
 
@@ -455,11 +450,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 		}
 
-		if (compField != null && compField.isOptional()) {
-			return true;
-		}
-
-		return false;
+		return compField != null && compField.isOptional();
 	}
 
 	@Override
