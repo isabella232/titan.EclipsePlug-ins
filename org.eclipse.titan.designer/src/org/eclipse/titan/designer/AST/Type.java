@@ -427,11 +427,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 						compField = ((ASN1_Choice_Type)type).getComponentByName(id);
 						break;
 					default:
-						//TODO fatal error:
 						return false;
 					}
 					if (compField == null) {
-						//TODO fatal error
 						return false;
 					}
 					type = compField.getType();
