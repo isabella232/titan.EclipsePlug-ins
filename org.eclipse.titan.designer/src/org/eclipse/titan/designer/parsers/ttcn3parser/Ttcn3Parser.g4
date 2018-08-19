@@ -5278,13 +5278,13 @@ pr_PortReceiveOp [Reference reference, boolean is_check, boolean is_any_from, bo
 {
 	if( helper == null ) {
 		if( $is_check ) {
-			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null );
+			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
 		} else {
 			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, null, null, null, translate );
 		}
 	} else {
 		if( $is_check ) {
-			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex );
+			$statement = new Check_Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
 		} else {
 			$statement = new Receive_Port_Statement( $reference, is_any_from, parameter, from, helper.redirectValue, helper.redirectSender, helper.redirectIndex, translate );
 		}

@@ -469,11 +469,11 @@ public final class Receive_Port_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
 		if (portReference != null || translate) {
-			if (!translate) {
+			if (translate) {
+				expression.expression.append("receive(");
+			} else {
 				portReference.generateCode(aData, expression);
 				expression.expression.append(".receive(");
-			} else {
-				expression.expression.append("receive(");
 			}
 			if (receiveParameter != null) {
 				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);

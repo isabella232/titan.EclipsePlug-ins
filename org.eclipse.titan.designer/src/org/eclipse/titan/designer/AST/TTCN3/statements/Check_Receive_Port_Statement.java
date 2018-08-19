@@ -44,6 +44,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 
 	private final Reference portReference;
 	private final boolean anyFrom;
+	private final boolean translate;
 	private final TemplateInstance receiveParameter;
 	private final TemplateInstance fromClause;
 	private final Reference redirectValue;
@@ -51,9 +52,10 @@ public final class Check_Receive_Port_Statement extends Statement {
 	private final Reference redirectIndex;
 
 	public Check_Receive_Port_Statement(final Reference portReference, final boolean anyFrom, final TemplateInstance receiveParameter,
-			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex) {
+			final TemplateInstance fromClause, final Reference redirectValue, final Reference redirectSender, final Reference redirectIndex, final boolean translate) {
 		this.portReference = portReference;
 		this.anyFrom = anyFrom;
+		this.translate = translate;
 		this.receiveParameter = receiveParameter;
 		this.fromClause = fromClause;
 		this.redirectValue = redirectValue;
@@ -118,7 +120,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 	/** {@inheritDoc} */
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
-		if (portReference != null) {
+		if (portReference != null && !translate) {
 			portReference.setMyScope(scope);
 		}
 		if (receiveParameter != null) {
@@ -301,10 +303,13 @@ public final class Check_Receive_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
-		//FIXME handle translation too
-		if (portReference != null) {
-			portReference.generateCode(aData, expression);
-			expression.expression.append(".check_receive(");
+		if (portReference != null || translate) {
+			if (translate) {
+				expression.expression.append("check_receive(");
+			} else {
+				portReference.generateCode(aData, expression);
+				expression.expression.append(".check_receive(");
+			}
 			if (receiveParameter != null) {
 				receiveParameter.generateCode(aData, expression, Restriction_type.TR_NONE);
 				expression.expression.append(", ");
@@ -345,8 +350,7 @@ public final class Check_Receive_Port_Statement extends Statement {
 			redirectSender.generateCode(aData, expression);
 		}
 
-		//FIXME also if translate
-		if (portReference != null) {
+		if (portReference != null || translate) {
 			expression.expression.append(",");
 			if (redirectIndex == null) {
 				expression.expression.append("null");
