@@ -431,7 +431,6 @@ public final class Def_ModulePar extends Definition {
 		moduleParamaterSetting.append(MessageFormat.format("{0}.set_param(param);\n", genName));
 		moduleParamaterSetting.append("return true;\n");
 		moduleParamaterSetting.append("} else ");
-		//TODO remaining functionality: setting/logging module parameters
 	}
 
 	@Override
