@@ -299,7 +299,6 @@ public final class Trigger_Port_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
-		//FIXME handle translation too
 		if (portReference != null) {
 			portReference.generateCode(aData, expression);
 			expression.expression.append(".trigger(");
@@ -343,7 +342,6 @@ public final class Trigger_Port_Statement extends Statement {
 			redirectSender.generateCode(aData, expression);
 		}
 
-		//FIXME also if translate
 		if (portReference != null) {
 			expression.expression.append(",");
 			if (redirectIndex == null) {
