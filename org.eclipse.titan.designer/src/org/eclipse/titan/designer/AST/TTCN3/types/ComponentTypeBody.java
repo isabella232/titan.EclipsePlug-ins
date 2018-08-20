@@ -962,7 +962,6 @@ public final class ComponentTypeBody extends TTCN3Scope implements IReferenceCha
 						hasBaseComponents = true;
 					}
 
-					//TODO get_scope_mod_gen
 					if(getModuleScope().equals(cb.getModuleScope())) {
 						init_comp.append("init_comp_type(\"");
 						init_comp.append(cb.getIdentifier().getDisplayName());
