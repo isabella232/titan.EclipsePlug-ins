@@ -196,7 +196,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				}
 			}
 			try {
-				log_file_writer.set(new BufferedWriter(new FileWriter(log_fp_),32768));
+				log_file_writer.set(new BufferedWriter(new FileWriter(log_fp_, append_file_),32768));
 			} catch (IOException e) {
 				System.err.println("Cannot open file!");
 			}
@@ -605,19 +605,10 @@ public class LegacyLogger implements ILoggerPlugin {
 	
 	private boolean log_to_file(final String message_ptr) {
 		boolean is_success = true;
-		//TODO: need to test the append
-		if (append_file_) {
-			try {
-				log_file_writer.get().append(message_ptr);
-			} catch (IOException e) {
-				is_success = false;
-			}
-		} else {
-			try {
-				log_file_writer.get().write(message_ptr);
-			} catch (IOException e) {
-				is_success = false;
-			}
+		try {
+			log_file_writer.get().write(message_ptr);
+		} catch (IOException e) {
+			is_success = false;
 		}
 		if (is_success) {
 			try {
