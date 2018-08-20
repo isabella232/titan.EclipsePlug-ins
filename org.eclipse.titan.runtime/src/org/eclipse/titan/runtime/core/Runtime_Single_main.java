@@ -34,10 +34,10 @@ public final class Runtime_Single_main {
 		TTCN_Logger.set_start_time();
 
 		try {
+			TTCN_Logger.open_file();
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 			Module_List.pre_init_modules();
 
-			TTCN_Logger.open_file();
 			TTCN_Logger.write_logger_settings();
 
 			Module_List.post_init_modules();
