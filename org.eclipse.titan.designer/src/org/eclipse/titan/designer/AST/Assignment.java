@@ -345,7 +345,8 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 		final Module myModule = myScope.getModuleScope();//get_scope_mod_gen
 		// TODO also check for the special module once ASN.1 is needed
 		if(!myModule.equals(scope.getModuleScope())) {
-			//TODO properly prefix the setting with the module's Java reference
+			//when the definition is referred from another module
+			// the reference shall be qualified with the namespace of my module
 			returnValue.append(myModule.getName()).append('.');
 		}
 
