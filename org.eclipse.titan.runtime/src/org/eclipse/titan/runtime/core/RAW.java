@@ -617,7 +617,6 @@ public class RAW {
 		my_raw.prepadding = p_td.raw.prepadding;
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
-		//FIXME: initial implementation of Typedescriptor
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
 		final TitanInteger i = new TitanInteger(integer_value);
 		i.RAW_encode(my_descr, myleaf);
@@ -642,7 +641,6 @@ public class RAW {
 		my_raw.prepadding = p_td.raw.prepadding;
 		my_raw.ptroffset = p_td.raw.ptroffset;
 		my_raw.unit = p_td.raw.unit;
-		//FIXME: initial implementation of Typedescriptor
 		final TTCN_Typedescriptor my_descr = new TTCN_Typedescriptor(p_td.name, my_raw, null);
 		final TitanInteger i = new TitanInteger();
 		fl = i.RAW_decode(my_descr, buff, limit, top_bit_ord);
