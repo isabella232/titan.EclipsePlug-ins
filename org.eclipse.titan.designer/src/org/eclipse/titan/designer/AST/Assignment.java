@@ -12,6 +12,7 @@ import java.text.MessageFormat;
 import org.eclipse.core.runtime.Platform;
 import org.eclipse.titan.common.logging.ErrorReporter;
 import org.eclipse.titan.designer.GeneralConstants;
+import org.eclipse.titan.designer.AST.ASN1.definitions.SpecialASN1Module;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.Group;
 import org.eclipse.titan.designer.AST.TTCN3.definitions.FormalParameter.parameterEvaluationType;
@@ -343,8 +344,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 
 		final StringBuilder returnValue = new StringBuilder();
 		final Module myModule = myScope.getModuleScope();//get_scope_mod_gen
-		// TODO also check for the special module once ASN.1 is needed
-		if(!myModule.equals(scope.getModuleScope())) {
+		if(!myModule.equals(scope.getModuleScope()) && !SpecialASN1Module.isSpecAsss(myModule)) {
 			//when the definition is referred from another module
 			// the reference shall be qualified with the namespace of my module
 			returnValue.append(myModule.getName()).append('.');
