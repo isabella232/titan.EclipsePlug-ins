@@ -376,10 +376,11 @@ public final class Def_Port extends Definition {
 
 		if (getMyScope() instanceof ComponentTypeBody) {
 			if(dimensions == null) {
-				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", portType.getGenNameOwn(), genName));
+				final String portClassName = portType.getClassName(aData, source);
+				source.append(MessageFormat.format("ThreadLocal<{0}> {1} = new ThreadLocal<{0}>() '{'\n", portClassName, genName));
 				source.append("@Override\n" );
-				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", portType.getGenNameOwn()));
-				source.append(MessageFormat.format("return new {0}(\"{1}\");\n", portType.getGenNameOwn(), identifier.getDisplayName()));
+				source.append(MessageFormat.format("protected {0} initialValue() '{'\n", portClassName));
+				source.append(MessageFormat.format("return new {0}(\"{1}\");\n", portClassName, identifier.getDisplayName()));
 				source.append("}\n");
 				source.append("};\n");
 			} else {
@@ -409,7 +410,8 @@ public final class Def_Port extends Definition {
 			aData.getInitComp().append(MessageFormat.format("{0}.get().activate_port(false);\n", genName));
 		} else {
 			if(dimensions == null) {
-				source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portType.getGenNameOwn(), genName, identifier.getDisplayName()));
+				final String portClassName = portType.getClassName(aData, source);
+				source.append(MessageFormat.format("{0} {1} = new {0}(\"{2}\");\n", portClassName, genName, identifier.getDisplayName()));
 			} else {
 				final StringBuilder tempSb = new StringBuilder();
 				final String typeGenName = portType.generateCodePort(aData, tempSb, dimensions);
