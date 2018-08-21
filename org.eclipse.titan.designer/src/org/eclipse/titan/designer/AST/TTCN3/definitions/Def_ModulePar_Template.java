@@ -195,6 +195,8 @@ public final class Def_ModulePar_Template extends Definition {
 
 		if (defaultTemplate != null) {
 			realTemplate = defaultTemplate;
+			realTemplate.setMyGovernor(type);
+
 			// Needed in case of universal charstring templates
 			if (defaultTemplate.getTemplatetype() == Template_type.CSTR_PATTERN
 					&& lastType.getTypetype() == Type.Type_type.TYPE_UCHARSTRING) {
