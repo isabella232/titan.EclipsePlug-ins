@@ -118,7 +118,11 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 		}
 
 		index.setLoweridToReference(timestamp);
-		final Type_type temporalType = index.getExpressionReturntype(timestamp, expectedValue);
+		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		final IValue last = index.getValueRefdLast(timestamp, referenceChain);
+		referenceChain.release();
+
+		final Type_type temporalType = last.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (temporalType) {
 		case TYPE_INTEGER:
@@ -136,9 +140,7 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 			return;
 		}
 
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = index.getValueRefdLast(timestamp, referenceChain);
-		referenceChain.release();
+		
 
 		final long indexValue = ((Integer_Value) last).getValue();
 		if (indexValue < getOffset()) {
