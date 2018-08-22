@@ -11,13 +11,11 @@ import java.text.MessageFormat;
 
 import org.eclipse.titan.designer.AST.ASTNode;
 import org.eclipse.titan.designer.AST.ILocateableNode;
-import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.NULL_Location;
-import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
@@ -118,10 +116,7 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 		}
 
 		index.setLoweridToReference(timestamp);
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final IValue last = index.getValueRefdLast(timestamp, referenceChain);
-		referenceChain.release();
-
+		final IValue last = index.getValueRefdLast(timestamp, expectedValue, null);
 		final Type_type temporalType = last.getExpressionReturntype(timestamp, expectedValue);
 
 		switch (temporalType) {
