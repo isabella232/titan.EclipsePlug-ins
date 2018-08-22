@@ -1762,6 +1762,7 @@ public class PortGenerator {
 		boolean hasBuffer = false;
 		boolean hasDiscard = false;
 		boolean reportError = false;
+		boolean isSliding = false;
 		for ( ; i < mappedType.targets.size(); i++) {
 			final MessageTypeMappingTarget target = mappedType.targets.get(i);
 			boolean hasCondition = false;
@@ -1771,8 +1772,11 @@ public class PortGenerator {
 				break;
 			} else if (target.mappingType == MessageMappingType_type.DECODE && !hasBuffer) {
 				aData.addBuiltinTypeImport("TTCN_Buffer");
-
-				source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(incoming_par);\n");
+				if (isSliding) {
+					source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(slider);\n");
+				} else {
+					source.append("TTCN_Buffer ttcn_buffer = new TTCN_Buffer(incoming_par);\n");
+				}
 			}
 			if (!portDefinition.legacy && portDefinition.portType == PortType.USER) {
 				aData.addBuiltinTypeImport("TTCN_Runtime");
@@ -1804,6 +1808,7 @@ public class PortGenerator {
 					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).getInt();\n", target.functionName));
 					source.append("if (decoding_result == 0) {\n");
 					hasCondition = true;
+					isSliding = true;
 					break;
 				case BACKTRACK:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
@@ -1885,8 +1890,11 @@ public class PortGenerator {
 					source.append("} else {\n");
 					source.append("mapped_par = null;\n");
 					source.append("}\n");
-					source.append("if (decoding_result == 2) {\n");
+					source.append("if (slider.lengthOf().getInt() == 0) {\n");
 					source.append("return;\n");
+					source.append("}\n");
+					source.append("if (decoding_result == 2) {\n");
+					source.append("break;\n");
 					source.append("}\n");
 					source.append("}\n");
 				} else {
