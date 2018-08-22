@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.parsers.asn1parser;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenFactory;
@@ -18,6 +19,9 @@ import org.antlr.v4.runtime.TokenSource;
 public class BlockTokenSource implements TokenSource {
 	private List<Token> tokenList;
 	int index;
+
+	/** How to create token objects */
+	protected TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
 
 	BlockTokenSource(final List<Token> tokenList) {
 		this.tokenList = tokenList;
@@ -46,7 +50,7 @@ public class BlockTokenSource implements TokenSource {
 
 	@Override
 	public TokenFactory<?> getTokenFactory() {
-		return null;
+		return _factory;
 	}
 
 	@Override
@@ -55,8 +59,8 @@ public class BlockTokenSource implements TokenSource {
 	}
 
 	@Override
-	public void setTokenFactory(final TokenFactory<?> arg0) {
-		//Do nothing
+	public void setTokenFactory(final TokenFactory<?> factory) {
+		this._factory = factory;
 	}
 
 }

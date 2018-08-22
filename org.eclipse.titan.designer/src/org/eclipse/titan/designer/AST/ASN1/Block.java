@@ -11,6 +11,7 @@ import java.lang.ref.WeakReference;
 import java.util.List;
 
 import org.antlr.v4.runtime.CharStream;
+import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.IntStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenFactory;
@@ -55,6 +56,9 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	private List<Token> tokenList;
 
 	private int index = 0;
+
+	/** How to create token objects */
+	protected TokenFactory<?> _factory = CommonTokenFactory.DEFAULT;
 
 	private Block( final Location aLocation ) {
 		this.mLocation = aLocation;
@@ -215,7 +219,7 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 	@Override
 	/** {@inheritDoc} */
 	public TokenFactory<?> getTokenFactory() {
-		return null;
+		return _factory;
 	}
 
 	@Override
@@ -226,7 +230,7 @@ public final class Block implements INamedNode, IVisitableNode, Token, TokenSour
 
 	@Override
 	/** {@inheritDoc} */
-	public void setTokenFactory(final TokenFactory<?> arg0) {
-		//Do nothing
+	public void setTokenFactory(final TokenFactory<?> factory) {
+		this._factory = factory;
 	}
 }
