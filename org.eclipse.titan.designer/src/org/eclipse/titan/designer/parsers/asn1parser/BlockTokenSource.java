@@ -29,36 +29,43 @@ public class BlockTokenSource implements TokenSource {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getCharPositionInLine() {
 		return -1;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public CharStream getInputStream() {
 		return null;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public int getLine() {
 		return 0;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public String getSourceName() {
 		return IntStream.UNKNOWN_SOURCE_NAME;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public TokenFactory<?> getTokenFactory() {
 		return _factory;
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public Token nextToken() {
 		return tokenList.get(index++);
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void setTokenFactory(final TokenFactory<?> factory) {
 		this._factory = factory;
 	}
