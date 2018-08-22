@@ -31,16 +31,15 @@ public class TokenWithIndexAndSubTokens extends CommonToken {
 		this.tokenList = new ArrayList<Token>();
 	}
 
+	public TokenWithIndexAndSubTokens(final Pair<TokenSource, CharStream> source, final int type, final int channel, final int start, final int stop, final List<Token> tokenList, final IFile sourceFile) {
+		super(source, type, channel, start, stop);
+		this.tokenList = tokenList;
+		this.sourceFile = sourceFile;
+	}
 
 	public TokenWithIndexAndSubTokens(final int t) {
 		super(t);
 		this.tokenList = new ArrayList<Token>();
-	}
-
-	public TokenWithIndexAndSubTokens(final int t, final List<Token> tokenList, final IFile sourceFile) {
-		super(t);
-		this.tokenList = tokenList;
-		this.sourceFile = sourceFile;
 	}
 
 	public TokenWithIndexAndSubTokens(final int t, final String text) {
@@ -74,7 +73,7 @@ public class TokenWithIndexAndSubTokens extends CommonToken {
 	}
 
 	public TokenWithIndexAndSubTokens copy() {
-		TokenWithIndexAndSubTokens token = new TokenWithIndexAndSubTokens(type, tokenList, sourceFile);
+		TokenWithIndexAndSubTokens token = new TokenWithIndexAndSubTokens(source, type, channel, start, stop, tokenList, sourceFile);
 		token.line = line;
 		token.charPositionInLine = charPositionInLine;
 		token.setText(getText());

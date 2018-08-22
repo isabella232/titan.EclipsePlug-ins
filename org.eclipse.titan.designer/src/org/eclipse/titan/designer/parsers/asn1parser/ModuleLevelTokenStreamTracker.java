@@ -15,10 +15,12 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.Token;
 import org.antlr.v4.runtime.TokenSource;
 import org.antlr.v4.runtime.WritableToken;
+import org.antlr.v4.runtime.misc.Pair;
 import org.eclipse.core.resources.IFile;
 
 public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
@@ -95,11 +97,9 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 			} else if(t.getType() == Asn1Lexer.ENDCHAR) {
 				nofUnclosedParanthesis--;
 				if(nofUnclosedParanthesis == 0) {
-					result = new TokenWithIndexAndSubTokens(Asn1Lexer.BLOCK, tokenList, sourceFile);
+					result = new TokenWithIndexAndSubTokens(new Pair<TokenSource, CharStream>(getTokenSource(), getTokenSource().getInputStream()), Asn1Lexer.BLOCK, 0, ((TokenWithIndexAndSubTokens) first).getStopIndex(), ((TokenWithIndexAndSubTokens) t).getStopIndex(), tokenList, sourceFile);
 					result.setCharPositionInLine(first.getCharPositionInLine());
 					result.setLine(first.getLine());
-					result.setStartIndex(((TokenWithIndexAndSubTokens) first).getStopIndex());
-					result.setStopIndex(((TokenWithIndexAndSubTokens) t).getStopIndex());
 					result.setText(makeString(tokenList));
 					tokens.add(result);
 					return false;
@@ -110,13 +110,10 @@ public class ModuleLevelTokenStreamTracker extends CommonTokenStream {
 			}
 			t = getTokenSource().nextToken();
 		}
-		result = new TokenWithIndexAndSubTokens(Asn1Lexer.BLOCK, tokenList, sourceFile);
+
+		result = new TokenWithIndexAndSubTokens(new Pair<TokenSource, CharStream>(getTokenSource(), getTokenSource().getInputStream()), Asn1Lexer.BLOCK, 0, ((TokenWithIndexAndSubTokens) first).getStopIndex(), t == null ? 0 : ((TokenWithIndexAndSubTokens) t).getStopIndex(), tokenList, sourceFile);
 		result.setCharPositionInLine(first.getCharPositionInLine());
 		result.setLine(first.getLine());
-		result.setStartIndex(((TokenWithIndexAndSubTokens) first).getStopIndex());
-		if (t != null) {
-			result.setStopIndex(((TokenWithIndexAndSubTokens) t).getStopIndex());
-		}
 		tokens.add(result);
 		return true;
 	}
