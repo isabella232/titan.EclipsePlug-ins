@@ -246,15 +246,31 @@ public final class Parameterised_Reference extends Defined_Reference {
 
 			/* splitting the list of actual parameters */
 			final List<Token> unprocessParameters = mBlock.getTokenList();
+			int beginChars = 0;
 
 			for (int i = 0; i < unprocessParameters.size(); i++) {
 				final Token tempToken = unprocessParameters.get(i);
-				if (tempToken.getType() == Asn1Lexer.COMMA) {
-					temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
-					actualParameters.add(temporalBuffer);
-					temporalBuffer = new ArrayList<Token>();
-				} else {
+				switch(tempToken.getType()) {
+				case Asn1Lexer.BEGINCHAR:
+					beginChars++;
 					temporalBuffer.add(tempToken);
+					break;
+				case Asn1Lexer.ENDCHAR:
+					beginChars--;
+					temporalBuffer.add(tempToken);
+					break;
+				case Asn1Lexer.COMMA:
+					if (beginChars == 0) {
+						temporalBuffer.add(new TokenWithIndexAndSubTokens(Token.EOF));
+						actualParameters.add(temporalBuffer);
+						temporalBuffer = new ArrayList<Token>();
+					} else {
+						temporalBuffer.add(tempToken);
+					}
+					break;
+				default:
+					temporalBuffer.add(tempToken);
+					break;
 				}
 			}
 
