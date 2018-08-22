@@ -871,10 +871,13 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	public String getGenName() {
 		final StringBuilder returnValue = new StringBuilder();
 
-		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL) {
+		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
+				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
+				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
 			returnValue.append(myScope.getModuleScope().getIdentifier().getName());
 			returnValue.append("_externalfunctions.");
 		}
+
 		returnValue.append(identifier.getName());
 
 		return returnValue.toString();
@@ -883,11 +886,16 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
-		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL) {
-			final StringBuilder returnValue = new StringBuilder();
+		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
+				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
+				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
+			final StringBuilder moduleName = new StringBuilder();
 
-			returnValue.append(myScope.getModuleScope().getIdentifier().getName());
-			returnValue.append("_externalfunctions");
+			moduleName.append(myScope.getModuleScope().getIdentifier().getName());
+			moduleName.append("_externalfunctions");
+			aData.addImport("org.eclipse.titan.user_provided." + moduleName.toString());
+
+			final StringBuilder returnValue = new StringBuilder(moduleName);
 			returnValue.append('.');
 			returnValue.append(identifier.getName());
 
