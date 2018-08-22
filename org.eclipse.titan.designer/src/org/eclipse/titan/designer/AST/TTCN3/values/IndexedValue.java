@@ -99,7 +99,12 @@ public final class IndexedValue extends ASTNode implements ILocateableNode, IInc
 		}
 	}
 
-	public void SetCodeSection(final CodeSectionType codeSection) {
+	/**
+	 * Sets the code_section attribute of this indexed value object to the provided value.
+	 *
+	 * @param codeSection the code section where this indexed value should be generated.
+	 * */
+	public void setCodeSection(final CodeSectionType codeSection) {
 		if (index != null) {
 			index.getValue().setCodeSection(codeSection);
 		}
