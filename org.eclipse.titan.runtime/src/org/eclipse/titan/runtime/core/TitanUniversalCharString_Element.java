@@ -445,6 +445,16 @@ public class TitanUniversalCharString_Element {
 		return str_val.charAt(char_pos);
 	}
 
+	/** 
+	 * Do not use this function!<br>
+	 * It is provided by Java and currently used for debugging.
+	 * But it is not part of the intentionally provided interface,
+	 *   and so can be changed without notice. 
+	 * <p>
+	 * JAVA DESCRIPTION:
+	 * <p>
+	 * {@inheritDoc}
+	 *  */
 	@Override
 	public String toString() {
 		return str_val.toString() + " index: " + char_pos;

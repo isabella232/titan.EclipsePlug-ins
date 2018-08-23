@@ -623,6 +623,16 @@ public class RecordOfGenerator {
 	}
 
 	private static void generateValueToString(final StringBuilder source) {
+		source.append("/** \n");
+		source.append(" * Do not use this function!<br>\n");
+		source.append(" * It is provided by Java and currently used for debugging.\n");
+		source.append(" * But it is not part of the intentionally provided interface,\n");
+		source.append(" *   and so can be changed without notice. \n");
+		source.append(" * <p>\n");
+		source.append(" * JAVA DESCRIPTION:\n");
+		source.append(" * <p>\n");
+		source.append(" * {@inheritDoc}\n");
+		source.append(" *  */\n");
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic String toString() {\n");

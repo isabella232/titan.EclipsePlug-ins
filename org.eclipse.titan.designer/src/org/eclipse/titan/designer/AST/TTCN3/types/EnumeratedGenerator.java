@@ -208,6 +208,16 @@ public class EnumeratedGenerator {
 	//===
 
 	private static void generateValueToString(final StringBuilder source) {
+		source.append("/** \n");
+		source.append(" * Do not use this function!<br>\n");
+		source.append(" * It is provided by Java and currently used for debugging.\n");
+		source.append(" * But it is not part of the intentionally provided interface,\n");
+		source.append(" *   and so can be changed without notice. \n");
+		source.append(" * <p>\n");
+		source.append(" * JAVA DESCRIPTION:\n");
+		source.append(" * <p>\n");
+		source.append(" * {@inheritDoc}\n");
+		source.append(" *  */\n");
 		source.append("public String toString() {\n");
 		source.append("return enum_value.name() + \"(\"+enum_value.enum_num+\")\";\n");
 		source.append("}\n\n");

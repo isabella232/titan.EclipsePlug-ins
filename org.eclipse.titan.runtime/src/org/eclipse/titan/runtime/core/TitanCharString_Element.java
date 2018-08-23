@@ -231,6 +231,16 @@ public class TitanCharString_Element {
 		return new TitanUniversalCharString(result);
 	}
 
+	/** 
+	 * Do not use this function!<br>
+	 * It is provided by Java and currently used for debugging.
+	 * But it is not part of the intentionally provided interface,
+	 *   and so can be changed without notice. 
+	 * <p>
+	 * JAVA DESCRIPTION:
+	 * <p>
+	 * {@inheritDoc}
+	 *  */
 	@Override
 	public String toString() {
 		if (str_val == null) {

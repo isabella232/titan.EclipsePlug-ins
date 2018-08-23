@@ -754,6 +754,16 @@ public class TitanUniversalCharString extends Base_Type {
 
 	}
 
+	/** 
+	 * Do not use this function!<br>
+	 * It is provided by Java and currently used for debugging.
+	 * But it is not part of the intentionally provided interface,
+	 *   and so can be changed without notice. 
+	 * <p>
+	 * JAVA DESCRIPTION:
+	 * <p>
+	 * {@inheritDoc}
+	 *  */
 	@Override
 	public String toString() {
 		if (!isBound()) {
