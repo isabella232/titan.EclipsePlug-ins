@@ -214,7 +214,8 @@ public class TitanObjectid extends Base_Type {
 				if (i == overflow_idx) {
 					TTCN_Logger.log_event_str("overflow:");
 				}
-				TTCN_Logger.log_event_str(components_ptr.get(i).toString());
+
+				components_ptr.get(i).log();
 				TTCN_Logger.log_char(' ');
 			}
 			TTCN_Logger.log_char('}');
