@@ -232,7 +232,7 @@ public class TitanRecordOf extends Base_Type {
 	}
 
 	private static String getOfTypeName(final Class<? extends Base_Type> aOfType) {
-		// TODO: get type name
+		// FIXME: this is surely not good like this
 		if (aOfType == TitanBoolean.class) {
 			return "boolean";
 		} else if (aOfType == TitanBitString.class) {
