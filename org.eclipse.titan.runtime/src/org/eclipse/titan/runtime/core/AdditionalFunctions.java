@@ -127,7 +127,7 @@ public final class AdditionalFunctions {
 		//intentionally private to disable instantiation
 	}
 
-	private static byte charToHexDigit(final char c) {
+	private static byte char_to_hexdigit(final char c) {
 		if (c >= '0' && c <= '9') {
 			return (byte) (c - '0');
 		} else if (c >= 'A' && c <= 'F') {
@@ -136,6 +136,14 @@ public final class AdditionalFunctions {
 			return (byte) (c - 'a' + 10);
 		} else {
 			return (byte) 0xFF;
+		}
+	}
+
+	private static char hexdigit_to_char(final int hexdigit) {
+		if (hexdigit < 16) {
+			return TitanHexString.HEX_DIGITS.charAt(hexdigit);
+		} else {
+			return '\0';
 		}
 	}
 
@@ -533,7 +541,7 @@ public final class AdditionalFunctions {
 	public static TitanOctetString char2oct(final TitanCharString value){
 		value.mustBound("The argument of function char2oct() is an unbound charstring value.");
 
-		return char2oct(value.toString());
+		return char2oct(value.getValue().toString());
 	}
 
 	public static TitanOctetString char2oct(final TitanCharString_Element value){
@@ -1072,7 +1080,8 @@ public final class AdditionalFunctions {
 		final int n_nibbles = value.lengthOf().getInt();
 		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < n_nibbles; i++) {
-			ret_val.append(value.constGetAt(i));
+			final int hexdigit = value.constGetAt(i).get_nibble();
+			ret_val.append(hexdigit_to_char(hexdigit));
 		}
 
 		return new TitanCharString(ret_val);
@@ -1081,7 +1090,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString hex2str(final TitanHexString_Element value) {
 		value.mustBound("The argument of function hex2str() is an unbound hexstring element.");
 
-		return new TitanCharString(value.toString());
+		return new TitanCharString(String.valueOf(value.get_nibble()));
 	}
 
 	// C.20 - oct2int
@@ -1188,7 +1197,9 @@ public final class AdditionalFunctions {
 		final int n_octets = value.lengthOf().getInt();
 		final StringBuilder ret_val = new StringBuilder();
 		for (int i = 0; i < n_octets; i++) {
-			ret_val.append(value.constGetAt(i).toString());
+			final int digit = value.constGetAt(i).get_nibble();
+			ret_val.append(hexdigit_to_char(digit / 16));
+			ret_val.append(hexdigit_to_char(digit % 16));
 		}
 
 		return new TitanCharString(ret_val);
@@ -1197,7 +1208,7 @@ public final class AdditionalFunctions {
 	public static TitanCharString oct2str(final TitanOctetString_Element value) {
 		value.mustBound("The argument of function oct2str() is an unbound octetstring element.");
 
-		return new TitanCharString(value.toString());
+		return new TitanCharString(String.valueOf(value.get_nibble()));
 	}
 
 	// C.24 - oct2char
@@ -1420,7 +1431,7 @@ public final class AdditionalFunctions {
 		chars_ptr.append(value.getValue().toString());
 		for (int i = 0; i < value_len; i++) {
 			final char c = chars_ptr.charAt(i);
-			final byte hexdigit = charToHexDigit(c);
+			final byte hexdigit = char_to_hexdigit(c);
 			if (hexdigit > 0x0F) {
 				TtcnError.TtcnErrorBegin("The argument of function str2oct() shall contain hexadecimal digits only, but character `");
 				TTCN_Logger.logCharEscaped(c);
@@ -2696,7 +2707,7 @@ public final class AdditionalFunctions {
 
 		for (int i = 0; i < value_length; i++) {
 			final char c = chars_ptr.charAt(i);
-			final byte hexdigit = charToHexDigit(c);
+			final byte hexdigit = char_to_hexdigit(c);
 			if (hexdigit < 0x00) {
 				TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain hexadecimal digits only, but character `");
 				TTCN_Logger.logCharEscaped(c);
@@ -2713,7 +2724,7 @@ public final class AdditionalFunctions {
 		value.mustBound("The argument of function str2hex() is an unbound charstring element.");
 
 		final char c = value.get_char();
-		final byte hexdigit = charToHexDigit(c);
+		final byte hexdigit = char_to_hexdigit(c);
 
 		if (hexdigit < 0x00) {
 			TtcnError.TtcnErrorBegin("The argument of function str2hex() shall contain only hexadecimal digits, but the given charstring element contains the character `");
