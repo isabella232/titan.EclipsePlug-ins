@@ -233,7 +233,7 @@ public class TitanBitString_Element {
 		final StringBuilder result = new StringBuilder();
 		result.append('\'');
 		result.append(str_val.getBit(bit_pos) ? '1' : '0');
-		result.append('\'');
+		result.append("\'B");
 
 		return result.toString();
 	}

@@ -701,7 +701,7 @@ public class TitanBitString extends Base_Type {
 		for (int i = 0; i < n_bits; i++) {
 			result.append(getBit(i) ? '1' : '0');
 		}
-		result.append('\'');
+		result.append("\'B");
 
 		return result.toString();
 	}

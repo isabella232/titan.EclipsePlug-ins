@@ -156,15 +156,6 @@ public class TitanCharString_Element {
 		return str_val.getValue().charAt(char_pos);
 	}
 
-	@Override
-	public String toString() {
-		if (str_val == null) {
-			return "<unbound>";
-		}
-
-		return String.valueOf(str_val.getValue().charAt(char_pos));
-	}
-
 	// originally operator +
 	public TitanCharString concatenate(final String aOtherValue) {
 		mustBound("Unbound operand of charstring element concatenation.");
@@ -238,6 +229,18 @@ public class TitanCharString_Element {
 		result[0] = new TitanUniversalChar((char) 0, (char) 0, (char) 0, get_char());
 		result[1] = aOtherValue.get_char();
 		return new TitanUniversalCharString(result);
+	}
+
+	@Override
+	public String toString() {
+		if (str_val == null) {
+			return "<unbound>";
+		}
+
+		final StringBuilder builder = new StringBuilder();
+		builder.append('"').append(str_val.getValue().charAt(char_pos)).append('"');
+
+		return builder.toString();
 	}
 
 	public void log() {

@@ -305,7 +305,9 @@ public class TitanOctetString extends Base_Type {
 			sb.append(HEX_DIGITS.charAt((digit & 0xF0)>>4));
 			sb.append(HEX_DIGITS.charAt(digit & 0x0F));
 		}
-		sb.append('\'');
+
+		sb.append("\'O");
+
 		return sb.toString();
 	}
 
