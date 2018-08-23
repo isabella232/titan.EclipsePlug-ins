@@ -355,7 +355,7 @@ public class TitanUniversalCharString extends Base_Type {
 		aOtherValue.mustBound("The right operand of comparison is an unbound charstring value.");
 
 		if (charstring) {
-			return aOtherValue.toString().equals(cstr.toString());
+			return aOtherValue.getValue().toString().equals(cstr.toString());
 		}
 		if (val_ptr.size() != aOtherValue.lengthOf().getInt()) {
 			return false;

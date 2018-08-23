@@ -460,12 +460,12 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 
 		case STRING_PATTERN:
 			if (!pattern_value_regexp_init) {
-				pattern_value_posix_regexp = TtcnPattern.convertPattern(pattern_string.toString(), pattern_value_nocase);
+				pattern_value_posix_regexp = TtcnPattern.convertPattern(pattern_string.getValue().toString(), pattern_value_nocase);
 			}
 			if (pattern_value_posix_regexp != null) {
 				return TtcnPattern.match(otherValue.toUtf(), pattern_value_posix_regexp, pattern_value_nocase);
 			}
-			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.toString()));
+			throw new TtcnError(MessageFormat.format("Cannot convert pattern \"{0}\" to POSIX-equivalent.", pattern_string.getValue().toString()));
 		case DECODE_MATCH: {
 			TTCN_EncDec.set_error_behavior(error_type.ET_ALL, error_behavior_type.EB_WARNING);
 			TTCN_EncDec.clear_error();
