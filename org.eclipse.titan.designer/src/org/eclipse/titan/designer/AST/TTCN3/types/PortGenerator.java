@@ -1802,13 +1802,15 @@ public class PortGenerator {
 					}
 					break;
 				case SLIDING:
-					source.append("slider.assign(slider.concatenate(incoming_par));\n");
+					if (!isSliding) {
+						source.append("slider.assign(slider.concatenate(incoming_par));\n");
+						isSliding = true;
+					}
 					source.append("for (;;) {\n");
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
 					source.append(MessageFormat.format("int decoding_result = {0}(slider, mapped_par).getInt();\n", target.functionName));
 					source.append("if (decoding_result == 0) {\n");
 					hasCondition = true;
-					isSliding = true;
 					break;
 				case BACKTRACK:
 					source.append(MessageFormat.format("{0} mapped_par = new {0}();\n", target.targetName));
@@ -1898,6 +1900,9 @@ public class PortGenerator {
 					source.append("}\n");
 					source.append("}\n");
 				} else {
+					if (isSliding) {
+						source.append("slider.assign(new TitanOctetString(\"\"));\n");
+					}
 					source.append("return;\n");
 					source.append("}\n");
 					if (portDefinition.portType == PortType.USER && !portDefinition.legacy) {
@@ -1912,8 +1917,8 @@ public class PortGenerator {
 					source.append("else {\n");
 					source.append("mapped_par = null;\n");
 					source.append("}\n");
-					reportError = true;
 				}
+				reportError = true;
 			}
 			if (mappedType.targets.size() > 1) {
 				source.append("}\n");
