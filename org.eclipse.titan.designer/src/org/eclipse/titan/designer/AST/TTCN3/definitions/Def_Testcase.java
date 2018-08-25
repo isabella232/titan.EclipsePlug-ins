@@ -220,6 +220,12 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 
 		return runsOnType;
 	}
+	
+	public Reference getRunsOnReference(final CompilationTimeStamp timestamp) {
+		check(timestamp);
+
+		return runsOnReference;
+	}
 
 	public Component_Type getSystemType(final CompilationTimeStamp timestamp) {
 		check(timestamp);

@@ -221,6 +221,12 @@ public final class Def_Altstep extends Definition implements IParameterisedAssig
 
 		return runsOnType;
 	}
+	
+	public Reference getRunsOnReference(final CompilationTimeStamp timestamp) {
+		check(timestamp);
+
+		return runsOnRef;
+	}
 
 	public Component_Type getMTCType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
