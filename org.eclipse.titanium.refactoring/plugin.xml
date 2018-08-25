@@ -85,6 +85,16 @@
           name="OrganizeImportProject">
     </command>
     <command
+          defaultHandler="org.eclipse.titanium.refactoring.runsonscopereduction.RunsOnScopeReductionFromEditor"
+          id="org.eclipse.titanium.commands.RunsOnScopeModule"
+          name="RunsOnScopeModule">
+    </command>
+    <command
+          defaultHandler="org.eclipse.titanium.refactoring.runsonscopereduction.RunsOnScopeReductionFromBrowser"
+          id="org.eclipse.titanium.commands.RunsOnScopeProject"
+          name="RunsOnScopeProject">
+    </command>
+    <command
           defaultHandler="org.eclipse.titanium.refactoring.expandvaluelistnotation.ExpandFieldNamesActionFromEditor"
           id="org.eclipse.titanium.commands.ExpandFieldNamesModule"
           name="ExpandFieldNamesModule">
@@ -238,6 +248,12 @@
                  label="Organize imports">
            </command>
            <command
+                 commandId="org.eclipse.titanium.commands.RunsOnScopeModule"
+                 icon="resources/icons/titan.gif"
+                 id="org.eclipse.titanium.commands.RunsOnScopeModule"
+                 label="Runs on scope reduction">
+           </command>
+           <command
                  commandId="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
                  icon="resources/icons/titan.gif"
                  id="org.eclipse.titanium.commands.UngroupModuleparFromEditor"
@@ -368,6 +384,18 @@
                    </visibleWhen>
            </command>
            <command
+                 commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
+                 label="Runs on scope reduction">
+                 <visibleWhen checkEnabled="false">
+                     <with variable="selection">  
+                        <iterate operator="and">
+                           <adapt type="org.eclipse.core.resources.IResource">
+                           </adapt>  
+                        </iterate>
+                     </with>
+                   </visibleWhen>
+           </command>
+           <command
                  commandId="org.eclipse.titanium.commands.UngroupModuleparFromBrowser"
                  label="Ungroup module parameters">
               <visibleWhen
@@ -447,6 +475,18 @@
 	            <command
 	                  commandId="org.eclipse.titanium.commands.OrganizeImportProject"
 	                  label="Organize imports">
+	                  <visibleWhen checkEnabled="false">
+                        <with variable="selection">  
+                           <iterate operator="and">
+                              <adapt type="org.eclipse.core.resources.IResource">
+                              </adapt>  
+                           </iterate>
+                        </with>
+                      </visibleWhen>
+	            </command>
+	            <command
+	                  commandId="org.eclipse.titanium.commands.RunsOnScopeProject"
+	                  label="Runs on scope reduction">
 	                  <visibleWhen checkEnabled="false">
                         <with variable="selection">  
                            <iterate operator="and">

@@ -318,6 +318,12 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 
 		return runsOnType;
 	}
+	
+	public Reference getRunsOnReference(final CompilationTimeStamp timestamp) {
+		check(timestamp);
+
+		return runsOnRef;
+	}
 
 	public Component_Type getMtcType(final CompilationTimeStamp timestamp) {
 		check(timestamp);
