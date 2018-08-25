@@ -1158,7 +1158,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		new_connection.remote_port = remote_port;
 		new_connection.transport_type = transport_type;
 		new_connection.local_port = null;
-		new_connection.sliding_buffer = new TitanOctetString();
+		new_connection.sliding_buffer = new TitanOctetString("");
 		new_connection.stream_socket = null;
 		new_connection.stream_incoming_buf = null;
 

@@ -1932,7 +1932,7 @@ public class PortGenerator {
 				/* this is the only mapping */
 				source.append(MessageFormat.format("TTCN_Logger.log_dualport_discard(true, \"{0}\", get_name(), false);\n", mappedType.mDisplayName));
 			}
-		} else if (reportError && !hasSimple) {
+		} else if (reportError && !hasSimple && !isSliding) {
 			source.append(MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Incomming message of type {0} could not be handled by the type mapping rules on port '{'0'}'.\", get_name()));\n", mappedType.mDisplayName));
 		}
 	}
