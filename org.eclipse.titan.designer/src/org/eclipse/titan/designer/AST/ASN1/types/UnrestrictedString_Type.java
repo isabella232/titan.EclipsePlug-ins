@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
 import org.eclipse.titan.designer.AST.ParameterisedSubReference;
 import org.eclipse.titan.designer.AST.Reference;
@@ -98,6 +99,33 @@ public final class UnrestrictedString_Type extends ASN1Type implements IReferenc
 		}
 
 		return assignment.getType(timestamp);
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public IType getTypeRefdLast(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
+		final boolean newChain = null == referenceChain;
+		IReferenceChain tempReferenceChain;
+		if (newChain) {
+			tempReferenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		} else {
+			tempReferenceChain = referenceChain;
+		}
+
+		IType t = this;
+		if (!getIsErroneous(timestamp)) {
+			t = getTypeRefd(timestamp, tempReferenceChain);
+		}
+
+		if (newChain) {
+			tempReferenceChain.release();
+		}
+
+		if (t != null && t.getIsErroneous(timestamp)) {
+			setIsErroneous(true);
+		}
+
+		return t;
 	}
 
 	@Override
