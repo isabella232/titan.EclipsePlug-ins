@@ -63,6 +63,7 @@ public final class Log2StrExpression extends Expression_Value {
 			if (logArgument == null) {
 				continue;
 			}
+
 			switch(logArgument.getArgumentType()) {
 			case Macro:
 			case String:
@@ -131,6 +132,7 @@ public final class Log2StrExpression extends Expression_Value {
 		if (logArguments == child) {
 			return builder.append(FULLNAMEPART);
 		}
+
 		return builder;
 	}
 
@@ -159,10 +161,15 @@ public final class Log2StrExpression extends Expression_Value {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return this;
 		}
+
+		isErroneous = false;
+		lastTimeChecked = timestamp;
+		lastValue = this;
+
 		if (logArguments != null) {
 			logArguments.check(timestamp);
 		}
-		lastTimeChecked = timestamp;
+
 		return this;
 	}
 
@@ -206,6 +213,7 @@ public final class Log2StrExpression extends Expression_Value {
 		if (logArguments != null && !logArguments.accept(v)) {
 			return false;
 		}
+
 		return true;
 	}
 
@@ -228,6 +236,4 @@ public final class Log2StrExpression extends Expression_Value {
 		logArguments.generateCodeExpression(aData, expression);
 		expression.expression.append(')');
 	}
-
-
 }
