@@ -616,7 +616,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final Identifier id = field.getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (field.isOptional() && implicitOmit) {
-						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
+						value.addNamedValue(new NamedValue(new Identifier(Identifier_type.ID_ASN, id.getDisplayName()),
 								new Omit_Value(), false));
 					} else {
 						value.getLocation().reportSemanticError(
@@ -733,7 +733,7 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final Identifier identifier = getComponentIdentifierByIndex(i);
 				if (!componentMap.containsKey(identifier.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
-						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_TTCN, identifier
+						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_ASN, identifier
 								.getDisplayName()), new OmitValue_Template(), false));
 					} else {
 						templateList.getLocation().reportSemanticError(

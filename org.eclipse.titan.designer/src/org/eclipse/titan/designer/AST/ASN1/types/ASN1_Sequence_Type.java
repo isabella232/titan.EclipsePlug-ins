@@ -696,7 +696,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final Identifier id = getComponentByIndex(i).getIdentifier();
 				if (!componentMap.containsKey(id.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
-						value.insertNamedValue(new NamedValue(new Identifier(Identifier_type.ID_TTCN, id.getDisplayName()),
+						value.insertNamedValue(new NamedValue(new Identifier(Identifier_type.ID_ASN, id.getDisplayName()),
 								new Omit_Value(), false), i);
 					} else {
 						value.getLocation().reportSemanticError(
@@ -830,7 +830,7 @@ public final class ASN1_Sequence_Type extends ASN1_Set_Seq_Choice_BaseType {
 				final Identifier identifier = getComponentIdentifierByIndex(i);
 				if (!componentMap.containsKey(identifier.getName())) {
 					if (getComponentByIndex(i).isOptional() && implicitOmit) {
-						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_TTCN, identifier
+						templateList.addNamedValue(new NamedTemplate(new Identifier(Identifier_type.ID_ASN, identifier
 								.getDisplayName()), new OmitValue_Template(), false));
 					} else {
 						templateList.getLocation().reportSemanticError(
