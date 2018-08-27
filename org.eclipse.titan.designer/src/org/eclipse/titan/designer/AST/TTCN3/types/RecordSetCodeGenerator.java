@@ -1194,7 +1194,7 @@ public class RecordSetCodeGenerator {
 
 				if (mand_num > 0) {
 					source.append(MessageFormat.format("if (nof_mand_fields != {0}) '{'\n", mand_num));
-					source.append("return limit > 0 ? -1 : TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
+					source.append("return limit > 0 ? -1 : -TTCN_EncDec.error_type.ET_INCOMPL_MSG.ordinal();\n");
 					source.append("}\n");
 				}
 				source.append("return decoded_length + prepaddlength + buff.increase_pos_padd(p_td.raw.padding);\n");
