@@ -133,10 +133,10 @@ public final class TypeMapping extends ASTNode implements ILocateableNode, IIncr
 				case DISCARD:
 					if (hasSliding) {
 						target.getLocation().reportSemanticError(
-								"Mapping `discard' cannot be used if functions with `prototype(sliding)' are referred from the same source type");
+								"Mapping `discard'' cannot be used if functions with `prototype(sliding)'' are referred from the same source type");
 					} else if (i < nofTargets - 1) {
 						target.getLocation().reportSemanticError(
-								"Mapping `discard' must be the last target of the source type");
+								"Mapping `discard'' must be the last target of the source type");
 					}
 					break;
 				case FUNCTION: {
@@ -186,8 +186,7 @@ public final class TypeMapping extends ASTNode implements ILocateableNode, IIncr
 					break;
 				default:
 					target.getLocation().reportSemanticError(
-							MessageFormat.format("The type of the mapping must be `function', `decode',"
-									+ " or `discard' instead of {0} when more than one targets are present",
+							MessageFormat.format("The type of the mapping must be `function'', `decode'' or `discard'' " + " instead of `{0}'' when more than one targets are present",
 									target.getMappingName()));
 					break;
 				}
@@ -195,8 +194,8 @@ public final class TypeMapping extends ASTNode implements ILocateableNode, IIncr
 		}
 
 		if (hasSliding && hasNonSliding) {
-			location.reportSemanticError("If one of the mappings refers to a function with attribute `prototype(sliding)'"
-					+ "then mappings of this source type cannot refer to functions with attribute `prototype(backtrack)'");
+			location.reportSemanticError("If one of the mappings refers to a function with attribute `prototype(sliding)''"
+					+ "then mappings of this source type cannot refer to functions with attribute `prototype(backtrack)''");
 		}
 
 		lastTimeChecked = timestamp;
