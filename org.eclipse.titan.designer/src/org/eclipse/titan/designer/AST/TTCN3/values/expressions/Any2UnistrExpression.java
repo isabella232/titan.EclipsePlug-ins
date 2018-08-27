@@ -13,16 +13,22 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Assignment;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.IReferenceChain;
-import org.eclipse.titan.designer.AST.IType;
 import org.eclipse.titan.designer.AST.IType.Type_type;
 import org.eclipse.titan.designer.AST.IValue;
+import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
-import org.eclipse.titan.designer.AST.TTCN3.templates.ITTCN3Template;
-import org.eclipse.titan.designer.AST.TTCN3.templates.TemplateInstance;
+import org.eclipse.titan.designer.AST.TTCN3.statements.InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.LogArguments;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Match_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Reference_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.TemplateInstance_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.statements.Value_InternalLogArgument;
+import org.eclipse.titan.designer.AST.TTCN3.templates.TTCN3Template;
 import org.eclipse.titan.designer.AST.TTCN3.values.Expression_Value;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -33,16 +39,15 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
  * @author Arpad Lovassy
  */
 public final class Any2UnistrExpression extends Expression_Value {
-	private static final String OPERAND1_ERROR1 = "Cannot determine the type of the 1st operand of the `istemplatekind' operation";
-	private static final String OPERAND1_ERROR2 = "The 1st operand of the `istemplatekind' operation cannot be encoded";
+	private static final String FULLNAMEPART = ".logargument";
 
-	private final TemplateInstance templateInstance1;
+	private final LogArguments logArguments;//1 argument
 
-	public Any2UnistrExpression(final TemplateInstance templateInstance1) {
-		this.templateInstance1 = templateInstance1;
+	public Any2UnistrExpression(final LogArguments logArguments) {
+		this.logArguments = logArguments;
 
-		if (templateInstance1 != null) {
-			templateInstance1.setFullNameParent(this);
+		if (logArguments != null) {
+			logArguments.setFullNameParent(this);
 		}
 	}
 
@@ -55,8 +60,42 @@ public final class Any2UnistrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if (templateInstance1 != null && templateInstance1.getTemplateBody().checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
-			return true;
+		for(int i = 0; i < logArguments.getNofLogArguments(); i++) {
+			final InternalLogArgument logArgument = logArguments.getLogArgumentByIndex(i).getRealArgument();
+
+			if (logArgument == null) {
+				continue;
+			}
+			switch(logArgument.getArgumentType()) {
+			case Macro:
+			case String:
+				//self reference not possible
+				break;
+			case Value:
+				if (((Value_InternalLogArgument)logArgument).getValue().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+					return true;
+				}
+				break;
+			case Match:
+				if (((Match_InternalLogArgument)logArgument).getMatchExpression().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+					return true;
+				}
+				break;
+			case Reference:{
+				final Reference reference = ((Reference_InternalLogArgument) logArgument).getReference();
+				if (lhs == reference.getRefdAssignment(timestamp, false)) {
+					return true;
+				}
+				break;
+			}
+			case TemplateInstance: {
+				final TTCN3Template template = ((TemplateInstance_InternalLogArgument) logArgument).getTemplate().getTemplateBody();
+				if (template.checkExpressionSelfReferenceTemplate(timestamp, lhs)) {
+					return true;
+				}
+				break;
+			}
+			}
 		}
 
 		return false;
@@ -65,10 +104,7 @@ public final class Any2UnistrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public String createStringRepresentation() {
-		final StringBuilder builder = new StringBuilder("istemplatekind(");
-		builder.append(templateInstance1.createStringRepresentation());
-		builder.append(')');
-		return builder.toString();
+		return "any2unistr(...)";
 	}
 
 	@Override
@@ -76,8 +112,8 @@ public final class Any2UnistrExpression extends Expression_Value {
 	public void setMyScope(final Scope scope) {
 		super.setMyScope(scope);
 
-		if (templateInstance1 != null) {
-			templateInstance1.setMyScope(scope);
+		if (logArguments != null) {
+			logArguments.setMyScope(scope);
 		}
 	}
 
@@ -86,8 +122,8 @@ public final class Any2UnistrExpression extends Expression_Value {
 	public void setCodeSection(final CodeSectionType codeSection) {
 		super.setCodeSection(codeSection);
 
-		if (templateInstance1 != null) {
-			templateInstance1.setCodeSection(codeSection);
+		if (logArguments != null) {
+			logArguments.setCodeSection(codeSection);
 		}
 	}
 
@@ -96,8 +132,8 @@ public final class Any2UnistrExpression extends Expression_Value {
 	public StringBuilder getFullName(final INamedNode child) {
 		final StringBuilder builder = super.getFullName(child);
 
-		if (templateInstance1 == child) {
-			return builder.append(OPERAND1);
+		if (logArguments == child) {
+			return builder.append(FULLNAMEPART);
 		}
 
 		return builder;
@@ -116,90 +152,6 @@ public final class Any2UnistrExpression extends Expression_Value {
 		return true;
 	}
 
-	/**
-	 * Checks the parameters of the expression and if they are valid in
-	 * their position in the expression or not.
-	 *
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain) {
-		//check template1
-		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
-	}
-
-	/**
-	 * Checks the 1st operand
-	 * in template (value) any_type
-	 * @param timestamp
-	 *                the timestamp of the actual semantic check cycle.
-	 * @param expectedValue
-	 *                the kind of value expected.
-	 * @param referenceChain
-	 *                a reference chain to detect cyclic references.
-	 */
-	private void checkExpressionOperand1( final CompilationTimeStamp timestamp,
-			final Expected_Value_type expectedValue,
-			final IReferenceChain referenceChain ) {
-		if (templateInstance1 == null) {
-			setIsErroneous(true);
-			return;
-		}
-
-		final Expected_Value_type internalExpectation = Expected_Value_type.EXPECTED_DYNAMIC_VALUE.equals(expectedValue) ? Expected_Value_type.EXPECTED_TEMPLATE
-				: expectedValue;
-		IType type = templateInstance1.getExpressionGovernor(timestamp, internalExpectation);
-		ITTCN3Template template = templateInstance1.getTemplateBody();
-		if (type == null) {
-			template = template.setLoweridToReference(timestamp);
-			type = template.getExpressionGovernor(timestamp, internalExpectation);
-		}
-
-		if (type == null) {
-			if (!template.getIsErroneous(timestamp)) {
-				templateInstance1.getLocation().reportSemanticError(OPERAND1_ERROR1);
-			}
-			setIsErroneous(true);
-			return;
-		}
-
-		IsValueExpression.checkExpressionTemplateInstance(timestamp, this, templateInstance1, type, referenceChain, expectedValue);
-
-		if (getIsErroneous(timestamp)) {
-			return;
-		}
-
-		template.checkSpecificValue(timestamp, false);
-
-		type = type.getTypeRefdLast(timestamp);
-		switch (type.getTypetype()) {
-		case TYPE_UNDEFINED:
-		case TYPE_NULL:
-		case TYPE_REFERENCED:
-		case TYPE_VERDICT:
-		case TYPE_PORT:
-		case TYPE_COMPONENT:
-		case TYPE_DEFAULT:
-		case TYPE_SIGNATURE:
-		case TYPE_FUNCTION:
-		case TYPE_ALTSTEP:
-		case TYPE_TESTCASE:
-			if (!isErroneous) {
-				location.reportSemanticError(OPERAND1_ERROR2);
-				setIsErroneous(true);
-			}
-			break;
-		default:
-			break;
-		}
-	}
-
 	@Override
 	/** {@inheritDoc} */
 	public IValue evaluateValue(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
@@ -212,8 +164,8 @@ public final class Any2UnistrExpression extends Expression_Value {
 		lastTimeChecked = timestamp;
 		lastValue = this;
 
-		if (templateInstance1 != null) {
-			checkExpressionOperands(timestamp, expectedValue, referenceChain);
+		if (logArguments != null) {
+			logArguments.check(timestamp);
 		}
 
 		return lastValue;
@@ -223,9 +175,9 @@ public final class Any2UnistrExpression extends Expression_Value {
 	/** {@inheritDoc} */
 	public void checkRecursions(final CompilationTimeStamp timestamp, final IReferenceChain referenceChain) {
 		if (referenceChain.add(this)) {
-			if (templateInstance1 != null) {
+			if (logArguments != null) {
 				referenceChain.markState();
-				templateInstance1.checkRecursions(timestamp, referenceChain);
+				logArguments.checkRecursions(timestamp, referenceChain);
 				referenceChain.previousState();
 			}
 		}
@@ -238,26 +190,48 @@ public final class Any2UnistrExpression extends Expression_Value {
 			throw new ReParseException();
 		}
 
-		if (templateInstance1 != null) {
-			templateInstance1.updateSyntax(reparser, false);
-			reparser.updateLocation(templateInstance1.getLocation());
+		if (logArguments != null) {
+			logArguments.updateSyntax(reparser, false);
 		}
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	public void findReferences(final ReferenceFinder referenceFinder, final List<Hit> foundIdentifiers) {
-		if (templateInstance1 != null) {
-			templateInstance1.findReferences(referenceFinder, foundIdentifiers);
+		if (logArguments == null) {
+			return;
 		}
+
+		logArguments.findReferences(referenceFinder, foundIdentifiers);
 	}
 
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (templateInstance1 != null && !templateInstance1.accept(v)) {
+		if (logArguments != null && !logArguments.accept(v)) {
 			return false;
 		}
+
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public boolean canGenerateSingleExpression() {
+		return false;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
+		if ( logArguments == null ) {
+			return;
+		}
+
+		aData.addBuiltinTypeImport("TitanCharString");
+
+		expression.expression.append("new TitanCharString(");
+		logArguments.generateCodeExpression(aData, expression);
+		expression.expression.append(')');
 	}
 }

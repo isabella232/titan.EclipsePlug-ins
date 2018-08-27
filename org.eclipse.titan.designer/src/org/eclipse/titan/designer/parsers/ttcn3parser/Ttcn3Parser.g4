@@ -7976,7 +7976,10 @@ pr_PredefinedOps1 returns[Value value]
 	pr_RParen	{	$value = new DecodeBase64Expression($v.value); }
 |	ANY2UNISTR
 	pr_LParen	t = pr_TemplateInstance
-	pr_RParen	{	$value = new Any2UnistrExpression($t.templateInstance); }
+	pr_RParen	{	LogArgument logArgument = new LogArgument($t.templateInstance);
+				LogArguments logArguments = new LogArguments();
+				logArguments.add(logArgument);
+				$value = new Any2UnistrExpression(logArguments); }
 )
 { $value.setLocation(getLocation( $start, getStopToken())); };
 
