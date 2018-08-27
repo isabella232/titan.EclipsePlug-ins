@@ -114,7 +114,12 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 	private final OperationModes operationMode;
 	private TestPortAPI_type testportType;
+
+	/** the port type as calculated during semantic checking */
 	private PortType_type portType;
+
+	/** the port type as parsed from TTCN-3 files */
+	private PortType_type parsedPortType;
 
 	private Port_Type myType;
 	private boolean legacy = true;
@@ -153,6 +158,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		this.operationMode = operationMode;
 		testportType = TestPortAPI_type.TP_REGULAR;
 		portType = PortType_type.PT_REGULAR;
+		parsedPortType = PortType_type.PT_REGULAR;
 	}
 
 	public void setMyType(final Port_Type myType) {
@@ -399,7 +405,7 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	 *TODO check if we should de this in one step.
 	 * */
 	public void addUserAttribute(final List<Reference> providerReferences, final boolean legacy) {
-		portType = PortType_type.PT_USER;
+		parsedPortType = PortType_type.PT_USER;
 		this.providerReferences.clear();
 		for (int i = 0; i < providerReferences.size(); i++) {
 			final Reference temp = providerReferences.get(i);
@@ -499,6 +505,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 		outMessages = null;
 		inSignatures = null;
 		outSignatures = null;
+		testportType = TestPortAPI_type.TP_REGULAR;
+		portType = parsedPortType;
 		lastTimeChecked = timestamp;
 
 		if (inoutAll) {
