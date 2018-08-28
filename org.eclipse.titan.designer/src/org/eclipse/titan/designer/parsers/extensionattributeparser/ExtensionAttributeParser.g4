@@ -635,8 +635,11 @@ pr_Identifier returns [Identifier identifier]
 	IDENTIFIER
 )
 {
-	if($IDENTIFIER.getText() != null) {
-		$identifier = new Identifier(Identifier_type.ID_TTCN, $IDENTIFIER.getText(), getLocation($IDENTIFIER));
+	if($IDENTIFIER.getTokenIndex() >= 0) {
+		final String text = $IDENTIFIER.text;
+		if(text != null) {
+			$identifier = new Identifier(Identifier_type.ID_TTCN, text, getLocation($IDENTIFIER));
+		}
 	}
 };
 
