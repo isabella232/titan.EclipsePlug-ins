@@ -493,6 +493,10 @@ public final class TTCN_Runtime {
 		return testcaseDefinitionName.get();
 	}
 
+	public static void set_logger_parameters() {
+		TTCN_Logger.set_plugin_parameters(TitanComponent.self.get(), component_name.get());
+	}
+
 	//originally get_testcase_id_macro
 	public static TitanCharString get_testcase_id_macro() {
 		if (in_controlPart()) {

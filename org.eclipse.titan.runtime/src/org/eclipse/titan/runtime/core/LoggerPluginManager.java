@@ -167,6 +167,10 @@ public class LoggerPluginManager {
 		entry_list_.clear();
 	}
 
+	public void set_parameters(final TitanComponent component_reference, final String component_name) {
+		//FIXME implement support for logging parameters
+	}
+
 	public boolean plugins_ready() {
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).is_configured()) {

@@ -1139,6 +1139,10 @@ public final class TTCN_Logger {
 		get_logger_plugin_manager().log_port_queue(operation, port_name, componentReference, id, address, parameter);
 	}
 
+	public static void set_plugin_parameters(final TitanComponent component_reference, final String component_name) {
+		get_logger_plugin_manager().set_parameters(component_reference, component_name);
+	}
+
 	public static void set_file_name(final String new_filename_skeleton, final boolean from_config) {
 		get_logger_plugin_manager().set_file_name(new_filename_skeleton , from_config);
 	}

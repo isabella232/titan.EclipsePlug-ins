@@ -36,7 +36,8 @@ public final class Runtime_Single_main {
 		try {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__start__single__mode);
 			Module_List.pre_init_modules();
-			//FIXME log_config_data; set_logger_parameters
+			//FIXME log_config_data
+			TTCN_Runtime.set_logger_parameters();
 			TTCN_Logger.open_file();
 			TTCN_Logger.write_logger_settings();
 
