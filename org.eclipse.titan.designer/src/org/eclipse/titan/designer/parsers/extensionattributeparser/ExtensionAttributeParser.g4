@@ -359,14 +359,16 @@ pr_PortTypeAttribute returns[PortTypeAttribute attribute]
 |	pr_UserAttribute	{$attribute = $pr_UserAttribute.attribute; $endCol = $pr_UserAttribute.stop;}
 )
 {
-	$attribute.setLocation(getLocation($start, $endCol));
+	if ($attribute != null) {
+		$attribute.setLocation(getLocation($start, $endCol));
+	}
 };
 
 pr_UserAttribute returns[UserPortTypeAttribute attribute]
 	:
 (
 	USER
-	pr_PortTypeReference	{$attribute = new UserPortTypeAttribute($pr_PortTypeReference.reference);}
+	pr_PortTypeReference	{if($pr_PortTypeReference.reference != null) {$attribute = new UserPortTypeAttribute($pr_PortTypeReference.reference);}}
 	pr_InOutTypeMappingList[$attribute]
 );
 
