@@ -188,7 +188,10 @@ public class LoggerPluginManager {
 		if (!plugins_ready()) {
 			// buffer quick events
 			internal_prebuff_logevent(event);
+
+			return;
 		}
+
 		// Init phase, log prebuffered events first if any.
 		internal_log_prebuff_logevent();
 
