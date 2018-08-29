@@ -951,7 +951,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 
 			final String codingName = tempCodingType.builtIn ? tempCodingType.builtInCoding.getEncodingName() : tempCodingType.customCoding.name;
-			if (builtInCoding.getEncodingName().equals(codingName)) {
+			final String currentName = tempCodingType.builtIn ? builtInCoding.getEncodingName() : name;
+			if (currentName.equals(codingName)) {
 				return; // coding already added
 			}
 		}
