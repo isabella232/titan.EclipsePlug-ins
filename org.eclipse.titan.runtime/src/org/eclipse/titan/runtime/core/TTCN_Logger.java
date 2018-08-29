@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
+import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorComponent_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorConfigdata_reason;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.ExecutorUnqualified_reason;
@@ -1137,6 +1138,10 @@ public final class TTCN_Logger {
 
 	public static void log_port_queue(final TitanLoggerApi.Port__Queue_operation.enum_type operation, final String port_name, final int componentReference, final int id, final TitanCharString address, final TitanCharString parameter) {
 		get_logger_plugin_manager().log_port_queue(operation, port_name, componentReference, id, address, parameter);
+	}
+
+	public static boolean add_parameter(final logging_setting_t logging_param) {
+		return get_logger_plugin_manager().add_parameter(logging_param);
 	}
 
 	public static void set_plugin_parameters(final TitanComponent component_reference, final String component_name) {

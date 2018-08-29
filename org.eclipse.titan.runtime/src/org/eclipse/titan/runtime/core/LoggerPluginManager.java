@@ -14,6 +14,7 @@ import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
@@ -111,6 +112,7 @@ public class LoggerPluginManager {
 		}
 	};
 
+	private ArrayList<logging_setting_t> logparams = new ArrayList<LoggingParam.logging_setting_t>();
 	private ArrayList<ILoggerPlugin> plugins_ = new ArrayList<ILoggerPlugin>();
 	
 	private LinkedList<LogEntry> entry_list_ = new LinkedList<LogEntry>();
@@ -167,8 +169,39 @@ public class LoggerPluginManager {
 		entry_list_.clear();
 	}
 
+	public boolean add_parameter(final logging_setting_t logging_param) {
+		//FIXME implement
+		return false;
+	}
+
 	public void set_parameters(final TitanComponent component_reference, final String component_name) {
-		//FIXME implement support for logging parameters
+		if (logparams.size() == 0) {
+			return;
+		}
+
+		for (logging_setting_t par: logparams) {
+			switch (par.component.id_selector) {
+			case COMPONENT_ID_NAME:
+				if (component_name != null && component_name.equals(par.component.id_name)) {
+					apply_parameter(par);
+				}
+				break;
+			case COMPONENT_ID_COMPREF:
+				if (par.component.id_compref == component_reference.getComponent()) {
+					apply_parameter(par);
+				}
+				break;
+			case COMPONENT_ID_ALL:
+				apply_parameter(par);
+				break;
+			default:
+				break;
+			}
+		}
+	}
+
+	private void apply_parameter(final logging_setting_t logparam) {
+		//FIXME implement
 	}
 
 	public boolean plugins_ready() {
