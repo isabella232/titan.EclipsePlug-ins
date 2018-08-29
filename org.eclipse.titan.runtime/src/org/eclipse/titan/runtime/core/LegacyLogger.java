@@ -613,7 +613,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		if (is_success) {
 			try {
 				log_file_writer.get().flush();
-				log_file_writer.get().append('\n');
+				log_file_writer.get().newLine();
 			} catch (IOException e) {
 				is_success = false;
 			}
