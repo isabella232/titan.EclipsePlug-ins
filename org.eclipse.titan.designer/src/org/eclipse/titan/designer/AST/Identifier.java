@@ -639,7 +639,7 @@ public class Identifier implements ILocateableNode, IVisitableNode {
 					if (idData.getTtcnName().equals(name)) {
 						ID_MAP_TTCN.put(name, idData);
 					} else if (location != null) {
-						location.reportSemanticError("The TTCN identifier `" + name + "' clashes with this id: `" + idData.getAsnName() + "'");
+						location.reportSemanticError("The TTCN identifier `" + name + "' clashes with this id: `" + idData.getTtcnName() + "'");
 					}
 				} else {
 					idData = new Identifier_Internal_Data(realName, null, name);
