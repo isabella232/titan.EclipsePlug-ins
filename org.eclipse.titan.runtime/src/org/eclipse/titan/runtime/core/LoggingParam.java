@@ -58,5 +58,15 @@ public final class LoggingParam {
 		public String pluginId;
 		public logging_param_t logparam;
 		//nextparam intentionaly missing
+
+		public logging_setting_t() {
+			//empty by default
+		}
+
+		public logging_setting_t(final logging_setting_t other) {
+			this.component = other.component;
+			this.pluginId = other.pluginId;
+			this.logparam = other.logparam;
+		}
 	}
 }

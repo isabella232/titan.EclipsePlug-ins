@@ -14,7 +14,9 @@ import java.util.Stack;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultEnd;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.DefaultOp;
 import org.eclipse.titan.runtime.core.TitanLoggerApi.Dualface__discard;
@@ -170,8 +172,28 @@ public class LoggerPluginManager {
 	}
 
 	public boolean add_parameter(final logging_setting_t logging_param) {
-		//FIXME implement
-		return false;
+		boolean duplication_warning = false;
+
+		for (logging_setting_t par: logparams) {
+			boolean for_all_components = logging_param.component.id_selector == component_id_selector_enum.COMPONENT_ID_ALL || par.component.id_selector == component_id_selector_enum.COMPONENT_ID_ALL;
+			boolean for_all_plugins = logging_param.pluginId == null || par.pluginId == null || "*".equals(logging_param.pluginId) || "*".equals(par.pluginId);
+			boolean component_overlaps = for_all_components || logging_param.component == par.component;
+			boolean plugin_overlaps = for_all_plugins || ((logging_param.pluginId == null && par.pluginId == null) || (logging_param.pluginId != null && logging_param.pluginId.equals(par.pluginId)));
+			boolean parameter_overlaps = logging_param.logparam.log_param_selection == par.logparam.log_param_selection;
+			if (parameter_overlaps && logging_param.logparam.log_param_selection == logging_param_type.LP_PLUGIN_SPECIFIC) {
+				parameter_overlaps = logging_param.logparam.param_name == par.logparam.param_name;
+			}
+
+			duplication_warning = component_overlaps && plugin_overlaps && parameter_overlaps;
+			if (duplication_warning) {
+				break;
+			}
+		}
+
+		logging_setting_t newParam = new logging_setting_t(logging_param);
+		logparams.add(newParam);
+
+		return duplication_warning;
 	}
 
 	public void set_parameters(final TitanComponent component_reference, final String component_name) {
