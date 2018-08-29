@@ -941,6 +941,8 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	/** {@inheritDoc} */
 	public void addCoding(final CompilationTimeStamp timestamp, final String name, final Attribute_Modifier_type modifier, final boolean silent) {
 		boolean encodeAttributeModifierConflict = false;
+		final MessageEncoding_type builtInCoding = getEncodingType(name);
+
 		for (int i = 0; i < codingTable.size(); i++) {
 			final Coding_Type tempCodingType = codingTable.get(i);
 			if (!encodeAttributeModifierConflict && modifier != tempCodingType.modifier) {
@@ -949,12 +951,11 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 			}
 
 			final String codingName = tempCodingType.builtIn ? tempCodingType.builtInCoding.getEncodingName() : tempCodingType.customCoding.name;
-			if (name.equals(codingName)) {
+			if (builtInCoding.getEncodingName().equals(codingName)) {
 				return; // coding already added
 			}
 		}
 
-		final MessageEncoding_type builtInCoding = getEncodingType(name);
 		switch (builtInCoding) {
 		case CUSTOM:
 		case PER: {
