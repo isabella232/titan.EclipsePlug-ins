@@ -258,7 +258,7 @@ public final class Function_Type extends Type {
 		isErroneous = false;
 		isStartable = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);

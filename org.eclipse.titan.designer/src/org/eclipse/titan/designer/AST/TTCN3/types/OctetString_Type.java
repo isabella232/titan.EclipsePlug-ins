@@ -110,7 +110,7 @@ public final class OctetString_Type extends ASN1Type {
 
 		lastTimeChecked = timestamp;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (constraints != null) {
 			constraints.check(timestamp);

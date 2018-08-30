@@ -505,6 +505,15 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 
 	@Override
 	/** {@inheritDoc} */
+	public void initAttributes(final CompilationTimeStamp timestamp) {
+		codingTable.clear();
+		hasDone = false;
+
+		checkDoneAttribute(timestamp);
+	}
+
+	@Override
+	/** {@inheritDoc} */
 	public final void checkDoneAttribute(final CompilationTimeStamp timestamp) {
 		hasDone = false;
 
@@ -520,13 +529,6 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 				hasDone = true;
 			}
 		}
-	}
-
-	@Override
-	/** {@inheritDoc} */
-	public void parseAttributes(final CompilationTimeStamp timestamp) {
-		checkDoneAttribute(timestamp);
-		// FIXME This will need to be removed once the new style codec handling is ready to take over
 	}
 
 	/**

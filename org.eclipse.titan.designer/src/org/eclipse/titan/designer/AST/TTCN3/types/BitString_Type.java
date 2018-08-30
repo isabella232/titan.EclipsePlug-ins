@@ -109,7 +109,7 @@ public final class BitString_Type extends Type {
 
 		lastTimeChecked = timestamp;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (constraints != null) {
 			constraints.check(timestamp);

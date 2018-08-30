@@ -131,7 +131,7 @@ public final class Port_Type extends Type {
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (body != null) {
 			body.check(timestamp);

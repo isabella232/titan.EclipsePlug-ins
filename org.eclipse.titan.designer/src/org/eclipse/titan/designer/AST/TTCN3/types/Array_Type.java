@@ -414,7 +414,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		componentInternal = false;
 		isErroneous = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (elementType != null) {
 			elementType.setGenName(getGenNameOwn(), "0");

@@ -298,12 +298,6 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 
 	@Override
 	/** {@inheritDoc} */
-	public void parseAttributes(final CompilationTimeStamp timestamp) {
-		checkDoneAttribute(timestamp);
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public final void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -313,7 +307,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		componentInternal = false;
 		isErroneous = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		compFieldMap.check(timestamp);
 

@@ -220,7 +220,7 @@ public final class Component_Type extends Type {
 			return;
 		}
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		componentBody.check(timestamp);
 

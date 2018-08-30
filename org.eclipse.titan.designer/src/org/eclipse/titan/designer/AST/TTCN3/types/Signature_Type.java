@@ -257,7 +257,7 @@ public final class Signature_Type extends Type {
 
 		componentInternal = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (formalParList != null) {
 			formalParList.check(timestamp, this);

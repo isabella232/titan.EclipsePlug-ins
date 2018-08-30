@@ -207,12 +207,6 @@ public abstract class AbstractOfType extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void parseAttributes(final CompilationTimeStamp timestamp) {
-		checkDoneAttribute(timestamp);
-	}
-
-	@Override
-	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
 			return;
@@ -229,7 +223,7 @@ public abstract class AbstractOfType extends ASN1Type {
 		componentInternal = false;
 		isErroneous = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (ofType == null) {
 			setIsErroneous(true);

@@ -293,7 +293,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		refd = null;
 		refdLast = null; //Do not remove! Intentionally set for null to avoid checking circle.
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		refdLast = getTypeRefdLast(timestamp);
 

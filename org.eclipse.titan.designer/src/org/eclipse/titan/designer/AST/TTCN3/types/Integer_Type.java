@@ -111,7 +111,7 @@ public final class Integer_Type extends Type {
 
 		lastTimeChecked = timestamp;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (constraints != null) {
 			constraints.check(timestamp);

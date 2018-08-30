@@ -210,7 +210,7 @@ public final class Altstep_Type extends Type {
 		lastTimeChecked = timestamp;
 		isErroneous = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);

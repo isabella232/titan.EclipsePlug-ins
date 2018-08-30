@@ -207,7 +207,7 @@ public final class Testcase_Type extends Type {
 		lastTimeChecked = timestamp;
 		isErroneous = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		if (runsOnRef != null) {
 			runsOnType = runsOnRef.chkComponentypeReference(timestamp);

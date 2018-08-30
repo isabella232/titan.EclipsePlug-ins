@@ -188,7 +188,7 @@ public final class TTCN3_Enumerated_Type extends Type implements ITypeWithCompon
 			return;
 		}
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		nameMap = new HashMap<String, EnumItem>(items.getItems().size());
 		final Map<Long, EnumItem> valueMap = new HashMap<Long, EnumItem>(items.getItems().size());

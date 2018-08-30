@@ -87,7 +87,7 @@ public final class Address_Type extends Type implements IReferencingType {
 		lastTimeChecked = timestamp;
 		isErroneous = false;
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		final IType referencedLast = getTypeRefdLast(timestamp);
 

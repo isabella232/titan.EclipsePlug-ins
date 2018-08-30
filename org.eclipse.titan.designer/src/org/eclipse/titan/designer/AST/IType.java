@@ -580,14 +580,14 @@ public interface IType extends IGovernor, IIdentifierContainer, IVisitableNode, 
 	void checkDoneAttribute(final CompilationTimeStamp timestamp);
 
 	/**
-	 * Parses the attributes assigned to this type, and creates the needed
-	 * semantic structures to store the gained data.
+	 * Initializes the internal representation of coding attributes.
+	 * This is also needed to clear information set during a previous check.
+	 * + checks the existence of the done attribute.
 	 *
 	 * @param timestamp
 	 *                the time stamp of the actual semantic check cycle.
-	 * FIXME this belongs to legacy mode parsing, needs to be removed
 	 * */
-	void parseAttributes(final CompilationTimeStamp timestamp);
+	void initAttributes(final CompilationTimeStamp timestamp);
 
 	/**
 	 * Fills the list parameter with the types that have an empty coding

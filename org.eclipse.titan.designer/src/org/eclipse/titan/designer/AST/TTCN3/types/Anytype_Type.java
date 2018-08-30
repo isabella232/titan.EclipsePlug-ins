@@ -269,7 +269,7 @@ public final class Anytype_Type extends Type {
 
 		analyzeExtensionAttributes(timestamp);
 
-		parseAttributes(timestamp);
+		initAttributes(timestamp);
 
 		compFieldMap.check(timestamp);
 
