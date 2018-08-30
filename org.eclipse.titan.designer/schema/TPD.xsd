@@ -68,7 +68,7 @@
                       </xs:simpleType>
                     </xs:element>
                     <xs:element name="targetExecutable" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
-					<xs:element name="TTCN3preprocessor" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
+                    <xs:element name="TTCN3preprocessor" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
                     <xs:element name="TTCN3preprocessorDefines" minOccurs="0" maxOccurs="1">
                       <xs:complexType>
                         <xs:sequence>
@@ -76,7 +76,7 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-					<xs:element name="TTCN3preprocessorUndefines" minOccurs="0" maxOccurs="1">
+                    <xs:element name="TTCN3preprocessorUndefines" minOccurs="0" maxOccurs="1">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="listItem" minOccurs="1" maxOccurs="unbounded" type="xs:normalizedString" />
@@ -90,7 +90,7 @@
                         </xs:sequence>
                       </xs:complexType>
                     </xs:element>
-					<xs:element name="preprocessorUndefines" minOccurs="0" maxOccurs="1">
+                    <xs:element name="preprocessorUndefines" minOccurs="0" maxOccurs="1">
                       <xs:complexType>
                         <xs:sequence>
                           <xs:element name="listItem" minOccurs="1" maxOccurs="unbounded" type="xs:normalizedString" />
@@ -118,6 +118,7 @@
                     <xs:element name="disableTEXT" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="disableXER" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="disableJSON" minOccurs="0" maxOccurs="1" type="xs:boolean" />
+                    <xs:element name="disableOER" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="forceXERinASN.1" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="defaultasOmit" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="enumHackProperty" minOccurs="0" maxOccurs="1" type="xs:boolean" /> <!-- deprecated -->
@@ -131,9 +132,10 @@
                     <xs:element name="omitInValueList" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="warningsForBadVariants" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="ignoreUntaggedOnTopLevelUnion" minOccurs="0" maxOccurs="1" type="xs:boolean" />
-                    <xs:element name="activateDebugger" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="quietly" minOccurs="0" maxOccurs="1" type="xs:boolean" />
+                    <xs:element name="activateDebugger" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="enableLegacyEncoding" minOccurs="0" maxOccurs="1" type="xs:boolean" />
+                    <xs:element name="disableUserInformation" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="namingRules" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
                     <xs:element name="disableSubtypeChecking" minOccurs="0" maxOccurs="1" type="xs:boolean" />
                     <xs:element name="CxxCompiler" minOccurs="0" maxOccurs="1" type="xs:normalizedString" />
