@@ -2090,7 +2090,6 @@ public final class TTCN_Runtime {
 	}
 
 	// originally TTCN_Runtime::begin_testcase
-	//FIXME this is more complex
 	public static void begin_testcase(final String moduleName, final String testcaseName, final String mtc_comptype_module, final String mtc_comptype_name, final String system_comptype_module, final String system_comptype_name, final boolean hasTimer, final TitanFloat timerValue) {
 		switch (executorState.get()) {
 		case SINGLE_CONTROLPART:
@@ -2124,7 +2123,6 @@ public final class TTCN_Runtime {
 	}
 
 	//originally TTCN_Runtime::end_testcase
-	// FIXME this is more complex
 	public static VerdictTypeEnum end_testcase() {
 		switch (executorState.get()) {
 		case MTC_CREATE:
@@ -2143,7 +2141,7 @@ public final class TTCN_Runtime {
 		case MTC_TESTCASE:
 			break;
 		case SINGLE_TESTCASE:
-			// implement disable_interrupt_handler();
+			// FIXME implement disable_interrupt_handler();
 			break;
 		default:
 			throw new TtcnError("Internal error: Ending a testcase in an invalid state.");
