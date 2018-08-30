@@ -219,11 +219,14 @@ public final class TTCN_Snapshot {
 				if (selectReturn > 0) {
 					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
 					//call handlers
-					for (final SelectionKey key : selectedKeys) {
-						final Channel_Event_Handler handler = channelMap.get().get(key.channel());
-						handler.Handle_Event(key.channel(), key.isReadable() | key.isAcceptable(), key.isWritable());
+					try {
+						for (final SelectionKey key : selectedKeys) {
+							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
+							handler.Handle_Event(key.channel(), key.isReadable() | key.isAcceptable(), key.isWritable());
+						}
+					} finally {
+						selectedKeys.clear();
 					}
-					selectedKeys.clear();
 					//TODO handle timeout
 				} else if (selectReturn == 0 && handleTimer) {
 					// if select() returned because of the timeout, but too early
@@ -238,11 +241,14 @@ public final class TTCN_Snapshot {
 
 					final Set<SelectionKey> selectedKeys = selector.get().selectedKeys();
 					//call handlers
-					for (final SelectionKey key : selectedKeys) {
-						final Channel_Event_Handler handler = channelMap.get().get(key.channel());
-						handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
+					try {
+						for (final SelectionKey key : selectedKeys) {
+							final Channel_Event_Handler handler = channelMap.get().get(key.channel());
+							handler.Handle_Event(key.channel(), key.isReadable(), key.isWritable());
+						}
+					} finally {
+						selectedKeys.clear();
 					}
-					selectedKeys.clear();
 				}
 
 				//leave the for loop
