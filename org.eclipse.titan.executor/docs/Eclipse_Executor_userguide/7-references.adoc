@@ -1,0 +1,28 @@
+= References
+
+[[_1]]
+* [1] link:https://github.com/eclipse/titan.core/blob/master/usrguide/installationguide.adoc[Installation guide for TITAN TTCN-3 Test Executor]
+
+[[_2]]
+* [2] link:https://github.com/eclipse/titan.EclipsePlug-ins/blob/master/Eclipse_installationguide.adoc[Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE]
+
+[[_3]]
+* [3] link:https://github.com/eclipse/titan.core/blob/master/usrguide/userguide/README.adoc[User Guide for TITAN TTCN-3 Test Executor]
+
+[[_4]]
+* [4] link:https://github.com/eclipse/titan.core/blob/master/usrguide/referenceguide/README.adoc[Programmers Technical Reference for TITAN TTCN-3 Test Executor]
+
+[[_5]]
+* [5] https://github.com/eclipse/titan.core/blob/master/usrguide/apiguide/README.doc[API Technical Reference for TITAN TTCN-3 Test Executor]
+
+[[_6]]
+* [6] link:https://github.com/eclipse/titan.core/blob/master/usrguide/releasenotes.adoc[Release Notes for TITAN TTCN-3 Test Executor]
+
+[[_7]]
+* [7] TTCN–3 Style Guide
+
+[[_8]]
+* [8] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187310/04.05.01_60/es_20187310v040501p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 1: Core Language European Telecommunications Standards Institute. ES 201 873-1 Version 4.5.1, April 2013]
+
+[[_9]]
+* link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187304/04.04.01_60/es_20187304v040401p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 4: TTCN–3 Operational Semantics European Telecommunications Standards Institute. ES 201 873-4 Version 4.4.1, April 2012]

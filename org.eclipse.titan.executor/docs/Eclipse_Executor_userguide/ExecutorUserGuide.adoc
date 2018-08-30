@@ -1,0 +1,53 @@
+---
+Author: Jenő Balaskó
+Version: 5/198 17-CRL 113 200/6, Rev. PE1
+Date: 2018-06-19
+
+---
+= User Guide of the TITAN Executor for the Eclipse IDE plug-in
+:author: Jenő Balaskó
+:revnumber: 5/198 17-CRL 113 200/6, Rev. PE1
+:revdate: 2018-06-19
+:title-logo-image: images/titan_logo.png
+:toc:
+
+ifdef::env-github,backend-html5[]
+image::images/titan_logo.png[alt]
+endif::[]
+
+== Abstract
+
+This document describes detailed information of using the TITAN Executor for the Eclipse IDE plug-in.
+
+== Copyright
+
+Copyright (c) 2000-2018 Ericsson Telecom AB. +
+All rights reserved. This program and the accompanying materialsare made available under the terms of the Eclipse Public License v2.0which accompanies this distribution, and is available at
+
+https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
+
+== Disclaimer
+
+The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
+
+== Contents
+
+ifdef::env-github,backend-html5[]
+* link:1-introduction.adoc[Introduction]
+* link:2-getting_started.adoc[Getting Started]
+* link:3-setting_workbench_preferences_and_project_properti.adoc[Setting Workbench Preferences and Project Properties]
+* link:4-launching_the_test_suite.adoc[Launching the Test Suite]
+* link:5-executing_and_controlling_the_execution_of_test_su.adoc[Executing and Controlling the Execution of Test Suites]
+* link:6-other_available_functions.adoc[Other Available Functions]
+* link:7-references.adoc[References]
+endif::[]
+
+ifndef::env-github,backend-html5[]
+include::1-introduction.adoc[]
+include::2-getting_started.adoc[]
+include::3-setting_workbench_preferences_and_project_properti.adoc[]
+include::4-launching_the_test_suite.adoc[]
+include::5-executing_and_controlling_the_execution_of_test_su.adoc[]
+include::6-other_available_functions.adoc[]
+include::7-references.adoc[]
+endif::[]

@@ -1,0 +1,62 @@
+= Introduction
+:toc:
+:figure-number: 0
+
+== Overview
+
+This document describes the general workflow and use of the TITAN Designer for the Eclipse IDE plug-in.
+
+The TITAN Designer plug-in provides support for:
+
+* creating and managing projects;
+
+* creating and working with source files;
+
+* building executable code;
+
+* automatic analysis of the build results;
+
+* remote build.
+
+== Target Groups
+
+This document is intended for system administrators and users who intend to use the TITAN Designer plug-in for the Eclipse IDE.
+
+== Typographical Conventions
+
+This document uses the following typographical conventions:
+
+* *Bold* is used to represent graphical user interface (GUI) components such as buttons, menus, menu items, dialog box options, fields and keywords, as well as menu commands. Bold is also used with ’+’ to represent key combinations. For example, *Ctrl+Click*
+
+* The "/" character is used to denote a menu and sub-menu sequence. For example, *File / Open*.
+
+* `Monospaced` font is used represent system elements such as command and parameter names, program names, path names, URLs, directory names and code examples.
+
+* `*Bold monospaced font*` is used for commands that must be entered at the Command Line Interface (CLI), For example, `*mctr_gui*`
+
+== Installation
+
+For details on installing the TITAN Designer for the Eclipse IDE plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE.
+
+== Reporting Errors
+
+The following information should be included into trouble reports:
+
+* Short description of the problem.
+
+* What seems to have caused it, or how it can be reproduced.
+
+* If the problem is graphical in some way (displaying something wrong), screenshots should also be included.
+
+* If the problem generates some output to:
+
+* TITAN Console
+
+* TITAN Debug Console
+
+* If the Error view contains some related information, that should be copied too.
+
+Before reporting a trouble, try to identify if the trouble really belongs to the TITAN Designer for the Eclipse IDE plug-in. It might be caused by other third party plug-ins, or by Eclipse itself.
+
+Reporting the contents of the Consoles and the Error log is important as TITAN consoles display the commands executed and their results and the Error log may contain stack traces for some errors. To identify relevant log entries the easiest way is to search for classes whose name starts with "org.eclipse.titan". The location on which the Error Log view can be opened can change with Eclipse versions, but it is usually found at *Window / Show View / Other… / PDE Runtime / Error Log* or *Window / Show View / Other… / General / Error Log*.
+

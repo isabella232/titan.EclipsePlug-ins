@@ -1,0 +1,65 @@
+---
+Author: Jenő Balaskó
+Version: 4/198 17-CRL 113 200/6, Rev. PE1
+Date: 2018-06-19
+
+---
+= User Guide for the TITAN Designer for the Eclipse IDE
+:author: Jenő Balaskó
+:revnumber: 4/198 17-CRL 113 200/6, Rev. PE1
+:revdate: 2018-06-19
+:title-logo-image: images/titan_logo.png
+:toc:
+
+ifdef::env-github,backend-html5[]
+image::images/titan_logo.png[alt]
+endif::[]
+
+== Abstract
+
+This document describes detailed information of using the TITAN Designer for the Eclipse IDE plug-in.
+
+== Copyright
+
+Copyright (c) 2000-2018 Ericsson Telecom AB. +
+All rights reserved. This program and the accompanying materialsare made available under the terms of the Eclipse Public License v2.0which accompanies this distribution, and is available at
+
+https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
+
+== Disclaimer
+
+The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
+
+== Contents
+
+ifdef::env-github,backend-html5[]
+* link:1-introduction.adoc[Introduction]
+* link:2-getting_started.adoc[Getting started]
+* link:3-setting_workbench_preferences.adoc[Setting Workbench Preferences]
+* link:4-managing_projects.adoc[Managing Projects]
+* link:5-converting_existing_projects.adoc[Converting Existing Projects]
+* link:6-building_the_project.adoc[Building the Project]
+* link:7-editing_with_titan_designer_plugin.adoc[Editing with TITAN Designer Plugin]
+* link:8-contents_of_the_problems_view.adoc[Contents of the Problems View]
+* link:9-contents_of_the_tasks_view.adoc[Contents of the Tasks View]
+* link:10-contents_of_the_outline_view.adoc[Contents of the Outline View]
+* link:11-extensions_to_the_project_explorer.adoc[Extensions to the Project Explorer]
+* link:12-references.adoc[References]
+* link:13-abbreviations.adoc[Abbreviations]
+endif::[]
+
+ifndef::env-github,backend-html5[]
+include::1-introduction.adoc[]
+include::2-getting_started.adoc[]
+include::3-setting_workbench_preferences.adoc[]
+include::4-managing_projects.adoc[]
+include::5-converting_existing_projects.adoc[]
+include::6-building_the_project.adoc[]
+include::7-editing_with_titan_designer_plugin.adoc[]
+include::8-contents_of_the_problems_view.adoc[]
+include::9-contents_of_the_tasks_view.adoc[]
+include::10-contents_of_the_outline_view.adoc[]
+include::11-extensions_to_the_project_explorer.adoc[]
+include::12-references.adoc[]
+include::13-abbreviations.adoc[]
+endif::[]
