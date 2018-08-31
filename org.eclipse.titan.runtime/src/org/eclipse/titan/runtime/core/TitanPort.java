@@ -358,7 +358,22 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			clear_queue();
 
 			// deactivate all event handlers
-			//FIXME implement
+			// TODO extract
+			final ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
+			for (final Map.Entry<SelectableChannel, Channel_Event_Handler> entry: TTCN_Snapshot.channelMap.get().entrySet()) {
+				if (entry.getValue() == this) {
+					tobeRemoved.add(entry.getKey());
+				}
+			}
+
+			for (final SelectableChannel channel : tobeRemoved) {
+				try {
+				channel.close();
+				} catch (IOException e) {
+					// empty
+				}
+				TTCN_Snapshot.channelMap.get().remove(channel);
+			}
 			TTCN_Snapshot.set_timer(this, 0.0, true, true, true);
 			remove_from_list(system);
 			is_active = false;
@@ -930,6 +945,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	protected void Uninstall_Handler() throws IOException {
+		// TODO extract
 		final ArrayList<SelectableChannel> tobeRemoved = new ArrayList<SelectableChannel>();
 		for (final Map.Entry<SelectableChannel, Channel_Event_Handler> entry: TTCN_Snapshot.channelMap.get().entrySet()) {
 			if (entry.getValue() == this) {
