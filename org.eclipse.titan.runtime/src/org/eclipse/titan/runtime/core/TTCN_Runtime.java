@@ -397,10 +397,14 @@ public final class TTCN_Runtime {
 
 	//originally TTCN_Runtime::initialize_component_type
 	private static void initialize_component_type() {
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.init__component__start, component_type_module.get(), component_type_name.get(), 0, null, TTCN_Runtime.get_testcase_name(), 0, 0);
+
 		Module_List.initialize_component(component_type_module.get(), component_type_name.get(), true);
 
 		//FIXME port set parameters
 		TitanPort.all_start();
+
+		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.init__component__finish, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
 
 		localVerdict.set(VerdictTypeEnum.NONE);
 		verdictReason.set("");
