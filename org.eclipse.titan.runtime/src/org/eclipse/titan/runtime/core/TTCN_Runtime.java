@@ -401,7 +401,7 @@ public final class TTCN_Runtime {
 
 		Module_List.initialize_component(component_type_module.get(), component_type_name.get(), true);
 
-		//FIXME port set parameters
+		TitanPort.set_parameters(TitanComponent.self.get().getComponent(), component_name.get());
 		TitanPort.all_start();
 
 		TTCN_Logger.log_par_ptc(ParallelPTC_reason.enum_type.init__component__finish, component_type_module.get(), component_type_name.get(), 0, null, null, 0, 0);
