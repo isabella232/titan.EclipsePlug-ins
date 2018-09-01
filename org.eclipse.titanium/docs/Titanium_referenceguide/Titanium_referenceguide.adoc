@@ -9,7 +9,9 @@ Date: 2018-06-19
 :revnumber: 9/198 17-CRL 113 200/6, Rev. PE1
 :revdate: 2018-06-19
 :title-logo-image: images/titan_logo.png
+:sectnums:
 :doctype: book
+:leveloffset: +1
 :toc:
 :toclevels: 3
 
@@ -31,19 +33,18 @@ https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson should have no liability for any error or damage of any kind resulting from the use of this document.
 
-:sectnums:
 
-== About the Document
+= About the Document
 
-=== Purpose
+== Purpose
 
 The purpose of this document is to provide detailed information on writing components, for example, test ports, and so on, for executable test suites.
 
-=== Target Groups
+== Target Groups
 
 This document is intended for programmers of TTCN–3 test suites with information in addition to that provided in the TITAN User Guide <<_3, [3]>>. It is recommended that the programmer reads the TITAN User Guide before reading this document.
 
-=== Typographical Conventions
+== Typographical Conventions
 
 This document uses the following typographical conventions:
 
@@ -55,13 +56,13 @@ The character "**/**"" is used to denote a menu and sub-menu sequence. For examp
 
 `*Bold monospaced*` font is used for commands that must be entered at the Command Line Interface (CLI).
 
-== Adding a new Code Smell
+= Adding a new Code Smell
 
 This chapter guides you through the world of Code Smells. It contains a tutorial like description on how to add a new Code Smell, which are the important things you have to pay attention to, and why. A concrete example is provided to help understanding the concepts and usage.
 
-=== Adding the new Code Smell class
+== Adding the new Code Smell class
 
-==== The location of the new Code Smell class
+=== The location of the new Code Smell class
 
 The new code smell-s class is actually a code smell spotter implementation. That is why you have to add the new class in the
 
@@ -71,7 +72,7 @@ The name of the class has to refer to the role of the code smell.
 
 _In this description we study about Code Smells using a concrete code smell, which is implemented in the class named Goto.java._
 
-==== The description of the new Code Smell class
+=== The description of the new Code Smell class
 
 Do not forget to add a description about the role of your new code smell. This should contain your id as author.
 
@@ -87,7 +88,7 @@ _In the Goto example code smell a description could be:_
 */
 ....
 
-==== The superclass of the new Code Smell class
+=== The superclass of the new Code Smell class
 
 The new Code Smell has to extend the class BaseModuleCodeSmellSpotter. This class is an abstract class in the *package* org.eclipse.titanium.markers.spotters .
 
@@ -96,7 +97,7 @@ _Example:_
 [source]
 public class Goto extends BaseModuleCodeSmellSpotter { ... }
 
-==== The code of the new Code Smell class
+=== The code of the new Code Smell class
 
 * It is recommended for your code smell class to have as private attribute named `ERROR_MESSAGE`, this containing the message which should appear to the user of the Code Smell, when the Code Smell is detected.
 +
@@ -144,10 +145,10 @@ public void process(IVisitableNode node, Problems problems) {
 }
 ----
 
-=== Register the new Code Smell
+== Register the new Code Smell
 
 [[register-the-new-code-smell-type]]
-=== Register the new Code Smell Type
+== Register the new Code Smell Type
 
 The _CodeSmellType_ enum in *_package_* _org.eclipse.titanium.markers.types_ contains all the Code Smell Types as instances. We have to add the new Code Smell, using the _<Code_Smell_Id>_ which we have chosen in the constructor of our code smell’s class.We have to add a short description of the problem detected by our code smell, and we must specify three numeric parameters as well:
 . the minimum time needed to improve the detected code smell
@@ -166,7 +167,7 @@ public enum CodeSmellType implements ProblemType{
 }
 ----
 
-==== Add the new Code Smell to semantic problem related map
+=== Add the new Code Smell to semantic problem related map
 
 The class StaticData has the newSpotters() method which returns an unmodifiable map. This map contains the code smell spotters,that are related to each semantic problem. The map’s key is the relevant instance of the CodeSmellType, the value is new instance of the code smell class.
 
@@ -188,7 +189,7 @@ return Collections.unmodifiableMap(m);
 }
 ----
 
-==== Register the new Problem Type Preference
+=== Register the new Problem Type Preference
 
 The ProblemTypePreference contains an item related to each Code Smell. This enum is going to serve in the process of setting the preferences of a Code Smell. It also contains a short description about the effect of the related Code Smell. This description going to appear when the user browses in the Titanium Preferences / Code Smell window. Try to be short and very clear.
 
@@ -207,7 +208,7 @@ GOTO("Report the usage of label and goto statements", EnumSet.of(CodeSmellType.G
 }
 ----
 
-==== Initialize the preference of the Code Smell
+=== Initialize the preference of the Code Smell
 
 All Code Smells have a default preference. This must be given in the class PreferenceInitializer.
 
@@ -228,7 +229,7 @@ class PreferenceInitializer
 }
 ----
 
-==== Refresh Markers Preference Page
+=== Refresh Markers Preference Page
 
 The class MarkersPreferencePage is the place where users can set the severity of each code smell. This page also contains the explanation on the program code containing the specific Code Smell, could be written more clearly, correct, why is it important to pay attention on it. This explanation appears to the user in the Titanium Preferences / Code Smell window, when the mouse is set above the short description of the code smell.
 
@@ -278,7 +279,7 @@ addField(b1);
 }
 ----
 
-===== Using parameters
+==== Using parameters
 
 It is also possible to ask for parameters from the user on this page. In which case the parameter must also be a preference setting, and have a place on the preference window, preferably next to its main option. Please don’t forget to provide a default value for each parameter, so that the code smell can work out of the box if needed.
 
@@ -313,7 +314,7 @@ class PreferenceConstants
 public static final String IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE = "IDENTIFIER_EXCESSIVELY_SHORT_TEMPLATE_SIZE";
 ----
 
-=== Refresh Titanium documentation
+== Refresh Titanium documentation
 
 The last, important step is to refresh the documentation. In the chapter Titanium Preferences / Code Smell Preferences are presented several Code Smell categories. Search for the category your Code Smell belongs in the Titanium Preferences/Code Smell window, use the short description of the code smell from the Preferences/Code Smell window l to introduce the new description.
 
@@ -325,9 +326,9 @@ Titanium Preferences / Code Smell Preferences / Potential structural problems
 
 * *Report the usage of label and goto statements*: goto statements and labels usually indicate incorrect programing practices. Developers are encouraged to used elements of structured programming practices.
 
-== Titanium metrics
+= Titanium metrics
 
-=== Overview
+== Overview
 
 One of the core features of Titanium is the code metrics for ttcn3 projects. Code metrics (like block nesting of a test case, or cyclomatic complexity of a function) are indicators of code quality, that can tell the user about which are the complex modules of a project, and may serve as a lead in refactoring by showing overly complicated, bloated parts of the project.
 
@@ -337,41 +338,41 @@ The code of the implementation resides in the `com.ericsson.titanium.markers` an
 
 image::images/2_F2.png[title="Associations of notable classes related to the metrics package"]
 
-=== Metrics
+== Metrics
 
 Metrics are similar to the code smell spotters in the `marker` package. Their purpose is to measure a ttcn3 entity (e.g. count the length of a function definition). They can contain local state (to ensure flexibility), but after initialization this state should not be changed, so their measure method is intended to serve a stateless behavior.
 
-=== MetricData
+== MetricData
 
 This is the core class of the package that controls the execution of the metrics, stores the results of them, calculates its statistics and risk factors. It is immutable, in fact a snapshot of the project’s state and quality at the time of creating the `MetricData` object. As a result, it is quite a heavyweight object, which should be created sparingly and cached when possible.
 
 Note that constructing an instance requires locking the project to prevent modifications during the measurements. This locking is handled internally.
 
-=== ModuleMetricWrapper
+== ModuleMetricWrapper
 
 During development it was an important aspect to ensure an easy-to-use interface for the graph package, and also that the graph package and the `MetricData` class is not tightly coupled. The `ModuleMetricWrapper` class is the façade that solves this.
 
-=== MetricsView
+== MetricsView
 
 This view gives the user an overview of the project from the point of view of the metrics. The project is explorable via a tree view, where the user can see all the metrics, and under those nodes the entities related to these metrics, and also the detailed results of the metrics.
 
 The view uses a `MetricData` instance as its data source, constructed when the view is opened.
 
-=== TopRiskView
+== TopRiskView
 
 This view is designed to show the users the modules that are potentially dangerous according to the metrics, that is, that have bad quality index for the metrics. When using this view, the user can select which metrics to count in the quality index, and than we list the modules of the project ordered by this quality index (along with the details of the metrics).
 
 As here we are interested only in the modules, this class is not in direct association with a `MetricData` instance, but rather uses a `ModuleMetricWrapper` to show the metric details.
 
-=== Interaction with the titan designer
+== Interaction with the titan designer
 
 This module has a single point where the designer is directly touched. The `MetricData` instance must access to the AST of the project, so it can execute the metrics on the entities that should be measured. This happens in the `measure()` method of the `MetricData`, where the module nodes are queried from the `ProjectSourceParser` associated with the project that we measure.
 
 On the other hand, the metrics themselves rely on the methods of the AST nodes, and AST traversal, so this should be also considered as part of the interface.
 
-== Graph generation and display
+= Graph generation and display
 
-=== The generation of graphs on the UI
+== The generation of graphs on the UI
 
 The graph generation can be basically divided into two parts:
 
@@ -403,7 +404,7 @@ Finally the visualized graph is added to the *`DrawArea`*, and *`SatelliteView`*
 
 image::images/2_F3.png[title="The 5 steps of graph drawing"]
 
-=== The generation of graph on the headless interface
+== The generation of graph on the headless interface
 
 Compared to the UI graph building headless building is simplier. *`SaveModuleGraph`* or *`SaveComponentGraph`* launches the generation**.** The called application looks for all projects in your workspace, and generates a graph for each TTCN project.
 
@@ -413,7 +414,7 @@ After this the application calls the *`SaveGraphToPajek`* method of *`GraphHandl
 
 image::images/2_F4.png[title="Generating graph on headless interface"]
 
-=== How graph data is obtained?
+== How graph data is obtained?
 
 In this section we are going to speak about the connection among Titanium, and TITAN designer. As the graphs always represent the current state of the TTCN code naturally this connection is unavoidable. Just like in the former sections we are going to discuss two cases, which are now quite different:
 
@@ -422,7 +423,7 @@ In this section we are going to speak about the connection among Titanium, and T
 
 Both generations are implemented in the *`GraphGenerator`* classes, more precisely at the *`createGraph()`* method.
 
-==== Obtaining data for module graph
+=== Obtaining data for module graph
 
 Module graph data can be obtained a bit easier. The following steps are done in the appropriate method:
 
@@ -433,7 +434,7 @@ Module graph data can be obtained a bit easier. The following steps are done in 
 . Getting a *`ProjectStructureDataCollector`* object through *`GlobalProjectStructureTracker`* object for the current project
 . Get *`knownModules`*, *`missingModules`* and importations from the collector. From these values the graph can be directly generated
 
-==== Obtaining data for component graph
+=== Obtaining data for component graph
 
 For component graph we need to use a bit more complicated interface. Up to step 4 we do the same as at generating module graph. After this we do the following steps:
 
@@ -446,13 +447,13 @@ For component graph we need to use a bit more complicated interface. Up to step 
 . We override there the *`accept()`* method again, and we work with *`Reference`* objects only (otherwise we return)
 . Build up a new node through the *`Reference`*’s *`Identifier`*, and add an edge from the first node to the second one.
 
-== Graph clustering
+= Graph clustering
 
-=== Algorithms
+== Algorithms
 
 The classes of the implemented algorithms are all subclasses of *`BaseCluster`*. The algorithms are the following:
 
-==== Clustering by folder name
+=== Clustering by folder name
 
 This algorithm is implemented in the *`FolderNameCluster`* class.
 
@@ -462,7 +463,7 @@ If the currently checked resource is a directory, we create a cluster and contin
 
 If the currently checked resource is a file, we extract the contained module and assign it to the appropriate cluster.
 
-==== Clustering using regular expressions
+=== Clustering using regular expressions
 
 This algorithm is implemented in the *`RegexpCluster`* class.
 
@@ -476,7 +477,7 @@ If one match was found, we assign the node to the cluster belonging to the match
 
 If more than one match was found, we display them, and the clustering fails.
 
-==== Clustering by module name
+=== Clustering by module name
 
 This algorithm is implemented in the *`ModuleNameCluster`* class.
 
@@ -484,7 +485,7 @@ First, we create the clusters by iterating through the nodes and splitting the m
 
 Then we iterate through the nodes again and choose the narrowest cluster the module belongs to, because we want the nodes to belong to only one cluster.
 
-==== Automatic clustering
+=== Automatic clustering
 
 This algorithm is implemented in the *`AutomaticCluster`* class.
 
@@ -492,7 +493,7 @@ This clustering uses a similar algorithm to the one in the article here: http://
 
 The changes are documented in the javadoc of the class.
 
-=== Running the algorithms
+== Running the algorithms
 
 Running the algorithm is simple. We create the appropriate clustering object and call its *`run(monitor, group)`* method.
 
@@ -502,15 +503,15 @@ If we want to display the results, we simply override the *`drawGraph()`* method
 
 It is possible to circumvent the *`run`* method and create and obtain the clustering using the public interface (for more information consult the javadoc), but using the above method is much simpler.
 
-=== Connection with TITAN designer
+== Connection with TITAN designer
 
 Only folder name based clustering uses TITAN directly. This algorithm uses a *`ProjectSourceParser`* object to obtain module paths, thus it can create a directory hierarchy.
 
-== Titanium DAG layout algorithm
+= Titanium DAG layout algorithm
 
 The layout algorithm, which creates a tree-like layout for directed acyclic graphs in the *`jung`* graph library, was inefficient and could not handle cycles in the graph, so we created our own.
 
-=== Basic idea
+== Basic idea
 
 Since strongly connected components (cycles in this case) are not common in a module or component graph, it makes sense to search for nodes that are not in a cycle.
 
@@ -518,21 +519,21 @@ So we begin by creating a topologic ordering of the nodes by choosing the node t
 
 If the next node (ordered by in-degree) does not have 0 in-arcs, then it is in a cycle. We find this cycle using DFS.
 
-=== Versions
+== Versions
 
 There are two versions. Basically the topologic order can be created by finding sources (no in-arcs) or by finding sinks (no out-arcs). These are implemented in the *`TitaniumDAGLayoutAlgorithm`* and *`TitaniumDAGLayoutReverseAlgorithm`* classes respectively.
 
 The obtained order of the nodes and the level at which they will be drawn differ. If we search for sinks, modules that are not importing other modules come first. If we search for sources, modules that are not imported come first.
 
-=== Display
+== Display
 
 The display is done through *`TitaniumDAGLayout`* class. It implements the *`Layout`* interface of Jung. After this everything works the same way as any other Jung layout.
 
-== Searching for parallel paths and cycles
+= Searching for parallel paths and cycles
 
 The module and component graphs of a project should be trees. A tree does not contain cycles and parallel paths.
 
-=== Finding parallel paths
+== Finding parallel paths
 
 The tool implemented in *`CheckParallelPaths`* finds the arcs that are contained in parallel paths from a given source node or from every node.
 
@@ -540,17 +541,17 @@ We use a modified DFS algorithm. If we find an already checked node, then we hav
 
 This method does not find every parallel path, but every arc contained in a parallel path will be in the set.
 
-=== Finding circles
+== Finding circles
 
 *`CircleCheck`* class implements a circle searching algorithm for graphs. It can be instanced by providing a Jung graph. After this *`IsCyclic`* method returns whether the graph contained any circle. And *`getCircles`* method returns all the found circles.
 
 Note that this class may not find all circles, however it finds if there is any circle for sure. Finding all circles is quite a difficult exercise, as circles may even overlap, which causes difficulties.
 
-== Code smell table merging
+= Code smell table merging
 
 For the project analysis we export code smells to an excel table. This table will only contain the current code smells. We would like to examine how the figures changed in time.
 
-=== Algorithm
+== Algorithm
 
 The merging algorithm is implemented in *`MergeExportedMarkerTables`*.
 
@@ -558,11 +559,11 @@ First we collect the dates and code smell names contained in the different files
 
 Then we iterate through the found dates in ascending order and write the appropriate information to a new excel table.
 
-=== Limitation
+== Limitation
 
 The *`.xls`* format used by the *`jxl`* library only supports 255 columns in a table.
 
-== References
+= References
 
 [[_1]]
 * [1] link:https://github.com/eclipse/titan.core/blob/master/usrguide/installationguide.adoc[Installation guide for TITAN TTCN-3 Test Executor]

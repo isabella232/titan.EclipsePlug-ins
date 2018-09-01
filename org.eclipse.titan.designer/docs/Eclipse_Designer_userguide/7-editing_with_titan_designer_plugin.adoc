@@ -1,10 +1,10 @@
-== Editing with TITAN Designer Plugin
+= Editing with TITAN Designer Plugin
 :toc:
 :figure-number: 92
 
 This chapter presents the editors provided by TITAN Designer plug-in and their features.
 
-=== File Types
+== File Types
 
 The TITAN Designer plugin includes editors for the following file types supported by the TITAN executor (the default extensions are given in brackets):
 
@@ -22,13 +22,13 @@ Additional file extensions can be associated to these editors by selecting the E
 
 NOTE: The editors may throw an exception if a file is deleted while being edited.
 
-=== Syntax Highlighting
+== Syntax Highlighting
 
 Each of the included editors has its own syntax highlighting schema that can be customized by modifying the workbench preferences (see <<3-setting_workbench_preferences.adoc#syntax-coloring-preferences, here>>)
 
 image::images/7_F85.png[title="Syntax coloring of TTCN-3 files"]
 
-=== Matching Brackets
+== Matching Brackets
 
 Bracket matching in source code provides structural information to the user. The functionality is activated by placing the mouse cursor after an opening or closing bracket. Figure 85 shows the closing bracket in line 51 highlighted with black color.
 
@@ -36,7 +36,7 @@ image::images/7_F86.png[title="Matching brackets highlight in TTCN-3 files"]
 
 The function can be customized on the workbench preferences; see <<3-setting_workbench_preferences.adoc#matching-brackets-highlighting-preferences, here>>.
 
-=== Folding
+== Folding
 
 Folding is another mechanism to provide structural information to the user. Folding decreases the amount of information displayed on screen, thus, users only sees that part of the code they are working with. Text regions can be folded and un-folded with a single click on the folding marker on the left-side ruler.
 
@@ -57,7 +57,7 @@ image::images/7_F89.png[title="Template folded"]
 The function can be customized by modifying the Folding preferences on the workbench (see <<3-setting_workbench_preferences.adoc#excluded-resources, here>>).
 
 [[on-the-fly-parsing]]
-=== On-the-fly Parsing
+== On-the-fly Parsing
 
 On-the-fly parsing means that the text is automatically parsed and checked as it is changing.
 
@@ -88,7 +88,7 @@ Parsing of files can be slow in the following cases:
 
 The on-the-fly parser is able to parse ASN.1, TTCN-3 and runtime configuration files.
 
-==== Preprocessing of ttcnpp and ttcnin Files
+=== Preprocessing of ttcnpp and ttcnin Files
 
 In Titan it is supported to use the C pre-processor for creating TTCN-3 files. For this 2 file extensions are defined: the files with ttcnpp extension are to be preprocessed into TTCN-3 modules, while the ones with ttcnin extension hold code snippets that can be included into ttcnpp and ttcnin files. For detailed information please see the TITAN Programmer's Guide.
 
@@ -162,7 +162,7 @@ To define macros outside of files the Eclipse TITAN plug-in uses the settings gi
 
 NOTE: ttcnpp files are not analyzed incrementally even if incremental analysis is switched on.
 
-==== Limitations
+=== Limitations
 
 The on-the-fly parser does not support the single line comment in ASN.1 files when placed right after non-comment elements. A simple workaround for this problem is to insert a SPACE character between the last non-comment character and the "`â€”`" sign.
 
@@ -175,12 +175,12 @@ In case of file inclusion, the locations of error and warning markers may be inv
 Character constants cannot be used in conditional expressions
 
 [[on-the-fly-semantic-checking]]
-=== On-the-fly Semantic Checking
+== On-the-fly Semantic Checking
 
 On-the-fly semantic checking is done after the on-the-fly parser has finished parsing. The level and complexity of this check is on the same level with the command line compiler, but is done much faster.
 
 [[limitations-0]]
-==== Limitations
+=== Limitations
 
 The following structures are not yet analyzed, and as such not all error cases related to them will be detected:
 
@@ -190,7 +190,7 @@ The following structures are not yet analyzed, and as such not all error cases r
 
 * In ASN.1 table constraints, any type values (open type notation) are not checked.
 
-=== Content Assistance
+== Content Assistance
 
 Content assistance is a feature providing context-sensitive content completion upon user request for source files.
 
@@ -198,13 +198,13 @@ The content assistant can be activated either by a key combination (which by def
 
 When an element is selected in the list of the proposed elements, a pop-up window containing a short description may appear.
 
-==== Assistance with Keywords
+=== Assistance with Keywords
 
 Editors support a basic level of content assistance, namely the listing of the appropriate keywords (Figure 89).
 
 image::images/7_F90.png[title="Content assistant"]
 
-==== Assistance with Code Skeletons
+=== Assistance with Code Skeletons
 
 The intermediate level of assistance inserts structural elements into the source code (Figure 90). Inserting skeletons is only supported for TTCN-3, TTCNPP, TTCNIN and ASN.1 files.
 
@@ -214,7 +214,7 @@ Static and dynamic skeletons are both marked with a unique icon.
 
 A short description of them is provided after the name of the skeleton if a skeleton has several slightly different versions. A popup window shows the text about to be inserted.
 
-===== Using the Inserted Skeleton
+==== Using the Inserted Skeleton
 
 The insertions may contain linked editing points (Figure 91).
 
@@ -228,7 +228,7 @@ Hints for using the inserted skeleton:
 
 * To leave this insertion mode and validate the insertion, press the *ESC* key.
 
-==== Assistance with Dynamic Elements
+=== Assistance with Dynamic Elements
 
 The highest level of content assistance is available for TTCN-3 and ASN.1 files. It is providing scope and type structure information that has been parsed and collected by the on-the-fly parser. The calculation of the proposals is done this way:
 
@@ -243,13 +243,13 @@ The proposals are ordered in the following way (definitions donâ€™t hide ea
 . Skeletons available in the given scope. The skeletons are ordered alphabetically.
 . Keywords available. The keywords are ordered alphabetically.
 
-==== Content Assistance Limitations
+=== Content Assistance Limitations
 
 Full context sensitivity is not possible yet. Only the scopes and the type structures are used to filter the list of proposals. For this reason, the content assistant might offer completion proposals, which are possible in the actual scope but not in the actual context. It is the userâ€™s task to choose the right proposal.
 
 Only data gathered and stored by the on-the-fly parsers can be offered. If this data is outdated or not complete, the content assistance will also offer outdated or limited information. Section 3.1 explains how this can happen.
 
-=== Find Declaration
+== Find Declaration
 
 Open Declaration provides a feature to jump to the declaration point of the selected element.
 
@@ -277,7 +277,7 @@ Open configuration files listed in the include section. If the selected configur
 Find module parameter declarations. If the module parameter is given as a module specific module parameter (e.g.Â `module.parameter`) only the given module is searched through for the declaration. Otherwise (e.g. `.parameter` or `parameter`) all modules of the project are taken into account. Duplicate module parameter declarations and errors are reported in the same way as for macro definitions.
 
 [[find-references]]
-=== Find References
+== Find References
 
 "Find references" provides a feature to search for all elements that refer the selected TTCN-3 or ASN.1 element. The user can select TTCN-3 definitions of types, constants, variables, templates, variable templates, functions, testcases, altsteps, components, ports, formal parameters, enumerated values, etc. ASN.1 type and value assignments can be selected in ASN.1 files. In case of structured types (record, set, union, etc.) the individual fields can be selected, in this case all references to that field will be displayed. The source files should be syntactically and semantically correct prior to starting the search, otherwise it cannot be guaranteed that all references to the given element will be found.
 
@@ -305,12 +305,12 @@ Searching for field rec will give 3 hits in the above line, because the referenc
 It is not always guaranteed that all references to the selected element will be found or that an element that should be selectable can be selected, because parsing and semantic analysis of all the source code is not 100% completed in the Eclipse plug-in.
 
 [[mark-occurrences-1]]
-=== Mark Occurrences
+== Mark Occurrences
 
 The TTCN3 and ASN.1 editors are able to highlight the occurrences of the currently selected element in the source code. The search for the occurrences is based on semantic information (see <<find-references, here>>). As the selection or the position of the cursor changes in the editor, the marks are updated automatically. The feature can be configured on the TITAN Preference page (see <<3-setting_workbench_preferences.adoc#mark-occurrences-0, here>>).
 
 [[limitations-1]]
-==== Limitations
+=== Limitations
 
 Occurrences of the following language elements are not highlighted:
 
@@ -327,9 +327,9 @@ in the example below, if the cursor is on the `field1` sub-reference, the occurr
 
 * The occurrences of keywords, predefined functions, primitive data types and literals are not marked.
 
-=== Refactoring
+== Refactoring
 
-==== Rename Refactoring
+=== Rename Refactoring
 
 This feature builds upon the "Find References" feature, it can be invoked the same way and it works on the same language elements. Most of the TTCN-3 and ASN.1 language elements can be renamed using this feature.
 
@@ -344,7 +344,7 @@ image::images/7_F93.png[title="Rename refactoring"]
 A preview of all modifications is available; the preview window shows the original and the refactored source code side by side. The source code will be modified only if the OK button was selected.
 
 [[limitations-2]]
-==== Limitations
+=== Limitations
 
 Refactoring might not be able to operate correctly in the following cases:
 
@@ -354,7 +354,7 @@ Refactoring might not be able to operate correctly in the following cases:
 
 In the above cases the user is warned for possible issues.
 
-=== Editing Configuration Files
+== Editing Configuration Files
 
 Configuration files can be edited in their own editor in a textual format just like any other file; however, the editor also provides graphical pages to ease this process. As it can be seen on Figure 93, these graphical pages can be selected by clicking on the tabs in the bottom of the editing area.
 
@@ -368,7 +368,7 @@ image::images/7_F95.png[title="Syntax error detected"]
 
 The graphical pages are explained in detail in the sections below.
 
-==== Module Parameters Section
+=== Module Parameters Section
 
 On this page (new) values can be assigned to parameters defined in the TTCNâ€“3 modules.
 
@@ -382,7 +382,7 @@ image::images/7_F96.png[title="Module parameters"]
 
 Changes made to the parameters must be saved by the shortcut key *Ctrl+S*.
 
-==== Test Port Parameters Section
+=== Test Port Parameters Section
 
 The values of all parameters on this page are passed to test ports.
 
@@ -396,7 +396,7 @@ image::images/7_F97.png[title="Test port parameters"]
 
 Changes made to the parameters must be saved by the shortcut key *Ctrl + S*.
 
-==== Components, Groups and Main Controller Section
+=== Components, Groups and Main Controller Section
 
 This page contains parameters of three configuration file sections. The parameters make only sense in parallel mode.
 
@@ -404,7 +404,7 @@ image::images/7_F98.png[title="Components, groups and Main Controller"]
 
 Changes made to the parameters must be saved by the shortcut key *Ctrl + S*.
 
-===== Main Controller Options
+==== Main Controller Options
 
 The options herein control the behavior of Main Controller (MC). Clicking the triangle in the title line will collapse the section leaving more room to the tables.
 
@@ -416,7 +416,7 @@ The value *Kill timer* determines how long the MC waits for a busy test componen
 
 The *Use of unix domain socket communication* field can turn on or off the usage of efficient communication between the main controller and other components of the test system. By default it is turned on except on Cygwin because of performance degradation.
 
-===== Components
+==== Components
 
 The aim of the *Components* table is to restrict component execution to certain (group of) hosts. These constraints are useful when distributed tests are executed in a heterogeneous environment. The participating computers may have different hardware setup, computing capacity or operating system.
 
@@ -427,7 +427,7 @@ Highlighted components are removed by the button *Remove*.
 The field *Total* under the buttons shows the number of the restrictions in force.
 
 [[group-section]]
-===== Group Section
+==== Group Section
 
 The aim of the tables *Group* and *Group item* is to specify groups of hosts. These groups are used to restrict creation of certain PTCs to a given set of hosts.
 
@@ -437,7 +437,7 @@ Highlighted group members or entire groups are removed by the button *Remove ite
 
 The field *Total* under the buttons shows the number of the defined groups and group members.
 
-==== Execute and External Commands Sections
+=== Execute and External Commands Sections
 
 This page contains parameters of two configuration file sections.
 
@@ -445,7 +445,7 @@ image::images/7_F99.png[title="Execute and external commands"]
 
 Changes made to the parameters must be saved by the shortcut key *Ctrl + S*.
 
-===== External Commands
+==== External Commands
 
 This section defines external commands (shell scripts) to be executed by the Executable Test Suite whenever a control part or test case is started or terminated. Clicking the triangle in the title line will collapse the section leaving more room to the table. The button *Browse* can be used to locate the shell script.
 
@@ -457,7 +457,7 @@ The field *End control part* contains the path to the shell script executed afte
 
 The field *End testcase* contains the path to the shell script executed after a testcase has been executed.
 
-===== Elements to be Executed
+==== Elements to be Executed
 
 This table points out parts of the test suite to be executed. Only test cases having no parameters can be executed from this section.
 
@@ -467,7 +467,7 @@ Highlighted test cases are removed by the button *Remove*.
 
 The field *Total* under the buttons shows the number of the rows in the table.
 
-==== Include and Define Sections
+=== Include and Define Sections
 
 This page contains parameters of two configuration file sections. Clicking the triangles in the title line will collapse the section leaving more room to the other section.
 
@@ -475,7 +475,7 @@ image::images/7_F100.png[title="Include and define"]
 
 Changes made to the parameters must be saved by the shortcut key *Ctrl + S*.
 
-===== Included Configurations
+==== Included Configurations
 
 This table lists the configuration files to be imported. This way there is no need to merge configuration files when parameter definitions needed are dispersed over several files.
 
@@ -485,7 +485,7 @@ Highlighted files are removed by the button *Remove*.
 
 The field *Total* under the buttons shows the number of the imported files.
 
-===== Definitions
+==== Definitions
 
 This table contains macro definitions that can be used in other configuration file sections.
 
@@ -495,14 +495,14 @@ Highlighted macros are removed by the button *Remove*.
 
 The field *Total* under the buttons shows the number of the defined macros.
 
-==== Logging Section
+=== Logging Section
 
 The executable test program produces a log file during its run. The log file contains important test execution events with time stamps. Logging may be directed to file or displayed on console (standard error). This section explains how to set the parameters connected to the log file.
 
 image::images/7_F101.jpg[title="Figure Logging"]
 
 
-===== Components and Plug-ins
+==== Components and Plug-ins
 
 In the components and plug-ins section a tree of components and plug-ins can be created and managed.
 
@@ -513,7 +513,7 @@ Both component and plug-in names must be valid identifiers. The only exception i
 Any component or plug-in can be deleted using the _Remove selected_ button.
 
 [[logging-options-for-the-selected-component-plug-in]]
-===== Logging Options for the Selected Component/Plug-in
+==== Logging Options for the Selected Component/Plug-in
 
 *LogFile*: the name of the log file between quotation marks. The string value entered may contain metacharacters that are substituted dynamically during test execution. The available metacharacters are listed in the section `LogFile` of <<12-references.adoc#_4, [4]>>.
 
@@ -553,7 +553,7 @@ Any component or plug-in can be deleted using the _Remove selected_ button.
 
 *Console Log Bitmask* and *File Log Bitmask* determine what sort of events will be logged to the console respectively to the log file. Tables 11 to 22 of <<12-references.adoc#_4, [4]>> explain the meaning of the different logging classes.
 
-==== Limitations on the Graphical Pages
+=== Limitations on the Graphical Pages
 
 The entered parameter values are not verified: any character string can be entered in any field.
 

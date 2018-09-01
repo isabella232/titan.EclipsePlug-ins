@@ -1,6 +1,6 @@
-== Getting Started
+= Getting Started
 
-=== The TITAN Executing Perspective
+== The TITAN Executing Perspective
 
 [[Figure-1]]
 image::images/2_Figure1.png[title="TITAN Executing perspective"]

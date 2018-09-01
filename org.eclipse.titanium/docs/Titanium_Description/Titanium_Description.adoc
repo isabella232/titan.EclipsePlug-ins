@@ -9,7 +9,9 @@ Date: 2018-06-19
 :revnumber: 1551-CRL 113 200/6, Rev. PE1
 :revdate: 2018-06-19
 :title-logo-image: images/titan_logo.png
+:sectnums:
 :doctype: book
+:leveloffset: +1
 :toc:
 :toclevels: 3
 
@@ -31,17 +33,17 @@ https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
 
-:sectnums:
 
-== Introduction
 
-=== How to read this document
+= Introduction
+
+== How to read this document
 
 This description contains detailed information on using the Titanium tool.
 
 This documentation should be read together with the detailed mathematical explanations and lists found on the projects https://ericsson.sharepoint.com/sites/DUCI_SW_Technology/Titanium/Wikis/Forms/AllPages.aspx[Sharepoint site].
 
-=== Overview of Titanium
+== Overview of Titanium
 
 The Titanium tool is an Eclipse plug-in, built upon the TITAN Designer for the Eclipse IDE Toolset. As it extends the TITAN Designer plug-in, the Designer is required to be installed and be present for the correct operation.
 
@@ -51,7 +53,7 @@ Titanium extends the already existing feature of the Designer with higher level 
 * Measuring and displaying code quality metrics on TTCN-3 source codes;
 * Extracting and displaying an architectural overview of the projects;
 
-=== General workflow
+== General workflow
 
 The workflow of the Titanium tool is extending the DesignerÃ¢â‚¬â„¢s workflow with additional checks and measurement. As such the integration should be seamless.
 
@@ -67,17 +69,17 @@ There are three more notes important to know when working with the tool:
 * When working with code smells, metrics and architectural level tools it is important to concentrate on the "larger picture". Correcting these issues on "face value" might hide away bigger problems. For example we found a case where unused variables with the same name were reported several times in a module. This turned out to indicate, that the function they were contained in were copy pasted, without review.
 
 [[the-titan-implementation-of-ttcn-3]]
-=== The TITAN implementation of TTCNÃ¢â‚¬â€œ3
+== The TITAN implementation of TTCNÃ¢â‚¬â€œ3
 
 The Titanium plug-in is extending the TITAN Designer plug-in, which is an implementation of TTCNÃ¢â‚¬â€œ3 Core Language standard (<<_3, [3]>>), supporting of ASN.1 language (<<_4, [4]>>).
 
 The limitations present in the Designer plug-in also apply here: there are TTCNÃ¢â‚¬â€œ3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN. Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the TITAN ProgrammerÃ¢â‚¬â„¢s Technical Reference <<_2, [2]>>.
 
-=== Intended audience
+== Intended audience
 
 This document is intended for users of the TITAN TTCNÃ¢â‚¬â€œ3 Test Toolset (product number: CRL 113 200/5). In addition to this document, readers analyzing their codes with this tool are advised to read our knowledge base listing the code smells and metrics available.
 
-=== Presumed knowledge
+== Presumed knowledge
 
 This document is intended to be read by users already familiar with the TITAN Designer toolset. For this reason this document includes TITAN related information only when necessary.
 
@@ -90,7 +92,7 @@ This document does not wish to describe elements of Eclipse or Titan, and how to
 There are only a few points in this document where Eclipse related information is separated from toolset related information. This is done so because the plug-in is so deeply integrated into Eclipse that separating the functionalities cannot be done without getting into implementation level of details (which the users are not interested in, and would be probably very confusing for them).
 =====
 
-=== Typographical conventions
+== Typographical conventions
 
 This document uses the following typographical conventions:
 
@@ -100,11 +102,11 @@ The slash (`/`) character is used to denote a menu and sub-menu sequence. For ex
 
 `Monospaced` font is used to represent system elements such as command and parameter names, program and path names, URLs, directory names and code examples.
 
-=== Installation
+== Installation
 
 For details on installing the Titanium plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE <<_1, [1]>>.
 
-=== How to report an error for the tool
+== How to report an error for the tool
 
 The following information should be included into trouble reports:
 
@@ -118,17 +120,17 @@ Before reporting a trouble, try to identify whether the trouble really relates t
 
 Reporting the contents of the Consoles and the Error log is important as TITAN consoles might display important debug information. The location on which the Error Log view can be opened can change with Eclipse versions, but it is usually found at *Window / Show View / OtherÃ¢â‚¬Â¦ / PDE Runtime / Error Log* or *Window / Show View / OtherÃ¢â‚¬Â¦ / General / Error Log*.
 
-== Getting started
+= Getting started
 
 This section explains how to setup Eclipse and the TITAN Designer to access every feature provided by Titanium.
 
-=== The perspective
+== The perspective
 
 Titanium does not provide its own perspective, since most of its tools are meant to be extensions to whatever perspective the user is already using.
 
 For those who have not yet used the TITAN Designer before, it is recommended to read chapter "The TITAN Editing perspective" of the TITAN DesignerÃ¢â‚¬â„¢s user guide on how to set up a default perspective for working with TTCN-3.
 
-=== Setting workbench preferences
+== Setting workbench preferences
 
 This section gives an overview about the various settings related to the workbench provided by the Titanium plug-in.
 
@@ -140,7 +142,7 @@ image::images/2_F1.png[title="Titan preferences sub-tree"]
 
 This section only concerns the preferences that are available under the TITAN preferences node of this preference tree.
 
-=== TITAN preferences
+== TITAN preferences
 
 image::images/2_F2.png[title="TITAN Preferences"]
 
@@ -150,11 +152,11 @@ Although not required it is recommend to set the *maximum number of build proces
 
 NOTE: In case the license file is not provided, is not valid or has expired an additional link will appear on this page. Clicking on this link a browser will open directing the user to a web page where he can order a new license or can ask for a renewal of his existing one.
 
-== Titanium preferences
+= Titanium preferences
 
 This section introduces the preference pages where one can control the behaviour of the views and other features provided by the Titanium plug-in.
 
-=== Code smell preferences
+== Code smell preferences
 
 image::images/3_F1.png[title="Code smell preferences"]
 
@@ -166,7 +168,7 @@ The reporting level of all code smells is configurable to be *Ignore*, *Warning*
 
 The code smells are categorized in 5 categories based on what kind of issue they are pointing at.
 
-==== Potential structural problems
+=== Potential structural problems
 
 The code smells here might indicate some kind of architectural issue in the code.
 
@@ -191,7 +193,7 @@ NOTE: TITAN does not support these language restrictions.
 
 * *Report visibility settings mentioned in the name of definitions*: Detects the cases when visibility names are mentioned in the name of the definition. If this meant to serve as a protection mechanism against misuse it would be better to use the actual visibility attribute. In that case the compiler would be able to automatically check the correctness of its usage.
 
-==== Code style problems
+=== Code style problems
 
 Code smells in this category indicate some issue in coding style.
 
@@ -200,7 +202,7 @@ Code smells in this category indicate some issue in coding style.
 * *Report if the name of the type is mentioned in the name of the definition*: In repeating the name of the type of a definition in the definitions name is a convenience method, but in some cases this makes the name of definition very large without adding any information.
 * *Report magic constants:* an integer higher than 5 or any string literal.
 
-==== Potential performance problems
+=== Potential performance problems
 
 Code smells in this category might indicate some codes with performance problems.
 
@@ -210,7 +212,7 @@ Code smells in this category might indicate some codes with performance problems
 * *Report consecutive assignments:* Multiple consecutive assignment statements to the same definition are not optimal. They should be merged into one statement. Lower limit can be set for the number of consecutive assignments to be marked as a code smell. Default value is 4.
 * *Report proper usage of @lazy modifier:* In parameters are not always optimal. If an in formal parameter is only evaluated in some special cases declaring it lazy might provide a performance improvement.
 
-==== Potential Programming problems
+=== Potential Programming problems
 
 Code smells in this category indicate issues related to bad or misunderstood architecture. Usually these issues also indicate maintenance problems in the future.
 
@@ -239,7 +241,7 @@ Code smells in this category indicate issues related to bad or misunderstood arc
 * *Report possible iteration on wrong array:* This code smell is marked, when an array that differs from the array used in the final expression of a loop is indexed with the loop variable.
 * *Report reading out parameter before assigning a value to it:* An out parameter of a function might be uninitialized before its first assignment. Reading the parameter before that, can cause problems.
 
-==== Unnecessary code
+=== Unnecessary code
 
 Code smells in this category indicate pieces of the code, which is not used.
 
@@ -248,7 +250,7 @@ Code smells in this category indicate pieces of the code, which is not used.
 * *Report unnecessary controls:* for example a branch of an if statement is unreachable, as the condition is known at compile time.
 * *Report unnecessary "valueof" operation:* value of is applied to a value itself, like "valueof(42)".
 
-==== Repair times of code smells
+=== Repair times of code smells
 
 In this section you may set the repair time values of the signed problems. Normally these values are set according to developers, who gave us estimated repair times.
 
@@ -257,7 +259,7 @@ Repair times are used upon exporting code smells to CSV format. The repair time 
 image::images/3_F2.png[title=""]
 
 [[organize-import-preferences]]
-=== Organize import preferences
+== Organize import preferences
 
 image::images/3_F4.png[title="Organize import preferences"]
 
@@ -270,13 +272,13 @@ This page let you set the behaviour of import organization.
 ** Simple: Removed importations are deleted from the file; added importations are inserted without any comment.
 ** Comment: Removed importations are commented out; added importations have a short comment noting the definition that induced the module to import.
 
-=== Metrics preferences
+== Metrics preferences
 
 image::images/3_F5.png[title="Metrics preferences"]
 
 This page gives a short overview about the following subpages that are related to the metrics.
 
-=== Metric limits preferences
+== Metric limits preferences
 
 image::images/3_F6.png[title="Metric limits"]
 This page provides the possibility of fine-tuning the metric highlight mechanism. Metrics generally work as follows:
@@ -295,14 +297,14 @@ After choosing the method, the values of the limits can be set.
 
 Metrics are separated by the entities they measure.
 
-==== Project metrics
+=== Project metrics
 
 These metrics collect information about the whole project.
 
 * *Number of TTCN3 modules:* counts the number of TTCN3 modules in the project. Default: *Never warn*.
 * *Number of ASN1 modules:* counts the number of ASN1 modules in the project. Default: *Never warn*.
 
-==== Module metrics
+=== Module metrics
 
 These metrics collect information about each module of the project.
 
@@ -318,7 +320,7 @@ These metrics collect information about each module of the project.
 * *Afferent coupling:* counts the number of assignments in the module that are referred by other modules. Default: *Never warn*.
 * *Instability:* Measures the efferent to (efferent plus afferent) coupling ratio. This metric can be used to separate library-like modules (defining types, functions, altsteps used by other modules) and high-level modules (defining test cases, high level behavior of the test). Low values of this metric (near 0.0) indicate a high level module, while high values (near 1.0) indicate that the module is used as a library. Both situations feature a well-structured module. However, when the value of the metric is midway between the two edges (near 0.5); it is a sign of instable module that might be worth separating to two modules. Default: classify to *Low risk* when the value is between 0.3 and 0.7.
 
-==== Function metrics
+=== Function metrics
 
 These metrics collect information about each function.
 
@@ -331,7 +333,7 @@ These metrics collect information about each function.
 * *External feature envy:* counts the number of references in the function body to entities inside the module where the function resides. Default: *Never warn*.
 * *Internal feature envy:* counts the number of references in the function body to entities outside the module where the function resides. Default: *Never warn*.
 
-==== Testcase metrics
+=== Testcase metrics
 
 These metrics collect information about each test case.
 
@@ -342,7 +344,7 @@ These metrics collect information about each test case.
 * *External feature envy:* counts the number of references in the test case body to entities inside the module where the testcase resides. Default: *Never warn*.
 * *Internal feature envy:* counts the number of references in the test case body to entities outside the module where the testcase resides. Default: *Never warn*.
 
-==== Altstep metrics
+=== Altstep metrics
 
 These metrics collect information about each altstep.
 
@@ -354,7 +356,7 @@ These metrics collect information about each altstep.
 * *External feature envy:* counts the number of references in the altstep body to entities inside the module where the altstep resides. Default: *Never warn*.
 * *Internal feature envy:* counts the number of references in the altstep body to entities outside the module where the altstep resides. Default: *Never warn*.
 
-=== Metrics view preferences
+== Metrics view preferences
 
 image::images/3_F7.png[title="Metrics view preferences"]
 
@@ -362,15 +364,15 @@ This page configures the contents of the Metrics View. Only the metrics checked 
 
 By default, all metrics are checked, therefore visible in the Metrics View.
 
-=== Project risk factor preference page
+== Project risk factor preference page
 
 image::images/3_F8.png[title="Project risk factor preference page"]
 
 The project action of exporting the code smells to an excel sheet (see <<project-actions, here>>) classifies the project quality according to a method described in <<_5, [5]>>. The parameters of this algorithm can be fine-tuned here.
 
-=== Graph preferences
+== Graph preferences
 
-==== General graph preferences
+=== General graph preferences
 
 At the *Titanium Preferences/Graph* page (see Figure 9) it is possible to set some parameters that are related to all the graphs. Currently this page provides two settings, as you can see on the figure, these are:
 
@@ -386,7 +388,7 @@ For further information about graph layouts see the chapter 10.
 
 image::images/3_F9.png[title="Graph preference page"]
 
-==== Metrics preferences of module graph
+=== Metrics preferences of module graph
 
 image::images/3_F10.png[title="Module graph metrics preferences"]
 
@@ -394,7 +396,7 @@ This page is similar to the Metrics View preferences, but controls the set of me
 
 By default, all metrics are checked, therefore can be selected in the Module Graph View.
 
-==== Cluster preferences of module graph
+=== Cluster preferences of module graph
 
 image::images/3_F11.png[title="Module graph preferences"]
 
@@ -402,7 +404,7 @@ This page gives a short overview about the available clustering tools. The setti
 
 See <<clustering-menu, here>> for more details about how clustering the module graph works.
 
-===== Preferences of the automatic clustering tool
+==== Preferences of the automatic clustering tool
 
 image::images/3_F12.png[title="Automatic clustering tool preferences"]
 
@@ -420,7 +422,7 @@ The algorithm will not create more clusters than the setting for _maximum number
 
 WARNING: The algorithm takes a long time on larger module graphs. However, progress information is displayed during execution.
 
-===== Clustering by module name preferences
+==== Clustering by module name preferences
 
 image::images/3_F13.png[title="Clustering by module name preferences"]
 
@@ -437,7 +439,7 @@ If _alternating case_ is set, module names will be split if an uppercase charact
 The _number of times to split the names_ setting tells the algorithm how deep the hierarchy should be.
 
 [[clustering-using-regular-expressions-preferences]]
-===== Clustering using regular expressions preferences
+==== Clustering using regular expressions preferences
 
 image::images/3_F14.png[title="Clustering using regular expressions preference page"]
 
@@ -451,7 +453,7 @@ By default, the list of clusters is empty.
 
 NOTE: A module name should only match one regular expression from the list, otherwise the clustering will fail. Module names not matching any of the regular expressions will have a separate cluster.
 
-===== Clustering using module location
+==== Clustering using module location
 
 image::images/3_F15.png[title="Clustering using module location preference page"]
 
@@ -461,7 +463,7 @@ On this page, you can set paths to directories whose name will be omitted from t
 
 Clicking the New or Edit buttons will bring up a dialog window, where you can select the directory.
 
-== Headless mode
+= Headless mode
 
 The Titanium plug-in offers several commands which can be called in headless mode. This way it can be used from command line, and for example integrated into nightly build systems.
 
@@ -469,7 +471,7 @@ In headless mode eclipse plug-ins can offer entry point, called applications, th
 
 NOTE: As in this mode there is no interaction between eclipse and the user, all of the settings should be set beforehand. Otherwise the operation might not be able to work properly, or produce un-expected result.
 
-=== Important settings
+== Important settings
 
 There are two settings that are always important to be set correctly; otherwise the headless mode will not be able to operate correctly:
 
@@ -477,7 +479,7 @@ There are two settings that are always important to be set correctly; otherwise 
 . The "__Display debug information__" setting in the Designer has to be turned off. If that option is turned on, the Designer will try to write debug information to the Titan Debug Console Ã¢â‚¬Â¦ which does not exist in headless mode and the execution aborts.
 . The on-the-fly analysis of code smells must be enabled on the Code smells preference page (3.1), otherwise only the Designer will check the code.
 
-=== The general structure of invocation
+== The general structure of invocation
 
 A generic call to a headless entry point of eclipse follows this pattern:
 
@@ -501,11 +503,11 @@ An example call could be:
 
 Titanium declares the following entry points.
 
-==== Pitfalls
+=== Pitfalls
 
 NOTE: On Linux eclipse should be invoked using the "eclipse" command (without file extension). On Windows we recommend using "eclipse*c*.exe" not "eclipse.exe". The plugins will work with both eclipse versions, but error messages are only printed to the console when using "eclipse*c*.exe". "eclipse.exe" is not able to print to the console it was started from.
 
-=== Clearing all projects from the workspace
+== Clearing all projects from the workspace
 
 The "__org.eclipse.titanium.applications.ClearAllProjects__" entry point deletes all existing projects from the provided workspace. This entry point can be used to initialize the contents of the workspace back to a default state.
 
@@ -517,7 +519,7 @@ The entry point can be invoked as:
 This entry point does not take any parameters.
 
 [[importing-projects-from-prj]]
-=== Importing projects from .prj
+== Importing projects from .prj
 
 The "__org.eclipse.titanium.applications.ImportProjectsFromPrj__" entry point can be used to import projects described in the _mctr_gui_Ã¢â‚¬â„¢s .prj project descriptor into the provided workspace.
 
@@ -529,7 +531,7 @@ The entry point can be invoked as:
 This entry point takes exactly one parameter: the location of the project descriptor file.
 
 [[importing-projects-from-the-tpd]]
-=== Importing projects from the .tpd
+== Importing projects from the .tpd
 
 The "__org.eclipse.titanium.applications.ImportProjectsFromTpd__" entry point can be used to import projects described in the Tpd project descriptor into the provided workspace.
 
@@ -540,7 +542,7 @@ The entry point can be invoked as:
 
 This entry point takes exactly one parameter: the location of the project descriptor file.
 
-=== Exporting the detected code smells into Excel files
+== Exporting the detected code smells into Excel files
 
 The "__org.eclipse.titanium.applications.__ExportAllCodeSmells" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the detected code smells into excel files.
 
@@ -556,7 +558,7 @@ This entry point takes 1 or 2 parameters:
 
 This prefix will be appended with the name of the project, the provided or current date and the ".xls" extension.
 
-==== Exporting the detected code smells of a single project into an Excel file
+=== Exporting the detected code smells of a single project into an Excel file
 
 The "__org.eclipse.titanium.applications.__ExportAllCodeSmellsForProject" entry point can be used to invoke the on-the-fly analyser on a single project in the workspace and extract the detected code smells into a single excel file.
 
@@ -574,7 +576,7 @@ The third parameter is optional and is date to be used in the generated fileÃ¢
 
 This prefix will be appended with the name of the project, the provided or current date and the ".xls" extension.
 
-=== Exporting the detected code smells into CSV files
+== Exporting the detected code smells into CSV files
 
 The "__org.eclipse.titanium.applications.__ExportAllCodeSmellsToCSV" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the detected code smells into CSV files.
 
@@ -587,7 +589,7 @@ This entry point takes exactly one parameter: the prefix of the output path. Thi
 
 The "times" file contains the estimate repair times calculated for the whole project grouped by types.
 
-=== Exporting the measured Metrics data into Excel files
+== Exporting the measured Metrics data into Excel files
 
 The "__org.eclipse.titanium.applications.__ ExportAllMetrics" entry point can be used to invoke the on-the-fly analyser on all projects in the workspace and extract the measured values of Metrics into excel files.
 
@@ -599,7 +601,7 @@ To support un-attended nightly tests, this entry point analyses all projects fou
 This entry point takes exactly one parameter: the prefix of the output path.This prefix will be appended with the name of the project and the ".xls" extension.
 
 [[exporting-the-module-dependency-graph]]
-=== Exporting the module dependency graph
+== Exporting the module dependency graph
 
 There are two ways of exporting the module dependency graph. The two ways only differ in the used file format. The first one is to create a Pajek .net file. The second option is exporting it to a .dot file, which is the original file format of GraphViz and it is easily readable by humans.
 
@@ -627,7 +629,7 @@ The possible values of <algoritm_name> are:
 . `RegularExpression`
 . `ModuleName`
 
-=== Exporting the component dependency graph
+== Exporting the component dependency graph
 
 Similarly to the module graph the component graph also can be exported into two file formats, thus two applications maybe called depending on the desired file format.
 
@@ -642,7 +644,7 @@ The entry points can be invoked as:
 
 These entry points take exactly one parameter: the prefix of the output path. This prefix will be appended with the name of the project and the ".net"/".dot" ending, creating a separate output file for every project.
 
-=== Exporting data for the Titanium SonarQube plugin
+== Exporting data for the Titanium SonarQube plugin
 
 The code quality data can be exported and displayed on a SonarQube server. For more information see Section 12. This entry point can be used by automated tests or continuous integration servers as well to export the data in headless mode.
 
@@ -660,11 +662,11 @@ The following command exports the data of the project "MyProject1" and "MyProjec
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.ExportDataForSonar MyProject1,MyProject2*
 
-== Actions
+= Actions
 
 The Titanium plug-in extends some of the context-sensitive menus of Eclipse where appropriate, providing a convenient way to use the available tools.
 
-=== Editor actions
+== Editor actions
 
 image::images/5_F16.png[title="Editor actions context menu"]
 
@@ -673,7 +675,7 @@ While editing a TTCN3 source file, you can open the context menu by right clicki
 * *Organize imports:* Intelligently adds and removes module importation statements, according the currently referenced definitions in the file. For details cf.Ã‚Â Section 6.
 
 [[project-actions]]
-=== Project actions
+== Project actions
 
 image::images/5_F17.png[title="Project actions context menu"]
 
@@ -686,7 +688,7 @@ To access the Titanium project actions, right click to a Titan project name in t
 * *Draw module structure:* Visualize the module dependencies of the project. <<the-module-dependency-graph, here>>.
 
 [[configuring-the-problems-view]]
-== Configuring the Problems view
+= Configuring the Problems view
 
 The amount of problems reported in the Problems view for some projects can be quite overwhelming for users.
 
@@ -694,7 +696,7 @@ This can be changed, as in eclipse it is possible to configure the contents of t
 
 image::images/6_F18.png[title="Problems view filtered to show only unused local and global definitions"]
 
-=== Configuring by hand
+== Configuring by hand
 
 The first way to configure the contents of the *Problems* view is to use its *View* menu. By right clicking on the *View* menu (the triangle in the right hand side of the toolbar) the menu of the *Problems* view pops up. Here it is possible to check and set which filters are active, set the grouping and sorting of problems, configure the contents and columns of the view.
 
@@ -704,7 +706,7 @@ image::images/6_F19.png[title="Problems view active filters"]
 
 By selecting the *Configure ContentsÃ¢â‚¬Â¦* menu entry, the configuration window appears. In this window it is possible to create/remove/change configuration to best fit any user need.For a more detailed description please refer to the help system of eclipse, using the *Workbench User Guide / Concepts / Views / Problems view* path.
 
-=== Importing a configuration predefined for Titanium
+== Importing a configuration predefined for Titanium
 
 To help in getting started with Titanium, we have created a beginning set of configurations. These settings can be imported from a single file, and fine-tuned to best fit any use case.
 
@@ -716,7 +718,7 @@ In the window that pops up select the file that was just downloaded. As this fil
 
 image::images/6_F21.png[title="Import preferences selector"]
 
-== Organize imports
+= Organize imports
 
 Organizing imports means intelligently adding and removing module importation statements, according to the currently referenced definitions in the source file.
 
@@ -732,7 +734,7 @@ image::images/7_F22.png[title="Module importation disambiguation"]
 NOTE: The "Organize imports" feature is working only on TTCN-3 files. ASN.1 and pre-processable TTCN-3 files are not supported, and so will be skipped by the algorithm.
 
 [[metrics-view]]
-== Metrics View
+= Metrics View
 
 image::images/8_F23.png[title="Metrics view"]
 
@@ -766,7 +768,7 @@ On Figure 24 the selected row shows information about the *Number of functions* 
 
 As the node is opened, under this node we can examine the modules of the project, ordered by the number of functions they contain, and see that module _AtsIpv6**Core**Ã¢â‚¬Â¦_ contains 314 functions, module _AtsIpv6**NeighborDiscovery**Ã¢â‚¬Â¦_ contains 113 functions, etc.
 
-=== Risk highlighting
+== Risk highlighting
 
 The Metrics View provides the exact values of the metrics, but these values might be hard to interpret for users. That is why the Metrics View uses highlighting to emphasize some suspicious points of the project.
 
@@ -774,18 +776,18 @@ A row can be highlighted with red, which signs serious weakness in the project, 
 
 Moreover, to let the users conveniently and quickly overview the riskiest points of the project, nodes of the tree in the Metrics View are ordered descending by the risk of the entities: the earlier a node is in the list the higher the chance of some error is there.
 
-=== Jumping to code
+== Jumping to code
 
 Naturally when one finds for example a test case with an extremely high cyclomatic complexity value, he may want to have a look at that testcase definition. While it is possible to search the location of that testcase by hand, it is much more convenient to simply double click on that row. This will load an editor for the specific module, with the cursor positioned to the beginning of testcase definition.
 
 [[top-riskiest-modules-view]]
-== Top Riskiest Modules View
+= Top Riskiest Modules View
 
 image::images/9_F25.png[title="Top Riskiest Modules view"]
 
 The Top Riskiest Modules View provides a view to easily decide, which modules are considered the 'riskiest' based on the results of some metrics.
 
-=== Usage
+== Usage
 
 Usage of the Top Riskiest Modules View is somewhat similar to the usage of the Metrics View:
 
@@ -798,20 +800,20 @@ This will finally create a table in the View.
 
 Rows in the table show modules, and the results measured by the different metrics on that module.
 
-=== Colouring
+== Colouring
 
 Cells of the table are coloured in the same manner as rows in the Metrics View.If the metric measures high risk for the module it is displayed with red background. When the risk is measured to be low it is yellow. If the metric does not considers a module suspicious, it will be displayed in green. The limits of this classification can be set in the *Window / Preferences / Titanium Preferences / Metrics / Limits* preference page.
 
 NOTE: Ordering of the modules happens descending by the cumulative risk according to the chosen metrics.
 
-=== Jumping to code
+== Jumping to code
 
 Just as in the Metrics View, double clicking on a module name will open an editor on the selected module.
 
 [[the-module-dependency-graph]]
-== The module dependency graph
+= The module dependency graph
 
-=== Introduction to the dependency graph
+== Introduction to the dependency graph
 
 The dependency graph was introduced to help architects see the actual state and architecture of their TTCN-3/ASN projects.
 
@@ -844,9 +846,9 @@ The aim of this feature is to visualize for system architects the actual archite
 
 NOTE: This tool is meant to be used by people who have a large scale overview of the project, and at least some low level graph theory background. For this reason to maximize its usefulness it might be needed to have such experience.
 
-=== Usage of the module graph
+== Usage of the module graph
 
-==== Drawing a graph
+=== Drawing a graph
 
 The architecture of a project can be opened by right clicking on a TTCN-3 project managed by the TITAN Designer, and selecting *Titanium/Draw module structure* (see below)
 
@@ -862,7 +864,7 @@ Clicking on a specific place in the satellite view, the graph area will jump to 
 
 image::images/10_F29.png[title="The parts of the graph window"]
 
-==== Interactive events of the graph
+=== Interactive events of the graph
 
 After successfully making a module graph several things can be done on the graph area:
 
@@ -885,7 +887,7 @@ After successfully making a module graph several things can be done on the graph
 
 image::images/10_F30.png[title="The popup menu after right click on a graph node"]
 
-==== Module information window
+=== Module information window
 
 The metric popup window can be opened by right clicking on a selected node
 
@@ -893,11 +895,11 @@ image::images/10_F31.png[title="The info window and a selected node"]
 
 The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node. In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 31). The colour of the row in this view is the same as the selected nodeÃ¢â‚¬â„¢s colour, which represents how bad it was according to the selected metric
 
-==== Menu functions
+=== Menu functions
 
 This section lists the functionalities that are reachable from the graph windowÃ¢â‚¬â„¢s menu. There are six main menus: *File, Layout, Find, Tools, Metrics and Clustering*
 
-===== File menu
+==== File menu
 
 There are two entries in the file menu:
 
@@ -911,7 +913,7 @@ _This function also can be reached by Ctrl+E hotkey combination while the graph 
 
 image::images/10_F32.png[title="The image export window with shown and hidden selection list"]
 
-===== Layout menu
+==== Layout menu
 
 This menu allows you to change the layout of the graph. Graph layout is a method for organizing the nodes on the screen. There are several aspects, and therefore several layouts. This guide should be used to choose the best for the given job.
 
@@ -935,7 +937,7 @@ For further details see:
 ** *Reverse Directed Graph:* In this layout the roots will be such nodes that only have edges pointing inside, and not edges pointing out. In this case you will see a structure similar to the above defined, but the direction of the edges will be reverse. So you can see the parents of the roots on the second level, and the grandparents on the third level, and so on.
 * *Metrics layouts:* These layouts are similar to directed layouts. Just the calculation of the depth of a node is different. We could say they are also directed layouts, but the depth is calculated according to the measured metric value. You should choose one given metric in the submenu. After this we determine the maximal and minimal value of this metric measured for the whole project module by module. Then this interval (min-max) is divided into equal parts. And each node gets a depth according to its subinterval. These layouts show well the possible structural problems, and they can show problems from a given aspect.
 
-===== Find menu
+==== Find menu
 
 This menu currently only has one entry, *node by name.* Clicking on this entry should pop up a small find window, where you may enter a text (see Figure 33). This text will be normally considered only as the beginning part of the node name, and the finder wonÃ¢â‚¬â„¢t mind whether it is upper or lower case. You can modify this behaviour by selecting *exact match* or *case sensitive* check boxes. If *exact match* is selected then only such nodes will be found that have exactly the written name (this still doesnÃ¢â‚¬â„¢t mind about upper/lower case). These options maybe selected also together, in this case lower/upper case will also be handled separately.
 
@@ -949,7 +951,7 @@ NOTE: Running two searches in series will show the union of the two found sets, 
 
 image::images/10_F34.png[title="Searching for nodes that names begin with a, and the result list, and A_Ext result on the screen"]
 
-===== Tools menu
+==== Tools menu
 
 In this menu you can find three options:
 
@@ -959,7 +961,7 @@ NOTE: This algorithm will not find all circles: In some cases when a circle shar
 * *Show parallel paths:* This is very similar to the former action. The only difference is in the direction of the edges. Clicking on this item starts a parallel path search. The result should be denoted by the same way as on circle searching.
 * *Clear results:* Clicking on this item sets back all the edge colours to the original state. Generally it should be used after searching. This action is never performed automatically.
 
-===== Metrics menu
+==== Metrics menu
 
 In this menu the metrics set on the preference page (see section 3) can be selected. This will cause the graph nodes to have specific colours according to their metric values set in this menu.
 
@@ -980,7 +982,7 @@ NOTE: In this table all the cells are coloured according to the exact colours in
 Finally the menu contains an entry *Recalculate metrics.* This entry drops away all the used metrics information and calculates each again. It also runs a refresh on the semantical analysis. This entry should be used if you modified something in a module and you would like to see the refreshed metric values (metric values are used also for metric layouts).
 
 [[clustering-menu]]
-===== Clustering menu
+==== Clustering menu
 
 image::images/10_F35.png[title="The clustering menu with grouping entries"]
 
@@ -1017,51 +1019,51 @@ In the clustering menu the following clustering methods can be chosen:
 NOTE: In case of using this algorithm with cluster graph you will automatically change to General Directed Graph layout. This selection naturally can be change through the *Layout* menu. After changing back to the original graph you will again get an ISOM layout.
 
 [[the-component-dependency-graph]]
-== The component dependency graph
+= The component dependency graph
 
-=== Functionality
+== Functionality
 
 Similarly to the module graph the structure of component inheritance can also be drawn for a given project. This functionality has many things in common with the module graph, but also there are few minor differences. In this graph nodes represent components and an edge A->B represents that B is inherited from A. The component graph can be drawn similarly as the module graph, for an example please look at Figure 28. Component graph drawing is exactly below the module graph drawing.
 
 NOTE: In many cases this graph can be empty, principally in smaller projects.
 
-=== Interactive actions
+== Interactive actions
 
-==== General actions
+=== General actions
 
 Scrolling and +/- zooming works the same way as on module graph. Also satellite view works exactly the same way.
 
-==== Graph node actions
+=== Graph node actions
 
 Component graph works similarly as the module graph. On the component graph there are no colours, all the nodes are coloured light green, and the selected node is coloured light blue. A node may be selected by the same way as on the module graph, also a group of nodes.
 
 There are no metrics defined on components, so in this case there wonÃ¢â‚¬â„¢t be a metrics menu (see Figure 40) and also metrics info pop-up window is not active on this graph. Selecting a node by right click only causes the edges and the node to be selected.
 
-==== Menu actions
+=== Menu actions
 
 image::images/11_F39.png[title="The component graphÃ¢â‚¬â„¢s menu bar, and the layout menu"]
 
-===== File menu
+==== File menu
 
 File menu is the exact copy of the file menu seen on module graph.
 
-===== Layout menu
+==== Layout menu
 
 On a component graph only ISOM and DAG layouts maybe chosen, therefore the layout menu has only these two entries.
 
-===== Find menu
+==== Find menu
 
 Also find menu works the same way as on the module graph.
 
 image::images/11_F40.png[title="The component graph"]
 
-== Titanium Sonar plugin
+= Titanium Sonar plugin
 
 The Titanium Sonar plugin makes it possible to display the exported code quality information on the SonarQube server. Currently the detected code smells can be processed. The following sections describe how to install the server and how to transfer the data from the Titanium eclipse plugin to the SonarQube.
 
 A working example of SonarQube server can be examined at the following address: http://nemo.sonarqube.org/ .
 
-=== Setting up the SonarQube server
+== Setting up the SonarQube server
 
 The following description can be used to set up the SonarQube server on a development machine, for a single user. If you need to install it on a server for multiple users please read the documentation at http://docs.codehaus.org/display/SONAR/Documentation .
 
@@ -1073,29 +1075,29 @@ The following description can be used to set up the SonarQube server on a develo
 6.  Download the SonarQube runner from http://www.sonarqube.org/downloads/ . This application will be responsible for feeding the exported data into the server.
 7.  It is recommended to include the _<sonar-runner_dir>/bin_ directory in the system path.
 
-=== Exporting the data from Eclipse
+== Exporting the data from Eclipse
 
 The code quality data needs to be exported for the SonarQube analyser. This can be done on the GUI or in headless mode.
 
-==== On the workbench
+=== On the workbench
 
 The functionality can be accessed in the context menu of the project explorer on the path: Titanium/Export data for SonarQube. One or more projects should be selected.
 
 image::images/12_F42.png[title="The component graph"]
 
-==== In headless mode
+=== In headless mode
 
 See <<exporting-the-module-dependency-graph, here>>
 
-=== Load the data on the server
+== Load the data on the server
 
 The sonar-runner must be executed in the root directory of the project.
 
-=== Browse the result
+== Browse the result
 
 By default the SoarQube web interface can be accessed on the http://localhost:9000 address. For more information about this interface see http://docs.codehaus.org/display/SONAR/User+Guide .
 
-== References
+= References
 
 [[_1]]
 * [1] link:https://github.com/eclipse/titan.EclipsePlug-ins/blob/master/Eclipse_installationguide.adoc[Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE]
@@ -1115,7 +1117,7 @@ By default the SoarQube web interface can be accessed on the http://localhost:90
 [[_6]]
 * [6] link:https://www.cs.drexel.edu/~bmitchel/research/iwpc98.pdf[Mancoridis, S., Mitchell, B. S., Rorres, C., Chen, Y., & Gansner, E. R. (1998, June). Using automatic clustering to produce high-level system organizations of source code. In Program Comprehension, 1998. IWPC'98. Proceedings., 6th International Workshop on (pp.Ã‚Â 45-52). IEEE]
 
-== Glossary
+= Glossary
 
 ASN.1:: Abstract Syntax Notation One
 

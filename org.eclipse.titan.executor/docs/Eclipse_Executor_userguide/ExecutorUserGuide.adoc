@@ -9,6 +9,7 @@ Date: 2018-06-19
 :revnumber: 5/198 17-CRL 113 200/6, Rev. PE1
 :revdate: 2018-06-19
 :title-logo-image: images/titan_logo.png
+:sectnums:
 :doctype: book
 :toc:
 :toclevels: 2
@@ -32,8 +33,6 @@ https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
 
-:sectnums:
-
 ifdef::env-github,backend-html5[]
 * link:1-introduction.adoc[Introduction]
 * link:2-getting_started.adoc[Getting Started]
@@ -45,11 +44,11 @@ ifdef::env-github,backend-html5[]
 endif::[]
 
 ifndef::env-github,backend-html5[]
-include::1-introduction.adoc[]
-include::2-getting_started.adoc[]
-include::3-setting_workbench_preferences_and_project_properti.adoc[]
-include::4-launching_the_test_suite.adoc[]
-include::5-executing_and_controlling_the_execution_of_test_su.adoc[]
-include::6-other_available_functions.adoc[]
-include::7-references.adoc[]
+include::1-introduction.adoc[leveloffset=+1]
+include::2-getting_started.adoc[leveloffset=+1]
+include::3-setting_workbench_preferences_and_project_properti.adoc[leveloffset=+1]
+include::4-launching_the_test_suite.adoc[leveloffset=+1]
+include::5-executing_and_controlling_the_execution_of_test_su.adoc[leveloffset=+1]
+include::6-other_available_functions.adoc[leveloffset=+1]
+include::7-references.adoc[leveloffset=+1]
 endif::[]

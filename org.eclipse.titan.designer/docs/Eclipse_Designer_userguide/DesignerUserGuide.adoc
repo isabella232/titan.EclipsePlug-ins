@@ -9,6 +9,7 @@ Date: 2018-06-19
 :revnumber: 4/198 17-CRL 113 200/6, Rev. PE1
 :revdate: 2018-06-19
 :title-logo-image: images/titan_logo.png
+:sectnums:
 :doctype: book
 :toc:
 :toclevels: 3
@@ -32,7 +33,6 @@ https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
 
-:sectnums:
 
 ifdef::env-github,backend-html5[]
 * link:1-introduction.adoc[Introduction]
@@ -51,17 +51,17 @@ ifdef::env-github,backend-html5[]
 endif::[]
 
 ifndef::env-github,backend-html5[]
-include::1-introduction.adoc[]
-include::2-getting_started.adoc[]
-include::3-setting_workbench_preferences.adoc[]
-include::4-managing_projects.adoc[]
-include::5-converting_existing_projects.adoc[]
-include::6-building_the_project.adoc[]
-include::7-editing_with_titan_designer_plugin.adoc[]
-include::8-contents_of_the_problems_view.adoc[]
-include::9-contents_of_the_tasks_view.adoc[]
-include::10-contents_of_the_outline_view.adoc[]
-include::11-extensions_to_the_project_explorer.adoc[]
-include::12-references.adoc[]
-include::13-abbreviations.adoc[]
+include::1-introduction.adoc[leveloffset=+1]
+include::2-getting_started.adoc[leveloffset=+1]
+include::3-setting_workbench_preferences.adoc[leveloffset=+1]
+include::4-managing_projects.adoc[leveloffset=+1]
+include::5-converting_existing_projects.adoc[leveloffset=+1]
+include::6-building_the_project.adoc[leveloffset=+1]
+include::7-editing_with_titan_designer_plugin.adoc[leveloffset=+1]
+include::8-contents_of_the_problems_view.adoc[leveloffset=+1]
+include::9-contents_of_the_tasks_view.adoc[leveloffset=+1]
+include::10-contents_of_the_outline_view.adoc[leveloffset=+1]
+include::11-extensions_to_the_project_explorer.adoc[leveloffset=+1]
+include::12-references.adoc[leveloffset=+1]
+include::13-abbreviations.adoc[leveloffset=+1]
 endif::[]

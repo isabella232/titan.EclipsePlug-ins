@@ -1,12 +1,12 @@
-== Converting Existing Projects
+= Converting Existing Projects
 :toc:
 :figure-number: 87
 
 In the TITAN toolset we are supporting 3 different tools/project handling principles at this time: Makefiles, mctr_gui projects and Eclipse projects. Before going into detail on how to convert one of the first two into an Eclipse project, we should review the features offered by these tools to work with projects.
 
-=== The Construction Principles of Projects
+== The Construction Principles of Projects
 
-==== Makefile
+=== Makefile
 
 Makefiles support the following ways of working with projects:
 
@@ -23,7 +23,7 @@ Some of the files are in a different folder, which also has its own Makefile. Th
 The Makefile is available for the users to modify, so any kind of project structure can be created. It is also possible to add new commands, new build rules, new behaviors.
 
 [[mctr-gui]]
-==== Mctr_gui
+=== Mctr_gui
 
 The mctr_gui supports the following ways of working with projects:
 
@@ -39,7 +39,7 @@ file groups recursively declare a list of files and file groups that they repres
 +
 it is possible to refer to a whole project, instead of referring to files or file groups one-by-one. In this case at build time the working directories of the included projects are used as central storages for the actual project.In this mode, if something is changed in a project (build mode, additional files) all projects including that one will also see that change, at the next build, as it will go differently.
 
-==== Eclipse
+=== Eclipse
 
 In Eclipse the fundamental difference to all previous systems is that in this case Eclipse as the platform provides all of the options for structuring the projects. Our IDE only extends the platform with TTCN-3 related features (and doesn’t define the whole platform).
 
@@ -71,9 +71,9 @@ No matter where they are originating from, in the workbench of Eclipse all proje
 
 Referring outside, the project should be discouraged in case of files and folders, as those methods are not always transportable. In those cases, the project might not be transferable as it is not the contents of these references that will be transferred, but the reference itself. In case of referenced projects this is not that much of a problem, as in that case it is natural, that in order to transport a project, we also need to transport all projects that it builds onto. As long as each project can be transferred on its own their referencing sets will be transferable also.
 
-=== Manually Converting an Existing Project to Eclipse Format
+== Manually Converting an Existing Project to Eclipse Format
 
-==== Small Project
+=== Small Project
 
 If the project is so small that all of its files are located in one place (in or below one folder) it can be converted easily.
 
@@ -83,7 +83,7 @@ If it is needed to perform this step from the command line, one needs to place a
 
 In the ""project" the name of the project has to be set. Eclipse should be able to import the project and all further configurations can be done from there.
 
-==== Large Project Sets Consisting of Several Included Projects or Logically Separate Parts
+=== Large Project Sets Consisting of Several Included Projects or Logically Separate Parts
 
 This can be easily mapped to referenced projects inside Eclipse. For each separate project or logically separate part there should be one project created, and the proper referring relation between each one should be set. It is recommended to set this attribute in Eclipse, so that all needed modifications are done in the internal representation. For more information, please refer <<4-managing_projects.adoc#using-project-references, here>>.
 
@@ -102,7 +102,7 @@ Figure 81 gives an example on how it might look if 2 large projects are separate
 
 image::images/5_F82.png[title="Two large projects"]
 
-==== Large Projects Using Central Storage Folders
+=== Large Projects Using Central Storage Folders
 
 If the project uses central storage folders there are two good solutions possible:
 
@@ -126,7 +126,7 @@ NOTE: Even though the second solution sounds to be the better one at first, beca
 
 Creating referencing relations between projects reflects the logical structure of such folders better, promotes reuse of projects (and so source code) and in the longer run could be used to validate the relations between projects in a hierarchy.
 
-==== Project Referring to Specific Files Outside its Own Jurisdiction
+=== Project Referring to Specific Files Outside its Own Jurisdiction
 
 In some cases, it might have happened, that people did break logical relations and either created symbolic links to files in other projects, or referred to them in the mctr_gui one-by-one specifically.
 
@@ -135,7 +135,7 @@ If it is not possible to map this relation to referring projects or central stor
 NOTE: It is not recommended to have symbolic links in a project pointing to some other location as those projects are typically not transportable, and also this introduces a hidden dependency between projects, that cannot be validated automatically.
 
 [[convert-an-existing-mctr-gui-project-using-an-import-wizard]]
-=== Convert an Existing mctr_gui Project Using an Import Wizard
+== Convert an Existing mctr_gui Project Using an Import Wizard
 
 The Designer feature comes with an import wizard, which is able to create an Eclipse project out of an existing mctr_gui project automatically. For information on how to find this wizard, and what its steps are please refer <<4-managing_projects.adoc#importing-an-existing-mctr-gui-project,here>>.
 
