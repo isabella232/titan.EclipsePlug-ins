@@ -9,30 +9,30 @@ Date: 2018-06-19
 :revnumber: 4/198 17-CRL 113 200/6, Rev. PE1
 :revdate: 2018-06-19
 :title-logo-image: images/titan_logo.png
-:sectnums:
 :doctype: book
 :toc:
+:toclevels: 3
 
 ifdef::env-github,backend-html5[]
 image::images/titan_logo.png[alt]
 endif::[]
 
-== Abstract
+*Abstract*
 
 This document describes detailed information of using the TITAN Designer for the Eclipse IDE plug-in.
 
-== Copyright
+*Copyright*
 
 Copyright (c) 2000-2018 Ericsson Telecom AB. +
 All rights reserved. This program and the accompanying materials are made available under the terms of the Eclipse Public License v2.0 which accompanies this distribution, and is available at
 
 https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
-== Disclaimer
+*Disclaimer*
 
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
 
-== Contents
+:sectnums:
 
 ifdef::env-github,backend-html5[]
 * link:1-introduction.adoc[Introduction]

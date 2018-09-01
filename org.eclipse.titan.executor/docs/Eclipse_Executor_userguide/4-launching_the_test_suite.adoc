@@ -1,10 +1,10 @@
-= Launching the Test Suite
+== Launching the Test Suite
 :figure-number: 6
 
 This chapter describes launch configurations, their options, and launching modes. After building an executable test suite, it is ready to be launched. In Eclipse, every aspect of the launch can be configured, for example, different environmental settings can be created by creating different launch configurations, without modifying the system environment variables, so different test environments can be created.
 
 [[launching-modes-supported-by-the-TITAN-Executor-plug-in]]
-== The Launching Modes Supported by the TITAN Executor Plug-in
+=== The Launching Modes Supported by the TITAN Executor Plug-in
 
 The TITAN Executor can operate in single or parallel mode.
 
@@ -36,17 +36,17 @@ NOTE: Execution in JNI mode is not supported on Windows
 
 Note that some execution modes require a properly set up runtime configuration file.
 
-== Creating a Launch Configuration
+=== Creating a Launch Configuration
 
 Launch configurations can be created, modified and deleted in the *Create, manage, and run configuration* dialog window. It can be opened in the numerous ways.
 
-=== Run as…
+==== Run as…
 
 Right click on a project in the *Project explorer* and select *Run configurations*… from the *Run as* option.
 
 image::images/4_F7.png[title="Executing from the Project Explorer"]
 
-=== Running from the Launch Command Toolbar
+==== Running from the Launch Command Toolbar
 
 *In the toolbar, click the down arrow at the* Launch Commands, *and select* Run as. +
 If not visible, modify the Launch properties in the *Windows > Customize Perspective*.
@@ -75,7 +75,7 @@ image::images/4_F10.png[title="Launch configuration types"]
 
 Other launch configuration types supported by other plug-ins are also available here.
 
-=== Creating a Launch Configuration Using Launch Shortcuts
+==== Creating a Launch Configuration Using Launch Shortcuts
 
 It is possible to create the very first launch configuration for a project, or configuration file in a much easier way then described before:
 
@@ -110,7 +110,7 @@ When this function is invoked on a resource to which several launch configuratio
 Please note, that after the creation of these launch configuration it is possible to fine tune them just like any other launch configuration using the Launch Configuration Dialog.
 
 [[basic-main-controller-options-page-of-the-launch-configuration]]
-=== Basic Main Controller Options Page of the Launch Configuration
+==== Basic Main Controller Options Page of the Launch Configuration
 
 [[Ref-1]]
 image::images/4_F12.png[title="Basic Main Controller options page"]
@@ -159,7 +159,7 @@ The working directory must be set, but the executable and the configuration file
 In the case of Mctr_cli mode or JNI mode execution if the configuration file is missing, the Main Controller is started with default values. A missing executable can imply that every host controller will connect from remote hosts, and that there is no need to have test sets.
 
 [[host-controllers-page-of-the-launch-configuration]]
-=== Host Controllers Page of the Launch Configuration
+==== Host Controllers Page of the Launch Configuration
 
 image::images/4_F14.png[title="Host Controllers"]
 
@@ -238,7 +238,7 @@ NOTE: The `./`, executing on this way is only required if the location of the Ho
 
 Please also note that in Single launch mode this page does not exist, as in single mode Host Controllers cannot be used.
 
-=== Testsets page of the launch configuration
+==== Testsets page of the launch configuration
 
 image::images/4_F16.png[title="Testsets page"]
 
@@ -300,7 +300,7 @@ image::images/4_F19.png[title="Erroneous test set"]
 
 Please note that all three launch configuration types supported by the Executor plug-in use this page the exact same way (however they might use the created test sets differently).
 
-=== Basic Performance Settings Page of the Launch Configuration
+==== Basic Performance Settings Page of the Launch Configuration
 
 On this page performance affecting options can be set. Please note that there are only two general settings available, all other settings are launch mode specific, as it can be seen on figures <<Figure-20,Figure 20>>, <<Figure-21,Figure 21>> and <<Figure-23,Figure 23>>.
 
@@ -364,7 +364,7 @@ If this option is not set, the notification messages will not be printed to the 
 +
 The extraction of the severity level of events does not really cost too much performance, so it should always be set unless performance is crucial, and this information is not really needed.
 
-=== The Environment Page of the Launch Configuration
+==== The Environment Page of the Launch Configuration
 
 image::images/4_F24.png[title="Environment settings page"]
 
@@ -406,7 +406,7 @@ Both the Main Controller and the Host Controllers will be executed in shells, ha
 +
 The Host Controllers will be executed in shells, having the provided environmental variables set.
 
-=== Common Page of the Launch Configuration
+==== Common Page of the Launch Configuration
 
 image::images/4_F25.png[title="Common page"]
 
@@ -436,3 +436,4 @@ If this option is not set, then every time a new process is started it will eras
 --
 +
 NOTE: In JNI mode launch the Standard input and output handling part is not supported.
+

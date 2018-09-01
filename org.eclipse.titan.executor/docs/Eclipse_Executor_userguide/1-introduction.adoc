@@ -1,6 +1,6 @@
-= Introduction
+== Introduction
 
-== Overview
+=== Overview
 
 This document describes the general workflow and use of the TITAN Executor for the Eclipse IDE plug-in.
 
@@ -8,11 +8,11 @@ TITAN Executor is a tool to launch testcases with different configuration types,
 
 It is advised to have a basic knowledge and understanding of the Eclipse IDE and its workflows. For information, open *Help > Workbench User Guide* in the Eclipse GUI.
 
-== Target Groups
+=== Target Groups
 
 This document is intended for system administrators and users who intend to use the TITAN Executor plug-in for the Eclipse IDE.
 
-== Typographical Conventions
+=== Typographical Conventions
 
 This document uses the following typographical conventions:
 
@@ -24,11 +24,11 @@ The '>' character is used to denote a menu and sub-menu sequence. For example, *
 
 `*Bold monospaced*` font is used for commands that must be entered at the Command Line Interface (CLI), For example, `*mctr_gui*`
 
-== Installation
+=== Installation
 
 For details on installing the TITAN Executor for the Eclipse IDE plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE <<7-references.adoc#_2, [2]>>.
 
-== Reporting Errors
+=== Reporting Errors
 
 The following information should be included into trouble reports:
 

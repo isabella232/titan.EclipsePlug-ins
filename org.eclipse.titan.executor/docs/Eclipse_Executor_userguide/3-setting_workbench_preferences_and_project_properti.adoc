@@ -1,7 +1,7 @@
-= Setting Workbench Preferences and Project Properties
+== Setting Workbench Preferences and Project Properties
 :figure-number: 4
 
-== TITAN Executor Preferences
+=== TITAN Executor Preferences
 
 Workbench preferences set user specific general rules, which apply to every project, for example, preferred font styles, access to version handling systems.
 
@@ -17,7 +17,7 @@ The following options can be set on the TITAN Executor preferences page:
 
 * **Merge the log files after test execution.**When the test execution is finished, the log files found in the default log directory will be merged into a single file. This option is available if the default log folder has been set, by default it is enabled.
 
-== TITAN Executor Project Properties
+=== TITAN Executor Project Properties
 
 To open project properties: *right click* the project and select *Properties*. +
 On the project property page it is possible to override the workspace settings for the selected project.

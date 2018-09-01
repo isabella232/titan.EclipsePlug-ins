@@ -9,9 +9,9 @@ Date: 2018-06-19
 :revnumber: 3/1531-CRL 113 200/6, Rev. PE1
 :revdate: 2018-06-19
 :title-logo-image: images/titan_logo.png
-:sectnums:
 :doctype: book
 :toc:
+:toclevels: 2
 
 ifdef::env-github,backend-html5[]
 image::images/titan_logo.png[alt]
@@ -31,17 +31,19 @@ https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html.
 
 The contents of this document are subject to revision without notice due to continued progress in methodology, design and manufacturing. Ericsson shall have no liability for any error or damage of any kind resulting from the use of this document.
 
-= Introduction
+:sectnums:
 
-== Overview
+== Introduction
+
+=== Overview
 
 This document describes the installation and configuration of the TITAN Designer, the TITAN Executor, the TITAN Log Viewer and the Titanium plug-ins for the Eclipse IDE (from now shortly TITAN plug-ins).
 
-== Target Groups
+=== Target Groups
 
 This document is intended for system administrators and users who intend to install and configure the TITAN Designer, Executor, Log Viewer and Titanium plug-ins for the Eclipse IDE.
 
-== Typographical Conventions
+=== Typographical Conventions
 
 This document uses the following typographical conventions:
 
@@ -53,9 +55,9 @@ This document uses the following typographical conventions:
 
 * *`Bold monospaced font`* is used for commands that must be entered at the Command Line Interface (CLI), For example, *`mctr_gui`*
 
-= Requirements
+== Requirements
 
-== Requirements for the TITAN Designer, Executor and Log Viewer plug-ins for the Eclipse IDE
+=== Requirements for the TITAN Designer, Executor and Log Viewer plug-ins for the Eclipse IDE
 
 * Eclipse 4.2 (Juno) or later (max. 4.7.1a (Oxygen) - this one being recommended) and all its dependencies, for example, GTK2, must be installed
 
@@ -67,7 +69,7 @@ This document uses the following typographical conventions:
 
 * Only Oracle Java Hotspot virtual machine is supported
 
-== Requirements for the Titanium Plugin
+=== Requirements for the Titanium Plugin
 
 * TITAN Designer
 
@@ -83,7 +85,7 @@ https://github.com/google/guava
 
 * ANTLR Runtime 4.3.0
 
-== Cygwin on Windows
+=== Cygwin on Windows
 
 * Using the Eclipse IDE on Windows is fully supported.
 
@@ -97,14 +99,14 @@ Only one detail of that document is emphasized here:
 
 For example, if the cygwin root is "C:64" then "Path" should contain "C:64\cygwin64\bin"."
 
-= Installing prerequisites
+== Installing prerequisites
 
 [[installing-the-titan-ttcn-3-toolset]]
-== Installing the TITAN TTCN–3 Toolset
+=== Installing the TITAN TTCN–3 Toolset
 
 For detailed information on installing the TITAN TTCN-3 Toolset, and configuring the environment variables for TITAN to work, refer to <<_1, Installation Guide for TITAN TTCN-3 Test Executor>>.
 
-== Installing Eclipse
+=== Installing Eclipse
 
 Download the latest 32- or 64-bit Eclipse package, according to your platform and OS version form https://www.eclipse.org/downloads/. All Eclipse solution packages are suitable, but if you want to develop also adapters and/or external C/C\++ functions, the "Eclipse IDE for C/C++ Developers" can be a good choice.
 
@@ -125,7 +127,7 @@ When using Eclipse from behind a firewall, the HTTP proxy must be set, and inter
 
 image::images/proxysettings.png[proxy_settings]
 
-== Installing Eclipse plug-in prerequisites for Titan Plug-ins and Titanium
+=== Installing Eclipse plug-in prerequisites for Titan Plug-ins and Titanium
 
 The prerequisites for Titan plugins are POI and ANTLR Runtime.
 
@@ -133,7 +135,7 @@ The prerequisites for Titanium Plugin are JUNG and Google Guava.
 
 These can be installed together with the Titan plug-ins as external dependencies, see the next chapter.
 
-= Installation of the TITAN plug-ins
+== Installation of the TITAN plug-ins
 
 The TITAN plug-ins for Eclipse can be installed from the provided update sites.
 
@@ -181,7 +183,7 @@ image::images/4_F5.png[]
 
 NOTE: When you update your TITAN plug-ins, it is suggested to update all the installed TITAN plug-ins because of dependencies. Otherwise eclipse will analyze the dependencies and after a while it will force you to update all of the already installed features.
 
-= Post-Installation Steps
+== Post-Installation Steps
 
 After installing the TITAN plug-ins in Eclipse, the locations of the installed TITAN TTCN-3 Toolset and the license file must be set.
 
@@ -191,11 +193,11 @@ NOTE: TITAN install path is not mandatory. If you don’t want to build from Ecl
 
 image::images/5_F1.png[]
 
-== Turning-Off Automatic Building
+=== Turning-Off Automatic Building
 
 By default, a new installation of Eclipse will be set to automatically compile its projects. In the current build system this can take a lot of time, so it is advised to turn this feature off, and only enabling if the actual projects make it possible. Open the *Project* scroll-down menu, and uncheck the *Build automatically* option.
 
-== Configuring Java
+=== Configuring Java
 
 You might need to modify your `eclipse.ini` file (usually located in the same directory as your `eclipse` executable.)
 
@@ -233,7 +235,7 @@ If Java 1.8 is used then `MaxPermSize` is ignored, its support is removed. Use t
 
 NOTE: If you cannot edit the `eclipse.ini` file, you can start eclipse with flags. For example `eclipse –vmargs -Xmx4g` modifies the maximum memory allocation for the virtual machine.
 
-= Compatibility Issues
+== Compatibility Issues
 
 The plug-ins require the Java Runtime Environment to be version 5.0 or later, but significant speed increase can be gained by installing version 6.0, 7.0 or 8.0.
 
@@ -243,7 +245,7 @@ Note that an actual version of the TITAN Designer plug-in is meant to be compati
 
 * A special script is inserted into the actually used install directory’s bin directory. The role of this script is to convert the call to the makefile generator to valid call of the compiler. (The makefile generator and the compiler are separated from TITAN 1.7.0). It is important to note, that such a file must contain a path to the compiler to be called, so such a script is not expected to work without modifications. Please note that the compiler must be called with *-M* as the first parameter, and the other parameters must be redirected to the compiler.
 
-= Download the source code
+== Download the source code
 
 The source code of Titan Eclipse plugin is available.
 
@@ -261,7 +263,7 @@ Updating the already existing local repository:
 *git pull https://github.com/eclipse/titan.EclipsePlug-ins.git*
 ----
 
-= References
+== References
 
 [[_1]]
 * [1] link:https://github.com/eclipse/titan.core/blob/master/usrguide/installationguide.adoc[Installation guide for TITAN TTCN-3 Test Executor]

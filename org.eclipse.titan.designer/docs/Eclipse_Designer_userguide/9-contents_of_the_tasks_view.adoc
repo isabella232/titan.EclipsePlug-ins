@@ -1,4 +1,4 @@
-= Contents of the Tasks View
+== Contents of the Tasks View
 :toc:
 :figure-number: 114
 
@@ -6,7 +6,7 @@ This section presents how TITAN Designer plugin is integrated in the Tasks view.
 
 There are many cases when a developer would like to mark parts of the code; not necessarily because of errors. For example, the programmer may be working on a huge project consisting of many small parts easy to overlook. In this case it is invaluable for the programmer if he can mark parts of the code as not finished. It happens several times in real life development that the design of smaller program parts is shifted so many times and so much in time that people actually forget about it.
 
-== Types of Markers
+=== Types of Markers
 
 There are two task marker types:
 

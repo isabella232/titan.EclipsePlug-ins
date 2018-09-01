@@ -1,10 +1,10 @@
-= Getting started
+== Getting started
 :toc:
 :figure-number: 0
 
 This section explains how to setup Eclipse to access every feature provided by TITAN Designer.
 
-== The TITAN Editing Perspective
+=== The TITAN Editing Perspective
 
 TITAN Designer provides its own perspective to Eclipse. This is a layout of visual elements that provides a good environment for working with TITAN. This layout is a starting point, since users can create their own layout in Eclipse, to set the best working environment for themselves.
 
@@ -24,7 +24,7 @@ The biggest pane of the perspective is the editing area (upper right). Here the 
 
 The four tabs at the bottom of the picture open the following views:
 
-* The Problems view (see <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences, here>>) displays information about problems found in the project. The problems reported can be ordered using several criteria (see <<8-contents_of_the_problems_view.adoc#grouping-of-problems, here>>).
+* The Problems view (see <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences-1, here>>) displays information about problems found in the project. The problems reported can be ordered using several criteria (see <<8-contents_of_the_problems_view.adoc#grouping-of-problems, here>>).
 
 * The Console view contains the commands executed and their output; Consoles only appear if there is something to display. The Console view has two sub views (TITAN console and TITAN Debug console, respectively); by default only one of both is displayed in the pane. The hidden sub view can be displayed by clicking on the display icon on the right of the pane.
 
@@ -40,7 +40,7 @@ NOTE: The contents of this view have no effect on the work of the user.
 
 image::images/2_F3.png[title="TITAN Editing Perspective"]
 
-== Enabling TITAN Actions on the Toolbar
+=== Enabling TITAN Actions on the Toolbar
 
 TITAN Actions or Change Set Operations are commands (apart from those used in the build process) that can be executed on TTCN-3 files.
 
@@ -64,7 +64,7 @@ The command Convert XSD files to TTCN-3 takes as input the files selected by the
 
 The output of the commands is written to the TITAN Console. Commands are executed regardless of the file properties; for example, the selected file will be syntactically or semantically checked even if it is excluded from the build process.
 
-== Enabling TITAN Shortcuts
+=== Enabling TITAN Shortcuts
 
 TITAN Shortcuts appear in the *File/New* menu and are used to open a new ASN.1 module, a configuration file, a TITAN project or a TTCN-3 module, respectively.
 
@@ -73,7 +73,7 @@ The TITAN Shortcuts are enabled by checking the appropriate box on the right pan
 image::images/2_F6.png[title="Enabling the TITAN Shortcuts"]
 
 [[enabling-titan-decorations]]
-== Enabling TITAN Decorations
+=== Enabling TITAN Decorations
 
 Decoration here means a string added to a project, folder or file name or a picture overlapping the icon of the resource to provide the reader with additional information.
 
@@ -91,7 +91,7 @@ image::images/2_F7.png[title="Enabling TITAN Decoration"]
 
 NOTE: Decorations are extending the information displayed for elements. As there can be several decorations extending an element, the texts shown above might not be the only ones displayed.
 
-== Excluding resources
+=== Excluding resources
 
 The possible reasons for a resource being excluded from build are as follows:
 
