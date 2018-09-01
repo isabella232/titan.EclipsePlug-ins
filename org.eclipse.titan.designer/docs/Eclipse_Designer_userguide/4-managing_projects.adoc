@@ -72,7 +72,7 @@ There are two ways to add files to a project. The first one, using wizards, is t
 [[using-wizards-to-add-files-to-the-project]]
 === Using Wizards to Add Files to the Project
 
-Wizards are available to create some of the TITAN modulesfootnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* (see Figure 26 above).
+Wizards are available to create some of the TITAN modules footnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* (see Figure 26 above).
 
 In the Project Explorer view, the wizards "TTCN-3 Module", "ASN.1 Module" and "Configuration file" can be reached by **right click**ing the content area and selecting *New / Other…* .
 
@@ -457,7 +457,7 @@ image::images/4_F57.png[title="Remote build attributes"]
 
 On this property page one or more hosts can be chosen to build the project remotely. The modalities of the remote build process on these hosts are also set.
 
-To set the project properties for remote build first *right click* the projectand select *Properties* than select *Remote build* on the left pane(Figure 57). (If *Remote build* is missing from the left pane, *left click* the *⊞* sign next to the *TITAN Project Property*; see Figure 52.)
+To set the project properties for remote build first *right click* the project and select *Properties* than select *Remote build* on the left pane(Figure 57). (If *Remote build* is missing from the left pane, *left click* the *⊞* sign next to the *TITAN Project Property*; see Figure 52.)
 
 The checkbox *Execute the build commands in parallel* controls how the provided build commands should be executed.
 
@@ -487,9 +487,9 @@ The *New…* button is used to create a new remote build host. It brings up the 
 
 image::images/4_F58.png[title="Remote build attributes of a host"]
 
-The *Edit…* buttonis used to edit the attributes of an existing remote build host. Before pressing the button, the host to be edited must be selected from the table. By pressing the button, the remote build host configuration window (Figure 58) will appear, showing with the current properties of the selected host. Changes made to the host can be revoked by pressing the *Cancel* button, while modifying the host is done by pressing the *OK* button.
+The *Edit…* button is used to edit the attributes of an existing remote build host. Before pressing the button, the host to be edited must be selected from the table. By pressing the button, the remote build host configuration window (Figure 58) will appear, showing with the current properties of the selected host. Changes made to the host can be revoked by pressing the *Cancel* button, while modifying the host is done by pressing the *OK* button.
 
-The *Copy…* buttonis used to create a copy of an already existing host. Pressing this button will create an exact copy of the currently selected host. This way of creating a new host can be beneficial for example when the build command of the new host only slightly differs from the build command of the source host. Copying is abandoned by pressing the *Cancel* button, while it is confirmed by pressing the *OK* button.
+The *Copy…* button is used to create a copy of an already existing host. Pressing this button will create an exact copy of the currently selected host. This way of creating a new host can be beneficial for example when the build command of the new host only slightly differs from the build command of the source host. Copying is abandoned by pressing the *Cancel* button, while it is confirmed by pressing the *OK* button.
 
 The *Remove…* button is used to remove an existing host from list of remote build hosts. The command is abandoned by pressing the *Cancel* button, while it is confirmed by pressing the *OK* button.
 

@@ -45,7 +45,7 @@ The Titanium tool is an Eclipse plug-in, built upon the TITAN Designer for the E
 
 Titanium extends the already existing feature of the Designer with higher level code analysis features such as:
 
-* Detecting and reporting code smellsfootnote:[Code smells are described in Wikipedia as: "In computer programming, code smell is any symptom in the source code of a program that possibly indicates a deeper problem. Code smells are usually not bugsâ€”they are not technically incorrect and don't currently prevent the program from functioning. Instead, they indicate weaknesses in design that may be slowing down development or increasing the risk of bugs or failures in the future."] in TTCN-3 and ASN.1 source codes;
+* Detecting and reporting code smells footnote:[Code smells are described in Wikipedia as: "In computer programming, code smell is any symptom in the source code of a program that possibly indicates a deeper problem. Code smells are usually not bugsâ€”they are not technically incorrect and don't currently prevent the program from functioning. Instead, they indicate weaknesses in design that may be slowing down development or increasing the risk of bugs or failures in the future."] in TTCN-3 and ASN.1 source codes;
 * Measuring and displaying code quality metrics on TTCN-3 source codes;
 * Extracting and displaying an architectural overview of the projects;
 
@@ -158,7 +158,7 @@ image::images/3_F1.png[title="Code smell preferences"]
 
 Code smells are indicators of suspicious code that is not erroneous (i.e.Â the code compiles), but most of the times they are not preferable. In this preference page, one can control the way of reporting the available code smells.
 
-The first item on this page is the option to enable on-the-fly processing. When this option is enabled the code smells will be checked immediately after whenever the Designerâ€™s on-the-fly analyser executes.When this option is disabled the code smells have to be explicitly requested by the *Check code for code smells* action on the menu bar.
+The first item on this page is the option to enable on-the-fly processing. When this option is enabled the code smells will be checked immediately after whenever the Designerâ€™s on-the-fly analyser executes. When this option is disabled the code smells have to be explicitly requested by the *Check code for code smells* action on the menu bar.
 
 The reporting level of all code smells is configurable to be *Ignore*, *Warning* or *Error*. Code smells set to be reported as *Ignore* will not be analysed and reported. Code smells configured to be reported as *Warning* or *Error* will be reported with that severity level.
 
@@ -277,12 +277,12 @@ This page gives a short overview about the following subpages that are related t
 == Metric limits preferences
 
 image::images/3_F6.png[title="Metric limits"]
-This page provides the possibility of fine-tuning the metric highlight mechanism.Metrics generally work as follows:
+This page provides the possibility of fine-tuning the metric highlight mechanism. Metrics generally work as follows:
 
 * A metric calculates a concrete value for the measured entity (for example, the *`Number of functions`* metric counts the number of functions in a TTCN3 module.
 * When set, classifies this value as *NO*, *LOW* or *HIGH* risk.
 
-Some metrics have default pre-set limits, but here they can be customized.First, a method of warning has to be selected:
+Some metrics have default pre-set limits, but here they can be customized. First, a method of warning has to be selected:
 
 * *Never warn:* the metric will never classify anything as "suspicious". In the Metrics View, in the Top Riskiest Modules View and in the Module Graph View this metric will show everything in *green* colour.
 * *Low risk:* the metric will classify entities to be "a bit suspicious", if the measured value is above a set limit. These entities will be shown in *yellow* colour.
@@ -463,7 +463,7 @@ Clicking the New or Edit buttons will bring up a dialog window, where you can se
 
 The Titanium plug-in offers several commands which can be called in headless mode. This way it can be used from command line, and for example integrated into nightly build systems.
 
-In headless mode eclipse plug-ins can offer entry point, called applications, through which the user is able to invoke functionalities of the plug-in without starting the graphical interface of Eclipse.In this mode everything is working exactly the same way as it is when invoked from the graphical user interface, but there are no windows popping up, no user interaction.
+In headless mode eclipse plug-ins can offer entry point, called applications, through which the user is able to invoke functionalities of the plug-in without starting the graphical interface of Eclipse. In this mode everything is working exactly the same way as it is when invoked from the graphical user interface, but there are no windows popping up, no user interaction.
 
 NOTE: As in this mode there is no interaction between eclipse and the user, all of the settings should be set beforehand. Otherwise the operation might not be able to work properly, or produce un-expected result.
 
@@ -610,7 +610,7 @@ The entry points can be invoked as:
 [source,subs="+quotes"]
 *eclipse.exe -noSplash -data c:\Users\ekrisza\runtime_headless -application org.eclipse.titanium.applications.SaveGraph c:\ekrisza\temporal\TitanSim\NightlyGraphs_*
 
-These entry points take one obligatory parameter: the prefix of the output path.This prefix will be appended with the name of the project and the ".net"/â€�.dotâ€� ending, creating a separate output file for every project. This parameter must be the first parameter of the application
+These entry points take one obligatory parameter: the prefix of the output path. This prefix will be appended with the name of the project and the ".net"/â€�.dotâ€� ending, creating a separate output file for every project. This parameter must be the first parameter of the application
 
 The second optional parameter is the clustering parameter. A clusterer algorithm maybe set to export cluster graph and not the original module graph. This parameter can be provided by a "_â€“c<algorithm_name>_" parameter, for example:
 
@@ -710,7 +710,7 @@ The file containing the setting can be downloaded from https://sharepoint.ericss
 
 image::images/6_F20.png[title="The preference importation wizard selected"]
 
-In the window that pops up select the file that was just downloaded. As this file only contains settings for the *Problems* view both selecting the configuration, and selecting to *Import all* will lead to the loading of the contents.To finish the procedure the *Finish* button has to be selected, and after eclipse loads the settings, the configurations will automatically appear in the *Problems* view.
+In the window that pops up select the file that was just downloaded. As this file only contains settings for the *Problems* view both selecting the configuration, and selecting to *Import all* will lead to the loading of the contents. To finish the procedure the *Finish* button has to be selected, and after eclipse loads the settings, the configurations will automatically appear in the *Problems* view.
 
 image::images/6_F21.png[title="Import preferences selector"]
 
@@ -889,7 +889,7 @@ The metric popup window can be opened by right clicking on a selected node
 
 image::images/10_F31.png[title="The info window and a selected node"]
 
-The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node.In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 31). The colour of the row in this view is the same as the selected nodeâ€™s colour, which represents how bad it was according to the selected metric
+The edges belonging to *c* are drawn red, and all the other edges are drawn very soft, grey. This feature visualizes the neighbours of a given node. In the metrics window the *Number of functions* metric is selected in the metrics menu (see Figure 31). The colour of the row in this view is the same as the selected nodeâ€™s colour, which represents how bad it was according to the selected metric
 
 === Menu functions
 
@@ -1009,7 +1009,7 @@ In the clustering menu the following clustering methods can be chosen:
 * *By linked file location:* The modules will be grouped by their absolute path on the file system.
 * *By module location:* Modules contained in eclipse folders will be grouped by their relative path, while modules contained in linked resources will be grouped by their full path.
 * *Using regular expressions:* The modules will be grouped by matching the module name to the regular expressions given on the _Graph/Clusters/Using regular expressions_ preference page. See <<clustering-using-regular-expressions-preferences, here>>.
-* *Automatically:* First the other methods will be used to create an initial clustering. Then they will be improved and the best one displayed. The clustering achieved tries to better reflect the structure of the project.For details on how the algorithm works, see <<_6, [6]>>.
+* *Automatically:* First the other methods will be used to create an initial clustering. Then they will be improved and the best one displayed. The clustering achieved tries to better reflect the structure of the project. For details on how the algorithm works, see <<_6, [6]>>.
 * *By module names:* This algorithm results in a hierarchical grouping. The module names will get to separate clusters according their main part (for example prefix name), then get to more accurate subgroups according their secondary name, and so on. In case of using this algorithm in grouping mode you only get separate groups according to the prefixes of the modules. If you use this algorithm with cluster graph you will see the whole hierarchy from the level of the main module names down to the actual module names. The subgroup separator here is determined according to the most usual symbols (â€œ_â€� sign, Upper case, etc.).
 
 NOTE: In case of using this algorithm with cluster graph you will automatically change to General Directed Graph layout. This selection naturally can be change through the *Layout* menu. After changing back to the original graph you will again get an ISOM layout.

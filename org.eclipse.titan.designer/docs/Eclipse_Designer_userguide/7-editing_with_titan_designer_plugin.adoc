@@ -18,7 +18,7 @@ The TITAN Designer plugin includes editors for the following file types supporte
 
 * Configuration (`.cfg`)
 
-Additional file extensions can be associated to these editors by selecting the Eclipse menu point *Windows / Preferences / General / Editors / File Associations*, but this is discouraged for source files. Although the file will be wellcolored, the dynamic analyses will not work. For the same reason it is also discouraged to use the extensions listed above for other file types.
+Additional file extensions can be associated to these editors by selecting the Eclipse menu point *Windows / Preferences / General / Editors / File Associations*, but this is discouraged for source files. Although the file will be well colored, the dynamic analysis will not work. For the same reason it is also discouraged to use the extensions listed above for other file types.
 
 NOTE: The editors may throw an exception if a file is deleted while being edited.
 
@@ -143,7 +143,7 @@ To define macros outside of files the Eclipse TITAN plug-in uses the settings gi
 
 [width="100%",cols="m,",,]
 |===
-|#define MACRO_NAME <expression> |Define a macro, it’s value is the value of the integer expression
+|#define MACRO_NAME <expression> |Define a macro, itâ€™s value is the value of the integer expression
 |#undef MACRO_NAME |Delete a macro
 |#ifdef MACRO_NAME |The code in this branch is active if the macro `MACRO_NAME` was defined previously
 |#ifndef MACRO_NAME |The code in this branch is inactive if the macro `MACRO_NAME` was defined previously
@@ -164,7 +164,7 @@ NOTE: ttcnpp files are not analyzed incrementally even if incremental analysis i
 
 === Limitations
 
-The on-the-fly parser does not support the single line comment in ASN.1 files when placed right after non-comment elements. A simple workaround for this problem is to insert a SPACE character between the last non-comment character and the "`—`" sign.
+The on-the-fly parser does not support the single line comment in ASN.1 files when placed right after non-comment elements. A simple workaround for this problem is to insert a SPACE character between the last non-comment character and the "`â€”`" sign.
 
 Limitations of preprocessing:
 
@@ -237,7 +237,7 @@ The highest level of content assistance is available for TTCN-3 and ASN.1 files.
 . From the smallest scope found the scope hierarchy is traversed in a bottom-up manner to find the possible definitions. (The definitions imported are checked after the definitions of the actual module).
 . When a relevant definition is found the search for possible proposals continues inside its structure. For example, if the definition is a variable of a structured type, the reference is used to detect the subtypes or fields that the reference could point to if it were to be completed that way.
 
-The proposals are ordered in the following way (definitions don’t hide each other in the proposal list):
+The proposals are ordered in the following way (definitions donâ€™t hide each other in the proposal list):
 
 . Dynamic elements available in the given scope. The elements are ordered by the distance of the element definition from the completion point in the scope hierarchy. For example, a local variable will always precede module definitions. The definitions that are most likely to be used are placed earlier in the list. If there is more than one proposal from the same scope, they are ordered alphabetically.
 . Skeletons available in the given scope. The skeletons are ordered alphabetically.
@@ -245,7 +245,7 @@ The proposals are ordered in the following way (definitions don’t hide each ot
 
 === Content Assistance Limitations
 
-Full context sensitivity is not possible yet. Only the scopes and the type structures are used to filter the list of proposals. For this reason, the content assistant might offer completion proposals, which are possible in the actual scope but not in the actual context. It is the user’s task to choose the right proposal.
+Full context sensitivity is not possible yet. Only the scopes and the type structures are used to filter the list of proposals. For this reason, the content assistant might offer completion proposals, which are possible in the actual scope but not in the actual context. It is the userâ€™s task to choose the right proposal.
 
 Only data gathered and stored by the on-the-fly parsers can be offered. If this data is outdated or not complete, the content assistance will also offer outdated or limited information. Section 3.1 explains how this can happen.
 
@@ -274,7 +274,7 @@ Open Declaration works for TTCN-3 and ASN.1 modules and configuration files. For
 
 Open configuration files listed in the include section. If the selected configuration file cannot be found the error is reported in the *TITAN Debug Console* and *the status line of Eclipse*.
 
-Find module parameter declarations. If the module parameter is given as a module specific module parameter (e.g. `module.parameter`) only the given module is searched through for the declaration. Otherwise (e.g. `.parameter` or `parameter`) all modules of the project are taken into account. Duplicate module parameter declarations and errors are reported in the same way as for macro definitions.
+Find module parameter declarations. If the module parameter is given as a module specific module parameter (e.g.Â `module.parameter`) only the given module is searched through for the declaration. Otherwise (e.g. `.parameter` or `parameter`) all modules of the project are taken into account. Duplicate module parameter declarations and errors are reported in the same way as for macro definitions.
 
 [[find-references]]
 == Find References
@@ -297,7 +297,7 @@ type record MyRec {
 ...
 var MyRec v_myrec;
 ...
-v_myrec.rec.rec.rec.str := “foo”;
+v_myrec.rec.rec.rec.str := â€œfooâ€�;
 ----
 
 Searching for field rec will give 3 hits in the above line, because the reference `v_myrec.rec.rec.rec.str` contains the identifier of the rec field 3 times.
@@ -370,9 +370,9 @@ The graphical pages are explained in detail in the sections below.
 
 === Module Parameters Section
 
-On this page (new) values can be assigned to parameters defined in the TTCN–3 modules.
+On this page (new) values can be assigned to parameters defined in the TTCNâ€“3 modules.
 
-A new parameter can be added by clicking the *Add…* button. The column *Module name* contains the name of the module where the parameter is used. The parameter can be used in all modules when this column is left blank or filled with an asterisk. The column *Module parameter name* is self-explanatory. The value of the parameter is determined by the string in the pane *Module parameter details* in free form as parameters may have different formats.
+A new parameter can be added by clicking the *Addâ€¦* button. The column *Module name* contains the name of the module where the parameter is used. The parameter can be used in all modules when this column is left blank or filled with an asterisk. The column *Module parameter name* is self-explanatory. The value of the parameter is determined by the string in the pane *Module parameter details* in free form as parameters may have different formats.
 
 Highlighted existing parameters are removed by clicking the *Remove* button.
 
@@ -386,7 +386,7 @@ Changes made to the parameters must be saved by the shortcut key *Ctrl+S*.
 
 The values of all parameters on this page are passed to test ports.
 
-A new parameter can be added by clicking the *Add…* button. The column *Component name* contains the name of the component defining the test port. An asterisk (*) denotes all ports of the Test System Interface. The column *Test port name* is the name of the test port. The column *Parameter name* is self-explanatory. The value of the parameter is determined by the string in the pane *Test port parameter details* in free form as parameters may have different formats.
+A new parameter can be added by clicking the *Addâ€¦* button. The column *Component name* contains the name of the component defining the test port. An asterisk (*) denotes all ports of the Test System Interface. The column *Test port name* is the name of the test port. The column *Parameter name* is self-explanatory. The value of the parameter is determined by the string in the pane *Test port parameter details* in free form as parameters may have different formats.
 
 Highlighted existing parameters are removed by clicking the *Remove* button.
 
@@ -420,7 +420,7 @@ The *Use of unix domain socket communication* field can turn on or off the usage
 
 The aim of the *Components* table is to restrict component execution to certain (group of) hosts. These constraints are useful when distributed tests are executed in a heterogeneous environment. The participating computers may have different hardware setup, computing capacity or operating system.
 
-A new restriction is added by clicking the *Add…* button to the right of the first table. The column *Component name* contains component to be restricted. The column *Host name* contains either a host name, a group of hosts (see <<group-section, here>>) or an IP address of a host.
+A new restriction is added by clicking the *Addâ€¦* button to the right of the first table. The column *Component name* contains component to be restricted. The column *Host name* contains either a host name, a group of hosts (see <<group-section, here>>) or an IP address of a host.
 
 Highlighted components are removed by the button *Remove*.
 
@@ -461,7 +461,7 @@ The field *End testcase* contains the path to the shell script executed after a 
 
 This table points out parts of the test suite to be executed. Only test cases having no parameters can be executed from this section.
 
-A new test case is added by clicking the *Add…* button to the right of the table. The column *Module name* contains the name of the module where the test case is defined. The column *Testcase…* lists the test cases to be executed. An asterisk (*) denotes that all test cases in the given module must be executed.
+A new test case is added by clicking the *Addâ€¦* button to the right of the table. The column *Module name* contains the name of the module where the test case is defined. The column *Testcaseâ€¦* lists the test cases to be executed. An asterisk (*) denotes that all test cases in the given module must be executed.
 
 Highlighted test cases are removed by the button *Remove*.
 
@@ -479,7 +479,7 @@ Changes made to the parameters must be saved by the shortcut key *Ctrl + S*.
 
 This table lists the configuration files to be imported. This way there is no need to merge configuration files when parameter definitions needed are dispersed over several files.
 
-A new configuration file is imported by clicking the *Add…* button to the right of the upper table. The column *File name* contains between quotation marks the name of the files to be imported.
+A new configuration file is imported by clicking the *Addâ€¦* button to the right of the upper table. The column *File name* contains between quotation marks the name of the files to be imported.
 
 Highlighted files are removed by the button *Remove*.
 
@@ -489,7 +489,7 @@ The field *Total* under the buttons shows the number of the imported files.
 
 This table contains macro definitions that can be used in other configuration file sections.
 
-A new macro definition is added by clicking the *Add…* button to the right of the lower table. The column *Definition* contains the macro name whereas the column *Definition value* contains the macro itself between quotation marks.
+A new macro definition is added by clicking the *Addâ€¦* button to the right of the lower table. The column *Definition* contains the macro name whereas the column *Definition value* contains the macro itself between quotation marks.
 
 Highlighted macros are removed by the button *Remove*.
 
@@ -506,7 +506,7 @@ image::images/7_F101.jpg[title="Figure Logging"]
 
 In the components and plug-ins section a tree of components and plug-ins can be created and managed.
 
-On the first level of the tree components can be added using the _Add component…_ button.Using the _Add plug-in…_ button plug-ins can be added under each component on the second level of the tree.
+On the first level of the tree components can be added using the _Add componentâ€¦_ button.Using the _Add plug-inâ€¦_ button plug-ins can be added under each component on the second level of the tree.
 
 Both component and plug-in names must be valid identifiers. The only exception is the "\*" component, this can be used to specify settings which are applied to all components and plug-ins.The "*" plug-in is automatically inserted; this can be used to specify settings which are applied to all plug-ins of the selected component. To specify settings for a specific component and plug-in one of the tree elements must be selected.
 
@@ -525,15 +525,15 @@ Any component or plug-in can be deleted using the _Remove selected_ button.
 
 `Seconds` results relative timestamps in format `s.microsec.`
 
-*SourceInfoFormat* controls the appearance of the test event location information (position in the TTCN–3 source code). The option can take one of the three possible values: `None`, `Single` and `Stack`. If set to `Single`, the location information of the TTCN–3 statement is logged that is currently being executed. When `Stack` is used, the entire TTCN–3 call stack is logged. The value `None` disables the printing of location information.
+*SourceInfoFormat* controls the appearance of the test event location information (position in the TTCNâ€“3 source code). The option can take one of the three possible values: `None`, `Single` and `Stack`. If set to `Single`, the location information of the TTCNâ€“3 statement is logged that is currently being executed. When `Stack` is used, the entire TTCNâ€“3 call stack is logged. The value `None` disables the printing of location information.
 
-*AppendFile* controls whether the run-time environment shall keep the contents of existing log files when starting execution. The possible values are `Yes` or `No`. The default is No, which means that all events from the previous test execution will be overwritten.
+*AppendFile* controls whether the run-time environment shall keep the contents of existing log files when starting execution. The possible values are `Yes` or `No`.Â The default is No, which means that all events from the previous test execution will be overwritten.
 
 *LogEventTypes* can be useful for log post-filtering scripts. The possible values are `Yes`, `No`, `Detailed` and `Subcategories`. These values are explained in the section `LogEventTypes` of <<12-references.adoc#_4, [4]>>.
 
-*LogEntityName:* if set to `Yes`, the name of the TTCN–3 entity is indicated in the log file along with the file name and line number.
+*LogEntityName:* if set to `Yes`, the name of the TTCNâ€“3 entity is indicated in the log file along with the file name and line number.
 
-*MatchingHints:* controls the verbosity of the logger regarding to template matching. The possible values are `Compact` and `Detailed`. The default is `Compact`, which shows the matched/unmatched fields of messages in a dot-separated notation. The Detailed version is similar to the former logging format. It’s more verbose and preserves the message structures.
+*MatchingHints:* controls the verbosity of the logger regarding to template matching. The possible values are `Compact` and `Detailed`. The default is `Compact`, which shows the matched/unmatched fields of messages in a dot-separated notation. The Detailed version is similar to the former logging format. Itâ€™s more verbose and preserves the message structures.
 
 *Log file size* limits log file growth: when the file reaches the limit given in kilobytes, the log file is closed and a new one is opened with a different name. The naming scheme is explained in the section `LogFileSize` of <<12-references.adoc#_4, [4]>>.
 

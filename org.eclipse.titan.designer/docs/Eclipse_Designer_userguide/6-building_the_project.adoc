@@ -4,7 +4,7 @@
 
 In this chapter a detailed, stepbystep procedure description is provided about how to build a project according to the workflow.
 
-Building a project from the TTCN–3 or ASN.1 source modules and perhaps test port files is a procedure consisting of several steps. In the TITAN Designer plugin, the procedure is fully automated. The commands issued by the build related functionalities and their progress messages are displayed in the TITAN console, so the successful completion of the processes can easily be verified. Also, in case of an error, the analysis of the progress messages helps to find the cause of the problem (this is also automated to some extent; please refer <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences, here>>). The build process also provides Eclipse with userfriendly information about its progress.
+Building a project from the TTCN–3 or ASN.1 source modules and perhaps test port files is a procedure consisting of several steps. In the TITAN Designer plugin, the procedure is fully automated. The commands issued by the build related functionalities and their progress messages are displayed in the TITAN console, so the successful completion of the processes can easily be verified. Also, in case of an error, the analysis of the progress messages helps to find the cause of the problem (this is also automated to some extent; please refer <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences, here>>). The build process also provides Eclipse with user friendly information about its progress.
 
 The building process is automated; that is, the executable is updated in the background when project resources change (because they have been created, deleted or updated). There is no need for user interaction—provided that automatic building is enabled.
 
@@ -52,7 +52,7 @@ This step, if needed, is carried out manually by the user.
 
 === Module Compilation
 
-In this step C++ files are generated from virgin TTCN-3 and ASN.1 files. When a C++ file already exists, then the timestamp of the Compile file is used to decide whether a C++ file in question is uptodate or not. A C++ file is refreshed only if the corresponding TTCN–3 or ASN.1 module was modified later than the timestamp in the Compile file indicates, or the project was refreshed by *right clicking* the projectand selecting *Refresh*; otherwise the generated C++ file is considered uptodate.
+In this step C++ files are generated from virgin TTCN-3 and ASN.1 files. When a C++ file already exists, then the timestamp of the Compile file is used to decide whether a C++ file in question is uptodate or not. A C++ file is refreshed only if the corresponding TTCN–3 or ASN.1 module was modified later than the timestamp in the Compile file indicates, or the project was refreshed by *right clicking* the project and selecting *Refresh*; otherwise the generated C++ file is considered uptodate.
 
 The first compilation of the modules will result in addition of the following files in the working directory:
 
@@ -266,7 +266,7 @@ NOTE: This file will only hold information relevant from the point of view of TI
 
 After switching to a newer version of the test executor or simply to save disk space, the project might need to be cleaned by removing the generated files from the working directory.
 
-To remove all generated files from the project, select *Clean* inthe *Project* menu option in Eclipse.
+To remove all generated files from the project, select *Clean* in the *Project* menu option in Eclipse.
 
 The following files will be deleted from the working directory:
 

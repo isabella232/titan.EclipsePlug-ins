@@ -45,8 +45,7 @@ The console shows all related information about build procedure, and execution. 
 +
 This views are not part of the TITAN Executor, however, shows any Executor related information, for example, errors during a project build.
 
-By default, the *Launch Commands* are enabled in this perspective, as shown in <<Figure-4,Figure 4>>. Only the *Run Configuration* is supported by the Executor plug-in.With this tool, new launch configurations can be created, or existing ones modified.
+By default, the *Launch Commands* are enabled in this perspective, as shown in <<Figure-4,Figure 4>>. Only the *Run Configuration* is supported by the Executor plug-in. With this tool, new launch configurations can be created, or existing ones modified.
 
 [[Figure-4]]
 image::images/2_Figure4.png[title="Launch Commands"]
-

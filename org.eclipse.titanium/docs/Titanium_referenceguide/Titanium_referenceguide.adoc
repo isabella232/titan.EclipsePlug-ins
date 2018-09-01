@@ -278,9 +278,9 @@ addField(b1);
 
 ==== Using parameters
 
-It is also possible to ask for parameters from the user on this page. In which case the parameter must also be a preference setting, and have a place on the preference window, preferably next to its main option.Please don’t forget to provide a default value for each parameter, so that the code smell can work out of the box if needed.
+It is also possible to ask for parameters from the user on this page. In which case the parameter must also be a preference setting, and have a place on the preference window, preferably next to its main option. Please don’t forget to provide a default value for each parameter, so that the code smell can work out of the box if needed.
 
-In the following example we would like to have a minimum length for identifiers. This threshold has a default value, but it should be changeable by the user.Figure 1 shows a sample window, consisting of all the parameters which are responsible for the minimum lengths of the identifiers. The default value is 4, but the user can change the threshold values any time here.
+In the following example we would like to have a minimum length for identifiers. This threshold has a default value, but it should be changeable by the user. Figure 1 shows a sample window, consisting of all the parameters which are responsible for the minimum lengths of the identifiers. The default value is 4, but the user can change the threshold values any time here.
 
 image::images/2_F1.png[title="Preferences window with user parameters"]
 
@@ -385,7 +385,7 @@ For the graph building (generation) we use *`GraphGenerator`*, this class implem
 After this step the editor window takes back the control, and displays the graph through JUNG API. Because of synchronization issues the editor doesn’t wait for the generator, the generator can set a new graph and thus launch the process of display through a method call on the inherited *`SetGraph()`* method. Here the most important steps are the following:
 
 . Handling of *`DrawArea`* (this is a Swing component that displays the graph).
-. Handling of *`SatelliteView`* (this is handled through a refrence).
+. Handling of *`SatelliteView`* (this is handled through a reference).
 
 As Jung is compatible with Java AWT (it finally returns a subclass of AWT *`Component`*), we add everything to these two swing objects.
 

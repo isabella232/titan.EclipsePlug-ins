@@ -328,4 +328,3 @@ A solution can be to start Eclipse with the following command forcing the Java V
 (This command must be executed in the directory where Eclipse was installed to)
 
 * Execution in JNI mode is not supported on Windows
-

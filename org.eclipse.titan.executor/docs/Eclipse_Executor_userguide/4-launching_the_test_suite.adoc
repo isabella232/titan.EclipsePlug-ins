@@ -119,7 +119,7 @@ On this page it is possible to set:
 
 * The name of the project.
 +
-Please note that it is not important to provide the name of the project, it is only provided to support automatic filling of the other fields. If you enter the name of a valid project with TITAN nature (or select one by browsing, as can be seen <<Figure-13,below>>), having the needed build options set, then the fields of the working directory and the executable will be filled in automatically.The entered name is checked for validity.
+Please note that it is not important to provide the name of the project, it is only provided to support automatic filling of the other fields. If you enter the name of a valid project with TITAN nature (or select one by browsing, as can be seen <<Figure-13,below>>), having the needed build options set, then the fields of the working directory and the executable will be filled in automatically. The entered name is checked for validity.
 
 [[Figure-13]]
 image::images/4_F13.png[title="Selecting a project"]
@@ -130,11 +130,11 @@ In single mode the built executable and in Mctr_cli mode the Main Controller is 
 
 * The executable of the project.
 +
-Please note that this executable is used to fill in the list of testcases on the Testsets page, if you change the path, it will be re-checked, and the data for the Testsets page will be re-evaluated.The entered file path is checked for validity.
+Please note that this executable is used to fill in the list of testcases on the Testsets page, if you change the path, it will be re-checked, and the data for the Testsets page will be re-evaluated. The entered file path is checked for validity.
 
 * The path of the configuration file.
 +
-Please note that not only the existence but also the validity of the configuration file is evaluated here. If a problem was found while trying to process the configuration file, the launch process will be interrupted here.Please note that this evaluation is done every time this configuration page becomes active, meaning that switching to and from this page can take some time.The entered file path is checked for validity.
+Please note that not only the existence but also the validity of the configuration file is evaluated here. If a problem was found while trying to process the configuration file, the launch process will be interrupted here. Please note that this evaluation is done every time this configuration page becomes active, meaning that switching to and from this page can take some time. The entered file path is checked for validity.
 
 * Whether you wish to start executing the configuration file automatically when the launcher is started.
 +
@@ -315,11 +315,11 @@ With this option the maximum amount of notification messages, which can be kept 
 
 * Setting it to 0:
 +
-This means, that every notification message (console logs and error messages) will be kept available.Please note that in a lengthy execution, the amount of used memory might become very high.Please also note that the views refreshing speed might depend on the amount of elements, which need to be redrawn.
+This means, that every notification message (console logs and error messages) will be kept available. Please note that in a lengthy execution, the amount of used memory might become very high. Please also note that the views refreshing speed might depend on the amount of elements, which need to be redrawn.
 
 * Setting it to a positive number:
 +
-This means that the maximum amount of notification messages that are accessible will be around this amount. Please note that if older messages are not needed this is a good way to decrease memory requirements, and possibly increase execution speed.Please also note that the real amount of accessible notifications might somewhat exceed this threshold. This is because of performance reasons, as removing several elements at once is much faster than removing elements one by one.
+This means that the maximum amount of notification messages that are accessible will be around this amount. Please note that if older messages are not needed this is a good way to decrease memory requirements, and possibly increase execution speed. Please also note that the real amount of accessible notifications might somewhat exceed this threshold. This is because of performance reasons, as removing several elements at once is much faster than removing elements one by one.
 
 * Verdict extraction from notification messages:
 +
@@ -416,7 +416,7 @@ For us the two most important parts of this page are:
 
 * The Save as region:
 +
-Here you can select a directory where the data of the launch configuration will be saved. The file will be named after the name of the launch configuration, with the extension "launch". Eclipse is automatically taking care of such files, if it finds such a file anywhere in the directories of the projects, it will be offered to the user.Please note that for this reason it is advised to put the launch configurations in the project’s directories. On this way if a project is closed, the launch configurations belonging to it won’t be displayed. +
+Here you can select a directory where the data of the launch configuration will be saved. The file will be named after the name of the launch configuration, with the extension "launch". Eclipse is automatically taking care of such files, if it finds such a file anywhere in the directories of the projects, it will be offered to the user. Please note that for this reason it is advised to put the launch configurations in the project’s directories. On this way if a project is closed, the launch configurations belonging to it won’t be displayed. +
 Please note that if you choose not to save the launch configuration it will still be saved, but to an internal point in Eclipse’s inner data hierarchies. output:
 
 * Standard input and output:
@@ -436,4 +436,3 @@ If this option is not set, then every time a new process is started it will eras
 --
 +
 NOTE: In JNI mode launch the Standard input and output handling part is not supported.
-

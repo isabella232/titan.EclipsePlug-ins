@@ -46,7 +46,7 @@ The TitaniumRefactoring tool is an Eclipse plug-in, extending the TITAN Designer
 
 The TitaniumRefactoring plug-in is extending the TITAN Designer plug-in, which is an implementation of TTCN–3 Core Language standard (<<_3, [3]>>), supporting of ASN.1 language (<<_4, [4]>>).
 
-The limitations present in the Designer plug-in also apply here: there are TTCN–3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN.Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the <<_2, TITAN Programmer’s Technical Reference>>.
+The limitations present in the Designer plug-in also apply here: there are TTCN–3 language constructs which are not yet supported in the current version, while there are also some non-standard extensions implemented by TITAN. Information on these limitations and extensions and also some clarifications of how the standard has been implemented in TITAN, can be found in the <<_2, TITAN Programmer’s Technical Reference>>.
 
 == Intended audience
 
