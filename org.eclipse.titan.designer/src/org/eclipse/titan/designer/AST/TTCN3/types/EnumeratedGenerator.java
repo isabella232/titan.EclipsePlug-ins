@@ -423,7 +423,7 @@ public class EnumeratedGenerator {
 				first = false;
 			}
 			//TODO add escaped name support
-			if (field.displayName != null) {
+			if (field.displayName != null && !field.displayName.equals(field.name)) {
 				if (!first) {
 					source.append(" || ");
 				}
