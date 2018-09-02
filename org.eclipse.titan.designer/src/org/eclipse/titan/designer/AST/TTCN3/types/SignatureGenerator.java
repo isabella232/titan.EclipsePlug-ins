@@ -519,7 +519,7 @@ public class SignatureGenerator {
 			source.append("}\n");
 
 			source.append(MessageFormat.format("private void copy_value(final {0}_exception otherValue) '{'\n", def.genName));
-			source.append("switch(otherValue.exception_selection){\n");
+			source.append("switch (otherValue.exception_selection){\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", exception.mJavaTypeName));
@@ -590,7 +590,7 @@ public class SignatureGenerator {
 			source.append("}\n");
 
 			source.append("public void encode_text(final Text_Buf text_buf) {\n");
-			source.append("switch(exception_selection) {\n");
+			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 
@@ -729,7 +729,7 @@ public class SignatureGenerator {
 			source.append("}\n\n");
 
 			source.append("public boolean is_any_or_omit() {\n");
-			source.append("switch(exception_selection) {\n");
+			source.append("switch (exception_selection) {\n");
 			for ( int i = 0; i < def.signatureExceptions.size(); i++) {
 				final SignatureException exception = def.signatureExceptions.get(i);
 

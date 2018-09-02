@@ -341,7 +341,7 @@ public class EnumeratedGenerator {
 		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("if (rawr < 0) {\n");
 		source.append("final error_type temp = error_type.values()[-rawr];\n");
-		source.append("switch(temp) {\n");
+		source.append("switch (temp) {\n");
 		source.append("case ET_INCOMPL_MSG:\n");
 		source.append("case ET_LEN_ERR:\n");
 		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
@@ -1000,7 +1000,7 @@ public class EnumeratedGenerator {
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");
 		source.append("}\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");

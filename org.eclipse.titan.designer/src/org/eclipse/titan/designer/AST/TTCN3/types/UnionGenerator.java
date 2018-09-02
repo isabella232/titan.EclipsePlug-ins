@@ -222,7 +222,7 @@ public class UnionGenerator {
 	private static void generateValueCopyValue(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append(MessageFormat.format("private void copy_value(final {0} otherValue) '{'\n", genName));
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch(otherValue.union_selection){\n");
+			source.append("switch (otherValue.union_selection){\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -315,7 +315,7 @@ public class UnionGenerator {
 	 * */
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("public boolean isValue() {\n");
-		source.append("switch(union_selection) {\n");
+		source.append("switch (union_selection) {\n");
 		source.append("case UNBOUND_VALUE:\n");
 		source.append("return false;\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
@@ -363,7 +363,7 @@ public class UnionGenerator {
 		source.append("return false;\n");
 
 		source.append("}\n");
-		source.append("switch(union_selection) {\n");
+		source.append("switch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -499,7 +499,7 @@ public class UnionGenerator {
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String genName, final String displayName, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
-		source.append("switch(union_selection) {\n");
+		source.append("switch (union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -518,7 +518,7 @@ public class UnionGenerator {
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append("switch(temp) {\n");
+		source.append("switch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case {0}:\n", i));
@@ -585,7 +585,7 @@ public class UnionGenerator {
 		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("if (rawr < 0) {\n");
 		source.append("final error_type temp = error_type.values()[-rawr];\n");
-		source.append("switch(temp) {\n");
+		source.append("switch (temp) {\n");
 		source.append("case ET_INCOMPL_MSG:\n");
 		source.append("case ET_LEN_ERR:\n");
 		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
@@ -959,10 +959,10 @@ public class UnionGenerator {
 	private static void generateTemplateCleanup(final StringBuilder source, final List<FieldInfo> fieldInfos) {
 		source.append("@Override\n");
 		source.append("public void cleanUp() {\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		if (!fieldInfos.isEmpty()) {
-			source.append("switch(single_value_union_selection) {\n");
+			source.append("switch (single_value_union_selection) {\n");
 			for (int i = 0 ; i < fieldInfos.size(); i++) {
 				final FieldInfo fieldInfo = fieldInfos.get(i);
 				source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -1071,7 +1071,7 @@ public class UnionGenerator {
 		source.append("if (value_selection != single_value_union_selection) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
-		source.append("switch(value_selection) {\n");
+		source.append("switch (value_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -1116,7 +1116,7 @@ public class UnionGenerator {
 		source.append(MessageFormat.format("if(checked_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Performing ischosen() operation on an invalid field of union type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append(MessageFormat.format("if (single_value_union_selection == {0}.union_selection_type.UNBOUND_VALUE) '{'\n", genName));
 		source.append(MessageFormat.format("throw new TtcnError(\"Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type {0}.\");\n", displayName));
@@ -1152,7 +1152,7 @@ public class UnionGenerator {
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append("return false;\n");
 		source.append("}\n");
-		source.append("switch(single_value_union_selection) {\n");
+		source.append("switch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -1180,7 +1180,7 @@ public class UnionGenerator {
 		if (!fieldInfos.isEmpty()) {
 			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", genName));
 		}
-		source.append("switch(single_value_union_selection) {\n");
+		source.append("switch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -1273,7 +1273,7 @@ public class UnionGenerator {
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");
 		source.append("}\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");
@@ -1392,7 +1392,7 @@ public class UnionGenerator {
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {\n");
-		source.append("switch(single_value_union_selection) {\n");
+		source.append("switch (single_value_union_selection) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 			source.append(MessageFormat.format("case ALT_{0}:\n", fieldInfo.mJavaVarName));
@@ -1437,7 +1437,7 @@ public class UnionGenerator {
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("encode_text_base(text_buf);\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
@@ -1464,14 +1464,14 @@ public class UnionGenerator {
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		source.append("cleanUp();\n");
 		source.append("decode_text_base(text_buf);\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("break;\n");
 		source.append("case SPECIFIC_VALUE:{\n");
 		source.append("final int temp = text_buf.pull_int().getInt();\n");
-		source.append("switch(temp) {\n");
+		source.append("switch (temp) {\n");
 		for (int i = 0 ; i < fieldInfos.size(); i++) {
 			final FieldInfo fieldInfo = fieldInfos.get(i);
 

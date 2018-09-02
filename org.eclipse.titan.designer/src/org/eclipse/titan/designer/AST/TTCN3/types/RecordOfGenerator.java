@@ -864,7 +864,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t\tfinal int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("\t\t\t\tif (rawr < 0) {\n");
 		source.append("\t\t\t\t\tfinal error_type temp = error_type.values()[-rawr];\n");
-		source.append("\t\t\t\t\tswitch(temp) {\n");
+		source.append("\t\t\t\t\tswitch (temp) {\n");
 		source.append("\t\t\t\t\tcase ET_INCOMPL_MSG:\n");
 		source.append("\t\t\t\t\tcase ET_LEN_ERR:\n");
 		source.append("\t\t\t\t\t\tTTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
@@ -1271,7 +1271,7 @@ public class RecordOfGenerator {
 		source.append("\t\tif (is_ifPresent) {\n");
 		source.append("\t\t\treturn true;\n");
 		source.append("\t\t}\n");
-		source.append("\t\tswitch(templateSelection) {\n");
+		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase OMIT_VALUE:\n");
 		source.append("\t\tcase ANY_OR_OMIT:\n");
 		source.append("\t\t\treturn true;\n");
@@ -1371,7 +1371,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\t@Override\n");
 		source.append("\tpublic void cleanUp() {\n");
-		source.append("\t\tswitch(templateSelection) {\n");
+		source.append("\t\tswitch (templateSelection) {\n");
 		source.append("\t\tcase SPECIFIC_VALUE:\n");
 		source.append("\t\t\tvalue_elements.clear();\n");
 		source.append("\t\t\tvalue_elements = null;\n");
@@ -2188,7 +2188,7 @@ public class RecordOfGenerator {
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void encode_text(final Text_Buf text_buf) {\n");
 		aSb.append("\t\t\tencode_text_permutation(text_buf);\n");
-		aSb.append("\t\t\tswitch(templateSelection) {\n");
+		aSb.append("\t\t\tswitch (templateSelection) {\n");
 		aSb.append("\t\t\tcase OMIT_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");
@@ -2215,7 +2215,7 @@ public class RecordOfGenerator {
 		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
 		aSb.append("\t\t\tcleanUp();\n");
 		aSb.append("\t\t\tdecode_text_permutation(text_buf);\n");
-		aSb.append("\t\t\tswitch(templateSelection) {\n");
+		aSb.append("\t\t\tswitch (templateSelection) {\n");
 		aSb.append("\t\t\tcase OMIT_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_VALUE:\n");
 		aSb.append("\t\t\tcase ANY_OR_OMIT:\n");

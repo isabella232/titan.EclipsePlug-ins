@@ -583,7 +583,7 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append("public void cleanUp(){\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case SPECIFIC_VALUE:\n");
 		source.append("single_value = null;\n");
 		source.append("break;\n");
@@ -754,7 +754,7 @@ public class FunctionReferenceGenerator {
 		source.append("if (is_ifPresent) {\n");
 		source.append("return true;\n");
 		source.append("}\n");
-		source.append("switch(templateSelection) {\n");
+		source.append("switch (templateSelection) {\n");
 		source.append("case OMIT_VALUE:\n");
 		source.append("case ANY_OR_OMIT:\n");
 		source.append("return true;\n");

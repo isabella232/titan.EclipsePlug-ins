@@ -2419,7 +2419,7 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
 		}
-		source.append("switch(head.item_selection) {\n");
+		source.append("switch (head.item_selection) {\n");
 		for (int i = 0 ; i < portDefinition.inProcedures.size(); i++) {
 			source.append(MessageFormat.format("case CALL_{0}:\n", i));
 		}
@@ -2585,7 +2585,7 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
 		}
-		source.append("switch(head.item_selection) {\n");
+		source.append("switch (head.item_selection) {\n");
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (!portDefinition.outProcedures.get(i).isNoBlock) {
 				source.append(MessageFormat.format("case REPLY_{0}:\n", i));
@@ -2760,7 +2760,7 @@ public class PortGenerator {
 			source.append("return TitanAlt_Status.ALT_NO;\n");
 			source.append("}\n");
 		}
-		source.append("switch(head.item_selection) {\n");
+		source.append("switch (head.item_selection) {\n");
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
 			if (portDefinition.outProcedures.get(i).hasExceptions) {
 				source.append(MessageFormat.format("case EXCEPTION_{0}:\n", i));

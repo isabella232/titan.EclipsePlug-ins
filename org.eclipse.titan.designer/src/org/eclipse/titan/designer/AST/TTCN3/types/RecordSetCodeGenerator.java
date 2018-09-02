@@ -642,7 +642,7 @@ public class RecordSetCodeGenerator {
 		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("if (rawr < 0) {\n");
 		source.append("final error_type temp = error_type.values()[-rawr];\n");
-		source.append("switch(temp) {\n");
+		source.append("switch (temp) {\n");
 		source.append("case ET_INCOMPL_MSG:\n");
 		source.append("case ET_LEN_ERR:\n");
 		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
@@ -2397,7 +2397,7 @@ public class RecordSetCodeGenerator {
 		source.append("final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);\n");
 		source.append("if (rawr < 0) {\n");
 		source.append("final error_type temp = error_type.values()[-rawr];\n");
-		source.append("switch(temp) {\n");
+		source.append("switch (temp) {\n");
 		source.append("case ET_INCOMPL_MSG:\n");
 		source.append("case ET_LEN_ERR:\n");
 		source.append("TTCN_EncDec_ErrorContext.error(temp, \"Can not decode type '%s', because invalid or incomplete message was received\", p_td.name);\n");
