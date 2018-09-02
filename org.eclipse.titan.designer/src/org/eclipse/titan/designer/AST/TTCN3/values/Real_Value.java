@@ -48,7 +48,7 @@ public final class Real_Value extends Value {
 	public Real_Value(final CompilationTimeStamp timestamp, final Sequence_Value original) {
 		copyGeneralProperties(original);
 		boolean erroneous = false;
-		//mantissa
+		// mantissa
 		final Identifier mantissaID = new Identifier(Identifier_type.ID_ASN, "mantissa");
 		int mantissa = 0;
 		if (original.hasComponentWithName(mantissaID)) {
@@ -74,7 +74,7 @@ public final class Real_Value extends Value {
 			erroneous = true;
 		}
 
-		//base
+		// base
 		final Identifier baseID = new Identifier(Identifier_type.ID_ASN, "base");
 		int base = 0;
 		if (original.hasComponentWithName(baseID)) {
@@ -100,7 +100,7 @@ public final class Real_Value extends Value {
 			erroneous = true;
 		}
 
-		//exponent
+		// exponent
 		final Identifier exponentID = new Identifier(Identifier_type.ID_ASN, "exponent");
 		int exponent = 0;
 		if (original.hasComponentWithName(exponentID)) {
@@ -270,7 +270,7 @@ public final class Real_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "Ttcn3Float" );
+		aData.addBuiltinTypeImport("Ttcn3Float");
 
 		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new Ttcn3Float( {0} )", createJavaStringRepresentation()));
@@ -289,16 +289,16 @@ public final class Real_Value extends Value {
 	 * @return
 	 */
 	private String createJavaStringRepresentation() {
-		if (Double.isNaN(value)){
+		if (Double.isNaN(value)) {
 			return "Double.NaN";
 		} else if (Double.isInfinite(value)) {
-			if( Double.compare(value,0)>0) {
+			if (Double.compare(value, 0) > 0) {
 				return "Double.POSITIVE_INFINITY";
 			} else {
 				return "Double.NEGATIVE_INFINITY";
 			}
-		} else if(value == 0.0) {
-			if (1.0/value == Double.NEGATIVE_INFINITY) {
+		} else if (value == 0.0) {
+			if (1.0 / value == Double.NEGATIVE_INFINITY) {
 				return "-0.0";
 			} else {
 				return "0.0";

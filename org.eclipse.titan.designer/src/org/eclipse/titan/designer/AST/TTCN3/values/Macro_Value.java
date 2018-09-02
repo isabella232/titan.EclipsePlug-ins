@@ -158,7 +158,8 @@ public final class Macro_Value extends Value {
 	/**
 	 * Evaluates the value of the macro.
 	 *
-	 * @param expectedValue the kind of the value to be expected
+	 * @param expectedValue
+	 *                the kind of the value to be expected
 	 *
 	 * @return the actual or the evaluated value
 	 * */
@@ -306,7 +307,7 @@ public final class Macro_Value extends Value {
 		}
 
 		if (Macro_type.TESTCASEID.equals(value)) {
-			aData.addCommonLibraryImport( "TTCN_Runtime" );
+			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			source.append(MessageFormat.format("{0}.assign(TTCN_Runtime.get_testcase_id_macro());\n", name));
 			return source;
@@ -324,7 +325,7 @@ public final class Macro_Value extends Value {
 		}
 
 		if (Macro_type.TESTCASEID.equals(value)) {
-			aData.addCommonLibraryImport( "TTCN_Runtime" );
+			aData.addCommonLibraryImport("TTCN_Runtime");
 
 			expression.expression.append("TTCN_Runtime.get_testcase_id_macro()");
 		}

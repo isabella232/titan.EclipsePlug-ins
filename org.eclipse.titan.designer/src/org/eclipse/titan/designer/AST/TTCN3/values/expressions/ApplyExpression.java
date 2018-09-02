@@ -329,7 +329,7 @@ public final class ApplyExpression extends Expression_Value {
 			return;
 		}
 
-		//FIXME a bit more complicated
+		// FIXME a bit more complicated
 		value.generateCodeExpressionMandatory(aData, expression, true);
 		expression.expression.append(".invoke(");
 		if (actualParameters != null) {

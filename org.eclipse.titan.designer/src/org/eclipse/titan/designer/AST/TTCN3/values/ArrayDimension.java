@@ -70,10 +70,11 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	/**
 	 * Checks if the array dimension was already reported erroneous in the actual semantic check cycle.
 	 *
-	 * @param timestamp the timestamp of the actual semantic check cycle.
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
 	 *
-	 * @return true if this array dimension description was found erroneous in
-	 *         the actual semantic check cycle, false otherwise.
+	 * @return true if this array dimension description was found erroneous
+	 *         in the actual semantic check cycle, false otherwise.
 	 * */
 	public final boolean getIsErroneous(final CompilationTimeStamp timestamp) {
 		if (lastTimeChecked != null && !lastTimeChecked.isLess(timestamp)) {
@@ -87,7 +88,8 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	 * Sets the erroneousness of the array dimension description to be erroneous
 	 * in this semantic check cycle.
 	 *
-	 * @param isErroneous the value to be set for erroneousness.
+	 * @param isErroneous
+	 *                the value to be set for erroneousness.
 	 * */
 	public final void setIsErroneous(final boolean isErroneous) {
 		this.isErroneous = isErroneous;
@@ -96,16 +98,20 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	/**
 	 * Checks the array dimension semantically.
 	 *
-	 * @param timestamp the timestamp of the actual build cycle.
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle.
 	 * */
 	public abstract void check(final CompilationTimeStamp timestamp);
 
 	/**
 	 * Check the array index against this dimension of the actual array type.
 	 *
-	 * @param timestamp the timestamp of the actual semantic check cycle.
-	 * @param index the index of the array index sub reference.
-	 * @param expectedValue the kind of value expected here
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param index
+	 *                the index of the array index sub reference.
+	 * @param expectedValue
+	 *                the kind of value expected here
 	 * */
 	public final void checkIndex(final CompilationTimeStamp timestamp, final IValue index,
 			final Expected_Value_type expectedValue) {
@@ -135,8 +141,6 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 			return;
 		}
 
-		
-
 		final long indexValue = ((Integer_Value) last).getValue();
 		if (indexValue < getOffset()) {
 			index.getLocation().reportSemanticError(MessageFormat.format(INDEXUNDERFLOW, getOffset(), indexValue));
@@ -151,8 +155,10 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	 * Returns whether this dimension is identical to the one received as
 	 * parameter.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param other the dimension to check against
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param other
+	 *                the dimension to check against
 	 * @return true if they are identical, false otherwise
 	 * */
 	public final boolean isIdentical(final CompilationTimeStamp timestamp, final ArrayDimension other) {
@@ -172,9 +178,11 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	/**
 	 * Handles the incremental parsing of this array dimension.
 	 *
-	 * @param reparser the parser doing the incremental parsing.
-	 * @param isDamaged true if the location contains the damaged area, false if
-	 *            only its' location needs to be updated.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
 	 * */
 	@Override
 	public abstract void updateSyntax(TTCN3ReparseUpdater reparser, boolean isDamaged) throws ReParseException;
@@ -185,10 +193,14 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	 *
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param elementType the element type of the array
-	 * @param scope the scope into which the name needs to be generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param elementType
+	 *                the element type of the array
+	 * @param scope
+	 *                the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public abstract String getValueType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope);
@@ -199,10 +211,14 @@ public abstract class ArrayDimension extends ASTNode implements ILocateableNode,
 	 *
 	 * get_genname_value in titan.core
 	 *
-	 * @param aData only used to update imports if needed
-	 * @param source the source code generated
-	 * @param elementType the element type of the array
-	 * @param scope the scope into which the name needs to be generated
+	 * @param aData
+	 *                only used to update imports if needed
+	 * @param source
+	 *                the source code generated
+	 * @param elementType
+	 *                the element type of the array
+	 * @param scope
+	 *                the scope into which the name needs to be generated
 	 * @return The name of the Java value class in the generated code.
 	 */
 	public abstract String getTemplateType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope);

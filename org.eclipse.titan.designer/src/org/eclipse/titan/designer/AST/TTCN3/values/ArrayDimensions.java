@@ -90,8 +90,10 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	/**
 	 * Check if two dimensions are (almost) identical.
 	 *
-	 * @param timestamp the timestamp of the actual semantic check cycle.
-	 * @param dimensions the dimensions to compare against the actual one.
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param dimensions
+	 *                the dimensions to compare against the actual one.
 	 *
 	 * @return true if they are (almost) identical, false otherwise.
 	 */
@@ -112,13 +114,19 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	/**
 	 * Check the array indices against this dimensions of the actual array type.
 	 *
-	 * @param timestamp the timestamp of the actual semantic check cycle.
-	 * @param reference the reference to check.
-	 * @param definitionName the name of the definition as reported in the error
-	 *            message.
-	 * @param allowSlicing true if the slicing of the array is allowed
-	 * @param expectedValue the kind of value expected here.
-	 * @param anyFrom the reference is used in any from context.
+	 * @param timestamp
+	 *                the timestamp of the actual semantic check cycle.
+	 * @param reference
+	 *                the reference to check.
+	 * @param definitionName
+	 *                the name of the definition as reported in the error
+	 *                message.
+	 * @param allowSlicing
+	 *                true if the slicing of the array is allowed
+	 * @param expectedValue
+	 *                the kind of value expected here.
+	 * @param anyFrom
+	 *                the reference is used in any from context.
 	 *
 	 * */
 	public void checkIndices(final CompilationTimeStamp timestamp, final Reference reference, final String definitionName,
@@ -164,9 +172,11 @@ public final class ArrayDimensions extends ASTNode implements IIncrementallyUpda
 	/**
 	 * Handles the incremental parsing of this list of array dimensions.
 	 *
-	 * @param reparser the parser doing the incremental parsing.
-	 * @param isDamaged true if the location contains the damaged area, false if
-	 *            only its' location needs to be updated.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
 	 * */
 	@Override
 	/** {@inheritDoc} */

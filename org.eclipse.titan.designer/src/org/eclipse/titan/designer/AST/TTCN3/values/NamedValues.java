@@ -59,7 +59,8 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	/**
 	 * Sets the code_section attribute for the list to the provided value.
 	 *
-	 * @param codeSection the code section where this list should be generated.
+	 * @param codeSection
+	 *                the code section where this list should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
 		for (int i = 0; i < values.size(); i++) {
@@ -138,7 +139,8 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	/**
 	 * Checks the uniqueness of the named values.
 	 *
-	 * @param timestamp the timestamp of the actual build cycle
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle
 	 * */
 	public void checkUniqueness(final CompilationTimeStamp timestamp) {
 		if (lastUniquenessCheck != null && !lastUniquenessCheck.isLess(timestamp)) {
@@ -149,7 +151,6 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 		String name;
 
 		namedValuesMap = new HashMap<String, NamedValue>(values.size());
-
 
 		for (final NamedValue value : values) {
 			identifier = value.getName();
@@ -171,9 +172,11 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	/**
 	 * Handles the incremental parsing of this list of named values.
 	 *
-	 * @param reparser the parser doing the incremental parsing.
-	 * @param isDamaged true if the location contains the damaged area, false if
-	 *            only its' location needs to be updated.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
 	 * */
 	@Override
 	/** {@inheritDoc} */
@@ -206,7 +209,7 @@ public final class NamedValues extends ASTNode implements IIncrementallyUpdateab
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (values!=null) {
+		if (values != null) {
 			for (final NamedValue nv : values) {
 				if (!nv.accept(v)) {
 					return false;

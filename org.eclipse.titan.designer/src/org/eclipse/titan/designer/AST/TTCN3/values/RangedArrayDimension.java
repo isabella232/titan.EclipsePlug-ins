@@ -250,7 +250,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 	@Override
 	/** {@inheritDoc} */
 	public String getValueType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
-		if(isErroneous) {
+		if (isErroneous) {
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for `" + getFullName() + "''");
 			return "FATAL ERROR in RangedArrayDImension:getValueType";
 		}
@@ -263,7 +263,7 @@ public final class RangedArrayDimension extends ArrayDimension {
 	@Override
 	/** {@inheritDoc} */
 	public String getTemplateType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
-		if(isErroneous) {
+		if (isErroneous) {
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for `" + getFullName() + "''");
 			return "FATAL ERROR in RangedArrayDImension:getTemplateType";
 		}

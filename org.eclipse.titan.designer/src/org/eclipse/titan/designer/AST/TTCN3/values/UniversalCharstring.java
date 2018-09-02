@@ -42,11 +42,14 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 
 	/**
 	 * Constructor
-	 * @param aValue TTCN-3 charstring value, it can contain escape characters
+	 * 
+	 * @param aValue
+	 *                TTCN-3 charstring value, it can contain escape
+	 *                characters
 	 */
 	public UniversalCharstring(final String string, final Location location) {
-		//TODO: this kind of check might be better done at semantic checking time.
-		//TODO: make UTF-8 checking faster, converting each string to octetstring is not very effective (also on the C++ side)
+		// TODO: this kind of check might be better done at semantic checking time.
+		// TODO: make UTF-8 checking faster, converting each string to octetstring is not very effective (also on the C++ side)
 		// Check for UTF8 encoding and decode it
 		// in case the editor encoded the TTCN-3 file with UTF-8
 		final StringBuilder octet_str = new StringBuilder();
@@ -56,7 +59,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 				octet_str.append(PredefFunc.hexdigit_to_char((char) (string.charAt(i) / 16)));
 				octet_str.append(PredefFunc.hexdigit_to_char((char) (string.charAt(i) % 16)));
 			} catch (DecodeException e) {
-				//cannot happen
+				// cannot happen
 			}
 		}
 
@@ -73,13 +76,13 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 		}
 
 		final CharstringExtractor cs = new CharstringExtractor(string);
-		if ( cs.isErrorneous() ) {
+		if (cs.isErrorneous()) {
 			mErrorneous = true;
 			mErrorMessage = cs.getErrorMessage();
 		}
 
 		final String extracted = cs.getExtractedString();
-		if ( extracted != null ) {
+		if (extracted != null) {
 			value = new ArrayList<UniversalChar>(extracted.length());
 			for (int i = 0; i < extracted.length(); i++) {
 				value.add(new UniversalChar(extracted.charAt(i)));
@@ -88,8 +91,8 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	/**
-	 * @return if TTCN-3 string contains error
-	 * NOTE: it can only be true if String constructor was used
+	 * @return if TTCN-3 string contains error NOTE: it can only be true if
+	 *         String constructor was used
 	 */
 	public boolean isErrorneous() {
 		return mErrorneous;
@@ -124,7 +127,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	public String getString() {
 		final StringBuilder builder = new StringBuilder(value.size());
 		for (int i = 0; i < value.size(); i++) {
-			builder.append((char)value.get(i).cell());
+			builder.append((char) value.get(i).cell());
 		}
 
 		return builder.toString();
@@ -168,7 +171,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	public UniversalCharstring append(final UniversalCharstring other) {
-		if( other != null) {
+		if (other != null) {
 			for (int i = 0; i < other.value.size(); i++) {
 				value.add(other.value.get(i));
 			}
@@ -178,7 +181,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	}
 
 	public UniversalCharstring append(final UniversalChar uc) {
-		if( uc != null) {
+		if (uc != null) {
 			value.add(uc);
 		}
 
@@ -202,11 +205,12 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	/**
 	 * Three way lexicographical comparison of universal character strings.
 	 *
-	 * @param other the string to be compared.
+	 * @param other
+	 *                the string to be compared.
 	 * @return the value 0 if the argument string is equal to this string; a
-	 *         value less than 0 if this string is lexicographically less than
-	 *         the string argument; and a value greater than 0 if this string is
-	 *         lexicographically greater than the string argument.
+	 *         value less than 0 if this string is lexicographically less
+	 *         than the string argument; and a value greater than 0 if this
+	 *         string is lexicographically greater than the string argument.
 	 */
 	public int compareWith(final UniversalCharstring other) {
 		if (this == other) {
@@ -257,7 +261,8 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	/**
 	 * Checks if this universal character string equals in meaning with the one provided.
 	 *
-	 * @param other the one to compare against.
+	 * @param other
+	 *                the one to compare against.
 	 *
 	 * @return true if they mean the same symbol list.
 	 * */
@@ -282,7 +287,8 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	/**
 	 * Checks if this universal character string equals in meaning with the one provided.
 	 *
-	 * @param other the one to compare against.
+	 * @param other
+	 *                the one to compare against.
 	 *
 	 * @return true if they mean the same symbol list.
 	 * */
@@ -304,7 +310,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 * Returns the hashcode for the Universal character string.
 	 * Useful in case it is stored in a hashmap.
 	 *
-	 * @return  a hash code value for this universal character  string.
+	 * @return a hash code value for this universal character string.
 	 */
 	@Override
 	public int hashCode() {
@@ -340,7 +346,9 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 	 *
 	 * get_single_expr in the compiler
 	 *
-	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		final StringBuilder result = new StringBuilder();
@@ -350,7 +358,7 @@ public final class UniversalCharstring implements Comparable<UniversalCharstring
 			final UniversalChar temp = value.get(i);
 
 			result.append(temp.generateSingleExpression(aData));
-			if(i != size - 1) {
+			if (i != size - 1) {
 				result.append(", ");
 			}
 		}

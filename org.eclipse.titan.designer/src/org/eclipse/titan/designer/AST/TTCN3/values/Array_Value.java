@@ -134,7 +134,7 @@ public final class Array_Value extends Value {
 
 					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
 				} else if (index < 0 || index >= values.getNofValues()) {
-					//the error was already reported
+					// the error was already reported
 				} else {
 					return values.getValueByIndex(index).getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
 				}
@@ -380,7 +380,7 @@ public final class Array_Value extends Value {
 
 					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
 				} else if (index < 0 || index >= values.getNofValues()) {
-					//the error was already reported
+					// the error was already reported
 				} else {
 					return values.getValueByIndex(index).evaluateIsbound(timestamp, reference, actualSubReference + 1);
 				}
@@ -440,7 +440,7 @@ public final class Array_Value extends Value {
 
 					arrayIndex.getLocation().reportSemanticError(MessageFormat.format(NOINDEX, index, values.getFullName()));
 				} else if (index < 0 || index >= values.getNofValues()) {
-					//the error was already reported
+					// the error was already reported
 				} else {
 					return values.getValueByIndex(index).evaluateIspresent(timestamp, reference, actualSubReference + 1);
 				}
@@ -471,7 +471,7 @@ public final class Array_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (values!=null && !values.accept(v)) {
+		if (values != null && !values.accept(v)) {
 			return false;
 		}
 		return true;

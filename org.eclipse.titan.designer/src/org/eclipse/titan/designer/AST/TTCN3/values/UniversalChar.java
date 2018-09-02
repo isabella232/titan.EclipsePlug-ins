@@ -77,11 +77,12 @@ public final class UniversalChar {
 	/**
 	 * Three way lexicographical comparison of universal character strings.
 	 *
-	 * @param other the string to be compared.
+	 * @param other
+	 *                the string to be compared.
 	 * @return the value 0 if the argument string is equal to this string; a
-	 *         value less than 0 if this string is lexicographically less than
-	 *         the string argument; and a value greater than 0 if this string is
-	 *         lexicographically greater than the string argument.
+	 *         value less than 0 if this string is lexicographically less
+	 *         than the string argument; and a value greater than 0 if this
+	 *         string is lexicographically greater than the string argument.
 	 */
 	public int compareWith(final UniversalChar other) {
 		if (this == other) {
@@ -112,7 +113,8 @@ public final class UniversalChar {
 	/**
 	 * Checks if this universal character equals in meaning with the one provided.
 	 *
-	 * @param other the one to compare against.
+	 * @param other
+	 *                the one to compare against.
 	 *
 	 * @return true if they mean the same symbol.
 	 * */
@@ -127,7 +129,8 @@ public final class UniversalChar {
 	/**
 	 * Checks if this universal character equals in meaning with the one provided.
 	 *
-	 * @param other the one to compare against.
+	 * @param other
+	 *                the one to compare against.
 	 *
 	 * @return true if they mean the same symbol.
 	 * */
@@ -139,7 +142,7 @@ public final class UniversalChar {
 	 * Returns the hashcode for the Universal character.
 	 * Useful in case it is stored in a hashmap.
 	 *
-	 * @return  a hash code value for this universal character.
+	 * @return a hash code value for this universal character.
 	 */
 	@Override
 	public int hashCode() {
@@ -169,10 +172,12 @@ public final class UniversalChar {
 	 *
 	 * get_single_expr in the compiler
 	 *
-	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanUniversalChar" );
+		aData.addBuiltinTypeImport("TitanUniversalChar");
 
 		final StringBuilder result = new StringBuilder();
 

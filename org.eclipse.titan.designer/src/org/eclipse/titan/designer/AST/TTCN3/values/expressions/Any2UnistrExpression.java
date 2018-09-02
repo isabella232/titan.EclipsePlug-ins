@@ -41,7 +41,7 @@ import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
 public final class Any2UnistrExpression extends Expression_Value {
 	private static final String FULLNAMEPART = ".logargument";
 
-	private final LogArguments logArguments;//1 argument
+	private final LogArguments logArguments;// 1 argument
 
 	public Any2UnistrExpression(final LogArguments logArguments) {
 		this.logArguments = logArguments;
@@ -60,28 +60,28 @@ public final class Any2UnistrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		for(int i = 0; i < logArguments.getNofLogArguments(); i++) {
+		for (int i = 0; i < logArguments.getNofLogArguments(); i++) {
 			final InternalLogArgument logArgument = logArguments.getLogArgumentByIndex(i).getRealArgument();
 
 			if (logArgument == null) {
 				continue;
 			}
-			switch(logArgument.getArgumentType()) {
+			switch (logArgument.getArgumentType()) {
 			case Macro:
 			case String:
-				//self reference not possible
+				// self reference not possible
 				break;
 			case Value:
-				if (((Value_InternalLogArgument)logArgument).getValue().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+				if (((Value_InternalLogArgument) logArgument).getValue().checkExpressionSelfReferenceValue(timestamp, lhs)) {
 					return true;
 				}
 				break;
 			case Match:
-				if (((Match_InternalLogArgument)logArgument).getMatchExpression().checkExpressionSelfReferenceValue(timestamp, lhs)) {
+				if (((Match_InternalLogArgument) logArgument).getMatchExpression().checkExpressionSelfReferenceValue(timestamp, lhs)) {
 					return true;
 				}
 				break;
-			case Reference:{
+			case Reference: {
 				final Reference reference = ((Reference_InternalLogArgument) logArgument).getReference();
 				if (lhs == reference.getRefdAssignment(timestamp, false)) {
 					return true;
@@ -224,7 +224,7 @@ public final class Any2UnistrExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		if ( logArguments == null ) {
+		if (logArguments == null) {
 			return;
 		}
 

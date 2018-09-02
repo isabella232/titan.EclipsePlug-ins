@@ -63,8 +63,10 @@ public final class Sequence_Value extends Value {
 	/**
 	 * function used to convert a value written without naming the fields into a template where all field names are provided.
 	 *
-	 * @param timestamp the timestamp of the actual build cycle
-	 * @param value the value to be converted
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle
+	 * @param value
+	 *                the value to be converted
 	 * */
 	public static Sequence_Value convert(final CompilationTimeStamp timestamp, final SequenceOf_Value value) {
 		if (value.getMyGovernor() == null) {
@@ -85,7 +87,7 @@ public final class Sequence_Value extends Value {
 		case TYPE_SIGNATURE:
 			nofComponents = ((Signature_Type) t).getNofParameters();
 			break;
-		default:{
+		default: {
 			final Sequence_Value target = new Sequence_Value(null);
 			target.copyGeneralProperties(value);
 			return target;
@@ -126,7 +128,7 @@ public final class Sequence_Value extends Value {
 				case TYPE_SIGNATURE:
 					identifier = ((Signature_Type) t).getParameterIdentifierByIndex(i);
 					break;
-				default:{
+				default: {
 					final Sequence_Value target = new Sequence_Value(null);
 					target.copyGeneralProperties(value);
 					return target;
@@ -138,8 +140,6 @@ public final class Sequence_Value extends Value {
 				values.addNamedValue(namedValue);
 			}
 		}
-
-
 
 		if (allNotUsed && nofValues > 0) {
 			value.getLocation().reportSemanticWarning(MessageFormat.format(ALLARENOTUSED, t.getTypename()));
@@ -231,7 +231,7 @@ public final class Sequence_Value extends Value {
 
 				compField = ((TTCN3_Sequence_Type) type).getComponentByName(fieldId.getDisplayName());
 				if (compField.isOptional()) {
-					//create an explicit omit value
+					// create an explicit omit value
 					final Value result = new Omit_Value();
 
 					final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -258,7 +258,7 @@ public final class Sequence_Value extends Value {
 
 				compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 				if (compField.isOptional()) {
-					//create an explicit omit value
+					// create an explicit omit value
 					final Value result = new Omit_Value();
 
 					final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -307,7 +307,8 @@ public final class Sequence_Value extends Value {
 	 * <p>
 	 * Right now is only used to add implicit omit elements.
 	 *
-	 * @param value the named value to add.
+	 * @param value
+	 *                the named value to add.
 	 * */
 	public void addNamedValue(final NamedValue value) {
 		if (value != null) {
@@ -321,8 +322,10 @@ public final class Sequence_Value extends Value {
 	 * <p>
 	 * Right now is only used to add implicit omit elements.
 	 *
-	 * @param value the named value to add.
-	 * @param index the index at which to insert.
+	 * @param value
+	 *                the named value to add.
+	 * @param index
+	 *                the index at which to insert.
 	 * */
 	public void insertNamedValue(final NamedValue value, final int index) {
 		if (value != null) {
@@ -401,7 +404,7 @@ public final class Sequence_Value extends Value {
 	public Value setValuetype(final CompilationTimeStamp timestamp, final Value_type newType) {
 		switch (newType) {
 		case SET_VALUE:
-			convertedValue =  new Set_Value(this);
+			convertedValue = new Set_Value(this);
 			break;
 		case CHOICE_VALUE:
 			convertedValue = new Choice_Value(timestamp, this);
@@ -423,7 +426,8 @@ public final class Sequence_Value extends Value {
 	/**
 	 * Checks the uniqueness of the sequence value.
 	 *
-	 * @param timestamp the timestamp of the actual build cycle
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle
 	 * */
 	public void checkUniqueness(final CompilationTimeStamp timestamp) {
 		if (values == null) {
@@ -635,7 +639,7 @@ public final class Sequence_Value extends Value {
 
 			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
-				//create an explicit omit value
+				// create an explicit omit value
 				final Value result = new Omit_Value();
 
 				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -705,7 +709,7 @@ public final class Sequence_Value extends Value {
 
 			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
-				//create an explicit omit value
+				// create an explicit omit value
 				final Value result = new Omit_Value();
 
 				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -749,7 +753,7 @@ public final class Sequence_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (values!=null && !values.accept(v)) {
+		if (values != null && !values.accept(v)) {
 			return false;
 		}
 		return true;
@@ -791,20 +795,20 @@ public final class Sequence_Value extends Value {
 		}
 
 		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		if(Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
+		if (Type_type.TYPE_TTCN3_SEQUENCE.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
 				final String name = values.getNamedValueByIndex(i).getName().getName();
-				if(((TTCN3_Sequence_Type)type).hasComponentWithName(name)) {
+				if (((TTCN3_Sequence_Type) type).hasComponentWithName(name)) {
 					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 					embeddedName.append('.');
 					embeddedName.append(name);
 					embeddedName.append("()");
-					if(((TTCN3_Sequence_Type)type).getComponentByName(name).isOptional()) {
+					if (((TTCN3_Sequence_Type) type).getComponentByName(name).isOptional()) {
 						embeddedName.append(".get()");
 					}
 
-					final IValue v= values.getNamedValueByIndex(i).getValue();
-					if (v!=null){
+					final IValue v = values.getNamedValueByIndex(i).getValue();
+					if (v != null) {
 						v.setGenNameRecursive(embeddedName.toString());
 					}
 				}
@@ -920,19 +924,19 @@ public final class Sequence_Value extends Value {
 			IValue fieldValue;
 			if (hasComponentWithName(fieldName)) {
 				fieldValue = getComponentByName(fieldName).getValue();
-				if(Value_type.NOTUSED_VALUE.equals(fieldValue.getValuetype())) {
+				if (Value_type.NOTUSED_VALUE.equals(fieldValue.getValuetype())) {
 					continue;
 				} else if (Value_type.OMIT_VALUE.equals(fieldValue.getValuetype())) {
 					fieldValue = null;
 				}
-			}//TODO add support for asn default values when needed
+			}// TODO add support for asn default values when needed
 			else {
 				continue;
 			}
 
 			final String javaGetterName = FieldSubReference.getJavaGetterName(fieldName.getName());
 			if (fieldValue != null) {
-				//TODO handle the case when temporary reference is needed
+				// TODO handle the case when temporary reference is needed
 				final StringBuilder embeddedName = new StringBuilder();
 				embeddedName.append(name);
 				embeddedName.append(".get");
@@ -944,7 +948,7 @@ public final class Sequence_Value extends Value {
 
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
-				aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
 				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}

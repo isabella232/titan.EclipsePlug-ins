@@ -200,7 +200,7 @@ public final class Octetstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanOctetString" );
+		aData.addBuiltinTypeImport("TitanOctetString");
 
 		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", value));
@@ -211,7 +211,7 @@ public final class Octetstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanOctetString" );
+		aData.addBuiltinTypeImport("TitanOctetString");
 
 		source.append(MessageFormat.format("{0}.assign(new TitanOctetString(\"{1}\"));\n", name, value));
 

@@ -155,7 +155,7 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (value!=null && !value.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;
@@ -179,26 +179,27 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 		return null;
 	}
 
-	//==== Code generation ====
+	// ==== Code generation ====
 	/**
 	 * Generates a Java code sequence, which initializes the Java
 	 *  object named  name with the contents of the value. The code
 	 *  sequence is appended to argument source and the resulting
 	 *  string is returned.
 	 *
-	 *  generate_code_init in the compiler
+	 * generate_code_init in the compiler
 	 *
-	 *  @param aData the structure to put imports into and get temporal variable names from.
-	 *  @param source the source to be updated
-	 *  @param name the name to be used for initialization
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
+	 * @param source
+	 *                the source to be updated
+	 * @param name
+	 *                the name to be used for initialization
 	 * */
 	@Override
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		source.append(MessageFormat.format("{0}.assign({1}.enum_type.{2});\n",
-					name,
-					this.getMyGovernor().getGenNameValue(aData, source, myScope),
-					this.getValue().getName()
-					));
+		source.append(MessageFormat.format("{0}.assign({1}.enum_type.{2});\n", name,
+				this.getMyGovernor().getGenNameValue(aData, source, myScope), this.getValue().getName()));
 		return source;
 	}
 
@@ -209,12 +210,14 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	}
 
 	/**
-	 * Returns the equivalent Java expression.
-	 * It can be used only if canGenerateSingleExpression() returns true
+	 * Returns the equivalent Java expression. It can be used only if
+	 * canGenerateSingleExpression() returns true
 	 *
 	 * get_single_expr in the compiler
 	 *
-	 * @param aData the structure to put imports into and get temporal variable names from.
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
 	 * */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		final StringBuilder source = new StringBuilder();
@@ -225,16 +228,18 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 	}
 
 	/**
-	 * Generates the equivalent Java code for the value. It is used
-	 *  when the value is part of a complex expression (e.g. as
-	 *  operand of a built-in operation, actual parameter, array
-	 *  index). The generated code fragments are appended to the
-	 *  fields of visitor expr.
+	 * Generates the equivalent Java code for the value. It is used when the
+	 * value is part of a complex expression (e.g. as operand of a built-in
+	 * operation, actual parameter, array index). The generated code
+	 * fragments are appended to the fields of visitor expr.
 	 *
-	 *  generate_code_expr in the compiler
+	 * generate_code_expr in the compiler
 	 *
-	 * @param aData the structure to put imports into and get temporal variable names from.
-	 * @param expression the expression to generate source code into
+	 * @param aData
+	 *                the structure to put imports into and get temporal
+	 *                variable names from.
+	 * @param expression
+	 *                the expression to generate source code into
 	 * */
 	@Override
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
@@ -243,8 +248,8 @@ public final class Enumerated_Value extends Value implements IReferencingElement
 			return;
 		}
 
-		expression.expression.append( "\t//TODO: " );
-		expression.expression.append( getClass().getSimpleName() );
-		expression.expression.append( ".generateCodeExpression() is not implemented!\n" );
+		expression.expression.append("\t//TODO: ");
+		expression.expression.append(getClass().getSimpleName());
+		expression.expression.append(".generateCodeExpression() is not implemented!\n");
 	}
 }

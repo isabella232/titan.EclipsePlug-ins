@@ -132,7 +132,8 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	/**
 	 * Sets the code_section attribute for the list to the provided value.
 	 *
-	 * @param codeSection the code section where this list should be generated.
+	 * @param codeSection
+	 *                the code section where this list should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
 		if (isIndexed) {
@@ -171,8 +172,11 @@ public final class Values extends ASTNode implements IIncrementallyUpdateable {
 	/**
 	 * Handles the incremental parsing of this value list.
 	 *
-	 * @param reparser the parser doing the incremental parsing.
-	 * @param isDamaged true if the location contains the damaged area, false if only its' location needs to be updated.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
 	 * */
 	@Override
 	/** {@inheritDoc} */

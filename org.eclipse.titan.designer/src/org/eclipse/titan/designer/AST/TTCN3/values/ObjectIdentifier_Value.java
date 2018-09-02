@@ -111,7 +111,8 @@ public final class ObjectIdentifier_Value extends Value {
 	/**
 	 * Appends its own object identifier component parts to the provided list.
 	 *
-	 * @param components the list to be extended
+	 * @param components
+	 *                the list to be extended
 	 * */
 	public void getOidComponents(final JavaGenData aData, final List<String> components) {
 		for (int i = 0, size = objectIdComponents.size(); i < size; i++) {
@@ -233,7 +234,7 @@ public final class ObjectIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (objectIdComponents!=null) {
+		if (objectIdComponents != null) {
 			for (final ObjectIdentifierComponent c : objectIdComponents) {
 				if (!c.accept(v)) {
 					return false;
@@ -252,8 +253,8 @@ public final class ObjectIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		//TODO register as module level charstring literal and return the literal's name
-		aData.addBuiltinTypeImport( "TitanObjectid" );
+		// TODO register as module level charstring literal and return the literal's name
+		aData.addBuiltinTypeImport("TitanObjectid");
 		aData.addBuiltinTypeImport("TitanInteger");
 
 		final ArrayList<String> components = new ArrayList<String>();
@@ -274,7 +275,7 @@ public final class ObjectIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanObjectid" );
+		aData.addBuiltinTypeImport("TitanObjectid");
 
 		source.append(MessageFormat.format("{0}.assign({1});\n", name, generateSingleExpression(aData)));
 

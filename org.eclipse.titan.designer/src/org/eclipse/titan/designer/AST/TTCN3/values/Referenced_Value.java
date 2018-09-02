@@ -108,7 +108,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
-		//Do nothing
+		// Do nothing
 	}
 
 	@Override
@@ -350,7 +350,7 @@ public final class Referenced_Value extends Value {
 			// the referred definition is not a constant
 			//errors will be reported in Types.java
 			referencedValue = this;
-			if ( !Expected_Value_type.EXPECTED_TEMPLATE.equals(expectedValue)) {
+			if (!Expected_Value_type.EXPECTED_TEMPLATE.equals(expectedValue)) {
 				getLocation().reportSemanticError(MessageFormat.format(UNEXPECTEDASSIGNMENT2, ass.getDescription()));
 			}
 			break;
@@ -555,7 +555,7 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public boolean checkEquality(final CompilationTimeStamp timestamp,  final IValue other) {
+	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
 		if (lastTimeChecked == null) {
 			getValueRefdLast(timestamp, null);
 		}
@@ -573,7 +573,7 @@ public final class Referenced_Value extends Value {
 
 	@Override
 	/** {@inheritDoc} */
-	public void updateSyntax(final TTCN3ReparseUpdater reparser,  final boolean isDamaged) throws ReParseException {
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
 		}
@@ -639,7 +639,7 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (reference!=null && !reference.accept(v)) {
+		if (reference != null && !reference.accept(v)) {
 			return false;
 		}
 		return true;
@@ -722,8 +722,8 @@ public final class Referenced_Value extends Value {
 			// simple substitution for in-line values within the same module
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
-			//TODO might need initialization see needs_init_precede
-			//TODO Value.cc:generate_code_init_refd
+			// TODO might need initialization see needs_init_precede
+			// TODO Value.cc:generate_code_init_refd
 
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
 		}
@@ -757,8 +757,8 @@ public final class Referenced_Value extends Value {
 			// simple substitution for in-line values within the same module
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
-			//TODO might need initialization see needs_init_precede
-			//TODO Value.cc:generate_code_init_refd
+			// TODO might need initialization see needs_init_precede
+			// TODO Value.cc:generate_code_init_refd
 
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.getGenNameOwn(myScope)));
 		}
@@ -771,7 +771,7 @@ public final class Referenced_Value extends Value {
 	public void reArrangeInitCode(final JavaGenData aData, final StringBuilder source, final Module usageModule) {
 		final List<ISubReference> subreferences = reference.getSubreferences();
 		if (subreferences != null && subreferences.size() > 0 && subreferences.get(0) instanceof ParameterisedSubReference) {
-			final ActualParameterList actualParameterList = ((ParameterisedSubReference)subreferences.get(0)).getActualParameters();
+			final ActualParameterList actualParameterList = ((ParameterisedSubReference) subreferences.get(0)).getActualParameters();
 			if (actualParameterList != null) {
 				actualParameterList.reArrangeInitCode(aData, source, usageModule);
 			}
@@ -781,8 +781,8 @@ public final class Referenced_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpression(final JavaGenData aData, final ExpressionStruct expression, final boolean forceObject) {
-		//TODO check and handle conversion needs
-		//TODO actually generate_code_const_ref
+		// TODO check and handle conversion needs
+		// TODO actually generate_code_const_ref
 		reference.generateConstRef(aData, expression);
 	}
 

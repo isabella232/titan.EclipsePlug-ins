@@ -179,8 +179,7 @@ public final class DecodeExpression extends Expression_Value {
 		return true;
 	}
 
-
-	private void checkFirstExpressionOperand(final CompilationTimeStamp timestamp){
+	private void checkFirstExpressionOperand(final CompilationTimeStamp timestamp) {
 		final Assignment temporalAssignment = reference1.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
@@ -261,7 +260,7 @@ public final class DecodeExpression extends Expression_Value {
 		}
 		checkFirstExpressionOperand(timestamp);
 
-		//check second parameter
+		// check second parameter
 		final Assignment temporalAssignment = reference2.getRefdAssignment(timestamp, true);
 
 		if (temporalAssignment == null) {
@@ -323,9 +322,9 @@ public final class DecodeExpression extends Expression_Value {
 				if (!dynamicEncoding.isUnfoldable(timestamp)) {
 					boolean errorFound = false;
 					if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
-						errorFound = ((UniversalCharstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+						errorFound = ((UniversalCharstring_Value) lastValue).checkDynamicEncodingString(timestamp, type);
 					} else if (Value_type.CHARSTRING_VALUE.equals(lastValue.getValuetype())) {
-						errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+						errorFound = ((Charstring_Value) lastValue).checkDynamicEncodingString(timestamp, type);
 					}
 					if (errorFound) {
 						dynamicEncoding.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));

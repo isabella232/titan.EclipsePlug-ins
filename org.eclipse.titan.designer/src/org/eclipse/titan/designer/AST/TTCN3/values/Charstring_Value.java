@@ -52,8 +52,10 @@ public final class Charstring_Value extends Value {
 	/**
 	 * function used to convert a universal charstring value into a charstring value if possible.
 	 *
-	 * @param timestamp the timestamp of the actual build cycle
-	 * @param original the value to be converted
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle
+	 * @param original
+	 *                the value to be converted
 	 * */
 	public static Charstring_Value convert(final CompilationTimeStamp timestamp, final UniversalCharstring_Value original) {
 		final UniversalCharstring oldString = original.getValue();
@@ -230,10 +232,13 @@ public final class Charstring_Value extends Value {
 	/**
 	 * Checks that the value is a valid dynamic encoding string for the specified type.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param type the type to check against
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param type
+	 *                the type to check against
 	 *
-	 * @return true if the provided type does not have a coding with this name.
+	 * @return true if the provided type does not have a coding with this
+	 *         name.
 	 * */
 	public boolean checkDynamicEncodingString(final CompilationTimeStamp timestamp, final IType type) {
 		final IType ct = type.getTypeWithCodingTable(timestamp, false);
@@ -295,7 +300,7 @@ public final class Charstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("\"{0}\"", value ));
+		result.append(MessageFormat.format("\"{0}\"", value));
 
 		return result;
 	}
@@ -312,17 +317,19 @@ public final class Charstring_Value extends Value {
 	 * Converts charstring content to its equivalent escaped java string.
 	 * The result will be a valid java string literal, which can be inserted to the generated java code.
 	 * It is typically used for charstring patterns.
-	 * @param s source string to convert
+	 * 
+	 * @param s
+	 *                source string to convert
 	 * @return escaped java string
 	 */
-	public static String getEscapedValue( final String s ) {
-		if ( s == null ) {
+	public static String getEscapedValue(final String s) {
+		if (s == null) {
 			return null;
 		}
 		return s.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
 
 	private String getEscapedValue() {
-		return getEscapedValue( value );
+		return getEscapedValue(value);
 	}
 }

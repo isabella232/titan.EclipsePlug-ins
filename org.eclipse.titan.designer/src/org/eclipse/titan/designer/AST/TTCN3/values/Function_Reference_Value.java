@@ -149,7 +149,7 @@ public final class Function_Reference_Value extends Value {
 		source.append(name);
 		source.append(".assign( ");
 		source.append(generateSingleExpression(aData));
-		source.append( " );\n" );
+		source.append(" );\n");
 
 		return source;
 	}
@@ -187,7 +187,7 @@ public final class Function_Reference_Value extends Value {
 		result.append("}\n");
 		result.append("@Override\n");
 		result.append("public ");
-		
+
 		final StringBuilder actualParList = functionType.getFormalParameters().generateCodeActualParlist("");
 		if (returnType == null) {
 			result.append("void");

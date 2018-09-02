@@ -144,7 +144,7 @@ public class AllPortCheckSateExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		//check the operand (mValue)
+		// check the operand (mValue)
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 	}
 
@@ -174,9 +174,9 @@ public class AllPortCheckSateExpression extends Expression_Value {
 			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor( originalString );
-				if ( cs.isErrorneous() ) {
-					value.getLocation().reportSemanticError( cs.getErrorMessage() );
+				final CharstringExtractor cs = new CharstringExtractor(originalString);
+				if (cs.isErrorneous()) {
+					value.getLocation().reportSemanticError(cs.getErrorMessage());
 					setIsErroneous(true);
 				}
 			}

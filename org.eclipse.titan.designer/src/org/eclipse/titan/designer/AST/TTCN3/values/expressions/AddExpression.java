@@ -355,10 +355,10 @@ public final class AddExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
-		//TODO actually a bit more complicated
+		// TODO actually a bit more complicated
 		value1.generateCodeExpressionMandatory(aData, expression, true);
-		expression.expression.append( ".add( " );
+		expression.expression.append(".add( ");
 		value2.generateCodeExpressionMandatory(aData, expression, false);
-		expression.expression.append( " )" );
+		expression.expression.append(" )");
 	}
 }

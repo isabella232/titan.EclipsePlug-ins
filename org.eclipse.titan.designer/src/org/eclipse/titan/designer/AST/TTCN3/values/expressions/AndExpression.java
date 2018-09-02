@@ -360,25 +360,25 @@ public final class AndExpression extends Expression_Value {
 
 			expression.expression.append(tempId);
 		} else {
-			//TODO actually a bit more complicated
+			// TODO actually a bit more complicated
 			if (value1.returnsNative()) {
 				if (value2.returnsNative()) {
-					expression.expression.append( '(' );
+					expression.expression.append('(');
 					value1.generateCodeExpressionMandatory(aData, expression, false);
-					expression.expression.append( " && " );
+					expression.expression.append(" && ");
 					value2.generateCodeExpressionMandatory(aData, expression, false);
-					expression.expression.append( ')' );
+					expression.expression.append(')');
 				} else {
 					value1.generateCodeExpressionMandatory(aData, expression, true);
-					expression.expression.append( ".and( " );
+					expression.expression.append(".and( ");
 					value2.generateCodeExpressionMandatory(aData, expression, false);
-					expression.expression.append( " )" );
+					expression.expression.append(" )");
 				}
 			} else {
 				value1.generateCodeExpressionMandatory(aData, expression, true);
-				expression.expression.append( ".and( " );
+				expression.expression.append(".and( ");
 				value2.generateCodeExpressionMandatory(aData, expression, false);
-				expression.expression.append( " )" );
+				expression.expression.append(" )");
 			}
 		}
 	}
@@ -390,11 +390,11 @@ public final class AndExpression extends Expression_Value {
 
 		generateCodeExpressionMandatory(aData, expression, false);
 
-		if(expression.preamble.length() > 0 || expression.postamble.length() > 0) {
-			if(expression.preamble.length() > 0) {
+		if (expression.preamble.length() > 0 || expression.postamble.length() > 0) {
+			if (expression.preamble.length() > 0) {
 				init.append(expression.preamble);
 			}
-			if(expression.postamble.length() > 0) {
+			if (expression.postamble.length() > 0) {
 				init.append(expression.postamble);
 			}
 			source.append(expression.expression);

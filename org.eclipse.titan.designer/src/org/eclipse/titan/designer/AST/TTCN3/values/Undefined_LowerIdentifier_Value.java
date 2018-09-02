@@ -73,7 +73,7 @@ public final class Undefined_LowerIdentifier_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public void setLocation(final Location location) {
-		//Do nothing
+		// Do nothing
 	}
 
 	@Override

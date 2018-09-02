@@ -112,10 +112,11 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 	/**
 	 * Sets the code_section attribute for the value in this named value.
 	 *
-	 * @param codeSection the code section where this list should be generated.
+	 * @param codeSection
+	 *                the code section where this list should be generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
-		if ( value != null) {
+		if (value != null) {
 			value.setCodeSection(codeSection);
 		}
 	}
@@ -123,9 +124,11 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 	/**
 	 * Handles the incremental parsing of this named value.
 	 *
-	 * @param reparser the parser doing the incremental parsing.
-	 * @param isDamaged true if the location contains the damaged area,
-	 *         false if only its' location needs to be updated.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
 	 * */
 	@Override
 	/** {@inheritDoc} */
@@ -155,10 +158,10 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (name!=null && !name.accept(v)) {
+		if (name != null && !name.accept(v)) {
 			return false;
 		}
-		if (value!=null && !value.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;
@@ -172,7 +175,8 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 
 		while (!(inamedNode instanceof IValue)) {
 			if( inamedNode == null) {
-				return null; //FIXME: this is just a temp solution! find the reason!
+				//FIXME: this is just a temp solution! find the reason!
+				return null;
 			}
 			inamedNode = inamedNode.getNameParent();
 		}
@@ -184,7 +188,6 @@ public final class NamedValue extends ASTNode implements ILocateableNode, IIncre
 			return null;
 		}
 		type = type.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-
 
 		if (type instanceof ITypeWithComponents) {
 			final Identifier id = ((ITypeWithComponents) type).getComponentIdentifierByName(getName());

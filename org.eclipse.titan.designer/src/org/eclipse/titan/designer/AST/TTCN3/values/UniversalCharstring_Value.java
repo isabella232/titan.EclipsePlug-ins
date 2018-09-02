@@ -199,10 +199,13 @@ public final class UniversalCharstring_Value extends Value {
 	/**
 	 * Checks that the value is a valid dynamic encoding string for the specified type.
 	 *
-	 * @param timestamp the time stamp of the actual semantic check cycle.
-	 * @param type the type to check against
+	 * @param timestamp
+	 *                the time stamp of the actual semantic check cycle.
+	 * @param type
+	 *                the type to check against
 	 *
-	 * @return true if the provided type does not have a coding with this name.
+	 * @return true if the provided type does not have a coding with this
+	 *         name.
 	 * */
 	public boolean checkDynamicEncodingString(final CompilationTimeStamp timestamp, final IType type) {
 		final IType ct = type.getTypeWithCodingTable(timestamp, false);
@@ -269,7 +272,7 @@ public final class UniversalCharstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
 		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanUniversalCharString({0})", value.generateSingleExpression(aData)));
@@ -280,7 +283,7 @@ public final class UniversalCharstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanUniversalCharString" );
+		aData.addBuiltinTypeImport("TitanUniversalCharString");
 
 		source.append(MessageFormat.format("{0}.assign(new TitanUniversalCharString({1}));\n", name, value.generateSingleExpression(aData)));
 

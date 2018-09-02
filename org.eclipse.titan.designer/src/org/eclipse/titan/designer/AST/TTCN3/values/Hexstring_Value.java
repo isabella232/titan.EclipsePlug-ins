@@ -200,11 +200,11 @@ public final class Hexstring_Value extends Value {
 		if (myGovernor != null) {
 			switch (myGovernor.getTypetype()) {
 			case TYPE_BITSTRING:
-				aData.addBuiltinTypeImport( "TitanBitString" );
+				aData.addBuiltinTypeImport("TitanBitString");
 				source.append(MessageFormat.format("{0}.assign(new TitanBitString(\"{1}\"));\n", name, value));
 				return source;
 			case TYPE_OCTETSTRING:
-				aData.addBuiltinTypeImport( "TitanOctetString" );
+				aData.addBuiltinTypeImport("TitanOctetString");
 				source.append(MessageFormat.format("{0}.assign(new TitanOctetString(\"{1}\"));\n", name, value));
 				return source;
 			default:
@@ -212,7 +212,7 @@ public final class Hexstring_Value extends Value {
 			}
 		}
 
-		aData.addBuiltinTypeImport( "TitanHexString" );
+		aData.addBuiltinTypeImport("TitanHexString");
 
 		source.append(MessageFormat.format("{0}.assign(new TitanHexString(\"{1}\"));\n", name, value));
 		return source;
@@ -232,11 +232,11 @@ public final class Hexstring_Value extends Value {
 		if (myGovernor != null) {
 			switch (myGovernor.getTypetype()) {
 			case TYPE_BITSTRING:
-				aData.addBuiltinTypeImport( "TitanBitString" );
+				aData.addBuiltinTypeImport("TitanBitString");
 				result.append(MessageFormat.format("new TitanBitString(\"{0}\")\n", value));
 				return result;
 			case TYPE_OCTETSTRING:
-				aData.addBuiltinTypeImport( "TitanOctetString" );
+				aData.addBuiltinTypeImport("TitanOctetString");
 				result.append(MessageFormat.format("new TitanOctetString(\"{0}\")", value));
 				return result;
 			default:
@@ -244,7 +244,7 @@ public final class Hexstring_Value extends Value {
 			}
 		}
 
-		aData.addBuiltinTypeImport( "TitanHexString" );
+		aData.addBuiltinTypeImport("TitanHexString");
 		result.append(MessageFormat.format("new TitanHexString(\"{0}\")", value));
 
 		return result;

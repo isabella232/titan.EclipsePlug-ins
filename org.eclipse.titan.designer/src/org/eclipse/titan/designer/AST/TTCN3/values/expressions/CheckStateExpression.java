@@ -171,14 +171,13 @@ public final class CheckStateExpression extends Expression_Value {
 	 * */
 	private void checkExpressionOperands(final CompilationTimeStamp timestamp, final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		//check mPortReference
+		// check mPortReference
 		final Port_Type portType = Port_Utility.checkPortReference(timestamp, portReference, false);
 		if (portType != null && !portType.getPortBody().hasQueue(timestamp)) {
 			portReference.getLocation().reportSemanticError(MessageFormat.format(NOINCOMINGQUEUE, portType.getTypename()));
 		}
 
-
-		//check the operand (mValue)
+		// check the operand (mValue)
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
 	}
 
@@ -208,9 +207,9 @@ public final class CheckStateExpression extends Expression_Value {
 			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor( originalString );
-				if ( cs.isErrorneous() ) {
-					value.getLocation().reportSemanticError( cs.getErrorMessage() );
+				final CharstringExtractor cs = new CharstringExtractor(originalString);
+				if (cs.isErrorneous()) {
+					value.getLocation().reportSemanticError(cs.getErrorMessage());
 					setIsErroneous(true);
 				}
 			}

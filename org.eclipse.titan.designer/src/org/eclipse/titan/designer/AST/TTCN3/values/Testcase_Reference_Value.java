@@ -142,7 +142,7 @@ public final class Testcase_Reference_Value extends Value {
 		source.append(name);
 		source.append(".assign( ");
 		source.append(generateSingleExpression(aData));
-		source.append( " );\n" );
+		source.append(" );\n");
 
 		return source;
 	}
@@ -185,14 +185,14 @@ public final class Testcase_Reference_Value extends Value {
 
 		result.append("TitanVerdictType");
 		result.append(" execute(");
-		if(testcaseType.getFormalParameters().getNofParameters() > 0) {
+		if (testcaseType.getFormalParameters().getNofParameters() > 0) {
 			testcaseType.getFormalParameters().generateCode(aData, result);
 			result.append(", ");
 		}
 		result.append("boolean has_timer, TitanFloat timer_value");
 		result.append(") {\n");
 		result.append(MessageFormat.format("return {0}.testcase_{1}(", moduleName, testcaseName));
-		if(testcaseType.getFormalParameters().getNofParameters() > 0) {
+		if (testcaseType.getFormalParameters().getNofParameters() > 0) {
 			result.append(testcaseType.getFormalParameters().generateCodeActualParlist(""));
 			result.append(", ");
 		}

@@ -151,8 +151,8 @@ public final class ComponentRunningExpression extends Expression_Value {
 
 			final ArrayDimensions dimensions = new ArrayDimensions();
 			while (t.getTypetype() == Type_type.TYPE_ARRAY) {
-				dimensions.add(((Array_Type)t).getDimension());
-				t = ((Array_Type)t).getElementType().getTypeRefdLast(timestamp);
+				dimensions.add(((Array_Type) t).getDimension());
+				t = ((Array_Type) t).getElementType().getTypeRefdLast(timestamp);
 			}
 			Statement.checkIndexRedirection(timestamp, indexRedirection, dimensions, anyfrom, "timer");
 		}
@@ -255,7 +255,7 @@ public final class ComponentRunningExpression extends Expression_Value {
 	public void generateCodeExpressionExpression(final JavaGenData aData, final ExpressionStruct expression) {
 		value.generateCodeExpression(aData, expression, true);
 		if (value.getValuetype() == Value_type.REFERENCED_VALUE) {
-			generateCodeExpressionOptionalFieldReference(aData, expression, ((Referenced_Value)value).getReference());
+			generateCodeExpressionOptionalFieldReference(aData, expression, ((Referenced_Value) value).getReference());
 		}
 
 		expression.expression.append(".running(");

@@ -54,12 +54,18 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	private ObjectIdentifierComponent calculatedComponent;
 
 	public static enum oidState_type {
-		/** at the beginning */		START,
-		/** after itu-t */					ITU,
-		/** after iso */					ISO,
-		/** after joint iso-itu-t */	JOINT,
-		/** after itu-t recom. */		ITU_REC,
-		/** later anywhere */			LATER
+		/** at the beginning */
+		START,
+		/** after itu-t */
+		ITU,
+		/** after iso */
+		ISO,
+		/** after joint iso-itu-t */
+		JOINT,
+		/** after itu-t recom. */
+		ITU_REC,
+		/** later anywhere */
+		LATER
 	}
 
 	private static final class Nameform {
@@ -80,19 +86,21 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	private static final Nameform[] NAMES_ISO = {new Nameform("standard", 0), new Nameform("regisztration__authority", 1),
 		new Nameform("member__body", 2), new Nameform("identified__organization", 3)};
 	// taken from OID repository: http://asn1.elibel.tm.fr/oid/
-	private static final Nameform[] NAMES_JOINT = {new Nameform("presentation", 0), new Nameform("asn1", 1),
-		new Nameform("association__control", 2), new Nameform("reliable__transfer", 3), new Nameform("remote__operations", 4),
-		new Nameform("ds", 5), new Nameform("directory", 5), new Nameform("mhs", 6), new Nameform("mhs__motis", 6), new Nameform("ccr", 7),
-		new Nameform("oda", 8), new Nameform("ms", 9), new Nameform("osi__management", 9), new Nameform("transaction__processing", 10),
-		new Nameform("dor", 11), new Nameform("distinguished__object__reference", 11), new Nameform("reference__data__transfer", 12),
-		new Nameform("network__layer", 13), new Nameform("network__layer__management", 13), new Nameform("transport__layer", 14),
-		new Nameform("transport__layer__management", 14), new Nameform("datalink__layer", 15), new Nameform("datalink__layer__management", 15),
-		new Nameform("datalink__layer__management__information", 15), new Nameform("country", 16), new Nameform("registration__procedures", 17),
-		new Nameform("registration__procedure", 17), new Nameform("physiscal__layer", 18), new Nameform("physical__layer__management", 18),
-		new Nameform("mheg", 19), new Nameform("genericULS", 20), new Nameform("generic__upper__layer__security", 20), new Nameform("guls", 20),
-		new Nameform("transport__layer__security__protocol", 21), new Nameform("network__layer__security__protocol", 22),
-		new Nameform("international__organisations", 23), new Nameform("internationalRA", 23), new Nameform("sios", 24),
-		new Nameform("uuid", 25), new Nameform("odp", 26), new Nameform("upu", 40)};
+	private static final Nameform[] NAMES_JOINT = { new Nameform("presentation", 0), new Nameform("asn1", 1),
+			new Nameform("association__control", 2), new Nameform("reliable__transfer", 3), new Nameform("remote__operations", 4),
+			new Nameform("ds", 5), new Nameform("directory", 5), new Nameform("mhs", 6), new Nameform("mhs__motis", 6),
+			new Nameform("ccr", 7), new Nameform("oda", 8), new Nameform("ms", 9), new Nameform("osi__management", 9),
+			new Nameform("transaction__processing", 10), new Nameform("dor", 11), new Nameform("distinguished__object__reference", 11),
+			new Nameform("reference__data__transfer", 12), new Nameform("network__layer", 13),
+			new Nameform("network__layer__management", 13), new Nameform("transport__layer", 14),
+			new Nameform("transport__layer__management", 14), new Nameform("datalink__layer", 15),
+			new Nameform("datalink__layer__management", 15), new Nameform("datalink__layer__management__information", 15),
+			new Nameform("country", 16), new Nameform("registration__procedures", 17), new Nameform("registration__procedure", 17),
+			new Nameform("physiscal__layer", 18), new Nameform("physical__layer__management", 18), new Nameform("mheg", 19),
+			new Nameform("genericULS", 20), new Nameform("generic__upper__layer__security", 20), new Nameform("guls", 20),
+			new Nameform("transport__layer__security__protocol", 21), new Nameform("network__layer__security__protocol", 22),
+			new Nameform("international__organisations", 23), new Nameform("internationalRA", 23), new Nameform("sios", 24),
+			new Nameform("uuid", 25), new Nameform("odp", 26), new Nameform("upu", 40) };
 
 	public ObjectIdentifierComponent(final Identifier name, final IValue number) {
 		this.name = name;
@@ -158,7 +166,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Appends its own object identifier component parts to the provided list.
 	 *
-	 * @param components the list to be extended
+	 * @param components
+	 *                the list to be extended
 	 * */
 	public void getOidComponents(final JavaGenData aData, final List<String> components) {
 		if (calculatedComponent != null) {
@@ -170,9 +179,9 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			if (Value_type.OBJECTID_VALUE.equals(definedValue.getValuetype())) {
 				((ObjectIdentifier_Value) definedValue).getOidComponents(aData, components);
 			} else if (Value_type.REFERENCED_VALUE.equals(definedValue.getValuetype())) {
-				final IValue last = ((Referenced_Value)definedValue).getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
+				final IValue last = ((Referenced_Value) definedValue).getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
 				final ExpressionStruct expression = new ExpressionStruct();
-				((Referenced_Value)definedValue).getReference().generateConstRef(aData, expression);
+				((Referenced_Value) definedValue).getReference().generateConstRef(aData, expression);
 				components.add(MessageFormat.format("TitanObjectid.from_integer({0})", expression.expression));
 //				if (Value_type.OBJECTID_VALUE.equals(last.getValuetype())) {
 //					((ObjectIdentifier_Value)last).getOidComponents(components);
@@ -188,19 +197,24 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	}
 
 	public boolean isVariable() {
-		//(formtype == VARIABLE) but we don't have that
+		// (formtype == VARIABLE) but we don't have that
 		return name != null || number != null;
 	}
 
 	/**
 	 * Check function for object identifier components.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param parent the parent value.
-	 * @param refChain the reference chain used to detect cyclic references.
-	 * @param state the state of checking.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param parent
+	 *                the parent value.
+	 * @param refChain
+	 *                the reference chain used to detect cyclic references.
+	 * @param state
+	 *                the state of checking.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
 	public oidState_type checkOID(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final Value parent, final oidState_type state) {
 		calculatedComponent = null;
@@ -245,8 +259,10 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Check function for ROID components.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param refChain the reference chain used to detect cyclic references.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param refChain
+	 *                the reference chain used to detect cyclic references.
 	 * */
 	public void checkROID(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		if (number != null) {
@@ -260,12 +276,17 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	 * Checks that the identifier in name is a valid name form in the actual state.
 	 * Also checks the named form in an OID component.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param parent the parent value.
-	 * @param refChain the reference chain used to detect cyclic references.
-	 * @param state the state of checking.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param parent
+	 *                the parent value.
+	 * @param refChain
+	 *                the reference chain used to detect cyclic references.
+	 * @param state
+	 *                the state of checking.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
 	private oidState_type checkNameForm(final CompilationTimeStamp timestamp, final Value parent, final IReferenceChain refChain,
 			final oidState_type state, final AtomicInteger result) {
@@ -322,8 +343,8 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 				if (nameString.equals(NAMES_JOINT[i].name)) {
 					value = NAMES_JOINT[i].value;
 					actualState = oidState_type.LATER;
-					location.reportSemanticWarning(
-							MessageFormat.format("Identifier `{0}'' should not be used as NumberForm", name.getDisplayName()));
+					location.reportSemanticWarning(MessageFormat.format("Identifier `{0}'' should not be used as NumberForm",
+							name.getDisplayName()));
 				}
 			}
 			break;
@@ -367,11 +388,15 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Checks the defined value form in an OID component.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param refChain the reference chain used to detect cyclic references.
-	 * @param state the state of checking.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param refChain
+	 *                the reference chain used to detect cyclic references.
+	 * @param state
+	 *                the state of checking.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
 	private oidState_type checkDefdValueOID(final CompilationTimeStamp timestamp, final IReferenceChain refChain, final oidState_type state) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -382,7 +407,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return oidState_type.LATER;
 		}
 
-		switch(value.getValuetype()) {
+		switch (value.getValuetype()) {
 		case INTEGER_VALUE:
 			final ObjectIdentifierComponent temp = new ObjectIdentifierComponent(null, definedValue);
 			temp.setFullNameParent(this);
@@ -412,7 +437,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			final Assignment assignment = reference.getRefdAssignment(timestamp, false);
 			final IType type = assignment.getType(timestamp).getTypeRefdLast(timestamp);
 			if (type.getTypetype() == Type_type.TYPE_INTEGER) {
-				//FIXME implement handling of the variable form
+				// FIXME implement handling of the variable form
 			} else {
 				definedValue.getLocation().reportSemanticError("INTEGER variable was expected");
 			}
@@ -431,10 +456,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Checks the defined value form in an ROID component.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param refChain the reference chain used to detect cyclic references.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param refChain
+	 *                the reference chain used to detect cyclic references.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
 	private void checkDefdValueROID(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
 		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
@@ -445,7 +473,7 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 			return;
 		}
 
-		switch(value.getValuetype()) {
+		switch (value.getValuetype()) {
 		case INTEGER_VALUE:
 			final ObjectIdentifierComponent temp = new ObjectIdentifierComponent(null, definedValue);
 			temp.setFullNameParent(this);
@@ -464,12 +492,15 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Checks the number form (or the number part of name and number form) in an OID component.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param state the state of checking.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param state
+	 *                the state of checking.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
-	private oidState_type checkNumberFormOID(final CompilationTimeStamp timestamp,  final oidState_type state) {
+	private oidState_type checkNumberFormOID(final CompilationTimeStamp timestamp, final oidState_type state) {
 		if (number == null) {
 			return oidState_type.LATER;
 		}
@@ -530,10 +561,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Checks the number form (or the number part of name and number form) in a ROID component.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param state the state of checking.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param state
+	 *                the state of checking.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
 	private void checkNumberFormROID(final CompilationTimeStamp timestamp) {
 		if (number == null) {
@@ -566,12 +600,15 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Checks if the object identifier component in name and value form is valid.
 	 *
-	 * @param timestamp the timestamp of the actual compilation cycle.
-	 * @param state the state of checking.
+	 * @param timestamp
+	 *                the timestamp of the actual compilation cycle.
+	 * @param state
+	 *                the state of checking.
 	 *
-	 * @param the new state after this check was done.
+	 * @param the
+	 *                new state after this check was done.
 	 * */
-	private oidState_type checkNameAndNumberForm(final CompilationTimeStamp timestamp,  final oidState_type state) {
+	private oidState_type checkNameAndNumberForm(final CompilationTimeStamp timestamp, final oidState_type state) {
 		oidState_type actualState = state;
 		actualState = checkNumberFormOID(timestamp, actualState);
 
@@ -640,13 +677,17 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Checks whether the provided name and number values are part of the provided name list.
 	 *
-	 * @param name the name to look for.
-	 * @param number the number value to look for.
-	 * @param names the list of name-value pairs to search in.
+	 * @param name
+	 *                the name to look for.
+	 * @param number
+	 *                the number value to look for.
+	 * @param names
+	 *                the list of name-value pairs to search in.
 	 *
-	 * @return true if there is a name in the list for the value, false otherwise.
+	 * @return true if there is a name in the list for the value, false
+	 *         otherwise.
 	 * */
-	private boolean isValidNameForNumber(final String name, final int number , final Nameform[] names) {
+	private boolean isValidNameForNumber(final String name, final int number, final Nameform[] names) {
 		boolean result = true;
 		for (int i = 0; i < names.length; i++) {
 			if (number == names[i].value) {
@@ -663,9 +704,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	/**
 	 * Searches for the appropriate name belonging to the provided number.
 	 *
-	 * @param number the number to use in the search.
-	 * @param asn1 should the found identifier be reported in ASN.1 or TTCN-3 form.
-	 * @param names the list to search in.
+	 * @param number
+	 *                the number to use in the search.
+	 * @param asn1
+	 *                should the found identifier be reported in ASN.1 or
+	 *                TTCN-3 form.
+	 * @param names
+	 *                the list to search in.
 	 *
 	 * @return the name belonging to the provided number.
 	 * */
@@ -692,17 +737,20 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	}
 
 	/**
-	 *  Handles the incremental parsing of this objid component.
+	 * Handles the incremental parsing of this objid component.
 	 *
-	 *  @param reparser the parser doing the incremental parsing.
-	 *  @param isDamaged true if the location contains the damaged area,
-	 *    false if only its' location needs to be updated.
-	 *   @return in case of processing error the minimum amount of semantic levels
-	 *    that must be destroyed to handle the syntactic changes, otherwise 0.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
+	 * @return in case of processing error the minimum amount of semantic
+	 *         levels that must be destroyed to handle the syntactic
+	 *         changes, otherwise 0.
 	 * */
 	@Override
 	/** {@inheritDoc} */
-	public void updateSyntax(final TTCN3ReparseUpdater reparser,  final boolean isDamaged) throws ReParseException {
+	public void updateSyntax(final TTCN3ReparseUpdater reparser, final boolean isDamaged) throws ReParseException {
 		if (isDamaged) {
 			throw new ReParseException();
 		}
@@ -729,13 +777,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (name!=null && !name.accept(v)) {
+		if (name != null && !name.accept(v)) {
 			return false;
 		}
-		if (number!=null && !number.accept(v)) {
+		if (number != null && !number.accept(v)) {
 			return false;
 		}
-		if (definedValue!=null && !definedValue.accept(v)) {
+		if (definedValue != null && !definedValue.accept(v)) {
 			return false;
 		}
 		return true;

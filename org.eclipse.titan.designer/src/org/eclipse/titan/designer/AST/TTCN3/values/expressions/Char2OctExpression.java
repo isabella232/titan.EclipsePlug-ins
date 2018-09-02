@@ -186,7 +186,7 @@ public final class Char2OctExpression extends Expression_Value {
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
 			final String string = ((Charstring_Value) last).getValue();
-			final CharstringExtractor cs = new CharstringExtractor( string );
+			final CharstringExtractor cs = new CharstringExtractor(string);
 			lastValue = new Octetstring_Value(char2oct(cs.getExtractedString()));
 			lastValue.copyGeneralProperties(this);
 			break;

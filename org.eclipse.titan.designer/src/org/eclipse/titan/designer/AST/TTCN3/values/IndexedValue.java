@@ -102,7 +102,9 @@ public final class IndexedValue extends ASTNode implements ILocateableNode, IInc
 	/**
 	 * Sets the code_section attribute of this indexed value object to the provided value.
 	 *
-	 * @param codeSection the code section where this indexed value should be generated.
+	 * @param codeSection
+	 *                the code section where this indexed value should be
+	 *                generated.
 	 * */
 	public void setCodeSection(final CodeSectionType codeSection) {
 		if (index != null) {
@@ -116,8 +118,11 @@ public final class IndexedValue extends ASTNode implements ILocateableNode, IInc
 	/**
 	 * Handles the incremental parsing of this indexed value.
 	 *
-	 * @param reparser the parser doing the incremental parsing.
-	 * @param isDamaged true if the location contains the damaged area, false if only its' location needs to be updated.
+	 * @param reparser
+	 *                the parser doing the incremental parsing.
+	 * @param isDamaged
+	 *                true if the location contains the damaged area, false
+	 *                if only its' location needs to be updated.
 	 * */
 	@Override
 	/** {@inheritDoc} */
@@ -131,7 +136,7 @@ public final class IndexedValue extends ASTNode implements ILocateableNode, IInc
 			reparser.updateLocation(index.getLocation());
 		}
 		if (value != null) {
-			((Value)value).updateSyntax(reparser, false);
+			((Value) value).updateSyntax(reparser, false);
 			reparser.updateLocation(value.getLocation());
 		}
 	}
@@ -150,10 +155,10 @@ public final class IndexedValue extends ASTNode implements ILocateableNode, IInc
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (index!=null && !index.accept(v)) {
+		if (index != null && !index.accept(v)) {
 			return false;
 		}
-		if (value!=null && !value.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;

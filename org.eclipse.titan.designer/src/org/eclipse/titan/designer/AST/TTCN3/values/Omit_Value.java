@@ -134,10 +134,10 @@ public final class Omit_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		aData.addBuiltinTypeImport("Base_Template.template_sel");
 		aData.addBuiltinTypeImport("Optional");
 		IType governor = myGovernor;
-		if(governor == null) {
+		if (governor == null) {
 			governor = myLastSetGovernor;
 		}
 
@@ -150,7 +150,7 @@ public final class Omit_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+		aData.addBuiltinTypeImport("Base_Template.template_sel");
 
 		source.append(MessageFormat.format("{0}.assign( template_sel.OMIT_VALUE );\n", name));
 

@@ -141,12 +141,11 @@ public final class Char2IntExpression extends Expression_Value {
 			final IValue last = value.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor( originalString );
-				if ( cs.isErrorneous() ) {
-					value.getLocation().reportSemanticError( cs.getErrorMessage() );
+				final CharstringExtractor cs = new CharstringExtractor(originalString);
+				if (cs.isErrorneous()) {
+					value.getLocation().reportSemanticError(cs.getErrorMessage());
 					setIsErroneous(true);
-				}
-				else {
+				} else {
 					final String string = cs.getExtractedString();
 					if (string != null && string.length() != 1) {
 						value.getLocation().reportSemanticError(OPERANDERROR2);
@@ -203,7 +202,7 @@ public final class Char2IntExpression extends Expression_Value {
 		switch (last.getValuetype()) {
 		case CHARSTRING_VALUE:
 			final String string = ((Charstring_Value) last).getValue();
-			final CharstringExtractor cs = new CharstringExtractor( string );
+			final CharstringExtractor cs = new CharstringExtractor(string);
 			lastValue = new Integer_Value(cs.getExtractedString().charAt(0));
 			lastValue.copyGeneralProperties(this);
 			break;

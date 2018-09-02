@@ -102,7 +102,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		if( lhs == reference2.getRefdAssignment(timestamp, false)) {
+		if (lhs == reference2.getRefdAssignment(timestamp, false)) {
 			return true;
 		}
 		if (serialization != null && serialization.checkExpressionSelfReferenceValue(timestamp, lhs)) {
@@ -226,9 +226,9 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 	private void checkExpressionOperands( final CompilationTimeStamp timestamp,
 			final Expected_Value_type expectedValue,
 			final IReferenceChain referenceChain) {
-		//check reference1
+		// check reference1
 		checkExpressionOperand1(timestamp, expectedValue, referenceChain);
-		//check reference2
+		// check reference2
 		checkExpressionOperand2(timestamp, expectedValue, referenceChain);
 
 		if (reference1 == null) {
@@ -270,12 +270,12 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			break;
 		}
 
-		//check value3
+		// check value3
 		checkExpressionOperand3(timestamp, expectedValue, referenceChain);
-		//check value4
+		// check value4
 		checkExpressionOperand4(timestamp, expectedValue, referenceChain);
 
-		//check 5th parameter
+		// check 5th parameter
 		if (dynamicEncoding != null) {
 			dynamicEncoding.setLoweridToReference(timestamp);
 			final Type_type tempType = dynamicEncoding.getExpressionReturntype(timestamp, expectedValue);
@@ -286,9 +286,9 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 				if (!dynamicEncoding.isUnfoldable(timestamp)) {
 					boolean errorFound = false;
 					if (Value_type.UNIVERSALCHARSTRING_VALUE.equals(lastValue.getValuetype())) {
-						errorFound = ((UniversalCharstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+						errorFound = ((UniversalCharstring_Value) lastValue).checkDynamicEncodingString(timestamp, type);
 					} else if (Value_type.CHARSTRING_VALUE.equals(lastValue.getValuetype())) {
-						errorFound = ((Charstring_Value)lastValue).checkDynamicEncodingString(timestamp, type);
+						errorFound = ((Charstring_Value) lastValue).checkDynamicEncodingString(timestamp, type);
 					}
 					if (errorFound) {
 						dynamicEncoding.getLocation().reportSemanticError(MessageFormat.format("The encoding string does not match any encodings of type `{0}''", type.getTypename()));
@@ -356,7 +356,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			template.setFullNameParent(new BridgingNamedNode(this, ".<operand>"));
 			final ITTCN3Template last = template.getTemplateReferencedLast(timestamp);
 			if (!Template_type.SPECIFIC_VALUE.equals(last.getTemplatetype()) && last != template) {
-				reference1.getLocation().reportSemanticError( MessageFormat.format( OPERAND1_ERROR3, last.getTemplateTypeName() ) );
+				reference1.getLocation().reportSemanticError(MessageFormat.format(OPERAND1_ERROR3, last.getTemplateTypeName()));
 				setIsErroneous(true);
 				return;
 			}
@@ -376,7 +376,7 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			return;
 		}
 		final Type_type type_type = temporalType.getTypeRefdLast(timestamp).getTypetype();
-		if ( type_type != Type_type.TYPE_UCHARSTRING ) {
+		if (type_type != Type_type.TYPE_UCHARSTRING) {
 			if (!isErroneous) {
 				location.reportSemanticError(OPERAND1_ERROR1);
 				setIsErroneous(true);
@@ -462,9 +462,9 @@ public final class DecvalueUnicharExpression extends Expression_Value {
 			final IValue last = serialization.getValueRefdLast(timestamp, expectedValue, referenceChain);
 			if (!last.isUnfoldable(timestamp)) {
 				final String originalString = ((Charstring_Value) last).getValue();
-				final CharstringExtractor cs = new CharstringExtractor( originalString );
-				if ( cs.isErrorneous() ) {
-					serialization.getLocation().reportSemanticError( cs.getErrorMessage() );
+				final CharstringExtractor cs = new CharstringExtractor(originalString);
+				if (cs.isErrorneous()) {
+					serialization.getLocation().reportSemanticError(cs.getErrorMessage());
 					setIsErroneous(true);
 				}
 			}

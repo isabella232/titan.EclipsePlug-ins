@@ -9,6 +9,7 @@ package org.eclipse.titan.designer.AST.TTCN3.values;
 
 /**
  * Extracts TTCN-3 charstring
+ * 
  * @author Arpad Lovassy
  */
 public class CharstringExtractor {
@@ -27,10 +28,12 @@ public class CharstringExtractor {
 
 	/**
 	 * Constructor
-	 * @param aTtcnCharstring the TTCN-3 string with escapes to extract
+	 * 
+	 * @param aTtcnCharstring
+	 *                the TTCN-3 string with escapes to extract
 	 */
-	public CharstringExtractor( final String aTtcnCharstring ) {
-		mExtractedString = extractString( aTtcnCharstring );
+	public CharstringExtractor(final String aTtcnCharstring) {
+		mExtractedString = extractString(aTtcnCharstring);
 	}
 
 	/** @return the value string of the TTCN-3 string */
@@ -59,7 +62,10 @@ public class CharstringExtractor {
 	 *   \['"?\abfnrtv\u000a]
 	 *   \x[0-9a-fA-F][0-9a-fA-F]?
 	 *   \[0-3]?[0-7][0-7]?
-	 * @param aTccnCharstring TTCN-3 charstring representation, it can contain escape characters, NOT NULL
+	 * 
+	 * @param aTccnCharstring
+	 *                TTCN-3 charstring representation, it can contain
+	 *                escape characters, NOT NULL
 	 * @return extracted string value
 	 */
 	private String extractString(final String aTccnCharstring) {
@@ -167,18 +173,20 @@ public class CharstringExtractor {
 	}
 
 	/**
-	 * @param aChar character to check
+	 * @param aChar
+	 *                character to check
 	 * @return true if aChar is hexadecimal digit
 	 */
-	private static boolean isHexDigit( final char aChar ) {
+	private static boolean isHexDigit(final char aChar) {
 		return (aChar >= '0' && aChar <= '9') || (aChar >= 'a' && aChar <= 'f') || (aChar >= 'A' && aChar <= 'F');
 	}
 
 	/**
-	 * @param aChar character to check
+	 * @param aChar
+	 *                character to check
 	 * @return true if aChar is octal digit
 	 */
-	private static boolean isOctDigit( final char aChar ) {
+	private static boolean isOctDigit(final char aChar) {
 		return aChar >= '0' && aChar <= '7';
 	}
 }

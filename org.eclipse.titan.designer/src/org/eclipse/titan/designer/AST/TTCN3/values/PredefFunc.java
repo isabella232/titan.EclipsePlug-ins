@@ -21,7 +21,7 @@ public class PredefFunc {
 		// Hide constructor
 	}
 
-	//BOMs
+	// BOMs
 	private static final String utf32be = "0000FEFF";
 	private static final String utf32le = "FFFE0000";
 	private static final String utf16be = "FEFF";
@@ -35,7 +35,7 @@ public class PredefFunc {
 		public DecodeException(final String msg) {
 			super(msg);
 		}
-		
+
 	}
 
 	public static char hexdigit_to_char(final char hexdigit) throws DecodeException {
@@ -43,8 +43,7 @@ public class PredefFunc {
 			return (char) ('0' + hexdigit);
 		} else if (hexdigit < 16) {
 			return (char) ('A' + hexdigit - 10);
-		}
-		else {
+		} else {
 			throw new DecodeException(MessageFormat.format("hexdigit_to_char(): invalid argument: {0}", hexdigit));
 		}
 	}
@@ -219,8 +218,11 @@ public class PredefFunc {
 
 	/**
 	 * Search the given BOM in a string
-	 * @param s the string where we search
-	 * @param bom the BOM we are searching for
+	 * 
+	 * @param s
+	 *                the string where we search
+	 * @param bom
+	 *                the BOM we are searching for
 	 * @return true if s starts with the given BOM
 	 */
 	private static boolean findBom(final String s, final String bom) {
@@ -261,10 +263,10 @@ public class PredefFunc {
 	public static CharCoding is_ascii(final String strptr) {
 		final int length = strptr.length();
 		// MSB is 1 in case of non ASCII character
-		final char nonASCII = 1 << 7;  
+		final char nonASCII = 1 << 7;
 		CharCoding ret = CharCoding.ASCII;
 		for (int i = 0; i < length; ++i) {
-			if ( ( strptr.charAt(i) & nonASCII ) != 0) {
+			if ((strptr.charAt(i) & nonASCII) != 0) {
 				ret = CharCoding.UNKNOWN;
 				break;
 			}
@@ -278,8 +280,8 @@ public class PredefFunc {
 		final char MSB = 1 << 7;
 		// 0100 0000
 		final char MSBmin1 = 1 << 6;
-		for ( int i = 0; length > i; ++i ) {
-			if ( (strptr.charAt(i) & MSB) != 0) {
+		for (int i = 0; length > i; ++i) {
+			if ((strptr.charAt(i) & MSB) != 0) {
 				// non ASCII char
 				// 111x xxxx shows how many additional bytes are there
 				char maskUTF8 = 1 << 6;
@@ -289,13 +291,13 @@ public class PredefFunc {
 				}
 				// 11xx xxxxx -> 2 bytes, 111x xxxxx -> 3 bytes , 1111 xxxxx -> 4 bytes in UTF-8
 				int noofUTF8 = 0;
-				while ( (strptr.charAt(i) & maskUTF8) != 0) {
+				while ((strptr.charAt(i) & maskUTF8) != 0) {
 					++noofUTF8;
 					// shift right the mask
 					maskUTF8 >>= 1;
 				}
 				// the second and third (and so on) UTF-8 byte looks like 10xx xxxx
-				while (0 < noofUTF8 ) {
+				while (0 < noofUTF8) {
 					++i;
 					if (i >= length || (strptr.charAt(i) & MSB) == 0 || (strptr.charAt(i) & MSBmin1) != 0) {
 						// if not like this: 10xx xxxx
@@ -314,7 +316,7 @@ public class PredefFunc {
 			return CharCoding.UNKNOWN;
 		}
 
-		if ( length % 2 != 0 ) {
+		if (length % 2 != 0) {
 			location.reportSemanticError(MessageFormat.format("get_stringencoding(): Wrong string. The number of nibbles ({0}) in string shall be divisible by 2", length));
 
 			return CharCoding.UNKNOWN;
@@ -374,7 +376,8 @@ public class PredefFunc {
 				throw new DecodeException("decode_utf16(): The string is shorter than the expected BOM");
 			}
 			break;
-		default: break;
+		default:
+			break;
 		}
 
 		//BOM indicates that the byte order is determined by a byte order mark, 
@@ -385,7 +388,7 @@ public class PredefFunc {
 		switch (expected_coding) {
 		case UTF32BE:
 		case UTF32:
-			if (0x00 == uc_str.charAt(0) && 0x00 == uc_str.charAt(1) && 0xFE == uc_str.charAt(2) && 0xFF == uc_str.charAt(3)) { 
+			if (0x00 == uc_str.charAt(0) && 0x00 == uc_str.charAt(1) && 0xFE == uc_str.charAt(2) && 0xFF == uc_str.charAt(3)) {
 				return 4;
 			}
 			badBOM = true;
@@ -428,8 +431,7 @@ public class PredefFunc {
 				throw new DecodeException(MessageFormat.format(
 						"Wrong {0} string. No BOM detected, however the given coding type ({1}) " +
 								"expects it to define the endianness", str, str));
-			}
-			else {
+			} else {
 				throw new DecodeException("Wrong string. No BOM detected");
 			}
 		}
@@ -493,7 +495,7 @@ public class PredefFunc {
 		}
 
 		final UniversalCharstring ucstr = new UniversalCharstring();
-		final int start = check_BOM(CharCoding.UTF_8, length /2, uc_str.toString());
+		final int start = check_BOM(CharCoding.UTF_8, length / 2, uc_str.toString());
 		for (int i = start; i < length / 2;) {
 			// perform the decoding character by character
 			if (uc_str.charAt(i) <= 0x7F) {
@@ -515,7 +517,7 @@ public class PredefFunc {
 
 				//TODO this might be better oof with bytes or integers instead of chars.
 				final List<Character> octets = new ArrayList<Character>();
-				octets.add( (char) (uc_str.charAt(i) & 0x1F) );
+				octets.add((char) (uc_str.charAt(i) & 0x1F));
 				fill_continuing_octets(1, octets, length / 2, uc_str, i + 1, ucstr.length());
 				final char g = 0;
 				final char p = 0;
@@ -533,8 +535,8 @@ public class PredefFunc {
 				// character encoded on 3 octets: 1110xxxx 10xxxxxx 10xxxxxx
 				// (16 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
-				octets.add( (char) (uc_str.charAt(i) & 0x0F) );
-				fill_continuing_octets(2, octets, length / 2, uc_str, i + 1,ucstr.length());
+				octets.add((char) (uc_str.charAt(i) & 0x0F));
+				fill_continuing_octets(2, octets, length / 2, uc_str, i + 1, ucstr.length());
 				final char g = 0;
 				final char p = 0;
 				final char r = (char) (octets.get(0) << 4 | octets.get(1) >> 2);
@@ -551,7 +553,7 @@ public class PredefFunc {
 				// character encoded on 4 octets: 11110xxx 10xxxxxx 10xxxxxx 10xxxxxx
 				// (21 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
-				octets.add( (char) (uc_str.charAt(i) & 0x07) );
+				octets.add((char) (uc_str.charAt(i) & 0x07));
 				fill_continuing_octets(3, octets, length / 2, uc_str, i + 1, ucstr.length());
 				final char g = 0;
 				final char p = (char) (octets.get(0) << 2 | octets.get(1) >> 4);
@@ -569,7 +571,7 @@ public class PredefFunc {
 				// character encoded on 5 octets: 111110xx 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx (26 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
-				octets.add( (char) (uc_str.charAt(i) & 0x03) );
+				octets.add((char) (uc_str.charAt(i) & 0x03));
 				fill_continuing_octets(4, octets, length / 2, uc_str, i + 1, ucstr.length());
 				final char g = octets.get(0);
 				final char p = (char) (octets.get(1) << 2 | octets.get(2) >> 4);
@@ -587,8 +589,8 @@ public class PredefFunc {
 				// character encoded on 6 octets: 1111110x 10xxxxxx 10xxxxxx 10xxxxxx
 				// 10xxxxxx 10xxxxxx (31 useful bits)
 				final List<Character> octets = new ArrayList<Character>();
-				octets.add( (char) (uc_str.charAt(i) & 0x01) );
-				fill_continuing_octets(5, octets, length / 2, uc_str, i + 1,ucstr.length());
+				octets.add((char) (uc_str.charAt(i) & 0x01));
+				fill_continuing_octets(5, octets, length / 2, uc_str, i + 1, ucstr.length());
 				final char g = (char) (octets.get(0) << 6 | octets.get(1));
 				final char p = (char) (octets.get(2) << 2 | octets.get(3) >> 4);
 				final char r = (char) (octets.get(3) << 4 | octets.get(4) >> 2);

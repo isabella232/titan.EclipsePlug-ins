@@ -164,11 +164,10 @@ public final class SingleArrayDimension extends ArrayDimension {
 		return true;
 	}
 
-
 	@Override
 	/** {@inheritDoc} */
 	public String getValueType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
-		if(isErroneous) {
+		if (isErroneous) {
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for `" + getFullName() + "''");
 			return "FATAL ERROR in SingleArrayDImension:getValueType";
 		}
@@ -181,7 +180,7 @@ public final class SingleArrayDimension extends ArrayDimension {
 	@Override
 	/** {@inheritDoc} */
 	public String getTemplateType(final JavaGenData aData, final StringBuilder source, final IType elementType, final Scope scope) {
-		if(isErroneous) {
+		if (isErroneous) {
 			ErrorReporter.INTERNAL_ERROR("FATAL ERROR while generating code for `" + getFullName() + "''");
 			return "FATAL ERROR in SingleArrayDImension:getTemplateType";
 		}

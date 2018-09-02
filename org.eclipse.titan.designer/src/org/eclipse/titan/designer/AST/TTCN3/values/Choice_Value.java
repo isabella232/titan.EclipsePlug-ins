@@ -348,7 +348,6 @@ public final class Choice_Value extends Value {
 		}
 	}
 
-
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkEquality(final CompilationTimeStamp timestamp, final IValue other) {
@@ -391,10 +390,10 @@ public final class Choice_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (name!=null && !name.accept(v)) {
+		if (name != null && !name.accept(v)) {
 			return false;
 		}
-		if (value!=null && !value.accept(v)) {
+		if (value != null && !value.accept(v)) {
 			return false;
 		}
 		return true;
@@ -438,7 +437,7 @@ public final class Choice_Value extends Value {
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
 		final String altName = this.name.getName();
 
-		//TODO handle the case when temporary reference is needed
+		// TODO handle the case when temporary reference is needed
 		final String embeddedName = MessageFormat.format("{0}.get{1}()", name, FieldSubReference.getJavaGetterName(altName));
 		return value.generateCodeInit(aData, source, embeddedName);
 	}

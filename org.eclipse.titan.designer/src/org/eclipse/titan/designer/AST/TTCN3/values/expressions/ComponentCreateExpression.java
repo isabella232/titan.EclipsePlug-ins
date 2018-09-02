@@ -81,7 +81,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		//assume no self-ref
+		// assume no self-ref
 		return false;
 	}
 
@@ -388,14 +388,14 @@ public final class ComponentCreateExpression extends Expression_Value {
 		((Component_Type) componentType).getComponentBody().generateCodeComponentTypeName(expression);
 		expression.expression.append(", ");
 
-		//third argument: component name
+		// third argument: component name
 		if (name != null) {
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final IValue last = name.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 			referenceChain.release();
 
 			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
-				//TODO check why translate
+				// TODO check why translate
 				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
 			} else {
 				name.generateCodeExpressionMandatory(aData, expression, false);
@@ -405,14 +405,14 @@ public final class ComponentCreateExpression extends Expression_Value {
 		}
 		expression.expression.append(", ");
 
-		//fourth argument location
+		// fourth argument location
 		if (location != null) {
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final IValue last = location.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 			referenceChain.release();
 
 			if (Value_type.CHARSTRING_VALUE.equals(last.getValuetype())) {
-				//TODO check why translate
+				// TODO check why translate
 				expression.expression.append(MessageFormat.format("\"{0}\"", ((Charstring_Value) last).getValue()));
 			} else {
 				location.generateCodeExpressionMandatory(aData, expression, false);
@@ -421,7 +421,7 @@ public final class ComponentCreateExpression extends Expression_Value {
 			expression.expression.append("null");
 		}
 
-		//fifth argument: alive flag
-		expression.expression.append(MessageFormat.format(", {0})", isAlive?"true":"false"));
+		// fifth argument: alive flag
+		expression.expression.append(MessageFormat.format(", {0})", isAlive ? "true" : "false"));
 	}
 }

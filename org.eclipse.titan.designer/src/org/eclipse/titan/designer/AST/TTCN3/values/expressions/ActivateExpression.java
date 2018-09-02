@@ -54,7 +54,7 @@ public final class ActivateExpression extends Expression_Value {
 	@Override
 	/** {@inheritDoc} */
 	public boolean checkExpressionSelfReference(final CompilationTimeStamp timestamp, final Assignment lhs) {
-		//assume no self-ref
+		// assume no self-ref
 		return false;
 	}
 

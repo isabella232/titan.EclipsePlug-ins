@@ -201,7 +201,7 @@ public final class Bitstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		aData.addBuiltinTypeImport( "TitanBitString" );
+		aData.addBuiltinTypeImport("TitanBitString");
 
 		source.append(MessageFormat.format("{0}.assign(new TitanBitString(\"{1}\"));\n", name, value));
 
@@ -217,7 +217,7 @@ public final class Bitstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		aData.addBuiltinTypeImport( "TitanBitString" );
+		aData.addBuiltinTypeImport("TitanBitString");
 
 		final StringBuilder result = new StringBuilder();
 		result.append(MessageFormat.format("new TitanBitString(\"{0}\")", value));

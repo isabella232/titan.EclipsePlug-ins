@@ -142,7 +142,7 @@ public final class FAT_Null_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		//get_fat_null is not needed
+		// get_fat_null is not needed
 		source.append(name);
 		source.append(MessageFormat.format(".assign(new {0}({0}.nullValue));\n", myGovernor.getGenNameValue(aData, source, myScope)));
 

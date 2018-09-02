@@ -147,13 +147,13 @@ public final class Set_Value extends Value {
 					subreference.getLocation().reportSemanticError(
 							MessageFormat.format("Reference to unbound set field `{0}''", fieldId.getDisplayName()));
 				}
-				//this is an error, that was already reported
+				// this is an error, that was already reported
 				return null;
 			}
 
 			final CompField compField = ((ASN1_Sequence_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
-				//create an explicit omit value
+				// create an explicit omit value
 				final Value result = new Omit_Value();
 
 				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -198,7 +198,8 @@ public final class Set_Value extends Value {
 	 * <p>
 	 * Right now is only used to add implicit omit elements.
 	 *
-	 * @param value the named value to add.
+	 * @param value
+	 *                the named value to add.
 	 * */
 	public void addNamedValue(final NamedValue value) {
 		if (value != null) {
@@ -267,7 +268,8 @@ public final class Set_Value extends Value {
 	/**
 	 * Checks the uniqueness of the set value.
 	 *
-	 * @param timestamp the timestamp of the actual build cycle
+	 * @param timestamp
+	 *                the timestamp of the actual build cycle
 	 * */
 	public void checkUniqueness(final CompilationTimeStamp timestamp) {
 		if (values == null) {
@@ -454,7 +456,7 @@ public final class Set_Value extends Value {
 
 			final CompField compField = ((ASN1_Set_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
-				//create an explicit omit value
+				// create an explicit omit value
 				final Value result = new Omit_Value();
 
 				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -520,7 +522,7 @@ public final class Set_Value extends Value {
 
 			final CompField compField = ((ASN1_Set_Type) type).getComponentByName(fieldId);
 			if (compField.isOptional()) {
-				//create an explicit omit value
+				// create an explicit omit value
 				final Value result = new Omit_Value();
 
 				final BridgingNamedNode bridge = new BridgingNamedNode(this, "." + fieldId.getDisplayName());
@@ -564,7 +566,7 @@ public final class Set_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (values!=null && !values.accept(v)) {
+		if (values != null && !values.accept(v)) {
 			return false;
 		}
 		return true;
@@ -597,15 +599,15 @@ public final class Set_Value extends Value {
 		}
 
 		final IType type = governor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
-		if(Type_type.TYPE_TTCN3_SET.equals(type.getTypetype())) {
+		if (Type_type.TYPE_TTCN3_SET.equals(type.getTypetype())) {
 			for (int i = 0; i < values.getSize(); i++) {
 				final String name = values.getNamedValueByIndex(i).getName().getName();
-				if(((TTCN3_Set_Type)type).hasComponentWithName(name)) {
+				if (((TTCN3_Set_Type) type).hasComponentWithName(name)) {
 					final StringBuilder embeddedName = new StringBuilder(parameterGenName);
 					embeddedName.append('.');
 					embeddedName.append(name);
 					embeddedName.append("()");
-					if(((TTCN3_Set_Type)type).getComponentByName(name).isOptional()) {
+					if (((TTCN3_Set_Type) type).getComponentByName(name).isOptional()) {
 						embeddedName.append(".get()");
 					}
 					values.getNamedValueByIndex(i).getValue().setGenNameRecursive(embeddedName.toString());
@@ -627,7 +629,7 @@ public final class Set_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
-		//TODO the empty record is so frequent that it is worth to handle in the library
+		// TODO the empty record is so frequent that it is worth to handle in the library
 		aData.addBuiltinTypeImport("TitanNull_Type");
 
 		IType governor = myGovernor;
@@ -700,19 +702,19 @@ public final class Set_Value extends Value {
 			IValue fieldValue;
 			if (hasComponentWithName(fieldName)) {
 				fieldValue = getComponentByName(fieldName).getValue();
-				if(Value_type.NOTUSED_VALUE.equals(fieldValue.getValuetype())) {
+				if (Value_type.NOTUSED_VALUE.equals(fieldValue.getValuetype())) {
 					continue;
 				} else if (Value_type.OMIT_VALUE.equals(fieldValue.getValuetype())) {
 					fieldValue = null;
 				}
-			}//TODO add support for asn default values when needed
+			}// TODO add support for asn default values when needed
 			else {
 				continue;
 			}
 
 			final String javaGetterName = FieldSubReference.getJavaGetterName(fieldName.getName());
 			if (fieldValue != null) {
-				//TODO handle the case when temporary reference is needed
+				// TODO handle the case when temporary reference is needed
 				final StringBuilder embeddedName = new StringBuilder();
 				embeddedName.append(name);
 				embeddedName.append(".get");
@@ -724,7 +726,7 @@ public final class Set_Value extends Value {
 
 				fieldValue.generateCodeInit(aData, source, embeddedName.toString());
 			} else {
-				aData.addBuiltinTypeImport( "Base_Template.template_sel" );
+				aData.addBuiltinTypeImport("Base_Template.template_sel");
 
 				source.append(MessageFormat.format("{0}.get{1}().assign(template_sel.OMIT_VALUE);\n", name, javaGetterName));
 			}

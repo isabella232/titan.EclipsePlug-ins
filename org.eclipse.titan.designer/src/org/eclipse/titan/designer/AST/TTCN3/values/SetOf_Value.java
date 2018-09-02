@@ -152,7 +152,8 @@ public final class SetOf_Value extends Value {
 					arrayIndex.getLocation().reportSemanticError(
 							MessageFormat.format(INDEXOVERFLOW, type.getTypename(), index, values.getNofValues()));
 				} else {
-					return values.getValueByIndex(index.intValue()).getReferencedSubValue(timestamp, reference, actualSubReference + 1, refChain);
+					return values.getValueByIndex(index.intValue()).getReferencedSubValue(timestamp, reference,
+							actualSubReference + 1, refChain);
 				}
 
 				return null;
@@ -288,7 +289,7 @@ public final class SetOf_Value extends Value {
 					final IndexedValue localTemp = values.getIndexedValueByIndex(i);
 					boolean found = false;
 					for (int j = indicesuncovered.size() - 1; j >= 0 && !found; j--) {
-						final IValue otherTemp =  otherSetof.values.getIndexedValueByRealIndex(indicesuncovered.get(j));
+						final IValue otherTemp = otherSetof.values.getIndexedValueByRealIndex(indicesuncovered.get(j));
 
 						if (localTemp.getValue().checkEquality(timestamp, otherTemp)) {
 							found = true;
@@ -313,7 +314,7 @@ public final class SetOf_Value extends Value {
 					final IndexedValue localTemp = values.getIndexedValueByIndex(i);
 					boolean found = false;
 					for (int j = indicesuncovered.size() - 1; j >= 0 && !found; j--) {
-						final IValue otherTemp =  otherSetof.values.getValueByIndex(indicesuncovered.get(j));
+						final IValue otherTemp = otherSetof.values.getValueByIndex(indicesuncovered.get(j));
 
 						if (localTemp.getValue().checkEquality(timestamp, otherTemp)) {
 							found = true;
@@ -340,7 +341,7 @@ public final class SetOf_Value extends Value {
 					final IValue localTemp = values.getValueByIndex(i);
 					boolean found = false;
 					for (int j = indicesuncovered.size() - 1; j >= 0 && !found; j--) {
-						final IndexedValue otherTemp =  otherSetof.values.getIndexedValueByIndex(indicesuncovered.get(j));
+						final IndexedValue otherTemp = otherSetof.values.getIndexedValueByIndex(indicesuncovered.get(j));
 
 						if (localTemp.checkEquality(timestamp, otherTemp.getValue())) {
 							found = true;
@@ -365,7 +366,7 @@ public final class SetOf_Value extends Value {
 					final IValue localTemp = values.getValueByIndex(i);
 					boolean found = false;
 					for (int j = indicesuncovered.size() - 1; j >= 0 && !found; j--) {
-						final IValue otherTemp =  otherSetof.values.getValueByIndex(indicesuncovered.get(j));
+						final IValue otherTemp = otherSetof.values.getValueByIndex(indicesuncovered.get(j));
 
 						if (localTemp.checkEquality(timestamp, otherTemp)) {
 							found = true;
@@ -552,7 +553,7 @@ public final class SetOf_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	protected boolean memberAccept(final ASTVisitor v) {
-		if (values!=null && !values.accept(v)) {
+		if (values != null && !values.accept(v)) {
 			return false;
 		}
 		return true;
