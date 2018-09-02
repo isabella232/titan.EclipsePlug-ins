@@ -1682,11 +1682,11 @@ public class RecordOfGenerator {
 		source.append('\n');
 		source.append("\tpublic TitanInteger sizeOf(final boolean is_size) {\n");
 		source.append("\t\tfinal String op_name = is_size ? \"size\" : \"length\";\n");
-		source.append("\t\tint min_size;\n");
-		source.append("\t\tboolean has_any_or_none;\n");
 		source.append("\t\tif (is_ifPresent) {\n");
 		source.append("\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" which has an ifpresent attribute.\", op_name ) );\n");
 		source.append("\t\t}\n");
+		source.append("\t\tint min_size;\n");
+		source.append("\t\tboolean has_any_or_none;\n");
 		source.append("\t\tswitch (templateSelection)\n");
 		source.append("\t\t{\n");
 		source.append("\t\tcase SPECIFIC_VALUE: {\n");
