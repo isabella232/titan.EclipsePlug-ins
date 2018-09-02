@@ -1264,7 +1264,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -1971,7 +1971,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final VerdictOp_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_SetVerdict:
 field = new SetVerdictType((SetVerdictType)otherValue.field);
 break;
@@ -2022,7 +2022,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_SetVerdict:
@@ -2051,7 +2051,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_SetVerdict:
 return ((SetVerdictType)field).operatorEquals((SetVerdictType)otherValue.field);
 case ALT_GetVerdict:
@@ -2163,7 +2163,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_SetVerdict:
 text_buf.push_int(0);
 break;
@@ -2181,7 +2181,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getSetVerdict().decode_text(text_buf);
 break;
@@ -2236,7 +2236,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -2333,9 +2333,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_SetVerdict:
 ((SetVerdictType_template)single_value).cleanUp();
 break;
@@ -2425,7 +2425,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_SetVerdict:
 return ((SetVerdictType_template)single_value).match(other_value.getSetVerdict(), legacy);
 case ALT_GetVerdict:
@@ -2460,7 +2460,7 @@ public boolean isChosen(final VerdictOp_choice.union_selection_type checked_sele
 if(checked_selection == VerdictOp_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.VerdictOp.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == VerdictOp_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.VerdictOp.choice.");
@@ -2486,7 +2486,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_SetVerdict:
 return ((SetVerdictType_template)single_value).isValue();
 case ALT_GetVerdict:
@@ -2503,7 +2503,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.VerdictOp.choice.");
 }
 final VerdictOp_choice ret_val = new VerdictOp_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_SetVerdict:
 ret_val.getSetVerdict().assign(((SetVerdictType_template)single_value).valueOf());
 break;
@@ -2563,7 +2563,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -2699,7 +2699,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_SetVerdict:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".setVerdict");
@@ -2750,7 +2750,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -2774,14 +2774,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new SetVerdictType_template();
 single_value.decode_text(text_buf);
@@ -3303,7 +3303,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -4348,7 +4348,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -5076,7 +5076,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -5968,7 +5968,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -7210,7 +7210,7 @@ public static class Strings_str__list extends Base_Type {
 				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
 					final error_type temp = error_type.values()[-rawr];
-					switch(temp) {
+					switch (temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
 						TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -7393,7 +7393,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 		if (is_ifPresent) {
 			return true;
 		}
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -7472,7 +7472,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 
 	@Override
 	public void cleanUp() {
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			value_elements.clear();
 			value_elements = null;
@@ -7698,11 +7698,11 @@ public static class Strings_str__list_template extends Record_Of_Template {
 
 	public TitanInteger sizeOf(final boolean is_size) {
 		final String op_name = is_size ? "size" : "length";
-		int min_size;
-		boolean has_any_or_none;
 		if (is_ifPresent) {
 			throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.Strings.str_list which has an ifpresent attribute.", op_name ) );
 		}
+		int min_size;
+		boolean has_any_or_none;
 		switch (templateSelection)
 		{
 		case SPECIFIC_VALUE: {
@@ -7986,7 +7986,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -8012,7 +8012,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -8126,7 +8126,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final ExecutorEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_ExecutorRuntime:
 field = new ExecutorRuntime((ExecutorRuntime)otherValue.field);
 break;
@@ -8189,7 +8189,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_ExecutorRuntime:
@@ -8226,7 +8226,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ExecutorRuntime:
 return ((ExecutorRuntime)field).operatorEquals((ExecutorRuntime)otherValue.field);
 case ALT_ExecutorConfigdata:
@@ -8434,7 +8434,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ExecutorRuntime:
 text_buf.push_int(0);
 break;
@@ -8464,7 +8464,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getExecutorRuntime().decode_text(text_buf);
 break;
@@ -8531,7 +8531,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -8652,9 +8652,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ExecutorRuntime:
 ((ExecutorRuntime_template)single_value).cleanUp();
 break;
@@ -8756,7 +8756,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_ExecutorRuntime:
 return ((ExecutorRuntime_template)single_value).match(other_value.getExecutorRuntime(), legacy);
 case ALT_ExecutorConfigdata:
@@ -8799,7 +8799,7 @@ public boolean isChosen(final ExecutorEvent_choice.union_selection_type checked_
 if(checked_selection == ExecutorEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.ExecutorEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == ExecutorEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.ExecutorEvent.choice.");
@@ -8825,7 +8825,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ExecutorRuntime:
 return ((ExecutorRuntime_template)single_value).isValue();
 case ALT_ExecutorConfigdata:
@@ -8850,7 +8850,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.ExecutorEvent.choice.");
 }
 final ExecutorEvent_choice ret_val = new ExecutorEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ExecutorRuntime:
 ret_val.getExecutorRuntime().assign(((ExecutorRuntime_template)single_value).valueOf());
 break;
@@ -8922,7 +8922,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -9158,7 +9158,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ExecutorRuntime:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".executorRuntime");
@@ -9249,7 +9249,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -9273,14 +9273,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new ExecutorRuntime_template();
 single_value.decode_text(text_buf);
@@ -9564,7 +9564,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -10457,7 +10457,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -11805,7 +11805,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -12075,7 +12075,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -12796,7 +12796,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -13066,7 +13066,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -13588,7 +13588,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -14503,7 +14503,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -14773,7 +14773,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -15108,7 +15108,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -16263,7 +16263,7 @@ public static class TitanLog_sequence__list_0_event__list extends Base_Type {
 				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
 					final error_type temp = error_type.values()[-rawr];
-					switch(temp) {
+					switch (temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
 						TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -16446,7 +16446,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 		if (is_ifPresent) {
 			return true;
 		}
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -16525,7 +16525,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 
 	@Override
 	public void cleanUp() {
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			value_elements.clear();
 			value_elements = null;
@@ -16751,11 +16751,11 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 
 	public TitanInteger sizeOf(final boolean is_size) {
 		final String op_name = is_size ? "size" : "length";
-		int min_size;
-		boolean has_any_or_none;
 		if (is_ifPresent) {
 			throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list which has an ifpresent attribute.", op_name ) );
 		}
+		int min_size;
+		boolean has_any_or_none;
 		switch (templateSelection)
 		{
 		case SPECIFIC_VALUE: {
@@ -17039,7 +17039,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -17065,7 +17065,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -17179,7 +17179,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final LogEventType_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_ActionEvent:
 field = new Strings((Strings)otherValue.field);
 break;
@@ -17272,7 +17272,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_ActionEvent:
@@ -17329,7 +17329,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ActionEvent:
 return ((Strings)field).operatorEquals((Strings)otherValue.field);
 case ALT_DefaultEvent:
@@ -17777,7 +17777,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ActionEvent:
 text_buf.push_int(0);
 break;
@@ -17837,7 +17837,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getActionEvent().decode_text(text_buf);
 break;
@@ -17934,7 +17934,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -18115,9 +18115,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ActionEvent:
 ((Strings_template)single_value).cleanUp();
 break;
@@ -18249,7 +18249,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_ActionEvent:
 return ((Strings_template)single_value).match(other_value.getActionEvent(), legacy);
 case ALT_DefaultEvent:
@@ -18312,7 +18312,7 @@ public boolean isChosen(final LogEventType_choice.union_selection_type checked_s
 if(checked_selection == LogEventType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.LogEventType.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == LogEventType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.LogEventType.choice.");
@@ -18338,7 +18338,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ActionEvent:
 return ((Strings_template)single_value).isValue();
 case ALT_DefaultEvent:
@@ -18383,7 +18383,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.LogEventType.choice.");
 }
 final LogEventType_choice ret_val = new LogEventType_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ActionEvent:
 ret_val.getActionEvent().assign(((Strings_template)single_value).valueOf());
 break;
@@ -18485,7 +18485,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -18971,7 +18971,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ActionEvent:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".actionEvent");
@@ -19162,7 +19162,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -19186,14 +19186,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new Strings_template();
 single_value.decode_text(text_buf);
@@ -19402,7 +19402,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final DefaultEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_DefaultopActivate:
 field = new DefaultOp((DefaultOp)otherValue.field);
 break;
@@ -19453,7 +19453,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_DefaultopActivate:
@@ -19482,7 +19482,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_DefaultopActivate:
 return ((DefaultOp)field).operatorEquals((DefaultOp)otherValue.field);
 case ALT_DefaultopDeactivate:
@@ -19594,7 +19594,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_DefaultopActivate:
 text_buf.push_int(0);
 break;
@@ -19612,7 +19612,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getDefaultopActivate().decode_text(text_buf);
 break;
@@ -19667,7 +19667,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -19764,9 +19764,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_DefaultopActivate:
 ((DefaultOp_template)single_value).cleanUp();
 break;
@@ -19856,7 +19856,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_DefaultopActivate:
 return ((DefaultOp_template)single_value).match(other_value.getDefaultopActivate(), legacy);
 case ALT_DefaultopDeactivate:
@@ -19891,7 +19891,7 @@ public boolean isChosen(final DefaultEvent_choice.union_selection_type checked_s
 if(checked_selection == DefaultEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.DefaultEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == DefaultEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.DefaultEvent.choice.");
@@ -19917,7 +19917,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_DefaultopActivate:
 return ((DefaultOp_template)single_value).isValue();
 case ALT_DefaultopDeactivate:
@@ -19934,7 +19934,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.DefaultEvent.choice.");
 }
 final DefaultEvent_choice ret_val = new DefaultEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_DefaultopActivate:
 ret_val.getDefaultopActivate().assign(((DefaultOp_template)single_value).valueOf());
 break;
@@ -19994,7 +19994,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -20130,7 +20130,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_DefaultopActivate:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".defaultopActivate");
@@ -20181,7 +20181,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -20205,14 +20205,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new DefaultOp_template();
 single_value.decode_text(text_buf);
@@ -20293,7 +20293,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final TestcaseEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_TestcaseStarted:
 field = new QualifiedName((QualifiedName)otherValue.field);
 break;
@@ -20341,7 +20341,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_TestcaseStarted:
@@ -20368,7 +20368,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_TestcaseStarted:
 return ((QualifiedName)field).operatorEquals((QualifiedName)otherValue.field);
 case ALT_TestcaseFinished:
@@ -20456,7 +20456,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_TestcaseStarted:
 text_buf.push_int(0);
 break;
@@ -20471,7 +20471,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getTestcaseStarted().decode_text(text_buf);
 break;
@@ -20523,7 +20523,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -20614,9 +20614,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_TestcaseStarted:
 ((QualifiedName_template)single_value).cleanUp();
 break;
@@ -20703,7 +20703,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_TestcaseStarted:
 return ((QualifiedName_template)single_value).match(other_value.getTestcaseStarted(), legacy);
 case ALT_TestcaseFinished:
@@ -20736,7 +20736,7 @@ public boolean isChosen(final TestcaseEvent_choice.union_selection_type checked_
 if(checked_selection == TestcaseEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.TestcaseEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == TestcaseEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.TestcaseEvent.choice.");
@@ -20762,7 +20762,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_TestcaseStarted:
 return ((QualifiedName_template)single_value).isValue();
 case ALT_TestcaseFinished:
@@ -20777,7 +20777,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.TestcaseEvent.choice.");
 }
 final TestcaseEvent_choice ret_val = new TestcaseEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_TestcaseStarted:
 ret_val.getTestcaseStarted().assign(((QualifiedName_template)single_value).valueOf());
 break;
@@ -20834,7 +20834,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -20945,7 +20945,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_TestcaseStarted:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".testcaseStarted");
@@ -20986,7 +20986,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -21010,14 +21010,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new QualifiedName_template();
 single_value.decode_text(text_buf);
@@ -21500,7 +21500,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -21770,7 +21770,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -22147,7 +22147,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -23192,7 +23192,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -24021,7 +24021,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -24550,7 +24550,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final TimerEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_ReadTimer:
 field = new TimerType((TimerType)otherValue.field);
 break;
@@ -24613,7 +24613,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_ReadTimer:
@@ -24650,7 +24650,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ReadTimer:
 return ((TimerType)field).operatorEquals((TimerType)otherValue.field);
 case ALT_StartTimer:
@@ -24858,7 +24858,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ReadTimer:
 text_buf.push_int(0);
 break;
@@ -24888,7 +24888,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getReadTimer().decode_text(text_buf);
 break;
@@ -24955,7 +24955,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -25076,9 +25076,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ReadTimer:
 ((TimerType_template)single_value).cleanUp();
 break;
@@ -25180,7 +25180,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_ReadTimer:
 return ((TimerType_template)single_value).match(other_value.getReadTimer(), legacy);
 case ALT_StartTimer:
@@ -25223,7 +25223,7 @@ public boolean isChosen(final TimerEvent_choice.union_selection_type checked_sel
 if(checked_selection == TimerEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.TimerEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == TimerEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.TimerEvent.choice.");
@@ -25249,7 +25249,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ReadTimer:
 return ((TimerType_template)single_value).isValue();
 case ALT_StartTimer:
@@ -25274,7 +25274,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.TimerEvent.choice.");
 }
 final TimerEvent_choice ret_val = new TimerEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ReadTimer:
 ret_val.getReadTimer().assign(((TimerType_template)single_value).valueOf());
 break;
@@ -25346,7 +25346,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -25582,7 +25582,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ReadTimer:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".readTimer");
@@ -25673,7 +25673,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -25697,14 +25697,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new TimerType_template();
 single_value.decode_text(text_buf);
@@ -25801,7 +25801,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final StatisticsType_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_VerdictStatistics:
 field = new StatisticsType_choice_verdictStatistics((StatisticsType_choice_verdictStatistics)otherValue.field);
 break;
@@ -25855,7 +25855,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_VerdictStatistics:
@@ -25886,7 +25886,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_VerdictStatistics:
 return ((StatisticsType_choice_verdictStatistics)field).operatorEquals((StatisticsType_choice_verdictStatistics)otherValue.field);
 case ALT_ControlpartStart:
@@ -26022,7 +26022,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_VerdictStatistics:
 text_buf.push_int(0);
 break;
@@ -26043,7 +26043,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getVerdictStatistics().decode_text(text_buf);
 break;
@@ -26101,7 +26101,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -26204,9 +26204,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_VerdictStatistics:
 ((StatisticsType_choice_verdictStatistics_template)single_value).cleanUp();
 break;
@@ -26299,7 +26299,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_VerdictStatistics:
 return ((StatisticsType_choice_verdictStatistics_template)single_value).match(other_value.getVerdictStatistics(), legacy);
 case ALT_ControlpartStart:
@@ -26336,7 +26336,7 @@ public boolean isChosen(final StatisticsType_choice.union_selection_type checked
 if(checked_selection == StatisticsType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.StatisticsType.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == StatisticsType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.StatisticsType.choice.");
@@ -26362,7 +26362,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_VerdictStatistics:
 return ((StatisticsType_choice_verdictStatistics_template)single_value).isValue();
 case ALT_ControlpartStart:
@@ -26381,7 +26381,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.StatisticsType.choice.");
 }
 final StatisticsType_choice ret_val = new StatisticsType_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_VerdictStatistics:
 ret_val.getVerdictStatistics().assign(((StatisticsType_choice_verdictStatistics_template)single_value).valueOf());
 break;
@@ -26444,7 +26444,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -26605,7 +26605,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_VerdictStatistics:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".verdictStatistics");
@@ -26666,7 +26666,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -26690,14 +26690,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new StatisticsType_choice_verdictStatistics_template();
 single_value.decode_text(text_buf);
@@ -27133,7 +27133,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -28360,7 +28360,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -29625,7 +29625,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -29895,7 +29895,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -30531,7 +30531,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -31220,7 +31220,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -32109,7 +32109,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -32379,7 +32379,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -33055,7 +33055,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -33325,7 +33325,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -33855,7 +33855,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -34125,7 +34125,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -34496,7 +34496,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -35474,7 +35474,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -35744,7 +35744,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -36053,7 +36053,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final MatchingFailureType_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_System__:
 field = new TitanCharString((TitanCharString)otherValue.field);
 break;
@@ -36101,7 +36101,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_System__:
@@ -36128,7 +36128,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_System__:
 return ((TitanCharString)field).operatorEquals((TitanCharString)otherValue.field);
 case ALT_Compref:
@@ -36216,7 +36216,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_System__:
 text_buf.push_int(0);
 break;
@@ -36231,7 +36231,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getSystem__().decode_text(text_buf);
 break;
@@ -36283,7 +36283,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -36374,9 +36374,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_System__:
 ((TitanCharString_template)single_value).cleanUp();
 break;
@@ -36463,7 +36463,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_System__:
 return ((TitanCharString_template)single_value).match(other_value.getSystem__(), legacy);
 case ALT_Compref:
@@ -36496,7 +36496,7 @@ public boolean isChosen(final MatchingFailureType_choice.union_selection_type ch
 if(checked_selection == MatchingFailureType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.MatchingFailureType.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == MatchingFailureType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.MatchingFailureType.choice.");
@@ -36522,7 +36522,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_System__:
 return ((TitanCharString_template)single_value).isValue();
 case ALT_Compref:
@@ -36537,7 +36537,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.MatchingFailureType.choice.");
 }
 final MatchingFailureType_choice ret_val = new MatchingFailureType_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_System__:
 ret_val.getSystem__().assign(((TitanCharString_template)single_value).valueOf());
 break;
@@ -36594,7 +36594,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -36705,7 +36705,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_System__:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".system_");
@@ -36746,7 +36746,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -36770,14 +36770,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new TitanCharString_template();
 single_value.decode_text(text_buf);
@@ -37214,7 +37214,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -37484,7 +37484,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -37819,7 +37819,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -38636,7 +38636,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -39715,7 +39715,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -40868,7 +40868,7 @@ public static class TitanLogEvent_sourceInfo__list extends Base_Type {
 				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
 					final error_type temp = error_type.values()[-rawr];
-					switch(temp) {
+					switch (temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
 						TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -41051,7 +41051,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 		if (is_ifPresent) {
 			return true;
 		}
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -41130,7 +41130,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 
 	@Override
 	public void cleanUp() {
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			value_elements.clear();
 			value_elements = null;
@@ -41356,11 +41356,11 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 
 	public TitanInteger sizeOf(final boolean is_size) {
 		final String op_name = is_size ? "size" : "length";
-		int min_size;
-		boolean has_any_or_none;
 		if (is_ifPresent) {
 			throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list which has an ifpresent attribute.", op_name ) );
 		}
+		int min_size;
+		boolean has_any_or_none;
 		switch (templateSelection)
 		{
 		case SPECIFIC_VALUE: {
@@ -41644,7 +41644,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -41670,7 +41670,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -41989,7 +41989,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -43132,7 +43132,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -43402,7 +43402,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -44092,7 +44092,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -44362,7 +44362,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -44985,7 +44985,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -45766,7 +45766,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -46831,7 +46831,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -47853,7 +47853,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -48943,7 +48943,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -50270,7 +50270,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -50969,7 +50969,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -51750,7 +51750,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -52421,7 +52421,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final ParallelEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_ParallelPTC:
 field = new ParallelPTC((ParallelPTC)otherValue.field);
 break;
@@ -52472,7 +52472,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_ParallelPTC:
@@ -52501,7 +52501,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ParallelPTC:
 return ((ParallelPTC)field).operatorEquals((ParallelPTC)otherValue.field);
 case ALT_ParallelPTC__exit:
@@ -52613,7 +52613,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_ParallelPTC:
 text_buf.push_int(0);
 break;
@@ -52631,7 +52631,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getParallelPTC().decode_text(text_buf);
 break;
@@ -52686,7 +52686,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -52783,9 +52783,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ParallelPTC:
 ((ParallelPTC_template)single_value).cleanUp();
 break;
@@ -52875,7 +52875,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_ParallelPTC:
 return ((ParallelPTC_template)single_value).match(other_value.getParallelPTC(), legacy);
 case ALT_ParallelPTC__exit:
@@ -52910,7 +52910,7 @@ public boolean isChosen(final ParallelEvent_choice.union_selection_type checked_
 if(checked_selection == ParallelEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.ParallelEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == ParallelEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.ParallelEvent.choice.");
@@ -52936,7 +52936,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ParallelPTC:
 return ((ParallelPTC_template)single_value).isValue();
 case ALT_ParallelPTC__exit:
@@ -52953,7 +52953,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.ParallelEvent.choice.");
 }
 final ParallelEvent_choice ret_val = new ParallelEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ParallelPTC:
 ret_val.getParallelPTC().assign(((ParallelPTC_template)single_value).valueOf());
 break;
@@ -53013,7 +53013,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -53149,7 +53149,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_ParallelPTC:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".parallelPTC");
@@ -53200,7 +53200,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -53224,14 +53224,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new ParallelPTC_template();
 single_value.decode_text(text_buf);
@@ -53383,7 +53383,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 default:
@@ -53406,7 +53406,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 default:
 return false;
 }
@@ -53436,7 +53436,7 @@ break;
 }
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 default:
 throw new TtcnError("Text encoder: Encoding an unbound value of union type @TitanLoggerApi.anytype.");
 }
@@ -53444,7 +53444,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.anytype.");
 }
@@ -53490,7 +53490,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -53559,7 +53559,7 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 break;
 case VALUE_LIST:
@@ -53637,7 +53637,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 default:
 throw new TtcnError("Internal error: Invalid selector in a specific value when matching a template of union type @TitanLoggerApi.anytype.");
 }
@@ -53666,7 +53666,7 @@ public boolean isChosen(final anytype.union_selection_type checked_selection) {
 if(checked_selection == anytype.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.anytype.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == anytype.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.anytype.");
@@ -53692,7 +53692,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 default:
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type @TitanLoggerApi.anytype.");
 }
@@ -53702,7 +53702,7 @@ public anytype valueOf() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.anytype.");
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 default:
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type @TitanLoggerApi.anytype.");
 }
@@ -53752,7 +53752,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -53812,7 +53812,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 default:
 TTCN_Logger.print_logmatch_buffer();
 TTCN_Logger.log_event_str("<invalid selector>");
@@ -53833,7 +53833,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -53856,14 +53856,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 }
 }
 case VALUE_LIST:
@@ -54073,7 +54073,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -54674,7 +54674,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final PortEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_PortQueue:
 field = new Port__Queue((Port__Queue)otherValue.field);
 break;
@@ -54746,7 +54746,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_PortQueue:
@@ -54789,7 +54789,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_PortQueue:
 return ((Port__Queue)field).operatorEquals((Port__Queue)otherValue.field);
 case ALT_PortState:
@@ -55069,7 +55069,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_PortQueue:
 text_buf.push_int(0);
 break;
@@ -55108,7 +55108,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getPortQueue().decode_text(text_buf);
 break;
@@ -55184,7 +55184,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -55323,9 +55323,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_PortQueue:
 ((Port__Queue_template)single_value).cleanUp();
 break;
@@ -55436,7 +55436,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_PortQueue:
 return ((Port__Queue_template)single_value).match(other_value.getPortQueue(), legacy);
 case ALT_PortState:
@@ -55485,7 +55485,7 @@ public boolean isChosen(final PortEvent_choice.union_selection_type checked_sele
 if(checked_selection == PortEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.PortEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == PortEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.PortEvent.choice.");
@@ -55511,7 +55511,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_PortQueue:
 return ((Port__Queue_template)single_value).isValue();
 case ALT_PortState:
@@ -55542,7 +55542,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.PortEvent.choice.");
 }
 final PortEvent_choice ret_val = new PortEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_PortQueue:
 ret_val.getPortQueue().assign(((Port__Queue_template)single_value).valueOf());
 break;
@@ -55623,7 +55623,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -55934,7 +55934,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_PortQueue:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".portQueue");
@@ -56055,7 +56055,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -56079,14 +56079,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new Port__Queue_template();
 single_value.decode_text(text_buf);
@@ -56394,7 +56394,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -57602,7 +57602,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -58676,7 +58676,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -60142,7 +60142,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -61147,7 +61147,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -62229,7 +62229,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -63164,7 +63164,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -63693,7 +63693,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final FinalVerdictType_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_Info:
 field = new FinalVerdictInfo((FinalVerdictInfo)otherValue.field);
 break;
@@ -63741,7 +63741,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_Info:
@@ -63768,7 +63768,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_Info:
 return ((FinalVerdictInfo)field).operatorEquals((FinalVerdictInfo)otherValue.field);
 case ALT_Notification:
@@ -63856,7 +63856,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_Info:
 text_buf.push_int(0);
 break;
@@ -63871,7 +63871,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getInfo().decode_text(text_buf);
 break;
@@ -63923,7 +63923,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -64014,9 +64014,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Info:
 ((FinalVerdictInfo_template)single_value).cleanUp();
 break;
@@ -64103,7 +64103,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_Info:
 return ((FinalVerdictInfo_template)single_value).match(other_value.getInfo(), legacy);
 case ALT_Notification:
@@ -64136,7 +64136,7 @@ public boolean isChosen(final FinalVerdictType_choice.union_selection_type check
 if(checked_selection == FinalVerdictType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.FinalVerdictType.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == FinalVerdictType_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.FinalVerdictType.choice.");
@@ -64162,7 +64162,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Info:
 return ((FinalVerdictInfo_template)single_value).isValue();
 case ALT_Notification:
@@ -64177,7 +64177,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.FinalVerdictType.choice.");
 }
 final FinalVerdictType_choice ret_val = new FinalVerdictType_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Info:
 ret_val.getInfo().assign(((FinalVerdictInfo_template)single_value).valueOf());
 break;
@@ -64234,7 +64234,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -64345,7 +64345,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Info:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".info");
@@ -64386,7 +64386,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -64410,14 +64410,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new FinalVerdictInfo_template();
 single_value.decode_text(text_buf);
@@ -64995,7 +64995,7 @@ public static class StartFunction_parameter__list extends Base_Type {
 				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
 					final error_type temp = error_type.values()[-rawr];
-					switch(temp) {
+					switch (temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
 						TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -65178,7 +65178,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 		if (is_ifPresent) {
 			return true;
 		}
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -65257,7 +65257,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 
 	@Override
 	public void cleanUp() {
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			value_elements.clear();
 			value_elements = null;
@@ -65483,11 +65483,11 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 
 	public TitanInteger sizeOf(final boolean is_size) {
 		final String op_name = is_size ? "size" : "length";
-		int min_size;
-		boolean has_any_or_none;
 		if (is_ifPresent) {
 			throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.StartFunction.parameter_list which has an ifpresent attribute.", op_name ) );
 		}
+		int min_size;
+		boolean has_any_or_none;
 		switch (templateSelection)
 		{
 		case SPECIFIC_VALUE: {
@@ -65771,7 +65771,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -65797,7 +65797,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -66197,7 +66197,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -67197,7 +67197,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -67920,7 +67920,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -68917,7 +68917,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -69187,7 +69187,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -69681,7 +69681,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -70563,7 +70563,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -71327,7 +71327,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -72428,7 +72428,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -72698,7 +72698,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -73040,7 +73040,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -73710,7 +73710,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -74596,7 +74596,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -75548,7 +75548,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -76676,7 +76676,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -77742,7 +77742,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -78611,7 +78611,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -78881,7 +78881,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -79396,7 +79396,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -79666,7 +79666,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -80248,7 +80248,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -80518,7 +80518,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -81182,7 +81182,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -81452,7 +81452,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -82237,7 +82237,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -82507,7 +82507,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -82921,7 +82921,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -83721,7 +83721,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -84620,7 +84620,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -85761,7 +85761,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -86031,7 +86031,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -86402,7 +86402,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -87521,7 +87521,7 @@ public static class TitanLog_sequence__list extends Base_Type {
 				final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 				if (rawr < 0) {
 					final error_type temp = error_type.values()[-rawr];
-					switch(temp) {
+					switch (temp) {
 					case ET_INCOMPL_MSG:
 					case ET_LEN_ERR:
 						TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -87704,7 +87704,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 		if (is_ifPresent) {
 			return true;
 		}
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case OMIT_VALUE:
 		case ANY_OR_OMIT:
 			return true;
@@ -87783,7 +87783,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 
 	@Override
 	public void cleanUp() {
-		switch(templateSelection) {
+		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			value_elements.clear();
 			value_elements = null;
@@ -88009,11 +88009,11 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 
 	public TitanInteger sizeOf(final boolean is_size) {
 		final String op_name = is_size ? "size" : "length";
-		int min_size;
-		boolean has_any_or_none;
 		if (is_ifPresent) {
 			throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list which has an ifpresent attribute.", op_name ) );
 		}
+		int min_size;
+		boolean has_any_or_none;
 		switch (templateSelection)
 		{
 		case SPECIFIC_VALUE: {
@@ -88297,7 +88297,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -88323,7 +88323,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
 			decode_text_permutation(text_buf);
-			switch(templateSelection) {
+			switch (templateSelection) {
 			case OMIT_VALUE:
 			case ANY_VALUE:
 			case ANY_OR_OMIT:
@@ -89003,7 +89003,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -89978,7 +89978,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -90684,7 +90684,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -91441,7 +91441,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -92201,7 +92201,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final MatchingEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_MatchingDone:
 field = new MatchingDoneType((MatchingDoneType)otherValue.field);
 break;
@@ -92258,7 +92258,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_MatchingDone:
@@ -92291,7 +92291,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_MatchingDone:
 return ((MatchingDoneType)field).operatorEquals((MatchingDoneType)otherValue.field);
 case ALT_MatchingSuccess:
@@ -92451,7 +92451,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_MatchingDone:
 text_buf.push_int(0);
 break;
@@ -92475,7 +92475,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getMatchingDone().decode_text(text_buf);
 break;
@@ -92536,7 +92536,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -92645,9 +92645,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_MatchingDone:
 ((MatchingDoneType_template)single_value).cleanUp();
 break;
@@ -92743,7 +92743,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_MatchingDone:
 return ((MatchingDoneType_template)single_value).match(other_value.getMatchingDone(), legacy);
 case ALT_MatchingSuccess:
@@ -92782,7 +92782,7 @@ public boolean isChosen(final MatchingEvent_choice.union_selection_type checked_
 if(checked_selection == MatchingEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.MatchingEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == MatchingEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.MatchingEvent.choice.");
@@ -92808,7 +92808,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_MatchingDone:
 return ((MatchingDoneType_template)single_value).isValue();
 case ALT_MatchingSuccess:
@@ -92829,7 +92829,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.MatchingEvent.choice.");
 }
 final MatchingEvent_choice ret_val = new MatchingEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_MatchingDone:
 ret_val.getMatchingDone().assign(((MatchingDoneType_template)single_value).valueOf());
 break;
@@ -92895,7 +92895,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -93081,7 +93081,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_MatchingDone:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".matchingDone");
@@ -93152,7 +93152,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -93176,14 +93176,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new MatchingDoneType_template();
 single_value.decode_text(text_buf);
@@ -93308,7 +93308,7 @@ copy_value(otherValue);
 };
 
 private void copy_value(final FunctionEvent_choice otherValue) {
-switch(otherValue.union_selection){
+switch (otherValue.union_selection){
 case ALT_Unqualified:
 field = new TitanCharString((TitanCharString)otherValue.field);
 break;
@@ -93356,7 +93356,7 @@ return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
 public boolean isValue() {
-switch(union_selection) {
+switch (union_selection) {
 case UNBOUND_VALUE:
 return false;
 case ALT_Unqualified:
@@ -93383,7 +93383,7 @@ throw new TtcnError( "The right operand of comparison is an unbound value of uni
 if (union_selection != otherValue.union_selection) {
 return false;
 }
-switch(union_selection) {
+switch (union_selection) {
 case ALT_Unqualified:
 return ((TitanCharString)field).operatorEquals((TitanCharString)otherValue.field);
 case ALT_Random:
@@ -93471,7 +93471,7 @@ break;
 
 @Override
 public void encode_text(final Text_Buf text_buf) {
-switch(union_selection) {
+switch (union_selection) {
 case ALT_Unqualified:
 text_buf.push_int(0);
 break;
@@ -93486,7 +93486,7 @@ field.encode_text(text_buf);
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 getUnqualified().decode_text(text_buf);
 break;
@@ -93538,7 +93538,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -93629,9 +93629,9 @@ copy_template(other_value);
 
 @Override
 public void cleanUp() {
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Unqualified:
 ((TitanCharString_template)single_value).cleanUp();
 break;
@@ -93718,7 +93718,7 @@ return false;
 if (value_selection != single_value_union_selection) {
 return false;
 }
-switch(value_selection) {
+switch (value_selection) {
 case ALT_Unqualified:
 return ((TitanCharString_template)single_value).match(other_value.getUnqualified(), legacy);
 case ALT_Random:
@@ -93751,7 +93751,7 @@ public boolean isChosen(final FunctionEvent_choice.union_selection_type checked_
 if(checked_selection == FunctionEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type @TitanLoggerApi.FunctionEvent.choice.");
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case SPECIFIC_VALUE:
 if (single_value_union_selection == FunctionEvent_choice.union_selection_type.UNBOUND_VALUE) {
 throw new TtcnError("Internal error: Invalid selector in a specific value when performing ischosen() operation on a template of union type @TitanLoggerApi.FunctionEvent.choice.");
@@ -93777,7 +93777,7 @@ public boolean isValue() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 return false;
 }
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Unqualified:
 return ((TitanCharString_template)single_value).isValue();
 case ALT_Random:
@@ -93792,7 +93792,7 @@ if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of union type @TitanLoggerApi.FunctionEvent.choice.");
 }
 final FunctionEvent_choice ret_val = new FunctionEvent_choice();
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Unqualified:
 ret_val.getUnqualified().assign(((TitanCharString_template)single_value).valueOf());
 break;
@@ -93849,7 +93849,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -93960,7 +93960,7 @@ TTCN_Logger.log_event_str(" matched");
 return;
 }
 if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
-switch(single_value_union_selection) {
+switch (single_value_union_selection) {
 case ALT_Unqualified:
 if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 TTCN_Logger.log_logmatch_info(".unqualified");
@@ -94001,7 +94001,7 @@ TTCN_Logger.log_event_str(" unmatched");
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
@@ -94025,14 +94025,14 @@ throw new TtcnError("Text encoder: Encoding an uninitialized template of type @T
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
 decode_text_base(text_buf);
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_VALUE:
 case ANY_OR_OMIT:
 break;
 case SPECIFIC_VALUE:{
 final int temp = text_buf.pull_int().getInt();
-switch(temp) {
+switch (temp) {
 case 0:
 single_value = new TitanCharString_template();
 single_value.decode_text(text_buf);
@@ -94449,7 +94449,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -94719,7 +94719,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
@@ -95096,7 +95096,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -95939,7 +95939,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -96876,7 +96876,7 @@ break;
 final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
 if (rawr < 0) {
 final error_type temp = error_type.values()[-rawr];
-switch(temp) {
+switch (temp) {
 case ET_INCOMPL_MSG:
 case ET_LEN_ERR:
 TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
@@ -97146,7 +97146,7 @@ public boolean match_omit(final boolean legacy) {
 if (is_ifPresent) {
 return true;
 }
-switch(templateSelection) {
+switch (templateSelection) {
 case OMIT_VALUE:
 case ANY_OR_OMIT:
 return true;
