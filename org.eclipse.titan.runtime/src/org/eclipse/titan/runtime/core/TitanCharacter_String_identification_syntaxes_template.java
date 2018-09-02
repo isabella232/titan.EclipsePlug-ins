@@ -309,10 +309,6 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	}
 
 	public boolean match(final TitanCharacter_String_identification_syntaxes other_value, final boolean legacy) {
-		return match_(other_value, legacy);
-	}
-
-	private boolean match_(final TitanCharacter_String_identification_syntaxes other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
 		}
@@ -514,7 +510,9 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
+			abstract_ = new TitanObjectid_template();
 			abstract_.decode_text(text_buf);
+			transfer = new TitanObjectid_template();
 			transfer.decode_text(text_buf);
 			break;
 		case VALUE_LIST:

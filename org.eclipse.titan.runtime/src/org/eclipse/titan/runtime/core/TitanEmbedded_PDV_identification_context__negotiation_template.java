@@ -309,10 +309,6 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	}
 
 	public boolean match(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
-		return match_(other_value, legacy);
-	}
-
-	private boolean match_(final TitanEmbedded_PDV_identification_context__negotiation other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
 		}
@@ -514,7 +510,9 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
+			presentation__context__id = new TitanInteger_template();
 			presentation__context__id.decode_text(text_buf);
+			transfer__syntax = new TitanObjectid_template();
 			transfer__syntax.decode_text(text_buf);
 			break;
 		case VALUE_LIST:

@@ -7,6 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
+
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
+import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
+import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
 
 /**
  * Part of the representation of the ASN.1 EXTERNAL type
@@ -15,9 +22,9 @@ package org.eclipse.titan.runtime.core;
  */
 public class TitanExternal_identification extends Base_Type {
 	public enum union_selection_type { UNBOUND_VALUE,  ALT_Syntaxes,  ALT_Syntax,  ALT_Presentation__context__id,  ALT_Context__negotiation,  ALT_Transfer__syntax,  ALT_Fixed };
-	TitanExternal_identification.union_selection_type union_selection;
+	private TitanExternal_identification.union_selection_type union_selection;
 	//originally a union which can not be mapped to Java
-	Base_Type field;
+	private Base_Type field;
 	public TitanExternal_identification() {
 		union_selection = union_selection_type.UNBOUND_VALUE;
 	};
@@ -26,7 +33,7 @@ public class TitanExternal_identification extends Base_Type {
 	};
 
 	private void copy_value(final TitanExternal_identification otherValue) {
-		switch(otherValue.union_selection){
+		switch (otherValue.union_selection){
 		case ALT_Syntaxes:
 			field = new TitanExternal_identification_syntaxes((TitanExternal_identification_syntaxes)otherValue.field);
 			break;
@@ -78,9 +85,6 @@ public class TitanExternal_identification extends Base_Type {
 		if(checked_selection == union_selection_type.UNBOUND_VALUE) {
 			throw new TtcnError("Internal error: Performing ischosen() operation on an invalid field of union type EXTERNAL.identification.");
 		}
-		if (union_selection == union_selection_type.UNBOUND_VALUE) {
-			throw new TtcnError("Performing ischosen() operation on an unbound value of union type EXTERNAL.identification.");
-		}
 		return union_selection == checked_selection;
 	}
 
@@ -89,8 +93,9 @@ public class TitanExternal_identification extends Base_Type {
 	}
 
 	public boolean isValue() {
-		switch(union_selection) {
-		case UNBOUND_VALUE: return false;
+		switch (union_selection) {
+		case UNBOUND_VALUE:
+			return false;
 		case ALT_Syntaxes:
 			return field.isValue();
 		case ALT_Syntax:
@@ -123,7 +128,7 @@ public class TitanExternal_identification extends Base_Type {
 		if (union_selection != otherValue.union_selection) {
 			return false;
 		}
-		switch(union_selection) {
+		switch (union_selection) {
 		case ALT_Syntaxes:
 			return ((TitanExternal_identification_syntaxes)field).operatorEquals((TitanExternal_identification_syntaxes)otherValue.field);
 		case ALT_Syntax:
@@ -255,37 +260,53 @@ public class TitanExternal_identification extends Base_Type {
 	public void log() {
 		switch (union_selection) {
 		case ALT_Syntaxes:
-			TTCN_Logger.log_event_str("{ Syntaxes := ");
+			TTCN_Logger.log_event_str("{ syntaxes := ");
 			field.log();
 			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Syntax:
-			TTCN_Logger.log_event_str("{ Syntax := ");
+			TTCN_Logger.log_event_str("{ syntax := ");
 			field.log();
 			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Presentation__context__id:
-			TTCN_Logger.log_event_str("{ Presentation__context__id := ");
+			TTCN_Logger.log_event_str("{ presentation-context-id := ");
 			field.log();
 			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Context__negotiation:
-			TTCN_Logger.log_event_str("{ Context__negotiation := ");
+			TTCN_Logger.log_event_str("{ context-negotiation := ");
 			field.log();
 			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Transfer__syntax:
-			TTCN_Logger.log_event_str("{ Transfer__syntax := ");
+			TTCN_Logger.log_event_str("{ transfer-syntax := ");
 			field.log();
 			TTCN_Logger.log_event_str(" }");
 			break;
 		case ALT_Fixed:
-			TTCN_Logger.log_event_str("{ Fixed := ");
+			TTCN_Logger.log_event_str("{ fixed := ");
 			field.log();
 			TTCN_Logger.log_event_str(" }");
 			break;
 		default:
 			TTCN_Logger.log_event_unbound();
+			break;
+		}
+	}
+
+	@Override
+	public void set_implicit_omit() {
+		switch (union_selection) {
+		case ALT_Syntaxes:
+		case ALT_Syntax:
+		case ALT_Presentation__context__id:
+		case ALT_Context__negotiation:
+		case ALT_Transfer__syntax:
+		case ALT_Fixed:
+			field.set_implicit_omit();
+			break;
+		default:
 			break;
 		}
 	}
@@ -343,4 +364,66 @@ public class TitanExternal_identification extends Base_Type {
 			throw new TtcnError("Text decoder: Unrecognized union selector was received for type EXTERNAL.identification.");
 		}
 	}
+
+	@Override
+	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+			final RAW_enc_tree root = new RAW_enc_tree(true, null, rp, 1, p_td.raw);
+			RAW_encode(p_td, root);
+			root.put_to_buf(p_buf);
+			errorContext.leaveContext();
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+		}
+	}
+
+	@Override
+	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+		switch (p_coding) {
+		case CT_RAW: {
+			final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+			if (p_td.raw == null) {
+				TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+			}
+			raw_order_t order;
+			switch (p_td.raw.top_bit_order) {
+			case TOP_BIT_LEFT:
+				order = raw_order_t.ORDER_LSB;
+				break;
+			case TOP_BIT_RIGHT:
+			default:
+				order = raw_order_t.ORDER_MSB;
+				break;
+			}
+			final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+			if (rawr < 0) {
+				final error_type temp = error_type.values()[-rawr];
+				switch (temp) {
+				case ET_INCOMPL_MSG:
+				case ET_LEN_ERR:
+					TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+					break;
+				case ET_UNBOUND:
+				default:
+					TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+					break;
+				}
+			}
+			errorContext.leaveContext();
+			break;
+		}
+		default:
+			throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+		}
+	}
+
+	//TODO: implement set_param !
 }

@@ -349,10 +349,6 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	public boolean match(final TitanCharacter_String other_value, final boolean legacy) {
-		return match_(other_value, legacy);
-	}
-
-	private boolean match_(final TitanCharacter_String other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
 		}
@@ -499,10 +495,20 @@ public class TitanCharacter_String_template extends Base_Template {
 						identification.log_match(match_value.constGetIdentification(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !data__value__descriptor.match(match_value.constGetData__value__descriptor(), legacy) ) {
-						TTCN_Logger.log_logmatch_info(".data-value-descriptor");
-						data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
-						TTCN_Logger.set_logmatch_buffer_len(previous_size);
+					if (match_value.constGetData__value__descriptor().isPresent()) {
+						if( !data__value__descriptor.match(match_value.constGetData__value__descriptor().get(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".data-value-descriptor");
+							data__value__descriptor.log_match(match_value.constGetData__value__descriptor().get(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+					} else {
+						if (!data__value__descriptor.match_omit(legacy)) {
+							TTCN_Logger.log_logmatch_info(".data-value-descriptor := omit with ");
+							TTCN_Logger.print_logmatch_buffer();
+							data__value__descriptor.log();
+							TTCN_Logger.log_event_str(" unmatched");
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
 					}
 					if( !string__value.match(match_value.constGetString__value(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".string-value");
@@ -574,8 +580,11 @@ public class TitanCharacter_String_template extends Base_Template {
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
+			identification = new TitanCharacter_String_identification_template();
 			identification.decode_text(text_buf);
+			data__value__descriptor = new TitanUniversalCharString_template();
 			data__value__descriptor.decode_text(text_buf);
+			string__value = new TitanOctetString_template();
 			string__value.decode_text(text_buf);
 			break;
 		case VALUE_LIST:

@@ -309,10 +309,6 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	}
 
 	public boolean match(final TitanExternal_identification_syntaxes other_value, final boolean legacy) {
-		return match_(other_value, legacy);
-	}
-
-	private boolean match_(final TitanExternal_identification_syntaxes other_value, final boolean legacy) {
 		if (!other_value.isBound()) {
 			return false;
 		}
@@ -514,7 +510,9 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		case ANY_OR_OMIT:
 			break;
 		case SPECIFIC_VALUE:
+			abstract_ = new TitanObjectid_template();
 			abstract_.decode_text(text_buf);
+			transfer = new TitanObjectid_template();
 			transfer.decode_text(text_buf);
 			break;
 		case VALUE_LIST:
