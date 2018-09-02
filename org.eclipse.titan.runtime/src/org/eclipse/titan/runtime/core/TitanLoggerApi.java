@@ -13,12 +13,8 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicInteger;
 
-import org.eclipse.titan.runtime.core.AdditionalFunctions;
-import org.eclipse.titan.runtime.core.Base_Template;
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
-import org.eclipse.titan.runtime.core.Base_Type;
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
-import org.eclipse.titan.runtime.core.Optional;
 import org.eclipse.titan.runtime.core.Optional.optional_sel;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -26,34 +22,13 @@ import org.eclipse.titan.runtime.core.RAW.TTCN_RAWdescriptor;
 import org.eclipse.titan.runtime.core.RAW.ext_bit_t;
 import org.eclipse.titan.runtime.core.RAW.raw_sign_t;
 import org.eclipse.titan.runtime.core.RAW.top_bit_order_t;
-import org.eclipse.titan.runtime.core.RecordOfMatch;
 import org.eclipse.titan.runtime.core.RecordOfMatch.match_function_t;
-import org.eclipse.titan.runtime.core.Record_Of_Template;
-import org.eclipse.titan.runtime.core.Restricted_Length_Template;
-import org.eclipse.titan.runtime.core.TTCN_Buffer;
-import org.eclipse.titan.runtime.core.TTCN_EncDec;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.coding_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
-import org.eclipse.titan.runtime.core.TTCN_EncDec_ErrorContext;
-import org.eclipse.titan.runtime.core.TTCN_Module;
-import org.eclipse.titan.runtime.core.Text_Buf;
-import org.eclipse.titan.runtime.core.TitanBoolean;
-import org.eclipse.titan.runtime.core.TitanBoolean_template;
-import org.eclipse.titan.runtime.core.TitanCharString;
-import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
-import org.eclipse.titan.runtime.core.TitanCharString_template;
-import org.eclipse.titan.runtime.core.TitanFloat;
-import org.eclipse.titan.runtime.core.TitanFloat_template;
-import org.eclipse.titan.runtime.core.TitanInteger;
-import org.eclipse.titan.runtime.core.TitanInteger_template;
-import org.eclipse.titan.runtime.core.TitanNull_Type;
-import org.eclipse.titan.runtime.core.TitanOctetString;
-import org.eclipse.titan.runtime.core.TitanUniversalCharString;
-import org.eclipse.titan.runtime.core.TtcnError;
-import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
 import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location.entity_type_t;
+import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
 
 /**
  * Generated from TitanLoggerApi.xsd
@@ -2291,16 +2266,16 @@ private Base_Template single_value;
 private ArrayList<VerdictOp_choice_template> value_list;
 
 private void copy_value(final VerdictOp_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_SetVerdict:
-single_value = new SetVerdictType_template((SetVerdictType)other_value.field);
+single_value = new SetVerdictType_template(other_value.constGetSetVerdict());
 break;
 case ALT_GetVerdict:
-single_value = new Verdict_template((Verdict)other_value.field);
+single_value = new Verdict_template(other_value.constGetGetVerdict());
 break;
 case ALT_FinalVerdict:
-single_value = new FinalVerdictType_template((FinalVerdictType)other_value.field);
+single_value = new FinalVerdictType_template(other_value.constGetFinalVerdict());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.VerdictOp.choice.");
@@ -2313,13 +2288,13 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_SetVerdict:
-single_value = new SetVerdictType_template(other_value.getSetVerdict());
+single_value = new SetVerdictType_template(other_value.constGetSetVerdict());
 break;
 case ALT_GetVerdict:
-single_value = new Verdict_template(other_value.getGetVerdict());
+single_value = new Verdict_template(other_value.constGetGetVerdict());
 break;
 case ALT_FinalVerdict:
-single_value = new FinalVerdictType_template(other_value.getFinalVerdict());
+single_value = new FinalVerdictType_template(other_value.constGetFinalVerdict());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.VerdictOp.choice.");
@@ -7048,6 +7023,16 @@ public static class Strings_str__list extends Base_Type {
 	private static TitanCharString getUnboundElem() {
 		return new TitanCharString();
 	}
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 
 	@Override
 	public String toString() {
@@ -8576,28 +8561,28 @@ private Base_Template single_value;
 private ArrayList<ExecutorEvent_choice_template> value_list;
 
 private void copy_value(final ExecutorEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_ExecutorRuntime:
-single_value = new ExecutorRuntime_template((ExecutorRuntime)other_value.field);
+single_value = new ExecutorRuntime_template(other_value.constGetExecutorRuntime());
 break;
 case ALT_ExecutorConfigdata:
-single_value = new ExecutorConfigdata_template((ExecutorConfigdata)other_value.field);
+single_value = new ExecutorConfigdata_template(other_value.constGetExecutorConfigdata());
 break;
 case ALT_ExtcommandStart:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetExtcommandStart());
 break;
 case ALT_ExtcommandSuccess:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetExtcommandSuccess());
 break;
 case ALT_ExecutorComponent:
-single_value = new ExecutorComponent_template((ExecutorComponent)other_value.field);
+single_value = new ExecutorComponent_template(other_value.constGetExecutorComponent());
 break;
 case ALT_LogOptions:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetLogOptions());
 break;
 case ALT_ExecutorMisc:
-single_value = new ExecutorUnqualified_template((ExecutorUnqualified)other_value.field);
+single_value = new ExecutorUnqualified_template(other_value.constGetExecutorMisc());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.ExecutorEvent.choice.");
@@ -8610,25 +8595,25 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_ExecutorRuntime:
-single_value = new ExecutorRuntime_template(other_value.getExecutorRuntime());
+single_value = new ExecutorRuntime_template(other_value.constGetExecutorRuntime());
 break;
 case ALT_ExecutorConfigdata:
-single_value = new ExecutorConfigdata_template(other_value.getExecutorConfigdata());
+single_value = new ExecutorConfigdata_template(other_value.constGetExecutorConfigdata());
 break;
 case ALT_ExtcommandStart:
-single_value = new TitanCharString_template(other_value.getExtcommandStart());
+single_value = new TitanCharString_template(other_value.constGetExtcommandStart());
 break;
 case ALT_ExtcommandSuccess:
-single_value = new TitanCharString_template(other_value.getExtcommandSuccess());
+single_value = new TitanCharString_template(other_value.constGetExtcommandSuccess());
 break;
 case ALT_ExecutorComponent:
-single_value = new ExecutorComponent_template(other_value.getExecutorComponent());
+single_value = new ExecutorComponent_template(other_value.constGetExecutorComponent());
 break;
 case ALT_LogOptions:
-single_value = new TitanCharString_template(other_value.getLogOptions());
+single_value = new TitanCharString_template(other_value.constGetLogOptions());
 break;
 case ALT_ExecutorMisc:
-single_value = new ExecutorUnqualified_template(other_value.getExecutorMisc());
+single_value = new ExecutorUnqualified_template(other_value.constGetExecutorMisc());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.ExecutorEvent.choice.");
@@ -11669,61 +11654,61 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("creating__new__ptc".equals(strPar) || "creating_new_ptc".equals(strPar) ) {
+if ("creating__new__ptc".equals(strPar) || "creating_new_ptc".equals(strPar)) {
 return enum_type.creating__new__ptc;
 }
-if ("function__stopped".equals(strPar) || "function_stopped".equals(strPar) ) {
+if ("function__stopped".equals(strPar) || "function_stopped".equals(strPar)) {
 return enum_type.function__stopped;
 }
-if ("terminating__test__component__exec".equals(strPar) || "terminating_test_component_exec".equals(strPar) ) {
+if ("terminating__test__component__exec".equals(strPar) || "terminating_test_component_exec".equals(strPar)) {
 return enum_type.terminating__test__component__exec;
 }
-if ("stopping__ptc".equals(strPar) || "stopping_ptc".equals(strPar) ) {
+if ("stopping__ptc".equals(strPar) || "stopping_ptc".equals(strPar)) {
 return enum_type.stopping__ptc;
 }
-if ("stop__no__effect".equals(strPar) || "stop_no_effect".equals(strPar) ) {
+if ("stop__no__effect".equals(strPar) || "stop_no_effect".equals(strPar)) {
 return enum_type.stop__no__effect;
 }
-if ("stopping__all__ptcs".equals(strPar) || "stopping_all_ptcs".equals(strPar) ) {
+if ("stopping__all__ptcs".equals(strPar) || "stopping_all_ptcs".equals(strPar)) {
 return enum_type.stopping__all__ptcs;
 }
-if ("stop__all__no__effect".equals(strPar) || "stop_all_no_effect".equals(strPar) ) {
+if ("stop__all__no__effect".equals(strPar) || "stop_all_no_effect".equals(strPar)) {
 return enum_type.stop__all__no__effect;
 }
-if ("killing__ptc".equals(strPar) || "killing_ptc".equals(strPar) ) {
+if ("killing__ptc".equals(strPar) || "killing_ptc".equals(strPar)) {
 return enum_type.killing__ptc;
 }
-if ("kill__no__effect".equals(strPar) || "kill_no_effect".equals(strPar) ) {
+if ("kill__no__effect".equals(strPar) || "kill_no_effect".equals(strPar)) {
 return enum_type.kill__no__effect;
 }
-if ("killing__all__ptcs".equals(strPar) || "killing_all_ptcs".equals(strPar) ) {
+if ("killing__all__ptcs".equals(strPar) || "killing_all_ptcs".equals(strPar)) {
 return enum_type.killing__all__ptcs;
 }
-if ("kill__all__no__effect".equals(strPar) || "kill_all_no_effect".equals(strPar) ) {
+if ("kill__all__no__effect".equals(strPar) || "kill_all_no_effect".equals(strPar)) {
 return enum_type.kill__all__no__effect;
 }
-if ("connecting__ports".equals(strPar) || "connecting_ports".equals(strPar) ) {
+if ("connecting__ports".equals(strPar) || "connecting_ports".equals(strPar)) {
 return enum_type.connecting__ports;
 }
-if ("disconnecting__ports".equals(strPar) || "disconnecting_ports".equals(strPar) ) {
+if ("disconnecting__ports".equals(strPar) || "disconnecting_ports".equals(strPar)) {
 return enum_type.disconnecting__ports;
 }
-if ("mapping__ports".equals(strPar) || "mapping_ports".equals(strPar) ) {
+if ("mapping__ports".equals(strPar) || "mapping_ports".equals(strPar)) {
 return enum_type.mapping__ports;
 }
-if ("unmapping__ports".equals(strPar) || "unmapping_ports".equals(strPar) ) {
+if ("unmapping__ports".equals(strPar) || "unmapping_ports".equals(strPar)) {
 return enum_type.unmapping__ports;
 }
-if ("kill__request__from__mc".equals(strPar) || "kill_request_from_mc".equals(strPar) ) {
+if ("kill__request__from__mc".equals(strPar) || "kill_request_from_mc".equals(strPar)) {
 return enum_type.kill__request__from__mc;
 }
-if ("killing__component".equals(strPar) || "killing_component".equals(strPar) ) {
+if ("killing__component".equals(strPar) || "killing_component".equals(strPar)) {
 return enum_type.killing__component;
 }
-if ("process__already__terminated".equals(strPar) || "process_already_terminated".equals(strPar) ) {
+if ("process__already__terminated".equals(strPar) || "process_already_terminated".equals(strPar)) {
 return enum_type.process__already__terminated;
 }
-if ("compref__not__exist".equals(strPar) || "compref_not_exist".equals(strPar) ) {
+if ("compref__not__exist".equals(strPar) || "compref_not_exist".equals(strPar)) {
 return enum_type.compref__not__exist;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -11742,6 +11727,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -12701,10 +12696,10 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("message__".equals(strPar) || "message_".equals(strPar) ) {
+if ("message__".equals(strPar) || "message_".equals(strPar)) {
 return enum_type.message__;
 }
-if ("procedure__".equals(strPar) || "procedure_".equals(strPar) ) {
+if ("procedure__".equals(strPar) || "procedure_".equals(strPar)) {
 return enum_type.procedure__;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -12723,6 +12718,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -14392,16 +14397,16 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("connect__".equals(strPar) || "connect_".equals(strPar) ) {
+if ("connect__".equals(strPar) || "connect_".equals(strPar)) {
 return enum_type.connect__;
 }
-if ("disconnect__".equals(strPar) || "disconnect_".equals(strPar) ) {
+if ("disconnect__".equals(strPar) || "disconnect_".equals(strPar)) {
 return enum_type.disconnect__;
 }
-if ("map__".equals(strPar) || "map_".equals(strPar) ) {
+if ("map__".equals(strPar) || "map_".equals(strPar)) {
 return enum_type.map__;
 }
-if ("unmap__".equals(strPar) || "unmap_".equals(strPar) ) {
+if ("unmap__".equals(strPar) || "unmap_".equals(strPar)) {
 return enum_type.unmap__;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -14420,6 +14425,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -16061,6 +16076,16 @@ public static class TitanLog_sequence__list_0_event__list extends Base_Type {
 	private static TitanLogEvent getUnboundElem() {
 		return new TitanLogEvent();
 	}
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 
 	@Override
 	public String toString() {
@@ -17939,58 +17964,58 @@ private Base_Template single_value;
 private ArrayList<LogEventType_choice_template> value_list;
 
 private void copy_value(final LogEventType_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_ActionEvent:
-single_value = new Strings_template((Strings)other_value.field);
+single_value = new Strings_template(other_value.constGetActionEvent());
 break;
 case ALT_DefaultEvent:
-single_value = new DefaultEvent_template((DefaultEvent)other_value.field);
+single_value = new DefaultEvent_template(other_value.constGetDefaultEvent());
 break;
 case ALT_ErrorLog:
-single_value = new Categorized_template((Categorized)other_value.field);
+single_value = new Categorized_template(other_value.constGetErrorLog());
 break;
 case ALT_ExecutorEvent:
-single_value = new ExecutorEvent_template((ExecutorEvent)other_value.field);
+single_value = new ExecutorEvent_template(other_value.constGetExecutorEvent());
 break;
 case ALT_FunctionEvent:
-single_value = new FunctionEvent_template((FunctionEvent)other_value.field);
+single_value = new FunctionEvent_template(other_value.constGetFunctionEvent());
 break;
 case ALT_ParallelEvent:
-single_value = new ParallelEvent_template((ParallelEvent)other_value.field);
+single_value = new ParallelEvent_template(other_value.constGetParallelEvent());
 break;
 case ALT_TestcaseOp:
-single_value = new TestcaseEvent_template((TestcaseEvent)other_value.field);
+single_value = new TestcaseEvent_template(other_value.constGetTestcaseOp());
 break;
 case ALT_PortEvent:
-single_value = new PortEvent_template((PortEvent)other_value.field);
+single_value = new PortEvent_template(other_value.constGetPortEvent());
 break;
 case ALT_Statistics:
-single_value = new StatisticsType_template((StatisticsType)other_value.field);
+single_value = new StatisticsType_template(other_value.constGetStatistics());
 break;
 case ALT_TimerEvent:
-single_value = new TimerEvent_template((TimerEvent)other_value.field);
+single_value = new TimerEvent_template(other_value.constGetTimerEvent());
 break;
 case ALT_UserLog:
-single_value = new Strings_template((Strings)other_value.field);
+single_value = new Strings_template(other_value.constGetUserLog());
 break;
 case ALT_VerdictOp:
-single_value = new VerdictOp_template((VerdictOp)other_value.field);
+single_value = new VerdictOp_template(other_value.constGetVerdictOp());
 break;
 case ALT_WarningLog:
-single_value = new Categorized_template((Categorized)other_value.field);
+single_value = new Categorized_template(other_value.constGetWarningLog());
 break;
 case ALT_MatchingEvent:
-single_value = new MatchingEvent_template((MatchingEvent)other_value.field);
+single_value = new MatchingEvent_template(other_value.constGetMatchingEvent());
 break;
 case ALT_DebugLog:
-single_value = new Categorized_template((Categorized)other_value.field);
+single_value = new Categorized_template(other_value.constGetDebugLog());
 break;
 case ALT_ExecutionSummary:
-single_value = new ExecutionSummaryType_template((ExecutionSummaryType)other_value.field);
+single_value = new ExecutionSummaryType_template(other_value.constGetExecutionSummary());
 break;
 case ALT_UnhandledEvent:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetUnhandledEvent());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.LogEventType.choice.");
@@ -18003,55 +18028,55 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_ActionEvent:
-single_value = new Strings_template(other_value.getActionEvent());
+single_value = new Strings_template(other_value.constGetActionEvent());
 break;
 case ALT_DefaultEvent:
-single_value = new DefaultEvent_template(other_value.getDefaultEvent());
+single_value = new DefaultEvent_template(other_value.constGetDefaultEvent());
 break;
 case ALT_ErrorLog:
-single_value = new Categorized_template(other_value.getErrorLog());
+single_value = new Categorized_template(other_value.constGetErrorLog());
 break;
 case ALT_ExecutorEvent:
-single_value = new ExecutorEvent_template(other_value.getExecutorEvent());
+single_value = new ExecutorEvent_template(other_value.constGetExecutorEvent());
 break;
 case ALT_FunctionEvent:
-single_value = new FunctionEvent_template(other_value.getFunctionEvent());
+single_value = new FunctionEvent_template(other_value.constGetFunctionEvent());
 break;
 case ALT_ParallelEvent:
-single_value = new ParallelEvent_template(other_value.getParallelEvent());
+single_value = new ParallelEvent_template(other_value.constGetParallelEvent());
 break;
 case ALT_TestcaseOp:
-single_value = new TestcaseEvent_template(other_value.getTestcaseOp());
+single_value = new TestcaseEvent_template(other_value.constGetTestcaseOp());
 break;
 case ALT_PortEvent:
-single_value = new PortEvent_template(other_value.getPortEvent());
+single_value = new PortEvent_template(other_value.constGetPortEvent());
 break;
 case ALT_Statistics:
-single_value = new StatisticsType_template(other_value.getStatistics());
+single_value = new StatisticsType_template(other_value.constGetStatistics());
 break;
 case ALT_TimerEvent:
-single_value = new TimerEvent_template(other_value.getTimerEvent());
+single_value = new TimerEvent_template(other_value.constGetTimerEvent());
 break;
 case ALT_UserLog:
-single_value = new Strings_template(other_value.getUserLog());
+single_value = new Strings_template(other_value.constGetUserLog());
 break;
 case ALT_VerdictOp:
-single_value = new VerdictOp_template(other_value.getVerdictOp());
+single_value = new VerdictOp_template(other_value.constGetVerdictOp());
 break;
 case ALT_WarningLog:
-single_value = new Categorized_template(other_value.getWarningLog());
+single_value = new Categorized_template(other_value.constGetWarningLog());
 break;
 case ALT_MatchingEvent:
-single_value = new MatchingEvent_template(other_value.getMatchingEvent());
+single_value = new MatchingEvent_template(other_value.constGetMatchingEvent());
 break;
 case ALT_DebugLog:
-single_value = new Categorized_template(other_value.getDebugLog());
+single_value = new Categorized_template(other_value.constGetDebugLog());
 break;
 case ALT_ExecutionSummary:
-single_value = new ExecutionSummaryType_template(other_value.getExecutionSummary());
+single_value = new ExecutionSummaryType_template(other_value.constGetExecutionSummary());
 break;
 case ALT_UnhandledEvent:
-single_value = new TitanCharString_template(other_value.getUnhandledEvent());
+single_value = new TitanCharString_template(other_value.constGetUnhandledEvent());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.LogEventType.choice.");
@@ -19672,16 +19697,16 @@ private Base_Template single_value;
 private ArrayList<DefaultEvent_choice_template> value_list;
 
 private void copy_value(final DefaultEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_DefaultopActivate:
-single_value = new DefaultOp_template((DefaultOp)other_value.field);
+single_value = new DefaultOp_template(other_value.constGetDefaultopActivate());
 break;
 case ALT_DefaultopDeactivate:
-single_value = new DefaultOp_template((DefaultOp)other_value.field);
+single_value = new DefaultOp_template(other_value.constGetDefaultopDeactivate());
 break;
 case ALT_DefaultopExit:
-single_value = new DefaultOp_template((DefaultOp)other_value.field);
+single_value = new DefaultOp_template(other_value.constGetDefaultopExit());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.DefaultEvent.choice.");
@@ -19694,13 +19719,13 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_DefaultopActivate:
-single_value = new DefaultOp_template(other_value.getDefaultopActivate());
+single_value = new DefaultOp_template(other_value.constGetDefaultopActivate());
 break;
 case ALT_DefaultopDeactivate:
-single_value = new DefaultOp_template(other_value.getDefaultopDeactivate());
+single_value = new DefaultOp_template(other_value.constGetDefaultopDeactivate());
 break;
 case ALT_DefaultopExit:
-single_value = new DefaultOp_template(other_value.getDefaultopExit());
+single_value = new DefaultOp_template(other_value.constGetDefaultopExit());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.DefaultEvent.choice.");
@@ -20528,13 +20553,13 @@ private Base_Template single_value;
 private ArrayList<TestcaseEvent_choice_template> value_list;
 
 private void copy_value(final TestcaseEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_TestcaseStarted:
-single_value = new QualifiedName_template((QualifiedName)other_value.field);
+single_value = new QualifiedName_template(other_value.constGetTestcaseStarted());
 break;
 case ALT_TestcaseFinished:
-single_value = new TestcaseType_template((TestcaseType)other_value.field);
+single_value = new TestcaseType_template(other_value.constGetTestcaseFinished());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.TestcaseEvent.choice.");
@@ -20547,10 +20572,10 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_TestcaseStarted:
-single_value = new QualifiedName_template(other_value.getTestcaseStarted());
+single_value = new QualifiedName_template(other_value.constGetTestcaseStarted());
 break;
 case ALT_TestcaseFinished:
-single_value = new TestcaseType_template(other_value.getTestcaseFinished());
+single_value = new TestcaseType_template(other_value.constGetTestcaseFinished());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.TestcaseEvent.choice.");
@@ -21357,28 +21382,28 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("done__failed__wrong__return__type".equals(strPar) || "done_failed_wrong_return_type".equals(strPar) ) {
+if ("done__failed__wrong__return__type".equals(strPar) || "done_failed_wrong_return_type".equals(strPar)) {
 return enum_type.done__failed__wrong__return__type;
 }
-if ("done__failed__no__return".equals(strPar) || "done_failed_no_return".equals(strPar) ) {
+if ("done__failed__no__return".equals(strPar) || "done_failed_no_return".equals(strPar)) {
 return enum_type.done__failed__no__return;
 }
-if ("any__component__done__successful".equals(strPar) || "any_component_done_successful".equals(strPar) ) {
+if ("any__component__done__successful".equals(strPar) || "any_component_done_successful".equals(strPar)) {
 return enum_type.any__component__done__successful;
 }
-if ("any__component__done__failed".equals(strPar) || "any_component_done_failed".equals(strPar) ) {
+if ("any__component__done__failed".equals(strPar) || "any_component_done_failed".equals(strPar)) {
 return enum_type.any__component__done__failed;
 }
-if ("all__component__done__successful".equals(strPar) || "all_component_done_successful".equals(strPar) ) {
+if ("all__component__done__successful".equals(strPar) || "all_component_done_successful".equals(strPar)) {
 return enum_type.all__component__done__successful;
 }
-if ("any__component__killed__successful".equals(strPar) || "any_component_killed_successful".equals(strPar) ) {
+if ("any__component__killed__successful".equals(strPar) || "any_component_killed_successful".equals(strPar)) {
 return enum_type.any__component__killed__successful;
 }
-if ("any__component__killed__failed".equals(strPar) || "any_component_killed_failed".equals(strPar) ) {
+if ("any__component__killed__failed".equals(strPar) || "any_component_killed_failed".equals(strPar)) {
 return enum_type.any__component__killed__failed;
 }
-if ("all__component__killed__successful".equals(strPar) || "all_component_killed_successful".equals(strPar) ) {
+if ("all__component__killed__successful".equals(strPar) || "all_component_killed_successful".equals(strPar)) {
 return enum_type.all__component__killed__successful;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -21397,6 +21422,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -24950,28 +24985,28 @@ private Base_Template single_value;
 private ArrayList<TimerEvent_choice_template> value_list;
 
 private void copy_value(final TimerEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_ReadTimer:
-single_value = new TimerType_template((TimerType)other_value.field);
+single_value = new TimerType_template(other_value.constGetReadTimer());
 break;
 case ALT_StartTimer:
-single_value = new TimerType_template((TimerType)other_value.field);
+single_value = new TimerType_template(other_value.constGetStartTimer());
 break;
 case ALT_GuardTimer:
-single_value = new TimerGuardType_template((TimerGuardType)other_value.field);
+single_value = new TimerGuardType_template(other_value.constGetGuardTimer());
 break;
 case ALT_StopTimer:
-single_value = new TimerType_template((TimerType)other_value.field);
+single_value = new TimerType_template(other_value.constGetStopTimer());
 break;
 case ALT_TimeoutTimer:
-single_value = new TimerType_template((TimerType)other_value.field);
+single_value = new TimerType_template(other_value.constGetTimeoutTimer());
 break;
 case ALT_TimeoutAnyTimer:
-single_value = new TimerAnyTimeoutType_template((TimerAnyTimeoutType)other_value.field);
+single_value = new TimerAnyTimeoutType_template(other_value.constGetTimeoutAnyTimer());
 break;
 case ALT_UnqualifiedTimer:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetUnqualifiedTimer());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.TimerEvent.choice.");
@@ -24984,25 +25019,25 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_ReadTimer:
-single_value = new TimerType_template(other_value.getReadTimer());
+single_value = new TimerType_template(other_value.constGetReadTimer());
 break;
 case ALT_StartTimer:
-single_value = new TimerType_template(other_value.getStartTimer());
+single_value = new TimerType_template(other_value.constGetStartTimer());
 break;
 case ALT_GuardTimer:
-single_value = new TimerGuardType_template(other_value.getGuardTimer());
+single_value = new TimerGuardType_template(other_value.constGetGuardTimer());
 break;
 case ALT_StopTimer:
-single_value = new TimerType_template(other_value.getStopTimer());
+single_value = new TimerType_template(other_value.constGetStopTimer());
 break;
 case ALT_TimeoutTimer:
-single_value = new TimerType_template(other_value.getTimeoutTimer());
+single_value = new TimerType_template(other_value.constGetTimeoutTimer());
 break;
 case ALT_TimeoutAnyTimer:
-single_value = new TimerAnyTimeoutType_template(other_value.getTimeoutAnyTimer());
+single_value = new TimerAnyTimeoutType_template(other_value.constGetTimeoutAnyTimer());
 break;
 case ALT_UnqualifiedTimer:
-single_value = new TitanCharString_template(other_value.getUnqualifiedTimer());
+single_value = new TitanCharString_template(other_value.constGetUnqualifiedTimer());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.TimerEvent.choice.");
@@ -26096,19 +26131,19 @@ private Base_Template single_value;
 private ArrayList<StatisticsType_choice_template> value_list;
 
 private void copy_value(final StatisticsType_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_VerdictStatistics:
-single_value = new StatisticsType_choice_verdictStatistics_template((StatisticsType_choice_verdictStatistics)other_value.field);
+single_value = new StatisticsType_choice_verdictStatistics_template(other_value.constGetVerdictStatistics());
 break;
 case ALT_ControlpartStart:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetControlpartStart());
 break;
 case ALT_ControlpartFinish:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetControlpartFinish());
 break;
 case ALT_ControlpartErrors:
-single_value = new TitanInteger_template((TitanInteger)other_value.field);
+single_value = new TitanInteger_template(other_value.constGetControlpartErrors());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.StatisticsType.choice.");
@@ -26121,16 +26156,16 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_VerdictStatistics:
-single_value = new StatisticsType_choice_verdictStatistics_template(other_value.getVerdictStatistics());
+single_value = new StatisticsType_choice_verdictStatistics_template(other_value.constGetVerdictStatistics());
 break;
 case ALT_ControlpartStart:
-single_value = new TitanCharString_template(other_value.getControlpartStart());
+single_value = new TitanCharString_template(other_value.constGetControlpartStart());
 break;
 case ALT_ControlpartFinish:
-single_value = new TitanCharString_template(other_value.getControlpartFinish());
+single_value = new TitanCharString_template(other_value.constGetControlpartFinish());
 break;
 case ALT_ControlpartErrors:
-single_value = new TitanInteger_template(other_value.getControlpartErrors());
+single_value = new TitanInteger_template(other_value.constGetControlpartErrors());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.StatisticsType.choice.");
@@ -29475,25 +29510,25 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("unknown".equals(strPar) || "unknown".equals(strPar) ) {
+if ("unknown".equals(strPar)) {
 return enum_type.unknown;
 }
-if ("controlpart".equals(strPar) || "controlpart".equals(strPar) ) {
+if ("controlpart".equals(strPar)) {
 return enum_type.controlpart;
 }
-if ("testcase__".equals(strPar) || "testcase_".equals(strPar) ) {
+if ("testcase__".equals(strPar) || "testcase_".equals(strPar)) {
 return enum_type.testcase__;
 }
-if ("altstep__".equals(strPar) || "altstep_".equals(strPar) ) {
+if ("altstep__".equals(strPar) || "altstep_".equals(strPar)) {
 return enum_type.altstep__;
 }
-if ("function__".equals(strPar) || "function_".equals(strPar) ) {
+if ("function__".equals(strPar) || "function_".equals(strPar)) {
 return enum_type.function__;
 }
-if ("external__function".equals(strPar) || "external_function".equals(strPar) ) {
+if ("external__function".equals(strPar) || "external_function".equals(strPar)) {
 return enum_type.external__function;
 }
-if ("template__".equals(strPar) || "template_".equals(strPar) ) {
+if ("template__".equals(strPar) || "template_".equals(strPar)) {
 return enum_type.template__;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -29512,6 +29547,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -31952,22 +31997,22 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("port__not__started__and__queue__empty".equals(strPar) || "port_not_started_and_queue_empty".equals(strPar) ) {
+if ("port__not__started__and__queue__empty".equals(strPar) || "port_not_started_and_queue_empty".equals(strPar)) {
 return enum_type.port__not__started__and__queue__empty;
 }
-if ("no__incoming__types".equals(strPar) || "no_incoming_types".equals(strPar) ) {
+if ("no__incoming__types".equals(strPar) || "no_incoming_types".equals(strPar)) {
 return enum_type.no__incoming__types;
 }
-if ("no__incoming__signatures".equals(strPar) || "no_incoming_signatures".equals(strPar) ) {
+if ("no__incoming__signatures".equals(strPar) || "no_incoming_signatures".equals(strPar)) {
 return enum_type.no__incoming__signatures;
 }
-if ("no__outgoing__blocking__signatures".equals(strPar) || "no_outgoing_blocking_signatures".equals(strPar) ) {
+if ("no__outgoing__blocking__signatures".equals(strPar) || "no_outgoing_blocking_signatures".equals(strPar)) {
 return enum_type.no__outgoing__blocking__signatures;
 }
-if ("no__outgoing__blocking__signatures__that__support__exceptions".equals(strPar) || "no_outgoing_blocking_signatures_that_support_exceptions".equals(strPar) ) {
+if ("no__outgoing__blocking__signatures__that__support__exceptions".equals(strPar) || "no_outgoing_blocking_signatures_that_support_exceptions".equals(strPar)) {
 return enum_type.no__outgoing__blocking__signatures__that__support__exceptions;
 }
-if ("component__has__no__ports".equals(strPar) || "component_has_no_ports".equals(strPar) ) {
+if ("component__has__no__ports".equals(strPar) || "component_has_no_ports".equals(strPar)) {
 return enum_type.component__has__no__ports;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -31986,6 +32031,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -32819,91 +32874,91 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("connected__to__mc".equals(strPar) || "connected_to_mc".equals(strPar) ) {
+if ("connected__to__mc".equals(strPar) || "connected_to_mc".equals(strPar)) {
 return enum_type.connected__to__mc;
 }
-if ("disconnected__from__mc".equals(strPar) || "disconnected_from_mc".equals(strPar) ) {
+if ("disconnected__from__mc".equals(strPar) || "disconnected_from_mc".equals(strPar)) {
 return enum_type.disconnected__from__mc;
 }
-if ("initialization__of__modules__failed".equals(strPar) || "initialization_of_modules_failed".equals(strPar) ) {
+if ("initialization__of__modules__failed".equals(strPar) || "initialization_of_modules_failed".equals(strPar)) {
 return enum_type.initialization__of__modules__failed;
 }
-if ("exit__requested__from__mc__hc".equals(strPar) || "exit_requested_from_mc_hc".equals(strPar) ) {
+if ("exit__requested__from__mc__hc".equals(strPar) || "exit_requested_from_mc_hc".equals(strPar)) {
 return enum_type.exit__requested__from__mc__hc;
 }
-if ("exit__requested__from__mc__mtc".equals(strPar) || "exit_requested_from_mc_mtc".equals(strPar) ) {
+if ("exit__requested__from__mc__mtc".equals(strPar) || "exit_requested_from_mc_mtc".equals(strPar)) {
 return enum_type.exit__requested__from__mc__mtc;
 }
-if ("stop__was__requested__from__mc__ignored__on__idle__mtc".equals(strPar) || "stop_was_requested_from_mc_ignored_on_idle_mtc".equals(strPar) ) {
+if ("stop__was__requested__from__mc__ignored__on__idle__mtc".equals(strPar) || "stop_was_requested_from_mc_ignored_on_idle_mtc".equals(strPar)) {
 return enum_type.stop__was__requested__from__mc__ignored__on__idle__mtc;
 }
-if ("stop__was__requested__from__mc".equals(strPar) || "stop_was_requested_from_mc".equals(strPar) ) {
+if ("stop__was__requested__from__mc".equals(strPar) || "stop_was_requested_from_mc".equals(strPar)) {
 return enum_type.stop__was__requested__from__mc;
 }
-if ("stop__was__requested__from__mc__ignored__on__idle__ptc".equals(strPar) || "stop_was_requested_from_mc_ignored_on_idle_ptc".equals(strPar) ) {
+if ("stop__was__requested__from__mc__ignored__on__idle__ptc".equals(strPar) || "stop_was_requested_from_mc_ignored_on_idle_ptc".equals(strPar)) {
 return enum_type.stop__was__requested__from__mc__ignored__on__idle__ptc;
 }
-if ("executing__testcase__in__module".equals(strPar) || "executing_testcase_in_module".equals(strPar) ) {
+if ("executing__testcase__in__module".equals(strPar) || "executing_testcase_in_module".equals(strPar)) {
 return enum_type.executing__testcase__in__module;
 }
-if ("performing__error__recovery".equals(strPar) || "performing_error_recovery".equals(strPar) ) {
+if ("performing__error__recovery".equals(strPar) || "performing_error_recovery".equals(strPar)) {
 return enum_type.performing__error__recovery;
 }
-if ("initializing__module".equals(strPar) || "initializing_module".equals(strPar) ) {
+if ("initializing__module".equals(strPar) || "initializing_module".equals(strPar)) {
 return enum_type.initializing__module;
 }
-if ("initialization__of__module__finished".equals(strPar) || "initialization_of_module_finished".equals(strPar) ) {
+if ("initialization__of__module__finished".equals(strPar) || "initialization_of_module_finished".equals(strPar)) {
 return enum_type.initialization__of__module__finished;
 }
-if ("stopping__current__testcase".equals(strPar) || "stopping_current_testcase".equals(strPar) ) {
+if ("stopping__current__testcase".equals(strPar) || "stopping_current_testcase".equals(strPar)) {
 return enum_type.stopping__current__testcase;
 }
-if ("exiting".equals(strPar) || "exiting".equals(strPar) ) {
+if ("exiting".equals(strPar)) {
 return enum_type.exiting;
 }
-if ("host__controller__started".equals(strPar) || "host_controller_started".equals(strPar) ) {
+if ("host__controller__started".equals(strPar) || "host_controller_started".equals(strPar)) {
 return enum_type.host__controller__started;
 }
-if ("host__controller__finished".equals(strPar) || "host_controller_finished".equals(strPar) ) {
+if ("host__controller__finished".equals(strPar) || "host_controller_finished".equals(strPar)) {
 return enum_type.host__controller__finished;
 }
-if ("stopping__control__part__execution".equals(strPar) || "stopping_control_part_execution".equals(strPar) ) {
+if ("stopping__control__part__execution".equals(strPar) || "stopping_control_part_execution".equals(strPar)) {
 return enum_type.stopping__control__part__execution;
 }
-if ("stopping__test__component__execution".equals(strPar) || "stopping_test_component_execution".equals(strPar) ) {
+if ("stopping__test__component__execution".equals(strPar) || "stopping_test_component_execution".equals(strPar)) {
 return enum_type.stopping__test__component__execution;
 }
-if ("waiting__for__ptcs__to__finish".equals(strPar) || "waiting_for_ptcs_to_finish".equals(strPar) ) {
+if ("waiting__for__ptcs__to__finish".equals(strPar) || "waiting_for_ptcs_to_finish".equals(strPar)) {
 return enum_type.waiting__for__ptcs__to__finish;
 }
-if ("user__paused__waiting__to__resume".equals(strPar) || "user_paused_waiting_to_resume".equals(strPar) ) {
+if ("user__paused__waiting__to__resume".equals(strPar) || "user_paused_waiting_to_resume".equals(strPar)) {
 return enum_type.user__paused__waiting__to__resume;
 }
-if ("resuming__execution".equals(strPar) || "resuming_execution".equals(strPar) ) {
+if ("resuming__execution".equals(strPar) || "resuming_execution".equals(strPar)) {
 return enum_type.resuming__execution;
 }
-if ("terminating__execution".equals(strPar) || "terminating_execution".equals(strPar) ) {
+if ("terminating__execution".equals(strPar) || "terminating_execution".equals(strPar)) {
 return enum_type.terminating__execution;
 }
-if ("mtc__created".equals(strPar) || "mtc_created".equals(strPar) ) {
+if ("mtc__created".equals(strPar) || "mtc_created".equals(strPar)) {
 return enum_type.mtc__created;
 }
-if ("overload__check".equals(strPar) || "overload_check".equals(strPar) ) {
+if ("overload__check".equals(strPar) || "overload_check".equals(strPar)) {
 return enum_type.overload__check;
 }
-if ("overload__check__fail".equals(strPar) || "overload_check_fail".equals(strPar) ) {
+if ("overload__check__fail".equals(strPar) || "overload_check_fail".equals(strPar)) {
 return enum_type.overload__check__fail;
 }
-if ("overloaded__no__more".equals(strPar) || "overloaded_no_more".equals(strPar) ) {
+if ("overloaded__no__more".equals(strPar) || "overloaded_no_more".equals(strPar)) {
 return enum_type.overloaded__no__more;
 }
-if ("executor__start__single__mode".equals(strPar) || "executor_start_single_mode".equals(strPar) ) {
+if ("executor__start__single__mode".equals(strPar) || "executor_start_single_mode".equals(strPar)) {
 return enum_type.executor__start__single__mode;
 }
-if ("executor__finish__single__mode".equals(strPar) || "executor_finish_single_mode".equals(strPar) ) {
+if ("executor__finish__single__mode".equals(strPar) || "executor_finish_single_mode".equals(strPar)) {
 return enum_type.executor__finish__single__mode;
 }
-if ("fd__limits".equals(strPar) || "fd_limits".equals(strPar) ) {
+if ("fd__limits".equals(strPar) || "fd_limits".equals(strPar)) {
 return enum_type.fd__limits;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -32922,6 +32977,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -33675,25 +33740,25 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("sender__does__not__match__from__clause".equals(strPar) || "sender_does_not_match_from_clause".equals(strPar) ) {
+if ("sender__does__not__match__from__clause".equals(strPar) || "sender_does_not_match_from_clause".equals(strPar)) {
 return enum_type.sender__does__not__match__from__clause;
 }
-if ("sender__is__not__system".equals(strPar) || "sender_is_not_system".equals(strPar) ) {
+if ("sender__is__not__system".equals(strPar) || "sender_is_not_system".equals(strPar)) {
 return enum_type.sender__is__not__system;
 }
-if ("message__does__not__match__template".equals(strPar) || "message_does_not_match_template".equals(strPar) ) {
+if ("message__does__not__match__template".equals(strPar) || "message_does_not_match_template".equals(strPar)) {
 return enum_type.message__does__not__match__template;
 }
-if ("parameters__of__call__do__not__match__template".equals(strPar) || "parameters_of_call_do_not_match_template".equals(strPar) ) {
+if ("parameters__of__call__do__not__match__template".equals(strPar) || "parameters_of_call_do_not_match_template".equals(strPar)) {
 return enum_type.parameters__of__call__do__not__match__template;
 }
-if ("parameters__of__reply__do__not__match__template".equals(strPar) || "parameters_of_reply_do_not_match_template".equals(strPar) ) {
+if ("parameters__of__reply__do__not__match__template".equals(strPar) || "parameters_of_reply_do_not_match_template".equals(strPar)) {
 return enum_type.parameters__of__reply__do__not__match__template;
 }
-if ("exception__does__not__match__template".equals(strPar) || "exception_does_not_match_template".equals(strPar) ) {
+if ("exception__does__not__match__template".equals(strPar) || "exception_does_not_match_template".equals(strPar)) {
 return enum_type.exception__does__not__match__template;
 }
-if ("not__an__exception__for__signature".equals(strPar) || "not_an_exception_for_signature".equals(strPar) ) {
+if ("not__an__exception__for__signature".equals(strPar) || "not_an_exception_for_signature".equals(strPar)) {
 return enum_type.not__an__exception__for__signature;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -33712,6 +33777,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -35287,22 +35362,22 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("receive__".equals(strPar) || "receive_".equals(strPar) ) {
+if ("receive__".equals(strPar) || "receive_".equals(strPar)) {
 return enum_type.receive__;
 }
-if ("trigger__".equals(strPar) || "trigger_".equals(strPar) ) {
+if ("trigger__".equals(strPar) || "trigger_".equals(strPar)) {
 return enum_type.trigger__;
 }
-if ("getcall__".equals(strPar) || "getcall_".equals(strPar) ) {
+if ("getcall__".equals(strPar) || "getcall_".equals(strPar)) {
 return enum_type.getcall__;
 }
-if ("getreply__".equals(strPar) || "getreply_".equals(strPar) ) {
+if ("getreply__".equals(strPar) || "getreply_".equals(strPar)) {
 return enum_type.getreply__;
 }
-if ("catch__".equals(strPar) || "catch_".equals(strPar) ) {
+if ("catch__".equals(strPar) || "catch_".equals(strPar)) {
 return enum_type.catch__;
 }
-if ("check__".equals(strPar) || "check_".equals(strPar) ) {
+if ("check__".equals(strPar) || "check_".equals(strPar)) {
 return enum_type.check__;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -35321,6 +35396,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -36228,13 +36313,13 @@ private Base_Template single_value;
 private ArrayList<MatchingFailureType_choice_template> value_list;
 
 private void copy_value(final MatchingFailureType_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_System__:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetSystem__());
 break;
 case ALT_Compref:
-single_value = new TitanInteger_template((TitanInteger)other_value.field);
+single_value = new TitanInteger_template(other_value.constGetCompref());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.MatchingFailureType.choice.");
@@ -36247,10 +36332,10 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_System__:
-single_value = new TitanCharString_template(other_value.getSystem__());
+single_value = new TitanCharString_template(other_value.constGetSystem__());
 break;
 case ALT_Compref:
-single_value = new TitanInteger_template(other_value.getCompref());
+single_value = new TitanInteger_template(other_value.constGetCompref());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.MatchingFailureType.choice.");
@@ -37017,22 +37102,22 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("received__from__mc".equals(strPar) || "received_from_mc".equals(strPar) ) {
+if ("received__from__mc".equals(strPar) || "received_from_mc".equals(strPar)) {
 return enum_type.received__from__mc;
 }
-if ("processing__failed".equals(strPar) || "processing_failed".equals(strPar) ) {
+if ("processing__failed".equals(strPar) || "processing_failed".equals(strPar)) {
 return enum_type.processing__failed;
 }
-if ("processing__succeeded".equals(strPar) || "processing_succeeded".equals(strPar) ) {
+if ("processing__succeeded".equals(strPar) || "processing_succeeded".equals(strPar)) {
 return enum_type.processing__succeeded;
 }
-if ("module__has__parameters".equals(strPar) || "module_has_parameters".equals(strPar) ) {
+if ("module__has__parameters".equals(strPar) || "module_has_parameters".equals(strPar)) {
 return enum_type.module__has__parameters;
 }
-if ("using__config__file".equals(strPar) || "using_config_file".equals(strPar) ) {
+if ("using__config__file".equals(strPar) || "using_config_file".equals(strPar)) {
 return enum_type.using__config__file;
 }
-if ("overriding__testcase__list".equals(strPar) || "overriding_testcase_list".equals(strPar) ) {
+if ("overriding__testcase__list".equals(strPar) || "overriding_testcase_list".equals(strPar)) {
 return enum_type.overriding__testcase__list;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -37051,6 +37136,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -40586,6 +40681,16 @@ public static class TitanLogEvent_sourceInfo__list extends Base_Type {
 	private static LocationInfo getUnboundElem() {
 		return new LocationInfo();
 	}
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 
 	@Override
 	public String toString() {
@@ -42924,13 +43029,13 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("started".equals(strPar) || "started".equals(strPar) ) {
+if ("started".equals(strPar)) {
 return enum_type.started;
 }
-if ("stopped".equals(strPar) || "stopped".equals(strPar) ) {
+if ("stopped".equals(strPar)) {
 return enum_type.stopped;
 }
-if ("halted".equals(strPar) || "halted".equals(strPar) ) {
+if ("halted".equals(strPar)) {
 return enum_type.halted;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -42949,6 +43054,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -43874,13 +43989,13 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("call__op".equals(strPar) || "call_op".equals(strPar) ) {
+if ("call__op".equals(strPar) || "call_op".equals(strPar)) {
 return enum_type.call__op;
 }
-if ("exception__op".equals(strPar) || "exception_op".equals(strPar) ) {
+if ("exception__op".equals(strPar) || "exception_op".equals(strPar)) {
 return enum_type.exception__op;
 }
-if ("reply__op".equals(strPar) || "reply_op".equals(strPar) ) {
+if ("reply__op".equals(strPar) || "reply_op".equals(strPar)) {
 return enum_type.reply__op;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -43899,6 +44014,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -52591,16 +52716,16 @@ private Base_Template single_value;
 private ArrayList<ParallelEvent_choice_template> value_list;
 
 private void copy_value(final ParallelEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_ParallelPTC:
-single_value = new ParallelPTC_template((ParallelPTC)other_value.field);
+single_value = new ParallelPTC_template(other_value.constGetParallelPTC());
 break;
 case ALT_ParallelPTC__exit:
-single_value = new PTC__exit_template((PTC__exit)other_value.field);
+single_value = new PTC__exit_template(other_value.constGetParallelPTC__exit());
 break;
 case ALT_ParallelPort:
-single_value = new ParPort_template((ParPort)other_value.field);
+single_value = new ParPort_template(other_value.constGetParallelPort());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.ParallelEvent.choice.");
@@ -52613,13 +52738,13 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_ParallelPTC:
-single_value = new ParallelPTC_template(other_value.getParallelPTC());
+single_value = new ParallelPTC_template(other_value.constGetParallelPTC());
 break;
 case ALT_ParallelPTC__exit:
-single_value = new PTC__exit_template(other_value.getParallelPTC__exit());
+single_value = new PTC__exit_template(other_value.constGetParallelPTC__exit());
 break;
 case ALT_ParallelPort:
-single_value = new ParPort_template(other_value.getParallelPort());
+single_value = new ParPort_template(other_value.constGetParallelPort());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.ParallelEvent.choice.");
@@ -53393,7 +53518,7 @@ private anytype.union_selection_type single_value_union_selection;
 private ArrayList<anytype_template> value_list;
 
 private void copy_value(final anytype other_value) {
-single_value_union_selection = other_value.union_selection;
+single_value_union_selection = other_value.get_selection();
 set_selection(template_sel.SPECIFIC_VALUE);
 }
 private void copy_template(final anytype_template other_value) {
@@ -55089,37 +55214,37 @@ private Base_Template single_value;
 private ArrayList<PortEvent_choice_template> value_list;
 
 private void copy_value(final PortEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_PortQueue:
-single_value = new Port__Queue_template((Port__Queue)other_value.field);
+single_value = new Port__Queue_template(other_value.constGetPortQueue());
 break;
 case ALT_PortState:
-single_value = new Port__State_template((Port__State)other_value.field);
+single_value = new Port__State_template(other_value.constGetPortState());
 break;
 case ALT_ProcPortSend:
-single_value = new Proc__port__out_template((Proc__port__out)other_value.field);
+single_value = new Proc__port__out_template(other_value.constGetProcPortSend());
 break;
 case ALT_ProcPortRecv:
-single_value = new Proc__port__in_template((Proc__port__in)other_value.field);
+single_value = new Proc__port__in_template(other_value.constGetProcPortRecv());
 break;
 case ALT_MsgPortSend:
-single_value = new Msg__port__send_template((Msg__port__send)other_value.field);
+single_value = new Msg__port__send_template(other_value.constGetMsgPortSend());
 break;
 case ALT_MsgPortRecv:
-single_value = new Msg__port__recv_template((Msg__port__recv)other_value.field);
+single_value = new Msg__port__recv_template(other_value.constGetMsgPortRecv());
 break;
 case ALT_DualMapped:
-single_value = new Dualface__mapped_template((Dualface__mapped)other_value.field);
+single_value = new Dualface__mapped_template(other_value.constGetDualMapped());
 break;
 case ALT_DualDiscard:
-single_value = new Dualface__discard_template((Dualface__discard)other_value.field);
+single_value = new Dualface__discard_template(other_value.constGetDualDiscard());
 break;
 case ALT_SetState:
-single_value = new Setstate_template((Setstate)other_value.field);
+single_value = new Setstate_template(other_value.constGetSetState());
 break;
 case ALT_PortMisc:
-single_value = new Port__Misc_template((Port__Misc)other_value.field);
+single_value = new Port__Misc_template(other_value.constGetPortMisc());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.PortEvent.choice.");
@@ -55132,34 +55257,34 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_PortQueue:
-single_value = new Port__Queue_template(other_value.getPortQueue());
+single_value = new Port__Queue_template(other_value.constGetPortQueue());
 break;
 case ALT_PortState:
-single_value = new Port__State_template(other_value.getPortState());
+single_value = new Port__State_template(other_value.constGetPortState());
 break;
 case ALT_ProcPortSend:
-single_value = new Proc__port__out_template(other_value.getProcPortSend());
+single_value = new Proc__port__out_template(other_value.constGetProcPortSend());
 break;
 case ALT_ProcPortRecv:
-single_value = new Proc__port__in_template(other_value.getProcPortRecv());
+single_value = new Proc__port__in_template(other_value.constGetProcPortRecv());
 break;
 case ALT_MsgPortSend:
-single_value = new Msg__port__send_template(other_value.getMsgPortSend());
+single_value = new Msg__port__send_template(other_value.constGetMsgPortSend());
 break;
 case ALT_MsgPortRecv:
-single_value = new Msg__port__recv_template(other_value.getMsgPortRecv());
+single_value = new Msg__port__recv_template(other_value.constGetMsgPortRecv());
 break;
 case ALT_DualMapped:
-single_value = new Dualface__mapped_template(other_value.getDualMapped());
+single_value = new Dualface__mapped_template(other_value.constGetDualMapped());
 break;
 case ALT_DualDiscard:
-single_value = new Dualface__discard_template(other_value.getDualDiscard());
+single_value = new Dualface__discard_template(other_value.constGetDualDiscard());
 break;
 case ALT_SetState:
-single_value = new Setstate_template(other_value.getSetState());
+single_value = new Setstate_template(other_value.constGetSetState());
 break;
 case ALT_PortMisc:
-single_value = new Port__Misc_template(other_value.getPortMisc());
+single_value = new Port__Misc_template(other_value.constGetPortMisc());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.PortEvent.choice.");
@@ -63828,13 +63953,13 @@ private Base_Template single_value;
 private ArrayList<FinalVerdictType_choice_template> value_list;
 
 private void copy_value(final FinalVerdictType_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_Info:
-single_value = new FinalVerdictInfo_template((FinalVerdictInfo)other_value.field);
+single_value = new FinalVerdictInfo_template(other_value.constGetInfo());
 break;
 case ALT_Notification:
-single_value = new FinalVerdictType_choice_notification_template((FinalVerdictType_choice_notification)other_value.field);
+single_value = new FinalVerdictType_choice_notification_template(other_value.constGetNotification());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.FinalVerdictType.choice.");
@@ -63847,10 +63972,10 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_Info:
-single_value = new FinalVerdictInfo_template(other_value.getInfo());
+single_value = new FinalVerdictInfo_template(other_value.constGetInfo());
 break;
 case ALT_Notification:
-single_value = new FinalVerdictType_choice_notification_template(other_value.getNotification());
+single_value = new FinalVerdictType_choice_notification_template(other_value.constGetNotification());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.FinalVerdictType.choice.");
@@ -64683,6 +64808,16 @@ public static class StartFunction_parameter__list extends Base_Type {
 	private static TitanCharString getUnboundElem() {
 		return new TitanCharString();
 	}
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 
 	@Override
 	public String toString() {
@@ -68670,22 +68805,22 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("enqueue__msg".equals(strPar) || "enqueue_msg".equals(strPar) ) {
+if ("enqueue__msg".equals(strPar) || "enqueue_msg".equals(strPar)) {
 return enum_type.enqueue__msg;
 }
-if ("enqueue__call".equals(strPar) || "enqueue_call".equals(strPar) ) {
+if ("enqueue__call".equals(strPar) || "enqueue_call".equals(strPar)) {
 return enum_type.enqueue__call;
 }
-if ("enqueue__reply".equals(strPar) || "enqueue_reply".equals(strPar) ) {
+if ("enqueue__reply".equals(strPar) || "enqueue_reply".equals(strPar)) {
 return enum_type.enqueue__reply;
 }
-if ("enqueue__exception".equals(strPar) || "enqueue_exception".equals(strPar) ) {
+if ("enqueue__exception".equals(strPar) || "enqueue_exception".equals(strPar)) {
 return enum_type.enqueue__exception;
 }
-if ("extract__msg".equals(strPar) || "extract_msg".equals(strPar) ) {
+if ("extract__msg".equals(strPar) || "extract_msg".equals(strPar)) {
 return enum_type.extract__msg;
 }
-if ("extract__op".equals(strPar) || "extract_op".equals(strPar) ) {
+if ("extract__op".equals(strPar) || "extract_op".equals(strPar)) {
 return enum_type.extract__op;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -68704,6 +68839,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -72129,64 +72274,64 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("removing__unterminated__connection".equals(strPar) || "removing_unterminated_connection".equals(strPar) ) {
+if ("removing__unterminated__connection".equals(strPar) || "removing_unterminated_connection".equals(strPar)) {
 return enum_type.removing__unterminated__connection;
 }
-if ("removing__unterminated__mapping".equals(strPar) || "removing_unterminated_mapping".equals(strPar) ) {
+if ("removing__unterminated__mapping".equals(strPar) || "removing_unterminated_mapping".equals(strPar)) {
 return enum_type.removing__unterminated__mapping;
 }
-if ("port__was__cleared".equals(strPar) || "port_was_cleared".equals(strPar) ) {
+if ("port__was__cleared".equals(strPar) || "port_was_cleared".equals(strPar)) {
 return enum_type.port__was__cleared;
 }
-if ("local__connection__established".equals(strPar) || "local_connection_established".equals(strPar) ) {
+if ("local__connection__established".equals(strPar) || "local_connection_established".equals(strPar)) {
 return enum_type.local__connection__established;
 }
-if ("local__connection__terminated".equals(strPar) || "local_connection_terminated".equals(strPar) ) {
+if ("local__connection__terminated".equals(strPar) || "local_connection_terminated".equals(strPar)) {
 return enum_type.local__connection__terminated;
 }
-if ("port__is__waiting__for__connection__tcp".equals(strPar) || "port_is_waiting_for_connection_tcp".equals(strPar) ) {
+if ("port__is__waiting__for__connection__tcp".equals(strPar) || "port_is_waiting_for_connection_tcp".equals(strPar)) {
 return enum_type.port__is__waiting__for__connection__tcp;
 }
-if ("port__is__waiting__for__connection__unix".equals(strPar) || "port_is_waiting_for_connection_unix".equals(strPar) ) {
+if ("port__is__waiting__for__connection__unix".equals(strPar) || "port_is_waiting_for_connection_unix".equals(strPar)) {
 return enum_type.port__is__waiting__for__connection__unix;
 }
-if ("connection__established".equals(strPar) || "connection_established".equals(strPar) ) {
+if ("connection__established".equals(strPar) || "connection_established".equals(strPar)) {
 return enum_type.connection__established;
 }
-if ("destroying__unestablished__connection".equals(strPar) || "destroying_unestablished_connection".equals(strPar) ) {
+if ("destroying__unestablished__connection".equals(strPar) || "destroying_unestablished_connection".equals(strPar)) {
 return enum_type.destroying__unestablished__connection;
 }
-if ("terminating__connection".equals(strPar) || "terminating_connection".equals(strPar) ) {
+if ("terminating__connection".equals(strPar) || "terminating_connection".equals(strPar)) {
 return enum_type.terminating__connection;
 }
-if ("sending__termination__request__failed".equals(strPar) || "sending_termination_request_failed".equals(strPar) ) {
+if ("sending__termination__request__failed".equals(strPar) || "sending_termination_request_failed".equals(strPar)) {
 return enum_type.sending__termination__request__failed;
 }
-if ("termination__request__received".equals(strPar) || "termination_request_received".equals(strPar) ) {
+if ("termination__request__received".equals(strPar) || "termination_request_received".equals(strPar)) {
 return enum_type.termination__request__received;
 }
-if ("acknowledging__termination__request__failed".equals(strPar) || "acknowledging_termination_request_failed".equals(strPar) ) {
+if ("acknowledging__termination__request__failed".equals(strPar) || "acknowledging_termination_request_failed".equals(strPar)) {
 return enum_type.acknowledging__termination__request__failed;
 }
-if ("sending__would__block".equals(strPar) || "sending_would_block".equals(strPar) ) {
+if ("sending__would__block".equals(strPar) || "sending_would_block".equals(strPar)) {
 return enum_type.sending__would__block;
 }
-if ("connection__accepted".equals(strPar) || "connection_accepted".equals(strPar) ) {
+if ("connection__accepted".equals(strPar) || "connection_accepted".equals(strPar)) {
 return enum_type.connection__accepted;
 }
-if ("connection__reset__by__peer".equals(strPar) || "connection_reset_by_peer".equals(strPar) ) {
+if ("connection__reset__by__peer".equals(strPar) || "connection_reset_by_peer".equals(strPar)) {
 return enum_type.connection__reset__by__peer;
 }
-if ("connection__closed__by__peer".equals(strPar) || "connection_closed_by_peer".equals(strPar) ) {
+if ("connection__closed__by__peer".equals(strPar) || "connection_closed_by_peer".equals(strPar)) {
 return enum_type.connection__closed__by__peer;
 }
-if ("port__disconnected".equals(strPar) || "port_disconnected".equals(strPar) ) {
+if ("port__disconnected".equals(strPar) || "port_disconnected".equals(strPar)) {
 return enum_type.port__disconnected;
 }
-if ("port__was__mapped__to__system".equals(strPar) || "port_was_mapped_to_system".equals(strPar) ) {
+if ("port__was__mapped__to__system".equals(strPar) || "port_was_mapped_to_system".equals(strPar)) {
 return enum_type.port__was__mapped__to__system;
 }
-if ("port__was__unmapped__from__system".equals(strPar) || "port_was_unmapped_from_system".equals(strPar) ) {
+if ("port__was__unmapped__from__system".equals(strPar) || "port_was_unmapped_from_system".equals(strPar)) {
 return enum_type.port__was__unmapped__from__system;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -72205,6 +72350,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -78356,10 +78511,10 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("setting__final__verdict__of__the__test__case".equals(strPar) || "setting_final_verdict_of_the_test_case".equals(strPar) ) {
+if ("setting__final__verdict__of__the__test__case".equals(strPar) || "setting_final_verdict_of_the_test_case".equals(strPar)) {
 return enum_type.setting__final__verdict__of__the__test__case;
 }
-if ("no__ptcs__were__created".equals(strPar) || "no_ptcs_were_created".equals(strPar) ) {
+if ("no__ptcs__were__created".equals(strPar) || "no_ptcs_were_created".equals(strPar)) {
 return enum_type.no__ptcs__were__created;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -78378,6 +78533,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -79125,16 +79290,16 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("local__address__was__set".equals(strPar) || "local_address_was_set".equals(strPar) ) {
+if ("local__address__was__set".equals(strPar) || "local_address_was_set".equals(strPar)) {
 return enum_type.local__address__was__set;
 }
-if ("address__of__mc__was__set".equals(strPar) || "address_of_mc_was_set".equals(strPar) ) {
+if ("address__of__mc__was__set".equals(strPar) || "address_of_mc_was_set".equals(strPar)) {
 return enum_type.address__of__mc__was__set;
 }
-if ("address__of__control__connection".equals(strPar) || "address_of_control_connection".equals(strPar) ) {
+if ("address__of__control__connection".equals(strPar) || "address_of_control_connection".equals(strPar)) {
 return enum_type.address__of__control__connection;
 }
-if ("host__support__unix__domain__sockets".equals(strPar) || "host_support_unix_domain_sockets".equals(strPar) ) {
+if ("host__support__unix__domain__sockets".equals(strPar) || "host_support_unix_domain_sockets".equals(strPar)) {
 return enum_type.host__support__unix__domain__sockets;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -79153,6 +79318,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -79970,13 +80145,13 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("receive__op".equals(strPar) || "receive_op".equals(strPar) ) {
+if ("receive__op".equals(strPar) || "receive_op".equals(strPar)) {
 return enum_type.receive__op;
 }
-if ("check__receive__op".equals(strPar) || "check_receive_op".equals(strPar) ) {
+if ("check__receive__op".equals(strPar) || "check_receive_op".equals(strPar)) {
 return enum_type.check__receive__op;
 }
-if ("trigger__op".equals(strPar) || "trigger_op".equals(strPar) ) {
+if ("trigger__op".equals(strPar) || "trigger_op".equals(strPar)) {
 return enum_type.trigger__op;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -79995,6 +80170,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -80888,19 +81073,19 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("v0none".equals(strPar) || "v0none".equals(strPar) ) {
+if ("v0none".equals(strPar)) {
 return enum_type.v0none;
 }
-if ("v1pass".equals(strPar) || "v1pass".equals(strPar) ) {
+if ("v1pass".equals(strPar)) {
 return enum_type.v1pass;
 }
-if ("v2inconc".equals(strPar) || "v2inconc".equals(strPar) ) {
+if ("v2inconc".equals(strPar)) {
 return enum_type.v2inconc;
 }
-if ("v3fail".equals(strPar) || "v3fail".equals(strPar) ) {
+if ("v3fail".equals(strPar)) {
 return enum_type.v3fail;
 }
-if ("v4error".equals(strPar) || "v4error".equals(strPar) ) {
+if ("v4error".equals(strPar)) {
 return enum_type.v4error;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -80919,6 +81104,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -81882,70 +82077,70 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("init__component__start".equals(strPar) || "init_component_start".equals(strPar) ) {
+if ("init__component__start".equals(strPar) || "init_component_start".equals(strPar)) {
 return enum_type.init__component__start;
 }
-if ("init__component__finish".equals(strPar) || "init_component_finish".equals(strPar) ) {
+if ("init__component__finish".equals(strPar) || "init_component_finish".equals(strPar)) {
 return enum_type.init__component__finish;
 }
-if ("terminating__component".equals(strPar) || "terminating_component".equals(strPar) ) {
+if ("terminating__component".equals(strPar) || "terminating_component".equals(strPar)) {
 return enum_type.terminating__component;
 }
-if ("component__shut__down".equals(strPar) || "component_shut_down".equals(strPar) ) {
+if ("component__shut__down".equals(strPar) || "component_shut_down".equals(strPar)) {
 return enum_type.component__shut__down;
 }
-if ("error__idle__ptc".equals(strPar) || "error_idle_ptc".equals(strPar) ) {
+if ("error__idle__ptc".equals(strPar) || "error_idle_ptc".equals(strPar)) {
 return enum_type.error__idle__ptc;
 }
-if ("ptc__created".equals(strPar) || "ptc_created".equals(strPar) ) {
+if ("ptc__created".equals(strPar) || "ptc_created".equals(strPar)) {
 return enum_type.ptc__created;
 }
-if ("ptc__created__pid".equals(strPar) || "ptc_created_pid".equals(strPar) ) {
+if ("ptc__created__pid".equals(strPar) || "ptc_created_pid".equals(strPar)) {
 return enum_type.ptc__created__pid;
 }
-if ("function__started".equals(strPar) || "function_started".equals(strPar) ) {
+if ("function__started".equals(strPar) || "function_started".equals(strPar)) {
 return enum_type.function__started;
 }
-if ("function__stopped".equals(strPar) || "function_stopped".equals(strPar) ) {
+if ("function__stopped".equals(strPar) || "function_stopped".equals(strPar)) {
 return enum_type.function__stopped;
 }
-if ("function__finished".equals(strPar) || "function_finished".equals(strPar) ) {
+if ("function__finished".equals(strPar) || "function_finished".equals(strPar)) {
 return enum_type.function__finished;
 }
-if ("function__error".equals(strPar) || "function_error".equals(strPar) ) {
+if ("function__error".equals(strPar) || "function_error".equals(strPar)) {
 return enum_type.function__error;
 }
-if ("ptc__done".equals(strPar) || "ptc_done".equals(strPar) ) {
+if ("ptc__done".equals(strPar) || "ptc_done".equals(strPar)) {
 return enum_type.ptc__done;
 }
-if ("ptc__killed".equals(strPar) || "ptc_killed".equals(strPar) ) {
+if ("ptc__killed".equals(strPar) || "ptc_killed".equals(strPar)) {
 return enum_type.ptc__killed;
 }
-if ("stopping__mtc".equals(strPar) || "stopping_mtc".equals(strPar) ) {
+if ("stopping__mtc".equals(strPar) || "stopping_mtc".equals(strPar)) {
 return enum_type.stopping__mtc;
 }
-if ("ptc__stopped".equals(strPar) || "ptc_stopped".equals(strPar) ) {
+if ("ptc__stopped".equals(strPar) || "ptc_stopped".equals(strPar)) {
 return enum_type.ptc__stopped;
 }
-if ("all__comps__stopped".equals(strPar) || "all_comps_stopped".equals(strPar) ) {
+if ("all__comps__stopped".equals(strPar) || "all_comps_stopped".equals(strPar)) {
 return enum_type.all__comps__stopped;
 }
-if ("ptc__was__killed".equals(strPar) || "ptc_was_killed".equals(strPar) ) {
+if ("ptc__was__killed".equals(strPar) || "ptc_was_killed".equals(strPar)) {
 return enum_type.ptc__was__killed;
 }
-if ("all__comps__killed".equals(strPar) || "all_comps_killed".equals(strPar) ) {
+if ("all__comps__killed".equals(strPar) || "all_comps_killed".equals(strPar)) {
 return enum_type.all__comps__killed;
 }
-if ("kill__request__frm__mc".equals(strPar) || "kill_request_frm_mc".equals(strPar) ) {
+if ("kill__request__frm__mc".equals(strPar) || "kill_request_frm_mc".equals(strPar)) {
 return enum_type.kill__request__frm__mc;
 }
-if ("mtc__finished".equals(strPar) || "mtc_finished".equals(strPar) ) {
+if ("mtc__finished".equals(strPar) || "mtc_finished".equals(strPar)) {
 return enum_type.mtc__finished;
 }
-if ("ptc__finished".equals(strPar) || "ptc_finished".equals(strPar) ) {
+if ("ptc__finished".equals(strPar) || "ptc_finished".equals(strPar)) {
 return enum_type.ptc__finished;
 }
-if ("starting__function".equals(strPar) || "starting_function".equals(strPar) ) {
+if ("starting__function".equals(strPar) || "starting_function".equals(strPar)) {
 return enum_type.starting__function;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -81964,6 +82159,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -85453,13 +85658,13 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("break__".equals(strPar) || "break_".equals(strPar) ) {
+if ("break__".equals(strPar) || "break_".equals(strPar)) {
 return enum_type.break__;
 }
-if ("finish".equals(strPar) || "finish".equals(strPar) ) {
+if ("finish".equals(strPar)) {
 return enum_type.finish;
 }
-if ("repeat__".equals(strPar) || "repeat_".equals(strPar) ) {
+if ("repeat__".equals(strPar) || "repeat_".equals(strPar)) {
 return enum_type.repeat__;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -85478,6 +85683,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -87119,6 +87334,16 @@ public static class TitanLog_sequence__list extends Base_Type {
 	private static TitanLog_sequence__list_0 getUnboundElem() {
 		return new TitanLog_sequence__list_0();
 	}
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 
 	@Override
 	public String toString() {
@@ -92341,22 +92566,22 @@ private Base_Template single_value;
 private ArrayList<MatchingEvent_choice_template> value_list;
 
 private void copy_value(final MatchingEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_MatchingDone:
-single_value = new MatchingDoneType_template((MatchingDoneType)other_value.field);
+single_value = new MatchingDoneType_template(other_value.constGetMatchingDone());
 break;
 case ALT_MatchingSuccess:
-single_value = new MatchingSuccessType_template((MatchingSuccessType)other_value.field);
+single_value = new MatchingSuccessType_template(other_value.constGetMatchingSuccess());
 break;
 case ALT_MatchingFailure:
-single_value = new MatchingFailureType_template((MatchingFailureType)other_value.field);
+single_value = new MatchingFailureType_template(other_value.constGetMatchingFailure());
 break;
 case ALT_MatchingProblem:
-single_value = new MatchingProblemType_template((MatchingProblemType)other_value.field);
+single_value = new MatchingProblemType_template(other_value.constGetMatchingProblem());
 break;
 case ALT_MatchingTimeout:
-single_value = new MatchingTimeout_template((MatchingTimeout)other_value.field);
+single_value = new MatchingTimeout_template(other_value.constGetMatchingTimeout());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.MatchingEvent.choice.");
@@ -92369,19 +92594,19 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_MatchingDone:
-single_value = new MatchingDoneType_template(other_value.getMatchingDone());
+single_value = new MatchingDoneType_template(other_value.constGetMatchingDone());
 break;
 case ALT_MatchingSuccess:
-single_value = new MatchingSuccessType_template(other_value.getMatchingSuccess());
+single_value = new MatchingSuccessType_template(other_value.constGetMatchingSuccess());
 break;
 case ALT_MatchingFailure:
-single_value = new MatchingFailureType_template(other_value.getMatchingFailure());
+single_value = new MatchingFailureType_template(other_value.constGetMatchingFailure());
 break;
 case ALT_MatchingProblem:
-single_value = new MatchingProblemType_template(other_value.getMatchingProblem());
+single_value = new MatchingProblemType_template(other_value.constGetMatchingProblem());
 break;
 case ALT_MatchingTimeout:
-single_value = new MatchingTimeout_template(other_value.getMatchingTimeout());
+single_value = new MatchingTimeout_template(other_value.constGetMatchingTimeout());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.MatchingEvent.choice.");
@@ -93343,13 +93568,13 @@ private Base_Template single_value;
 private ArrayList<FunctionEvent_choice_template> value_list;
 
 private void copy_value(final FunctionEvent_choice other_value) {
-single_value_union_selection = other_value.union_selection;
-switch (other_value.union_selection) {
+single_value_union_selection = other_value.get_selection();
+switch (other_value.get_selection()) {
 case ALT_Unqualified:
-single_value = new TitanCharString_template((TitanCharString)other_value.field);
+single_value = new TitanCharString_template(other_value.constGetUnqualified());
 break;
 case ALT_Random:
-single_value = new FunctionEvent_choice_random_template((FunctionEvent_choice_random)other_value.field);
+single_value = new FunctionEvent_choice_random_template(other_value.constGetRandom());
 break;
 default:
 throw new TtcnError("Initializing a template with an unbound value of type @TitanLoggerApi.FunctionEvent.choice.");
@@ -93362,10 +93587,10 @@ case SPECIFIC_VALUE:
 single_value_union_selection = other_value.single_value_union_selection;
 switch (single_value_union_selection) {
 case ALT_Unqualified:
-single_value = new TitanCharString_template(other_value.getUnqualified());
+single_value = new TitanCharString_template(other_value.constGetUnqualified());
 break;
 case ALT_Random:
-single_value = new FunctionEvent_choice_random_template(other_value.getRandom());
+single_value = new FunctionEvent_choice_random_template(other_value.constGetRandom());
 break;
 default:
 throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type @TitanLoggerApi.FunctionEvent.choice.");
@@ -94124,10 +94349,10 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("read__out".equals(strPar) || "read_out".equals(strPar) ) {
+if ("read__out".equals(strPar) || "read_out".equals(strPar)) {
 return enum_type.read__out;
 }
-if ("seed".equals(strPar) || "seed".equals(strPar) ) {
+if ("seed".equals(strPar)) {
 return enum_type.seed;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -94146,6 +94371,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
@@ -96532,19 +96767,19 @@ return enumPar.enum_value.enum_num;
 }
 
 public static enum_type str_to_enum(final String strPar) {
-if ("mtc__started".equals(strPar) || "mtc_started".equals(strPar) ) {
+if ("mtc__started".equals(strPar) || "mtc_started".equals(strPar)) {
 return enum_type.mtc__started;
 }
-if ("mtc__finished".equals(strPar) || "mtc_finished".equals(strPar) ) {
+if ("mtc__finished".equals(strPar) || "mtc_finished".equals(strPar)) {
 return enum_type.mtc__finished;
 }
-if ("ptc__started".equals(strPar) || "ptc_started".equals(strPar) ) {
+if ("ptc__started".equals(strPar) || "ptc_started".equals(strPar)) {
 return enum_type.ptc__started;
 }
-if ("ptc__finished".equals(strPar) || "ptc_finished".equals(strPar) ) {
+if ("ptc__finished".equals(strPar) || "ptc_finished".equals(strPar)) {
 return enum_type.ptc__finished;
 }
-if ("component__init__fail".equals(strPar) || "component_init_fail".equals(strPar) ) {
+if ("component__init__fail".equals(strPar) || "component_init_fail".equals(strPar)) {
 return enum_type.component__init__fail;
 }
 return enum_type.UNKNOWN_VALUE;
@@ -96563,6 +96798,16 @@ public void fromInt(final int otherValue) {
 enum_value = enum_type.getValue(otherValue);
 }
 
+/** 
+ * Do not use this function!<br>
+ * It is provided by Java and currently used for debugging.
+ * But it is not part of the intentionally provided interface,
+ *   and so can be changed without notice. 
+ * <p>
+ * JAVA DESCRIPTION:
+ * <p>
+ * {@inheritDoc}
+ *  */
 public String toString() {
 return enum_value.name() + "("+enum_value.enum_num+")";
 }
