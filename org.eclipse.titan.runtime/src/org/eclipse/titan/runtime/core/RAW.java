@@ -651,17 +651,13 @@ public class RAW {
 
 		return fl + buff.increase_pos_padd(p_td.raw.padding);
 	}
-	
+
 	public int[] init_new_tree_pos(final RAW_enc_tr_pos old_pos, final int new_levels, final int[] new_pos) {
 		int[] new_position = new int[old_pos.level + new_levels];
 		System.arraycopy(old_pos.pos, 0, new_pos, 0, old_pos.level);
 		System.arraycopy(new_pos, 0, new_pos, new_pos.length + old_pos.level, new_levels);
 		return new_position;
  	}
-	
-	public void free_tree_pos(RAW_enc_tr_pos ptr) {
-		ptr = null;
-	}
 
 	//Default descriptors of RAW encoding for primitive types.
 	public static final TTCN_RAWdescriptor TitanInteger_raw_ = new TTCN_RAWdescriptor(8, raw_sign_t.SG_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, ext_bit_t.EXT_BIT_NO, raw_order_t.ORDER_LSB, raw_order_t.ORDER_LSB, top_bit_order_t.TOP_BIT_INHERITED, 0, 0, 0, 8, 0, null, -1, CharCoding.UNKNOWN, null);
