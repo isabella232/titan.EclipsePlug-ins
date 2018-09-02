@@ -99,7 +99,8 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 			}
 			final Assignment assignment = reference.getRefdAssignment(timestamp, true, referenceChain);
 			if (null != assignment) {
-				final ISetting setting = assignment.getSetting(timestamp);//TODO check in the compiler too !!!
+				// TODO check in the compiler too !!!
+				final ISetting setting = assignment.getSetting(timestamp);
 				if (null != setting && !Setting_type.S_ERROR.equals(setting.getSettingtype())) {
 					if (Setting_type.S_OS.equals(setting.getSettingtype())) {
 						osReferenced = (ObjectSet) setting;
@@ -144,70 +145,72 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		return (reference instanceof Parameterised_Reference);
 	}
 
-	public boolean isReferencedDefinedReference(){
+	public boolean isReferencedDefinedReference() {
 		return (reference instanceof Defined_Reference);
 	}
 
 	/**
-	 * Returns the referenced ObjectClass. The evaluation depends on the type of the reference
+	 * Returns the referenced ObjectClass. The evaluation depends on the
+	 * type of the reference
+	 * 
 	 * @param timestamp
 	 * @return the referenced ObjectClass if found. Otherwise returns null.
 	 */
-	public ObjectClass getRefdObjectClass(final CompilationTimeStamp timestamp){
+	public ObjectClass getRefdObjectClass(final CompilationTimeStamp timestamp) {
 		ObjectClass refdClass = null;
-		if (reference instanceof InformationFromObj){
+		if (reference instanceof InformationFromObj) {
 			final ObjectClass tempGovernor = getRefdLast(timestamp, null).getMyGovernor();
 			if (tempGovernor == null) {
 				return null;
 			}
 			refdClass = tempGovernor.getRefdLast(timestamp, null);
-			final FieldName fn = ( (InformationFromObj) reference).getFieldName();
-			if( fn.getNofFields()==1) {
+			final FieldName fn = ((InformationFromObj) reference).getFieldName();
+			if (fn.getNofFields() == 1) {
 				final Identifier fieldId = fn.getFieldByIndex(0);
 				final FieldSpecifications fss = refdClass.getFieldSpecifications();
 				FieldSpecification fs = fss.getFieldSpecificationByIdentifier(fieldId);
-				if( fs instanceof Undefined_FieldSpecification) {
+				if (fs instanceof Undefined_FieldSpecification) {
 					fs = ((Undefined_FieldSpecification) fs).getRealFieldSpecification();
 				}
-				switch( fs.getFieldSpecificationType() ) {
+				switch (fs.getFieldSpecificationType()) {
 				case FS_OS:
 					refdClass = ((ObjectSet_FieldSpecification) fs).getObjectClass().getRefdLast(timestamp, null);
 					break;
 				case FS_T:
-					//TODO: implement the other cases
+					// TODO: implement the other cases
 					break;
 				default:
-					//TODO: implement the other cases
+					// TODO: implement the other cases
 					break;
 				}
 			}
-		} else if ( reference instanceof Parameterised_Reference){
+		} else if (reference instanceof Parameterised_Reference) {
 			final Defined_Reference dref = ((Parameterised_Reference) reference).getRefDefdSimple();
-			if( dref == null ) {
+			if (dref == null) {
 				return null;
 			}
 
-			final Assignment ass = dref.getRefdAssignment(timestamp,false,null);
-			if (ass instanceof ObjectSet_Assignment){
+			final Assignment ass = dref.getRefdAssignment(timestamp, false, null);
+			if (ass instanceof ObjectSet_Assignment) {
 				ass.check(timestamp);
-				osReferenced = ((ObjectSet_Assignment) ass).getObjectSet(timestamp);//experimental
+				osReferenced = ((ObjectSet_Assignment) ass).getObjectSet(timestamp);// experimental
 				refdClass = ((ObjectSet_Assignment) ass).getObjectSet(timestamp).getMyGovernor().getRefdLast(timestamp, null);
 			}
-		} else if (reference instanceof Defined_Reference){
-			final Assignment ass = ((Defined_Reference) reference).getRefdAssignment(timestamp,false,null);
-			if (ass instanceof ObjectSet_Assignment){
+		} else if (reference instanceof Defined_Reference) {
+			final Assignment ass = ((Defined_Reference) reference).getRefdAssignment(timestamp, false, null);
+			if (ass instanceof ObjectSet_Assignment) {
 				ass.check(timestamp);
-				osReferenced = ((ObjectSet_Assignment) ass).getObjectSet(timestamp);//experimental
+				osReferenced = ((ObjectSet_Assignment) ass).getObjectSet(timestamp);// experimental
 				refdClass = ((ObjectSet_Assignment) ass).getObjectSet(timestamp).getMyGovernor().getRefdLast(timestamp, null);
 			}
 		} else {
-			//TODO, perhaps it is impossible
-			return refdClass; //to debug
+			// TODO, perhaps it is impossible
+			return refdClass; // to debug
 		}
 		return refdClass;
 	}
 
-	public Identifier getId(){
+	public Identifier getId() {
 		return reference.getId();
 	}
 
@@ -227,7 +230,7 @@ public final class Referenced_ObjectSet extends ObjectSet implements IObjectSet_
 		final ObjectClass myClass = myGovernor.getRefdLast(timestamp, null);
 		final ObjectClass refdClass = getRefdObjectClass(timestamp);
 		if (myClass != refdClass) {
-			if (location != null && refdClass!=null && myClass!=null) {
+			if (location != null && refdClass != null && myClass != null) {
 				location.reportSemanticError(MessageFormat.format(MISMATCH, myClass.getFullName(), refdClass.getFullName()));
 			}
 			osReferenced = new ObjectSet_definition();

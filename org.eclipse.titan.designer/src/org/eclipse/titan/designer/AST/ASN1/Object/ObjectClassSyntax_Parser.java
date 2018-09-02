@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1.Object;
 
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,7 +120,8 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 		previousSuccess = false;
 		parameter.getSequence().accept(this);
 		if (null != mBlock) {
-			if (success && internalIndex < mBlock.getTokenList().size() && mBlock.getTokenList().get(internalIndex).getType() != Token.EOF) {
+			if (success && internalIndex < mBlock.getTokenList().size()
+					&& mBlock.getTokenList().get(internalIndex).getType() != Token.EOF) {
 				success = false;
 				final Token token = mBlock.getTokenList().get(internalIndex);
 				myObject.getLocation().reportSemanticError("Unexpected `" + token.getText() + "', it is a superfluous part");
@@ -243,8 +243,8 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 				final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 				if (null != errors && !errors.isEmpty()) {
 					for (int i = 0; i < errors.size(); i++) {
-						ParserMarkerSupport.createOnTheFlyMixedMarker((IFile) mBlock.getLocation().getFile(),
-								errors.get(i), IMarker.SEVERITY_ERROR);
+						final IFile file = (IFile) mBlock.getLocation().getFile();
+						ParserMarkerSupport.createOnTheFlyMixedMarker(file, errors.get(i), IMarker.SEVERITY_ERROR);
 					}
 				}
 			}

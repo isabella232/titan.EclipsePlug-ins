@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.INamedNode;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Identifier.Identifier_type;
+import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
@@ -130,16 +131,14 @@ public final class FieldSpecifications extends ASTNode {
 
 		fieldSpecificationsMap.clear();
 
-		String name;
-		String displayName;
 		for (final FieldSpecification fieldSpecification : fieldSpecifications) {
-			name = fieldSpecification.getIdentifier().getName();
+			final String name = fieldSpecification.getIdentifier().getName();
 			if (fieldSpecificationsMap.containsKey(name)) {
-				displayName = fieldSpecification.getIdentifier().getDisplayName();
-				fieldSpecificationsMap.get(name).getIdentifier().getLocation()
-				.reportSingularSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONFIRST, displayName));
-				fieldSpecification.getIdentifier().getLocation()
-				.reportSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONREPEATED, displayName));
+				final String displayName = fieldSpecification.getIdentifier().getDisplayName();
+				final Location oldLocation = fieldSpecificationsMap.get(name).getIdentifier().getLocation();
+				oldLocation.reportSingularSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONFIRST, displayName));
+				final Location newLocation = fieldSpecification.getIdentifier().getLocation();
+				newLocation.reportSemanticError(MessageFormat.format(DUPLICATEDFIELDSPECIFICATIONREPEATED, displayName));
 			} else {
 				fieldSpecificationsMap.put(name, fieldSpecification);
 			}

@@ -38,7 +38,7 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 	public ObjectClassSyntax_Builder(final Block aBlock, final FieldSpecifications aFieldSpecifications) {
 		this.mBlock = aBlock;
 		this.fieldSpecifications = aFieldSpecifications;
-		if ( aBlock != null ) {
+		if (aBlock != null) {
 			final List<Token> internalTokens = new ArrayList<Token>(aBlock.getTokenList().size());
 			Token token;
 
@@ -80,36 +80,37 @@ public final class ObjectClassSyntax_Builder extends ObjectClassSyntax_Visitor {
 				final ObjectClassSyntax_sequence temporalSequence = new ObjectClassSyntax_sequence(fieldSpecification.getIsOptional()
 						|| fieldSpecification.hasDefault(), true);
 
-				final ObjectClassSyntax_literal literal = new ObjectClassSyntax_literal(fieldSpecification.getIdentifier().newInstance());
+				final Identifier newIdentifier = fieldSpecification.getIdentifier().newInstance();
+				final ObjectClassSyntax_literal literal = new ObjectClassSyntax_literal(newIdentifier);
 				literal.setLocation(fieldSpecification.getLocation());
 
 				ObjectClassSyntax_setting setting = null;
 				switch (fieldSpecification.getFieldSpecificationType()) {
-				case FS_T:{
-					final Identifier newIdentifier = fieldSpecification.getIdentifier().newInstance();
-					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_T, newIdentifier);
+				case FS_T: {
+					final Identifier newIdentifier2 = newIdentifier.newInstance();
+					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_T, newIdentifier2);
 					break;
 				}
 				case FS_V_FT:
-				case FS_V_VT:{
-					final Identifier newIdentifier = fieldSpecification.getIdentifier().newInstance();
-					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_V, newIdentifier);
+				case FS_V_VT: {
+					final Identifier newIdentifier2 = newIdentifier.newInstance();
+					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_V, newIdentifier2);
 					break;
 				}
 				case FS_VS_FT:
-				case FS_VS_VT:{
-					final Identifier newIdentifier = fieldSpecification.getIdentifier().newInstance();
-					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_VS, newIdentifier);
+				case FS_VS_VT: {
+					final Identifier newIdentifier2 = newIdentifier.newInstance();
+					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_VS, newIdentifier2);
 					break;
 				}
-				case FS_O:{
-					final Identifier newIdentifier = fieldSpecification.getIdentifier().newInstance();
-					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_O, newIdentifier);
+				case FS_O: {
+					final Identifier newIdentifier2 = newIdentifier.newInstance();
+					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_O, newIdentifier2);
 					break;
 				}
-				case FS_OS:{
-					final Identifier newIdentifier = fieldSpecification.getIdentifier().newInstance();
-					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_OS, newIdentifier);
+				case FS_OS: {
+					final Identifier newIdentifier2 = newIdentifier.newInstance();
+					setting = new ObjectClassSyntax_setting(SyntaxSetting_types.S_OS, newIdentifier2);
 					break;
 				}
 				case FS_ERROR:

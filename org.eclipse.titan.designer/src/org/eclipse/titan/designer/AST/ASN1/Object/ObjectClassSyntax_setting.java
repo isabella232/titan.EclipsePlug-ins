@@ -60,15 +60,15 @@ public final class ObjectClassSyntax_setting extends ObjectClassSyntax_Node {
 		case S_T:
 			return "<Type>";
 		case S_V:
-			return"<Value>";
+			return "<Value>";
 		case S_VS:
-			return"<ValueSet>";
+			return "<ValueSet>";
 		case S_O:
-			return"<Object>";
+			return "<Object>";
 		case S_OS:
-			return"<ObjectSet>";
+			return "<ObjectSet>";
 		default:
-			return"<unknown setting kind>";
+			return "<unknown setting kind>";
 		}
 	}
 }

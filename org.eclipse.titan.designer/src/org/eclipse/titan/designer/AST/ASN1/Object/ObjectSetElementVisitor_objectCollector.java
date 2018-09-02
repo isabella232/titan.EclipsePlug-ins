@@ -78,17 +78,17 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 
 	public void visitObjectSet(final ObjectSet p, final boolean force) {
 
-		if(governor == null || p == null) {
+		if (governor == null || p == null) {
 			return;
 		}
 
 		final ObjectClass myClass = governor.getRefdLast(timestamp, null);
 		ObjectClass refdClass = null;
-		if (p instanceof Referenced_ObjectSet){
-			refdClass = ((Referenced_ObjectSet)p).getRefdObjectClass(timestamp);
+		if (p instanceof Referenced_ObjectSet) {
+			refdClass = ((Referenced_ObjectSet) p).getRefdObjectClass(timestamp);
 		}
 
-		if(myClass != refdClass &&  myClass!=null && refdClass!=null) {
+		if (myClass != refdClass && myClass != null && refdClass != null) {
 			p.getLocation().reportSemanticError(
 					MessageFormat.format(OBJECTOFCLASSEXPECTED, myClass.getFullName(), p.getFullName(), refdClass.getFullName()));
 			return;
@@ -103,7 +103,7 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 			visitedElements.add(os);
 		}
 
-		//=== Visit objects =====
+		// === Visit objects =====
 
 		//In case of Parameterised_Reference, the ObjectSet contains the parameters
 		// therefore its objects have different type
@@ -114,7 +114,7 @@ public final class ObjectSetElementVisitor_objectCollector extends ObjectSetElem
 		}
 		//In case of Defined_Reference, the ObjectSet contains...
 		//TODO: check this!
-		if(((Referenced_ObjectSet)p).isReferencedDefinedReference()){
+		if (((Referenced_ObjectSet) p).isReferencedDefinedReference()) {
 			return;
 		}
 

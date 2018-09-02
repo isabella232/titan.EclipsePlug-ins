@@ -109,8 +109,7 @@ public final class Undefined_FieldSpecification extends FieldSpecification imple
 				}
 				final ObjectClass_refd oc = new ObjectClass_refd(governorReference);
 				oc.setLocation(governorReference.getLocation());
-				fieldSpecification = new ObjectSet_FieldSpecification(identifier, oc,
-						isOptional, defaultObjectset);
+				fieldSpecification = new ObjectSet_FieldSpecification(identifier, oc, isOptional, defaultObjectset);
 			} else if (identifier.isvalidAsnObjectFieldReference()
 					&& governorReference.refersToSettingType(timestamp, Setting_type.S_OC, temporalReferenceChain)) {
 				ASN1Object defaultObject = null;

@@ -201,7 +201,6 @@ public final class Object_Definition extends ASN1Object {
 		return false;
 	}
 
-
 	public ISetting getSettingByNameDefault(final Identifier identifier) {
 		if (null == lastTimeChecked) {
 			check(CompilationTimeStamp.getBaseTimestamp());

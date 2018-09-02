@@ -70,19 +70,25 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 			return true;
 		}
 
-		if (this.location != other.getLocation()) {return false;}
-		if (this.getNofObjects() != other.getNofObjects() ) { return false; }
-		if (this.getObjectSetElements().size() != other.getObjectSetElements().size()) { return false; }
+		if (this.location != other.getLocation()) {
+			return false;
+		}
+		if (this.getNofObjects() != other.getNofObjects()) {
+			return false;
+		}
+		if (this.getObjectSetElements().size() != other.getObjectSetElements().size()) {
+			return false;
+		}
 		int n = this.getNofObjects();
-		for(int i=0;i<n;i++) {
+		for (int i = 0; i < n; i++) {
 			if (this.getObjectByIndex(i) != other.getObjectByIndex(i)) {
 				return false;
 			}
 		}
 
-		n=this.getObjectSetElements().size();
-		for(int i=0;i<n;i++) {
-			if ( this.getObjectSetElements().get(i) != other.getObjectSetElements().get(i) ) {
+		n = this.getObjectSetElements().size();
+		for (int i = 0; i < n; i++) {
+			if (this.getObjectSetElements().get(i) != other.getObjectSetElements().get(i)) {
 				return false;
 			}
 		}
@@ -261,7 +267,7 @@ public final class ObjectSet_definition extends ObjectSet implements IReferenceC
 		}
 
 		final ObjectSet_definition temporalDefinition = parser.pr_special_ObjectSetSpec().definition;
-		//internalIndex += parser.nof_consumed_tokens();
+		// internalIndex += parser.nof_consumed_tokens();
 		final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 		if (null != errors && !errors.isEmpty()) {
 			for (int i = 0; i < errors.size(); i++) {
