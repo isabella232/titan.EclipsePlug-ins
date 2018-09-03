@@ -1,8 +1,8 @@
-== Introduction
+= Introduction
 :toc:
 :figure-number: 0
 
-=== Overview
+== Overview
 
 This document describes the general workflow and use of the TITAN Designer for the Eclipse IDE plug-in.
 
@@ -18,11 +18,11 @@ The TITAN Designer plug-in provides support for:
 
 * remote build.
 
-=== Target Groups
+== Target Groups
 
 This document is intended for system administrators and users who intend to use the TITAN Designer plug-in for the Eclipse IDE.
 
-=== Typographical Conventions
+== Typographical Conventions
 
 This document uses the following typographical conventions:
 
@@ -34,11 +34,11 @@ This document uses the following typographical conventions:
 
 * `*Bold monospaced font*` is used for commands that must be entered at the Command Line Interface (CLI), For example, `*mctr_gui*`
 
-=== Installation
+== Installation
 
 For details on installing the TITAN Designer for the Eclipse IDE plug-in, see the Installation Guide for TITAN Designer and TITAN Executor for the Eclipse IDE.
 
-=== Reporting Errors
+== Reporting Errors
 
 The following information should be included into trouble reports:
 

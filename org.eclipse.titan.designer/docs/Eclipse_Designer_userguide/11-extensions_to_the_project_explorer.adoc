@@ -1,9 +1,9 @@
-== Extensions to the Project Explorer
+= Extensions to the Project Explorer
 :toc:
 :figure-number: 128
 
 [[filtering-resources-from-the-view]]
-=== Filtering Resources from the View
+== Filtering Resources from the View
 
 It is possible to hide excluded resources from the Project explorer view.
 

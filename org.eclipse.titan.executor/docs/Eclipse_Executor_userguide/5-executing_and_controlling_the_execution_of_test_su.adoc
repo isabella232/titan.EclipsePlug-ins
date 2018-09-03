@@ -1,11 +1,11 @@
-== Executing and Controlling the Execution of Test Suites
+= Executing and Controlling the Execution of Test Suites
 :figure-number: 25
 
 The three different launch modes that are supported by the Executor plug-in, also imply three different execution mechanisms (executions and executors).
 
 As the general user interaction interfaces, are about the same, we will discuss them one by one, detailing the differences between the execution modes when they apply.
 
-=== Execution Control
+== Execution Control
 
 Execution can be started on several ways:
 
@@ -21,7 +21,7 @@ Please note that redrawing the supported views might cost some performance, for 
 
 As soon as an execution is started it will be displayed in the Executor monitor view.
 
-=== TITAN Execution Controller View
+== TITAN Execution Controller View
 
 [[Figure-26]]
 image::images/5_F26.png[title="TITAN Execution Controller view"]
@@ -196,7 +196,7 @@ Please note that in this case the notification messages (originally also conside
 +
 Selecting this action you can update the detailed information, which the main controller provides (an example can be seen on <<Figure-29,Figure 29>>).
 
-==== Execute Dialog
+=== Execute Dialog
 
 [[Figure-31]]
 image::images/5_F31.png[title="Execute dialog enabled"]
@@ -223,7 +223,7 @@ image::images/5_F32.png[title="Execute dialog with disabled execution times part
 
 Please note that if an element type is not present then the corresponding branch cannot be expanded. For example if no configuration file was set on the Basic Main Controller options page, then the configuration file branch does not have leafs.
 
-=== TITAN Notifications View
+== TITAN Notifications View
 
 image::images/5_F33.png[title="TITAN Notifications view"]
 
@@ -251,7 +251,7 @@ If this action is checked and new records are inserted into the lists of notific
 
 Please note that these actions can be selected from the toolbar and menu bar of the view.
 
-=== TITAN Test Results View
+== TITAN Test Results View
 
 image::images/5_F34.png[title="The Executed tests view"]
 
@@ -279,7 +279,7 @@ Please note that these actions can be selected from the toolbar and menu bar of 
 
 Please note, that if verdict extraction is not enabled on the Performance page of the launch configuration, this view will be empty. For more information please refer to section 4.2.5.
 
-=== Console Views
+== Console Views
 
 There are a few things to remember about console views:
 
@@ -293,7 +293,7 @@ There are a few things to remember about console views:
 
 * When an executing launch is selected in the Executor monitor view, the Console view changes to the console of the main controller belonging to the execution.
 
-==== Creating a New Console View
+=== Creating a New Console View
 
 By default the Executor perspective has only a single Console view open this can be changed by selecting the Open Console menu (Figure 36) and clicking on the New Console View option (Figure 37). By doing so a new Console view will be created in the actual perspective
 
@@ -303,7 +303,7 @@ image::images/5_F37.png[title="The New Console View menu entry"]
 
 Using this feature of the Console views it is possible to create a separate Console view for each Host Controller or Main Controller of interest, and with their output at the same time.
 
-==== Selecting and Pining to a New Console Output
+=== Selecting and Pining to a New Console Output
 
 The default behavior of the Console View provided by its plug-in is that it always tries to show the data printed to a console. For this reason when any Host controller or the Main Controller displays any information on its standard output, the Console View will automatically switch to the Console displaying that information.
 
@@ -318,7 +318,7 @@ To force a Console View to always display the contents of a given console, one h
 
 image::images/5_F40.png[title="The Pin Console menu item"]
 
-=== Limitations
+== Limitations
 
 * In Parallel mode the actions that are displayed to be available and the ones truly available might differ in special time periods. The reason for this limitation is that it is almost impossible to tell the exact state of the Main Controller at a given time. For example, if the system buffers the output of the Main Controller, or the input of the watching process, than a short status change indicating message might not appear until the buffer is not filled up (with still to come messages). On the performance page of the mctr_cli launch configuration it can be set how often the states should be synchronized.
 
