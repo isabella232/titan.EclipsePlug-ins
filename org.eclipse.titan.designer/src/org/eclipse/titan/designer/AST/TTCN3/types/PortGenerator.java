@@ -292,6 +292,7 @@ public class PortGenerator {
 		aData.addBuiltinTypeImport("TitanLoggerApi");
 		aData.addCommonLibraryImport("Text_Buf");
 		aData.addBuiltinTypeImport("TtcnError");
+		aData.addBuiltinTypeImport("TitanCharString");
 
 		boolean hasIncomingReply = false;
 		for (int i = 0 ; i < portDefinition.outProcedures.size(); i++) {
