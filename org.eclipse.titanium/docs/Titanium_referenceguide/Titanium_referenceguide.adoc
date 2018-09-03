@@ -42,7 +42,7 @@ The purpose of this document is to provide detailed information on writing compo
 
 == Target Groups
 
-This document is intended for programmers of TTCNâ€“3 test suites with information in addition to that provided in the TITAN User Guide <<_3, [3]>>. It is recommended that the programmer reads the TITAN User Guide before reading this document.
+This document is intended for programmers of TTCN–3 test suites with information in addition to that provided in the TITAN User Guide <<_3, [3]>>. It is recommended that the programmer reads the TITAN User Guide before reading this document.
 
 == Typographical Conventions
 
@@ -320,7 +320,7 @@ The last, important step is to refresh the documentation. In the chapter Titaniu
 
 Example:
 
-In docs/Titanium â€“ 1551
+In docs/Titanium – 1551
 
 Titanium Preferences / Code Smell Preferences / Potential structural problems
 
@@ -582,16 +582,16 @@ The *`.xls`* format used by the *`jxl`* library only supports 255 columns in a t
 
 
 [[_6]]
-* [6] TTCNâ€“3 Style Guide
+* [6] TTCN–3 Style Guide
 
 [[_7]]
-* [7] TTCNâ€“3 Naming Convention
+* [7] TTCN–3 Naming Convention
 
 [[_8]]
 * [8] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187310/04.05.01_60/es_20187310v040501p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 1: Core Language European Telecommunications Standards Institute. ES 201 873-1 Version 4.5.1, April 2013]
 
 [[_9]]
-* [9] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187304/04.04.01_60/es_20187304v040401p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 4: TTCNâ€“3 Operational Semantics European Telecommunications Standards Institute. ES 201 873-4 Version 4.4.1, April 2012]
+* [9] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187304/04.04.01_60/es_20187304v040401p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 4: TTCN–3 Operational Semantics European Telecommunications Standards Institute. ES 201 873-4 Version 4.4.1, April 2012]
 
 [[_10]]
-* [10] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.05.01_60/es_20187307v040501p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 7: Using ASN.1 with TTCNâ€“3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.5.1, April 2013]
+* [10] link:https://www.etsi.org/deliver/etsi_es/201800_201899/20187307/04.05.01_60/es_20187307v040501p.pdf[Methods for Testing and Specification (MTS);The Testing and Test Control Notation version 3.Part 7: Using ASN.1 with TTCN–3 European Telecommunications Standards Institute. ES 201 873-7 Version 4.5.1, April 2013]

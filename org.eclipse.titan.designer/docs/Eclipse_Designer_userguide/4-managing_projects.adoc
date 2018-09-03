@@ -72,7 +72,7 @@ There are two ways to add files to a project. The first one, using wizards, is t
 [[using-wizards-to-add-files-to-the-project]]
 === Using Wizards to Add Files to the Project
 
-Wizards are available to create some of the TITAN modules footnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* (see Figure 26 above).
+Wizards are available to create some of the TITAN modulesfootnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* (see Figure 26 above).
 
 In the Project Explorer view, the wizards "TTCN-3 Module", "ASN.1 Module" and "Configuration file" can be reached by **right click**ing the content area and selecting *New / Other…* .
 
@@ -141,13 +141,13 @@ image::images/4_F36.png[title="Manage configurations"]
 On this window it is possible to create new configurations, delete existing ones, or simply rename one.
 
 [NOTE]
-=====
+====
 Even though the settings of the Default configuration can be changed it cannot be deleted or renamed, the existence of this configuration is needed to be forward compatible with older versions of our tools.
 
 [.underline]#The build configuration name cannot contain whitespace character.#
 
 [.underline]#The visible build configuration settings always refer to the active build configuration.# To change a build configuration at first it shall be selected as active configuration, then some of the settings described below shall be modified then the settings shall be saved by pushing the button "Apply" or "OK".
-=====
+====
 
 [[setting-the-local-build-properties-of-a-project]]
 === Setting the Local Build Properties of a Project
@@ -823,11 +823,11 @@ ttcn3_makefilegen -V -P /home/ethbaat/DiameterApplib/Diameter_Applib_2013_03_01 
 ....
 
 [NOTE]
-=====
+====
 The compressed file will contain the files in the same structure as they have been stored in the source root directory.
 
 See more information about the command ttcn3_makefilegen in sections 6.1.2 and 6.1.3 in TITAN Programmer’s Technical Reference for TITAN TTCN-3 Test Executor <<12-references.adoc#_4, [4]>>.
-=====
+====
 
 == Formatting Log Files
 

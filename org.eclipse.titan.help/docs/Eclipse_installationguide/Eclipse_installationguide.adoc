@@ -64,7 +64,7 @@ This document uses the following typographical conventions:
 
 * ANTLR Runtime 4.3
 
-* TITAN TTCNâ€“3 Toolset installed. (Only needed if Eclipse is used for project compilation and test execution. Editing does not require it.)
+* TITAN TTCN–3 Toolset installed. (Only needed if Eclipse is used for project compilation and test execution. Editing does not require it.)
 
 * J2SE(TM) Runtime Environment 6.0 or later installed and set in Eclipse as the Java Runtime Environment
 
@@ -103,7 +103,7 @@ For example, if the cygwin root is "C:64" then "Path" should contain "C:64\cygwi
 = Installing prerequisites
 
 [[installing-the-titan-ttcn-3-toolset]]
-== Installing the TITAN TTCNâ€“3 Toolset
+== Installing the TITAN TTCN–3 Toolset
 
 For detailed information on installing the TITAN TTCN-3 Toolset, and configuring the environment variables for TITAN to work, refer to <<_1, Installation Guide for TITAN TTCN-3 Test Executor>>.
 
@@ -234,7 +234,7 @@ If Java 1.8 is used then `MaxPermSize` is ignored, its support is removed. Use t
 -Xmx4g
 ----
 
-NOTE: If you cannot edit the `eclipse.ini` file, you can start eclipse with flags. For example `eclipse â€“vmargs -Xmx4g` modifies the maximum memory allocation for the virtual machine.
+NOTE: If you cannot edit the `eclipse.ini` file, you can start eclipse with flags. For example `eclipse –vmargs -Xmx4g` modifies the maximum memory allocation for the virtual machine.
 
 = Compatibility Issues
 
