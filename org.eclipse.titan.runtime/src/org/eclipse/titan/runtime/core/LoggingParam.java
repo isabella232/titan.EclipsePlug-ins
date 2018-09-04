@@ -44,7 +44,7 @@ public final class LoggingParam {
 		public int int_val;
 		public boolean bool_val;
 		public TTCN_Logger.Logging_Bits logoptions_val;
-		public TTCN_Logger.disk_full_action_type_t disk_full_action_value;
+		public TTCN_Logger.disk_full_action_t disk_full_action_value;
 		public TTCN_Logger.timestamp_format_t timestamp_value;
 		public TTCN_Logger.source_info_format_t source_info_value;
 		public TTCN_Logger.log_event_types_t log_event_types_values;
