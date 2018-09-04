@@ -109,7 +109,7 @@ For detailed information on installing the TITAN TTCN-3 Toolset, and configuring
 
 == Installing Eclipse
 
-Download the latest 32- or 64-bit Eclipse package, according to your platform and OS version form https://www.eclipse.org/downloads/. All Eclipse solution packages are suitable, but if you want to develop also adapters and/or external C/C\++ functions, the "Eclipse IDE for C/C++ Developers" can be a good choice.
+Download the latest 32- or 64-bit Eclipse package, according to your platform and OS version form https://www.eclipse.org/downloads/. All Eclipse solution packages are suitable, but if you want to develop also adapters and/or external C/C\++ functions, the "Eclipse IDE for C/{cpp} Developers" can be a good choice.
 
 NOTE: The CDT package can also be added to any Eclipse installation later.
 

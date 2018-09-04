@@ -265,7 +265,7 @@ image::images/4_F42.png[title="TITAN Flags"]
 +
 On the TITAN flags page, it is possible to specify the flags TITAN should be called with when compiling the TTCN-3 and ASN.1 files.
 +
-The options will be applied to the *COMPILER_FLAGS* macro. By default only the *Include source line info in C++ code* and *add source line info for logging* options are set.
+The options will be applied to the *COMPILER_FLAGS* macro. By default only the *Include source line info in {cpp} code* and *add source line info for logging* options are set.
 +
 NOTE: The flag responsible for function or load test runtime generation is not set here, but on the Makefile creation attributes (as that flag is handled by the Eclipse external `makefile` generator too).
 +
@@ -275,13 +275,13 @@ For more information on the meanings of these options please refer to section 5.
 +
 image::images/4_F43.png[title="Preprocessor"]
 +
-The Preprocessor page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for pre-processing the .ttcnpp, .ttcnin and C/C++ files.
+The Preprocessor page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for pre-processing the .ttcnpp, .ttcnin and C/{cpp} files.
 
 . Preprocessor Symbols
 +
 image::images/4_F44.png[title="Preprocessor symbols"]
 +
-On the preprocessor symbols page, it is possible to specify the list of symbols that should be defined and the list of symbols that should be undefined when the C/C++ pre-processor tool is executed.
+On the preprocessor symbols page, it is possible to specify the list of symbols that should be defined and the list of symbols that should be undefined when the C/{cpp} pre-processor tool is executed.
 +
 These lists of options are applied to the *CPPFLAGS* macro.By default both lists are empty.
 +
@@ -291,35 +291,35 @@ NOTE: There are a few symbols that are not displayed here, but are generated int
 +
 image::images/4_F45.png[title="Preprocessor include directories"]
 +
-On the included directories page, it is possible to specify the list of directories where the C/C++ pre-processor can look for included files.
+On the included directories page, it is possible to specify the list of directories where the C/{cpp} pre-processor can look for included files.
 +
 The list of options is applied to the *CPPFLAGS* macro. By default the list is empty.
 +
 NOTE: Some directories (like the include directory of TITAN) are not displayed here, but are generated into the `Makefile`. They are required for proper operation.
 
-. C/C++ Compiler
+. C/{cpp} Compiler
 +
-image::images/4_F46.png[title="C/C++ compiler"]
+image::images/4_F46.png[title="C/{cpp} compiler"]
 +
-A C/C\++ compiler tool used to process the generated and the user provided C/C++ files can be specified on the C/C++ compiler page.
+A C/C\++ compiler tool used to process the generated and the user provided C/{cpp} files can be specified on the C/{cpp} compiler page.
 +
 This will be applied to the *CXX* macro. By default it is set to be: *g++*
 
-. C/C++ Compiler Optimization
+. C/{cpp} Compiler Optimization
 +
-image::images/4_F47.png[title="C/C++ compiler optimization"]
+image::images/4_F47.png[title="C/{cpp} compiler optimization"]
 +
-The C/C++ compiler optimization page allows the specification of optimization options for C/C+\+ compiler.
+The C/{cpp} compiler optimization page allows the specification of optimization options for C/{cpp} compiler.
 +
 The optimization level option can be: none, minor optimizations, common optimizations, optimize for speed, optimize for size. By default it is set to: common optimizations.
 +
-The other optimization flags option allows the specification of any user defined optimization flag that is supported by the C/C++ compiler.
+The other optimization flags option allows the specification of any user defined optimization flag that is supported by the C/{cpp} compiler.
 +
 Both options will be applied the *CXXFLAGS* macro.
 +
 NOTE: The *–Wall* option is not displayed here, but is generated into the `Makefile`. It is required for proper operation.
 +
-For more information on the optimization flags please refer to the documentation of your C/C+\+ compiler. In case of the default C/C+\+ compiler *g++* is the manual pages of *g++* (invoked with the *man g++* command line command).
+For more information on the optimization flags please refer to the documentation of your C/{cpp} compiler. In case of the default C/{cpp} compiler *g++* is the manual pages of *g++* (invoked with the *man g++* command line command).
 
 . Platform Specific Libraries
 +
@@ -335,7 +335,7 @@ NOTE: Some libraries are not displayed here, but are generated into the `Makefil
 +
 image::images/4_F49.png[title="Figure"]
 +
-The Linker page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for compiling C/C++ sources and linking the generated object files.
+The Linker page only functions as reminder to the fact, that the generated `Makefile` uses the same tool for compiling C/{cpp} sources and linking the generated object files.
 
 . Linker Libraries
 +

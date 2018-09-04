@@ -52,17 +52,17 @@ This step, if needed, is carried out manually by the user.
 
 === Module Compilation
 
-In this step C++ files are generated from virgin TTCN-3 and ASN.1 files. When a C++ file already exists, then the timestamp of the Compile file is used to decide whether a C++ file in question is uptodate or not. A C++ file is refreshed only if the corresponding TTCN–3 or ASN.1 module was modified later than the timestamp in the Compile file indicates, or the project was refreshed by *right clicking* the project and selecting *Refresh*; otherwise the generated C++ file is considered uptodate.
+In this step {cpp} files are generated from virgin TTCN-3 and ASN.1 files. When a {cpp} file already exists, then the timestamp of the Compile file is used to decide whether a {cpp} file in question is uptodate or not. A {cpp} file is refreshed only if the corresponding TTCN–3 or ASN.1 module was modified later than the timestamp in the Compile file indicates, or the project was refreshed by *right clicking* the project and selecting *Refresh*; otherwise the generated {cpp} file is considered uptodate.
 
 The first compilation of the modules will result in addition of the following files in the working directory:
 
-* C/C++ header files:
+* C/{cpp} header files:
 +
-These are the header files of the generated C++ code. One `.hh` file is generated for every TTCN–3 and ASN.1 module in the project with the same name.
+These are the header files of the generated {cpp} code. One `.hh` file is generated for every TTCN–3 and ASN.1 module in the project with the same name.
 
-* C/C++ source files:
+* C/{cpp} source files:
 +
-These are the body files of the generated C++ code. One `.cc` file is generated for every TTCN–3 and ASN.1 module in the project with the same name.
+These are the body files of the generated {cpp} code. One `.cc` file is generated for every TTCN–3 and ASN.1 module in the project with the same name.
 
 * Compile file:
 +
@@ -77,7 +77,7 @@ Module compilation is done automatically by the build process; no user action is
 [[creating-dependencies]]
 === Creating Dependencies
 
-Once the symbolic links have been created and the `Makefile` of the project has been properly edited if necessary, the command make dep has to be issued to find the dependencies between the resulting C++ codes. It is extremely important that the dependencies are always uptodate. If, for example, a TTCN–3 module is removed from the project, the dependencies between the C++ files must be updated, otherwise the command `make` fails.
+Once the symbolic links have been created and the `Makefile` of the project has been properly edited if necessary, the command make dep has to be issued to find the dependencies between the resulting {cpp} codes. It is extremely important that the dependencies are always uptodate. If, for example, a TTCN–3 module is removed from the project, the dependencies between the {cpp} files must be updated, otherwise the command `make` fails.
 
 Dependencies appear at the end of the `Makefile` as dependency lines. They are determining the conditions of the binary object code recompilation launched by the command make.
 
@@ -92,7 +92,7 @@ Alternatively, incremental generation of dependency information is available whe
 [[building]]
 === Building
 
-In the final step of the project building procedure a conventional C++ compiler is used to compile Test port codes and the generated C++ source code to a binary object code. The resulting code is linked with the Base Library. The Base Library contains important supplementary function libraries used for the execution of the generated code (for example verdict handling, Host Controller code, and so on).
+In the final step of the project building procedure a conventional {cpp} compiler is used to compile Test port codes and the generated {cpp} source code to a binary object code. The resulting code is linked with the Base Library. The Base Library contains important supplementary function libraries used for the execution of the generated code (for example verdict handling, Host Controller code, and so on).
 
 If automatic building is enabled, Eclipse will invoke the build process whenever project resources change (are created, deleted or updated), or you refresh your project by *right clicking* the project and selecting *Refresh*.
 
@@ -102,11 +102,11 @@ The build process will result in the generation of the following files in the wo
 
 * Object files:
 +
-For every C++ file in the project (source code files, test ports, and so on), an object file (with the extension `.o`) will be created by the C++ compiler.
+For every {cpp} file in the project (source code files, test ports, and so on), an object file (with the extension `.o`) will be created by the {cpp} compiler.
 
 * Shared object files (if dynamic linking is enabled, see <<4-managing_projects.adoc#setting-the-local-build-properties-of-a-project, here>>):
 +
-For every (static) object file (with extension `.o`) in the project a shared object file (with the extension `.so`) will be created by the C++ compiler.
+For every (static) object file (with extension `.o`) in the project a shared object file (with the extension `.so`) will be created by the {cpp} compiler.
 
 * Executable:
 +
@@ -118,21 +118,21 @@ The build process can be configured to set the build level for the given project
 +
 Only syntactic and semantic checks are carried out on the TTCN-3 and ASN.1 source files.Uses the Makefile target *check*.
 
-* Level 1 – TTCN3 → C++ compilation
+* Level 1 – TTCN3 → {cpp} compilation
 +
-In addition to the syntactic and semantic checks, the C++ code is also generated from the TTCN-3 and ASN.1 source files if there were no errors found.Uses the `Makefile` target *compile*.
+In addition to the syntactic and semantic checks, the {cpp} code is also generated from the TTCN-3 and ASN.1 source files if there were no errors found.Uses the `Makefile` target *compile*.
 
 * Level 2 – Creating object files
 +
-Executes the syntactic and semantic checks, generates the C++ code and tries to compile it into object (`.o`) and if applicable, into shared object (`.so`) files.Uses the `Makefile` target *objects* or *shared_objects*.
+Executes the syntactic and semantic checks, generates the {cpp} code and tries to compile it into object (`.o`) and if applicable, into shared object (`.so`) files.Uses the `Makefile` target *objects* or *shared_objects*.
 
 * Level 2.5 – Creating object files with heuristic dependency update
 +
-Executes the syntactic and semantic checks and generates the C++ code, but before generating the object and if applicable, shared object files it also updates the dependencies of the source codes if this is needed. This means that the long lasting dependency refresh will not be executed if only such files that the on-the-fly analyzer is able to analyze were changed since the last build, and none of the changes made make a dependency refresh mandatory. Uses the `Makefile` targets *objects* or *shared_objects*; or *dep objects* or *dep shared_objects*.
+Executes the syntactic and semantic checks and generates the {cpp} code, but before generating the object and if applicable, shared object files it also updates the dependencies of the source codes if this is needed. This means that the long lasting dependency refresh will not be executed if only such files that the on-the-fly analyzer is able to analyze were changed since the last build, and none of the changes made make a dependency refresh mandatory. Uses the `Makefile` targets *objects* or *shared_objects*; or *dep objects* or *dep shared_objects*.
 
 * Level 3 – Creating object files with dependency update
 +
-Executes the syntactic and semantic checks and generates the C++ code, but before generating the object and if applicable, shared object files it also always updates the dependencies of the source codes. Uses the `Makefile` targets *dep objects* or *dep shared_objects*.
+Executes the syntactic and semantic checks and generates the {cpp} code, but before generating the object and if applicable, shared object files it also always updates the dependencies of the source codes. Uses the `Makefile` targets *dep objects* or *dep shared_objects*.
 
 * Level 4 – Creating Executable Test Suite
 +
@@ -272,7 +272,7 @@ The following files will be deleted from the working directory:
 
 * All object files (files with suffix `.o`) and if applicable, all TITAN generated shared object files (files with suffix `.so`)
 
-* All C++ sources files translated from the original TTCN–3 and or ASN.1 modules
+* All {cpp} sources files translated from the original TTCN–3 and or ASN.1 modules
 
 * The Compile file
 
