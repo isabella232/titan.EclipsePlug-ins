@@ -97,6 +97,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			return null;
 		}
 	};
+	
+	private String name_ = "LegacyLogger";
+	private String help_ = "LegacyLogger";
 
 	private static final ThreadLocal<Boolean> already_warned = new ThreadLocal<Boolean>() {
 		@Override
@@ -116,6 +119,18 @@ public class LegacyLogger implements ILoggerPlugin {
 		skeleton_given_ = false;
 		append_file_ = false;
 		is_configured = false;
+	}
+	
+	public String plugin_name() {
+		return name_;
+	}
+	
+	public String plugin_help() {
+		return help_;
+	}
+	
+	public void set_parameter(final String parameter_name, final String parameter_value) {
+		//Just a place holder.
 	}
 
 	public void log(final TitanLoggerApi.TitanLogEvent event, final boolean log_buffered, final boolean separate_file, final boolean use_emergency_mask) {

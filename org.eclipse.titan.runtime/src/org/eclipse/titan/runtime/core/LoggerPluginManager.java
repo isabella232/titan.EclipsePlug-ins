@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Locale;
@@ -223,7 +224,97 @@ public class LoggerPluginManager {
 	}
 
 	private void apply_parameter(final logging_setting_t logparam) {
-		//FIXME implement
+		if (logparam.pluginId != null && !(logparam.pluginId.length() == 1 &&  !(logparam.pluginId.charAt(0) == '*'))) {
+		    // The parameter refers to a specific plug-in.  If the plug-in is not found the execution will stop.
+			ILoggerPlugin plugin = find_plugin(logparam.pluginId);
+			if (plugin != null) {
+				send_parameter_to_plugin(plugin, logparam);
+			} else {
+				//FIXME:TTCN_Error replace with TTCN_Logger.fatal_error()
+				throw new TtcnError(MessageFormat.format("Logger plug-in with name {0} was not found.", logparam.pluginId));
+			}
+		} else {
+			// The parameter refers to all plug-ins.
+			for (int i = 0; i < plugins_.size(); i++) {
+				send_parameter_to_plugin(plugins_.get(i), logparam);
+			}
+		}
+	}
+	
+	private void send_parameter_to_plugin(final ILoggerPlugin plugin, final logging_setting_t logparam) {
+		switch (logparam.logparam.log_param_selection) {
+		case LP_FILEMASK:
+			TTCN_Logger.set_file_mask(logparam.component, logparam.logparam.logoptions_val);
+			break;
+		case LP_CONSOLEMASK:
+			TTCN_Logger.set_console_mask(logparam.component, logparam.logparam.logoptions_val);
+			break;
+		case LP_LOGFILESIZE:
+			plugin.set_file_size(logparam.logparam.int_val);
+			break;
+		case LP_LOGFILENUMBER:
+			plugin.set_file_number(logparam.logparam.int_val);
+			break;
+		case LP_DISKFULLACTION:
+			plugin.set_disk_full_action(logparam.logparam.disk_full_action_value);
+			break;
+		case LP_LOGFILE:
+			plugin.set_file_name(logparam.logparam.str_val, true);
+			break;
+		case LP_TIMESTAMPFORMAT:
+			TTCN_Logger.set_timestamp_format(logparam.logparam.timestamp_value);
+			break;
+		case LP_SOURCEINFOFORMAT:
+			TTCN_Logger.set_source_info_format(logparam.logparam.source_info_value);
+			break;
+		case LP_APPENDFILE:
+			plugin.set_append_file(logparam.logparam.bool_val);
+			break;
+		case LP_LOGEVENTTYPES:
+			TTCN_Logger.set_log_event_types(logparam.logparam.log_event_types_values);
+			break;
+		case LP_LOGENTITYNAME:
+			//TODO: change log_entity_name to boolean
+			break;
+		case LP_MATCHINGHINTS:
+			TTCN_Logger.set_matching_verbosity(logparam.logparam.matching_verbosity_values);
+			break;
+		case LP_PLUGIN_SPECIFIC:
+			plugin.set_parameter(logparam.logparam.param_name, logparam.logparam.str_val);
+			break;
+		case LP_EMERGENCY:
+			TTCN_Logger.set_emergency_logging(logparam.logparam.emergency_logging);
+			//ring_buffer.set_size() doesn't need
+			break;
+		case LP_EMERGENCYBEHAVIOR:
+			TTCN_Logger.set_emergency_logging_behaviour(logparam.logparam.emergency_logging_behaviour_value);
+			break;
+		case LP_EMERGENCYMASK:
+			TTCN_Logger.set_emergency_logging_mask(logparam.component, logparam.logparam.logoptions_val);
+			break;
+		case LP_EMERGENCYFORFAIL:
+			TTCN_Logger.set_emergency_logging_for_fail_verdict(logparam.logparam.bool_val);
+			break;
+		default:
+			break;
+		}
+	}
+	
+	public void clear_param_list() {
+		//FIXME implement	
+	}
+	
+	public ILoggerPlugin find_plugin(final String name) {
+		if (name == null) {
+			//TODO: throw an error
+		}
+		for (int i = 0; i < plugins_.size(); i++) {
+			String plugin_name = plugins_.get(i).plugin_name();
+			if ((plugin_name != null) && (name == plugin_name)) {
+				return plugins_.get(i);
+			}
+		}
+		return null;
 	}
 
 	public boolean plugins_ready() {

@@ -23,4 +23,7 @@ public interface ILoggerPlugin {
 	void open_file(final boolean is_first);
 	void close_file();
 	boolean is_configured();
+	void set_parameter(final String parameter_name, final String parameter_value);
+	String plugin_name();
+	String plugin_help();
 }
