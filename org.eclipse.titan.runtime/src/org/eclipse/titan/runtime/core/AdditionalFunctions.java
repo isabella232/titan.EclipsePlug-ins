@@ -635,37 +635,37 @@ public final class AdditionalFunctions {
 			return new TitanCharString("<unknown>");
 		}
 
-		int i, j = 0;
+		int i = 0;
 		final int length = encoded_value.lengthOf().getInt();
 		final char[] strptr = encoded_value.getValue();
 
 		if(length >= 2) {
 			switch (strptr[0] & 0xFF) {
 			case 0xef:
-				for (i = 1, j = 1; UTF8_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF8_BOM.length && j < strptr.length;) {};
+				for (i = 1; i < UTF8_BOM.length && i < strptr.length && UTF8_BOM[i] == (strptr[i] & 0xFF); i++) {};
 				if (i == UTF8_BOM.length && UTF8_BOM.length <= length) {
 					return new TitanCharString("UTF-8");
 				}
 				break;
 			case 0xfe:
-				for (i = 1, j = 1; UTF16BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16BE_BOM.length && j < strptr.length;) {};
+				for (i = 1; i < UTF16BE_BOM.length && i < strptr.length && UTF16BE_BOM[i] == (strptr[i] & 0xFF); i++) {};
 				if (i == UTF16BE_BOM.length && UTF16BE_BOM.length <= length) {
 					return new TitanCharString("UTF-16BE");
 				}
 				break;
 			case 0xff:
-				for (i = 1, j = 1; UTF32LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32LE_BOM.length && j < strptr.length;) {};
+				for (i = 1; i < UTF32LE_BOM.length && i < strptr.length && UTF32LE_BOM[i] == (strptr[i] & 0xFF); i++) {};
 				if (i == UTF32LE_BOM.length && UTF32LE_BOM.length <= length) {
 					return new TitanCharString("UTF-32LE");
 				}
-				for (i = 1, j = 1; UTF16LE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF16LE_BOM.length && j < strptr.length;) {};
 
+				for (i = 1; i < UTF16LE_BOM.length && i < strptr.length && UTF16LE_BOM[i] == (strptr[i] & 0xFF); i++) {};
 				if (i == UTF16LE_BOM.length && UTF16LE_BOM.length <= length) {
 					return new TitanCharString("UTF-16LE");
 				}
 				break;
 			case 0x00:
-				for (i = 1, j = 1; UTF32BE_BOM[i++] == (strptr[j++] & 0xFF) && i < UTF32BE_BOM.length && j < strptr.length;) {};
+				for (i = 1; i < UTF32BE_BOM.length && i < strptr.length && UTF32BE_BOM[i] == (strptr[i] & 0xFF); i++) {};
 				if (i == UTF32BE_BOM.length && UTF32BE_BOM.length <= length) {
 					return new TitanCharString("UTF-32BE");
 				}
@@ -794,7 +794,8 @@ public final class AdditionalFunctions {
 		int bits = 0;
 		int n_bits = 0;
 
-		while (chars_left-- > 0) {
+		while (chars_left > 0) {
+			chars_left--;
 			if (p_b64[b64Pos] > 0 && decode_table[p_b64[b64Pos]] < 64) {
 				bits <<= 6;
 				bits |= decode_table[p_b64[b64Pos]];
