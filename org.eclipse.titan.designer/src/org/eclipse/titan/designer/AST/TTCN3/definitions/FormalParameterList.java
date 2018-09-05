@@ -1205,7 +1205,7 @@ public class FormalParameterList extends TTCN3Scope implements ILocateableNode, 
 	/**
 	 * Generate code for actual parameter list with the provided prefix.
 	 *
-	 * @param prefix teh prefix to use
+	 * @param prefix the prefix to use
 	 *
 	 * originally: generate_code_actual_parlist
 	 * */
