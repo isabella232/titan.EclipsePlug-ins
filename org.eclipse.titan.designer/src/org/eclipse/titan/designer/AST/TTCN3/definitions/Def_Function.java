@@ -1230,7 +1230,12 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			}
 
 			startFunction.append("TTCN_Runtime.function_started(function_arguments);\n");
-			final StringBuilder actualParList = formalParList.generateCodeActualParlist("");
+			StringBuilder actualParList;
+			if (formalParList == null) {
+				actualParList = new StringBuilder();
+			} else {
+				actualParList = formalParList.generateCodeActualParlist("");
+			}
 			boolean returnValueKept = false;
 			if (assignmentType == Assignment_type.A_FUNCTION_RVAL) {
 				IType t = returnType;
