@@ -1169,10 +1169,11 @@ public class TTCN_Buffer {
 	/** Mark the start of extension bit processing during encoding. 
 	 * @param p_reverse*/
 	public void start_ext_bit(final boolean p_reverse) {
-		if (ext_level++ == 0) {
+		if (ext_level == 0) {
 			start_of_ext_bit = buf_len;
 			ext_bit_reverse = p_reverse;
 		}
+		ext_level++;
 	}
 
 	/** Apply the extension bit to the encoded bytes. */
@@ -1181,7 +1182,8 @@ public class TTCN_Buffer {
 			TTCN_EncDec_ErrorContext.error_internal("TTCN_Buffer::stop_ext_bit() was called without start_ext_bit().");
 		}
 
-		if (--ext_level == 0) {
+		--ext_level;
+		if (ext_level == 0) {
 			final int one = current_bitorder ? 0x01 : 0x80;
 			final int zero = ~one;
 

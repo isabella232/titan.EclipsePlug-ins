@@ -103,7 +103,8 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			int patternValue = octetDigit1(patternString.charAt(i));
 			if (patternValue < 16) {
 				// there is an other digit, which is not ? or *
-				if (++i == patternLength) {
+				++i;
+				if (i == patternLength) {
 					throw new TtcnError("Internal error: last octet is incomplete.");
 				}
 				patternValue *= 16;
