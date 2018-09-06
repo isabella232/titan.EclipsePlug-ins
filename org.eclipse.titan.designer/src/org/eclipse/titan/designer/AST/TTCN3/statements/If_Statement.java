@@ -313,7 +313,6 @@ public final class If_Statement extends Statement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
-		//TODO this is just a simplified version to enable early performance testing
 		final AtomicInteger blockCount = new AtomicInteger(0);
 		final AtomicBoolean unReachable = new AtomicBoolean(false);
 		final AtomicBoolean eachFalse = new AtomicBoolean(true);
