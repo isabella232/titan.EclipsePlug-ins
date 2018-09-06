@@ -312,8 +312,6 @@ public final class If_Clause extends ASTNode implements ILocateableNode, IIncrem
 	 * @param blockCount the number of block already created
 	 * @param unReachable tells whether this branch is already unreachable because of previous conditions
 	 * @param eachFalse true if the branches so far all evaluated to a false condition in compile time.
-	 *
-	 * TODO: if we can generate "else if" -s the blockCount is not needed
 	 */
 	public void generateCode( final JavaGenData aData, final StringBuilder source, final AtomicInteger blockCount, final AtomicBoolean unReachable, final AtomicBoolean eachFalse) {
 		if (unReachable.get()) {
