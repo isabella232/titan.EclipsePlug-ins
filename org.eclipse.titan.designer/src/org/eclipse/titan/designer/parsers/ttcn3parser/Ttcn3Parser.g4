@@ -5539,14 +5539,22 @@ pr_AssignmentList returns[Parameter_Assignments parameterAssignments]
 pr_VariableAssignment returns[Parameter_Assignment param_assignment]
 @init {
 	$param_assignment = null;
+	Value string_encoding = null;
+	boolean is_decoded = false;
 }:
 (	r = pr_VariableRef
 	pr_AssignmentChar
-	pr_DecodedModifier?
+	(	enc = pr_DecodedModifier
+		{
+			string_encoding = $enc.value;
+			is_decoded = $enc.is_decoded;
+		}
+	)?
 	i = pr_Identifier
 )
 {
-	$param_assignment = new Parameter_Assignment($r.reference, $i.identifier);
+	if (!is_decoded) $param_assignment = new Parameter_Assignment($r.reference, $i.identifier);
+	else $param_assignment = new Parameter_Assignment($r.reference, $i.identifier, string_encoding);
 	$param_assignment.setLocation(getLocation( $r.start, $i.stop));
 };
 
@@ -8434,14 +8442,21 @@ pr_OptLazyOrFuzzyModifier returns[ parameterEvaluationType eval ]
 )
 ;
 
-pr_DecodedModifier:
+pr_DecodedModifier returns[Value value, boolean is_decoded]
+@init{
+	$value = null;
+}:
 	d = DECODEDKEYWORD
 	(	pr_LParen
-		v = pr_SingleExpression	//TODO: handle value: $v.value
+		v = pr_SingleExpression
+		{
+			$value = $v.value;
+			$is_decoded = true;
+		}	
 		pr_RParen
 	)?
 {
-	reportWarning( "Modifier `@decoded' is not yet supported.", $start, getStopToken() );
+	//reportWarning( "Modifier `@decoded' is not yet supported."+value, $start, getStopToken() );
 };
 
 pr_DeterministicModifier:

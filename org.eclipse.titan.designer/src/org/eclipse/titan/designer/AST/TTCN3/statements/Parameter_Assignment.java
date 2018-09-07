@@ -19,6 +19,7 @@ import org.eclipse.titan.designer.AST.Reference;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.TTCN3.IIncrementallyUpdateable;
 import org.eclipse.titan.designer.parsers.ttcn3parser.ReParseException;
 import org.eclipse.titan.designer.parsers.ttcn3parser.TTCN3ReparseUpdater;
@@ -32,12 +33,26 @@ public final class Parameter_Assignment extends ASTNode implements ILocateableNo
 	private final Reference reference;
 	private final Identifier identifier;
 	//FIXME add support for @decoded modifier
+	private final Value encoding;
+	private boolean is_decoded ;
 
 	private Location location = NULL_Location.INSTANCE;
 
 	public Parameter_Assignment(final Reference reference, final Identifier identifier) {
 		this.reference = reference;
 		this.identifier = identifier;
+		this.encoding = null;
+
+		if (reference != null) {
+			reference.setFullNameParent(this);
+		}
+	}
+	
+	public Parameter_Assignment(final Reference reference, final Identifier identifier, final Value string_encoding) {
+		this.reference = reference;
+		this.identifier = identifier;
+		this.encoding = string_encoding;
+		this.is_decoded = true;
 
 		if (reference != null) {
 			reference.setFullNameParent(this);
