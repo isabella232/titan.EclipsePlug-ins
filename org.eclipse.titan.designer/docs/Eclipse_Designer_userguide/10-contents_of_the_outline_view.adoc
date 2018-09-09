@@ -61,5 +61,4 @@ Hide types (image:images/icon_03.png[filter_03])
 image::images/10_F112.png[title="Outline view icons for TTCN-3 and ASN.1"]
 Pitfalls
 
-NOTE: As long we have to re-parse the whole TTCN-3 and ASN.1 modules on a change the outline view will always have to reinitialize all of its contents. This means, that all structures actually open at such a change will b closed (in fact the old structure will be deleted and a new will be created).
-
+NOTE: As long we have to re-parse the whole TTCN-3 and ASN.1 modules on a change the outline view will always have to reinitialize all of its contents. This means, that all structures actually open at such a change will be closed (in fact the old structure will be deleted and a new will be created).

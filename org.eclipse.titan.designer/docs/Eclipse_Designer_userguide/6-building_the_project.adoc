@@ -116,15 +116,15 @@ The build process can be configured to set the build level for the given project
 
 * Level 0 – Semantic Check
 +
-Only syntactic and semantic checks are carried out on the TTCN-3 and ASN.1 source files.Uses the Makefile target *check*.
+Only syntactic and semantic checks are carried out on the TTCN-3 and ASN.1 source files. Uses the Makefile target *check*.
 
 * Level 1 – TTCN3 → {cpp} compilation
 +
-In addition to the syntactic and semantic checks, the {cpp} code is also generated from the TTCN-3 and ASN.1 source files if there were no errors found.Uses the `Makefile` target *compile*.
+In addition to the syntactic and semantic checks, the {cpp} code is also generated from the TTCN-3 and ASN.1 source files if there were no errors found. Uses the `Makefile` target *compile*.
 
 * Level 2 – Creating object files
 +
-Executes the syntactic and semantic checks, generates the {cpp} code and tries to compile it into object (`.o`) and if applicable, into shared object (`.so`) files.Uses the `Makefile` target *objects* or *shared_objects*.
+Executes the syntactic and semantic checks, generates the {cpp} code and tries to compile it into object (`.o`) and if applicable, into shared object (`.so`) files. Uses the `Makefile` target *objects* or *shared_objects*.
 
 * Level 2.5 – Creating object files with heuristic dependency update
 +
@@ -140,7 +140,7 @@ Carries out a full build and creates the Executable Test Suite, but the dependen
 
 * Level 4.5 – Creating Executable Test Suite with heuristic dependency update
 +
-Carries out a full build, creates the Executable Test Suite and the dependencies are also updated if that is needed. This means that the long lasting dependency refresh will not be executed if only such files that the on-the-fly analyzer is able to analyze were changed since the last build, and none of the changes made make a dependency refresh mandatory.Uses the `Makefile` target *all* or *dep all*.
+Carries out a full build, creates the Executable Test Suite and the dependencies are also updated if that is needed. This means that the long lasting dependency refresh will not be executed if only such files that the on-the-fly analyzer is able to analyze were changed since the last build, and none of the changes made make a dependency refresh mandatory. Uses the `Makefile` target *all* or *dep all*.
 
 * Level 5 – Creating Executable Test Suite with dependency update
 +

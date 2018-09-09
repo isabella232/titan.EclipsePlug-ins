@@ -319,7 +319,7 @@ Both options will be applied the *CXXFLAGS* macro.
 +
 NOTE: The *–Wall* option is not displayed here, but is generated into the `Makefile`. It is required for proper operation.
 +
-For more information on the optimization flags please refer to the documentation of your C/{cpp} compiler. In case of the default C/{cpp} compiler *g++* is the manual pages of *g++* (invoked with the *man g++* command line command).
+For more information on the optimization flags please refer to the documentation of your C/{cpp} compiler. In case of the default C/{cpp} compiler g\++ is the manual pages of g++ (invoked with the *man g++* command line command).
 
 . Platform Specific Libraries
 +
@@ -429,7 +429,7 @@ NOTE: It is suggested to switch off checking the naming convention because it si
 
 image::images/4_F55.png[title="Requirements on the actual configuration of referenced projects"]
 
-On this page it is possible to set for each project, directly referenced by the actual one, a requirement on its actual configuration. If the actual configuration on the given project is not the same as the required one it will cause a build error.This way it is possible to have fairly large project hierarchies, while still being able to consistently support build configuration for each project.
+On this page it is possible to set for each project, directly referenced by the actual one, a requirement on its actual configuration. If the actual configuration on the given project is not the same as the required one it will cause a build error. This way it is possible to have fairly large project hierarchies, while still being able to consistently support build configuration for each project.
 
 To change the requirement for a project either *select it* in the list and click on the *Edit…* button, or *double click on it* in the list.
 
@@ -457,7 +457,7 @@ image::images/4_F57.png[title="Remote build attributes"]
 
 On this property page one or more hosts can be chosen to build the project remotely. The modalities of the remote build process on these hosts are also set.
 
-To set the project properties for remote build first *right click* the project and select *Properties* than select *Remote build* on the left pane(Figure 57). (If *Remote build* is missing from the left pane, *left click* the *⊞* sign next to the *TITAN Project Property*; see Figure 52.)
+To set the project properties for remote build first *right click* the project and select *Properties* than select *Remote build* on the left pane(Figure 57). (If *Remote build* is missing from the left pane, *left click* the triangle sign next to the *TITAN Project Property*; see Figure 52.)
 
 The checkbox *Execute the build commands in parallel* controls how the provided build commands should be executed.
 
@@ -541,7 +541,7 @@ To access the Pop-up menu (the second alternative), *right click* the folderand 
 [[converting-a-folder-into-a-central-storage]]
 == Converting a Folder into a Central Storage
 
-A folder marked as Central Storage is assumed to have its own `Makefile`. For this reason, when this property of a directory is toggled, the `Makefile` and the symbolic links are updated (provided that automatic `Makefile` management is enabled for the project). For description of the Central Storage concept, please to refer to the TITAN User Guide (<<12-references.adoc#_3, [3]>>), section 11.3.1.
+A folder marked as Central Storage is assumed to have its own `Makefile`. For this reason, when this property of a directory is toggled, the `Makefile` and the symbolic links are updated (provided that automatic `Makefile` management is enabled for the project). For description of the Central Storage concept, please refer to the TITAN User Guide (<<12-references.adoc#_3, [3]>>), section 11.3.1.
 
 A directory’s Central storage property can be toggled the following way:
 
@@ -612,7 +612,7 @@ image::images/4_F67.png[title="Import Archive file wizard"]
 To import a project from an existing mctr_gui project file follow the steps described below:
 
 . *Right click* somewhere in *Project Explorer* and select *Import*, as shown on Figure 63.
- .On the *Import* window select *TITAN / Project from .prj file* and press *next* (below).
+ On the *Import* window select *TITAN / Project from .prj file* and press *next* (below).
 +
 image::images/4_F68.png[title="Import from .prj file"]
 
@@ -646,7 +646,7 @@ image::images/4_F72.png[title=""]
 . In The Import File system dialog select *Browse* near to field *``From directory''* (as seen below) then find and select the src folder of the project to be imported.
 +
 image::images/4_F73.png[title=""]
-. Click on the button "*Advanced>>>*" in the "Import file system" dialog, select the options "*Create link in workspace*" an unselect options "*create virtual folders*" and "*create link locations relative to:*" as shown on below.
+. Click on the button "*Advanced>>*" in the "Import file system" dialog, select the options "*Create link in workspace*" an unselect options "*create virtual folders*" and "*create link locations relative to:*" as shown on below.
 +
 image::images/4_F74.png[title=""]
 . Push Finish. The src folder appears under the project name in the Project Explorer as linked resource (the icon before the src contains a little link arrow) as shown below.

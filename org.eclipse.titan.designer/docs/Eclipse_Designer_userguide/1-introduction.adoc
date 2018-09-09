@@ -50,9 +50,9 @@ The following information should be included into trouble reports:
 
 * If the problem generates some output to:
 
-* TITAN Console
+** TITAN Console
 
-* TITAN Debug Console
+** TITAN Debug Console
 
 * If the Error view contains some related information, that should be copied too.
 

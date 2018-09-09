@@ -253,7 +253,7 @@ Only data gathered and stored by the on-the-fly parsers can be offered. If this 
 
 Open Declaration provides a feature to jump to the declaration point of the selected element.
 
-Open Declaration can be invoked either by a key combination (by default *F3*) or by *right clicking* anywhere on the screenand selecting *Open Declaration*. The element is determined by the current position of the cursor when the functionality is invoked.
+Open Declaration can be invoked either by a key combination (by default *F3*) or by *right clicking* anywhere on the screen and selecting *Open Declaration*. The element is determined by the current position of the cursor when the functionality is invoked.
 
 The search for the declaration is done this order:
 
@@ -307,7 +307,7 @@ It is not always guaranteed that all references to the selected element will be 
 [[mark-occurrences-1]]
 == Mark Occurrences
 
-The TTCN3 and ASN.1 editors are able to highlight the occurrences of the currently selected element in the source code. The search for the occurrences is based on semantic information (see <<find-references, here>>). As the selection or the position of the cursor changes in the editor, the marks are updated automatically. The feature can be configured on the TITAN Preference page (see <<3-setting_workbench_preferences.adoc#mark-occurrences-0, here>>).
+The TTCN-3 and ASN.1 editors are able to highlight the occurrences of the currently selected element in the source code. The search for the occurrences is based on semantic information (see <<find-references, here>>). As the selection or the position of the cursor changes in the editor, the marks are updated automatically. The feature can be configured on the TITAN Preference page (see <<3-setting_workbench_preferences.adoc#mark-occurrences-0, here>>).
 
 [[limitations-1]]
 === Limitations
@@ -386,7 +386,7 @@ Changes made to the parameters must be saved by the shortcut key *Ctrl+S*.
 
 The values of all parameters on this page are passed to test ports.
 
-A new parameter can be added by clicking the *Add…* button. The column *Component name* contains the name of the component defining the test port. An asterisk (*) denotes all ports of the Test System Interface. The column *Test port name* is the name of the test port. The column *Parameter name* is self-explanatory. The value of the parameter is determined by the string in the pane *Test port parameter details* in free form as parameters may have different formats.
+A new parameter can be added by clicking the *Add…* button. The column *Component name* contains the name of the component defining the test port. An asterisk (\*) denotes all ports of the Test System Interface. The column *Test port name* is the name of the test port. The column *Parameter name* is self-explanatory. The value of the parameter is determined by the string in the pane *Test port parameter details* in free form as parameters may have different formats.
 
 Highlighted existing parameters are removed by clicking the *Remove* button.
 
@@ -499,7 +499,7 @@ The field *Total* under the buttons shows the number of the defined macros.
 
 The executable test program produces a log file during its run. The log file contains important test execution events with time stamps. Logging may be directed to file or displayed on console (standard error). This section explains how to set the parameters connected to the log file.
 
-image::images/7_F101.jpg[title="Figure Logging"]
+image::images/7_F101.jpg[title="Logging"]
 
 
 ==== Components and Plug-ins

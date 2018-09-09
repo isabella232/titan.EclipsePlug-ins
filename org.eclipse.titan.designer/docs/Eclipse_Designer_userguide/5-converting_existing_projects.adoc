@@ -81,7 +81,7 @@ If done from Eclipse one just has to create a new project, setting the location 
 
 If it is needed to perform this step from the command line, one needs to place a default ".project" and ".TITAN_properties" file in the base folder of this project.
 
-In the ""project" the name of the project has to be set. Eclipse should be able to import the project and all further configurations can be done from there.
+In the "project" the name of the project has to be set. Eclipse should be able to import the project and all further configurations can be done from there.
 
 === Large Project Sets Consisting of Several Included Projects or Logically Separate Parts
 
@@ -106,7 +106,7 @@ image::images/5_F82.png[title="Two large projects"]
 
 If the project uses central storage folders there are two good solutions possible:
 
-* If it is possible these cases should be solved by converting the central storage relation into a referencing relation between 2 projects.As such the folder declared to be a central storage should be converted into a project on its own, and the original project should be set to reference this project. For more information, please refer to section 4.6.
+* If it is possible these cases should be solved by converting the central storage relation into a referencing relation between 2 projects. As such the folder declared to be a central storage should be converted into a project on its own, and the original project should be set to reference this project. For more information, please refer to section 4.6.
 
 * A second solution is to create a folder in the project for each such reference and set it as central storage. It is recommended to do this change from Eclipse by a single right click on the folder. If this has to be done from the command line, the ".TITAN_properties" file’s "FolderProperties" section has to be extended with the following code:
 
