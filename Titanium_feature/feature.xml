@@ -10,11 +10,11 @@
 <feature
       id="Titanium"
       label="Titanium_Feature"
-      version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+      version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
-      CRL 113 200/6 R4A (6.4.pl0) version of the Titanium plug-in.
+      CRL 113 200/6 R5A (6.5.pl0) version of the Titanium plug-in.
    </description>
 
    <copyright>

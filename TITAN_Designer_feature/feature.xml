@@ -10,11 +10,11 @@
 <feature
       id="TITAN_Designer"
       label="TITAN_Designer_Feature"
-      version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+      version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
       provider-name="Eclipse Titan Project">
 
    <description url="https://www.eclipse.org/downloads/download.php?file=/titan/TitanDocuments.tgz">
-      CRL 113 200/6 R4A (6.4.pl0) version of the TITAN Designer plug-in.
+      CRL 113 200/6 R5A (6.5.pl0) version of the TITAN Designer plug-in.
    </description>
 
    <copyright>
@@ -22,7 +22,7 @@
 * Copyright (c) 2000-2018 Ericsson Telecom AB
 * All rights reserved. This program and the accompanying materials
 * are made available under the terms of the Eclipse Public License
-v1.0
+v2.0
 * which accompanies this distribution, and is available at
 * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
 *
@@ -33,12 +33,16 @@ and implementation
 *     Akos Cserveni (Ericsson) - Basic AST in compiler, semantic
 checking
 *     Gabor Szalai (Ericsson) – RAW and TEXT codecs
-*     Matyas Forstner (Ericsson) - ASN.1 extension of the compiler and BER/CER/DER codecs
-*     Kristof Szabados  (Ericsson) - Eclipse Designer, Executor, Titanium UIs
+*     Matyas Forstner (Ericsson) - ASN.1 extension of the compiler
+and BER/CER/DER codecs
+*     Kristof Szabados  (Ericsson) - Eclipse Designer, Executor,
+Titanium UIs
 *     Szabolcs Beres (Ericsson) - Eclipse LogViewer
-*     Ferenc Kovacs (Ericsson) – log interfaces, big number support, subtype checking
+*     Ferenc Kovacs (Ericsson) – log interfaces, big number support,
+subtype checking
 *     Csaba Raduly (Ericsson) – ASN.1 additions, XML encoder/decoder
-*     Adam Delic (Ericsson) – template restrictions, try and catch, support of pre-processor directives in Eclipse
+*     Adam Delic (Ericsson) – template restrictions, try and
+catch, support of pre-processor directives in Eclipse
 *     Krisztian Pandi (Ericsson) – import of imports
 *     Peter Dimitrov (Ericsson)- maintenance
 *     Balazs Andor Zalanyi (Ericsson) – code splitting
@@ -49,7 +53,8 @@ checking
 *     Szabolcs Beres (Ericsson) - Eclipse LogViever
 *     Matyas Ormandi (Ericsson) - maintenance 
 *     Botond Baranyi (Ericsson) - JSON encoder
-*     Arpad Lovassy (Ericsson) - Java Executor API, parser, config file editor
+*     Arpad Lovassy (Ericsson) - Java Executor API, parser, config
+file editor
 *     Laszlo Baji (Ericsson) - maintenance
 *     Marton Godar (Ericsson) - xsd2ttcn converter
 *******************************************************************************/
@@ -158,21 +163,21 @@ This Agreement is governed by the laws of the State of New York and the intellec
          id="org.eclipse.titan.designer"
          download-size="3841"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.help"
          download-size="10546"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.titan.common"
          download-size="532"
          install-size="0"
-         version="6.4.0.CRL_113_200_6_R4A_20180417-1100"
+         version="6.5.0.CRL_113_200_6_R5A_20180910-1100"
          unpack="false"/>
 
 </feature>
