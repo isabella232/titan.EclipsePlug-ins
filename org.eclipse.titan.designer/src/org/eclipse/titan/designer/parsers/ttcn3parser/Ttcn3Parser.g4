@@ -5553,8 +5553,11 @@ pr_VariableAssignment returns[Parameter_Assignment param_assignment]
 	i = pr_Identifier
 )
 {
-	if (!is_decoded) $param_assignment = new Parameter_Assignment($r.reference, $i.identifier);
-	else $param_assignment = new Parameter_Assignment($r.reference, $i.identifier, string_encoding);
+	if (is_decoded) {
+		 $param_assignment = new Parameter_Assignment($r.reference, $i.identifier, string_encoding);
+	} else {
+		$param_assignment = new Parameter_Assignment($r.reference, $i.identifier);
+	}
 	$param_assignment.setLocation(getLocation( $r.start, $i.stop));
 };
 
