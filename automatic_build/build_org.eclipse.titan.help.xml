@@ -23,15 +23,35 @@
 		</jar>
 	</target>
 
-	<target name="check.doc2pdf.jar">
-		<available file="${doc2pdf.jar}" property="doc2pdf.jar.present"/>
-		<echo message="${doc2pdf.jar} file present? ${doc2pdf.jar.present}" />
+	<target name="check.asciidoctor">
+		<property environment="env" /> 
+		<available file="asciidoctor-pdf" filepath="${env.PATH}" property="asciidoctor.present"/>
 	</target>
 
-	<target name="build.pdf" depends="check.doc2pdf.jar" if="doc2pdf.jar.present">
-		<build.usrguide usrguide.dir="${usrguide.eclipse.titanium.dir}"/>
-		<build.usrguide usrguide.dir="${usrguide.eclipse.dir}"/>
-		<build.usrguide usrguide.dir="${usrguide.compiler.dir}"/>
+	<!--
+	  Builds pdf files from the adoc files.
+	  If asciidoctor is available, pdf files are created or build stops with error if something went wrong.
+	  If asciidoctor is NOT available, pdf creation is omitted and build continues without error.
+	-->
+	<target name="build.pdf" depends="check.asciidoctor" if="asciidoctor.present">
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/installationguide/installationguide.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/apiguide/README.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/PRI/PRI.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/referenceguide/ReferenceGuide.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/SoC_XML_TITAN/SoC_XML_TITAN.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/releasenotes/releasenotes.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/SoC_TITAN/SoC_TITAN.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/usrguide/userguide/UserGuide.adoc"/>
+		<build.usrguide usrguide.adoc="${compiler.location}/titan_executor_api/doc/Titan_Executor_API_User_Guide.adoc"/>
+
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titan.designer/docs/Eclipse_Designer_userguide/DesignerUserGuide.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titan.executor/docs/Eclipse_Executor_userguide/ExecutorUserGuide.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titan.help/docs/Eclipse_installationguide/Eclipse_installationguide.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titanium/docs/Titanium_Description/Titanium_Description.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titanium/docs/Titanium_referenceguide/Titanium_referenceguide.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titanium.regressiontests/docs/test_documentation/test_documentation.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titanium.regressiontests/docs/TechnicalDetailsOfCodeSmells/TechnicalDetailsOfCodeSmells.adoc"/>
+		<build.usrguide usrguide.adoc="${usrguide.eclipse.dir}/org.eclipse.titanium.refactoring/docs/Titanium_Refactoring_Description/Titanium_Refactoring_Description.adoc"/>
 	</target>
 	
 	<target name="build.standards">
@@ -65,9 +85,9 @@
 	</target>
 
 	<macrodef name="build.usrguide">
-		<attribute name="usrguide.dir"/>
+		<attribute name="usrguide.adoc"/>
 		<sequential>
-			<log message="-> build.usrguide( @{usrguide.dir} )"/>
+			<log message="-> build.usrguide( @{usrguide.adoc} )"/>
 			<condition property="build.help.true">
 				<istrue value="${build.help}" />
 			</condition>
@@ -75,69 +95,45 @@
 			<log message="build.help.true = ${build.help.true}"/>
 			<sequential if:set="build.help.true">
 				<build.usrguide.if.build.help
-					usrguide.dir="@{usrguide.dir}" />
+					usrguide.adoc="@{usrguide.adoc}" />
 			</sequential>
 		</sequential>
 	</macrodef>
 
 	<macrodef name="build.usrguide.if.build.help">
-		<attribute name="usrguide.dir"/>
+		<attribute name="usrguide.adoc"/>
 		<sequential>
-			<log message="-> build.usrguide.if.build.help( @{usrguide.dir} )"/>
-			<echo message="Creating userguide pdfs from dir: @{usrguide.dir}"/>
+			<log message="-> build.usrguide.if.build.help( @{usrguide.adoc} )"/>
+			<echo message="Creating userguide pdf from adoc file: @{usrguide.adoc}"/>
 
-			<fileset id="@{usrguide.dir}.docFiles" dir="@{usrguide.dir}">
-				<include name="*.doc"/>
-			</fileset>
+			<!-- Create pdf file name from doc filename -->
+			<!-- result will be written in ${usrguide.pdf}, the input @{usrguide.adoc} is left untouched -->
+			<local name="usrguide.pdf"/>
+			<exec executable="sed" inputstring="@{usrguide.adoc}" outputproperty="usrguide.pdf">
+				<arg value="s/\.adoc$/\.pdf/g"/>
+			</exec>
+			<log message="usrguide.adoc = @{usrguide.adoc}"/>
+			<log message="usrguide.pdf = ${usrguide.pdf}"/>
 
-			<pathconvert property="@{usrguide.dir}.usrguide.list" refid="@{usrguide.dir}.docFiles" targetos="unix"/>
-			<log message="usrguide.dir.usrguide.list = ${@{usrguide.dir}.usrguide.list}"/>
+			<adoc2pdf adocFile="@{usrguide.adoc}" />
 
-			<sequential unless:blank="${@{usrguide.dir}.usrguide.list}">
-				<iterate list="${@{usrguide.dir}.usrguide.list}">
-					<convert.pdf docFile="${element}" />
-				</iterate>
-			</sequential>
-
-			<copy todir="${build.dir}/${help.name}/docs">
-				<fileset dir="@{usrguide.dir}">
-					<include name="*.pdf"/>
-				</fileset>
-			</copy>
+			<copy file="${usrguide.pdf}" todir="${build.dir}/${help.name}/docs"/>
 		</sequential>
 	</macrodef>
 
 	<!--
-	    Converts doc file to pdf, new file is created in the same directory
-            @param docFile the doc filename with full path
+	    Converts adoc file to pdf, new file is created in the same directory
+            @param adocFile the adoc filename with full path
 	-->
-	<macrodef name="convert.pdf">
-		<attribute name="docFile"/>
+	<macrodef name="adoc2pdf">
+		<attribute name="adocFile"/>
 		<sequential>
-			<log message="-> convert.pdf( @{docFile} )"/>
-			<!-- Create pdf file name from doc filename -->
-			<!-- result will be written in ${@{docFile}.pdfFile}, the input @{docFile} is left untouched -->
-			<exec executable="sed" inputstring="@{docFile}" outputproperty="@{docFile}.pdfFile">
-				<arg value="s/\.doc$/\.pdf/g"/>
+			<log message="-> adoc2pdf( @{adocFile} )"/>
+			<exec executable="asciidoctor-pdf">
+				<arg value="--attribute"/>
+				<arg value="skip-front-matter"/>
+				<arg value="@{adocFile}"/>
 			</exec>
-			<log message="docFile = @{docFile}"/>
-			<log message="docFile.pdfFile = ${@{docFile}.pdfFile}"/>
-			<!--
-				Set this option below to mark build as failed, if the doc2pdf comes back with an error message:
-				jvm="${java6}" failonerror="true">
-			-->
-			<!-- Comment out for debug purposes, it is very slow -->
-			<java jar="${doc2pdf.jar}" timeout="180000" fork="true"
-				jvm="${java6}" failonerror="false">
-				<arg value="@{docFile}"/>
-				<arg value="${@{docFile}.pdfFile}"/>
-			</java>
-			<!-- Keep it for debug purposes,
-			     copying doc to pdf is a simple way to have pdf
-			     if pdf conversion is commented out -->
-			<!--
-			<copy file="@{docFile}" tofile="${@{docFile}.pdfFile}"/>
-			-->
 		</sequential>
 	</macrodef>
 
