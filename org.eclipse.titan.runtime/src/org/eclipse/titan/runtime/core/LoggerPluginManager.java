@@ -68,6 +68,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
 import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.extcommand_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
 
 /**
  * The logger plugin manager, is responsible for managing all the runtime registered logger plug-ins
@@ -274,7 +275,8 @@ public class LoggerPluginManager {
 			TTCN_Logger.set_log_event_types(logparam.logparam.log_event_types_values);
 			break;
 		case LP_LOGENTITYNAME:
-			//TODO: change log_entity_name to boolean
+			//TODO: log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES never be 
+			TTCN_Logger.set_log_entity_name(logparam.logparam.bool_val ? log_event_types_t.LOGEVENTTYPES_YES : log_event_types_t.LOGEVENTTYPES_NO);
 			break;
 		case LP_MATCHINGHINTS:
 			TTCN_Logger.set_matching_verbosity(logparam.logparam.matching_verbosity_values);
@@ -301,7 +303,13 @@ public class LoggerPluginManager {
 	}
 	
 	public void clear_param_list() {
-		//FIXME implement	
+		logparams = null;
+		logparams = new ArrayList<logging_setting_t>();
+	}
+	
+	public void clear_plugin_list() {
+		plugins_ = null;
+		plugins_ = new ArrayList<ILoggerPlugin>();
 	}
 	
 	public ILoggerPlugin find_plugin(final String name) {
