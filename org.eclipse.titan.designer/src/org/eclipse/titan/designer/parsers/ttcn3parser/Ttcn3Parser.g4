@@ -1516,10 +1516,13 @@ pr_MessageListIn[PortTypeBody body]:
 	t = pr_AllOrTypeList{ $body.addInTypes($t.types); }
 	(	pr_FromKeyword
 		mtl = pr_MessageListFromAttributeList
-		{	final IType type = $t.types.get($t.types.size() - 1);
-			final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
-			typeMapping.setLocation(getLocation($t.start, $mtl.stop));
-			$body.addInMapping( typeMapping );
+		{
+			if ($t.types != null)  {
+				final IType type = $t.types.get($t.types.size() - 1);
+				final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
+				typeMapping.setLocation(getLocation($t.start, $mtl.stop));
+				$body.addInMapping( typeMapping );
+			}
 		}
 	)?
 ;
@@ -1528,10 +1531,13 @@ pr_MessageListOut[PortTypeBody body]:
 	t = pr_AllOrTypeList{ $body.addOutTypes($t.types); }
 	(	pr_ToKeyword
 		mtl = pr_MessageListToAttributeList
-		{	final IType type = $t.types.get($t.types.size() - 1);
-			final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
-			typeMapping.setLocation(getLocation($t.start, $mtl.stop));
-			$body.addOutMapping( typeMapping );
+		{
+			if ($t.types != null) {	
+				final IType type = $t.types.get($t.types.size() - 1);
+				final TypeMapping typeMapping = new TypeMapping( (Type)type, $mtl.mappingTargetList );
+				typeMapping.setLocation(getLocation($t.start, $mtl.stop));
+				$body.addOutMapping( typeMapping );
+			}
 		}
 	)?
 ;
@@ -1544,9 +1550,18 @@ pr_MessageListFromAttributeList returns[TypeMappingTargets mappingTargetList]
 @init {
 	$mappingTargetList = new TypeMappingTargets();
 }:
-	mt = pr_MessageListFromAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+	mt = pr_MessageListFromAttribute {
+			if ($mt.mappingTarget != null) { 
+				$mappingTargetList.addMappingTarget( $mt.mappingTarget ); 
+			}
+		}
+		
 	(	pr_Colon
-		mt = pr_MessageListFromAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+		mt = pr_MessageListFromAttribute { 
+			if ($mt.mappingTarget != null) {
+				$mappingTargetList.addMappingTarget( $mt.mappingTarget ); 
+			}
+		}
 	)*
 ;
 
@@ -1565,9 +1580,17 @@ pr_MessageListToAttributeList returns[TypeMappingTargets mappingTargetList]
 @init {
 	$mappingTargetList = new TypeMappingTargets();
 }:
-	mt = pr_MessageListToAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+	mt = pr_MessageListToAttribute {
+		if ($mt.mappingTarget != null) {
+			$mappingTargetList.addMappingTarget( $mt.mappingTarget );
+		}
+	}
 	(	pr_Colon
-		mt = pr_MessageListToAttribute { $mappingTargetList.addMappingTarget( $mt.mappingTarget ); }
+		mt = pr_MessageListToAttribute {
+			if ($mt.mappingTarget != null) {
+				$mappingTargetList.addMappingTarget( $mt.mappingTarget );
+			}
+		}
 	)*
 ;
 
