@@ -49,12 +49,19 @@ public class ChangeCreator {
 
 	//in
 	private final IFile selectedFile;
+	private final Definition defSelection;
 
 	//out
 	private Change change;
 
 	ChangeCreator(final IFile selectedFile) {
 		this.selectedFile = selectedFile;
+		this.defSelection = null;
+	}
+
+	ChangeCreator(final IFile selectedFile, final Definition defSelection) {
+		this.selectedFile = selectedFile;
+		this.defSelection = defSelection;
 	}
 
 	public Change getChange() {
@@ -117,12 +124,16 @@ public class ChangeCreator {
 	 * @return The edit, which contains the proper changes.
 	 * @throws CoreException 
 	 */
-	private static MultiTextEdit runsOnScopeEdit(final TTCN3Module module, IFile toVisit) throws BadLocationException, CoreException {
+	private MultiTextEdit runsOnScopeEdit(final TTCN3Module module, IFile toVisit) throws BadLocationException, CoreException {
 		final MultiTextEdit edit = new MultiTextEdit();
 
 		final Set<Definition> list;
 		final RunsOnComponentVisitor visit = new RunsOnComponentVisitor();
-		module.accept(visit);
+		if (defSelection != null) {
+			defSelection.accept(visit);
+		} else {
+			module.accept(visit);
+		}
 		list = visit.getLocations();
 
 		for (Definition node : list) {
