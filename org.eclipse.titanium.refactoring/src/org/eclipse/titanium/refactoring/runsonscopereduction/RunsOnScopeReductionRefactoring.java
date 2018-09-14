@@ -29,8 +29,10 @@ import org.eclipse.ltk.core.refactoring.CompositeChange;
 import org.eclipse.ltk.core.refactoring.Refactoring;
 import org.eclipse.ltk.core.refactoring.RefactoringStatus;
 import org.eclipse.titan.common.logging.ErrorReporter;
+import org.eclipse.titan.designer.AST.TTCN3.definitions.Definition;
 import org.eclipse.titan.designer.preferences.PreferenceConstants;
 import org.eclipse.titan.designer.productUtilities.ProductConstants;
+import org.eclipse.titanium.refactoring.runsonscopereduction.ChangeCreator;
 
 /**
  * This class represents the 'Runs on scope reduction' refactoring operation.
@@ -47,10 +49,12 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 	private Object[] affectedObjects; // look at creatChange
 	private final IStructuredSelection selection;
 		private final Set<IProject> projects = new HashSet<IProject>();
+		private final Definition defSelection;
 
 	public RunsOnScopeReductionRefactoring(final IStructuredSelection selection) {
 		this.selection = selection; 
-
+		this.defSelection = null;
+		
 		final Iterator<?> it = selection.iterator();
 		while (it.hasNext()) {
 			final Object o = it.next();
@@ -59,6 +63,11 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 				projects.add(temp);
 			}
 		}
+	}
+	
+	public RunsOnScopeReductionRefactoring(final Definition selection) {
+		this.defSelection = selection;
+		this.selection = null;
 	}
 	
 	public Object[] getAffectedObjects() {
@@ -121,24 +130,40 @@ public class RunsOnScopeReductionRefactoring extends Refactoring{
 
 	@Override
 	public Change createChange(IProgressMonitor pm) throws CoreException, OperationCanceledException {
-		if (selection == null) {
-			return null;
-			//FIXME: single definition selected
-		}
-		final CompositeChange cchange = new CompositeChange("RunsOnScopeRefactoring");
-		final Iterator<?> it = selection.iterator();
-		while (it.hasNext()) {
-			final Object o = it.next();
-			if (!(o instanceof IResource)) {
-				continue;
+		if (selection != null) {
+			final CompositeChange cchange = new CompositeChange("RunsOnScopeRefactoring");
+			final Iterator<?> it = selection.iterator();
+			while (it.hasNext()) {
+				final Object o = it.next();
+				if (!(o instanceof IResource)) {
+					continue;
+				}
+				final IResource res = (IResource)o;
+				final ResourceVisitor vis = new ResourceVisitor();
+				res.accept(vis);
+				cchange.add(vis.getChange());
 			}
-			final IResource res = (IResource)o;
-			final ResourceVisitor vis = new ResourceVisitor();
-			res.accept(vis);
-			cchange.add(vis.getChange());
+			affectedObjects = cchange.getAffectedObjects();
+			return cchange;
+		} else {
+			// a single definition selected
+			final CompositeChange cchange = new CompositeChange("RunsOnScopeRefactoring");
+			final IResource file = defSelection.getLocation().getFile();
+			if (!(file instanceof IFile)) {
+				ErrorReporter.logError("RunsOnScopeReductionRefactoring.createChange(): File container of defSelection is not an IFile! ");
+			}
+
+			final ChangeCreator chCreator = new ChangeCreator((IFile)file, defSelection);
+			chCreator.perform();
+			final Change ch = chCreator.getChange();
+			if (ch != null) {
+				cchange.add(ch);
+				this.affectedObjects = ch.getAffectedObjects();
+			} else {
+				this.affectedObjects = new Object[]{};
+			}
+			return cchange;
 		}
-		affectedObjects = cchange.getAffectedObjects();
-		return cchange;
 	}
 
 	public static boolean hasTtcnppFiles(final IResource resource) throws CoreException {
