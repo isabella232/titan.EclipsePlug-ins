@@ -321,7 +321,7 @@ public class LoggerPluginManager {
 
 		for (int i = 0; i < plugins_.size(); i++) {
 			String plugin_name = plugins_.get(i).plugin_name();
-			if ((plugin_name != null) && (name == plugin_name)) {
+			if ((plugin_name != null) && (plugin_name.equals(name))) {
 				return plugins_.get(i);
 			}
 		}
