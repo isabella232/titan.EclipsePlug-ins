@@ -427,7 +427,8 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
+		aSb.append( "\n\t\t@Override\n");
+		aSb.append( "\t\tpublic boolean isBound() {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( "\t\t\tif ( optional_sel.OPTIONAL_OMIT.equals(" );
@@ -452,7 +453,8 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isPresent() {\n" );
+		aSb.append( "\n\t\t@Override\n");
+		aSb.append( "\t\tpublic boolean isPresent() {\n" );
 		aSb.append( "\t\t\t\treturn isBound();\n");
 		aSb.append( "\t\t}\n" );
 	}
@@ -463,7 +465,8 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
+		aSb.append( "\n\t\t@Override\n");
+		aSb.append( "\t\tpublic boolean isValue() {\n" );
 		if ( aNamesList == null || aNamesList.isEmpty() ) {
 			aSb.append( "\t\t\treturn false;\n" +
 					"\t\t}\n" );
@@ -1411,7 +1414,8 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateTemplateIsBound( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isBound() {\n" );
+		aSb.append( "\n\t\t@Override\n");
+		aSb.append( "\t\tpublic boolean isBound() {\n" );
 		aSb.append( "\t\t\tif (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {\n"
 				+ "\t\t\t\treturn false;\n"
 				+ "\t\t\t}\n" );
@@ -1439,7 +1443,8 @@ public class RecordSetCodeGenerator {
 	 * @param aNamesList sequence field variable and type names
 	 */
 	private static void generateTemplateIsValue( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
-		aSb.append( "\n\t\tpublic boolean isValue() {\n" );
+		aSb.append( "\n\t\t@Override\n");
+		aSb.append( "\t\tpublic boolean isValue() {\n" );
 		aSb.append( "\t\t\tif (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n"
 				+ "\t\t\t\treturn false;\n"
 				+ "\t\t\t}\n" );

@@ -271,12 +271,15 @@ public class FunctionReferenceGenerator {
 			break;
 		}
 
+		source.append("@Override\n");
 		source.append("public boolean isBound() {\n");
 		source.append("return referred_function != null;\n");
 		source.append("}\n");
+		source.append("@Override\n");
 		source.append("public boolean isValue() {\n");
 		source.append("return referred_function != null;\n");
 		source.append("}\n");
+		source.append("@Override\n");
 		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n");

@@ -302,6 +302,7 @@ public class UnionGenerator {
 	 * @param source where the source code is to be generated.
 	 * */
 	private static void generateValueIsBound(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public boolean isBound() {\n");
 		source.append("return union_selection != union_selection_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
@@ -314,6 +315,7 @@ public class UnionGenerator {
 	 * @param fieldInfos the list of information about the fields.
 	 * */
 	private static void generateValueIsValue(final StringBuilder source, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
 		source.append("public boolean isValue() {\n");
 		source.append("switch (union_selection) {\n");
 		source.append("case UNBOUND_VALUE:\n");
@@ -336,6 +338,7 @@ public class UnionGenerator {
 	 * @param source where the source code is to be generated.
 	 * */
 	private static void generateValueIsPresent(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");

@@ -489,18 +489,21 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueIsPresent(final StringBuilder source) {
+		source.append("@Override\n");
 		source.append("public boolean isPresent() {\n");
 		source.append("return isBound();\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsBound(final StringBuilder source){
+		source.append("@Override\n");
 		source.append("public boolean isBound() {\n");
 		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
 	}
 
 	private static void generateValueIsValue(final StringBuilder source){
+		source.append("@Override\n");
 		source.append("public boolean isValue() {\n");
 		source.append("return enum_value != enum_type.UNBOUND_VALUE;\n");
 		source.append("}\n\n");
