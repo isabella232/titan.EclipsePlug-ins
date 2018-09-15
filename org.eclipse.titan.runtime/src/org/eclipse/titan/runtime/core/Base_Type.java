@@ -113,8 +113,19 @@ public abstract class Base_Type {
 		//default implementation is intentionally empty
 	}
 
+	/**
+	 * Encodes this value object with Titan's internal encoding and appends it into the provided buffer.
+	 * 
+	 * @param text_buf the buffer to extend with the value's internal encoding.
+	 * */
 	public abstract void encode_text(final Text_Buf text_buf);
 
+	/**
+	 * Decodes from the provided buffer the actual contents of this value.
+	 * Overwriting previous contents.
+	 * 
+	 * @param text_buf the buffer containing the value's internal encoding.
+	 * */
 	public abstract void decode_text(final Text_Buf text_buf);
 
 	// originally flavour is not used for all encodings.
