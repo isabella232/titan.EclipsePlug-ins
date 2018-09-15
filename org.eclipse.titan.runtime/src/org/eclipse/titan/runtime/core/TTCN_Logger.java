@@ -118,7 +118,7 @@ public final class TTCN_Logger {
 		}
 
 		public String describe() {
-			StringBuilder result = new StringBuilder();
+			final StringBuilder result = new StringBuilder();
 			int categ = 1; //skip LOG_NOTHING
 
 			// First check whether the bits that make up LOG_ALL are all set
@@ -134,8 +134,8 @@ public final class TTCN_Logger {
 			}
 
 			for ( ; categ < sev_categories.length; ++categ) {
-				int low_inc = sev_categories[categ - 1].ordinal() + 1;
-				int high_inc = sev_categories[categ].ordinal();
+				final int low_inc = sev_categories[categ - 1].ordinal() + 1;
+				final int high_inc = sev_categories[categ].ordinal();
 
 				boolean allTrue = true;
 				for (int j = low_inc; allTrue && j <= high_inc; j++) {

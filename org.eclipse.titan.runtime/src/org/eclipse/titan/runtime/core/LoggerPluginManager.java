@@ -178,11 +178,11 @@ public class LoggerPluginManager {
 	public boolean add_parameter(final logging_setting_t logging_param) {
 		boolean duplication_warning = false;
 
-		for (logging_setting_t par: logparams) {
-			boolean for_all_components = logging_param.component.id_selector == component_id_selector_enum.COMPONENT_ID_ALL || par.component.id_selector == component_id_selector_enum.COMPONENT_ID_ALL;
-			boolean for_all_plugins = logging_param.pluginId == null || par.pluginId == null || "*".equals(logging_param.pluginId) || "*".equals(par.pluginId);
-			boolean component_overlaps = for_all_components || logging_param.component == par.component;
-			boolean plugin_overlaps = for_all_plugins || ((logging_param.pluginId == null && par.pluginId == null) || (logging_param.pluginId != null && logging_param.pluginId.equals(par.pluginId)));
+		for (final logging_setting_t par: logparams) {
+			final boolean for_all_components = logging_param.component.id_selector == component_id_selector_enum.COMPONENT_ID_ALL || par.component.id_selector == component_id_selector_enum.COMPONENT_ID_ALL;
+			final boolean for_all_plugins = logging_param.pluginId == null || par.pluginId == null || "*".equals(logging_param.pluginId) || "*".equals(par.pluginId);
+			final boolean component_overlaps = for_all_components || logging_param.component == par.component;
+			final boolean plugin_overlaps = for_all_plugins || ((logging_param.pluginId == null && par.pluginId == null) || (logging_param.pluginId != null && logging_param.pluginId.equals(par.pluginId)));
 			boolean parameter_overlaps = logging_param.logparam.log_param_selection == par.logparam.log_param_selection;
 			if (parameter_overlaps && logging_param.logparam.log_param_selection == logging_param_type.LP_PLUGIN_SPECIFIC) {
 				parameter_overlaps = logging_param.logparam.param_name == par.logparam.param_name;
@@ -194,7 +194,7 @@ public class LoggerPluginManager {
 			}
 		}
 
-		logging_setting_t newParam = new logging_setting_t(logging_param);
+		final logging_setting_t newParam = new logging_setting_t(logging_param);
 		logparams.add(newParam);
 
 		return duplication_warning;
@@ -205,7 +205,7 @@ public class LoggerPluginManager {
 			return;
 		}
 
-		for (logging_setting_t par: logparams) {
+		for (final logging_setting_t par: logparams) {
 			switch (par.component.id_selector) {
 			case COMPONENT_ID_NAME:
 				if (component_name != null && component_name.equals(par.component.id_name)) {
@@ -228,8 +228,8 @@ public class LoggerPluginManager {
 
 	private void apply_parameter(final logging_setting_t logparam) {
 		if (logparam.pluginId != null && !(logparam.pluginId.length() == 1 &&  !(logparam.pluginId.charAt(0) == '*'))) {
-		    // The parameter refers to a specific plug-in.  If the plug-in is not found the execution will stop.
-			ILoggerPlugin plugin = find_plugin(logparam.pluginId);
+			// The parameter refers to a specific plug-in.  If the plug-in is not found the execution will stop.
+			final ILoggerPlugin plugin = find_plugin(logparam.pluginId);
 			if (plugin != null) {
 				send_parameter_to_plugin(plugin, logparam);
 			} else {
@@ -320,7 +320,7 @@ public class LoggerPluginManager {
 		}
 
 		for (int i = 0; i < plugins_.size(); i++) {
-			String plugin_name = plugins_.get(i).plugin_name();
+			final String plugin_name = plugins_.get(i).plugin_name();
 			if ((plugin_name != null) && (plugin_name.equals(name))) {
 				return plugins_.get(i);
 			}
@@ -377,7 +377,7 @@ public class LoggerPluginManager {
 			}
 		} else if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 			if (ring_buffer.remainingCapacity() == 0) {
-				TitanLoggerApi.TitanLogEvent ring_event = ring_buffer.poll();
+				final TitanLoggerApi.TitanLogEvent ring_event = ring_buffer.poll();
 				if (ring_event != null) {
 					internal_log_to_all(ring_event, true, false, false);
 				}
