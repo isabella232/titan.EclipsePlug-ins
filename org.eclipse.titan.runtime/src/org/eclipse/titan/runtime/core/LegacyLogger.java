@@ -620,19 +620,22 @@ public class LegacyLogger implements ILoggerPlugin {
 	
 	private boolean log_to_file(final String message_ptr) {
 		boolean is_success = true;
+		final BufferedWriter localWriter = log_file_writer.get();
 		try {
-			log_file_writer.get().write(message_ptr);
+			localWriter.write(message_ptr);
 		} catch (IOException e) {
 			is_success = false;
 		}
+
 		if (is_success) {
 			try {
-				log_file_writer.get().flush();
-				log_file_writer.get().newLine();
+				localWriter.flush();
+				localWriter.newLine();
 			} catch (IOException e) {
 				is_success = false;
 			}
 		}
+
 		return is_success;
 	}
 
