@@ -92,10 +92,10 @@ public class LoggerPluginManager {
 		event_destination_t event_destination;
 		//etc...
 	}
-	
+
 	private static class LogEntry {
 		TitanLoggerApi.TitanLogEvent event_;
-		
+
 		public LogEntry(final TitanLoggerApi.TitanLogEvent event) {
 			event_ = event;
 		}
@@ -144,7 +144,7 @@ public class LoggerPluginManager {
 
 		ring_buffer.clear();
 	}
-	
+
 	// If an event appears before any logger is configured we have to pre-buffer it.
 	public void internal_prebuff_logevent(final TitanLogEvent event) {
 		final LogEntry new_entry = new LogEntry(event);
@@ -155,7 +155,7 @@ public class LoggerPluginManager {
 			entry_list_.add(new_entry);
 		}
 	}
-	
+
 	// When the loggers get configured we have to log everything we have buffered so far
 	public void internal_log_prebuff_logevent() {
 		if (entry_list_ == null) {
@@ -167,9 +167,11 @@ public class LoggerPluginManager {
 					entry.event_.getLogEvent().getChoice().getExecutorEvent().getChoice().getLogOptions().assign(new_log_message);
 					new_log_message = null;
 				}
+
 				internal_log_to_all(entry.event_, true, false, false);
 			}
 		}
+
 		entry_list_.clear();
 	}
 
@@ -241,7 +243,7 @@ public class LoggerPluginManager {
 			}
 		}
 	}
-	
+
 	private void send_parameter_to_plugin(final ILoggerPlugin plugin, final logging_setting_t logparam) {
 		switch (logparam.logparam.log_param_selection) {
 		case LP_FILEMASK:
@@ -275,7 +277,7 @@ public class LoggerPluginManager {
 			TTCN_Logger.set_log_event_types(logparam.logparam.log_event_types_values);
 			break;
 		case LP_LOGENTITYNAME:
-			//TODO: log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES never be 
+			// TODO: log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES never be
 			TTCN_Logger.set_log_entity_name(logparam.logparam.bool_val ? log_event_types_t.LOGEVENTTYPES_YES : log_event_types_t.LOGEVENTTYPES_NO);
 			break;
 		case LP_MATCHINGHINTS:
@@ -286,7 +288,7 @@ public class LoggerPluginManager {
 			break;
 		case LP_EMERGENCY:
 			TTCN_Logger.set_emergency_logging(logparam.logparam.emergency_logging);
-			//ring_buffer.set_size() doesn't need
+			// ring_buffer.set_size() doesn't need
 			break;
 		case LP_EMERGENCYBEHAVIOR:
 			TTCN_Logger.set_emergency_logging_behaviour(logparam.logparam.emergency_logging_behaviour_value);
@@ -306,22 +308,24 @@ public class LoggerPluginManager {
 		logparams = null;
 		logparams = new ArrayList<logging_setting_t>();
 	}
-	
+
 	public void clear_plugin_list() {
 		plugins_ = null;
 		plugins_ = new ArrayList<ILoggerPlugin>();
 	}
-	
+
 	public ILoggerPlugin find_plugin(final String name) {
 		if (name == null) {
 			//TODO: throw an error
 		}
+
 		for (int i = 0; i < plugins_.size(); i++) {
 			String plugin_name = plugins_.get(i).plugin_name();
 			if ((plugin_name != null) && (name == plugin_name)) {
 				return plugins_.get(i);
 			}
 		}
+
 		return null;
 	}
 
@@ -331,6 +335,7 @@ public class LoggerPluginManager {
 				return true;
 			}
 		}
+
 		return false;
 	}
 
@@ -366,15 +371,13 @@ public class LoggerPluginManager {
 		if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_MASKED) {
 			internal_log_to_all(event, true, false, false);
 
-			
 			if (!TTCN_Logger.should_log_to_file(severity) &&
 				TTCN_Logger.should_log_to_emergency(severity)) {
 				ring_buffer.offer(event);
 			}
 		} else if (TTCN_Logger.get_emergency_logging_behaviour() == emergency_logging_behaviour_t.BUFFER_ALL) {
 			if (ring_buffer.remainingCapacity() == 0) {
-				TitanLoggerApi.TitanLogEvent ring_event;
-				ring_event = ring_buffer.poll();
+				TitanLoggerApi.TitanLogEvent ring_event = ring_buffer.poll();
 				if (ring_event != null) {
 					internal_log_to_all(ring_event, true, false, false);
 				}
@@ -460,13 +463,14 @@ public class LoggerPluginManager {
 
 		return ret_val;
 	}
-	
+
 	public void open_file() {
 		boolean free_entry_list = false;
 		if (plugins_.isEmpty()) {
 			//FIXME: report fatal error as this can not be.
 			return;
 		}
+
 		for (int i = 0; i < plugins_.size(); i++) {
 			plugins_.get(i).open_file(is_first.get().booleanValue());
 			if (plugins_.get(i).is_configured()) {
@@ -481,6 +485,7 @@ public class LoggerPluginManager {
 				}
 			}
 		}
+
 		if (free_entry_list) {
 			entry_list_.clear();
 		}
@@ -491,6 +496,7 @@ public class LoggerPluginManager {
 		while (current_event.get() != null) {
 			finish_event();
 		}
+
 		ring_buffer_dump(true);
 	}
 
@@ -1274,7 +1280,7 @@ public class LoggerPluginManager {
 		} else {
 			exec.getReason().assign(ExecutorRuntime_reason.enum_type.initializing__module);
 		}
-		
+
 		exec.getModule__name().get().assign(module);
 		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
 		exec.getPid().assign(template_sel.OMIT_VALUE);
@@ -1292,7 +1298,6 @@ public class LoggerPluginManager {
 		fill_common_fields(event, TTCN_Logger.Severity.EXECUTOR_RUNTIME);
 		final ExecutorRuntime exec = event.getLogEvent().getChoice().getExecutorEvent().getChoice().getExecutorRuntime();
 		exec.getReason().assign(ExecutorRuntime_reason.enum_type.mtc__created);
-		
 		exec.getModule__name().assign(template_sel.OMIT_VALUE);
 		exec.getTestcase__name().assign(template_sel.OMIT_VALUE);
 		exec.getPid().get().assign((int)pid);
@@ -1481,7 +1486,7 @@ public class LoggerPluginManager {
 		if (!TTCN_Logger.log_this_event(event_severity) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
-		
+
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, event_severity);
 		final ParPort pp = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPort();
@@ -1505,7 +1510,7 @@ public class LoggerPluginManager {
 		if (!TTCN_Logger.log_this_event(event_severity) && (TTCN_Logger.get_emergency_logging() <= 0)) {
 			return;
 		}
-		
+
 		final TitanLogEvent event = new TitanLogEvent();
 		fill_common_fields(event, event_severity);
 		final ParallelPTC ptc = event.getLogEvent().getChoice().getParallelEvent().getChoice().getParallelPTC();
