@@ -37,7 +37,8 @@ public abstract class Base_Type {
 		//FIXME the other encoding specific descriptors
 		/**
 		 * In case of record of/ set of type the descriptor of the "of type".
-		 * Can not be final as it will be set in the preInit phase instead of the static module initialization phase when the descriptor os created.
+		 * Can not be final as it will be set in the preInit phase 
+		 * instead of the static module initialization phase when the descriptor is created.
 		 * */
 		public TTCN_Typedescriptor oftype_descr;
 
@@ -83,23 +84,70 @@ public abstract class Base_Type {
 	public static final TTCN_Typedescriptor TitanUniversalString_descr_ = new TTCN_Typedescriptor("UniversalString", null, null);
 	public static final TTCN_Typedescriptor TitanBMPString_descr_ = new TTCN_Typedescriptor("BMPString", null, null);
 
+	/**
+	 * Whether the value is present.
+	 * Note: this is not the TTCN-3 ispresent()!
+	 * causes DTE, must be used only if the field is OPTIONAL<>
+	 *
+	 * @return true if the value is present.
+	 */
 	public abstract boolean isPresent();
+
+	/**
+	 * Whether the value is bound.
+	 *
+	 * @return true if the value is bound.
+	 */
 	public abstract boolean isBound();
 
+	/**
+	 * Whether the value is a actual value.
+	 *
+	 * @return true if the value is a actual value.
+	 */
 	public boolean isValue() {
 		return isBound();
 	}
 
+	/**
+	 * Whether the value is optional.
+	 *
+	 * @return true if the value is optional.
+	 */
 	public boolean isOptional() {
 		return false;
 	}
 
+	/**
+	 * Checks if the current value is equivalent to the provided one.
+	 *
+	 * @param otherValue the other value to check against.
+	 * @return true if the values are equivalent.
+	 */
 	public abstract boolean operatorEquals(final Base_Type otherValue);
 
+	/**
+	 * Assigns the other value to this value.
+	 * Overwriting the current content in the process.
+	 *
+	 * represents the := operator from TTCN-3.
+	 *
+	 * @param otherValue the other value to assign.
+	 * @return the new value object.
+	 */
 	public abstract Base_Type assign(final Base_Type otherValue);
 
+	/**
+	 * Logs this value.
+	 */
 	public abstract void log();
 
+	/**
+	 * Initialize this object (or one of its fields/elements) with a 
+	 * module parameter value. The module parameter may contain references to
+	 * other module parameters or module parameter expressions, which are processed
+	 * by this method to calculated the final result.
+	 * @param param module parameter value (its ID specifies which object is to be set) */
 	public void set_param (final Param_Types.Module_Parameter param) {
 		// TODO once the setting module parameters is implemented for all classes this function should become abstract
 		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
@@ -109,6 +157,9 @@ public abstract class Base_Type {
 		TTCN_Logger.end_event();
 	}
 
+	/**
+	 * Recursively set the optional fields to omit.
+	 */
 	public void set_implicit_omit() {
 		//default implementation is intentionally empty
 	}
@@ -128,7 +179,16 @@ public abstract class Base_Type {
 	 * */
 	public abstract void decode_text(final Text_Buf text_buf);
 
-	// originally flavour is not used for all encodings.
+	/**
+	 * Encode this value into a buffer.
+	 *
+	 * originally flavour is not used for all encodings.
+	 *
+	 * @param p_td the type descriptor containing details for the encoding.
+	 * @param p_buf the buffer to but the encoded bytes into.
+	 * @param p_coding the coding to use.
+	 * @param flavour the flavor of the coding to use.
+	 * */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		// TODO once encoding is implemented for all classes this function should become abstract
 		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
@@ -138,7 +198,16 @@ public abstract class Base_Type {
 		TTCN_Logger.end_event();
 	}
 
-	// originally flavour is not used for all encodings.
+	/**
+	 * Decode this value from a buffer.
+	 *
+	 * originally flavour is not used for all decodings.
+	 *
+	 * @param p_td the type descriptor containing details for the decoding.
+	 * @param p_buf the buffer to read the bytes from.
+	 * @param p_coding the coding to use.
+	 * @param flavour the flavor of the coding to use.
+	 * */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final TTCN_EncDec.coding_type p_coding, final int flavour) {
 		// TODO once decoding is implemented for all classes this function should become abstract
 		TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
