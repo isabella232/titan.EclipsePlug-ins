@@ -84,7 +84,7 @@ public final class ProjectSourceParser {
 	public static final String REQUIREDPROJECTNOTACCESSIBLE = "The project {0} is not accessible but is required to analyze the project {1}";
 	public static final String REQUIREDPROJECTNOTTITANPROJECT = "The project {0} is not a TITAN project but is required to analyze the project {1}";
 
-	private static final String SOURCE_ANALYSING = "Analysing the source code";
+	private static final String SOURCE_ANALYSING = "Analysing the source code of project ";
 
 	private IProject project;
 
@@ -803,7 +803,7 @@ public final class ProjectSourceParser {
 			return null;
 		}
 
-		final WorkspaceJob op = new WorkspaceJob(SOURCE_ANALYSING) {
+		final WorkspaceJob op = new WorkspaceJob(SOURCE_ANALYSING + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				IStatus result = Status.OK_STATUS;
@@ -930,7 +930,7 @@ public final class ProjectSourceParser {
 
 		WorkspaceJob configAnalyzes = GlobalParser.getConfigSourceParser(project).doSyntaticalAnalyze();
 
-		WorkspaceJob analyzes = new WorkspaceJob(SOURCE_ANALYSING) {
+		WorkspaceJob analyzes = new WorkspaceJob(SOURCE_ANALYSING + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				IStatus result = Status.OK_STATUS;
@@ -1019,7 +1019,7 @@ public final class ProjectSourceParser {
 		final WorkspaceJob temp = analyzes;
 		final WorkspaceJob temp2 = configAnalyzes;
 
-		WorkspaceJob extensions = new WorkspaceJob("Executing Titan extensions") {
+		WorkspaceJob extensions = new WorkspaceJob("Executing Titan extensions on project " + project.getName()) {
 			@Override
 			public IStatus runInWorkspace(final IProgressMonitor monitor) {
 				final SubMonitor progress = SubMonitor.convert(monitor, 100);
@@ -1027,7 +1027,7 @@ public final class ProjectSourceParser {
 				final int priortity = getThread().getPriority();
 				try {
 					getThread().setPriority(Thread.MIN_PRIORITY);
-					progress.setTaskName("Executing Titan extensions");
+					progress.setTaskName("Executing Titan extensions on project " + project.getName());
 					progress.subTask("Waiting for semantic analysis");
 
 					try {
