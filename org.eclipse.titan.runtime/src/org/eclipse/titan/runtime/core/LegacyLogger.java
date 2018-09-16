@@ -630,8 +630,8 @@ public class LegacyLogger implements ILoggerPlugin {
 
 		if (is_success) {
 			try {
-				localWriter.flush();
 				localWriter.newLine();
+				localWriter.flush();
 			} catch (IOException e) {
 				is_success = false;
 			}
