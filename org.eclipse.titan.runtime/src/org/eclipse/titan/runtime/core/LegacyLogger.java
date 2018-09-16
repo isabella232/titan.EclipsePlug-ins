@@ -474,11 +474,12 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		write_succes = true;
 		try{
-			log_file_writer.set(new BufferedWriter(new FileWriter(er_), 32768));
-			log_file_writer.get().write(event_str);
-			log_file_writer.get().append("\n");
-			log_file_writer.get().flush();
-			log_file_writer.get().close();
+			final BufferedWriter localWriter = new BufferedWriter(new FileWriter(er_), 32768);
+			log_file_writer.set(localWriter);
+			localWriter.write(event_str);
+			localWriter.newLine();
+			localWriter.flush();
+			localWriter.close();
 		} catch (IOException e) {
 			write_succes = false;
 		}
@@ -617,7 +618,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		return true;
 	}
-	
+
 	private boolean log_to_file(final String message_ptr) {
 		boolean is_success = true;
 		final BufferedWriter localWriter = log_file_writer.get();
