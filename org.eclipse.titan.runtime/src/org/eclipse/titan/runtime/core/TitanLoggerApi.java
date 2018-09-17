@@ -1220,6 +1220,7 @@ return new TitanInteger(1);
 			id.encode_text(text_buf);
 			end.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			name.decode_text(text_buf);
@@ -1798,6 +1799,7 @@ public static class DefaultOp_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -1822,6 +1824,7 @@ public static class DefaultOp_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.DefaultOp.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -2186,6 +2189,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -2203,6 +2207,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.VerdictOp.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -2778,6 +2783,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.VerdictOp.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -3263,6 +3269,7 @@ return new TitanInteger(1);
 			ptc__compref.encode_text(text_buf);
 			ptc__name.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			is__ptc.decode_text(text_buf);
@@ -4102,6 +4109,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -4130,6 +4138,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.FinalVerdictInfo.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -4319,6 +4328,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -4795,6 +4805,7 @@ public static class TimerEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -4817,6 +4828,7 @@ public static class TimerEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TimerEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -5050,6 +5062,7 @@ return new TitanInteger(1);
 			port__name.encode_text(text_buf);
 			info.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__type.decode_text(text_buf);
@@ -5628,6 +5641,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -5652,6 +5666,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.MatchingSuccessType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -5945,6 +5960,7 @@ return new TitanInteger(1);
 			sys__name.encode_text(text_buf);
 			parameter.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__name.decode_text(text_buf);
@@ -6625,6 +6641,7 @@ public static class Proc__port__out_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -6651,6 +6668,7 @@ public static class Proc__port__out_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Proc_port_out.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -7266,7 +7284,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 	//originally value_list/list_value
 	List<Strings_str__list_template> list_value;
 
-	private match_function_t match_function_specific = new match_function_t() {
+	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
 		public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 			return match_index((Strings_str__list)value_ptr, value_index, (Strings_str__list_template)template_ptr, template_index, legacy);
@@ -8011,6 +8029,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 			}
 		}
 	}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
@@ -8036,6 +8055,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Strings.str_list.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -8492,6 +8512,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -8521,6 +8542,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.ExecutorEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -9300,6 +9322,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.ExecutorEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -9546,14 +9569,17 @@ return;
 }
 TTCN_Logger.log_event_unbound();
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 mustBound("Text encoder: Encoding an unbound value of type @TitanLoggerApi.TimerAnyTimeoutType.");
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 bound_flag = true;
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -10442,6 +10468,7 @@ return new TitanInteger(1);
 			oldReason.encode_text(text_buf);
 			newReason.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			newVerdict.decode_text(text_buf);
@@ -11160,6 +11187,7 @@ public static class SetVerdictType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -11186,6 +11214,7 @@ public static class SetVerdictType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.SetVerdictType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -11788,6 +11817,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Parallel.reason.");
@@ -11795,6 +11825,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -12175,6 +12206,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -12197,6 +12229,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Parallel.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -12782,6 +12815,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.PortType.");
@@ -12789,6 +12823,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -13169,6 +13204,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -13191,6 +13227,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.PortType.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -13588,6 +13625,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			text.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			text.decode_text(text_buf);
@@ -14064,6 +14102,7 @@ public static class WarningEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -14086,6 +14125,7 @@ public static class WarningEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.WarningEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -14497,6 +14537,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.ParPort.operation.");
@@ -14504,6 +14545,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -14884,6 +14926,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -14906,6 +14949,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.ParPort.operation.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -15115,6 +15159,7 @@ return new TitanInteger(1);
 			id.encode_text(text_buf);
 			name.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			id.decode_text(text_buf);
@@ -15642,6 +15687,7 @@ public static class ComponentIDType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -15665,6 +15711,7 @@ public static class ComponentIDType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ComponentIDType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -16346,7 +16393,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 	//originally value_list/list_value
 	List<TitanLog_sequence__list_0_event__list_template> list_value;
 
-	private match_function_t match_function_specific = new match_function_t() {
+	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
 		public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 			return match_index((TitanLog_sequence__list_0_event__list)value_ptr, value_index, (TitanLog_sequence__list_0_event__list_template)template_ptr, template_index, legacy);
@@ -17091,6 +17138,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 			}
 		}
 	}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
@@ -17116,6 +17164,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -17892,6 +17941,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -17951,6 +18001,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.LogEventType.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -19240,6 +19291,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.LogEventType.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -19670,6 +19722,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -19687,6 +19740,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.DefaultEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -20262,6 +20316,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.DefaultEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -20532,6 +20587,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -20546,6 +20602,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.TestcaseEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -21070,6 +21127,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.TestcaseEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -21511,6 +21569,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.MatchingDoneType.reason.");
@@ -21518,6 +21577,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -21898,6 +21958,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -21920,6 +21981,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.MatchingDoneType.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -22171,6 +22233,7 @@ return new TitanInteger(1);
 			reason.encode_text(text_buf);
 			param__.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -22717,6 +22780,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -22740,6 +22804,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ExecutorConfigdata.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -23219,6 +23284,7 @@ return new TitanInteger(1);
 			ent__name.encode_text(text_buf);
 			ent__type.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			filename.decode_text(text_buf);
@@ -23848,6 +23914,7 @@ public static class LocationInfo_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -23873,6 +23940,7 @@ public static class LocationInfo_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.LocationInfo.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -24056,6 +24124,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -24532,6 +24601,7 @@ public static class TestcaseEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -24554,6 +24624,7 @@ public static class TestcaseEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TestcaseEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -24970,6 +25041,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -24999,6 +25071,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.TimerEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -25778,6 +25851,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.TimerEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -26128,6 +26202,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -26148,6 +26223,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.StatisticsType.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -26774,6 +26850,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.StatisticsType.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -27173,6 +27250,7 @@ return new TitanInteger(1);
 			tcp__port.encode_text(text_buf);
 			new__size.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -27955,6 +28033,7 @@ public static class Port__Misc_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -27983,6 +28062,7 @@ public static class Port__Misc_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Port_Misc.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -28404,6 +28484,7 @@ return new TitanInteger(1);
 			alive__pid.encode_text(text_buf);
 			status.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -29237,6 +29318,7 @@ public static class ParallelPTC_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -29266,6 +29348,7 @@ public static class ParallelPTC_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ParallelPTC.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -29670,6 +29753,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.LocationInfo.ent_type.");
@@ -29677,6 +29761,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -30057,6 +30142,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -30079,6 +30165,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.LocationInfo.ent_type.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -30590,6 +30677,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			timer__name.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			timer__name.decode_text(text_buf);
@@ -31085,6 +31173,7 @@ public static class MatchingTimeout_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -31107,6 +31196,7 @@ public static class MatchingTimeout_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.MatchingTimeout.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -31284,6 +31374,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -31760,6 +31851,7 @@ public static class VerdictOp_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -31782,6 +31874,7 @@ public static class VerdictOp_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.VerdictOp.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -32167,6 +32260,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.MatchingProblemType.reason.");
@@ -32174,6 +32268,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -32554,6 +32649,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -32576,6 +32672,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.MatchingProblemType.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -33116,6 +33213,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.ExecutorRuntime.reason.");
@@ -33123,6 +33221,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -33503,6 +33602,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -33525,6 +33625,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.ExecutorRuntime.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -33919,6 +34020,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.MatchingFailureType.reason.");
@@ -33926,6 +34028,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -34306,6 +34409,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -34328,6 +34432,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.MatchingFailureType.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -34573,6 +34678,7 @@ return new TitanInteger(1);
 			entityId.encode_text(text_buf);
 			event.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			entityId.decode_text(text_buf);
@@ -35100,6 +35206,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -35123,6 +35230,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -35546,6 +35654,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.MatchingProblemType.operation.");
@@ -35553,6 +35662,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -35933,6 +36043,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -35955,6 +36066,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.MatchingProblemType.operation.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -36359,6 +36471,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -36373,6 +36486,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.MatchingFailureType.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -36897,6 +37011,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.MatchingFailureType.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -37292,6 +37407,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.ExecutorConfigdata.reason.");
@@ -37299,6 +37415,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -37679,6 +37796,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -37701,6 +37819,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.ExecutorConfigdata.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -37910,6 +38029,7 @@ return new TitanInteger(1);
 			module__name.encode_text(text_buf);
 			testcase__name.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			module__name.decode_text(text_buf);
@@ -38437,6 +38557,7 @@ public static class QualifiedName_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -38460,6 +38581,7 @@ public static class QualifiedName_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.QualifiedName.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -38731,6 +38853,7 @@ return new TitanInteger(1);
 			retval.encode_text(text_buf);
 			intseed.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			operation.decode_text(text_buf);
@@ -39309,6 +39432,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -39333,6 +39457,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.FunctionEvent.choice.random.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -39814,6 +39939,7 @@ return new TitanInteger(1);
 			value__.encode_text(text_buf);
 			msgid.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			incoming.decode_text(text_buf);
@@ -40443,6 +40569,7 @@ public static class Dualface__mapped_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -40468,6 +40595,7 @@ public static class Dualface__mapped_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Dualface_mapped.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -41045,7 +41173,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 	//originally value_list/list_value
 	List<TitanLogEvent_sourceInfo__list_template> list_value;
 
-	private match_function_t match_function_specific = new match_function_t() {
+	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
 		public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 			return match_index((TitanLogEvent_sourceInfo__list)value_ptr, value_index, (TitanLogEvent_sourceInfo__list_template)template_ptr, template_index, legacy);
@@ -41790,6 +41918,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 			}
 		}
 	}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
@@ -41815,6 +41944,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -42094,6 +42224,7 @@ return new TitanInteger(1);
 			toVerdict.encode_text(text_buf);
 			verdictReason.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			fromVerdict.decode_text(text_buf);
@@ -42691,6 +42822,7 @@ public static class VerdictType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -42715,6 +42847,7 @@ public static class VerdictType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.VerdictType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -43233,6 +43366,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Port_State.operation.");
@@ -43240,6 +43374,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -43620,6 +43755,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -43642,6 +43778,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Port_State.operation.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -44196,6 +44333,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Port_oper.");
@@ -44203,6 +44341,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -44583,6 +44722,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -44605,6 +44745,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Port_oper.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -45102,6 +45243,7 @@ return new TitanInteger(1);
 			seconds.encode_text(text_buf);
 			microSeconds.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			seconds.decode_text(text_buf);
@@ -45629,6 +45771,7 @@ public static class TimestampType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -45652,6 +45795,7 @@ public static class TimestampType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TimestampType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -45887,6 +46031,7 @@ return new TitanInteger(1);
 			state.encode_text(text_buf);
 			info.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__name.decode_text(text_buf);
@@ -46465,6 +46610,7 @@ public static class Setstate_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -46489,6 +46635,7 @@ public static class Setstate_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Setstate.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -46954,6 +47101,7 @@ return new TitanInteger(1);
 			parameter.encode_text(text_buf);
 			msgid.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__name.decode_text(text_buf);
@@ -47685,6 +47833,7 @@ public static class Proc__port__in_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -47712,6 +47861,7 @@ public static class Proc__port__in_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Proc_port_in.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -47983,6 +48133,7 @@ return new TitanInteger(1);
 			severity.encode_text(text_buf);
 			logEvent.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			timestamp.decode_text(text_buf);
@@ -48612,6 +48763,7 @@ public static class TitanLogEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -48637,6 +48789,7 @@ public static class TitanLogEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanLogEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -49072,6 +49225,7 @@ return new TitanInteger(1);
 			error__.encode_text(text_buf);
 			errorPercent.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			none__.decode_text(text_buf);
@@ -50007,6 +50161,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -50038,6 +50193,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -50413,6 +50569,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -50889,6 +51046,7 @@ public static class LogEventType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -50911,6 +51069,7 @@ public static class LogEventType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.LogEventType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -51116,6 +51275,7 @@ return new TitanInteger(1);
 			operation.encode_text(text_buf);
 			port__name.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			operation.decode_text(text_buf);
@@ -51643,6 +51803,7 @@ public static class Port__State_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -51666,6 +51827,7 @@ public static class Port__State_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Port_State.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -51901,6 +52063,7 @@ return new TitanInteger(1);
 			verdict.encode_text(text_buf);
 			reason.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			name.decode_text(text_buf);
@@ -52479,6 +52642,7 @@ public static class TestcaseType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -52503,6 +52667,7 @@ public static class TestcaseType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TestcaseType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -52831,6 +52996,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -52848,6 +53014,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.ParallelEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -53423,6 +53590,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.ParallelEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -53647,6 +53815,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an unbound value of union type @TitanLoggerApi.anytype.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -53655,6 +53824,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.anytype.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -54058,6 +54228,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.anytype.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -54237,6 +54408,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -54713,6 +54885,7 @@ public static class PortEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -54735,6 +54908,7 @@ public static class PortEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.PortEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -55319,6 +55493,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -55357,6 +55532,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.PortEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -56289,6 +56465,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.PortEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -56564,6 +56741,7 @@ return new TitanInteger(1);
 			compref.encode_text(text_buf);
 			parameter.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__name.decode_text(text_buf);
@@ -57142,6 +57320,7 @@ public static class Msg__port__send_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -57166,6 +57345,7 @@ public static class Msg__port__send_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_send.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -57779,6 +57959,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -58255,6 +58436,7 @@ public static class FunctionEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -58277,6 +58459,7 @@ public static class FunctionEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.FunctionEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -58854,6 +59037,7 @@ return new TitanInteger(1);
 			reason.encode_text(text_buf);
 			info.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__type.decode_text(text_buf);
@@ -59534,6 +59718,7 @@ public static class MatchingFailureType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -59560,6 +59745,7 @@ public static class MatchingFailureType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.MatchingFailureType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -60325,6 +60511,7 @@ return new TitanInteger(1);
 			srcPort.encode_text(text_buf);
 			dstPort.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			operation.decode_text(text_buf);
@@ -61005,6 +61192,7 @@ public static class ParPort_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -61031,6 +61219,7 @@ public static class ParPort_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ParPort.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -61336,6 +61525,7 @@ return new TitanInteger(1);
 			ptc.encode_text(text_buf);
 			return__type.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -61965,6 +62155,7 @@ public static class MatchingDoneType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -61990,6 +62181,7 @@ public static class MatchingDoneType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.MatchingDoneType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -62421,6 +62613,7 @@ return new TitanInteger(1);
 			address__.encode_text(text_buf);
 			param__.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			operation.decode_text(text_buf);
@@ -63152,6 +63345,7 @@ public static class Port__Queue_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -63179,6 +63373,7 @@ public static class Port__Queue_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Port_Queue.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -63366,6 +63561,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -63842,6 +64038,7 @@ public static class ParallelEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -63864,6 +64061,7 @@ public static class ParallelEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ParallelEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -64120,6 +64318,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -64134,6 +64333,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.FinalVerdictType.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -64658,6 +64858,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.FinalVerdictType.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -65275,7 +65476,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 	//originally value_list/list_value
 	List<StartFunction_parameter__list_template> list_value;
 
-	private match_function_t match_function_specific = new match_function_t() {
+	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
 		public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 			return match_index((StartFunction_parameter__list)value_ptr, value_index, (StartFunction_parameter__list_template)template_ptr, template_index, legacy);
@@ -66020,6 +66221,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 			}
 		}
 	}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
@@ -66045,6 +66247,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.StartFunction.parameter_list.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -66402,6 +66605,7 @@ return new TitanInteger(1);
 			parameter.encode_text(text_buf);
 			msgid.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__name.decode_text(text_buf);
@@ -67133,6 +67337,7 @@ public static class Msg__port__recv_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -67160,6 +67365,7 @@ public static class Msg__port__recv_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -67411,6 +67617,7 @@ return new TitanInteger(1);
 			name.encode_text(text_buf);
 			value__.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			name.decode_text(text_buf);
@@ -67938,6 +68145,7 @@ public static class TimerType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -67961,6 +68169,7 @@ public static class TimerType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TimerType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -68140,6 +68349,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -68616,6 +68826,7 @@ public static class DefaultEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -68638,6 +68849,7 @@ public static class DefaultEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.DefaultEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -69131,6 +69343,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Port_Queue.operation.");
@@ -69138,6 +69351,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -69518,6 +69732,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -69540,6 +69755,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Port_Queue.operation.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -69905,6 +70121,7 @@ return new TitanInteger(1);
 			check__.encode_text(text_buf);
 			any__port.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			port__name.decode_text(text_buf);
@@ -70585,6 +70802,7 @@ public static class MatchingProblemType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -70611,6 +70829,7 @@ public static class MatchingProblemType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.MatchingProblemType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -70796,6 +71015,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			str__list.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			str__list.decode_text(text_buf);
@@ -71272,6 +71492,7 @@ public static class Strings_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -71294,6 +71515,7 @@ public static class Strings_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Strings.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -71563,6 +71785,7 @@ return new TitanInteger(1);
 			pid.encode_text(text_buf);
 			statuscode.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			compref.decode_text(text_buf);
@@ -72141,6 +72364,7 @@ public static class PTC__exit_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -72165,6 +72389,7 @@ public static class PTC__exit_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.PTC_exit.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -72660,6 +72885,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Port_Misc.reason.");
@@ -72667,6 +72893,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -73047,6 +73274,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -73069,6 +73297,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Port_Misc.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -73286,6 +73515,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			sequence__list.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			sequence__list.decode_text(text_buf);
@@ -73762,6 +73992,7 @@ public static class TitanLog_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -73784,6 +74015,7 @@ public static class TitanLog_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanLog.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -73961,6 +74193,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			text.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			text.decode_text(text_buf);
@@ -74437,6 +74670,7 @@ public static class ErrorEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -74459,6 +74693,7 @@ public static class ErrorEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ErrorEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -74852,6 +75087,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -75328,6 +75564,7 @@ public static class ExecutorEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -75350,6 +75587,7 @@ public static class ExecutorEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ExecutorEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -75803,6 +76041,7 @@ return new TitanInteger(1);
 			dst__compref.encode_text(text_buf);
 			dst__port.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -76585,6 +76824,7 @@ public static class Parallel_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -76613,6 +76853,7 @@ public static class Parallel_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Parallel.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -76938,6 +77179,7 @@ return new TitanInteger(1);
 			pid.encode_text(text_buf);
 			fd__setsize.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -77694,6 +77936,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -77720,6 +77963,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ExecutorRuntime.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -78013,6 +78257,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -78489,6 +78734,7 @@ public static class FinalVerdictType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -78511,6 +78757,7 @@ public static class FinalVerdictType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.FinalVerdictType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -78876,6 +79123,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.FinalVerdictType.choice.notification.");
@@ -78883,6 +79131,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -79263,6 +79512,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -79285,6 +79535,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.FinalVerdictType.choice.notification.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -79664,6 +79915,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.ExecutorUnqualified.reason.");
@@ -79671,6 +79923,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -80051,6 +80304,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -80073,6 +80327,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.ExecutorUnqualified.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -80519,6 +80774,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Msg_port_recv.operation.");
@@ -80526,6 +80782,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -80906,6 +81163,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -80928,6 +81186,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Msg_port_recv.operation.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -81456,6 +81715,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.Verdict.");
@@ -81463,6 +81723,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -81843,6 +82104,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -81865,6 +82127,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.Verdict.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -82514,6 +82777,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.ParallelPTC.reason.");
@@ -82521,6 +82785,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -82901,6 +83166,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -82923,6 +83189,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.ParallelPTC.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -83212,6 +83479,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			value__.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			value__.decode_text(text_buf);
@@ -83688,6 +83956,7 @@ public static class TimerGuardType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -83710,6 +83979,7 @@ public static class TimerGuardType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TimerGuardType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -84015,6 +84285,7 @@ return new TitanInteger(1);
 			compref.encode_text(text_buf);
 			parameter__list.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			function__name.decode_text(text_buf);
@@ -84593,6 +84864,7 @@ public static class StartFunction_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -84617,6 +84889,7 @@ public static class StartFunction_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.StartFunction.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -84918,6 +85191,7 @@ return new TitanInteger(1);
 			addr.encode_text(text_buf);
 			port__.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -85547,6 +85821,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -85572,6 +85847,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ExecutorUnqualified.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -86056,6 +86332,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.DefaultEnd.");
@@ -86063,6 +86340,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -86443,6 +86721,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -86465,6 +86744,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.DefaultEnd.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -86710,6 +86990,7 @@ return new TitanInteger(1);
 			category.encode_text(text_buf);
 			text.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			category.decode_text(text_buf);
@@ -87237,6 +87518,7 @@ public static class Categorized_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -87260,6 +87542,7 @@ public static class Categorized_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Categorized.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -87905,7 +88188,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 	//originally value_list/list_value
 	List<TitanLog_sequence__list_template> list_value;
 
-	private match_function_t match_function_specific = new match_function_t() {
+	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
 		public boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {
 			return match_index((TitanLog_sequence__list)value_ptr, value_index, (TitanLog_sequence__list_template)template_ptr, template_index, legacy);
@@ -88650,6 +88933,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 			}
 		}
 	}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_permutation(text_buf);
@@ -88675,6 +88959,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanLog.sequence_list.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -89316,6 +89601,7 @@ return new TitanInteger(1);
 			numberOfTestcases.encode_text(text_buf);
 			overallStatistics.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			numberOfTestcases.decode_text(text_buf);
@@ -89843,6 +90129,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -89866,6 +90153,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ExecutionSummaryType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -90297,6 +90585,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -90773,6 +91062,7 @@ public static class MatchingEvent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -90795,6 +91085,7 @@ public static class MatchingEvent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.MatchingEvent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -91008,6 +91299,7 @@ return new TitanInteger(1);
 		public void encode_text(final Text_Buf text_buf) {
 			choice.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			choice.decode_text(text_buf);
@@ -91484,6 +91776,7 @@ public static class StatisticsType_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -91506,6 +91799,7 @@ public static class StatisticsType_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -91767,6 +92061,7 @@ return new TitanInteger(1);
 			port__name.encode_text(text_buf);
 			unhandled.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			incoming.decode_text(text_buf);
@@ -92396,6 +92691,7 @@ public static class Dualface__discard_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -92421,6 +92717,7 @@ public static class Dualface__discard_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Dualface_discard.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -92851,6 +93148,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -92874,6 +93172,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.MatchingEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -93551,6 +93850,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.MatchingEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -93865,6 +94165,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of union type @Tita
 }
 field.encode_text(text_buf);
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
@@ -93879,6 +94180,7 @@ default:
 throw new TtcnError("Text decoder: Unrecognized union selector was received for type @TitanLoggerApi.FunctionEvent.choice.");
 }
 }
+
 @Override
 public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
 switch (p_coding) {
@@ -94403,6 +94705,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized template of type @TitanLoggerApi.FunctionEvent.choice.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -94778,6 +95081,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.RandomAction.");
@@ -94785,6 +95089,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -95165,6 +95470,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -95187,6 +95493,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.RandomAction.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
@@ -95438,6 +95745,7 @@ return new TitanInteger(1);
 			reason.encode_text(text_buf);
 			compref.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			reason.decode_text(text_buf);
@@ -95984,6 +96292,7 @@ public static class ExecutorComponent_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -96007,6 +96316,7 @@ public static class ExecutorComponent_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.ExecutorComponent.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -96286,6 +96596,7 @@ return new TitanInteger(1);
 			entityId.encode_text(text_buf);
 			event__list.encode_text(text_buf);
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			entityId.decode_text(text_buf);
@@ -96813,6 +97124,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 				}
 			}
 		}
+
 		@Override
 		public void encode_text(final Text_Buf text_buf) {
 			encode_text_base(text_buf);
@@ -96836,6 +97148,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 			}
 		}
+
 		@Override
 		public void decode_text(final Text_Buf text_buf) {
 			cleanUp();
@@ -97218,6 +97531,7 @@ TTCN_Logger.log_event_enum(enum2str(enum_value), enum2int(enum_value));
 }
 }
 
+@Override
 public void encode_text(final Text_Buf text_buf) {
 if (enum_value == enum_type.UNBOUND_VALUE) {
 throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type @TitanLoggerApi.ExecutorComponent.reason.");
@@ -97225,6 +97539,7 @@ throw new TtcnError("Text encoder: Encoding an unbound value of enumerated type 
 text_buf.push_int(enum_value.enum_num);
 }
 
+@Override
 public void decode_text(final Text_Buf text_buf) {
 final int temp = text_buf.pull_int().getInt();
 if (!isValidEnum(temp)) {
@@ -97605,6 +97920,7 @@ TTCN_Logger.log_event_str(" matched");
 TTCN_Logger.log_event_str(" unmatched");
 }
 }
+
 @Override
 public void encode_text(final Text_Buf text_buf) {
 encode_text_base(text_buf);
@@ -97627,6 +97943,7 @@ default:
 throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of enumerated type @TitanLoggerApi.ExecutorComponent.reason.");
 }
 }
+
 @Override
 public void decode_text(final Text_Buf text_buf) {
 cleanUp();
