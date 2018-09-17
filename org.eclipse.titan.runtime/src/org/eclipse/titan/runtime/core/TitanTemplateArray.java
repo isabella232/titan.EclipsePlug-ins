@@ -44,8 +44,8 @@ public class TitanTemplateArray<Tvalue extends Base_Type,Ttemplate extends Base_
 	 */
 	class Pair_of_elements {
 		//beginning and ending index
-		private int start_index;
-		private int end_index;
+		private final int start_index;
+		private final int end_index;
 
 		public Pair_of_elements(final int start_index, final int end_index) {
 			this.start_index = start_index;

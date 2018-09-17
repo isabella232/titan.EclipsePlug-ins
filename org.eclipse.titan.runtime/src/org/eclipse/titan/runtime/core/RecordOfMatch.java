@@ -294,16 +294,16 @@ public class RecordOfMatch {
 	 * to avoid memory leaks in case of errors (exceptions).
 	 */
 	private static class Matching_Table {
-		private match_function_t match_function;
-		private int value_size;
-		private int value_start;
-		private int template_size;
-		private int template_start;
+		private final match_function_t match_function;
+		private final int value_size;
+		private final int value_start;
+		private final int template_size;
+		private final int template_start;
 		private int n_asterisks;
-		private int[] template_index_table;
+		private final int[] template_index_table;
 		private edge_status[][] edge_matrix;
 		private boolean[] covered_vector; //tells if a value is covered
-		private boolean legacy;
+		private final boolean legacy;
 
 		//if the value is covered, then tells by whom it is covered
 		private int[] covered_index_vector;
@@ -446,7 +446,7 @@ public class RecordOfMatch {
 			List_elem next, parent;
 		}
 
-		private List_elem head; // not null
+		private final List_elem head; // not null
 		private List_elem current;
 
 		public Tree_list(final int head_data) {
