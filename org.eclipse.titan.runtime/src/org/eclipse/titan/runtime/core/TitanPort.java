@@ -127,8 +127,8 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	protected boolean is_started;
 	protected boolean is_halted;
 
-	private ArrayList<String> system_mappings = new ArrayList<String>();
-	private LinkedList<port_connection> connection_list = new LinkedList<TitanPort.port_connection>();
+	private final ArrayList<String> system_mappings = new ArrayList<String>();
+	private final LinkedList<port_connection> connection_list = new LinkedList<TitanPort.port_connection>();
 
 	public TitanPort(final String portName) {
 		this.port_name = portName == null ? "<unknown>" : portName;

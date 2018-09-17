@@ -23,8 +23,8 @@ public abstract class Record_Of_Template extends Restricted_Length_Template {
 	 */
 	class Pair_of_elements {
 		//beginning and ending index
-		private int start_index;
-		private int end_index;
+		private final int start_index;
+		private final int end_index;
 
 		public Pair_of_elements(final int start_index, final int end_index) {
 			this.start_index = start_index;

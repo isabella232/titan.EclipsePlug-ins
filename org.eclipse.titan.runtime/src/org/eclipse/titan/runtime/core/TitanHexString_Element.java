@@ -11,8 +11,8 @@ package org.eclipse.titan.runtime.core;
 
 public class TitanHexString_Element {
 	private boolean bound_flag;
-	private TitanHexString str_val;
-	private int nibble_pos;
+	private final TitanHexString str_val;
+	private final int nibble_pos;
 
 	public TitanHexString_Element(final boolean par_bound_flag, final TitanHexString par_str_val, final int par_nibble_pos) {
 		bound_flag = par_bound_flag;

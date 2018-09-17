@@ -19,8 +19,8 @@ import java.util.List;
  */
 public class TitanCharString_Element {
 	private boolean bound_flag;
-	private TitanCharString str_val;
-	private int char_pos;
+	private final TitanCharString str_val;
+	private final int char_pos;
 
 	public TitanCharString_Element(final boolean par_bound_flag, final TitanCharString par_str_val, final int par_char_pos) {
 		bound_flag = par_bound_flag;

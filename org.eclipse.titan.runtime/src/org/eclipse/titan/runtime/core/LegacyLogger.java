@@ -97,9 +97,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			return null;
 		}
 	};
-	
-	private String name_ = "LegacyLogger";
-	private String help_ = "LegacyLogger";
+
+	private static final String name_ = "LegacyLogger";
+	private static final String help_ = "LegacyLogger";
 
 	private static final ThreadLocal<Boolean> already_warned = new ThreadLocal<Boolean>() {
 		@Override

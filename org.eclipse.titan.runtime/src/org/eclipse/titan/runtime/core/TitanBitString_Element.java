@@ -10,8 +10,8 @@ package org.eclipse.titan.runtime.core;
 
 public class TitanBitString_Element {
 	private boolean bound_flag;
-	private TitanBitString str_val;
-	private int bit_pos;
+	private final TitanBitString str_val;
+	private final int bit_pos;
 
 	public TitanBitString_Element(final boolean par_bound_flag, final TitanBitString par_str_val, final int par_bit_pos) {
 		bound_flag = par_bound_flag;

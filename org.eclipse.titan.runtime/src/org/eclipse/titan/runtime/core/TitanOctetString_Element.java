@@ -14,8 +14,8 @@ package org.eclipse.titan.runtime.core;
 
 public class TitanOctetString_Element {
 	private boolean bound_flag;
-	private TitanOctetString str_val;
-	private int nibble_pos;
+	private final TitanOctetString str_val;
+	private final int nibble_pos;
 
 	public TitanOctetString_Element(final boolean par_bound_flag, final TitanOctetString par_str_val, final int par_nibble_pos) {
 		bound_flag = par_bound_flag;

@@ -15,8 +15,8 @@ package org.eclipse.titan.runtime.core;
  * FIXME implement destructor.
  */
 public class Default_Base {
-	private int defaultId;
-	private String altstepName;
+	private final int defaultId;
+	private final String altstepName;
 
 	// package private constructor to have a null reference
 	Default_Base() {
