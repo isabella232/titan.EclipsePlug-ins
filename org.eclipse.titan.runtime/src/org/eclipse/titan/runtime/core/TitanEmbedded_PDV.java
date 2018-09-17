@@ -23,9 +23,9 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV extends Base_Type {
-	TitanEmbedded_PDV_identification identification; //ASN1_Choice_Type
-	Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
-	TitanOctetString data__value; //OctetString_Type
+	final TitanEmbedded_PDV_identification identification; //ASN1_Choice_Type
+	final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
+	final TitanOctetString data__value; //OctetString_Type
 
 	public TitanEmbedded_PDV() {
 		identification = new TitanEmbedded_PDV_identification();
@@ -91,6 +91,7 @@ public class TitanEmbedded_PDV extends Base_Type {
 		data__value.cleanUp();
 	}
 
+	@Override
 	public boolean isBound() {
 		if ( identification.isBound() ) { return true; }
 		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.isBound() ) { return true; }
@@ -98,10 +99,12 @@ public class TitanEmbedded_PDV extends Base_Type {
 		return false;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		if ( !identification.isValue() ) { return false; }
 		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) && !data__value__descriptor.isValue() ) { return false; }

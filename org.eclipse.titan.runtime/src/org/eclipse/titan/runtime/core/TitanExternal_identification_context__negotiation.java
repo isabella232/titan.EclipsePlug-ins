@@ -21,8 +21,8 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanExternal_identification_context__negotiation extends Base_Type {
-	TitanInteger presentation__context__id; //ASN1_Integer_Type
-	TitanObjectid transfer__syntax; //ObjectID_Type
+	final TitanInteger presentation__context__id; //ASN1_Integer_Type
+	final TitanObjectid transfer__syntax; //ObjectID_Type
 
 	public TitanExternal_identification_context__negotiation() {
 		presentation__context__id = new TitanInteger();
@@ -78,16 +78,19 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		transfer__syntax.cleanUp();
 	}
 
+	@Override
 	public boolean isBound() {
 		if ( presentation__context__id.isBound() ) { return true; }
 		if ( transfer__syntax.isBound() ) { return true; }
 		return false;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		if ( !presentation__context__id.isValue() ) { return false; }
 		if ( !transfer__syntax.isValue() ) { return false; }

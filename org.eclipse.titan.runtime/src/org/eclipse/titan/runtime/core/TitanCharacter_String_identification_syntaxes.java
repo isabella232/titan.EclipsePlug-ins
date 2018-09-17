@@ -21,8 +21,8 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {
-	TitanObjectid abstract_; //ObjectID_Type
-	TitanObjectid transfer; //ObjectID_Type
+	final TitanObjectid abstract_; //ObjectID_Type
+	final TitanObjectid transfer; //ObjectID_Type
 
 	public TitanCharacter_String_identification_syntaxes() {
 		abstract_ = new TitanObjectid();
@@ -77,16 +77,19 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		transfer.cleanUp();
 	}
 
+	@Override
 	public boolean isBound() {
 		if ( abstract_.isBound() ) { return true; }
 		if ( transfer.isBound() ) { return true; }
 		return false;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		if ( !abstract_.isValue() ) { return false; }
 		if ( !transfer.isValue() ) { return false; }

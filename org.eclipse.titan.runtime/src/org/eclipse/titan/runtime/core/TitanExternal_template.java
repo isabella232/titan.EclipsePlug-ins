@@ -309,6 +309,7 @@ public class TitanExternal_template extends Base_Template {
 		}
 	}
 
+	@Override
 	public boolean isBound() {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 			return false;
@@ -328,6 +329,7 @@ public class TitanExternal_template extends Base_Template {
 		return false;
 	}
 
+	@Override
 	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;

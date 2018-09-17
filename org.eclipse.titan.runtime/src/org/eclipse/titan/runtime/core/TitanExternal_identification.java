@@ -88,10 +88,12 @@ public class TitanExternal_identification extends Base_Type {
 		return union_selection == checked_selection;
 	}
 
+	@Override
 	public boolean isBound() {
 		return union_selection != union_selection_type.UNBOUND_VALUE;
 	}
 
+	@Override
 	public boolean isValue() {
 		switch (union_selection) {
 		case UNBOUND_VALUE:
@@ -113,6 +115,7 @@ public class TitanExternal_identification extends Base_Type {
 		}
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}

@@ -275,6 +275,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 	}
 
+	@Override
 	public boolean isBound() {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 			return false;
@@ -291,6 +292,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		return false;
 	}
 
+	@Override
 	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;

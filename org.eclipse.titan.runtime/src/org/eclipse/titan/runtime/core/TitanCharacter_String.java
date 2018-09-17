@@ -23,9 +23,9 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String extends Base_Type {
-	TitanCharacter_String_identification identification; //ASN1_Choice_Type
-	Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
-	TitanOctetString string__value; //OctetString_Type
+	final TitanCharacter_String_identification identification; //ASN1_Choice_Type
+	final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
+	final TitanOctetString string__value; //OctetString_Type
 
 	public TitanCharacter_String() {
 		identification = new TitanCharacter_String_identification();
@@ -91,6 +91,7 @@ public class TitanCharacter_String extends Base_Type {
 		string__value.cleanUp();
 	}
 
+	@Override
 	public boolean isBound() {
 		if ( identification.isBound() ) { return true; }
 		if ( optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) || data__value__descriptor.isBound() ) { return true; }
@@ -98,10 +99,12 @@ public class TitanCharacter_String extends Base_Type {
 		return false;
 	}
 
+	@Override
 	public boolean isPresent() {
 		return isBound();
 	}
 
+	@Override
 	public boolean isValue() {
 		if ( !identification.isValue() ) { return false; }
 		if ( !optional_sel.OPTIONAL_OMIT.equals(data__value__descriptor.get_selection()) && !data__value__descriptor.isValue() ) { return false; }

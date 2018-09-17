@@ -275,6 +275,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		}
 	}
 
+	@Override
 	public boolean isBound() {
 		if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 			return false;
@@ -291,6 +292,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		return false;
 	}
 
+	@Override
 	public boolean isValue() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 			return false;
