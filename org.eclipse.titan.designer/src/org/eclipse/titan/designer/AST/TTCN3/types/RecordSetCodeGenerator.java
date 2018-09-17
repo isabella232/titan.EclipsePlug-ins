@@ -496,19 +496,23 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateSizeOf( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\tpublic TitanInteger sizeOf() {\n" );
-		aSb.append( "\t\t\tint sizeof = 0;\n" );
 		//number of non-optional fields
 		int size = 0;
+		for ( final FieldInfo fi : aNamesList ) {
+			if (!fi.isOptional) {
+				size++;
+			}
+		}
+
+		aSb.append( MessageFormat.format( "\t\t\tint sizeof = {0};\n", size ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
 				aSb.append( "\t\t\t\tsizeof++;\n" );
 				aSb.append( "\t\t\t}\n" );
-			} else {
-				size++;
 			}
 		}
-		aSb.append( MessageFormat.format( "\t\t\tsizeof += {0};\n", size ) );
+
 		aSb.append( "\t\t\treturn new TitanInteger(sizeof);\n" );
 		aSb.append( "\t\t}\n" );
 	}
@@ -1988,19 +1992,23 @@ public class RecordSetCodeGenerator {
 		aSb.append( "\t\t\t}\n" );
 		aSb.append( "\t\t\tswitch (templateSelection) {\n" );
 		aSb.append( "\t\t\tcase SPECIFIC_VALUE:\n" );
-		aSb.append( "\t\t\t\tint sizeof = 0;\n" );
 		//number of non-optional fields
 		int size = 0;
+		for ( final FieldInfo fi : aNamesList ) {
+			if (!fi.isOptional) {
+				size++;
+			}
+		}
+
+		aSb.append( MessageFormat.format( "\t\t\t\tint sizeof = {0};\n", size ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
 				aSb.append( "\t\t\t\t\tsizeof++;\n" );
 				aSb.append( "\t\t\t\t}\n" );
-			} else {
-				size++;
 			}
 		}
-		aSb.append( MessageFormat.format( "\t\t\t\tsizeof += {0};\n", size ) );
+
 		aSb.append( "\t\t\t\treturn new TitanInteger(sizeof);\n" );
 		aSb.append( "\t\t\tcase VALUE_LIST:\n" );
 		aSb.append( "\t\t\t\tif (list_value.isEmpty()) {\n" );
