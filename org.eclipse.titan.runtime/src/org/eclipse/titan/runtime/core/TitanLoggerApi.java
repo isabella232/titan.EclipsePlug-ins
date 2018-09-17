@@ -1053,9 +1053,9 @@ return new TitanInteger(1);
 }
 
 	public static class DefaultOp extends Base_Type {
-		private TitanCharString name; //CharString_Type
-		private TitanInteger id; //Integer_Type
-		private DefaultEnd end; //Referenced_Type
+		private final TitanCharString name; //CharString_Type
+		private final TitanInteger id; //Integer_Type
+		private final DefaultEnd end; //Referenced_Type
 
 		public DefaultOp() {
 			name = new TitanCharString();
@@ -1070,9 +1070,9 @@ return new TitanInteger(1);
 		}
 
 		public DefaultOp( final DefaultOp aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultOp.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultOp.");
+			}
 			name = new TitanCharString();
 			id = new TitanInteger();
 			end = new DefaultEnd();
@@ -1119,6 +1119,7 @@ if(!aOtherValue.isBound()) {
 			end.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( name.isBound() ) { return true; }
 			if ( id.isBound() ) { return true; }
@@ -1126,10 +1127,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !name.isValue() ) { return false; }
 			if ( !id.isValue() ) { return false; }
@@ -1571,6 +1574,7 @@ public static class DefaultOp_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -1590,6 +1594,7 @@ public static class DefaultOp_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -2017,10 +2022,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -2036,6 +2043,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -2958,13 +2966,13 @@ return new TitanInteger(1);
 }
 
 	public static class FinalVerdictInfo extends Base_Type {
-		private TitanBoolean is__ptc; //Boolean_Type
-		private Verdict ptc__verdict; //Referenced_Type
-		private Verdict local__verdict; //Referenced_Type
-		private Verdict new__verdict; //Referenced_Type
-		private Optional<TitanCharString> verdict__reason; //CharString_Type
-		private Optional<TitanInteger> ptc__compref; //Integer_Type
-		private Optional<TitanCharString> ptc__name; //CharString_Type
+		private final TitanBoolean is__ptc; //Boolean_Type
+		private final Verdict ptc__verdict; //Referenced_Type
+		private final Verdict local__verdict; //Referenced_Type
+		private final Verdict new__verdict; //Referenced_Type
+		private final Optional<TitanCharString> verdict__reason; //CharString_Type
+		private final Optional<TitanInteger> ptc__compref; //Integer_Type
+		private final Optional<TitanCharString> ptc__name; //CharString_Type
 
 		public FinalVerdictInfo() {
 			is__ptc = new TitanBoolean();
@@ -2990,9 +2998,9 @@ return new TitanInteger(1);
 		}
 
 		public FinalVerdictInfo( final FinalVerdictInfo aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictInfo.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictInfo.");
+			}
 			is__ptc = new TitanBoolean();
 			ptc__verdict = new Verdict();
 			local__verdict = new Verdict();
@@ -3067,6 +3075,7 @@ if(!aOtherValue.isBound()) {
 			ptc__name.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( is__ptc.isBound() ) { return true; }
 			if ( ptc__verdict.isBound() ) { return true; }
@@ -3078,10 +3087,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !is__ptc.isValue() ) { return false; }
 			if ( !ptc__verdict.isValue() ) { return false; }
@@ -3740,6 +3751,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -3771,6 +3783,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -4195,7 +4208,7 @@ return new TitanInteger(1);
 }
 
 	public static class TimerEvent extends Base_Type {
-		private TimerEvent_choice choice; //TTCN3_Choice_Type
+		private final TimerEvent_choice choice; //TTCN3_Choice_Type
 
 		public TimerEvent() {
 			choice = new TimerEvent_choice();
@@ -4206,9 +4219,9 @@ return new TitanInteger(1);
 		}
 
 		public TimerEvent( final TimerEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerEvent.");
+			}
 			choice = new TimerEvent_choice();
 			assign( aOtherValue );
 		}
@@ -4241,15 +4254,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -4599,6 +4615,7 @@ public static class TimerEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -4612,6 +4629,7 @@ public static class TimerEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -4865,9 +4883,9 @@ return new TitanInteger(1);
 }
 
 	public static class MatchingSuccessType extends Base_Type {
-		private PortType port__type; //Referenced_Type
-		private TitanCharString port__name; //CharString_Type
-		private TitanCharString info; //CharString_Type
+		private final PortType port__type; //Referenced_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final TitanCharString info; //CharString_Type
 
 		public MatchingSuccessType() {
 			port__type = new PortType();
@@ -4882,9 +4900,9 @@ return new TitanInteger(1);
 		}
 
 		public MatchingSuccessType( final MatchingSuccessType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingSuccessType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingSuccessType.");
+			}
 			port__type = new PortType();
 			port__name = new TitanCharString();
 			info = new TitanCharString();
@@ -4931,6 +4949,7 @@ if(!aOtherValue.isBound()) {
 			info.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__type.isBound() ) { return true; }
 			if ( port__name.isBound() ) { return true; }
@@ -4938,10 +4957,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__type.isValue() ) { return false; }
 			if ( !port__name.isValue() ) { return false; }
@@ -5383,6 +5404,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -5402,6 +5424,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -5699,11 +5722,11 @@ return new TitanInteger(1);
 }
 
 	public static class Proc__port__out extends Base_Type {
-		private TitanCharString port__name; //CharString_Type
-		private Port__oper operation; //Referenced_Type
-		private TitanInteger compref; //Integer_Type
-		private TitanCharString sys__name; //CharString_Type
-		private TitanCharString parameter; //CharString_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final Port__oper operation; //Referenced_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanCharString sys__name; //CharString_Type
+		private final TitanCharString parameter; //CharString_Type
 
 		public Proc__port__out() {
 			port__name = new TitanCharString();
@@ -5722,9 +5745,9 @@ return new TitanInteger(1);
 		}
 
 		public Proc__port__out( final Proc__port__out aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_out.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_out.");
+			}
 			port__name = new TitanCharString();
 			operation = new Port__oper();
 			compref = new TitanInteger();
@@ -5785,6 +5808,7 @@ if(!aOtherValue.isBound()) {
 			parameter.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__name.isBound() ) { return true; }
 			if ( operation.isBound() ) { return true; }
@@ -5794,10 +5818,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__name.isValue() ) { return false; }
 			if ( !operation.isValue() ) { return false; }
@@ -6331,6 +6357,7 @@ public static class Proc__port__out_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -6356,6 +6383,7 @@ public static class Proc__port__out_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -8184,10 +8212,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -8211,6 +8241,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -10176,11 +10207,11 @@ return new TitanInteger(1);
 }
 
 	public static class SetVerdictType extends Base_Type {
-		private Verdict newVerdict; //Referenced_Type
-		private Verdict oldVerdict; //Referenced_Type
-		private Verdict localVerdict; //Referenced_Type
-		private Optional<TitanCharString> oldReason; //CharString_Type
-		private Optional<TitanCharString> newReason; //CharString_Type
+		private final Verdict newVerdict; //Referenced_Type
+		private final Verdict oldVerdict; //Referenced_Type
+		private final Verdict localVerdict; //Referenced_Type
+		private final Optional<TitanCharString> oldReason; //CharString_Type
+		private final Optional<TitanCharString> newReason; //CharString_Type
 
 		public SetVerdictType() {
 			newVerdict = new Verdict();
@@ -10201,9 +10232,9 @@ return new TitanInteger(1);
 		}
 
 		public SetVerdictType( final SetVerdictType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.SetVerdictType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.SetVerdictType.");
+			}
 			newVerdict = new Verdict();
 			oldVerdict = new Verdict();
 			localVerdict = new Verdict();
@@ -10264,6 +10295,7 @@ if(!aOtherValue.isBound()) {
 			newReason.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( newVerdict.isBound() ) { return true; }
 			if ( oldVerdict.isBound() ) { return true; }
@@ -10273,10 +10305,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !newVerdict.isValue() ) { return false; }
 			if ( !oldVerdict.isValue() ) { return false; }
@@ -10832,6 +10866,7 @@ public static class SetVerdictType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -10857,6 +10892,7 @@ public static class SetVerdictType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -11598,10 +11634,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -11612,6 +11650,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -12640,10 +12679,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -12654,6 +12695,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -13435,7 +13477,7 @@ return new TitanInteger(1);
 }
 
 	public static class WarningEvent extends Base_Type {
-		private TitanCharString text; //CharString_Type
+		private final TitanCharString text; //CharString_Type
 
 		public WarningEvent() {
 			text = new TitanCharString();
@@ -13446,9 +13488,9 @@ return new TitanInteger(1);
 		}
 
 		public WarningEvent( final WarningEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.WarningEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.WarningEvent.");
+			}
 			text = new TitanCharString();
 			assign( aOtherValue );
 		}
@@ -13481,15 +13523,18 @@ if(!aOtherValue.isBound()) {
 			text.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( text.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !text.isValue() ) { return false; }
 			return true;
@@ -13839,6 +13884,7 @@ public static class WarningEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -13852,6 +13898,7 @@ public static class WarningEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -14341,10 +14388,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -14355,6 +14404,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -14926,8 +14976,8 @@ return new TitanInteger(1);
 }
 
 	public static class ComponentIDType extends Base_Type {
-		private TitanInteger id; //Integer_Type
-		private TitanCharString name; //CharString_Type
+		private final TitanInteger id; //Integer_Type
+		private final TitanCharString name; //CharString_Type
 
 		public ComponentIDType() {
 			id = new TitanInteger();
@@ -14940,9 +14990,9 @@ return new TitanInteger(1);
 		}
 
 		public ComponentIDType( final ComponentIDType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ComponentIDType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ComponentIDType.");
+			}
 			id = new TitanInteger();
 			name = new TitanCharString();
 			assign( aOtherValue );
@@ -14982,16 +15032,19 @@ if(!aOtherValue.isBound()) {
 			name.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( id.isBound() ) { return true; }
 			if ( name.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !id.isValue() ) { return false; }
 			if ( !name.isValue() ) { return false; }
@@ -15387,6 +15440,7 @@ public static class ComponentIDType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -15403,6 +15457,7 @@ public static class ComponentIDType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -17267,10 +17322,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -17314,6 +17371,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -19448,10 +19506,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -19467,6 +19527,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -20336,10 +20397,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -20353,6 +20416,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -21326,10 +21390,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -21340,6 +21406,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -21959,8 +22026,8 @@ return new TitanInteger(1);
 }
 
 	public static class ExecutorConfigdata extends Base_Type {
-		private ExecutorConfigdata_reason reason; //TTCN3_Enumerated_Type
-		private Optional<TitanCharString> param__; //CharString_Type
+		private final ExecutorConfigdata_reason reason; //TTCN3_Enumerated_Type
+		private final Optional<TitanCharString> param__; //CharString_Type
 
 		public ExecutorConfigdata() {
 			reason = new ExecutorConfigdata_reason();
@@ -21974,9 +22041,9 @@ return new TitanInteger(1);
 		}
 
 		public ExecutorConfigdata( final ExecutorConfigdata aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorConfigdata.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorConfigdata.");
+			}
 			reason = new ExecutorConfigdata_reason();
 			param__ = new Optional<TitanCharString>(TitanCharString.class);
 			assign( aOtherValue );
@@ -22016,16 +22083,19 @@ if(!aOtherValue.isBound()) {
 			param__.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( optional_sel.OPTIONAL_OMIT.equals(param__.get_selection()) || param__.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !optional_sel.OPTIONAL_OMIT.equals(param__.get_selection()) && !param__.isValue() ) { return false; }
@@ -22432,6 +22502,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -22448,6 +22519,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -22952,10 +23024,10 @@ return new TitanInteger(1);
 }
 
 	public static class LocationInfo extends Base_Type {
-		private TitanCharString filename; //CharString_Type
-		private TitanInteger line; //Integer_Type
-		private TitanCharString ent__name; //CharString_Type
-		private LocationInfo_ent__type ent__type; //TTCN3_Enumerated_Type
+		private final TitanCharString filename; //CharString_Type
+		private final TitanInteger line; //Integer_Type
+		private final TitanCharString ent__name; //CharString_Type
+		private final LocationInfo_ent__type ent__type; //TTCN3_Enumerated_Type
 
 		public LocationInfo() {
 			filename = new TitanCharString();
@@ -22972,9 +23044,9 @@ return new TitanInteger(1);
 		}
 
 		public LocationInfo( final LocationInfo aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LocationInfo.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LocationInfo.");
+			}
 			filename = new TitanCharString();
 			line = new TitanInteger();
 			ent__name = new TitanCharString();
@@ -23028,6 +23100,7 @@ if(!aOtherValue.isBound()) {
 			ent__type.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( filename.isBound() ) { return true; }
 			if ( line.isBound() ) { return true; }
@@ -23036,10 +23109,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !filename.isValue() ) { return false; }
 			if ( !line.isValue() ) { return false; }
@@ -23527,6 +23602,7 @@ public static class LocationInfo_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -23549,6 +23625,7 @@ public static class LocationInfo_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -23868,7 +23945,7 @@ return new TitanInteger(1);
 }
 
 	public static class TestcaseEvent extends Base_Type {
-		private TestcaseEvent_choice choice; //TTCN3_Choice_Type
+		private final TestcaseEvent_choice choice; //TTCN3_Choice_Type
 
 		public TestcaseEvent() {
 			choice = new TestcaseEvent_choice();
@@ -23879,9 +23956,9 @@ return new TitanInteger(1);
 		}
 
 		public TestcaseEvent( final TestcaseEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseEvent.");
+			}
 			choice = new TestcaseEvent_choice();
 			assign( aOtherValue );
 		}
@@ -23914,15 +23991,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -24272,6 +24352,7 @@ public static class TestcaseEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -24285,6 +24366,7 @@ public static class TestcaseEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -24608,10 +24690,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -24635,6 +24719,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -25850,10 +25935,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -25871,6 +25958,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -26806,13 +26894,13 @@ return new TitanInteger(1);
 }
 
 	public static class Port__Misc extends Base_Type {
-		private Port__Misc_reason reason; //TTCN3_Enumerated_Type
-		private TitanCharString port__name; //CharString_Type
-		private TitanInteger remote__component; //Integer_Type
-		private TitanCharString remote__port; //CharString_Type
-		private TitanCharString ip__address; //CharString_Type
-		private TitanInteger tcp__port; //Integer_Type
-		private TitanInteger new__size; //Integer_Type
+		private final Port__Misc_reason reason; //TTCN3_Enumerated_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final TitanInteger remote__component; //Integer_Type
+		private final TitanCharString remote__port; //CharString_Type
+		private final TitanCharString ip__address; //CharString_Type
+		private final TitanInteger tcp__port; //Integer_Type
+		private final TitanInteger new__size; //Integer_Type
 
 		public Port__Misc() {
 			reason = new Port__Misc_reason();
@@ -26835,9 +26923,9 @@ return new TitanInteger(1);
 		}
 
 		public Port__Misc( final Port__Misc aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Misc.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Misc.");
+			}
 			reason = new Port__Misc_reason();
 			port__name = new TitanCharString();
 			remote__component = new TitanInteger();
@@ -26912,6 +27000,7 @@ if(!aOtherValue.isBound()) {
 			new__size.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( port__name.isBound() ) { return true; }
@@ -26923,10 +27012,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !port__name.isValue() ) { return false; }
@@ -27552,6 +27643,7 @@ public static class Port__Misc_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -27583,6 +27675,7 @@ public static class Port__Misc_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -28004,14 +28097,14 @@ return new TitanInteger(1);
 }
 
 	public static class ParallelPTC extends Base_Type {
-		private ParallelPTC_reason reason; //TTCN3_Enumerated_Type
-		private TitanCharString module__; //CharString_Type
-		private TitanCharString name; //CharString_Type
-		private TitanInteger compref; //Integer_Type
-		private TitanCharString compname; //CharString_Type
-		private TitanCharString tc__loc; //CharString_Type
-		private TitanInteger alive__pid; //Integer_Type
-		private TitanInteger status; //Integer_Type
+		private final ParallelPTC_reason reason; //TTCN3_Enumerated_Type
+		private final TitanCharString module__; //CharString_Type
+		private final TitanCharString name; //CharString_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanCharString compname; //CharString_Type
+		private final TitanCharString tc__loc; //CharString_Type
+		private final TitanInteger alive__pid; //Integer_Type
+		private final TitanInteger status; //Integer_Type
 
 		public ParallelPTC() {
 			reason = new ParallelPTC_reason();
@@ -28036,9 +28129,9 @@ return new TitanInteger(1);
 		}
 
 		public ParallelPTC( final ParallelPTC aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelPTC.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelPTC.");
+			}
 			reason = new ParallelPTC_reason();
 			module__ = new TitanCharString();
 			name = new TitanCharString();
@@ -28120,6 +28213,7 @@ if(!aOtherValue.isBound()) {
 			status.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( module__.isBound() ) { return true; }
@@ -28132,10 +28226,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !module__.isValue() ) { return false; }
@@ -28807,6 +28903,7 @@ public static class ParallelPTC_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -28841,6 +28938,7 @@ public static class ParallelPTC_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -29454,10 +29552,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -29468,6 +29568,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -30372,7 +30473,7 @@ return new TitanInteger(1);
 }
 
 	public static class MatchingTimeout extends Base_Type {
-		private Optional<TitanCharString> timer__name; //CharString_Type
+		private final Optional<TitanCharString> timer__name; //CharString_Type
 
 		public MatchingTimeout() {
 			timer__name = new Optional<TitanCharString>(TitanCharString.class);
@@ -30384,9 +30485,9 @@ return new TitanInteger(1);
 		}
 
 		public MatchingTimeout( final MatchingTimeout aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingTimeout.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingTimeout.");
+			}
 			timer__name = new Optional<TitanCharString>(TitanCharString.class);
 			assign( aOtherValue );
 		}
@@ -30419,15 +30520,18 @@ if(!aOtherValue.isBound()) {
 			timer__name.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( optional_sel.OPTIONAL_OMIT.equals(timer__name.get_selection()) || timer__name.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !optional_sel.OPTIONAL_OMIT.equals(timer__name.get_selection()) && !timer__name.isValue() ) { return false; }
 			return true;
@@ -30788,6 +30892,7 @@ public static class MatchingTimeout_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -30801,6 +30906,7 @@ public static class MatchingTimeout_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -31067,7 +31173,7 @@ return new TitanInteger(1);
 }
 
 	public static class VerdictOp extends Base_Type {
-		private VerdictOp_choice choice; //TTCN3_Choice_Type
+		private final VerdictOp_choice choice; //TTCN3_Choice_Type
 
 		public VerdictOp() {
 			choice = new VerdictOp_choice();
@@ -31078,9 +31184,9 @@ return new TitanInteger(1);
 		}
 
 		public VerdictOp( final VerdictOp aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictOp.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictOp.");
+			}
 			choice = new VerdictOp_choice();
 			assign( aOtherValue );
 		}
@@ -31113,15 +31219,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -31471,6 +31580,7 @@ public static class VerdictOp_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -31484,6 +31594,7 @@ public static class VerdictOp_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -31941,10 +32052,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -31955,6 +32068,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -32818,10 +32932,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -32832,6 +32948,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -33684,10 +33801,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -33698,6 +33817,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -34314,8 +34434,8 @@ return new TitanInteger(1);
 }
 
 	public static class TitanSingleLogEvent extends Base_Type {
-		private ComponentIDType entityId; //Referenced_Type
-		private TitanLogEvent event; //Referenced_Type
+		private final ComponentIDType entityId; //Referenced_Type
+		private final TitanLogEvent event; //Referenced_Type
 
 		public TitanSingleLogEvent() {
 			entityId = new ComponentIDType();
@@ -34328,9 +34448,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanSingleLogEvent( final TitanSingleLogEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
 			entityId = new ComponentIDType();
 			event = new TitanLogEvent();
 			assign( aOtherValue );
@@ -34370,16 +34490,19 @@ if(!aOtherValue.isBound()) {
 			event.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( entityId.isBound() ) { return true; }
 			if ( event.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !entityId.isValue() ) { return false; }
 			if ( !event.isValue() ) { return false; }
@@ -34775,6 +34898,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -34791,6 +34915,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -35306,10 +35431,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -35320,6 +35447,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -36096,10 +36224,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -36113,6 +36243,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -37046,10 +37177,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -37060,6 +37193,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -37637,8 +37771,8 @@ return new TitanInteger(1);
 }
 
 	public static class QualifiedName extends Base_Type {
-		private TitanCharString module__name; //CharString_Type
-		private TitanCharString testcase__name; //CharString_Type
+		private final TitanCharString module__name; //CharString_Type
+		private final TitanCharString testcase__name; //CharString_Type
 
 		public QualifiedName() {
 			module__name = new TitanCharString();
@@ -37651,9 +37785,9 @@ return new TitanInteger(1);
 		}
 
 		public QualifiedName( final QualifiedName aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.QualifiedName.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.QualifiedName.");
+			}
 			module__name = new TitanCharString();
 			testcase__name = new TitanCharString();
 			assign( aOtherValue );
@@ -37693,16 +37827,19 @@ if(!aOtherValue.isBound()) {
 			testcase__name.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( module__name.isBound() ) { return true; }
 			if ( testcase__name.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !module__name.isValue() ) { return false; }
 			if ( !testcase__name.isValue() ) { return false; }
@@ -38098,6 +38235,7 @@ public static class QualifiedName_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -38114,6 +38252,7 @@ public static class QualifiedName_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -38425,9 +38564,9 @@ return new TitanInteger(1);
 }
 
 	public static class FunctionEvent_choice_random extends Base_Type {
-		private RandomAction operation; //Referenced_Type
-		private TitanFloat retval; //Float_Type
-		private TitanInteger intseed; //Integer_Type
+		private final RandomAction operation; //Referenced_Type
+		private final TitanFloat retval; //Float_Type
+		private final TitanInteger intseed; //Integer_Type
 
 		public FunctionEvent_choice_random() {
 			operation = new RandomAction();
@@ -38442,9 +38581,9 @@ return new TitanInteger(1);
 		}
 
 		public FunctionEvent_choice_random( final FunctionEvent_choice_random aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.choice.random.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.choice.random.");
+			}
 			operation = new RandomAction();
 			retval = new TitanFloat();
 			intseed = new TitanInteger();
@@ -38491,6 +38630,7 @@ if(!aOtherValue.isBound()) {
 			intseed.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( operation.isBound() ) { return true; }
 			if ( retval.isBound() ) { return true; }
@@ -38498,10 +38638,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !operation.isValue() ) { return false; }
 			if ( !retval.isValue() ) { return false; }
@@ -38943,6 +39085,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -38962,6 +39105,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -39475,10 +39619,10 @@ return new TitanInteger(1);
 }
 
 	public static class Dualface__mapped extends Base_Type {
-		private TitanBoolean incoming; //Boolean_Type
-		private TitanCharString target__type; //CharString_Type
-		private TitanCharString value__; //CharString_Type
-		private TitanInteger msgid; //Integer_Type
+		private final TitanBoolean incoming; //Boolean_Type
+		private final TitanCharString target__type; //CharString_Type
+		private final TitanCharString value__; //CharString_Type
+		private final TitanInteger msgid; //Integer_Type
 
 		public Dualface__mapped() {
 			incoming = new TitanBoolean();
@@ -39495,9 +39639,9 @@ return new TitanInteger(1);
 		}
 
 		public Dualface__mapped( final Dualface__mapped aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_mapped.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_mapped.");
+			}
 			incoming = new TitanBoolean();
 			target__type = new TitanCharString();
 			value__ = new TitanCharString();
@@ -39551,6 +39695,7 @@ if(!aOtherValue.isBound()) {
 			msgid.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( incoming.isBound() ) { return true; }
 			if ( target__type.isBound() ) { return true; }
@@ -39559,10 +39704,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !incoming.isValue() ) { return false; }
 			if ( !target__type.isValue() ) { return false; }
@@ -40050,6 +40197,7 @@ public static class Dualface__mapped_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -40072,6 +40220,7 @@ public static class Dualface__mapped_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -41772,9 +41921,9 @@ return new TitanInteger(1);
 }
 
 	public static class VerdictType extends Base_Type {
-		private Verdict fromVerdict; //Referenced_Type
-		private Verdict toVerdict; //Referenced_Type
-		private Optional<TitanCharString> verdictReason; //CharString_Type
+		private final Verdict fromVerdict; //Referenced_Type
+		private final Verdict toVerdict; //Referenced_Type
+		private final Optional<TitanCharString> verdictReason; //CharString_Type
 
 		public VerdictType() {
 			fromVerdict = new Verdict();
@@ -41790,9 +41939,9 @@ return new TitanInteger(1);
 		}
 
 		public VerdictType( final VerdictType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictType.");
+			}
 			fromVerdict = new Verdict();
 			toVerdict = new Verdict();
 			verdictReason = new Optional<TitanCharString>(TitanCharString.class);
@@ -41839,6 +41988,7 @@ if(!aOtherValue.isBound()) {
 			verdictReason.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( fromVerdict.isBound() ) { return true; }
 			if ( toVerdict.isBound() ) { return true; }
@@ -41846,10 +41996,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !fromVerdict.isValue() ) { return false; }
 			if ( !toVerdict.isValue() ) { return false; }
@@ -42302,6 +42454,7 @@ public static class VerdictType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -42321,6 +42474,7 @@ public static class VerdictType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -42973,10 +43127,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -42987,6 +43143,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -43933,10 +44090,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -43947,6 +44106,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -44803,8 +44963,8 @@ return new TitanInteger(1);
 }
 
 	public static class TimestampType extends Base_Type {
-		private TitanInteger seconds; //Integer_Type
-		private TitanInteger microSeconds; //Integer_Type
+		private final TitanInteger seconds; //Integer_Type
+		private final TitanInteger microSeconds; //Integer_Type
 
 		public TimestampType() {
 			seconds = new TitanInteger();
@@ -44817,9 +44977,9 @@ return new TitanInteger(1);
 		}
 
 		public TimestampType( final TimestampType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimestampType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimestampType.");
+			}
 			seconds = new TitanInteger();
 			microSeconds = new TitanInteger();
 			assign( aOtherValue );
@@ -44859,16 +45019,19 @@ if(!aOtherValue.isBound()) {
 			microSeconds.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( seconds.isBound() ) { return true; }
 			if ( microSeconds.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !seconds.isValue() ) { return false; }
 			if ( !microSeconds.isValue() ) { return false; }
@@ -45264,6 +45427,7 @@ public static class TimestampType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -45280,6 +45444,7 @@ public static class TimestampType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -45555,9 +45720,9 @@ return new TitanInteger(1);
 }
 
 	public static class Setstate extends Base_Type {
-		private TitanCharString port__name; //CharString_Type
-		private TitanCharString state; //CharString_Type
-		private TitanCharString info; //CharString_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final TitanCharString state; //CharString_Type
+		private final TitanCharString info; //CharString_Type
 
 		public Setstate() {
 			port__name = new TitanCharString();
@@ -45572,9 +45737,9 @@ return new TitanInteger(1);
 		}
 
 		public Setstate( final Setstate aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Setstate.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Setstate.");
+			}
 			port__name = new TitanCharString();
 			state = new TitanCharString();
 			info = new TitanCharString();
@@ -45621,6 +45786,7 @@ if(!aOtherValue.isBound()) {
 			info.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__name.isBound() ) { return true; }
 			if ( state.isBound() ) { return true; }
@@ -45628,10 +45794,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__name.isValue() ) { return false; }
 			if ( !state.isValue() ) { return false; }
@@ -46073,6 +46241,7 @@ public static class Setstate_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -46092,6 +46261,7 @@ public static class Setstate_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -46533,12 +46703,12 @@ return new TitanInteger(1);
 }
 
 	public static class Proc__port__in extends Base_Type {
-		private TitanCharString port__name; //CharString_Type
-		private Port__oper operation; //Referenced_Type
-		private TitanInteger compref; //Integer_Type
-		private TitanBoolean check__; //Boolean_Type
-		private TitanCharString parameter; //CharString_Type
-		private TitanInteger msgid; //Integer_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final Port__oper operation; //Referenced_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanBoolean check__; //Boolean_Type
+		private final TitanCharString parameter; //CharString_Type
+		private final TitanInteger msgid; //Integer_Type
 
 		public Proc__port__in() {
 			port__name = new TitanCharString();
@@ -46559,9 +46729,9 @@ return new TitanInteger(1);
 		}
 
 		public Proc__port__in( final Proc__port__in aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_in.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_in.");
+			}
 			port__name = new TitanCharString();
 			operation = new Port__oper();
 			compref = new TitanInteger();
@@ -46629,6 +46799,7 @@ if(!aOtherValue.isBound()) {
 			msgid.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__name.isBound() ) { return true; }
 			if ( operation.isBound() ) { return true; }
@@ -46639,10 +46810,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__name.isValue() ) { return false; }
 			if ( !operation.isValue() ) { return false; }
@@ -47222,6 +47395,7 @@ public static class Proc__port__in_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -47250,6 +47424,7 @@ public static class Proc__port__in_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -47613,10 +47788,10 @@ return new TitanInteger(1);
 }
 
 	public static class TitanLogEvent extends Base_Type {
-		private TimestampType timestamp; //Referenced_Type
-		private TitanLogEvent_sourceInfo__list sourceInfo__list; //SequenceOf_Type
-		private TitanInteger severity; //Integer_Type
-		private LogEventType logEvent; //Referenced_Type
+		private final TimestampType timestamp; //Referenced_Type
+		private final TitanLogEvent_sourceInfo__list sourceInfo__list; //SequenceOf_Type
+		private final TitanInteger severity; //Integer_Type
+		private final LogEventType logEvent; //Referenced_Type
 
 		public TitanLogEvent() {
 			timestamp = new TimestampType();
@@ -47633,9 +47808,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanLogEvent( final TitanLogEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLogEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLogEvent.");
+			}
 			timestamp = new TimestampType();
 			sourceInfo__list = new TitanLogEvent_sourceInfo__list();
 			severity = new TitanInteger();
@@ -47689,6 +47864,7 @@ if(!aOtherValue.isBound()) {
 			logEvent.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( timestamp.isBound() ) { return true; }
 			if ( sourceInfo__list.isBound() ) { return true; }
@@ -47697,10 +47873,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !timestamp.isValue() ) { return false; }
 			if ( !sourceInfo__list.isValue() ) { return false; }
@@ -48188,6 +48366,7 @@ public static class TitanLogEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -48210,6 +48389,7 @@ public static class TitanLogEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -48529,16 +48709,16 @@ return new TitanInteger(1);
 }
 
 	public static class StatisticsType_choice_verdictStatistics extends Base_Type {
-		private TitanInteger none__; //Integer_Type
-		private TitanFloat nonePercent; //Float_Type
-		private TitanInteger pass__; //Integer_Type
-		private TitanFloat passPercent; //Float_Type
-		private TitanInteger inconc__; //Integer_Type
-		private TitanFloat inconcPercent; //Float_Type
-		private TitanInteger fail__; //Integer_Type
-		private TitanFloat failPercent; //Float_Type
-		private TitanInteger error__; //Integer_Type
-		private TitanFloat errorPercent; //Float_Type
+		private final TitanInteger none__; //Integer_Type
+		private final TitanFloat nonePercent; //Float_Type
+		private final TitanInteger pass__; //Integer_Type
+		private final TitanFloat passPercent; //Float_Type
+		private final TitanInteger inconc__; //Integer_Type
+		private final TitanFloat inconcPercent; //Float_Type
+		private final TitanInteger fail__; //Integer_Type
+		private final TitanFloat failPercent; //Float_Type
+		private final TitanInteger error__; //Integer_Type
+		private final TitanFloat errorPercent; //Float_Type
 
 		public StatisticsType_choice_verdictStatistics() {
 			none__ = new TitanInteger();
@@ -48567,9 +48747,9 @@ return new TitanInteger(1);
 		}
 
 		public StatisticsType_choice_verdictStatistics( final StatisticsType_choice_verdictStatistics aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
+			}
 			none__ = new TitanInteger();
 			nonePercent = new TitanFloat();
 			pass__ = new TitanInteger();
@@ -48665,6 +48845,7 @@ if(!aOtherValue.isBound()) {
 			errorPercent.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( none__.isBound() ) { return true; }
 			if ( nonePercent.isBound() ) { return true; }
@@ -48679,10 +48860,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !none__.isValue() ) { return false; }
 			if ( !nonePercent.isValue() ) { return false; }
@@ -49446,6 +49629,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -49486,6 +49670,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -50117,7 +50302,7 @@ return new TitanInteger(1);
 }
 
 	public static class LogEventType extends Base_Type {
-		private LogEventType_choice choice; //TTCN3_Choice_Type
+		private final LogEventType_choice choice; //TTCN3_Choice_Type
 
 		public LogEventType() {
 			choice = new LogEventType_choice();
@@ -50128,9 +50313,9 @@ return new TitanInteger(1);
 		}
 
 		public LogEventType( final LogEventType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LogEventType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LogEventType.");
+			}
 			choice = new LogEventType_choice();
 			assign( aOtherValue );
 		}
@@ -50163,15 +50348,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -50521,6 +50709,7 @@ public static class LogEventType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -50534,6 +50723,7 @@ public static class LogEventType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -50787,8 +50977,8 @@ return new TitanInteger(1);
 }
 
 	public static class Port__State extends Base_Type {
-		private Port__State_operation operation; //TTCN3_Enumerated_Type
-		private TitanCharString port__name; //CharString_Type
+		private final Port__State_operation operation; //TTCN3_Enumerated_Type
+		private final TitanCharString port__name; //CharString_Type
 
 		public Port__State() {
 			operation = new Port__State_operation();
@@ -50801,9 +50991,9 @@ return new TitanInteger(1);
 		}
 
 		public Port__State( final Port__State aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_State.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_State.");
+			}
 			operation = new Port__State_operation();
 			port__name = new TitanCharString();
 			assign( aOtherValue );
@@ -50843,16 +51033,19 @@ if(!aOtherValue.isBound()) {
 			port__name.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( operation.isBound() ) { return true; }
 			if ( port__name.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !operation.isValue() ) { return false; }
 			if ( !port__name.isValue() ) { return false; }
@@ -51248,6 +51441,7 @@ public static class Port__State_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -51264,6 +51458,7 @@ public static class Port__State_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -51539,9 +51734,9 @@ return new TitanInteger(1);
 }
 
 	public static class TestcaseType extends Base_Type {
-		private QualifiedName name; //Referenced_Type
-		private Verdict verdict; //Referenced_Type
-		private TitanCharString reason; //CharString_Type
+		private final QualifiedName name; //Referenced_Type
+		private final Verdict verdict; //Referenced_Type
+		private final TitanCharString reason; //CharString_Type
 
 		public TestcaseType() {
 			name = new QualifiedName();
@@ -51556,9 +51751,9 @@ return new TitanInteger(1);
 		}
 
 		public TestcaseType( final TestcaseType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseType.");
+			}
 			name = new QualifiedName();
 			verdict = new Verdict();
 			reason = new TitanCharString();
@@ -51605,6 +51800,7 @@ if(!aOtherValue.isBound()) {
 			reason.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( name.isBound() ) { return true; }
 			if ( verdict.isBound() ) { return true; }
@@ -51612,10 +51808,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !name.isValue() ) { return false; }
 			if ( !verdict.isValue() ) { return false; }
@@ -52057,6 +52255,7 @@ public static class TestcaseType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -52076,6 +52275,7 @@ public static class TestcaseType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -52467,10 +52667,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -52486,6 +52688,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -53378,10 +53581,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -53391,6 +53596,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -53920,7 +54126,7 @@ return new TitanInteger(1);
 }
 
 	public static class PortEvent extends Base_Type {
-		private PortEvent_choice choice; //TTCN3_Choice_Type
+		private final PortEvent_choice choice; //TTCN3_Choice_Type
 
 		public PortEvent() {
 			choice = new PortEvent_choice();
@@ -53931,9 +54137,9 @@ return new TitanInteger(1);
 		}
 
 		public PortEvent( final PortEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PortEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PortEvent.");
+			}
 			choice = new PortEvent_choice();
 			assign( aOtherValue );
 		}
@@ -53966,15 +54172,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -54324,6 +54533,7 @@ public static class PortEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -54337,6 +54547,7 @@ public static class PortEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -54741,10 +54952,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -54774,6 +54987,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -56183,9 +56397,9 @@ return new TitanInteger(1);
 }
 
 	public static class Msg__port__send extends Base_Type {
-		private TitanCharString port__name; //CharString_Type
-		private TitanInteger compref; //Integer_Type
-		private TitanCharString parameter; //CharString_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanCharString parameter; //CharString_Type
 
 		public Msg__port__send() {
 			port__name = new TitanCharString();
@@ -56200,9 +56414,9 @@ return new TitanInteger(1);
 		}
 
 		public Msg__port__send( final Msg__port__send aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_send.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_send.");
+			}
 			port__name = new TitanCharString();
 			compref = new TitanInteger();
 			parameter = new TitanCharString();
@@ -56249,6 +56463,7 @@ if(!aOtherValue.isBound()) {
 			parameter.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__name.isBound() ) { return true; }
 			if ( compref.isBound() ) { return true; }
@@ -56256,10 +56471,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__name.isValue() ) { return false; }
 			if ( !compref.isValue() ) { return false; }
@@ -56701,6 +56918,7 @@ public static class Msg__port__send_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -56720,6 +56938,7 @@ public static class Msg__port__send_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -57449,7 +57668,7 @@ return new TitanInteger(1);
 }
 
 	public static class FunctionEvent extends Base_Type {
-		private FunctionEvent_choice choice; //TTCN3_Choice_Type
+		private final FunctionEvent_choice choice; //TTCN3_Choice_Type
 
 		public FunctionEvent() {
 			choice = new FunctionEvent_choice();
@@ -57460,9 +57679,9 @@ return new TitanInteger(1);
 		}
 
 		public FunctionEvent( final FunctionEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.");
+			}
 			choice = new FunctionEvent_choice();
 			assign( aOtherValue );
 		}
@@ -57495,15 +57714,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -57853,6 +58075,7 @@ public static class FunctionEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -57866,6 +58089,7 @@ public static class FunctionEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -58407,11 +58631,11 @@ return new TitanInteger(1);
 }
 
 	public static class MatchingFailureType extends Base_Type {
-		private PortType port__type; //Referenced_Type
-		private TitanCharString port__name; //CharString_Type
-		private MatchingFailureType_choice choice; //TTCN3_Choice_Type
-		private MatchingFailureType_reason reason; //TTCN3_Enumerated_Type
-		private TitanCharString info; //CharString_Type
+		private final PortType port__type; //Referenced_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final MatchingFailureType_choice choice; //TTCN3_Choice_Type
+		private final MatchingFailureType_reason reason; //TTCN3_Enumerated_Type
+		private final TitanCharString info; //CharString_Type
 
 		public MatchingFailureType() {
 			port__type = new PortType();
@@ -58430,9 +58654,9 @@ return new TitanInteger(1);
 		}
 
 		public MatchingFailureType( final MatchingFailureType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingFailureType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingFailureType.");
+			}
 			port__type = new PortType();
 			port__name = new TitanCharString();
 			choice = new MatchingFailureType_choice();
@@ -58493,6 +58717,7 @@ if(!aOtherValue.isBound()) {
 			info.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__type.isBound() ) { return true; }
 			if ( port__name.isBound() ) { return true; }
@@ -58502,10 +58727,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__type.isValue() ) { return false; }
 			if ( !port__name.isValue() ) { return false; }
@@ -59039,6 +59266,7 @@ public static class MatchingFailureType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -59064,6 +59292,7 @@ public static class MatchingFailureType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -59873,11 +60102,11 @@ return new TitanInteger(1);
 }
 
 	public static class ParPort extends Base_Type {
-		private ParPort_operation operation; //TTCN3_Enumerated_Type
-		private TitanInteger srcCompref; //Integer_Type
-		private TitanInteger dstCompref; //Integer_Type
-		private TitanCharString srcPort; //CharString_Type
-		private TitanCharString dstPort; //CharString_Type
+		private final ParPort_operation operation; //TTCN3_Enumerated_Type
+		private final TitanInteger srcCompref; //Integer_Type
+		private final TitanInteger dstCompref; //Integer_Type
+		private final TitanCharString srcPort; //CharString_Type
+		private final TitanCharString dstPort; //CharString_Type
 
 		public ParPort() {
 			operation = new ParPort_operation();
@@ -59896,9 +60125,9 @@ return new TitanInteger(1);
 		}
 
 		public ParPort( final ParPort aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParPort.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParPort.");
+			}
 			operation = new ParPort_operation();
 			srcCompref = new TitanInteger();
 			dstCompref = new TitanInteger();
@@ -59959,6 +60188,7 @@ if(!aOtherValue.isBound()) {
 			dstPort.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( operation.isBound() ) { return true; }
 			if ( srcCompref.isBound() ) { return true; }
@@ -59968,10 +60198,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !operation.isValue() ) { return false; }
 			if ( !srcCompref.isValue() ) { return false; }
@@ -60505,6 +60737,7 @@ public static class ParPort_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -60530,6 +60763,7 @@ public static class ParPort_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -60907,10 +61141,10 @@ return new TitanInteger(1);
 }
 
 	public static class MatchingDoneType extends Base_Type {
-		private MatchingDoneType_reason reason; //TTCN3_Enumerated_Type
-		private TitanCharString type__; //CharString_Type
-		private TitanInteger ptc; //Integer_Type
-		private TitanCharString return__type; //CharString_Type
+		private final MatchingDoneType_reason reason; //TTCN3_Enumerated_Type
+		private final TitanCharString type__; //CharString_Type
+		private final TitanInteger ptc; //Integer_Type
+		private final TitanCharString return__type; //CharString_Type
 
 		public MatchingDoneType() {
 			reason = new MatchingDoneType_reason();
@@ -60927,9 +61161,9 @@ return new TitanInteger(1);
 		}
 
 		public MatchingDoneType( final MatchingDoneType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingDoneType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingDoneType.");
+			}
 			reason = new MatchingDoneType_reason();
 			type__ = new TitanCharString();
 			ptc = new TitanInteger();
@@ -60983,6 +61217,7 @@ if(!aOtherValue.isBound()) {
 			return__type.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( type__.isBound() ) { return true; }
@@ -60991,10 +61226,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !type__.isValue() ) { return false; }
@@ -61482,6 +61719,7 @@ public static class MatchingDoneType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -61504,6 +61742,7 @@ public static class MatchingDoneType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -61931,12 +62170,12 @@ return new TitanInteger(1);
 }
 
 	public static class Port__Queue extends Base_Type {
-		private Port__Queue_operation operation; //TTCN3_Enumerated_Type
-		private TitanCharString port__name; //CharString_Type
-		private TitanInteger compref; //Integer_Type
-		private TitanInteger msgid; //Integer_Type
-		private TitanCharString address__; //CharString_Type
-		private TitanCharString param__; //CharString_Type
+		private final Port__Queue_operation operation; //TTCN3_Enumerated_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanInteger msgid; //Integer_Type
+		private final TitanCharString address__; //CharString_Type
+		private final TitanCharString param__; //CharString_Type
 
 		public Port__Queue() {
 			operation = new Port__Queue_operation();
@@ -61957,9 +62196,9 @@ return new TitanInteger(1);
 		}
 
 		public Port__Queue( final Port__Queue aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Queue.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Queue.");
+			}
 			operation = new Port__Queue_operation();
 			port__name = new TitanCharString();
 			compref = new TitanInteger();
@@ -62027,6 +62266,7 @@ if(!aOtherValue.isBound()) {
 			param__.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( operation.isBound() ) { return true; }
 			if ( port__name.isBound() ) { return true; }
@@ -62037,10 +62277,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !operation.isValue() ) { return false; }
 			if ( !port__name.isValue() ) { return false; }
@@ -62620,6 +62862,7 @@ public static class Port__Queue_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -62648,6 +62891,7 @@ public static class Port__Queue_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -63011,7 +63255,7 @@ return new TitanInteger(1);
 }
 
 	public static class ParallelEvent extends Base_Type {
-		private ParallelEvent_choice choice; //TTCN3_Choice_Type
+		private final ParallelEvent_choice choice; //TTCN3_Choice_Type
 
 		public ParallelEvent() {
 			choice = new ParallelEvent_choice();
@@ -63022,9 +63266,9 @@ return new TitanInteger(1);
 		}
 
 		public ParallelEvent( final ParallelEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelEvent.");
+			}
 			choice = new ParallelEvent_choice();
 			assign( aOtherValue );
 		}
@@ -63057,15 +63301,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -63415,6 +63662,7 @@ public static class ParallelEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -63428,6 +63676,7 @@ public static class ParallelEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -63736,10 +63985,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -63753,6 +64004,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -65899,12 +66151,12 @@ return new TitanInteger(1);
 }
 
 	public static class Msg__port__recv extends Base_Type {
-		private TitanCharString port__name; //CharString_Type
-		private Msg__port__recv_operation operation; //TTCN3_Enumerated_Type
-		private TitanInteger compref; //Integer_Type
-		private TitanCharString sys__name; //CharString_Type
-		private TitanCharString parameter; //CharString_Type
-		private TitanInteger msgid; //Integer_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final Msg__port__recv_operation operation; //TTCN3_Enumerated_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanCharString sys__name; //CharString_Type
+		private final TitanCharString parameter; //CharString_Type
+		private final TitanInteger msgid; //Integer_Type
 
 		public Msg__port__recv() {
 			port__name = new TitanCharString();
@@ -65925,9 +66177,9 @@ return new TitanInteger(1);
 		}
 
 		public Msg__port__recv( final Msg__port__recv aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_recv.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_recv.");
+			}
 			port__name = new TitanCharString();
 			operation = new Msg__port__recv_operation();
 			compref = new TitanInteger();
@@ -65995,6 +66247,7 @@ if(!aOtherValue.isBound()) {
 			msgid.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__name.isBound() ) { return true; }
 			if ( operation.isBound() ) { return true; }
@@ -66005,10 +66258,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__name.isValue() ) { return false; }
 			if ( !operation.isValue() ) { return false; }
@@ -66588,6 +66843,7 @@ public static class Msg__port__recv_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -66616,6 +66872,7 @@ public static class Msg__port__recv_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -67015,8 +67272,8 @@ return new TitanInteger(1);
 }
 
 	public static class TimerType extends Base_Type {
-		private TitanCharString name; //CharString_Type
-		private TitanFloat value__; //Float_Type
+		private final TitanCharString name; //CharString_Type
+		private final TitanFloat value__; //Float_Type
 
 		public TimerType() {
 			name = new TitanCharString();
@@ -67029,9 +67286,9 @@ return new TitanInteger(1);
 		}
 
 		public TimerType( final TimerType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerType.");
+			}
 			name = new TitanCharString();
 			value__ = new TitanFloat();
 			assign( aOtherValue );
@@ -67071,16 +67328,19 @@ if(!aOtherValue.isBound()) {
 			value__.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( name.isBound() ) { return true; }
 			if ( value__.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !name.isValue() ) { return false; }
 			if ( !value__.isValue() ) { return false; }
@@ -67476,6 +67736,7 @@ public static class TimerType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -67492,6 +67753,7 @@ public static class TimerType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -67767,7 +68029,7 @@ return new TitanInteger(1);
 }
 
 	public static class DefaultEvent extends Base_Type {
-		private DefaultEvent_choice choice; //TTCN3_Choice_Type
+		private final DefaultEvent_choice choice; //TTCN3_Choice_Type
 
 		public DefaultEvent() {
 			choice = new DefaultEvent_choice();
@@ -67778,9 +68040,9 @@ return new TitanInteger(1);
 		}
 
 		public DefaultEvent( final DefaultEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultEvent.");
+			}
 			choice = new DefaultEvent_choice();
 			assign( aOtherValue );
 		}
@@ -67813,15 +68075,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -68171,6 +68436,7 @@ public static class DefaultEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -68184,6 +68450,7 @@ public static class DefaultEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -68749,10 +69016,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -68763,6 +69032,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -69412,11 +69682,11 @@ return new TitanInteger(1);
 }
 
 	public static class MatchingProblemType extends Base_Type {
-		private TitanCharString port__name; //CharString_Type
-		private MatchingProblemType_reason reason; //TTCN3_Enumerated_Type
-		private MatchingProblemType_operation operation; //TTCN3_Enumerated_Type
-		private TitanBoolean check__; //Boolean_Type
-		private TitanBoolean any__port; //Boolean_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final MatchingProblemType_reason reason; //TTCN3_Enumerated_Type
+		private final MatchingProblemType_operation operation; //TTCN3_Enumerated_Type
+		private final TitanBoolean check__; //Boolean_Type
+		private final TitanBoolean any__port; //Boolean_Type
 
 		public MatchingProblemType() {
 			port__name = new TitanCharString();
@@ -69435,9 +69705,9 @@ return new TitanInteger(1);
 		}
 
 		public MatchingProblemType( final MatchingProblemType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingProblemType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingProblemType.");
+			}
 			port__name = new TitanCharString();
 			reason = new MatchingProblemType_reason();
 			operation = new MatchingProblemType_operation();
@@ -69498,6 +69768,7 @@ if(!aOtherValue.isBound()) {
 			any__port.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( port__name.isBound() ) { return true; }
 			if ( reason.isBound() ) { return true; }
@@ -69507,10 +69778,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !port__name.isValue() ) { return false; }
 			if ( !reason.isValue() ) { return false; }
@@ -70044,6 +70317,7 @@ public static class MatchingProblemType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -70069,6 +70343,7 @@ public static class MatchingProblemType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -70410,7 +70685,7 @@ return new TitanInteger(1);
 }
 
 	public static class Strings extends Base_Type {
-		private Strings_str__list str__list; //SequenceOf_Type
+		private final Strings_str__list str__list; //SequenceOf_Type
 
 		public Strings() {
 			str__list = new Strings_str__list();
@@ -70421,9 +70696,9 @@ return new TitanInteger(1);
 		}
 
 		public Strings( final Strings aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Strings.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Strings.");
+			}
 			str__list = new Strings_str__list();
 			assign( aOtherValue );
 		}
@@ -70456,15 +70731,18 @@ if(!aOtherValue.isBound()) {
 			str__list.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( str__list.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !str__list.isValue() ) { return false; }
 			return true;
@@ -70814,6 +71092,7 @@ public static class Strings_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -70827,6 +71106,7 @@ public static class Strings_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -71116,9 +71396,9 @@ return new TitanInteger(1);
 }
 
 	public static class PTC__exit extends Base_Type {
-		private TitanInteger compref; //Integer_Type
-		private TitanInteger pid; //Integer_Type
-		private TitanInteger statuscode; //Integer_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanInteger pid; //Integer_Type
+		private final TitanInteger statuscode; //Integer_Type
 
 		public PTC__exit() {
 			compref = new TitanInteger();
@@ -71133,9 +71413,9 @@ return new TitanInteger(1);
 		}
 
 		public PTC__exit( final PTC__exit aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PTC_exit.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PTC_exit.");
+			}
 			compref = new TitanInteger();
 			pid = new TitanInteger();
 			statuscode = new TitanInteger();
@@ -71182,6 +71462,7 @@ if(!aOtherValue.isBound()) {
 			statuscode.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( compref.isBound() ) { return true; }
 			if ( pid.isBound() ) { return true; }
@@ -71189,10 +71470,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !compref.isValue() ) { return false; }
 			if ( !pid.isValue() ) { return false; }
@@ -71634,6 +71917,7 @@ public static class PTC__exit_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -71653,6 +71937,7 @@ public static class PTC__exit_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -72218,10 +72503,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -72232,6 +72519,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -72887,7 +73175,7 @@ return new TitanInteger(1);
 }
 
 	public static class TitanLog extends Base_Type {
-		private TitanLog_sequence__list sequence__list; //SequenceOf_Type
+		private final TitanLog_sequence__list sequence__list; //SequenceOf_Type
 
 		public TitanLog() {
 			sequence__list = new TitanLog_sequence__list();
@@ -72898,9 +73186,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanLog( final TitanLog aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.");
+			}
 			sequence__list = new TitanLog_sequence__list();
 			assign( aOtherValue );
 		}
@@ -72933,15 +73221,18 @@ if(!aOtherValue.isBound()) {
 			sequence__list.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( sequence__list.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !sequence__list.isValue() ) { return false; }
 			return true;
@@ -73291,6 +73582,7 @@ public static class TitanLog_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -73304,6 +73596,7 @@ public static class TitanLog_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -73557,7 +73850,7 @@ return new TitanInteger(1);
 }
 
 	public static class ErrorEvent extends Base_Type {
-		private TitanCharString text; //CharString_Type
+		private final TitanCharString text; //CharString_Type
 
 		public ErrorEvent() {
 			text = new TitanCharString();
@@ -73568,9 +73861,9 @@ return new TitanInteger(1);
 		}
 
 		public ErrorEvent( final ErrorEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ErrorEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ErrorEvent.");
+			}
 			text = new TitanCharString();
 			assign( aOtherValue );
 		}
@@ -73603,15 +73896,18 @@ if(!aOtherValue.isBound()) {
 			text.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( text.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !text.isValue() ) { return false; }
 			return true;
@@ -73961,6 +74257,7 @@ public static class ErrorEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -73974,6 +74271,7 @@ public static class ErrorEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -74443,7 +74741,7 @@ return new TitanInteger(1);
 }
 
 	public static class ExecutorEvent extends Base_Type {
-		private ExecutorEvent_choice choice; //TTCN3_Choice_Type
+		private final ExecutorEvent_choice choice; //TTCN3_Choice_Type
 
 		public ExecutorEvent() {
 			choice = new ExecutorEvent_choice();
@@ -74454,9 +74752,9 @@ return new TitanInteger(1);
 		}
 
 		public ExecutorEvent( final ExecutorEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorEvent.");
+			}
 			choice = new ExecutorEvent_choice();
 			assign( aOtherValue );
 		}
@@ -74489,15 +74787,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -74847,6 +75148,7 @@ public static class ExecutorEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -74860,6 +75162,7 @@ public static class ExecutorEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -75221,13 +75524,13 @@ return new TitanInteger(1);
 }
 
 	public static class Parallel extends Base_Type {
-		private Parallel_reason reason; //TTCN3_Enumerated_Type
-		private TitanBoolean alive__; //Boolean_Type
-		private TitanCharString function__name; //CharString_Type
-		private TitanInteger src__compref; //Integer_Type
-		private TitanCharString src__port; //CharString_Type
-		private TitanInteger dst__compref; //Integer_Type
-		private TitanCharString dst__port; //CharString_Type
+		private final Parallel_reason reason; //TTCN3_Enumerated_Type
+		private final TitanBoolean alive__; //Boolean_Type
+		private final TitanCharString function__name; //CharString_Type
+		private final TitanInteger src__compref; //Integer_Type
+		private final TitanCharString src__port; //CharString_Type
+		private final TitanInteger dst__compref; //Integer_Type
+		private final TitanCharString dst__port; //CharString_Type
 
 		public Parallel() {
 			reason = new Parallel_reason();
@@ -75250,9 +75553,9 @@ return new TitanInteger(1);
 		}
 
 		public Parallel( final Parallel aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Parallel.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Parallel.");
+			}
 			reason = new Parallel_reason();
 			alive__ = new TitanBoolean();
 			function__name = new TitanCharString();
@@ -75327,6 +75630,7 @@ if(!aOtherValue.isBound()) {
 			dst__port.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( alive__.isBound() ) { return true; }
@@ -75338,10 +75642,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !alive__.isValue() ) { return false; }
@@ -75967,6 +76273,7 @@ public static class Parallel_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -75998,6 +76305,7 @@ public static class Parallel_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -76383,11 +76691,11 @@ return new TitanInteger(1);
 }
 
 	public static class ExecutorRuntime extends Base_Type {
-		private ExecutorRuntime_reason reason; //TTCN3_Enumerated_Type
-		private Optional<TitanCharString> module__name; //CharString_Type
-		private Optional<TitanCharString> testcase__name; //CharString_Type
-		private Optional<TitanInteger> pid; //Integer_Type
-		private Optional<TitanInteger> fd__setsize; //Integer_Type
+		private final ExecutorRuntime_reason reason; //TTCN3_Enumerated_Type
+		private final Optional<TitanCharString> module__name; //CharString_Type
+		private final Optional<TitanCharString> testcase__name; //CharString_Type
+		private final Optional<TitanInteger> pid; //Integer_Type
+		private final Optional<TitanInteger> fd__setsize; //Integer_Type
 
 		public ExecutorRuntime() {
 			reason = new ExecutorRuntime_reason();
@@ -76410,9 +76718,9 @@ return new TitanInteger(1);
 		}
 
 		public ExecutorRuntime( final ExecutorRuntime aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorRuntime.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorRuntime.");
+			}
 			reason = new ExecutorRuntime_reason();
 			module__name = new Optional<TitanCharString>(TitanCharString.class);
 			testcase__name = new Optional<TitanCharString>(TitanCharString.class);
@@ -76473,6 +76781,7 @@ if(!aOtherValue.isBound()) {
 			fd__setsize.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( optional_sel.OPTIONAL_OMIT.equals(module__name.get_selection()) || module__name.isBound() ) { return true; }
@@ -76482,10 +76791,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !optional_sel.OPTIONAL_OMIT.equals(module__name.get_selection()) && !module__name.isValue() ) { return false; }
@@ -77063,6 +77374,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -77088,6 +77400,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -77589,7 +77902,7 @@ return new TitanInteger(1);
 }
 
 	public static class FinalVerdictType extends Base_Type {
-		private FinalVerdictType_choice choice; //TTCN3_Choice_Type
+		private final FinalVerdictType_choice choice; //TTCN3_Choice_Type
 
 		public FinalVerdictType() {
 			choice = new FinalVerdictType_choice();
@@ -77600,9 +77913,9 @@ return new TitanInteger(1);
 		}
 
 		public FinalVerdictType( final FinalVerdictType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictType.");
+			}
 			choice = new FinalVerdictType_choice();
 			assign( aOtherValue );
 		}
@@ -77635,15 +77948,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -77993,6 +78309,7 @@ public static class FinalVerdictType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -78006,6 +78323,7 @@ public static class FinalVerdictType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -78455,10 +78773,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -78469,6 +78789,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -79234,10 +79555,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -79248,6 +79571,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -80089,10 +80413,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -80103,6 +80429,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -81017,10 +81344,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -81031,6 +81360,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -82021,10 +82351,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -82035,6 +82367,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -82768,7 +83101,7 @@ return new TitanInteger(1);
 }
 
 	public static class TimerGuardType extends Base_Type {
-		private TitanFloat value__; //Float_Type
+		private final TitanFloat value__; //Float_Type
 
 		public TimerGuardType() {
 			value__ = new TitanFloat();
@@ -82779,9 +83112,9 @@ return new TitanInteger(1);
 		}
 
 		public TimerGuardType( final TimerGuardType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerGuardType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerGuardType.");
+			}
 			value__ = new TitanFloat();
 			assign( aOtherValue );
 		}
@@ -82814,15 +83147,18 @@ if(!aOtherValue.isBound()) {
 			value__.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( value__.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !value__.isValue() ) { return false; }
 			return true;
@@ -83172,6 +83508,7 @@ public static class TimerGuardType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -83185,6 +83522,7 @@ public static class TimerGuardType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -83510,9 +83848,9 @@ return new TitanInteger(1);
 }
 
 	public static class StartFunction extends Base_Type {
-		private TitanCharString function__name; //CharString_Type
-		private TitanInteger compref; //Integer_Type
-		private StartFunction_parameter__list parameter__list; //SequenceOf_Type
+		private final TitanCharString function__name; //CharString_Type
+		private final TitanInteger compref; //Integer_Type
+		private final StartFunction_parameter__list parameter__list; //SequenceOf_Type
 
 		public StartFunction() {
 			function__name = new TitanCharString();
@@ -83527,9 +83865,9 @@ return new TitanInteger(1);
 		}
 
 		public StartFunction( final StartFunction aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StartFunction.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StartFunction.");
+			}
 			function__name = new TitanCharString();
 			compref = new TitanInteger();
 			parameter__list = new StartFunction_parameter__list();
@@ -83576,6 +83914,7 @@ if(!aOtherValue.isBound()) {
 			parameter__list.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( function__name.isBound() ) { return true; }
 			if ( compref.isBound() ) { return true; }
@@ -83583,10 +83922,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !function__name.isValue() ) { return false; }
 			if ( !compref.isValue() ) { return false; }
@@ -84028,6 +84369,7 @@ public static class StartFunction_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -84047,6 +84389,7 @@ public static class StartFunction_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -84380,10 +84723,10 @@ return new TitanInteger(1);
 }
 
 	public static class ExecutorUnqualified extends Base_Type {
-		private ExecutorUnqualified_reason reason; //TTCN3_Enumerated_Type
-		private TitanCharString name; //CharString_Type
-		private TitanCharString addr; //CharString_Type
-		private TitanInteger port__; //Integer_Type
+		private final ExecutorUnqualified_reason reason; //TTCN3_Enumerated_Type
+		private final TitanCharString name; //CharString_Type
+		private final TitanCharString addr; //CharString_Type
+		private final TitanInteger port__; //Integer_Type
 
 		public ExecutorUnqualified() {
 			reason = new ExecutorUnqualified_reason();
@@ -84400,9 +84743,9 @@ return new TitanInteger(1);
 		}
 
 		public ExecutorUnqualified( final ExecutorUnqualified aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorUnqualified.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorUnqualified.");
+			}
 			reason = new ExecutorUnqualified_reason();
 			name = new TitanCharString();
 			addr = new TitanCharString();
@@ -84456,6 +84799,7 @@ if(!aOtherValue.isBound()) {
 			port__.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( name.isBound() ) { return true; }
@@ -84464,10 +84808,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !name.isValue() ) { return false; }
@@ -84955,6 +85301,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -84977,6 +85324,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -85602,10 +85950,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -85616,6 +85966,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -86220,8 +86571,8 @@ return new TitanInteger(1);
 }
 
 	public static class Categorized extends Base_Type {
-		private TitanInteger category; //Integer_Type
-		private TitanCharString text; //CharString_Type
+		private final TitanInteger category; //Integer_Type
+		private final TitanCharString text; //CharString_Type
 
 		public Categorized() {
 			category = new TitanInteger();
@@ -86234,9 +86585,9 @@ return new TitanInteger(1);
 		}
 
 		public Categorized( final Categorized aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Categorized.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Categorized.");
+			}
 			category = new TitanInteger();
 			text = new TitanCharString();
 			assign( aOtherValue );
@@ -86276,16 +86627,19 @@ if(!aOtherValue.isBound()) {
 			text.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( category.isBound() ) { return true; }
 			if ( text.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !category.isValue() ) { return false; }
 			if ( !text.isValue() ) { return false; }
@@ -86681,6 +87035,7 @@ public static class Categorized_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -86697,6 +87052,7 @@ public static class Categorized_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -88821,8 +89177,8 @@ return new TitanInteger(1);
 }
 
 	public static class ExecutionSummaryType extends Base_Type {
-		private TitanInteger numberOfTestcases; //Integer_Type
-		private TitanCharString overallStatistics; //CharString_Type
+		private final TitanInteger numberOfTestcases; //Integer_Type
+		private final TitanCharString overallStatistics; //CharString_Type
 
 		public ExecutionSummaryType() {
 			numberOfTestcases = new TitanInteger();
@@ -88835,9 +89191,9 @@ return new TitanInteger(1);
 		}
 
 		public ExecutionSummaryType( final ExecutionSummaryType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutionSummaryType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutionSummaryType.");
+			}
 			numberOfTestcases = new TitanInteger();
 			overallStatistics = new TitanCharString();
 			assign( aOtherValue );
@@ -88877,16 +89233,19 @@ if(!aOtherValue.isBound()) {
 			overallStatistics.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( numberOfTestcases.isBound() ) { return true; }
 			if ( overallStatistics.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !numberOfTestcases.isValue() ) { return false; }
 			if ( !overallStatistics.isValue() ) { return false; }
@@ -89282,6 +89641,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -89298,6 +89658,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -89825,7 +90186,7 @@ return new TitanInteger(1);
 }
 
 	public static class MatchingEvent extends Base_Type {
-		private MatchingEvent_choice choice; //TTCN3_Choice_Type
+		private final MatchingEvent_choice choice; //TTCN3_Choice_Type
 
 		public MatchingEvent() {
 			choice = new MatchingEvent_choice();
@@ -89836,9 +90197,9 @@ return new TitanInteger(1);
 		}
 
 		public MatchingEvent( final MatchingEvent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingEvent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingEvent.");
+			}
 			choice = new MatchingEvent_choice();
 			assign( aOtherValue );
 		}
@@ -89871,15 +90232,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -90229,6 +90593,7 @@ public static class MatchingEvent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -90242,6 +90607,7 @@ public static class MatchingEvent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -90531,7 +90897,7 @@ return new TitanInteger(1);
 }
 
 	public static class StatisticsType extends Base_Type {
-		private StatisticsType_choice choice; //TTCN3_Choice_Type
+		private final StatisticsType_choice choice; //TTCN3_Choice_Type
 
 		public StatisticsType() {
 			choice = new StatisticsType_choice();
@@ -90542,9 +90908,9 @@ return new TitanInteger(1);
 		}
 
 		public StatisticsType( final StatisticsType aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.");
+			}
 			choice = new StatisticsType_choice();
 			assign( aOtherValue );
 		}
@@ -90577,15 +90943,18 @@ if(!aOtherValue.isBound()) {
 			choice.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( choice.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !choice.isValue() ) { return false; }
 			return true;
@@ -90935,6 +91304,7 @@ public static class StatisticsType_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -90948,6 +91318,7 @@ public static class StatisticsType_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -91201,10 +91572,10 @@ return new TitanInteger(1);
 }
 
 	public static class Dualface__discard extends Base_Type {
-		private TitanBoolean incoming; //Boolean_Type
-		private TitanCharString target__type; //CharString_Type
-		private TitanCharString port__name; //CharString_Type
-		private TitanBoolean unhandled; //Boolean_Type
+		private final TitanBoolean incoming; //Boolean_Type
+		private final TitanCharString target__type; //CharString_Type
+		private final TitanCharString port__name; //CharString_Type
+		private final TitanBoolean unhandled; //Boolean_Type
 
 		public Dualface__discard() {
 			incoming = new TitanBoolean();
@@ -91221,9 +91592,9 @@ return new TitanInteger(1);
 		}
 
 		public Dualface__discard( final Dualface__discard aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_discard.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_discard.");
+			}
 			incoming = new TitanBoolean();
 			target__type = new TitanCharString();
 			port__name = new TitanCharString();
@@ -91277,6 +91648,7 @@ if(!aOtherValue.isBound()) {
 			unhandled.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( incoming.isBound() ) { return true; }
 			if ( target__type.isBound() ) { return true; }
@@ -91285,10 +91657,12 @@ if(!aOtherValue.isBound()) {
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !incoming.isValue() ) { return false; }
 			if ( !target__type.isValue() ) { return false; }
@@ -91776,6 +92150,7 @@ public static class Dualface__discard_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -91798,6 +92173,7 @@ public static class Dualface__discard_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -92253,10 +92629,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -92276,6 +92654,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -93351,10 +93730,12 @@ throw new TtcnError("Internal error: Performing ischosen() operation on an inval
 return union_selection == checked_selection;
 }
 
+@Override
 public boolean isBound() {
 return union_selection != union_selection_type.UNBOUND_VALUE;
 }
 
+@Override
 public boolean isValue() {
 switch (union_selection) {
 case UNBOUND_VALUE:
@@ -93368,6 +93749,7 @@ throw new TtcnError("Invalid selection in union is_bound");
 }
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
@@ -94293,10 +94675,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -94307,6 +94691,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -94908,8 +95293,8 @@ return new TitanInteger(1);
 }
 
 	public static class ExecutorComponent extends Base_Type {
-		private ExecutorComponent_reason reason; //TTCN3_Enumerated_Type
-		private Optional<TitanInteger> compref; //Integer_Type
+		private final ExecutorComponent_reason reason; //TTCN3_Enumerated_Type
+		private final Optional<TitanInteger> compref; //Integer_Type
 
 		public ExecutorComponent() {
 			reason = new ExecutorComponent_reason();
@@ -94923,9 +95308,9 @@ return new TitanInteger(1);
 		}
 
 		public ExecutorComponent( final ExecutorComponent aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorComponent.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorComponent.");
+			}
 			reason = new ExecutorComponent_reason();
 			compref = new Optional<TitanInteger>(TitanInteger.class);
 			assign( aOtherValue );
@@ -94965,16 +95350,19 @@ if(!aOtherValue.isBound()) {
 			compref.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( reason.isBound() ) { return true; }
 			if ( optional_sel.OPTIONAL_OMIT.equals(compref.get_selection()) || compref.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !reason.isValue() ) { return false; }
 			if ( !optional_sel.OPTIONAL_OMIT.equals(compref.get_selection()) && !compref.isValue() ) { return false; }
@@ -95381,6 +95769,7 @@ public static class ExecutorComponent_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -95397,6 +95786,7 @@ public static class ExecutorComponent_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -95757,8 +96147,8 @@ return new TitanInteger(1);
 }
 
 	public static class TitanLog_sequence__list_0 extends Base_Type {
-		private ComponentIDType entityId; //Referenced_Type
-		private TitanLog_sequence__list_0_event__list event__list; //SequenceOf_Type
+		private final ComponentIDType entityId; //Referenced_Type
+		private final TitanLog_sequence__list_0_event__list event__list; //SequenceOf_Type
 
 		public TitanLog_sequence__list_0() {
 			entityId = new ComponentIDType();
@@ -95771,9 +96161,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanLog_sequence__list_0( final TitanLog_sequence__list_0 aOtherValue ) {
-if(!aOtherValue.isBound()) {
-			throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
-}
+			if(!aOtherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
+			}
 			entityId = new ComponentIDType();
 			event__list = new TitanLog_sequence__list_0_event__list();
 			assign( aOtherValue );
@@ -95813,16 +96203,19 @@ if(!aOtherValue.isBound()) {
 			event__list.cleanUp();
 		}
 
+		@Override
 		public boolean isBound() {
 			if ( entityId.isBound() ) { return true; }
 			if ( event__list.isBound() ) { return true; }
 			return false;
 		}
 
+		@Override
 		public boolean isPresent() {
-				return isBound();
+			return isBound();
 		}
 
+		@Override
 		public boolean isValue() {
 			if ( !entityId.isValue() ) { return false; }
 			if ( !event__list.isValue() ) { return false; }
@@ -96218,6 +96611,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 			}
 		}
 
+		@Override
 		public boolean isBound() {
 			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
 				return false;
@@ -96234,6 +96628,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 			return false;
 		}
 
+		@Override
 		public boolean isValue() {
 			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 				return false;
@@ -96711,10 +97106,12 @@ throw new TtcnError("The right operand of comparison is an unbound value of enum
 return  enum_value.enum_num >= otherValue.enum_value.enum_num ;
 }
 
+@Override
 public boolean isPresent() {
 return isBound();
 }
 
+@Override
 public boolean isBound() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
@@ -96725,6 +97122,7 @@ throw new TtcnError( errorMessage );
 }
 }
 
+@Override
 public boolean isValue() {
 return enum_value != enum_type.UNBOUND_VALUE;
 }
