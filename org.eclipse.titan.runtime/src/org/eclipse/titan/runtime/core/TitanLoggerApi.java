@@ -1181,8 +1181,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -1674,8 +1673,7 @@ public static class DefaultOp_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -3187,7 +3185,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
+			int sizeof = 4;
 			if (verdict__reason.isPresent()) {
 				sizeof++;
 			}
@@ -3197,7 +3195,6 @@ return new TitanInteger(1);
 			if (ptc__name.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -3905,7 +3902,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
+				int sizeof = 4;
 				if (verdict__reason.isPresent()) {
 					sizeof++;
 				}
@@ -3915,7 +3912,6 @@ public static class FinalVerdictInfo_template extends Base_Template {
 				if (ptc__name.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -4303,8 +4299,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -4700,8 +4695,7 @@ public static class TimerEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -5023,8 +5017,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -5516,8 +5509,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -5907,8 +5899,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 5;
+			int sizeof = 5;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -6496,8 +6487,7 @@ public static class Proc__port__out_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 5;
+				int sizeof = 5;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -10405,14 +10395,13 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
+			int sizeof = 3;
 			if (oldReason.isPresent()) {
 				sizeof++;
 			}
 			if (newReason.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -11016,14 +11005,13 @@ public static class SetVerdictType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
+				int sizeof = 3;
 				if (oldReason.isPresent()) {
 					sizeof++;
 				}
 				if (newReason.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -13600,8 +13588,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -13997,8 +13984,7 @@ public static class WarningEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -15127,8 +15113,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -15572,8 +15557,7 @@ public static class ComponentIDType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -22196,11 +22180,10 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
+			int sizeof = 1;
 			if (param__.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -22652,11 +22635,10 @@ public static class ExecutorConfigdata_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
+				int sizeof = 1;
 				if (param__.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -23238,8 +23220,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 4;
+			int sizeof = 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -23779,8 +23760,7 @@ public static class LocationInfo_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 4;
+				int sizeof = 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -24099,8 +24079,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -24496,8 +24475,7 @@ public static class TestcaseEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -27183,8 +27161,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 7;
+			int sizeof = 7;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -27868,8 +27845,7 @@ public static class Port__Misc_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 7;
+				int sizeof = 7;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -28410,8 +28386,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 8;
+			int sizeof = 8;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -29143,8 +29118,7 @@ public static class ParallelPTC_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 8;
+				int sizeof = 8;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -30651,7 +30625,6 @@ return new TitanInteger(1);
 			if (timer__name.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 0;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -31059,7 +31032,6 @@ public static class MatchingTimeout_template extends Base_Template {
 				if (timer__name.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 0;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -31349,8 +31321,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -31746,8 +31717,7 @@ public static class VerdictOp_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -34646,8 +34616,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -35091,8 +35060,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -37997,8 +37965,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -38442,8 +38409,7 @@ public static class QualifiedName_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -38814,8 +38780,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -39307,8 +39272,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -39893,8 +39857,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 4;
+			int sizeof = 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -40434,8 +40397,7 @@ public static class Dualface__mapped_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 4;
+				int sizeof = 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -42180,11 +42142,10 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
+			int sizeof = 2;
 			if (verdictReason.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -42684,11 +42645,10 @@ public static class VerdictType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
+				int sizeof = 2;
 				if (verdictReason.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -45211,8 +45171,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -45656,8 +45615,7 @@ public static class TimestampType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -45992,8 +45950,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -46485,8 +46442,7 @@ public static class Setstate_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -47041,8 +46997,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 6;
+			int sizeof = 6;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -47678,8 +47633,7 @@ public static class Proc__port__in_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 6;
+				int sizeof = 6;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -48087,8 +48041,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 4;
+			int sizeof = 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -48628,8 +48581,7 @@ public static class TitanLogEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 4;
+				int sizeof = 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -49137,8 +49089,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 10;
+			int sizeof = 10;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -49966,8 +49917,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 10;
+				int sizeof = 10;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -50544,8 +50494,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -50941,8 +50890,7 @@ public static class LogEventType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -51243,8 +51191,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -51688,8 +51635,7 @@ public static class Port__State_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -52024,8 +51970,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -52517,8 +52462,7 @@ public static class TestcaseType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -54383,8 +54327,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -54780,8 +54723,7 @@ public static class PortEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -56702,8 +56644,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -57195,8 +57136,7 @@ public static class Msg__port__send_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -57934,8 +57874,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -58331,8 +58270,7 @@ public static class FunctionEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -58984,8 +58922,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 5;
+			int sizeof = 5;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -59573,8 +59510,7 @@ public static class MatchingFailureType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 5;
+				int sizeof = 5;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -60458,8 +60394,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 5;
+			int sizeof = 5;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -61047,8 +60982,7 @@ public static class ParPort_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 5;
+				int sizeof = 5;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -61479,8 +61413,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 4;
+			int sizeof = 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -62020,8 +61953,7 @@ public static class MatchingDoneType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 4;
+				int sizeof = 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -62553,8 +62485,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 6;
+			int sizeof = 6;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -63190,8 +63121,7 @@ public static class Port__Queue_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 6;
+				int sizeof = 6;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -63536,8 +63466,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -63933,8 +63862,7 @@ public static class ParallelEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -66545,8 +66473,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 6;
+			int sizeof = 6;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -67182,8 +67109,7 @@ public static class Msg__port__recv_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 6;
+				int sizeof = 6;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -67585,8 +67511,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -68030,8 +67955,7 @@ public static class TimerType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -68324,8 +68248,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -68721,8 +68644,7 @@ public static class DefaultEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -70068,8 +69990,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 5;
+			int sizeof = 5;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -70657,8 +70578,7 @@ public static class MatchingProblemType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 5;
+				int sizeof = 5;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -70990,8 +70910,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -71387,8 +71306,7 @@ public static class Strings_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -71746,8 +71664,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -72239,8 +72156,7 @@ public static class PTC__exit_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -73490,8 +73406,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -73887,8 +73802,7 @@ public static class TitanLog_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -74168,8 +74082,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -74565,8 +74478,7 @@ public static class ErrorEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -75062,8 +74974,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -75459,8 +75370,7 @@ public static class ExecutorEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -75974,8 +75884,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 7;
+			int sizeof = 7;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -76659,8 +76568,7 @@ public static class Parallel_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 7;
+				int sizeof = 7;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -77106,7 +77014,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
+			int sizeof = 1;
 			if (module__name.isPresent()) {
 				sizeof++;
 			}
@@ -77119,7 +77027,6 @@ return new TitanInteger(1);
 			if (fd__setsize.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -77739,7 +77646,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
+				int sizeof = 1;
 				if (module__name.isPresent()) {
 					sizeof++;
 				}
@@ -77752,7 +77659,6 @@ public static class ExecutorRuntime_template extends Base_Template {
 				if (fd__setsize.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -78232,8 +78138,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -78629,8 +78534,7 @@ public static class FinalVerdictType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -83454,8 +83358,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -83851,8 +83754,7 @@ public static class TimerGuardType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -84246,8 +84148,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 3;
+			int sizeof = 3;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -84739,8 +84640,7 @@ public static class StartFunction_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 3;
+				int sizeof = 3;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -85145,8 +85045,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 4;
+			int sizeof = 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -85686,8 +85585,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 4;
+				int sizeof = 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -86958,8 +86856,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -87403,8 +87300,7 @@ public static class Categorized_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -89569,8 +89465,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -90014,8 +89909,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -90560,8 +90454,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -90957,8 +90850,7 @@ public static class MatchingEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -91274,8 +91166,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 1;
+			int sizeof = 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -91671,8 +91562,7 @@ public static class StatisticsType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 1;
+				int sizeof = 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -92015,8 +91905,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 4;
+			int sizeof = 4;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -92556,8 +92445,7 @@ public static class Dualface__discard_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 4;
+				int sizeof = 4;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -95708,11 +95596,10 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
+			int sizeof = 1;
 			if (compref.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 1;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -96164,11 +96051,10 @@ public static class ExecutorComponent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
+				int sizeof = 1;
 				if (compref.isPresent()) {
 					sizeof++;
 				}
-				sizeof += 1;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
@@ -96564,8 +96450,7 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 0;
-			sizeof += 2;
+			int sizeof = 2;
 			return new TitanInteger(sizeof);
 		}
 		public void log() {
@@ -97009,8 +96894,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 0;
-				sizeof += 2;
+				int sizeof = 2;
 				return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
