@@ -228,7 +228,7 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\t\tprivate " );
+			source.append( "\t\tprivate final " );
 			if (fi.isOptional) {
 				aData.addCommonLibraryImport("Optional");
 				source.append("Optional<");
