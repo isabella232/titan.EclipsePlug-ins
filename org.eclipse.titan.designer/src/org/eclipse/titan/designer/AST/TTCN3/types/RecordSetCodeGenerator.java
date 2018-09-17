@@ -352,9 +352,9 @@ public class RecordSetCodeGenerator {
 		aSb.append( "( final " );
 		aSb.append( aClassName );
 		aSb.append( " aOtherValue ) {\n" );
-		aSb.append( "if(!aOtherValue.isBound()) {\n" );
-		aSb.append( MessageFormat.format( "\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
-		aSb.append( "}\n" );
+		aSb.append( "\n\t\t\tif(!aOtherValue.isBound()) {\n" );
+		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
+		aSb.append( "\n\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append(MessageFormat.format("\t\t\t{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName));
@@ -455,7 +455,7 @@ public class RecordSetCodeGenerator {
 	private static void generateIsPresent( final StringBuilder aSb, final List<FieldInfo> aNamesList ) {
 		aSb.append( "\n\t\t@Override\n");
 		aSb.append( "\t\tpublic boolean isPresent() {\n" );
-		aSb.append( "\t\t\t\treturn isBound();\n");
+		aSb.append( "\t\t\treturn isBound();\n");
 		aSb.append( "\t\t}\n" );
 	}
 
