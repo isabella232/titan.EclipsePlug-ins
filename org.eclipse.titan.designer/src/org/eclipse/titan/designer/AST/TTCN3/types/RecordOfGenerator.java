@@ -2173,7 +2173,7 @@ public class RecordOfGenerator {
 			aSb.append("\t\t\t}\n");
 			aSb.append("\t\t}\n");
 		}
-		aSb.append("\t}\n");
+		aSb.append("\t}\n\n");
 	}
 
 	/**
@@ -2209,7 +2209,7 @@ public class RecordOfGenerator {
 		aSb.append("\t\t\tdefault:\n");
 		aSb.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
 		aSb.append("\t\t\t}\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");

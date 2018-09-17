@@ -299,8 +299,9 @@ public class FunctionReferenceGenerator {
 		source.append("} else {\n");
 		source.append("TTCN_Logger.log_event(\"refers(%s)\", referred_function.getDefinitionName());\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("if (referred_function == null) {\n");
 		switch (def.type) {
@@ -325,6 +326,7 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		generateDecodeTextInternal(aData, source, def, "referred_function");
 		source.append("}\n\n");
@@ -823,7 +825,7 @@ public class FunctionReferenceGenerator {
 		source.append("} else {\n");
 		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
@@ -866,7 +868,7 @@ public class FunctionReferenceGenerator {
 		source.append("default:\n");
 		source.append( MessageFormat.format( "throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", def.displayName));
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");

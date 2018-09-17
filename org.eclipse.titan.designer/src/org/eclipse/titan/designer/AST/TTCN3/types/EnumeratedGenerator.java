@@ -282,6 +282,7 @@ public class EnumeratedGenerator {
 	}
 
 	private static void generateValueEncodeDecodeText(final StringBuilder source, final String name) {
+		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append("if (enum_value == enum_type.UNBOUND_VALUE) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an unbound value of enumerated type {0}.\");\n", name));
@@ -289,6 +290,7 @@ public class EnumeratedGenerator {
 		source.append("text_buf.push_int(enum_value.enum_num);\n");
 		source.append("}\n\n");
 
+		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		source.append("final int temp = text_buf.pull_int().getInt();\n");
 		source.append("if (!isValidEnum(temp)) {\n");
@@ -1068,7 +1070,7 @@ public class EnumeratedGenerator {
 		source.append("} else {\n");
 		source.append("TTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	private static void generateTemplateEncodeDecodeText(final StringBuilder source, final String name, final String displayName) {
@@ -1093,7 +1095,7 @@ public class EnumeratedGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of enumerated type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");

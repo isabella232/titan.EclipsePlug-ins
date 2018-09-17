@@ -580,7 +580,7 @@ public class RecordSetCodeGenerator {
 
 			aSb.append(MessageFormat.format("\t\t\t{0}.encode_text(text_buf);\n", fieldInfo.mVarName));
 		}
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 
 		aSb.append("\t\t@Override\n");
 		aSb.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
@@ -2148,7 +2148,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\t\t\tTTCN_Logger.log_event_str(\" unmatched\");\n");
 		source.append("\t\t\t\t}\n");
 		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2185,7 +2185,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\tdefault:\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError(\"Text encoder: Encoding an uninitialized/unsupported template of type {0}.\");\n", displayName));
 		source.append("\t\t\t}\n");
-		source.append("\t\t}\n");
+		source.append("\t\t}\n\n");
 
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic void decode_text(final Text_Buf text_buf) {\n");
@@ -2349,17 +2349,17 @@ public class RecordSetCodeGenerator {
 		source.append("return;\n");
 		source.append("}\n");
 		source.append("TTCN_Logger.log_event_unbound();\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void encode_text(final Text_Buf text_buf) {\n");
 		source.append(MessageFormat.format("mustBound(\"Text encoder: Encoding an unbound value of type {0}.\");\n", classDisplayname));
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
 		source.append("bound_flag = true;\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {\n");

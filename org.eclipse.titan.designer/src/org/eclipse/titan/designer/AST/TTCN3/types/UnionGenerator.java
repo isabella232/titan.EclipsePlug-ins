@@ -516,7 +516,7 @@ public class UnionGenerator {
 		if (fieldInfos.size() > 0) {
 			source.append("field.encode_text(text_buf);\n");
 		}
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
@@ -532,7 +532,7 @@ public class UnionGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized union selector was received for type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 	}
 
 	/**
@@ -1461,7 +1461,7 @@ public class UnionGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Text encoder: Encoding an uninitialized template of type {0}.\");\n", displayName));
 		source.append("}\n");
-		source.append("}\n");
+		source.append("}\n\n");
 
 		source.append("@Override\n");
 		source.append("public void decode_text(final Text_Buf text_buf) {\n");
