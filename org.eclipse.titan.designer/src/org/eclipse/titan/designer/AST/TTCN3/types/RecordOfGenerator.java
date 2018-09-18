@@ -987,7 +987,7 @@ public class RecordOfGenerator {
 		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", genName ) );
 
 		source.append('\n');
-		source.append("\tprivate match_function_t match_function_specific = new match_function_t() {\n");
+		source.append("\tprivate final match_function_t match_function_specific = new match_function_t() {\n");
 		source.append("\t\t@Override\n");
 		source.append("\t\tpublic boolean match(final Base_Type value_ptr, final int value_index, final Restricted_Length_Template template_ptr, final int template_index, final boolean legacy) {\n");
 		source.append( MessageFormat.format( "\t\t\treturn match_index(({0})value_ptr, value_index, ({0}_template)template_ptr, template_index, legacy);\n", genName ) );
