@@ -583,7 +583,7 @@ public final class TTCN_Runtime {
 				TTCN_Communication.process_all_messages_tc();
 			} while (executorState.get() != executorStateEnum.MTC_EXIT);
 
-			TTCN_Logger.close_file();
+			
 			TTCN_Communication.disconnect_mc();
 			clean_up();
 		} catch (final TtcnError error) {
@@ -591,6 +591,7 @@ public final class TTCN_Runtime {
 		}
 
 		TTCN_Logger.log_executor_component(TitanLoggerApi.ExecutorComponent_reason.enum_type.mtc__finished);
+		TTCN_Logger.close_file();
 
 		return returnValue;
 	}
