@@ -107,7 +107,33 @@ public class LegacyLogger implements ILoggerPlugin {
 			return Boolean.FALSE;
 		}
 	};
-
+	
+	private static LegacyLogger myself = null;
+	
+	public LegacyLogger() {
+		log_fp_ = null;
+		er_ = null;
+		logfile_bytes_ = 0;
+		logfile_size_ = 0;
+		logfile_number_ = 1;
+		logfile_index_ = 1;
+		filename_skeleton_ = null;
+		skeleton_given_ = false;
+		append_file_ = false;
+		is_disk_full_ = false;
+		format_c_present_ = false;
+		format_t_present_ = false;
+		current_filename_ = null;
+		if (myself == null) {
+			myself = this;
+		} else {
+			//TODO: handle it
+			System.err.print("Only one LegacyLogger allowed!\n");
+		}
+		disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
+		disk_full_action_.retry_interval = 0;
+	}
+	
 	public void reset() {
 		disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
 		disk_full_action_.retry_interval = 0;
@@ -1081,6 +1107,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		}
 		case ALT_LogOptions:
 			returnValue.append(eec.getLogOptions().getValue());
+			returnValue.append(plugin_specific_settings());
 			//FIXME also log plugin specific setting
 			break;
 		case ALT_ExtcommandStart:
@@ -1541,6 +1568,17 @@ public class LegacyLogger implements ILoggerPlugin {
 		case UNBOUND_VALUE:
 			break;
 		}
+	}
+	
+	public static String plugin_specific_settings() {
+		final String disk_full_action_type_names[] = { "Error", "Stop", "Retry", "Delete" };
+		String disk_full_action_str = null;
+		if (myself.disk_full_action_.type == disk_full_action_type_t.DISKFULL_RETRY) {
+			disk_full_action_str = MessageFormat.format("Retry({0})", myself.disk_full_action_.retry_interval);
+		} else {
+			disk_full_action_str = disk_full_action_type_names[myself.disk_full_action_.type.ordinal()];
+		}
+		return MessageFormat.format("LogFileSize:={0}; LogFileNumber:={1}; DiskFullAction:={2}", myself.logfile_size_,myself.logfile_number_,disk_full_action_str);
 	}
 
 	private static void portevent_str(final StringBuilder returnValue, final PortEvent_choice choice) {
