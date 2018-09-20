@@ -364,7 +364,7 @@ public class RecordSetCodeGenerator {
 
 		}
 		aSb.append( "\t\t\tassign( aOtherValue );\n" );
-		aSb.append( "\t\t}\n" );
+		aSb.append( "\t\t}\n\n" );
 	}
 
 	/**
@@ -544,7 +544,7 @@ public class RecordSetCodeGenerator {
 			aSb.append(MessageFormat.format("\t\t\t{0}.log();\n", fieldInfo.mVarName));
 		}
 		aSb.append("\t\t\tTTCN_Logger.log_event_str(\" }\");\n");
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
@@ -598,7 +598,7 @@ public class RecordSetCodeGenerator {
 
 			aSb.append(MessageFormat.format("\t\t\t{0}.decode_text(text_buf);\n", fieldInfo.mVarName));
 		}
-		aSb.append("\t\t}\n");
+		aSb.append("\t\t}\n\n");
 	}
 
 	/**
@@ -2227,7 +2227,7 @@ public class RecordSetCodeGenerator {
 		source.append("\t\t\tcase COMPLEMENTED_LIST: {\n");
 		source.append("final int size = text_buf.pull_int().getInt();\n");
 		source.append(MessageFormat.format("\t\t\t\tlist_value = new ArrayList<{0}_template>(size);\n", genName));
-		source.append("\t\t\t\tfor(int i = 0; i < size; i++) {\n");
+		source.append("\t\t\t\tfor (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("\t\t\t\t\tfinal {0}_template temp = new {0}_template();\n", genName));
 		source.append("\t\t\t\t\ttemp.decode_text(text_buf);\n");
 		source.append("\t\t\t\t\tlist_value.add(temp);\n");
@@ -2804,7 +2804,7 @@ public class RecordSetCodeGenerator {
 		source.append("case COMPLEMENTED_LIST: {\n");
 		source.append("final int size = text_buf.pull_int().getInt();\n");
 		source.append( MessageFormat.format( "list_value = new ArrayList<{0}_template>(size);\n", className));
-		source.append("for(int i = 0; i < size; i++) {\n");
+		source.append("for (int i = 0; i < size; i++) {\n");
 		source.append( MessageFormat.format( "final {0}_template temp = new {0}_template();\n", className));
 		source.append("temp.decode_text(text_buf);\n");
 		source.append("list_value.add(temp);\n");

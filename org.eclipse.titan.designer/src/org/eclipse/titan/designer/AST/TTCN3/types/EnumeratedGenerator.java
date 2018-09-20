@@ -1119,7 +1119,7 @@ public class EnumeratedGenerator {
 		source.append("case COMPLEMENTED_LIST: {\n");
 		source.append("final int size = text_buf.pull_int().getInt();\n");
 		source.append(MessageFormat.format("value_list = new ArrayList<{0}_template>(size);\n", name));
-		source.append("for(int i = 0; i < size; i++) {\n");
+		source.append("for (int i = 0; i < size; i++) {\n");
 		source.append(MessageFormat.format("final {0}_template temp = new {0}_template();\n", name));
 		source.append("temp.decode_text(text_buf);\n");
 		source.append("value_list.add(temp);\n");
