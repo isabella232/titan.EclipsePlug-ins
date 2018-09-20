@@ -8440,15 +8440,14 @@ pr_CString returns[String string]:
 	}
 };
 
-pr_FreeText returns[String string]:
-	s = pr_CString
+pr_FreeText returns[String string]
+@init {
+	StringBuilder temp = new StringBuilder();
+}:
+	(	s = pr_CString	{if($s.string != null) {temp.append($s.string);}}
+	)+
 {
-	$string = $s.string;
-	if ( $string == null ) {
-		// During typing it can happen, that there is no matching and rule is finished with error,
-		// in this case let's use empty string rather than null to avoid NPE
-		$string = "";
-	}
+	$string = temp.toString();
 };
 
 pr_NoCaseModifier:
