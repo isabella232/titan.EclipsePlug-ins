@@ -1005,7 +1005,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		case CONVERT:
 			resultName = "ret_val";
 			// creating a local variable for the result stream
-			source.append(MessageFormat.format("{0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )));
+			source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", outputType.getGenNameValue( aData, source, getMyScope() )));
 			break;
 		case FAST:
 			resultName = formalParList.getParameterByIndex(1).getIdentifier().getName();
