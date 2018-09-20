@@ -62,6 +62,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	}
 
 	public TitanEmbedded_PDV_identification_syntaxes_template() {
+		// do nothing
 	}
 
 	public TitanEmbedded_PDV_identification_syntaxes_template(final template_sel other_value ) {
@@ -120,7 +121,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			return assign((TitanEmbedded_PDV_identification_syntaxes) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV_identification_syntaxes' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_syntaxes' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -129,7 +130,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			return assign((TitanEmbedded_PDV_identification_syntaxes_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV_identification_syntaxes' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_syntaxes' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanEmbedded_PDV_identification_syntaxes_template assign( final Optional<TitanEmbedded_PDV_identification_syntaxes> other_value ) {
@@ -353,7 +354,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			return match((TitanEmbedded_PDV_identification_syntaxes)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV_identification_syntaxes.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV_identification_syntaxes.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -362,9 +363,7 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			int sizeof = 0;
-			sizeof += 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		case VALUE_LIST:
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EMBEDDED PDV.identification.syntaxes containing an empty list.");

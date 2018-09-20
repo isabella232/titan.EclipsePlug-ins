@@ -77,6 +77,7 @@ public class TitanCharacter_String_template extends Base_Template {
 	}
 
 	public TitanCharacter_String_template() {
+		// do nothing
 	}
 
 	public TitanCharacter_String_template(final template_sel other_value ) {
@@ -408,11 +409,10 @@ public class TitanCharacter_String_template extends Base_Template {
 		}
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			int sizeof = 0;
+			int sizeof = 2;
 			if (data__value__descriptor.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 2;
 			return new TitanInteger(sizeof);
 		case VALUE_LIST:
 			if (list_value.isEmpty()) {

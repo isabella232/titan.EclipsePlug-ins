@@ -95,6 +95,7 @@ public class TitanExternal_identification_template extends Base_Template {
 	}
 
 	public TitanExternal_identification_template() {
+		// do nothing
 	}
 	public TitanExternal_identification_template(final template_sel other_value) {
 		super(other_value);

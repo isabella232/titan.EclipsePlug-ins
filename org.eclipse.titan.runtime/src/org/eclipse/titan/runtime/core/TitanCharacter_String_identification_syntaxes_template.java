@@ -62,6 +62,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	}
 
 	public TitanCharacter_String_identification_syntaxes_template() {
+		// do nothing
 	}
 
 	public TitanCharacter_String_identification_syntaxes_template(final template_sel other_value ) {
@@ -362,9 +363,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 		}
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			int sizeof = 0;
-			sizeof += 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		case VALUE_LIST:
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type CHARACTER STRING.identification.syntaxes containing an empty list.");

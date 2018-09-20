@@ -129,10 +129,9 @@ public class TitanEmbedded_PDV_identification_syntaxes extends Base_Type {
 	}
 
 	public TitanInteger sizeOf() {
-		int sizeof = 0;
-		sizeof += 2;
-		return new TitanInteger(sizeof);
+		return new TitanInteger(2);
 	}
+
 	public void log() {
 		if (!isBound()) {
 			TTCN_Logger.log_event_unbound();

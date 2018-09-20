@@ -62,6 +62,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template() {
+		// do nothing
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template(final template_sel other_value ) {
@@ -120,7 +121,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return assign((TitanEmbedded_PDV_identification_context__negotiation) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV_identification_context__negotiation' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_context__negotiation' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -129,7 +130,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return assign((TitanEmbedded_PDV_identification_context__negotiation_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV_identification_context__negotiation' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV_identification_context__negotiation' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation_template assign( final Optional<TitanEmbedded_PDV_identification_context__negotiation> other_value ) {
@@ -353,7 +354,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			return match((TitanEmbedded_PDV_identification_context__negotiation)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV_identification_context__negotiation.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV_identification_context__negotiation.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -362,9 +363,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		}
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			int sizeof = 0;
-			sizeof += 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		case VALUE_LIST:
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EMBEDDED PDV.identification.context-negotiation containing an empty list.");

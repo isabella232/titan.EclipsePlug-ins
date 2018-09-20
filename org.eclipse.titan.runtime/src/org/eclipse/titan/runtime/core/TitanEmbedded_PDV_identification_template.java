@@ -95,6 +95,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 	}
 
 	public TitanEmbedded_PDV_identification_template() {
+		// do nothing
 	}
 	public TitanEmbedded_PDV_identification_template(final template_sel other_value) {
 		super(other_value);
@@ -175,7 +176,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		if (otherValue instanceof TitanEmbedded_PDV_identification) {
 			return assign((TitanEmbedded_PDV_identification)otherValue);
 		}
-		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded__PDV_identification.");
+		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded_PDV_identification.");
 	}
 
 	@Override
@@ -183,7 +184,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 		if (otherValue instanceof TitanEmbedded_PDV_identification_template) {
 			return assign((TitanEmbedded_PDV_identification_template)otherValue);
 		}
-		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded__PDV_identification_template.");
+		throw new TtcnError("Internal Error: value can not be cast to TitanEmbedded_PDV_identification_template.");
 	}
 
 	// originally match
@@ -245,7 +246,7 @@ public class TitanEmbedded_PDV_identification_template extends Base_Template {
 			return match((TitanEmbedded_PDV_identification)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV_identification.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV_identification.");
 	}
 	public boolean isChosen(final TitanEmbedded_PDV_identification.union_selection_type checked_selection) {
 		if(checked_selection == TitanEmbedded_PDV_identification.union_selection_type.UNBOUND_VALUE) {

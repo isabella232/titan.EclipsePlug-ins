@@ -77,6 +77,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 	}
 
 	public TitanEmbedded_PDV_template() {
+		// do nothing
 	}
 
 	public TitanEmbedded_PDV_template(final template_sel other_value ) {
@@ -135,7 +136,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return assign((TitanEmbedded_PDV) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV' can not be cast to {1}", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV' can not be cast to {1}", otherValue));
 	}
 
 	@Override
@@ -144,7 +145,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return assign((TitanEmbedded_PDV_template) otherValue);
 		}
 
-		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded__PDV' can not be cast to {1}_template", otherValue));
+		throw new TtcnError(MessageFormat.format("Internal Error: value `TitanEmbedded_PDV' can not be cast to {1}_template", otherValue));
 	}
 
 	public TitanEmbedded_PDV_template assign( final Optional<TitanEmbedded_PDV> other_value ) {
@@ -399,7 +400,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 			return match((TitanEmbedded_PDV)otherValue, legacy);
 		}
 
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded__PDV.");
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanEmbedded_PDV.");
 	}
 
 	public TitanInteger sizeOf() {
@@ -408,11 +409,10 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 		}
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			int sizeof = 0;
+			int sizeof = 2;
 			if (data__value__descriptor.isPresent()) {
 				sizeof++;
 			}
-			sizeof += 2;
 			return new TitanInteger(sizeof);
 		case VALUE_LIST:
 			if (list_value.isEmpty()) {

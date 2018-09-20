@@ -62,6 +62,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	}
 
 	public TitanExternal_identification_context__negotiation_template() {
+		// do nothing
 	}
 
 	public TitanExternal_identification_context__negotiation_template(final template_sel other_value ) {
@@ -362,9 +363,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 		}
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
-			int sizeof = 0;
-			sizeof += 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		case VALUE_LIST:
 			if (list_value.isEmpty()) {
 				throw new TtcnError("Internal error: Performing sizeof() operation on a template of type EXTERNAL.identification.context-negotiation containing an empty list.");

@@ -153,13 +153,13 @@ public class TitanCharacter_String extends Base_Type {
 	}
 
 	public TitanInteger sizeOf() {
-		int sizeof = 0;
+		int sizeof = 2;
 		if (data__value__descriptor.isPresent()) {
 			sizeof++;
 		}
-		sizeof += 2;
 		return new TitanInteger(sizeof);
 	}
+
 	public void log() {
 		if (!isBound()) {
 			TTCN_Logger.log_event_unbound();

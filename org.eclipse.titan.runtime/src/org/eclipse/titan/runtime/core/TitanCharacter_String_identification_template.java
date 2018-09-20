@@ -94,6 +94,7 @@ public class TitanCharacter_String_identification_template extends Base_Template
 	}
 
 	public TitanCharacter_String_identification_template() {
+		// do nothing
 	}
 	public TitanCharacter_String_identification_template(final template_sel other_value) {
 		super(other_value);
