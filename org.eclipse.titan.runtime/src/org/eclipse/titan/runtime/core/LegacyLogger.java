@@ -107,9 +107,9 @@ public class LegacyLogger implements ILoggerPlugin {
 			return Boolean.FALSE;
 		}
 	};
-	
+
 	private static LegacyLogger myself = null;
-	
+
 	public LegacyLogger() {
 		log_fp_ = null;
 		er_ = null;
@@ -133,7 +133,7 @@ public class LegacyLogger implements ILoggerPlugin {
 		disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
 		disk_full_action_.retry_interval = 0;
 	}
-	
+
 	public void reset() {
 		disk_full_action_.type = disk_full_action_type_t.DISKFULL_ERROR;
 		disk_full_action_.retry_interval = 0;
@@ -1569,7 +1569,7 @@ public class LegacyLogger implements ILoggerPlugin {
 			break;
 		}
 	}
-	
+
 	public static String plugin_specific_settings() {
 		final String disk_full_action_type_names[] = { "Error", "Stop", "Retry", "Delete" };
 		String disk_full_action_str = null;
