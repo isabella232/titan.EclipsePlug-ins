@@ -36,9 +36,6 @@ import org.eclipse.titan.runtime.core.TitanCharString.CharCoding;
  * @author Kristof Szabados
  */
 public final class TitanLoggerApi extends TTCN_Module {
-public TitanLoggerApi() {
-super("TitanLoggerApi", moduleTypeEnum.TTCN3_MODULE);
-}
 
 public static final TTCN_Typedescriptor TitanLog_descr_ = new TTCN_Typedescriptor("TitanLog", null, null);
 public static final TTCN_Typedescriptor TitanLog_sequence__list_0_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0", null, null);
@@ -800,6 +797,11 @@ public static final TitanUniversalCharString Port__Misc_new__size_default_coding
 public static final TitanUniversalCharString Port__Misc_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null);
 public static final TitanUniversalCharString anytype_default_coding = new TitanUniversalCharString("XER");
+
+public TitanLoggerApi() {
+super("TitanLoggerApi", moduleTypeEnum.TTCN3_MODULE);
+}
+
 public static void MatchingEvent_choice_matchingFailure_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -1181,9 +1183,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -1348,6 +1350,7 @@ public static class DefaultOp_template extends Base_Template {
 	}
 
 	public DefaultOp_template() {
+// do nothing
 	}
 
 	public DefaultOp_template(final template_sel other_value ) {
@@ -1673,8 +1676,7 @@ public static class DefaultOp_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.DefaultOp containing an empty list.");
@@ -2330,6 +2332,7 @@ set_selection(other_value);
 }
 
 public VerdictOp_choice_template() {
+// do nothing
 }
 public VerdictOp_choice_template(final template_sel other_value) {
 super(other_value);
@@ -3197,6 +3200,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -3459,6 +3463,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 	}
 
 	public FinalVerdictInfo_template() {
+// do nothing
 	}
 
 	public FinalVerdictInfo_template(final template_sel other_value ) {
@@ -3912,7 +3917,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 				if (ptc__name.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.FinalVerdictInfo containing an empty list.");
@@ -4299,9 +4304,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -4420,6 +4425,7 @@ public static class TimerEvent_template extends Base_Template {
 	}
 
 	public TimerEvent_template() {
+// do nothing
 	}
 
 	public TimerEvent_template(final template_sel other_value ) {
@@ -4695,8 +4701,7 @@ public static class TimerEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TimerEvent containing an empty list.");
@@ -5017,9 +5022,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -5184,6 +5189,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 	}
 
 	public MatchingSuccessType_template() {
+// do nothing
 	}
 
 	public MatchingSuccessType_template(final template_sel other_value ) {
@@ -5509,8 +5515,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.MatchingSuccessType containing an empty list.");
@@ -5899,9 +5904,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 5;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(5);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -6112,6 +6117,7 @@ public static class Proc__port__out_template extends Base_Template {
 	}
 
 	public Proc__port__out_template() {
+// do nothing
 	}
 
 	public Proc__port__out_template(final template_sel other_value ) {
@@ -6487,8 +6493,7 @@ public static class Proc__port__out_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 5;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(5);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Proc_port_out containing an empty list.");
@@ -6773,6 +6778,7 @@ public static class Strings_str__list extends Base_Type {
 	private List<TitanCharString> valueElements;
 
 	public Strings_str__list() {
+		// do nothing
 	}
 
 	public Strings_str__list( final Strings_str__list otherValue ) {
@@ -7282,6 +7288,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 	};
 
 	public Strings_str__list_template() {
+		// do nothing
 	}
 
 	public Strings_str__list_template(final template_sel other_value ) {
@@ -7752,7 +7759,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 			}
 			for (int i=0; i<elem_count; i++)
 			{
-			switch (value_elements.get(i).get_selection())
+				switch (value_elements.get(i).get_selection())
 				{
 				case OMIT_VALUE:
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.Strings.str_list containing omit element.", op_name ) );
@@ -8681,6 +8688,7 @@ set_selection(other_value);
 }
 
 public ExecutorEvent_choice_template() {
+// do nothing
 }
 public ExecutorEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -10404,6 +10412,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -10618,6 +10627,7 @@ public static class SetVerdictType_template extends Base_Template {
 	}
 
 	public SetVerdictType_template() {
+// do nothing
 	}
 
 	public SetVerdictType_template(final template_sel other_value ) {
@@ -11012,7 +11022,7 @@ public static class SetVerdictType_template extends Base_Template {
 				if (newReason.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.SetVerdictType containing an empty list.");
@@ -11912,6 +11922,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Parallel_reason_template() {
+// do nothing
 }
 
 public Parallel_reason_template(final template_sel otherValue) {
@@ -12910,6 +12921,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public PortType_template() {
+// do nothing
 }
 
 public PortType_template(final template_sel otherValue) {
@@ -13588,9 +13600,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -13709,6 +13721,7 @@ public static class WarningEvent_template extends Base_Template {
 	}
 
 	public WarningEvent_template() {
+// do nothing
 	}
 
 	public WarningEvent_template(final template_sel other_value ) {
@@ -13984,8 +13997,7 @@ public static class WarningEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.WarningEvent containing an empty list.");
@@ -14630,6 +14642,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public ParPort_operation_template() {
+// do nothing
 }
 
 public ParPort_operation_template(final template_sel otherValue) {
@@ -15113,9 +15126,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -15257,6 +15270,7 @@ public static class ComponentIDType_template extends Base_Template {
 	}
 
 	public ComponentIDType_template() {
+// do nothing
 	}
 
 	public ComponentIDType_template(final template_sel other_value ) {
@@ -15557,8 +15571,7 @@ public static class ComponentIDType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ComponentIDType containing an empty list.");
@@ -15876,6 +15889,7 @@ public static class TitanLog_sequence__list_0_event__list extends Base_Type {
 	private List<TitanLogEvent> valueElements;
 
 	public TitanLog_sequence__list_0_event__list() {
+		// do nothing
 	}
 
 	public TitanLog_sequence__list_0_event__list( final TitanLog_sequence__list_0_event__list otherValue ) {
@@ -16385,6 +16399,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 	};
 
 	public TitanLog_sequence__list_0_event__list_template() {
+		// do nothing
 	}
 
 	public TitanLog_sequence__list_0_event__list_template(final template_sel other_value ) {
@@ -16855,7 +16870,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 			}
 			for (int i=0; i<elem_count; i++)
 			{
-			switch (value_elements.get(i).get_selection())
+				switch (value_elements.get(i).get_selection())
 				{
 				case OMIT_VALUE:
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype.event_list containing omit element.", op_name ) );
@@ -18194,6 +18209,7 @@ set_selection(other_value);
 }
 
 public LogEventType_choice_template() {
+// do nothing
 }
 public LogEventType_choice_template(final template_sel other_value) {
 super(other_value);
@@ -19849,6 +19865,7 @@ set_selection(other_value);
 }
 
 public DefaultEvent_choice_template() {
+// do nothing
 }
 public DefaultEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -20705,6 +20722,7 @@ set_selection(other_value);
 }
 
 public TestcaseEvent_choice_template() {
+// do nothing
 }
 public TestcaseEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -21660,6 +21678,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public MatchingDoneType_reason_template() {
+// do nothing
 }
 
 public MatchingDoneType_reason_template(final template_sel otherValue) {
@@ -22186,6 +22205,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -22329,6 +22349,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 	}
 
 	public ExecutorConfigdata_template() {
+// do nothing
 	}
 
 	public ExecutorConfigdata_template(final template_sel other_value ) {
@@ -22639,7 +22660,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 				if (param__.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ExecutorConfigdata containing an empty list.");
@@ -23220,9 +23241,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 4;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(4);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -23410,6 +23431,7 @@ public static class LocationInfo_template extends Base_Template {
 	}
 
 	public LocationInfo_template() {
+// do nothing
 	}
 
 	public LocationInfo_template(final template_sel other_value ) {
@@ -23760,8 +23782,7 @@ public static class LocationInfo_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 4;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(4);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.LocationInfo containing an empty list.");
@@ -24079,9 +24100,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -24200,6 +24221,7 @@ public static class TestcaseEvent_template extends Base_Template {
 	}
 
 	public TestcaseEvent_template() {
+// do nothing
 	}
 
 	public TestcaseEvent_template(final template_sel other_value ) {
@@ -24475,8 +24497,7 @@ public static class TestcaseEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TestcaseEvent containing an empty list.");
@@ -25198,6 +25219,7 @@ set_selection(other_value);
 }
 
 public TimerEvent_choice_template() {
+// do nothing
 }
 public TimerEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -26332,6 +26354,7 @@ set_selection(other_value);
 }
 
 public StatisticsType_choice_template() {
+// do nothing
 }
 public StatisticsType_choice_template(final template_sel other_value) {
 super(other_value);
@@ -27161,9 +27184,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 7;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(7);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -27420,6 +27443,7 @@ public static class Port__Misc_template extends Base_Template {
 	}
 
 	public Port__Misc_template() {
+// do nothing
 	}
 
 	public Port__Misc_template(final template_sel other_value ) {
@@ -27845,8 +27869,7 @@ public static class Port__Misc_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 7;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(7);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Port_Misc containing an empty list.");
@@ -28386,9 +28409,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 8;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(8);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -28668,6 +28691,7 @@ public static class ParallelPTC_template extends Base_Template {
 	}
 
 	public ParallelPTC_template() {
+// do nothing
 	}
 
 	public ParallelPTC_template(final template_sel other_value ) {
@@ -29118,8 +29142,7 @@ public static class ParallelPTC_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 8;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(8);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ParallelPTC containing an empty list.");
@@ -29834,6 +29857,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public LocationInfo_ent__type_template() {
+// do nothing
 }
 
 public LocationInfo_ent__type_template(final template_sel otherValue) {
@@ -30627,6 +30651,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -30747,6 +30772,7 @@ public static class MatchingTimeout_template extends Base_Template {
 	}
 
 	public MatchingTimeout_template() {
+// do nothing
 	}
 
 	public MatchingTimeout_template(final template_sel other_value ) {
@@ -31032,7 +31058,7 @@ public static class MatchingTimeout_template extends Base_Template {
 				if (timer__name.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.MatchingTimeout containing an empty list.");
@@ -31321,9 +31347,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -31442,6 +31468,7 @@ public static class VerdictOp_template extends Base_Template {
 	}
 
 	public VerdictOp_template() {
+// do nothing
 	}
 
 	public VerdictOp_template(final template_sel other_value ) {
@@ -31717,8 +31744,7 @@ public static class VerdictOp_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.VerdictOp containing an empty list.");
@@ -32337,6 +32363,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public MatchingProblemType_reason_template() {
+// do nothing
 }
 
 public MatchingProblemType_reason_template(final template_sel otherValue) {
@@ -33290,6 +33317,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public ExecutorRuntime_reason_template() {
+// do nothing
 }
 
 public ExecutorRuntime_reason_template(final template_sel otherValue) {
@@ -34097,6 +34125,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public MatchingFailureType_reason_template() {
+// do nothing
 }
 
 public MatchingFailureType_reason_template(final template_sel otherValue) {
@@ -34616,9 +34645,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -34760,6 +34789,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 	}
 
 	public TitanSingleLogEvent_template() {
+// do nothing
 	}
 
 	public TitanSingleLogEvent_template(final template_sel other_value ) {
@@ -35060,8 +35090,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing an empty list.");
@@ -35729,6 +35758,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public MatchingProblemType_operation_template() {
+// do nothing
 }
 
 public MatchingProblemType_operation_template(final template_sel otherValue) {
@@ -36573,6 +36603,7 @@ set_selection(other_value);
 }
 
 public MatchingFailureType_choice_template() {
+// do nothing
 }
 public MatchingFailureType_choice_template(final template_sel other_value) {
 super(other_value);
@@ -37482,6 +37513,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public ExecutorConfigdata_reason_template() {
+// do nothing
 }
 
 public ExecutorConfigdata_reason_template(final template_sel otherValue) {
@@ -37965,9 +37997,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -38109,6 +38141,7 @@ public static class QualifiedName_template extends Base_Template {
 	}
 
 	public QualifiedName_template() {
+// do nothing
 	}
 
 	public QualifiedName_template(final template_sel other_value ) {
@@ -38409,8 +38442,7 @@ public static class QualifiedName_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.QualifiedName containing an empty list.");
@@ -38780,9 +38812,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -38947,6 +38979,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 	}
 
 	public FunctionEvent_choice_random_template() {
+// do nothing
 	}
 
 	public FunctionEvent_choice_random_template(final template_sel other_value ) {
@@ -39272,8 +39305,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.FunctionEvent.choice.random containing an empty list.");
@@ -39857,9 +39889,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 4;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(4);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -40047,6 +40079,7 @@ public static class Dualface__mapped_template extends Base_Template {
 	}
 
 	public Dualface__mapped_template() {
+// do nothing
 	}
 
 	public Dualface__mapped_template(final template_sel other_value ) {
@@ -40397,8 +40430,7 @@ public static class Dualface__mapped_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 4;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(4);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Dualface_mapped containing an empty list.");
@@ -40634,6 +40666,7 @@ public static class TitanLogEvent_sourceInfo__list extends Base_Type {
 	private List<LocationInfo> valueElements;
 
 	public TitanLogEvent_sourceInfo__list() {
+		// do nothing
 	}
 
 	public TitanLogEvent_sourceInfo__list( final TitanLogEvent_sourceInfo__list otherValue ) {
@@ -41143,6 +41176,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 	};
 
 	public TitanLogEvent_sourceInfo__list_template() {
+		// do nothing
 	}
 
 	public TitanLogEvent_sourceInfo__list_template(final template_sel other_value ) {
@@ -41613,7 +41647,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 			}
 			for (int i=0; i<elem_count; i++)
 			{
-			switch (value_elements.get(i).get_selection())
+				switch (value_elements.get(i).get_selection())
 				{
 				case OMIT_VALUE:
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLogEvent.sourceInfo_list containing omit element.", op_name ) );
@@ -42148,6 +42182,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -42314,6 +42349,7 @@ public static class VerdictType_template extends Base_Template {
 	}
 
 	public VerdictType_template() {
+// do nothing
 	}
 
 	public VerdictType_template(final template_sel other_value ) {
@@ -42649,7 +42685,7 @@ public static class VerdictType_template extends Base_Template {
 				if (verdictReason.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.VerdictType containing an empty list.");
@@ -43433,6 +43469,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Port__State_operation_template() {
+// do nothing
 }
 
 public Port__State_operation_template(final template_sel otherValue) {
@@ -44400,6 +44437,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Port__oper_template() {
+// do nothing
 }
 
 public Port__oper_template(final template_sel otherValue) {
@@ -45171,9 +45209,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -45315,6 +45353,7 @@ public static class TimestampType_template extends Base_Template {
 	}
 
 	public TimestampType_template() {
+// do nothing
 	}
 
 	public TimestampType_template(final template_sel other_value ) {
@@ -45615,8 +45654,7 @@ public static class TimestampType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TimestampType containing an empty list.");
@@ -45950,9 +45988,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -46117,6 +46155,7 @@ public static class Setstate_template extends Base_Template {
 	}
 
 	public Setstate_template() {
+// do nothing
 	}
 
 	public Setstate_template(final template_sel other_value ) {
@@ -46442,8 +46481,7 @@ public static class Setstate_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Setstate containing an empty list.");
@@ -46997,9 +47035,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 6;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(6);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -47233,6 +47271,7 @@ public static class Proc__port__in_template extends Base_Template {
 	}
 
 	public Proc__port__in_template() {
+// do nothing
 	}
 
 	public Proc__port__in_template(final template_sel other_value ) {
@@ -47633,8 +47672,7 @@ public static class Proc__port__in_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 6;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(6);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Proc_port_in containing an empty list.");
@@ -48041,9 +48079,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 4;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(4);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -48231,6 +48269,7 @@ public static class TitanLogEvent_template extends Base_Template {
 	}
 
 	public TitanLogEvent_template() {
+// do nothing
 	}
 
 	public TitanLogEvent_template(final template_sel other_value ) {
@@ -48581,8 +48620,7 @@ public static class TitanLogEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 4;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(4);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TitanLogEvent containing an empty list.");
@@ -49089,9 +49127,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 10;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(10);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -49417,6 +49455,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 	}
 
 	public StatisticsType_choice_verdictStatistics_template() {
+// do nothing
 	}
 
 	public StatisticsType_choice_verdictStatistics_template(final template_sel other_value ) {
@@ -49917,8 +49956,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 10;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(10);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics containing an empty list.");
@@ -50494,9 +50532,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -50615,6 +50653,7 @@ public static class LogEventType_template extends Base_Template {
 	}
 
 	public LogEventType_template() {
+// do nothing
 	}
 
 	public LogEventType_template(final template_sel other_value ) {
@@ -50890,8 +50929,7 @@ public static class LogEventType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.LogEventType containing an empty list.");
@@ -51191,9 +51229,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -51335,6 +51373,7 @@ public static class Port__State_template extends Base_Template {
 	}
 
 	public Port__State_template() {
+// do nothing
 	}
 
 	public Port__State_template(final template_sel other_value ) {
@@ -51635,8 +51674,7 @@ public static class Port__State_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Port_State containing an empty list.");
@@ -51970,9 +52008,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -52137,6 +52175,7 @@ public static class TestcaseType_template extends Base_Template {
 	}
 
 	public TestcaseType_template() {
+// do nothing
 	}
 
 	public TestcaseType_template(final template_sel other_value ) {
@@ -52462,8 +52501,7 @@ public static class TestcaseType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TestcaseType containing an empty list.");
@@ -53083,6 +53121,7 @@ set_selection(other_value);
 }
 
 public ParallelEvent_choice_template() {
+// do nothing
 }
 public ParallelEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -53865,6 +53904,7 @@ set_selection(other_value);
 }
 
 public anytype_template() {
+// do nothing
 }
 public anytype_template(final template_sel other_value) {
 super(other_value);
@@ -54327,9 +54367,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -54448,6 +54488,7 @@ public static class PortEvent_template extends Base_Template {
 	}
 
 	public PortEvent_template() {
+// do nothing
 	}
 
 	public PortEvent_template(final template_sel other_value ) {
@@ -54723,8 +54764,7 @@ public static class PortEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.PortEvent containing an empty list.");
@@ -55641,6 +55681,7 @@ set_selection(other_value);
 }
 
 public PortEvent_choice_template() {
+// do nothing
 }
 public PortEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -56644,9 +56685,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -56811,6 +56852,7 @@ public static class Msg__port__send_template extends Base_Template {
 	}
 
 	public Msg__port__send_template() {
+// do nothing
 	}
 
 	public Msg__port__send_template(final template_sel other_value ) {
@@ -57136,8 +57178,7 @@ public static class Msg__port__send_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_send containing an empty list.");
@@ -57874,9 +57915,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -57995,6 +58036,7 @@ public static class FunctionEvent_template extends Base_Template {
 	}
 
 	public FunctionEvent_template() {
+// do nothing
 	}
 
 	public FunctionEvent_template(final template_sel other_value ) {
@@ -58270,8 +58312,7 @@ public static class FunctionEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.FunctionEvent containing an empty list.");
@@ -58922,9 +58963,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 5;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(5);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -59135,6 +59176,7 @@ public static class MatchingFailureType_template extends Base_Template {
 	}
 
 	public MatchingFailureType_template() {
+// do nothing
 	}
 
 	public MatchingFailureType_template(final template_sel other_value ) {
@@ -59510,8 +59552,7 @@ public static class MatchingFailureType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 5;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(5);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.MatchingFailureType containing an empty list.");
@@ -60394,9 +60435,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 5;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(5);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -60607,6 +60648,7 @@ public static class ParPort_template extends Base_Template {
 	}
 
 	public ParPort_template() {
+// do nothing
 	}
 
 	public ParPort_template(final template_sel other_value ) {
@@ -60982,8 +61024,7 @@ public static class ParPort_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 5;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(5);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ParPort containing an empty list.");
@@ -61413,9 +61454,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 4;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(4);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -61603,6 +61644,7 @@ public static class MatchingDoneType_template extends Base_Template {
 	}
 
 	public MatchingDoneType_template() {
+// do nothing
 	}
 
 	public MatchingDoneType_template(final template_sel other_value ) {
@@ -61953,8 +61995,7 @@ public static class MatchingDoneType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 4;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(4);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.MatchingDoneType containing an empty list.");
@@ -62485,9 +62526,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 6;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(6);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -62721,6 +62762,7 @@ public static class Port__Queue_template extends Base_Template {
 	}
 
 	public Port__Queue_template() {
+// do nothing
 	}
 
 	public Port__Queue_template(final template_sel other_value ) {
@@ -63121,8 +63163,7 @@ public static class Port__Queue_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 6;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(6);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Port_Queue containing an empty list.");
@@ -63466,9 +63507,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -63587,6 +63628,7 @@ public static class ParallelEvent_template extends Base_Template {
 	}
 
 	public ParallelEvent_template() {
+// do nothing
 	}
 
 	public ParallelEvent_template(final template_sel other_value ) {
@@ -63862,8 +63904,7 @@ public static class ParallelEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ParallelEvent containing an empty list.");
@@ -64380,6 +64421,7 @@ set_selection(other_value);
 }
 
 public FinalVerdictType_choice_template() {
+// do nothing
 }
 public FinalVerdictType_choice_template(final template_sel other_value) {
 super(other_value);
@@ -64903,6 +64945,7 @@ public static class StartFunction_parameter__list extends Base_Type {
 	private List<TitanCharString> valueElements;
 
 	public StartFunction_parameter__list() {
+		// do nothing
 	}
 
 	public StartFunction_parameter__list( final StartFunction_parameter__list otherValue ) {
@@ -65412,6 +65455,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 	};
 
 	public StartFunction_parameter__list_template() {
+		// do nothing
 	}
 
 	public StartFunction_parameter__list_template(final template_sel other_value ) {
@@ -65882,7 +65926,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 			}
 			for (int i=0; i<elem_count; i++)
 			{
-			switch (value_elements.get(i).get_selection())
+				switch (value_elements.get(i).get_selection())
 				{
 				case OMIT_VALUE:
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.StartFunction.parameter_list containing omit element.", op_name ) );
@@ -66473,9 +66517,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 6;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(6);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -66709,6 +66753,7 @@ public static class Msg__port__recv_template extends Base_Template {
 	}
 
 	public Msg__port__recv_template() {
+// do nothing
 	}
 
 	public Msg__port__recv_template(final template_sel other_value ) {
@@ -67109,8 +67154,7 @@ public static class Msg__port__recv_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 6;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(6);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing an empty list.");
@@ -67511,9 +67555,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -67655,6 +67699,7 @@ public static class TimerType_template extends Base_Template {
 	}
 
 	public TimerType_template() {
+// do nothing
 	}
 
 	public TimerType_template(final template_sel other_value ) {
@@ -67955,8 +68000,7 @@ public static class TimerType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TimerType containing an empty list.");
@@ -68248,9 +68292,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -68369,6 +68413,7 @@ public static class DefaultEvent_template extends Base_Template {
 	}
 
 	public DefaultEvent_template() {
+// do nothing
 	}
 
 	public DefaultEvent_template(final template_sel other_value ) {
@@ -68644,8 +68689,7 @@ public static class DefaultEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.DefaultEvent containing an empty list.");
@@ -69372,6 +69416,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Port__Queue_operation_template() {
+// do nothing
 }
 
 public Port__Queue_operation_template(final template_sel otherValue) {
@@ -69990,9 +70035,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 5;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(5);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -70203,6 +70248,7 @@ public static class MatchingProblemType_template extends Base_Template {
 	}
 
 	public MatchingProblemType_template() {
+// do nothing
 	}
 
 	public MatchingProblemType_template(final template_sel other_value ) {
@@ -70578,8 +70624,7 @@ public static class MatchingProblemType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 5;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(5);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.MatchingProblemType containing an empty list.");
@@ -70910,9 +70955,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -71031,6 +71076,7 @@ public static class Strings_template extends Base_Template {
 	}
 
 	public Strings_template() {
+// do nothing
 	}
 
 	public Strings_template(final template_sel other_value ) {
@@ -71306,8 +71352,7 @@ public static class Strings_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Strings containing an empty list.");
@@ -71664,9 +71709,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -71831,6 +71876,7 @@ public static class PTC__exit_template extends Base_Template {
 	}
 
 	public PTC__exit_template() {
+// do nothing
 	}
 
 	public PTC__exit_template(final template_sel other_value ) {
@@ -72156,8 +72202,7 @@ public static class PTC__exit_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.PTC_exit containing an empty list.");
@@ -72908,6 +72953,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Port__Misc_reason_template() {
+// do nothing
 }
 
 public Port__Misc_reason_template(final template_sel otherValue) {
@@ -73406,9 +73452,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -73527,6 +73573,7 @@ public static class TitanLog_template extends Base_Template {
 	}
 
 	public TitanLog_template() {
+// do nothing
 	}
 
 	public TitanLog_template(final template_sel other_value ) {
@@ -73802,8 +73849,7 @@ public static class TitanLog_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TitanLog containing an empty list.");
@@ -74082,9 +74128,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -74203,6 +74249,7 @@ public static class ErrorEvent_template extends Base_Template {
 	}
 
 	public ErrorEvent_template() {
+// do nothing
 	}
 
 	public ErrorEvent_template(final template_sel other_value ) {
@@ -74478,8 +74525,7 @@ public static class ErrorEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ErrorEvent containing an empty list.");
@@ -74974,9 +75020,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -75095,6 +75141,7 @@ public static class ExecutorEvent_template extends Base_Template {
 	}
 
 	public ExecutorEvent_template() {
+// do nothing
 	}
 
 	public ExecutorEvent_template(final template_sel other_value ) {
@@ -75370,8 +75417,7 @@ public static class ExecutorEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ExecutorEvent containing an empty list.");
@@ -75884,9 +75930,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 7;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(7);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -76143,6 +76189,7 @@ public static class Parallel_template extends Base_Template {
 	}
 
 	public Parallel_template() {
+// do nothing
 	}
 
 	public Parallel_template(final template_sel other_value ) {
@@ -76568,8 +76615,7 @@ public static class Parallel_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 7;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(7);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Parallel containing an empty list.");
@@ -77029,6 +77075,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -77247,6 +77294,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 	}
 
 	public ExecutorRuntime_template() {
+// do nothing
 	}
 
 	public ExecutorRuntime_template(final template_sel other_value ) {
@@ -77659,7 +77707,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 				if (fd__setsize.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ExecutorRuntime containing an empty list.");
@@ -78138,9 +78186,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -78259,6 +78307,7 @@ public static class FinalVerdictType_template extends Base_Template {
 	}
 
 	public FinalVerdictType_template() {
+// do nothing
 	}
 
 	public FinalVerdictType_template(final template_sel other_value ) {
@@ -78534,8 +78583,7 @@ public static class FinalVerdictType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.FinalVerdictType containing an empty list.");
@@ -79134,6 +79182,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public FinalVerdictType_choice_notification_template() {
+// do nothing
 }
 
 public FinalVerdictType_choice_notification_template(final template_sel otherValue) {
@@ -79926,6 +79975,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public ExecutorUnqualified_reason_template() {
+// do nothing
 }
 
 public ExecutorUnqualified_reason_template(final template_sel otherValue) {
@@ -80785,6 +80835,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Msg__port__recv_operation_template() {
+// do nothing
 }
 
 public Msg__port__recv_operation_template(final template_sel otherValue) {
@@ -81726,6 +81777,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public Verdict_template() {
+// do nothing
 }
 
 public Verdict_template(final template_sel otherValue) {
@@ -82788,6 +82840,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public ParallelPTC_reason_template() {
+// do nothing
 }
 
 public ParallelPTC_reason_template(final template_sel otherValue) {
@@ -83358,9 +83411,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -83479,6 +83532,7 @@ public static class TimerGuardType_template extends Base_Template {
 	}
 
 	public TimerGuardType_template() {
+// do nothing
 	}
 
 	public TimerGuardType_template(final template_sel other_value ) {
@@ -83754,8 +83808,7 @@ public static class TimerGuardType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TimerGuardType containing an empty list.");
@@ -84148,9 +84201,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 3;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(3);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -84315,6 +84368,7 @@ public static class StartFunction_template extends Base_Template {
 	}
 
 	public StartFunction_template() {
+// do nothing
 	}
 
 	public StartFunction_template(final template_sel other_value ) {
@@ -84640,8 +84694,7 @@ public static class StartFunction_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 3;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(3);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.StartFunction containing an empty list.");
@@ -85045,9 +85098,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 4;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(4);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -85235,6 +85288,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 	}
 
 	public ExecutorUnqualified_template() {
+// do nothing
 	}
 
 	public ExecutorUnqualified_template(final template_sel other_value ) {
@@ -85585,8 +85639,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 4;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(4);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ExecutorUnqualified containing an empty list.");
@@ -86337,6 +86390,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public DefaultEnd_template() {
+// do nothing
 }
 
 public DefaultEnd_template(final template_sel otherValue) {
@@ -86856,9 +86910,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -87000,6 +87054,7 @@ public static class Categorized_template extends Base_Template {
 	}
 
 	public Categorized_template() {
+// do nothing
 	}
 
 	public Categorized_template(final template_sel other_value ) {
@@ -87300,8 +87355,7 @@ public static class Categorized_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Categorized containing an empty list.");
@@ -87583,6 +87637,7 @@ public static class TitanLog_sequence__list extends Base_Type {
 	private List<TitanLog_sequence__list_0> valueElements;
 
 	public TitanLog_sequence__list() {
+		// do nothing
 	}
 
 	public TitanLog_sequence__list( final TitanLog_sequence__list otherValue ) {
@@ -88092,6 +88147,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 	};
 
 	public TitanLog_sequence__list_template() {
+		// do nothing
 	}
 
 	public TitanLog_sequence__list_template(final template_sel other_value ) {
@@ -88562,7 +88618,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 			}
 			for (int i=0; i<elem_count; i++)
 			{
-			switch (value_elements.get(i).get_selection())
+				switch (value_elements.get(i).get_selection())
 				{
 				case OMIT_VALUE:
 					throw new TtcnError( MessageFormat.format( "Performing {0}of() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list containing omit element.", op_name ) );
@@ -89465,9 +89521,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -89609,6 +89665,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 	}
 
 	public ExecutionSummaryType_template() {
+// do nothing
 	}
 
 	public ExecutionSummaryType_template(final template_sel other_value ) {
@@ -89909,8 +89966,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ExecutionSummaryType containing an empty list.");
@@ -90454,9 +90510,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -90575,6 +90631,7 @@ public static class MatchingEvent_template extends Base_Template {
 	}
 
 	public MatchingEvent_template() {
+// do nothing
 	}
 
 	public MatchingEvent_template(final template_sel other_value ) {
@@ -90850,8 +90907,7 @@ public static class MatchingEvent_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.MatchingEvent containing an empty list.");
@@ -91166,9 +91222,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 1;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(1);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -91287,6 +91343,7 @@ public static class StatisticsType_template extends Base_Template {
 	}
 
 	public StatisticsType_template() {
+// do nothing
 	}
 
 	public StatisticsType_template(final template_sel other_value ) {
@@ -91562,8 +91619,7 @@ public static class StatisticsType_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 1;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(1);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing an empty list.");
@@ -91905,9 +91961,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 4;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(4);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -92095,6 +92151,7 @@ public static class Dualface__discard_template extends Base_Template {
 	}
 
 	public Dualface__discard_template() {
+// do nothing
 	}
 
 	public Dualface__discard_template(final template_sel other_value ) {
@@ -92445,8 +92502,7 @@ public static class Dualface__discard_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 4;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(4);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Dualface_discard containing an empty list.");
@@ -93197,6 +93253,7 @@ set_selection(other_value);
 }
 
 public MatchingEvent_choice_template() {
+// do nothing
 }
 public MatchingEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -94187,6 +94244,7 @@ set_selection(other_value);
 }
 
 public FunctionEvent_choice_template() {
+// do nothing
 }
 public FunctionEvent_choice_template(final template_sel other_value) {
 super(other_value);
@@ -95076,6 +95134,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public RandomAction_template() {
+// do nothing
 }
 
 public RandomAction_template(final template_sel otherValue) {
@@ -95602,6 +95661,7 @@ return new TitanInteger(1);
 			}
 			return new TitanInteger(sizeof);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -95745,6 +95805,7 @@ public static class ExecutorComponent_template extends Base_Template {
 	}
 
 	public ExecutorComponent_template() {
+// do nothing
 	}
 
 	public ExecutorComponent_template(final template_sel other_value ) {
@@ -96055,7 +96116,7 @@ public static class ExecutorComponent_template extends Base_Template {
 				if (compref.isPresent()) {
 					sizeof++;
 				}
-				return new TitanInteger(sizeof);
+			return new TitanInteger(sizeof);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.ExecutorComponent containing an empty list.");
@@ -96450,9 +96511,9 @@ return new TitanInteger(1);
 		}
 
 		public TitanInteger sizeOf() {
-			int sizeof = 2;
-			return new TitanInteger(sizeof);
+			return new TitanInteger(2);
 		}
+
 		public void log() {
 			if (!isBound()) {
 				TTCN_Logger.log_event_unbound();
@@ -96594,6 +96655,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 	}
 
 	public TitanLog_sequence__list_0_template() {
+// do nothing
 	}
 
 	public TitanLog_sequence__list_0_template(final template_sel other_value ) {
@@ -96894,8 +96956,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 			}
 			switch (templateSelection) {
 			case SPECIFIC_VALUE:
-				int sizeof = 2;
-				return new TitanInteger(sizeof);
+				return new TitanInteger(2);
 			case VALUE_LIST:
 				if (list_value.isEmpty()) {
 					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TitanLog.sequence_list.oftype containing an empty list.");
@@ -97522,6 +97583,7 @@ throw new TtcnError("Copying an uninitialized/unsupported template of enumerated
 }
 
 public ExecutorComponent_reason_template() {
+// do nothing
 }
 
 public ExecutorComponent_reason_template(final template_sel otherValue) {
