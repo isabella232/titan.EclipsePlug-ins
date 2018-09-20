@@ -935,10 +935,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					arrayType.generateCodeValue(aData, sbforTemp);
 					arrayType.generateCodeTemplate(aData, sbforTemp);
 				}
-				source.append(MessageFormat.format("{0} ret_val = new {0}();\n", typeName));
+				source.append(MessageFormat.format("final {0} ret_val = new {0}();\n", typeName));
 			} else {
 				//modified template
-				source.append(MessageFormat.format("{0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
+				source.append(MessageFormat.format("final {0} ret_val = new {0}({1}", typeName, baseTemplate.getGenNameFromScope(aData, source, myScope, "")));
 				if (baseTemplate.formalParList != null) {
 					//the base is also parameterized
 					source.append('(');
