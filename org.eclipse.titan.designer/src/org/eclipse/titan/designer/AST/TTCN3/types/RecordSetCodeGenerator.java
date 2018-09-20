@@ -504,17 +504,22 @@ public class RecordSetCodeGenerator {
 			}
 		}
 
-		aSb.append( MessageFormat.format( "\t\t\tint sizeof = {0};\n", size ) );
-		for ( final FieldInfo fi : aNamesList ) {
-			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
-				aSb.append( "\t\t\t\tsizeof++;\n" );
-				aSb.append( "\t\t\t}\n" );
+		if (size == aNamesList.size()) {
+			aSb.append( MessageFormat.format( "\t\t\treturn new TitanInteger({0});\n", size ) );
+		} else {
+			aSb.append( MessageFormat.format( "\t\t\tint sizeof = {0};\n", size ) );
+			for ( final FieldInfo fi : aNamesList ) {
+				if (fi.isOptional) {
+					aSb.append( MessageFormat.format( "\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
+					aSb.append( "\t\t\t\tsizeof++;\n" );
+					aSb.append( "\t\t\t}\n" );
+				}
 			}
+
+			aSb.append( "\t\t\treturn new TitanInteger(sizeof);\n" );
 		}
 
-		aSb.append( "\t\t\treturn new TitanInteger(sizeof);\n" );
-		aSb.append( "\t\t}\n" );
+		aSb.append( "\t\t}\n\n" );
 	}
 
 	/**
@@ -2001,16 +2006,21 @@ public class RecordSetCodeGenerator {
 			}
 		}
 
-		aSb.append( MessageFormat.format( "\t\t\t\tint sizeof = {0};\n", size ) );
-		for ( final FieldInfo fi : aNamesList ) {
-			if (fi.isOptional) {
-				aSb.append( MessageFormat.format( "\t\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
-				aSb.append( "\t\t\t\t\tsizeof++;\n" );
-				aSb.append( "\t\t\t\t}\n" );
+		if (size == aNamesList.size()) {
+			aSb.append( MessageFormat.format( "\t\t\t\treturn new TitanInteger({0});\n", size ) );
+		} else {
+			aSb.append( MessageFormat.format( "\t\t\t\tint sizeof = {0};\n", size ) );
+			for ( final FieldInfo fi : aNamesList ) {
+				if (fi.isOptional) {
+					aSb.append( MessageFormat.format( "\t\t\t\tif ({0}.isPresent()) '{'\n", fi.mVarName ) );
+					aSb.append( "\t\t\t\t\tsizeof++;\n" );
+					aSb.append( "\t\t\t\t}\n" );
+				}
 			}
+
+			aSb.append( "\t\t\treturn new TitanInteger(sizeof);\n" );
 		}
 
-		aSb.append( "\t\t\t\treturn new TitanInteger(sizeof);\n" );
 		aSb.append( "\t\t\tcase VALUE_LIST:\n" );
 		aSb.append( "\t\t\t\tif (list_value.isEmpty()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\t\tthrow new TtcnError(\"Internal error: Performing sizeof() operation on a template of type {0} containing an empty list.\");\n", displayName ) );
