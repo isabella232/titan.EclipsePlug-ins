@@ -1700,7 +1700,7 @@ public class RecordOfGenerator {
 		source.append("\t\t\t}\n");
 		source.append("\t\t\tfor (int i=0; i<elem_count; i++)\n");
 		source.append("\t\t\t{\n");
-		source.append("\t\t\tswitch (value_elements.get(i).get_selection())\n");
+		source.append("\t\t\t\tswitch (value_elements.get(i).get_selection())\n");
 		source.append("\t\t\t\t{\n");
 		source.append("\t\t\t\tcase OMIT_VALUE:\n");
 		source.append("\t\t\t\t\tthrow new TtcnError( MessageFormat.format( \"Performing {0}of() operation on a template of type "+displayName+" containing omit element.\", op_name ) );\n");
