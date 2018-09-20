@@ -884,7 +884,6 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
 		final String genName = getGenName();
-		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 
 		if ( !isLocal() ) {
@@ -924,7 +923,10 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 					TemplateRestriction.generateRestrictionCheckCode(aData, source, location, genName, templateRestriction);
 				}
 			}
+
+			aData.addGlobalVariable(genName, source.toString());
 		} else {
+			final StringBuilder sb = aData.getSrc();
 			final StringBuilder formalParameters = formalParList.generateCode(aData);
 			source.append(MessageFormat.format("{0} {1}({2}) '{'\n", typeName, genName, formalParameters));
 			getLocation().create_location_object(aData, source, "TEMPLATE", getIdentifier().getDisplayName());
@@ -963,9 +965,9 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 			getLocation().release_location_object(aData, source);
 			source.append("return ret_val;\n");
 			source.append("}\n\n");
-		}
 
-		sb.append(source);
+			sb.append(source);
+		}
 	}
 
 	@Override

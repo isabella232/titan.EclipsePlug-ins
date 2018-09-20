@@ -481,7 +481,6 @@ public final class Def_Const extends Definition {
 		final IValue last = value.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
@@ -502,7 +501,7 @@ public final class Def_Const extends Definition {
 		getLocation().update_location_object(aData, aData.getPreInit());
 		last.generateCodeInit( aData, aData.getPreInit(), genName );
 
-		sb.append(source);
+		aData.addGlobalVariable(typeGeneratedName, source.toString());
 	}
 
 	@Override

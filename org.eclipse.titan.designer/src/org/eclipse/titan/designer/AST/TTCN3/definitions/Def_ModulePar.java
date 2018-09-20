@@ -398,7 +398,6 @@ public final class Def_ModulePar extends Definition {
 
 		aData.addBuiltinTypeImport("Param_Types");
 
-		final StringBuilder sb = aData.getSrc();
 		final StringBuilder source = new StringBuilder();
 		if ( !isLocal() ) {
 			if(VisibilityModifier.Private.equals(getVisibilityModifier())) {
@@ -420,7 +419,8 @@ public final class Def_ModulePar extends Definition {
 			getLocation().update_location_object(aData, aData.getPreInit());
 			defaultValue.generateCodeInit( aData, aData.getPreInit(), genName );
 		}
-		sb.append(source);
+
+		aData.addGlobalVariable(typeGeneratedName, source.toString());
 
 		if (hasImplicitOmit) {
 			aData.getPostInit().append(MessageFormat.format("{0}.set_implicit_omit();\n", genName));

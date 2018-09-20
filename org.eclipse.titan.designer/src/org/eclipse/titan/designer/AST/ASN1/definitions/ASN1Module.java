@@ -441,11 +441,13 @@ public final class ASN1Module extends Module {
 
 		imports.generateCode(aData);
 
-		sb.append("// TODO ASN.1 module are NOT YET supported by the Java code Generator!\n");
-		sb.append(MessageFormat.format("class {0} extends TTCN_Module '{'\n", name));
-		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
-		sb.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.ASN1_MODULE);\n", identifier.getDisplayName()));
-		sb.append("}\n\n");
+		aData.getClassHeader().append("// TODO ASN.1 module are NOT YET supported by the Java code Generator!\n");
+		aData.getClassHeader().append(MessageFormat.format("public final class {0} extends TTCN_Module '{'\n", name));
+
+		final StringBuilder constructor = aData.getConstructor();
+		constructor.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
+		constructor.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.ASN1_MODULE);\n", identifier.getDisplayName()));
+		constructor.append("}\n\n");
 
 		if ( assignments != null ) {
 			assignments.generateCode( aData );

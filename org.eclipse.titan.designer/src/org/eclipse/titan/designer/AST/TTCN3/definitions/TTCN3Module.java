@@ -1265,21 +1265,21 @@ public final class TTCN3Module extends Module {
 		//TODO handle coding attributes
 		//TODO module setup/teardown infrastructure
 
-		final StringBuilder sb = aData.getSrc();
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		for (final ImportModule importModule : importedModules) {
 			importModule.generateCode(aData);
 		}
 
-		sb.append( "public final class " + name + " extends TTCN_Module {\n" );
+		aData.getClassHeader().append(MessageFormat.format("public final class {0} extends TTCN_Module '{'\n", name));
 		if ( definitions != null ) {
 			definitions.generateCode( aData );
 		}
 
-		sb.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
-		sb.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.TTCN3_MODULE);\n", identifier.getDisplayName()));
-		sb.append("}\n\n");
+		final StringBuilder constructor = aData.getConstructor();
+		constructor.append(MessageFormat.format("public {0}() '{'\n", identifier.getName()));
+		constructor.append(MessageFormat.format("super(\"{0}\", moduleTypeEnum.TTCN3_MODULE);\n", identifier.getDisplayName()));
+		constructor.append("}\n\n");
 
 		if (anytypeDefinition != null) {
 			anytypeDefinition.generateCode(aData, false);

@@ -25,9 +25,15 @@ public class JavaGenData {
 	/** the java source file without the import part */
 	private StringBuilder mSrc;
 
+	/** the header of the generated class */
+	private StringBuilder classHeader;
+
 	/** the extra module level variables (global in original, in java public static) */
 	private HashSet<String> mGlobalVariablesGenerated;
 	private StringBuilder mGlobalVariables;
+
+	/** the constructor of the generated class */
+	private StringBuilder constructor;
 
 	/** the contents of pre_init */
 	private StringBuilder preInit;
@@ -86,8 +92,10 @@ public class JavaGenData {
 		buildTimestamp = timestamp;
 
 		mSrc = new StringBuilder();
+		classHeader = new StringBuilder();
 		mGlobalVariablesGenerated = new HashSet<String>();
 		mGlobalVariables = new StringBuilder();
+		constructor = new StringBuilder();
 		preInit = new StringBuilder();
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
@@ -155,6 +163,13 @@ public class JavaGenData {
 		return mSrc;
 	}
 
+	/**
+	 * @return the string where the class header of the generated class is written
+	 */
+	public StringBuilder getClassHeader() {
+		return classHeader;
+	}
+
 	public boolean hasGlobalVariable(final String name) {
 		return mGlobalVariablesGenerated.contains(name);
 	}
@@ -172,6 +187,13 @@ public class JavaGenData {
 
 	StringBuilder getGlobalVariables() {
 		return mGlobalVariables;
+	}
+
+	/**
+	 * @return the string where the constructor of the generated class is written
+	 */
+	public StringBuilder getConstructor() {
+		return constructor;
 	}
 
 	/**

@@ -65,16 +65,23 @@ public class ProjectSourceCompiler {
 			data.addBuiltinTypeImport("Text_Buf");
 		}
 
+		final StringBuilder sourceCode = new StringBuilder();
 		//write imports
-		final StringBuilder headerSb = new StringBuilder();
-		writeHeader( headerSb, data );
+		//final StringBuilder headerSb = new StringBuilder();
+		writeHeader( sourceCode, data );
+		//sourceCode.append(headerSb);
 
-		data.getSrc().append(data.getGlobalVariables());
+		sourceCode.append(data.getGlobalVariables());
+		sourceCode.append( '\n' );
+
+		sourceCode.append(data.getConstructor());
 		for(final StringBuilder typeString: data.getTypes().values()) {
-			data.getSrc().append(typeString);
+			sourceCode.append(typeString);
 		}
 
-		writeFooter(data, sourceFile, aModule);
+		sourceCode.append(data.getSrc());
+
+		writeFooter(data, sourceCode, sourceFile, aModule);
 
 
 		//write src file body
@@ -84,7 +91,7 @@ public class ProjectSourceCompiler {
 		createDir( folder );
 
 		//write to file if changed
-		final String content = headerSb.append(data.getSrc().toString()).toString();
+		final String content = sourceCode.toString();
 		if (file.exists()) {
 			if(needsUpdate(file, content) ) {
 				final InputStream outputStream = new ByteArrayInputStream( content.getBytes() );
@@ -324,6 +331,9 @@ public class ProjectSourceCompiler {
 			writeImport( aSb, importName );
 		}
 		aSb.append( '\n' );
+
+		aSb.append(aData.getClassHeader());
+		aSb.append( '\n' );
 	}
 
 	/**
@@ -337,8 +347,8 @@ public class ProjectSourceCompiler {
 	 * @param sourceFile the source of the code.
 	 * @param aModule module to compile
 	 */
-	private static void writeFooter( final JavaGenData aData, final IResource sourceFile, final Module aModule) {
-		final StringBuilder aSb = aData.getSrc();
+	private static void writeFooter( final JavaGenData aData, final StringBuilder aSb, final IResource sourceFile, final Module aModule) {
+//		final StringBuilder aSb = aData.getSrc();
 		if (aData.getSetModuleParameters().length() > 0) {
 			aSb.append("public boolean set_module_param(final Param_Types.Module_Parameter param)\n");
 			aSb.append("{\n");
