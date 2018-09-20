@@ -1049,6 +1049,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		aData.addCommonLibraryImport("TTCN_EncDec");
 		aData.addCommonLibraryImport("TTCN_EncDec.error_type");
 		aData.addCommonLibraryImport("TTCN_Logger");
+		aData.addCommonLibraryImport("TTCN_Logger.Severity");
 
 		final String firstParName = formalParList.getParameterByIndex(0).getIdentifier().getName();
 
