@@ -3114,7 +3114,7 @@ public class RecordSetCodeGenerator {
 		for (int a = 0; a < tempRawOption.lengthof && !found; a++) {
 			final int field_index = tempRawOption.lengthofField.get(a);
 			if (fieldInfos.get(field_index).raw.unit == -1) {
-				source.append(MessageFormat.format(", value_of_length_field{0}", field_index));
+				source.append(MessageFormat.format(", value_of_length_field{0} != 0", field_index));
 				found = true;
 			}
 		}
