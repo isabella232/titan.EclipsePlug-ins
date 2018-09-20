@@ -1140,7 +1140,7 @@ public class LegacyLogger implements ILoggerPlugin {
 				}
 			} else {
 				if (!set.getOldReason().isPresent() || !set.getNewReason().isPresent()) {
-					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} component reason not changed", newVerdictName, oldVerdictName, localVerdictName));
+					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2}, component reason not changed", newVerdictName, oldVerdictName, localVerdictName));
 				} else {
 					returnValue.append(MessageFormat.format("setverdict({0}): {1} -> {2} reason: \"{3}\", component reason not changed", newVerdictName, oldVerdictName, localVerdictName, set.getOldReason().get().getValue()));
 				}
