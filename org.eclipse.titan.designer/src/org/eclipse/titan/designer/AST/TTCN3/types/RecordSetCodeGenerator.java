@@ -1626,6 +1626,7 @@ public class RecordSetCodeGenerator {
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String displayName ) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
+		source.append("// do nothing\n");
 		source.append("\t}\n");
 
 		source.append('\n');

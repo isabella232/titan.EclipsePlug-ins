@@ -566,6 +566,7 @@ public class FunctionReferenceGenerator {
 		source.append("}\n");
 
 		source.append(MessageFormat.format("public {0}_template() '{'\n", def.genName));
+		source.append("// do nothing\n");
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template(final template_sel otherValue) '{'\n", def.genName));
 		source.append("super(otherValue);\n");

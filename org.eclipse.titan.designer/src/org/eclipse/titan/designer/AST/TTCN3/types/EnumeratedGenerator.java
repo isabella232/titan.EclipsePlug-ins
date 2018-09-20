@@ -708,6 +708,7 @@ public class EnumeratedGenerator {
 	private static void generateTemplateConstructors( final StringBuilder source, final String name){
 		// empty
 		source.append(MessageFormat.format("public {0}_template() '{'\n", name));
+		source.append("// do nothing\n");
 		source.append("}\n\n");
 
 		// template_sel

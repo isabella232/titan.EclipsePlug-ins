@@ -195,6 +195,7 @@ public class RecordOfGenerator {
 	private static void generateValueConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}() '{'\n", genName ) );
+		source.append("\t\t// do nothing\n");
 		source.append("\t}\n");
 
 		source.append('\n');
@@ -1044,6 +1045,7 @@ public class RecordOfGenerator {
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName, final String ofTypeName, final String displayName ) {
 		source.append('\n');
 		source.append( MessageFormat.format( "\tpublic {0}_template() '{'\n", genName ) );
+		source.append("\t\t// do nothing\n");
 		source.append("\t}\n");
 
 		source.append('\n');

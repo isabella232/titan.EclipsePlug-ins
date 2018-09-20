@@ -877,6 +877,7 @@ public class UnionGenerator {
 	 * */
 	private static void generateTemplateConstructors( final StringBuilder source, final String genName){
 		source.append(MessageFormat.format("public {0}_template() '{'\n", genName));
+		source.append("// do nothing\n");
 		source.append("}\n");
 		source.append(MessageFormat.format("public {0}_template(final template_sel other_value) '{'\n", genName));
 		source.append("super(other_value);\n");
