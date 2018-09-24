@@ -33,11 +33,11 @@ public class TitanCharacter_String extends Base_Type {
 		string__value = new TitanOctetString();
 	}
 
-	public TitanCharacter_String( final TitanCharacter_String_identification aIdentification, final Optional<TitanUniversalCharString> aData__value__descriptor, final TitanOctetString aString__value ) {
-		identification = new TitanCharacter_String_identification( aIdentification );
+	public TitanCharacter_String( final TitanCharacter_String_identification aidentification, final Optional<TitanUniversalCharString> adata__value__descriptor, final TitanOctetString astring__value ) {
+		identification = new TitanCharacter_String_identification( aidentification );
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		this.data__value__descriptor.assign( aData__value__descriptor );
-		string__value = new TitanOctetString( aString__value );
+		this.data__value__descriptor.assign( adata__value__descriptor );
+		string__value = new TitanOctetString( astring__value );
 	}
 
 	public TitanCharacter_String( final TitanCharacter_String aOtherValue ) {
@@ -56,18 +56,18 @@ public class TitanCharacter_String extends Base_Type {
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getIdentification().isBound() ) {
-				this.identification.assign( aOtherValue.getIdentification() );
+			if ( aOtherValue.getidentification().isBound() ) {
+				this.identification.assign( aOtherValue.getidentification() );
 			} else {
 				this.identification.cleanUp();
 			}
-			if ( aOtherValue.getData__value__descriptor().isBound() ) {
-				this.data__value__descriptor.assign( aOtherValue.getData__value__descriptor() );
+			if ( aOtherValue.getdata__value__descriptor().isBound() ) {
+				this.data__value__descriptor.assign( aOtherValue.getdata__value__descriptor() );
 			} else {
 				this.data__value__descriptor.cleanUp();
 			}
-			if ( aOtherValue.getString__value().isBound() ) {
-				this.string__value.assign( aOtherValue.getString__value() );
+			if ( aOtherValue.getstring__value().isBound() ) {
+				this.string__value.assign( aOtherValue.getstring__value() );
 			} else {
 				this.string__value.cleanUp();
 			}
@@ -128,27 +128,27 @@ public class TitanCharacter_String extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to CHARACTER STRING", otherValue));
 	}
 
-	public TitanCharacter_String_identification getIdentification() {
+	public TitanCharacter_String_identification getidentification() {
 		return identification;
 	}
 
-	public TitanCharacter_String_identification constGetIdentification() {
+	public TitanCharacter_String_identification constGetidentification() {
 		return identification;
 	}
 
-	public Optional<TitanUniversalCharString> getData__value__descriptor() {
+	public Optional<TitanUniversalCharString> getdata__value__descriptor() {
 		return data__value__descriptor;
 	}
 
-	public Optional<TitanUniversalCharString> constGetData__value__descriptor() {
+	public Optional<TitanUniversalCharString> constGetdata__value__descriptor() {
 		return data__value__descriptor;
 	}
 
-	public TitanOctetString getString__value() {
+	public TitanOctetString getstring__value() {
 		return string__value;
 	}
 
-	public TitanOctetString constGetString__value() {
+	public TitanOctetString constGetstring__value() {
 		return string__value;
 	}
 

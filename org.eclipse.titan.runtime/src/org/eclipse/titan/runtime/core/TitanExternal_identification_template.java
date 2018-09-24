@@ -25,52 +25,51 @@ public class TitanExternal_identification_template extends Base_Template {
 	private void copy_value(final TitanExternal_identification other_value) {
 		single_value_union_selection = other_value.get_selection();
 		switch (other_value.get_selection()) {
-		case ALT_Syntaxes:
-			single_value = new TitanExternal_identification_syntaxes_template(other_value.constGetSyntaxes());
+		case ALT_syntaxes:
+			single_value = new TitanExternal_identification_syntaxes_template(other_value.constGetsyntaxes());
 			break;
-		case ALT_Syntax:
-			single_value = new TitanObjectid_template(other_value.constGetSyntax());
+		case ALT_syntax:
+			single_value = new TitanObjectid_template(other_value.constGetsyntax());
 			break;
-		case ALT_Presentation__context__id:
-			single_value = new TitanInteger_template(other_value.constGetPresentation__context__id());
+		case ALT_presentation__context__id:
+			single_value = new TitanInteger_template(other_value.constGetpresentation__context__id());
 			break;
-		case ALT_Context__negotiation:
-			single_value = new TitanExternal_identification_context__negotiation_template(other_value.constGetContext__negotiation());
+		case ALT_context__negotiation:
+			single_value = new TitanExternal_identification_context__negotiation_template(other_value.constGetcontext__negotiation());
 			break;
-		case ALT_Transfer__syntax:
-			single_value = new TitanObjectid_template(other_value.constGetTransfer__syntax());
+		case ALT_transfer__syntax:
+			single_value = new TitanObjectid_template(other_value.constGettransfer__syntax());
 			break;
-		case ALT_Fixed:
-			single_value = new TitanAsn_Null_template(other_value.constGetFixed());
+		case ALT_fixed:
+			single_value = new TitanAsn_Null_template(other_value.constGetfixed());
 			break;
 		default:
 			throw new TtcnError("Initializing a template with an unbound value of type EXTERNAL.identification.");
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
-
 	private void copy_template(final TitanExternal_identification_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
 			single_value_union_selection = other_value.single_value_union_selection;
 			switch (single_value_union_selection) {
-			case ALT_Syntaxes:
-				single_value = new TitanExternal_identification_syntaxes_template(other_value.constGetSyntaxes());
+			case ALT_syntaxes:
+				single_value = new TitanExternal_identification_syntaxes_template(other_value.constGetsyntaxes());
 				break;
-			case ALT_Syntax:
-				single_value = new TitanObjectid_template(other_value.constGetSyntax());
+			case ALT_syntax:
+				single_value = new TitanObjectid_template(other_value.constGetsyntax());
 				break;
-			case ALT_Presentation__context__id:
-				single_value = new TitanInteger_template(other_value.constGetPresentation__context__id());
+			case ALT_presentation__context__id:
+				single_value = new TitanInteger_template(other_value.constGetpresentation__context__id());
 				break;
-			case ALT_Context__negotiation:
-				single_value = new TitanExternal_identification_context__negotiation_template(other_value.constGetContext__negotiation());
+			case ALT_context__negotiation:
+				single_value = new TitanExternal_identification_context__negotiation_template(other_value.constGetcontext__negotiation());
 				break;
-			case ALT_Transfer__syntax:
-				single_value = new TitanObjectid_template(other_value.constGetTransfer__syntax());
+			case ALT_transfer__syntax:
+				single_value = new TitanObjectid_template(other_value.constGettransfer__syntax());
 				break;
-			case ALT_Fixed:
-				single_value = new TitanAsn_Null_template(other_value.constGetFixed());
+			case ALT_fixed:
+				single_value = new TitanAsn_Null_template(other_value.constGetfixed());
 				break;
 			default:
 				throw new TtcnError("Internal error: Invalid union selector in a specific value when copying a template of type EXTERNAL.identification.");
@@ -113,22 +112,22 @@ public class TitanExternal_identification_template extends Base_Template {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
 			switch (single_value_union_selection) {
-			case ALT_Syntaxes:
+			case ALT_syntaxes:
 				((TitanExternal_identification_syntaxes_template)single_value).cleanUp();
 				break;
-			case ALT_Syntax:
+			case ALT_syntax:
 				((TitanObjectid_template)single_value).cleanUp();
 				break;
-			case ALT_Presentation__context__id:
+			case ALT_presentation__context__id:
 				((TitanInteger_template)single_value).cleanUp();
 				break;
-			case ALT_Context__negotiation:
+			case ALT_context__negotiation:
 				((TitanExternal_identification_context__negotiation_template)single_value).cleanUp();
 				break;
-			case ALT_Transfer__syntax:
+			case ALT_transfer__syntax:
 				((TitanObjectid_template)single_value).cleanUp();
 				break;
-			case ALT_Fixed:
+			case ALT_fixed:
 				((TitanAsn_Null_template)single_value).cleanUp();
 				break;
 			default:
@@ -212,18 +211,18 @@ public class TitanExternal_identification_template extends Base_Template {
 				return false;
 			}
 			switch (value_selection) {
-			case ALT_Syntaxes:
-				return ((TitanExternal_identification_syntaxes_template)single_value).match(other_value.getSyntaxes(), legacy);
-			case ALT_Syntax:
-				return ((TitanObjectid_template)single_value).match(other_value.getSyntax(), legacy);
-			case ALT_Presentation__context__id:
-				return ((TitanInteger_template)single_value).match(other_value.getPresentation__context__id(), legacy);
-			case ALT_Context__negotiation:
-				return ((TitanExternal_identification_context__negotiation_template)single_value).match(other_value.getContext__negotiation(), legacy);
-			case ALT_Transfer__syntax:
-				return ((TitanObjectid_template)single_value).match(other_value.getTransfer__syntax(), legacy);
-			case ALT_Fixed:
-				return ((TitanAsn_Null_template)single_value).match(other_value.getFixed(), legacy);
+			case ALT_syntaxes:
+				return ((TitanExternal_identification_syntaxes_template)single_value).match(other_value.getsyntaxes(), legacy);
+			case ALT_syntax:
+				return ((TitanObjectid_template)single_value).match(other_value.getsyntax(), legacy);
+			case ALT_presentation__context__id:
+				return ((TitanInteger_template)single_value).match(other_value.getpresentation__context__id(), legacy);
+			case ALT_context__negotiation:
+				return ((TitanExternal_identification_context__negotiation_template)single_value).match(other_value.getcontext__negotiation(), legacy);
+			case ALT_transfer__syntax:
+				return ((TitanObjectid_template)single_value).match(other_value.gettransfer__syntax(), legacy);
+			case ALT_fixed:
+				return ((TitanAsn_Null_template)single_value).match(other_value.getfixed(), legacy);
 			default:
 				throw new TtcnError("Internal error: Invalid selector in a specific value when matching a template of union type EXTERNAL.identification.");
 			}
@@ -279,17 +278,17 @@ public class TitanExternal_identification_template extends Base_Template {
 			return false;
 		}
 		switch (single_value_union_selection) {
-		case ALT_Syntaxes:
+		case ALT_syntaxes:
 			return ((TitanExternal_identification_syntaxes_template)single_value).isValue();
-		case ALT_Syntax:
+		case ALT_syntax:
 			return ((TitanObjectid_template)single_value).isValue();
-		case ALT_Presentation__context__id:
+		case ALT_presentation__context__id:
 			return ((TitanInteger_template)single_value).isValue();
-		case ALT_Context__negotiation:
+		case ALT_context__negotiation:
 			return ((TitanExternal_identification_context__negotiation_template)single_value).isValue();
-		case ALT_Transfer__syntax:
+		case ALT_transfer__syntax:
 			return ((TitanObjectid_template)single_value).isValue();
-		case ALT_Fixed:
+		case ALT_fixed:
 			return ((TitanAsn_Null_template)single_value).isValue();
 		default:
 			throw new TtcnError("Internal error: Invalid selector in a specific value when performing is_value operation on a template of union type EXTERNAL.identification.");
@@ -302,23 +301,23 @@ public class TitanExternal_identification_template extends Base_Template {
 		}
 		final TitanExternal_identification ret_val = new TitanExternal_identification();
 		switch (single_value_union_selection) {
-		case ALT_Syntaxes:
-			ret_val.getSyntaxes().assign(((TitanExternal_identification_syntaxes_template)single_value).valueOf());
+		case ALT_syntaxes:
+			ret_val.getsyntaxes().assign(((TitanExternal_identification_syntaxes_template)single_value).valueOf());
 			break;
-		case ALT_Syntax:
-			ret_val.getSyntax().assign(((TitanObjectid_template)single_value).valueOf());
+		case ALT_syntax:
+			ret_val.getsyntax().assign(((TitanObjectid_template)single_value).valueOf());
 			break;
-		case ALT_Presentation__context__id:
-			ret_val.getPresentation__context__id().assign(((TitanInteger_template)single_value).valueOf());
+		case ALT_presentation__context__id:
+			ret_val.getpresentation__context__id().assign(((TitanInteger_template)single_value).valueOf());
 			break;
-		case ALT_Context__negotiation:
-			ret_val.getContext__negotiation().assign(((TitanExternal_identification_context__negotiation_template)single_value).valueOf());
+		case ALT_context__negotiation:
+			ret_val.getcontext__negotiation().assign(((TitanExternal_identification_context__negotiation_template)single_value).valueOf());
 			break;
-		case ALT_Transfer__syntax:
-			ret_val.getTransfer__syntax().assign(((TitanObjectid_template)single_value).valueOf());
+		case ALT_transfer__syntax:
+			ret_val.gettransfer__syntax().assign(((TitanObjectid_template)single_value).valueOf());
 			break;
-		case ALT_Fixed:
-			ret_val.getFixed().assign(((TitanAsn_Null_template)single_value).valueOf());
+		case ALT_fixed:
+			ret_val.getfixed().assign(((TitanAsn_Null_template)single_value).valueOf());
 			break;
 		default:
 			throw new TtcnError("Internal error: Invalid selector in a specific value when performing valueof operation on a template of union type EXTERNAL.identification.");
@@ -390,8 +389,8 @@ public class TitanExternal_identification_template extends Base_Template {
 		}
 	}
 
-	public TitanExternal_identification_syntaxes_template getSyntaxes() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Syntaxes) {
+	public TitanExternal_identification_syntaxes_template getsyntaxes() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_syntaxes) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -399,24 +398,24 @@ public class TitanExternal_identification_template extends Base_Template {
 			} else {
 				single_value = new TitanExternal_identification_syntaxes_template();
 			}
-			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_Syntaxes;
+			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_syntaxes;
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanExternal_identification_syntaxes_template)single_value;
 	}
 
-	public TitanExternal_identification_syntaxes_template constGetSyntaxes() {
+	public TitanExternal_identification_syntaxes_template constGetsyntaxes() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field syntaxes in a non-specific template of union type EXTERNAL.identification.");
 		}
-		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Syntaxes) {
+		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_syntaxes) {
 			throw new TtcnError("Accessing non-selected field syntaxes in a template of union type EXTERNAL.identification.");
 		}
 		return (TitanExternal_identification_syntaxes_template)single_value;
 	}
 
-	public TitanObjectid_template getSyntax() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Syntax) {
+	public TitanObjectid_template getsyntax() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_syntax) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -424,24 +423,24 @@ public class TitanExternal_identification_template extends Base_Template {
 			} else {
 				single_value = new TitanObjectid_template();
 			}
-			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_Syntax;
+			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_syntax;
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanObjectid_template)single_value;
 	}
 
-	public TitanObjectid_template constGetSyntax() {
+	public TitanObjectid_template constGetsyntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field syntax in a non-specific template of union type EXTERNAL.identification.");
 		}
-		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Syntax) {
+		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_syntax) {
 			throw new TtcnError("Accessing non-selected field syntax in a template of union type EXTERNAL.identification.");
 		}
 		return (TitanObjectid_template)single_value;
 	}
 
-	public TitanInteger_template getPresentation__context__id() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Presentation__context__id) {
+	public TitanInteger_template getpresentation__context__id() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_presentation__context__id) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -449,24 +448,24 @@ public class TitanExternal_identification_template extends Base_Template {
 			} else {
 				single_value = new TitanInteger_template();
 			}
-			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_Presentation__context__id;
+			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_presentation__context__id;
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanInteger_template)single_value;
 	}
 
-	public TitanInteger_template constGetPresentation__context__id() {
+	public TitanInteger_template constGetpresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field presentation-context-id in a non-specific template of union type EXTERNAL.identification.");
 		}
-		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Presentation__context__id) {
+		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_presentation__context__id) {
 			throw new TtcnError("Accessing non-selected field presentation-context-id in a template of union type EXTERNAL.identification.");
 		}
 		return (TitanInteger_template)single_value;
 	}
 
-	public TitanExternal_identification_context__negotiation_template getContext__negotiation() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Context__negotiation) {
+	public TitanExternal_identification_context__negotiation_template getcontext__negotiation() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_context__negotiation) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -474,24 +473,24 @@ public class TitanExternal_identification_template extends Base_Template {
 			} else {
 				single_value = new TitanExternal_identification_context__negotiation_template();
 			}
-			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_Context__negotiation;
+			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_context__negotiation;
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanExternal_identification_context__negotiation_template)single_value;
 	}
 
-	public TitanExternal_identification_context__negotiation_template constGetContext__negotiation() {
+	public TitanExternal_identification_context__negotiation_template constGetcontext__negotiation() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field context-negotiation in a non-specific template of union type EXTERNAL.identification.");
 		}
-		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Context__negotiation) {
+		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_context__negotiation) {
 			throw new TtcnError("Accessing non-selected field context-negotiation in a template of union type EXTERNAL.identification.");
 		}
 		return (TitanExternal_identification_context__negotiation_template)single_value;
 	}
 
-	public TitanObjectid_template getTransfer__syntax() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Transfer__syntax) {
+	public TitanObjectid_template gettransfer__syntax() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_transfer__syntax) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -499,24 +498,24 @@ public class TitanExternal_identification_template extends Base_Template {
 			} else {
 				single_value = new TitanObjectid_template();
 			}
-			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_Transfer__syntax;
+			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_transfer__syntax;
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanObjectid_template)single_value;
 	}
 
-	public TitanObjectid_template constGetTransfer__syntax() {
+	public TitanObjectid_template constGettransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer-syntax in a non-specific template of union type EXTERNAL.identification.");
 		}
-		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Transfer__syntax) {
+		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_transfer__syntax) {
 			throw new TtcnError("Accessing non-selected field transfer-syntax in a template of union type EXTERNAL.identification.");
 		}
 		return (TitanObjectid_template)single_value;
 	}
 
-	public TitanAsn_Null_template getFixed() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Fixed) {
+	public TitanAsn_Null_template getfixed() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_fixed) {
 			final template_sel old_selection = templateSelection;
 			cleanUp();
 			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
@@ -524,17 +523,17 @@ public class TitanExternal_identification_template extends Base_Template {
 			} else {
 				single_value = new TitanAsn_Null_template();
 			}
-			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_Fixed;
+			single_value_union_selection = TitanExternal_identification.union_selection_type.ALT_fixed;
 			set_selection(template_sel.SPECIFIC_VALUE);
 		}
 		return (TitanAsn_Null_template)single_value;
 	}
 
-	public TitanAsn_Null_template constGetFixed() {
+	public TitanAsn_Null_template constGetfixed() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field fixed in a non-specific template of union type EXTERNAL.identification.");
 		}
-		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_Fixed) {
+		if (single_value_union_selection != TitanExternal_identification.union_selection_type.ALT_fixed) {
 			throw new TtcnError("Accessing non-selected field fixed in a template of union type EXTERNAL.identification.");
 		}
 		return (TitanAsn_Null_template)single_value;
@@ -582,63 +581,63 @@ public class TitanExternal_identification_template extends Base_Template {
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE && single_value_union_selection == match_value.get_selection()) {
 			switch (single_value_union_selection) {
-			case ALT_Syntaxes:
+			case ALT_syntaxes:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".syntaxes");
-					single_value.log_match(match_value.getSyntaxes(), legacy);
+					single_value.log_match(match_value.getsyntaxes(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ syntaxes := ");
-					single_value.log_match(match_value.getSyntaxes(), legacy);
+					single_value.log_match(match_value.getsyntaxes(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
-			case ALT_Syntax:
+			case ALT_syntax:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".syntax");
-					single_value.log_match(match_value.getSyntax(), legacy);
+					single_value.log_match(match_value.getsyntax(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ syntax := ");
-					single_value.log_match(match_value.getSyntax(), legacy);
+					single_value.log_match(match_value.getsyntax(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
-			case ALT_Presentation__context__id:
+			case ALT_presentation__context__id:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".presentation-context-id");
-					single_value.log_match(match_value.getPresentation__context__id(), legacy);
+					single_value.log_match(match_value.getpresentation__context__id(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ presentation-context-id := ");
-					single_value.log_match(match_value.getPresentation__context__id(), legacy);
+					single_value.log_match(match_value.getpresentation__context__id(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
-			case ALT_Context__negotiation:
+			case ALT_context__negotiation:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".context-negotiation");
-					single_value.log_match(match_value.getContext__negotiation(), legacy);
+					single_value.log_match(match_value.getcontext__negotiation(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ context-negotiation := ");
-					single_value.log_match(match_value.getContext__negotiation(), legacy);
+					single_value.log_match(match_value.getcontext__negotiation(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
-			case ALT_Transfer__syntax:
+			case ALT_transfer__syntax:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".transfer-syntax");
-					single_value.log_match(match_value.getTransfer__syntax(), legacy);
+					single_value.log_match(match_value.gettransfer__syntax(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ transfer-syntax := ");
-					single_value.log_match(match_value.getTransfer__syntax(), legacy);
+					single_value.log_match(match_value.gettransfer__syntax(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
-			case ALT_Fixed:
+			case ALT_fixed:
 				if (TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity()) {
 					TTCN_Logger.log_logmatch_info(".fixed");
-					single_value.log_match(match_value.getFixed(), legacy);
+					single_value.log_match(match_value.getfixed(), legacy);
 				} else {
 					TTCN_Logger.log_logmatch_info("{ fixed := ");
-					single_value.log_match(match_value.getFixed(), legacy);
+					single_value.log_match(match_value.getfixed(), legacy);
 					TTCN_Logger.log_event_str(" }");
 				}
 				break;
@@ -692,7 +691,7 @@ public class TitanExternal_identification_template extends Base_Template {
 		case ANY_VALUE:
 		case ANY_OR_OMIT:
 			break;
-		case SPECIFIC_VALUE: {
+		case SPECIFIC_VALUE:{
 			final int temp = text_buf.pull_int().getInt();
 			switch (temp) {
 			case 0:

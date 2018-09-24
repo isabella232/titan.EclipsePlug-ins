@@ -29,9 +29,9 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 		transfer = new TitanObjectid();
 	}
 
-	public TitanExternal_identification_syntaxes( final TitanObjectid aAbstract_, final TitanObjectid aTransfer ) {
-		abstract_ = new TitanObjectid( aAbstract_ );
-		transfer = new TitanObjectid( aTransfer );
+	public TitanExternal_identification_syntaxes( final TitanObjectid aabstract_, final TitanObjectid atransfer ) {
+		abstract_ = new TitanObjectid( aabstract_ );
+		transfer = new TitanObjectid( atransfer );
 	}
 
 	public TitanExternal_identification_syntaxes( final TitanExternal_identification_syntaxes aOtherValue ) {
@@ -49,13 +49,13 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getAbstract_().isBound() ) {
-				this.abstract_.assign( aOtherValue.getAbstract_() );
+			if ( aOtherValue.getabstract_().isBound() ) {
+				this.abstract_.assign( aOtherValue.getabstract_() );
 			} else {
 				this.abstract_.cleanUp();
 			}
-			if ( aOtherValue.getTransfer().isBound() ) {
-				this.transfer.assign( aOtherValue.getTransfer() );
+			if ( aOtherValue.gettransfer().isBound() ) {
+				this.transfer.assign( aOtherValue.gettransfer() );
 			} else {
 				this.transfer.cleanUp();
 			}
@@ -112,19 +112,19 @@ public class TitanExternal_identification_syntaxes extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL.identification.syntaxes", otherValue));
 	}
 
-	public TitanObjectid getAbstract_() {
+	public TitanObjectid getabstract_() {
 		return abstract_;
 	}
 
-	public TitanObjectid constGetAbstract_() {
+	public TitanObjectid constGetabstract_() {
 		return abstract_;
 	}
 
-	public TitanObjectid getTransfer() {
+	public TitanObjectid gettransfer() {
 		return transfer;
 	}
 
-	public TitanObjectid constGetTransfer() {
+	public TitanObjectid constGettransfer() {
 		return transfer;
 	}
 

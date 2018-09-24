@@ -29,9 +29,9 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		transfer__syntax = new TitanObjectid();
 	}
 
-	public TitanEmbedded_PDV_identification_context__negotiation( final TitanInteger aPresentation__context__id, final TitanObjectid aTransfer__syntax ) {
-		presentation__context__id = new TitanInteger( aPresentation__context__id );
-		transfer__syntax = new TitanObjectid( aTransfer__syntax );
+	public TitanEmbedded_PDV_identification_context__negotiation( final TitanInteger apresentation__context__id, final TitanObjectid atransfer__syntax ) {
+		presentation__context__id = new TitanInteger( apresentation__context__id );
+		transfer__syntax = new TitanObjectid( atransfer__syntax );
 	}
 
 	public TitanEmbedded_PDV_identification_context__negotiation( final TitanEmbedded_PDV_identification_context__negotiation aOtherValue ) {
@@ -49,13 +49,13 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getPresentation__context__id().isBound() ) {
-				this.presentation__context__id.assign( aOtherValue.getPresentation__context__id() );
+			if ( aOtherValue.getpresentation__context__id().isBound() ) {
+				this.presentation__context__id.assign( aOtherValue.getpresentation__context__id() );
 			} else {
 				this.presentation__context__id.cleanUp();
 			}
-			if ( aOtherValue.getTransfer__syntax().isBound() ) {
-				this.transfer__syntax.assign( aOtherValue.getTransfer__syntax() );
+			if ( aOtherValue.gettransfer__syntax().isBound() ) {
+				this.transfer__syntax.assign( aOtherValue.gettransfer__syntax() );
 			} else {
 				this.transfer__syntax.cleanUp();
 			}
@@ -112,19 +112,19 @@ public class TitanEmbedded_PDV_identification_context__negotiation extends Base_
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EMBEDDED PDV.identification.context-negotiation", otherValue));
 	}
 
-	public TitanInteger getPresentation__context__id() {
+	public TitanInteger getpresentation__context__id() {
 		return presentation__context__id;
 	}
 
-	public TitanInteger constGetPresentation__context__id() {
+	public TitanInteger constGetpresentation__context__id() {
 		return presentation__context__id;
 	}
 
-	public TitanObjectid getTransfer__syntax() {
+	public TitanObjectid gettransfer__syntax() {
 		return transfer__syntax;
 	}
 
-	public TitanObjectid constGetTransfer__syntax() {
+	public TitanObjectid constGettransfer__syntax() {
 		return transfer__syntax;
 	}
 

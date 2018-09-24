@@ -150,13 +150,8 @@ public final class FieldSubReference implements ISubReference, ILocateableNode {
 	 * @return aTtcn3RecField TTCN-3 record field name
 	 */
 	public static String getJavaGetterName( final String aTtcn3RecField ) {
-		if ( aTtcn3RecField == null ) {
-			return null;
-		}
-		if ( aTtcn3RecField.length() == 0 ) {
-			return "";
-		}
-		return aTtcn3RecField.substring(0, 1).toUpperCase() + aTtcn3RecField.substring(1);
+		//TODO at this point this function no longer looks useful, lets just keep it for some time, in case we need it.
+		return aTtcn3RecField;
 	}
 
 	@Override

@@ -23,24 +23,24 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	//originally value_list/list_value
 	List<TitanEmbedded_PDV_identification_context__negotiation_template> list_value;
 
-	public TitanInteger_template getPresentation__context__id() {
+	public TitanInteger_template getpresentation__context__id() {
 		setSpecific();
 		return presentation__context__id;
 	}
 
-	public TitanInteger_template constGetPresentation__context__id() {
+	public TitanInteger_template constGetpresentation__context__id() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field presentation-context-id of a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
 		return presentation__context__id;
 	}
 
-	public TitanObjectid_template getTransfer__syntax() {
+	public TitanObjectid_template gettransfer__syntax() {
 		setSpecific();
 		return transfer__syntax;
 	}
 
-	public TitanObjectid_template constGetTransfer__syntax() {
+	public TitanObjectid_template constGettransfer__syntax() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer-syntax of a non-specific template of type EMBEDDED PDV.identification.context-negotiation.");
 		}
@@ -149,15 +149,15 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	}
 
 	private void copyValue(final TitanEmbedded_PDV_identification_context__negotiation other_value) {
-		if (other_value.getPresentation__context__id().isBound()) {
-			getPresentation__context__id().assign(other_value.getPresentation__context__id());
+		if (other_value.getpresentation__context__id().isBound()) {
+			getpresentation__context__id().assign(other_value.getpresentation__context__id());
 		} else {
-			getPresentation__context__id().cleanUp();
+			getpresentation__context__id().cleanUp();
 		}
-		if (other_value.getTransfer__syntax().isBound()) {
-			getTransfer__syntax().assign(other_value.getTransfer__syntax());
+		if (other_value.gettransfer__syntax().isBound()) {
+			gettransfer__syntax().assign(other_value.gettransfer__syntax());
 		} else {
-			getTransfer__syntax().cleanUp();
+			gettransfer__syntax().cleanUp();
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
@@ -165,15 +165,15 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	private void copyTemplate(final TitanEmbedded_PDV_identification_context__negotiation_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getPresentation__context__id().get_selection()) {
-				getPresentation__context__id().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getpresentation__context__id().get_selection()) {
+				getpresentation__context__id().cleanUp();
 			} else {
-				getPresentation__context__id().assign(other_value.getPresentation__context__id());
+				getpresentation__context__id().assign(other_value.getpresentation__context__id());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTransfer__syntax().get_selection()) {
-				getTransfer__syntax().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.gettransfer__syntax().get_selection()) {
+				gettransfer__syntax().cleanUp();
 			} else {
-				getTransfer__syntax().assign(other_value.getTransfer__syntax());
+				gettransfer__syntax().assign(other_value.gettransfer__syntax());
 			}
 			break;
 		case OMIT_VALUE:
@@ -322,16 +322,16 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.getPresentation__context__id().isBound()) {
+			if(!other_value.getpresentation__context__id().isBound()) {
 				return false;
 			}
-			if(!presentation__context__id.match(other_value.getPresentation__context__id(), legacy)) {
+			if(!presentation__context__id.match(other_value.getpresentation__context__id(), legacy)) {
 				return false;
 			}
-			if(!other_value.getTransfer__syntax().isBound()) {
+			if(!other_value.gettransfer__syntax().isBound()) {
 				return false;
 			}
-			if(!transfer__syntax.match(other_value.getTransfer__syntax(), legacy)) {
+			if(!transfer__syntax.match(other_value.gettransfer__syntax(), legacy)) {
 				return false;
 			}
 			return true;
@@ -439,14 +439,14 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-					if( !presentation__context__id.match(match_value.constGetPresentation__context__id(), legacy) ) {
+					if( !presentation__context__id.match(match_value.constGetpresentation__context__id(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".presentation-context-id");
-						presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
+						presentation__context__id.log_match(match_value.constGetpresentation__context__id(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !transfer__syntax.match(match_value.constGetTransfer__syntax(), legacy) ) {
+					if( !transfer__syntax.match(match_value.constGettransfer__syntax(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".transfer-syntax");
-						transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
+						transfer__syntax.log_match(match_value.constGettransfer__syntax(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
@@ -461,9 +461,9 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ presentation-context-id := ");
-			presentation__context__id.log_match(match_value.constGetPresentation__context__id(), legacy);
+			presentation__context__id.log_match(match_value.constGetpresentation__context__id(), legacy);
 			TTCN_Logger.log_event_str("{ transfer-syntax := ");
-			transfer__syntax.log_match(match_value.constGetTransfer__syntax(), legacy);
+			transfer__syntax.log_match(match_value.constGettransfer__syntax(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();

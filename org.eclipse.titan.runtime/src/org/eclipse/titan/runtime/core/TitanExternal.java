@@ -33,11 +33,11 @@ public class TitanExternal extends Base_Type {
 		data__value = new TitanOctetString();
 	}
 
-	public TitanExternal( final TitanExternal_identification aIdentification, final Optional<TitanUniversalCharString> aData__value__descriptor, final TitanOctetString aData__value ) {
-		identification = new TitanExternal_identification( aIdentification );
+	public TitanExternal( final TitanExternal_identification aidentification, final Optional<TitanUniversalCharString> adata__value__descriptor, final TitanOctetString adata__value ) {
+		identification = new TitanExternal_identification( aidentification );
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		this.data__value__descriptor.assign( aData__value__descriptor );
-		data__value = new TitanOctetString( aData__value );
+		this.data__value__descriptor.assign( adata__value__descriptor );
+		data__value = new TitanOctetString( adata__value );
 	}
 
 	public TitanExternal( final TitanExternal aOtherValue ) {
@@ -56,18 +56,18 @@ public class TitanExternal extends Base_Type {
 		}
 
 		if (aOtherValue != this) {
-			if ( aOtherValue.getIdentification().isBound() ) {
-				this.identification.assign( aOtherValue.getIdentification() );
+			if ( aOtherValue.getidentification().isBound() ) {
+				this.identification.assign( aOtherValue.getidentification() );
 			} else {
 				this.identification.cleanUp();
 			}
-			if ( aOtherValue.getData__value__descriptor().isBound() ) {
-				this.data__value__descriptor.assign( aOtherValue.getData__value__descriptor() );
+			if ( aOtherValue.getdata__value__descriptor().isBound() ) {
+				this.data__value__descriptor.assign( aOtherValue.getdata__value__descriptor() );
 			} else {
 				this.data__value__descriptor.cleanUp();
 			}
-			if ( aOtherValue.getData__value().isBound() ) {
-				this.data__value.assign( aOtherValue.getData__value() );
+			if ( aOtherValue.getdata__value().isBound() ) {
+				this.data__value.assign( aOtherValue.getdata__value() );
 			} else {
 				this.data__value.cleanUp();
 			}
@@ -128,27 +128,27 @@ public class TitanExternal extends Base_Type {
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to EXTERNAL", otherValue));
 	}
 
-	public TitanExternal_identification getIdentification() {
+	public TitanExternal_identification getidentification() {
 		return identification;
 	}
 
-	public TitanExternal_identification constGetIdentification() {
+	public TitanExternal_identification constGetidentification() {
 		return identification;
 	}
 
-	public Optional<TitanUniversalCharString> getData__value__descriptor() {
+	public Optional<TitanUniversalCharString> getdata__value__descriptor() {
 		return data__value__descriptor;
 	}
 
-	public Optional<TitanUniversalCharString> constGetData__value__descriptor() {
+	public Optional<TitanUniversalCharString> constGetdata__value__descriptor() {
 		return data__value__descriptor;
 	}
 
-	public TitanOctetString getData__value() {
+	public TitanOctetString getdata__value() {
 		return data__value;
 	}
 
-	public TitanOctetString constGetData__value() {
+	public TitanOctetString constGetdata__value() {
 		return data__value;
 	}
 

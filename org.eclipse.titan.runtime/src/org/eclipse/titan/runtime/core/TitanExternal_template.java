@@ -24,36 +24,36 @@ public class TitanExternal_template extends Base_Template {
 	//originally value_list/list_value
 	List<TitanExternal_template> list_value;
 
-	public TitanExternal_identification_template getIdentification() {
+	public TitanExternal_identification_template getidentification() {
 		setSpecific();
 		return identification;
 	}
 
-	public TitanExternal_identification_template constGetIdentification() {
+	public TitanExternal_identification_template constGetidentification() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field identification of a non-specific template of type EXTERNAL.");
 		}
 		return identification;
 	}
 
-	public TitanUniversalCharString_template getData__value__descriptor() {
+	public TitanUniversalCharString_template getdata__value__descriptor() {
 		setSpecific();
 		return data__value__descriptor;
 	}
 
-	public TitanUniversalCharString_template constGetData__value__descriptor() {
+	public TitanUniversalCharString_template constGetdata__value__descriptor() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field data-value-descriptor of a non-specific template of type EXTERNAL.");
 		}
 		return data__value__descriptor;
 	}
 
-	public TitanOctetString_template getData__value() {
+	public TitanOctetString_template getdata__value() {
 		setSpecific();
 		return data__value;
 	}
 
-	public TitanOctetString_template constGetData__value() {
+	public TitanOctetString_template constGetdata__value() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field data-value of a non-specific template of type EXTERNAL.");
 		}
@@ -164,24 +164,24 @@ public class TitanExternal_template extends Base_Template {
 	}
 
 	private void copyValue(final TitanExternal other_value) {
-		if (other_value.getIdentification().isBound()) {
-			getIdentification().assign(other_value.getIdentification());
+		if (other_value.getidentification().isBound()) {
+			getidentification().assign(other_value.getidentification());
 		} else {
-			getIdentification().cleanUp();
+			getidentification().cleanUp();
 		}
-		if (other_value.getData__value__descriptor().isBound()) {
-			if (other_value.getData__value__descriptor().isPresent()) {
-				getData__value__descriptor().assign(other_value.getData__value__descriptor().get());
+		if (other_value.getdata__value__descriptor().isBound()) {
+			if (other_value.getdata__value__descriptor().isPresent()) {
+				getdata__value__descriptor().assign(other_value.getdata__value__descriptor().get());
 			} else {
-				getData__value__descriptor().assign(template_sel.OMIT_VALUE);
+				getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
 			}
 		} else {
-			getData__value__descriptor().cleanUp();
+			getdata__value__descriptor().cleanUp();
 		}
-		if (other_value.getData__value().isBound()) {
-			getData__value().assign(other_value.getData__value());
+		if (other_value.getdata__value().isBound()) {
+			getdata__value().assign(other_value.getdata__value());
 		} else {
-			getData__value().cleanUp();
+			getdata__value().cleanUp();
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
@@ -189,20 +189,20 @@ public class TitanExternal_template extends Base_Template {
 	private void copyTemplate(final TitanExternal_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getIdentification().get_selection()) {
-				getIdentification().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getidentification().get_selection()) {
+				getidentification().cleanUp();
 			} else {
-				getIdentification().assign(other_value.getIdentification());
+				getidentification().assign(other_value.getidentification());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value__descriptor().get_selection()) {
-				getData__value__descriptor().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getdata__value__descriptor().get_selection()) {
+				getdata__value__descriptor().cleanUp();
 			} else {
-				getData__value__descriptor().assign(other_value.getData__value__descriptor());
+				getdata__value__descriptor().assign(other_value.getdata__value__descriptor());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getData__value().get_selection()) {
-				getData__value().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getdata__value().get_selection()) {
+				getdata__value().cleanUp();
 			} else {
-				getData__value().assign(other_value.getData__value());
+				getdata__value().assign(other_value.getdata__value());
 			}
 			break;
 		case OMIT_VALUE:
@@ -362,22 +362,22 @@ public class TitanExternal_template extends Base_Template {
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.getIdentification().isBound()) {
+			if(!other_value.getidentification().isBound()) {
 				return false;
 			}
-			if(!identification.match(other_value.getIdentification(), legacy)) {
+			if(!identification.match(other_value.getidentification(), legacy)) {
 				return false;
 			}
-			if(!other_value.getData__value__descriptor().isBound()) {
+			if(!other_value.getdata__value__descriptor().isBound()) {
 				return false;
 			}
-			if((other_value.getData__value__descriptor().isPresent() ? !data__value__descriptor.match(other_value.getData__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
+			if((other_value.getdata__value__descriptor().isPresent() ? !data__value__descriptor.match(other_value.getdata__value__descriptor().get(), legacy) : !data__value__descriptor.match_omit(legacy))) {
 				return false;
 			}
-			if(!other_value.getData__value().isBound()) {
+			if(!other_value.getdata__value().isBound()) {
 				return false;
 			}
-			if(!data__value.match(other_value.getData__value(), legacy)) {
+			if(!data__value.match(other_value.getdata__value(), legacy)) {
 				return false;
 			}
 			return true;
@@ -492,15 +492,15 @@ public class TitanExternal_template extends Base_Template {
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-					if( !identification.match(match_value.constGetIdentification(), legacy) ) {
+					if( !identification.match(match_value.constGetidentification(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".identification");
-						identification.log_match(match_value.constGetIdentification(), legacy);
+						identification.log_match(match_value.constGetidentification(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if(match_value.constGetData__value__descriptor().isPresent()) {
-						if( !data__value__descriptor.match(match_value.constGetData__value__descriptor().get(), legacy) ) {
+					if (match_value.constGetdata__value__descriptor().isPresent()) {
+						if( !data__value__descriptor.match(match_value.constGetdata__value__descriptor().get(), legacy) ) {
 							TTCN_Logger.log_logmatch_info(".data-value-descriptor");
-							data__value__descriptor.log_match(match_value.constGetData__value__descriptor().get(), legacy);
+							data__value__descriptor.log_match(match_value.constGetdata__value__descriptor().get(), legacy);
 							TTCN_Logger.set_logmatch_buffer_len(previous_size);
 						}
 					} else {
@@ -512,9 +512,9 @@ public class TitanExternal_template extends Base_Template {
 							TTCN_Logger.set_logmatch_buffer_len(previous_size);
 						}
 					}
-					if( !data__value.match(match_value.constGetData__value(), legacy) ) {
+					if( !data__value.match(match_value.constGetdata__value(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".data-value");
-						data__value.log_match(match_value.constGetData__value(), legacy);
+						data__value.log_match(match_value.constGetdata__value(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
@@ -529,11 +529,11 @@ public class TitanExternal_template extends Base_Template {
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ identification := ");
-			identification.log_match(match_value.constGetIdentification(), legacy);
+			identification.log_match(match_value.constGetidentification(), legacy);
 			TTCN_Logger.log_event_str("{ data-value-descriptor := ");
-			data__value__descriptor.log_match(match_value.constGetData__value__descriptor(), legacy);
+			data__value__descriptor.log_match(match_value.constGetdata__value__descriptor(), legacy);
 			TTCN_Logger.log_event_str("{ data-value := ");
-			data__value.log_match(match_value.constGetData__value(), legacy);
+			data__value.log_match(match_value.constGetdata__value(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();

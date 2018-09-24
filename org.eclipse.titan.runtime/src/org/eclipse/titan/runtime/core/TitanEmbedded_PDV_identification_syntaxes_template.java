@@ -23,24 +23,24 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	//originally value_list/list_value
 	List<TitanEmbedded_PDV_identification_syntaxes_template> list_value;
 
-	public TitanObjectid_template getAbstract_() {
+	public TitanObjectid_template getabstract_() {
 		setSpecific();
 		return abstract_;
 	}
 
-	public TitanObjectid_template constGetAbstract_() {
+	public TitanObjectid_template constGetabstract_() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field abstract of a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
 		}
 		return abstract_;
 	}
 
-	public TitanObjectid_template getTransfer() {
+	public TitanObjectid_template gettransfer() {
 		setSpecific();
 		return transfer;
 	}
 
-	public TitanObjectid_template constGetTransfer() {
+	public TitanObjectid_template constGettransfer() {
 		if (templateSelection != template_sel.SPECIFIC_VALUE) {
 			throw new TtcnError("Accessing field transfer of a non-specific template of type EMBEDDED PDV.identification.syntaxes.");
 		}
@@ -149,15 +149,15 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	}
 
 	private void copyValue(final TitanEmbedded_PDV_identification_syntaxes other_value) {
-		if (other_value.getAbstract_().isBound()) {
-			getAbstract_().assign(other_value.getAbstract_());
+		if (other_value.getabstract_().isBound()) {
+			getabstract_().assign(other_value.getabstract_());
 		} else {
-			getAbstract_().cleanUp();
+			getabstract_().cleanUp();
 		}
-		if (other_value.getTransfer().isBound()) {
-			getTransfer().assign(other_value.getTransfer());
+		if (other_value.gettransfer().isBound()) {
+			gettransfer().assign(other_value.gettransfer());
 		} else {
-			getTransfer().cleanUp();
+			gettransfer().cleanUp();
 		}
 		set_selection(template_sel.SPECIFIC_VALUE);
 	}
@@ -165,15 +165,15 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 	private void copyTemplate(final TitanEmbedded_PDV_identification_syntaxes_template other_value) {
 		switch (other_value.templateSelection) {
 		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getAbstract_().get_selection()) {
-				getAbstract_().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getabstract_().get_selection()) {
+				getabstract_().cleanUp();
 			} else {
-				getAbstract_().assign(other_value.getAbstract_());
+				getabstract_().assign(other_value.getabstract_());
 			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getTransfer().get_selection()) {
-				getTransfer().cleanUp();
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.gettransfer().get_selection()) {
+				gettransfer().cleanUp();
 			} else {
-				getTransfer().assign(other_value.getTransfer());
+				gettransfer().assign(other_value.gettransfer());
 			}
 			break;
 		case OMIT_VALUE:
@@ -322,16 +322,16 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		case OMIT_VALUE:
 			return false;
 		case SPECIFIC_VALUE:
-			if(!other_value.getAbstract_().isBound()) {
+			if(!other_value.getabstract_().isBound()) {
 				return false;
 			}
-			if(!abstract_.match(other_value.getAbstract_(), legacy)) {
+			if(!abstract_.match(other_value.getabstract_(), legacy)) {
 				return false;
 			}
-			if(!other_value.getTransfer().isBound()) {
+			if(!other_value.gettransfer().isBound()) {
 				return false;
 			}
-			if(!transfer.match(other_value.getTransfer(), legacy)) {
+			if(!transfer.match(other_value.gettransfer(), legacy)) {
 				return false;
 			}
 			return true;
@@ -439,14 +439,14 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 			} else {
 				if (templateSelection == template_sel.SPECIFIC_VALUE) {
 					final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-					if( !abstract_.match(match_value.constGetAbstract_(), legacy) ) {
+					if( !abstract_.match(match_value.constGetabstract_(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".abstract");
-						abstract_.log_match(match_value.constGetAbstract_(), legacy);
+						abstract_.log_match(match_value.constGetabstract_(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
-					if( !transfer.match(match_value.constGetTransfer(), legacy) ) {
+					if( !transfer.match(match_value.constGettransfer(), legacy) ) {
 						TTCN_Logger.log_logmatch_info(".transfer");
-						transfer.log_match(match_value.constGetTransfer(), legacy);
+						transfer.log_match(match_value.constGettransfer(), legacy);
 						TTCN_Logger.set_logmatch_buffer_len(previous_size);
 					}
 				} else {
@@ -461,9 +461,9 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 		if (templateSelection == template_sel.SPECIFIC_VALUE) {
 			TTCN_Logger.log_event_str("{ abstract := ");
-			abstract_.log_match(match_value.constGetAbstract_(), legacy);
+			abstract_.log_match(match_value.constGetabstract_(), legacy);
 			TTCN_Logger.log_event_str("{ transfer := ");
-			transfer.log_match(match_value.constGetTransfer(), legacy);
+			transfer.log_match(match_value.constGettransfer(), legacy);
 			TTCN_Logger.log_event_str(" }");
 		} else {
 			match_value.log();
