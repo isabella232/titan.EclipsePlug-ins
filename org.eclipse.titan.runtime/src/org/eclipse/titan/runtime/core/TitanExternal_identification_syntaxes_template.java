@@ -246,10 +246,10 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 		}
 		final TitanExternal_identification_syntaxes ret_val = new TitanExternal_identification_syntaxes();
 		if (abstract_.isBound()) {
-			ret_val.abstract_.assign(abstract_.valueOf());
+			ret_val.getabstract_().assign(abstract_.valueOf());
 		}
 		if (transfer.isBound()) {
-			ret_val.transfer.assign(transfer.valueOf());
+			ret_val.gettransfer().assign(transfer.valueOf());
 		}
 		return ret_val;
 	}

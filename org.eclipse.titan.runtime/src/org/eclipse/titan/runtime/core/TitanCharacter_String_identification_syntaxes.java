@@ -21,8 +21,8 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_identification_syntaxes extends Base_Type {
-	final TitanObjectid abstract_; //ObjectID_Type
-	final TitanObjectid transfer; //ObjectID_Type
+	private final TitanObjectid abstract_; //ObjectID_Type
+	private final TitanObjectid transfer; //ObjectID_Type
 
 	public TitanCharacter_String_identification_syntaxes() {
 		abstract_ = new TitanObjectid();

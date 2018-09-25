@@ -246,10 +246,10 @@ public class TitanEmbedded_PDV_identification_syntaxes_template extends Base_Tem
 		}
 		final TitanEmbedded_PDV_identification_syntaxes ret_val = new TitanEmbedded_PDV_identification_syntaxes();
 		if (abstract_.isBound()) {
-			ret_val.abstract_.assign(abstract_.valueOf());
+			ret_val.getabstract_().assign(abstract_.valueOf());
 		}
 		if (transfer.isBound()) {
-			ret_val.transfer.assign(transfer.valueOf());
+			ret_val.gettransfer().assign(transfer.valueOf());
 		}
 		return ret_val;
 	}

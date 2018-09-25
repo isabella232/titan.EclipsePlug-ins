@@ -23,9 +23,9 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanEmbedded_PDV extends Base_Type {
-	final TitanEmbedded_PDV_identification identification; //ASN1_Choice_Type
-	final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
-	final TitanOctetString data__value; //OctetString_Type
+	private final TitanEmbedded_PDV_identification identification; //ASN1_Choice_Type
+	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
+	private final TitanOctetString data__value; //OctetString_Type
 
 	public TitanEmbedded_PDV() {
 		identification = new TitanEmbedded_PDV_identification();

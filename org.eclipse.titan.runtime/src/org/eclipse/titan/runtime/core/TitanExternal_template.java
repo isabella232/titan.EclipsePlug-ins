@@ -275,15 +275,15 @@ public class TitanExternal_template extends Base_Template {
 		}
 		final TitanExternal ret_val = new TitanExternal();
 		if (identification.isBound()) {
-			ret_val.identification.assign(identification.valueOf());
+			ret_val.getidentification().assign(identification.valueOf());
 		}
 		if (data__value__descriptor.isOmit()) {
-			ret_val.data__value__descriptor.assign(template_sel.OMIT_VALUE);
+			ret_val.getdata__value__descriptor().assign(template_sel.OMIT_VALUE);
 		} else if (data__value__descriptor.isBound()) {
-			ret_val.data__value__descriptor.assign(data__value__descriptor.valueOf());
+			ret_val.getdata__value__descriptor().assign(data__value__descriptor.valueOf());
 		}
 		if (data__value.isBound()) {
-			ret_val.data__value.assign(data__value.valueOf());
+			ret_val.getdata__value().assign(data__value.valueOf());
 		}
 		return ret_val;
 	}

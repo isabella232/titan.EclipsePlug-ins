@@ -1870,13 +1870,13 @@ public class RecordSetCodeGenerator {
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
 				aSb.append( MessageFormat.format( "\t\t\tif ({0}.isOmit()) '{'\n", fi.mVarName )  );
-				aSb.append( MessageFormat.format( "\t\t\t\tret_val.{0}.assign(template_sel.OMIT_VALUE);\n", fi.mVarName ) );
+				aSb.append( MessageFormat.format( "\t\t\t\tret_val.get{0}().assign(template_sel.OMIT_VALUE);\n", fi.mJavaVarName ) );
 				aSb.append("\t\t\t} else ");
 			} else {
 				aSb.append("\t\t\t ");
 			}
 			aSb.append( MessageFormat.format( "if ({0}.isBound()) '{'\n", fi.mVarName )  );
-			aSb.append( MessageFormat.format( "\t\t\t\tret_val.{0}.assign({0}.valueOf());\n", fi.mVarName ) );
+			aSb.append( MessageFormat.format( "\t\t\t\tret_val.get{0}().assign({0}.valueOf());\n", fi.mVarName ) );
 			aSb.append("\t\t\t}\n");
 		}
 		aSb.append("\t\t\treturn ret_val;\n");

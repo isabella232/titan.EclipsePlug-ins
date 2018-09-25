@@ -23,9 +23,9 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String extends Base_Type {
-	final TitanCharacter_String_identification identification; //ASN1_Choice_Type
-	final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
-	final TitanOctetString string__value; //OctetString_Type
+	private final TitanCharacter_String_identification identification; //ASN1_Choice_Type
+	private final Optional<TitanUniversalCharString> data__value__descriptor; //ObjectDescriptor_Type
+	private final TitanOctetString string__value; //OctetString_Type
 
 	public TitanCharacter_String() {
 		identification = new TitanCharacter_String_identification();

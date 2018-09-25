@@ -1547,13 +1547,13 @@ public static class DefaultOp_template extends Base_Template {
 			}
 			final DefaultOp ret_val = new DefaultOp();
 			 if (name.isBound()) {
-				ret_val.name.assign(name.valueOf());
+				ret_val.getname().assign(name.valueOf());
 			}
 			 if (id.isBound()) {
-				ret_val.id.assign(id.valueOf());
+				ret_val.getid().assign(id.valueOf());
 			}
 			 if (end.isBound()) {
-				ret_val.end.assign(end.valueOf());
+				ret_val.getend().assign(end.valueOf());
 			}
 			return ret_val;
 		}
@@ -3715,31 +3715,31 @@ public static class FinalVerdictInfo_template extends Base_Template {
 			}
 			final FinalVerdictInfo ret_val = new FinalVerdictInfo();
 			 if (is__ptc.isBound()) {
-				ret_val.is__ptc.assign(is__ptc.valueOf());
+				ret_val.getis__ptc().assign(is__ptc.valueOf());
 			}
 			 if (ptc__verdict.isBound()) {
-				ret_val.ptc__verdict.assign(ptc__verdict.valueOf());
+				ret_val.getptc__verdict().assign(ptc__verdict.valueOf());
 			}
 			 if (local__verdict.isBound()) {
-				ret_val.local__verdict.assign(local__verdict.valueOf());
+				ret_val.getlocal__verdict().assign(local__verdict.valueOf());
 			}
 			 if (new__verdict.isBound()) {
-				ret_val.new__verdict.assign(new__verdict.valueOf());
+				ret_val.getnew__verdict().assign(new__verdict.valueOf());
 			}
 			if (verdict__reason.isOmit()) {
-				ret_val.verdict__reason.assign(template_sel.OMIT_VALUE);
+				ret_val.getverdict__reason().assign(template_sel.OMIT_VALUE);
 			} else if (verdict__reason.isBound()) {
-				ret_val.verdict__reason.assign(verdict__reason.valueOf());
+				ret_val.getverdict__reason().assign(verdict__reason.valueOf());
 			}
 			if (ptc__compref.isOmit()) {
-				ret_val.ptc__compref.assign(template_sel.OMIT_VALUE);
+				ret_val.getptc__compref().assign(template_sel.OMIT_VALUE);
 			} else if (ptc__compref.isBound()) {
-				ret_val.ptc__compref.assign(ptc__compref.valueOf());
+				ret_val.getptc__compref().assign(ptc__compref.valueOf());
 			}
 			if (ptc__name.isOmit()) {
-				ret_val.ptc__name.assign(template_sel.OMIT_VALUE);
+				ret_val.getptc__name().assign(template_sel.OMIT_VALUE);
 			} else if (ptc__name.isBound()) {
-				ret_val.ptc__name.assign(ptc__name.valueOf());
+				ret_val.getptc__name().assign(ptc__name.valueOf());
 			}
 			return ret_val;
 		}
@@ -4608,7 +4608,7 @@ public static class TimerEvent_template extends Base_Template {
 			}
 			final TimerEvent ret_val = new TimerEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -5395,13 +5395,13 @@ public static class MatchingSuccessType_template extends Base_Template {
 			}
 			final MatchingSuccessType ret_val = new MatchingSuccessType();
 			 if (port__type.isBound()) {
-				ret_val.port__type.assign(port__type.valueOf());
+				ret_val.getport__type().assign(port__type.valueOf());
 			}
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (info.isBound()) {
-				ret_val.info.assign(info.valueOf());
+				ret_val.getinfo().assign(info.valueOf());
 			}
 			return ret_val;
 		}
@@ -6346,19 +6346,19 @@ public static class Proc__port__out_template extends Base_Template {
 			}
 			final Proc__port__out ret_val = new Proc__port__out();
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (sys__name.isBound()) {
-				ret_val.sys__name.assign(sys__name.valueOf());
+				ret_val.getsys__name().assign(sys__name.valueOf());
 			}
 			 if (parameter.isBound()) {
-				ret_val.parameter.assign(parameter.valueOf());
+				ret_val.getparameter().assign(parameter.valueOf());
 			}
 			return ret_val;
 		}
@@ -10867,23 +10867,23 @@ public static class SetVerdictType_template extends Base_Template {
 			}
 			final SetVerdictType ret_val = new SetVerdictType();
 			 if (newVerdict.isBound()) {
-				ret_val.newVerdict.assign(newVerdict.valueOf());
+				ret_val.getnewVerdict().assign(newVerdict.valueOf());
 			}
 			 if (oldVerdict.isBound()) {
-				ret_val.oldVerdict.assign(oldVerdict.valueOf());
+				ret_val.getoldVerdict().assign(oldVerdict.valueOf());
 			}
 			 if (localVerdict.isBound()) {
-				ret_val.localVerdict.assign(localVerdict.valueOf());
+				ret_val.getlocalVerdict().assign(localVerdict.valueOf());
 			}
 			if (oldReason.isOmit()) {
-				ret_val.oldReason.assign(template_sel.OMIT_VALUE);
+				ret_val.getoldReason().assign(template_sel.OMIT_VALUE);
 			} else if (oldReason.isBound()) {
-				ret_val.oldReason.assign(oldReason.valueOf());
+				ret_val.getoldReason().assign(oldReason.valueOf());
 			}
 			if (newReason.isOmit()) {
-				ret_val.newReason.assign(template_sel.OMIT_VALUE);
+				ret_val.getnewReason().assign(template_sel.OMIT_VALUE);
 			} else if (newReason.isBound()) {
-				ret_val.newReason.assign(newReason.valueOf());
+				ret_val.getnewReason().assign(newReason.valueOf());
 			}
 			return ret_val;
 		}
@@ -13916,7 +13916,7 @@ public static class WarningEvent_template extends Base_Template {
 			}
 			final WarningEvent ret_val = new WarningEvent();
 			 if (text.isBound()) {
-				ret_val.text.assign(text.valueOf());
+				ret_val.gettext().assign(text.valueOf());
 			}
 			return ret_val;
 		}
@@ -15478,10 +15478,10 @@ public static class ComponentIDType_template extends Base_Template {
 			}
 			final ComponentIDType ret_val = new ComponentIDType();
 			 if (id.isBound()) {
-				ret_val.id.assign(id.valueOf());
+				ret_val.getid().assign(id.valueOf());
 			}
 			 if (name.isBound()) {
-				ret_val.name.assign(name.valueOf());
+				ret_val.getname().assign(name.valueOf());
 			}
 			return ret_val;
 		}
@@ -22564,12 +22564,12 @@ public static class ExecutorConfigdata_template extends Base_Template {
 			}
 			final ExecutorConfigdata ret_val = new ExecutorConfigdata();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			if (param__.isOmit()) {
-				ret_val.param__.assign(template_sel.OMIT_VALUE);
+				ret_val.getparam__().assign(template_sel.OMIT_VALUE);
 			} else if (param__.isBound()) {
-				ret_val.param__.assign(param__.valueOf());
+				ret_val.getparam__().assign(param__.valueOf());
 			}
 			return ret_val;
 		}
@@ -23665,16 +23665,16 @@ public static class LocationInfo_template extends Base_Template {
 			}
 			final LocationInfo ret_val = new LocationInfo();
 			 if (filename.isBound()) {
-				ret_val.filename.assign(filename.valueOf());
+				ret_val.getfilename().assign(filename.valueOf());
 			}
 			 if (line.isBound()) {
-				ret_val.line.assign(line.valueOf());
+				ret_val.getline().assign(line.valueOf());
 			}
 			 if (ent__name.isBound()) {
-				ret_val.ent__name.assign(ent__name.valueOf());
+				ret_val.getent__name().assign(ent__name.valueOf());
 			}
 			 if (ent__type.isBound()) {
-				ret_val.ent__type.assign(ent__type.valueOf());
+				ret_val.getent__type().assign(ent__type.valueOf());
 			}
 			return ret_val;
 		}
@@ -24428,7 +24428,7 @@ public static class TestcaseEvent_template extends Base_Template {
 			}
 			final TestcaseEvent ret_val = new TestcaseEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -27713,25 +27713,25 @@ public static class Port__Misc_template extends Base_Template {
 			}
 			final Port__Misc ret_val = new Port__Misc();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (remote__component.isBound()) {
-				ret_val.remote__component.assign(remote__component.valueOf());
+				ret_val.getremote__component().assign(remote__component.valueOf());
 			}
 			 if (remote__port.isBound()) {
-				ret_val.remote__port.assign(remote__port.valueOf());
+				ret_val.getremote__port().assign(remote__port.valueOf());
 			}
 			 if (ip__address.isBound()) {
-				ret_val.ip__address.assign(ip__address.valueOf());
+				ret_val.getip__address().assign(ip__address.valueOf());
 			}
 			 if (tcp__port.isBound()) {
-				ret_val.tcp__port.assign(tcp__port.valueOf());
+				ret_val.gettcp__port().assign(tcp__port.valueOf());
 			}
 			 if (new__size.isBound()) {
-				ret_val.new__size.assign(new__size.valueOf());
+				ret_val.getnew__size().assign(new__size.valueOf());
 			}
 			return ret_val;
 		}
@@ -28974,28 +28974,28 @@ public static class ParallelPTC_template extends Base_Template {
 			}
 			final ParallelPTC ret_val = new ParallelPTC();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (module__.isBound()) {
-				ret_val.module__.assign(module__.valueOf());
+				ret_val.getmodule__().assign(module__.valueOf());
 			}
 			 if (name.isBound()) {
-				ret_val.name.assign(name.valueOf());
+				ret_val.getname().assign(name.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (compname.isBound()) {
-				ret_val.compname.assign(compname.valueOf());
+				ret_val.getcompname().assign(compname.valueOf());
 			}
 			 if (tc__loc.isBound()) {
-				ret_val.tc__loc.assign(tc__loc.valueOf());
+				ret_val.gettc__loc().assign(tc__loc.valueOf());
 			}
 			 if (alive__pid.isBound()) {
-				ret_val.alive__pid.assign(alive__pid.valueOf());
+				ret_val.getalive__pid().assign(alive__pid.valueOf());
 			}
 			 if (status.isBound()) {
-				ret_val.status.assign(status.valueOf());
+				ret_val.getstatus().assign(status.valueOf());
 			}
 			return ret_val;
 		}
@@ -30992,9 +30992,9 @@ public static class MatchingTimeout_template extends Base_Template {
 			}
 			final MatchingTimeout ret_val = new MatchingTimeout();
 			if (timer__name.isOmit()) {
-				ret_val.timer__name.assign(template_sel.OMIT_VALUE);
+				ret_val.gettimer__name().assign(template_sel.OMIT_VALUE);
 			} else if (timer__name.isBound()) {
-				ret_val.timer__name.assign(timer__name.valueOf());
+				ret_val.gettimer__name().assign(timer__name.valueOf());
 			}
 			return ret_val;
 		}
@@ -31687,7 +31687,7 @@ public static class VerdictOp_template extends Base_Template {
 			}
 			final VerdictOp ret_val = new VerdictOp();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -35021,10 +35021,10 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 			}
 			final TitanSingleLogEvent ret_val = new TitanSingleLogEvent();
 			 if (entityId.isBound()) {
-				ret_val.entityId.assign(entityId.valueOf());
+				ret_val.getentityId().assign(entityId.valueOf());
 			}
 			 if (event.isBound()) {
-				ret_val.event.assign(event.valueOf());
+				ret_val.getevent().assign(event.valueOf());
 			}
 			return ret_val;
 		}
@@ -38376,10 +38376,10 @@ public static class QualifiedName_template extends Base_Template {
 			}
 			final QualifiedName ret_val = new QualifiedName();
 			 if (module__name.isBound()) {
-				ret_val.module__name.assign(module__name.valueOf());
+				ret_val.getmodule__name().assign(module__name.valueOf());
 			}
 			 if (testcase__name.isBound()) {
-				ret_val.testcase__name.assign(testcase__name.valueOf());
+				ret_val.gettestcase__name().assign(testcase__name.valueOf());
 			}
 			return ret_val;
 		}
@@ -39227,13 +39227,13 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 			}
 			final FunctionEvent_choice_random ret_val = new FunctionEvent_choice_random();
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (retval.isBound()) {
-				ret_val.retval.assign(retval.valueOf());
+				ret_val.getretval().assign(retval.valueOf());
 			}
 			 if (intseed.isBound()) {
-				ret_val.intseed.assign(intseed.valueOf());
+				ret_val.getintseed().assign(intseed.valueOf());
 			}
 			return ret_val;
 		}
@@ -40340,16 +40340,16 @@ public static class Dualface__mapped_template extends Base_Template {
 			}
 			final Dualface__mapped ret_val = new Dualface__mapped();
 			 if (incoming.isBound()) {
-				ret_val.incoming.assign(incoming.valueOf());
+				ret_val.getincoming().assign(incoming.valueOf());
 			}
 			 if (target__type.isBound()) {
-				ret_val.target__type.assign(target__type.valueOf());
+				ret_val.gettarget__type().assign(target__type.valueOf());
 			}
 			 if (value__.isBound()) {
-				ret_val.value__.assign(value__.valueOf());
+				ret_val.getvalue__().assign(value__.valueOf());
 			}
 			 if (msgid.isBound()) {
-				ret_val.msgid.assign(msgid.valueOf());
+				ret_val.getmsgid().assign(msgid.valueOf());
 			}
 			return ret_val;
 		}
@@ -42607,15 +42607,15 @@ public static class VerdictType_template extends Base_Template {
 			}
 			final VerdictType ret_val = new VerdictType();
 			 if (fromVerdict.isBound()) {
-				ret_val.fromVerdict.assign(fromVerdict.valueOf());
+				ret_val.getfromVerdict().assign(fromVerdict.valueOf());
 			}
 			 if (toVerdict.isBound()) {
-				ret_val.toVerdict.assign(toVerdict.valueOf());
+				ret_val.gettoVerdict().assign(toVerdict.valueOf());
 			}
 			if (verdictReason.isOmit()) {
-				ret_val.verdictReason.assign(template_sel.OMIT_VALUE);
+				ret_val.getverdictReason().assign(template_sel.OMIT_VALUE);
 			} else if (verdictReason.isBound()) {
-				ret_val.verdictReason.assign(verdictReason.valueOf());
+				ret_val.getverdictReason().assign(verdictReason.valueOf());
 			}
 			return ret_val;
 		}
@@ -45600,10 +45600,10 @@ public static class TimestampType_template extends Base_Template {
 			}
 			final TimestampType ret_val = new TimestampType();
 			 if (seconds.isBound()) {
-				ret_val.seconds.assign(seconds.valueOf());
+				ret_val.getseconds().assign(seconds.valueOf());
 			}
 			 if (microSeconds.isBound()) {
-				ret_val.microSeconds.assign(microSeconds.valueOf());
+				ret_val.getmicroSeconds().assign(microSeconds.valueOf());
 			}
 			return ret_val;
 		}
@@ -46415,13 +46415,13 @@ public static class Setstate_template extends Base_Template {
 			}
 			final Setstate ret_val = new Setstate();
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (state.isBound()) {
-				ret_val.state.assign(state.valueOf());
+				ret_val.getstate().assign(state.valueOf());
 			}
 			 if (info.isBound()) {
-				ret_val.info.assign(info.valueOf());
+				ret_val.getinfo().assign(info.valueOf());
 			}
 			return ret_val;
 		}
@@ -47564,22 +47564,22 @@ public static class Proc__port__in_template extends Base_Template {
 			}
 			final Proc__port__in ret_val = new Proc__port__in();
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (check__.isBound()) {
-				ret_val.check__.assign(check__.valueOf());
+				ret_val.getcheck__().assign(check__.valueOf());
 			}
 			 if (parameter.isBound()) {
-				ret_val.parameter.assign(parameter.valueOf());
+				ret_val.getparameter().assign(parameter.valueOf());
 			}
 			 if (msgid.isBound()) {
-				ret_val.msgid.assign(msgid.valueOf());
+				ret_val.getmsgid().assign(msgid.valueOf());
 			}
 			return ret_val;
 		}
@@ -48545,16 +48545,16 @@ public static class TitanLogEvent_template extends Base_Template {
 			}
 			final TitanLogEvent ret_val = new TitanLogEvent();
 			 if (timestamp.isBound()) {
-				ret_val.timestamp.assign(timestamp.valueOf());
+				ret_val.gettimestamp().assign(timestamp.valueOf());
 			}
 			 if (sourceInfo__list.isBound()) {
-				ret_val.sourceInfo__list.assign(sourceInfo__list.valueOf());
+				ret_val.getsourceInfo__list().assign(sourceInfo__list.valueOf());
 			}
 			 if (severity.isBound()) {
-				ret_val.severity.assign(severity.valueOf());
+				ret_val.getseverity().assign(severity.valueOf());
 			}
 			 if (logEvent.isBound()) {
-				ret_val.logEvent.assign(logEvent.valueOf());
+				ret_val.getlogEvent().assign(logEvent.valueOf());
 			}
 			return ret_val;
 		}
@@ -49794,34 +49794,34 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 			}
 			final StatisticsType_choice_verdictStatistics ret_val = new StatisticsType_choice_verdictStatistics();
 			 if (none__.isBound()) {
-				ret_val.none__.assign(none__.valueOf());
+				ret_val.getnone__().assign(none__.valueOf());
 			}
 			 if (nonePercent.isBound()) {
-				ret_val.nonePercent.assign(nonePercent.valueOf());
+				ret_val.getnonePercent().assign(nonePercent.valueOf());
 			}
 			 if (pass__.isBound()) {
-				ret_val.pass__.assign(pass__.valueOf());
+				ret_val.getpass__().assign(pass__.valueOf());
 			}
 			 if (passPercent.isBound()) {
-				ret_val.passPercent.assign(passPercent.valueOf());
+				ret_val.getpassPercent().assign(passPercent.valueOf());
 			}
 			 if (inconc__.isBound()) {
-				ret_val.inconc__.assign(inconc__.valueOf());
+				ret_val.getinconc__().assign(inconc__.valueOf());
 			}
 			 if (inconcPercent.isBound()) {
-				ret_val.inconcPercent.assign(inconcPercent.valueOf());
+				ret_val.getinconcPercent().assign(inconcPercent.valueOf());
 			}
 			 if (fail__.isBound()) {
-				ret_val.fail__.assign(fail__.valueOf());
+				ret_val.getfail__().assign(fail__.valueOf());
 			}
 			 if (failPercent.isBound()) {
-				ret_val.failPercent.assign(failPercent.valueOf());
+				ret_val.getfailPercent().assign(failPercent.valueOf());
 			}
 			 if (error__.isBound()) {
-				ret_val.error__.assign(error__.valueOf());
+				ret_val.geterror__().assign(error__.valueOf());
 			}
 			 if (errorPercent.isBound()) {
-				ret_val.errorPercent.assign(errorPercent.valueOf());
+				ret_val.geterrorPercent().assign(errorPercent.valueOf());
 			}
 			return ret_val;
 		}
@@ -50905,7 +50905,7 @@ public static class LogEventType_template extends Base_Template {
 			}
 			final LogEventType ret_val = new LogEventType();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -51638,10 +51638,10 @@ public static class Port__State_template extends Base_Template {
 			}
 			final Port__State ret_val = new Port__State();
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			return ret_val;
 		}
@@ -52453,13 +52453,13 @@ public static class TestcaseType_template extends Base_Template {
 			}
 			final TestcaseType ret_val = new TestcaseType();
 			 if (name.isBound()) {
-				ret_val.name.assign(name.valueOf());
+				ret_val.getname().assign(name.valueOf());
 			}
 			 if (verdict.isBound()) {
-				ret_val.verdict.assign(verdict.valueOf());
+				ret_val.getverdict().assign(verdict.valueOf());
 			}
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			return ret_val;
 		}
@@ -54749,7 +54749,7 @@ public static class PortEvent_template extends Base_Template {
 			}
 			final PortEvent ret_val = new PortEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -57136,13 +57136,13 @@ public static class Msg__port__send_template extends Base_Template {
 			}
 			final Msg__port__send ret_val = new Msg__port__send();
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (parameter.isBound()) {
-				ret_val.parameter.assign(parameter.valueOf());
+				ret_val.getparameter().assign(parameter.valueOf());
 			}
 			return ret_val;
 		}
@@ -58303,7 +58303,7 @@ public static class FunctionEvent_template extends Base_Template {
 			}
 			final FunctionEvent ret_val = new FunctionEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -59486,19 +59486,19 @@ public static class MatchingFailureType_template extends Base_Template {
 			}
 			final MatchingFailureType ret_val = new MatchingFailureType();
 			 if (port__type.isBound()) {
-				ret_val.port__type.assign(port__type.valueOf());
+				ret_val.getport__type().assign(port__type.valueOf());
 			}
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (info.isBound()) {
-				ret_val.info.assign(info.valueOf());
+				ret_val.getinfo().assign(info.valueOf());
 			}
 			return ret_val;
 		}
@@ -60961,19 +60961,19 @@ public static class ParPort_template extends Base_Template {
 			}
 			final ParPort ret_val = new ParPort();
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (srcCompref.isBound()) {
-				ret_val.srcCompref.assign(srcCompref.valueOf());
+				ret_val.getsrcCompref().assign(srcCompref.valueOf());
 			}
 			 if (dstCompref.isBound()) {
-				ret_val.dstCompref.assign(dstCompref.valueOf());
+				ret_val.getdstCompref().assign(dstCompref.valueOf());
 			}
 			 if (srcPort.isBound()) {
-				ret_val.srcPort.assign(srcPort.valueOf());
+				ret_val.getsrcPort().assign(srcPort.valueOf());
 			}
 			 if (dstPort.isBound()) {
-				ret_val.dstPort.assign(dstPort.valueOf());
+				ret_val.getdstPort().assign(dstPort.valueOf());
 			}
 			return ret_val;
 		}
@@ -61950,16 +61950,16 @@ public static class MatchingDoneType_template extends Base_Template {
 			}
 			final MatchingDoneType ret_val = new MatchingDoneType();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (type__.isBound()) {
-				ret_val.type__.assign(type__.valueOf());
+				ret_val.gettype__().assign(type__.valueOf());
 			}
 			 if (ptc.isBound()) {
-				ret_val.ptc.assign(ptc.valueOf());
+				ret_val.getptc().assign(ptc.valueOf());
 			}
 			 if (return__type.isBound()) {
-				ret_val.return__type.assign(return__type.valueOf());
+				ret_val.getreturn__type().assign(return__type.valueOf());
 			}
 			return ret_val;
 		}
@@ -63091,22 +63091,22 @@ public static class Port__Queue_template extends Base_Template {
 			}
 			final Port__Queue ret_val = new Port__Queue();
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (msgid.isBound()) {
-				ret_val.msgid.assign(msgid.valueOf());
+				ret_val.getmsgid().assign(msgid.valueOf());
 			}
 			 if (address__.isBound()) {
-				ret_val.address__.assign(address__.valueOf());
+				ret_val.getaddress__().assign(address__.valueOf());
 			}
 			 if (param__.isBound()) {
-				ret_val.param__.assign(param__.valueOf());
+				ret_val.getparam__().assign(param__.valueOf());
 			}
 			return ret_val;
 		}
@@ -63910,7 +63910,7 @@ public static class ParallelEvent_template extends Base_Template {
 			}
 			final ParallelEvent ret_val = new ParallelEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -67088,22 +67088,22 @@ public static class Msg__port__recv_template extends Base_Template {
 			}
 			final Msg__port__recv ret_val = new Msg__port__recv();
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (sys__name.isBound()) {
-				ret_val.sys__name.assign(sys__name.valueOf());
+				ret_val.getsys__name().assign(sys__name.valueOf());
 			}
 			 if (parameter.isBound()) {
-				ret_val.parameter.assign(parameter.valueOf());
+				ret_val.getparameter().assign(parameter.valueOf());
 			}
 			 if (msgid.isBound()) {
-				ret_val.msgid.assign(msgid.valueOf());
+				ret_val.getmsgid().assign(msgid.valueOf());
 			}
 			return ret_val;
 		}
@@ -67997,10 +67997,10 @@ public static class TimerType_template extends Base_Template {
 			}
 			final TimerType ret_val = new TimerType();
 			 if (name.isBound()) {
-				ret_val.name.assign(name.valueOf());
+				ret_val.getname().assign(name.valueOf());
 			}
 			 if (value__.isBound()) {
-				ret_val.value__.assign(value__.valueOf());
+				ret_val.getvalue__().assign(value__.valueOf());
 			}
 			return ret_val;
 		}
@@ -68704,7 +68704,7 @@ public static class DefaultEvent_template extends Base_Template {
 			}
 			final DefaultEvent ret_val = new DefaultEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -70582,19 +70582,19 @@ public static class MatchingProblemType_template extends Base_Template {
 			}
 			final MatchingProblemType ret_val = new MatchingProblemType();
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (operation.isBound()) {
-				ret_val.operation.assign(operation.valueOf());
+				ret_val.getoperation().assign(operation.valueOf());
 			}
 			 if (check__.isBound()) {
-				ret_val.check__.assign(check__.valueOf());
+				ret_val.getcheck__().assign(check__.valueOf());
 			}
 			 if (any__port.isBound()) {
-				ret_val.any__port.assign(any__port.valueOf());
+				ret_val.getany__port().assign(any__port.valueOf());
 			}
 			return ret_val;
 		}
@@ -71373,7 +71373,7 @@ public static class Strings_template extends Base_Template {
 			}
 			final Strings ret_val = new Strings();
 			 if (str__list.isBound()) {
-				ret_val.str__list.assign(str__list.valueOf());
+				ret_val.getstr__list().assign(str__list.valueOf());
 			}
 			return ret_val;
 		}
@@ -72196,13 +72196,13 @@ public static class PTC__exit_template extends Base_Template {
 			}
 			final PTC__exit ret_val = new PTC__exit();
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (pid.isBound()) {
-				ret_val.pid.assign(pid.valueOf());
+				ret_val.getpid().assign(pid.valueOf());
 			}
 			 if (statuscode.isBound()) {
-				ret_val.statuscode.assign(statuscode.valueOf());
+				ret_val.getstatuscode().assign(statuscode.valueOf());
 			}
 			return ret_val;
 		}
@@ -73876,7 +73876,7 @@ public static class TitanLog_template extends Base_Template {
 			}
 			final TitanLog ret_val = new TitanLog();
 			 if (sequence__list.isBound()) {
-				ret_val.sequence__list.assign(sequence__list.valueOf());
+				ret_val.getsequence__list().assign(sequence__list.valueOf());
 			}
 			return ret_val;
 		}
@@ -74555,7 +74555,7 @@ public static class ErrorEvent_template extends Base_Template {
 			}
 			final ErrorEvent ret_val = new ErrorEvent();
 			 if (text.isBound()) {
-				ret_val.text.assign(text.valueOf());
+				ret_val.gettext().assign(text.valueOf());
 			}
 			return ret_val;
 		}
@@ -75450,7 +75450,7 @@ public static class ExecutorEvent_template extends Base_Template {
 			}
 			final ExecutorEvent ret_val = new ExecutorEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -76561,25 +76561,25 @@ public static class Parallel_template extends Base_Template {
 			}
 			final Parallel ret_val = new Parallel();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (alive__.isBound()) {
-				ret_val.alive__.assign(alive__.valueOf());
+				ret_val.getalive__().assign(alive__.valueOf());
 			}
 			 if (function__name.isBound()) {
-				ret_val.function__name.assign(function__name.valueOf());
+				ret_val.getfunction__name().assign(function__name.valueOf());
 			}
 			 if (src__compref.isBound()) {
-				ret_val.src__compref.assign(src__compref.valueOf());
+				ret_val.getsrc__compref().assign(src__compref.valueOf());
 			}
 			 if (src__port.isBound()) {
-				ret_val.src__port.assign(src__port.valueOf());
+				ret_val.getsrc__port().assign(src__port.valueOf());
 			}
 			 if (dst__compref.isBound()) {
-				ret_val.dst__compref.assign(dst__compref.valueOf());
+				ret_val.getdst__compref().assign(dst__compref.valueOf());
 			}
 			 if (dst__port.isBound()) {
-				ret_val.dst__port.assign(dst__port.valueOf());
+				ret_val.getdst__port().assign(dst__port.valueOf());
 			}
 			return ret_val;
 		}
@@ -77665,27 +77665,27 @@ public static class ExecutorRuntime_template extends Base_Template {
 			}
 			final ExecutorRuntime ret_val = new ExecutorRuntime();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			if (module__name.isOmit()) {
-				ret_val.module__name.assign(template_sel.OMIT_VALUE);
+				ret_val.getmodule__name().assign(template_sel.OMIT_VALUE);
 			} else if (module__name.isBound()) {
-				ret_val.module__name.assign(module__name.valueOf());
+				ret_val.getmodule__name().assign(module__name.valueOf());
 			}
 			if (testcase__name.isOmit()) {
-				ret_val.testcase__name.assign(template_sel.OMIT_VALUE);
+				ret_val.gettestcase__name().assign(template_sel.OMIT_VALUE);
 			} else if (testcase__name.isBound()) {
-				ret_val.testcase__name.assign(testcase__name.valueOf());
+				ret_val.gettestcase__name().assign(testcase__name.valueOf());
 			}
 			if (pid.isOmit()) {
-				ret_val.pid.assign(template_sel.OMIT_VALUE);
+				ret_val.getpid().assign(template_sel.OMIT_VALUE);
 			} else if (pid.isBound()) {
-				ret_val.pid.assign(pid.valueOf());
+				ret_val.getpid().assign(pid.valueOf());
 			}
 			if (fd__setsize.isOmit()) {
-				ret_val.fd__setsize.assign(template_sel.OMIT_VALUE);
+				ret_val.getfd__setsize().assign(template_sel.OMIT_VALUE);
 			} else if (fd__setsize.isBound()) {
-				ret_val.fd__setsize.assign(fd__setsize.valueOf());
+				ret_val.getfd__setsize().assign(fd__setsize.valueOf());
 			}
 			return ret_val;
 		}
@@ -78625,7 +78625,7 @@ public static class FinalVerdictType_template extends Base_Template {
 			}
 			final FinalVerdictType ret_val = new FinalVerdictType();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -83853,7 +83853,7 @@ public static class TimerGuardType_template extends Base_Template {
 			}
 			final TimerGuardType ret_val = new TimerGuardType();
 			 if (value__.isBound()) {
-				ret_val.value__.assign(value__.valueOf());
+				ret_val.getvalue__().assign(value__.valueOf());
 			}
 			return ret_val;
 		}
@@ -84712,13 +84712,13 @@ public static class StartFunction_template extends Base_Template {
 			}
 			final StartFunction ret_val = new StartFunction();
 			 if (function__name.isBound()) {
-				ret_val.function__name.assign(function__name.valueOf());
+				ret_val.getfunction__name().assign(function__name.valueOf());
 			}
 			 if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			 if (parameter__list.isBound()) {
-				ret_val.parameter__list.assign(parameter__list.valueOf());
+				ret_val.getparameter__list().assign(parameter__list.valueOf());
 			}
 			return ret_val;
 		}
@@ -85645,16 +85645,16 @@ public static class ExecutorUnqualified_template extends Base_Template {
 			}
 			final ExecutorUnqualified ret_val = new ExecutorUnqualified();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			 if (name.isBound()) {
-				ret_val.name.assign(name.valueOf());
+				ret_val.getname().assign(name.valueOf());
 			}
 			 if (addr.isBound()) {
-				ret_val.addr.assign(addr.valueOf());
+				ret_val.getaddr().assign(addr.valueOf());
 			}
 			 if (port__.isBound()) {
-				ret_val.port__.assign(port__.valueOf());
+				ret_val.getport__().assign(port__.valueOf());
 			}
 			return ret_val;
 		}
@@ -87394,10 +87394,10 @@ public static class Categorized_template extends Base_Template {
 			}
 			final Categorized ret_val = new Categorized();
 			 if (category.isBound()) {
-				ret_val.category.assign(category.valueOf());
+				ret_val.getcategory().assign(category.valueOf());
 			}
 			 if (text.isBound()) {
-				ret_val.text.assign(text.valueOf());
+				ret_val.gettext().assign(text.valueOf());
 			}
 			return ret_val;
 		}
@@ -90008,10 +90008,10 @@ public static class ExecutionSummaryType_template extends Base_Template {
 			}
 			final ExecutionSummaryType ret_val = new ExecutionSummaryType();
 			 if (numberOfTestcases.isBound()) {
-				ret_val.numberOfTestcases.assign(numberOfTestcases.valueOf());
+				ret_val.getnumberOfTestcases().assign(numberOfTestcases.valueOf());
 			}
 			 if (overallStatistics.isBound()) {
-				ret_val.overallStatistics.assign(overallStatistics.valueOf());
+				ret_val.getoverallStatistics().assign(overallStatistics.valueOf());
 			}
 			return ret_val;
 		}
@@ -90967,7 +90967,7 @@ public static class MatchingEvent_template extends Base_Template {
 			}
 			final MatchingEvent ret_val = new MatchingEvent();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -91682,7 +91682,7 @@ public static class StatisticsType_template extends Base_Template {
 			}
 			final StatisticsType ret_val = new StatisticsType();
 			 if (choice.isBound()) {
-				ret_val.choice.assign(choice.valueOf());
+				ret_val.getchoice().assign(choice.valueOf());
 			}
 			return ret_val;
 		}
@@ -92523,16 +92523,16 @@ public static class Dualface__discard_template extends Base_Template {
 			}
 			final Dualface__discard ret_val = new Dualface__discard();
 			 if (incoming.isBound()) {
-				ret_val.incoming.assign(incoming.valueOf());
+				ret_val.getincoming().assign(incoming.valueOf());
 			}
 			 if (target__type.isBound()) {
-				ret_val.target__type.assign(target__type.valueOf());
+				ret_val.gettarget__type().assign(target__type.valueOf());
 			}
 			 if (port__name.isBound()) {
-				ret_val.port__name.assign(port__name.valueOf());
+				ret_val.getport__name().assign(port__name.valueOf());
 			}
 			 if (unhandled.isBound()) {
-				ret_val.unhandled.assign(unhandled.valueOf());
+				ret_val.getunhandled().assign(unhandled.valueOf());
 			}
 			return ret_val;
 		}
@@ -96164,12 +96164,12 @@ public static class ExecutorComponent_template extends Base_Template {
 			}
 			final ExecutorComponent ret_val = new ExecutorComponent();
 			 if (reason.isBound()) {
-				ret_val.reason.assign(reason.valueOf());
+				ret_val.getreason().assign(reason.valueOf());
 			}
 			if (compref.isOmit()) {
-				ret_val.compref.assign(template_sel.OMIT_VALUE);
+				ret_val.getcompref().assign(template_sel.OMIT_VALUE);
 			} else if (compref.isBound()) {
-				ret_val.compref.assign(compref.valueOf());
+				ret_val.getcompref().assign(compref.valueOf());
 			}
 			return ret_val;
 		}
@@ -97013,10 +97013,10 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 			}
 			final TitanLog_sequence__list_0 ret_val = new TitanLog_sequence__list_0();
 			 if (entityId.isBound()) {
-				ret_val.entityId.assign(entityId.valueOf());
+				ret_val.getentityId().assign(entityId.valueOf());
 			}
 			 if (event__list.isBound()) {
-				ret_val.event__list.assign(event__list.valueOf());
+				ret_val.getevent__list().assign(event__list.valueOf());
 			}
 			return ret_val;
 		}

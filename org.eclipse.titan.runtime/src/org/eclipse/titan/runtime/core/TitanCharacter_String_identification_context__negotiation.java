@@ -21,8 +21,8 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.raw_order_t;
  * @author Kristof Szabados
  */
 public class TitanCharacter_String_identification_context__negotiation extends Base_Type {
-	final TitanInteger presentation__context__id; //ASN1_Integer_Type
-	final TitanObjectid transfer__syntax; //ObjectID_Type
+	private final TitanInteger presentation__context__id; //ASN1_Integer_Type
+	private final TitanObjectid transfer__syntax; //ObjectID_Type
 
 	public TitanCharacter_String_identification_context__negotiation() {
 		presentation__context__id = new TitanInteger();

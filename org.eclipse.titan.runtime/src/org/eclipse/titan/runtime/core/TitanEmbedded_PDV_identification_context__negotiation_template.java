@@ -246,10 +246,10 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 		}
 		final TitanEmbedded_PDV_identification_context__negotiation ret_val = new TitanEmbedded_PDV_identification_context__negotiation();
 		if (presentation__context__id.isBound()) {
-			ret_val.presentation__context__id.assign(presentation__context__id.valueOf());
+			ret_val.getpresentation__context__id().assign(presentation__context__id.valueOf());
 		}
 		if (transfer__syntax.isBound()) {
-			ret_val.transfer__syntax.assign(transfer__syntax.valueOf());
+			ret_val.gettransfer__syntax().assign(transfer__syntax.valueOf());
 		}
 		return ret_val;
 	}
