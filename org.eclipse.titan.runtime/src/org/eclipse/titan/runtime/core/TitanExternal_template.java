@@ -22,7 +22,7 @@ public class TitanExternal_template extends Base_Template {
 	private TitanUniversalCharString_template data__value__descriptor; //ObjectDescriptor_Type
 	private TitanOctetString_template data__value; //OctetString_Type
 	//originally value_list/list_value
-	List<TitanExternal_template> list_value;
+	private List<TitanExternal_template> list_value;
 
 	public TitanExternal_identification_template getidentification() {
 		setSpecific();

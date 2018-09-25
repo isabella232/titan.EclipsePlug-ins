@@ -1298,7 +1298,7 @@ public static class DefaultOp_template extends Base_Template {
 	private TitanInteger_template id; //Integer_Type
 	private DefaultEnd_template end; //Referenced_Type
 	//originally value_list/list_value
-	List<DefaultOp_template> list_value;
+	private List<DefaultOp_template> list_value;
 
 	public TitanCharString_template getname() {
 		setSpecific();
@@ -3358,7 +3358,7 @@ public static class FinalVerdictInfo_template extends Base_Template {
 	private TitanInteger_template ptc__compref; //Integer_Type
 	private TitanCharString_template ptc__name; //CharString_Type
 	//originally value_list/list_value
-	List<FinalVerdictInfo_template> list_value;
+	private List<FinalVerdictInfo_template> list_value;
 
 	public TitanBoolean_template getis__ptc() {
 		setSpecific();
@@ -4407,7 +4407,7 @@ public static class TimerEvent_template extends Base_Template {
 
 	private TimerEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<TimerEvent_template> list_value;
+	private List<TimerEvent_template> list_value;
 
 	public TimerEvent_choice_template getchoice() {
 		setSpecific();
@@ -5146,7 +5146,7 @@ public static class MatchingSuccessType_template extends Base_Template {
 	private TitanCharString_template port__name; //CharString_Type
 	private TitanCharString_template info; //CharString_Type
 	//originally value_list/list_value
-	List<MatchingSuccessType_template> list_value;
+	private List<MatchingSuccessType_template> list_value;
 
 	public PortType_template getport__type() {
 		setSpecific();
@@ -6049,7 +6049,7 @@ public static class Proc__port__out_template extends Base_Template {
 	private TitanCharString_template sys__name; //CharString_Type
 	private TitanCharString_template parameter; //CharString_Type
 	//originally value_list/list_value
-	List<Proc__port__out_template> list_value;
+	private List<Proc__port__out_template> list_value;
 
 	public TitanCharString_template getport__name() {
 		setSpecific();
@@ -7293,7 +7293,7 @@ public static class Strings_str__list_template extends Record_Of_Template {
 	List<TitanCharString_template> value_elements;
 
 	//originally value_list/list_value
-	List<Strings_str__list_template> list_value;
+	private List<Strings_str__list_template> list_value;
 
 	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
@@ -9657,7 +9657,7 @@ throw new TtcnError(MessageFormat.format("Unknown coding method requested to dec
 
 public static class TimerAnyTimeoutType_template extends Base_Template {
 //originally value_list/list_value
-List<TimerAnyTimeoutType_template> list_value;
+private List<TimerAnyTimeoutType_template> list_value;
 public TimerAnyTimeoutType_template() {
 }
 
@@ -10562,7 +10562,7 @@ public static class SetVerdictType_template extends Base_Template {
 	private TitanCharString_template oldReason; //CharString_Type
 	private TitanCharString_template newReason; //CharString_Type
 	//originally value_list/list_value
-	List<SetVerdictType_template> list_value;
+	private List<SetVerdictType_template> list_value;
 
 	public Verdict_template getnewVerdict() {
 		setSpecific();
@@ -13715,7 +13715,7 @@ public static class WarningEvent_template extends Base_Template {
 
 	private TitanCharString_template text; //CharString_Type
 	//originally value_list/list_value
-	List<WarningEvent_template> list_value;
+	private List<WarningEvent_template> list_value;
 
 	public TitanCharString_template gettext() {
 		setSpecific();
@@ -15253,7 +15253,7 @@ public static class ComponentIDType_template extends Base_Template {
 	private TitanInteger_template id; //Integer_Type
 	private TitanCharString_template name; //CharString_Type
 	//originally value_list/list_value
-	List<ComponentIDType_template> list_value;
+	private List<ComponentIDType_template> list_value;
 
 	public TitanInteger_template getid() {
 		setSpecific();
@@ -16413,7 +16413,7 @@ public static class TitanLog_sequence__list_0_event__list_template extends Recor
 	List<TitanLogEvent_template> value_elements;
 
 	//originally value_list/list_value
-	List<TitanLog_sequence__list_0_event__list_template> list_value;
+	private List<TitanLog_sequence__list_0_event__list_template> list_value;
 
 	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
@@ -22335,7 +22335,7 @@ public static class ExecutorConfigdata_template extends Base_Template {
 	private ExecutorConfigdata_reason_template reason; //TTCN3_Enumerated_Type
 	private TitanCharString_template param__; //CharString_Type
 	//originally value_list/list_value
-	List<ExecutorConfigdata_template> list_value;
+	private List<ExecutorConfigdata_template> list_value;
 
 	public ExecutorConfigdata_reason_template getreason() {
 		setSpecific();
@@ -23392,7 +23392,7 @@ public static class LocationInfo_template extends Base_Template {
 	private TitanCharString_template ent__name; //CharString_Type
 	private LocationInfo_ent__type_template ent__type; //TTCN3_Enumerated_Type
 	//originally value_list/list_value
-	List<LocationInfo_template> list_value;
+	private List<LocationInfo_template> list_value;
 
 	public TitanCharString_template getfilename() {
 		setSpecific();
@@ -24227,7 +24227,7 @@ public static class TestcaseEvent_template extends Base_Template {
 
 	private TestcaseEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<TestcaseEvent_template> list_value;
+	private List<TestcaseEvent_template> list_value;
 
 	public TestcaseEvent_choice_template getchoice() {
 		setSpecific();
@@ -27368,7 +27368,7 @@ public static class Port__Misc_template extends Base_Template {
 	private TitanInteger_template tcp__port; //Integer_Type
 	private TitanInteger_template new__size; //Integer_Type
 	//originally value_list/list_value
-	List<Port__Misc_template> list_value;
+	private List<Port__Misc_template> list_value;
 
 	public Port__Misc_reason_template getreason() {
 		setSpecific();
@@ -28605,7 +28605,7 @@ public static class ParallelPTC_template extends Base_Template {
 	private TitanInteger_template alive__pid; //Integer_Type
 	private TitanInteger_template status; //Integer_Type
 	//originally value_list/list_value
-	List<ParallelPTC_template> list_value;
+	private List<ParallelPTC_template> list_value;
 
 	public ParallelPTC_reason_template getreason() {
 		setSpecific();
@@ -30787,7 +30787,7 @@ public static class MatchingTimeout_template extends Base_Template {
 
 	private TitanCharString_template timer__name; //CharString_Type
 	//originally value_list/list_value
-	List<MatchingTimeout_template> list_value;
+	private List<MatchingTimeout_template> list_value;
 
 	public TitanCharString_template gettimer__name() {
 		setSpecific();
@@ -31486,7 +31486,7 @@ public static class VerdictOp_template extends Base_Template {
 
 	private VerdictOp_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<VerdictOp_template> list_value;
+	private List<VerdictOp_template> list_value;
 
 	public VerdictOp_choice_template getchoice() {
 		setSpecific();
@@ -34796,7 +34796,7 @@ public static class TitanSingleLogEvent_template extends Base_Template {
 	private ComponentIDType_template entityId; //Referenced_Type
 	private TitanLogEvent_template event; //Referenced_Type
 	//originally value_list/list_value
-	List<TitanSingleLogEvent_template> list_value;
+	private List<TitanSingleLogEvent_template> list_value;
 
 	public ComponentIDType_template getentityId() {
 		setSpecific();
@@ -38151,7 +38151,7 @@ public static class QualifiedName_template extends Base_Template {
 	private TitanCharString_template module__name; //CharString_Type
 	private TitanCharString_template testcase__name; //CharString_Type
 	//originally value_list/list_value
-	List<QualifiedName_template> list_value;
+	private List<QualifiedName_template> list_value;
 
 	public TitanCharString_template getmodule__name() {
 		setSpecific();
@@ -38978,7 +38978,7 @@ public static class FunctionEvent_choice_random_template extends Base_Template {
 	private TitanFloat_template retval; //Float_Type
 	private TitanInteger_template intseed; //Integer_Type
 	//originally value_list/list_value
-	List<FunctionEvent_choice_random_template> list_value;
+	private List<FunctionEvent_choice_random_template> list_value;
 
 	public RandomAction_template getoperation() {
 		setSpecific();
@@ -40067,7 +40067,7 @@ public static class Dualface__mapped_template extends Base_Template {
 	private TitanCharString_template value__; //CharString_Type
 	private TitanInteger_template msgid; //Integer_Type
 	//originally value_list/list_value
-	List<Dualface__mapped_template> list_value;
+	private List<Dualface__mapped_template> list_value;
 
 	public TitanBoolean_template getincoming() {
 		setSpecific();
@@ -41223,7 +41223,7 @@ public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Te
 	List<LocationInfo_template> value_elements;
 
 	//originally value_list/list_value
-	List<TitanLogEvent_sourceInfo__list_template> list_value;
+	private List<TitanLogEvent_sourceInfo__list_template> list_value;
 
 	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
@@ -42354,7 +42354,7 @@ public static class VerdictType_template extends Base_Template {
 	private Verdict_template toVerdict; //Referenced_Type
 	private TitanCharString_template verdictReason; //CharString_Type
 	//originally value_list/list_value
-	List<VerdictType_template> list_value;
+	private List<VerdictType_template> list_value;
 
 	public Verdict_template getfromVerdict() {
 		setSpecific();
@@ -45375,7 +45375,7 @@ public static class TimestampType_template extends Base_Template {
 	private TitanInteger_template seconds; //Integer_Type
 	private TitanInteger_template microSeconds; //Integer_Type
 	//originally value_list/list_value
-	List<TimestampType_template> list_value;
+	private List<TimestampType_template> list_value;
 
 	public TitanInteger_template getseconds() {
 		setSpecific();
@@ -46166,7 +46166,7 @@ public static class Setstate_template extends Base_Template {
 	private TitanCharString_template state; //CharString_Type
 	private TitanCharString_template info; //CharString_Type
 	//originally value_list/list_value
-	List<Setstate_template> list_value;
+	private List<Setstate_template> list_value;
 
 	public TitanCharString_template getport__name() {
 		setSpecific();
@@ -47243,7 +47243,7 @@ public static class Proc__port__in_template extends Base_Template {
 	private TitanCharString_template parameter; //CharString_Type
 	private TitanInteger_template msgid; //Integer_Type
 	//originally value_list/list_value
-	List<Proc__port__in_template> list_value;
+	private List<Proc__port__in_template> list_value;
 
 	public TitanCharString_template getport__name() {
 		setSpecific();
@@ -48272,7 +48272,7 @@ public static class TitanLogEvent_template extends Base_Template {
 	private TitanInteger_template severity; //Integer_Type
 	private LogEventType_template logEvent; //Referenced_Type
 	//originally value_list/list_value
-	List<TitanLogEvent_template> list_value;
+	private List<TitanLogEvent_template> list_value;
 
 	public TimestampType_template gettimestamp() {
 		setSpecific();
@@ -49377,7 +49377,7 @@ public static class StatisticsType_choice_verdictStatistics_template extends Bas
 	private TitanInteger_template error__; //Integer_Type
 	private TitanFloat_template errorPercent; //Float_Type
 	//originally value_list/list_value
-	List<StatisticsType_choice_verdictStatistics_template> list_value;
+	private List<StatisticsType_choice_verdictStatistics_template> list_value;
 
 	public TitanInteger_template getnone__() {
 		setSpecific();
@@ -50704,7 +50704,7 @@ public static class LogEventType_template extends Base_Template {
 
 	private LogEventType_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<LogEventType_template> list_value;
+	private List<LogEventType_template> list_value;
 
 	public LogEventType_choice_template getchoice() {
 		setSpecific();
@@ -51413,7 +51413,7 @@ public static class Port__State_template extends Base_Template {
 	private Port__State_operation_template operation; //TTCN3_Enumerated_Type
 	private TitanCharString_template port__name; //CharString_Type
 	//originally value_list/list_value
-	List<Port__State_template> list_value;
+	private List<Port__State_template> list_value;
 
 	public Port__State_operation_template getoperation() {
 		setSpecific();
@@ -52204,7 +52204,7 @@ public static class TestcaseType_template extends Base_Template {
 	private Verdict_template verdict; //Referenced_Type
 	private TitanCharString_template reason; //CharString_Type
 	//originally value_list/list_value
-	List<TestcaseType_template> list_value;
+	private List<TestcaseType_template> list_value;
 
 	public QualifiedName_template getname() {
 		setSpecific();
@@ -54548,7 +54548,7 @@ public static class PortEvent_template extends Base_Template {
 
 	private PortEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<PortEvent_template> list_value;
+	private List<PortEvent_template> list_value;
 
 	public PortEvent_choice_template getchoice() {
 		setSpecific();
@@ -56887,7 +56887,7 @@ public static class Msg__port__send_template extends Base_Template {
 	private TitanInteger_template compref; //Integer_Type
 	private TitanCharString_template parameter; //CharString_Type
 	//originally value_list/list_value
-	List<Msg__port__send_template> list_value;
+	private List<Msg__port__send_template> list_value;
 
 	public TitanCharString_template getport__name() {
 		setSpecific();
@@ -58102,7 +58102,7 @@ public static class FunctionEvent_template extends Base_Template {
 
 	private FunctionEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<FunctionEvent_template> list_value;
+	private List<FunctionEvent_template> list_value;
 
 	public FunctionEvent_choice_template getchoice() {
 		setSpecific();
@@ -59189,7 +59189,7 @@ public static class MatchingFailureType_template extends Base_Template {
 	private MatchingFailureType_reason_template reason; //TTCN3_Enumerated_Type
 	private TitanCharString_template info; //CharString_Type
 	//originally value_list/list_value
-	List<MatchingFailureType_template> list_value;
+	private List<MatchingFailureType_template> list_value;
 
 	public PortType_template getport__type() {
 		setSpecific();
@@ -60664,7 +60664,7 @@ public static class ParPort_template extends Base_Template {
 	private TitanCharString_template srcPort; //CharString_Type
 	private TitanCharString_template dstPort; //CharString_Type
 	//originally value_list/list_value
-	List<ParPort_template> list_value;
+	private List<ParPort_template> list_value;
 
 	public ParPort_operation_template getoperation() {
 		setSpecific();
@@ -61677,7 +61677,7 @@ public static class MatchingDoneType_template extends Base_Template {
 	private TitanInteger_template ptc; //Integer_Type
 	private TitanCharString_template return__type; //CharString_Type
 	//originally value_list/list_value
-	List<MatchingDoneType_template> list_value;
+	private List<MatchingDoneType_template> list_value;
 
 	public MatchingDoneType_reason_template getreason() {
 		setSpecific();
@@ -62770,7 +62770,7 @@ public static class Port__Queue_template extends Base_Template {
 	private TitanCharString_template address__; //CharString_Type
 	private TitanCharString_template param__; //CharString_Type
 	//originally value_list/list_value
-	List<Port__Queue_template> list_value;
+	private List<Port__Queue_template> list_value;
 
 	public Port__Queue_operation_template getoperation() {
 		setSpecific();
@@ -63709,7 +63709,7 @@ public static class ParallelEvent_template extends Base_Template {
 
 	private ParallelEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<ParallelEvent_template> list_value;
+	private List<ParallelEvent_template> list_value;
 
 	public ParallelEvent_choice_template getchoice() {
 		setSpecific();
@@ -65553,7 +65553,7 @@ public static class StartFunction_parameter__list_template extends Record_Of_Tem
 	List<TitanCharString_template> value_elements;
 
 	//originally value_list/list_value
-	List<StartFunction_parameter__list_template> list_value;
+	private List<StartFunction_parameter__list_template> list_value;
 
 	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
@@ -66767,7 +66767,7 @@ public static class Msg__port__recv_template extends Base_Template {
 	private TitanCharString_template parameter; //CharString_Type
 	private TitanInteger_template msgid; //Integer_Type
 	//originally value_list/list_value
-	List<Msg__port__recv_template> list_value;
+	private List<Msg__port__recv_template> list_value;
 
 	public TitanCharString_template getport__name() {
 		setSpecific();
@@ -67772,7 +67772,7 @@ public static class TimerType_template extends Base_Template {
 	private TitanCharString_template name; //CharString_Type
 	private TitanFloat_template value__; //Float_Type
 	//originally value_list/list_value
-	List<TimerType_template> list_value;
+	private List<TimerType_template> list_value;
 
 	public TitanCharString_template getname() {
 		setSpecific();
@@ -68503,7 +68503,7 @@ public static class DefaultEvent_template extends Base_Template {
 
 	private DefaultEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<DefaultEvent_template> list_value;
+	private List<DefaultEvent_template> list_value;
 
 	public DefaultEvent_choice_template getchoice() {
 		setSpecific();
@@ -70285,7 +70285,7 @@ public static class MatchingProblemType_template extends Base_Template {
 	private TitanBoolean_template check__; //Boolean_Type
 	private TitanBoolean_template any__port; //Boolean_Type
 	//originally value_list/list_value
-	List<MatchingProblemType_template> list_value;
+	private List<MatchingProblemType_template> list_value;
 
 	public TitanCharString_template getport__name() {
 		setSpecific();
@@ -71172,7 +71172,7 @@ public static class Strings_template extends Base_Template {
 
 	private Strings_str__list_template str__list; //SequenceOf_Type
 	//originally value_list/list_value
-	List<Strings_template> list_value;
+	private List<Strings_template> list_value;
 
 	public Strings_str__list_template getstr__list() {
 		setSpecific();
@@ -71947,7 +71947,7 @@ public static class PTC__exit_template extends Base_Template {
 	private TitanInteger_template pid; //Integer_Type
 	private TitanInteger_template statuscode; //Integer_Type
 	//originally value_list/list_value
-	List<PTC__exit_template> list_value;
+	private List<PTC__exit_template> list_value;
 
 	public TitanInteger_template getcompref() {
 		setSpecific();
@@ -73675,7 +73675,7 @@ public static class TitanLog_template extends Base_Template {
 
 	private TitanLog_sequence__list_template sequence__list; //SequenceOf_Type
 	//originally value_list/list_value
-	List<TitanLog_template> list_value;
+	private List<TitanLog_template> list_value;
 
 	public TitanLog_sequence__list_template getsequence__list() {
 		setSpecific();
@@ -74354,7 +74354,7 @@ public static class ErrorEvent_template extends Base_Template {
 
 	private TitanCharString_template text; //CharString_Type
 	//originally value_list/list_value
-	List<ErrorEvent_template> list_value;
+	private List<ErrorEvent_template> list_value;
 
 	public TitanCharString_template gettext() {
 		setSpecific();
@@ -75249,7 +75249,7 @@ public static class ExecutorEvent_template extends Base_Template {
 
 	private ExecutorEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<ExecutorEvent_template> list_value;
+	private List<ExecutorEvent_template> list_value;
 
 	public ExecutorEvent_choice_template getchoice() {
 		setSpecific();
@@ -76216,7 +76216,7 @@ public static class Parallel_template extends Base_Template {
 	private TitanInteger_template dst__compref; //Integer_Type
 	private TitanCharString_template dst__port; //CharString_Type
 	//originally value_list/list_value
-	List<Parallel_template> list_value;
+	private List<Parallel_template> list_value;
 
 	public Parallel_reason_template getreason() {
 		setSpecific();
@@ -77352,7 +77352,7 @@ public static class ExecutorRuntime_template extends Base_Template {
 	private TitanInteger_template pid; //Integer_Type
 	private TitanInteger_template fd__setsize; //Integer_Type
 	//originally value_list/list_value
-	List<ExecutorRuntime_template> list_value;
+	private List<ExecutorRuntime_template> list_value;
 
 	public ExecutorRuntime_reason_template getreason() {
 		setSpecific();
@@ -78424,7 +78424,7 @@ public static class FinalVerdictType_template extends Base_Template {
 
 	private FinalVerdictType_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<FinalVerdictType_template> list_value;
+	private List<FinalVerdictType_template> list_value;
 
 	public FinalVerdictType_choice_template getchoice() {
 		setSpecific();
@@ -83652,7 +83652,7 @@ public static class TimerGuardType_template extends Base_Template {
 
 	private TitanFloat_template value__; //Float_Type
 	//originally value_list/list_value
-	List<TimerGuardType_template> list_value;
+	private List<TimerGuardType_template> list_value;
 
 	public TitanFloat_template getvalue__() {
 		setSpecific();
@@ -84463,7 +84463,7 @@ public static class StartFunction_template extends Base_Template {
 	private TitanInteger_template compref; //Integer_Type
 	private StartFunction_parameter__list_template parameter__list; //SequenceOf_Type
 	//originally value_list/list_value
-	List<StartFunction_template> list_value;
+	private List<StartFunction_template> list_value;
 
 	public TitanCharString_template getfunction__name() {
 		setSpecific();
@@ -85372,7 +85372,7 @@ public static class ExecutorUnqualified_template extends Base_Template {
 	private TitanCharString_template addr; //CharString_Type
 	private TitanInteger_template port__; //Integer_Type
 	//originally value_list/list_value
-	List<ExecutorUnqualified_template> list_value;
+	private List<ExecutorUnqualified_template> list_value;
 
 	public ExecutorUnqualified_reason_template getreason() {
 		setSpecific();
@@ -87169,7 +87169,7 @@ public static class Categorized_template extends Base_Template {
 	private TitanInteger_template category; //Integer_Type
 	private TitanCharString_template text; //CharString_Type
 	//originally value_list/list_value
-	List<Categorized_template> list_value;
+	private List<Categorized_template> list_value;
 
 	public TitanInteger_template getcategory() {
 		setSpecific();
@@ -88293,7 +88293,7 @@ public static class TitanLog_sequence__list_template extends Record_Of_Template 
 	List<TitanLog_sequence__list_0_template> value_elements;
 
 	//originally value_list/list_value
-	List<TitanLog_sequence__list_template> list_value;
+	private List<TitanLog_sequence__list_template> list_value;
 
 	private final match_function_t match_function_specific = new match_function_t() {
 		@Override
@@ -89783,7 +89783,7 @@ public static class ExecutionSummaryType_template extends Base_Template {
 	private TitanInteger_template numberOfTestcases; //Integer_Type
 	private TitanCharString_template overallStatistics; //CharString_Type
 	//originally value_list/list_value
-	List<ExecutionSummaryType_template> list_value;
+	private List<ExecutionSummaryType_template> list_value;
 
 	public TitanInteger_template getnumberOfTestcases() {
 		setSpecific();
@@ -90766,7 +90766,7 @@ public static class MatchingEvent_template extends Base_Template {
 
 	private MatchingEvent_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<MatchingEvent_template> list_value;
+	private List<MatchingEvent_template> list_value;
 
 	public MatchingEvent_choice_template getchoice() {
 		setSpecific();
@@ -91481,7 +91481,7 @@ public static class StatisticsType_template extends Base_Template {
 
 	private StatisticsType_choice_template choice; //TTCN3_Choice_Type
 	//originally value_list/list_value
-	List<StatisticsType_template> list_value;
+	private List<StatisticsType_template> list_value;
 
 	public StatisticsType_choice_template getchoice() {
 		setSpecific();
@@ -92250,7 +92250,7 @@ public static class Dualface__discard_template extends Base_Template {
 	private TitanCharString_template port__name; //CharString_Type
 	private TitanBoolean_template unhandled; //Boolean_Type
 	//originally value_list/list_value
-	List<Dualface__discard_template> list_value;
+	private List<Dualface__discard_template> list_value;
 
 	public TitanBoolean_template getincoming() {
 		setSpecific();
@@ -95935,7 +95935,7 @@ public static class ExecutorComponent_template extends Base_Template {
 	private ExecutorComponent_reason_template reason; //TTCN3_Enumerated_Type
 	private TitanInteger_template compref; //Integer_Type
 	//originally value_list/list_value
-	List<ExecutorComponent_template> list_value;
+	private List<ExecutorComponent_template> list_value;
 
 	public ExecutorComponent_reason_template getreason() {
 		setSpecific();
@@ -96788,7 +96788,7 @@ public static class TitanLog_sequence__list_0_template extends Base_Template {
 	private ComponentIDType_template entityId; //Referenced_Type
 	private TitanLog_sequence__list_0_event__list_template event__list; //SequenceOf_Type
 	//originally value_list/list_value
-	List<TitanLog_sequence__list_0_template> list_value;
+	private List<TitanLog_sequence__list_0_template> list_value;
 
 	public ComponentIDType_template getentityId() {
 		setSpecific();

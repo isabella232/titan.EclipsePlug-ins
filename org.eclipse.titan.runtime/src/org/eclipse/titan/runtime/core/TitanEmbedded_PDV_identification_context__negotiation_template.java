@@ -21,7 +21,7 @@ public class TitanEmbedded_PDV_identification_context__negotiation_template exte
 	private TitanInteger_template presentation__context__id; //ASN1_Integer_Type
 	private TitanObjectid_template transfer__syntax; //ObjectID_Type
 	//originally value_list/list_value
-	List<TitanEmbedded_PDV_identification_context__negotiation_template> list_value;
+	private List<TitanEmbedded_PDV_identification_context__negotiation_template> list_value;
 
 	public TitanInteger_template getpresentation__context__id() {
 		setSpecific();

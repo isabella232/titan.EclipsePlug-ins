@@ -1571,7 +1571,7 @@ public class RecordSetCodeGenerator {
 		}
 
 		source.append("\t//originally value_list/list_value\n");
-		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", className ) );
+		source.append( MessageFormat.format( "\tprivate List<{0}_template> list_value;\n", className ) );
 	}
 
 	/**
@@ -2481,7 +2481,7 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", className));
 
 		source.append("//originally value_list/list_value\n");
-		source.append(MessageFormat.format("List<{0}_template> list_value;\n", className));
+		source.append(MessageFormat.format("private List<{0}_template> list_value;\n", className));
 
 		source.append(MessageFormat.format("public {0}_template() '{'\n", className));
 		source.append("}\n\n");

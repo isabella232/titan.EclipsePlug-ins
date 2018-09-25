@@ -21,7 +21,7 @@ public class TitanCharacter_String_identification_syntaxes_template extends Base
 	private TitanObjectid_template abstract_; //ObjectID_Type
 	private TitanObjectid_template transfer; //ObjectID_Type
 	//originally value_list/list_value
-	List<TitanCharacter_String_identification_syntaxes_template> list_value;
+	private List<TitanCharacter_String_identification_syntaxes_template> list_value;
 
 	public TitanObjectid_template getabstract_() {
 		setSpecific();

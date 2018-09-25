@@ -21,7 +21,7 @@ public class TitanExternal_identification_syntaxes_template extends Base_Templat
 	private TitanObjectid_template abstract_; //ObjectID_Type
 	private TitanObjectid_template transfer; //ObjectID_Type
 	//originally value_list/list_value
-	List<TitanExternal_identification_syntaxes_template> list_value;
+	private List<TitanExternal_identification_syntaxes_template> list_value;
 
 	public TitanObjectid_template getabstract_() {
 		setSpecific();

@@ -21,7 +21,7 @@ public class TitanExternal_identification_context__negotiation_template extends 
 	private TitanInteger_template presentation__context__id; //ASN1_Integer_Type
 	private TitanObjectid_template transfer__syntax; //ObjectID_Type
 	//originally value_list/list_value
-	List<TitanExternal_identification_context__negotiation_template> list_value;
+	private List<TitanExternal_identification_context__negotiation_template> list_value;
 
 	public TitanInteger_template getpresentation__context__id() {
 		setSpecific();

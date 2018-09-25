@@ -985,7 +985,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 
 		source.append("\t//originally value_list/list_value\n");
-		source.append( MessageFormat.format( "\tList<{0}_template> list_value;\n", genName ) );
+		source.append( MessageFormat.format( "\tprivate List<{0}_template> list_value;\n", genName ) );
 
 		source.append('\n');
 		source.append("\tprivate final match_function_t match_function_specific = new match_function_t() {\n");

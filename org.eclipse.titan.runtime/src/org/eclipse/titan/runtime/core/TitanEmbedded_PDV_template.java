@@ -22,7 +22,7 @@ public class TitanEmbedded_PDV_template extends Base_Template {
 	private TitanUniversalCharString_template data__value__descriptor; //ObjectDescriptor_Type
 	private TitanOctetString_template data__value; //OctetString_Type
 	//originally value_list/list_value
-	List<TitanEmbedded_PDV_template> list_value;
+	private List<TitanEmbedded_PDV_template> list_value;
 
 	public TitanEmbedded_PDV_identification_template getidentification() {
 		setSpecific();
