@@ -7290,7 +7290,7 @@ public static class Strings_str__list extends Base_Type {
 public static class Strings_str__list_template extends Record_Of_Template {
 
 	//originally single_value/value_elements
-	List<TitanCharString_template> value_elements;
+	private List<TitanCharString_template> value_elements;
 
 	//originally value_list/list_value
 	private List<Strings_str__list_template> list_value;
@@ -16410,7 +16410,7 @@ public static class TitanLog_sequence__list_0_event__list extends Base_Type {
 public static class TitanLog_sequence__list_0_event__list_template extends Record_Of_Template {
 
 	//originally single_value/value_elements
-	List<TitanLogEvent_template> value_elements;
+	private List<TitanLogEvent_template> value_elements;
 
 	//originally value_list/list_value
 	private List<TitanLog_sequence__list_0_event__list_template> list_value;
@@ -41220,7 +41220,7 @@ public static class TitanLogEvent_sourceInfo__list extends Base_Type {
 public static class TitanLogEvent_sourceInfo__list_template extends Record_Of_Template {
 
 	//originally single_value/value_elements
-	List<LocationInfo_template> value_elements;
+	private List<LocationInfo_template> value_elements;
 
 	//originally value_list/list_value
 	private List<TitanLogEvent_sourceInfo__list_template> list_value;
@@ -65550,7 +65550,7 @@ public static class StartFunction_parameter__list extends Base_Type {
 public static class StartFunction_parameter__list_template extends Record_Of_Template {
 
 	//originally single_value/value_elements
-	List<TitanCharString_template> value_elements;
+	private List<TitanCharString_template> value_elements;
 
 	//originally value_list/list_value
 	private List<StartFunction_parameter__list_template> list_value;
@@ -88290,7 +88290,7 @@ public static class TitanLog_sequence__list extends Base_Type {
 public static class TitanLog_sequence__list_template extends Record_Of_Template {
 
 	//originally single_value/value_elements
-	List<TitanLog_sequence__list_0_template> value_elements;
+	private List<TitanLog_sequence__list_0_template> value_elements;
 
 	//originally value_list/list_value
 	private List<TitanLog_sequence__list_template> list_value;

@@ -981,7 +981,7 @@ public class RecordOfGenerator {
 		source.append('\n');
 
 		source.append("\t//originally single_value/value_elements\n");
-		source.append( MessageFormat.format( "\tList<{0}> value_elements;\n", ofTypeName ) );
+		source.append( MessageFormat.format( "\tprivate List<{0}> value_elements;\n", ofTypeName ) );
 		source.append('\n');
 
 		source.append("\t//originally value_list/list_value\n");
