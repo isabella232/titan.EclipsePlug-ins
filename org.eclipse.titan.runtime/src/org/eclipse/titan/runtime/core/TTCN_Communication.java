@@ -306,7 +306,7 @@ public class TTCN_Communication {
 		}
 
 		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.connected__to__mc);
-		is_connected.set(true);;
+		is_connected.set(true);
 	}
 
 	public static void disconnect_mc() {
@@ -320,7 +320,7 @@ public class TTCN_Communication {
 	public static void close_mc_connection() {
 		if (is_connected.get()) {
 			call_interval.set(0.0);
-			is_connected.set(false);;
+			is_connected.set(false);
 			incoming_buf.get().reset();
 			try {
 				mc_socketchannel.get().close();
@@ -1097,7 +1097,7 @@ public class TTCN_Communication {
 		case PTC_EXIT:
 			break;
 		default:
-			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);;
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stop__was__requested__from__mc);
 			TTCN_Runtime.stop_execution();
 			break;
 		}

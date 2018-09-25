@@ -1074,7 +1074,7 @@ public final class TTCN_Runtime {
 	//originally stop_execution
 	public static void stop_execution() {
 		if (in_controlPart()) {
-			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);;
+			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.stopping__control__part__execution);
 		} else {
 			TTCN_Logger.log_str(Severity.PARALLEL_UNQUALIFIED, "Stopping test component execution.");
 
