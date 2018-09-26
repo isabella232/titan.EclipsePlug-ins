@@ -41,7 +41,7 @@ public class TitanComponent extends Base_Type {
 		COMPONENT_ID_SYSTEM
 	}
 
-	public class Component_Id_type {
+	public static class Component_Id_type {
 		public component_id_selector_enum id_selector;
 		public int id_component;
 		public String id_name;
