@@ -2851,7 +2851,7 @@ public final class TTCN_Runtime {
 						componentName = TitanComponent.get_component_name(comp.component_reference);
 					}
 
-					//TODO add usage info if possible
+					//TODO add rusage info if possible
 					TTCN_Logger.log_par_ptc(reason, null, null, comp.component_reference, componentName, null, 0, 0);
 					remove_component(comp);
 				}
