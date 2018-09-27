@@ -691,11 +691,11 @@ public class TitanInteger extends Base_Type {
 				order = raw_order_t.ORDER_MSB;
 				break;
 			}
-	
+
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
-	
+
 			errorContext.leaveContext();
 			break;
 		}
@@ -1152,7 +1152,7 @@ public class TitanInteger extends Base_Type {
 			myleaf.length = p_td.raw.fieldlength;
 		}
 		errorContext.leaveContext();
-		
+
 		return myleaf.length;
 	}
 
@@ -1203,7 +1203,7 @@ public class TitanInteger extends Base_Type {
 					}
 					errorContext.leaveContext();
 
-					return -error_type.ET_LEN_ERR.ordinal(); 
+					return -error_type.ET_LEN_ERR.ordinal();
 				} else {
 					limit -= 8;
 				}
@@ -1216,7 +1216,7 @@ public class TitanInteger extends Base_Type {
 
 					return -error_type.ET_INCOMPL_MSG.ordinal();
 				}
-				
+
 				// extract the next length octet (or partial length octet)
 				buff.get_b(8, tmp_len_data, cp, top_bit_ord);
 				int mask = 0x80;
@@ -1299,7 +1299,7 @@ public class TitanInteger extends Base_Type {
 			case SG_NO:
 				break;
 			case SG_SG_BIT:
-				negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0 ? true : false;
+				negativ_num = ((data[idx] >> ((end_pos - 1) % 8)) & 0x01) != 0;
 				end_pos--;
 				break;
 			default:

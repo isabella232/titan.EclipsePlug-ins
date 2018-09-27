@@ -913,7 +913,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		case STRING_PATTERN:{
 			pattern_value_regexp_init = false;
 			final int temp = text_buf.pull_int().getInt();
-			pattern_value_nocase = temp == 1 ? true : false;
+			pattern_value_nocase = temp == 1;
 			single_value = new TitanCharString();
 			single_value.decode_text(text_buf);
 			break;

@@ -25,7 +25,7 @@ public final class JNIMainControllerTab extends BaseMainControllerTab {
 
 	@Override
 	public boolean canSave() {
-		return !(!EMPTY.equals(executableFileText.getStringValue()) && !executableFileIsValid)
+		return (EMPTY.equals(executableFileText.getStringValue()) || executableFileIsValid)
 				&& super.canSave();
 
 	}

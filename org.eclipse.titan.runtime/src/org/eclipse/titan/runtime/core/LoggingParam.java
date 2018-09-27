@@ -57,7 +57,7 @@ public final class LoggingParam {
 		public TTCN_Logger.component_id_t component;
 		public String pluginId;
 		public logging_param_t logparam;
-		//nextparam intentionaly missing
+		//nextparam intentionally missing
 
 		public logging_setting_t() {
 			//empty by default
