@@ -28,27 +28,27 @@ image::images/4_F27.png[title="First page of the new TITAN Project wizard"]
 +
 If you select *Finish,* the new TITAN project will be created immediately.
 +
-If you select *Next,* you can customize some project properties (see Figure 28): the name of the folder containing the sources, and the name of the working directory (containing the generated binaries).In case the project to be created will need a long time to set up, before it can be used it is possible to set that the source folder should be generated as excluded from build.
+If you select *Next,* you can customize some project properties (see the next figure): the name of the folder containing the sources, and the name of the working directory (containing the generated binaries).In case the project to be created will need a long time to set up, before it can be used it is possible to set that the source folder should be generated as excluded from build.
 
 image::images/4_F28.png[title="Second page of the new TITAN Project wizard"]
 
 The final project is only created when you select *Finish*.
 
-Now the new TITAN project (called `project1` on the figures) and the two directories are created and are listed in the Project Explorer (Figure 29). The TITAN logo is displayed to the left of the project name (provided that the TITAN decorator is enabled, see <<2-getting_started.adoc#_enabling_titan_decorations, here>>). TITAN projects will generally be decorated like this.
+Now the new TITAN project (called `project1` on the figures) and the two directories are created and are listed in the Project Explorer. The TITAN logo is displayed to the left of the project name (provided that the TITAN decorator is enabled, see <<2-getting_started.adoc#_enabling_titan_decorations, here>>). TITAN projects will generally be decorated like this.
 
 image::images/4_F29.png[title="Example created project"]
 
 The projects created with this wizard differ from other "General" projects in that the TITAN nature and the TITAN builder (responsible for building the executable) are automatically set on them.
 
-Once the new project is created the property page of that project will be displayed, so that it can be configured immediately. For more information on project properties please refer to section 4.4.
+Once the new project is created the property page of that project will be displayed, so that it can be configured immediately. For more information on project properties please refer to section <<_setting_project_properties,Setting Project Properties>>  
 
 == Adding Directories to the Project
 
-Directories can be added to projects in the following way: *right click* the project where the directory should be added to and select *New / Folder* (*Figure 30*).
+Directories can be added to projects in the following way: *right click* the project where the directory should be added to and select *New / Folder* (see the next figure).
 
-image::images/4_F30.png[title="New / folder menu"]
+image::images/4_F30.png[title="New/Folder menu"]
 
-In the New Folder window (*Figure 31*) there is a possibility to set:
+In the <<new-folder-window,New Folder window>> there is a possibility to set:
 
 * where the new folder will be placed;
 
@@ -60,10 +60,12 @@ In the New Folder window (*Figure 31*) there is a possibility to set:
 +
 NOTE: linked folders are handled entirely by Eclipse; no additional resource will be placed in the projects directory.
 
+[[new-folder-window]]
 image::images/4_F31.png[title="New folder window"]
 
-Once the new folder created, you shall see something like shown on Figure 32 (without the filename file1.ttcn).
+Once the new folder created, you shall see something like shown on Figure <<new-file-created,New file created>>  (without the filename file1.ttcn).
 
+[[new-file-created]]
 image::images/4_F32.png[title="New file created"]
 
 == Adding Files to the Project
@@ -72,15 +74,16 @@ There are two ways to add files to a project. The first one, using wizards, is t
 
 === Using Wizards to Add Files to the Project
 
-Wizards are available to create some of the TITAN modulesfootnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* (see Figure 26 above).
+Wizards are available to create some of the TITAN modulesfootnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* ( see figure <<new-resources-menu,New resources menu>>).
 
 In the Project Explorer view, the wizards "TTCN-3 Module", "ASN.1 Module" and "Configuration file" can be reached by **right click**ing the content area and selecting *New / Other…* .
 
 In the example below, the "TTCN-3 Module" wizard is shown. The wizard is launched by selecting *File / New / TTCN3 Module*.
 
+[[first-page-of-the-new-ttcn3-module-wizard]]
 image::images/4_F33.png[title="First page of the New TTCN3 Module wizard"]
 
-On the first page of the wizard (Figure 33) the correctness of the new module name is verified. The file extension is checked against the type of module being created. If the extension is not set, it is automatically appended when the file is created (the defaults are: `ttcn`, `asn` and `cfg` for the respective wizards). The on-the-fly checker, if it has enough data collected, verifies that a module name is unique in the project (right now this only works for TTCN-3 modules).
+On the <<first-page-of-the-new-ttcn3-module-wizard,First page of the New TTCN3 Module wizard>> the correctness of the new module name is verified. The file extension is checked against the type of module being created. If the extension is not set, it is automatically appended when the file is created (the defaults are: `ttcn`, `asn` and `cfg` for the respective wizards). The on-the-fly checker, if it has enough data collected, verifies that a module name is unique in the project (right now this only works for TTCN-3 modules).
 
 On the second page of the wizard there is a checkbox and a combo box:
 
