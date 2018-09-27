@@ -7,7 +7,13 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.io.File;
+import java.text.MessageFormat;
+import java.util.List;
+
 import org.eclipse.titan.runtime.core.TTCN_Runtime.executorStateEnum;
+import org.eclipse.titan.runtime.core.cfgparser.CfgAnalyzer;
+import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 
 /**
@@ -16,6 +22,7 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
  * TODO: lots to implement
  *
  * @author Kristof Szabados
+ * @author Arpad Lovassy
  */
 public final class Runtime_Single_main {
 
@@ -24,7 +31,7 @@ public final class Runtime_Single_main {
 	}
 
 	//FIXME this is much more complicated
-	public static int singleMain() {
+	public static int singleMain( String[] args ) {
 		int returnValue = 0;
 		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
@@ -41,10 +48,42 @@ public final class Runtime_Single_main {
 			TTCN_Logger.open_file();
 			TTCN_Logger.write_logger_settings();
 
-			Module_List.post_init_modules();
+			//TODO: getting cfg file name will be more complicated
+			final File config_file = args.length > 0 ?  new File( args[ 0 ] ) : null;
+			if (config_file != null) {
+				System.err.println(MessageFormat.format( "Using configuration file: `{0}'", config_file ) );
+				TTCN_Logger.log_configdata(TitanLoggerApi.ExecutorConfigdata_reason.enum_type.using__config__file, config_file.getName());
+				final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
+				cfgAnalyzer.directParse(config_file, config_file.getName(), null);
 
-			for (final TTCN_Module module : Module_List.modules) {
-				module.control();
+				// EXECUTE section
+				final List<ExecuteItem> executeItems = cfgAnalyzer.getExecuteSectionHandler().getExecuteitems();
+				
+				TTCN_Logger.open_file();
+				TTCN_Logger.write_logger_settings();
+
+				Module_List.post_init_modules();
+				// run testcases
+				for (final ExecuteItem executeItem : executeItems) {
+					final String module = executeItem.getModuleName();
+					final String testcase = executeItem.getTestcaseName();
+					if ("*".equals(testcase) ) {
+						Module_List.execute_all_testcases(module);
+					} else if ("control".equals(testcase)) {
+						Module_List.execute_control(module);
+					} else {
+						Module_List.execute_testcase(module, testcase);
+					}
+				}
+			} else {
+				TTCN_Logger.open_file();
+				TTCN_Logger.write_logger_settings();
+
+				Module_List.post_init_modules();
+
+				for (final TTCN_Module module : Module_List.modules) {
+					module.control();
+				}
 			}
 		} catch (Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
@@ -59,7 +98,7 @@ public final class Runtime_Single_main {
 
 		TTCN_Logger.terminate_logger();
 		TTCN_Snapshot.terminate();
-		//TODO implement runtime::clean_up;
+		TTCN_Runtime.clean_up();
 
 		return returnValue;
 	}

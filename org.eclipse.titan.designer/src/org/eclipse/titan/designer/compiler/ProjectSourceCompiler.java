@@ -39,7 +39,7 @@ public class ProjectSourceCompiler {
 	 * Generates java code for a module
 	 * @param timestamp the timestamp of this build
 	 * @param aModule module to compile
-	 * @param aDebug true: debug info is added to the source code 
+	 * @param aDebug true: debug info is added to the source code
 	 * @throws CoreException
 	 */
 	public static void compile(final BuildTimestamp timestamp, final Module aModule, final boolean aDebug ) throws CoreException {
@@ -151,7 +151,7 @@ public class ProjectSourceCompiler {
 		for ( final Module module : modules ) {
 			contentBuilder.append(MessageFormat.format("Module_List.add_module(new {0}());\n",module.getIdentifier().getName()));
 		}
-		contentBuilder.append("int returnValue = Runtime_Single_main.singleMain();\n");
+		contentBuilder.append("int returnValue = Runtime_Single_main.singleMain( args );\n");
 		contentBuilder.append("System.out.println(\"Total execution took \" + (System.nanoTime() - absoluteStart) * (1e-9) + \" seconds to complete\");\n");
 		contentBuilder.append( "System.exit(returnValue);\n" );
 		contentBuilder.append( "}\n" );
@@ -238,7 +238,7 @@ public class ProjectSourceCompiler {
 	/**
 	 * Compares the content of the file and the provided string content,
 	 *  to determine if the file content needs to be updated or not.
-	 * 
+	 *
 	 * @param file the file to check
 	 * @param content the string to be generated if not already present in the file
 	 * @return true if the file does not contain the provided string parameter
@@ -342,7 +342,7 @@ public class ProjectSourceCompiler {
 	 *   <li> pre init function: to initialize constants before module parameters are processed
 	 *   <li> post init function: to initialize local "constants" after module parameters were processed.
 	 * </ul>
-	 * 
+	 *
 	 * @param aData data collected during code generation, we need the include files form it
 	 * @param sourceFile the source of the code.
 	 * @param aModule module to compile

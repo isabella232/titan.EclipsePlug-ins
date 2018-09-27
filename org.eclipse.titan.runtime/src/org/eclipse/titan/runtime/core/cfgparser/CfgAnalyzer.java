@@ -22,10 +22,21 @@ import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.UnbufferedCharStream;
 
 /**
- * 
+ * Syntactic analyzer for CFG files
  * @author Arpad Lovassy
  */
 public final class CfgAnalyzer {
+
+	ExecuteSectionHandler executeSectionHandler = null;
+	LoggingSectionHandler loggingSectionHandler = null;
+
+	public ExecuteSectionHandler getExecuteSectionHandler() {
+		return executeSectionHandler;
+	}
+
+	public LoggingSectionHandler getLoggingSectionHandler() {
+		return loggingSectionHandler;
+	}
 
 	/**
 	 * Parses the provided elements.
@@ -86,16 +97,13 @@ public final class CfgAnalyzer {
 		// remove ConsoleErrorListener
 		parser.removeErrorListeners();
 		parser.pr_ConfigFile();
+		
+		executeSectionHandler = parser.getExecuteSectionHandler();
+		loggingSectionHandler = parser.getLoggingSectionHandler();
 
 		try {
 			reader.close();
 		} catch (IOException e) {
 		}
-	}
-
-	public static boolean process_config_file(File config_file) {
-		final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
-		cfgAnalyzer.directParse(config_file, config_file.getName(), null);
-		return false;
 	}
 }

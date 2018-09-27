@@ -384,7 +384,7 @@ public final class TTCN_Runtime {
 
 
 
-	private static void clean_up(){
+	static void clean_up(){
 		component_type_module.set(null);
 		component_type_name.set(null);
 		system_type_module.set(null);
@@ -2833,7 +2833,7 @@ public final class TTCN_Runtime {
 			return;
 		}
 
-		for (int i = 0 ; i < threads.size(); ) {
+		for (int i = 0; i < threads.size(); ) {
 			if (threads.get(i).getState() == State.TERMINATED) {
 				final Thread thread = threads.get(i);
 				threads.remove(i);
@@ -2851,7 +2851,7 @@ public final class TTCN_Runtime {
 						componentName = TitanComponent.get_component_name(comp.component_reference);
 					}
 
-					//TODO add rusage info if possible
+					//TODO add usage info if possible
 					TTCN_Logger.log_par_ptc(reason, null, null, comp.component_reference, componentName, null, 0, 0);
 					remove_component(comp);
 				}
