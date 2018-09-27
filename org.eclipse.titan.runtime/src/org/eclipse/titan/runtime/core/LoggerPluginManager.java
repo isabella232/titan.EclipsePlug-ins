@@ -431,7 +431,8 @@ public class LoggerPluginManager {
 		}
 	}
 
-	public boolean set_file_size(final component_id_t comp, final int p_size) {
+	public boolean set_file_size(final int p_size) {
+		//NOTE: component not used
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_file_size(p_size)) {
@@ -442,7 +443,8 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_file_number(final component_id_t cmpt, final int p_number) {
+	public boolean set_file_number(final int p_number) {
+		//NOTE: component not used
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_file_number(p_number)) {

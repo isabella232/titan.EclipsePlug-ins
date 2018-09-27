@@ -1223,12 +1223,12 @@ public final class TTCN_Logger {
 		get_logger_plugin_manager().set_append_file(new_append_file);
 	}
 
-	public static boolean set_file_size(final component_id_t comp, final int p_size) {
-		return get_logger_plugin_manager().set_file_size(comp, p_size);
+	public static boolean set_file_size(final int p_size) {
+		return get_logger_plugin_manager().set_file_size(p_size);
 	}
 
-	public static boolean set_file_number(final component_id_t comp, final int p_number) {
-		return get_logger_plugin_manager().set_file_number(comp, p_number);
+	public static boolean set_file_number(final int p_number) {
+		return get_logger_plugin_manager().set_file_number(p_number);
 	}
 
 	public static boolean set_disk_full_action(final component_id_t comp, final disk_full_action_t p_disk_full_action) {

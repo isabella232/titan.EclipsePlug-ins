@@ -15,6 +15,7 @@ options{
 }
 
 @header {
+import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.LoggingSectionHandler.LogParamEntry;
 
@@ -793,21 +794,20 @@ pr_PlainLoggingParam
 		{	logParamEntry.setDiskFullAction( $dfa.text );
 		}
 |	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
-		{	logParamEntry.setLogfileNumber( $lfn.integer );
+		{	TTCN_Logger.set_file_number( $lfn.integer.getIntegerValue() );
+		//TODO: remove 1st param
 		}
 |	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
-		{	logParamEntry.setLogfileSize( $lfs.integer );
+		{	TTCN_Logger.set_file_size( $lfs.integer.getIntegerValue() );
+		//TODO: remove 1st param
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
-	{	mCfgParseResult.setLogFileDefined( true );
-		String logFileName = $f.text;
-		//TODO: remove one of them, it is redundant
+	{	String logFileName = $f.text;
 		if ( logFileName != null ) {
 			// remove quotes
 			logFileName = logFileName.replaceAll("^\"|\"$", "");
-			mCfgParseResult.setLogFileName( logFileName );
+			TTCN_Logger.set_file_name( logFileName, true );
 		}
-		logParamEntry.setLogFile( $f.text );
 	}
 |	TIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
 	{	logParamEntry.setTimestampFormat( $ttv.text );
