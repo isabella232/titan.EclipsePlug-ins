@@ -7,15 +7,15 @@
 
 It is possible to hide excluded resources from the Project explorer view.
 
-To achieve this go to *View Menu* / select *Customize View…*
+To achieve this go to *View Menu* / select *Filters and Customization...* (or  *Customize View…* )
 
 image::images/11_F113.png[title="View Menu"]
 
-image::images/11_F114.png[title="Customize View…"]
+image::images/11_F114.png[title="Filters and Customization..."]
 
-image::images/11_F115.png[title="The Available Customizations window"]
+image::images/11_F115.png[title="Filters and Customization window"]
 
-On the *Available Customizations* window there are two exclusion filters provided by the Designer plug-in:
+On the *Filters and Customization* window (or *Available Customizations* window) there are two exclusion filters provided by the Designer plug-in:
 
 * TITAN working directory.
 +
@@ -23,7 +23,7 @@ When selected the working directories of the projects will be filtered from the 
 
 * TITAN excluded resources.
 +
-When selected all resources excluded from the build on some way, will be filtered from the view. For more information on how a resource can be excluded from build please refer <<2-getting_started.adoc#enabling-titan-decorations, here>>.
+When selected all resources excluded from the build on some way, will be filtered from the view. For more information on how a resource can be excluded from build please refer <<2-getting_started.adoc#_enabling_titan_decorations, here>>.
 
 By default the "TITAN working directory" filter is selected.
 

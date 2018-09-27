@@ -1,6 +1,6 @@
 = Building the Project
 :toc:
-:figure-number: 89
+:figure-number: 88
 
 In this chapter a detailed, stepbystep procedure description is provided about how to build a project according to the workflow.
 

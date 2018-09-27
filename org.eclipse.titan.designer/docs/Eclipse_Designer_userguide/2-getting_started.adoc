@@ -10,13 +10,16 @@ TITAN Designer provides its own perspective to Eclipse. This is a layout of visu
 
 Open the TITAN Designer perspective by opening *Window / Open Perspective / Other…*.
 
-In the pop-up window select *TITAN Editing*.
-
 image::images/2_F1.png[title="Opening a perspective"]
+
+In the pop-up window select *TITAN Editing*.
 
 image::images/2_F2.png[title="Selecting the TITAN Editing perspective"]
 
-The perspective is divided in three fields. Figure 3 TITAN Editing Perspective shows the default layout.
+The perspective is divided in three fields. <<titan-editing-perspective,Figure TITAN Editing Perspective>> shows the default layout.
+
+[[titan-editing-perspective]]
+image::images/2_F3.png[title="TITAN Editing Perspective"]
 
 The tab on the left side is the Project Explorer view. This is a navigator where projects can be managed; for example, opened, renamed, or closed. Files can be added or removed from a project and so on.
 
@@ -24,7 +27,7 @@ The biggest pane of the perspective is the editing area (upper right). Here the 
 
 The four tabs at the bottom of the picture open the following views:
 
-* The Problems view (see <<7-editing_with_titan_designer_plugin.adoc#mark-occurrences-1, here>>) displays information about problems found in the project. The problems reported can be ordered using several criteria (see <<8-contents_of_the_problems_view.adoc#grouping-of-problems, here>>).
+* The Problems view (see <<8-contents_of_the_problems_view.adoc#the_problems_view,here>>) displays information about problems found in the project. The problems reported can be ordered using several criteria (see <<8-contents_of_the_problems_view.adoc#grouping-of-problems, here>>).
 
 * The Console view contains the commands executed and their output; Consoles only appear if there is something to display. The Console view has two sub views (TITAN console and TITAN Debug console, respectively); by default only one of both is displayed in the pane. The hidden sub view can be displayed by clicking on the display icon on the right of the pane.
 
@@ -36,15 +39,14 @@ NOTE: The contents of this view have no effect on the work of the user.
 
 * The Progress view contains information about the progresses of Eclipse related operations. Lengthy operations (for example building, remote building or the first on-the-fly build pass) always provide information to the user about their progress. Operations in general can be canceled in this view, provided that cancellation is allowed.
 
-* The Tasks view contains information extracted from the projects in a sorted manner. The contents of this view differ from the contents of the Problems view in that they are usually not errors, but TODO or FIXME like notations. This view is described in detail <<9-contents_of_the_tasks_view.adoc, here>>.
+* The Tasks view contains information extracted from the projects in a sorted manner. The contents of this view differ from the contents of the Problems view in that they are usually not errors, but TODO or FIXME like notations. This view is described in detail <<9-contents_of_the_tasks_view.adoc#_contents_of_the_tasks_view, here>>.
 
-image::images/2_F3.png[title="TITAN Editing Perspective"]
 
 == Enabling TITAN Actions on the Toolbar
 
 TITAN Actions or Change Set Operations are commands (apart from those used in the build process) that can be executed on TTCN-3 files.
 
-The TITAN Actions are enabled by checking the *Change Set Operations* submenu on the tab *Tool Bar Visibility* after selecting *Windows / Customize Perspective* (see Figure 4).
+The TITAN Actions are enabled by checking the *Change Set Operations* submenu on the tab *Tool Bar Visibility* after selecting *Windows / Customize Perspective* (see the next figure).
 
 image::images/2_F4.png[title="Enabling Titan Actions or ChangeSet Operations on the Toolbar"]
 
@@ -68,11 +70,11 @@ The output of the commands is written to the TITAN Console. Commands are execute
 
 TITAN Shortcuts appear in the *File/New* menu and are used to open a new ASN.1 module, a configuration file, a TITAN project or a TTCN-3 module, respectively.
 
-The TITAN Shortcuts are enabled by checking the appropriate box on the right pane of the Shortcuts tab after selecting *Windows / Customize Perspective* (*Figure 6*). The boxes are checked by default.
+The TITAN Shortcuts are enabled by checking the appropriate box on the right pane of the Shortcuts tab after selecting *Windows / Customize Perspective* (see <<enabling-the-titan-shortcuts,the next figure>> ).The boxes are checked by default.
 
+[[enabling-the-titan-shortcuts]]
 image::images/2_F6.png[title="Enabling the TITAN Shortcuts"]
 
-[[enabling-titan-decorations]]
 == Enabling TITAN Decorations
 
 Decoration here means a string added to a project, folder or file name or a picture overlapping the icon of the resource to provide the reader with additional information.

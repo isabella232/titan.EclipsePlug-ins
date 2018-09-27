@@ -6,18 +6,17 @@ This section gives an overview about the various settings related to the workben
 
 In Eclipse, workbench preferences are used to set user specific general rules, which apply to every project; for example, preferred font styles, access to version handling systems and so on.
 
-Workbench preferences are accessible selecting *Window / Preferences*. Clicking on the menu item will bring up the preferences page. The opening window contains a preference tree on the left pane to ease navigation – see Figure 8.
-
+Workbench preferences are accessible selecting *Window / Preferences*. Clicking on the menu item will bring up the preferences page. The opening window contains a preference tree on the left pane to ease navigation (see <<titan-preferences-sub-tree,figure below>>).
+[[titan-preferences-sub-tree]]
 image::images/2_F8.png[title="TITAN preferences sub-tree"]
 
 This section only concerns the preferences that are available under the TITAN preferences node of this preference tree.
 
-[[titan-preferences]]
 == TITAN Preferences
-
+[[titan-preferences]]
 image::images/2_F9.png[title="TITAN preferences"]
 
-The following options can be set on the TITAN preferences page (see the figure above):
+The following options can be set on the TITAN preferences page (see <<titan-preferences,the figure above>>):
 
 * **TITAN installation path.**
 +
@@ -58,7 +57,9 @@ By default, the Designer plug-in isn’t logging debug information to the Debug 
 +
 The option is NOT CHECKED by default because most of the time these features hold no value for the users.
 +
-If you want to set any of these options, set the options "Display debug preferences" [.underline]#then press button "Apply".# An entry "Debug" appears under "**TITAN Preferences**" on the left pane (see Figure 10).
+If you want to set any of these options, set the options "Display debug preferences" [.underline]#then press button "Apply".# An entry "Debug" appears under "**TITAN Preferences**" on the left pane (see <<display-debug-preferences,figure below>> ).
+
+[[display-debug-preferences]]
 
 image::images/2_F10.png[title="Display Debug preferences"]
 
@@ -67,10 +68,10 @@ Below the last option, the version of the currently set compiler and information
 NOTE: In case the license file is not provided, is not valid or has expired an additional link will appear on this page. Clicking on this link a browser will open directing the user to a web page where he can order a new license or can ask for a renewal of his existing one.
 
 == Content Assist Preferences
-
+[[content-assist]]
 image::images/3_F11.png[title="Content Assist"]
 
-The following options can be set on the Content Assist page (see figure above):
+The following options can be set on the Content Assist page (see <<content-assist,figure above>>):
 
 * **Insert single proposals automatically**
 +
@@ -102,10 +103,10 @@ The default setting is: 500 milliseconds
 
 [[debug]]
 == Debug
-
+[[debug-options]]
 image::images/3_F12.png[title="Debug options and Load Balancing"]
 
-The following option groups can be set on the Debug page (see figure above):
+The following option groups can be set on the Debug page (see <<debug-options,figure above>>):
 
 * **Debug options for the Titan plugins**
 +
@@ -539,7 +540,7 @@ if this options is set default values in ASN.1 structures will be handled as omi
 NOTE: This is only useful in a few protocols. The option is UNCHECKED by default.
 
 == Typing Preferences
-
+[[typing-preferences]]
 image::images/3_F25.png[title="Typing preferences"]
 
 The Typing page (above) is used to configure the automatic behavior during typing in supported editors. The variable parameters are divided into two groups.

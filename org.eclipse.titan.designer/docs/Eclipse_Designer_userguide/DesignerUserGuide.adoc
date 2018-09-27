@@ -1,7 +1,7 @@
 ---
 Author: Jenő Balaskó
 Version: 4/198 17-CRL 113 200/6, Rev. PE1
-Date: 2018-06-19
+Date: 2018-09-25
 
 ---
 = User Guide for the TITAN Designer for the Eclipse IDE

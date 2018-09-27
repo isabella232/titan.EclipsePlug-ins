@@ -10,17 +10,18 @@ For advanced users it is advised to take also a look on the other navigators, as
 
 Projects that are handled by the TITAN Designer plug-in will be referred to as TITAN projects although in the Eclipse terminology they should be called TITAN natured projects. More information on natures can be found in the Eclipse documentation.
 
-[[creating-a-new-project]]
 == Creating a New Project
 
 Using the TITAN Designer, new TITAN projects can be created following these three steps:
 
-1. Select *File / New / TITAN Project…* from the main menu (Figure 26).(The corresponding TITAN shortcut must be enabled, see section 2.3.)
+1. Select *File / New / TITAN Project…* from the main menu (see <<new-resources-menu, the next figure>> ).(The corresponding TITAN shortcut must be enabled, see section <<2-getting_started.adoc#_enabling_titan_shortcuts,Enabling TITAN Shortcuts>> )
 +
+[[new-resources-menu]]
 image::images/4_F26.png[title="New resources menu"]
 
-2. Enter project name and location (see Figure 27).By default, the project will be created in the directory of the workbench. It is not recommended to select a path that contains special characters (like the spaces in ``Documents and Settings'').
+2. Enter project name and location (see <<first-page-of-the-new-titan-project-wizard, the next figure>> ).By default, the project will be created in the directory of the workbench. It is not recommended to select a path that contains special characters (like the spaces in ``Documents and Settings'').
 +
+[[first-page-of-the-new-titan-project-wizard]]
 image::images/4_F27.png[title="First page of the new TITAN Project wizard"]
 
 3. At this point you can either select either *Finish* or *Next*.
@@ -33,7 +34,7 @@ image::images/4_F28.png[title="Second page of the new TITAN Project wizard"]
 
 The final project is only created when you select *Finish*.
 
-Now the new TITAN project (called `project1` on the figures) and the two directories are created and are listed in the Project Explorer (Figure 29). The TITAN logo is displayed to the left of the project name (provided that the TITAN decorator is enabled, see <<2-getting_started.adoc#enabling-titan-decorations, here>>). TITAN projects will generally be decorated like this.
+Now the new TITAN project (called `project1` on the figures) and the two directories are created and are listed in the Project Explorer (Figure 29). The TITAN logo is displayed to the left of the project name (provided that the TITAN decorator is enabled, see <<2-getting_started.adoc#_enabling_titan_decorations, here>>). TITAN projects will generally be decorated like this.
 
 image::images/4_F29.png[title="Example created project"]
 
@@ -69,7 +70,6 @@ image::images/4_F32.png[title="New file created"]
 
 There are two ways to add files to a project. The first one, using wizards, is the recommended way to do it.
 
-[[using-wizards-to-add-files-to-the-project]]
 === Using Wizards to Add Files to the Project
 
 Wizards are available to create some of the TITAN modulesfootnote:[The terms "modules" and "files" are used interchangeably in this section.] (TTCN-3, ASN.1 and Configuration files). This functionality is reached by selecting *File / New* (see Figure 26 above).
@@ -100,7 +100,7 @@ NOTE: The filename will be used as the module name in the inserted module.
 
 === Manually Adding Files to the Project
 
-Manual file addition has moderate means to set file properties compared to the wizard (see <<using-wizards-to-add-files-to-the-project, here>>). On the other hand, some files can only be inserted into projects manually; namely the following way: *right click* on the project where the file should be included and select *New / File* (see Figure 30 above).
+Manual file addition has moderate means to set file properties compared to the wizard (see <<_using_wizards_to_add_files_to_the_project, here>>). On the other hand, some files can only be inserted into projects manually; namely the following way: *right click* on the project where the file should be included and select *New / File* (see Figure 30 above).
 
 On the New File window (Figure 35) there is a possibility to set:
 
@@ -118,7 +118,7 @@ image::images/4_F35.png[title="New file"]
 
 Once the file created, you should see something like shown on Figure 32. You have created a project, added a folder and a file to it.
 
-NOTE: files handled by the TITAN Designer plug-in also have the TITAN moon to the left of their names, just like projects do. Decorators used by TITAN Designer are described <<2-getting_started.adoc#enabling-titan-decorations, here>>.
+NOTE: files handled by the TITAN Designer plug-in also have the TITAN moon to the left of their names, just like projects do. Decorators used by TITAN Designer are described <<2-getting_started.adoc#_enabling_titan_decorations, here>>.
 
 == Setting Project Properties
 
@@ -508,7 +508,7 @@ A file or a folder excluded from the build process won’t be placed into the ge
 
 Excluding a folder from the build process also means that every file and subfolder contained in that folder will be excluded, too.
 
-If a file or folder is excluded from build, its name is decorated with the string `[excluded]`, provided that TITAN decoration is enabled (see <<2-getting_started.adoc#enabling-titan-decorations, here>>).
+If a file or folder is excluded from build, its name is decorated with the string `[excluded]`, provided that TITAN decoration is enabled (see <<2-getting_started.adoc#_enabling_titan_decorations, here>>).
 
 image::images/4_F59.png[title="Excluded from build"]
 
@@ -639,7 +639,7 @@ Linked resources are files and folders which are not physically copied into the 
 
 To import folders and files as "linked resources" follow the steps described below.
 
-. Create an empty project without src subfolder according to <<creating-a-new-project, this section>>. The project name should be the same as the name of the project to be imported.
+. Create an empty project without src subfolder according to <<_creating_a_new_project, this section>>. The project name should be the same as the name of the project to be imported.
 . Right click on the project name and select *Import*, as shown on Figure 63 above. On the *Import* window select *General / File System* and press *Next* as shown on below.
 +
 image::images/4_F72.png[title=""]
@@ -651,7 +651,7 @@ image::images/4_F73.png[title=""]
 image::images/4_F74.png[title=""]
 . Push Finish. The src folder appears under the project name in the Project Explorer as linked resource (the icon before the src contains a little link arrow) as shown below.
 +
-image::images/4_F75.png[title=""]
+image::images/4_F75.png[title="The result of the import"]
 
 [[exporting-projects-into-the-titan-project-descriptor-tpd-format]]
 === Exporting Projects into the TITAN Project Descriptor (tpd) Format
@@ -663,12 +663,12 @@ Exporting only project information into TITAN project Descriptor (tpd) format ca
 
 To export the project information into a tpd file, follow the steps described below:
 
-. *Right click* on the project to be exported and select *Export* (Figure 63).
-. On the *Export* window select *TITAN / TITAN project settings* and press *Next*.
+. *Right click* on the project to be exported and select *Export*.
+. On the *Export* window select *TITAN / TITAN project settings* and press *Next* (see the figure below):
 +
 image::images/4_F76.png[title="Export to TITAN project descriptor"]
 
-. Select the file where the information should be exported to, and press *Next*.
+. Select the file where the information should be exported to, and press *Next* (see the next figure).
 +
 image::images/4_F77.png[title="File selection page"]
 
@@ -792,7 +792,7 @@ General requirements
 
 Suppose that the source codes are created and hierarchically stored under the source root folder. Follow the steps for each project of our complex project.
 
-. Create an empty project in the workspace with the same name as the source project (see <<creating-a-new-project, here>>).
+. Create an empty project in the workspace with the same name as the source project (see <<_creating_a_new_project, here>>).
 . Import the src folder of the project as linked resources according to <<importing-files-as-linked-resources, this section>>.
 . Fill in project properties according to <<setting-the-local-build-properties-of-a-project, this section>>.
 . Export project properties into tpd according to <<exporting-projects-into-the-titan-project-descriptor-tpd-format, this section>>.
@@ -879,7 +879,7 @@ NOTE: These references are operating system and file system independent. This me
 The elements of the old GUI can usually be mapped to the new GUI as folders. So, for example, a testports folder should be created in the project, and the files of testports should be placed there. This provides the users with much more configurable project hierarchy, as they can organize their sources as they wish.
 
 Included projects can be generally mapped to simple or linked folders, provided that the central storage property of the folder is set (see section 4.6). Included projects are fully functioning projects that can be built separately, but are included in the actual project because they provide some useful features. Generally speaking, they are folders (projects are practically stored separately), which might be linked (as they are expected to be on a different computer in the network, if they are just local folders then they can be mapped to local directories) and they have their own `makefile` (because they can be built separately).
-+
+
 NOTE: Linked folders with their central storage property set provide the same features.
 
 Automatic conversion between the old and new format is not a part of the TITAN Designer plug-in for the time being.
