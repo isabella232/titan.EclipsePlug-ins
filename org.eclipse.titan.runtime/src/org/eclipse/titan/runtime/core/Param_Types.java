@@ -7,6 +7,8 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import com.sun.xml.internal.ws.api.server.Module;
+
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
  * 
@@ -65,43 +67,43 @@ public final class Param_Types {
 			MP_Unbound,
 			MP_Expression
 		};
-		
+
 		public enum operation_type_t { OT_ASSIGN, OT_CONCAT };
-		
+
 		//TODO: enum basic_check_bits_t
 		public enum basic_check_bits_t { // used to parametrize basic_check()
-		    BC_VALUE(0x00), // non-list values
-		    BC_LIST(0x01), // list values and templates
-		    BC_TEMPLATE(0x02);  // templates
-			
+			BC_VALUE(0x00), // non-list values
+			BC_LIST(0x01), // list values and templates
+			BC_TEMPLATE(0x02);  // templates
+
 			private final int value;
-			
+
 			private basic_check_bits_t(int value) {
 				this.value = value;
 			}
-			
+
 			public int getValue() {
 				return value;
 			}
-		  };
-		
+		};
+
 		// expression types for MP_Expression
 		public enum expression_operand_t {
 			EXPR_ERROR, // for reporting errors
-		    EXPR_ADD,
-		    EXPR_SUBTRACT,
-		    EXPR_MULTIPLY,
-		    EXPR_DIVIDE,
-		    EXPR_CONCATENATE,
-		    EXPR_NEGATE // only operand1 is used
+			EXPR_ADD,
+			EXPR_SUBTRACT,
+			EXPR_MULTIPLY,
+			EXPR_DIVIDE,
+			EXPR_CONCATENATE,
+			EXPR_NEGATE // only operand1 is used
 		};
-		
+
 		protected operation_type_t operation_type;
 		protected Module_Param_Id id;
 		protected Module_Parameter parent; // null if no parent
 		protected boolean has_ifpresent; // true if 'ifpresent' was used
 		protected Module_Param_Length_Restriction length_restriction; // NULL if no length restriction
-		
+
 		public Module_Parameter() {
 			operation_type = operation_type_t.OT_ASSIGN;
 			id = null;
@@ -110,12 +112,79 @@ public final class Param_Types {
 			length_restriction = null;
 		}
 
+		public void set_parent(Module_Parameter p_parent) {
+			parent = p_parent;
+		}
+
+		public void set_id(Module_Param_Id p_id) {
+			if (id == null) {
+				throw new TtcnError("Internal error: Module_Param::set_id()");
+			}
+			id = p_id;
+		}
+
 		/**
 		 * @return the Id or error, never returns NULL (because every module parameter should have either an explicit or an implicit id when this is called)
 		 * */
 		public Module_Param_Id get_id() {
 			return id;
 		}
+
+		public void set_ifpresent() {
+			has_ifpresent = true;
+		}
+
+		public boolean get_ifpresent() {
+			return has_ifpresent;
+		}
+
+		public void set_length_restriction(Module_Param_Length_Restriction p_length_restriction) {
+			if (length_restriction != null) {
+				throw new TtcnError("Internal error: Module_Param::set_length_restriction()");
+			}
+			length_restriction = p_length_restriction;
+		}
+
+		public Module_Param_Length_Restriction get_length_restriction() {
+			return length_restriction;
+		}
+
+		public operation_type_t get_operation_type() {
+			return operation_type;
+		}
+
+		public void set_operation_type(operation_type_t p_optype) {
+			operation_type = p_optype;
+		}
+
+		public String get_operation_type_str() {
+			switch (operation_type) {
+			case OT_ASSIGN:
+				return "assignment";
+			case OT_CONCAT:
+				return "concatenation";
+			default:
+				return "<unknown operation>";
+			}
+		}
+
+		public String get_operation_type_sign_str() {
+			switch (operation_type) {
+			case OT_ASSIGN:
+				return ":=";
+			case OT_CONCAT:
+				return "&=";
+			default:
+				return "<unknown operation>";
+			}
+		}
+
+		public void log(boolean log_id) {
+			//TODO: implement missing functions first
+		}
+
+		//TODO: implement get_param_context()
+
 	}
 
 	public static class Module_Param_Id {
