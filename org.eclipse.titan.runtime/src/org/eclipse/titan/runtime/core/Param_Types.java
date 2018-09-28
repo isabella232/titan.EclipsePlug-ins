@@ -7,7 +7,6 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import com.sun.xml.internal.ws.api.server.Module;
 
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
