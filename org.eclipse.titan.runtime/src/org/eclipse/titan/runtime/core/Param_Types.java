@@ -24,7 +24,91 @@ public final class Param_Types {
 	 * Right now this is just a placeholder so that some could start working on module parameters.
 	 */
 	public static class Module_Parameter {
+		
+		// list of all derived classes that can be instantiated
+		public enum type_t {
+			MP_NotUsed,
+			MP_Omit,
+			MP_Integer,
+			MP_Float,
+			MP_Boolean,
+			MP_Verdict,
+			MP_Objid,
+			MP_Bitstring,
+			MP_Hexstring,
+			MP_Octetstring,
+			MP_Charstring,
+			MP_Universal_Charstring,
+			MP_Enumerated,
+			MP_Ttcn_Null,
+			MP_Ttcn_mtc,
+			MP_Ttcn_system,
+			MP_Asn_Null,
+			MP_Any,
+			MP_AnyOrNone,
+			MP_IntRange,
+			MP_FloatRange,
+			MP_StringRange,
+			MP_Pattern,
+			MP_Bitstring_Template,
+			MP_Hexstring_Template,
+			MP_Octetstring_Template,
+			MP_Assignment_List,
+			MP_Value_List,
+			MP_Indexed_List,
+			MP_List_Template,
+			MP_ComplementList_Template,
+			MP_Superset_Template,
+			MP_Subset_Template,
+			MP_Permutation_Template,
+			MP_Reference,
+			MP_Unbound,
+			MP_Expression
+		};
+		
+		public enum operation_type_t { OT_ASSIGN, OT_CONCAT };
+		
+		//TODO: enum basic_check_bits_t
+		public enum basic_check_bits_t { // used to parametrize basic_check()
+		    BC_VALUE(0x00), // non-list values
+		    BC_LIST(0x01), // list values and templates
+		    BC_TEMPLATE(0x02);  // templates
+			
+			private final int value;
+			
+			private basic_check_bits_t(int value) {
+				this.value = value;
+			}
+			
+			public int getValue() {
+				return value;
+			}
+		  };
+		
+		// expression types for MP_Expression
+		public enum expression_operand_t {
+			EXPR_ERROR, // for reporting errors
+		    EXPR_ADD,
+		    EXPR_SUBTRACT,
+		    EXPR_MULTIPLY,
+		    EXPR_DIVIDE,
+		    EXPR_CONCATENATE,
+		    EXPR_NEGATE // only operand1 is used
+		};
+		
+		protected operation_type_t operation_type;
 		protected Module_Param_Id id;
+		protected Module_Parameter parent; // null if no parent
+		protected boolean has_ifpresent; // true if 'ifpresent' was used
+		protected Module_Param_Length_Restriction length_restriction; // NULL if no length restriction
+		
+		public Module_Parameter() {
+			operation_type = operation_type_t.OT_ASSIGN;
+			id = null;
+			parent = null;
+			has_ifpresent = false;
+			length_restriction = null;
+		}
 
 		/**
 		 * @return the Id or error, never returns NULL (because every module parameter should have either an explicit or an implicit id when this is called)
