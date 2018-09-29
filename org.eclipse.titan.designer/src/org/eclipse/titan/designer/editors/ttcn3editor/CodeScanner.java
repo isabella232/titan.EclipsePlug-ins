@@ -63,7 +63,7 @@ public final class CodeScanner extends RuleBasedScanner {
 		"int2char", "int2float", "int2hex", "int2oct", "int2str", "int2unichar", "isbound", "ischosen", "ispresent", "isvalue",
 		"lengthof", "log2str", "oct2bit", "oct2char", "oct2hex", "oct2int", "oct2str", "regexp", "replace", "rnd", "sizeof",
 		"str2bit", "str2float", "str2hex", "str2int", "str2oct", "substr", "unichar2int", "unichar2char", "enum2int",
-		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64" };
+		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64", "testcasename" };
 
 	public static final String[] BOOLEAN_CONSTANTS = new String[] { "true", "false" };
 
