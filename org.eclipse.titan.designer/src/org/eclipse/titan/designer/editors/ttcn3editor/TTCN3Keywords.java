@@ -40,7 +40,7 @@ public final class TTCN3Keywords {
 		"isvalue", "lengthof", "oct2bit", "oct2char", "oct2hex", "oct2int", "oct2str", "regexp", "replace", "rnd", "sizeof",
 		"str2bit", "str2float", "str2hex", "str2int", "str2oct", "substr", "unichar2int", "encvalue", "decvalue", "true", "false",
 		"none", "pass", "inconc", "fail", "error", "null", "NULL", "omit", "friend", "public", "private",
-		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64" };
+		"get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64", "testcasename" };
 
 	public static final String[] FORMAL_PARAMETER_SCOPE = new String[] { "in", "inout", "out", "template" };
 
@@ -65,7 +65,7 @@ public final class TTCN3Keywords {
 		"bit2oct", "bit2str", "char2int", "char2oct", "float2int", "float2str", "hex2bit", "hex2int", "hex2oct", "hex2str",
 		"int2bit", "int2char", "int2float", "int2hex", "int2oct", "int2str", "int2unichar", "log2str", "oct2bit", "oct2char",
 		"oct2hex", "oct2int", "oct2str", "str2bit", "str2float", "str2hex", "str2int", "str2oct", "unichar2int", "encvalue",
-		"decvalue", "get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64" };
+		"decvalue", "get_stringencoding", "oct2unichar", "remove_bom", "unichar2oct", "encode_base64", "decode_base64", "testcasename" };
 
 	public static final String[] MACROS = new String[] { "%moduleId", "%definitionId", "%testcaseId", "%fileName", "%lineNumber", "__MODULE__",
 		"__FILE__", "__BFILE__", "__LINE__", "__SCOPE__", "__TESTCASE__" };
