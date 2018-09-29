@@ -296,7 +296,9 @@ public abstract class Expression_Value extends Value {
 		/** Port "." checkstate "(" SingleExpression ")" */
 		CHECKSTATE_OPERATION,
 		/** port.getref() */
-		GETPORTREFERENCE_OPERATION
+		GETPORTREFERENCE_OPERATION,
+		/** now */
+		NOW_OPERATION
 		// FIXME missing: BSON2JSON, CBOR2JSON, JSON2BSON, JSON2CBOR, OPTYPE_GET_PORT_REF
 	}
 

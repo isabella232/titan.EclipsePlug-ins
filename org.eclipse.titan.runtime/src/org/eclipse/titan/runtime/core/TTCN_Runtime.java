@@ -83,6 +83,13 @@ public final class TTCN_Runtime {
 	private static ThreadLocal<String> testcaseModuleName = new ThreadLocal<String>();
 	private static ThreadLocal<String> testcaseDefinitionName = new ThreadLocal<String>();
 
+	private static ThreadLocal<Double> startTime = new ThreadLocal<Double>() {
+		@Override
+		protected Double initialValue() {
+			return Double.valueOf(0.0);
+		}
+	};
+
 	private static ThreadLocal<VerdictTypeEnum> localVerdict = new ThreadLocal<TitanVerdictType.VerdictTypeEnum>() {
 		@Override
 		protected VerdictTypeEnum initialValue() {
@@ -527,6 +534,16 @@ public final class TTCN_Runtime {
 		return new TitanCharString(testcaseDefinitionName.get());
 	}
 
+	public static TitanFloat now() {
+		if (startTime.get() == 0.0) {
+			throw new TtcnError("Accessing the test system time while no test case is running.");
+		}
+
+		final double current_Time = System.currentTimeMillis() / 1000.0;
+
+		return new TitanFloat(current_Time - startTime.get());
+	}
+
 	public static int hc_main(final String local_addr, final String MC_host, final int MC_port) {
 		int returnValue = 0;
 		TTCN_Runtime.set_state(executorStateEnum.HC_INITIAL);
@@ -710,7 +727,7 @@ public final class TTCN_Runtime {
 			throw new TtcnError("Internal error: Executing create operation in invalid state.");
 		}
 
-		TTCN_Communication.send_create_req(createdComponentTypeModule, createdComponentTypeName, createdComponentName, createdComponentLocation, createdComponentAlive);
+		TTCN_Communication.send_create_req(createdComponentTypeModule, createdComponentTypeName, createdComponentName, createdComponentLocation, createdComponentAlive, startTime.get());
 		if (is_mtc()) {
 			// updating the component status flags
 			// 'any component.done' and 'any component.killed' might be successful
@@ -2124,6 +2141,7 @@ public final class TTCN_Runtime {
 		all_component_done_status = TitanAlt_Status.ALT_YES;
 		any_component_killed_status = TitanAlt_Status.ALT_NO;
 		all_component_killed_status = TitanAlt_Status.ALT_YES;
+		startTime.set(System.currentTimeMillis() / 1000.0);
 	}
 
 	//originally TTCN_Runtime::end_testcase
@@ -2179,6 +2197,7 @@ public final class TTCN_Runtime {
 		TTCN_Default.restore_control_defaults();
 		TitanTimer.restore_control_timers();
 		TTCN_EncDec_ErrorContext.resetAllContexts();
+		startTime.set(0.0);
 
 		if (executorState.get() == executorStateEnum.MTC_PAUSED) {
 			TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.user__paused__waiting__to__resume);
@@ -2372,7 +2391,9 @@ public final class TTCN_Runtime {
 		//FIXME implement
 	}
 
-	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name, final String system_type_module, final String system_type_name, final String par_component_name, final boolean par_is_alive, final String current_testcase_module, final String current_testcase_name) {
+	public static void process_create_ptc(final int component_reference, final String component_type_module, final String component_type_name,
+			final String system_type_module, final String system_type_name, final String par_component_name, final boolean par_is_alive,
+			final String current_testcase_module, final String current_testcase_name, final double testcase_start_time) {
 		switch (executorState.get()) {
 		case HC_ACTIVE:
 		case HC_OVERLOADED:
@@ -2399,6 +2420,7 @@ public final class TTCN_Runtime {
 				set_component_name(par_component_name);
 				TTCN_Runtime.is_alive.set(par_is_alive);
 				set_testcase_name(current_testcase_module, current_testcase_name);
+				startTime.set(testcase_start_time);
 				executorState.set(executorStateEnum.PTC_INITIAL);
 
 				//What now???

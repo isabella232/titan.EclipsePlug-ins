@@ -7695,6 +7695,7 @@ pr_OpCall returns[Value value]
 |	v6 = pr_ReferOp				{ $value = $v6.value; }
 |	v7 = pr_CheckStateOp		{ $value = $v7.value; }
 |	v8 = pr_GetRefOp		{ $value = $v8.value; }
+|	v9 = pr_nowOp			{ $value = $v9.value; }
 );
 
 pr_CheckStateOp returns[Value value]
@@ -7746,6 +7747,18 @@ pr_GetRefOp returns[Value value]:
 
 pr_GetrefKeyword:
 	GETREF
+;
+
+pr_nowOp returns[Value value]:
+(	pr_NowKeyword
+)
+{
+	$value = new NowExpression();
+	$value.setLocation(getLocation( $start, getStopToken()));
+};
+
+pr_NowKeyword:
+	NOW
 ;
 
 pr_PredefinedOps returns[Value value]

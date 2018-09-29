@@ -72,8 +72,9 @@ import Ttcn3BaseLexer;
   MODULE: 'module';                 MODULEPAR: 'modulepar';           MTC: 'mtc';
 
   NOBLOCK: 'noblock';               NONE: 'none';
-  NOT: 'not';                       NOT4B: 'not4b';                   NOWAIT: 'nowait';
-  NOT_A_NUMBER: 'not_a_number';     NULL1: 'null';                    NULL2: 'NULL';
+  NOT: 'not';                       NOT4B: 'not4b';                   NOW: 'now';
+  NOWAIT: 'nowait';                 NOT_A_NUMBER: 'not_a_number';     NULL1: 'null';
+  NULL2: 'NULL';
 
   OBJECTIDENTIFIERKEYWORD: 'objid'; OCTETSTRING: 'octetstring';       OF: 'of';
   OMIT: 'omit';                     ON: 'on';                         OPTIONAL: 'optional';

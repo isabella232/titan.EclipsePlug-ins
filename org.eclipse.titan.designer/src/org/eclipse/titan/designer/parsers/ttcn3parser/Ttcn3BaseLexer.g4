@@ -193,8 +193,9 @@ tokens {
   MODULE,                     MODULEPAR,                  MTC,
 
   NOBLOCK,                    NONE,
-  NOT,                        NOT4B,                      NOWAIT,
-  NOT_A_NUMBER,               NULL1,                      NULL2,
+  NOT,                        NOT4B,                      NOW,
+  NOWAIT,                     NOT_A_NUMBER,               NULL1,
+  NULL2,
 
   OBJECTIDENTIFIERKEYWORD,    OCTETSTRING,                OF,
   OMIT,                       ON,                         OPTIONAL,
