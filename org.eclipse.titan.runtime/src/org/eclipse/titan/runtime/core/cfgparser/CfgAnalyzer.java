@@ -20,6 +20,7 @@ import org.antlr.v4.runtime.CharStream;
 import org.antlr.v4.runtime.CommonTokenFactory;
 import org.antlr.v4.runtime.CommonTokenStream;
 import org.antlr.v4.runtime.UnbufferedCharStream;
+import org.eclipse.titan.runtime.core.TtcnError;
 
 /**
  * Syntactic analyzer for CFG files
@@ -71,7 +72,7 @@ public final class CfgAnalyzer {
 			} catch (FileNotFoundException e) {
 				//TODO
 				//ErrorReporter.logExceptionStackTrace("Could not get the contents of `" + fileName + "'", e);
-				return;
+				throw new TtcnError(e);
 			}
 		} else {
 			//TODO
