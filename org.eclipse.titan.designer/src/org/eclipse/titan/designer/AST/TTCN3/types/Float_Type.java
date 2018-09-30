@@ -381,7 +381,7 @@ public final class Float_Type extends ASN1Type {
 
 	@Override
 	/** {@inheritDoc} */
-	public void generateCode( final JavaGenData aData, final StringBuilder source  ) {
+	public void generateCode( final JavaGenData aData, final StringBuilder source) {
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
