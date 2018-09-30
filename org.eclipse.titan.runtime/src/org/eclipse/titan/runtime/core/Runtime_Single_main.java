@@ -87,6 +87,8 @@ public final class Runtime_Single_main {
 					module.control();
 				}
 			}
+		} catch (TtcnError error) {
+			// intentionally empty
 		} catch (Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
 			final StringWriter error = new StringWriter();
