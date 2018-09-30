@@ -459,7 +459,7 @@ public final class Indexed_Template_List extends TTCN3Template {
 		if (indexedTemplates.getNofTemplates() != 0) {
 			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for indexed template list `" + getFullName() + "''");
 
-			return new StringBuilder("FATAL_ERROR encountered");
+			return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 		}
 
 		aData.addBuiltinTypeImport("TitanNull_Type");

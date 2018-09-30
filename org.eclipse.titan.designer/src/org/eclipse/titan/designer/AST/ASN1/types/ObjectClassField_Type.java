@@ -342,7 +342,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == referred_type || referred_type == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		return referred_type.getGenNameValue(aData, source, scope);
@@ -353,7 +353,7 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == referred_type || referred_type == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous object class field type `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		return referred_type.getGenNameTemplate(aData, source, scope);

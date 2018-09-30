@@ -1088,7 +1088,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return true;
 		}
 
@@ -1301,7 +1301,7 @@ public final class Array_Type extends Type implements IReferenceableElement {
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 

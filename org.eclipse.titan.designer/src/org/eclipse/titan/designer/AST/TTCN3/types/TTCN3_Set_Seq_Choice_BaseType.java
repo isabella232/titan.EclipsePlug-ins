@@ -1502,7 +1502,7 @@ public abstract class TTCN3_Set_Seq_Choice_BaseType extends Type implements ITyp
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 

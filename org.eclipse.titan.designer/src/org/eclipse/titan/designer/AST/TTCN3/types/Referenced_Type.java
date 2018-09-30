@@ -732,7 +732,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		final Module refdModule = refdLast.getMyScope().getModuleScope();
@@ -747,7 +747,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		final Module refdModule = refdLast.getMyScope().getModuleScope();
@@ -763,7 +763,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		if (this == refd || refd == null || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
 
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		if (rawAttribute != null) {
@@ -830,7 +830,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			final int subReferenceIndex, final String globalId, final String externalId, final boolean isTemplate, final Operation_type optype, final String field) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 
@@ -842,7 +842,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	public boolean isPresentAnyvalueEmbeddedField(final ExpressionStruct expression, final List<ISubReference> subreferences, final int beginIndex) {
 		if (this == refdLast || refdLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return false;
 		}
 

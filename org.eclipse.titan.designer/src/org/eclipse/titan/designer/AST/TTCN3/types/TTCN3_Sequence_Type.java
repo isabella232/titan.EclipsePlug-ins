@@ -957,7 +957,7 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 		final ISubReference subReference = subreferences.get(beginIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return true;
 		}
 

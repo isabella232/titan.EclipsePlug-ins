@@ -132,7 +132,7 @@ public abstract class Setting extends ASTNode implements ISetting {
 	public String getGenNameOwn(final Scope scope) {
 		if(myScope == null || scope == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		final StringBuilder returnValue = new StringBuilder();

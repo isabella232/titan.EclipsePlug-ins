@@ -327,7 +327,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == referencedLast || referencedLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		return referencedLast.getGenNameValue(aData, source, scope);
@@ -338,7 +338,7 @@ public final class Selection_Type extends ASN1Type implements IReferencingType {
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
 		if (this == referencedLast || referencedLast == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		return referencedLast.getGenNameTemplate(aData, source, scope);

@@ -437,6 +437,6 @@ public final class Def_ModulePar extends Definition {
 	/** {@inheritDoc} */
 	public void generateCodeString(final JavaGenData aData, final StringBuilder source) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous definition `" + getFullName() + "''");
-		aData.getSrc().append("FATAL_ERROR encountered");
+		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 }

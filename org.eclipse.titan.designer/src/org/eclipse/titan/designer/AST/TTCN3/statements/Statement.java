@@ -558,7 +558,7 @@ public abstract class Statement extends ASTNode implements ILocateableNode, IApp
 	 */
 	public void generateCodeExpression( final JavaGenData aData, final ExpressionStruct expression, final String callTimer) {
 		ErrorReporter.INTERNAL_ERROR("Code generator reached invalid guard statement `" + getFullName() + "''");
-		expression.expression.append("FATAL_ERROR encountered");
+		expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 
 	/**

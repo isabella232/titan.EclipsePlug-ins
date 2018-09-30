@@ -602,7 +602,7 @@ public final class Named_Template_List extends TTCN3Template {
 		if (namedTemplates.getNofTemplates() != 0) {
 			ErrorReporter.INTERNAL_ERROR("INTERNAL ERROR: Can not generate single expression for named template list `" + getFullName() + "''");
 
-			return new StringBuilder("FATAL_ERROR encountered");
+			return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 		}
 
 		aData.addBuiltinTypeImport("TitanNull_Type");

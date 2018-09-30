@@ -3003,7 +3003,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	public String getGenNameRawDescriptor(final JavaGenData aData, final StringBuilder source) {
 		ErrorReporter.INTERNAL_ERROR("Trying to generate RAW for type `" + getFullName() + "'' that has no raw attributes");
 
-		return "FATAL_ERROR encountered";
+		return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 	}
 
 	/**
@@ -3187,7 +3187,7 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof ArraySubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 

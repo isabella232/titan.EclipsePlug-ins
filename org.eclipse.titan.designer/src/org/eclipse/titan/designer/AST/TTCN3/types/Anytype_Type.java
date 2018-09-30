@@ -868,7 +868,7 @@ public final class Anytype_Type extends Type {
 		final ISubReference subReference = subreferences.get(subReferenceIndex);
 		if (!(subReference instanceof FieldSubReference)) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-			expression.expression.append("FATAL_ERROR encountered");
+			expression.expression.append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 			return;
 		}
 

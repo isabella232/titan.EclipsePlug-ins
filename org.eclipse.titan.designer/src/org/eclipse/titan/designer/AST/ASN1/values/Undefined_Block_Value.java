@@ -498,6 +498,6 @@ public final class Undefined_Block_Value extends Value {
 		}
 
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous type reference `" + getFullName() + "''");
-		return new StringBuilder("FATAL_ERROR encountered");
+		return new StringBuilder("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
 }

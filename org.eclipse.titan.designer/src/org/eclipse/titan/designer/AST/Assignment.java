@@ -339,7 +339,7 @@ public abstract class Assignment extends ASTNode implements IOutlineElement, ILo
 	public String getGenNameFromScope(final JavaGenData aData, final StringBuilder source, final Scope scope, final String prefix) {
 		if(myScope == null || scope == null) {
 			ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous setting `" + getFullName() + "''");
-			return "FATAL_ERROR encountered";
+			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
 		final StringBuilder returnValue = new StringBuilder();
