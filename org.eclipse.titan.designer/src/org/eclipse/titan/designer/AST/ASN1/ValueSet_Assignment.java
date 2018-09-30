@@ -10,10 +10,12 @@ package org.eclipse.titan.designer.AST.ASN1;
 import java.util.List;
 
 import org.eclipse.titan.designer.AST.ASTVisitor;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.ISubReference;
 import org.eclipse.titan.designer.AST.ISubReference.Subreference_type;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
@@ -21,6 +23,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
+import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
 
 /**
  * @author Kristof Szabados
@@ -75,6 +78,30 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 		if (null != type) {
 			type.setMyScope(scope);
 		}
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void check(final CompilationTimeStamp timestamp, final IReferenceChain refChain) {
+		if (null != lastTimeChecked && !lastTimeChecked.isLess(timestamp)) {
+			return;
+		}
+
+		lastTimeChecked = timestamp;
+
+		if (null != assPard) {
+			assPard.check(timestamp);
+			// lastTimeChecked = timestamp;
+			return;
+		}
+
+		//FIXME implement
+		type.setGenName(getGenName());
+		type.check(timestamp);
+
+		final IReferenceChain chain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+		type.checkRecursions(timestamp, chain);
+		chain.release();
 	}
 
 	@Override
@@ -153,6 +180,4 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 		type.generateCode(aData, source);
 		sb.append(source);
 	}
-
-	
 }
