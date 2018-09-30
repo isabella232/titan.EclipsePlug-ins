@@ -17,6 +17,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -137,4 +138,21 @@ public final class ValueSet_Assignment extends ASN1Assignment {
 		}
 		return true;
 	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(JavaGenData aData, boolean cleanUp) {
+		if (type == null) {
+			return;
+		}
+
+		final String genName = getGenName();
+		final StringBuilder sb = aData.getCodeForType(genName);//aData.getSrc();
+		final StringBuilder source = new StringBuilder();
+
+		type.generateCode(aData, source);
+		sb.append(source);
+	}
+
+	
 }
