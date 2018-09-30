@@ -47,6 +47,12 @@ public class JavaGenData {
 	/** the contents of start_function if needed */
 	private StringBuilder startPTCFunction;
 
+	/** the contents of the execute_testcase function */
+	private StringBuilder executeTestcase;
+
+	/** the contents of the execute_all_testcases function */
+	private StringBuilder executeAllTestcases;
+	
 	/** the contents of init_comp_type */
 	private StringBuilder initComp;
 
@@ -100,6 +106,8 @@ public class JavaGenData {
 		postInit = new StringBuilder();
 		setModuleParameters = new StringBuilder();
 		startPTCFunction = new StringBuilder();
+		executeTestcase = new StringBuilder();
+		executeAllTestcases = new StringBuilder();
 		initComp = new StringBuilder();
 		initSystemPort = new StringBuilder();
 
@@ -222,6 +230,20 @@ public class JavaGenData {
 	 */
 	public StringBuilder getStartPTCFunction() {
 		return startPTCFunction;
+	}
+
+	/**
+	 * @return the string where new execute_testcase code is written
+	 */
+	public StringBuilder getExecuteTestcase() {
+		return executeTestcase;
+	}
+
+	/**
+	 * @return the string where new execute_all_testcases code is written
+	 */
+	public StringBuilder getExecuteAllTestcase() {
+		return executeAllTestcases;
 	}
 
 	/**

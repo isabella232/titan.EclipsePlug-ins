@@ -72,10 +72,10 @@ public class TTCN_Module {
 	}
 
 	public void execute_testcase(final String tescase_name) {
-		throw new TtcnError("execute_testcase is not yet supported!");
+		throw new TtcnError(MessageFormat.format("Test case {0} does not exist in module {1}.", tescase_name, name));
 	}
 
 	public void execute_all_testcases() {
-		throw new TtcnError("execute_all_testcases is not yet supported!");
+		throw new TtcnError(MessageFormat.format("Module {0} does not contain test cases.", name));
 	}
 }

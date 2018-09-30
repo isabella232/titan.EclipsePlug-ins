@@ -404,9 +404,25 @@ public class ProjectSourceCompiler {
 			aSb.append("}\n\n");
 		}
 
-		if (aData.getInitComp().length() > 0) {
-			aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps)\n");
+		if (aData.getExecuteTestcase().length() > 0) {
+			aSb.append("@Override\n");
+			aSb.append("public void execute_testcase(final String tescase_name) {\n");
+			aSb.append(aData.getExecuteTestcase());
 			aSb.append("{\n");
+			aSb.append("throw new TtcnError(MessageFormat.format(\"Test case {0} does not exist in module {1}.\", tescase_name, name));\n");
+			aSb.append("}\n");
+			aSb.append("}\n\n");
+		}
+
+		if (aData.getExecuteAllTestcase().length() > 0) {
+			aSb.append("@Override\n");
+			aSb.append("public void execute_all_testcases() {\n");
+			aSb.append(aData.getExecuteAllTestcase());
+			aSb.append("}\n\n");
+		}
+
+		if (aData.getInitComp().length() > 0) {
+			aSb.append("public boolean init_comp_type(final String component_type, final boolean init_base_comps) {\n");
 			aSb.append(aData.getInitComp());
 			aSb.append("{\n");
 			aSb.append("return false;\n");

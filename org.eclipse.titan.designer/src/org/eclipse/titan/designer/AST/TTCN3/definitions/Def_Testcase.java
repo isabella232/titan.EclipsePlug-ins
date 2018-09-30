@@ -608,5 +608,19 @@ public final class Def_Testcase extends Definition implements IParameterisedAssi
 		source.append("return new TitanVerdictType(TTCN_Runtime.end_testcase());\n");
 		source.append( "}\n" );
 		sb.append(source);
+
+		if (formalParList == null || formalParList.getNofParameters() == 0) {
+			final StringBuilder executeAllTestcases = aData.getExecuteAllTestcase();
+			executeAllTestcases.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, myScope, "testcase_")));
+		}
+
+		final StringBuilder executeTestcase = aData.getExecuteTestcase();
+		executeTestcase.append("if(\"").append(identifier.getDisplayName()).append("\".equals(tescase_name)) {\n");
+		if (formalParList == null || formalParList.getNofParameters() == 0) {
+			executeTestcase.append(MessageFormat.format("{0}(false, new TitanFloat( new Ttcn3Float( 0.0 ) ));\n", getGenNameFromScope(aData, source, myScope, "testcase_")));
+		} else {
+			executeTestcase.append("throw new TtcnError(MessageFormat.format(\"Test case {0} in module {1} cannot be executed individually (without control part) because it has parameters.\", tescase_name, name));\n");
+		}
+		executeTestcase.append("} else ");
 	}
 }
