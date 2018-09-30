@@ -8,6 +8,8 @@
 package org.eclipse.titan.runtime.core;
 
 import java.io.File;
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.text.MessageFormat;
 import java.util.List;
 
@@ -87,6 +89,13 @@ public final class Runtime_Single_main {
 			}
 		} catch (Throwable e) {
 			TTCN_Logger.log_str(Severity.ERROR_UNQUALIFIED, "Fatal error. Aborting execution.");
+			final StringWriter error = new StringWriter();
+			e.printStackTrace(new PrintWriter(error));
+	
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Dynamic test case error: ");
+			TTCN_Logger.log_event_str(error.toString());
+			TTCN_Logger.end_event();
 			returnValue = -1;
 		}
 		TTCN_Runtime.log_verdict_statistics();
