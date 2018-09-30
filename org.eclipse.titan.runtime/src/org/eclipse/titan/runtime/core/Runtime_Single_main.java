@@ -51,7 +51,7 @@ public final class Runtime_Single_main {
 			//TODO: getting cfg file name will be more complicated
 			final File config_file = args.length > 0 ?  new File( args[ 0 ] ) : null;
 			if (config_file != null) {
-				System.err.println(MessageFormat.format( "Using configuration file: `{0}'", config_file ) );
+				System.err.println(MessageFormat.format( "Using configuration file: `{0}''", config_file ) );
 				TTCN_Logger.log_configdata(TitanLoggerApi.ExecutorConfigdata_reason.enum_type.using__config__file, config_file.getName());
 				final CfgAnalyzer cfgAnalyzer = new CfgAnalyzer();
 				cfgAnalyzer.directParse(config_file, config_file.getName(), null);
