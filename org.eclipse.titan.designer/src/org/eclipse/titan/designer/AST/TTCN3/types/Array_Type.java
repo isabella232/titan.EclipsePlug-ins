@@ -1102,7 +1102,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameValue(final JavaGenData aData, final StringBuilder source , final Scope scope) {
-		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+		if (inTypeDefinition) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = getGenNameOwn(scope);
+		} else if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
 			lastBuildTimestamp = aData.getBuildTimstamp();
 			lastGenName = aData.getTemporaryVariableName();
 		}
@@ -1113,7 +1116,10 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public String getGenNameTemplate(final JavaGenData aData, final StringBuilder source, final Scope scope) {
-		if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+		if (inTypeDefinition) {
+			lastBuildTimestamp = aData.getBuildTimstamp();
+			lastGenName = getGenNameOwn(scope);
+		} else if(lastBuildTimestamp == null || lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
 			lastBuildTimestamp = aData.getBuildTimstamp();
 			lastGenName = aData.getTemporaryVariableName();
 		}
