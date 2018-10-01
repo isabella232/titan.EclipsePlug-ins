@@ -68,7 +68,7 @@ public class TTCN_Module {
 	}
 
 	public void control() {
-		//FIXME report error for module not having a control part ... once configuration files will be supported.
+		throw new TtcnError(MessageFormat.format("Module {0} does not have control part.", name));
 	}
 
 	public void execute_testcase(final String tescase_name) {
