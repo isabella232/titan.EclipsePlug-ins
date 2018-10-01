@@ -1045,8 +1045,10 @@ LOGGERPLUGINS: 'LoggerPlugins' | 'Loggerplugins' | 'loggerPlugins' | 'loggerplug
 APPENDFILE: 'appendfile' | 'Appendfile' | 'appendFile' | 'AppendFile';
 CONSOLEMASK: 'consolemask' | 'Consolemask' | 'consoleMask' | 'ConsoleMask';
 DISKFULLACTION: 'diskfullaction' | 'diskfullAction' | 'diskFullaction' | 'diskFullAction' | 'Diskfullaction' | 'DiskfullAction' | 'DiskFullaction' | 'DiskFullAction';
-DISKFULLACTIONVALUE: 'error' | 'Error' | 'stop' | 'Stop' | 'delete' | 'Delete';
-DISKFULLACTIONVALUERETRY: 'retry' | 'Retry';
+DISKFULLACTIONVALUE_ERROR: 'error' | 'Error';
+DISKFULLACTIONVALUE_STOP: 'stop' | 'Stop';
+DISKFULLACTIONVALUE_DELETE: 'delete' | 'Delete';
+DISKFULLACTIONVALUE_RETRY: 'retry' | 'Retry';
 FILEMASK: 'filemask' | 'Filemask' | 'fileMask' | 'FileMask';
 LOGFILENAME: 'filename' | 'Filename' | 'fileName' | 'FileName' | 'logfile' | 'Logfile' |'logFile' | 'LogFile';
 EMERGENCYLOGGING: 'EmergencyLogging' | 'Emergencylogging' | 'emergencylogging' | 'emergencyLogging';
@@ -1054,7 +1056,8 @@ EMERGENCYLOGGINGBEHAVIOUR: 'EmergencyLoggingBehaviour' | 'EmergencyLoggingbehavi
 | 'emergencyloggingbehaviour' | 'emergencyLogginglbehaviour' | 'EmergencyloggingBehaviour';
 EMERGENCYLOGGINGMASK: 'EmergencyLoggingMask' | 'EmergencyLoggingmask' | 'Emergencyloggingmask' | 'emergencyLoggingMask' | 'emergencyloggingMask'
 | 'emergencyloggingmask' | 'emergencyLoggingmask' | 'EmergencyloggingMask';
-BUFFERALLORBUFFERMASKED: 'BufferAll' | 'Bufferall' | 'bufferAll' | 'bufferall' | 'BufferMasked' | 'Buffermasked' | 'bufferMasked' |'buffermasked';
+BUFFERALL: 'BufferAll' | 'Bufferall' | 'bufferAll' | 'bufferall';
+BUFFERMASKED: 'BufferMasked' | 'Buffermasked' | 'bufferMasked' |'buffermasked';
 LOGENTITYNAME: 'logentityname' | 'Logentityname' | 'logEntityname' | 'LogEntityname' | 'logentityName' | 'LogentityName' | 'logEntityName' | 'LogEntityName';
 LOGEVENTTYPES: 'logeventtypes' | 'Logeventtypes' | 'logEventtypes' | 'LogEventtypes' | 'logeventTypes' | 'LogEventTypes' | 'logEventTypes' | 'LogeventTypes';
 LOGFILENUMBER: 'logfilenumber' | 'logfileNumber' | 'logFilenumber' | 'logFileNumber' | 'Logfilenumber' | 'LogfileNumber' | 'LogFilenumber' | 'LogFileNumber';
@@ -1062,7 +1065,9 @@ LOGFILESIZE: 'logfilesize' | 'logfileSize' | 'logFilesize' | 'logFileSize' | 'Lo
 MATCHINGHINTS: 'matchinghints' | 'Matchinghints' | 'matchingHints' | 'MatchingHints';
 SOURCEINFOFORMAT: 'logsourceinfo' | 'Logsourceinfo' | 'logSourceinfo' | 'LogSourceinfo' | 'logsourceInfo' | 'LogsourceInfo' | 'logSourceInfo' | 'LogSourceInfo'
 | 'sourceinfoformat' | 'Sourceinfoformat' | 'sourceInfoformat' | 'SourceInfoformat' | 'sourceinfoFormat' | 'SourceinfoFormat' | 'sourceInfoFormat' | 'SourceInfoFormat';
-SOURCEINFOVALUE: 'none' | 'None' | 'NONE' | 'single' | 'Single' | 'SINGLE' | 'stack' | 'Stack' | 'STACK';
+SOURCEINFOVALUE_NONE: 'none' | 'None' | 'NONE';
+SOURCEINFOVALUE_SINGLE: 'single' | 'Single' | 'SINGLE';
+SOURCEINFOVALUE_STACK: 'stack' | 'Stack' | 'STACK';
 TIMESTAMPFORMAT: 'timestampformat' | 'Timestampformat' | 'timeStampformat' | 'TimeStampformat' | 'timestampFormat' | 'TimestampFormat' | 'timeStampFormat' | 'TimeStampFormat';
 CONSOLETIMESTAMPFORMAT: 'consoletimestampformat' | 'Consoletimestampformat' | 'ConsoleTimestampformat' | 'ConsoleTimeStampformat' |
 'ConsoleTimeStampFormat' | 'consoleTimestampformat' | 'consoleTimeStampformat' | 'consoleTimeStampFormat' | 'consoletimeStampformat' | 'consoletimestampFormat';

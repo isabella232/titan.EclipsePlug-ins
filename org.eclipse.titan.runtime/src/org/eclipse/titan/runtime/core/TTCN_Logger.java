@@ -50,7 +50,7 @@ public final class TTCN_Logger {
 			default_console_mask.bits[Severity.STATISTICS_UNQUALIFIED.ordinal()] = true;
 			default_console_mask.bits[Severity.STATISTICS_VERDICT.ordinal()] = true;
 			default_console_mask.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
-			//FIXME user unqualified should only be part of the default consol log, till we can configure it from config files
+			//FIXME user unqualified should only be part of the default console log, till we can configure it from config files
 			default_console_mask.bits[Severity.USER_UNQUALIFIED.ordinal()] = true;
 
 			log_all.bits[Severity.ACTION_UNQUALIFIED.ordinal()] = true;
@@ -104,6 +104,7 @@ public final class TTCN_Logger {
 			log_all.bits[Severity.VERDICTOP_SETVERDICT.ordinal()] = true;
 			log_all.bits[Severity.WARNING_UNQUALIFIED.ordinal()] = true;
 
+			// the for loop starts intentionally from 1, because 0 means NOTHING_TO_LOG
 			for (int i = 1; i < Severity.NUMBER_OF_LOGSEVERITIES.ordinal(); i++) {
 				log_everything.bits[i] = true;
 			}
@@ -115,6 +116,138 @@ public final class TTCN_Logger {
 
 		public Logging_Bits(final Logging_Bits other) {
 			System.arraycopy(other.bits, 0, bits, 0, other.bits.length);
+		}
+
+		/**
+		 * Adds one logging bit to the bitmask
+		 * @param loggingBit bit to add
+		 */
+		private void addBit(final Severity loggingBit) {
+			bits[loggingBit.ordinal()] = true;
+		}
+
+		/**
+		 * Adds a bitmask to the bitmask
+		 * @param loggingBit bitmask to add
+		 */
+		public void addBitmask(final Logging_Bits loggingBitmask) {
+			for (int i = 0; i < Severity.NUMBER_OF_LOGSEVERITIES.ordinal(); i++) {
+				if (loggingBitmask.bits[i]) {
+					bits[i] = true;
+				}
+			}
+		}
+
+		/**
+		 * Adds a logging bit or a logging category to the bitmap
+		 * @param loggingBit a logging bit to add. If it is a category, the all the bits in that category will be added
+		 */
+		public void add(final Severity loggingBit) {
+			addBit(loggingBit);
+			switch(loggingBit) {
+			case ACTION_UNQUALIFIED:
+				addBit(Severity.ACTION_UNQUALIFIED);
+				break;
+			case DEFAULTOP_UNQUALIFIED:
+				addBit(Severity.DEFAULTOP_ACTIVATE);
+				addBit(Severity.DEFAULTOP_DEACTIVATE);
+				addBit(Severity.DEFAULTOP_EXIT);
+				addBit(Severity.DEFAULTOP_UNQUALIFIED);
+				break;
+			case ERROR_UNQUALIFIED:
+				addBit(Severity.ERROR_UNQUALIFIED);
+				break;
+			case EXECUTOR_UNQUALIFIED:
+				addBit(Severity.EXECUTOR_RUNTIME);
+				addBit(Severity.EXECUTOR_CONFIGDATA);
+				addBit(Severity.EXECUTOR_EXTCOMMAND);
+				addBit(Severity.EXECUTOR_COMPONENT);
+				addBit(Severity.EXECUTOR_LOGOPTIONS);
+				addBit(Severity.EXECUTOR_UNQUALIFIED);
+				break;
+			case FUNCTION_UNQUALIFIED:
+				addBit(Severity.FUNCTION_RND);
+				addBit(Severity.FUNCTION_UNQUALIFIED);
+				break;
+			case PARALLEL_UNQUALIFIED:
+				addBit(Severity.PARALLEL_PTC);
+				addBit(Severity.PARALLEL_PORTCONN);
+				addBit(Severity.PARALLEL_PORTMAP);
+				addBit(Severity.PARALLEL_UNQUALIFIED);
+				break;
+			case PORTEVENT_UNQUALIFIED:
+				addBit(Severity.PORTEVENT_PQUEUE);
+				addBit(Severity.PORTEVENT_MQUEUE);
+				addBit(Severity.PORTEVENT_STATE);
+				addBit(Severity.PORTEVENT_PMIN);
+				addBit(Severity.PORTEVENT_PMOUT);
+				addBit(Severity.PORTEVENT_PCIN);
+				addBit(Severity.PORTEVENT_PCOUT);
+				addBit(Severity.PORTEVENT_MMRECV);
+				addBit(Severity.PORTEVENT_MMSEND);
+				addBit(Severity.PORTEVENT_MCRECV);
+				addBit(Severity.PORTEVENT_MCSEND);
+				addBit(Severity.PORTEVENT_DUALRECV);
+				addBit(Severity.PORTEVENT_DUALSEND);
+				addBit(Severity.PORTEVENT_UNQUALIFIED);
+				addBit(Severity.PORTEVENT_SETSTATE);
+				break;
+			case TESTCASE_UNQUALIFIED:
+				addBit(Severity.TESTCASE_START);
+				addBit(Severity.TESTCASE_FINISH);
+				addBit(Severity.TESTCASE_UNQUALIFIED);
+				break;
+			case TIMEROP_UNQUALIFIED:
+				addBit(Severity.TIMEROP_READ);
+				addBit(Severity.TIMEROP_START);
+				addBit(Severity.TIMEROP_GUARD);
+				addBit(Severity.TIMEROP_STOP);
+				addBit(Severity.TIMEROP_TIMEOUT);
+				addBit(Severity.TIMEROP_UNQUALIFIED);
+				break;
+			case USER_UNQUALIFIED:
+				addBit(Severity.USER_UNQUALIFIED);
+				break;
+			case STATISTICS_UNQUALIFIED:
+				addBit(Severity.STATISTICS_VERDICT);
+				addBit(Severity.STATISTICS_UNQUALIFIED);
+				break;
+			case VERDICTOP_UNQUALIFIED:
+				addBit(Severity.VERDICTOP_GETVERDICT);
+				addBit(Severity.VERDICTOP_SETVERDICT);
+				addBit(Severity.VERDICTOP_FINAL);
+				addBit(Severity.VERDICTOP_UNQUALIFIED);
+				break;
+			case WARNING_UNQUALIFIED:
+				addBit(Severity.WARNING_UNQUALIFIED);
+				break;
+			case MATCHING_UNQUALIFIED:
+				addBit(Severity.MATCHING_DONE);
+				addBit(Severity.MATCHING_TIMEOUT);
+				addBit(Severity.MATCHING_PCSUCCESS);
+				addBit(Severity.MATCHING_PCUNSUCC);
+				addBit(Severity.MATCHING_PMSUCCESS);
+				addBit(Severity.MATCHING_PMUNSUCC);
+				addBit(Severity.MATCHING_MCSUCCESS);
+				addBit(Severity.MATCHING_MCUNSUCC);
+				addBit(Severity.MATCHING_MMSUCCESS);
+				addBit(Severity.MATCHING_MMUNSUCC);
+				addBit(Severity.MATCHING_PROBLEM);
+				addBit(Severity.MATCHING_UNQUALIFIED);
+				break;
+			case DEBUG_UNQUALIFIED:
+				addBit(Severity.DEBUG_ENCDEC);
+				addBit(Severity.DEBUG_TESTPORT);
+				addBit(Severity.DEBUG_USER);
+				addBit(Severity.DEBUG_FRAMEWORK);
+				addBit(Severity.DEBUG_UNQUALIFIED);
+				break;
+			case LOG_ALL_IMPORTANT:
+				addBitmask(Logging_Bits.log_all);
+				break;
+			default:
+				break;
+			}
 		}
 
 		public String describe() {
@@ -1231,10 +1364,16 @@ public final class TTCN_Logger {
 		return get_logger_plugin_manager().set_file_number(p_number);
 	}
 
-	public static boolean set_disk_full_action(final component_id_t comp, final disk_full_action_t p_disk_full_action) {
-		return get_logger_plugin_manager().set_disk_full_action(comp, p_disk_full_action);
+	public static boolean set_disk_full_action(final disk_full_action_type_t p_disk_full_action_type) {
+		return set_disk_full_action(p_disk_full_action_type, 0);
 	}
-	
+
+	public static boolean set_disk_full_action(final disk_full_action_type_t p_disk_full_action_type,
+											   final int p_retry_interval) {
+		disk_full_action_t disk_full_action = new disk_full_action_t(p_disk_full_action_type, p_retry_interval);
+		return get_logger_plugin_manager().set_disk_full_action(disk_full_action);
+	}
+
 	public static void set_executable_name() {
 		//TODO: initial implementation, more complex
 		executable_name = "";

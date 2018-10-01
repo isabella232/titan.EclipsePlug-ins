@@ -455,7 +455,7 @@ public class LoggerPluginManager {
 		return ret_val;
 	}
 
-	public boolean set_disk_full_action(final component_id_t comp, final TTCN_Logger.disk_full_action_t p_disk_full_action) {
+	public boolean set_disk_full_action(final TTCN_Logger.disk_full_action_t p_disk_full_action) {
 		boolean ret_val = false;
 		for (int i = 0; i < plugins_.size(); i++) {
 			if (plugins_.get(i).set_disk_full_action(p_disk_full_action)) {

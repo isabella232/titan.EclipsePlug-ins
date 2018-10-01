@@ -15,7 +15,21 @@ options{
 }
 
 @header {
+import org.eclipse.titan.runtime.core.LoggingParam.logging_param_t;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
+import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger.disk_full_action_type_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Logging_Bits;
+import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
+import org.eclipse.titan.runtime.core.TTCN_Logger.timestamp_format_t;
+import org.eclipse.titan.runtime.core.TitanComponent;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 import org.eclipse.titan.runtime.core.cfgparser.LoggingSectionHandler.LogParamEntry;
 
@@ -294,6 +308,25 @@ import java.util.regex.Pattern;
 			return "";
 		}
 		return value;
+	}
+
+	/**
+	 * Converts timestamp format string to timestamp format enum
+	 * @param timestamp_str timestamp format string
+	 * @return timestamp format enum
+	 */
+	private timestamp_format_t to_timestamp_format(final String timestamp_str) {
+		if (null == timestamp_str) {
+			return null;
+		}
+		if ("time".equalsIgnoreCase(timestamp_str)) {
+			return timestamp_format_t.TIMESTAMP_TIME;
+		} else if ("datetime".equalsIgnoreCase(timestamp_str)) {
+			return timestamp_format_t.TIMESTAMP_DATETIME;
+		} else if ("seconds".equalsIgnoreCase(timestamp_str)) {
+			return timestamp_format_t.TIMESTAMP_SECONDS;
+		}
+		return null;
 	}
 }
 
@@ -742,7 +775,7 @@ pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
 }:
-	(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+	(	cn = pr_TestComponentID DOT { componentName = $cn.text; }
 	)?
 	LOGGERPLUGINS
 	ASSIGNMENTCHAR
@@ -776,77 +809,71 @@ pr_PlainLoggingParam
 @init {
 	String componentName = "*";
 	String pluginName = "*";
+	component_id_t comp = new component_id_t(); 
 }:
-(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+(	cn = pr_TestComponentID DOT
+		{	componentName = $cn.text;
+			comp = $cn.comp;
+		}
 )?
 (	STAR DOT
 |	pn = pr_Identifier DOT { pluginName = $pn.text; }
 )?
-{	LogParamEntry logParamEntry = loggingSectionHandler.componentPlugin(componentName, pluginName);
-}
 (	FILEMASK ASSIGNMENTCHAR fileMask = pr_LoggingBitMask
-		{	logParamEntry.setFileMaskBits( $fileMask.loggingBitMask );
+		{	TTCN_Logger.set_file_mask(comp, $fileMask.loggingBitMask);
 		}
 |	CONSOLEMASK ASSIGNMENTCHAR consoleMask = pr_LoggingBitMask
-		{	logParamEntry.setConsoleMaskBits( $consoleMask.loggingBitMask );
+		{	TTCN_Logger.set_console_mask(comp, $consoleMask.loggingBitMask);
 		}
-|	DISKFULLACTION ASSIGNMENTCHAR dfa = pr_DiskFullActionValue
-		{	logParamEntry.setDiskFullAction( $dfa.text );
-		}
+|	DISKFULLACTION ASSIGNMENTCHAR pr_DiskFullActionValue
 |	LOGFILENUMBER ASSIGNMENTCHAR lfn = pr_NaturalNumber
 		{	TTCN_Logger.set_file_number( $lfn.integer.getIntegerValue() );
-		//TODO: remove 1st param
 		}
 |	LOGFILESIZE ASSIGNMENTCHAR lfs = pr_NaturalNumber
 		{	TTCN_Logger.set_file_size( $lfs.integer.getIntegerValue() );
-		//TODO: remove 1st param
 		}
 |	LOGFILENAME ASSIGNMENTCHAR f = pr_LogfileName
-	{	String logFileName = $f.text;
-		if ( logFileName != null ) {
-			// remove quotes
-			logFileName = logFileName.replaceAll("^\"|\"$", "");
-			TTCN_Logger.set_file_name( logFileName, true );
+		{	TTCN_Logger.set_file_name( $f.string, true );
 		}
-	}
 |	TIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
-	{	logParamEntry.setTimestampFormat( $ttv.text );
-	}
-|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
-	{	logParamEntry.setConsoleTimestampFormat( $ttv.text );
-	}
-|	SOURCEINFOFORMAT ASSIGNMENTCHAR
-	(	siv1 = pr_SourceInfoValue
-		{	logParamEntry.setSourceInfoFormat( $siv1.text );
+		{	TTCN_Logger.set_timestamp_format( to_timestamp_format( $ttv.text ) );
 		}
-	|	siv2 = pr_YesNoOrBoolean
-		{	logParamEntry.setSourceInfoFormat( $siv2.text );
+|	CONSOLETIMESTAMPFORMAT ASSIGNMENTCHAR ttv = pr_TimeStampValue
+		{	//TODO: add TTCN_Logger.set_console_timestamp_format(timestamp_format_t)
+			//TTCN_Logger.set_console_timestamp_format( to_timestamp_format( $ttv.text ) );
+		}
+|	SOURCEINFOFORMAT ASSIGNMENTCHAR
+	(	pr_SourceInfoValue
+	|	b = pr_YesNoOrBoolean
+		{	TTCN_Logger.set_source_info_format( $b.bool ? source_info_format_t.SINFO_SINGLE : source_info_format_t.SINFO_NONE);
 		}
 	)
 |	APPENDFILE ASSIGNMENTCHAR af = pr_YesNoOrBoolean
-	{	logParamEntry.setAppendFile( $af.bool );
+	{	TTCN_Logger.set_append_file( $af.bool );
 	}
-|	LOGEVENTTYPES ASSIGNMENTCHAR let = pr_LogEventTypesValue
-	{	logParamEntry.setLogeventTypes( $let.text );
-	}
+|	LOGEVENTTYPES ASSIGNMENTCHAR pr_LogEventTypesValue
 |	LOGENTITYNAME ASSIGNMENTCHAR len = pr_YesNoOrBoolean
-	{	logParamEntry.setLogEntityName( $len.bool );
+	{	//TODO: change to TTCN_Logger.set_log_entity_name(boolean)
+		//TTCN_Logger.set_log_entity_name( $len.bool );
 	}
-|	MATCHINGHINTS ASSIGNMENTCHAR mh = pr_MatchingHintsValue
-	{	logParamEntry.setMatchingHints( $mh.text );
-	}
+|	MATCHINGHINTS ASSIGNMENTCHAR pr_MatchingHintsValue
 |	o1 = pr_PluginSpecificParamName ASSIGNMENTCHAR o2 = pr_StringValue
-	{	logParamEntry.getPluginSpecificParam().add(
-			new LoggingSectionHandler.PluginSpecificParam( $o1.text, $o2.text ) );
+	{	final logging_setting_t logging_setting = new logging_setting_t();
+		logging_setting.component = comp;
+		logging_setting.pluginId = pluginName;
+		final logging_param_t logging_param = new logging_param_t();
+		logging_param.log_param_selection = logging_param_type.LP_PLUGIN_SPECIFIC;
+		logging_param.param_name = $o1.text;
+		logging_param.str_val = $o2.string;
+		logging_setting.logparam = logging_param;
+		TTCN_Logger.add_parameter(logging_setting);
 	}
 |	EMERGENCYLOGGING ASSIGNMENTCHAR el = pr_NaturalNumber
-	{	logParamEntry.setEmergencyLogging( $el.integer );
+	{	TTCN_Logger.set_emergency_logging( $el.integer.getIntegerValue() );
 	}
-|	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR elb = pr_BufferAllOrMasked
-	{	logParamEntry.setEmergencyLoggingBehaviour( $elb.text );
-	}
+|	EMERGENCYLOGGINGBEHAVIOUR ASSIGNMENTCHAR pr_BufferAllOrMasked
 |	EMERGENCYLOGGINGMASK ASSIGNMENTCHAR elm = pr_LoggingBitMask
-	{	logParamEntry.setEmergencyLoggingMask( $elm.loggingBitMask );
+	{	TTCN_Logger.set_emergency_logging_mask(comp, $elm.loggingBitMask);
 	}
 )
 ;
@@ -856,7 +883,9 @@ pr_TimeStampValue:
 ;
 
 pr_SourceInfoValue:
-	SOURCEINFOVALUE
+	SOURCEINFOVALUE_NONE	{	TTCN_Logger.set_source_info_format(source_info_format_t.SINFO_NONE);	}
+|	SOURCEINFOVALUE_SINGLE	{	TTCN_Logger.set_source_info_format(source_info_format_t.SINFO_SINGLE);	}
+|	SOURCEINFOVALUE_STACK	{	TTCN_Logger.set_source_info_format(source_info_format_t.SINFO_STACK);	}
 ;
 
 pr_PluginSpecificParamName:
@@ -864,12 +893,27 @@ pr_PluginSpecificParamName:
 ;
 
 pr_BufferAllOrMasked:
-	BUFFERALLORBUFFERMASKED
+	BUFFERALL		{	TTCN_Logger.set_emergency_logging_behaviour(emergency_logging_behaviour_t.BUFFER_ALL);	}
+|	BUFFERMASKED	{	TTCN_Logger.set_emergency_logging_behaviour(emergency_logging_behaviour_t.BUFFER_MASKED);	}
 ;
 
 pr_DiskFullActionValue:
-(	DISKFULLACTIONVALUE
-|	DISKFULLACTIONVALUERETRY ( LPAREN NATURAL_NUMBER RPAREN )?
+(	DISKFULLACTIONVALUE_ERROR	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_ERROR);	}
+|	DISKFULLACTIONVALUE_STOP	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_STOP);	}
+|	DISKFULLACTIONVALUE_DELETE	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_DELETE);	}
+|	DISKFULLACTIONVALUE_RETRY
+	{	int retry_interval = 0;	}
+	(	LPAREN
+		n = NATURAL_NUMBER
+			{	try {
+					retry_interval = Integer.parseInt( $n.text );
+				} catch ( Exception e ) {
+					// do nothing
+				}
+			}
+		RPAREN
+	)?
+	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_RETRY, retry_interval);	}
 )
 ;
 
@@ -884,31 +928,51 @@ pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
 	)?
 ;
 
-pt_TestComponentID:
-(	pr_Identifier
-|	pr_NaturalNumber
+pr_TestComponentID returns [component_id_t comp]
+@init {
+	$comp = new component_id_t();
+}:
+(	i = pr_Identifier
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
+			$comp.id_name = $i.text; 
+		}
+|	n = pr_NaturalNumber
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
+			$comp.id_compref = $n.integer.getIntegerValue(); 
+		}
 |	MTCKEYWORD
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
+			$comp.id_compref = TitanComponent.MTC_COMPREF; 
+		}
 |	STAR
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
+			$comp.id_name = null; 
+		}
+//TODO: add SystemKeyword, see config_process.y/ComponentId
+//|	SYSTEMKEYWORD
+//		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_SYSTEM;
+//			$comp.id_name = null; 
+//		}
 )
 ;
 
-pr_LoggingBitMask returns [ List<LoggingBit> loggingBitMask ]
+pr_LoggingBitMask returns [ Logging_Bits loggingBitMask ]
 @init {
-	$loggingBitMask = new ArrayList<LoggingBit>();
+	$loggingBitMask = new Logging_Bits();
 }:
 	pr_LoggingMaskElement [ $loggingBitMask ]
 	(	LOGICALOR	pr_LoggingMaskElement [ $loggingBitMask ]
 	)*
 ;
 
-pr_LoggingMaskElement [ List<LoggingBit> loggingBitMask ]:
+pr_LoggingMaskElement [ Logging_Bits loggingBitMask ]:
 	pr_LogEventType [ $loggingBitMask ]
 |	pr_LogEventTypeSet [ $loggingBitMask ]
 |	pr_deprecatedEventTypeSet [ $loggingBitMask ]
 ;
 
-pr_LogfileName:
-	pr_StringValue
+pr_LogfileName returns [String string]:
+	s = pr_StringValue { $string = $s.string; }
 ;
 
 pr_YesNoOrBoolean returns [Boolean bool]:
@@ -917,120 +981,121 @@ pr_YesNoOrBoolean returns [Boolean bool]:
 ;
 
 pr_LogEventTypesValue:
-	pr_YesNoOrBoolean
-|	pr_Detailed
+	b = pr_YesNoOrBoolean	{	TTCN_Logger.set_log_event_types( $b.bool ?
+									log_event_types_t.LOGEVENTTYPES_YES : log_event_types_t.LOGEVENTTYPES_NO );	}
+|	pr_Detailed				{	TTCN_Logger.set_log_event_types( log_event_types_t.LOGEVENTTYPES_SUBCATEGORIES );	}
 ;
 
 pr_MatchingHintsValue:
-	COMPACT
-|	DETAILED
+	COMPACT		{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_COMPACT );	}
+|	DETAILED	{	TTCN_Logger.set_matching_verbosity( matching_verbosity_t.VERBOSITY_FULL );	}
 ;
 
-pr_LogEventType [ List<LoggingBit> loggingBitMask ]:
-(  a1 = ACTION_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.ACTION_UNQUALIFIED); }
-|  a2 = DEBUG_ENCDEC			{ loggingBitMask.add(LoggingBit.DEBUG_ENCDEC); }
-|  a3 = DEBUG_TESTPORT			{ loggingBitMask.add(LoggingBit.DEBUG_TESTPORT); }
-|  a4 = DEBUG_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.DEBUG_UNQUALIFIED); }
-|  a5 = DEFAULTOP_ACTIVATE		{ loggingBitMask.add(LoggingBit.DEFAULTOP_ACTIVATE); }
-|  a6 = DEFAULTOP_DEACTIVATE	{ loggingBitMask.add(LoggingBit.DEFAULTOP_DEACTIVATE); }
-|  a7 = DEFAULTOP_EXIT			{ loggingBitMask.add(LoggingBit.DEFAULTOP_EXIT); }
-|  a8 = DEFAULTOP_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.DEFAULTOP_UNQUALIFIED); }
-|  a9 = ERROR_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.ERROR_UNQUALIFIED); }
-|  a10 = EXECUTOR_COMPONENT		{ loggingBitMask.add(LoggingBit.EXECUTOR_COMPONENT); }
-|  a11 = EXECUTOR_CONFIGDATA	{ loggingBitMask.add(LoggingBit.EXECUTOR_CONFIGDATA); }
-|  a12 = EXECUTOR_EXTCOMMAND	{ loggingBitMask.add(LoggingBit.EXECUTOR_EXTCOMMAND); }
-|  a13 = EXECUTOR_LOGOPTIONS	{ loggingBitMask.add(LoggingBit.EXECUTOR_LOGOPTIONS); }
-|  a14 = EXECUTOR_RUNTIME		{ loggingBitMask.add(LoggingBit.EXECUTOR_RUNTIME); }
-|  a15 = EXECUTOR_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.EXECUTOR_UNQUALIFIED); }
-|  a16 = FUNCTION_RND			{ loggingBitMask.add(LoggingBit.FUNCTION_RND); }
-|  a17 = FUNCTION_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.FUNCTION_UNQUALIFIED); }
-|  a18 = MATCHING_DONE			{ loggingBitMask.add(LoggingBit.MATCHING_DONE); }
-|  a19 = MATCHING_MCSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_MCSUCCESS); }
-|  a20 = MATCHING_MCUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_MCUNSUCC); }
-|  a21 = MATCHING_MMSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_MMSUCCESS); }
-|  a22 = MATCHING_MMUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_MMUNSUCC); }
-|  a23 = MATCHING_PCSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_PCSUCCESS); }
-|  a24 = MATCHING_PCUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_PCUNSUCC); }
-|  a25 = MATCHING_PMSUCCESS		{ loggingBitMask.add(LoggingBit.MATCHING_PMSUCCESS); }
-|  a26 = MATCHING_PMUNSUCC		{ loggingBitMask.add(LoggingBit.MATCHING_PMUNSUCC); }
-|  a27 = MATCHING_PROBLEM		{ loggingBitMask.add(LoggingBit.MATCHING_PROBLEM); }
-|  a28 = MATCHING_TIMEOUT		{ loggingBitMask.add(LoggingBit.MATCHING_TIMEOUT); }
-|  a29 = MATCHING_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.MATCHING_UNQUALIFIED); }
-|  a30 = PARALLEL_PORTCONN		{ loggingBitMask.add(LoggingBit.PARALLEL_PORTCONN); }
-|  a31 = PARALLEL_PORTMAP		{ loggingBitMask.add(LoggingBit.PARALLEL_PORTMAP); }
-|  a32 = PARALLEL_PTC			{ loggingBitMask.add(LoggingBit.PARALLEL_PTC); }
-|  a33 = PARALLEL_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.PARALLEL_UNQUALIFIED); }
-|  a34 = PORTEVENT_DUALRECV		{ loggingBitMask.add(LoggingBit.PORTEVENT_DUALRECV); }
-|  a35 = PORTEVENT_DUALSEND		{ loggingBitMask.add(LoggingBit.PORTEVENT_DUALSEND); }
-|  a36 = PORTEVENT_MCRECV		{ loggingBitMask.add(LoggingBit.PORTEVENT_MCRECV); }
-|  a37 = PORTEVENT_MCSEND		{ loggingBitMask.add(LoggingBit.PORTEVENT_MCSEND); }
-|  a38 = PORTEVENT_MMRECV		{ loggingBitMask.add(LoggingBit.PORTEVENT_MMRECV); }
-|  a39 = PORTEVENT_MMSEND		{ loggingBitMask.add(LoggingBit.PORTEVENT_MMSEND); }
-|  a40 = PORTEVENT_MQUEUE		{ loggingBitMask.add(LoggingBit.PORTEVENT_MQUEUE); }
-|  a41 = PORTEVENT_PCIN			{ loggingBitMask.add(LoggingBit.PORTEVENT_PCIN); }
-|  a42 = PORTEVENT_PCOUT		{ loggingBitMask.add(LoggingBit.PORTEVENT_PCOUT); }
-|  a43 = PORTEVENT_PMIN			{ loggingBitMask.add(LoggingBit.PORTEVENT_PMIN); }
-|  a44 = PORTEVENT_PMOUT		{ loggingBitMask.add(LoggingBit.PORTEVENT_PMOUT); }
-|  a45 = PORTEVENT_PQUEUE		{ loggingBitMask.add(LoggingBit.PORTEVENT_PQUEUE); }
-|  a46 = PORTEVENT_STATE		{ loggingBitMask.add(LoggingBit.PORTEVENT_STATE); }
-|  a47 = PORTEVENT_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.PORTEVENT_UNQUALIFIED); }
-|  a48 = STATISTICS_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.STATISTICS_UNQUALIFIED); }
-|  a49 = STATISTICS_VERDICT		{ loggingBitMask.add(LoggingBit.STATISTICS_VERDICT); }
-|  a50 = TESTCASE_FINISH		{ loggingBitMask.add(LoggingBit.TESTCASE_FINISH); }
-|  a51 = TESTCASE_START			{ loggingBitMask.add(LoggingBit.TESTCASE_START); }
-|  a52 = TESTCASE_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.TESTCASE_UNQUALIFIED); }
-|  a53 = TIMEROP_GUARD			{ loggingBitMask.add(LoggingBit.TIMEROP_GUARD); }
-|  a54 = TIMEROP_READ			{ loggingBitMask.add(LoggingBit.TIMEROP_READ); }
-|  a55 = TIMEROP_START			{ loggingBitMask.add(LoggingBit.TIMEROP_START); }
-|  a56 = TIMEROP_STOP			{ loggingBitMask.add(LoggingBit.TIMEROP_STOP); }
-|  a57 = TIMEROP_TIMEOUT		{ loggingBitMask.add(LoggingBit.TIMEROP_TIMEOUT); }
-|  a58 = TIMEROP_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.TIMEROP_UNQUALIFIED); }
-|  a59 = USER_UNQUALIFIED		{ loggingBitMask.add(LoggingBit.USER_UNQUALIFIED); }
-|  a60 = VERDICTOP_FINAL		{ loggingBitMask.add(LoggingBit.VERDICTOP_FINAL); }
-|  a61 = VERDICTOP_GETVERDICT	{ loggingBitMask.add(LoggingBit.VERDICTOP_GETVERDICT); }
-|  a62 = VERDICTOP_SETVERDICT	{ loggingBitMask.add(LoggingBit.VERDICTOP_SETVERDICT); }
-|  a63 = VERDICTOP_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.VERDICTOP_UNQUALIFIED); }
-|  a64 = WARNING_UNQUALIFIED	{ loggingBitMask.add(LoggingBit.WARNING_UNQUALIFIED); }
+pr_LogEventType [ Logging_Bits loggingBitMask ]:
+(  a1 = ACTION_UNQUALIFIED		{ loggingBitMask.add(Severity.ACTION_UNQUALIFIED); }
+|  a2 = DEBUG_ENCDEC			{ loggingBitMask.add(Severity.DEBUG_ENCDEC); }
+|  a3 = DEBUG_TESTPORT			{ loggingBitMask.add(Severity.DEBUG_TESTPORT); }
+|  a4 = DEBUG_UNQUALIFIED		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
+|  a5 = DEFAULTOP_ACTIVATE		{ loggingBitMask.add(Severity.DEFAULTOP_ACTIVATE); }
+|  a6 = DEFAULTOP_DEACTIVATE	{ loggingBitMask.add(Severity.DEFAULTOP_DEACTIVATE); }
+|  a7 = DEFAULTOP_EXIT			{ loggingBitMask.add(Severity.DEFAULTOP_EXIT); }
+|  a8 = DEFAULTOP_UNQUALIFIED	{ loggingBitMask.add(Severity.DEFAULTOP_UNQUALIFIED); }
+|  a9 = ERROR_UNQUALIFIED		{ loggingBitMask.add(Severity.ERROR_UNQUALIFIED); }
+|  a10 = EXECUTOR_COMPONENT		{ loggingBitMask.add(Severity.EXECUTOR_COMPONENT); }
+|  a11 = EXECUTOR_CONFIGDATA	{ loggingBitMask.add(Severity.EXECUTOR_CONFIGDATA); }
+|  a12 = EXECUTOR_EXTCOMMAND	{ loggingBitMask.add(Severity.EXECUTOR_EXTCOMMAND); }
+|  a13 = EXECUTOR_LOGOPTIONS	{ loggingBitMask.add(Severity.EXECUTOR_LOGOPTIONS); }
+|  a14 = EXECUTOR_RUNTIME		{ loggingBitMask.add(Severity.EXECUTOR_RUNTIME); }
+|  a15 = EXECUTOR_UNQUALIFIED	{ loggingBitMask.add(Severity.EXECUTOR_UNQUALIFIED); }
+|  a16 = FUNCTION_RND			{ loggingBitMask.add(Severity.FUNCTION_RND); }
+|  a17 = FUNCTION_UNQUALIFIED	{ loggingBitMask.add(Severity.FUNCTION_UNQUALIFIED); }
+|  a18 = MATCHING_DONE			{ loggingBitMask.add(Severity.MATCHING_DONE); }
+|  a19 = MATCHING_MCSUCCESS		{ loggingBitMask.add(Severity.MATCHING_MCSUCCESS); }
+|  a20 = MATCHING_MCUNSUCC		{ loggingBitMask.add(Severity.MATCHING_MCUNSUCC); }
+|  a21 = MATCHING_MMSUCCESS		{ loggingBitMask.add(Severity.MATCHING_MMSUCCESS); }
+|  a22 = MATCHING_MMUNSUCC		{ loggingBitMask.add(Severity.MATCHING_MMUNSUCC); }
+|  a23 = MATCHING_PCSUCCESS		{ loggingBitMask.add(Severity.MATCHING_PCSUCCESS); }
+|  a24 = MATCHING_PCUNSUCC		{ loggingBitMask.add(Severity.MATCHING_PCUNSUCC); }
+|  a25 = MATCHING_PMSUCCESS		{ loggingBitMask.add(Severity.MATCHING_PMSUCCESS); }
+|  a26 = MATCHING_PMUNSUCC		{ loggingBitMask.add(Severity.MATCHING_PMUNSUCC); }
+|  a27 = MATCHING_PROBLEM		{ loggingBitMask.add(Severity.MATCHING_PROBLEM); }
+|  a28 = MATCHING_TIMEOUT		{ loggingBitMask.add(Severity.MATCHING_TIMEOUT); }
+|  a29 = MATCHING_UNQUALIFIED	{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
+|  a30 = PARALLEL_PORTCONN		{ loggingBitMask.add(Severity.PARALLEL_PORTCONN); }
+|  a31 = PARALLEL_PORTMAP		{ loggingBitMask.add(Severity.PARALLEL_PORTMAP); }
+|  a32 = PARALLEL_PTC			{ loggingBitMask.add(Severity.PARALLEL_PTC); }
+|  a33 = PARALLEL_UNQUALIFIED	{ loggingBitMask.add(Severity.PARALLEL_UNQUALIFIED); }
+|  a34 = PORTEVENT_DUALRECV		{ loggingBitMask.add(Severity.PORTEVENT_DUALRECV); }
+|  a35 = PORTEVENT_DUALSEND		{ loggingBitMask.add(Severity.PORTEVENT_DUALSEND); }
+|  a36 = PORTEVENT_MCRECV		{ loggingBitMask.add(Severity.PORTEVENT_MCRECV); }
+|  a37 = PORTEVENT_MCSEND		{ loggingBitMask.add(Severity.PORTEVENT_MCSEND); }
+|  a38 = PORTEVENT_MMRECV		{ loggingBitMask.add(Severity.PORTEVENT_MMRECV); }
+|  a39 = PORTEVENT_MMSEND		{ loggingBitMask.add(Severity.PORTEVENT_MMSEND); }
+|  a40 = PORTEVENT_MQUEUE		{ loggingBitMask.add(Severity.PORTEVENT_MQUEUE); }
+|  a41 = PORTEVENT_PCIN			{ loggingBitMask.add(Severity.PORTEVENT_PCIN); }
+|  a42 = PORTEVENT_PCOUT		{ loggingBitMask.add(Severity.PORTEVENT_PCOUT); }
+|  a43 = PORTEVENT_PMIN			{ loggingBitMask.add(Severity.PORTEVENT_PMIN); }
+|  a44 = PORTEVENT_PMOUT		{ loggingBitMask.add(Severity.PORTEVENT_PMOUT); }
+|  a45 = PORTEVENT_PQUEUE		{ loggingBitMask.add(Severity.PORTEVENT_PQUEUE); }
+|  a46 = PORTEVENT_STATE		{ loggingBitMask.add(Severity.PORTEVENT_STATE); }
+|  a47 = PORTEVENT_UNQUALIFIED	{ loggingBitMask.add(Severity.PORTEVENT_UNQUALIFIED); }
+|  a48 = STATISTICS_UNQUALIFIED	{ loggingBitMask.add(Severity.STATISTICS_UNQUALIFIED); }
+|  a49 = STATISTICS_VERDICT		{ loggingBitMask.add(Severity.STATISTICS_VERDICT); }
+|  a50 = TESTCASE_FINISH		{ loggingBitMask.add(Severity.TESTCASE_FINISH); }
+|  a51 = TESTCASE_START			{ loggingBitMask.add(Severity.TESTCASE_START); }
+|  a52 = TESTCASE_UNQUALIFIED	{ loggingBitMask.add(Severity.TESTCASE_UNQUALIFIED); }
+|  a53 = TIMEROP_GUARD			{ loggingBitMask.add(Severity.TIMEROP_GUARD); }
+|  a54 = TIMEROP_READ			{ loggingBitMask.add(Severity.TIMEROP_READ); }
+|  a55 = TIMEROP_START			{ loggingBitMask.add(Severity.TIMEROP_START); }
+|  a56 = TIMEROP_STOP			{ loggingBitMask.add(Severity.TIMEROP_STOP); }
+|  a57 = TIMEROP_TIMEOUT		{ loggingBitMask.add(Severity.TIMEROP_TIMEOUT); }
+|  a58 = TIMEROP_UNQUALIFIED	{ loggingBitMask.add(Severity.TIMEROP_UNQUALIFIED); }
+|  a59 = USER_UNQUALIFIED		{ loggingBitMask.add(Severity.USER_UNQUALIFIED); }
+|  a60 = VERDICTOP_FINAL		{ loggingBitMask.add(Severity.VERDICTOP_FINAL); }
+|  a61 = VERDICTOP_GETVERDICT	{ loggingBitMask.add(Severity.VERDICTOP_GETVERDICT); }
+|  a62 = VERDICTOP_SETVERDICT	{ loggingBitMask.add(Severity.VERDICTOP_SETVERDICT); }
+|  a63 = VERDICTOP_UNQUALIFIED	{ loggingBitMask.add(Severity.VERDICTOP_UNQUALIFIED); }
+|  a64 = WARNING_UNQUALIFIED	{ loggingBitMask.add(Severity.WARNING_UNQUALIFIED); }
 )
 ;
 
-pr_LogEventTypeSet [ List<LoggingBit> loggingBitMask ]:
-(  a1 = TTCN_EXECUTOR2		{ loggingBitMask.add(LoggingBit.EXECUTOR); }
-|  a2 = TTCN_ERROR2			{ loggingBitMask.add(LoggingBit.ERROR); }
-|  a3 = TTCN_WARNING2		{ loggingBitMask.add(LoggingBit.WARNING); }
-|  a4 = TTCN_PORTEVENT2		{ loggingBitMask.add(LoggingBit.PORTEVENT); }
-|  a5 = TTCN_TIMEROP2		{ loggingBitMask.add(LoggingBit.TIMEROP); }
-|  a6 = TTCN_VERDICTOP2		{ loggingBitMask.add(LoggingBit.VERDICTOP); }
-|  a7 = TTCN_DEFAULTOP2		{ loggingBitMask.add(LoggingBit.DEFAULTOP); }
-|  a8 = TTCN_ACTION2		{ loggingBitMask.add(LoggingBit.ACTION); }
-|  a9 = TTCN_TESTCASE2		{ loggingBitMask.add(LoggingBit.TESTCASE); }
-|  a10 = TTCN_FUNCTION2		{ loggingBitMask.add(LoggingBit.FUNCTION); }
-|  a11 = TTCN_USER2			{ loggingBitMask.add(LoggingBit.USER); }
-|  a12 = TTCN_STATISTICS2	{ loggingBitMask.add(LoggingBit.STATISTICS); }
-|  a13 = TTCN_PARALLEL2		{ loggingBitMask.add(LoggingBit.PARALLEL); }
-|  a14 = TTCN_MATCHING2		{ loggingBitMask.add(LoggingBit.MATCHING); }
-|  a15 = TTCN_DEBUG2		{ loggingBitMask.add(LoggingBit.DEBUG); }
-|  a16 = LOG_ALL			{ loggingBitMask.add(LoggingBit.LOG_ALL); }
-|  a17 = LOG_NOTHING		{ loggingBitMask.add(LoggingBit.LOG_NOTHING); }
+pr_LogEventTypeSet [ Logging_Bits loggingBitMask ]:
+(  a1 = TTCN_EXECUTOR2		{ loggingBitMask.add(Severity.EXECUTOR_UNQUALIFIED); }
+|  a2 = TTCN_ERROR2			{ loggingBitMask.add(Severity.ERROR_UNQUALIFIED); }
+|  a3 = TTCN_WARNING2		{ loggingBitMask.add(Severity.WARNING_UNQUALIFIED); }
+|  a4 = TTCN_PORTEVENT2		{ loggingBitMask.add(Severity.PORTEVENT_UNQUALIFIED); }
+|  a5 = TTCN_TIMEROP2		{ loggingBitMask.add(Severity.TIMEROP_UNQUALIFIED); }
+|  a6 = TTCN_VERDICTOP2		{ loggingBitMask.add(Severity.VERDICTOP_UNQUALIFIED); }
+|  a7 = TTCN_DEFAULTOP2		{ loggingBitMask.add(Severity.DEFAULTOP_UNQUALIFIED); }
+|  a8 = TTCN_ACTION2		{ loggingBitMask.add(Severity.ACTION_UNQUALIFIED); }
+|  a9 = TTCN_TESTCASE2		{ loggingBitMask.add(Severity.TESTCASE_UNQUALIFIED); }
+|  a10 = TTCN_FUNCTION2		{ loggingBitMask.add(Severity.FUNCTION_UNQUALIFIED); }
+|  a11 = TTCN_USER2			{ loggingBitMask.add(Severity.USER_UNQUALIFIED); }
+|  a12 = TTCN_STATISTICS2	{ loggingBitMask.add(Severity.STATISTICS_UNQUALIFIED); }
+|  a13 = TTCN_PARALLEL2		{ loggingBitMask.add(Severity.PARALLEL_UNQUALIFIED); }
+|  a14 = TTCN_MATCHING2		{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
+|  a15 = TTCN_DEBUG2		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
+|  a16 = LOG_ALL			{ loggingBitMask.addBitmask(Logging_Bits.log_all); }
+|  a17 = LOG_NOTHING		{ loggingBitMask.addBitmask(Logging_Bits.log_nothing); }
 )
 ;
 
-pr_deprecatedEventTypeSet [ List<LoggingBit> loggingBitMask ]:
-(  a1 = TTCN_EXECUTOR1		{ loggingBitMask.add(LoggingBit.EXECUTOR); }
-|  a2 = TTCN_ERROR1			{ loggingBitMask.add(LoggingBit.ERROR); }
-|  a3 = TTCN_WARNING1		{ loggingBitMask.add(LoggingBit.WARNING); }
-|  a4 = TTCN_PORTEVENT1		{ loggingBitMask.add(LoggingBit.PORTEVENT); }
-|  a5 = TTCN_TIMEROP1		{ loggingBitMask.add(LoggingBit.TIMEROP); }
-|  a6 = TTCN_VERDICTOP1		{ loggingBitMask.add(LoggingBit.VERDICTOP); }
-|  a7 = TTCN_DEFAULTOP1		{ loggingBitMask.add(LoggingBit.DEFAULTOP); }
-|  a8 = TTCN_ACTION1		{ loggingBitMask.add(LoggingBit.ACTION); }
-|  a9 = TTCN_TESTCASE1		{ loggingBitMask.add(LoggingBit.TESTCASE); }
-|  a10 = TTCN_FUNCTION1		{ loggingBitMask.add(LoggingBit.FUNCTION); }
-|  a11 = TTCN_USER1			{ loggingBitMask.add(LoggingBit.USER); }
-|  a12 = TTCN_STATISTICS1	{ loggingBitMask.add(LoggingBit.STATISTICS); }
-|  a13 = TTCN_PARALLEL1		{ loggingBitMask.add(LoggingBit.PARALLEL); }
-|  a14 = TTCN_MATCHING1		{ loggingBitMask.add(LoggingBit.MATCHING); }
-|  a15 = TTCN_DEBUG1		{ loggingBitMask.add(LoggingBit.DEBUG); }
+pr_deprecatedEventTypeSet [ Logging_Bits loggingBitMask ]:
+(  a1 = TTCN_EXECUTOR1		{ loggingBitMask.add(Severity.EXECUTOR_UNQUALIFIED); }
+|  a2 = TTCN_ERROR1			{ loggingBitMask.add(Severity.ERROR_UNQUALIFIED); }
+|  a3 = TTCN_WARNING1		{ loggingBitMask.add(Severity.WARNING_UNQUALIFIED); }
+|  a4 = TTCN_PORTEVENT1		{ loggingBitMask.add(Severity.PORTEVENT_UNQUALIFIED); }
+|  a5 = TTCN_TIMEROP1		{ loggingBitMask.add(Severity.TIMEROP_UNQUALIFIED); }
+|  a6 = TTCN_VERDICTOP1		{ loggingBitMask.add(Severity.VERDICTOP_UNQUALIFIED); }
+|  a7 = TTCN_DEFAULTOP1		{ loggingBitMask.add(Severity.DEFAULTOP_UNQUALIFIED); }
+|  a8 = TTCN_ACTION1		{ loggingBitMask.add(Severity.ACTION_UNQUALIFIED); }
+|  a9 = TTCN_TESTCASE1		{ loggingBitMask.add(Severity.TESTCASE_UNQUALIFIED); }
+|  a10 = TTCN_FUNCTION1		{ loggingBitMask.add(Severity.FUNCTION_UNQUALIFIED); }
+|  a11 = TTCN_USER1			{ loggingBitMask.add(Severity.USER_UNQUALIFIED); }
+|  a12 = TTCN_STATISTICS1	{ loggingBitMask.add(Severity.STATISTICS_UNQUALIFIED); }
+|  a13 = TTCN_PARALLEL1		{ loggingBitMask.add(Severity.PARALLEL_UNQUALIFIED); }
+|  a14 = TTCN_MATCHING1		{ loggingBitMask.add(Severity.MATCHING_UNQUALIFIED); }
+|  a15 = TTCN_DEBUG1		{ loggingBitMask.add(Severity.DEBUG_UNQUALIFIED); }
 )
 {	reportWarning(new TITANMarker("Deprecated logging option " + $start.getText(), $start.getLine(),
 		$start.getStartIndex(), $start.getStopIndex(), SEVERITY_WARNING, PRIORITY_NORMAL));
@@ -1246,20 +1311,16 @@ pr_StringValue returns [String string]
 }:
 	a = pr_CString
 		{	if ( $a.string != null ) {
-				$string = $a.string.replaceAll("^\"|\"$", "");
+				$string = $a.string;
 			}
 		}
 	(	STRINGOP
 		b = pr_CString
 			{	if ( $b.string != null ) {
-					$string = $string + $b.string.replaceAll("^\"|\"$", "");
+					$string = $string + $b.string;
 				}
 			}
 	)*
-	{	if ( $string != null ) {
-			$string = "\"" + $string + "\"";
-		}
-	}
 ;
 
 pr_CString returns [String string]:
@@ -1267,10 +1328,10 @@ pr_CString returns [String string]:
 		{
 			$string = $a.text;
 		}
-|	macro2 = pr_MacroCString			{	$string = "\"" + $macro2.string + "\"";	}
-|	macro1 = pr_MacroExpliciteCString	{	$string = "\"" + $macro1.string + "\"";	}
+|	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
+|	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
 |	TTCN3IDENTIFIER // module parameter name
-		{	$string = "\"\""; // value is unknown yet, but it should not be null
+		{	$string = ""; // value is unknown yet, but it should not be null
 		}
 )
 ;
