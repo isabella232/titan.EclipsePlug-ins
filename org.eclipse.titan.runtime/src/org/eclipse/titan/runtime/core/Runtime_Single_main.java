@@ -71,7 +71,7 @@ public final class Runtime_Single_main {
 					final String testcase = executeItem.getTestcaseName();
 					if ("*".equals(testcase) ) {
 						Module_List.execute_all_testcases(module);
-					} else if ("control".equals(testcase)) {
+					} else if (testcase == null || "control".equals(testcase)) {
 						Module_List.execute_control(module);
 					} else {
 						Module_List.execute_testcase(module, testcase);
