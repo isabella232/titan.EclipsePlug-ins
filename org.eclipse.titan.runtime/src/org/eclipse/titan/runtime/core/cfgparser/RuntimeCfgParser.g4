@@ -770,7 +770,7 @@ pr_LoggerPluginsPart
 	String componentName = "*";
 	component_id_t comp = new component_id_t(); 
 }:
-	(	cn = pr_TestComponentID DOT
+	(	cn = pr_ComponentID DOT
 		{	componentName = $cn.text;
 			comp = $cn.comp;
 		}
@@ -817,7 +817,7 @@ pr_PlainLoggingParam
 	String pluginName = "*";
 	component_id_t comp = new component_id_t(); 
 }:
-(	cn = pr_TestComponentID DOT
+(	cn = pr_ComponentID DOT
 		{	componentName = $cn.text;
 			comp = $cn.comp;
 		}
@@ -924,7 +924,7 @@ pr_DiskFullActionValue:
 )
 ;
 
-pr_TestComponentID returns [component_id_t comp]
+pr_ComponentID returns [component_id_t comp]
 @init {
 	$comp = new component_id_t();
 }:
@@ -944,11 +944,10 @@ pr_TestComponentID returns [component_id_t comp]
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
 			$comp.id_name = null;
 		}
-//TODO: add SystemKeyword, see config_process.y/ComponentId
-//|	SYSTEMKEYWORD
-//		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_SYSTEM;
-//			$comp.id_name = null;
-//		}
+|	SYSTEMKEYWORD
+		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_SYSTEM;
+			$comp.id_name = null;
+		}
 )
 ;
 
@@ -1205,15 +1204,6 @@ pr_StructuredValue2:
 (	pr_MacroAssignment
 |	pr_SimpleValue
 )?
-;
-
-pr_ComponentID:
-(	pr_Identifier
-|	pr_NaturalNumber
-|	MTCKEYWORD
-|	SYSTEMKEYWORD
-|	STAR
-)
 ;
 
 pr_TestportName:

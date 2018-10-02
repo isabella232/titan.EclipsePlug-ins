@@ -772,7 +772,7 @@ pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
 }:
-	(	cn = pr_TestComponentID DOT { componentName = $cn.text; }
+	(	cn = pr_ComponentID DOT { componentName = $cn.text; }
 	)?
 	LOGGERPLUGINS
 	ASSIGNMENTCHAR
@@ -822,7 +822,7 @@ pr_PlainLoggingParam
 	String componentName = "*";
 	String pluginName = "*";
 }:
-(	cn = pr_TestComponentID DOT { componentName = $cn.text; }
+(	cn = pr_ComponentID DOT { componentName = $cn.text; }
 )?
 (	STAR DOT
 |	pn = pr_Identifier DOT { pluginName = $pn.text; }
@@ -946,11 +946,12 @@ pr_DiskFullActionValue:
 )
 ;
 
-pr_TestComponentID:
+pr_ComponentID:
 (	pr_Identifier
 |	pr_NaturalNumber
 |	MTCKEYWORD
 |	STAR
+|	SYSTEMKEYWORD
 )
 ;
 
@@ -1207,15 +1208,6 @@ pr_StructuredValue2:
 (	pr_MacroAssignment
 |	pr_SimpleValue
 )?
-;
-
-pr_ComponentID:
-(	pr_Identifier
-|	pr_NaturalNumber
-|	MTCKEYWORD
-|	SYSTEMKEYWORD
-|	STAR
-)
 ;
 
 pr_TestportName:
