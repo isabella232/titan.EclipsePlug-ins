@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.ArrayList;
 
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
@@ -69,7 +70,6 @@ public final class Param_Types {
 
 		public enum operation_type_t { OT_ASSIGN, OT_CONCAT };
 
-		//TODO: enum basic_check_bits_t
 		public enum basic_check_bits_t { // used to parametrize basic_check()
 			BC_VALUE(0x00), // non-list values
 			BC_LIST(0x01), // list values and templates
@@ -111,13 +111,13 @@ public final class Param_Types {
 			length_restriction = null;
 		}
 
-		public void set_parent(Module_Parameter p_parent) {
+		public void set_parent(final Module_Parameter p_parent) {
 			parent = p_parent;
 		}
 
-		public void set_id(Module_Param_Id p_id) {
+		public void set_id(final Module_Param_Id p_id) {
 			if (id == null) {
-				throw new TtcnError("Internal error: Module_Param::set_id()");
+				throw new TtcnError("Internal error: Module_Param.set_id()");
 			}
 			id = p_id;
 		}
@@ -139,7 +139,7 @@ public final class Param_Types {
 
 		public void set_length_restriction(Module_Param_Length_Restriction p_length_restriction) {
 			if (length_restriction != null) {
-				throw new TtcnError("Internal error: Module_Param::set_length_restriction()");
+				throw new TtcnError("Internal error: Module_Param.set_length_restriction()");
 			}
 			length_restriction = p_length_restriction;
 		}
@@ -152,7 +152,7 @@ public final class Param_Types {
 			return operation_type;
 		}
 
-		public void set_operation_type(operation_type_t p_optype) {
+		public void set_operation_type(final operation_type_t p_optype) {
 			operation_type = p_optype;
 		}
 
@@ -178,7 +178,7 @@ public final class Param_Types {
 			}
 		}
 
-		public void log(boolean log_id) {
+		public void log(final boolean log_id) {
 			//TODO: implement missing functions first
 		}
 
@@ -187,8 +187,198 @@ public final class Param_Types {
 	}
 
 	public static class Module_Param_Id {
+
+		public boolean is_explicit() {
+			return false;
+		}
+
+		public boolean is_index() {
+			return false;
+		}
+
+		public boolean is_custom() {
+			return false;
+		}
+
+		public int get_index() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_index()");
+		}
+
+		public String get_name() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_name()");
+		}
+
 		public String get_current_name() {
 			throw new TtcnError("Internal error: Module_Param_Id.get_current_name()");
+		}
+
+		public boolean next_name() {
+			throw new TtcnError("Internal error: Module_Param_Id.next_name()");
+		}
+
+		public void reset() {
+			throw new TtcnError("Internal error: Module_Param_Id.reset()");
+		}
+
+		public int get_nof_names() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_nof_names()");
+		}
+
+		public String get_str() {
+			return "";
+		}
+	}
+	
+	public static class Module_Param_Name extends Module_Param_Id {
+		/** The first elements are the module name (if any) and the module parameter name,
+		 * followed by record/set field names and array (or record of/set of) indexes.
+		 * Since the names of modules, module parameters and fields cannot start with
+		 * numbers, the indexes are easily distinguishable from these elements. */
+		
+		private ArrayList<String> names;
+		private int pos;
+		
+		public Module_Param_Name(final ArrayList<String> p) {
+			names = p;
+			pos = 0;
+		}
+		
+		@Override
+		public boolean is_explicit() {
+			return true;
+		}
+
+		@Override
+		public String get_current_name() {
+			return names.get(pos);
+		}
+		
+		@Override
+		public boolean next_name() {
+			if (pos + 1 >= names.size()) {
+				return false;
+			}
+			++pos;
+			return true;
+		}
+		
+		@Override
+		public void reset() {
+			pos = 0;
+		}
+		
+		@Override
+		public int get_nof_names() {
+			return names.size();
+		}
+		
+		@Override
+		public String get_str() {
+			StringBuilder result = new StringBuilder();
+			for (int i = 0; i < names.size(); i++) {
+				boolean index = names.get(i).charAt(0) >= '0' && names.get(i).charAt(0) <= '9';
+				if (i > 0 && !index) {
+					result.append('.');
+				}
+				if (index) {
+					result.append('[');
+				}
+				result.append(names.get(i));
+				if (index) {
+					result.append(']');
+				}
+			}
+			return result.toString();
+		}
+	}
+
+	public static class Module_Param_FieldName extends Module_Param_Id {
+
+		private String name;
+
+		public Module_Param_FieldName(final String p) {
+			name = p;
+		}
+
+		@Override
+		public String get_name() {
+			return name;
+		}
+
+		@Override
+		public boolean is_explicit() {
+			return true;
+		}
+
+		@Override
+		public String get_str() {
+			return name;
+		}
+	}
+
+	public static class Module_Param_Index extends Module_Param_Id {
+
+		private int index;
+		private boolean is_expl;
+
+		public Module_Param_Index(final int p_index, final boolean p_is_expl) {
+			index = p_index;
+			is_expl = p_is_expl;
+		}
+
+		@Override
+		public int get_index() {
+			return index;
+		}
+
+		@Override
+		public boolean is_index() {
+			return true;
+		}
+
+		@Override
+		public boolean is_explicit() {
+			return is_expl;
+		}
+
+		@Override
+		public String get_str() {
+			return '[' + String.valueOf(index) + ']';
+		}
+	}
+
+	/** Custom module parameter name class, used in Module_Param instances that aren't
+	 * actual module parameters (length boundaries, array indexes and character codes in
+	 * quadruples use temporary Module_Param instances to allow the use of expressions
+	 * and references to module parameters).
+	 * Errors reported in these cases will contain the custom text set in this class,
+	 * instead of the regular error message header. */
+	public static class Module_Param_CustomName extends Module_Param_Id {
+		
+		private String name;
+		
+		public Module_Param_CustomName(final String p) {
+			name = p;
+		}
+		
+		@Override
+		public String get_name() {
+			return name;
+		}
+		
+		@Override
+		public boolean is_explicit() {
+			return true;
+		}
+		
+		@Override
+		public String get_str() {
+			return name;
+		}
+		
+		@Override
+		public boolean is_custom() {
+			return true;
 		}
 	}
 }
