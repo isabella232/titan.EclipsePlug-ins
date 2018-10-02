@@ -350,6 +350,7 @@ public class ProjectSourceCompiler {
 	private static void writeFooter( final JavaGenData aData, final StringBuilder aSb, final IResource sourceFile, final Module aModule) {
 //		final StringBuilder aSb = aData.getSrc();
 		if (aData.getSetModuleParameters().length() > 0) {
+			aSb.append("@Override\n");
 			aSb.append("public boolean set_module_param(final Param_Types.Module_Parameter param)\n");
 			aSb.append("{\n");
 			aSb.append("final String par_name = param.get_id().get_current_name();\n");

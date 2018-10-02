@@ -98,7 +98,39 @@ public final class Module_List {
 		}
 	}
 
-	//FIXME add support for module parameters
+	public static void set_param(final Param_Types.Module_Parameter param) {
+		// The first segment in the parameter name can either be the module name,
+		// or the module parameter name - both must be checked
+
+		final String first_name = param.get_id().get_current_name();
+		String second_name;
+		boolean param_found = false;
+
+		// Check if the first name segment is an existing module name
+		final TTCN_Module module = lookup_module(first_name);
+		if (module != null && param.get_id().next_name()) {
+			param_found = module.set_module_param(param);
+			if (!param_found) {
+				second_name = param.get_id().get_current_name(); // for error messages
+			}
+		}
+
+		// If not found, check if the first name segment was the module parameter name
+		// (even if it matched a module name)
+		if (!param_found) {
+			param.get_id().reset(); // set the position back to the first segment
+			for (final TTCN_Module module2 : modules) {
+				if (module2.set_module_param(param)) {
+					param_found = true;
+				}
+			}
+		}
+
+		// Still not found -> error
+		if (!param_found) {
+			//FIXME implement error reporting
+		}
+	}
 
 	public static void execute_control(final String module_name) {
 		final TTCN_Module module = lookup_module(module_name);

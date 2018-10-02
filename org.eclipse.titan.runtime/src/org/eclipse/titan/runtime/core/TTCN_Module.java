@@ -33,7 +33,7 @@ public class TTCN_Module {
 		this.moduleType = moduleType;
 	}
 
-	public boolean set_module_param() {
+	public boolean set_module_param(final Param_Types.Module_Parameter param) {
 		return false;
 	}
 
