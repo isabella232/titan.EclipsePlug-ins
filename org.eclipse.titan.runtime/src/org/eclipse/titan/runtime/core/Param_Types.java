@@ -244,6 +244,11 @@ public final class Param_Types {
 		}
 		
 		@Override
+		public boolean is_explicit() {
+			return true;
+		}
+
+		@Override
 		public String get_current_name() {
 			return names.get(pos);
 		}
@@ -284,6 +289,30 @@ public final class Param_Types {
 				}
 			}
 			return result.toString();
+		}
+	}
+
+	public static class Module_Param_FieldName extends Module_Param_Id {
+		
+		private String name;
+		
+		public Module_Param_FieldName(String p) {
+			name = p;
+		}
+		
+		@Override
+		public String get_name() {
+			return name;
+		}
+		
+		@Override
+		public boolean is_explicit() {
+			return true;
+		}
+		
+		@Override
+		public String get_str() {
+			return name;
 		}
 	}
 }
