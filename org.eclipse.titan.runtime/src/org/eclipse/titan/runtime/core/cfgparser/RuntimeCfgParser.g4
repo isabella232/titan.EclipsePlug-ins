@@ -805,6 +805,17 @@ pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> ent
 	)*
 ;
 
+pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
+@init {
+	$entry = new LoggingSectionHandler.LoggerPluginEntry();
+}:
+	i = pr_Identifier {	$entry.setName( $i.identifier );
+						$entry.setPath("");	}
+	(	ASSIGNMENTCHAR
+		s = pr_StringValue { $entry.setPath( $s.string ); }
+	)?
+;
+
 pr_PlainLoggingParam
 @init {
 	String componentName = "*";
@@ -915,17 +926,6 @@ pr_DiskFullActionValue:
 	)?
 	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_RETRY, retry_interval);	}
 )
-;
-
-pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
-@init {
-	$entry = new LoggingSectionHandler.LoggerPluginEntry();
-}:
-	i = pr_Identifier {	$entry.setName( $i.identifier );
-						$entry.setPath("");	}
-	(	ASSIGNMENTCHAR
-		s = pr_StringValue { $entry.setPath( $s.string ); }
-	)?
 ;
 
 pr_TestComponentID returns [component_id_t comp]

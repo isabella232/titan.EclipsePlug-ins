@@ -804,6 +804,19 @@ pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> ent
 	)*
 ;
 
+pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
+@init {
+	$entry = new LoggingSectionHandler.LoggerPluginEntry();
+}:
+	i = pr_Identifier {	$entry.setName( $i.identifier );
+						$entry.setPath("");	}
+	(	ASSIGNMENTCHAR
+		s = pr_StringValue { $entry.setPath( $s.string ); }
+	)?
+{	$entry.setLoggerPluginRoot( $ctx );
+}
+;
+
 pr_PlainLoggingParam
 @init {
 	String componentName = "*";
@@ -931,19 +944,6 @@ pr_DiskFullActionValue:
 |	DISKFULLACTIONVALUE_DELETE
 |	DISKFULLACTIONVALUE_RETRY ( LPAREN NATURAL_NUMBER RPAREN )?
 )
-;
-
-pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
-@init {
-	$entry = new LoggingSectionHandler.LoggerPluginEntry();
-}:
-	i = pr_Identifier {	$entry.setName( $i.identifier );
-						$entry.setPath("");	}
-	(	ASSIGNMENTCHAR
-		s = pr_StringValue { $entry.setPath( $s.string ); }
-	)?
-{	$entry.setLoggerPluginRoot( $ctx );
-}
 ;
 
 pr_TestComponentID:
