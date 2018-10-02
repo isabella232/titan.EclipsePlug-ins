@@ -934,24 +934,24 @@ pr_TestComponentID returns [component_id_t comp]
 }:
 (	i = pr_Identifier
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_NAME;
-			$comp.id_name = $i.text; 
+			$comp.id_name = $i.text;
 		}
 |	n = pr_NaturalNumber
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
-			$comp.id_compref = $n.integer.getIntegerValue(); 
+			$comp.id_compref = $n.integer.getIntegerValue();
 		}
 |	MTCKEYWORD
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_COMPREF;
-			$comp.id_compref = TitanComponent.MTC_COMPREF; 
+			$comp.id_compref = TitanComponent.MTC_COMPREF;
 		}
 |	STAR
 		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_ALL;
-			$comp.id_name = null; 
+			$comp.id_name = null;
 		}
 //TODO: add SystemKeyword, see config_process.y/ComponentId
 //|	SYSTEMKEYWORD
 //		{	$comp.id_selector = component_id_selector_enum.COMPONENT_ID_SYSTEM;
-//			$comp.id_name = null; 
+//			$comp.id_name = null;
 //		}
 )
 ;

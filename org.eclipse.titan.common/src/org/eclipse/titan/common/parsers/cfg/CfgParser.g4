@@ -772,7 +772,7 @@ pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
 }:
-	(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+	(	cn = pr_TestComponentID DOT { componentName = $cn.text; }
 	)?
 	LOGGERPLUGINS
 	ASSIGNMENTCHAR
@@ -809,7 +809,7 @@ pr_PlainLoggingParam
 	String componentName = "*";
 	String pluginName = "*";
 }:
-(	cn = pt_TestComponentID DOT { componentName = $cn.text; }
+(	cn = pr_TestComponentID DOT { componentName = $cn.text; }
 )?
 (	STAR DOT
 |	pn = pr_Identifier DOT { pluginName = $pn.text; }
@@ -946,7 +946,7 @@ pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
 }
 ;
 
-pt_TestComponentID:
+pr_TestComponentID:
 (	pr_Identifier
 |	pr_NaturalNumber
 |	MTCKEYWORD
