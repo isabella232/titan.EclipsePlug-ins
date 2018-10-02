@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.ArrayList;
 
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
@@ -186,45 +187,103 @@ public final class Param_Types {
 	}
 
 	public static class Module_Param_Id {
-		
+
 		public boolean is_explicit() {
 			return false;
 		}
-		
+
 		public boolean is_index() {
 			return false;
 		}
-		
+
 		public boolean is_custom() {
 			return false;
 		}
-		
+
 		public int get_index() {
 			throw new TtcnError("Internal error: Module_Param_Id.get_index()");
 		}
-		
+
 		public String get_name() {
 			throw new TtcnError("Internal error: Module_Param_Id.get_name()");
 		}
-		
+
 		public String get_current_name() {
 			throw new TtcnError("Internal error: Module_Param_Id.get_current_name()");
 		}
-		
+
 		public boolean next_name() {
 			throw new TtcnError("Internal error: Module_Param_Id.next_name()");
 		}
-		
+
 		public void reset() {
 			throw new TtcnError("Internal error: Module_Param_Id.reset()");
 		}
-		
+
 		public int get_nof_names() {
 			throw new TtcnError("Internal error: Module_Param_Id.get_nof_names()");
 		}
-		
+
 		public String get_str() {
 			return "";
+		}
+	}
+	
+	public static class Module_Param_Name extends Module_Param_Id {
+		/** The first elements are the module name (if any) and the module parameter name,
+		 * followed by record/set field names and array (or record of/set of) indexes.
+		 * Since the names of modules, module parameters and fields cannot start with
+		 * numbers, the indexes are easily distinguishable from these elements. */
+		
+		private ArrayList<String> names;
+		private int pos;
+		
+		public Module_Param_Name(ArrayList<String> p) {
+			names = p;
+			pos = 0;
+		}
+		
+		@Override
+		public String get_current_name() {
+			return names.get(pos);
+		}
+		
+		@Override
+		public boolean next_name() {
+			if (pos + 1 >= names.size()) {
+				return false;
+			}
+			++pos;
+			return true;
+		}
+		
+		@Override
+		public void reset() {
+			pos = 0;
+		}
+		
+		@Override
+		public int get_nof_names() {
+			return names.size();
+		}
+		
+		@Override
+		public String get_str() {
+			StringBuilder result = new StringBuilder();
+			for (int i = 0; i < names.size(); i++) {
+				boolean index = names.get(i).charAt(0) >= '0' && names.get(i).charAt(0) <= '9';
+				if (i > 0 && !index) {
+					result.append('.');
+				}
+				if (index) {
+					result.append('[');
+				}
+				result.append(names.get(i));
+				if (index) {
+					result.append(']');
+				}
+			}
+			return result.toString();
 		}
 	}
 }
