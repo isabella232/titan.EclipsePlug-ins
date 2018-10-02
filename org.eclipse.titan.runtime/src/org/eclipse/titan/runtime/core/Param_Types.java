@@ -111,11 +111,11 @@ public final class Param_Types {
 			length_restriction = null;
 		}
 
-		public void set_parent(Module_Parameter p_parent) {
+		public void set_parent(final Module_Parameter p_parent) {
 			parent = p_parent;
 		}
 
-		public void set_id(Module_Param_Id p_id) {
+		public void set_id(final Module_Param_Id p_id) {
 			if (id == null) {
 				throw new TtcnError("Internal error: Module_Param.set_id()");
 			}
@@ -152,7 +152,7 @@ public final class Param_Types {
 			return operation_type;
 		}
 
-		public void set_operation_type(operation_type_t p_optype) {
+		public void set_operation_type(final operation_type_t p_optype) {
 			operation_type = p_optype;
 		}
 
@@ -178,7 +178,7 @@ public final class Param_Types {
 			}
 		}
 
-		public void log(boolean log_id) {
+		public void log(final boolean log_id) {
 			//TODO: implement missing functions first
 		}
 
@@ -238,7 +238,7 @@ public final class Param_Types {
 		private ArrayList<String> names;
 		private int pos;
 		
-		public Module_Param_Name(ArrayList<String> p) {
+		public Module_Param_Name(final ArrayList<String> p) {
 			names = p;
 			pos = 0;
 		}
@@ -296,7 +296,7 @@ public final class Param_Types {
 
 		private String name;
 
-		public Module_Param_FieldName(String p) {
+		public Module_Param_FieldName(final String p) {
 			name = p;
 		}
 
@@ -321,7 +321,7 @@ public final class Param_Types {
 		private int index;
 		private boolean is_expl;
 
-		public Module_Param_Index(int p_index, boolean p_is_expl) {
+		public Module_Param_Index(final int p_index, final boolean p_is_expl) {
 			index = p_index;
 			is_expl = p_is_expl;
 		}
@@ -357,7 +357,7 @@ public final class Param_Types {
 		
 		private String name;
 		
-		public Module_Param_CustomName(String p) {
+		public Module_Param_CustomName(final String p) {
 			name = p;
 		}
 		
