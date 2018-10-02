@@ -28,8 +28,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_And_Timeout_Event_Handler;
 import org.eclipse.titan.runtime.core.Event_Handler.Channel_Event_Handler;
 import org.eclipse.titan.runtime.core.TTCN_Communication.transport_type_enum;
-import org.eclipse.titan.runtime.core.TitanComponent.Component_Id_type;
 import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
+import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
 
 /**
  * The base class of test ports
@@ -203,7 +203,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private static class Port_Parameter {
-		public Component_Id_type component_id;
+		public component_id_t component_id;
 		public String port_name;
 		public String parameter_name;
 		public String parameter_value;
@@ -238,7 +238,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 		}
 	}
 
-	public static void add_parameter(final Component_Id_type component_id, final String port_name, final String parameter_name, final String parameter_value) {
+	public static void add_parameter(final component_id_t component_id, final String port_name, final String parameter_name, final String parameter_value) {
 		final Port_Parameter newParameter = new Port_Parameter();
 
 		newParameter.component_id.id_selector = component_id.id_selector;
@@ -247,7 +247,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 			newParameter.component_id.id_name = component_id.id_name;
 			break;
 		case COMPONENT_ID_COMPREF:
-			newParameter.component_id.id_component = component_id.id_component;
+			newParameter.component_id.id_compref = component_id.id_compref;
 			break;
 		default:
 			break;
@@ -275,7 +275,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 				}
 				break;
 			case COMPONENT_ID_COMPREF:
-				if (parameter.component_id.id_component == component_reference) {
+				if (parameter.component_id.id_compref == component_reference) {
 					apply_parameter(parameter);
 				}
 				break;
