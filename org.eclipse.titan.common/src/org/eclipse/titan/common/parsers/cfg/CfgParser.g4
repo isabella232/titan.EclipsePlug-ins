@@ -1212,8 +1212,8 @@ pr_StructuredValue2:
 pr_ComponentID:
 (	pr_Identifier
 |	pr_NaturalNumber
-|	MTC
-|	SYSTEM
+|	MTCKEYWORD
+|	SYSTEMKEYWORD
 |	STAR
 )
 ;

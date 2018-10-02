@@ -108,7 +108,7 @@ tokens {
 	MACRO_INT,
 	MACRO_OSTR,
 	MINUS,
-	MTC,
+	MTCKEYWORD,
 	NANKEYWORD,
 	NATURAL_NUMBER,
 	NO,
@@ -134,7 +134,7 @@ tokens {
 	STRINGOP,
 	SUBSETKEYWORD,
 	SUPERSETKEYWORD,
-	SYSTEM,
+	SYSTEMKEYWORD,
 	TCPPORT,
 	TRUE,
 	TTCN3IDENTIFIER,
@@ -625,8 +625,8 @@ LPAREN7:			'('
  -> type(LPAREN);
 RPAREN7:			')'
  -> type(RPAREN);
-MTC7:				'mtc' -> type(MTC);
-SYSTEM7:			'system' -> type(SYSTEM);
+MTCKEYWORD7:		'mtc' -> type(MTCKEYWORD);
+SYSTEMKEYWORD7:		'system' -> type(SYSTEMKEYWORD);
 fragment FR_ESCAPE7:	'\\' ( '\\' | '\'' | '"' | '?' | 'a' | 'b' | 'f' | 'n' | 'r' | 't' | 'v' );
 STRING7:
 '"'
@@ -1039,7 +1039,8 @@ VERDICTOP_UNQUALIFIED: 'VERDICTOP_UNQUALIFIED'; WARNING_UNQUALIFIED: 'WARNING_UN
 COMPACT: 'Compact' | 'compact';
 DETAILED: 'Detailed' | 'detailed';
 SUBCATEGORIES: 'SubCategories' | 'Subcategories' | 'subCategories' | 'subcategories';
-MTCKEYWORD: 'mtc'; SYSTEMKEYWORD: 'system';
+MTCKEYWORD11:		'mtc' -> type(MTCKEYWORD);
+SYSTEMKEYWORD11:	'system' -> type(SYSTEMKEYWORD);
 LOGGERPLUGINS: 'LoggerPlugins' | 'Loggerplugins' | 'loggerPlugins' | 'loggerplugins';
 
 APPENDFILE: 'appendfile' | 'Appendfile' | 'appendFile' | 'AppendFile';
