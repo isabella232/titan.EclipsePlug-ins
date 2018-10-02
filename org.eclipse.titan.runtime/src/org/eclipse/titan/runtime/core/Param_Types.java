@@ -69,7 +69,6 @@ public final class Param_Types {
 
 		public enum operation_type_t { OT_ASSIGN, OT_CONCAT };
 
-		//TODO: enum basic_check_bits_t
 		public enum basic_check_bits_t { // used to parametrize basic_check()
 			BC_VALUE(0x00), // non-list values
 			BC_LIST(0x01), // list values and templates
@@ -117,7 +116,7 @@ public final class Param_Types {
 
 		public void set_id(Module_Param_Id p_id) {
 			if (id == null) {
-				throw new TtcnError("Internal error: Module_Param::set_id()");
+				throw new TtcnError("Internal error: Module_Param.set_id()");
 			}
 			id = p_id;
 		}
@@ -139,7 +138,7 @@ public final class Param_Types {
 
 		public void set_length_restriction(Module_Param_Length_Restriction p_length_restriction) {
 			if (length_restriction != null) {
-				throw new TtcnError("Internal error: Module_Param::set_length_restriction()");
+				throw new TtcnError("Internal error: Module_Param.set_length_restriction()");
 			}
 			length_restriction = p_length_restriction;
 		}
@@ -187,8 +186,45 @@ public final class Param_Types {
 	}
 
 	public static class Module_Param_Id {
+		
+		public boolean is_explicit() {
+			return false;
+		}
+		
+		public boolean is_index() {
+			return false;
+		}
+		
+		public boolean is_custom() {
+			return false;
+		}
+		
+		public int get_index() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_index()");
+		}
+		
+		public String get_name() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_name()");
+		}
+		
 		public String get_current_name() {
 			throw new TtcnError("Internal error: Module_Param_Id.get_current_name()");
+		}
+		
+		public boolean next_name() {
+			throw new TtcnError("Internal error: Module_Param_Id.next_name()");
+		}
+		
+		public void reset() {
+			throw new TtcnError("Internal error: Module_Param_Id.reset()");
+		}
+		
+		public int get_nof_names() {
+			throw new TtcnError("Internal error: Module_Param_Id.get_nof_names()");
+		}
+		
+		public String get_str() {
+			return "";
 		}
 	}
 }
