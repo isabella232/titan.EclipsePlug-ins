@@ -31,7 +31,6 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.timestamp_format_t;
 import org.eclipse.titan.runtime.core.TitanComponent;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
-import org.eclipse.titan.runtime.core.cfgparser.LoggingSectionHandler.LogParamEntry;
 
 import java.io.File;
 import java.util.EnumMap;
@@ -85,7 +84,6 @@ import java.util.regex.Pattern;
 	private IncludeSectionHandler includeSectionHandler = new IncludeSectionHandler();
 	private IncludeSectionHandler orderedIncludeSectionHandler = new IncludeSectionHandler();
 	private DefineSectionHandler defineSectionHandler = new DefineSectionHandler();
-	private LoggingSectionHandler loggingSectionHandler = new LoggingSectionHandler();
 
 	/**
 	 * Adds a new definition
@@ -164,10 +162,6 @@ import java.util.regex.Pattern;
 
 	public DefineSectionHandler getDefineSectionHandler() {
 		return defineSectionHandler;
-	}
-
-	public LoggingSectionHandler getLoggingSectionHandler() {
-		return loggingSectionHandler;
 	}
 
 	/**
@@ -774,46 +768,47 @@ pr_ComponentSpecificLoggingParam:
 pr_LoggerPluginsPart
 @init {
 	String componentName = "*";
+	component_id_t comp = new component_id_t(); 
 }:
-	(	cn = pr_TestComponentID DOT { componentName = $cn.text; }
+	(	cn = pr_TestComponentID DOT
+		{	componentName = $cn.text;
+			comp = $cn.comp;
+		}
 	)?
 	LOGGERPLUGINS
 	ASSIGNMENTCHAR
 	BEGINCHAR
-	lpl = pr_LoggerPluginsList
+	pr_LoggerPluginsList[comp]
 	ENDCHAR
-{
-	for (LoggingSectionHandler.LoggerPluginEntry item : $lpl.entries) {
-		LoggingSectionHandler.LogParamEntry lpe = loggingSectionHandler.componentPlugin(componentName, item.getName());
-		lpe.setPluginPath(item.getPath());
-	}
-	LoggingSectionHandler.LoggerPluginsEntry entry = new LoggingSectionHandler.LoggerPluginsEntry();
-	entry.setPlugins( new HashMap<String, LoggingSectionHandler.LoggerPluginEntry>( $lpl.entries.size() ) );
-	for ( LoggingSectionHandler.LoggerPluginEntry item : $lpl.entries ) {
-		entry.getPlugins().put(item.getName(), item);
-	}
-	loggingSectionHandler.getLoggerPluginsTree().put(componentName, entry);
-}
 ;
 
-pr_LoggerPluginsList returns [ List<LoggingSectionHandler.LoggerPluginEntry> entries ]
-@init {
-	$entries = new ArrayList<LoggingSectionHandler.LoggerPluginEntry>();
-}:
-	lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
-	(	COMMA lpe = pr_LoggerPluginEntry { $entries.add( $lpe.entry ); }
+pr_LoggerPluginsList [component_id_t comp]:
+	pr_LoggerPluginEntry[$comp]
+	(	COMMA
+		pr_LoggerPluginEntry[$comp]
 	)*
 ;
 
-pr_LoggerPluginEntry returns [ LoggingSectionHandler.LoggerPluginEntry entry ]
+pr_LoggerPluginEntry [component_id_t comp]
 @init {
-	$entry = new LoggingSectionHandler.LoggerPluginEntry();
+	String pluginFilename = "";
 }:
-	i = pr_Identifier {	$entry.setName( $i.identifier );
-						$entry.setPath("");	}
+	i = pr_Identifier
 	(	ASSIGNMENTCHAR
-		s = pr_StringValue { $entry.setPath( $s.string ); }
+		s = pr_StringValue	{	pluginFilename = $s.string;	}
 	)?
+	{
+//TODO: implement
+//		TTCN_Logger.register_plugin( $comp, $i.identifier, pluginFilename );
+		
+//		final logging_setting_t logging_setting = new logging_setting_t();
+//		logging_setting.component = comp;
+//		logging_setting.pluginId = $i.identifier;
+//		final logging_param_t logging_param = new logging_param_t();
+//		logging_param.log_param_selection = logging_param_type.LP_UNKNOWN;
+//		logging_setting.logparam = logging_param;
+//		TTCN_Logger.add_parameter(logging_setting);
+	}
 ;
 
 pr_PlainLoggingParam
@@ -913,7 +908,8 @@ pr_DiskFullActionValue:
 |	DISKFULLACTIONVALUE_STOP	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_STOP);	}
 |	DISKFULLACTIONVALUE_DELETE	{	TTCN_Logger.set_disk_full_action(disk_full_action_type_t.DISKFULL_DELETE);	}
 |	DISKFULLACTIONVALUE_RETRY
-	{	int retry_interval = 0;	}
+	{	int retry_interval = 30;	// default retry interval
+	}
 	(	LPAREN
 		n = NATURAL_NUMBER
 			{	try {

@@ -29,14 +29,9 @@ import org.eclipse.titan.runtime.core.TtcnError;
 public final class CfgAnalyzer {
 
 	ExecuteSectionHandler executeSectionHandler = null;
-	LoggingSectionHandler loggingSectionHandler = null;
 
 	public ExecuteSectionHandler getExecuteSectionHandler() {
 		return executeSectionHandler;
-	}
-
-	public LoggingSectionHandler getLoggingSectionHandler() {
-		return loggingSectionHandler;
 	}
 
 	/**
@@ -100,7 +95,6 @@ public final class CfgAnalyzer {
 		parser.pr_ConfigFile();
 		
 		executeSectionHandler = parser.getExecuteSectionHandler();
-		loggingSectionHandler = parser.getLoggingSectionHandler();
 
 		try {
 			reader.close();
