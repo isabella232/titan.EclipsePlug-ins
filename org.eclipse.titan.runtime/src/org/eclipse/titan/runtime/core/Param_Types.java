@@ -293,10 +293,71 @@ public final class Param_Types {
 	}
 
 	public static class Module_Param_FieldName extends Module_Param_Id {
+
+		private String name;
+
+		public Module_Param_FieldName(String p) {
+			name = p;
+		}
+
+		@Override
+		public String get_name() {
+			return name;
+		}
+
+		@Override
+		public boolean is_explicit() {
+			return true;
+		}
+
+		@Override
+		public String get_str() {
+			return name;
+		}
+	}
+
+	public static class Module_Param_Index extends Module_Param_Id {
+
+		private int index;
+		private boolean is_expl;
+
+		public Module_Param_Index(int p_index, boolean p_is_expl) {
+			index = p_index;
+			is_expl = p_is_expl;
+		}
+
+		@Override
+		public int get_index() {
+			return index;
+		}
+
+		@Override
+		public boolean is_index() {
+			return true;
+		}
+
+		@Override
+		public boolean is_explicit() {
+			return is_expl;
+		}
+
+		@Override
+		public String get_str() {
+			return '[' + String.valueOf(index) + ']';
+		}
+	}
+
+	/** Custom module parameter name class, used in Module_Param instances that aren't
+	 * actual module parameters (length boundaries, array indexes and character codes in
+	 * quadruples use temporary Module_Param instances to allow the use of expressions
+	 * and references to module parameters).
+	 * Errors reported in these cases will contain the custom text set in this class,
+	 * instead of the regular error message header. */
+	public static class Module_Param_CustomName extends Module_Param_Id {
 		
 		private String name;
 		
-		public Module_Param_FieldName(String p) {
+		public Module_Param_CustomName(String p) {
 			name = p;
 		}
 		
@@ -313,6 +374,11 @@ public final class Param_Types {
 		@Override
 		public String get_str() {
 			return name;
+		}
+		
+		@Override
+		public boolean is_custom() {
+			return true;
 		}
 	}
 }
