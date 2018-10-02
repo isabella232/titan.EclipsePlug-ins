@@ -1312,7 +1312,7 @@ pr_StringValue returns [String string]
 pr_CString returns [String string]:
 (	a = STRING
 		{
-			$string = $a.text;
+			$string = $a.text.replaceAll("^\"|\"$", "");
 		}
 |	macro2 = pr_MacroCString			{	$string = $macro2.string;	}
 |	macro1 = pr_MacroExpliciteCString	{	$string = $macro1.string;	}
