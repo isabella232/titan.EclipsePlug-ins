@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -246,4 +247,12 @@ public final class ObjectClass_Definition extends ObjectClass {
 		// false;
 		return true;
 	}
+
+	@Override
+	public void generateCode(final JavaGenData aData) {
+		//TODO check if already generated in this iteration
+		fieldSpecifications.generateCode(aData);
+	}
+
+	
 }
