@@ -7,16 +7,21 @@
  ******************************************************************************/
 package org.eclipse.titan.designer.AST.ASN1.Object;
 
+import java.text.MessageFormat;
+
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.GovernedSimple.CodeSectionType;
 import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.IType.ValueCheckingOptions;
+import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.IValue;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -138,5 +143,32 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData) {
+		if (fixedType == null) {
+			return;
+		}
+
+		final String genName = fixedType.getGenNameOwn();
+		final StringBuilder sb = aData.getCodeForType(genName);
+		final StringBuilder source = new StringBuilder();
+		fixedType.generateCode( aData, source );
+		sb.append(source);
+
+		if (defaultValue != null) {
+			final String typeGeneratedName = fixedType.getGenNameValue( aData, source, getMyScope() );
+			source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+			getLocation().update_location_object(aData, aData.getPreInit());
+
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final IValue last = defaultValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
+			referenceChain.release();
+			last.generateCodeInit( aData, aData.getPreInit(), genName );
+
+			aData.addGlobalVariable(typeGeneratedName, source.toString());
+		}
 	}
 }
