@@ -246,6 +246,11 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 			return;
 		}
 
+		if (null != assPard) {
+			// don't generate code for assignments that still have a parameter at this point.
+			return;
+		}
+
 		ErrorReporter.INTERNAL_ERROR("Code generator reached erroneous undefined assignment `" + getFullName() + "''");
 		aData.getSrc().append("FATAL_ERROR encountered while processing `" + getFullName() + "''\n");
 	}
