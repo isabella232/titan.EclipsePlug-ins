@@ -249,10 +249,9 @@ public final class ObjectClass_Definition extends ObjectClass {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData) {
 		//TODO check if already generated in this iteration
 		fieldSpecifications.generateCode(aData);
 	}
-
-	
 }
