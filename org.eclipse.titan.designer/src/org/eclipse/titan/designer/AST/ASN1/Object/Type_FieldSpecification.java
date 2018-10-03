@@ -12,6 +12,7 @@ import org.eclipse.titan.designer.AST.ISetting;
 import org.eclipse.titan.designer.AST.IType.TypeOwner_type;
 import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.Type;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -70,6 +71,7 @@ public final class Type_FieldSpecification extends FieldSpecification {
 		}
 
 		if (null != definedType) {
+			definedType.setGenName(myObjectClass.getGenNameOwn(), identifier.getName());
 			definedType.check(timestamp);
 		}
 
@@ -102,5 +104,18 @@ public final class Type_FieldSpecification extends FieldSpecification {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode(final JavaGenData aData) {
+		if (definedType != null) {
+			final String genName = definedType.getGenNameOwn();
+			final StringBuilder sb = aData.getCodeForType(genName);
+			final StringBuilder source = new StringBuilder();
+
+			definedType.generateCode( aData, source );
+			sb.append(source);
+		}
 	}
 }
