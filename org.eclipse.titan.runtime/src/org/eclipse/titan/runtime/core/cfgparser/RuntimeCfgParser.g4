@@ -18,6 +18,10 @@ options{
 import org.eclipse.titan.runtime.core.LoggingParam.logging_param_t;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
+import org.eclipse.titan.runtime.core.Module_List;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_selector_enum;
@@ -30,6 +34,8 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.timestamp_format_t;
 import org.eclipse.titan.runtime.core.TitanComponent;
+import org.eclipse.titan.runtime.core.TitanPort;
+import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
 import java.io.File;
@@ -74,8 +80,6 @@ import java.util.regex.Pattern;
 	private int mLine = 1;
 	private int mOffset = 0;
 
-	private ModuleParameterSectionHandler moduleParametersHandler = new ModuleParameterSectionHandler();
-	private TestportParameterSectionHandler testportParametersHandler = new TestportParameterSectionHandler();
 	private ComponentSectionHandler componentSectionHandler = new ComponentSectionHandler();
 	private GroupSectionHandler groupSectionHandler = new GroupSectionHandler();
 	private MCSectionHandler mcSectionHandler = new MCSectionHandler();
@@ -122,14 +126,6 @@ import java.util.regex.Pattern;
 
 	public void setEnvironmentalVariables(Map<String, String> aEnvVariables){
 		mEnvVariables = aEnvVariables;
-	}
-
-	public ModuleParameterSectionHandler getModuleParametersHandler() {
-		return moduleParametersHandler;
-	}
-
-	public TestportParameterSectionHandler getTestportParametersHandler() {
-		return testportParametersHandler;
 	}
 
 	public ComponentSectionHandler getComponentSectionHandler() {
@@ -322,6 +318,20 @@ import java.util.regex.Pattern;
 		}
 		return null;
 	}
+
+	/**
+	 * Sets a module parameter
+	 * @param new module parameter
+	 */
+	static void set_param(Module_Parameter param) {
+		try {
+			Module_List.set_param(param);
+		} catch (TtcnError e) {
+			//TODO: handle error
+			//error_flag = true;
+		}
+	}
+
 }
 
 pr_ConfigFile:
@@ -331,18 +341,18 @@ pr_ConfigFile:
 ;
 
 pr_Section:
-(	mc = pr_MainControllerSection
-|	i = pr_IncludeSection
-|	oi = pr_OrderedIncludeSection
-|	e = pr_ExecuteSection
-|	d = pr_DefineSection
-|	ec = pr_ExternalCommandsSection
-|	tp = pr_TestportParametersSection
-|	g = pr_GroupsSection
-|	mp = pr_ModuleParametersSection
-|	c = pr_ComponentsSection
-|	l = pr_LoggingSection
-|	p = pr_ProfilerSection
+(	pr_MainControllerSection
+|	pr_IncludeSection
+|	pr_OrderedIncludeSection
+|	pr_ExecuteSection
+|	pr_DefineSection
+|	pr_ExternalCommandsSection
+|	pr_TestportParametersSection
+|	pr_GroupsSection
+|	pr_ModuleParametersSection
+|	pr_ComponentsSection
+|	pr_LoggingSection
+|	pr_ProfilerSection
 )
 ;
 
@@ -542,20 +552,17 @@ pr_TestportParametersSection:
 	)*
 ;
 
-pr_TestportParameter:
-	a = pr_ComponentID
+pr_TestportParameter
+@init {
+}:
+	comp = pr_ComponentID
 	DOT
-	b = pr_TestportName
+	pn = pr_TestportName	{	final String portName = "*".equals($pn.text) ? null : $pn.text;	}
 	DOT
-	c = pr_Identifier
+	paramname = pr_Identifier
 	ASSIGNMENTCHAR
-	d = pr_StringValue
-{	TestportParameterSectionHandler.TestportParameter parameter = new TestportParameterSectionHandler.TestportParameter();
-	parameter.setComponentName( $a.ctx );
-	parameter.setTestportName( $b.ctx );
-	parameter.setParameterName( $c.ctx );
-	parameter.setValue( $d.ctx );
-	testportParametersHandler.getTestportParameters().add( parameter );
+	value = pr_StringValue
+{	TitanPort.add_parameter( $comp.comp, portName, $paramname.identifier, $value.string );
 }
 ;
 
@@ -567,11 +574,7 @@ pr_GroupsSection:
 
 pr_ModuleParametersSection:
 	MODULE_PARAMETERS_SECTION
-	(	param = pr_ModuleParam
-			{	if ( $param.parameter != null ) {
-					moduleParametersHandler.getModuleParameters().add( $param.parameter );
-				}
-			}
+	(	pr_ModuleParam
 		SEMICOLON?
 	)*
 ;
@@ -1371,37 +1374,33 @@ pr_DNSName:
 )
 ;
 
-pr_ModuleParam returns[ModuleParameterSectionHandler.ModuleParameter parameter]
+pr_ModuleParam
 @init {
-	$parameter = null;
+	operation_type_t operation;
 }:
-	name = pr_ParameterName	{$parameter = $name.parameter;}
-	(	ASSIGNMENTCHAR
-		val1 = pr_ParameterValue	{$parameter.setValue($val1.text);}
-	|	CONCATCHAR
-		val2 = pr_ParameterValue	{$parameter.setValue($val2.text);}
+	name = pr_ParameterName
+	(	ASSIGNMENTCHAR	{	operation = operation_type_t.OT_ASSIGN;	}
+	|	CONCATCHAR	{	operation = operation_type_t.OT_CONCAT;	}
 	)
+	param = pr_ParameterValue
+		{
+//TODO: implement
+//			Module_Parameter mp = Module_Parameter();
+//			mp.set_id(new Module_Parameter_Name($name.text));
+//			mp.set_operation_type(operation);
+//			set_param(mp);
+		}
 ;
 
-pr_ParameterName returns[ModuleParameterSectionHandler.ModuleParameter parameter]:
-{	$parameter = new ModuleParameterSectionHandler.ModuleParameter();
-}
+pr_ParameterName:
 (	id1 = pr_ParameterNamePart
 	(	separator = pr_Dot
 		id2 = pr_ParameterNameTail
-			{	$parameter.setModuleName( $id1.text );
-				$parameter.setSeparator( $separator.text );
-				$parameter.setParameterName( $id2.text );
-			}
-	|	{	$parameter.setParameterName( $id1.text );
-		}
+	|
 	)
 |	star = pr_StarModuleName
 	DOT
 	id3 = pr_ParameterNamePart
-	{	$parameter.setModuleName($star.text);
-		$parameter.setParameterName($id3.text);
-	}
 )
 ;
 
