@@ -268,13 +268,14 @@ public class ProjectSourceCompiler {
 	}
 
 
+	//TODO: move it into titan.common
 	/**
 	 * RECURSIVE
 	 * Creates full directory path
 	 * @param aFolder directory to create
 	 * @throws CoreException
 	 */
-	private static void createDir( final IFolder aFolder ) throws CoreException {
+	public static void createDir( final IFolder aFolder ) throws CoreException {
 		if (!aFolder.exists()) {
 			final IContainer parent = aFolder.getParent();
 			if (parent instanceof IFolder) {
