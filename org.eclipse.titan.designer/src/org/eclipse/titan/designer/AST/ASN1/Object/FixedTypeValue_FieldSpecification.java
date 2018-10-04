@@ -107,6 +107,9 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 				final IValue tempValue = fixedType.checkThisValueRef(timestamp, defaultValue);
 				fixedType.checkThisValue(timestamp, tempValue, null, new ValueCheckingOptions(Expected_Value_type.EXPECTED_CONSTANT,
 						false, false, true, false, false));
+
+				defaultValue.setGenNamePrefix("const_");
+				defaultValue.setGenNameRecursive(fixedType.getGenNameOwn() + "_defval_");
 				defaultValue.setCodeSection(CodeSectionType.CS_PRE_INIT);
 			}
 		}
@@ -152,23 +155,25 @@ public final class FixedTypeValue_FieldSpecification extends FieldSpecification 
 			return;
 		}
 
-		final String genName = fixedType.getGenNameOwn();
-		final StringBuilder sb = aData.getCodeForType(genName);
-		final StringBuilder source = new StringBuilder();
-		fixedType.generateCode( aData, source );
-		sb.append(source);
+		final String typeGenName = fixedType.getGenNameOwn();
+		final StringBuilder sb = aData.getCodeForType(typeGenName);
+		final StringBuilder typeSource = new StringBuilder();
+		fixedType.generateCode( aData, typeSource );
+		sb.append(typeSource);
 
 		if (defaultValue != null) {
-			final String typeGeneratedName = fixedType.getGenNameValue( aData, source, getMyScope() );
-			source.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, genName));
+			final StringBuilder valueSource = new StringBuilder();
+			final String defValueGenName = defaultValue.getGenNameOwn();
+			final String typeGeneratedName = fixedType.getGenNameValue( aData, valueSource, getMyScope() );
+			valueSource.append(MessageFormat.format(" static final {0} {1} = new {0}();\n", typeGeneratedName, defValueGenName));
 			getLocation().update_location_object(aData, aData.getPreInit());
 
 			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
 			final IValue last = defaultValue.getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 			referenceChain.release();
-			last.generateCodeInit( aData, aData.getPreInit(), genName );
+			last.generateCodeInit( aData, aData.getPreInit(), defValueGenName );
 
-			aData.addGlobalVariable(typeGeneratedName, source.toString());
+			aData.addGlobalVariable(typeGeneratedName, valueSource.toString());
 		}
 	}
 }
