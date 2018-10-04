@@ -23,7 +23,7 @@ import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
  */
 public class TitanOctetString_template extends Restricted_Length_Template {
 
-	private TitanOctetString single_value;
+	protected TitanOctetString single_value;
 
 	// value_list part
 	private ArrayList<TitanOctetString_template> value_list;
