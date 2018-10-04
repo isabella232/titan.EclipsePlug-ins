@@ -105,6 +105,8 @@ public abstract class ObjectClass extends Governor {
 		final StringBuilder sb = aData.getSrc();
 		sb.append( "\t//TODO: " );
 		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateCode() is not implemented!\n" );
+		sb.append( ".generateCode() is not implemented! (" );
+		sb.append(getFullName());
+		sb.append( ")\n" );
 	}
 }
