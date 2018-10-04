@@ -21,6 +21,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Block;
 import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -42,6 +43,8 @@ public final class ObjectClass_Definition extends ObjectClass {
 
 	private FieldSpecifications fieldSpecifications;
 	private ObjectClassSyntax_root ocsRoot;
+
+	private BuildTimestamp lastBuildTimestamp;
 
 	public ObjectClass_Definition(final Block fieldSpecsBlock, final Block withSyntaxBlock) {
 		this.fieldSpecsBlock = fieldSpecsBlock;
@@ -251,7 +254,12 @@ public final class ObjectClass_Definition extends ObjectClass {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData) {
-		//TODO check if already generated in this iteration
+		if (null != lastBuildTimestamp && !lastBuildTimestamp.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastBuildTimestamp = aData.getBuildTimstamp();
+
 		fieldSpecifications.generateCode(aData);
 	}
 }
