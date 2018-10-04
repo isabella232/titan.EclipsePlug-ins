@@ -7,7 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
@@ -25,7 +25,7 @@ public final class Param_Types {
 	 * FIXME a lot to implement here
 	 * Right now this is just a placeholder so that some could start working on module parameters.
 	 */
-	public static class Module_Parameter {
+	public static abstract class Module_Parameter {
 		
 		// list of all derived classes that can be instantiated
 		public enum type_t {
@@ -182,8 +182,165 @@ public final class Param_Types {
 			//TODO: implement missing functions first
 		}
 
+		public abstract void log_value();
+
 		//TODO: implement get_param_context()
 
+	}
+
+	/**
+	 * Module parameter expression
+	 * Contains an unprocessed module parameter expression with one or two operands.
+	 * Expression types:
+	 * with 2 operands: +, -, *, /, &
+	 * with 1 operand: - (unary + is handled by the parser).
+	 */
+	public static class Module_Param_Expression extends Module_Parameter {
+
+		private expression_operand_t expr_type;
+		private Module_Parameter operand1;
+		private Module_Parameter operand2;
+
+		public Module_Param_Expression(expression_operand_t p_type, Module_Parameter p_op1, Module_Parameter p_op2) {
+			expr_type = p_type;
+			operand1 = p_op1;
+			operand2 = p_op2;
+			if (operand1 == null || operand2 == null) {
+				throw new TtcnError("Internal error: Module_Param_Expression::Module_Param_Expression()");
+			}
+			operand1.set_parent(this);
+			operand2.set_parent(this);
+		}
+
+		public Module_Param_Expression(Module_Parameter p_op) {
+			expr_type = expression_operand_t.EXPR_NEGATE;
+			operand1 = p_op;
+			operand2 = null;
+			if (operand1 == null) {
+				throw new TtcnError("Internal error: Module_Param_Expression::Module_Param_Expression()");
+			}
+			operand1.set_parent(this);
+		}
+
+		public expression_operand_t get_expr_type() {
+			return expr_type;
+		}
+
+		public String get_expr_type_str() {
+			switch (expr_type) {
+			case EXPR_ADD:
+				return "Adding (+)";
+			case EXPR_SUBTRACT:
+				return "Subtracting (-)";
+			case EXPR_MULTIPLY:
+				return "Multiplying (*)";
+			case EXPR_DIVIDE:
+				return "Dividing (/)";
+			case EXPR_NEGATE:
+				return "Negating (-)";
+			case EXPR_CONCATENATE:
+				return "Concatenating (&)";
+			default:
+				return null;
+			}
+		}
+
+		public Module_Parameter get_operand1() {
+			return operand1;
+		}
+
+		public Module_Parameter get_operand2() {
+			return operand2;
+		}
+
+		public type_t get_type() {
+			return type_t.MP_Expression;
+		}
+
+		public String get_type_str() {
+			return "expression";
+		}
+
+		public void log_value() {
+			if (expr_type == expression_operand_t.EXPR_NEGATE) {
+				TTCN_Logger.log_event_str("- ");
+			}
+			operand1.log_value();
+			switch (expr_type) {
+			case EXPR_ADD:
+				TTCN_Logger.log_event_str(" + ");
+				break;
+			case EXPR_SUBTRACT:
+				TTCN_Logger.log_event_str(" - ");
+				break;
+			case EXPR_MULTIPLY:
+				TTCN_Logger.log_event_str(" * ");
+				break;
+			case EXPR_DIVIDE:
+				TTCN_Logger.log_event_str(" / ");
+				break;
+			case EXPR_CONCATENATE:
+				TTCN_Logger.log_event_str(" & ");
+				break;
+			default:
+				break;
+			}
+			if (expr_type != expression_operand_t.EXPR_NEGATE) {
+				operand2.log_value();
+			}
+		}
+	}
+
+	public static class Module_Param_Integer extends Module_Parameter {
+
+		private TitanInteger integer_value;
+
+		public type_t get_type() {
+			return type_t.MP_Integer;
+		}
+
+		public Module_Param_Integer(TitanInteger p) {
+			integer_value = p;
+			if (integer_value==null) {
+				throw new TtcnError("Internal error: Module_Param_Integer::Module_Param_Integer()");	
+			}
+		}
+
+		public TitanInteger get_integer() {
+			return integer_value;
+		}
+
+		public String get_type_str() {
+			return "integer";
+		}
+
+		public void log_value() {
+			integer_value.log();
+		}
+	}
+
+	public static class Module_Param_Float extends Module_Parameter {
+
+		private double float_value;
+
+		public type_t get_type() {
+			return type_t.MP_Float; }
+
+		public Module_Param_Float(double p) {
+			float_value = p;
+		}
+
+		public double get_float() {
+			return float_value; 
+		}
+
+		public String get_type_str() {
+			return "float";
+		}
+
+		public void log_value() {
+			TitanFloat.log_float(float_value);
+		}
 	}
 
 	public static class Module_Param_Id {
@@ -235,10 +392,10 @@ public final class Param_Types {
 		 * Since the names of modules, module parameters and fields cannot start with
 		 * numbers, the indexes are easily distinguishable from these elements. */
 		
-		private ArrayList<String> names;
+		private List<String> names;
 		private int pos;
 		
-		public Module_Param_Name(final ArrayList<String> p) {
+		public Module_Param_Name(final List<String> p) {
 			names = p;
 			pos = 0;
 		}
