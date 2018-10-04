@@ -301,8 +301,8 @@ public final class Param_Types {
 
 		public Module_Param_Integer(TitanInteger p) {
 			integer_value = p;
-			if (integer_value==null) {
-				throw new TtcnError("Internal error: Module_Param_Integer::Module_Param_Integer()");	
+			if (integer_value == null) {
+				throw new TtcnError("Internal error: Module_Param_Integer::Module_Param_Integer()");
 			}
 		}
 
@@ -331,7 +331,7 @@ public final class Param_Types {
 		}
 
 		public double get_float() {
-			return float_value; 
+			return float_value;
 		}
 
 		public String get_type_str() {
