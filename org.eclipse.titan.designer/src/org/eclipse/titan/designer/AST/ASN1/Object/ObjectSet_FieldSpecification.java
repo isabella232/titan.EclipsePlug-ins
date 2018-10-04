@@ -47,8 +47,8 @@ public final class ObjectSet_FieldSpecification extends FieldSpecification {
 
 	@Override
 	/** {@inheritDoc} */
-	public void setMyObjectClass(final ObjectClass_Definition objectClass) {
-		super.setMyObjectClass(objectClass);
+	public void setMyObjectClass(final ObjectClass_Definition paramObjectClass) {
+		super.setMyObjectClass(paramObjectClass);
 		final Scope scope = myObjectClass.getMyScope();
 		objectClass.setMyScope(scope);
 		if (null != defaultObjectSet) {
