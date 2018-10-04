@@ -299,7 +299,7 @@ public final class Param_Types {
 			return type_t.MP_Integer;
 		}
 
-		public Module_Param_Integer(TitanInteger p) {
+		public Module_Param_Integer(final TitanInteger p) {
 			integer_value = p;
 			if (integer_value == null) {
 				throw new TtcnError("Internal error: Module_Param_Integer::Module_Param_Integer()");
@@ -326,7 +326,7 @@ public final class Param_Types {
 		public type_t get_type() {
 			return type_t.MP_Float; }
 
-		public Module_Param_Float(double p) {
+		public Module_Param_Float(final double p) {
 			float_value = p;
 		}
 
@@ -340,6 +340,56 @@ public final class Param_Types {
 
 		public void log_value() {
 			TitanFloat.log_float(float_value);
+		}
+	}
+
+	public static class Module_Param_Boolean extends Module_Parameter {
+
+		private boolean boolean_value;
+
+		public type_t get_type() {
+			return type_t.MP_Boolean;
+		}
+
+		public Module_Param_Boolean(final boolean p) {
+			boolean_value = p;
+		}
+
+		public boolean get_boolean() {
+			return boolean_value;
+		}
+
+		public String get_type_str() {
+			return "boolean";
+		}
+
+		public void log_value() {
+			new TitanBoolean(boolean_value).log();
+		}
+	}
+
+	public static class Module_Param_Enumerated extends Module_Parameter {
+
+		private String enum_value;
+
+		public type_t get_type() {
+			return type_t.MP_Enumerated;
+		}
+
+		public Module_Param_Enumerated(final String p_e) {
+			enum_value = p_e;
+		}
+
+		public String get_enumerated() {
+			return enum_value;
+		}
+
+		public String get_type_str() {
+			return "enumerated";
+		}
+
+		public void log_value() {
+			TTCN_Logger.log_event_str(enum_value);
 		}
 	}
 
