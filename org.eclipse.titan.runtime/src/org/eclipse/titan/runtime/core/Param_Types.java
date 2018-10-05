@@ -179,13 +179,150 @@ public final class Param_Types {
 		}
 
 		public void log(final boolean log_id) {
-			//TODO: implement missing functions first
+			if (log_id && id != null && id.is_explicit()) {
+				String id_str = id.get_str();
+				TTCN_Logger.log_event_str(id_str);
+				id_str = null;
+				TTCN_Logger.log_event_str(get_operation_type_sign_str());
+			}
+			log_value();
+			if (has_ifpresent) {
+				TTCN_Logger.log_event_str(" ifpresent");
+			}
+			if (length_restriction != null) {
+				length_restriction.log();
+			}
 		}
 
 		public abstract void log_value();
+		
+		public String get_param_context() {
+			StringBuilder result = new StringBuilder();
+			if (parent != null) {
+				result.append(parent.get_param_context());
+			}
+			if (id != null) {
+				String id_str = id.get_str();
+				if (parent != null && !id.is_index()) {
+					result.append('.');
+				}
+				result.append(id_str);
+			}
+			return result.toString();
+		}
+		
+		//C++ virtual functions
 
-		//TODO: implement get_param_context()
+		public void add_elem(Module_Parameter value) {
+			throw new TtcnError("Internal error: Module_Param.add_elem()");
+		}
 
+		public void add_list_with_implicit_ids(List<Module_Parameter> mp_list) {
+			throw new TtcnError("Internal error: Module_Param.add_list_with_implicit_ids()");
+		}
+
+		public boolean get_boolean() {
+			throw new TtcnError("Internal error: Module_Param.get_boolean()");
+		}
+
+		public int get_size()  {
+			throw new TtcnError("Internal error: Module_Param.get_size()");
+		}
+
+		public Module_Parameter get_elem(int index)  {
+			throw new TtcnError("Internal error: Module_Param.get_elem()");
+		}
+
+		public int get_string_size()  {
+			throw new TtcnError("Internal error: Module_Param.get_string_size()");
+		}
+
+		//TODO: need to check later (original void*)
+		public String get_string_data() {
+			throw new TtcnError("Internal error: Module_Param.get_string_data()");
+		}
+
+		public int get_lower_int()  {
+			throw new TtcnError("Internal error: Module_Param.get_lower_int()");
+		}
+
+		public int get_upper_int()  {
+			throw new TtcnError("Internal error: Module_Param.get_upper_int()");
+		}
+
+		public boolean get_is_min_exclusive()  {
+			throw new TtcnError("Internal error: Module_Param.get_is_min_exclusive()");
+		}
+
+		public boolean get_is_max_exclusive()  {
+			throw new TtcnError("Internal error: Module_Param.get_is_max_exclusive()");
+		}
+
+		public double get_lower_float()  {
+			throw new TtcnError("Internal error: Module_Param.get_lower_float()");
+		}
+
+		public double get_upper_float()  {
+			throw new TtcnError("Internal error: Module_Param.get_upper_float()");
+		}
+
+		public boolean has_lower_float()  {
+			throw new TtcnError("Internal error: Module_Param.has_lower_float()");
+		}
+
+		public boolean has_upper_float()  {
+			throw new TtcnError("Internal error: Module_Param.has_upper_float()");
+		}
+
+		public TitanUniversalCharString get_lower_uchar()  {
+			throw new TtcnError("Internal error: Module_Param.get_lower_uchar()");
+		}
+
+		public TitanUniversalCharString get_upper_uchar()  {
+			throw new TtcnError("Internal error: Module_Param.get_upper_uchar()");
+		}
+
+		public TitanInteger get_integer()  {
+			throw new TtcnError("Internal error: Module_Param.get_integer()");
+		}
+
+		public double get_float()  {
+			throw new TtcnError("Internal error: Module_Param.get_float()");
+		}
+
+		public String get_pattern()  {
+			throw new TtcnError("Internal error: Module_Param.get_pattern()");
+		}
+
+		public boolean get_nocase()  {
+			throw new TtcnError("Internal error: Module_Param.get_nocase()");
+		}
+
+		public TitanVerdictType get_verdict()  {
+			throw new TtcnError("Internal error: Module_Param.get_verdict()");
+		}
+
+		public String get_enumerated()  {
+			throw new TtcnError("Internal error: Module_Param.get_enumerated()");
+		}
+
+		public expression_operand_t get_expr_type()  { 
+			throw new TtcnError("Internal error: Module_Param.get_expr_type()");
+		}
+
+		public String get_expr_type_str()  {
+			throw new TtcnError("Internal error: Module_Param.get_expr_type_str()");
+		}
+
+		public Module_Parameter get_operand1()  {
+			throw new TtcnError("Internal error: Module_Param.get_operand1()");
+		}
+
+		public Module_Parameter get_operand2()  {
+			throw new TtcnError("Internal error: Module_Param.get_operand2()");
+		}
+		
+		//TODO: error functions, now we throw a TtcnError 
 	}
 
 	/**
@@ -365,7 +502,6 @@ public final class Param_Types {
 			return "boolean";
 		}
 
-		@Override
 		public void log_value() {
 			new TitanBoolean(boolean_value).log();
 		}
@@ -391,186 +527,8 @@ public final class Param_Types {
 			return "enumerated";
 		}
 
-		@Override
 		public void log_value() {
 			TTCN_Logger.log_event_str(enum_value);
-		}
-	}
-
-	public static class Module_Param_Verdict extends Module_Parameter {
-
-		private TitanVerdictType verdict_value;
-
-		public type_t get_type() {
-			return type_t.MP_Verdict;
-		}
-
-		public Module_Param_Verdict(TitanVerdictType p) {
-			verdict_value = p;
-		}
-
-		public TitanVerdictType get_verdict() {
-			return verdict_value;
-		}
-
-		public String get_type_str() {
-			return "verdict";
-		}
-
-		@Override
-		public void log_value() {
-			verdict_value.log();
-		}
-	}
-
-	public static class Module_Param_Objid extends Module_Parameter {
-		// special string of integers
-
-		private int n_chars;
-		private TitanInteger[] chars_ptr;
-
-		public type_t get_type() {
-			return type_t.MP_Objid; 
-		}
-
-		public Module_Param_Objid(final int p_n, final TitanInteger[] p_c) {
-			n_chars = p_n;
-			chars_ptr = p_c;
-		}
-
-		public String get_type_str() {
-			return "object identifier";
-		}
-
-		@Override
-		public void log_value() {
-			new TitanObjectid(n_chars, chars_ptr).log();
-		}
-	}
-
-	public static class Module_Param_Bitstring extends Module_Parameter {
-
-		private TitanBitString bstr;
-
-		public type_t get_type() {
-			return type_t.MP_Bitstring;
-		}
-
-		public Module_Param_Bitstring(final String str) {
-			bstr = new TitanBitString(str);
-		}
-
-		public String get_type_str() {
-			return "bitstring";
-		}
-
-		@Override
-		public void log_value() {
-			bstr.log();
-		}
-	}
-
-	public static class Module_Param_Hexstring extends Module_Parameter {
-
-		private TitanHexString hstr;
-
-		public type_t get_type() {
-			return type_t.MP_Hexstring;
-		}
-
-		public Module_Param_Hexstring(final String str) {
-			hstr = new TitanHexString(str);
-		}
-
-		public String get_type_str() {
-			return "hexstring";
-		}
-
-		@Override
-		public void log_value() {
-			hstr.log();
-		}
-	}
-
-	public static class Module_Param_Octetstring extends Module_Parameter {
-
-		private TitanHexString ostr;
-
-		public type_t get_type() {
-			return type_t.MP_Octetstring;
-		}
-
-		public Module_Param_Octetstring(final String str) {
-			ostr = new TitanHexString(str);
-		}
-
-		public String get_type_str() {
-			return "octetstring";
-		}
-
-		@Override
-		public void log_value() {
-			ostr.log();
-		}
-	}
-
-	public static class Module_Param_Charstring extends Module_Parameter {
-
-		private TitanCharString cstr;
-
-		public type_t get_type() {
-			return type_t.MP_Charstring;
-		}
-
-		public Module_Param_Charstring(final TitanCharString p_cstr) {
-			cstr = p_cstr;
-		}
-
-		public String get_type_str() {
-			return "charstring";
-		}
-
-		@Override
-		public void log_value() {
-			cstr.log();
-		}
-	}
-
-	public static class Module_Param_Universal_Charstring extends Module_Parameter {
-
-		private TitanUniversalCharString ucstr;
-
-		public type_t get_type() {
-			return type_t.MP_Universal_Charstring;
-		}
-
-		public Module_Param_Universal_Charstring(final TitanUniversalCharString p_ucstr) {
-			ucstr = p_ucstr;
-		}
-
-		public String get_type_str() {
-			return "universal charstring";
-		}
-
-		@Override
-		public void log_value() {
-			ucstr.log();
-		}
-	}
-
-	public static class Module_Param_Omit extends Module_Parameter {
-
-		public type_t get_type() {
-			return type_t.MP_Omit;
-		}
-
-		public String get_type_str() {
-			return "omit";
-		}
-
-		@Override
-		public void log_value() {
-			TTCN_Logger.log_event_str("omit");
 		}
 	}
 
@@ -616,13 +574,13 @@ public final class Param_Types {
 			return "";
 		}
 	}
-
+	
 	public static class Module_Param_Name extends Module_Param_Id {
 		/** The first elements are the module name (if any) and the module parameter name,
 		 * followed by record/set field names and array (or record of/set of) indexes.
 		 * Since the names of modules, module parameters and fields cannot start with
 		 * numbers, the indexes are easily distinguishable from these elements. */
-
+		
 		private List<String> names;
 		private int pos;
 		
