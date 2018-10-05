@@ -1464,12 +1464,20 @@ pr_ParameterExpression:
 ;
 
 pr_LengthMatch:
-	LENGTHKEYWORD LPAREN pr_LengthBound
-	(	RPAREN
-	|	DOTDOT
-		(	pr_LengthBound | INFINITYKEYWORD	)
-		RPAREN
+	LENGTHKEYWORD
+	LPAREN
+	(	pr_LengthBound
+	|	pr_LengthBound
+		DOTDOT
+		(	pr_LengthBound
+		|	INFINITYKEYWORD
+		)
 	)
+	RPAREN
+;
+
+pr_LengthBound:
+	pr_IntegerValueExpression
 ;
 
 pr_SimpleParameterValue:
@@ -1517,10 +1525,6 @@ pr_IndexItemIndex:
 	SQUAREOPEN
 	pr_IntegerValueExpression
 	SQUARECLOSE
-;
-
-pr_LengthBound:
-	pr_IntegerValueExpression
 ;
 
 pr_ArithmeticValueExpression returns [CFGNumber number]:
