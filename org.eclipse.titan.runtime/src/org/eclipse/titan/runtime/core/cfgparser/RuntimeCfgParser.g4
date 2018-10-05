@@ -15,12 +15,29 @@ options{
 }
 
 @header {
+import org.eclipse.titan.runtime.core.Base_Type;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_param_t;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
 import org.eclipse.titan.runtime.core.Module_List;
+import org.eclipse.titan.runtime.core.Module_Param_Length_Restriction;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Enumerated;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Float;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Universal_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Verdict;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger;
 import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
@@ -33,8 +50,13 @@ import org.eclipse.titan.runtime.core.TTCN_Logger.matching_verbosity_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Logger.source_info_format_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.timestamp_format_t;
+import org.eclipse.titan.runtime.core.TitanCharString;
 import org.eclipse.titan.runtime.core.TitanComponent;
+import org.eclipse.titan.runtime.core.TitanInteger;
 import org.eclipse.titan.runtime.core.TitanPort;
+import org.eclipse.titan.runtime.core.TitanUniversalCharString;
+import org.eclipse.titan.runtime.core.TitanVerdictType;
+import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TtcnError;
 import org.eclipse.titan.runtime.core.cfgparser.ExecuteSectionHandler.ExecuteItem;
 
@@ -112,7 +134,7 @@ import java.util.regex.Pattern;
 		mCfgParseResult.addMacro( aMacroName, aMacroToken, mActualFile, aErrorMarker );
 	}
 
-	public void reportWarning(TITANMarker marker){
+	private void reportWarning(TITANMarker marker){
 		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
 
@@ -173,7 +195,7 @@ import java.util.regex.Pattern;
 	 * @param aPriority priority (low/normal/high)
 	 * @return new marker
 	 */
-	public TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
+	private TITANMarker createMarker( final String aMessage, final Token aStartToken, final Token aEndToken, final int aSeverity, final int aPriority ) {
 		TITANMarker marker = new TITANMarker(
 			aMessage,
 			(aStartToken != null) ? mLine - 1 + aStartToken.getLine() : -1,
@@ -193,7 +215,7 @@ import java.util.regex.Pattern;
 	 * @param aEndToken the last token, its end position will be used for the location.
 	 *                  NOTE: end position is the column index after the token's last character.
 	 */
-	public void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+	private void reportError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		TITANMarker marker = createError( aMessage, aStartToken, aEndToken );
 		mCfgParseResult.getWarningsAndErrors().add(marker);
 	}
@@ -209,7 +231,7 @@ import java.util.regex.Pattern;
 	 *                  NOTE: end position is the column index after the token's last character.
 	 * @return the created error marker
 	 */
-	public TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
+	private TITANMarker createError( final String aMessage, final Token aStartToken, final Token aEndToken ) {
 		final TITANMarker marker = createMarker( aMessage, aStartToken, aEndToken, SEVERITY_ERROR, PRIORITY_NORMAL );
 		return marker;
 	}
@@ -323,7 +345,7 @@ import java.util.regex.Pattern;
 	 * Sets a module parameter
 	 * @param new module parameter
 	 */
-	static void set_param(Module_Parameter param) {
+	private void set_param(Module_Parameter param) {
 		try {
 			Module_List.set_param(param);
 		} catch (TtcnError e) {
@@ -332,6 +354,13 @@ import java.util.regex.Pattern;
 		}
 	}
 
+	/**
+	 * Logs error during the process
+	 * @param errorMsg error message
+	 */
+	private void config_process_error(final String errorMsg)	{
+		//TODO: implement
+	}
 }
 
 pr_ConfigFile:
@@ -1383,24 +1412,25 @@ pr_ModuleParam
 	|	CONCATCHAR	{	operation = operation_type_t.OT_CONCAT;	}
 	)
 	param = pr_ParameterValue
-		{
-//TODO: implement
-//			Module_Parameter mp = Module_Parameter();
-//			mp.set_id(new Module_Parameter_Name($name.text));
-//			mp.set_operation_type(operation);
-//			set_param(mp);
+		{	final Module_Parameter mp = $param.moduleparameter;
+			mp.set_id(new Module_Param_Name($name.names));
+			mp.set_operation_type(operation);
+			set_param(mp);
 		}
 ;
 
-pr_ParameterName:
-(	id1 = pr_ParameterNamePart
+pr_ParameterName returns [List<String> names]
+@init {
+	$names = new ArrayList<String>();
+}:
+(	id1 = pr_ParameterNamePart	{	$names.add($id1.text);	}
 	(	separator = pr_Dot
-		id2 = pr_ParameterNameTail
+		id2 = pr_ParameterNameTail[$names]
 	|
 	)
 |	star = pr_StarModuleName
 	DOT
-	id3 = pr_ParameterNamePart
+	id3 = pr_ParameterNamePart	{	$names.add($id3.text);	}
 )
 ;
 
@@ -1412,10 +1442,10 @@ pr_ParameterNamePart:
 
 // rest of the parameter name after the first dot
 // this is handled as parameter (2nd column) in the cfg editor on module parameters tab
-pr_ParameterNameTail:
-	pr_ParameterNamePart
+pr_ParameterNameTail [List<String> names]:
+	n = pr_ParameterNamePart	{	$names.add($n.text);	}
 	(	pr_Dot
-		pr_ParameterNamePart
+		n = pr_ParameterNamePart	{	$names.add($n.text);	}
 	)*
 ;
 
@@ -1427,52 +1457,99 @@ pr_StarModuleName:
 	STAR
 ;
 
-pr_ParameterValue:
-	pr_ParameterExpression pr_LengthMatch? IFPRESENTKEYWORD?
+pr_ParameterValue returns [Module_Parameter moduleparameter]:
+	pe = pr_ParameterExpression	{	$moduleparameter = $pe.moduleparameter;	}
+	(	lm = pr_LengthMatch	{	$moduleparameter.set_length_restriction($lm.length_restriction);	}
+	)?
+	(	IFPRESENTKEYWORD	{	$moduleparameter.set_ifpresent();	}
+	)?
 ;
 
 //module parameter expression, it can contain previously defined module parameters
-pr_ParameterExpression:
-	pr_SimpleParameterValue
-|	pr_ParameterReference
-|	pr_ParameterExpression
-	(	(	PLUS
-		|	MINUS
-		|	STAR
-		|	SLASH
-		|	STRINGOP
+pr_ParameterExpression returns [Module_Parameter moduleparameter]:
+	spv = pr_SimpleParameterValue	{	$moduleparameter = $spv.moduleparameter;	}
+|	pr = pr_ParameterReference		{	$moduleparameter = $pr.moduleparameter;	}
+|	pe1 = pr_ParameterExpression	{	$moduleparameter = $pe1.moduleparameter;	}
+	(	{	expression_operand_t operand;	}
+		//TODO: handle precedence
+		(	PLUS	{	operand = expression_operand_t.EXPR_ADD;	}
+		|	MINUS	{	operand = expression_operand_t.EXPR_SUBTRACT;	}
+		|	STAR	{	operand = expression_operand_t.EXPR_MULTIPLY;	}
+		|	SLASH	{	operand = expression_operand_t.EXPR_DIVIDE;	}
+		|	STRINGOP	{	operand = expression_operand_t.EXPR_CONCATENATE;	}
 		)
-		pr_ParameterExpression
+		pe2 = pr_ParameterExpression
+		{	$moduleparameter = new Module_Param_Expression(operand, $moduleparameter, $pe2.moduleparameter);	}
 	)+
-|	(	PLUS
-	|	MINUS
-	)
-	pr_ParameterExpression
+|	PLUS
+	pe1 = pr_ParameterExpression	{	$moduleparameter = $pe1.moduleparameter;	}
+|	MINUS
+	pe1 = pr_ParameterExpression	{	$moduleparameter = new Module_Param_Expression($pe1.moduleparameter);	}
 |	LPAREN
-	pr_ParameterExpression
+	pe1 = pr_ParameterExpression
+	RPAREN
+	{	$moduleparameter = $pe1.moduleparameter;	}
+;
+
+pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
+@init {
+	$length_restriction = new Module_Param_Length_Restriction();
+}:
+	LENGTHKEYWORD
+	LPAREN
+	(	single = pr_LengthBound	{	$length_restriction.set_single($min.integer.getIntegerValue());	}
+	|	min = pr_LengthBound	{	$length_restriction.set_min($min.integer.getIntegerValue());	}
+		DOTDOT
+		(	max = pr_LengthBound
+			{
+				if ($min.integer.getIntegerValue() > $max.integer.getIntegerValue()) {
+					config_process_error("invalid length restriction: lower bound > upper bound");
+				}
+				$length_restriction.set_max($max.integer.getIntegerValue());
+			}
+		|	INFINITYKEYWORD
+		)
+	)
 	RPAREN
 ;
 
-pr_LengthMatch:
-	LENGTHKEYWORD LPAREN pr_LengthBound
-	(	RPAREN
-	|	DOTDOT
-		(	pr_LengthBound | INFINITYKEYWORD	)
-		RPAREN
-	)
+pr_LengthBound	returns [CFGNumber integer]:
+	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
 ;
 
-pr_SimpleParameterValue:
-(	pr_ArithmeticValueExpression
-|	pr_Boolean
-|	pr_ObjIdValue
-|	pr_VerdictValue
-|	pr_BStringValue
-|	pr_HStringValue
-|	pr_OStringValue
-|	pr_UniversalOrNotStringValue
-|	OMITKEYWORD
-|	pr_EnumeratedValue
+pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
+@init {
+	$moduleparameter = null;
+}:
+(	v = pr_ArithmeticValueExpression
+	{	final CFGNumber number = $v.number;
+		if (number.isFloat()) {
+			$moduleparameter = new Module_Param_Float(number.getValue());
+		} else {
+			$moduleparameter = new Module_Param_Integer(new TitanInteger(number.getIntegerValue()));
+		}
+	}
+|	bool = pr_Boolean				{	$moduleparameter = new Module_Param_Boolean($bool.bool);	}
+|	oi = pr_ObjIdValue
+	{	final List<TitanInteger> cs = $oi.components;
+		final int size = cs.size();
+		$moduleparameter = new Module_Param_Objid(size, cs.toArray(new TitanInteger[size]));
+	}
+|	verdict = pr_VerdictValue		{	$moduleparameter = new Module_Param_Verdict($verdict.verdict);	}
+|	bstr = pr_BStringValue			{	$moduleparameter = new Module_Param_Bitstring($bstr.string);	}
+|	hstr = pr_HStringValue			{	$moduleparameter = new Module_Param_Hexstring($hstr.string);	}
+|	ostr = pr_OStringValue			{	$moduleparameter = new Module_Param_Octetstring($ostr.string);	}
+|	cs = pr_UniversalOrNotStringValue
+	{	if ($cs.cstr instanceof TitanCharString) {
+			final TitanCharString cs = (TitanCharString)$cs.cstr;
+			$moduleparameter = new Module_Param_Charstring(cs);
+		} else {
+			final TitanUniversalCharString ucs = (TitanUniversalCharString)$cs.cstr;
+			$moduleparameter = new Module_Param_Universal_Charstring(ucs);
+		}
+	}
+|	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
+|	enumvalue = pr_EnumeratedValue	{	$moduleparameter = new Module_Param_Enumerated($enumvalue.identifier);	}
 |	pr_NULLKeyword
 |	MTCKEYWORD
 |	SYSTEMKEYWORD
@@ -1488,29 +1565,43 @@ pr_SimpleParameterValue:
 |	pr_OStringMatch
 )
 ;
-pr_ParameterReference:
+pr_ParameterReference returns [Module_Parameter moduleparameter]:
 	// enumerated values are also treated as references by the parser,
 	// these will be sorted out later during set_param()
-	pr_ParameterNameSegment
+	pns = pr_ParameterNameSegment
+	{	// no references allowed in RT1, so the name segment must be an enumerated value
+    	// (which means it can only contain 1 name)
+    	if ($pns.names == null || $pns.names.size() != 1) {
+			config_process_error("Module parameter references are not allowed in the Load Test Runtime.");
+		}
+		$moduleparameter = ($pns.names == null || $pns.names.size() == 0) ? null : new Module_Param_Enumerated($pns.names.get(0));
+	}
 ;
 
-pr_ParameterNameSegment:
-	pr_ParameterNameSegment
+pr_ParameterNameSegment returns [List<String> names]:
+	pns = pr_ParameterNameSegment
 	pr_Dot
-	pr_Identifier
-|	pr_ParameterNameSegment
-	pr_IndexItemIndex
-|	pr_Identifier
+	i = pr_Identifier
+	{	$names = $pns.names;
+		$names.add($i.identifier);
+	}
+|	pns = pr_ParameterNameSegment
+	iii = pr_IndexItemIndex
+	{	$names = $pns.names;
+		int size = $names.size();
+		final String last = $names.get(size - 1);
+		$names.set(size - 1, last + $iii.text);
+	}
+|	i = pr_Identifier
+	{	$names = new ArrayList<String>();
+		$names.add($i.identifier);
+	}
 ;
 
 pr_IndexItemIndex:
 	SQUAREOPEN
 	pr_IntegerValueExpression
 	SQUARECLOSE
-;
-
-pr_LengthBound:
-	pr_IntegerValueExpression
 ;
 
 pr_ArithmeticValueExpression returns [CFGNumber number]:
@@ -1582,88 +1673,120 @@ pr_Boolean returns [Boolean bool]:
 )
 ;
 
-pr_ObjIdValue:
-	OBJIDKEYWORD	BEGINCHAR	pr_ObjIdComponent+	ENDCHAR
+pr_ObjIdValue returns[List<TitanInteger> components]
+@init{
+	$components = new ArrayList<TitanInteger>();
+}:
+	OBJIDKEYWORD
+	BEGINCHAR
+	(	c = pr_ObjIdComponent { $components.add($c.integer);}
+	)+
+	ENDCHAR
 ;
 
-pr_ObjIdComponent:
-(	pr_NaturalNumber
-|	pr_Identifier LPAREN pr_NaturalNumber RPAREN
+pr_ObjIdComponent returns [TitanInteger integer]:
+(	n = pr_NaturalNumber	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
+|	pr_Identifier LPAREN n = pr_NaturalNumber RPAREN	{	$integer = new TitanInteger($n.integer.getIntegerValue());	}
 )
 ;
 
-pr_VerdictValue:
-(	NONE_VERDICT
-|	PASS_VERDICT
-|	INCONC_VERDICT
-|	FAIL_VERDICT
-|	ERROR_VERDICT
+pr_VerdictValue returns [TitanVerdictType verdict]:
+(	NONE_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.NONE);	}
+|	PASS_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.PASS);	}
+|	INCONC_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.INCONC);	}
+|	FAIL_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.FAIL);	}
+|	ERROR_VERDICT	{	$verdict = new TitanVerdictType(VerdictTypeEnum.ERROR);	}
 )
 ;
 
-pr_BStringValue:
-	pr_BString	(	STRINGOP pr_BString	)*
+pr_BStringValue returns [String string]:
+	s = pr_BString	{	$string = $s.string;	}
+	(	STRINGOP
+		s = pr_BString	{	$string += $s.string;	}
+	)*
 ;
 
 pr_BString returns [String string]:
-(	b = BITSTRING { $string = $b.getText(); }
-|	macro = MACRO_BSTR
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );
-			$string = "'" + value + "'B";
-		}
+(	b = BITSTRING { $string = $b.text.replaceAll("^\'|\'B$", ""); }
+|	macro = MACRO_BSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_BSTR );	}
 )
 ;
 
-pr_HStringValue:
-	pr_HString	(	STRINGOP pr_HString	)*
+pr_HStringValue returns [String string]:
+	s = pr_HString	{	$string = $s.string;	}
+	(	STRINGOP
+		s = pr_HString	{	$string += $s.string;	}
+	)*
 ;
 
 pr_HString returns [String string]:
-(	h = HEXSTRING { $string = $h.getText(); }
-|	macro = MACRO_HSTR
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );
-			$string = "'" + value + "'H";
-		}
+(	h = HEXSTRING { $string = $h.text.replaceAll("^\'|\'H$", ""); }
+|	macro = MACRO_HSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_HSTR );	}
 )
 ;
 
-pr_OStringValue:
-	pr_OString	(	STRINGOP pr_OString	)*
+pr_OStringValue returns [String string]:
+	s = pr_OString	{	$string = $s.string;	}
+	(	STRINGOP
+		s = pr_OString	{	$string += $s.string;	}
+	)*
 ;
 
 pr_OString returns [String string]:
-(	o = OCTETSTRING { $string = $o.getText(); }
-|	macro = MACRO_OSTR
-		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );
-			$string = "'" + value + "'0";
-		}
-|	macro_bin = MACRO_BINARY
-		{	String value = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );
-			$string = value;
-		}
+(	o = OCTETSTRING { $string = $o.text.replaceAll("^\'|\'O$", ""); }
+|	macro = MACRO_OSTR	{	$string = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_OSTR );	}
+|	macro_bin = MACRO_BINARY	{	$string = getTypedMacroValue( $macro_bin, DEFINITION_NOT_FOUND_STRING );	}
 )
 ;
 
-pr_UniversalOrNotStringValue:
-(	pr_CString
-|	pr_Quadruple
+//returns TitanCharString or TitanUniversalCharString
+pr_UniversalOrNotStringValue returns [Base_Type cstr]:
+(	c = pr_CString	{ 	$cstr = new TitanCharString($c.string);	}
+|	q = pr_Quadruple	{ 	$cstr = $q.ucstr;	}
 )
 (	STRINGOP
-	(	pr_CString
-	|	pr_Quadruple
+	(	c = pr_CString
+		{	if ($cstr instanceof TitanCharString) {
+				final TitanCharString cs = (TitanCharString)$cstr;
+				$cstr = cs.concatenate($c.string);
+			} else {
+				final TitanUniversalCharString ucs = (TitanUniversalCharString)$cstr;
+				$cstr = ucs.concatenate($c.string);
+			}
+		}
+	|	q = pr_Quadruple
+		{	if ($cstr instanceof TitanCharString) {
+				final TitanCharString cs = (TitanCharString)$cstr;
+				$cstr = cs.concatenate($q.ucstr);
+			} else {
+				final TitanUniversalCharString ucs = (TitanUniversalCharString)$cstr;
+				$cstr = ucs.concatenate($q.ucstr);
+			}
+		}
 	)
 )*
 ;
 
-pr_Quadruple:
+pr_Quadruple returns [TitanUniversalCharString ucstr]:
 	CHARKEYWORD
 	LPAREN
-	pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression COMMA pr_IntegerValueExpression
+	i1 = pr_IntegerValueExpression
+	COMMA
+	i2 = pr_IntegerValueExpression
+	COMMA
+	i3 = pr_IntegerValueExpression
+	COMMA
+	i4 = pr_IntegerValueExpression
 	RPAREN
+	{	$ucstr = new TitanUniversalCharString(	(char)$i1.integer.getIntegerValue().intValue(),
+												(char)$i2.integer.getIntegerValue().intValue(),
+												(char)$i3.integer.getIntegerValue().intValue(),
+												(char)$i4.integer.getIntegerValue().intValue()	);
+	}
 ;
 
-pr_EnumeratedValue:
-	pr_Identifier
+pr_EnumeratedValue returns [String identifier]:
+	i = pr_Identifier	{	$identifier = $i.identifier;	}
 ;
 
 pr_NULLKeyword:
