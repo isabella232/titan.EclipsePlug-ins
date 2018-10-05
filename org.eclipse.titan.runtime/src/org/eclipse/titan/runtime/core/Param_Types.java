@@ -424,7 +424,7 @@ public final class Param_Types {
 	}
 
 	public static class Module_Param_Objid extends Module_Parameter {
-		// special string of integers :)
+		// special string of integers
 
 		private int n_chars;
 		private TitanInteger[] chars_ptr;
@@ -522,8 +522,8 @@ public final class Param_Types {
 			return type_t.MP_Charstring;
 		}
 
-		public Module_Param_Charstring(final String str) {
-			cstr = new TitanCharString(str);
+		public Module_Param_Charstring(final TitanCharString p_cstr) {
+			cstr = p_cstr;
 		}
 
 		public String get_type_str() {
@@ -544,8 +544,8 @@ public final class Param_Types {
 			return type_t.MP_Universal_Charstring;
 		}
 
-		public Module_Param_Universal_Charstring(final String str) {
-			ucstr = new TitanUniversalCharString(str);
+		public Module_Param_Universal_Charstring(final TitanUniversalCharString p_ucstr) {
+			ucstr = p_ucstr;
 		}
 
 		public String get_type_str() {
