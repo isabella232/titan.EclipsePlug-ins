@@ -179,13 +179,142 @@ public final class Param_Types {
 		}
 
 		public void log(final boolean log_id) {
-			//TODO: implement missing functions first
+			if (log_id && id != null && id.is_explicit()) {
+				String id_str = id.get_str();
+				TTCN_Logger.log_event_str(id_str);
+				id_str = null;
+				TTCN_Logger.log_event_str(get_operation_type_sign_str());
+			}
+			log_value();
+			if (has_ifpresent) {
+				TTCN_Logger.log_event_str(" ifpresent");
+			}
+			if (length_restriction != null) {
+				length_restriction.log();
+			}
 		}
 
 		public abstract void log_value();
 
-		//TODO: implement get_param_context()
+		public String get_param_context() {
+			StringBuilder result = new StringBuilder();
+			if (parent != null) {
+				result.append(parent.get_param_context());
+			}
+			if (id != null) {
+				String id_str = id.get_str();
+				if (parent != null && !id.is_index()) {
+					result.append('.');
+				}
+				result.append(id_str);
+			}
+			return result.toString();
+		}
 
+		//C++ virtual functions
+
+		public void add_elem(Module_Parameter value) {
+			throw new TtcnError("Internal error: Module_Param.add_elem()");
+		}
+
+		public void add_list_with_implicit_ids(List<Module_Parameter> mp_list) {
+			throw new TtcnError("Internal error: Module_Param.add_list_with_implicit_ids()");
+		}
+
+		public boolean get_boolean() {
+			throw new TtcnError("Internal error: Module_Param.get_boolean()");
+		}
+
+		public int get_size()  {
+			throw new TtcnError("Internal error: Module_Param.get_size()");
+		}
+
+		public Module_Parameter get_elem(int index)  {
+			throw new TtcnError("Internal error: Module_Param.get_elem()");
+		}
+
+		public int get_string_size()  {
+			throw new TtcnError("Internal error: Module_Param.get_string_size()");
+		}
+
+		//TODO: need to check later (original void*)
+		public String get_string_data() {
+			throw new TtcnError("Internal error: Module_Param.get_string_data()");
+		}
+
+		public int get_lower_int()  {
+			throw new TtcnError("Internal error: Module_Param.get_lower_int()");
+		}
+
+		public int get_upper_int()  {
+			throw new TtcnError("Internal error: Module_Param.get_upper_int()");
+		}
+
+		public boolean get_is_min_exclusive()  {
+			throw new TtcnError("Internal error: Module_Param.get_is_min_exclusive()");
+		}
+
+		public boolean get_is_max_exclusive()  {
+			throw new TtcnError("Internal error: Module_Param.get_is_max_exclusive()");
+		}
+
+		public double get_lower_float()  {
+			throw new TtcnError("Internal error: Module_Param.get_lower_float()");
+		}
+
+		public double get_upper_float()  {
+			throw new TtcnError("Internal error: Module_Param.get_upper_float()");
+		}
+
+		public TitanUniversalCharString get_lower_uchar()  {
+			throw new TtcnError("Internal error: Module_Param.get_lower_uchar()");
+		}
+
+		public TitanUniversalCharString get_upper_uchar()  {
+			throw new TtcnError("Internal error: Module_Param.get_upper_uchar()");
+		}
+
+		public TitanInteger get_integer()  {
+			throw new TtcnError("Internal error: Module_Param.get_integer()");
+		}
+
+		public double get_float()  {
+			throw new TtcnError("Internal error: Module_Param.get_float()");
+		}
+
+		public String get_pattern()  {
+			throw new TtcnError("Internal error: Module_Param.get_pattern()");
+		}
+
+		public boolean get_nocase()  {
+			throw new TtcnError("Internal error: Module_Param.get_nocase()");
+		}
+
+		public TitanVerdictType get_verdict()  {
+			throw new TtcnError("Internal error: Module_Param.get_verdict()");
+		}
+
+		public String get_enumerated()  {
+			throw new TtcnError("Internal error: Module_Param.get_enumerated()");
+		}
+
+		public expression_operand_t get_expr_type()  { 
+			throw new TtcnError("Internal error: Module_Param.get_expr_type()");
+		}
+
+		public String get_expr_type_str()  {
+			throw new TtcnError("Internal error: Module_Param.get_expr_type_str()");
+		}
+
+		public Module_Parameter get_operand1()  {
+			throw new TtcnError("Internal error: Module_Param.get_operand1()");
+		}
+
+		public Module_Parameter get_operand2()  {
+			throw new TtcnError("Internal error: Module_Param.get_operand2()");
+		}
+
+		//TODO: error functions, now we throw a TtcnError 
 	}
 
 	/**
