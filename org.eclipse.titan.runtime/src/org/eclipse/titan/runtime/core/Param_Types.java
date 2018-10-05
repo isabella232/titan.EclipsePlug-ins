@@ -195,7 +195,7 @@ public final class Param_Types {
 		}
 
 		public abstract void log_value();
-		
+
 		public String get_param_context() {
 			StringBuilder result = new StringBuilder();
 			if (parent != null) {
@@ -210,7 +210,7 @@ public final class Param_Types {
 			}
 			return result.toString();
 		}
-		
+
 		//C++ virtual functions
 
 		public void add_elem(Module_Parameter value) {
@@ -266,14 +266,6 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_upper_float()");
 		}
 
-		public boolean has_lower_float()  {
-			throw new TtcnError("Internal error: Module_Param.has_lower_float()");
-		}
-
-		public boolean has_upper_float()  {
-			throw new TtcnError("Internal error: Module_Param.has_upper_float()");
-		}
-
 		public TitanUniversalCharString get_lower_uchar()  {
 			throw new TtcnError("Internal error: Module_Param.get_lower_uchar()");
 		}
@@ -321,7 +313,7 @@ public final class Param_Types {
 		public Module_Parameter get_operand2()  {
 			throw new TtcnError("Internal error: Module_Param.get_operand2()");
 		}
-		
+
 		//TODO: error functions, now we throw a TtcnError 
 	}
 
@@ -502,6 +494,7 @@ public final class Param_Types {
 			return "boolean";
 		}
 
+		@Override
 		public void log_value() {
 			new TitanBoolean(boolean_value).log();
 		}
@@ -527,8 +520,186 @@ public final class Param_Types {
 			return "enumerated";
 		}
 
+		@Override
 		public void log_value() {
 			TTCN_Logger.log_event_str(enum_value);
+		}
+	}
+
+	public static class Module_Param_Verdict extends Module_Parameter {
+
+		private TitanVerdictType verdict_value;
+
+		public type_t get_type() {
+			return type_t.MP_Verdict;
+		}
+
+		public Module_Param_Verdict(TitanVerdictType p) {
+			verdict_value = p;
+		}
+
+		public TitanVerdictType get_verdict() {
+			return verdict_value;
+		}
+
+		public String get_type_str() {
+			return "verdict";
+		}
+
+		@Override
+		public void log_value() {
+			verdict_value.log();
+		}
+	}
+
+	public static class Module_Param_Objid extends Module_Parameter {
+		// special string of integers
+
+		private int n_chars;
+		private TitanInteger[] chars_ptr;
+
+		public type_t get_type() {
+			return type_t.MP_Objid; 
+		}
+
+		public Module_Param_Objid(final int p_n, final TitanInteger[] p_c) {
+			n_chars = p_n;
+			chars_ptr = p_c;
+		}
+
+		public String get_type_str() {
+			return "object identifier";
+		}
+
+		@Override
+		public void log_value() {
+			new TitanObjectid(n_chars, chars_ptr).log();
+		}
+	}
+
+	public static class Module_Param_Bitstring extends Module_Parameter {
+
+		private TitanBitString bstr;
+
+		public type_t get_type() {
+			return type_t.MP_Bitstring;
+		}
+
+		public Module_Param_Bitstring(final String str) {
+			bstr = new TitanBitString(str);
+		}
+
+		public String get_type_str() {
+			return "bitstring";
+		}
+
+		@Override
+		public void log_value() {
+			bstr.log();
+		}
+	}
+
+	public static class Module_Param_Hexstring extends Module_Parameter {
+
+		private TitanHexString hstr;
+
+		public type_t get_type() {
+			return type_t.MP_Hexstring;
+		}
+
+		public Module_Param_Hexstring(final String str) {
+			hstr = new TitanHexString(str);
+		}
+
+		public String get_type_str() {
+			return "hexstring";
+		}
+
+		@Override
+		public void log_value() {
+			hstr.log();
+		}
+	}
+
+	public static class Module_Param_Octetstring extends Module_Parameter {
+
+		private TitanHexString ostr;
+
+		public type_t get_type() {
+			return type_t.MP_Octetstring;
+		}
+
+		public Module_Param_Octetstring(final String str) {
+			ostr = new TitanHexString(str);
+		}
+
+		public String get_type_str() {
+			return "octetstring";
+		}
+
+		@Override
+		public void log_value() {
+			ostr.log();
+		}
+	}
+
+	public static class Module_Param_Charstring extends Module_Parameter {
+
+		private TitanCharString cstr;
+
+		public type_t get_type() {
+			return type_t.MP_Charstring;
+		}
+
+		public Module_Param_Charstring(final TitanCharString p_cstr) {
+			cstr = p_cstr;
+		}
+
+		public String get_type_str() {
+			return "charstring";
+		}
+
+		@Override
+		public void log_value() {
+			cstr.log();
+		}
+	}
+
+	public static class Module_Param_Universal_Charstring extends Module_Parameter {
+
+		private TitanUniversalCharString ucstr;
+
+		public type_t get_type() {
+			return type_t.MP_Universal_Charstring;
+		}
+
+		public Module_Param_Universal_Charstring(final TitanUniversalCharString p_ucstr) {
+			ucstr = p_ucstr;
+		}
+
+		public String get_type_str() {
+			return "universal charstring";
+		}
+
+		@Override
+		public void log_value() {
+			ucstr.log();
+		}
+	}
+
+	public static class Module_Param_Omit extends Module_Parameter {
+
+		public type_t get_type() {
+			return type_t.MP_Omit;
+		}
+
+		public String get_type_str() {
+			return "omit";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("omit");
 		}
 	}
 
@@ -574,13 +745,13 @@ public final class Param_Types {
 			return "";
 		}
 	}
-	
+
 	public static class Module_Param_Name extends Module_Param_Id {
 		/** The first elements are the module name (if any) and the module parameter name,
 		 * followed by record/set field names and array (or record of/set of) indexes.
 		 * Since the names of modules, module parameters and fields cannot start with
 		 * numbers, the indexes are easily distinguishable from these elements. */
-		
+
 		private List<String> names;
 		private int pos;
 		
