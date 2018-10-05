@@ -100,6 +100,7 @@ public final class Runtime_Single_main {
 			TTCN_Logger.end_event();
 			returnValue = -1;
 		}
+		TTCN_Logger.finish_event();
 		TTCN_Runtime.log_verdict_statistics();
 		TTCN_Logger.log_executor_runtime(TitanLoggerApi.ExecutorRuntime_reason.enum_type.executor__finish__single__mode);
 		TTCN_Logger.close_file();
