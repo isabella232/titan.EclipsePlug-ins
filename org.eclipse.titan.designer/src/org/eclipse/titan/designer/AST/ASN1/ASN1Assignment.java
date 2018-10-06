@@ -186,7 +186,7 @@ public abstract class ASN1Assignment extends Assignment {
 				nameBuilder.append(displayName);
 			}
 
-			final StringBuilder returnValue = new StringBuilder(Identifier.getTtcnNameFromAsnName(nameBuilder.toString()));
+			final StringBuilder returnValue = new StringBuilder(Identifier.getNameFromAsnName(nameBuilder.toString()));
 			if(isParameterised) {
 				returnValue.append("_par_");
 			}
