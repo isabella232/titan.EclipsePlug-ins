@@ -28,7 +28,19 @@ public class TitanGraphicString extends TitanUniversalCharString {
 		return new TitanGraphicString(ucstr);
 	}
 
+	public TitanGraphicString() {
+		//intentionally empty
+	}
+
+	public TitanGraphicString(final TitanUniversalCharString aOtherValue) {
+		super(aOtherValue);
+	}
+
 	public TitanGraphicString(final List<TitanUniversalChar> aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanGraphicString(final TitanGraphicString aOtherValue) {
 		super(aOtherValue);
 	}
 }

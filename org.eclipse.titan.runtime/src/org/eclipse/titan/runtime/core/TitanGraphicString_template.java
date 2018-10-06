@@ -7,11 +7,35 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+
 /**
  * ASN.1 graphic string template
  *
  * @author Kristof Szabados
  */
 public class TitanGraphicString_template extends TitanUniversalCharString_template {
+	public TitanGraphicString_template() {
+		//intentionally empty
+	}
 
+	public TitanGraphicString_template(final template_sel otherValue) {
+		super(otherValue);
+		checkSingleSelection(otherValue);
+	}
+
+	public TitanGraphicString_template(final TitanGraphicString aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanGraphicString_template(final TitanGraphicString_template aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanGraphicString valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific `graphic string' template.");
+		}
+
+		return new TitanGraphicString(single_value);
+	}
 }

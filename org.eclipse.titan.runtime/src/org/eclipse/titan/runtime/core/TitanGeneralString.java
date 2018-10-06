@@ -28,7 +28,19 @@ public class TitanGeneralString extends TitanUniversalCharString {
 		return new TitanGeneralString(ucstr);
 	}
 
+	public TitanGeneralString() {
+		//intentionally empty
+	}
+
+	public TitanGeneralString(final TitanUniversalCharString aOtherValue) {
+		super(aOtherValue);
+	}
+
 	public TitanGeneralString(final List<TitanUniversalChar> aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanGeneralString(final TitanGeneralString aOtherValue) {
 		super(aOtherValue);
 	}
 }

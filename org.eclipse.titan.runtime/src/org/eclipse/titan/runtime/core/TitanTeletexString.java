@@ -28,7 +28,19 @@ public class TitanTeletexString extends TitanUniversalCharString {
 		return new TitanTeletexString(ucstr);
 	}
 
+	public TitanTeletexString() {
+		//intentionally empty
+	}
+
+	public TitanTeletexString(final TitanUniversalCharString aOtherValue) {
+		super(aOtherValue);
+	}
+
 	public TitanTeletexString(final List<TitanUniversalChar> aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanTeletexString(final TitanTeletexString aOtherValue) {
 		super(aOtherValue);
 	}
 }

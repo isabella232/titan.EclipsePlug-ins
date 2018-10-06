@@ -28,7 +28,19 @@ public class TitanVideotexString extends TitanUniversalCharString {
 		return new TitanVideotexString(ucstr);
 	}
 
+	public TitanVideotexString() {
+		//intentionally empty
+	}
+
+	public TitanVideotexString(final TitanUniversalCharString aOtherValue) {
+		super(aOtherValue);
+	}
+
 	public TitanVideotexString(final List<TitanUniversalChar> aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanVideotexString(final TitanVideotexString aOtherValue) {
 		super(aOtherValue);
 	}
 }

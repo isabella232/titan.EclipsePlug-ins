@@ -30,7 +30,7 @@ public class TitanUniversalCharString_template extends Restricted_Length_Templat
 		CharCoding coding;
 	}
 
-	private TitanUniversalCharString single_value;
+	protected TitanUniversalCharString single_value;
 
 	private TitanCharString pattern_string;
 

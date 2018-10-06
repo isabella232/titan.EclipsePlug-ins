@@ -7,11 +7,35 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+
 /**
  * ASN.1 videotex string template
  *
  * @author Kristof Szabados
  */
 public class TitanVideotexString_template extends TitanUniversalCharString_template {
+	public TitanVideotexString_template() {
+		//intentionally empty
+	}
 
+	public TitanVideotexString_template(final template_sel otherValue) {
+		super(otherValue);
+		checkSingleSelection(otherValue);
+	}
+
+	public TitanVideotexString_template(final TitanVideotexString aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanVideotexString_template(final TitanVideotexString_template aOtherValue) {
+		super(aOtherValue);
+	}
+
+	public TitanVideotexString valueOf() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+			throw new TtcnError("Performing a valueof or send operation on a non-specific `videotex string' template.");
+		}
+
+		return new TitanVideotexString(single_value);
+	}
 }
