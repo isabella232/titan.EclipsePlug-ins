@@ -423,5 +423,11 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 				assignment.generateCode( aData, false );
 			}
 		}
+
+		if ( dynamic_assignments != null ) {
+			for (final ASN1Assignment assignment : dynamic_assignments ) {
+				assignment.generateCode( aData, false );
+			}
+		}
 	}
 }
