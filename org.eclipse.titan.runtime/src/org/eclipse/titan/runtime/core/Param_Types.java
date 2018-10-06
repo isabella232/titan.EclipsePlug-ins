@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -242,11 +243,11 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_string_data()");
 		}
 
-		public int get_lower_int()  {
+		public TitanInteger get_lower_int()  {
 			throw new TtcnError("Internal error: Module_Param.get_lower_int()");
 		}
 
-		public int get_upper_int()  {
+		public TitanInteger get_upper_int()  {
 			throw new TtcnError("Internal error: Module_Param.get_upper_int()");
 		}
 
@@ -417,6 +418,22 @@ public final class Param_Types {
 			if (expr_type != expression_operand_t.EXPR_NEGATE) {
 				operand2.log_value();
 			}
+		}
+	}
+	
+	public static class Module_Param_NotUsed extends Module_Parameter {
+		
+		public type_t get_type() {
+			return type_t.MP_NotUsed;
+		}
+		
+		public String get_type_str() {
+			return "-";
+		}
+		
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("-");
 		}
 	}
 
@@ -703,6 +720,233 @@ public final class Param_Types {
 		}
 	}
 
+	public static class Module_Param_Ttcn_Null extends Module_Parameter {
+
+		public type_t get_type() {
+			return type_t.MP_Ttcn_Null;
+		}
+
+		public String get_type_str() {
+			return "null";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("null");
+		}	
+	}
+	
+	public static class Module_Param_Ttcn_mtc extends Module_Parameter {
+		
+		public type_t get_type() {
+			return type_t.MP_Ttcn_mtc;
+		}
+		
+		public String get_type_str() {
+			return  "mtc";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("mtc");
+		}
+	}
+	
+	public static class Module_Param_Ttcn_system extends Module_Parameter {
+		
+		public type_t get_type() {
+			return type_t.MP_Ttcn_system;
+		}
+		
+		public String get_type_str() {
+			return  "system";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("system");
+		}
+	}
+	
+	public static class Module_Param_Asn_Null extends Module_Parameter {
+		
+		public type_t get_type() {
+			return type_t.MP_Asn_Null;
+		}
+		
+		public String get_type_str() {
+			return  "NULL";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("NULL");
+		}
+	}
+	
+	public static class Module_Param_Any extends Module_Parameter {
+		
+		public type_t get_type() {
+			return type_t.MP_Any;
+		}
+		
+		public String get_type_str() {
+			return  "?";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("?");
+		}
+	}
+	
+	public static class Module_Param_AnyOrNone extends Module_Parameter {
+		
+		public type_t get_type() {
+			return type_t.MP_AnyOrNone;
+		}
+		
+		public String get_type_str() {
+			return  "*";
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("*");
+		}
+	}
+	
+	public static class Module_Param_IntRange extends Module_Parameter {
+
+		private TitanInteger lower_bound; // NULL == -infinity
+		private TitanInteger upper_bound; // NULL == infinity
+		private boolean min_exclusive;
+		private boolean max_exclusive;
+
+		public Module_Param_IntRange(final TitanInteger p_l, final TitanInteger p_u, final boolean min_is_exclusive, final boolean max_is_exclusive) {
+			lower_bound = p_l;
+			upper_bound = p_u;
+			min_exclusive = min_is_exclusive;
+			max_exclusive = max_is_exclusive;
+		}
+
+		public TitanInteger get_lower_int() {
+			return lower_bound;
+		}
+
+		public TitanInteger get_upper_int() {
+			return upper_bound;
+		}
+
+		public type_t get_type() {
+			return type_t.MP_IntRange;
+		}
+
+		public String get_type_str() {
+			return  "integer range";
+		}
+
+		public boolean get_is_min_exclusive() {
+			return min_exclusive;
+		}
+
+		public boolean get_is_max_exclusive() {
+			return max_exclusive;
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("(");
+			log_bound(lower_bound, true);
+			TTCN_Logger.log_event_str("..");
+			log_bound(upper_bound, false);
+			TTCN_Logger.log_event_str(")");
+		}
+
+		public static void log_bound(final TitanInteger bound, final boolean is_lower) {
+			if (bound == null) {
+				if (is_lower) {
+					TTCN_Logger.log_event_str("-");
+				}
+				TTCN_Logger.log_event_str("infinity");
+			} else if (bound.isNative()) {
+				bound.log();
+			} else {
+				bound.log();
+			}
+		}
+	}
+
+	public static class Module_Param_FloatRange extends Module_Parameter {
+
+		private double lower_bound;
+		private boolean has_lower;
+		private double upper_bound;
+		private boolean has_upper;
+		private boolean min_exclusive;
+		private boolean max_exclusive;
+
+		public type_t get_type() {
+			return type_t.MP_FloatRange;
+		}
+
+		public Module_Param_FloatRange(final double p_lb, final boolean p_hl, final double p_ub, final boolean p_hu, final boolean min_is_exclusive, final boolean max_is_exclusive) {
+			lower_bound = p_lb;
+			has_lower = p_hl;
+			upper_bound = p_ub;
+			has_upper = p_hu;
+			min_exclusive = min_is_exclusive;
+			max_exclusive = max_is_exclusive;
+		}
+
+		public double get_lower_float() {
+			return lower_bound;
+		}
+
+		public double get_upper_float() {
+			return upper_bound;
+		}
+
+		public boolean has_lower_float() {
+			return has_lower;
+		}
+
+		public boolean has_upper_float() {
+			return has_upper;
+		}
+
+		public String get_type_str() {
+			return "float range"; 
+		}
+
+		public boolean get_is_min_exclusive() {
+			return min_exclusive;
+		}
+
+		public boolean get_is_max_exclusive() {
+			return max_exclusive;
+		}
+
+		@Override
+		public void log_value() {
+			TTCN_Logger.log_event_str("(");
+			if (has_lower) {
+				new TitanFloat(lower_bound).log();
+			}
+			else {
+				TTCN_Logger.log_event_str("-infinity");
+			}
+			TTCN_Logger.log_event_str("..");
+			if (has_upper) {
+				new TitanFloat(upper_bound).log();
+			}
+			else {
+				TTCN_Logger.log_event_str("infinity");
+			}
+			TTCN_Logger.log_event_str(")");
+		}
+	}
+
 	public static class Module_Param_Id {
 
 		public boolean is_explicit() {
@@ -896,6 +1140,63 @@ public final class Param_Types {
 		@Override
 		public boolean is_custom() {
 			return true;
+		}
+	}
+	
+	public static class Module_Param_Compound extends Module_Parameter {
+
+		private List<Module_Parameter> values = new ArrayList<Module_Parameter>();
+
+		public Module_Param_Compound() {
+
+		}
+
+		@Override
+		public int get_size() {
+			return values.size();
+		}
+
+		@Override
+		public Module_Parameter get_elem(final int index) {
+			if (index >= values.size()) {
+				throw new TtcnError("Internal error: Module_Param::get_elem(): index overflow");
+			}
+			return values.get(index);
+		}
+
+		public void log_value_vec(final String begin_str, final String end_str) {
+			TTCN_Logger.log_event_str(begin_str);
+			TTCN_Logger.log_event_str(" ");
+			for (int i = 0; i < values.size(); i++) {
+				if (i > 0) {
+					TTCN_Logger.log_event_str(", ");
+				}
+				values.get(i).log(true);
+			}
+			if (!values.isEmpty()) {
+				TTCN_Logger.log_event_str(" ");
+			}
+			TTCN_Logger.log_event_str(end_str);
+		}
+
+		@Override
+		public void add_elem(final Module_Parameter value) {
+			value.set_parent(this);
+			values.add(value);
+		}
+
+		@Override
+		public void add_list_with_implicit_ids(final List<Module_Parameter> mp_list) {
+			for (int i = 0; i < mp_list.size(); i++) {
+				Module_Parameter mp_current = mp_list.get(i);
+				mp_current.set_id(new Module_Param_Index(get_size(), false));
+				add_elem(mp_current);
+			}
+		}
+
+		@Override
+		public void log_value() {
+			//Do nothing in this class
 		}
 	}
 }
