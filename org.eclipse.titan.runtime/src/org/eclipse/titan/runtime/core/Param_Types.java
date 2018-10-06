@@ -78,7 +78,7 @@ public final class Param_Types {
 
 			private final int value;
 
-			private basic_check_bits_t(int value) {
+			private basic_check_bits_t(final int value) {
 				this.value = value;
 			}
 
@@ -138,7 +138,7 @@ public final class Param_Types {
 			return has_ifpresent;
 		}
 
-		public void set_length_restriction(Module_Param_Length_Restriction p_length_restriction) {
+		public void set_length_restriction(final Module_Param_Length_Restriction p_length_restriction) {
 			if (length_restriction != null) {
 				throw new TtcnError("Internal error: Module_Param.set_length_restriction()");
 			}
@@ -198,12 +198,12 @@ public final class Param_Types {
 		public abstract void log_value();
 
 		public String get_param_context() {
-			StringBuilder result = new StringBuilder();
+			final StringBuilder result = new StringBuilder();
 			if (parent != null) {
 				result.append(parent.get_param_context());
 			}
 			if (id != null) {
-				String id_str = id.get_str();
+				final String id_str = id.get_str();
 				if (parent != null && !id.is_index()) {
 					result.append('.');
 				}
@@ -214,11 +214,11 @@ public final class Param_Types {
 
 		//C++ virtual functions
 
-		public void add_elem(Module_Parameter value) {
+		public void add_elem(final Module_Parameter value) {
 			throw new TtcnError("Internal error: Module_Param.add_elem()");
 		}
 
-		public void add_list_with_implicit_ids(List<Module_Parameter> mp_list) {
+		public void add_list_with_implicit_ids(final List<Module_Parameter> mp_list) {
 			throw new TtcnError("Internal error: Module_Param.add_list_with_implicit_ids()");
 		}
 
@@ -230,7 +230,7 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_size()");
 		}
 
-		public Module_Parameter get_elem(int index)  {
+		public Module_Parameter get_elem(final int index)  {
 			throw new TtcnError("Internal error: Module_Param.get_elem()");
 		}
 
@@ -331,7 +331,7 @@ public final class Param_Types {
 		private Module_Parameter operand1;
 		private Module_Parameter operand2;
 
-		public Module_Param_Expression(expression_operand_t p_type, Module_Parameter p_op1, Module_Parameter p_op2) {
+		public Module_Param_Expression(final expression_operand_t p_type, final Module_Parameter p_op1, final Module_Parameter p_op2) {
 			expr_type = p_type;
 			operand1 = p_op1;
 			operand2 = p_op2;
@@ -342,7 +342,7 @@ public final class Param_Types {
 			operand2.set_parent(this);
 		}
 
-		public Module_Param_Expression(Module_Parameter p_op) {
+		public Module_Param_Expression(final Module_Parameter p_op) {
 			expr_type = expression_operand_t.EXPR_NEGATE;
 			operand1 = p_op;
 			operand2 = null;
@@ -551,7 +551,7 @@ public final class Param_Types {
 			return type_t.MP_Verdict;
 		}
 
-		public Module_Param_Verdict(TitanVerdictType p) {
+		public Module_Param_Verdict(final TitanVerdictType p) {
 			verdict_value = p;
 		}
 
@@ -1035,9 +1035,9 @@ public final class Param_Types {
 		
 		@Override
 		public String get_str() {
-			StringBuilder result = new StringBuilder();
+			final StringBuilder result = new StringBuilder();
 			for (int i = 0; i < names.size(); i++) {
-				boolean index = names.get(i).charAt(0) >= '0' && names.get(i).charAt(0) <= '9';
+				final boolean index = names.get(i).charAt(0) >= '0' && names.get(i).charAt(0) <= '9';
 				if (i > 0 && !index) {
 					result.append('.');
 				}
@@ -1188,7 +1188,7 @@ public final class Param_Types {
 		@Override
 		public void add_list_with_implicit_ids(final List<Module_Parameter> mp_list) {
 			for (int i = 0; i < mp_list.size(); i++) {
-				Module_Parameter mp_current = mp_list.get(i);
+				final Module_Parameter mp_current = mp_list.get(i);
 				mp_current.set_id(new Module_Param_Index(get_size(), false));
 				add_elem(mp_current);
 			}

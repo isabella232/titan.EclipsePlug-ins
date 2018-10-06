@@ -653,9 +653,10 @@ public class RAW {
 	}
 
 	public int[] init_new_tree_pos(final RAW_enc_tr_pos old_pos, final int new_levels, final int[] new_pos) {
-		int[] new_position = new int[old_pos.level + new_levels];
+		final int[] new_position = new int[old_pos.level + new_levels];
 		System.arraycopy(old_pos.pos, 0, new_pos, 0, old_pos.level);
 		System.arraycopy(new_pos, 0, new_pos, new_pos.length + old_pos.level, new_levels);
+
 		return new_position;
  	}
 

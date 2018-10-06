@@ -90,7 +90,7 @@ public final class Module_List {
 	//originally Module_List::initialize_system_port
 	static void initialize_system_port(final String module_name, final String component_type,final String port_name)
 	{
-		TTCN_Module system_module = lookup_module(module_name);
+		final TTCN_Module system_module = lookup_module(module_name);
 		if (system_module == null) {
 			throw new TtcnError(MessageFormat.format("Internal error: Module {0} does not exist.", module_name));
 		} else if (!system_module.init_system_port(component_type, port_name)) {

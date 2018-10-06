@@ -1370,7 +1370,8 @@ public final class TTCN_Logger {
 
 	public static boolean set_disk_full_action(final disk_full_action_type_t p_disk_full_action_type,
 											   final int p_retry_interval) {
-		disk_full_action_t disk_full_action = new disk_full_action_t(p_disk_full_action_type, p_retry_interval);
+		final disk_full_action_t disk_full_action = new disk_full_action_t(p_disk_full_action_type, p_retry_interval);
+
 		return get_logger_plugin_manager().set_disk_full_action(disk_full_action);
 	}
 

@@ -33,7 +33,7 @@ public final class Runtime_Single_main {
 	}
 
 	//FIXME this is much more complicated
-	public static int singleMain( String[] args ) {
+	public static int singleMain(final String[] args ) {
 		int returnValue = 0;
 		TitanComponent.self.set(new TitanComponent(TitanComponent.MTC_COMPREF));
 		TTCN_Runtime.set_state(executorStateEnum.SINGLE_CONTROLPART);
