@@ -335,20 +335,18 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 		// components that have locations set properly (identifiers).
 		// ASN.1 fields: must click on field identifier to find it
 		// TODO: remove the getLikelyLocation() hack
-		if (assignments != null) {
-			for (final ASN1Assignment assignment : assignments) {
-				if (assignment.getLikelyLocation().containsOffset(offset)) {
-					return assignment;
-				}
+		for (final ASN1Assignment assignment : assignments) {
+			if (assignment.getLikelyLocation().containsOffset(offset)) {
+				return assignment;
 			}
 		}
-		if (dynamic_assignments != null) {
-			for (final ASN1Assignment assignment : dynamic_assignments) {
-				if (assignment.getLikelyLocation().containsOffset(offset)) {
-					return assignment;
-				}
+
+		for (final ASN1Assignment assignment : dynamic_assignments) {
+			if (assignment.getLikelyLocation().containsOffset(offset)) {
+				return assignment;
 			}
 		}
+
 		return null;
 	}
 
@@ -418,16 +416,12 @@ public final class ASN1Assignments extends Assignments implements ILocateableNod
 	 * @param aData the generated java code with other info
 	 */
 	public void generateCode( final JavaGenData aData ) {
-		if ( assignments != null ) {
-			for (final ASN1Assignment assignment : assignments ) {
-				assignment.generateCode( aData, false );
-			}
+		for (final ASN1Assignment assignment : assignments ) {
+			assignment.generateCode( aData, false );
 		}
 
-		if ( dynamic_assignments != null ) {
-			for (final ASN1Assignment assignment : dynamic_assignments ) {
-				assignment.generateCode( aData, false );
-			}
+		for (final ASN1Assignment assignment : dynamic_assignments ) {
+			assignment.generateCode( aData, false );
 		}
 	}
 }
