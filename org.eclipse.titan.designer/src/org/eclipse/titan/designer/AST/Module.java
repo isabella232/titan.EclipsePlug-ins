@@ -98,7 +98,7 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 		this.identifier = identifier;
 		name = (identifier == null) ? null : this.identifier.getName();
 
-		scopeName = "module";
+		scopeName = (identifier == null) ? "unknown module" : identifier.getDisplayName();
 		setScopeMacroName((identifier == null) ? "unknown module" : identifier.getDisplayName());
 	}
 
