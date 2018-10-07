@@ -436,7 +436,6 @@ public final class ASN1Module extends Module {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData ) {
-		final StringBuilder sb = aData.getSrc();
 		aData.addBuiltinTypeImport("TTCN_Module");
 
 		imports.generateCode(aData);
