@@ -562,13 +562,13 @@ public final class TemplateInstance extends ASTNode implements ILocateableNode, 
 					template.reArrangeInitCode(aData, source, usageModule);
 
 					// the constants used for default values have to be initialized now
-					if (assignment.getMyScope().getModuleScope() == usageModule) {
+					if (assignment.getMyScope().getModuleScopeGen() == usageModule) {
 						formalParameterList.generateCodeDefaultValues(aData, source);
 					}
 				} else {
 					// the referred template is not parameterized
 					// its entire body has to be initialized now
-					if (assignment.getMyScope().getModuleScope() == usageModule) {
+					if (assignment.getMyScope().getModuleScopeGen() == usageModule) {
 						template.generateCodeInit(aData, source, template.get_lhs_name());
 					}
 				}

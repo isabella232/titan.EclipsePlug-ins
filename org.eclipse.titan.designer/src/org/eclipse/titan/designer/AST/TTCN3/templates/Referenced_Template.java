@@ -716,7 +716,7 @@ public final class Referenced_Template extends TTCN3Template {
 		}
 
 		// return false if lastTemplate is in a different module
-		if (lastTemplate.getMyScope().getModuleScope() != myScope.getModuleScope()) {
+		if (lastTemplate.getMyScope().getModuleScopeGen() != myScope.getModuleScopeGen()) {
 			return false;
 		}
 
@@ -763,7 +763,7 @@ public final class Referenced_Template extends TTCN3Template {
 			// the parameterized template's default values must also be generated
 			// (this only generates their value assignments, their declarations will
 			// be generated when the template's definition is reached)
-			if (assignment.getMyScope().getModuleScope() == usageModule) {
+			if (assignment.getMyScope().getModuleScopeGen() == usageModule) {
 				formalParameterList.generateCodeDefaultValues(aData, source);
 			}
 		} else {
@@ -808,7 +808,7 @@ public final class Referenced_Template extends TTCN3Template {
 			}
 			// otherwise if the reference points to a top-level template
 			// we should initialize its entire body
-			if (assignment.getMyScope().getModuleScope() == usageModule) {
+			if (assignment.getMyScope().getModuleScopeGen() == usageModule) {
 				template.generateCodeInit(aData, source, template.get_lhs_name());
 			}
 		}
@@ -836,7 +836,7 @@ public final class Referenced_Template extends TTCN3Template {
 				 *  - the referenced template is parameterized or
 				 *  - the referenced template is in different module */
 				if (assignment.getAssignmentType() == Assignment_type.A_TEMPLATE && ((Def_Template) assignment).getFormalParameterList() == null
-						&& assignment.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+						&& assignment.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
 					// accumulate the sub-references of the referred reference
 					final List<ISubReference> subReferences = reference.getSubreferences();
 					if (subReferences != null && subReferences.size() > 1) {
@@ -934,8 +934,8 @@ public final class Referenced_Template extends TTCN3Template {
 					// the referred template is parameterized
 					// generate the initialization sequence first for all dependent
 					// non-parameterized templates
-					reArrangeInitCode(aData, source, myScope.getModuleScope());
-				} else if (assignment.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+					reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
+				} else if (assignment.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
 					// the referred template is non-parameterized
 					// use a different algorithm for code generation
 					generateRearrangeInitCodeReferenced(aData, source, expression);
@@ -961,7 +961,7 @@ public final class Referenced_Template extends TTCN3Template {
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

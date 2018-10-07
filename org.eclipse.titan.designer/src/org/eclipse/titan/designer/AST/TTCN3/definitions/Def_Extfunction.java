@@ -874,7 +874,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
-			returnValue.append(myScope.getModuleScope().getIdentifier().getName());
+			returnValue.append(myScope.getModuleScopeGen().getIdentifier().getName());
 			returnValue.append("_externalfunctions.");
 		}
 
@@ -891,7 +891,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
 			final StringBuilder moduleName = new StringBuilder();
 
-			moduleName.append(myScope.getModuleScope().getIdentifier().getName());
+			moduleName.append(myScope.getModuleScopeGen().getIdentifier().getName());
 			moduleName.append("_externalfunctions");
 			aData.addImport("org.eclipse.titan.user_provided." + moduleName.toString());
 
@@ -916,7 +916,7 @@ public final class Def_Extfunction extends Definition implements IParameterisedA
 		if (functionEncodingType == ExternalFunctionEncodingType_type.MANUAL
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.ENCODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))
 				|| (functionEncodingType == ExternalFunctionEncodingType_type.DECODE && (encodingType == MessageEncoding_type.CUSTOM || encodingType == MessageEncoding_type.PER))) {
-			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalfunctions");
+			aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScopeGen().getIdentifier().getName() + "_externalfunctions");
 			// external functions are implemented elsewhere
 			return;
 		}

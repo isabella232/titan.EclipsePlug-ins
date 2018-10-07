@@ -907,7 +907,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 
 			if (baseTemplate != null) {
 				//modified template
-				if (baseTemplate.myScope.getModuleScope() == myScope.getModuleScope()) {
+				if (baseTemplate.myScope.getModuleScopeGen() == myScope.getModuleScopeGen()) {
 					// if the base template is in the same module its body has to be
 					// initialized first
 					getLocation().update_location_object(aData, aData.getPostInit());

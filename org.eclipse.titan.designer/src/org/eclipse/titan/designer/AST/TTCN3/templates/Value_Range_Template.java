@@ -239,14 +239,14 @@ public final class Value_Range_Template extends TTCN3Template {
 
 		if (valueRange != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				valueRange.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				valueRange.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			valueRange.generateCodeInit(aData, source, name);
 		}
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

@@ -279,7 +279,7 @@ public final class Def_ExternalConst extends Definition {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
-		aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScope().getIdentifier().getName() + "_externalconstants");
+		aData.addImport("org.eclipse.titan.user_provided." + myScope.getModuleScopeGen().getIdentifier().getName() + "_externalconstants");
 	}
 
 

@@ -46,6 +46,9 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 	protected List<Location> subScopeLocations;
 	protected List<Scope> subScopes;
 
+	/** Some special kind of parent. Used only in conjunction with ASN.1 parameterized references. */
+	protected Scope parentScopeGen;
+
 	protected String scopeName = "";
 
 	/** The name of the scope as returned by the __SCOPE__ macro */
@@ -169,6 +172,10 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		return parentScope;
 	}
 
+	public final void setParentScopeGen(final Scope parentScope) {
+		this.parentScopeGen = parentScope;
+	}
+
 	/**
 	 * Search in the scope hierarchy for the innermost enclosing
 	 * statementblock scope unit.
@@ -195,6 +202,22 @@ public abstract class Scope implements INamedNode, IIdentifierContainer, IVisita
 		}
 
 		return parentScope.getModuleScope();
+	}
+
+	/**
+	 * Return the module this scope is contained in for code generation. Can return
+	 * <code>null</code>, it indicates a FATAL ERROR.
+	 *
+	 * @return the module of the scope, or null in case of error.
+	 * */
+	public Module getModuleScopeGen() {
+		if (parentScopeGen != null) {
+			return parentScopeGen.getModuleScopeGen();
+		} else if (parentScope != null) {
+			return parentScope.getModuleScopeGen();
+		}
+
+		return null;
 	}
 
 	/**

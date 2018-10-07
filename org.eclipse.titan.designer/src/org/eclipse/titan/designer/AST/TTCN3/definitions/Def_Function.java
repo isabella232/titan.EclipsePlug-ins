@@ -1193,7 +1193,7 @@ public final class Def_Function extends Definition implements IParameterisedAssi
 			tempSource.append("TTCN_Logger.end_event();\n");
 
 			tempSource.append("final Text_Buf text_buf = new Text_Buf();\n");
-			tempSource.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScope().getIdentifier().getDisplayName(), identifier.getDisplayName()));
+			tempSource.append(MessageFormat.format("TTCN_Runtime.prepare_start_component(component_reference, \"{0}\", \"{1}\", text_buf);\n", myScope.getModuleScopeGen().getIdentifier().getDisplayName(), identifier.getDisplayName()));
 			if (formalParList != null) {
 				for (int i = 0; i < formalParList.getNofParameters(); i++) {
 					tempSource.append(MessageFormat.format("{0}.encode_text(text_buf);\n", formalParList.getParameterByIndex(i).getGenName()));

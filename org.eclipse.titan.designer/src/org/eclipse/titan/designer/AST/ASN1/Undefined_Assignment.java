@@ -241,13 +241,13 @@ public abstract class Undefined_Assignment extends ASN1Assignment {
 
 	@Override
 	public void generateCode(final JavaGenData aData, final boolean cleanUp) {
-		if (realAssignment != null) {
-			realAssignment.generateCode(aData, cleanUp);
+		if (null != assPard || dontGenerate) {
+			// don't generate code for assignments that still have a parameter at this point.
 			return;
 		}
 
-		if (null != assPard) {
-			// don't generate code for assignments that still have a parameter at this point.
+		if (realAssignment != null) {
+			realAssignment.generateCode(aData, cleanUp);
 			return;
 		}
 

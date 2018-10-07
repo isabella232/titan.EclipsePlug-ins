@@ -188,7 +188,7 @@ public final class ObjectClass_Assignment extends ASN1Assignment {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
-		if (assPard != null) {
+		if (assPard != null || dontGenerate) {
 			return;
 		}
 

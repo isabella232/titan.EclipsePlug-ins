@@ -168,7 +168,7 @@ public final class Testcase_Reference_Value extends Value {
 		result.append(MessageFormat.format("new {0}(new {0}.function_pointer() '{'\n", governor.getGenNameValue(aData, result, myScope)));
 		result.append("@Override\n");
 		result.append("public String getModuleName() {\n");
-		result.append(MessageFormat.format("return \"{0}\";\n", referredTestcase.getMyScope().getModuleScope().getIdentifier().getName()));
+		result.append(MessageFormat.format("return \"{0}\";\n", referredTestcase.getMyScope().getModuleScopeGen().getIdentifier().getName()));
 		result.append("}\n");
 		result.append("@Override\n");
 		result.append("public String getDefinitionName() {\n");
@@ -177,7 +177,7 @@ public final class Testcase_Reference_Value extends Value {
 		aData.addBuiltinTypeImport("TitanVerdictType");
 		aData.addBuiltinTypeImport("TitanFloat");
 
-		final String moduleName = referredTestcase.getMyScope().getModuleScope().getName();
+		final String moduleName = referredTestcase.getMyScope().getModuleScopeGen().getName();
 		final String testcaseName = referredTestcase.getIdentifier().getName();
 		result.append("@Override\n");
 		result.append("public ");

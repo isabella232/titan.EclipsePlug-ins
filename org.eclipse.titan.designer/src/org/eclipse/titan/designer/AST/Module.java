@@ -204,6 +204,12 @@ public abstract class Module extends Scope implements IOutlineElement, ILocateab
 		return this;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public Module getModuleScopeGen() {
+		return this;
+	}
+
 	/**
 	 * @return the list of definitions declared in this module.
 	 * */

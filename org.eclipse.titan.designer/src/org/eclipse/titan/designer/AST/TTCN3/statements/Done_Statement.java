@@ -334,8 +334,8 @@ public final class Done_Statement extends Statement {
 				}
 
 				// determine whether the done() function is in the same module
-				final Module t_module = t.getMyScope().getModuleScope();
-				if (t_module != myStatementBlock.getModuleScope()) {
+				final Module t_module = t.getMyScope().getModuleScopeGen();
+				if (t_module != myStatementBlock.getModuleScopeGen()) {
 					expression.expression.append(MessageFormat.format("{0}.", t_module.getIdentifier().getName()));
 				}
 				expression.expression.append("done(");

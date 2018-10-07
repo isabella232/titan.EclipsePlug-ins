@@ -735,8 +735,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		final Module refdModule = refdLast.getMyScope().getModuleScope();
-		if (refdModule != scope.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
+		final Module refdModule = refdLast.getMyScope().getModuleScopeGen();
+		if (refdModule != scope.getModuleScopeGen() && !SpecialASN1Module.isSpecAsss(refdModule)) {
 			aData.addInterModuleImport(refdModule.getName());
 		}
 		return refd.getGenNameValue(aData, source, scope);
@@ -750,8 +750,8 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 			return "FATAL_ERROR encountered while processing `" + getFullName() + "''\n";
 		}
 
-		final Module refdModule = refdLast.getMyScope().getModuleScope();
-		if (refdModule != scope.getModuleScope() && !SpecialASN1Module.isSpecAsss(refdModule)) {
+		final Module refdModule = refdLast.getMyScope().getModuleScopeGen();
+		if (refdModule != scope.getModuleScopeGen() && !SpecialASN1Module.isSpecAsss(refdModule)) {
 			aData.addInterModuleImport(refdModule.getName());
 		}
 		return refd.getGenNameTemplate(aData, source, scope);

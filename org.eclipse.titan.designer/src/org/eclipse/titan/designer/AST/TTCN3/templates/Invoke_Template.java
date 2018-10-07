@@ -488,7 +488,7 @@ public final class Invoke_Template extends TTCN3Template {
 		lastTimeBuilt = aData.getBuildTimstamp();
 
 		if (getCodeSection() == CodeSectionType.CS_POST_INIT) {
-			reArrangeInitCode(aData, source, myScope.getModuleScope());
+			reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 		}
 
 		final ExpressionStruct expression = new ExpressionStruct();
@@ -498,7 +498,7 @@ public final class Invoke_Template extends TTCN3Template {
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

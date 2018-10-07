@@ -721,14 +721,14 @@ public final class SpecificValue_Template extends TTCN3Template {
 			realTemplate.generateCodeInit(aData, source, name);
 		} else {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				specificValue.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				specificValue.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			specificValue.generateCodeInit( aData, source, name );
 		}
 
 		if (lengthRestriction != null) {
 			if(getCodeSection() == CodeSectionType.CS_POST_INIT) {
-				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScope());
+				lengthRestriction.reArrangeInitCode(aData, source, myScope.getModuleScopeGen());
 			}
 			lengthRestriction.generateCodeInit(aData, source, name);
 		}

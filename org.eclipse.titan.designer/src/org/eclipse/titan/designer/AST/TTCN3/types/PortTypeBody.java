@@ -2231,8 +2231,8 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 
 		if (portType == PortType_type.PT_PROVIDER) {
 			for (int i = 0; i < mapperTypes.size(); i++) {
-				final Module portModule = mapperTypes.get(i).getMyScope().getModuleScope();
-				final Module myModule = myType.getMyScope().getModuleScope();
+				final Module portModule = mapperTypes.get(i).getMyScope().getModuleScopeGen();
+				final Module myModule = myType.getMyScope().getModuleScopeGen();
 				if (myModule == portModule) {
 					continue;
 				}

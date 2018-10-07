@@ -652,7 +652,7 @@ public final class Referenced_Value extends Value {
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
 			return true;
 		}
 
@@ -687,7 +687,7 @@ public final class Referenced_Value extends Value {
 		final IValue last = getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), referenceChain);
 		referenceChain.release();
 
-		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScope() == myScope.getModuleScope()) {
+		if (last != this && last.canGenerateSingleExpression() && last.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
 			return last.generateSingleExpression(aData);
 		}
 
@@ -718,7 +718,7 @@ public final class Referenced_Value extends Value {
 		// the referred value is available at compile time
 		// the code generation is based on the referred value
 		if (last.canGenerateSingleExpression() &&
-				myScope.getModuleScope() == last.getMyScope().getModuleScope()) {
+				myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
 			// simple substitution for in-line values within the same module
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
@@ -753,7 +753,7 @@ public final class Referenced_Value extends Value {
 		// the referred value is available at compile time
 		// the code generation is based on the referred value
 		if (last.canGenerateSingleExpression() &&
-				myScope.getModuleScope() == last.getMyScope().getModuleScope()) {
+				myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
 			// simple substitution for in-line values within the same module
 			source.append(MessageFormat.format("{0}.assign({1});\n", name, last.generateSingleExpression(aData)));
 		} else {
