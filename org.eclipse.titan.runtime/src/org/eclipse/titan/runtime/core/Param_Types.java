@@ -267,11 +267,11 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_upper_float()");
 		}
 
-		public TitanUniversalCharString get_lower_uchar()  {
+		public TitanUniversalChar get_lower_uchar()  {
 			throw new TtcnError("Internal error: Module_Param.get_lower_uchar()");
 		}
 
-		public TitanUniversalCharString get_upper_uchar()  {
+		public TitanUniversalChar get_upper_uchar()  {
 			throw new TtcnError("Internal error: Module_Param.get_upper_uchar()");
 		}
 
@@ -946,6 +946,150 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str(")");
 		}
 	}
+	
+	public static class Module_Param_StringRange extends Module_Parameter {
+		private TitanUniversalChar lower_bound;
+		private TitanUniversalChar upper_bound;
+		private boolean min_exclusive;
+		private boolean max_exclusive;
+
+		public type_t get_type() {
+			return type_t.MP_StringRange;
+		}
+
+		public Module_Param_StringRange(final TitanUniversalChar p_lb, final TitanUniversalChar p_ub, final boolean min_is_exclusive, final boolean max_is_exclusive) {
+			lower_bound = p_lb;
+			upper_bound = p_ub;
+			min_exclusive = min_is_exclusive;
+			max_exclusive = max_is_exclusive;
+		}
+
+		public TitanUniversalChar get_lower_uchar() {
+			return lower_bound;
+		}
+
+		public TitanUniversalChar get_upper_uchar() {
+			return upper_bound;
+		}
+
+		public String get_type_str() {
+			return "char range";
+		}
+
+		public boolean get_is_min_exclusive() { 
+			return min_exclusive; 
+		}
+
+		public boolean get_is_max_exclusive() {
+			return max_exclusive; 
+		}
+
+		public void log_value() {
+			TTCN_Logger.log_event_str("(");
+			new TitanUniversalCharString(lower_bound).log();
+			TTCN_Logger.log_event_str("..");
+			new TitanUniversalCharString(upper_bound).log();
+			TTCN_Logger.log_event_str(")");
+		}
+	}
+
+	public static class Module_Param_Pattern extends Module_Parameter {
+
+		private String pattern;
+		private boolean nocase;
+
+		public type_t get_type() {
+			return type_t.MP_Pattern; 
+		}
+
+		public Module_Param_Pattern(final String p_p, final boolean p_nc) {
+			pattern = p_p;
+			nocase = p_nc;
+		}
+
+		public String get_pattern() { 
+			return pattern; 
+		}
+
+		public boolean get_nocase() { 
+			return nocase; 
+		}
+
+		public String get_type_str() {
+			return "pattern"; 
+		}
+
+		public void log_value() {
+			TTCN_Logger.log_event_str("pattern ");
+			if (nocase) {
+				TTCN_Logger.log_event_str("@nocase ");
+			}
+			TTCN_Logger.log_event_str("\"");
+			TTCN_Logger.log_event_str(pattern);
+			TTCN_Logger.log_event_str("\"");
+		}
+	}
+
+	public static class Module_Param_Bitstring_Template extends Module_Parameter {
+
+		private TitanBitString_template bstr_template;
+
+		public type_t get_type() {
+			return type_t.MP_Bitstring_Template; 
+		}
+
+		public Module_Param_Bitstring_Template(final String p_c) {
+			bstr_template = new TitanBitString_template(new TitanBitString(p_c));
+		}
+		public String get_type_str() { 
+			return "bitstring template"; 
+		}
+		public void log_value() {
+			bstr_template.log();
+		}
+	}
+
+	public static class Module_Param_Hexstring_Template extends Module_Parameter {
+
+		private TitanHexString_template hstr_template;
+
+		public type_t get_type() { 
+			return type_t.MP_Hexstring_Template; 
+		}
+
+		public Module_Param_Hexstring_Template(final String p_c) {
+			hstr_template = new TitanHexString_template(new TitanHexString(p_c));
+		}
+
+		public String get_type_str() { 
+			return "hexstring template"; 
+		}
+
+		public void log_value() {
+			hstr_template.log();
+		}
+	}
+
+	public static class Module_Param_Octetstring_Template extends Module_Parameter{
+
+		private TitanOctetString_template ostr_template;
+
+		public type_t get_type() {
+			return type_t.MP_Octetstring_Template; 
+		}
+
+		public Module_Param_Octetstring_Template(final String p_c) {
+			ostr_template = new TitanOctetString_template(new TitanOctetString(p_c));
+		}
+
+		public String get_type_str() { 
+			return "octetstring template";
+		}
+
+		public void log_value() {
+			ostr_template.log();
+		}
+	}
 
 	public static class Module_Param_Id {
 
@@ -1197,6 +1341,124 @@ public final class Param_Types {
 		@Override
 		public void log_value() {
 			//Do nothing in this class
+		}
+	}
+
+	public static class Module_Param_Assignment_List extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_Assignment_List;
+		}
+		public String get_type_str() { 
+			return "list with assignment notation"; 
+		}
+		public void log_value() { 
+			log_value_vec("{","}");
+		}
+	}
+
+	public static class Module_Param_Value_List extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_Value_List; 
+		}
+
+		public String get_type_str() { 
+			return "value list";
+		}
+
+		public void log_value() { 
+			log_value_vec("{","}"); 
+		}
+	}
+
+	public static class Module_Param_Indexed_List extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_Indexed_List; 
+		}
+
+		public String get_type_str() { 
+			return "indexed value list"; 
+		}
+
+		public void log_value() {
+			log_value_vec("{","}");
+		}
+	}
+
+	public static class Module_Param_List_Template extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_List_Template; 
+		}
+
+		public String get_type_str() { 
+			return "list template"; 
+		}
+
+		public void log_value() { 
+			log_value_vec("(",")");
+		}
+	}
+
+	public static class Module_Param_ComplementList_Template extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_ComplementList_Template;
+		}
+
+		public String get_type_str() { 
+			return "complemented list template"; 
+		}
+
+		public void log_value() { 
+			log_value_vec("complement(",")"); 
+		}
+	}
+
+	public static class Module_Param_Superset_Template extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_Superset_Template; 
+		}
+
+		public String get_type_str() {
+			return "superset template"; 
+		}
+
+		public void log_value() {
+			log_value_vec("superset(",")"); 
+		}
+	}
+
+	public static class Module_Param_Subset_Template extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_Subset_Template; 
+		}
+
+		public String get_type_str() { 
+			return "subset template"; 
+		}
+
+		public void log_value() {
+			log_value_vec("subset(",")");
+		}
+	}
+
+	public static class Module_Param_Permutation_Template extends Module_Param_Compound {
+
+		public type_t get_type() { 
+			return type_t.MP_Permutation_Template; 
+		}
+
+		public String get_type_str() {
+			return "permutation template";
+		}
+
+		public void log_value() {
+			log_value_vec("permutation(",")");
 		}
 	}
 }
