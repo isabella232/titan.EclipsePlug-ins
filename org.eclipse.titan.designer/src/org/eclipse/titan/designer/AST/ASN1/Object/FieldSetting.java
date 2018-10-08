@@ -66,6 +66,19 @@ public abstract class FieldSetting extends ASTNode implements ILocateableNode {
 		getSetting().setMyScope(scope);
 	}
 
+	/**
+	 * Set the generated name for this field setting,
+	 *  as a concatenation of a prefix, an underscore and a suffix,
+	 * unless the prefix already ends with, or the suffix already begins with
+	 * precisely one underscore.
+	 *
+	 * @param prefix the prefix to use
+	 * @param suffix the suffix to use.
+	 * */
+	public void setGenName(final String prefix, final String suffix) {
+		getSetting().setGenName(prefix, suffix);
+	}
+
 	public abstract void check(final CompilationTimeStamp timestamp, FieldSpecification fieldSpecification);
 
 	/**
