@@ -198,6 +198,8 @@ public final class Param_Types {
 
 		public abstract void log_value();
 		
+		public abstract type_t get_type();
+		
 		public void basic_check(final int check_bits, final String what) {
 			final boolean is_template = (check_bits & basic_check_bits_t.BC_TEMPLATE.getValue()) != 0 ? true : false;
 			final boolean is_list = (check_bits & basic_check_bits_t.BC_LIST.getValue()) != 0 ? true : false;
@@ -261,7 +263,7 @@ public final class Param_Types {
 		}
 
 		//TODO: need to check later (original void*)
-		public String get_string_data() {
+		public Object get_string_data() {
 			throw new TtcnError("Internal error: Module_Param.get_string_data()");
 		}
 
@@ -337,6 +339,9 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_operand2()");
 		}
 
+		public void expr_type_error(final String type_name) {
+			throw new TtcnError(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
+		}
 		//TODO: error functions, now we throw a TtcnError 
 	}
 
@@ -635,6 +640,14 @@ public final class Param_Types {
 		@Override
 		public void log_value() {
 			bstr.log();
+		}
+		
+		public int get_string_size() {
+			return bstr.getNBits();
+		}
+		
+		public int[] get_string_data() {
+			return bstr.getValue();
 		}
 	}
 
@@ -1363,6 +1376,12 @@ public final class Param_Types {
 		@Override
 		public void log_value() {
 			//Do nothing in this class
+		}
+
+		@Override
+		public type_t get_type() {
+			// this class has no type
+			return null;
 		}
 	}
 
