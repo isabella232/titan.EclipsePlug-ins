@@ -218,6 +218,8 @@ public final class CTs_EE_CTs extends ASTNode {
 			type.setGenName(myType.getGenNameOwn(), componentField.getIdentifier().getName());
 			type.setParentType(myType);
 			componentField.check(timestamp);
+
+			//FIXME handle default value
 		}
 	}
 	//This function checks only name uniqueness and fill in  structures "componentsMap" and "components"
