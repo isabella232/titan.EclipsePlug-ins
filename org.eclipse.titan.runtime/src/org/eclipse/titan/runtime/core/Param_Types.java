@@ -7,6 +7,7 @@
  ******************************************************************************/
 package org.eclipse.titan.runtime.core;
 
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -196,6 +197,27 @@ public final class Param_Types {
 		}
 
 		public abstract void log_value();
+		
+		public void basic_check(final int check_bits, final String what) {
+			final boolean is_template = (check_bits & basic_check_bits_t.BC_TEMPLATE.getValue()) != 0 ? true : false;
+			final boolean is_list = (check_bits & basic_check_bits_t.BC_LIST.getValue()) != 0 ? true : false;
+			if (is_template || !is_list) {
+				if (get_operation_type() != operation_type_t.OT_ASSIGN) {
+					//throw TtcnError instead of error()
+					throw new TtcnError(MessageFormat.format("The {0} of {1}s is not allowed.", get_operation_type_str(), what));
+				}
+			}
+			if (!is_template) {
+				if (has_ifpresent) {
+					throw new TtcnError(MessageFormat.format("{0] cannot have an 'ifpresent' attribute", what));
+				}
+			}
+			if (!is_template || !is_list) {
+				if (length_restriction != null) {
+					throw new TtcnError(MessageFormat.format("{0} cannot have a length restriction", what));
+				}
+			}
+		}
 
 		public String get_param_context() {
 			final StringBuilder result = new StringBuilder();
