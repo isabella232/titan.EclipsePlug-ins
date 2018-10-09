@@ -12,7 +12,7 @@ Date: 2018-09-25
 :sectnums:
 :doctype: book
 :toc:
-:toclevels: 3
+:toclevels: 4
 
 ifdef::env-github,backend-html5[]
 image::images/titan_logo.png[alt]

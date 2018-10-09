@@ -99,8 +99,9 @@ If we have to do the changes externally the ".project" file has to be extended w
 
 As Eclipse will use the name of the project as reference, this will be a transportable solution, as neither local file system paths, nor the relation between the actual and the referenced project is fixed (with symbolic links we would be forced to build the same project structure which is not possible in Eclipse, as all projects have to be on the same level).
 
-Figure 81 gives an example on how it might look if 2 large projects are separated into smaller referring project.
+<<two-large-projects,Next figure>> gives an example on how it might look if 2 large projects are separated into smaller referring projects.
 
+[[two-large-projects]]
 image::images/5_F82.png[title="Two large projects"]
 
 === Large Projects Using Central Storage Folders

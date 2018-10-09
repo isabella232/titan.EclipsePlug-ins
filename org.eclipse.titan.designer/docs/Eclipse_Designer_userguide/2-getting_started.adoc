@@ -46,7 +46,7 @@ NOTE: The contents of this view have no effect on the work of the user.
 
 TITAN Actions or Change Set Operations are commands (apart from those used in the build process) that can be executed on TTCN-3 files.
 
-The TITAN Actions are enabled by checking the *Change Set Operations* submenu on the tab *Tool Bar Visibility* after selecting *Windows / Customize Perspective* (see the next figure).
+The TITAN Actions are enabled by checking the *Change Set Operations* submenu on the tab *Tool Bar Visibility* after selecting *Window / Perspective / Customize Perspective* (see the next figure).
 
 image::images/2_F4.png[title="Enabling Titan Actions or ChangeSet Operations on the Toolbar"]
 
@@ -70,7 +70,7 @@ The output of the commands is written to the TITAN Console. Commands are execute
 
 TITAN Shortcuts appear in the *File/New* menu and are used to open a new ASN.1 module, a configuration file, a TITAN project or a TTCN-3 module, respectively.
 
-The TITAN Shortcuts are enabled by checking the appropriate box on the right pane of the Shortcuts tab after selecting *Windows / Customize Perspective* (see <<enabling-the-titan-shortcuts,the next figure>> ).The boxes are checked by default.
+The TITAN Shortcuts are enabled by checking the appropriate box on the right pane of the Shortcuts tab after selecting *Window / Perspective / Customize Perspective...* (see <<enabling-the-titan-shortcuts,the next figure>> ).The boxes are checked by default.
 
 [[enabling-the-titan-shortcuts]]
 image::images/2_F6.png[title="Enabling the TITAN Shortcuts"]
@@ -87,7 +87,7 @@ Decoration after a folder name indicates that the folder is used as a central st
 
 Decoration after a file name denotes exclusion from build. Files excluded from build are marked `[ excluded ]`.
 
-Decoration is enabled by checking the *TITAN Decorator* box after selecting *Windows / Preferences / General / Appearance / Label decorations*; see the figure below.
+Decoration is enabled by checking the *TITAN Decorator* box after selecting *Window / Preferences / General / Appearance / Label decorations*; see the figure below.
 
 image::images/2_F7.png[title="Enabling TITAN Decoration"]
 
