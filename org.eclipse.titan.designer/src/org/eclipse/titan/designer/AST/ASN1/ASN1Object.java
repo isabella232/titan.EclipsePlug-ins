@@ -57,6 +57,12 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 		myGovernor = governor;
 	}
 
+	@Override
+	/** {@inheritDoc} */
+	public void setGenNameOse(String prefix, String suffix) {
+		setGenName(prefix, suffix);
+	}
+
 	/**
 	 * @return the number of elements.
 	 * */

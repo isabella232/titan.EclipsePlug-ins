@@ -20,4 +20,6 @@ public interface IObjectSet_Element {
 	void accept(ObjectSetElement_Visitor visitor);
 
 	void setMyScopeOse(Scope scope);
+
+	void setGenNameOse(final String prefix, final String suffix);
 }
