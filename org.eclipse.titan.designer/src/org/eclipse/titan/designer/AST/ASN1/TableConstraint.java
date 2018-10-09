@@ -111,6 +111,7 @@ public final class TableConstraint extends Constraint {
 
 		final BridgingNamedNode bridge = new BridgingNamedNode(this, FULLNAMEPART);
 		objectSet.setFullNameParent(bridge);
+		objectSet.setGenName(myType.getGenNameOwn(), "os");
 
 		// search the constrained type (not the reference to it)
 		constrainedType = myType;

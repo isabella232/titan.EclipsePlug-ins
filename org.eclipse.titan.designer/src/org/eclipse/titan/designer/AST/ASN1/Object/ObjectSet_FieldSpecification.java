@@ -79,9 +79,11 @@ public final class ObjectSet_FieldSpecification extends FieldSpecification {
 			return;
 		}
 
+		objectClass.setGenName(myObjectClass.getGenNameOwn(), identifier.getName());
 		objectClass.check(timestamp);
 		if (null != defaultObjectSet) {
 			defaultObjectSet.setMyGovernor(objectClass);
+			defaultObjectSet.setGenName(objectClass.getGenNameOwn(), "_defobj_");
 			defaultObjectSet.check(timestamp);
 		}
 

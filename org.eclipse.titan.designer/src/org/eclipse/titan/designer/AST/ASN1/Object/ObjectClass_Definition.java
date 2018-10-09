@@ -110,6 +110,7 @@ public final class ObjectClass_Definition extends ObjectClass {
 			if (objectDefinition.hasFieldSettingWithName(fieldSpecification.getIdentifier())) {
 				final FieldSetting fieldSetting = objectDefinition.getFieldSettingByName(fieldSpecification.getIdentifier());
 				if (null != fieldSetting) {
+					fieldSetting.setGenName(object.getGenNameOwn(), fieldSetting.getName().getName());
 					fieldSetting.check(timestamp, fieldSpecification);
 				}
 			} else {
