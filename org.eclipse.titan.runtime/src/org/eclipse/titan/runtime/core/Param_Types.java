@@ -118,7 +118,7 @@ public final class Param_Types {
 		}
 
 		public void set_id(final Module_Param_Id p_id) {
-			if (p_id == null) {
+			if (id != null) {
 				throw new TtcnError("Internal error: Module_Param.set_id()");
 			}
 			id = p_id;
