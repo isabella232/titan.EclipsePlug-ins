@@ -10,7 +10,12 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -829,5 +834,96 @@ public class TitanCharString extends Base_Type {
 		errorContext.leaveContext();
 
 		return decode_length + prepaddlength;
+	}
+
+	private boolean set_param_internal(Module_Parameter param, boolean allow_pattern, AtomicBoolean is_nocase_pattern) {
+		boolean is_pattern = false;
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "charstring value");
+		Module_Parameter mp = param;
+		switch (mp.get_type()) {
+		case MP_Universal_Charstring:
+		case MP_Charstring:
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				cleanUp();
+			// no break
+			case OT_CONCAT: {
+				// The universal charstring will decode the string value if it is UTF-8 encoded
+				final TitanUniversalCharString ucs = new TitanUniversalCharString();
+				ucs.set_param(mp);
+				if (ucs.charstring) {
+					// No special characters were found
+					if (isBound()) {
+						concatenate(ucs);
+					} else {
+						assign(ucs);
+					}
+				} else {
+					// Special characters found -> check if the UTF-8 decoding resulted in any multi-byte characters
+					for (int i = 0; i < ucs.val_ptr.size(); ++i) {
+						final TitanUniversalChar uc = ucs.val_ptr.get(i);
+						if (0 != uc.getUc_group() ||
+								0 != uc.getUc_plane() ||
+								0 != uc.getUc_row()) {
+							param.error("Type mismatch: a charstring value without multi-octet characters was expected.");
+						}
+					}
+					final TitanCharString new_cs = new TitanCharString(ucs);
+					if (isBound()) {
+						concatenate(new_cs);
+					} else {
+						assign(new_cs);
+					}
+				}
+				break; }
+			default:
+				throw new TtcnError("Internal error: TitanCharString.set_param()");
+			}
+		break;
+		case MP_Expression:
+			if (mp.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
+				// only allow string patterns for the first operand
+				final TitanCharString operand1 = new TitanCharString();
+				final TitanCharString operand2 = new TitanCharString();
+				is_pattern = operand1.set_param_internal(mp.get_operand1(), allow_pattern,
+						is_nocase_pattern);
+				operand2.set_param(mp.get_operand2());
+				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
+					concatenate(operand1);
+					concatenate(operand2);
+				}
+				else {
+					assign(operand1);
+					concatenate(operand2);
+				}
+			}
+			else {
+				param.expr_type_error("a charstring");
+			}
+		break;
+		case MP_Pattern:
+			if (allow_pattern) {
+				assign(new TitanCharString(mp.get_pattern()));
+				is_pattern = true;
+				if (is_nocase_pattern != null) {
+					is_nocase_pattern.set(mp.get_nocase());
+				}
+				break;
+			}
+			// else fall through
+		default:
+			param.type_error("charstring value");
+			break;
+		}
+		return is_pattern;
+	}
+
+	private boolean set_param_internal(Module_Parameter param, boolean allow_pattern) {
+		return set_param_internal(param, allow_pattern, null);
+	}
+
+	@Override
+	public void set_param(Module_Parameter param) {
+		set_param_internal(param, false);
 	}
 }

@@ -11,6 +11,10 @@ import java.math.BigInteger;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * TTCN-3 integer template
  *
@@ -600,4 +604,100 @@ public class TitanInteger_template extends Base_Template {
 			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for an integer template.");
 		}
 	}
+
+	@Override
+	public void set_param(Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "integer template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template: {
+			final TitanInteger_template temp = new TitanInteger_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ?
+					template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				final TitanInteger_template tempElem = new TitanInteger_template();
+				tempElem.set_param(param.get_elem(i));
+				temp.value_list.add(tempElem);
+			}
+			assign(temp);
+			break;
+		}
+		case MP_Integer:
+			assign(param.get_integer());
+			break;
+		case MP_IntRange: {
+			setType(template_sel.VALUE_RANGE);
+			if (param.get_lower_int() != null) {
+				setMin(param.get_lower_int());
+			}
+			setMinExclusive(param.get_is_min_exclusive());
+			if (param.get_upper_int() != null) {
+				setMax(param.get_upper_int());
+			}
+			setMaxExclusive(param.get_is_max_exclusive());
+			break;
+		}
+		case MP_Expression:
+			switch (param.get_expr_type()) {
+			case EXPR_NEGATE: {
+				TitanInteger operand = new TitanInteger();
+				operand.set_param(param.get_operand1());
+				assign(operand.sub());
+				break;
+			}
+			case EXPR_ADD: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.add(operand2));
+				break;
+			}
+			case EXPR_SUBTRACT: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.sub(operand2));
+				break;
+			}
+			case EXPR_MULTIPLY: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.mul(operand2));
+				break;
+			}
+			case EXPR_DIVIDE: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				if (operand2.operatorEquals(0)) {
+					param.error("Integer division by zero.");
+				}
+				assign(operand1.div(operand2));
+				break;
+			}
+			default:
+				param.expr_type_error("an integer");
+				break;
+			}
+			break;    
+		default:
+			param.type_error("integer template");
+		}
+		is_ifPresent = param.get_ifpresent() || param.get_ifpresent();
+	}
+
 }

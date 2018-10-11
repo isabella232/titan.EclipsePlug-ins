@@ -291,6 +291,14 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_upper_float()");
 		}
 
+		public boolean has_lower_float() {
+			throw new TtcnError("Internal error: Module_Param.has_lower_float()");
+		}
+
+		public boolean has_upper_float() {
+			throw new TtcnError("Internal error: Module_Param.has_upper_float()");
+		}
+
 		public TitanUniversalChar get_lower_uchar()  {
 			throw new TtcnError("Internal error: Module_Param.get_lower_uchar()");
 		}
@@ -375,7 +383,7 @@ public final class Param_Types {
 			operand1 = p_op1;
 			operand2 = p_op2;
 			if (operand1 == null || operand2 == null) {
-				throw new TtcnError("Internal error: Module_Param_Expression::Module_Param_Expression()");
+				throw new TtcnError("Internal error: Module_Param_Expression.Module_Param_Expression()");
 			}
 			operand1.set_parent(this);
 			operand2.set_parent(this);
@@ -386,7 +394,7 @@ public final class Param_Types {
 			operand1 = p_op;
 			operand2 = null;
 			if (operand1 == null) {
-				throw new TtcnError("Internal error: Module_Param_Expression::Module_Param_Expression()");
+				throw new TtcnError("Internal error: Module_Param_Expression.Module_Param_Expression()");
 			}
 			operand1.set_parent(this);
 		}
@@ -487,7 +495,7 @@ public final class Param_Types {
 		public Module_Param_Integer(final TitanInteger p) {
 			integer_value = p;
 			if (integer_value == null) {
-				throw new TtcnError("Internal error: Module_Param_Integer::Module_Param_Integer()");
+				throw new TtcnError("Internal error: Module_Param_Integer.Module_Param_Integer()");
 			}
 		}
 
@@ -1350,7 +1358,7 @@ public final class Param_Types {
 		@Override
 		public Module_Parameter get_elem(final int index) {
 			if (index >= values.size()) {
-				throw new TtcnError("Internal error: Module_Param::get_elem(): index overflow");
+				throw new TtcnError("Internal error: Module_Param.get_elem(): index overflow");
 			}
 			return values.get(index);
 		}

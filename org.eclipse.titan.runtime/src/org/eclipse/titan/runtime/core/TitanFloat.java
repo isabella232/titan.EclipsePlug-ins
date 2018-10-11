@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.nio.ByteBuffer;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -762,4 +764,64 @@ public class TitanFloat extends Base_Type {
 		errorcontext.leaveContext();
 		return decode_length + prepaddlength;
 	}
+
+	@Override
+	public void set_param(Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "float value");
+		switch (param.get_type()) {
+		case MP_Float:
+			assign(param.get_float());
+			break;
+		case MP_Expression:
+			switch (param.get_expr_type()) {
+			case EXPR_NEGATE: {
+				TitanFloat operand = new TitanFloat();
+				operand.set_param(param.get_operand1());
+				assign(operand.sub());
+				break; }
+			case EXPR_ADD: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.add(operand2));
+				break;
+			}
+			case EXPR_SUBTRACT: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.sub(operand2));
+				break;
+			}
+			case EXPR_MULTIPLY: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.mul(operand2));
+				break;
+			}
+			case EXPR_DIVIDE: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				if (operand2.operatorEquals(0)) {
+					param.error("Floating point division by zero.");
+				}
+				assign(operand1.div(operand2));
+				break; }
+			default:
+				param.expr_type_error("a float");
+				break;
+			}
+		break;
+		default:
+			param.type_error("float value");
+			break;
+		}
+	}
+
 }

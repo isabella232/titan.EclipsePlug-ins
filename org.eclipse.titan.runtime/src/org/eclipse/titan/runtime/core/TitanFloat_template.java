@@ -10,10 +10,15 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * TTCN-3 float template
  * @author Farkas Izabella Ingrid
  * @author Andrea Palfi
+ * @author Arpad Lovassy
  *
  * Not yet complete rewrite
  */
@@ -581,5 +586,100 @@ public class TitanFloat_template extends Base_Template {
 		default:
 			throw new TtcnError("Text decoder: An unknown/unsupported selection was received for a float template.");
 		}
+	}
+
+	@Override
+	public void set_param(Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "float template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template: {
+			final TitanFloat_template temp = new TitanFloat_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ?
+					template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				final TitanFloat_template tempElem = new TitanFloat_template();
+				tempElem.set_param(param.get_elem(i));
+				temp.value_list.add(tempElem);
+			}
+			assign(temp);
+			break;
+		}
+		case MP_Float:
+			assign(param.get_float());
+			break;
+		case MP_FloatRange: {
+			setType(template_sel.VALUE_RANGE);
+			if (param.has_lower_float()) {
+				setMin(param.get_lower_float());
+			}
+			setMinExclusive(param.get_is_min_exclusive());
+			if (param.has_upper_float()) {
+				setMax(param.get_upper_float());
+			}
+			setMaxExclusive(param.get_is_max_exclusive());
+			break;
+		}
+		case MP_Expression:
+			switch (param.get_expr_type()) {
+			case EXPR_NEGATE: {
+				TitanFloat operand = new TitanFloat();
+				operand.set_param(param.get_operand1());
+				assign(operand.sub());
+				break;
+			}
+			case EXPR_ADD: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.add(operand2));
+				break;
+			}
+			case EXPR_SUBTRACT: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.sub(operand2));
+				break;
+			}
+			case EXPR_MULTIPLY: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.mul(operand2));
+				break;
+			}
+			case EXPR_DIVIDE: {
+				TitanFloat operand1 = new TitanFloat();
+				TitanFloat operand2 = new TitanFloat();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				if (operand2.operatorEquals(0)) {
+					param.error("Floating point division by zero.");
+				}
+				assign(operand1.div(operand2));
+				break;
+			}
+			default:
+				param.expr_type_error("a float");
+				break;
+			}
+			break;    
+		default:
+			param.type_error("float template");
+		}
+		is_ifPresent = param.get_ifpresent() || param.get_ifpresent();
 	}
 }
