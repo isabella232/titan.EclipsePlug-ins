@@ -128,6 +128,9 @@ public abstract class Type extends Governor implements IType, IIncrementallyUpda
 	protected TypeOwner_type ownerType = TypeOwner_type.OT_UNKNOWN;
 	protected INamedNode owner = null;//TODO needs to check if this is the tightest interface once structure is ready to reveal all usage.
 
+	/** the time when code for this type was generated. */
+	protected BuildTimestamp lastTimeGenerated = null;
+
 	/**
 	 * The actual value of the severity level to report type compatibility
 	 * on.
