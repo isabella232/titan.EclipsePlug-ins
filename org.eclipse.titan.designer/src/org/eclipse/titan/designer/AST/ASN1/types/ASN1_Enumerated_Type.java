@@ -685,6 +685,12 @@ public final class ASN1_Enumerated_Type extends ASN1Type implements ITypeWithCom
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		final String ownName = getGenNameOwn();
 		final String displayName = getFullName();
 

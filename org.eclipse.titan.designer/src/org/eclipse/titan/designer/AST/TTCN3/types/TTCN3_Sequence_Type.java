@@ -894,6 +894,12 @@ public final class TTCN3_Sequence_Type extends TTCN3_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();
 

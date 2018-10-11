@@ -564,6 +564,12 @@ public final class SetOf_Type extends AbstractOfType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		final String genName = getGenNameOwn();
 		final String displayName = getFullName();
 		final IType ofType = getOfType();

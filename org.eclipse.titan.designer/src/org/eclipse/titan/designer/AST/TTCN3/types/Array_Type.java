@@ -1130,6 +1130,12 @@ public final class Array_Type extends Type implements IReferenceableElement {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode(final JavaGenData aData, final StringBuilder source) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		if (!inTypeDefinition) {
 			return;
 		}

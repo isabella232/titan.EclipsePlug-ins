@@ -933,6 +933,12 @@ public final class ASN1_Set_Type extends ASN1_Set_Seq_Choice_BaseType {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		final String className = getGenNameOwn();
 		final String classReadableName = getFullName();
 

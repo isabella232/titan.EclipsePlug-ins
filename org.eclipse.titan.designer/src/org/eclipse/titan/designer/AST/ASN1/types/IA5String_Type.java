@@ -233,6 +233,12 @@ public final class IA5String_Type extends ASN1Type {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
