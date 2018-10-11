@@ -10,6 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 //TODO: Not yet complete rewrite
 /**
  * TTCN-3 boolean template
@@ -303,6 +307,37 @@ public class TitanBoolean_template extends Base_Template {
 			break;
 		}
 		log_ifpresent();
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "boolean template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			TitanBoolean_template temp = new TitanBoolean_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Boolean:
+			this.assign(param.get_boolean());
+			break;
+		default:
+			param.type_error("boolean template");
+		}
+		is_ifPresent = param.get_ifpresent();
 	}
 
 	public void log_match(final TitanBoolean match_value, final boolean legacy) {
