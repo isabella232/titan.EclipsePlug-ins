@@ -368,10 +368,17 @@ public final class ObjectClassField_Type extends ASN1Type implements IReferencin
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
+		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if(myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+			final StringBuilder tempSource = aData.getCodeForType(last.getGenNameOwn());
+			if (tempSource.length() == 0) {
+				last.generateCode(aData, tempSource);
+			}
+		}
+
 		generateCodeTypedescriptor(aData, source);
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
-			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 			last.generateCode(aData, source);
 
 			source.append(MessageFormat.format("\tpublic static class {0} extends {1} '{' '}'\n", ownName, referred_type.getGenNameValue(aData, source, myScope)));
