@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.math.BigInteger;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -1365,4 +1367,64 @@ public class TitanInteger extends Base_Type {
 
 		return decode_length + prepaddlength + len_bits;
 	}
+
+	@Override
+	public void set_param(Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "integer value");
+		switch (param.get_type()) {
+		case MP_Integer:
+			assign(param.get_integer());
+			break;
+		case MP_Expression:
+			switch (param.get_expr_type()) {
+			case EXPR_NEGATE: {
+				TitanInteger operand = new TitanInteger();
+				operand.set_param(param.get_operand1());
+				assign(operand.sub());
+				break; }
+			case EXPR_ADD: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.add(operand2));
+				break;
+			}
+			case EXPR_SUBTRACT: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.sub(operand2));
+				break;
+			}
+			case EXPR_MULTIPLY: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				assign(operand1.mul(operand2));
+				break;
+			}
+			case EXPR_DIVIDE: {
+				TitanInteger operand1 = new TitanInteger();
+				TitanInteger operand2 = new TitanInteger();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				if (operand2.operatorEquals(0)) {
+					param.error("Integer division by zero.");
+				}
+				assign(operand1.div(operand2));
+				break; }
+			default:
+				param.expr_type_error("an integer");
+				break;
+			}
+		break;
+		default:
+			param.type_error("integer value");
+			break;
+		}
+	}
+
 }

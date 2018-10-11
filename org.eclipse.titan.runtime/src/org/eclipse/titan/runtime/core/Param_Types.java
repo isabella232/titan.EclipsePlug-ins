@@ -339,6 +339,18 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_operand2()");
 		}
 
+		public void error(final String  err) {
+			//TODO: implement
+		}
+
+		public void type_error(final String expected, final String type_name) {
+			//TODO: implement
+		}
+
+		public void type_error(final String expected) {
+			type_error(expected, null);
+		}
+
 		public void expr_type_error(final String type_name) {
 			throw new TtcnError(MessageFormat.format("{0} is not allowed in {1} expression.", get_expr_type_str(),type_name)); 
 		}
