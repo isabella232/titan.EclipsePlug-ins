@@ -481,6 +481,13 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 					refd.setOwnertype(TypeOwner_type.OT_REF, this);
 				}
 
+				if (refd.getMyScope() != null) {
+					// opentype or OCFT
+					refd.setMyScope(getMyScope());
+					refd.setParentType(getParentType());
+					refd.setGenName(getGenNameOwn(), "type");
+					//FIXME
+				}
 				return refd;
 			default:
 				reference.getLocation().reportSemanticError(MessageFormat.format(TYPEREFERENCEEXPECTED, reference.getDisplayName()));
@@ -779,6 +786,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData, final StringBuilder source ) {
 		generateCodeTypedescriptor(aData, source);
+
 		if(needsAlias()) {
 			final String ownName = getGenNameOwn();
 			final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
