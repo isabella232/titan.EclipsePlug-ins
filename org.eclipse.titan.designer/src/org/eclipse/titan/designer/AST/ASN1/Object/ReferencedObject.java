@@ -20,6 +20,7 @@ import org.eclipse.titan.designer.AST.ReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.ObjectClass;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -196,5 +197,14 @@ public final class ReferencedObject extends ASN1Object implements IReferenceChai
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData) {
+		final Object_Definition last = getRefdLast(CompilationTimeStamp.getBaseTimestamp());
+		if(myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
+			last.generateCode(aData);
+		}
 	}
 }
