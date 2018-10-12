@@ -364,13 +364,8 @@ public final class Object_Definition extends ASN1Object {
 
 		lastTimeGenerated = aData.getBuildTimstamp();
 
-		//FIXME should be abstract
-		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateCode() is not implemented! (" );
-		sb.append(getFullName());
-		sb.append( ")\n" );
+		for (final FieldSetting fs : fieldSettings) {
+			fs.generateCode(aData);
+		}
 	}
 }
