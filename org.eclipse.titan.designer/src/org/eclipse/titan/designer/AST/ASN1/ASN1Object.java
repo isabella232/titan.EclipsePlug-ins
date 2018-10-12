@@ -11,6 +11,7 @@ import org.eclipse.titan.designer.AST.Governed;
 import org.eclipse.titan.designer.AST.IReferenceChain;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.Object.Object_Definition;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -110,4 +111,22 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	 *                point us a step forward to the declaration.
 	 * */
 	public abstract void addDeclaration(DeclarationCollector declarationCollector, int i);
+
+	/**
+	 * Generate Java code for this object.
+	 *
+	 * generate_code in the compiler
+	 *
+	 * @param aData the structure to put imports into and get temporal variable names from.
+	 */
+	public void generateCode( final JavaGenData aData) {
+		//FIXME should be abstract
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateCode() is not implemented! (" );
+		sb.append(getFullName());
+		sb.append( ")\n" );
+	}
 }

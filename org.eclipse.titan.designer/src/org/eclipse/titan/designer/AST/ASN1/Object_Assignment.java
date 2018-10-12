@@ -18,6 +18,7 @@ import org.eclipse.titan.designer.AST.Identifier;
 import org.eclipse.titan.designer.AST.ReferenceFinder;
 import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
 import org.eclipse.titan.designer.AST.Scope;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.graphics.ImageCache;
@@ -199,5 +200,17 @@ public final class Object_Assignment extends ASN1Assignment {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData, final boolean cleanUp ) {
+		if (null != assPard || dontGenerate) {
+			// don't generate code for assignments that still have a parameter at this point.
+			return;
+		}
+
+		objectClass.generateCode(aData);
+		object.generateCode(aData);
 	}
 }
