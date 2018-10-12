@@ -180,12 +180,13 @@ public final class ObjectIdentifierComponent extends ASTNode implements ILocatea
 				((ObjectIdentifier_Value) definedValue).getOidComponents(aData, components);
 			} else if (Value_type.REFERENCED_VALUE.equals(definedValue.getValuetype())) {
 				final IValue last = ((Referenced_Value) definedValue).getValueRefdLast(CompilationTimeStamp.getBaseTimestamp(), null);
-				final ExpressionStruct expression = new ExpressionStruct();
-				((Referenced_Value) definedValue).getReference().generateConstRef(aData, expression);
-				components.add(MessageFormat.format("TitanObjectid.from_integer({0})", expression.expression));
-//				if (Value_type.OBJECTID_VALUE.equals(last.getValuetype())) {
-//					((ObjectIdentifier_Value)last).getOidComponents(components);
-//				}
+				if (Value_type.OBJECTID_VALUE.equals(last.getValuetype())) {
+					((ObjectIdentifier_Value)last).getOidComponents(aData, components);
+				} else {
+					final ExpressionStruct expression = new ExpressionStruct();
+					((Referenced_Value) definedValue).getReference().generateConstRef(aData, expression);
+					components.add(MessageFormat.format("TitanObjectid.from_integer({0})", expression.expression));
+				}
 			}
 		} else if (number != null) {
 			if (Value_type.INTEGER_VALUE.equals(number.getValuetype())) {
