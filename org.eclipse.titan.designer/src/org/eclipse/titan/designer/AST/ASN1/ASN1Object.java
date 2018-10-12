@@ -119,14 +119,5 @@ public abstract class ASN1Object extends Governed implements IObjectSet_Element 
 	 *
 	 * @param aData the structure to put imports into and get temporal variable names from.
 	 */
-	public void generateCode( final JavaGenData aData) {
-		//FIXME should be abstract
-		//default implementation
-		final StringBuilder sb = aData.getSrc();
-		sb.append( "\t//TODO: " );
-		sb.append( getClass().getSimpleName() );
-		sb.append( ".generateCode() is not implemented! (" );
-		sb.append(getFullName());
-		sb.append( ")\n" );
-	}
+	public abstract void generateCode( final JavaGenData aData);
 }
