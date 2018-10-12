@@ -10,6 +10,7 @@ package org.eclipse.titan.designer.AST.ASN1.Object;
 import org.eclipse.titan.designer.AST.ASTVisitor;
 import org.eclipse.titan.designer.AST.Error_Setting;
 import org.eclipse.titan.designer.AST.Identifier;
+import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
 import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
@@ -63,5 +64,18 @@ public final class FieldSetting_Value extends FieldSetting {
 			return false;
 		}
 		return true;
+	}
+
+	@Override
+	/** {@inheritDoc} */
+	public void generateCode( final JavaGenData aData) {
+		//FIXME should be abstract
+		//default implementation
+		final StringBuilder sb = aData.getSrc();
+		sb.append( "\t//TODO: " );
+		sb.append( getClass().getSimpleName() );
+		sb.append( ".generateCode() is not implemented! (" );
+		sb.append(getFullName());
+		sb.append( ")\n" );
 	}
 }
