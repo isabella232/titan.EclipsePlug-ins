@@ -23,6 +23,7 @@ import org.eclipse.titan.designer.AST.Location;
 import org.eclipse.titan.designer.AST.Scope;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.Block;
+import org.eclipse.titan.designer.compiler.BuildTimestamp;
 import org.eclipse.titan.designer.compiler.JavaGenData;
 import org.eclipse.titan.designer.editors.ProposalCollector;
 import org.eclipse.titan.designer.editors.actions.DeclarationCollector;
@@ -42,15 +43,16 @@ public final class Object_Definition extends ASN1Object {
 	private final Block mBlock;
 	private final ArrayList<FieldSetting> fieldSettings;
 	private HashMap<String, FieldSetting> fieldSettingMap;
-	@SuppressWarnings("unused")
-	private final boolean isGenerated;
+
+	/** the time when code for this type was generated. */
+	protected BuildTimestamp lastTimeGenerated = null;
 
 	public Object_Definition(final Block aBlock) {
 		this.mBlock = aBlock;
 		if (null != aBlock && aBlock.getTokenListSize() >= 0) {
 			location = new Location(aBlock.getLocation());
 		}
-		isGenerated = false;
+
 		fieldSettings = new ArrayList<FieldSetting>();
 	}
 
@@ -356,6 +358,12 @@ public final class Object_Definition extends ASN1Object {
 	@Override
 	/** {@inheritDoc} */
 	public void generateCode( final JavaGenData aData) {
+		if (lastTimeGenerated != null && !lastTimeGenerated.isLess(aData.getBuildTimstamp())) {
+			return;
+		}
+
+		lastTimeGenerated = aData.getBuildTimstamp();
+
 		//FIXME should be abstract
 		//default implementation
 		final StringBuilder sb = aData.getSrc();
