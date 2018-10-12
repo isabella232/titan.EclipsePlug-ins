@@ -794,9 +794,7 @@ public final class Referenced_Type extends ASN1Type implements IReferencingType 
 		final IType last = getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if(myScope.getModuleScopeGen() == last.getMyScope().getModuleScopeGen()) {
 			final StringBuilder tempSource = aData.getCodeForType(last.getGenNameOwn());
-			if (tempSource.length() == 0) {
-				last.generateCode(aData, tempSource);
-			}
+			last.generateCode(aData, tempSource);
 		}
 
 		generateCodeTypedescriptor(aData, source);
