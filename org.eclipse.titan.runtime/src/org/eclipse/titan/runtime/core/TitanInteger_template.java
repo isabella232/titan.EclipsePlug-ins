@@ -461,7 +461,7 @@ public class TitanInteger_template extends Base_Template {
 			}
 			TTCN_Logger.log_event("%s", tmp_str);
 			break;
-			}
+		}
 		case COMPLEMENTED_LIST:
 			TTCN_Logger.log_event_str("complement");
 		case VALUE_LIST:

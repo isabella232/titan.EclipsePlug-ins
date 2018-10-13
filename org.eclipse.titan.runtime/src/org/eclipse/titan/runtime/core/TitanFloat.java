@@ -580,11 +580,11 @@ public class TitanFloat extends Base_Type {
 				order = raw_order_t.ORDER_MSB;
 				break;
 			}
-	
+
 			if (RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order) < 0) {
 				TTCN_EncDec_ErrorContext.error(error_type.ET_INCOMPL_ANY, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
 			}
-	
+
 			errorContext.leaveContext();
 			break;
 		}
@@ -817,7 +817,7 @@ public class TitanFloat extends Base_Type {
 				param.expr_type_error("a float");
 				break;
 			}
-		break;
+			break;
 		default:
 			param.type_error("float value");
 			break;

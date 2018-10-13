@@ -262,7 +262,6 @@ public class TitanCharString extends Base_Type {
 
 		val_ptr = new StringBuilder(n_chars);
 		if (n_chars > 0) {
-			
 			final byte[] temp = new byte[n_chars];
 			text_buf.pull_raw(n_chars, temp);
 			for (int i = 0; i < n_chars; i++) {
@@ -666,7 +665,7 @@ public class TitanCharString extends Base_Type {
 		final TitanCharString ret_val = new TitanCharString(StringValue);
 		return ret_val.concatenate(aOtherValue);
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -689,7 +688,7 @@ public class TitanCharString extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -846,7 +845,7 @@ public class TitanCharString extends Base_Type {
 			switch (param.get_operation_type()) {
 			case OT_ASSIGN:
 				cleanUp();
-			// no break
+				// no break
 			case OT_CONCAT: {
 				// The universal charstring will decode the string value if it is UTF-8 encoded
 				final TitanUniversalCharString ucs = new TitanUniversalCharString();
@@ -879,7 +878,7 @@ public class TitanCharString extends Base_Type {
 			default:
 				throw new TtcnError("Internal error: TitanCharString.set_param()");
 			}
-		break;
+			break;
 		case MP_Expression:
 			if (mp.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
 				// only allow string patterns for the first operand
@@ -900,7 +899,7 @@ public class TitanCharString extends Base_Type {
 			else {
 				param.expr_type_error("a charstring");
 			}
-		break;
+			break;
 		case MP_Pattern:
 			if (allow_pattern) {
 				assign(new TitanCharString(mp.get_pattern()));

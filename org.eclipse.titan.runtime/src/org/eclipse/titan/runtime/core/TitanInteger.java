@@ -1420,7 +1420,7 @@ public class TitanInteger extends Base_Type {
 				param.expr_type_error("an integer");
 				break;
 			}
-		break;
+			break;
 		default:
 			param.type_error("integer value");
 			break;
