@@ -922,6 +922,7 @@ public class TitanCharString extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
 		set_param_internal(param, false);
 	}

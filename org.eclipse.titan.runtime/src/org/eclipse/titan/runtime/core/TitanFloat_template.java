@@ -589,6 +589,7 @@ public class TitanFloat_template extends Base_Template {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "float template");
 		switch (param.get_type()) {

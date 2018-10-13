@@ -693,6 +693,7 @@ public class TitanBitString extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "bitstring value");
 		switch (param.get_type()) {
