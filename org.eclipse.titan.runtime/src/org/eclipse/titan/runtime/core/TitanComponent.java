@@ -11,6 +11,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicReference;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 
 /**
@@ -229,6 +231,27 @@ public class TitanComponent extends Base_Type {
 		}
 
 		TTCN_Runtime.kill_component(componentValue);
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "component reference (integer or null) value");
+		switch (param.get_type()) {
+		case MP_Integer:
+			componentValue = param.get_integer().getInt();
+			break;
+		case MP_Ttcn_Null:
+			componentValue = NULL_COMPREF;
+			break;
+		case MP_Ttcn_mtc:
+			componentValue = MTC_COMPREF;
+			break;
+		case MP_Ttcn_system:
+			componentValue = SYSTEM_COMPREF;
+			break;
+		default:
+			param.type_error("component reference (integer or null) value");
+		}
 	}
 
 	public static void log_component_reference(final int component_reference) {

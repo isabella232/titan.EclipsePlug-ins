@@ -10,6 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * TTCN-3 component template
  *
@@ -271,6 +275,25 @@ public class TitanComponent_template extends Base_Template {
 		}
 	}
 
+	public void set_type(final template_sel template_type, final int list_length) {
+		if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Setting an invalid list type for a component reference template.");
+		}
+		cleanUp();
+		set_selection(template_type);
+		value_list = new ArrayList<TitanComponent_template>(list_length);
+	}
+
+	public TitanComponent_template list_item(final int list_index) {
+		if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+			throw new TtcnError("Accessing a list element of a non-list component reference template.");
+		}
+		if (list_index >= value_list.size()) {
+			throw new TtcnError("Index overflow in a component reference value list template.");
+		}
+		return value_list.get(list_index);
+	}
+
 	public void log() {
 		switch (templateSelection) {
 		case SPECIFIC_VALUE:
@@ -306,6 +329,46 @@ public class TitanComponent_template extends Base_Template {
 			break;
 		}
 		log_ifpresent();
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "component reference (integer or null) template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			TitanComponent_template temp = new TitanComponent_template();
+			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.list_item(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Integer:
+			this.assign(param.get_integer());
+			break;
+		case MP_Ttcn_Null:
+			this.assign(TitanComponent.NULL_COMPREF);
+			break;
+		case MP_Ttcn_mtc:
+			this.assign(TitanComponent.MTC_COMPREF);
+			break;
+		case MP_Ttcn_system:
+			this.assign(TitanComponent.SYSTEM_COMPREF);
+			break;
+		default:
+			param.type_error("component reference (integer or null) template");
+		}
+		is_ifPresent = param.get_ifpresent();
 	}
 
 	public void log_match(final TitanComponent match_value, final boolean legacy) {

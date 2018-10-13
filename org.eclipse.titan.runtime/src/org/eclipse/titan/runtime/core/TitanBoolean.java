@@ -8,6 +8,9 @@
 package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -237,6 +240,15 @@ public class TitanBoolean extends Base_Type {
 		} else {
 			TTCN_Logger.log_event_unbound();
 		}
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "boolean value");
+		if (param.get_type() != type_t.MP_Boolean) {
+			param.type_error("boolean value");
+		}
+		boolean_value = param.get_boolean();
 	}
 
 	@Override
