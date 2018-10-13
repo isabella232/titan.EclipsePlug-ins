@@ -241,7 +241,7 @@ public class TitanBoolean extends Base_Type {
 			TTCN_Logger.log_event_unbound();
 		}
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "boolean value");

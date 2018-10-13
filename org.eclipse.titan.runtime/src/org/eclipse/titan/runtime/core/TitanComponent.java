@@ -232,7 +232,7 @@ public class TitanComponent extends Base_Type {
 
 		TTCN_Runtime.kill_component(componentValue);
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "component reference (integer or null) value");

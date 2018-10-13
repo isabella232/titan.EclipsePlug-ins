@@ -617,7 +617,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			TTCN_Logger.log_event_str(" unmatched");
 		}
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue() | Module_Parameter.basic_check_bits_t.BC_LIST.getValue(), "bitstring template");
@@ -648,8 +648,8 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
-				TitanBitString operand1 = new TitanBitString();
-				TitanBitString operand2 = new TitanBitString();
+				final TitanBitString operand1 = new TitanBitString();
+				final TitanBitString operand2 = new TitanBitString();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				this.assign(operand1.concatenate(operand2));

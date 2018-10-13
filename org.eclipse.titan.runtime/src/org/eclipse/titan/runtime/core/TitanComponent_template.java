@@ -330,7 +330,7 @@ public class TitanComponent_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "component reference (integer or null) template");
@@ -346,7 +346,7 @@ public class TitanComponent_template extends Base_Template {
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanComponent_template temp = new TitanComponent_template();
+			final TitanComponent_template temp = new TitanComponent_template();
 			temp.set_type(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.list_item(i).set_param(param.get_elem(i));

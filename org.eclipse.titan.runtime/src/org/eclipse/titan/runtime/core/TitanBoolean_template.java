@@ -308,7 +308,7 @@ public class TitanBoolean_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "boolean template");
@@ -324,7 +324,7 @@ public class TitanBoolean_template extends Base_Template {
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanBoolean_template temp = new TitanBoolean_template();
+			final TitanBoolean_template temp = new TitanBoolean_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));
