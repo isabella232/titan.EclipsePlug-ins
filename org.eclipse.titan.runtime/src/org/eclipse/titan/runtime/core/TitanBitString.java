@@ -718,8 +718,8 @@ public class TitanBitString extends Base_Type {
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
-				TitanBitString operand1 = new TitanBitString();
-				TitanBitString operand2 = new TitanBitString();
+				final TitanBitString operand1 = new TitanBitString();
+				final TitanBitString operand2 = new TitanBitString();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {

@@ -590,7 +590,7 @@ public class TitanFloat_template extends Base_Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(Module_Parameter param) {
+	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "float template");
 		switch (param.get_type()) {
 		case MP_Omit:
@@ -633,38 +633,38 @@ public class TitanFloat_template extends Base_Template {
 		case MP_Expression:
 			switch (param.get_expr_type()) {
 			case EXPR_NEGATE: {
-				TitanFloat operand = new TitanFloat();
+				final TitanFloat operand = new TitanFloat();
 				operand.set_param(param.get_operand1());
 				assign(operand.sub());
 				break;
 			}
 			case EXPR_ADD: {
-				TitanFloat operand1 = new TitanFloat();
-				TitanFloat operand2 = new TitanFloat();
+				final TitanFloat operand1 = new TitanFloat();
+				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				assign(operand1.add(operand2));
 				break;
 			}
 			case EXPR_SUBTRACT: {
-				TitanFloat operand1 = new TitanFloat();
-				TitanFloat operand2 = new TitanFloat();
+				final TitanFloat operand1 = new TitanFloat();
+				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				assign(operand1.sub(operand2));
 				break;
 			}
 			case EXPR_MULTIPLY: {
-				TitanFloat operand1 = new TitanFloat();
-				TitanFloat operand2 = new TitanFloat();
+				final TitanFloat operand1 = new TitanFloat();
+				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				assign(operand1.mul(operand2));
 				break;
 			}
 			case EXPR_DIVIDE: {
-				TitanFloat operand1 = new TitanFloat();
-				TitanFloat operand2 = new TitanFloat();
+				final TitanFloat operand1 = new TitanFloat();
+				final TitanFloat operand2 = new TitanFloat();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				if (operand2.operatorEquals(0)) {

@@ -607,7 +607,7 @@ public class TitanInteger_template extends Base_Template {
 
 	@Override
 	/** {@inheritDoc} */
-	public void set_param(Module_Parameter param) {
+	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "integer template");
 		switch (param.get_type()) {
 		case MP_Omit:
@@ -650,38 +650,38 @@ public class TitanInteger_template extends Base_Template {
 		case MP_Expression:
 			switch (param.get_expr_type()) {
 			case EXPR_NEGATE: {
-				TitanInteger operand = new TitanInteger();
+				final TitanInteger operand = new TitanInteger();
 				operand.set_param(param.get_operand1());
 				assign(operand.sub());
 				break;
 			}
 			case EXPR_ADD: {
-				TitanInteger operand1 = new TitanInteger();
-				TitanInteger operand2 = new TitanInteger();
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				assign(operand1.add(operand2));
 				break;
 			}
 			case EXPR_SUBTRACT: {
-				TitanInteger operand1 = new TitanInteger();
-				TitanInteger operand2 = new TitanInteger();
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				assign(operand1.sub(operand2));
 				break;
 			}
 			case EXPR_MULTIPLY: {
-				TitanInteger operand1 = new TitanInteger();
-				TitanInteger operand2 = new TitanInteger();
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				assign(operand1.mul(operand2));
 				break;
 			}
 			case EXPR_DIVIDE: {
-				TitanInteger operand1 = new TitanInteger();
-				TitanInteger operand2 = new TitanInteger();
+				final TitanInteger operand1 = new TitanInteger();
+				final TitanInteger operand2 = new TitanInteger();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				if (operand2.operatorEquals(0)) {
@@ -694,7 +694,7 @@ public class TitanInteger_template extends Base_Template {
 				param.expr_type_error("an integer");
 				break;
 			}
-			break;    
+			break;
 		default:
 			param.type_error("integer template");
 		}
