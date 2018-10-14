@@ -93,6 +93,10 @@ public final class TableConstraint extends Constraint {
 		return new TableConstraint(mObjectSetBlock, mAtNotationsBlock);
 	}
 
+	public ObjectSet getObjectSet() {
+		return objectSet;
+	}
+
 	@Override
 	/** {@inheritDoc} */
 	public void check(final CompilationTimeStamp timestamp) {
