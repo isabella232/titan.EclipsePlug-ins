@@ -14,6 +14,7 @@ import org.antlr.v4.runtime.Token;
 import org.eclipse.core.resources.IFile;
 import org.eclipse.core.resources.IMarker;
 import org.eclipse.titan.common.parsers.SyntacticErrorStorage;
+import org.eclipse.titan.designer.AST.Value;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Object;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.Block;
@@ -74,9 +75,9 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 			}
 			break;
 		case S_V:
-			final boolean parseSuccess = parseValue();
-			if (parseSuccess) {
-				fieldSetting = new FieldSetting_Value(parameter.getIdentifier().newInstance());
+			final Value value = parseValue();
+			if (value != null) {
+				fieldSetting = new FieldSetting_Value(parameter.getIdentifier().newInstance(), value);
 				fieldSetting.setLocation(mBlock.getLocation());
 			}
 			break;
@@ -253,11 +254,11 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 		return type;
 	}
 
-	private boolean parseValue() {
+	private Value parseValue() {
 		if (mBlock != null) {
 			final Asn1Parser parser = BlockLevelTokenStreamTracker.getASN1ParserForBlock(mBlock, internalIndex);
 			if (parser != null) {
-				parser.pr_special_Value();
+				Value temp = parser.pr_special_Value().value;
 				internalIndex += parser.nof_consumed_tokens();
 				final List<SyntacticErrorStorage> errors = parser.getErrorStorage();
 				if (null != errors && !errors.isEmpty()) {
@@ -266,12 +267,12 @@ public final class ObjectClassSyntax_Parser extends ObjectClassSyntax_Visitor {
 								IMarker.SEVERITY_ERROR);
 					}
 				}
-				return true;
+				return temp;
 			}
-			return false;
+			return null;
 		}
 
-		return false;
+		return null;
 	}
 
 	private ASN1Object parseObject() {
