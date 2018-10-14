@@ -33,6 +33,7 @@ import org.eclipse.titan.designer.AST.Type;
 import org.eclipse.titan.designer.AST.TypeCompatibilityInfo;
 import org.eclipse.titan.designer.AST.ASN1.ASN1Type;
 import org.eclipse.titan.designer.AST.ASN1.IASN1Type;
+import org.eclipse.titan.designer.AST.ASN1.ObjectSet;
 import org.eclipse.titan.designer.AST.ASN1.TableConstraint;
 import org.eclipse.titan.designer.AST.ASN1.Object.ObjectClass_Definition;
 import org.eclipse.titan.designer.AST.TTCN3.Expected_Value_type;
@@ -726,9 +727,13 @@ public final class Open_Type extends ASN1Type {
 			fieldInfos.add( fi );
 		}
 
-		for ( final CompField compField : map.values() ) {
-			final StringBuilder tempSource = aData.getCodeForType(compField.getType().getGenNameOwn());
-			compField.getType().generateCode(aData, tempSource);
+		if (myTableConstraint != null) {
+			// generate code for all embedded settings of the object set
+			// that is used in the table constraint
+			final ObjectSet objectSet = myTableConstraint.getObjectSet();
+			if (objectSet.getMyScope().getModuleScopeGen() == myScope.getModuleScopeGen()) {
+				objectSet.generateCode(aData);
+			}
 		}
 
 		UnionGenerator.generateValueClass(aData, source, genName, displayName, fieldInfos, hasOptional, getGenerateCoderFunctions(MessageEncoding_type.RAW), null);
