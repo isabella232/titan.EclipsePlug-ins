@@ -11,6 +11,8 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
+
 /**
  * This class represents the Param_Types.hh/cc file containing module parameter related structures.
  * 
@@ -347,8 +349,45 @@ public final class Param_Types {
 			throw new TtcnError("Internal error: Module_Param.get_operand2()");
 		}
 
-		public void error(final String  err) {
-			//TODO: implement
+		public void error(final String err, Object... args) {
+			TTCN_Logger.begin_event(Severity.ERROR_UNQUALIFIED);
+			TTCN_Logger.log_event_str("Error while ");
+			switch (operation_type) {
+			case OT_ASSIGN:
+				TTCN_Logger.log_event_str("setting");
+				break;
+			case OT_CONCAT:
+				TTCN_Logger.log_event_str("concatenating");
+				break;
+			default:
+				TTCN_Logger.log_event_str("???");
+			}
+			TTCN_Logger.log_event_str(" ");
+			if (id != null && id.is_custom()) {
+				final String custom_ctx = id.get_str();
+				TTCN_Logger.log_event_str(custom_ctx);
+				TTCN_Logger.log_event_str(" in module parameter");
+			} else {
+				TTCN_Logger.log_event_str("parameter field '");
+				final String param_ctx = get_param_context();
+				TTCN_Logger.log_event_str(param_ctx);
+				TTCN_Logger.log_event_str("'");
+			}
+			switch (operation_type) {
+			case OT_ASSIGN:
+				TTCN_Logger.log_event_str(" to '");
+				break;
+			case OT_CONCAT:
+				TTCN_Logger.log_event_str(" and '");
+				break;
+			default:
+				TTCN_Logger.log_event_str("' ??? '");
+			}
+			log(false);
+			TTCN_Logger.log_event_str("': ");
+			TTCN_Logger.log_event_va_list(err, args);
+			TTCN_Logger.send_event_as_error();
+			TTCN_Logger.end_event();
 		}
 
 		public void type_error(final String expected, final String type_name) {
@@ -639,6 +678,14 @@ public final class Param_Types {
 		public void log_value() {
 			new TitanObjectid(n_chars, chars_ptr).log();
 		}
+		
+		public Object get_string_data() {
+			return chars_ptr;
+		}
+		
+		public int get_string_size() {
+			return n_chars;
+		}
 	}
 
 	public static class Module_Param_Bitstring extends Module_Parameter {
@@ -691,18 +738,26 @@ public final class Param_Types {
 		public void log_value() {
 			hstr.log();
 		}
+		
+		public Object get_string_data() {
+			return hstr.getValue();
+		}
+		
+		public int get_string_size() {
+			return hstr.getValue().length;
+		}
 	}
 
 	public static class Module_Param_Octetstring extends Module_Parameter {
 
-		private TitanHexString ostr;
+		private TitanOctetString ostr;
 
 		public type_t get_type() {
 			return type_t.MP_Octetstring;
 		}
 
 		public Module_Param_Octetstring(final String str) {
-			ostr = new TitanHexString(str);
+			ostr = new TitanOctetString(str);
 		}
 
 		public String get_type_str() {
@@ -712,6 +767,14 @@ public final class Param_Types {
 		@Override
 		public void log_value() {
 			ostr.log();
+		}
+		
+		public Object get_string_data() {
+			return ostr.getValue();
+		}
+		
+		public int get_string_size() {
+			return ostr.getValue().length;
 		}
 	}
 
@@ -734,6 +797,14 @@ public final class Param_Types {
 		@Override
 		public void log_value() {
 			cstr.log();
+		}
+		
+		public Object get_string_data() {
+			return cstr.getValue().toString();
+		}
+		
+		public int get_string_size() {
+			return cstr.getValue().length();
 		}
 	}
 
@@ -1094,13 +1165,17 @@ public final class Param_Types {
 		}
 
 		public Module_Param_Bitstring_Template(final String p_c) {
-			bstr_template = new TitanBitString_template(new TitanBitString(p_c));
+			bstr_template = new TitanBitString_template(p_c);
 		}
 		public String get_type_str() { 
 			return "bitstring template"; 
 		}
 		public void log_value() {
 			bstr_template.log();
+		}
+		
+		public Object get_string_data() {
+			return bstr_template;
 		}
 	}
 
@@ -1113,7 +1188,7 @@ public final class Param_Types {
 		}
 
 		public Module_Param_Hexstring_Template(final String p_c) {
-			hstr_template = new TitanHexString_template(new TitanHexString(p_c));
+			hstr_template = new TitanHexString_template(p_c);
 		}
 
 		public String get_type_str() { 
@@ -1122,6 +1197,10 @@ public final class Param_Types {
 
 		public void log_value() {
 			hstr_template.log();
+		}
+		
+		public Object get_string_data() {
+			return hstr_template;
 		}
 	}
 
@@ -1134,7 +1213,7 @@ public final class Param_Types {
 		}
 
 		public Module_Param_Octetstring_Template(final String p_c) {
-			ostr_template = new TitanOctetString_template(new TitanOctetString(p_c));
+			ostr_template = new TitanOctetString_template(p_c);
 		}
 
 		public String get_type_str() { 
@@ -1143,6 +1222,10 @@ public final class Param_Types {
 
 		public void log_value() {
 			ostr_template.log();
+		}
+		
+		public Object get_string_data() {
+			return ostr_template;
 		}
 	}
 
