@@ -330,6 +330,7 @@
 
 			<!-- Create metadata using the eclipse publisher -->
 			<timestamp.echo message="Running eclipse update site publisher started" />
+			<timestamp.echo message=">>>DEBUG: ${ECLIPSE_HOME}/plugins/${launcher.file}" />
 			<exec executable="java" failonerror="true">
 			 	<arg value="-jar"/>
 					<arg value="${ECLIPSE_HOME}/plugins/${launcher.file}"/> 
