@@ -268,13 +268,7 @@
 				The update site will be created in the ${result.dir}/update_site_${logname}_tmp location.
 				If the build fails, the real update site will not be affected.
 			-->
-			
 			<timestamp.echo message="Starting to copy the original update site" />
-			<timestamp.echo message=">>>DEBUG: site.name    = @{site.name}" />
-			<timestamp.echo message=">>>DEBUG: location = @{location}" />
-			<timestamp.echo message=">>>DEBUG: tmp.dir.name = ${tmp.dir.name}" />
-			<timestamp.echo message=">>>DEBUG: this.updatesite.tmp.location = ${this.updatesite.tmp.location}" />
-			
 			<create.updatesite.tmp
 				site.name="@{site.name}"
 				location="@{location}"
@@ -330,7 +324,6 @@
 
 			<!-- Create metadata using the eclipse publisher -->
 			<timestamp.echo message="Running eclipse update site publisher started" />
-			<timestamp.echo message=">>>DEBUG: ${ECLIPSE_HOME}/plugins/${launcher.file}" />
 			<exec executable="java" failonerror="true">
 			 	<arg value="-jar"/>
 					<arg value="${ECLIPSE_HOME}/plugins/${launcher.file}"/> 
