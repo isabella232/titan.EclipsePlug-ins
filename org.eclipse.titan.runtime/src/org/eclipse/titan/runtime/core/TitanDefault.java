@@ -9,6 +9,10 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * TTCN-3 default
  *
@@ -176,6 +180,15 @@ public class TitanDefault extends Base_Type {
 
 	public void log() {
 		TTCN_Default.log(default_ptr);
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "default reference (null) value");
+		if (param.get_type() != type_t.MP_Ttcn_Null) {
+			param.type_error("default reference (null) value");
+		}
+		default_ptr = null;
 	}
 
 	@Override

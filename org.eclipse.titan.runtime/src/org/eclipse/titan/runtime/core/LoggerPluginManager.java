@@ -501,6 +501,13 @@ public class LoggerPluginManager {
 
 		ring_buffer_dump(true);
 	}
+	
+	public String get_current_event_str() {
+		if (current_event == null) {
+			return null;
+		}
+		return current_event.get().buffer.toString();
+	}
 
 	public void begin_event(final Severity msg_severity) {
 		final log_event_struct temp = new log_event_struct();

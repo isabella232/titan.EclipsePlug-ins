@@ -9,6 +9,8 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+
 /**
  * Restricted_Length_Template in titan.core
  *
@@ -230,9 +232,7 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 	}
 
-//TODO: implement
-/*
-	void set_length_range(final Module_Param param)
+	protected void set_length_range(final Module_Parameter param)
 	{
 		Module_Param_Length_Restriction length_range = param.get_length_restriction();
 		if (length_range==null) {
@@ -241,17 +241,16 @@ public abstract class Restricted_Length_Template extends Base_Template {
 		}
 		if (length_range.is_single()) {
 			length_restriction_type = length_restriction_type_t.SINGLE_LENGTH_RESTRICTION;
-			single_length = (int)(length_range.get_min());
+			single_length = length_range.get_min();
 		} else {
 			length_restriction_type = length_restriction_type_t.RANGE_LENGTH_RESTRICTION;
-			range_length_min_length = (int)(length_range.get_min());
+			range_length_min_length = length_range.get_min();
 			range_length_max_length_set = length_range.get_has_max();
 			if (range_length_max_length_set) {
-				range_length_max_length = (int)(length_range.get_max());
+				range_length_max_length = length_range.get_max();
 			}
 		}
 	}
-*/
 
 	protected Module_Param_Length_Restriction get_length_range() {
 		if (length_restriction_type == length_restriction_type_t.NO_LENGTH_RESTRICTION) {

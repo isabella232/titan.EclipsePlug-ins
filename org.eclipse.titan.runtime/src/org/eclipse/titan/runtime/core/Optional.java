@@ -10,6 +10,8 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 
 import org.eclipse.titan.runtime.core.Base_Template.template_sel;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 
 /**
  * TTCN-3 boolean
@@ -179,6 +181,25 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 		case OPTIONAL_UNBOUND:
 			TTCN_Logger.log_event_unbound();
 			break;
+		}
+	}
+
+	@Override
+	public void set_param(final Module_Parameter param) {
+		if (param.get_type() == type_t.MP_Omit) {
+			if (param.get_ifpresent()) {
+				param.error("An optional field of a record value cannot have an 'ifpresent' attribute");
+			}
+			if (param.get_length_restriction() != null) {
+				param.error("An optional field of a record value cannot have a length restriction");
+			}
+			setToOmit();
+			return;
+		}
+		setToPresent();
+		optionalValue.set_param(param);
+		if (!optionalValue.isBound()) {
+			cleanUp();
 		}
 	}
 

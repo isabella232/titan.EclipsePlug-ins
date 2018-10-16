@@ -919,6 +919,15 @@ public final class TTCN_Logger {
 	public static void log(final Severity msg_severity, final String formatString, final Object... args ) {
 		log_va_list(msg_severity, formatString, args);
 	}
+	
+	public static void send_event_as_error() {
+		final String error_msg = get_logger_plugin_manager().get_current_event_str();
+		if (error_msg == null) {
+			return;
+		}
+		
+		//TODO: implement missing functions
+	}
 
 	public static void log_str(final Severity msg_severity, final String string ) {
 		if (!log_this_event(msg_severity) && get_emergency_logging() <= 0) {
