@@ -25,9 +25,11 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Enumerated;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
@@ -39,6 +41,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_mtc;
@@ -1587,9 +1590,9 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 	}
 |	sr = pr_StringRange	{	$moduleparameter = $sr.stringrange;	}
 |	PATTERNKEYWORD pr_PatternChunkList
-|	pr_BStringMatch
-|	pr_HStringMatch
-|	pr_OStringMatch
+|	bsm = pr_BStringMatch			{	$moduleparameter = new Module_Param_Bitstring_Template($bsm.string);	}
+|	hsm = pr_HStringMatch			{	$moduleparameter = new Module_Param_Hexstring_Template($hsm.string);	}
+|	osm = pr_OStringMatch			{	$moduleparameter = new Module_Param_Octetstring_Template($osm.string);	}
 )
 ;
 
@@ -2016,14 +2019,14 @@ pr_PatternChunk:
 |	pr_Quadruple
 ;
 
-pr_BStringMatch:
-	BITSTRINGMATCH
+pr_BStringMatch returns [String string]:
+	b = BITSTRINGMATCH { $string = $b.text.replaceAll("^\'|\'B$", ""); }
 ;
 
-pr_HStringMatch:
-	HEXSTRINGMATCH
+pr_HStringMatch returns [String string]:
+	h = HEXSTRINGMATCH { $string = $h.text.replaceAll("^\'|\'H$", ""); }
 ;
 
-pr_OStringMatch:
-	OCTETSTRINGMATCH
+pr_OStringMatch returns [String string]:
+	o = OCTETSTRINGMATCH { $string = $o.text.replaceAll("^\'|\'O$", ""); }
 ;
