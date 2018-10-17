@@ -339,12 +339,12 @@ public final class Referenced_Value extends Value {
 		case A_PAR_VAL_IN:
 		case A_PAR_VAL_OUT:
 		case A_PAR_VAL_INOUT:
+			referencedValue = this;
+			break;
 		case A_MODULEPAR_TEMPLATE:
 		case A_PAR_TEMP_IN:
 		case A_PAR_TEMP_INOUT:
 		case A_PAR_TEMP_OUT:
-			referencedValue = this;
-			break;
 		case A_TEMPLATE:
 		case A_VAR_TEMPLATE:
 			// the referred definition is not a constant

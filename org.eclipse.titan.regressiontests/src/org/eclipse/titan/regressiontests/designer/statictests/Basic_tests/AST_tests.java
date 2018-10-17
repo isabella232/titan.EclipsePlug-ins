@@ -7449,7 +7449,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> template_specific_test_ttcn_initializer() {
 		//template_specific_test.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(131);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(138);
 		int lineNum = 49;
 		markersToCheck.add(new MarkerToCheck("Circular reference chain: `template reference: @template_specific_test.t_recursiveTemplate1 -> template reference: @template_specific_test.t_recursiveTemplate1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Circular reference chain: `template reference: @template_specific_test.t_recursiveTemplate2.field1 -> template reference: @template_specific_test.t_recursiveTemplate2.field1'",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -7620,6 +7620,16 @@ public class AST_tests {
 			markersToCheck.add(new MarkerToCheck("A template body with matching symbols cannot be assigned to a variable", lineNum++, IMarker.SEVERITY_ERROR));
 		}
 		markersToCheck.add(new MarkerToCheck("Reference to template variable `vtu' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template parameter `pl_i1'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of `out' template parameter `pl_i2'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of `inout' template parameter `pl_i3'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template parameter `pl_i4'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 8;
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template `@template_specific_test.t_i100'",  lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template module parameter `@template_specific_test.tsp_ti'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template `tl_i'",  ++lineNum, IMarker.SEVERITY_ERROR));
+		markersToCheck.add(new MarkerToCheck("Reference to a value was expected instead of template variable `vt_i'",  ++lineNum, IMarker.SEVERITY_ERROR));
 
 		return markersToCheck;
 	}
