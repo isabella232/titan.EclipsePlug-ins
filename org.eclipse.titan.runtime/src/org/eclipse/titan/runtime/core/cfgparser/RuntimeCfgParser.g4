@@ -21,6 +21,9 @@ import org.eclipse.titan.runtime.core.LoggingParam.logging_param_type;
 import org.eclipse.titan.runtime.core.LoggingParam.logging_setting_t;
 import org.eclipse.titan.runtime.core.Module_List;
 import org.eclipse.titan.runtime.core.Module_Param_Length_Restriction;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
@@ -29,11 +32,16 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Enumerated;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Float;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FloatRange;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_IntRange;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_mtc;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_system;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Universal_Charstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Verdict;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
@@ -1550,14 +1558,30 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 	}
 |	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
 |	enumvalue = pr_EnumeratedValue	{	$moduleparameter = new Module_Param_Enumerated($enumvalue.identifier);	}
-|	pr_NULLKeyword
-|	MTCKEYWORD
-|	SYSTEMKEYWORD
+|	nulltext = pr_NULLKeyword
+	{	if ("null".equals($nulltext.text)) {
+			$moduleparameter = new Module_Param_Ttcn_Null();
+		} else {
+			$moduleparameter = new Module_Param_Asn_Null();
+		}
+	}
+|	MTCKEYWORD						{	$moduleparameter = new Module_Param_Ttcn_mtc();	}
+|	SYSTEMKEYWORD					{	$moduleparameter = new Module_Param_Ttcn_system();	}
 |	pr_CompoundValue
-|	ANYVALUE
-|	STAR
-|	pr_IntegerRange
-|	pr_FloatRange
+|	ANYVALUE						{	$moduleparameter = new Module_Param_Any();	}
+|	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
+|	ir = pr_IntegerRange
+	{	$moduleparameter = new Module_Param_IntRange(
+			new TitanInteger($ir.min.getIntegerValue()), new TitanInteger($ir.max.getIntegerValue()),
+			$ir.min_exclusive, $ir.max_exclusive );
+	}
+|	fr = pr_FloatRange
+	//TODO: implement
+	//{	$moduleparameter = new Module_Param_FloatRange(
+	//		$fr.min, $fr.has_min,
+	//		$fr.max, $fr.has_max,
+	//		$fr.min_exclusive, $fr.max_exclusive );
+	//}
 |	pr_StringRange
 |	PATTERNKEYWORD pr_PatternChunkList
 |	pr_BStringMatch
@@ -1565,6 +1589,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	pr_OStringMatch
 )
 ;
+
 pr_ParameterReference returns [Module_Parameter moduleparameter]:
 	// enumerated values are also treated as references by the parser,
 	// these will be sorted out later during set_param()
@@ -1839,18 +1864,48 @@ pr_IndexValue:
 	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE ASSIGNMENTCHAR pr_ParameterValue
 ;
 
-pr_IntegerRange:
+//TODO: handle exclusive: '!' before the number
+pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
+@init {
+	$min = null;
+	$max = null;
+	$min_exclusive = false;
+	$max_exclusive = false;
+}:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
-	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
+	(	i1 = pr_IntegerValueExpression	{	$min = $i1.integer;	}
+	|	MINUS	INFINITYKEYWORD
+	) 
+	DOTDOT
+	(	i2 = pr_IntegerValueExpression	{	$max = $i2.integer;	}
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
-pr_FloatRange:
+//TODO: handle exclusive: '!' before the number
+pr_FloatRange returns [double min, boolean has_min, double max, boolean has_max, boolean min_exclusive, boolean max_exclusive]
+@init {
+	$has_min = false;
+	$has_max = false;
+	$min_exclusive = false;
+	$max_exclusive = false;
+}:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
-	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
+	(	f1 = pr_FloatValueExpression
+		//TODO: implement
+		//{	$min = $f1.float;
+		//	$has_min = true;
+		//}
+	|	MINUS	INFINITYKEYWORD
+	) 
+	DOTDOT
+	(	f2 = pr_FloatValueExpression
+		//TODO: implement
+		//{	$max = $f2.float;
+		//	$has_max = true;
+		//}
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;

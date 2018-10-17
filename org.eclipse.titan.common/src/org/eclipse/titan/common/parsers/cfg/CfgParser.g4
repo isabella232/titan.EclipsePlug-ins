@@ -1736,16 +1736,24 @@ pr_IndexValue:
 
 pr_IntegerRange:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
-	|	pr_IntegerValueExpression DOTDOT (pr_IntegerValueExpression | INFINITYKEYWORD)
+	(	pr_IntegerValueExpression
+	|	MINUS	INFINITYKEYWORD
+	) 
+	DOTDOT
+	(	pr_IntegerValueExpression
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
 pr_FloatRange:
 	LPAREN
-	(	MINUS INFINITYKEYWORD DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
-	|	pr_FloatValueExpression DOTDOT (pr_FloatValueExpression | INFINITYKEYWORD)
+	(	pr_FloatValueExpression
+	|	MINUS	INFINITYKEYWORD
+	) 
+	DOTDOT
+	(	pr_FloatValueExpression
+	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
