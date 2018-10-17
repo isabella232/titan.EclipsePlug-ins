@@ -39,6 +39,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_mtc;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_system;
@@ -62,6 +63,7 @@ import org.eclipse.titan.runtime.core.TitanCharString;
 import org.eclipse.titan.runtime.core.TitanComponent;
 import org.eclipse.titan.runtime.core.TitanInteger;
 import org.eclipse.titan.runtime.core.TitanPort;
+import org.eclipse.titan.runtime.core.TitanUniversalChar;
 import org.eclipse.titan.runtime.core.TitanUniversalCharString;
 import org.eclipse.titan.runtime.core.TitanVerdictType;
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
@@ -1549,11 +1551,11 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 |	ostr = pr_OStringValue			{	$moduleparameter = new Module_Param_Octetstring($ostr.string);	}
 |	cs = pr_UniversalOrNotStringValue
 	{	if ($cs.cstr instanceof TitanCharString) {
-			final TitanCharString cs = (TitanCharString)$cs.cstr;
-			$moduleparameter = new Module_Param_Charstring(cs);
+			final TitanCharString cstr = (TitanCharString)$cs.cstr;
+			$moduleparameter = new Module_Param_Charstring(cstr);
 		} else {
-			final TitanUniversalCharString ucs = (TitanUniversalCharString)$cs.cstr;
-			$moduleparameter = new Module_Param_Universal_Charstring(ucs);
+			final TitanUniversalCharString ucstr = (TitanUniversalCharString)$cs.cstr;
+			$moduleparameter = new Module_Param_Universal_Charstring(ucstr);
 		}
 	}
 |	OMITKEYWORD						{	$moduleparameter = new Module_Param_Omit();	}
@@ -1583,7 +1585,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 			$fr.max != null,
 			$fr.min_exclusive, $fr.max_exclusive );
 	}
-|	pr_StringRange
+|	sr = pr_StringRange	{	$moduleparameter = $sr.stringrange;	}
 |	PATTERNKEYWORD pr_PatternChunkList
 |	pr_BStringMatch
 |	pr_HStringMatch
@@ -1950,9 +1952,60 @@ pr_FloatPrimaryExpression returns [CFGNumber floatnum]:
 )
 ;
 
-pr_StringRange:
-	LPAREN pr_UniversalOrNotStringValue DOTDOT pr_UniversalOrNotStringValue RPAREN
+//TODO: handle exclusive: '!' before the values
+pr_StringRange returns [Module_Param_StringRange stringrange]
+@init {
+	TitanUniversalChar lower = new TitanUniversalChar((char)0, (char)0, (char)0, (char)0);
+	TitanUniversalChar upper = new TitanUniversalChar((char)0, (char)0, (char)0, (char)0);
+	boolean min_exclusive = false;
+	boolean max_exclusive = false;
+}:
+	LPAREN
+	s1 = pr_UniversalOrNotStringValue
+	{	if ($s1.cstr instanceof TitanCharString) {
+			final TitanCharString cs = (TitanCharString)$s1.cstr;
+			if (cs.lengthOf().operatorNotEquals(1)) {
+				config_process_error("Lower bound of char range must be 1 character only");
+			} else {
+				lower = new TitanUniversalChar((char)0, (char)0, (char)0, cs.getValue().charAt(0));
+			}
+		} else {
+			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s1.cstr;
+			if (ucs.lengthOf().operatorNotEquals(1)) {
+				config_process_error("Lower bound of char range must be 1 character only");
+			} else {
+				lower = ucs.getValue().get(0);
+			}
+		}
+	}
+	DOTDOT
+	s2 = pr_UniversalOrNotStringValue
+	{	if ($s2.cstr instanceof TitanCharString) {
+			final TitanCharString cs = (TitanCharString)$s2.cstr;
+			if (cs.lengthOf().operatorNotEquals(1)) {
+				config_process_error("Upper bound of char range must be 1 character only");
+			} else {
+				upper = new TitanUniversalChar((char)0, (char)0, (char)0, cs.getValue().charAt(0));
+			}
+		} else {
+			final TitanUniversalCharString ucs = (TitanUniversalCharString)$s2.cstr;
+			if (ucs.lengthOf().operatorNotEquals(1)) {
+				config_process_error("Upper bound of char range must be 1 character only");
+			} else {
+				upper = ucs.getValue().get(0);
+			}
+		}
+	}
+	RPAREN
+{
+	if (upper.lessThan(lower).getValue()) {
+		config_process_error("Lower bound is larger than upper bound in the char range");
+		lower = upper;
+	}
+	$stringrange = new Module_Param_StringRange(lower, upper, min_exclusive, max_exclusive);
+}
 ;
+
 
 pr_PatternChunkList:
 	pr_PatternChunk (AND pr_PatternChunk)*
