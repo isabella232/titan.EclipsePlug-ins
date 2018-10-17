@@ -1738,7 +1738,7 @@ pr_IntegerRange:
 	LPAREN
 	(	pr_IntegerValueExpression
 	|	MINUS	INFINITYKEYWORD
-	) 
+	)
 	DOTDOT
 	(	pr_IntegerValueExpression
 	|	INFINITYKEYWORD
@@ -1750,7 +1750,7 @@ pr_FloatRange:
 	LPAREN
 	(	pr_FloatValueExpression
 	|	MINUS	INFINITYKEYWORD
-	) 
+	)
 	DOTDOT
 	(	pr_FloatValueExpression
 	|	INFINITYKEYWORD
@@ -1764,19 +1764,17 @@ pr_FloatValueExpression:
 
 pr_FloatAddExpression:
 	pr_FloatMulExpression
-	(	(	PLUS
-		|	MINUS
+	(	(	PLUS	pr_FloatMulExpression
+		|	MINUS	pr_FloatMulExpression
 		)
-		pr_FloatMulExpression
 	)*
 ;
 
 pr_FloatMulExpression:
 	pr_FloatUnaryExpression
-	(	(	STAR
-		|	SLASH
+	(	(	STAR	pr_FloatUnaryExpression
+		|	SLASH	pr_FloatUnaryExpression
 		)
-		pr_FloatUnaryExpression
 	)*
 ;
 

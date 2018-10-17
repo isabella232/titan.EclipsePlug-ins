@@ -1521,7 +1521,7 @@ pr_LengthMatch returns [Module_Param_Length_Restriction length_restriction]
 	RPAREN
 ;
 
-pr_LengthBound	returns [CFGNumber integer]:
+pr_LengthBound returns [CFGNumber integer]:
 	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
 ;
 
@@ -1576,12 +1576,13 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 			$ir.min_exclusive, $ir.max_exclusive );
 	}
 |	fr = pr_FloatRange
-	//TODO: implement
-	//{	$moduleparameter = new Module_Param_FloatRange(
-	//		$fr.min, $fr.has_min,
-	//		$fr.max, $fr.has_max,
-	//		$fr.min_exclusive, $fr.max_exclusive );
-	//}
+	{	$moduleparameter = new Module_Param_FloatRange(
+			$fr.min != null ? $fr.min.getValue() : 0,
+			$fr.min != null,
+			$fr.max != null ? $fr.max.getValue() : 0,
+			$fr.max != null,
+			$fr.min_exclusive, $fr.max_exclusive );
+	}
 |	pr_StringRange
 |	PATTERNKEYWORD pr_PatternChunkList
 |	pr_BStringMatch
@@ -1670,20 +1671,20 @@ pr_ArithmeticUnaryExpression returns [CFGNumber number]:
 ;
 
 pr_ArithmeticPrimaryExpression returns [CFGNumber number]:
-(	a = pr_Float	{$number = $a.number;}
+(	a = pr_Float	{$number = $a.floatnum;}
 |	b = pr_NaturalNumber	{$number = $b.integer;}
 |	LPAREN c = pr_ArithmeticAddExpression RPAREN {$number = $c.number;}
 )
 ;
 
-pr_Float returns [CFGNumber number]:
-(	a = FLOAT {$number = new CFGNumber($a.text);}
+pr_Float returns [CFGNumber floatnum]:
+(	a = FLOAT {$floatnum = new CFGNumber($a.text);}
 |	macro = MACRO_FLOAT
 		{	String value = getTypedMacroValue( $macro, DEFINITION_NOT_FOUND_FLOAT );
-			$number = new CFGNumber( value.length() > 0 ? value : "0.0" );
+			$floatnum = new CFGNumber( value.length() > 0 ? value : "0.0" );
 		}
 |	TTCN3IDENTIFIER // module parameter name
-		{	$number = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
+		{	$floatnum = new CFGNumber( "1.0" ); // value is unknown yet, but it should not be null
 		}
 )
 ;
@@ -1875,7 +1876,7 @@ pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bo
 	LPAREN
 	(	i1 = pr_IntegerValueExpression	{	$min = $i1.integer;	}
 	|	MINUS	INFINITYKEYWORD
-	) 
+	)
 	DOTDOT
 	(	i2 = pr_IntegerValueExpression	{	$max = $i2.integer;	}
 	|	INFINITYKEYWORD
@@ -1884,64 +1885,68 @@ pr_IntegerRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, bo
 ;
 
 //TODO: handle exclusive: '!' before the number
-pr_FloatRange returns [double min, boolean has_min, double max, boolean has_max, boolean min_exclusive, boolean max_exclusive]
+pr_FloatRange returns [CFGNumber min, CFGNumber max, boolean min_exclusive, boolean max_exclusive]
 @init {
-	$has_min = false;
-	$has_max = false;
+	$min = null;
+	$max = null;
 	$min_exclusive = false;
 	$max_exclusive = false;
 }:
 	LPAREN
-	(	f1 = pr_FloatValueExpression
-		//TODO: implement
-		//{	$min = $f1.float;
-		//	$has_min = true;
-		//}
+	(	f1 = pr_FloatValueExpression	{	$min = $f1.floatnum;	}
 	|	MINUS	INFINITYKEYWORD
-	) 
+	)
 	DOTDOT
-	(	f2 = pr_FloatValueExpression
-		//TODO: implement
-		//{	$max = $f2.float;
-		//	$has_max = true;
-		//}
+	(	f2 = pr_FloatValueExpression	{	$max = $f2.floatnum;	}
 	|	INFINITYKEYWORD
 	)
 	RPAREN
 ;
 
-pr_FloatValueExpression:
-	pr_FloatAddExpression
+pr_FloatValueExpression returns [CFGNumber floatnum]:
+	a = pr_FloatAddExpression	{	$floatnum = $a.floatnum;	}
 ;
 
-pr_FloatAddExpression:
-	pr_FloatMulExpression
-	(	(	PLUS
-		|	MINUS
+pr_FloatAddExpression returns [CFGNumber floatnum]:
+	a = pr_FloatMulExpression	{	$floatnum = $a.floatnum;	}
+	(	(	PLUS	b1 = pr_FloatMulExpression	{	$floatnum.add($b1.floatnum);	}
+		|	MINUS	b2 = pr_FloatMulExpression	{	$b2.floatnum.mul(-1); $floatnum.add($b2.floatnum);	}
 		)
-		pr_FloatMulExpression
 	)*
 ;
 
-pr_FloatMulExpression:
-	pr_FloatUnaryExpression
-	(	(	STAR
-		|	SLASH
-		)
-		pr_FloatUnaryExpression
+pr_FloatMulExpression returns [CFGNumber floatnum]:
+	a = pr_FloatUnaryExpression	{	$floatnum = $a.floatnum;	}
+	(	STAR	b1 = pr_FloatUnaryExpression	{	$floatnum.mul($b1.floatnum);	}
+	|	SLASH	b2 = pr_FloatUnaryExpression
+		{	try {
+				$floatnum.div($b2.floatnum);
+			} catch ( ArithmeticException e ) {
+				// division by 0
+				reportError( e.getMessage(), $a.start, $b2.stop );
+				$floatnum = new CFGNumber( "0" );
+			}
+		}
 	)*
 ;
 
-pr_FloatUnaryExpression:
+pr_FloatUnaryExpression returns [CFGNumber floatnum]:
+{	boolean negate = false;
+}
 	(	PLUS
-	|	MINUS
+	|	MINUS	{	negate = !negate;	}
 	)*
-	pr_FloatPrimaryExpression
+	a = pr_FloatPrimaryExpression
+		{	$floatnum = $a.floatnum;
+			if ( negate ) {
+				$floatnum.mul( -1 );
+			}
+		}
 ;
 
-pr_FloatPrimaryExpression:
-(	pr_Float
-|	LPAREN pr_FloatAddExpression RPAREN
+pr_FloatPrimaryExpression returns [CFGNumber floatnum]:
+(	a = pr_Float	{	$floatnum = $a.floatnum;	}
+|	LPAREN b = pr_FloatAddExpression RPAREN	{	$floatnum = $b.floatnum;	}
 )
 ;
 
