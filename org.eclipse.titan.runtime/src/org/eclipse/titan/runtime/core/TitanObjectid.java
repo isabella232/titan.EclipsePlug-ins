@@ -9,7 +9,12 @@ package org.eclipse.titan.runtime.core;
 
 import java.text.MessageFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 
 /**
  * Runtime class for object identifiers (objid)
@@ -222,6 +227,18 @@ public class TitanObjectid extends Base_Type {
 		} else {
 			TTCN_Logger.log_event_unbound();
 		}
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "objid value");
+		if (param.get_type() != type_t.MP_Objid) {
+			param.type_error("objid value");
+		}
+		cleanUp();
+		n_components = param.get_string_size();
+		components_ptr = new ArrayList<TitanInteger>(Arrays.asList((TitanInteger[]) param.get_string_data()));
+		overflow_idx = -1;
 	}
 
 	@Override
