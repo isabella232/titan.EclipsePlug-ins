@@ -280,6 +280,10 @@ public class TTCN_Communication {
 		mc_addr_set = true;
 	}
 
+	public static boolean is_mc_connected() {
+		return is_connected.get();
+	}
+
 	public static void connect_mc() {
 		if (is_connected.get()) {
 			throw new TtcnError("Trying to re-connect to MC, but there is an existing connection.");
