@@ -11,6 +11,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
+
 /**
  * objid template
  *
@@ -276,6 +280,38 @@ public class TitanObjectid_template extends Base_Template {
 			break;
 		}
 		log_ifpresent();
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "objid template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			TitanObjectid_template temp = new TitanObjectid_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Objid:
+			this.assign(new TitanObjectid(param.get_string_size(), (TitanInteger[]) param.get_string_data()));
+			break;
+			//TODO: MP_Objid_Template in both runtime
+		default:
+			param.type_error("objid template");
+		}
+		is_ifPresent = param.get_ifpresent();
 	}
 
 	public void log_match(final TitanObjectid match_value, final boolean legacy) {

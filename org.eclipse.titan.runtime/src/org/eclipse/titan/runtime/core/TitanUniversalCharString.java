@@ -11,6 +11,10 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tree;
@@ -752,6 +756,98 @@ public class TitanUniversalCharString extends Base_Type {
 			TTCN_Logger.log_event_unbound();
 		}
 
+	}
+	
+	private static TitanUniversalCharString from_UTF8_buffer(final TTCN_Buffer p_buff) {
+		final TitanOctetString os = new TitanOctetString();
+		p_buff.get_string(os);
+		if (new TitanCharString("UTF-8").equals(AdditionalFunctions.get_stringencoding(os))) {
+			final TitanUniversalCharString ret = new TitanUniversalCharString();
+			ret.decode_utf8(p_buff.get_data(), CharCoding.UTF_8, false);
+			return ret;
+		} else {
+			return new TitanUniversalCharString(String.valueOf(p_buff.get_data()));
+		}
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		set_param_internal(param, false);
+	}
+	
+	/** An extended version of set_param(), which also accepts string patterns if
+	 * the second parameter is set (needed by TitanUniversalCharString_template to
+	 * concatenate string patterns). 
+	 * @return true, if the module parameter was a string pattern, otherwise false */
+	public boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern) {
+		return set_param_internal(param, allow_pattern, false);
+	}
+
+	public boolean set_param_internal(final Module_Parameter param, final boolean allow_pattern, final boolean is_nocase_pattern) {
+		boolean is_pattern = false;
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "universal charstring value");
+		switch (param.get_type()) {
+		case MP_Charstring:
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				cleanUp();
+				//no break
+			case OT_CONCAT:
+				TTCN_Buffer buff = new TTCN_Buffer();
+				buff.put_s(((String)param.get_string_data()).toCharArray());
+				if (isBound()) {
+					this.assign(this.concatenate(from_UTF8_buffer(buff)));
+				} else {
+					this.assign(from_UTF8_buffer(buff));
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: TitanUniversalCharString.set_param()");
+			}
+			break;
+		case MP_Universal_Charstring:
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				cleanUp();
+				//no break
+			case OT_CONCAT:
+				if (isBound()) {
+					this.assign(this.concatenate((TitanUniversalCharString)param.get_string_data()));
+				} else {
+					this.assign((TitanUniversalCharString)param.get_string_data());
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: TitanUniversalCharString.set_param()");
+			}
+			break;
+		case MP_Expression:
+			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
+				final TitanUniversalCharString operand1 = new TitanUniversalCharString();
+				final TitanUniversalCharString operand2 = new TitanUniversalCharString();
+				is_pattern = operand1.set_param_internal(param.get_operand1(), allow_pattern, is_nocase_pattern);
+				operand2.set_param(param.get_operand2());
+				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
+					this.assign(this.concatenate(operand1).concatenate(operand2));
+				} else {
+					this.assign(operand1.concatenate(operand2));
+				}
+			} else {
+				param.expr_type_error("a universal charstring");
+			}
+			break;
+		case MP_Pattern:
+			if (allow_pattern) {
+				//TODO: need to check later
+				this.assign(new TitanCharString(param.get_pattern()));
+				is_pattern = true;
+				break;
+			}
+			// else fall through
+		default:
+			param.type_error("universal charstring value");
+		}
+		return is_pattern;
 	}
 
 	/** 

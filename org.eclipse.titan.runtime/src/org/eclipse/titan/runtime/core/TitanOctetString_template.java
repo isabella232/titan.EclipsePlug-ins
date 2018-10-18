@@ -12,6 +12,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.eclipse.titan.runtime.core.Base_Type.TTCN_Typedescriptor;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_behavior_type;
 import org.eclipse.titan.runtime.core.TTCN_EncDec.error_type;
 
@@ -729,6 +733,54 @@ public class TitanOctetString_template extends Restricted_Length_Template {
 			TTCN_Logger.log_event_str(" matched");
 		} else {
 			TTCN_Logger.log_event_str(" unmatched");
+		}
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue()|basic_check_bits_t.BC_LIST.getValue(), "octetstring template");
+		switch (param.get_type()) {
+		case MP_Omit:
+			this.assign(template_sel.OMIT_VALUE);
+			break;
+		case MP_Any:
+			this.assign(template_sel.ANY_VALUE);
+			break;
+		case MP_AnyOrNone:
+			this.assign(template_sel.ANY_OR_OMIT);
+			break;
+		case MP_List_Template:
+		case MP_ComplementList_Template:
+			final TitanOctetString_template temp = new TitanOctetString_template();
+			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
+			for (int i = 0; i < param.get_size(); i++) {
+				temp.listItem(i).set_param(param.get_elem(i));
+			}
+			this.assign(temp);
+			break;
+		case MP_Octetstring:
+			this.assign(new TitanOctetString((char[]) param.get_string_data()));
+			break;
+		case MP_Octetstring_Template:
+			this.assign((TitanOctetString_template)param.get_string_data());
+			break;
+		case MP_Expression:
+			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
+				final TitanOctetString operand1 = new TitanOctetString();
+				final TitanOctetString operand2 = new TitanOctetString();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				this.assign(operand1.concatenate(operand2));
+			} else {
+				param.expr_type_error("an octetstring");
+			}
+			break;
+		default:
+			param.type_error("octetstring template");
+		}
+		is_ifPresent = param.get_ifpresent();
+		if (param.get_length_restriction() != null) {
+			set_length_range(param);
 		}
 	}
 

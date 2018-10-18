@@ -10,6 +10,10 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.Arrays;
 
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.operation_type_t;
 import org.eclipse.titan.runtime.core.RAW.RAW_Force_Omit;
 import org.eclipse.titan.runtime.core.RAW.RAW_coding_par;
 import org.eclipse.titan.runtime.core.RAW.RAW_enc_tr_pos;
@@ -351,6 +355,50 @@ public class TitanHexString extends Base_Type {
 		nibbles_ptr = new byte[n_nibbles];
 		if (n_nibbles > 0) {
 			text_buf.pull_raw(n_nibbles, nibbles_ptr);
+		}
+	}
+	
+	@Override
+	public void set_param(final Module_Parameter param) {
+		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "hexstring value");
+		switch (param.get_type()) {
+		case MP_Hexstring:
+			switch (param.get_operation_type()) {
+			case OT_ASSIGN:
+				cleanUp();
+				nibbles_ptr = new byte[param.get_string_size()];
+				System.arraycopy((byte[])param.get_string_data(), 0, nibbles_ptr, 0, param.get_string_size());
+				clearUnusedNibble();
+				break;
+			case OT_CONCAT:
+				if (isBound()) {
+					this.assign(this.concatenate(new TitanHexString((byte[]) param.get_string_data())));
+				} else {
+					this.assign(new TitanHexString((byte[]) param.get_string_data()));
+				}
+				break;
+			default:
+				throw new TtcnError("Internal error: HEXSTRING::set_param()");
+			}
+			break;
+		case MP_Expression:
+			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
+				TitanHexString operand1 = new TitanHexString();
+				TitanHexString operand2 = new TitanHexString();
+				operand1.set_param(param.get_operand1());
+				operand2.set_param(param.get_operand2());
+				if (param.get_operation_type() == operation_type_t.OT_CONCAT) {
+					this.assign(this.concatenate(operand1).concatenate(operand2));
+				} else {
+					this.assign(operand1.concatenate(operand2));
+				}
+			} else {
+				param.expr_type_error("a hexstring");
+			}
+			break;
+		default:
+			param.type_error("hexstring value");
+			break;
 		}
 	}
 	
