@@ -828,6 +828,10 @@ public final class Param_Types {
 		public void log_value() {
 			ucstr.log();
 		}
+		
+		public Object get_string_data() {
+			return ucstr;
+		}
 	}
 
 	public static class Module_Param_Omit extends Module_Parameter {
