@@ -24,30 +24,41 @@ import org.eclipse.titan.runtime.core.Module_Param_Length_Restriction;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Any;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_AnyOrNone;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Asn_Null;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Assignment_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Bitstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Boolean;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_ComplementList_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Hexstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Id;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Indexed_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Enumerated;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Expression;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FieldName;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Float;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_FloatRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Index;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Integer;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_IntRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_List_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Name;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_NotUsed;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Pattern;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Permutation_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Subset_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Superset_Template;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_mtc;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_system;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Universal_Charstring;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Value_List;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Verdict;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.expression_operand_t;
@@ -1255,6 +1266,7 @@ pr_StructuredValue2:
 pr_TestportName:
 (	pr_Identifier
 	(	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE
+		//TODO: it can be changed to pr_IndexItemIndex, also in config_process.y
 	)*
 |	STAR
 )
@@ -1573,7 +1585,7 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 	}
 |	MTCKEYWORD						{	$moduleparameter = new Module_Param_Ttcn_mtc();	}
 |	SYSTEMKEYWORD					{	$moduleparameter = new Module_Param_Ttcn_system();	}
-|	pr_CompoundValue
+|	cv = pr_CompoundValue			{	$moduleparameter = $cv.moduleparameter;	}
 |	ANYVALUE						{	$moduleparameter = new Module_Param_Any();	}
 |	STAR							{	$moduleparameter = new Module_Param_AnyOrNone();	}
 |	ir = pr_IntegerRange
@@ -1635,9 +1647,9 @@ pr_ParameterNameSegment returns [List<String> names]:
 	}
 ;
 
-pr_IndexItemIndex:
+pr_IndexItemIndex returns [CFGNumber integer]:
 	SQUAREOPEN
-	pr_IntegerValueExpression
+	i = pr_IntegerValueExpression	{	$integer = $i.integer;	}
 	SQUARECLOSE
 ;
 
@@ -1830,50 +1842,113 @@ pr_NULLKeyword:
 	NULLKEYWORD
 ;
 
-pr_CompoundValue:
+pr_CompoundValue returns [Module_Parameter moduleparameter]:
 (	BEGINCHAR
-	(	/* empty */
-	|	pr_FieldValue	(	COMMA pr_FieldValue	)*
-	|	pr_ArrayItem	(	COMMA pr_ArrayItem	)*
-	|	pr_IndexValue	(	COMMA pr_IndexValue	)*
+	(	/* empty */	{	$moduleparameter = new Module_Param_Value_List();	}
+	|	fv = pr_FieldValue
+		{	$moduleparameter = new Module_Param_Assignment_List();
+			$moduleparameter.add_elem($fv.moduleparameter);
+		}
+		(	COMMA
+			fv = pr_FieldValue	{	$moduleparameter.add_elem($fv.moduleparameter);	}
+		)*
+	|	ai = pr_ArrayItem
+		{	$moduleparameter = new Module_Param_Value_List();
+			$ai.moduleparameter.set_id(new Module_Param_Index($moduleparameter.get_size(),false));
+			$moduleparameter.add_elem($ai.moduleparameter);
+		}
+		(	COMMA
+			ai = pr_ArrayItem
+			{	$ai.moduleparameter.set_id(new Module_Param_Index($moduleparameter.get_size(),false));
+				$moduleparameter.add_elem($ai.moduleparameter);
+			}
+		)*
+	|	iv = pr_IndexValue
+		{	$moduleparameter = new Module_Param_Indexed_List();
+			$moduleparameter.add_elem($iv.moduleparameter);
+		}
+		(	COMMA
+			iv = pr_IndexValue	{	$moduleparameter.add_elem($iv.moduleparameter);	}
+		)*
 	)
 	ENDCHAR
 |	LPAREN
 	/* at least 2 elements to avoid shift/reduce conflicts with pr_IntegerValueExpression and pr_FloatValueExpression rules */
-	pr_ParameterValue (COMMA pr_ParameterValue)+
+	pv = pr_ParameterValue
+	{	$moduleparameter = new Module_Param_List_Template();
+		$pv.moduleparameter.set_id(new Module_Param_Index($moduleparameter.get_size(),false));
+		$moduleparameter.add_elem($pv.moduleparameter);
+	}
+	COMMA
+	til = pr_TemplateItemList	{	$moduleparameter.add_list_with_implicit_ids($til.mplist);	}
 	RPAREN
-|	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUPERSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUBSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	COMPLEMENTKEYWORD
+	LPAREN
+	til = pr_TemplateItemList
+	{	$moduleparameter = new Module_Param_ComplementList_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
+	RPAREN
+|	SUPERSETKEYWORD
+	LPAREN
+	til = pr_TemplateItemList
+	{	$moduleparameter = new Module_Param_Superset_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
+	RPAREN
+|	SUBSETKEYWORD
+	LPAREN
+	til = pr_TemplateItemList
+	{	$moduleparameter = new Module_Param_Subset_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
+	RPAREN
 )
 ;
 
-pr_FieldValue:
-	pr_FieldName ASSIGNMENTCHAR pr_ParameterValueOrNotUsedSymbol
+pr_FieldValue returns [Module_Parameter moduleparameter]:
+	fn = pr_FieldName
+	ASSIGNMENTCHAR
+	pv = pr_ParameterValueOrNotUsedSymbol
+	{
+		$moduleparameter = $pv.moduleparameter;
+		$moduleparameter.set_id(new Module_Param_FieldName($fn.identifier));
+	}
 ;
 
-pr_FieldName:
-	pr_Identifier
+pr_FieldName returns [String identifier]:
+	i = pr_Identifier	{	$identifier = $i.identifier; }
 ;
 
-pr_ParameterValueOrNotUsedSymbol:
-	MINUS
-|	pr_ParameterValue
+pr_ParameterValueOrNotUsedSymbol returns [Module_Parameter moduleparameter]:
+	MINUS	{	$moduleparameter = new Module_Param_NotUsed();	}
+|	pv = pr_ParameterValue	{	$moduleparameter = $pv.moduleparameter;	}
 ;
 
-pr_ArrayItem:
-	pr_ParameterValueOrNotUsedSymbol
-|	PERMUTATIONKEYWORD LPAREN pr_TemplateItemList RPAREN
+pr_ArrayItem returns [Module_Parameter moduleparameter]:
+	pv = pr_ParameterValueOrNotUsedSymbol	{	$moduleparameter = $pv.moduleparameter;	}
+|	PERMUTATIONKEYWORD LPAREN til = pr_TemplateItemList RPAREN
+	{	$moduleparameter = new Module_Param_Permutation_Template();
+		$moduleparameter.add_list_with_implicit_ids($til.mplist);
+	}
 ;
 
-pr_TemplateItemList:
-	pr_ParameterValue
-	(	COMMA pr_ParameterValue
+pr_TemplateItemList returns [List<Module_Parameter> mplist]:
+	pv = pr_ParameterValue
+	{	$mplist = new ArrayList<Module_Parameter>();
+		$mplist.add($pv.moduleparameter);
+	}
+	(	COMMA
+		pv = pr_ParameterValue	{	$mplist.add($pv.moduleparameter);	}
 	)*
 ;
 
-pr_IndexValue:
-	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE ASSIGNMENTCHAR pr_ParameterValue
+// config_process.y/IndexItem
+pr_IndexValue returns [Module_Parameter moduleparameter]:
+	iii = pr_IndexItemIndex ASSIGNMENTCHAR pv = pr_ParameterValue
+	{	$moduleparameter = $pv.moduleparameter;
+		$moduleparameter.set_id(new Module_Param_Index($iii.integer.getIntegerValue(),true));
+	}
 ;
 
 //TODO: handle exclusive: '!' before the number

@@ -1698,11 +1698,11 @@ pr_CompoundValue:
 	ENDCHAR
 |	LPAREN
 	/* at least 2 elements to avoid shift/reduce conflicts with pr_IntegerValueExpression and pr_FloatValueExpression rules */
-	pr_ParameterValue (COMMA pr_ParameterValue)+
+	pr_ParameterValue COMMA pr_TemplateItemList
 	RPAREN
-|	COMPLEMENTKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUPERSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
-|	SUBSETKEYWORD LPAREN pr_ParameterValue (COMMA pr_ParameterValue)* RPAREN
+|	COMPLEMENTKEYWORD LPAREN pr_TemplateItemList RPAREN
+|	SUPERSETKEYWORD LPAREN pr_TemplateItemList RPAREN
+|	SUBSETKEYWORD LPAREN pr_TemplateItemList RPAREN
 )
 ;
 
@@ -1731,7 +1731,7 @@ pr_TemplateItemList:
 ;
 
 pr_IndexValue:
-	SQUAREOPEN pr_IntegerValueExpression SQUARECLOSE ASSIGNMENTCHAR pr_ParameterValue
+	pr_IndexItemIndex ASSIGNMENTCHAR pr_ParameterValue
 ;
 
 pr_IntegerRange:
