@@ -926,7 +926,11 @@ public final class TTCN_Logger {
 			return;
 		}
 		
-		//TODO: implement missing functions
+		if (TTCN_Communication.is_mc_connected()) {
+			TTCN_Communication.send_error(error_msg);
+		} else {
+			System.err.println(error_msg);
+		}
 	}
 
 	public static void log_str(final Severity msg_severity, final String string ) {
