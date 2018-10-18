@@ -42,6 +42,7 @@ import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Objid;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Omit;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Octetstring_Template;
+import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Pattern;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_StringRange;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_Null;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Param_Ttcn_mtc;
@@ -1589,7 +1590,12 @@ pr_SimpleParameterValue returns [Module_Parameter moduleparameter]
 			$fr.min_exclusive, $fr.max_exclusive );
 	}
 |	sr = pr_StringRange	{	$moduleparameter = $sr.stringrange;	}
-|	PATTERNKEYWORD pr_PatternChunkList
+|	PATTERNKEYWORD pcl = pr_PatternChunkList
+	{
+		//TODO: handle nocase
+		boolean nocase = false;
+		$moduleparameter = new Module_Param_Pattern($pcl.ucstr.toUtf(), nocase);
+	}
 |	bsm = pr_BStringMatch			{	$moduleparameter = new Module_Param_Bitstring_Template($bsm.string);	}
 |	hsm = pr_HStringMatch			{	$moduleparameter = new Module_Param_Hexstring_Template($hsm.string);	}
 |	osm = pr_OStringMatch			{	$moduleparameter = new Module_Param_Octetstring_Template($osm.string);	}
@@ -2010,13 +2016,16 @@ pr_StringRange returns [Module_Param_StringRange stringrange]
 ;
 
 
-pr_PatternChunkList:
-	pr_PatternChunk (AND pr_PatternChunk)*
+pr_PatternChunkList returns [TitanUniversalCharString ucstr]:
+	p = pr_PatternChunk	{	$ucstr = $p.ucstr;	}
+	(	AND
+		p = pr_PatternChunk	{	$ucstr.concatenate($p.ucstr);	}
+	)*
 ;
 
-pr_PatternChunk:
-	pr_CString
-|	pr_Quadruple
+pr_PatternChunk returns [TitanUniversalCharString ucstr]:
+	cstr = pr_CString	{	$ucstr = new TitanUniversalCharString($cstr.string);	}
+|	q = pr_Quadruple	{	$ucstr = $q.ucstr;	}
 ;
 
 pr_BStringMatch returns [String string]:
