@@ -203,7 +203,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	private static class Port_Parameter {
-		public component_id_t component_id;
+		public component_id_t component_id = new component_id_t();
 		public String port_name;
 		public String parameter_name;
 		public String parameter_value;
