@@ -580,7 +580,7 @@ public class TitanBitString extends Base_Type {
 			if (rotateCount == 0) {
 				return this;
 			} else {
-				return ((this.shiftLeft(rotateCount)).or4b(this.shiftRight(n_bits - rotateCount)));
+				return this.shiftLeft(rotateCount).or4b(this.shiftRight(n_bits - rotateCount));
 			}
 		} else {
 			return this.rotateRight(-rotateCount);

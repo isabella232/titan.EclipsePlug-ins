@@ -471,7 +471,7 @@ public class TitanUniversalCharString_Element {
 	public void log() {
 		if (bound_flag) {
 			if (str_val.charstring) {
-				TTCN_Logger.logCharEscaped((str_val.cstr.charAt(char_pos)));
+				TTCN_Logger.logCharEscaped(str_val.cstr.charAt(char_pos));
 				return;
 			}
 			final TitanUniversalChar uchar = str_val.val_ptr.get(char_pos);

@@ -525,7 +525,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		min_is_set = true;
 		min_is_exclusive = false;
 		min_value = new TitanCharString(otherMinValue);
-		if ((max_is_set) && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
+		if (max_is_set && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
 			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
 		}
 	}
@@ -544,7 +544,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		min_is_set = true;
 		min_is_exclusive = false;
 		min_value = new TitanCharString(otherMinValue);
-		if ((max_is_set) && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
+		if (max_is_set && min_value.lengthOf().getInt() > (max_value.lengthOf().getInt())) {
 			throw new TtcnError(MessageFormat.format("The lower bound {0} in a charstring value range template is greater than the upper bound {1}.", min_value, max_value));
 		}
 	}
@@ -562,7 +562,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		max_is_set = true;
 		max_is_exclusive = false;
 		max_value = new TitanCharString(otherMaxValue);
-		if ((min_is_set) && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
+		if (min_is_set && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
 			throw new TtcnError(MessageFormat.format("The upper bound `{0}'' in a charstring value range template is smaller than the lower bound {1}.", max_value, min_value));
 		}
 	}
@@ -581,7 +581,7 @@ public class TitanCharString_template extends Restricted_Length_Template {
 		max_is_set = true;
 		max_is_exclusive = false;
 		max_value = new TitanCharString(otherMaxValue);
-		if ((min_is_set) && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
+		if (min_is_set && min_value.lengthOf().getInt() > max_value.lengthOf().getInt()) {
 			throw new TtcnError(MessageFormat.format("The upper bound `{0}'' in a charstring value range template is smaller than the lower bound {1}.", max_value, min_value));
 		}
 	}

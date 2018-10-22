@@ -355,7 +355,7 @@ public class TitanInteger extends Base_Type {
 		this.mustBound("Unbound left operand of rem operator ");
 		rightValue.mustBound("Unbound right operand of rem operator");
 
-		return this.sub(rightValue.mul((this.div(rightValue))));
+		return this.sub(rightValue.mul(this.div(rightValue)));
 	}
 
 	// originally operator==

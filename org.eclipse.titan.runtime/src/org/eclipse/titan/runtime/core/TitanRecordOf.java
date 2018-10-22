@@ -167,7 +167,7 @@ public class TitanRecordOf extends Base_Type {
 		for (final Base_Type srcElem : srcList) {
 			final Base_Type newElem = getUnboundElem();
 			newElem.assign(srcElem);
-			newList.add((newElem));
+			newList.add(newElem);
 		}
 		return newList;
 	}

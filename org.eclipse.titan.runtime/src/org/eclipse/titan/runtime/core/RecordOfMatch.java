@@ -649,7 +649,7 @@ public class RecordOfMatch {
 				return true;
 			} else {
 				// the empty template matches the empty value only
-				return (value_size == 0 || match_type == type_of_matching.SUPERSET);
+				return value_size == 0 || match_type == type_of_matching.SUPERSET;
 			}
 		}
 
