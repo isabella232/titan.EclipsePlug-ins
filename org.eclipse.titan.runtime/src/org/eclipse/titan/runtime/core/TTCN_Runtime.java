@@ -2593,7 +2593,7 @@ public final class TTCN_Runtime {
 			// This may affect the final verdict.
 			terminate_component_type();
 
-			TTCN_Communication.send_killed(localVerdict.get(), null);
+			TTCN_Communication.send_killed(localVerdict.get(), verdictReason.get());
 			TTCN_Logger.log_final_verdict(true, localVerdict.get(), localVerdict.get(), localVerdict.get(), verdictReason.get(), -1, TitanComponent.UNBOUND_COMPREF, null);
 			executorState.set(executorStateEnum.PTC_EXIT);
 			break;
