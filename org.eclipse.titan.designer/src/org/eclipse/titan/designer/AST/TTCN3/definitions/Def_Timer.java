@@ -270,15 +270,19 @@ public final class Def_Timer extends Definition {
 	}
 
 	private void checkSingleDuration(final CompilationTimeStamp timestamp, final IValue duration){
-		final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
-		final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
-		referenceChain.release();
+		duration.setLoweridToReference(timestamp);
 
-		if (v.getValuetype() == Value_type.REAL_VALUE) {
-			final Real_Value value = (Real_Value) v;
-			final double valueReal = value.getValue();
-			if (valueReal < 0.0 || value.isSpecialFloat()) {
-				duration.getLocation().reportSemanticError("A non-negative float value was expected as timer duration instead of" + valueReal);
+		if (duration.getExpressionReturntype(timestamp, Expected_Value_type.EXPECTED_STATIC_VALUE) == Type_type.TYPE_REAL) {
+			final IReferenceChain referenceChain = ReferenceChain.getInstance(IReferenceChain.CIRCULARREFERENCE, true);
+			final Value v = (Value) duration.getValueRefdLast(timestamp, referenceChain);
+			referenceChain.release();
+
+			if (!duration.isUnfoldable(timestamp) && v.getValuetype() == Value_type.REAL_VALUE) {
+				final Real_Value value = (Real_Value) v;
+				final double valueReal = value.getValue();
+				if (valueReal < 0.0 || value.isSpecialFloat()) {
+					duration.getLocation().reportSemanticError("A non-negative float value was expected as timer duration instead of" + valueReal);
+				}
 			}
 		} else {
 			duration.getLocation().reportSemanticError("Value is not real");

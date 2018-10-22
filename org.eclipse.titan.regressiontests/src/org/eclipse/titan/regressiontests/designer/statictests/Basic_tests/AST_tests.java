@@ -9169,7 +9169,7 @@ public class AST_tests {
 
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5295);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(5297);
 		int lineNum = 20;
 		markersToCheck.add(new MarkerToCheck("Value 1 is already assigned to `item1'",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Duplicate enumeration identifier `item2' was first declared here",  ++lineNum, IMarker.SEVERITY_ERROR));
@@ -10025,7 +10025,7 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("There is no visible definition with name `nonExi' in module `value_tests'",  --lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Type `@value_tests.myunionType' can not be indexed",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Invalid reference: internal parameterisation is not supported",  ++lineNum, IMarker.SEVERITY_ERROR));
-		lineNum += 5;
+		lineNum += 9;
 		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 3 was expected instead of 2",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("The default timer duration should be a float value",  ++lineNum, IMarker.SEVERITY_ERROR));
 		lineNum += 2;
@@ -10047,6 +10047,10 @@ public class AST_tests {
 		markersToCheck.add(new MarkerToCheck("The lower boundary is greater than the upper boundary",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too few elements in the default duration of timer array: 2 was expected instead of 1",  ++lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Too many elements in the default duration of timer array: 2 was expected instead of 3",  ++lineNum, IMarker.SEVERITY_ERROR));
+		lineNum += 2;
+		for (i = 0; i < 2; i++) {
+			markersToCheck.add(new MarkerToCheck("Value is not real", lineNum, IMarker.SEVERITY_ERROR));
+		}
 		lineNum += 2;
 		markersToCheck.add(new MarkerToCheck("The operand of operation `timer running': Reference to a single timer `TL_temp' cannot have field or array sub-references",  lineNum, IMarker.SEVERITY_ERROR));
 		markersToCheck.add(new MarkerToCheck("Reference to a timer array without array index",  ++lineNum, IMarker.SEVERITY_ERROR));

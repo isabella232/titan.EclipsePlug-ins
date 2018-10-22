@@ -1413,7 +1413,7 @@ public class AST_warnings_tests {
 
 	private ArrayList<MarkerToCheck> value_tests_ttcn_initializer() {
 		//value_tests.ttcn
-		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(56);
+		ArrayList<MarkerToCheck> markersToCheck = new ArrayList<MarkerToCheck>(58);
 		int lineNum = 200;
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 3;
@@ -1436,7 +1436,11 @@ public class AST_warnings_tests {
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 1377;
 		markersToCheck.add(new MarkerToCheck("All elements of value list notation for type `@value_tests.myrecordType' are not used symbols (`-')",  lineNum, IMarker.SEVERITY_WARNING));
-		lineNum += 929;
+		lineNum += 256;
+		markersToCheck.add(new MarkerToCheck("The variable `f' with name f breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 18;
+		markersToCheck.add(new MarkerToCheck("The variable `i' with name i breaks the naming convention  `vl.*'",  lineNum, IMarker.SEVERITY_WARNING));
+		lineNum += 661;
 		markersToCheck.add(new MarkerToCheck("This control is unnecessary because the conditional expression evaluates to true",  lineNum, IMarker.SEVERITY_WARNING));
 		lineNum += 39;
 		markersToCheck.add(new MarkerToCheck("Rotating will not change the value",  lineNum, IMarker.SEVERITY_WARNING));
