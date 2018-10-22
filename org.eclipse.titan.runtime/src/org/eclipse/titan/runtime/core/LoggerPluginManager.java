@@ -65,7 +65,6 @@ import org.eclipse.titan.runtime.core.TitanLoggerApi.TitanLogEvent_sourceInfo__l
 import org.eclipse.titan.runtime.core.TitanVerdictType.VerdictTypeEnum;
 import org.eclipse.titan.runtime.core.TTCN_Logger.Severity;
 import org.eclipse.titan.runtime.core.TTCN_Logger.TTCN_Location;
-import org.eclipse.titan.runtime.core.TTCN_Logger.component_id_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.emergency_logging_behaviour_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.extcommand_t;
 import org.eclipse.titan.runtime.core.TTCN_Logger.log_event_types_t;
