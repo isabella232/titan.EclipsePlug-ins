@@ -633,7 +633,7 @@ public class TitanBitString_template extends Restricted_Length_Template {
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanBitString_template temp = new TitanBitString_template();
+			final TitanBitString_template temp = new TitanBitString_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));

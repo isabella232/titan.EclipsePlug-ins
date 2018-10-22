@@ -298,7 +298,7 @@ public class TitanObjectid_template extends Base_Template {
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanObjectid_template temp = new TitanObjectid_template();
+			final TitanObjectid_template temp = new TitanObjectid_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));

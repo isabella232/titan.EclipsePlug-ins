@@ -633,7 +633,7 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		case MP_List_Template:
 		case MP_ComplementList_Template:
-			TitanHexString_template temp = new TitanHexString_template();
+			final TitanHexString_template temp = new TitanHexString_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST , param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
 				temp.listItem(i).set_param(param.get_elem(i));
@@ -648,8 +648,8 @@ public class TitanHexString_template extends Restricted_Length_Template {
 			break;
 		case MP_Expression:
 			if (param.get_expr_type() == expression_operand_t.EXPR_CONCATENATE) {
-				TitanHexString operand1 = new TitanHexString();
-				TitanHexString operand2 = new TitanHexString();
+				final TitanHexString operand1 = new TitanHexString();
+				final TitanHexString operand2 = new TitanHexString();
 				operand1.set_param(param.get_operand1());
 				operand2.set_param(param.get_operand2());
 				this.assign(operand1.concatenate(operand2));
