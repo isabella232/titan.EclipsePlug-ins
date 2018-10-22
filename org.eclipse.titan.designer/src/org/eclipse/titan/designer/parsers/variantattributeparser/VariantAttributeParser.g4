@@ -86,6 +86,7 @@ pr_AttribSpec:
 |	pr_XEncodingDefList
 |	pr_XERAttributes
 |	pr_XBERAttributes
+|	pr_JSONAttributes
 )
 EOF
 ;
@@ -1033,8 +1034,8 @@ pr_XJsonAttribute:
 (	pr_XOmitAsNull
 |	pr_XNameAs
 |	pr_XAsValue
-|	pr_Default
-|	pr_Extend
+|	pr_XDefault
+|	pr_XExtend
 |	pr_XMetainfoForUnbound
 |	pr_XAsNumber
 );
@@ -1060,9 +1061,9 @@ pr_JsonAlias:
 
 pr_XAsValue: ASKeyword VALUEKeyword;
 
-pr_Default: DEFAULTKeyword pr_JsonValue;
+pr_XDefault: DEFAULTKeyword pr_JsonValue;
 
-pr_Extend: EXTENDKeyword pr_JsonValue COLON pr_JsonValue;
+pr_XExtend: EXTENDKeyword pr_JsonValue COLON pr_JsonValue;
 
 pr_JsonValue:
 (	JSONValueStart
@@ -1080,3 +1081,32 @@ pr_JsonValueCore:
 pr_XMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword;
 
 pr_XAsNumber: ASKeyword NUMBERKeyword;
+
+pr_JSONAttributes: pr_JSONAttribute;
+
+pr_JSONAttribute:
+(	pr_JOmitAsNull
+|	pr_JAsValue
+|	pr_JDefault
+|	pr_JExtend
+|	pr_JMetainfoForUnbound
+|	pr_JAsNumber
+|	pr_JChosen
+|	pr_JAsMap
+);
+
+pr_JOmitAsNull: OMITKeyword ASKeyword NullKeyword;
+
+pr_JAsValue: ASKeyword VALUEKeyword;
+
+pr_JDefault: DEFAULTKeyword pr_JsonValue;
+
+pr_JExtend: EXTENDKeyword pr_JsonValue COLON pr_JsonValue;
+
+pr_JMetainfoForUnbound: METAINFOKeyword FORKeyword UNBOUNDKeyword;
+
+pr_JAsNumber: ASKeyword NUMBERKeyword;
+
+pr_JChosen: CHOSENKeyword LPAREN pr_XAssocList SEMICOLON? RPAREN;
+
+pr_JAsMap: ASKeyword JSONMAPKeyword;

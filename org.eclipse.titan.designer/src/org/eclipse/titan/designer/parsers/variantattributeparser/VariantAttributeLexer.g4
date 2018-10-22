@@ -224,6 +224,7 @@ FORKeyword: 'for';
 UNBOUNDKeyword: 'unbound';
 CHOSENKeyword: 'chosen';
 JSONOTHERWISEKeyword: 'otherwise';
+JSONMAPKeyword: 'map';
 
 /* BER encoder keywords (not entering) */
 LENGTHKeyword: 'length';
