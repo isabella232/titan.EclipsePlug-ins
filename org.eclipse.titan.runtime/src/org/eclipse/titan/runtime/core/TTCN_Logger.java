@@ -317,13 +317,13 @@ public final class TTCN_Logger {
 
 	private static final Calendar calendar = Calendar.getInstance(TimeZone.getDefault(), Locale.getDefault(Locale.Category.FORMAT));
 	private static final String month_names[] = { "Jan", "Feb", "Mar",
-			"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
+		"Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec" };
 	private static long start_time;
-	
+
 	private static String executable_name;
 
 	private static log_event_types_t log_entity_name = log_event_types_t.LOGEVENTTYPES_NO;
-	
+
 	/// The default log format is the legacy (original) format.
 	private static data_log_format_t data_log_format = data_log_format_t.LF_LEGACY;
 
@@ -357,7 +357,7 @@ public final class TTCN_Logger {
 	public static class disk_full_action_t {
 		disk_full_action_type_t type;
 		int retry_interval;
-		
+
 		public disk_full_action_t(final disk_full_action_type_t disk_type, final int retry) {
 			type = disk_type;
 			retry_interval = retry;
@@ -454,8 +454,7 @@ public final class TTCN_Logger {
 		LOG_ALL_IMPORTANT
 	};
 
-	public static final Severity sev_categories[]=
-	{
+	public static final Severity sev_categories[]= {
 		Severity.NOTHING_TO_LOG,//=0
 		Severity.ACTION_UNQUALIFIED,
 		Severity.DEFAULTOP_UNQUALIFIED,
@@ -494,91 +493,91 @@ public final class TTCN_Logger {
 	};
 
 	/** Sub-category names for all Severity enum values,
-	* used when TTCN_Logger::log_event_types is set to log sub-categories */
+	 * used when TTCN_Logger::log_event_types is set to log sub-categories */
 	public static String severity_subcategory_names[] = {
-		  "",
-		  // ACTION:
-		  "UNQUALIFIED",
-		  // DEFAULTOP:
-		  "ACTIVATE",
-		  "DEACTIVATE",
-		  "EXIT",
-		  "UNQUALIFIED",
-		  // ERROR:
-		  "UNQUALIFIED",
-		  // EXECUTOR:
-		  "RUNTIME",
-		  "CONFIGDATA",
-		  "EXTCOMMAND",
-		  "COMPONENT",
-		  "LOGOPTIONS",
-		  "UNQUALIFIED",
-		  // FUNCTION:
-		  "RND",
-		  "UNQUALIFIED",
-		  // PARALLEL:
-		  "PTC",
-		  "PORTCONN",
-		  "PORTMAP",
-		  "UNQUALIFIED",
-		  // TESTCASE:
-		  "START",
-		  "FINISH",
-		  "UNQUALIFIED",
-		  // PORTEVENT:
-		  "PQUEUE",
-		  "MQUEUE",
-		  "STATE",
-		  "PMIN",
-		  "PMOUT",
-		  "PCIN",
-		  "PCOUT",
-		  "MMRECV",
-		  "MMSEND",
-		  "MCRECV",
-		  "MCSEND",
-		  "DUALRECV",
-		  "DUALSEND",
-		  "UNQUALIFIED",
-		  "SETSTATE",
-		  // STATISTICS:
-		  "VERDICT",
-		  "UNQUALIFIED",
-		  // TIMEROP:
-		  "READ",
-		  "START",
-		  "GUARD",
-		  "STOP",
-		  "TIMEOUT",
-		  "UNQUALIFIED",
-		  // USER:
-		  "UNQUALIFIED",
-		  // VERDICTOP:
-		  "GETVERDICT",
-		  "SETVERDICT",
-		  "FINAL",
-		  "UNQUALIFIED",
-		  // WARNING:
-		  "UNQUALIFIED",
-		  // MATCHING:
-		  "DONE",
-		  "TIMEOUT",
-		  "PCSUCCESS",
-		  "PCUNSUCC",
-		  "PMSUCCESS",
-		  "PMUNSUCC",
-		  "MCSUCCESS",
-		  "MCUNSUCC",
-		  "MMSUCCESS",
-		  "MMUNSUCC",
-		  "PROBLEM",
-		  "UNQUALIFIED",
-		  // DEBUG:
-		  "ENCDEC",
-		  "TESTPORT",
-		  "USER",
-		  "FRAMEWORK",
-		  "UNQUALIFIED"
+		"",
+		// ACTION:
+		"UNQUALIFIED",
+		// DEFAULTOP:
+		"ACTIVATE",
+		"DEACTIVATE",
+		"EXIT",
+		"UNQUALIFIED",
+		// ERROR:
+		"UNQUALIFIED",
+		// EXECUTOR:
+		"RUNTIME",
+		"CONFIGDATA",
+		"EXTCOMMAND",
+		"COMPONENT",
+		"LOGOPTIONS",
+		"UNQUALIFIED",
+		// FUNCTION:
+		"RND",
+		"UNQUALIFIED",
+		// PARALLEL:
+		"PTC",
+		"PORTCONN",
+		"PORTMAP",
+		"UNQUALIFIED",
+		// TESTCASE:
+		"START",
+		"FINISH",
+		"UNQUALIFIED",
+		// PORTEVENT:
+		"PQUEUE",
+		"MQUEUE",
+		"STATE",
+		"PMIN",
+		"PMOUT",
+		"PCIN",
+		"PCOUT",
+		"MMRECV",
+		"MMSEND",
+		"MCRECV",
+		"MCSEND",
+		"DUALRECV",
+		"DUALSEND",
+		"UNQUALIFIED",
+		"SETSTATE",
+		// STATISTICS:
+		"VERDICT",
+		"UNQUALIFIED",
+		// TIMEROP:
+		"READ",
+		"START",
+		"GUARD",
+		"STOP",
+		"TIMEOUT",
+		"UNQUALIFIED",
+		// USER:
+		"UNQUALIFIED",
+		// VERDICTOP:
+		"GETVERDICT",
+		"SETVERDICT",
+		"FINAL",
+		"UNQUALIFIED",
+		// WARNING:
+		"UNQUALIFIED",
+		// MATCHING:
+		"DONE",
+		"TIMEOUT",
+		"PCSUCCESS",
+		"PCUNSUCC",
+		"PMSUCCESS",
+		"PMUNSUCC",
+		"MCSUCCESS",
+		"MCUNSUCC",
+		"MMSUCCESS",
+		"MMUNSUCC",
+		"PROBLEM",
+		"UNQUALIFIED",
+		// DEBUG:
+		"ENCDEC",
+		"TESTPORT",
+		"USER",
+		"FRAMEWORK",
+		"UNQUALIFIED"
 	};
 
 	/**
@@ -919,13 +918,13 @@ public final class TTCN_Logger {
 	public static void log(final Severity msg_severity, final String formatString, final Object... args ) {
 		log_va_list(msg_severity, formatString, args);
 	}
-	
+
 	public static void send_event_as_error() {
 		final String error_msg = get_logger_plugin_manager().get_current_event_str();
 		if (error_msg == null) {
 			return;
 		}
-		
+
 		if (TTCN_Communication.is_mc_connected()) {
 			TTCN_Communication.send_error(error_msg);
 		} else {
@@ -1228,11 +1227,11 @@ public final class TTCN_Logger {
 	public static log_event_types_t get_log_entity_name() {
 		return log_entity_name;
 	}
-	
+
 	public static data_log_format_t get_log_format() {
 		return data_log_format;
 	}
-	
+
 	public static void set_log_format(final data_log_format_t p_data_log_format) {
 		data_log_format = p_data_log_format;
 	}
@@ -1382,7 +1381,7 @@ public final class TTCN_Logger {
 	}
 
 	public static boolean set_disk_full_action(final disk_full_action_type_t p_disk_full_action_type,
-											   final int p_retry_interval) {
+			final int p_retry_interval) {
 		final disk_full_action_t disk_full_action = new disk_full_action_t(p_disk_full_action_type, p_retry_interval);
 
 		return get_logger_plugin_manager().set_disk_full_action(disk_full_action);
@@ -1405,11 +1404,11 @@ public final class TTCN_Logger {
 	public static String get_executable_name() {
 		return executable_name;
 	}
-	
+
 	public static void open_file() {
 		get_logger_plugin_manager().open_file();
 	}
-	
+
 	public static void close_file() {
 		get_logger_plugin_manager().close_file();
 	}

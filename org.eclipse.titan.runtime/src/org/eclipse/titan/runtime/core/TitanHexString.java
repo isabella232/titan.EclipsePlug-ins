@@ -357,8 +357,9 @@ public class TitanHexString extends Base_Type {
 			text_buf.pull_raw(n_nibbles, nibbles_ptr);
 		}
 	}
-	
+
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "hexstring value");
 		switch (param.get_type()) {
@@ -401,7 +402,7 @@ public class TitanHexString extends Base_Type {
 			break;
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {

@@ -757,7 +757,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 
 	}
-	
+
 	private static TitanUniversalCharString from_UTF8_buffer(final TTCN_Buffer p_buff) {
 		final TitanOctetString os = new TitanOctetString();
 		p_buff.get_string(os);
@@ -769,12 +769,12 @@ public class TitanUniversalCharString extends Base_Type {
 			return new TitanUniversalCharString(String.valueOf(p_buff.get_data()));
 		}
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		set_param_internal(param, false);
 	}
-	
+
 	/** An extended version of set_param(), which also accepts string patterns if
 	 * the second parameter is set (needed by TitanUniversalCharString_template to
 	 * concatenate string patterns). 
@@ -1186,7 +1186,7 @@ public class TitanUniversalCharString extends Base_Type {
 				octets[0] = (char) (valueStr[i] & 0x1F);
 
 				fill_continuing_octets(1, octets, lenghtOctets, valueStr, i + 1, lenghtUnichars);
-				
+
 				val_ptr.set(lenghtUnichars, new TitanUniversalChar((char) 0, (char) 0,(char) (octets[0] >> 2), (char) ((octets[0] << 6) & 0xFF | octets[1])));
 
 				if (val_ptr.get(lenghtUnichars).getUc_row() == 0x00 && 
@@ -1286,7 +1286,7 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		}
 	}
-	
+
 	public void decode_utf16(final int n_octets, final char[] octets_ptr, final CharCoding expected_coding) {
 		if (n_octets % 2 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-16 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 2", n_octets);
@@ -1357,7 +1357,7 @@ public class TitanUniversalCharString extends Base_Type {
 			}
 		}
 	}
-	
+
 	public void decode_utf32(final int n_octets, final char[] octets_ptr, final CharCoding expected_coding) {
 		if (n_octets % 4 != 0 || 0 > n_octets) {
 			TTCN_EncDec_ErrorContext.error(error_type.ET_DEC_UCSTR, "Wrong UTF-32 string. The number of bytes (%d) in octetstring shall be non negative and divisible by 4", n_octets);
@@ -1692,7 +1692,7 @@ public class TitanUniversalCharString extends Base_Type {
 		}
 		error.leaveContext();
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
@@ -1715,7 +1715,7 @@ public class TitanUniversalCharString extends Base_Type {
 			throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
 		}
 	}
-	
+
 	@Override
 	/** {@inheritDoc} */
 	public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {

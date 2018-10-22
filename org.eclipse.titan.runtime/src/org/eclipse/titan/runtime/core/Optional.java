@@ -185,6 +185,7 @@ public class Optional<TYPE extends Base_Type> extends Base_Type {
 	}
 
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		if (param.get_type() == type_t.MP_Omit) {
 			if (param.get_ifpresent()) {

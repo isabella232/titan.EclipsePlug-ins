@@ -228,8 +228,9 @@ public class TitanObjectid extends Base_Type {
 			TTCN_Logger.log_event_unbound();
 		}
 	}
-	
+
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "objid value");
 		if (param.get_type() != type_t.MP_Objid) {

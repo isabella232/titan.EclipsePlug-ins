@@ -181,7 +181,7 @@ public class TitanDefault extends Base_Type {
 	public void log() {
 		TTCN_Default.log(default_ptr);
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_VALUE.getValue(), "default reference (null) value");

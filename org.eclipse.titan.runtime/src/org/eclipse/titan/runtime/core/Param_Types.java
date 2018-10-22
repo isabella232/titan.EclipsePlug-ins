@@ -30,7 +30,7 @@ public final class Param_Types {
 	 * Right now this is just a placeholder so that some could start working on module parameters.
 	 */
 	public static abstract class Module_Parameter {
-		
+
 		// list of all derived classes that can be instantiated
 		public enum type_t {
 			MP_NotUsed,
@@ -199,9 +199,9 @@ public final class Param_Types {
 		}
 
 		public abstract void log_value();
-		
+
 		public abstract type_t get_type();
-		
+
 		public void basic_check(final int check_bits, final String what) {
 			final boolean is_template = (check_bits & basic_check_bits_t.BC_TEMPLATE.getValue()) != 0 ? true : false;
 			final boolean is_list = (check_bits & basic_check_bits_t.BC_LIST.getValue()) != 0 ? true : false;
@@ -506,17 +506,17 @@ public final class Param_Types {
 			}
 		}
 	}
-	
+
 	public static class Module_Param_NotUsed extends Module_Parameter {
-		
+
 		public type_t get_type() {
 			return type_t.MP_NotUsed;
 		}
-		
+
 		public String get_type_str() {
 			return "-";
 		}
-		
+
 		@Override
 		public void log_value() {
 			TTCN_Logger.log_event_str("-");
@@ -678,11 +678,11 @@ public final class Param_Types {
 		public void log_value() {
 			new TitanObjectid(n_chars, chars_ptr).log();
 		}
-		
+
 		public Object get_string_data() {
 			return chars_ptr;
 		}
-		
+
 		public int get_string_size() {
 			return n_chars;
 		}
@@ -708,11 +708,11 @@ public final class Param_Types {
 		public void log_value() {
 			bstr.log();
 		}
-		
+
 		public int get_string_size() {
 			return bstr.getNBits();
 		}
-		
+
 		public int[] get_string_data() {
 			return bstr.getValue();
 		}
@@ -738,11 +738,11 @@ public final class Param_Types {
 		public void log_value() {
 			hstr.log();
 		}
-		
+
 		public Object get_string_data() {
 			return hstr.getValue();
 		}
-		
+
 		public int get_string_size() {
 			return hstr.getValue().length;
 		}
@@ -768,11 +768,11 @@ public final class Param_Types {
 		public void log_value() {
 			ostr.log();
 		}
-		
+
 		public Object get_string_data() {
 			return ostr.getValue();
 		}
-		
+
 		public int get_string_size() {
 			return ostr.getValue().length;
 		}
@@ -798,11 +798,11 @@ public final class Param_Types {
 		public void log_value() {
 			cstr.log();
 		}
-		
+
 		public Object get_string_data() {
 			return cstr.getValue().toString();
 		}
-		
+
 		public int get_string_size() {
 			return cstr.getValue().length();
 		}
@@ -828,7 +828,7 @@ public final class Param_Types {
 		public void log_value() {
 			ucstr.log();
 		}
-		
+
 		public Object get_string_data() {
 			return ucstr;
 		}
@@ -865,13 +865,13 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("null");
 		}	
 	}
-	
+
 	public static class Module_Param_Ttcn_mtc extends Module_Parameter {
-		
+
 		public type_t get_type() {
 			return type_t.MP_Ttcn_mtc;
 		}
-		
+
 		public String get_type_str() {
 			return  "mtc";
 		}
@@ -881,13 +881,13 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("mtc");
 		}
 	}
-	
+
 	public static class Module_Param_Ttcn_system extends Module_Parameter {
-		
+
 		public type_t get_type() {
 			return type_t.MP_Ttcn_system;
 		}
-		
+
 		public String get_type_str() {
 			return  "system";
 		}
@@ -897,13 +897,13 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("system");
 		}
 	}
-	
+
 	public static class Module_Param_Asn_Null extends Module_Parameter {
-		
+
 		public type_t get_type() {
 			return type_t.MP_Asn_Null;
 		}
-		
+
 		public String get_type_str() {
 			return  "NULL";
 		}
@@ -913,13 +913,13 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("NULL");
 		}
 	}
-	
+
 	public static class Module_Param_Any extends Module_Parameter {
-		
+
 		public type_t get_type() {
 			return type_t.MP_Any;
 		}
-		
+
 		public String get_type_str() {
 			return  "?";
 		}
@@ -929,13 +929,13 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("?");
 		}
 	}
-	
+
 	public static class Module_Param_AnyOrNone extends Module_Parameter {
-		
+
 		public type_t get_type() {
 			return type_t.MP_AnyOrNone;
 		}
-		
+
 		public String get_type_str() {
 			return  "*";
 		}
@@ -945,7 +945,7 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str("*");
 		}
 	}
-	
+
 	public static class Module_Param_IntRange extends Module_Parameter {
 
 		private TitanInteger lower_bound; // NULL == -infinity
@@ -1076,7 +1076,7 @@ public final class Param_Types {
 			TTCN_Logger.log_event_str(")");
 		}
 	}
-	
+
 	public static class Module_Param_StringRange extends Module_Parameter {
 		private TitanUniversalChar lower_bound;
 		private TitanUniversalChar upper_bound;
@@ -1177,7 +1177,7 @@ public final class Param_Types {
 		public void log_value() {
 			bstr_template.log();
 		}
-		
+
 		public Object get_string_data() {
 			return bstr_template;
 		}
@@ -1202,7 +1202,7 @@ public final class Param_Types {
 		public void log_value() {
 			hstr_template.log();
 		}
-		
+
 		public Object get_string_data() {
 			return hstr_template;
 		}
@@ -1227,7 +1227,7 @@ public final class Param_Types {
 		public void log_value() {
 			ostr_template.log();
 		}
-		
+
 		public Object get_string_data() {
 			return ostr_template;
 		}
@@ -1284,12 +1284,12 @@ public final class Param_Types {
 
 		private List<String> names;
 		private int pos;
-		
+
 		public Module_Param_Name(final List<String> p) {
 			names = p;
 			pos = 0;
 		}
-		
+
 		@Override
 		public boolean is_explicit() {
 			return true;
@@ -1299,7 +1299,7 @@ public final class Param_Types {
 		public String get_current_name() {
 			return names.get(pos);
 		}
-		
+
 		@Override
 		public boolean next_name() {
 			if (pos + 1 >= names.size()) {
@@ -1308,17 +1308,17 @@ public final class Param_Types {
 			++pos;
 			return true;
 		}
-		
+
 		@Override
 		public void reset() {
 			pos = 0;
 		}
-		
+
 		@Override
 		public int get_nof_names() {
 			return names.size();
 		}
-		
+
 		@Override
 		public String get_str() {
 			final StringBuilder result = new StringBuilder();
@@ -1401,34 +1401,34 @@ public final class Param_Types {
 	 * Errors reported in these cases will contain the custom text set in this class,
 	 * instead of the regular error message header. */
 	public static class Module_Param_CustomName extends Module_Param_Id {
-		
+
 		private String name;
-		
+
 		public Module_Param_CustomName(final String p) {
 			name = p;
 		}
-		
+
 		@Override
 		public String get_name() {
 			return name;
 		}
-		
+
 		@Override
 		public boolean is_explicit() {
 			return true;
 		}
-		
+
 		@Override
 		public String get_str() {
 			return name;
 		}
-		
+
 		@Override
 		public boolean is_custom() {
 			return true;
 		}
 	}
-	
+
 	public static class Module_Param_Compound extends Module_Parameter {
 
 		private List<Module_Parameter> values = new ArrayList<Module_Parameter>();

@@ -335,7 +335,7 @@ public class TitanDefault_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	@Override
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "default reference (null) template");

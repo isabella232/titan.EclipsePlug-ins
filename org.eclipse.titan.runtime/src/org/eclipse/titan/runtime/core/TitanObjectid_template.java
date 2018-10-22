@@ -281,8 +281,9 @@ public class TitanObjectid_template extends Base_Template {
 		}
 		log_ifpresent();
 	}
-	
+
 	@Override
+	/** {@inheritDoc} */
 	public void set_param(final Module_Parameter param) {
 		param.basic_check(basic_check_bits_t.BC_TEMPLATE.getValue(), "objid template");
 		switch (param.get_type()) {
