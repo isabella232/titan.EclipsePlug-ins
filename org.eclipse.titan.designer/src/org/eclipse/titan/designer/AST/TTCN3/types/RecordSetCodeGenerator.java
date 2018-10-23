@@ -2524,7 +2524,7 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("if (other_value instanceof {0}) '{'\n", className));
 		source.append(MessageFormat.format("return assign(({0}) other_value);\n", className));
 		source.append("}\n");
-		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", other_value));\n", className));
+		source.append( MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}\", other_value));\n", className));
 		source.append("}\n\n");
 
 		source.append("@Override\n");
@@ -2532,7 +2532,7 @@ public class RecordSetCodeGenerator {
 		source.append(MessageFormat.format("if (other_value instanceof {0}_template) '{'\n", className));
 		source.append(MessageFormat.format("return assign(({0}_template) other_value);\n", className));
 		source.append("}\n");
-		source.append( MessageFormat.format("\t\t\tthrow new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", other_value));\n", className));
+		source.append( MessageFormat.format("throw new TtcnError(MessageFormat.format(\"Internal Error: value `{0}'' can not be cast to {1}_template\", other_value));\n", className));
 		source.append("}\n\n");
 
 		source.append(MessageFormat.format("public {0}_template assign(final Optional<{0}> other_value) '{'\n", className));
@@ -2559,11 +2559,11 @@ public class RecordSetCodeGenerator {
 		source.append("break;\n");
 		source.append("case VALUE_LIST:\n");
 		source.append("case COMPLEMENTED_LIST:\n");
-		source.append( MessageFormat.format( "\t\t\tlist_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", className));
-		source.append("\t\t\tfor(int i = 0; i < other_value.list_value.size(); i++) {\n");
-		source.append( MessageFormat.format( "\t\t\t\tfinal {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", className));
-		source.append("\t\t\t\tlist_value.add(temp);\n");
-		source.append("\t\t\t}\n");
+		source.append( MessageFormat.format( "list_value = new ArrayList<{0}_template>(other_value.list_value.size());\n", className));
+		source.append("for(int i = 0; i < other_value.list_value.size(); i++) {\n");
+		source.append( MessageFormat.format( "final {0}_template temp = new {0}_template(other_value.list_value.get(i));\n", className));
+		source.append("list_value.add(temp);\n");
+		source.append("}\n");
 		source.append("break;\n");
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Copying an uninitialized template of type {0}.\");\n", classDisplayName));
