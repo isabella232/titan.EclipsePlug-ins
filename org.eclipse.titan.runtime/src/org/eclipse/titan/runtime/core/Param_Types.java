@@ -413,9 +413,9 @@ public final class Param_Types {
 	 */
 	public static class Module_Param_Expression extends Module_Parameter {
 
-		private expression_operand_t expr_type;
-		private Module_Parameter operand1;
-		private Module_Parameter operand2;
+		private final expression_operand_t expr_type;
+		private final Module_Parameter operand1;
+		private final Module_Parameter operand2;
 
 		public Module_Param_Expression(final expression_operand_t p_type, final Module_Parameter p_op1, final Module_Parameter p_op2) {
 			expr_type = p_type;
@@ -525,7 +525,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Integer extends Module_Parameter {
 
-		private TitanInteger integer_value;
+		private final TitanInteger integer_value;
 
 		public type_t get_type() {
 			return type_t.MP_Integer;
@@ -554,7 +554,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Float extends Module_Parameter {
 
-		private double float_value;
+		private final double float_value;
 
 		public type_t get_type() {
 			return type_t.MP_Float; }
@@ -579,7 +579,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Boolean extends Module_Parameter {
 
-		private boolean boolean_value;
+		private final boolean boolean_value;
 
 		public type_t get_type() {
 			return type_t.MP_Boolean;
@@ -605,7 +605,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Enumerated extends Module_Parameter {
 
-		private String enum_value;
+		private final String enum_value;
 
 		public type_t get_type() {
 			return type_t.MP_Enumerated;
@@ -631,7 +631,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Verdict extends Module_Parameter {
 
-		private TitanVerdictType verdict_value;
+		private final TitanVerdictType verdict_value;
 
 		public type_t get_type() {
 			return type_t.MP_Verdict;
@@ -658,8 +658,8 @@ public final class Param_Types {
 	public static class Module_Param_Objid extends Module_Parameter {
 		// special string of integers
 
-		private int n_chars;
-		private TitanInteger[] chars_ptr;
+		private final int n_chars;
+		private final TitanInteger[] chars_ptr;
 
 		public type_t get_type() {
 			return type_t.MP_Objid; 
@@ -690,7 +690,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Bitstring extends Module_Parameter {
 
-		private TitanBitString bstr;
+		private final TitanBitString bstr;
 
 		public type_t get_type() {
 			return type_t.MP_Bitstring;
@@ -720,7 +720,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Hexstring extends Module_Parameter {
 
-		private TitanHexString hstr;
+		private final TitanHexString hstr;
 
 		public type_t get_type() {
 			return type_t.MP_Hexstring;
@@ -750,7 +750,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Octetstring extends Module_Parameter {
 
-		private TitanOctetString ostr;
+		private final TitanOctetString ostr;
 
 		public type_t get_type() {
 			return type_t.MP_Octetstring;
@@ -780,7 +780,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Charstring extends Module_Parameter {
 
-		private TitanCharString cstr;
+		private final TitanCharString cstr;
 
 		public type_t get_type() {
 			return type_t.MP_Charstring;
@@ -810,7 +810,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Universal_Charstring extends Module_Parameter {
 
-		private TitanUniversalCharString ucstr;
+		private final TitanUniversalCharString ucstr;
 
 		public type_t get_type() {
 			return type_t.MP_Universal_Charstring;
@@ -948,10 +948,10 @@ public final class Param_Types {
 
 	public static class Module_Param_IntRange extends Module_Parameter {
 
-		private TitanInteger lower_bound; // NULL == -infinity
-		private TitanInteger upper_bound; // NULL == infinity
-		private boolean min_exclusive;
-		private boolean max_exclusive;
+		private final TitanInteger lower_bound; // NULL == -infinity
+		private final TitanInteger upper_bound; // NULL == infinity
+		private final boolean min_exclusive;
+		private final boolean max_exclusive;
 
 		public Module_Param_IntRange(final TitanInteger p_l, final TitanInteger p_u, final boolean min_is_exclusive, final boolean max_is_exclusive) {
 			lower_bound = p_l;
@@ -1009,12 +1009,12 @@ public final class Param_Types {
 
 	public static class Module_Param_FloatRange extends Module_Parameter {
 
-		private double lower_bound;
-		private boolean has_lower;
-		private double upper_bound;
-		private boolean has_upper;
-		private boolean min_exclusive;
-		private boolean max_exclusive;
+		private final double lower_bound;
+		private final boolean has_lower;
+		private final double upper_bound;
+		private final boolean has_upper;
+		private final boolean min_exclusive;
+		private final boolean max_exclusive;
 
 		public type_t get_type() {
 			return type_t.MP_FloatRange;
@@ -1078,10 +1078,10 @@ public final class Param_Types {
 	}
 
 	public static class Module_Param_StringRange extends Module_Parameter {
-		private TitanUniversalChar lower_bound;
-		private TitanUniversalChar upper_bound;
-		private boolean min_exclusive;
-		private boolean max_exclusive;
+		private final TitanUniversalChar lower_bound;
+		private final TitanUniversalChar upper_bound;
+		private final boolean min_exclusive;
+		private final boolean max_exclusive;
 
 		public type_t get_type() {
 			return type_t.MP_StringRange;
@@ -1125,8 +1125,8 @@ public final class Param_Types {
 
 	public static class Module_Param_Pattern extends Module_Parameter {
 
-		private String pattern;
-		private boolean nocase;
+		private final String pattern;
+		private final boolean nocase;
 
 		public type_t get_type() {
 			return type_t.MP_Pattern; 
@@ -1162,7 +1162,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Bitstring_Template extends Module_Parameter {
 
-		private TitanBitString_template bstr_template;
+		private final TitanBitString_template bstr_template;
 
 		public type_t get_type() {
 			return type_t.MP_Bitstring_Template; 
@@ -1185,7 +1185,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Hexstring_Template extends Module_Parameter {
 
-		private TitanHexString_template hstr_template;
+		private final TitanHexString_template hstr_template;
 
 		public type_t get_type() { 
 			return type_t.MP_Hexstring_Template; 
@@ -1210,7 +1210,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Octetstring_Template extends Module_Parameter{
 
-		private TitanOctetString_template ostr_template;
+		private final TitanOctetString_template ostr_template;
 
 		public type_t get_type() {
 			return type_t.MP_Octetstring_Template; 
@@ -1282,7 +1282,7 @@ public final class Param_Types {
 		 * Since the names of modules, module parameters and fields cannot start with
 		 * numbers, the indexes are easily distinguishable from these elements. */
 
-		private List<String> names;
+		private final List<String> names;
 		private int pos;
 
 		public Module_Param_Name(final List<String> p) {
@@ -1341,7 +1341,7 @@ public final class Param_Types {
 
 	public static class Module_Param_FieldName extends Module_Param_Id {
 
-		private String name;
+		private final String name;
 
 		public Module_Param_FieldName(final String p) {
 			name = p;
@@ -1365,8 +1365,8 @@ public final class Param_Types {
 
 	public static class Module_Param_Index extends Module_Param_Id {
 
-		private int index;
-		private boolean is_expl;
+		private final int index;
+		private final boolean is_expl;
 
 		public Module_Param_Index(final int p_index, final boolean p_is_expl) {
 			index = p_index;
@@ -1402,7 +1402,7 @@ public final class Param_Types {
 	 * instead of the regular error message header. */
 	public static class Module_Param_CustomName extends Module_Param_Id {
 
-		private String name;
+		private final String name;
 
 		public Module_Param_CustomName(final String p) {
 			name = p;
@@ -1431,7 +1431,7 @@ public final class Param_Types {
 
 	public static class Module_Param_Compound extends Module_Parameter {
 
-		private List<Module_Parameter> values = new ArrayList<Module_Parameter>();
+		private final List<Module_Parameter> values = new ArrayList<Module_Parameter>();
 
 		public Module_Param_Compound() {
 
