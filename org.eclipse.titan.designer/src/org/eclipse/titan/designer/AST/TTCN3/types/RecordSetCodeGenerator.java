@@ -256,25 +256,16 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
-		aSb.append( "\n\t\tpublic " );
-		aSb.append( aClassName );
-		aSb.append( "() {\n" );
+		aSb.append( "\n" );
+		aSb.append( MessageFormat.format( "\t\tpublic {0}() '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\t" );
-			aSb.append( fi.mVarName );
-			aSb.append( " = new " );
 			if (fi.isOptional) {
-				aSb.append("Optional<");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append(">(");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append( ".class);\n" );
+				aSb.append( MessageFormat.format( "\t\t\tthis.{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName ) );
 			} else {
-				aSb.append( fi.mJavaTypeName );
-				aSb.append( "();\n" );
+				aSb.append( MessageFormat.format( "\t\t\tthis.{0} = new {1}();\n", fi.mVarName, fi.mJavaTypeName ) );
 			}
-
 		}
+
 		aSb.append( "\t\t}\n" );
 	}
 
@@ -292,9 +283,9 @@ public class RecordSetCodeGenerator {
 			// constructor without parameters is already created, so nothing to do
 			return;
 		}
-		aSb.append( "\n\t\tpublic " );
-		aSb.append( aClassName );
-		aSb.append( "( " );
+
+		aSb.append( "\n" );
+		aSb.append( MessageFormat.format( "\t\tpublic {0}(", aClassName ) );
 		boolean first = true;
 		for ( final FieldInfo fi : aNamesList ) {
 			if ( first ) {
@@ -310,30 +301,16 @@ public class RecordSetCodeGenerator {
 			} else {
 				aSb.append( fi.mJavaTypeName );
 			}
-			aSb.append( " a" );
+			aSb.append( ' ' );
 			aSb.append( fi.mJavaVarName );
 		}
 		aSb.append( " ) {\n" );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\t" );
-			aSb.append( fi.mVarName );
-			aSb.append( " = new " );
 			if (fi.isOptional) {
-				aSb.append("Optional<");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append(">(");
-				aSb.append( fi.mJavaTypeName );
-				aSb.append( ".class);\n" );
-				aSb.append( "\t\t\tthis." );
-				aSb.append( fi.mVarName );
-				aSb.append( ".assign( a" );
-				aSb.append( fi.mJavaVarName );
-				aSb.append( " );\n" );
+				aSb.append( MessageFormat.format( "\t\t\tthis.{0} = new Optional<{1}>({1}.class);\n", fi.mVarName, fi.mJavaTypeName ) );
+				aSb.append( MessageFormat.format( "\t\t\tthis.{0}.assign( {1} );\n", fi.mVarName, fi.mJavaVarName ) );
 			} else {
-				aSb.append( fi.mJavaTypeName );
-				aSb.append( "( a");
-				aSb.append( fi.mJavaVarName );
-				aSb.append(" );\n" );
+				aSb.append( MessageFormat.format( "\t\t\tthis.{0} = new {1}( {2} );\n", fi.mVarName, fi.mJavaTypeName, fi.mJavaVarName ) );
 			}
 		}
 		aSb.append( "\t\t}\n" );
@@ -347,12 +324,9 @@ public class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateConstructorCopy( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String aClassName, final String displayName ) {
-		aSb.append( "\n\t\tpublic " );
-		aSb.append( aClassName );
-		aSb.append( "( final " );
-		aSb.append( aClassName );
-		aSb.append( " aOtherValue ) {\n" );
-		aSb.append( "\t\t\tif(!aOtherValue.isBound()) {\n" );
+		aSb.append( "\n" );
+		aSb.append( MessageFormat.format( "\t\tpublic {0}( final {0} otherValue) '{'\n", aClassName ) );
+		aSb.append( "\t\t\tif(!otherValue.isBound()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
 		aSb.append( "\t\t\t}\n" );
 		for ( final FieldInfo fi : aNamesList ) {
@@ -363,7 +337,8 @@ public class RecordSetCodeGenerator {
 			}
 
 		}
-		aSb.append( "\t\t\tassign( aOtherValue );\n" );
+
+		aSb.append( "\t\t\tassign( otherValue );\n" );
 		aSb.append( "\t\t}\n\n" );
 	}
 
@@ -379,14 +354,14 @@ public class RecordSetCodeGenerator {
 			final String aClassName, final String classReadableName ) {
 		aData.addCommonLibraryImport( "TtcnError" );
 
-		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} aOtherValue ) '{'\n", aClassName));
-		source.append("\t\t\tif ( !aOtherValue.isBound() ) {\n");
+		source.append(MessageFormat.format("\t\tpublic {0} assign(final {0} otherValue ) '{'\n", aClassName));
+		source.append("\t\t\tif ( !otherValue.isBound() ) {\n");
 		source.append(MessageFormat.format("\t\t\t\tthrow new TtcnError( \"Assignment of an unbound value of type {0}\");\n", classReadableName));
 		source.append("\t\t\t}\n\n");
-		source.append("\t\t\tif (aOtherValue != this) {\n");
+		source.append("\t\t\tif (otherValue != this) {\n");
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append(MessageFormat.format("\t\t\t\tif ( aOtherValue.get{0}().isBound() ) '{'\n", fi.mJavaVarName));
-			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.assign( aOtherValue.get{1}() );\n", fi.mVarName, fi.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\tif ( otherValue.get{0}().isBound() ) '{'\n", fi.mJavaVarName));
+			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.assign( otherValue.get{1}() );\n", fi.mVarName, fi.mJavaVarName));
 			source.append("\t\t\t\t} else {\n");
 			source.append(MessageFormat.format("\t\t\t\t\tthis.{0}.cleanUp();\n", fi.mVarName));
 			source.append("\t\t\t\t}\n");
@@ -1481,15 +1456,10 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
-		aSb.append( "\n\t\tpublic boolean operatorEquals( final " );
-		aSb.append( aClassName );
-		aSb.append( " aOtherValue ) {\n" );
+		aSb.append( "\n" );
+		aSb.append( MessageFormat.format( "\t\tpublic boolean operatorEquals( final {0} otherValue) '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
-			aSb.append( "\t\t\tif ( !this." );
-			aSb.append( fi.mVarName );
-			aSb.append( ".operatorEquals( aOtherValue." );
-			aSb.append( fi.mVarName );
-			aSb.append( " ) ) { return false; }\n" );
+			aSb.append( MessageFormat.format( "\t\t\tif ( !this.{0}.operatorEquals( otherValue.{0} ) ) '{' return false; '}'\n", fi.mVarName ) );
 		}
 		aSb.append( "\t\t\treturn true;\n" +
 				"\t\t}\n" );
