@@ -228,18 +228,14 @@ public class RecordSetCodeGenerator {
 	 */
 	private static void generateDeclaration( final JavaGenData aData, final StringBuilder source, final List<FieldInfo> aNamesList ) {
 		for ( final FieldInfo fi : aNamesList ) {
-			source.append( "\t\tprivate final " );
 			if (fi.isOptional) {
 				aData.addCommonLibraryImport("Optional");
-				source.append("Optional<");
-				source.append( fi.mJavaTypeName );
-				source.append('>');
+
+				source.append( MessageFormat.format( "\t\tprivate final Optional<{0}> {1};", fi.mJavaTypeName, fi.mVarName ) );
 			} else {
-				source.append( fi.mJavaTypeName );
+				source.append( MessageFormat.format( "\t\tprivate final {0} {1};", fi.mJavaTypeName, fi.mVarName ) );
 			}
-			source.append( ' ' );
-			source.append( fi.mVarName );
-			source.append( ';' );
+
 			if ( aData.isDebug() ) {
 				source.append( " //" );
 				source.append( fi.mTTCN3TypeName );
