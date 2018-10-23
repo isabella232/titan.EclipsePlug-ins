@@ -2621,8 +2621,7 @@ public class RecordSetCodeGenerator {
 		source.append("if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Performing a valueof or send operation on a non-specific template of type {0}.\");\n", classDisplayName));
 		source.append("}\n");
-		source.append(MessageFormat.format("final {0} ret_val = new {0}(TitanNull_Type.NULL_VALUE);\n", className));
-		source.append("return ret_val;\n");
+		source.append(MessageFormat.format("return new {0}(TitanNull_Type.NULL_VALUE);\n", className));
 		source.append("}\n\n");
 
 		source.append( MessageFormat.format( "\t\tpublic {0}_template listItem(final int list_index) '{'\n", className ) );
