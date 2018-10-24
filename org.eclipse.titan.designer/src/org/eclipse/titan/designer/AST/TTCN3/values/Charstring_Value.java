@@ -326,7 +326,7 @@ public final class Charstring_Value extends Value {
 		if (s == null) {
 			return null;
 		}
-		return s.replace("\\", "\\\\").replace("\"", "\\\"");
+		return s.replace("\"\"", "\\\"").replace("\\", "\\\\").replace("\"", "\\\"");
 	}
 
 	private String getEscapedValue() {
