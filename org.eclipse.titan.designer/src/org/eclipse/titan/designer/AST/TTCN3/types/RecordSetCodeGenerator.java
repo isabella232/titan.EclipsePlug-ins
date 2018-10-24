@@ -25,7 +25,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * @author Kristof Szabados
  * @author Arpad Lovassy
  */
-public class RecordSetCodeGenerator {
+public final class RecordSetCodeGenerator {
 	/**
 	 * Data structure to store sequence field variable and type names.
 	 * Used for java code generation.

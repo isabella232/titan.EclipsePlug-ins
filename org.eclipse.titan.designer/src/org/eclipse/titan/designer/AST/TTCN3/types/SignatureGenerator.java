@@ -12,7 +12,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  *
  * @author Kristof Szabados
  * */
-public class SignatureGenerator {
+public final class SignatureGenerator {
 
 	enum signatureParamaterDirection {PAR_IN, PAR_OUT, PAR_INOUT};
 

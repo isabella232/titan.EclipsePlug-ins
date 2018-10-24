@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  *
  * @author Kristof Szabados
  * */
-public class FunctionReferenceGenerator {
+public final class FunctionReferenceGenerator {
 
 	enum fatType {FUNCTION, ALTSTEP, TESTCASE};
 

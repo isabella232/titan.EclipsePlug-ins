@@ -17,7 +17,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
 /**
  * @author Farkas Izabella Ingrid
  * */
-public class EnumeratedGenerator {
+public final class EnumeratedGenerator {
 
 	private static final String UNKNOWN_VALUE = "UNKNOWN_VALUE";
 	private static final String UNBOUND_VALUE ="UNBOUND_VALUE";

@@ -16,7 +16,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  *
  * @author Arpad Lovassy
  */
-public class RecordOfGenerator {
+public final class RecordOfGenerator {
 
 	private RecordOfGenerator() {
 		// private to disable instantiation

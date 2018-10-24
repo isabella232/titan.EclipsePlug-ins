@@ -19,7 +19,7 @@ import org.eclipse.titan.designer.compiler.JavaGenData;
  * 
  * @author Kristof Szabados
  * */
-public class PortGenerator {
+public final class PortGenerator {
 
 	// The kind of the testport
 	public enum TestportType {NORMAL, INTERNAL, ADDRESS};
