@@ -623,7 +623,7 @@ public final class SequenceOf_Type extends AbstractOfType implements IReferencea
 					return selfReference;
 				}
 
-				base = ((Template_List) tempBase);
+				base = (Template_List) tempBase;
 				nofBaseComps = base.getNofTemplates();
 			}
 

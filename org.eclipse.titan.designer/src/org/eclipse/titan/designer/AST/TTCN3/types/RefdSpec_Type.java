@@ -192,7 +192,7 @@ public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 			}
 		}
 
-		if (valueCheckingOptions.sub_check && (subType != null)) {
+		if (valueCheckingOptions.sub_check && subType != null) {
 			subType.checkThisValue(timestamp, value);
 		}
 

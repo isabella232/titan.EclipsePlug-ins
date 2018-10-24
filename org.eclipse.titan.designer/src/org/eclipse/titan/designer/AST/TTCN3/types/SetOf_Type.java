@@ -449,11 +449,11 @@ public final class SetOf_Type extends AbstractOfType {
 					return selfReference;
 				}
 
-				base = ((Template_List) tempBase);
+				base = (Template_List) tempBase;
 				nofBaseComps = base.getNofTemplates();
 			}
 
-			final Template_List templateList = ((Template_List) template);
+			final Template_List templateList = (Template_List) template;
 			final int nofComponents = templateList.getNofTemplates();
 			for (int i = 0; i < nofComponents; i++) {
 				ITTCN3Template component = templateList.getTemplateByIndex(i);

@@ -246,7 +246,7 @@ public final class CompFieldMap extends ASTNode implements ILocateableNode, IInc
 	 * @return
 	 */
 	public boolean isEmpty() {
-		return (fields.size() == 0) ;
+		return fields.size() == 0;
 	}
 
 	/**
