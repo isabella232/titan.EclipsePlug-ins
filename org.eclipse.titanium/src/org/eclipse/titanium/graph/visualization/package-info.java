@@ -5,8 +5,6 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titanium.graph.visualization;
-
 //
 
 /**
@@ -20,3 +18,4 @@ package org.eclipse.titanium.graph.visualization;
  * also the display of the graph itself.
  * </p>
  */
+package org.eclipse.titanium.graph.visualization;

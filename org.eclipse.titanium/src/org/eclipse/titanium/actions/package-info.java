@@ -5,8 +5,6 @@
  * which accompanies this distribution, and is available at
  * https://www.eclipse.org/org/documents/epl-2.0/EPL-2.0.html
  ******************************************************************************/
-package org.eclipse.titanium.actions;
-
 //This file is only for javadoc generation, do not place here source code!
 
 /**
@@ -16,3 +14,4 @@ the graph generation. The package itself was made to have a separate package for
 Eclipse action handling. All future extensions (for eg. graph generation from other menu,
 eclipse controlled events etc.) should be implemented into this package</p>
 */
+package org.eclipse.titanium.actions;
