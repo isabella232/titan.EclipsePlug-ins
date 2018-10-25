@@ -26,7 +26,7 @@ public final class TestportParameterDataLabelProvider extends LabelProvider impl
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof TestportParameter) {
-			TestportParameter parameter = (TestportParameter) element;
+			final TestportParameter parameter = (TestportParameter) element;
 			String text;
 			switch (columnIndex) {
 			case 0:

@@ -28,10 +28,11 @@ public final class IndentAction extends AbstractIndentAction {
 
 	@Override
 	protected IDocument getDocument() {
-		IEditorPart editorPart = getTargetEditor();
+		final IEditorPart editorPart = getTargetEditor();
 		if (editorPart instanceof TTCNPPEditor) {
 			return ((TTCNPPEditor) editorPart).getDocument();
 		}
+
 		return null;
 	}
 
@@ -62,12 +63,12 @@ public final class IndentAction extends AbstractIndentAction {
 
 	@Override
 	protected void performEdits(final RewriteSessionEditProcessor processor) throws BadLocationException {
-		MonoReconciler reconciler = ((TTCNPPEditor) getTargetEditor()).getReconciler();
+		final MonoReconciler reconciler = ((TTCNPPEditor) getTargetEditor()).getReconciler();
 		reconciler.setIsIncrementalReconciler(false);
 
 		processor.performEdits();
 
-		IPreferencesService prefs = Platform.getPreferencesService();
+		final IPreferencesService prefs = Platform.getPreferencesService();
 		reconciler.setIsIncrementalReconciler(prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER,
 				PreferenceConstants.USEINCREMENTALPARSING, false, null));
 	}

@@ -33,7 +33,7 @@ public final class TestportParameterSectionDragSourceListener implements DragSou
 
 	@Override
 	public void dragFinished(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 
 		if (!selection.isEmpty()) {
 			viewer.getTable().setRedraw(false);
@@ -48,11 +48,11 @@ public final class TestportParameterSectionDragSourceListener implements DragSou
 	@Override
 	public void dragSetData(final DragSourceEvent event) {
 		if (TestportParameterTransfer.getInstance().isSupportedType(event.dataType)) {
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-			List<TestportParameter> items = new ArrayList<TestportParameter>();
+			final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+			final List<TestportParameter> items = new ArrayList<TestportParameter>();
 			if (!selection.isEmpty()) {
-				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
-					Object element = it.next();
+				for (final Iterator<?> it = selection.iterator(); it.hasNext();) {
+					final Object element = it.next();
 					if (element instanceof TestportParameter) {
 						items.add((TestportParameter) element);
 					}
@@ -64,7 +64,7 @@ public final class TestportParameterSectionDragSourceListener implements DragSou
 
 	@Override
 	public void dragStart(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		event.doit = !selection.isEmpty() && (selection.getFirstElement() instanceof TestportParameter);
 	}
 

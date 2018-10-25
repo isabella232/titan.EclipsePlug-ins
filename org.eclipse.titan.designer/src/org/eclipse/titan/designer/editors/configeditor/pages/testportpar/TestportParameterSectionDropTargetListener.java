@@ -79,9 +79,9 @@ public final class TestportParameterSectionDropTargetListener implements DropTar
 	public void drop(final DropTargetEvent event) {
 		if (TestportParameterTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			if (event.item != null && viewer.getInput() != null) {
-				TestportParameterSectionHandler testportParameterSectionHandler = (TestportParameterSectionHandler) viewer.getInput();
-				TestportParameter element = (TestportParameter) event.item.getData();
-				TestportParameter[] items = (TestportParameter[]) event.data;
+				final TestportParameterSectionHandler testportParameterSectionHandler = (TestportParameterSectionHandler) viewer.getInput();
+				final TestportParameter element = (TestportParameter) event.item.getData();
+				final TestportParameter[] items = (TestportParameter[]) event.data;
 
 				int baseindex = testportParameterSectionHandler.getTestportParameters().indexOf(element);
 

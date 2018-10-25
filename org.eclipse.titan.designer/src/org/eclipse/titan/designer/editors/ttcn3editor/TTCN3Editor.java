@@ -123,12 +123,12 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 	@Override
 	protected void initializeEditor() {
 		super.initializeEditor();
-		IPreferenceStore[] stores = { getPreferenceStore(), Activator.getDefault().getPreferenceStore() };
+		final IPreferenceStore[] stores = { getPreferenceStore(), Activator.getDefault().getPreferenceStore() };
 		setPreferenceStore(new ChainedPreferenceStore(stores));
 		colorManager = new ColorManager();
 		configuration = new Configuration(colorManager, this);
 		setSourceViewerConfiguration(configuration);
-		ForwardingDocumentProvider forwardingProvider = new ForwardingDocumentProvider(PartitionScanner.TTCN3_PARTITIONING,
+		final ForwardingDocumentProvider forwardingProvider = new ForwardingDocumentProvider(PartitionScanner.TTCN3_PARTITIONING,
 				new DocumentSetupParticipant(this), new TextFileDocumentProvider());
 		setDocumentProvider(forwardingProvider);
 		setEditorContextMenuId(EDITOR_CONTEXT);
@@ -137,8 +137,8 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 	}
 
 	public static boolean isSemanticCheckingDelayed() {
-		IPreferencesService prefs = Platform.getPreferencesService();
-		boolean delayedSemanticChecking = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DELAYSEMANTICCHECKINGTILLSAVE,
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean delayedSemanticChecking = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DELAYSEMANTICCHECKINGTILLSAVE,
 				false, null);
 		return delayedSemanticChecking;
 	}
@@ -170,7 +170,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 		if (file != null && TTCN3Editor.isSemanticCheckingDelayed()) {
 			final IReconcilingStrategy strategy = reconciler.getReconcilingStrategy(IDocument.DEFAULT_CONTENT_TYPE);
 			if (strategy instanceof ReconcilingStrategy) {
-				WorkspaceJob op = new WorkspaceJob(jobname) {
+				final WorkspaceJob op = new WorkspaceJob(jobname) {
 					@Override
 					public IStatus runInWorkspace(final IProgressMonitor monitor) {
 						if (reconciler.isIncrementalReconciler()) {
@@ -207,7 +207,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 	@Override
 	protected void configureSourceViewerDecorationSupport(final SourceViewerDecorationSupport support) {
 		super.configureSourceViewerDecorationSupport(support);
-		PairMatcher pairMatcher = new PairMatcher();
+		final PairMatcher pairMatcher = new PairMatcher();
 		support.setCharacterPairMatcher(pairMatcher);
 		support.setMatchingCharacterPainterPreferenceKeys(PreferenceConstants.MATCHING_BRACKET_ENABLED,
 				PreferenceConstants.COLOR_MATCHING_BRACKET);
@@ -217,14 +217,14 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 	protected void createActions() {
 		super.createActions();
 
-		Action caAction = new TextOperationAction(Activator.getDefault().getResourceBundle(), CONTENTASSISTPROPOSAL, this,
+		final Action caAction = new TextOperationAction(Activator.getDefault().getResourceBundle(), CONTENTASSISTPROPOSAL, this,
 				ISourceViewer.CONTENTASSIST_PROPOSALS);
-		String id = IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST;
+		final String id = IWorkbenchCommandConstants.EDIT_CONTENT_ASSIST;
 		caAction.setActionDefinitionId(id);
 		setAction(CONTENTASSISTPROPOSAL, caAction);
 		markAsStateDependentAction(CONTENTASSISTPROPOSAL, true);
 
-		ToggleComment tcAction = new ToggleComment(Activator.getDefault().getResourceBundle(), "ToggleComment.", this);
+		final ToggleComment tcAction = new ToggleComment(Activator.getDefault().getResourceBundle(), "ToggleComment.", this);
 		tcAction.setActionDefinitionId(TOGGLE_COMMENT_ACTION_ID);
 		setAction(TOGGLE_COMMENT_ACTION_ID, tcAction);
 		markAsStateDependentAction(TOGGLE_COMMENT_ACTION_ID, true);
@@ -265,7 +265,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 		}
 		Activator.getDefault().getPreferenceStore().removePropertyChangeListener(foldingListener);
 
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		if (file != null) {
 			EditorTracker.remove(file, this);
 		}
@@ -281,7 +281,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 	@Override
 	protected void editorSaved() {
 		super.editorSaved();
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		if (file != null) {
 			GlobalProjectStructureTracker.saveFile(file);
 		}
@@ -289,10 +289,11 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 
 	@Override
 	public IDocument getDocument() {
-		ISourceViewer sourceViewer = getSourceViewer();
+		final ISourceViewer sourceViewer = getSourceViewer();
 		if (sourceViewer == null) {
 			return null;
 		}
+
 		return sourceViewer.getDocument();
 	}
 
@@ -320,7 +321,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 		getSelectionProvider().addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				ISelection selection = event.getSelection();
+				final ISelection selection = event.getSelection();
 				if (selection.isEmpty() || !(selection instanceof TextSelection)
 						|| "".equals(((TextSelection) selection).getText())) {
 					return;
@@ -332,7 +333,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 			}
 		});
 
-		IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) getEditorInput().getAdapter(IFile.class);
 		if (file != null) {
 			EditorTracker.put(file, this);
 		}
@@ -347,13 +348,13 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 
 	@Override
 	protected ISourceViewer createSourceViewer(final Composite parent, final IVerticalRuler ruler, final int styles) {
-		ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
+		final ISourceViewer viewer = new ProjectionViewer(parent, ruler, getOverviewRuler(), isOverviewRulerVisible(), styles);
 		getSourceViewerDecorationSupport(viewer);
 		Activator.getDefault().getPreferenceStore().addPropertyChangeListener(foldingListener);
 
 		// Context setting is placed here because getEditorSite() must
 		// be called after the editor is initialized.
-		IContextService contextService = (IContextService) getEditorSite().getService(IContextService.class);
+		final IContextService contextService = (IContextService) getEditorSite().getService(IContextService.class);
 		// As the service is retrieved from the editor instance it will
 		// be active only within the editor.
 		contextService.activateContext(EDITOR_SCOPE);
@@ -387,7 +388,7 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 
 	@Override
 	public void invalidateTextPresentation() {
-		ISourceViewer viewer = getSourceViewer();
+		final ISourceViewer viewer = getSourceViewer();
 		if (viewer != null) {
 			viewer.invalidateTextPresentation();
 		}
@@ -395,12 +396,12 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 
 	@Override
 	public int getCarretOffset() {
-		int widgetOffset = getSourceViewer().getTextWidget().getCaretOffset();
+		final int widgetOffset = getSourceViewer().getTextWidget().getCaretOffset();
 		return projectionViewer.widgetOffset2ModelOffset(widgetOffset);
 	}
 
 	public void setCarretOffset(final int i) {
-		int temp = projectionViewer.modelOffset2WidgetOffset(i);
+		final int temp = projectionViewer.modelOffset2WidgetOffset(i);
 		getSourceViewer().getTextWidget().setCaretOffset(temp);
 	}
 
@@ -413,11 +414,11 @@ public final class TTCN3Editor extends AbstractDecoratedTextEditor implements IS
 	 *
 	 */
 	protected void updateTITANIndentPrefixes() {
-		SourceViewerConfiguration tmpConfiguration = getSourceViewerConfiguration();
-		ISourceViewer sourceViewer = getSourceViewer();
-		String[] types = tmpConfiguration.getConfiguredContentTypes(sourceViewer);
+		final SourceViewerConfiguration tmpConfiguration = getSourceViewerConfiguration();
+		final ISourceViewer sourceViewer = getSourceViewer();
+		final String[] types = tmpConfiguration.getConfiguredContentTypes(sourceViewer);
 		for (int i = 0; i < types.length; i++) {
-			String[] prefixes = tmpConfiguration.getIndentPrefixes(sourceViewer, types[i]);
+			final String[] prefixes = tmpConfiguration.getIndentPrefixes(sourceViewer, types[i]);
 			if (prefixes != null && prefixes.length > 0) {
 				sourceViewer.setIndentPrefixes(prefixes, types[i]);
 			}

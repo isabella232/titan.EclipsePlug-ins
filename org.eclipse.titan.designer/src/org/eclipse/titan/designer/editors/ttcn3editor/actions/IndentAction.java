@@ -24,7 +24,7 @@ public final class IndentAction extends AbstractIndentAction {
 
 	@Override
 	protected IDocument getDocument() {
-		IEditorPart editorPart = getTargetEditor();
+		final IEditorPart editorPart = getTargetEditor();
 		if (editorPart instanceof TTCN3Editor) {
 			return ((TTCN3Editor) editorPart).getDocument();
 		}
@@ -59,7 +59,7 @@ public final class IndentAction extends AbstractIndentAction {
 
 	@Override
 	protected void performEdits(final RewriteSessionEditProcessor processor) throws BadLocationException {
-		Reconciler reconciler = ((TTCN3Editor) getTargetEditor()).getReconciler();
+		final Reconciler reconciler = ((TTCN3Editor) getTargetEditor()).getReconciler();
 		reconciler.allowIncrementalReconciler(false);
 
 		processor.performEdits();

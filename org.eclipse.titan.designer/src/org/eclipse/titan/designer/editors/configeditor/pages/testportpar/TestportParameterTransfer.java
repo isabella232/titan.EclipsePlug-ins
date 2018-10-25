@@ -48,10 +48,10 @@ public final class TestportParameterTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected void javaToNative(final Object object, final TransferData transferData) {
-		TestportParameter[] items = (TestportParameter[]) object;
+		final TestportParameter[] items = (TestportParameter[]) object;
 
-		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(byteOut);
+		final ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		final DataOutputStream out = new DataOutputStream(byteOut);
 		byte[] bytes = null;
 
 		try {
@@ -73,11 +73,11 @@ public final class TestportParameterTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected TestportParameter[] nativeToJava(final TransferData transferData) {
-		byte[] bytes = (byte[]) super.nativeToJava(transferData);
-		DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+		final byte[] bytes = (byte[]) super.nativeToJava(transferData);
+		final DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 
 		try {
-			int n = in.readInt();
+			final int n = in.readInt();
 			TestportParameter[] items = new TestportParameter[n];
 
 			String componentName;
@@ -87,7 +87,7 @@ public final class TestportParameterTransfer extends ConfigItemTransferBase {
 			String hiddenBefore2;
 			String value;
 			for (int i = 0; i < n; i++) {
-				TestportParameter item = new TestportParameterSectionHandler.TestportParameter();
+				final TestportParameter item = new TestportParameterSectionHandler.TestportParameter();
 
 				final ParseTree root = new ParserRuleContext();
 				item.setRoot( root );

@@ -42,7 +42,7 @@ public final class OutlineContentProvider implements ITreeContentProvider {
 	@Override
 	public boolean hasChildren(final Object element) {
 		if (element instanceof IOutlineElement) {
-			Object[] children = ((IOutlineElement) element).getOutlineChildren();
+			final Object[] children = ((IOutlineElement) element).getOutlineChildren();
 			return children != null && children.length > 0;
 		} else if (element instanceof List<?>) {
 			return true;

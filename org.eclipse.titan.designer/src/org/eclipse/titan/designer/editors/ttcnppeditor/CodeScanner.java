@@ -22,9 +22,9 @@ import org.eclipse.titan.designer.preferences.PreferenceConstants;
 public final class CodeScanner extends RuleBasedScanner {
 
 	public CodeScanner(final ColorManager colorManager) {
-		List<IRule> rules = org.eclipse.titan.designer.editors.ttcn3editor.CodeScanner.getTTCNRules(colorManager);
+		final List<IRule> rules = org.eclipse.titan.designer.editors.ttcn3editor.CodeScanner.getTTCNRules(colorManager);
 		// multi-line preprocessor directives:
-		IToken preprocessor = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
+		final IToken preprocessor = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
 		rules.add(new EndOfLineRule("#", preprocessor, '\\', true));
 		setRules(rules.toArray(new IRule[rules.size()]));
 	}

@@ -85,23 +85,23 @@ public final class CodeScanner extends RuleBasedScanner {
 	}
 
 	public static List<IRule> getTTCNRules(final ColorManager colorManager) {
-		IToken singleLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
-		IToken multiLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
-		IToken keyword = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TTCN3_KEYWORDS);
-		IToken templateMatch = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TEMPLATE_MATCH);
-		IToken types = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TYPE);
-		IToken timerOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TIMER_OP);
-		IToken portOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PORT_OP);
-		IToken configOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_OP);
-		IToken verdictOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_VERDICT_OP);
-		IToken sutOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_SUT_OP);
-		IToken functionOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_FUNCTION_OP);
-		IToken predefinedOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREDEFINED_OP);
-		IToken booleanConst = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_BOOLEAN_CONST);
-		IToken verdictConst = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TTCN3_VERDICT_CONST);
-		IToken otherConst = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_OTHER_CONST);
-		IToken macro = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
-		IToken visibility = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_VISIBILITY_OP);
+		final IToken singleLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
+		final IToken multiLineComment = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_COMMENTS);
+		final IToken keyword = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TTCN3_KEYWORDS);
+		final IToken templateMatch = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TEMPLATE_MATCH);
+		final IToken types = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TYPE);
+		final IToken timerOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TIMER_OP);
+		final IToken portOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PORT_OP);
+		final IToken configOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_CONFIG_OP);
+		final IToken verdictOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_VERDICT_OP);
+		final IToken sutOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_SUT_OP);
+		final IToken functionOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_FUNCTION_OP);
+		final IToken predefinedOp = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREDEFINED_OP);
+		final IToken booleanConst = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_BOOLEAN_CONST);
+		final IToken verdictConst = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_TTCN3_VERDICT_CONST);
+		final IToken otherConst = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_OTHER_CONST);
+		final IToken macro = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
+		final IToken visibility = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_VISIBILITY_OP);
 
 		IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
 
@@ -116,53 +116,53 @@ public final class CodeScanner extends RuleBasedScanner {
 		rules.add(new StringDetectionPatternRule("'", new char[][] { { '\'', 'B' }, { '\'', 'H' }, { '\'', 'O' } }, string));
 
 		WordRule wordRule = new WordRule(new WordDetector(), other);
-		for (String element : CodeScanner.KEYWORDS) {
+		for (final String element : CodeScanner.KEYWORDS) {
 			wordRule.addWord(element, keyword);
 		}
-		for (String element : CodeScanner.TEMPLATE_MATCH) {
+		for (final String element : CodeScanner.TEMPLATE_MATCH) {
 			wordRule.addWord(element, templateMatch);
 		}
-		for (String element : CodeScanner.TYPES) {
+		for (final String element : CodeScanner.TYPES) {
 			wordRule.addWord(element, types);
 		}
-		for (String element : CodeScanner.TIMER_OPERATIONS) {
+		for (final String element : CodeScanner.TIMER_OPERATIONS) {
 			wordRule.addWord(element, timerOp);
 		}
-		for (String element : CodeScanner.PORT_OPERATIONS) {
+		for (final String element : CodeScanner.PORT_OPERATIONS) {
 			wordRule.addWord(element, portOp);
 		}
-		for (String element : CodeScanner.CONFIGURATION_OPERATIONS) {
+		for (final String element : CodeScanner.CONFIGURATION_OPERATIONS) {
 			wordRule.addWord(element, configOp);
 		}
-		for (String element : CodeScanner.VERDICT_OPERATIONS) {
+		for (final String element : CodeScanner.VERDICT_OPERATIONS) {
 			wordRule.addWord(element, verdictOp);
 		}
-		for (String element : CodeScanner.SUT_OPERATION) {
+		for (final String element : CodeScanner.SUT_OPERATION) {
 			wordRule.addWord(element, sutOp);
 		}
-		for (String element : CodeScanner.FUNCTION_OPERATIONS) {
+		for (final String element : CodeScanner.FUNCTION_OPERATIONS) {
 			wordRule.addWord(element, functionOp);
 		}
-		for (String element : CodeScanner.PREDEFINED_OPERATIONS) {
+		for (final String element : CodeScanner.PREDEFINED_OPERATIONS) {
 			wordRule.addWord(element, predefinedOp);
 		}
-		for (String element : CodeScanner.BOOLEAN_CONSTANTS) {
+		for (final String element : CodeScanner.BOOLEAN_CONSTANTS) {
 			wordRule.addWord(element, booleanConst);
 		}
-		for (String element : CodeScanner.VERDICT_CONSTANT) {
+		for (final String element : CodeScanner.VERDICT_CONSTANT) {
 			wordRule.addWord(element, verdictConst);
 		}
-		for (String element : CodeScanner.OTHER_CONSTANT) {
+		for (final String element : CodeScanner.OTHER_CONSTANT) {
 			wordRule.addWord(element, otherConst);
 		}
-		for (String element : CodeScanner.VISIBILITY_MODIFIERS) {
+		for (final String element : CodeScanner.VISIBILITY_MODIFIERS) {
 			wordRule.addWord(element, visibility);
 		}
 
 		rules.add(wordRule);
 
 		WordRule macroRule = new WordRule(new MacroDetector(), other);
-		for (String element : CodeScanner.MACROS) {
+		for (final String element : CodeScanner.MACROS) {
 			macroRule.addWord(element, macro);
 		}
 

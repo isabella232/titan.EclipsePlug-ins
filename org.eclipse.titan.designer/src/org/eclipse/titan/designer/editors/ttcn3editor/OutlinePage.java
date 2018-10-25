@@ -75,13 +75,13 @@ public final class OutlinePage extends ContentOutlinePage {
 		viewer.setContentProvider(new OutlineContentProvider());
 		viewer.setLabelProvider(new OutlineLabelProvider());
 
-		OutlineViewSorter comperator = new OutlineViewSorter();
+		final OutlineViewSorter comperator = new OutlineViewSorter();
 		comperator.setSortByName(store.getBoolean(PreferenceConstants.OUTLINE_SORTED));
 		comperator.setCategorizing(store.getBoolean(PreferenceConstants.OUTLINE_CATEGORISED));
 		viewer.setComparator(comperator);
 
-		ViewerFilter filterGroup = getGroupFilter();
-		ViewerFilter filterUnderGroup = getUnderGroupFilter();
+		final ViewerFilter filterGroup = getGroupFilter();
+		final ViewerFilter filterUnderGroup = getUnderGroupFilter();
 		if (store.getBoolean(PreferenceConstants.OUTLINE_GROUPED)) {
 			viewer.removeFilter(filterGroup);
 			viewer.addFilter(filterUnderGroup);
@@ -114,8 +114,8 @@ public final class OutlinePage extends ContentOutlinePage {
 		viewer.setInput(getModule());
 		viewer.addSelectionChangedListener(this);
 
-		IActionBars bars = getSite().getActionBars();
-		Action sortToggler = new Action(ACTION_SORT) {
+		final IActionBars bars = getSite().getActionBars();
+		final Action sortToggler = new Action(ACTION_SORT) {
 			@Override
 			public void run() {
 				ViewerComparator comperator = viewer.getComparator();
@@ -136,7 +136,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		sortToggler.setChecked(store.getBoolean(PreferenceConstants.OUTLINE_SORTED));
 		bars.getToolBarManager().add(sortToggler);
 
-		Action categorise = new Action(USE_CATEGORIES) {
+		final Action categorise = new Action(USE_CATEGORIES) {
 			@Override
 			public void run() {
 				ViewerComparator comperator = viewer.getComparator();
@@ -158,7 +158,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		categorise.setChecked(store.getBoolean(PreferenceConstants.OUTLINE_CATEGORISED));
 		bars.getToolBarManager().add(categorise);
 
-		Action toggleGroupMode = new Action(ACTION_TOGGLE_GROUP_MODE) {
+		final Action toggleGroupMode = new Action(ACTION_TOGGLE_GROUP_MODE) {
 			@Override
 			public void run() {
 				ViewerFilter filterGroup = getGroupFilter();
@@ -178,7 +178,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		toggleGroupMode.setChecked(store.getBoolean(PreferenceConstants.OUTLINE_GROUPED));
 		bars.getToolBarManager().add(toggleGroupMode);
 
-		Action hideFunctions = new Action(ACTION_HIDE_FUNCTIONS) {
+		final Action hideFunctions = new Action(ACTION_HIDE_FUNCTIONS) {
 			@Override
 			public void run() {
 				ViewerFilter filter = getHideFunctionsFilter();
@@ -195,7 +195,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		hideFunctions.setChecked(store.getBoolean(PreferenceConstants.OUTLINE_HIDE_FUNCTIONS));
 		bars.getToolBarManager().add(hideFunctions);
 
-		Action hideTemplates = new Action(ACTION_HIDE_TEMPLATES) {
+		final Action hideTemplates = new Action(ACTION_HIDE_TEMPLATES) {
 			@Override
 			public void run() {
 				ViewerFilter filter = getHideTemplatesFilter();
@@ -212,7 +212,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		hideTemplates.setChecked(store.getBoolean(PreferenceConstants.OUTLINE_HIDE_TEMPLATES));
 		bars.getToolBarManager().add(hideTemplates);
 
-		Action hideTypes = new Action(ACTION_HIDE_TYPES) {
+		final Action hideTypes = new Action(ACTION_HIDE_TYPES) {
 			@Override
 			public void run() {
 				ViewerFilter filter = getHideTypesFilter();
@@ -311,7 +311,7 @@ public final class OutlinePage extends ContentOutlinePage {
 	}
 
 	public void update() {
-		Control control = getControl();
+		final Control control = getControl();
 		if (control != null && !control.isDisposed()) {
 			control.setRedraw(false);
 			getTreeViewer().setInput(getModule());
@@ -320,13 +320,13 @@ public final class OutlinePage extends ContentOutlinePage {
 	}
 
 	public void refresh() {
-		Control control = getControl();
+		final Control control = getControl();
 		if (control == null || control.isDisposed()) {
 			return;
 		}
 
 		control.setRedraw(false);
-		Module module = getModule();
+		final Module module = getModule();
 		if (getTreeViewer().getInput() == module) {
 			getTreeViewer().refresh();
 			getTreeViewer().expandToLevel(2);
@@ -340,12 +340,12 @@ public final class OutlinePage extends ContentOutlinePage {
 	public void selectionChanged(final SelectionChangedEvent event) {
 		super.selectionChanged(event);
 
-		ISelection selection = event.getSelection();
+		final ISelection selection = event.getSelection();
 		if (selection.isEmpty()) {
 			return;
 		}
 
-		Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
+		final Object selectedElement = ((IStructuredSelection) selection).getFirstElement();
 		Identifier identifier = null;
 		if (selectedElement instanceof IOutlineElement) {
 			identifier = ((IOutlineElement) selectedElement).getIdentifier();
@@ -355,7 +355,7 @@ public final class OutlinePage extends ContentOutlinePage {
 			return;
 		}
 
-		Location location = identifier.getLocation();
+		final Location location = identifier.getLocation();
 
 		editor.selectAndReveal(location.getOffset(), location.getEndOffset() - location.getOffset());
 	}
@@ -368,7 +368,7 @@ public final class OutlinePage extends ContentOutlinePage {
 		}
 
 		// FIXME add semantic check guard on project level.
-		ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final ProjectSourceParser sourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 
 		return sourceParser.containedModule(file);
 	}

@@ -48,7 +48,7 @@ public final class ReferenceSearch {
 	public static void runAction(final IEditorPart targetEditor, final ISelection selection) {
 		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(FILENOTIDENTIFIABLE);
 			return;
@@ -59,8 +59,8 @@ public final class ReferenceSearch {
 			return;
 		}
 
-		IPreferencesService prefs = Platform.getPreferencesService();
-		boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 				true, null);
 
 		int offset;
@@ -68,14 +68,14 @@ public final class ReferenceSearch {
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection tSelection = (TextSelection) selection;
+			final TextSelection tSelection = (TextSelection) selection;
 			offset = tSelection.getOffset() + tSelection.getLength();
 		} else {
 			offset = ((IEditorWithCarretOffset) targetEditor).getCarretOffset();
 		}
 
 		// find the module
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		if (ResourceExclusionHelper.isExcluded(file)) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager()
 			.setErrorMessage(MessageFormat.format(EXCLUDEDFROMBUILD, file.getFullPath()));
@@ -90,13 +90,13 @@ public final class ReferenceSearch {
 		}
 
 		final ReferenceFinder rf = new ReferenceFinder();
-		boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation);
+		final boolean isDetected = rf.detectAssignmentDataByOffset(module, offset, targetEditor, true, reportDebugInformation);
 		if (!isDetected) {
 			return;
 		}
 
 		final ReferenceSearchQuery query = new ReferenceSearchQuery(rf, module, file.getProject());
-		for (ISearchQuery runningQuery : NewSearchUI.getQueries()) {
+		for (final ISearchQuery runningQuery : NewSearchUI.getQueries()) {
 			NewSearchUI.cancelQuery(runningQuery);
 		}
 		NewSearchUI.runQueryInBackground(query);

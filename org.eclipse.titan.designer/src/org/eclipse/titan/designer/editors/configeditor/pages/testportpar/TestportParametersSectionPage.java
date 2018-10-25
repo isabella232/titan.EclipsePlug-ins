@@ -82,11 +82,11 @@ public final class TestportParametersSectionPage extends FormPage {
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		final FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Testport parameters section");
 		form.setBackgroundImage(ImageCache.getImage("form_banner.gif"));
 
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		form.getBody().setLayout(layout);
 
@@ -98,12 +98,12 @@ public final class TestportParametersSectionPage extends FormPage {
 	}
 
 	private void createTestportParameterTable(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 
@@ -139,7 +139,7 @@ public final class TestportParametersSectionPage extends FormPage {
 		gd.verticalAlignment = SWT.FILL;
 		testportParametersTable.setLayoutData(gd);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		add = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -162,7 +162,7 @@ public final class TestportParametersSectionPage extends FormPage {
 					createNewTestportParameterSection();
 				}
 
-				TestportParameter newTestportParameter = createNewParameter();
+				final TestportParameter newTestportParameter = createNewParameter();
 				if (newTestportParameter == null) {
 					return;
 				}
@@ -229,17 +229,17 @@ public final class TestportParametersSectionPage extends FormPage {
 		testportParametersTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				StructuredSelection selection = (StructuredSelection) event.getSelection();
+				final StructuredSelection selection = (StructuredSelection) event.getSelection();
 				if (selection.size() != 1) {
 					parameterValueText.setEnabled(false);
 					return;
 				}
 
-				TestportParameter testportParameter = (TestportParameter) selection.getFirstElement();
+				final TestportParameter testportParameter = (TestportParameter) selection.getFirstElement();
 				if (testportParameter != null) {
 					if (testportParameter.getValue() != null) {
 						if (testportParameter.getValue().getText().length() == 0) {
-							String temp = ConfigTreeNodeUtilities.toString(testportParameter.getValue());
+							final String temp = ConfigTreeNodeUtilities.toString(testportParameter.getValue());
 							ConfigTreeNodeUtilities.setText( testportParameter.getValue(), temp );
 						}
 
@@ -267,17 +267,17 @@ public final class TestportParametersSectionPage extends FormPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				int columnIndex = Arrays.asList(columnNames).indexOf(property);
-				TestportParameterDataLabelProvider labelProvider = (TestportParameterDataLabelProvider) testportParametersTableViewer
+				final int columnIndex = Arrays.asList(columnNames).indexOf(property);
+				final TestportParameterDataLabelProvider labelProvider = (TestportParameterDataLabelProvider) testportParametersTableViewer
 						.getLabelProvider();
 				return labelProvider.getColumnText(element, columnIndex);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
-				int columnIndex = Arrays.asList(columnNames).indexOf(property);
+				final int columnIndex = Arrays.asList(columnNames).indexOf(property);
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					TestportParameter testportParameter = (TestportParameter) ((TableItem) element).getData();
+					final TestportParameter testportParameter = (TestportParameter) ((TableItem) element).getData();
 
 					switch (columnIndex) {
 					case 0:
@@ -310,12 +310,12 @@ public final class TestportParametersSectionPage extends FormPage {
 	}
 
 	private void createDetailsPart(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		client.setLayout(layout);
 
@@ -324,13 +324,13 @@ public final class TestportParametersSectionPage extends FormPage {
 		parameterValueText.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(final ModifyEvent e) {
-				StructuredSelection selection = (StructuredSelection) testportParametersTableViewer.getSelection();
-				Iterator<?> iterator = selection.iterator();
+				final StructuredSelection selection = (StructuredSelection) testportParametersTableViewer.getSelection();
+				final Iterator<?> iterator = selection.iterator();
 				if (!iterator.hasNext()) {
 					return;
 				}
 
-				TestportParameter testportParameter = (TestportParameter) iterator.next();
+				final TestportParameter testportParameter = (TestportParameter) iterator.next();
 				ConfigTreeNodeUtilities.setText( testportParameter.getValue(), parameterValueText.getText() );
 
 				if (valueChanged) {
@@ -353,14 +353,14 @@ public final class TestportParametersSectionPage extends FormPage {
 				form.reflow(false);
 			}
 		});
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		final GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
 		section.setLayoutData(gd);
 	}
 
 	private void internalRefresh() {
-		StructuredSelection selection = (StructuredSelection) testportParametersTableViewer.getSelection();
-		Iterator<?> iterator = selection.iterator();
+		final StructuredSelection selection = (StructuredSelection) testportParametersTableViewer.getSelection();
+		final Iterator<?> iterator = selection.iterator();
 		if (iterator.hasNext()) {
 			valueChanged = true;
 		} else {
@@ -395,12 +395,12 @@ public final class TestportParametersSectionPage extends FormPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		testportParametersHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[TESTPORT_PARAMETERS]");
+		final ParseTree header = new AddedParseTree("\n[TESTPORT_PARAMETERS]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -411,7 +411,7 @@ public final class TestportParametersSectionPage extends FormPage {
 			return null;
 		}
 
-		TestportParameter newTestportParameter = new TestportParameterSectionHandler.TestportParameter();
+		final TestportParameter newTestportParameter = new TestportParameterSectionHandler.TestportParameter();
 		final ParseTree root = new ParserRuleContext();
 		newTestportParameter.setRoot( root );
 
@@ -446,11 +446,11 @@ public final class TestportParametersSectionPage extends FormPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) testportParametersTableViewer.getSelection();
-		Iterator<?> iterator = selection.iterator();
+		final StructuredSelection selection = (StructuredSelection) testportParametersTableViewer.getSelection();
+		final Iterator<?> iterator = selection.iterator();
 		// remove the selected elements
 		for (; iterator.hasNext();) {
-			TestportParameter testportParameter = (TestportParameter) iterator.next();
+			final TestportParameter testportParameter = (TestportParameter) iterator.next();
 			if (testportParameter != null) {
 				ConfigTreeNodeUtilities.removeChild(testportParametersHandler.getLastSectionRoot(), testportParameter.getRoot());
 				testportParametersHandler.getTestportParameters().remove(testportParameter);

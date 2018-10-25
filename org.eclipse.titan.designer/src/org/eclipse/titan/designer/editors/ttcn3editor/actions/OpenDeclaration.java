@@ -69,15 +69,15 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 *                the declaration to reveal
 	 * */
 	private void selectAndRevealDeclaration(final Location location) {
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(location.getFile().getName());
+		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(location.getFile().getName());
 		if (desc == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(TTCN3EDITORNOTFOUND);
 			return;
 		}
 
 		try {
-			IWorkbenchPage page = targetEditor.getSite().getPage();
-			IEditorPart editorPart = page.openEditor(new FileEditorInput((IFile) location.getFile()), desc.getId());
+			final IWorkbenchPage page = targetEditor.getSite().getPage();
+			final IEditorPart editorPart = page.openEditor(new FileEditorInput((IFile) location.getFile()), desc.getId());
 			if (editorPart != null && (editorPart instanceof AbstractTextEditor)) {
 				((AbstractTextEditor) editorPart).selectAndReveal(location.getOffset(),
 						location.getEndOffset() - location.getOffset());
@@ -114,7 +114,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(FILENOTIDENTIFIABLE);
 			return;
@@ -132,8 +132,8 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 			return;
 		}
 
-		IPreferencesService prefs = Platform.getPreferencesService();
-		boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 				true, null);
 
 		int offset;
@@ -141,20 +141,20 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection tSelection = (TextSelection) selection;
+
+			final TextSelection tSelection = (TextSelection) selection;
 			offset = tSelection.getOffset() + tSelection.getLength();
 		} else {
 			offset = ((TTCN3Editor) targetEditor).getCarretOffset();
 		}
 
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
-
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		final Module module = projectSourceParser.containedModule(file);
 
 		if (module == null) {
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("The file " + file.getLocation() + "does not seem to contain a valid module.");
-				CompilationTimeStamp timestamp = projectSourceParser.getLastTimeChecked();
+				final CompilationTimeStamp timestamp = projectSourceParser.getLastTimeChecked();
 				if(timestamp == null) {
 					TITANDebugConsole.println("The project " + file.getProject() + " was not yet analyzed semantically");
 				} else {
@@ -164,7 +164,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 			return;
 		}
 
-		IdentifierFinderVisitor visitor = new IdentifierFinderVisitor(offset);
+		final IdentifierFinderVisitor visitor = new IdentifierFinderVisitor(offset);
 		module.accept(visitor);
 		final Declaration decl = visitor.getReferencedDeclaration();
 		if (decl == null) {

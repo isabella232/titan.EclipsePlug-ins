@@ -70,7 +70,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 			presentationReconciler = new PresentationReconciler();
 			presentationReconciler.setDocumentPartitioning(PartitionScanner.TTCN3_PARTITIONING);
 
-			IntervallBasedDamagerRepairer dr = new IntervallBasedDamagerRepairer(new CodeScanner(colorManager));
+			final IntervallBasedDamagerRepairer dr = new IntervallBasedDamagerRepairer(new CodeScanner(colorManager));
 			presentationReconciler.setDamager(dr, IDocument.DEFAULT_CONTENT_TYPE);
 			presentationReconciler.setRepairer(dr, IDocument.DEFAULT_CONTENT_TYPE);
 		}
@@ -80,8 +80,8 @@ public final class Configuration extends TextSourceViewerConfiguration {
 
 	@Override
 	public IContentAssistant getContentAssistant(final ISourceViewer sourceViewer) {
-		ContentAssitant assistant = new ContentAssitant();
-		IContentAssistProcessor pr = new ContentAssistProcessor(editor);
+		final ContentAssitant assistant = new ContentAssitant();
+		final IContentAssistProcessor pr = new ContentAssistProcessor(editor);
 
 		assistant.setContentAssistProcessor(pr, IDocument.DEFAULT_CONTENT_TYPE);
 		assistant.setDocumentPartitioning(PartitionScanner.TTCN3_PARTITIONING);
@@ -103,7 +103,7 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	@Override
 	public IReconciler getReconciler(final ISourceViewer sourceViewer) {
 		if (reconciler == null) {
-			ReconcilingStrategy strategy = new ReconcilingStrategy(editor);
+			final ReconcilingStrategy strategy = new ReconcilingStrategy(editor);
 			reconciler = new Reconciler(strategy);
 			editor.setReconciler(reconciler);
 		}
@@ -125,10 +125,10 @@ public final class Configuration extends TextSourceViewerConfiguration {
 	 */
 	@Override
 	public IAutoEditStrategy[] getAutoEditStrategies(final ISourceViewer sourceViewer, final String contentType) {
-		HeuristicalIntervalDetector detector = new HeuristicalIntervalDetector();
-		GeneralTITANAutoEditStrategy strategy2 = new ClosingBracketIndentationAutoEditStrategy();
+		final HeuristicalIntervalDetector detector = new HeuristicalIntervalDetector();
+		final GeneralTITANAutoEditStrategy strategy2 = new ClosingBracketIndentationAutoEditStrategy();
 		strategy2.setHeuristicIntervalDetector(detector);
-		GeneralTITANAutoEditStrategy strategy3 = new SmartIndentAfterNewLineAutoEditStrategy();
+		final GeneralTITANAutoEditStrategy strategy3 = new SmartIndentAfterNewLineAutoEditStrategy();
 		strategy3.setHeuristicIntervalDetector(detector);
 
 		return new IAutoEditStrategy[] { new BracketCompletionAutoEditStrategy(), strategy2, strategy3 };

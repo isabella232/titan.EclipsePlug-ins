@@ -46,13 +46,14 @@ public class ReferenceSearchQuery implements ISearchQuery {
 	public IStatus run(final IProgressMonitor monitor) {
 		result.removeAll();
 
-		Map<Module, List<Hit>> map = referenceFinder.findAllReferences(module, project, monitor, false);
-		for (Map.Entry<Module, List<Hit>> entry : map.entrySet()) {
-			IResource resource = entry.getKey().getLocation().getFile();
+		final Map<Module, List<Hit>> map = referenceFinder.findAllReferences(module, project, monitor, false);
+		for (final Map.Entry<Module, List<Hit>> entry : map.entrySet()) {
+			final IResource resource = entry.getKey().getLocation().getFile();
 			if (!(resource instanceof IFile)) {
 				continue;
 			}
-			for (Hit hit : entry.getValue()) {
+
+			for (final Hit hit : entry.getValue()) {
 				result.addMatch(new ReferenceSearchMatch(hit.identifier));
 			}
 		}

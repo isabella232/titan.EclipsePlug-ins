@@ -63,7 +63,7 @@ public final class AddImport implements IEditorActionDelegate {
 
 		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(FILENOTIDENTIFIABLE);
 			return;
@@ -74,8 +74,8 @@ public final class AddImport implements IEditorActionDelegate {
 			return;
 		}
 
-		IPreferencesService prefs = Platform.getPreferencesService();
-		boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
+		final IPreferencesService prefs = Platform.getPreferencesService();
+		final boolean reportDebugInformation = prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION,
 				true, null);
 
 		int offset;
@@ -83,33 +83,34 @@ public final class AddImport implements IEditorActionDelegate {
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("text selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection tSelection = (TextSelection) selection;
+
+			final TextSelection tSelection = (TextSelection) selection;
 			offset = tSelection.getOffset() + tSelection.getLength();
 		} else {
 			offset = ((TTCN3Editor) targetEditor).getCarretOffset();
 		}
 
-		DeclarationCollector declarationCollector = OpenDeclarationHelper.findVisibleDeclarations(targetEditor, new TTCN3ReferenceParser(
+		final DeclarationCollector declarationCollector = OpenDeclarationHelper.findVisibleDeclarations(targetEditor, new TTCN3ReferenceParser(
 				false), ((TTCN3Editor) targetEditor).getDocument(), offset, false);
 
 		if (declarationCollector == null) {
 			return;
 		}
 
-		List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
+		final List<DeclarationCollectionHelper> collected = declarationCollector.getCollected();
 		if (collected.isEmpty()) {
 			// FIXME add semantic check guard on project level.
-			ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 			if (reportDebugInformation) {
 				TITANDebugConsole.println("No visible elements found");
 			}
-			for (String moduleName2 : projectSourceParser.getKnownModuleNames()) {
-				Module module2 = projectSourceParser.getModuleByName(moduleName2);
+			for (final String moduleName2 : projectSourceParser.getKnownModuleNames()) {
+				final Module module2 = projectSourceParser.getModuleByName(moduleName2);
 				if (module2 != null) {
 					// Visit each file in the project one by
 					// one instead of
 					// "module2.getAssignments().addDeclaration(declarationCollector)".
-					Assignments assignments = module2.getAssignments();
+					final Assignments assignments = module2.getAssignments();
 					for (int i = 0; i < assignments.getNofAssignments(); i++) {
 						assignments.getAssignmentByIndex(i).addDeclaration(declarationCollector, 0);
 					}
@@ -129,8 +130,8 @@ public final class AddImport implements IEditorActionDelegate {
 			if (collected.size() == 1) {
 				resultToInsert = collected.get(0);
 			} else {
-				OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
-				ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
+				final OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
+				final ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
 				dialog.setTitle("Add Import");
 				dialog.setMessage("Choose element to generate an import statement for.");
 				dialog.setElements(collected.toArray());
@@ -146,24 +147,23 @@ public final class AddImport implements IEditorActionDelegate {
 				return;
 			}
 
-			IFile newfile = (IFile) resultToInsert.location.getFile();
-			Module newModule = projectSourceParser.containedModule(newfile);
+			final IFile newfile = (IFile) resultToInsert.location.getFile();
+			final Module newModule = projectSourceParser.containedModule(newfile);
 			if (newModule == null) {
 				targetEditor.getEditorSite().getActionBars().getStatusLineManager()
 				.setErrorMessage("Could not identify the module in file " + newfile.getName());
 				return;
 			}
 
-			String ttcnName = newModule.getIdentifier().getTtcnName();
+			final String ttcnName = newModule.getIdentifier().getTtcnName();
 			TITANDebugConsole.println("the new module to insert: " + ttcnName);
 
 			final IFile actualFile = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
-			Module actualModule = projectSourceParser.containedModule(actualFile);
+			final Module actualModule = projectSourceParser.containedModule(actualFile);
+			final int insertionOffset = ((TTCN3Module) actualModule).getAssignmentsScope().getLocation().getOffset() + 1;
 
-			int insertionOffset = ((TTCN3Module) actualModule).getAssignmentsScope().getLocation().getOffset() + 1;
-
-			MultiTextEdit multiEdit = new MultiTextEdit(insertionOffset, 0);
-			RewriteSessionEditProcessor processor = new RewriteSessionEditProcessor(((TTCN3Editor) targetEditor).getDocument(),
+			final MultiTextEdit multiEdit = new MultiTextEdit(insertionOffset, 0);
+			final RewriteSessionEditProcessor processor = new RewriteSessionEditProcessor(((TTCN3Editor) targetEditor).getDocument(),
 					multiEdit, TextEdit.UPDATE_REGIONS | TextEdit.CREATE_UNDO);
 			multiEdit.addChild(new InsertEdit(insertionOffset, "\nimport from " + ttcnName + " all;\n"));
 
@@ -174,7 +174,7 @@ public final class AddImport implements IEditorActionDelegate {
 			}
 		} else {
 			if (reportDebugInformation) {
-				for (DeclarationCollectionHelper foundDeclaration : collected) {
+				for (final DeclarationCollectionHelper foundDeclaration : collected) {
 					TITANDebugConsole.println("declaration:" + foundDeclaration.location.getFile() + ": "
 							+ foundDeclaration.location.getOffset() + " - "
 							+ foundDeclaration.location.getEndOffset() + " is available");
