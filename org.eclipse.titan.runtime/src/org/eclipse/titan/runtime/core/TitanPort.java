@@ -924,7 +924,7 @@ public class TitanPort extends Channel_And_Timeout_Event_Handler {
 	}
 
 	public void set_parameter(final String parameter_name, final String parameter_value) {
-		TtcnError.TtcnWarning(MessageFormat.format("Test port parameter {0} is not supported on port {1}.", parameter_name, parameter_value));
+		TtcnError.TtcnWarning(MessageFormat.format("Test port parameter {0} is not supported on port {1}.", parameter_name, port_name));
 	}
 
 	protected void Install_Handler(final Set<SelectableChannel> read_channels, final Set<SelectableChannel> write_channels, final double call_interval) throws IOException {
