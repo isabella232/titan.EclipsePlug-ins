@@ -46,7 +46,7 @@ public final class ComponentsGroupsMCPage extends FormPage {
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		final FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Components, Groups and main controller sections");
 		form.setBackgroundImage(ImageCache.getImage("form_banner.gif"));
 
@@ -55,7 +55,7 @@ public final class ComponentsGroupsMCPage extends FormPage {
 		form.getBody().setLayout(layout);
 		form.getBody().setLayoutData(new GridData(GridData.FILL_BOTH));
 
-		Composite client = toolkit.createComposite(form.getBody(), SWT.WRAP);
+		final Composite client = toolkit.createComposite(form.getBody(), SWT.WRAP);
 		layout = new GridLayout();
 		layout.numColumns = 1;
 		layout.marginHeight = 0;

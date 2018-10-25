@@ -82,11 +82,11 @@ public final class ModuleParameterSectionPage extends FormPage {
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		final FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Module parameters section");
 		form.setBackgroundImage(ImageCache.getImage("form_banner.gif"));
 
-		GridLayout layout = new GridLayout();
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		form.getBody().setLayout(layout);
 
@@ -98,12 +98,12 @@ public final class ModuleParameterSectionPage extends FormPage {
 	}
 
 	private void createModuleParameterTable(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 
@@ -134,7 +134,7 @@ public final class ModuleParameterSectionPage extends FormPage {
 		gd.verticalAlignment = SWT.FILL;
 		moduleParametersTable.setLayoutData(gd);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		add = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -157,7 +157,7 @@ public final class ModuleParameterSectionPage extends FormPage {
 					createNewModuleParameterSection();
 				}
 
-				ModuleParameter newModuleParameter = createNewParameter();
+				final ModuleParameter newModuleParameter = createNewParameter();
 				if (newModuleParameter == null) {
 					return;
 				}
@@ -231,13 +231,13 @@ public final class ModuleParameterSectionPage extends FormPage {
 		moduleParametersTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(final SelectionChangedEvent event) {
-				StructuredSelection selection = (StructuredSelection) event.getSelection();
+				final StructuredSelection selection = (StructuredSelection) event.getSelection();
 				if (selection.size() != 1) {
 					parameterValueText.setEnabled(false);
 					return;
 				}
 
-				ModuleParameter moduleParameter = (ModuleParameter) selection.getFirstElement();
+				final ModuleParameter moduleParameter = (ModuleParameter) selection.getFirstElement();
 				if (moduleParameter != null) {
 					if (moduleParameter.getValue() != null) {
 						final String moduleParamValueText = CfgParseTreePrinter.toStringWithHidden(
@@ -265,23 +265,23 @@ public final class ModuleParameterSectionPage extends FormPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-				ModuleParameterDataLabelProvider labelProvider = (ModuleParameterDataLabelProvider) moduleParametersTableViewer
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final ModuleParameterDataLabelProvider labelProvider = (ModuleParameterDataLabelProvider) moduleParametersTableViewer
 						.getLabelProvider();
 				return labelProvider.getColumnText(element, columnIndex);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					ModuleParameter moduleParameter = (ModuleParameter) ((TableItem) element).getData();
+					final ModuleParameter moduleParameter = (ModuleParameter) ((TableItem) element).getData();
 
 					switch (columnIndex) {
 					case 0:
 						// MODULE_NAME
 						if (moduleParameter.getModuleName() != null) {
-							String newValue = ((String) value).trim();
+							final String newValue = ((String) value).trim();
 							if ( newValue != null ) {
 								ConfigTreeNodeUtilities.setText( moduleParameter.getModuleName(), newValue );
 								ConfigTreeNodeUtilities.setText( moduleParameter.getSeparator(),
@@ -310,12 +310,12 @@ public final class ModuleParameterSectionPage extends FormPage {
 	}
 
 	private void createDetailsPart(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 1;
 		client.setLayout(layout);
 
@@ -324,13 +324,13 @@ public final class ModuleParameterSectionPage extends FormPage {
 		parameterValueText.addModifyListener(new ModifyListener() {
 			@Override
 			public void modifyText(final ModifyEvent e) {
-				StructuredSelection selection = (StructuredSelection) moduleParametersTableViewer.getSelection();
-				Iterator<?> iterator = selection.iterator();
+				final StructuredSelection selection = (StructuredSelection) moduleParametersTableViewer.getSelection();
+				final Iterator<?> iterator = selection.iterator();
 				if (!iterator.hasNext()) {
 					return;
 				}
 
-				ModuleParameter moduleParameter = (ModuleParameter) iterator.next();
+				final ModuleParameter moduleParameter = (ModuleParameter) iterator.next();
 				ConfigTreeNodeUtilities.setText( moduleParameter.getValue(), parameterValueText.getText() );
 
 				if (valueChanged) {
@@ -353,14 +353,14 @@ public final class ModuleParameterSectionPage extends FormPage {
 				form.reflow(false);
 			}
 		});
-		GridData gd = new GridData(GridData.FILL_BOTH);
+		final GridData gd = new GridData(GridData.FILL_BOTH);
 		gd.grabExcessVerticalSpace = true;
 		section.setLayoutData(gd);
 	}
 
 	private void internalRefresh() {
-		StructuredSelection selection = (StructuredSelection) moduleParametersTableViewer.getSelection();
-		Iterator<?> iterator = selection.iterator();
+		final StructuredSelection selection = (StructuredSelection) moduleParametersTableViewer.getSelection();
+		final Iterator<?> iterator = selection.iterator();
 		if (iterator.hasNext()) {
 			valueChanged = true;
 		} else {
@@ -395,12 +395,12 @@ public final class ModuleParameterSectionPage extends FormPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		moduleParametersHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[MODULE_PARAMETERS]");
+		final ParseTree header = new AddedParseTree("\n[MODULE_PARAMETERS]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -409,7 +409,7 @@ public final class ModuleParameterSectionPage extends FormPage {
 	public static ModuleParameter createNewParameter( final String aModuleName,
 			final String aParameterName,
 			final String aValue ) {
-		ModuleParameter newModuleParameter = new ModuleParameterSectionHandler.ModuleParameter();
+		final ModuleParameter newModuleParameter = new ModuleParameterSectionHandler.ModuleParameter();
 		final ParseTree root = new ParserRuleContext();
 		newModuleParameter.setRoot( root );
 
@@ -449,12 +449,12 @@ public final class ModuleParameterSectionPage extends FormPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) moduleParametersTableViewer.getSelection();
-		Iterator<?> iterator = selection.iterator();
+		final StructuredSelection selection = (StructuredSelection) moduleParametersTableViewer.getSelection();
+		final Iterator<?> iterator = selection.iterator();
 
 		// remove the selected elements
 		for (; iterator.hasNext();) {
-			ModuleParameter moduleParameter = (ModuleParameter) iterator.next();
+			final ModuleParameter moduleParameter = (ModuleParameter) iterator.next();
 			if (moduleParameter != null) {
 				ConfigTreeNodeUtilities.removeChild(moduleParametersHandler.getLastSectionRoot(), moduleParameter.getRoot());
 				moduleParametersHandler.getModuleParameters().remove(moduleParameter);

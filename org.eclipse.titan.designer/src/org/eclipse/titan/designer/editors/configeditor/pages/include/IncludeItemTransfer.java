@@ -45,10 +45,10 @@ public final class IncludeItemTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected void javaToNative(final Object object, final TransferData transferData) {
-		ParseTree[] items = (ParseTree[]) object;
+		final ParseTree[] items = (ParseTree[]) object;
 
-		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(byteOut);
+		final ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		final DataOutputStream out = new DataOutputStream(byteOut);
 		byte[] bytes = null;
 
 		try {
@@ -71,11 +71,11 @@ public final class IncludeItemTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected ParseTree[] nativeToJava(final TransferData transferData) {
-		byte[] bytes = (byte[]) super.nativeToJava(transferData);
-		DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+		final byte[] bytes = (byte[]) super.nativeToJava(transferData);
+		final DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 
 		try {
-			int n = in.readInt();
+			final int n = in.readInt();
 			ParseTree[] items = new ParseTree[ 2 * n ];
 
 			String fileName;

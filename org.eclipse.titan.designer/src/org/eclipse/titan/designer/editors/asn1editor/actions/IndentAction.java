@@ -23,7 +23,7 @@ public final class IndentAction extends AbstractIndentAction {
 
 	@Override
 	protected IDocument getDocument() {
-		IEditorPart editorPart = getTargetEditor();
+		final IEditorPart editorPart = getTargetEditor();
 		if (editorPart instanceof ASN1Editor) {
 			return ((ASN1Editor) editorPart).getDocument();
 		}

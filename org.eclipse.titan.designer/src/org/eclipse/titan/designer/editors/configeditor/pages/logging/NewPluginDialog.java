@@ -67,7 +67,7 @@ public class NewPluginDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -76,7 +76,7 @@ public class NewPluginDialog extends Dialog {
 		errorLabel.setText("The name of the plugin is not an identifier");
 		errorLabel.setVisible(false);
 
-		Composite nameContainer = new Composite(parent, SWT.NONE);
+		final Composite nameContainer = new Composite(parent, SWT.NONE);
 		nameContainer.setLayout(new GridLayout(2, false));
 		nameContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
 		int i = 0;
@@ -92,7 +92,7 @@ public class NewPluginDialog extends Dialog {
 		nameText.addModifyListener(modifyListener);
 
 		path = "";
-		Composite pathContainer = new Composite(parent, SWT.NONE);
+		final Composite pathContainer = new Composite(parent, SWT.NONE);
 		pathContainer.setLayout(new GridLayout(2, false));
 		pathContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
 		label = new Label(pathContainer, SWT.NONE);
@@ -108,7 +108,7 @@ public class NewPluginDialog extends Dialog {
 	}
 
 	private void validate() {
-		String nameTemp = nameText.getText();
+		final String nameTemp = nameText.getText();
 		if (namesTaken.contains(nameTemp)) {
 			getButton(OK).setEnabled(false);
 			errorLabel.setText("A plugin with this name already exists.");
@@ -122,7 +122,7 @@ public class NewPluginDialog extends Dialog {
 			return;
 		}
 
-		String pathTemp = pathText.getText();
+		final String pathTemp = pathText.getText();
 		if (!PATH_PATTERN.matcher(pathTemp).matches()) {
 			getButton(OK).setEnabled(false);
 			errorLabel.setText("The path of the plugin is not valid.");

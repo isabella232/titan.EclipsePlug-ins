@@ -36,18 +36,17 @@ public class GotoMatchingBracketAction extends AbstractHandler implements IEdito
 
 		if (!selection.isEmpty()) {
 			if (selection instanceof TextSelection) {
-				TextSelection tSelection = (TextSelection) selection;
+				final TextSelection tSelection = (TextSelection) selection;
 				if (tSelection.getLength() != 0) {
 					return;
 				}
 			}
 		}
 
-		IDocument document = targetEditor.getDocument();
-		int carretOffset = targetEditor.getCarretOffset();
-		PairMatcher pairMatcher = new PairMatcher();
-
-		IRegion region = pairMatcher.match(document, carretOffset);
+		final IDocument document = targetEditor.getDocument();
+		final int carretOffset = targetEditor.getCarretOffset();
+		final PairMatcher pairMatcher = new PairMatcher();
+		final IRegion region = pairMatcher.match(document, carretOffset);
 		if (region == null) {
 			return;
 		}
@@ -79,8 +78,7 @@ public class GotoMatchingBracketAction extends AbstractHandler implements IEdito
 
 	@Override
 	public Object execute(final ExecutionEvent event) throws ExecutionException {
-		IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
-
+		final IEditorPart activeEditor = PlatformUI.getWorkbench().getActiveWorkbenchWindow().getActivePage().getActiveEditor();
 		if (activeEditor instanceof ASN1Editor) {
 			this.targetEditor = (ASN1Editor) activeEditor;
 		} else {
@@ -93,18 +91,17 @@ public class GotoMatchingBracketAction extends AbstractHandler implements IEdito
 
 		if (!selection.isEmpty()) {
 			if (selection instanceof TextSelection) {
-				TextSelection tSelection = (TextSelection) selection;
+				final TextSelection tSelection = (TextSelection) selection;
 				if (tSelection.getLength() != 0) {
 					return null;
 				}
 			}
 		}
 
-		IDocument document = this.targetEditor.getDocument();
-		int carretOffset = this.targetEditor.getCarretOffset();
-		PairMatcher pairMatcher = new PairMatcher();
-
-		IRegion region = pairMatcher.match(document, carretOffset);
+		final IDocument document = this.targetEditor.getDocument();
+		final int carretOffset = this.targetEditor.getCarretOffset();
+		final PairMatcher pairMatcher = new PairMatcher();
+		final IRegion region = pairMatcher.match(document, carretOffset);
 		if (region == null) {
 			return null;
 		}

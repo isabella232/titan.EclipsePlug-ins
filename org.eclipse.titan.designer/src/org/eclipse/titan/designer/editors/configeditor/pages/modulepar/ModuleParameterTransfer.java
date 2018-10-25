@@ -48,10 +48,9 @@ public final class ModuleParameterTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected void javaToNative(final Object object, final TransferData transferData) {
-		ModuleParameter[] items = (ModuleParameter[]) object;
-
-		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(byteOut);
+		final ModuleParameter[] items = (ModuleParameter[]) object;
+		final ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		final DataOutputStream out = new DataOutputStream(byteOut);
 		byte[] bytes = null;
 
 		try {
@@ -73,15 +72,15 @@ public final class ModuleParameterTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected ModuleParameter[] nativeToJava(final TransferData transferData) {
-		byte[] bytes = (byte[]) super.nativeToJava(transferData);
-		DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+		final byte[] bytes = (byte[]) super.nativeToJava(transferData);
+		final DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 
 		try {
-			int n = in.readInt();
+			final int n = in.readInt();
 			ModuleParameter[] items = new ModuleParameter[n];
 
 			for (int i = 0; i < n; i++) {
-				ModuleParameter newModuleParameter = new ModuleParameterSectionHandler.ModuleParameter();
+				final ModuleParameter newModuleParameter = new ModuleParameterSectionHandler.ModuleParameter();
 
 				final ParseTree root = new ParserRuleContext();
 				newModuleParameter.setRoot( root );

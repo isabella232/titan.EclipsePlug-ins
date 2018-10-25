@@ -20,16 +20,16 @@ public final class ConfigFoldingSupport extends FoldingSupport {
 	@Override
 	protected void recursiveTokens(final Interval interval) {
 		int endOffset = interval.getEndOffset();
-		int startOffset = interval.getStartOffset();
+		final int startOffset = interval.getStartOffset();
 		if (documentText.length() <= endOffset || documentText.length() <= startOffset) {
 			return;
 		} else if (endOffset == -1) {
 			endOffset = documentText.length() - 1;
 		}
 
-		int distance = interval.getEndLine() - interval.getStartLine();
+		final int distance = interval.getEndLine() - interval.getStartLine();
 		if (distance >= foldingDistance) {
-			char temp = documentText.charAt(startOffset);
+			final char temp = documentText.charAt(startOffset);
 			switch (temp) {
 			case '{':
 			case '[':
@@ -54,7 +54,7 @@ public final class ConfigFoldingSupport extends FoldingSupport {
 				break;
 			}
 		}
-		for (Interval subIntervall : interval.getSubIntervals()) {
+		for (final Interval subIntervall : interval.getSubIntervals()) {
 			recursiveTokens(subIntervall);
 		}
 	}

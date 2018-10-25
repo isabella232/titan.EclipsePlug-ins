@@ -33,8 +33,7 @@ public final class DefineSectionDragSourceListener implements DragSourceListener
 
 	@Override
 	public void dragFinished(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		if (!selection.isEmpty()) {
 			viewer.getTable().setRedraw(false);
 			if (event.detail == DND.DROP_MOVE) {
@@ -48,11 +47,11 @@ public final class DefineSectionDragSourceListener implements DragSourceListener
 	@Override
 	public void dragSetData(final DragSourceEvent event) {
 		if (DefineItemTransfer.getInstance().isSupportedType(event.dataType)) {
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-			List<Definition> items = new ArrayList<Definition>();
+			final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+			final List<Definition> items = new ArrayList<Definition>();
 			if (!selection.isEmpty()) {
-				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
-					Object element = it.next();
+				for (final Iterator<?> it = selection.iterator(); it.hasNext();) {
+					final Object element = it.next();
 					if (element instanceof Definition) {
 						items.add((Definition) element);
 					}
@@ -64,7 +63,7 @@ public final class DefineSectionDragSourceListener implements DragSourceListener
 
 	@Override
 	public void dragStart(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		event.doit = !selection.isEmpty() && (selection.getFirstElement() instanceof Definition);
 	}
 

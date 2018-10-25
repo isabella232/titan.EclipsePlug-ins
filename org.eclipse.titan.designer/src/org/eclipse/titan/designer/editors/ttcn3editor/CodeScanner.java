@@ -77,9 +77,9 @@ public final class CodeScanner extends RuleBasedScanner {
 	public static final String[] VISIBILITY_MODIFIERS = new String[] { "public", "private", "friend" };
 
 	public CodeScanner(final ColorManager colorManager) {
-		List<IRule> rules = getTTCNRules(colorManager);
+		final List<IRule> rules = getTTCNRules(colorManager);
 		// line marker (single line preprocessor directive)
-		IToken preprocessor = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
+		final IToken preprocessor = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
 		rules.add(new EndOfLineRule("#", preprocessor));
 		setRules(rules.toArray(new IRule[rules.size()]));
 	}
@@ -103,10 +103,10 @@ public final class CodeScanner extends RuleBasedScanner {
 		final IToken macro = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_PREPROCESSOR);
 		final IToken visibility = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_VISIBILITY_OP);
 
-		IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
+		final IToken string = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_STRINGS);
 
-		IToken other = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_NORMAL_TEXT);
-		List<IRule> rules = new ArrayList<IRule>();
+		final IToken other = colorManager.createTokenFromPreference(PreferenceConstants.COLOR_NORMAL_TEXT);
+		final List<IRule> rules = new ArrayList<IRule>();
 
 		rules.add(new EndOfLineRule("//", singleLineComment));
 		rules.add(new MultiLineRule("/*", "*/", multiLineComment, '\0', true));
@@ -115,7 +115,7 @@ public final class CodeScanner extends RuleBasedScanner {
 		rules.add(new TTCN3StringDetectionPatternRule(string));
 		rules.add(new StringDetectionPatternRule("'", new char[][] { { '\'', 'B' }, { '\'', 'H' }, { '\'', 'O' } }, string));
 
-		WordRule wordRule = new WordRule(new WordDetector(), other);
+		final WordRule wordRule = new WordRule(new WordDetector(), other);
 		for (final String element : CodeScanner.KEYWORDS) {
 			wordRule.addWord(element, keyword);
 		}
@@ -161,15 +161,15 @@ public final class CodeScanner extends RuleBasedScanner {
 
 		rules.add(wordRule);
 
-		WordRule macroRule = new WordRule(new MacroDetector(), other);
+		final WordRule macroRule = new WordRule(new MacroDetector(), other);
 		for (final String element : CodeScanner.MACROS) {
 			macroRule.addWord(element, macro);
 		}
 
 		rules.add(macroRule);
 
-		WordRule titanSpecificKeywordsRule = new WordRule(new TitanSpecificKeywordDetector(), other);
-		for (String element : CodeScanner.TITANSPECIFICKEYWORDS) {
+		final WordRule titanSpecificKeywordsRule = new WordRule(new TitanSpecificKeywordDetector(), other);
+		for (final String element : CodeScanner.TITANSPECIFICKEYWORDS) {
 			// looks like a standard keyword
 			titanSpecificKeywordsRule.addWord(element, keyword);
 		}

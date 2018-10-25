@@ -106,7 +106,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 	@Override
 	public void resourceChanged(final IResourceChangeEvent event) {
 		if (event.getType() == IResourceChangeEvent.PRE_CLOSE) {
-			IEditorInput input = editor.getEditorInput();
+			final IEditorInput input = editor.getEditorInput();
 			if (input instanceof FileEditorInput && ((FileEditorInput) input).getFile().getProject().equals(event.getResource())) {
 				final IWorkbenchPage[] pages = getSite().getWorkbenchWindow().getPages();
 
@@ -114,7 +114,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 					@Override
 					public void run() {
 						for (int i = 0; i < pages.length; i++) {
-							IEditorPart editorPart = pages[i].findEditor(editor.getEditorInput());
+							final IEditorPart editorPart = pages[i].findEditor(editor.getEditorInput());
 							pages[i].closeEditor(editorPart, true);
 						}
 					}
@@ -236,8 +236,8 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 
 	private void updateTextualPage() {
 		if (mParseTreeRoot != null && mTokens != null) {
-			String original = editor.getDocument().get();
-			String content = CfgParseTreePrinter.toStringWithHidden( mParseTreeRoot, mTokens, true );
+			final String original = editor.getDocument().get();
+			final String content = CfgParseTreePrinter.toStringWithHidden( mParseTreeRoot, mTokens, true );
 
 			if (!content.equals(original)) {
 				editor.getDocument().set(content);

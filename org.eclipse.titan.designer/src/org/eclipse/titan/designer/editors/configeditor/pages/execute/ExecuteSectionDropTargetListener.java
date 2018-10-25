@@ -79,9 +79,9 @@ public final class ExecuteSectionDropTargetListener implements DropTargetListene
 	public void drop(final DropTargetEvent event) {
 		if (ExecuteItemTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			if (event.item != null && viewer.getInput() != null) {
-				ExecuteSectionHandler executeSectionHandler = (ExecuteSectionHandler) viewer.getInput();
-				ExecuteItem element = (ExecuteItem) event.item.getData();
-				ExecuteItem[] items = (ExecuteItem[]) event.data;
+				final ExecuteSectionHandler executeSectionHandler = (ExecuteSectionHandler) viewer.getInput();
+				final ExecuteItem element = (ExecuteItem) event.item.getData();
+				final ExecuteItem[] items = (ExecuteItem[]) event.data;
 
 				int baseindex = executeSectionHandler.getExecuteitems().indexOf(element);
 

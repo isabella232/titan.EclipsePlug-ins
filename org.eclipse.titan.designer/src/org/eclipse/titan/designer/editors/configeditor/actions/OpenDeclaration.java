@@ -80,7 +80,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		}
 
 		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
-		IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(NOTIDENTIFIABLEFILE);
 			return;
@@ -93,18 +93,18 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 		int offset;
 		if (!selection.isEmpty() && selection instanceof TextSelection && !"".equals(((TextSelection) selection).getText())) {
-			IPreferencesService prefs = Platform.getPreferencesService();
+			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
 				TITANDebugConsole.println("Selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection textSelection = (TextSelection) selection;
+			final TextSelection textSelection = (TextSelection) selection;
 			offset = textSelection.getOffset() + textSelection.getLength();
 		} else {
 			offset = ((ConfigTextEditor) targetEditor).getCarretOffset();
 		}
 
-		IDocument document = ((ConfigTextEditor) targetEditor).getDocument();
-		section_type section = getSection(document, offset);
+		final IDocument document = ((ConfigTextEditor) targetEditor).getDocument();
+		final section_type section = getSection(document, offset);
 
 		if (section_type.UNKNOWN.equals(section)) {
 			return;
@@ -139,7 +139,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 *                Select the given region if true.
 	 */
 	private void selectAndRevealRegion(final IFile file, final int offset, final int endOffset, final boolean select) {
-		IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
+		final IEditorDescriptor desc = PlatformUI.getWorkbench().getEditorRegistry().getDefaultEditor(file.getName());
 		if (desc == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(EDITORNOTFOUND);
 			return;
@@ -150,8 +150,8 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		}
 
 		try {
-			IWorkbenchPage page = targetEditor.getSite().getPage();
-			IEditorPart editorPart = page.openEditor(new FileEditorInput(file), desc.getId());
+			final IWorkbenchPage page = targetEditor.getSite().getPage();
+			final IEditorPart editorPart = page.openEditor(new FileEditorInput(file), desc.getId());
 
 			if (editorPart != null) {
 				// Check the editor instance. It's usually a
@@ -187,8 +187,8 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 * @return The object selected from the dialog.
 	 */
 	public Object openCollectionListDialog(final List<?> collected) {
-		OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
+		final OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
+		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
 		dialog.setTitle("Open");
 		dialog.setMessage("Select the element to open");
 		dialog.setElements(collected.toArray());
@@ -206,8 +206,8 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 * @return The assignment selected from the dialog.
 	 */
 	private Assignment openCollectionListDialog(final ArrayList<Assignment> assignments) {
-		OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
-		ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
+		final OpenDeclarationLabelProvider labelProvider = new OpenDeclarationLabelProvider();
+		final ElementListSelectionDialog dialog = new ElementListSelectionDialog(null, labelProvider);
 		dialog.setTitle("Open");
 		dialog.setMessage("Select the element to open");
 		dialog.setElements(assignments.toArray());
@@ -228,15 +228,14 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 *         cursor.
 	 */
 	public section_type getSection(final IDocument document, final int offset) {
-		Interval interval = GlobalIntervalHandler.getInterval(document);
-
+		final Interval interval = GlobalIntervalHandler.getInterval(document);
 		if (interval == null) {
 			return section_type.UNKNOWN;
 		}
 
-		for (Interval subInterval : interval.getSubIntervals()) {
-			int startOffset = subInterval.getStartOffset();
-			int endOffset = subInterval.getEndOffset();
+		for (final Interval subInterval : interval.getSubIntervals()) {
+			final int startOffset = subInterval.getStartOffset();
+			final int endOffset = subInterval.getEndOffset();
 			if (subInterval instanceof CfgInterval && startOffset <= offset && endOffset >= offset) {
 				return ((CfgInterval) subInterval).getSectionType();
 			}
@@ -256,15 +255,15 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 *                The document opened in the configuration file editor.
 	 */
 	public void handleIncludes(final IFile file, final int offset, final IDocument document) {
-		ConfigReferenceParser refParser = new ConfigReferenceParser(false);
-		String include = refParser.findIncludedFileForOpening(offset, document);
+		final ConfigReferenceParser refParser = new ConfigReferenceParser(false);
+		final String include = refParser.findIncludedFileForOpening(offset, document);
 
 		if (include == null || include.length() == 0) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(WRONGSELECTION);
 			return;
 		}
 
-		IFile fileToOpen = file.getProject().getFile(include);
+		final IFile fileToOpen = file.getProject().getFile(include);
 		if (fileToOpen == null || !fileToOpen.exists()) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager()
 			.setErrorMessage(MessageFormat.format(FILENOTFOUND, include));
@@ -286,36 +285,35 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 * @return True
 	 */
 	public boolean handleModuleParameters(final IFile file, final int offset, final IDocument document) {
-		ConfigReferenceParser refParser = new ConfigReferenceParser(false);
-		Reference reference = refParser.findReferenceForOpening(file, offset, document);
+		final ConfigReferenceParser refParser = new ConfigReferenceParser(false);
+		final Reference reference = refParser.findReferenceForOpening(file, offset, document);
 		if (refParser.isModuleParameter()) {
 			if (reference == null) {
 				return false;
 			}
 
-			ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
-			String exactModuleName = refParser.getExactModuleName();
-
-			ArrayList<Assignment> foundAssignments = new ArrayList<Assignment>();
+			final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+			final String exactModuleName = refParser.getExactModuleName();
+			final ArrayList<Assignment> foundAssignments = new ArrayList<Assignment>();
 
 			if (exactModuleName != null) {
-				Module module = projectSourceParser.getModuleByName(exactModuleName);
+				final Module module = projectSourceParser.getModuleByName(exactModuleName);
 				if (module != null) {
-					Assignments assignments = module.getAssignments();
+					final Assignments assignments = module.getAssignments();
 					for (int i = 0; i < assignments.getNofAssignments(); i++) {
-						Assignment assignment = assignments.getAssignmentByIndex(i);
+						final Assignment assignment = assignments.getAssignmentByIndex(i);
 						if (assignment.getIdentifier().getDisplayName().equals(reference.getId().getDisplayName())) {
 							foundAssignments.add(assignment);
 						}
 					}
 				}
 			} else {
-				for (String moduleName : projectSourceParser.getKnownModuleNames()) {
-					Module module = projectSourceParser.getModuleByName(moduleName);
+				for (final String moduleName : projectSourceParser.getKnownModuleNames()) {
+					final Module module = projectSourceParser.getModuleByName(moduleName);
 					if (module != null) {
-						Assignments assignments = module.getAssignments();
+						final Assignments assignments = module.getAssignments();
 						for (int i = 0; i < assignments.getNofAssignments(); i++) {
-							Assignment assignment = assignments.getAssignmentByIndex(i);
+							final Assignment assignment = assignments.getAssignmentByIndex(i);
 							if (assignment.getIdentifier().getDisplayName().equals(reference.getId().getDisplayName())) {
 								foundAssignments.add(assignment);
 							}
@@ -336,15 +334,15 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 			if (foundAssignments.size() == 1) {
 				assignment = foundAssignments.get(0);
 			} else {
-				Assignment result = openCollectionListDialog(foundAssignments);
+				final Assignment result = openCollectionListDialog(foundAssignments);
 				if (result != null) {
 					assignment = result;
 				}
 			}
-			IPreferencesService prefs = Platform.getPreferencesService();
+			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
-				for (Assignment tempAssignment : foundAssignments) {
-					Location location = tempAssignment.getLocation();
+				for (final Assignment tempAssignment : foundAssignments) {
+					final Location location = tempAssignment.getLocation();
 					TITANDebugConsole.println("Module parameter: " + location.getFile() + ":"
 							+ location.getOffset() + "-"
 							+ location.getEndOffset());
@@ -352,7 +350,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 			}
 
 			if (assignment != null) {
-				Location location = assignment.getLocation();
+				final Location location = assignment.getLocation();
 				selectAndRevealRegion((IFile) location.getFile(), location.getOffset(), location.getEndOffset(), true);
 			}
 
@@ -373,22 +371,22 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 	 *                The document opened in the configuration file editor.
 	 */
 	public void handleDefinitions(final IFile file, final int offset, final IDocument document) {
-		ConfigReferenceParser refParser = new ConfigReferenceParser(false);
+		final ConfigReferenceParser refParser = new ConfigReferenceParser(false);
 		refParser.findReferenceForOpening(file, offset, document);
-		String definitionName = refParser.getDefinitionName();
+		final String definitionName = refParser.getDefinitionName();
 
 		if (definitionName == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(NOTDEFINITION);
 			return;
 		}
 
-		List<ConfigDeclarationCollectionHelper> collected = new ArrayList<ConfigDeclarationCollectionHelper>();
-		Map<String, CfgDefinitionInformation> definitions = GlobalParser.getConfigSourceParser(file.getProject()).getAllDefinitions();
-		CfgDefinitionInformation definition = definitions.get(definitionName);
+		final List<ConfigDeclarationCollectionHelper> collected = new ArrayList<ConfigDeclarationCollectionHelper>();
+		final Map<String, CfgDefinitionInformation> definitions = GlobalParser.getConfigSourceParser(file.getProject()).getAllDefinitions();
+		final CfgDefinitionInformation definition = definitions.get(definitionName);
 
 		if (definition != null) {
-			List<CfgLocation> locations = definition.getLocations();
-			for (CfgLocation location : locations) {
+			final List<CfgLocation> locations = definition.getLocations();
+			for (final CfgLocation location : locations) {
 				collected.add(new ConfigDeclarationCollectionHelper(definitionName, location));
 			}
 		} else {
@@ -405,7 +403,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		if (collected.size() == 1) {
 			declaration = collected.get(0);
 		} else {
-			Object result = openCollectionListDialog(collected);
+			final Object result = openCollectionListDialog(collected);
 			if (result != null) {
 				declaration = (ConfigDeclarationCollectionHelper) result;
 			}
@@ -430,7 +428,7 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 		}
 
 		targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
-		IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) targetEditor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			targetEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(NOTIDENTIFIABLEFILE);
 			return null;
@@ -443,18 +441,18 @@ public final class OpenDeclaration extends AbstractHandler implements IEditorAct
 
 		int offset;
 		if (!selection.isEmpty() && selection instanceof TextSelection && !"".equals(((TextSelection) selection).getText())) {
-			IPreferencesService prefs = Platform.getPreferencesService();
+			final IPreferencesService prefs = Platform.getPreferencesService();
 			if (prefs.getBoolean(ProductConstants.PRODUCT_ID_DESIGNER, PreferenceConstants.DISPLAYDEBUGINFORMATION, true, null)) {
 				TITANDebugConsole.println("Selected: " + ((TextSelection) selection).getText());
 			}
-			TextSelection textSelection = (TextSelection) selection;
+			final TextSelection textSelection = (TextSelection) selection;
 			offset = textSelection.getOffset() + textSelection.getLength();
 		} else {
 			offset = ((ConfigTextEditor) targetEditor).getCarretOffset();
 		}
 
-		IDocument document = ((ConfigTextEditor) targetEditor).getDocument();
-		section_type section = getSection(document, offset);
+		final IDocument document = ((ConfigTextEditor) targetEditor).getDocument();
+		final section_type section = getSection(document, offset);
 
 		if (section_type.UNKNOWN.equals(section)) {
 			if (handleModuleParameters(file, offset, document)) {

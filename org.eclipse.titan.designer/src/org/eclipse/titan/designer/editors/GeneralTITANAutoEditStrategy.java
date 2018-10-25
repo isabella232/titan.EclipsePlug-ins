@@ -70,7 +70,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	 *         delimiter
 	 */
 	protected final boolean endsWithDelimiter(final IDocument d, final String txt) {
-		String[] delimiters = d.getLegalLineDelimiters();
+		final String[] delimiters = d.getLegalLineDelimiters();
 		for (int i = 0; i < delimiters.length; i++) {
 			if (txt.endsWith(delimiters[i])) {
 				return true;
@@ -96,10 +96,11 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	 * @return Whether offset is within a comment.
 	 */
 	protected final boolean isWithinMultiLineComment(final int offset) {
-		Interval interval = rootInterval.getSmallestEnclosingInterval(offset);
+		final Interval interval = rootInterval.getSmallestEnclosingInterval(offset);
 		if ((interval_type.MULTILINE_COMMENT.equals(interval.getType())) && interval.getStartOffset() != offset) {
 			return true;
 		}
+
 		return false;
 	}
 
@@ -119,8 +120,8 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	 */
 	protected final String getIndentOfLine(final IDocument document, final int line, final DocumentCommand command) throws BadLocationException {
 		if (line > -1) {
-			int start = document.getLineOffset(line);
-			int end = start + document.getLineLength(line) - 1;
+			final int start = document.getLineOffset(line);
+			final int end = start + document.getLineLength(line) - 1;
 			int whiteend = findEndOfWhiteSpace(document, start, end);
 			// The end of whitespace characters is counted only up
 			// to the cursor position.
@@ -156,7 +157,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	protected final int findEndOfWhiteSpace(final IDocument document, final int offset, final int end) throws BadLocationException {
 		int offset2 = offset;
 		while (offset2 < end) {
-			char c = document.getChar(offset2);
+			final char c = document.getChar(offset2);
 			if (c != ' ' && c != '\t') {
 				return offset2;
 			}
@@ -196,7 +197,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	 * @return whether there is such an interval or not.
 	 * */
 	protected final boolean containsUnclosedInterval(final int start, final int end) {
-		Interval endInterval = rootInterval.getSmallestEnclosingInterval(end);
+		final Interval endInterval = rootInterval.getSmallestEnclosingInterval(end);
 		if (endInterval.getStartOffset() >= start && interval_type.NORMAL.equals(endInterval.getType())) {
 			return true;
 		}
@@ -216,7 +217,7 @@ public abstract class GeneralTITANAutoEditStrategy implements IAutoEditStrategy 
 	 * @return whether there is such an interval or not.
 	 * */
 	protected final boolean containsUnopenedInterval(final int start, final int end) {
-		Interval startInterval = rootInterval.getSmallestEnclosingInterval(start);
+		final Interval startInterval = rootInterval.getSmallestEnclosingInterval(start);
 		if (startInterval.getEndOffset() <= end && interval_type.NORMAL.equals(startInterval.getType())) {
 			return true;
 		}

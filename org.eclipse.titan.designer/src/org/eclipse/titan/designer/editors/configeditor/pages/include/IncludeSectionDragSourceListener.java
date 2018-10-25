@@ -34,8 +34,7 @@ public final class IncludeSectionDragSourceListener implements DragSourceListene
 
 	@Override
 	public void dragFinished(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		if (!selection.isEmpty()) {
 			viewer.getTable().setRedraw(false);
 			if (event.detail == DND.DROP_MOVE) {
@@ -49,11 +48,11 @@ public final class IncludeSectionDragSourceListener implements DragSourceListene
 	@Override
 	public void dragSetData(final DragSourceEvent event) {
 		if (IncludeItemTransfer.getInstance().isSupportedType(event.dataType)) {
-			IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
-			List<ParseTree> items = new ArrayList<ParseTree>();
+			final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+			final List<ParseTree> items = new ArrayList<ParseTree>();
 			if (!selection.isEmpty()) {
-				for (Iterator<?> it = selection.iterator(); it.hasNext();) {
-					Object element = it.next();
+				for (final Iterator<?> it = selection.iterator(); it.hasNext();) {
+					final Object element = it.next();
 					if (element instanceof ParseTree) {
 						items.add((ParseTree) element);
 					}
@@ -65,7 +64,7 @@ public final class IncludeSectionDragSourceListener implements DragSourceListene
 
 	@Override
 	public void dragStart(final DragSourceEvent event) {
-		IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
+		final IStructuredSelection selection = (IStructuredSelection) viewer.getSelection();
 		event.doit = !selection.isEmpty() && (selection.getFirstElement() instanceof ParseTree);
 	}
 

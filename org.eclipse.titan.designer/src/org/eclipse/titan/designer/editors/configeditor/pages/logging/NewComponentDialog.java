@@ -59,7 +59,7 @@ public class NewComponentDialog extends Dialog {
 
 	@Override
 	protected Control createDialogArea(final Composite parent) {
-		Composite container = (Composite) super.createDialogArea(parent);
+		final Composite container = (Composite) super.createDialogArea(parent);
 		container.setLayout(new GridLayout(1, false));
 		container.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -68,7 +68,7 @@ public class NewComponentDialog extends Dialog {
 		errorLabel.setText("The name of the component must be a valid identifier or '*' for all valid components.");
 		errorLabel.setVisible(false);
 
-		Composite nameContainer = new Composite(parent, SWT.NONE);
+		final Composite nameContainer = new Composite(parent, SWT.NONE);
 		nameContainer.setLayout(new GridLayout(2, false));
 		nameContainer.setLayoutData(new GridData(GridData.FILL_BOTH));
 
@@ -78,7 +78,7 @@ public class NewComponentDialog extends Dialog {
 		}
 		name = "new_component_" + i;
 
-		Label label = new Label(nameContainer, SWT.NONE);
+		final Label label = new Label(nameContainer, SWT.NONE);
 		label.setText("The name of the new component: ");
 		nameText = new Text(nameContainer, SWT.SINGLE | SWT.BORDER);
 		nameText.setLayoutData(new GridData(GridData.FILL_HORIZONTAL));
@@ -91,7 +91,7 @@ public class NewComponentDialog extends Dialog {
 	}
 
 	private void validate() {
-		String temp = nameText.getText();
+		final String temp = nameText.getText();
 		if (namesTaken.contains(temp)) {
 			getButton(OK).setEnabled(false);
 			errorLabel.setText("A component with this name already exists.");

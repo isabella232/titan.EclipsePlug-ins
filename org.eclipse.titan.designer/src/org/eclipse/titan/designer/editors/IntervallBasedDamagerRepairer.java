@@ -27,12 +27,12 @@ public final class IntervallBasedDamagerRepairer extends DefaultDamagerRepairer 
 
 	@Override
 	public IRegion getDamageRegion(final ITypedRegion partition, final DocumentEvent e, final boolean documentPartitioningChanged) {
-		Interval interval = GlobalIntervalHandler.getInterval(fDocument);
+		final Interval interval = GlobalIntervalHandler.getInterval(fDocument);
 		if (interval != null) {
-			int maxLength = Math.max(0, (e.getText() == null ? e.getLength() : e.getText().length()));
-			int endoffset = e.getOffset() + maxLength;
-			Interval smallest = interval.getSmallestEnclosingInterval(e.getOffset(), endoffset);
-			Interval canaryInterval = smallest.getSmallestEnclosingInterval(e.getOffset());
+			final int maxLength = Math.max(0, (e.getText() == null ? e.getLength() : e.getText().length()));
+			final int endoffset = e.getOffset() + maxLength;
+			final Interval smallest = interval.getSmallestEnclosingInterval(e.getOffset(), endoffset);
+			final Interval canaryInterval = smallest.getSmallestEnclosingInterval(e.getOffset());
 			if (interval_type.MULTILINE_COMMENT.equals(canaryInterval.getType())) {
 				return new Region(canaryInterval.getStartOffset(), Math.min(smallest.getEndOffset() - canaryInterval.getStartOffset()
 						+ maxLength, fDocument.getLength()));

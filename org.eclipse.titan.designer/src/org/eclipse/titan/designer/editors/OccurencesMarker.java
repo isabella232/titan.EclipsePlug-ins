@@ -78,7 +78,7 @@ public abstract class OccurencesMarker {
 		}
 
 		public void setParam(final IDocument document, final int offset) {
-			IAnnotationModel annotationModel = getAnnotationModel();
+			final IAnnotationModel annotationModel = getAnnotationModel();
 			if (annotationModel == null) {
 				removeOccurences(false);
 				error(document, offset, "AnnotationModel is null");
@@ -93,7 +93,7 @@ public abstract class OccurencesMarker {
 
 		@Override
 		public IStatus runInWorkspace(final IProgressMonitor pMonitor) throws CoreException {
-			IAnnotationModel annotationModel = getAnnotationModel();
+			final IAnnotationModel annotationModel = getAnnotationModel();
 			if (annotationModel == null) {
 				removeOccurences(false);
 				error(document, offset, "AnnotationModel is null");
@@ -185,21 +185,21 @@ public abstract class OccurencesMarker {
 	}
 
 	private void doMark(final IDocument document, final int offset) {
-		IAnnotationModel annotationModel = getAnnotationModel();
+		final IAnnotationModel annotationModel = getAnnotationModel();
 		if (annotationModel == null) {
 			removeOccurences(false);
 			error(document, offset, "AnnotationModel is null");
 			return;
 		}
 
-		IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
+		final IFile file = (IFile) editor.getEditorInput().getAdapter(IFile.class);
 		if (file == null) {
 			removeOccurences(false);
 			error(document, offset, "can not determine the file in the editor.");
 			return;
 		}
 
-		ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
+		final ProjectSourceParser projectSourceParser = GlobalParser.getProjectSourceParser(file.getProject());
 		if (projectSourceParser == null) {
 			removeOccurences(false);
 			error(document, offset, "Can not find the projectsourceparser for the project: " + file.getProject());
@@ -214,7 +214,7 @@ public abstract class OccurencesMarker {
 		}
 
 		if (printASTElem.getValue()) {
-			ASTLocationChainVisitor locVisitor = new ASTLocationChainVisitor(offset);
+			final ASTLocationChainVisitor locVisitor = new ASTLocationChainVisitor(offset);
 			module.accept(locVisitor);
 			locVisitor.printChain();
 		}
@@ -245,11 +245,11 @@ public abstract class OccurencesMarker {
 			return;
 		}
 
-		Map<Annotation, Position> annotationMap = new HashMap<Annotation, Position>();
-		for (Hit hit : result) {
+		final Map<Annotation, Position> annotationMap = new HashMap<Annotation, Position>();
+		for (final Hit hit : result) {
 			if (hit.identifier != null) {
-				int hitOffset = hit.identifier.getLocation().getOffset();
-				int hitEndOffset = hit.identifier.getLocation().getEndOffset();
+				final int hitOffset = hit.identifier.getLocation().getOffset();
+				final int hitEndOffset = hit.identifier.getLocation().getEndOffset();
 				if( hitOffset>=0 && hitEndOffset>=0 && hitEndOffset>=hitOffset ) {
 					final Annotation annotationToAdd = new Annotation(ANNOTATION_TYPE, false, hit.identifier.getDisplayName());
 					final Position position = new Position(hitOffset, hitEndOffset - hitOffset);
@@ -263,12 +263,12 @@ public abstract class OccurencesMarker {
 				((IAnnotationModelExtension) annotationModel).replaceAnnotations(occurrenceAnnotations, annotationMap);
 			} else {
 				if (occurrenceAnnotations != null) {
-					for (Annotation annotationToRemove : occurrenceAnnotations) {
+					for (final Annotation annotationToRemove : occurrenceAnnotations) {
 						annotationModel.removeAnnotation(annotationToRemove);
 					}
 				}
 
-				for (Map.Entry<Annotation, Position> entry : annotationMap.entrySet()) {
+				for (final Map.Entry<Annotation, Position> entry : annotationMap.entrySet()) {
 					annotationModel.addAnnotation(entry.getKey(), entry.getValue());
 				}
 			}
@@ -316,8 +316,7 @@ public abstract class OccurencesMarker {
 	 * @return The found references. Includes the definition of the element.
 	 */
 	protected List<Hit> findOccurrencesReferenceBased(final IDocument document, final Reference reference, final Module module, final int offset) {
-
-		Scope scope = module.getSmallestEnclosingScope(offset);
+		final Scope scope = module.getSmallestEnclosingScope(offset);
 		if (scope == null) {
 			removeOccurences(false);
 			error(document, offset, "Can not determine the smallest enclosing scope.");
@@ -341,7 +340,7 @@ public abstract class OccurencesMarker {
 		if (scope.hasAssignmentWithId(CompilationTimeStamp.getBaseTimestamp(), reference.getId())
 				|| (scope.getModuleScope().hasImportedAssignmentWithID(CompilationTimeStamp.getBaseTimestamp(), reference.getId()))) {
 
-			Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
+			final Assignment assignment = reference.getRefdAssignment(CompilationTimeStamp.getBaseTimestamp(), false);
 			if (assignment == null) {
 				error(document, offset, "The assignment could not be determined from the reference: " + reference.getDisplayName());
 				removeOccurences(false);
@@ -365,7 +364,7 @@ public abstract class OccurencesMarker {
 			if (assignment.getLocation().containsOffset(offset)) {
 				found = true;
 			} else {
-				for (Hit hit : result) {
+				for (final Hit hit : result) {
 					if (hit.identifier.getLocation().containsOffset(offset)) {
 						found = true;
 						break;
@@ -384,7 +383,7 @@ public abstract class OccurencesMarker {
 			referenceFinder = new ReferenceFinder();
 			referenceFinder.detectAssignmentDataByOffset(module, offset, editor, false, false);
 
-			Assignment assignment = referenceFinder.assignment;
+			final Assignment assignment = referenceFinder.assignment;
 			if (assignment == null) {
 				removeOccurences(false);
 				error(document, offset, "Could not detect the assignment.");
@@ -429,7 +428,7 @@ public abstract class OccurencesMarker {
 				return;
 			}
 
-			for (Annotation annotaion : occurrenceAnnotations) {
+			for (final Annotation annotaion : occurrenceAnnotations) {
 				annotationModel.removeAnnotation(annotaion);
 			}
 			occurrenceAnnotations = null;

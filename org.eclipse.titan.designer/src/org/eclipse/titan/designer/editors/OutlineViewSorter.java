@@ -42,8 +42,8 @@ public final class OutlineViewSorter extends ViewerComparator {
 			return super.compare(viewer, e1, e2);
 		}
 
-		int cat1 = category(e1);
-		int cat2 = category(e2);
+		final int cat1 = category(e1);
+		final int cat2 = category(e2);
 
 		if (cat1 != cat2) {
 			return cat1 - cat2;
@@ -53,8 +53,8 @@ public final class OutlineViewSorter extends ViewerComparator {
 			return 0;
 		}
 
-		IOutlineElement o1 = (IOutlineElement) e1;
-		IOutlineElement o2 = (IOutlineElement) e2;
+		final IOutlineElement o1 = (IOutlineElement) e1;
+		final IOutlineElement o2 = (IOutlineElement) e2;
 
 		return o1.getIdentifier().getLocation().getOffset() - o2.getIdentifier().getLocation().getOffset();
 	}

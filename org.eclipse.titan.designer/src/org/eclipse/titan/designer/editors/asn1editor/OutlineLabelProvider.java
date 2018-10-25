@@ -21,7 +21,7 @@ public final class OutlineLabelProvider extends LabelProvider {
 	public Image getImage(final Object element) {
 		String iconName = "titan.gif";
 		if (element instanceof IOutlineElement) {
-			IOutlineElement e = (IOutlineElement) element;
+			final IOutlineElement e = (IOutlineElement) element;
 			iconName = e.getOutlineIcon();
 		}
 
@@ -32,8 +32,8 @@ public final class OutlineLabelProvider extends LabelProvider {
 	public String getText(final Object element) {
 		Identifier identifier = null;
 		if (element instanceof IOutlineElement) {
-			IOutlineElement e = (IOutlineElement) element;
-			String outlineText = e.getOutlineText();
+			final IOutlineElement e = (IOutlineElement) element;
+			final String outlineText = e.getOutlineText();
 			if (outlineText.length() != 0) {
 				return outlineText;
 			}

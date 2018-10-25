@@ -25,7 +25,7 @@ public final class DefineDataLabelProvider extends LabelProvider implements ITab
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof Definition) {
-			Definition item = (Definition) element;
+			final Definition item = (Definition) element;
 			switch (columnIndex) {
 			case 0:
 				return item.getDefinitionName().getText();

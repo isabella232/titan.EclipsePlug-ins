@@ -48,10 +48,9 @@ public final class DefineItemTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected void javaToNative(final Object object, final TransferData transferData) {
-		Definition[] items = (Definition[]) object;
-
-		ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
-		DataOutputStream out = new DataOutputStream(byteOut);
+		final Definition[] items = (Definition[]) object;
+		final ByteArrayOutputStream byteOut = new ByteArrayOutputStream();
+		final DataOutputStream out = new DataOutputStream(byteOut);
 		byte[] bytes = null;
 
 		try {
@@ -73,11 +72,11 @@ public final class DefineItemTransfer extends ConfigItemTransferBase {
 
 	@Override
 	protected Definition[] nativeToJava(final TransferData transferData) {
-		byte[] bytes = (byte[]) super.nativeToJava(transferData);
-		DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
+		final byte[] bytes = (byte[]) super.nativeToJava(transferData);
+		final DataInputStream in = new DataInputStream(new ByteArrayInputStream(bytes));
 
 		try {
-			int n = in.readInt();
+			final int n = in.readInt();
 			Definition[] items = new Definition[n];
 
 			String name;

@@ -25,7 +25,7 @@ public final class ModuleParameterDataLabelProvider extends LabelProvider implem
 	@Override
 	public String getColumnText(final Object element, final int columnIndex) {
 		if (element != null && element instanceof ModuleParameter) {
-			ModuleParameter parameter = (ModuleParameter) element;
+			final ModuleParameter parameter = (ModuleParameter) element;
 			switch (columnIndex) {
 			case 0:
 				if (parameter.getModuleName() == null) {

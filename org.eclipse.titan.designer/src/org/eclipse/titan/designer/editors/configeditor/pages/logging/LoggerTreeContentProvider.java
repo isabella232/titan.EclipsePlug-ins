@@ -20,7 +20,7 @@ public final class LoggerTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getElements(final Object inputElement) {
 		if (inputElement instanceof LoggingSectionHandler) {
-			LoggingSectionHandler lsh = (LoggingSectionHandler) inputElement;
+			final LoggingSectionHandler lsh = (LoggingSectionHandler) inputElement;
 			return lsh.getComponentsTreeElementArray();
 		}
 		return new Object[] {};
@@ -39,7 +39,7 @@ public final class LoggerTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public Object[] getChildren(final Object parentElement) {
 		if (parentElement instanceof LoggingSectionHandler.LoggerTreeElement) {
-			LoggingSectionHandler.LoggerTreeElement compLTE = (LoggingSectionHandler.LoggerTreeElement) parentElement;
+			final LoggingSectionHandler.LoggerTreeElement compLTE = (LoggingSectionHandler.LoggerTreeElement) parentElement;
 			if (compLTE.getPluginName() != null) {
 				ErrorReporter.INTERNAL_ERROR("plugin has children");
 			}
@@ -51,7 +51,7 @@ public final class LoggerTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public Object getParent(final Object element) {
 		if (element instanceof LoggingSectionHandler.LoggerTreeElement) {
-			LoggingSectionHandler.LoggerTreeElement lte = (LoggingSectionHandler.LoggerTreeElement) element;
+			final LoggingSectionHandler.LoggerTreeElement lte = (LoggingSectionHandler.LoggerTreeElement) element;
 			if (lte.getPluginName() == null) {
 				// this is a component element
 				return null;
@@ -66,9 +66,10 @@ public final class LoggerTreeContentProvider implements ITreeContentProvider {
 	@Override
 	public boolean hasChildren(final Object element) {
 		if (element instanceof LoggingSectionHandler.LoggerTreeElement) {
-			LoggingSectionHandler.LoggerTreeElement lte = (LoggingSectionHandler.LoggerTreeElement) element;
+			final LoggingSectionHandler.LoggerTreeElement lte = (LoggingSectionHandler.LoggerTreeElement) element;
 			return lte.getPluginName() == null;
 		}
+
 		return false;
 	}
 

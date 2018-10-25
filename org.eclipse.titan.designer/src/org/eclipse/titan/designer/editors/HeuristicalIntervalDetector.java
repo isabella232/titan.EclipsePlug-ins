@@ -108,7 +108,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 					break;
 				case '\n':
 					if (interval_type.SINGLELINE_COMMENT.equals(actualInterval.getType())) {
-						int actualPosition = nextPos;
+						final int actualPosition = nextPos;
 						boolean whitespace = true;
 						int linesCrossed = 0;
 						while (nextPos < rangeEnd && whitespace && linesCrossed < 2) {
@@ -139,7 +139,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 						if (linesCrossed >= 2 || nextPos + 1 >= rangeEnd) {
 							popInterval(actualPosition, actualLine);
 						} else {
-							char temp = text.charAt(actualInterval.getStartOffset());
+							final char temp = text.charAt(actualInterval.getStartOffset());
 							if (temp == '/' && (text.charAt(nextPos) != '/' || text.charAt(nextPos + 1) != '/')) {
 								popInterval(actualPosition, actualLine);
 							} else if (temp == '#' && (text.charAt(nextPos) != '#')) {
@@ -181,7 +181,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 	// FIXME needs correction
 	@Override
 	public boolean isWithinString(final StringBuilder document, final int offset, final Interval enclosingInterval) throws BadLocationException {
-		Interval interval = enclosingInterval.getSmallestEnclosingInterval(offset);
+		final Interval interval = enclosingInterval.getSmallestEnclosingInterval(offset);
 		if (interval_type.MULTILINE_COMMENT.equals(interval.getType()) || interval_type.SINGLELINE_COMMENT.equals(interval.getType())) {
 			return false;
 		}
@@ -189,7 +189,7 @@ public final class HeuristicalIntervalDetector extends IntervalDetector implemen
 		int start = interval.getStartOffset();
 		int counter = 0;
 		while (start < offset) {
-			char curr = document.charAt(start);
+			final char curr = document.charAt(start);
 			if (curr == '"' || curr == '\'') {
 				counter++;
 			}

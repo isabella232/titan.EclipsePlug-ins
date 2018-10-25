@@ -62,7 +62,7 @@ public class ParamDialog extends TitleAreaDialog {
 
 	@Override
 	protected Control createContents(final Composite parent) {
-		Control contents = super.createContents(parent);
+		final Control contents = super.createContents(parent);
 		if (isAddition) {
 			setTitle("Add a new parameter");
 			getButton(OK).setEnabled(false);
@@ -89,7 +89,7 @@ public class ParamDialog extends TitleAreaDialog {
 		area.setLayout(layout);
 		area.setLayoutData(new GridData(GridData.FILL_BOTH | GridData.GRAB_HORIZONTAL | GridData.GRAB_VERTICAL));
 
-		Label label1 = new Label(area, SWT.NONE);
+		final Label label1 = new Label(area, SWT.NONE);
 		label1.setText("Name");
 		name = new Text(area, SWT.SINGLE | SWT.BORDER);
 		name.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
@@ -100,7 +100,7 @@ public class ParamDialog extends TitleAreaDialog {
 				validate();
 			}
 		});
-		Label label2 = new Label(area, SWT.NONE);
+		final Label label2 = new Label(area, SWT.NONE);
 		label2.setText("Value");
 		value = new Text(area, SWT.SINGLE | SWT.BORDER);
 		value.setLayoutData(new GridData(GridData.FILL_HORIZONTAL | GridData.GRAB_HORIZONTAL));
@@ -131,11 +131,11 @@ public class ParamDialog extends TitleAreaDialog {
 		}
 		if (nameField.length() > 0) {
 			if (isAddition) {
-				List<PluginSpecificParam> params = logentry.getPluginSpecificParam();
+				final List<PluginSpecificParam> params = logentry.getPluginSpecificParam();
 				if (params != null) {
-					Iterator<PluginSpecificParam> i = params.iterator();
+					final Iterator<PluginSpecificParam> i = params.iterator();
 					while (i.hasNext()) {
-						PluginSpecificParam p = i.next();
+						final PluginSpecificParam p = i.next();
 						if (nameField.equals(p.getParamName())) {
 							getButton(OK).setEnabled(false);
 							setErrorMessage("A parameter with this name already exists!");

@@ -52,16 +52,16 @@ public final class LoggingPage extends FormPage {
 	@Override
 	protected void createFormContent(final IManagedForm managedForm) {
 		form = managedForm.getForm();
-		FormToolkit toolkit = managedForm.getToolkit();
+		final FormToolkit toolkit = managedForm.getToolkit();
 		form.setText("Logging section");
 		form.setBackgroundImage(ImageCache.getImage("form_banner.gif"));
 
-		GridLayout layoutParent = new GridLayout();
+		final GridLayout layoutParent = new GridLayout();
 		form.getBody().setLayout(layoutParent);
 
-		Composite composite = toolkit.createComposite(form.getBody());
+		final Composite composite = toolkit.createComposite(form.getBody());
 
-		GridLayout layout = new GridLayout(2, true);
+		final GridLayout layout = new GridLayout(2, true);
 		layout.makeColumnsEqualWidth = true;
 		composite.setLayout(layout);
 		composite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
@@ -104,7 +104,7 @@ public final class LoggingPage extends FormPage {
 	 */
 
 	public void treeElementSelected(final LoggingSectionHandler.LoggerTreeElement lte) {
-		LogParamEntry logentry = loggingSectionHandler.componentPlugin(lte.getComponentName(), lte.getPluginName());
+		final LogParamEntry logentry = loggingSectionHandler.componentPlugin(lte.getComponentName(), lte.getPluginName());
 		generalOptions.refreshData(loggingSectionHandler, logentry);
 		loggingBitsSubPage.refreshData(loggingSectionHandler, logentry);
 	}
@@ -113,11 +113,12 @@ public final class LoggingPage extends FormPage {
 		if (loggingSectionHandler == null || loggingSectionHandler.getLastSectionRoot() != null) {
 			return;
 		}
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		loggingSectionHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[LOGGING]");
+		final ParseTree header = new AddedParseTree("\n[LOGGING]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}

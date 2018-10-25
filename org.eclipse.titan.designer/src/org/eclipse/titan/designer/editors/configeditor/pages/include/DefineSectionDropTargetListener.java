@@ -79,9 +79,9 @@ public final class DefineSectionDropTargetListener implements DropTargetListener
 	public void drop(final DropTargetEvent event) {
 		if (DefineItemTransfer.getInstance().isSupportedType(event.currentDataType)) {
 			if (event.item != null && viewer.getInput() != null) {
-				DefineSectionHandler defineSectionHandler = (DefineSectionHandler) viewer.getInput();
-				Definition element = (Definition) event.item.getData();
-				Definition[] items = (Definition[]) event.data;
+				final DefineSectionHandler defineSectionHandler = (DefineSectionHandler) viewer.getInput();
+				final Definition element = (Definition) event.item.getData();
+				final Definition[] items = (Definition[]) event.data;
 
 				int baseindex = defineSectionHandler.getDefinitions().indexOf(element);
 

@@ -45,23 +45,21 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 			return;
 		}
 
-		FormEditor tempEditor = (FormEditor) targetEditor;
-
-		IEditorPart editorPart = tempEditor.getActiveEditor();
+		final FormEditor tempEditor = (FormEditor) targetEditor;
+		final IEditorPart editorPart = tempEditor.getActiveEditor();
 		if (!(editorPart instanceof ITextEditor)) {
 			return;
 		}
 
-		ITextEditor realEditor = (ITextEditor) editorPart;
-
+		final ITextEditor realEditor = (ITextEditor) editorPart;
 		realEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
-		int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
+		final IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
+		final int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
 
 		try {
-			IRegion lineRegion = doc.getLineInformationOfOffset(offset);
-			int firstVisibleCharLocation = firstVisibleCharLocation(doc, lineRegion);
+			final IRegion lineRegion = doc.getLineInformationOfOffset(offset);
+			final int firstVisibleCharLocation = firstVisibleCharLocation(doc, lineRegion);
 			if (firstVisibleCharLocation != -1 && firstVisibleCharLocation != offset) {
 				// if the line contains characters and we are
 				// not right before the first one, jump there
@@ -118,10 +116,10 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 	 * */
 	public static int firstVisibleCharLocation(final IDocument doc, final IRegion lineRegion) throws BadLocationException {
 		int startOffset = lineRegion.getOffset();
-		int endOffset = Math.min(startOffset + lineRegion.getLength(), doc.getLength() - 1);
+		final int endOffset = Math.min(startOffset + lineRegion.getLength(), doc.getLength() - 1);
 
 		while (startOffset <= endOffset) {
-			char ch = doc.getChar(startOffset);
+			final char ch = doc.getChar(startOffset);
 			if (!Character.isWhitespace(ch)) {
 				return startOffset;
 			}
@@ -138,23 +136,21 @@ public final class FirstCharAction extends AbstractHandler implements IEditorAct
 			return null;
 		}
 
-		FormEditor tempEditor = (FormEditor) targetEditor;
-
-		IEditorPart editorPart = tempEditor.getActiveEditor();
+		final FormEditor tempEditor = (FormEditor) targetEditor;
+		final IEditorPart editorPart = tempEditor.getActiveEditor();
 		if (!(editorPart instanceof ITextEditor)) {
 			return null;
 		}
 
-		ITextEditor realEditor = (ITextEditor) editorPart;
-
+		final ITextEditor realEditor = (ITextEditor) editorPart;
 		realEditor.getEditorSite().getActionBars().getStatusLineManager().setErrorMessage(null);
 
-		IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
-		int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
+		final IDocument doc = realEditor.getDocumentProvider().getDocument(realEditor.getEditorInput());
+		final int offset = ((ITextSelection) realEditor.getSelectionProvider().getSelection()).getOffset();
 
 		try {
-			IRegion lineRegion = doc.getLineInformationOfOffset(offset);
-			int firstVisibleCharLocation = firstVisibleCharLocation(doc, lineRegion);
+			final IRegion lineRegion = doc.getLineInformationOfOffset(offset);
+			final int firstVisibleCharLocation = firstVisibleCharLocation(doc, lineRegion);
 			if (firstVisibleCharLocation != -1 && firstVisibleCharLocation != offset) {
 				// if the line contains characters and we are
 				// not right before the first one, jump there

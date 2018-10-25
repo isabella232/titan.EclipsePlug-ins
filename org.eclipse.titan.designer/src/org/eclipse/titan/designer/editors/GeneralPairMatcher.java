@@ -63,7 +63,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 		document = iDocument;
 		partitioner = null;
 		if (document instanceof IDocumentExtension3) {
-			IDocumentExtension3 extension3 = (IDocumentExtension3) document;
+			final IDocumentExtension3 extension3 = (IDocumentExtension3) document;
 			partitioner = extension3.getDocumentPartitioner(getPartitioning());
 		} else {
 			partitioner = document.getDocumentPartitioner();
@@ -90,7 +90,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 			return false;
 		}
 
-		Interval interval = GlobalIntervalHandler.getInterval(document);
+		final Interval interval = GlobalIntervalHandler.getInterval(document);
 		int temp;
 
 		for (int i = 0; i < pairs.length; i++) {
@@ -131,7 +131,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 	 */
 	protected final boolean findStartingBracket(final Pair pair) {
 		try {
-			String theDoc = document.get(0, offset);
+			final String theDoc = document.get(0, offset);
 			int currLevel = 1;
 			int currPosition = theDoc.length() - 1;
 			while (currLevel > 0 && currPosition > 0) {
@@ -168,7 +168,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 	 * @return the minimal region containing the peer characters
 	 */
 	protected final boolean findEndingBracket(final Pair pair) {
-		String theDoc = document.get();
+		final String theDoc = document.get();
 		int currLevel = 1;
 		int currPosition = startPos + 1;
 		while (currLevel > 0 && currPosition < theDoc.length()) {
@@ -218,7 +218,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 			return offset;
 		}
 
-		ITypedRegion partition = partitioner.getPartition(offset);
+		final ITypedRegion partition = partitioner.getPartition(offset);
 		return partition.getOffset() + partition.getLength() - 1;
 	}
 
@@ -235,7 +235,7 @@ public abstract class GeneralPairMatcher implements ICharacterPairMatcher {
 			return offset;
 		}
 
-		ITypedRegion partition = partitioner.getPartition(offset);
+		final ITypedRegion partition = partitioner.getPartition(offset);
 		return partition.getOffset();
 	}
 

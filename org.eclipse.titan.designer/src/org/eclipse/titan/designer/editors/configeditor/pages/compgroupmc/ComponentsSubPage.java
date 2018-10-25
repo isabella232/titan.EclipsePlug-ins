@@ -65,12 +65,12 @@ public final class ComponentsSubPage {
 	}
 
 	void createComponentsSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 
 		client.setLayout(layout);
@@ -113,16 +113,16 @@ public final class ComponentsSubPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-				ComponentsDataLabelProvider labelProvider = (ComponentsDataLabelProvider) componentsTableViewer.getLabelProvider();
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final ComponentsDataLabelProvider labelProvider = (ComponentsDataLabelProvider) componentsTableViewer.getLabelProvider();
 				return labelProvider.getColumnText(element, columnIndex);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					Component component = (Component) ((TableItem) element).getData();
+					final Component component = (Component) ((TableItem) element).getData();
 
 					switch (columnIndex) {
 					case 0:
@@ -140,7 +140,7 @@ public final class ComponentsSubPage {
 			}
 		});
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		add = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -158,7 +158,7 @@ public final class ComponentsSubPage {
 					createNewComponentsSection();
 				}
 
-				Component newComponent = createNewComponent();
+				final Component newComponent = createNewComponent();
 				if (newComponent == null) {
 					return;
 				}
@@ -254,12 +254,12 @@ public final class ComponentsSubPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		componentsSectionHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[COMPONENTS]");
+		final ParseTree header = new AddedParseTree("\n[COMPONENTS]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -302,10 +302,10 @@ public final class ComponentsSubPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) componentsTableViewer.getSelection();
+		final StructuredSelection selection = (StructuredSelection) componentsTableViewer.getSelection();
 		// remove the selected elements
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			Component component = (Component) iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final Component component = (Component) iterator.next();
 			if (component != null) {
 				ConfigTreeNodeUtilities.removeChild(componentsSectionHandler.getLastSectionRoot(), component.getRoot());
 				componentsSectionHandler.getComponents().remove(component);

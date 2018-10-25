@@ -66,12 +66,12 @@ public final class DefineSubPage {
 	}
 
 	void createDefinitionSection(final Composite parent, final ScrolledForm form, final FormToolkit toolkit) {
-		Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
+		final Section section = toolkit.createSection(parent, ExpandableComposite.TWISTIE | Section.DESCRIPTION | ExpandableComposite.TITLE_BAR);
 		section.setActiveToggleColor(toolkit.getHyperlinkGroup().getActiveForeground());
 		section.setToggleColor(toolkit.getColors().getColor(IFormColors.SEPARATOR));
 
-		Composite client = toolkit.createComposite(section, SWT.WRAP);
-		GridLayout layout = new GridLayout();
+		final Composite client = toolkit.createComposite(section, SWT.WRAP);
+		final GridLayout layout = new GridLayout();
 		layout.numColumns = 2;
 		client.setLayout(layout);
 
@@ -102,7 +102,7 @@ public final class DefineSubPage {
 		gd.verticalAlignment = SWT.FILL;
 		defineElementsTable.setLayoutData(gd);
 
-		Composite buttons = toolkit.createComposite(client);
+		final Composite buttons = toolkit.createComposite(client);
 		buttons.setLayout(new GridLayout());
 		buttons.setLayoutData(new GridData(GridData.VERTICAL_ALIGN_BEGINNING | GridData.GRAB_VERTICAL));
 		add = toolkit.createButton(buttons, "Add...", SWT.PUSH);
@@ -208,16 +208,16 @@ public final class DefineSubPage {
 
 			@Override
 			public String getValue(final Object element, final String property) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
-				DefineDataLabelProvider labelProvider = (DefineDataLabelProvider) defineElementsTableViewer.getLabelProvider();
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final DefineDataLabelProvider labelProvider = (DefineDataLabelProvider) defineElementsTableViewer.getLabelProvider();
 				return labelProvider.getColumnText(element, columnIndex);
 			}
 
 			@Override
 			public void modify(final Object element, final String property, final Object value) {
-				int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
+				final int columnIndex = Arrays.asList(COLUMN_NAMES).indexOf(property);
 				if (element != null && element instanceof TableItem && value instanceof String) {
-					Definition definition = (Definition) ((TableItem) element).getData();
+					final Definition definition = (Definition) ((TableItem) element).getData();
 
 					switch (columnIndex) {
 					case 0:
@@ -272,12 +272,12 @@ public final class DefineSubPage {
 			return;
 		}
 
-		ParserRuleContext sectionRoot = new ParserRuleContext();
+		final ParserRuleContext sectionRoot = new ParserRuleContext();
 		defineSectionHandler.setLastSectionRoot( sectionRoot );
-		ParseTree header = new AddedParseTree("\n[DEFINE]");
+		final ParseTree header = new AddedParseTree("\n[DEFINE]");
 		ConfigTreeNodeUtilities.addChild(sectionRoot, header);
 
-		ParserRuleContext root = editor.getParseTreeRoot();
+		final ParserRuleContext root = editor.getParseTreeRoot();
 		if (root != null) {
 			root.addChild(sectionRoot);
 		}
@@ -319,10 +319,10 @@ public final class DefineSubPage {
 			return;
 		}
 
-		StructuredSelection selection = (StructuredSelection) defineElementsTableViewer.getSelection();
+		final StructuredSelection selection = (StructuredSelection) defineElementsTableViewer.getSelection();
 		// remove the selected elements
-		for (Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
-			Definition item = (Definition) iterator.next();
+		for (final Iterator<?> iterator = selection.iterator(); iterator.hasNext();) {
+			final Definition item = (Definition) iterator.next();
 			if (item != null) {
 				ConfigTreeNodeUtilities.removeChild(defineSectionHandler.getLastSectionRoot(), item.getRoot());
 				defineSectionHandler.getDefinitions().remove(item);
