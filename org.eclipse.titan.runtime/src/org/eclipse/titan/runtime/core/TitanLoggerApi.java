@@ -39,35 +39,17 @@ public final class TitanLoggerApi extends TTCN_Module {
 
 public static final TTCN_Typedescriptor TitanLog_descr_ = new TTCN_Typedescriptor("TitanLog", null, null);
 public static final TTCN_Typedescriptor TitanLog_sequence__list_0_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0", null, null);
+public static final TTCN_Typedescriptor ComponentIDType_descr_ = new TTCN_Typedescriptor("ComponentIDType", null, null);
+public static final TTCN_RAWdescriptor ComponentIDType_id_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ComponentIDType_id_descr_ = new TTCN_Typedescriptor("ComponentIDType_id", ComponentIDType_id_raw_, null);
+public static final TitanUniversalCharString ComponentIDType_id_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ComponentIDType_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ComponentIDType_name_descr_ = new TTCN_Typedescriptor("ComponentIDType_name", ComponentIDType_name_raw_, null);
+public static final TitanUniversalCharString ComponentIDType_name_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ComponentIDType_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor TitanLog_sequence__list_0_entityId_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0_entityId", null, null);
 public static final TitanUniversalCharString TitanLog_sequence__list_0_entityId_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanLog_sequence__list_0_event__list_0_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0_event__list_0", null, null);
-public static final TitanUniversalCharString TitanLog_sequence__list_0_event__list_0_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanLog_sequence__list_0_event__list_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0_event__list", null, null);
-public static final TitanUniversalCharString TitanLog_sequence__list_0_event__list_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TitanLog_sequence__list_0_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanLog_sequence__list_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list", null, null);
-public static final TitanUniversalCharString TitanLog_sequence__list_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TitanLog_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanSingleLogEvent_descr_ = new TTCN_Typedescriptor("TitanSingleLogEvent", null, null);
-public static final TTCN_Typedescriptor TitanSingleLogEvent_entityId_descr_ = new TTCN_Typedescriptor("TitanSingleLogEvent_entityId", null, null);
-public static final TitanUniversalCharString TitanSingleLogEvent_entityId_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanSingleLogEvent_event_descr_ = new TTCN_Typedescriptor("TitanSingleLogEvent_event", null, null);
-public static final TitanUniversalCharString TitanSingleLogEvent_event_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TitanSingleLogEvent_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor TitanLogEvent_descr_ = new TTCN_Typedescriptor("TitanLogEvent", null, null);
-public static final TTCN_Typedescriptor TitanLogEvent_timestamp_descr_ = new TTCN_Typedescriptor("TitanLogEvent_timestamp", null, null);
-public static final TitanUniversalCharString TitanLogEvent_timestamp_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanLogEvent_sourceInfo__list_0_descr_ = new TTCN_Typedescriptor("TitanLogEvent_sourceInfo__list_0", null, null);
-public static final TitanUniversalCharString TitanLogEvent_sourceInfo__list_0_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanLogEvent_sourceInfo__list_descr_ = new TTCN_Typedescriptor("TitanLogEvent_sourceInfo__list", null, null);
-public static final TitanUniversalCharString TitanLogEvent_sourceInfo__list_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor TitanLogEvent_severity_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor TitanLogEvent_severity_descr_ = new TTCN_Typedescriptor("TitanLogEvent_severity", TitanLogEvent_severity_raw_, null);
-public static final TitanUniversalCharString TitanLogEvent_severity_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TitanLogEvent_logEvent_descr_ = new TTCN_Typedescriptor("TitanLogEvent_logEvent", null, null);
-public static final TitanUniversalCharString TitanLogEvent_logEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TitanLogEvent_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor TimestampType_descr_ = new TTCN_Typedescriptor("TimestampType", null, null);
 public static final TTCN_RAWdescriptor TimestampType_seconds_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor TimestampType_seconds_descr_ = new TTCN_Typedescriptor("TimestampType_seconds", TimestampType_seconds_raw_, null);
@@ -76,6 +58,8 @@ public static final TTCN_RAWdescriptor TimestampType_microSeconds_raw_ = new TTC
 public static final TTCN_Typedescriptor TimestampType_microSeconds_descr_ = new TTCN_Typedescriptor("TimestampType_microSeconds", TimestampType_microSeconds_raw_, null);
 public static final TitanUniversalCharString TimestampType_microSeconds_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString TimestampType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLogEvent_timestamp_descr_ = new TTCN_Typedescriptor("TitanLogEvent_timestamp", null, null);
+public static final TitanUniversalCharString TitanLogEvent_timestamp_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor LocationInfo_descr_ = new TTCN_Typedescriptor("LocationInfo", null, null);
 public static final TTCN_RAWdescriptor LocationInfo_filename_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor LocationInfo_filename_descr_ = new TTCN_Typedescriptor("LocationInfo_filename", LocationInfo_filename_raw_, null);
@@ -89,53 +73,15 @@ public static final TitanUniversalCharString LocationInfo_ent__name_default_codi
 public static final TTCN_Typedescriptor LocationInfo_ent__type_descr_ = new TTCN_Typedescriptor("LocationInfo_ent__type", null, null);
 public static final TitanUniversalCharString LocationInfo_ent__type_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString LocationInfo_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ComponentIDType_descr_ = new TTCN_Typedescriptor("ComponentIDType", null, null);
-public static final TTCN_RAWdescriptor ComponentIDType_id_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ComponentIDType_id_descr_ = new TTCN_Typedescriptor("ComponentIDType_id", ComponentIDType_id_raw_, null);
-public static final TitanUniversalCharString ComponentIDType_id_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ComponentIDType_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ComponentIDType_name_descr_ = new TTCN_Typedescriptor("ComponentIDType_name", ComponentIDType_name_raw_, null);
-public static final TitanUniversalCharString ComponentIDType_name_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ComponentIDType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLogEvent_sourceInfo__list_0_descr_ = new TTCN_Typedescriptor("TitanLogEvent_sourceInfo__list_0", null, null);
+public static final TitanUniversalCharString TitanLogEvent_sourceInfo__list_0_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLogEvent_sourceInfo__list_descr_ = new TTCN_Typedescriptor("TitanLogEvent_sourceInfo__list", null, null);
+public static final TitanUniversalCharString TitanLogEvent_sourceInfo__list_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor TitanLogEvent_severity_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor TitanLogEvent_severity_descr_ = new TTCN_Typedescriptor("TitanLogEvent_severity", TitanLogEvent_severity_raw_, null);
+public static final TitanUniversalCharString TitanLogEvent_severity_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor LogEventType_descr_ = new TTCN_Typedescriptor("LogEventType", null, null);
 public static final TTCN_Typedescriptor LogEventType_choice_descr_ = new TTCN_Typedescriptor("LogEventType_choice", null, null);
-public static final TTCN_Typedescriptor LogEventType_choice_actionEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_actionEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_actionEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_defaultEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_defaultEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_defaultEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_errorLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_errorLog", null, null);
-public static final TitanUniversalCharString LogEventType_choice_errorLog_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_executorEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_executorEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_executorEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_functionEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_functionEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_functionEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_parallelEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_parallelEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_parallelEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_testcaseOp_descr_ = new TTCN_Typedescriptor("LogEventType_choice_testcaseOp", null, null);
-public static final TitanUniversalCharString LogEventType_choice_testcaseOp_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_portEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_portEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_portEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_statistics_descr_ = new TTCN_Typedescriptor("LogEventType_choice_statistics", null, null);
-public static final TitanUniversalCharString LogEventType_choice_statistics_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_timerEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_timerEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_timerEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_userLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_userLog", null, null);
-public static final TitanUniversalCharString LogEventType_choice_userLog_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_verdictOp_descr_ = new TTCN_Typedescriptor("LogEventType_choice_verdictOp", null, null);
-public static final TitanUniversalCharString LogEventType_choice_verdictOp_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_warningLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_warningLog", null, null);
-public static final TitanUniversalCharString LogEventType_choice_warningLog_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_matchingEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_matchingEvent", null, null);
-public static final TitanUniversalCharString LogEventType_choice_matchingEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_debugLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_debugLog", null, null);
-public static final TitanUniversalCharString LogEventType_choice_debugLog_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor LogEventType_choice_executionSummary_descr_ = new TTCN_Typedescriptor("LogEventType_choice_executionSummary", null, null);
-public static final TitanUniversalCharString LogEventType_choice_executionSummary_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor LogEventType_choice_unhandledEvent_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor LogEventType_choice_unhandledEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_unhandledEvent", LogEventType_choice_unhandledEvent_raw_, null);
-public static final TitanUniversalCharString LogEventType_choice_unhandledEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString LogEventType_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString LogEventType_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor Strings_descr_ = new TTCN_Typedescriptor("Strings", null, null);
 public static final TTCN_RAWdescriptor Strings_str__list_0_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor Strings_str__list_0_descr_ = new TTCN_Typedescriptor("Strings_str__list_0", Strings_str__list_0_raw_, null);
@@ -143,6 +89,32 @@ public static final TitanUniversalCharString Strings_str__list_0_default_coding 
 public static final TTCN_Typedescriptor Strings_str__list_descr_ = new TTCN_Typedescriptor("Strings_str__list", null, null);
 public static final TitanUniversalCharString Strings_str__list_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString Strings_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_actionEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_actionEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_actionEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor DefaultEvent_descr_ = new TTCN_Typedescriptor("DefaultEvent", null, null);
+public static final TTCN_Typedescriptor DefaultEvent_choice_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice", null, null);
+public static final TTCN_Typedescriptor DefaultOp_descr_ = new TTCN_Typedescriptor("DefaultOp", null, null);
+public static final TTCN_RAWdescriptor DefaultOp_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor DefaultOp_name_descr_ = new TTCN_Typedescriptor("DefaultOp_name", DefaultOp_name_raw_, null);
+public static final TitanUniversalCharString DefaultOp_name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor DefaultOp_id_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor DefaultOp_id_descr_ = new TTCN_Typedescriptor("DefaultOp_id", DefaultOp_id_raw_, null);
+public static final TitanUniversalCharString DefaultOp_id_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor DefaultEnd_descr_ = new TTCN_Typedescriptor("DefaultEnd", null, null);
+public static final TitanUniversalCharString DefaultEnd_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor DefaultOp_end_descr_ = new TTCN_Typedescriptor("DefaultOp_end", null, null);
+public static final TitanUniversalCharString DefaultOp_end_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString DefaultOp_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor DefaultEvent_choice_defaultopActivate_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice_defaultopActivate", null, null);
+public static final TitanUniversalCharString DefaultEvent_choice_defaultopActivate_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor DefaultEvent_choice_defaultopDeactivate_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice_defaultopDeactivate", null, null);
+public static final TitanUniversalCharString DefaultEvent_choice_defaultopDeactivate_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor DefaultEvent_choice_defaultopExit_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice_defaultopExit", null, null);
+public static final TitanUniversalCharString DefaultEvent_choice_defaultopExit_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString DefaultEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString DefaultEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_defaultEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_defaultEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_defaultEvent_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor Categorized_descr_ = new TTCN_Typedescriptor("Categorized", null, null);
 public static final TTCN_RAWdescriptor Categorized_category_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor Categorized_category_descr_ = new TTCN_Typedescriptor("Categorized_category", Categorized_category_raw_, null);
@@ -151,42 +123,82 @@ public static final TTCN_RAWdescriptor Categorized_text_raw_ = new TTCN_RAWdescr
 public static final TTCN_Typedescriptor Categorized_text_descr_ = new TTCN_Typedescriptor("Categorized_text", Categorized_text_raw_, null);
 public static final TitanUniversalCharString Categorized_text_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString Categorized_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ErrorEvent_descr_ = new TTCN_Typedescriptor("ErrorEvent", null, null);
-public static final TTCN_RAWdescriptor ErrorEvent_text_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ErrorEvent_text_descr_ = new TTCN_Typedescriptor("ErrorEvent_text", ErrorEvent_text_raw_, null);
-public static final TitanUniversalCharString ErrorEvent_text_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ErrorEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor WarningEvent_descr_ = new TTCN_Typedescriptor("WarningEvent", null, null);
-public static final TTCN_RAWdescriptor WarningEvent_text_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor WarningEvent_text_descr_ = new TTCN_Typedescriptor("WarningEvent_text", WarningEvent_text_raw_, null);
-public static final TitanUniversalCharString WarningEvent_text_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString WarningEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TestcaseEvent_descr_ = new TTCN_Typedescriptor("TestcaseEvent", null, null);
-public static final TTCN_Typedescriptor TestcaseEvent_choice_descr_ = new TTCN_Typedescriptor("TestcaseEvent_choice", null, null);
-public static final TTCN_Typedescriptor TestcaseEvent_choice_testcaseStarted_descr_ = new TTCN_Typedescriptor("TestcaseEvent_choice_testcaseStarted", null, null);
-public static final TitanUniversalCharString TestcaseEvent_choice_testcaseStarted_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TestcaseEvent_choice_testcaseFinished_descr_ = new TTCN_Typedescriptor("TestcaseEvent_choice_testcaseFinished", null, null);
-public static final TitanUniversalCharString TestcaseEvent_choice_testcaseFinished_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TestcaseEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TestcaseEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ParallelEvent_descr_ = new TTCN_Typedescriptor("ParallelEvent", null, null);
-public static final TTCN_Typedescriptor ParallelEvent_choice_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice", null, null);
-public static final TTCN_Typedescriptor ParallelEvent_choice_parallelPTC_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice_parallelPTC", null, null);
-public static final TitanUniversalCharString ParallelEvent_choice_parallelPTC_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ParallelEvent_choice_parallelPTC__exit_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice_parallelPTC__exit", null, null);
-public static final TitanUniversalCharString ParallelEvent_choice_parallelPTC__exit_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ParallelEvent_choice_parallelPort_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice_parallelPort", null, null);
-public static final TitanUniversalCharString ParallelEvent_choice_parallelPort_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ParallelEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ParallelEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor RandomAction_descr_ = new TTCN_Typedescriptor("RandomAction", null, null);
-public static final TitanUniversalCharString RandomAction_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_errorLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_errorLog", null, null);
+public static final TitanUniversalCharString LogEventType_choice_errorLog_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorEvent_descr_ = new TTCN_Typedescriptor("ExecutorEvent", null, null);
+public static final TTCN_Typedescriptor ExecutorEvent_choice_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice", null, null);
+public static final TTCN_Typedescriptor ExecutorRuntime_descr_ = new TTCN_Typedescriptor("ExecutorRuntime", null, null);
+public static final TTCN_Typedescriptor ExecutorRuntime_reason_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_reason", null, null);
+public static final TitanUniversalCharString ExecutorRuntime_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorRuntime_module__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorRuntime_module__name_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_module__name", ExecutorRuntime_module__name_raw_, null);
+public static final TitanUniversalCharString ExecutorRuntime_module__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorRuntime_testcase__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorRuntime_testcase__name_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_testcase__name", ExecutorRuntime_testcase__name_raw_, null);
+public static final TitanUniversalCharString ExecutorRuntime_testcase__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorRuntime_pid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorRuntime_pid_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_pid", ExecutorRuntime_pid_raw_, null);
+public static final TitanUniversalCharString ExecutorRuntime_pid_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorRuntime_fd__setsize_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorRuntime_fd__setsize_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_fd__setsize", ExecutorRuntime_fd__setsize_raw_, null);
+public static final TitanUniversalCharString ExecutorRuntime_fd__setsize_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutorRuntime_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorEvent_choice_executorRuntime_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorRuntime", null, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_executorRuntime_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorConfigdata_descr_ = new TTCN_Typedescriptor("ExecutorConfigdata", null, null);
+public static final TTCN_Typedescriptor ExecutorConfigdata_reason_descr_ = new TTCN_Typedescriptor("ExecutorConfigdata_reason", null, null);
+public static final TitanUniversalCharString ExecutorConfigdata_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorConfigdata_param___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorConfigdata_param___descr_ = new TTCN_Typedescriptor("ExecutorConfigdata_param__", ExecutorConfigdata_param___raw_, null);
+public static final TitanUniversalCharString ExecutorConfigdata_param___default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutorConfigdata_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorEvent_choice_executorConfigdata_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorConfigdata", null, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_executorConfigdata_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorEvent_choice_extcommandStart_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorEvent_choice_extcommandStart_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_extcommandStart", ExecutorEvent_choice_extcommandStart_raw_, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_extcommandStart_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorEvent_choice_extcommandSuccess_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorEvent_choice_extcommandSuccess_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_extcommandSuccess", ExecutorEvent_choice_extcommandSuccess_raw_, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_extcommandSuccess_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorComponent_descr_ = new TTCN_Typedescriptor("ExecutorComponent", null, null);
+public static final TTCN_Typedescriptor ExecutorComponent_reason_descr_ = new TTCN_Typedescriptor("ExecutorComponent_reason", null, null);
+public static final TitanUniversalCharString ExecutorComponent_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorComponent_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorComponent_compref_descr_ = new TTCN_Typedescriptor("ExecutorComponent_compref", ExecutorComponent_compref_raw_, null);
+public static final TitanUniversalCharString ExecutorComponent_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutorComponent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorEvent_choice_executorComponent_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorComponent", null, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_executorComponent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorEvent_choice_logOptions_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorEvent_choice_logOptions_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_logOptions", ExecutorEvent_choice_logOptions_raw_, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_logOptions_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorUnqualified_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified", null, null);
+public static final TTCN_Typedescriptor ExecutorUnqualified_reason_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_reason", null, null);
+public static final TitanUniversalCharString ExecutorUnqualified_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorUnqualified_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorUnqualified_name_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_name", ExecutorUnqualified_name_raw_, null);
+public static final TitanUniversalCharString ExecutorUnqualified_name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorUnqualified_addr_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorUnqualified_addr_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_addr", ExecutorUnqualified_addr_raw_, null);
+public static final TitanUniversalCharString ExecutorUnqualified_addr_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutorUnqualified_port___raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutorUnqualified_port___descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_port__", ExecutorUnqualified_port___raw_, null);
+public static final TitanUniversalCharString ExecutorUnqualified_port___default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutorUnqualified_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutorEvent_choice_executorMisc_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorMisc", null, null);
+public static final TitanUniversalCharString ExecutorEvent_choice_executorMisc_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutorEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutorEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_executorEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_executorEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_executorEvent_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor FunctionEvent_descr_ = new TTCN_Typedescriptor("FunctionEvent", null, null);
 public static final TTCN_Typedescriptor FunctionEvent_choice_descr_ = new TTCN_Typedescriptor("FunctionEvent_choice", null, null);
 public static final TTCN_RAWdescriptor FunctionEvent_choice_unqualified_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor FunctionEvent_choice_unqualified_descr_ = new TTCN_Typedescriptor("FunctionEvent_choice_unqualified", FunctionEvent_choice_unqualified_raw_, null);
 public static final TitanUniversalCharString FunctionEvent_choice_unqualified_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor FunctionEvent_choice_random_descr_ = new TTCN_Typedescriptor("FunctionEvent_choice_random", null, null);
+public static final TTCN_Typedescriptor RandomAction_descr_ = new TTCN_Typedescriptor("RandomAction", null, null);
+public static final TitanUniversalCharString RandomAction_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor FunctionEvent_choice_random_operation_descr_ = new TTCN_Typedescriptor("FunctionEvent_choice_random_operation", null, null);
 public static final TitanUniversalCharString FunctionEvent_choice_random_operation_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_RAWdescriptor FunctionEvent_choice_random_retval_raw_ = new TTCN_RAWdescriptor(64,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
@@ -198,109 +210,74 @@ public static final TitanUniversalCharString FunctionEvent_choice_random_intseed
 public static final TitanUniversalCharString FunctionEvent_choice_random_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString FunctionEvent_choice_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString FunctionEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingEvent_descr_ = new TTCN_Typedescriptor("MatchingEvent", null, null);
-public static final TTCN_Typedescriptor MatchingEvent_choice_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice", null, null);
-public static final TTCN_Typedescriptor MatchingEvent_choice_matchingDone_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingDone", null, null);
-public static final TitanUniversalCharString MatchingEvent_choice_matchingDone_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingEvent_choice_matchingSuccess_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingSuccess", null, null);
-public static final TitanUniversalCharString MatchingEvent_choice_matchingSuccess_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingEvent_choice_matchingFailure_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingFailure", null, null);
-public static final TitanUniversalCharString MatchingEvent_choice_matchingFailure_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingEvent_choice_matchingProblem_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingProblem", null, null);
-public static final TitanUniversalCharString MatchingEvent_choice_matchingProblem_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingEvent_choice_matchingTimeout_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingTimeout", null, null);
-public static final TitanUniversalCharString MatchingEvent_choice_matchingTimeout_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString MatchingEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString MatchingEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerEvent_descr_ = new TTCN_Typedescriptor("TimerEvent", null, null);
-public static final TTCN_Typedescriptor TimerEvent_choice_descr_ = new TTCN_Typedescriptor("TimerEvent_choice", null, null);
-public static final TTCN_Typedescriptor TimerEvent_choice_readTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_readTimer", null, null);
-public static final TitanUniversalCharString TimerEvent_choice_readTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerEvent_choice_startTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_startTimer", null, null);
-public static final TitanUniversalCharString TimerEvent_choice_startTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerEvent_choice_guardTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_guardTimer", null, null);
-public static final TitanUniversalCharString TimerEvent_choice_guardTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerEvent_choice_stopTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_stopTimer", null, null);
-public static final TitanUniversalCharString TimerEvent_choice_stopTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerEvent_choice_timeoutTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_timeoutTimer", null, null);
-public static final TitanUniversalCharString TimerEvent_choice_timeoutTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerEvent_choice_timeoutAnyTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_timeoutAnyTimer", null, null);
-public static final TitanUniversalCharString TimerEvent_choice_timeoutAnyTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor TimerEvent_choice_unqualifiedTimer_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor TimerEvent_choice_unqualifiedTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_unqualifiedTimer", TimerEvent_choice_unqualifiedTimer_raw_, null);
-public static final TitanUniversalCharString TimerEvent_choice_unqualifiedTimer_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TimerEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TimerEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor DefaultEvent_descr_ = new TTCN_Typedescriptor("DefaultEvent", null, null);
-public static final TTCN_Typedescriptor DefaultEvent_choice_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice", null, null);
-public static final TTCN_Typedescriptor DefaultEvent_choice_defaultopActivate_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice_defaultopActivate", null, null);
-public static final TitanUniversalCharString DefaultEvent_choice_defaultopActivate_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor DefaultEvent_choice_defaultopDeactivate_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice_defaultopDeactivate", null, null);
-public static final TitanUniversalCharString DefaultEvent_choice_defaultopDeactivate_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor DefaultEvent_choice_defaultopExit_descr_ = new TTCN_Typedescriptor("DefaultEvent_choice_defaultopExit", null, null);
-public static final TitanUniversalCharString DefaultEvent_choice_defaultopExit_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString DefaultEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString DefaultEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorEvent_descr_ = new TTCN_Typedescriptor("ExecutorEvent", null, null);
-public static final TTCN_Typedescriptor ExecutorEvent_choice_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice", null, null);
-public static final TTCN_Typedescriptor ExecutorEvent_choice_executorRuntime_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorRuntime", null, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_executorRuntime_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorEvent_choice_executorConfigdata_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorConfigdata", null, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_executorConfigdata_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorEvent_choice_extcommandStart_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorEvent_choice_extcommandStart_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_extcommandStart", ExecutorEvent_choice_extcommandStart_raw_, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_extcommandStart_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorEvent_choice_extcommandSuccess_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorEvent_choice_extcommandSuccess_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_extcommandSuccess", ExecutorEvent_choice_extcommandSuccess_raw_, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_extcommandSuccess_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorEvent_choice_executorComponent_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorComponent", null, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_executorComponent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorEvent_choice_logOptions_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorEvent_choice_logOptions_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_logOptions", ExecutorEvent_choice_logOptions_raw_, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_logOptions_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorEvent_choice_executorMisc_descr_ = new TTCN_Typedescriptor("ExecutorEvent_choice_executorMisc", null, null);
-public static final TitanUniversalCharString ExecutorEvent_choice_executorMisc_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutorEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutorEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_descr_ = new TTCN_Typedescriptor("PortEvent", null, null);
-public static final TTCN_Typedescriptor PortEvent_choice_descr_ = new TTCN_Typedescriptor("PortEvent_choice", null, null);
-public static final TTCN_Typedescriptor PortEvent_choice_portQueue_descr_ = new TTCN_Typedescriptor("PortEvent_choice_portQueue", null, null);
-public static final TitanUniversalCharString PortEvent_choice_portQueue_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_portState_descr_ = new TTCN_Typedescriptor("PortEvent_choice_portState", null, null);
-public static final TitanUniversalCharString PortEvent_choice_portState_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_procPortSend_descr_ = new TTCN_Typedescriptor("PortEvent_choice_procPortSend", null, null);
-public static final TitanUniversalCharString PortEvent_choice_procPortSend_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_procPortRecv_descr_ = new TTCN_Typedescriptor("PortEvent_choice_procPortRecv", null, null);
-public static final TitanUniversalCharString PortEvent_choice_procPortRecv_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_msgPortSend_descr_ = new TTCN_Typedescriptor("PortEvent_choice_msgPortSend", null, null);
-public static final TitanUniversalCharString PortEvent_choice_msgPortSend_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_msgPortRecv_descr_ = new TTCN_Typedescriptor("PortEvent_choice_msgPortRecv", null, null);
-public static final TitanUniversalCharString PortEvent_choice_msgPortRecv_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_dualMapped_descr_ = new TTCN_Typedescriptor("PortEvent_choice_dualMapped", null, null);
-public static final TitanUniversalCharString PortEvent_choice_dualMapped_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_dualDiscard_descr_ = new TTCN_Typedescriptor("PortEvent_choice_dualDiscard", null, null);
-public static final TitanUniversalCharString PortEvent_choice_dualDiscard_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_setState_descr_ = new TTCN_Typedescriptor("PortEvent_choice_setState", null, null);
-public static final TitanUniversalCharString PortEvent_choice_setState_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PortEvent_choice_portMisc_descr_ = new TTCN_Typedescriptor("PortEvent_choice_portMisc", null, null);
-public static final TitanUniversalCharString PortEvent_choice_portMisc_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString PortEvent_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString PortEvent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerType_descr_ = new TTCN_Typedescriptor("TimerType", null, null);
-public static final TTCN_RAWdescriptor TimerType_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor TimerType_name_descr_ = new TTCN_Typedescriptor("TimerType_name", TimerType_name_raw_, null);
-public static final TitanUniversalCharString TimerType_name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor TimerType_value___raw_ = new TTCN_RAWdescriptor(64,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor TimerType_value___descr_ = new TTCN_Typedescriptor("TimerType_value__", TimerType_value___raw_, null);
-public static final TitanUniversalCharString TimerType_value___default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TimerType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerGuardType_descr_ = new TTCN_Typedescriptor("TimerGuardType", null, null);
-public static final TTCN_RAWdescriptor TimerGuardType_value___raw_ = new TTCN_RAWdescriptor(64,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor TimerGuardType_value___descr_ = new TTCN_Typedescriptor("TimerGuardType_value__", TimerGuardType_value___raw_, null);
-public static final TitanUniversalCharString TimerGuardType_value___default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString TimerGuardType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor TimerAnyTimeoutType_descr_ = new TTCN_Typedescriptor("TimerAnyTimeoutType", null, null);
-public static final TitanUniversalCharString TimerAnyTimeoutType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_functionEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_functionEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_functionEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ParallelEvent_descr_ = new TTCN_Typedescriptor("ParallelEvent", null, null);
+public static final TTCN_Typedescriptor ParallelEvent_choice_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice", null, null);
+public static final TTCN_Typedescriptor ParallelPTC_descr_ = new TTCN_Typedescriptor("ParallelPTC", null, null);
+public static final TTCN_Typedescriptor ParallelPTC_reason_descr_ = new TTCN_Typedescriptor("ParallelPTC_reason", null, null);
+public static final TitanUniversalCharString ParallelPTC_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_module___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_module___descr_ = new TTCN_Typedescriptor("ParallelPTC_module__", ParallelPTC_module___raw_, null);
+public static final TitanUniversalCharString ParallelPTC_module___default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_name_descr_ = new TTCN_Typedescriptor("ParallelPTC_name", ParallelPTC_name_raw_, null);
+public static final TitanUniversalCharString ParallelPTC_name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_compref_descr_ = new TTCN_Typedescriptor("ParallelPTC_compref", ParallelPTC_compref_raw_, null);
+public static final TitanUniversalCharString ParallelPTC_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_compname_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_compname_descr_ = new TTCN_Typedescriptor("ParallelPTC_compname", ParallelPTC_compname_raw_, null);
+public static final TitanUniversalCharString ParallelPTC_compname_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_tc__loc_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_tc__loc_descr_ = new TTCN_Typedescriptor("ParallelPTC_tc__loc", ParallelPTC_tc__loc_raw_, null);
+public static final TitanUniversalCharString ParallelPTC_tc__loc_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_alive__pid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_alive__pid_descr_ = new TTCN_Typedescriptor("ParallelPTC_alive__pid", ParallelPTC_alive__pid_raw_, null);
+public static final TitanUniversalCharString ParallelPTC_alive__pid_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParallelPTC_status_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParallelPTC_status_descr_ = new TTCN_Typedescriptor("ParallelPTC_status", ParallelPTC_status_raw_, null);
+public static final TitanUniversalCharString ParallelPTC_status_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ParallelPTC_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ParallelEvent_choice_parallelPTC_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice_parallelPTC", null, null);
+public static final TitanUniversalCharString ParallelEvent_choice_parallelPTC_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PTC__exit_descr_ = new TTCN_Typedescriptor("PTC__exit", null, null);
+public static final TTCN_RAWdescriptor PTC__exit_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor PTC__exit_compref_descr_ = new TTCN_Typedescriptor("PTC__exit_compref", PTC__exit_compref_raw_, null);
+public static final TitanUniversalCharString PTC__exit_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor PTC__exit_pid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor PTC__exit_pid_descr_ = new TTCN_Typedescriptor("PTC__exit_pid", PTC__exit_pid_raw_, null);
+public static final TitanUniversalCharString PTC__exit_pid_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor PTC__exit_statuscode_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor PTC__exit_statuscode_descr_ = new TTCN_Typedescriptor("PTC__exit_statuscode", PTC__exit_statuscode_raw_, null);
+public static final TitanUniversalCharString PTC__exit_statuscode_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString PTC__exit_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ParallelEvent_choice_parallelPTC__exit_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice_parallelPTC__exit", null, null);
+public static final TitanUniversalCharString ParallelEvent_choice_parallelPTC__exit_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ParPort_descr_ = new TTCN_Typedescriptor("ParPort", null, null);
+public static final TTCN_Typedescriptor ParPort_operation_descr_ = new TTCN_Typedescriptor("ParPort_operation", null, null);
+public static final TitanUniversalCharString ParPort_operation_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParPort_srcCompref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParPort_srcCompref_descr_ = new TTCN_Typedescriptor("ParPort_srcCompref", ParPort_srcCompref_raw_, null);
+public static final TitanUniversalCharString ParPort_srcCompref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParPort_dstCompref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParPort_dstCompref_descr_ = new TTCN_Typedescriptor("ParPort_dstCompref", ParPort_dstCompref_raw_, null);
+public static final TitanUniversalCharString ParPort_dstCompref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParPort_srcPort_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParPort_srcPort_descr_ = new TTCN_Typedescriptor("ParPort_srcPort", ParPort_srcPort_raw_, null);
+public static final TitanUniversalCharString ParPort_srcPort_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ParPort_dstPort_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ParPort_dstPort_descr_ = new TTCN_Typedescriptor("ParPort_dstPort", ParPort_dstPort_raw_, null);
+public static final TitanUniversalCharString ParPort_dstPort_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ParPort_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ParallelEvent_choice_parallelPort_descr_ = new TTCN_Typedescriptor("ParallelEvent_choice_parallelPort", null, null);
+public static final TitanUniversalCharString ParallelEvent_choice_parallelPort_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ParallelEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ParallelEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_parallelEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_parallelEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_parallelEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TestcaseEvent_descr_ = new TTCN_Typedescriptor("TestcaseEvent", null, null);
+public static final TTCN_Typedescriptor TestcaseEvent_choice_descr_ = new TTCN_Typedescriptor("TestcaseEvent_choice", null, null);
 public static final TTCN_Typedescriptor QualifiedName_descr_ = new TTCN_Typedescriptor("QualifiedName", null, null);
 public static final TTCN_RAWdescriptor QualifiedName_module__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor QualifiedName_module__name_descr_ = new TTCN_Typedescriptor("QualifiedName_module__name", QualifiedName_module__name_raw_, null);
@@ -309,33 +286,205 @@ public static final TTCN_RAWdescriptor QualifiedName_testcase__name_raw_ = new T
 public static final TTCN_Typedescriptor QualifiedName_testcase__name_descr_ = new TTCN_Typedescriptor("QualifiedName_testcase__name", QualifiedName_testcase__name_raw_, null);
 public static final TitanUniversalCharString QualifiedName_testcase__name_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString QualifiedName_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TestcaseEvent_choice_testcaseStarted_descr_ = new TTCN_Typedescriptor("TestcaseEvent_choice_testcaseStarted", null, null);
+public static final TitanUniversalCharString TestcaseEvent_choice_testcaseStarted_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor TestcaseType_descr_ = new TTCN_Typedescriptor("TestcaseType", null, null);
 public static final TTCN_Typedescriptor TestcaseType_name_descr_ = new TTCN_Typedescriptor("TestcaseType_name", null, null);
 public static final TitanUniversalCharString TestcaseType_name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Verdict_descr_ = new TTCN_Typedescriptor("Verdict", null, null);
+public static final TitanUniversalCharString Verdict_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor TestcaseType_verdict_descr_ = new TTCN_Typedescriptor("TestcaseType_verdict", null, null);
 public static final TitanUniversalCharString TestcaseType_verdict_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_RAWdescriptor TestcaseType_reason_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor TestcaseType_reason_descr_ = new TTCN_Typedescriptor("TestcaseType_reason", TestcaseType_reason_raw_, null);
 public static final TitanUniversalCharString TestcaseType_reason_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString TestcaseType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutionSummaryType_descr_ = new TTCN_Typedescriptor("ExecutionSummaryType", null, null);
-public static final TTCN_RAWdescriptor ExecutionSummaryType_numberOfTestcases_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutionSummaryType_numberOfTestcases_descr_ = new TTCN_Typedescriptor("ExecutionSummaryType_numberOfTestcases", ExecutionSummaryType_numberOfTestcases_raw_, null);
-public static final TitanUniversalCharString ExecutionSummaryType_numberOfTestcases_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutionSummaryType_overallStatistics_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutionSummaryType_overallStatistics_descr_ = new TTCN_Typedescriptor("ExecutionSummaryType_overallStatistics", ExecutionSummaryType_overallStatistics_raw_, null);
-public static final TitanUniversalCharString ExecutionSummaryType_overallStatistics_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutionSummaryType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor VerdictOp_descr_ = new TTCN_Typedescriptor("VerdictOp", null, null);
-public static final TTCN_Typedescriptor VerdictOp_choice_descr_ = new TTCN_Typedescriptor("VerdictOp_choice", null, null);
-public static final TTCN_Typedescriptor VerdictOp_choice_setVerdict_descr_ = new TTCN_Typedescriptor("VerdictOp_choice_setVerdict", null, null);
-public static final TitanUniversalCharString VerdictOp_choice_setVerdict_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor VerdictOp_choice_getVerdict_descr_ = new TTCN_Typedescriptor("VerdictOp_choice_getVerdict", null, null);
-public static final TitanUniversalCharString VerdictOp_choice_getVerdict_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor VerdictOp_choice_finalVerdict_descr_ = new TTCN_Typedescriptor("VerdictOp_choice_finalVerdict", null, null);
-public static final TitanUniversalCharString VerdictOp_choice_finalVerdict_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString VerdictOp_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString VerdictOp_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TestcaseEvent_choice_testcaseFinished_descr_ = new TTCN_Typedescriptor("TestcaseEvent_choice_testcaseFinished", null, null);
+public static final TitanUniversalCharString TestcaseEvent_choice_testcaseFinished_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TestcaseEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TestcaseEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_testcaseOp_descr_ = new TTCN_Typedescriptor("LogEventType_choice_testcaseOp", null, null);
+public static final TitanUniversalCharString LogEventType_choice_testcaseOp_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_descr_ = new TTCN_Typedescriptor("PortEvent", null, null);
+public static final TTCN_Typedescriptor PortEvent_choice_descr_ = new TTCN_Typedescriptor("PortEvent_choice", null, null);
+public static final TTCN_Typedescriptor Port__Queue_descr_ = new TTCN_Typedescriptor("Port__Queue", null, null);
+public static final TTCN_Typedescriptor Port__Queue_operation_descr_ = new TTCN_Typedescriptor("Port__Queue_operation", null, null);
+public static final TitanUniversalCharString Port__Queue_operation_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Queue_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Queue_port__name_descr_ = new TTCN_Typedescriptor("Port__Queue_port__name", Port__Queue_port__name_raw_, null);
+public static final TitanUniversalCharString Port__Queue_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Queue_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Queue_compref_descr_ = new TTCN_Typedescriptor("Port__Queue_compref", Port__Queue_compref_raw_, null);
+public static final TitanUniversalCharString Port__Queue_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Queue_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Queue_msgid_descr_ = new TTCN_Typedescriptor("Port__Queue_msgid", Port__Queue_msgid_raw_, null);
+public static final TitanUniversalCharString Port__Queue_msgid_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Queue_address___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Queue_address___descr_ = new TTCN_Typedescriptor("Port__Queue_address__", Port__Queue_address___raw_, null);
+public static final TitanUniversalCharString Port__Queue_address___default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Queue_param___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Queue_param___descr_ = new TTCN_Typedescriptor("Port__Queue_param__", Port__Queue_param___raw_, null);
+public static final TitanUniversalCharString Port__Queue_param___default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Port__Queue_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_portQueue_descr_ = new TTCN_Typedescriptor("PortEvent_choice_portQueue", null, null);
+public static final TitanUniversalCharString PortEvent_choice_portQueue_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Port__State_descr_ = new TTCN_Typedescriptor("Port__State", null, null);
+public static final TTCN_Typedescriptor Port__State_operation_descr_ = new TTCN_Typedescriptor("Port__State_operation", null, null);
+public static final TitanUniversalCharString Port__State_operation_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__State_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__State_port__name_descr_ = new TTCN_Typedescriptor("Port__State_port__name", Port__State_port__name_raw_, null);
+public static final TitanUniversalCharString Port__State_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Port__State_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_portState_descr_ = new TTCN_Typedescriptor("PortEvent_choice_portState", null, null);
+public static final TitanUniversalCharString PortEvent_choice_portState_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Proc__port__out_descr_ = new TTCN_Typedescriptor("Proc__port__out", null, null);
+public static final TTCN_RAWdescriptor Proc__port__out_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__out_port__name_descr_ = new TTCN_Typedescriptor("Proc__port__out_port__name", Proc__port__out_port__name_raw_, null);
+public static final TitanUniversalCharString Proc__port__out_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Port__oper_descr_ = new TTCN_Typedescriptor("Port__oper", null, null);
+public static final TitanUniversalCharString Port__oper_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Proc__port__out_operation_descr_ = new TTCN_Typedescriptor("Proc__port__out_operation", null, null);
+public static final TitanUniversalCharString Proc__port__out_operation_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__out_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__out_compref_descr_ = new TTCN_Typedescriptor("Proc__port__out_compref", Proc__port__out_compref_raw_, null);
+public static final TitanUniversalCharString Proc__port__out_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__out_sys__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__out_sys__name_descr_ = new TTCN_Typedescriptor("Proc__port__out_sys__name", Proc__port__out_sys__name_raw_, null);
+public static final TitanUniversalCharString Proc__port__out_sys__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__out_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__out_parameter_descr_ = new TTCN_Typedescriptor("Proc__port__out_parameter", Proc__port__out_parameter_raw_, null);
+public static final TitanUniversalCharString Proc__port__out_parameter_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Proc__port__out_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_procPortSend_descr_ = new TTCN_Typedescriptor("PortEvent_choice_procPortSend", null, null);
+public static final TitanUniversalCharString PortEvent_choice_procPortSend_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Proc__port__in_descr_ = new TTCN_Typedescriptor("Proc__port__in", null, null);
+public static final TTCN_RAWdescriptor Proc__port__in_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__in_port__name_descr_ = new TTCN_Typedescriptor("Proc__port__in_port__name", Proc__port__in_port__name_raw_, null);
+public static final TitanUniversalCharString Proc__port__in_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Proc__port__in_operation_descr_ = new TTCN_Typedescriptor("Proc__port__in_operation", null, null);
+public static final TitanUniversalCharString Proc__port__in_operation_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__in_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__in_compref_descr_ = new TTCN_Typedescriptor("Proc__port__in_compref", Proc__port__in_compref_raw_, null);
+public static final TitanUniversalCharString Proc__port__in_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__in_check___raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__in_check___descr_ = new TTCN_Typedescriptor("Proc__port__in_check__", Proc__port__in_check___raw_, null);
+public static final TitanUniversalCharString Proc__port__in_check___default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__in_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__in_parameter_descr_ = new TTCN_Typedescriptor("Proc__port__in_parameter", Proc__port__in_parameter_raw_, null);
+public static final TitanUniversalCharString Proc__port__in_parameter_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Proc__port__in_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Proc__port__in_msgid_descr_ = new TTCN_Typedescriptor("Proc__port__in_msgid", Proc__port__in_msgid_raw_, null);
+public static final TitanUniversalCharString Proc__port__in_msgid_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Proc__port__in_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_procPortRecv_descr_ = new TTCN_Typedescriptor("PortEvent_choice_procPortRecv", null, null);
+public static final TitanUniversalCharString PortEvent_choice_procPortRecv_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Msg__port__send_descr_ = new TTCN_Typedescriptor("Msg__port__send", null, null);
+public static final TTCN_RAWdescriptor Msg__port__send_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__send_port__name_descr_ = new TTCN_Typedescriptor("Msg__port__send_port__name", Msg__port__send_port__name_raw_, null);
+public static final TitanUniversalCharString Msg__port__send_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Msg__port__send_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__send_compref_descr_ = new TTCN_Typedescriptor("Msg__port__send_compref", Msg__port__send_compref_raw_, null);
+public static final TitanUniversalCharString Msg__port__send_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Msg__port__send_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__send_parameter_descr_ = new TTCN_Typedescriptor("Msg__port__send_parameter", Msg__port__send_parameter_raw_, null);
+public static final TitanUniversalCharString Msg__port__send_parameter_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Msg__port__send_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_msgPortSend_descr_ = new TTCN_Typedescriptor("PortEvent_choice_msgPortSend", null, null);
+public static final TitanUniversalCharString PortEvent_choice_msgPortSend_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Msg__port__recv_descr_ = new TTCN_Typedescriptor("Msg__port__recv", null, null);
+public static final TTCN_RAWdescriptor Msg__port__recv_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__recv_port__name_descr_ = new TTCN_Typedescriptor("Msg__port__recv_port__name", Msg__port__recv_port__name_raw_, null);
+public static final TitanUniversalCharString Msg__port__recv_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Msg__port__recv_operation_descr_ = new TTCN_Typedescriptor("Msg__port__recv_operation", null, null);
+public static final TitanUniversalCharString Msg__port__recv_operation_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Msg__port__recv_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__recv_compref_descr_ = new TTCN_Typedescriptor("Msg__port__recv_compref", Msg__port__recv_compref_raw_, null);
+public static final TitanUniversalCharString Msg__port__recv_compref_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Msg__port__recv_sys__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__recv_sys__name_descr_ = new TTCN_Typedescriptor("Msg__port__recv_sys__name", Msg__port__recv_sys__name_raw_, null);
+public static final TitanUniversalCharString Msg__port__recv_sys__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Msg__port__recv_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__recv_parameter_descr_ = new TTCN_Typedescriptor("Msg__port__recv_parameter", Msg__port__recv_parameter_raw_, null);
+public static final TitanUniversalCharString Msg__port__recv_parameter_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Msg__port__recv_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Msg__port__recv_msgid_descr_ = new TTCN_Typedescriptor("Msg__port__recv_msgid", Msg__port__recv_msgid_raw_, null);
+public static final TitanUniversalCharString Msg__port__recv_msgid_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Msg__port__recv_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_msgPortRecv_descr_ = new TTCN_Typedescriptor("PortEvent_choice_msgPortRecv", null, null);
+public static final TitanUniversalCharString PortEvent_choice_msgPortRecv_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Dualface__mapped_descr_ = new TTCN_Typedescriptor("Dualface__mapped", null, null);
+public static final TTCN_RAWdescriptor Dualface__mapped_incoming_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__mapped_incoming_descr_ = new TTCN_Typedescriptor("Dualface__mapped_incoming", Dualface__mapped_incoming_raw_, null);
+public static final TitanUniversalCharString Dualface__mapped_incoming_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Dualface__mapped_target__type_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__mapped_target__type_descr_ = new TTCN_Typedescriptor("Dualface__mapped_target__type", Dualface__mapped_target__type_raw_, null);
+public static final TitanUniversalCharString Dualface__mapped_target__type_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Dualface__mapped_value___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__mapped_value___descr_ = new TTCN_Typedescriptor("Dualface__mapped_value__", Dualface__mapped_value___raw_, null);
+public static final TitanUniversalCharString Dualface__mapped_value___default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Dualface__mapped_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__mapped_msgid_descr_ = new TTCN_Typedescriptor("Dualface__mapped_msgid", Dualface__mapped_msgid_raw_, null);
+public static final TitanUniversalCharString Dualface__mapped_msgid_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Dualface__mapped_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_dualMapped_descr_ = new TTCN_Typedescriptor("PortEvent_choice_dualMapped", null, null);
+public static final TitanUniversalCharString PortEvent_choice_dualMapped_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Dualface__discard_descr_ = new TTCN_Typedescriptor("Dualface__discard", null, null);
+public static final TTCN_RAWdescriptor Dualface__discard_incoming_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__discard_incoming_descr_ = new TTCN_Typedescriptor("Dualface__discard_incoming", Dualface__discard_incoming_raw_, null);
+public static final TitanUniversalCharString Dualface__discard_incoming_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Dualface__discard_target__type_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__discard_target__type_descr_ = new TTCN_Typedescriptor("Dualface__discard_target__type", Dualface__discard_target__type_raw_, null);
+public static final TitanUniversalCharString Dualface__discard_target__type_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Dualface__discard_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__discard_port__name_descr_ = new TTCN_Typedescriptor("Dualface__discard_port__name", Dualface__discard_port__name_raw_, null);
+public static final TitanUniversalCharString Dualface__discard_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Dualface__discard_unhandled_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Dualface__discard_unhandled_descr_ = new TTCN_Typedescriptor("Dualface__discard_unhandled", Dualface__discard_unhandled_raw_, null);
+public static final TitanUniversalCharString Dualface__discard_unhandled_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Dualface__discard_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_dualDiscard_descr_ = new TTCN_Typedescriptor("PortEvent_choice_dualDiscard", null, null);
+public static final TitanUniversalCharString PortEvent_choice_dualDiscard_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Setstate_descr_ = new TTCN_Typedescriptor("Setstate", null, null);
+public static final TTCN_RAWdescriptor Setstate_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Setstate_port__name_descr_ = new TTCN_Typedescriptor("Setstate_port__name", Setstate_port__name_raw_, null);
+public static final TitanUniversalCharString Setstate_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Setstate_state_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Setstate_state_descr_ = new TTCN_Typedescriptor("Setstate_state", Setstate_state_raw_, null);
+public static final TitanUniversalCharString Setstate_state_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Setstate_info_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Setstate_info_descr_ = new TTCN_Typedescriptor("Setstate_info", Setstate_info_raw_, null);
+public static final TitanUniversalCharString Setstate_info_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Setstate_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_setState_descr_ = new TTCN_Typedescriptor("PortEvent_choice_setState", null, null);
+public static final TitanUniversalCharString PortEvent_choice_setState_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor Port__Misc_descr_ = new TTCN_Typedescriptor("Port__Misc", null, null);
+public static final TTCN_Typedescriptor Port__Misc_reason_descr_ = new TTCN_Typedescriptor("Port__Misc_reason", null, null);
+public static final TitanUniversalCharString Port__Misc_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Misc_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Misc_port__name_descr_ = new TTCN_Typedescriptor("Port__Misc_port__name", Port__Misc_port__name_raw_, null);
+public static final TitanUniversalCharString Port__Misc_port__name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Misc_remote__component_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Misc_remote__component_descr_ = new TTCN_Typedescriptor("Port__Misc_remote__component", Port__Misc_remote__component_raw_, null);
+public static final TitanUniversalCharString Port__Misc_remote__component_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Misc_remote__port_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Misc_remote__port_descr_ = new TTCN_Typedescriptor("Port__Misc_remote__port", Port__Misc_remote__port_raw_, null);
+public static final TitanUniversalCharString Port__Misc_remote__port_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Misc_ip__address_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Misc_ip__address_descr_ = new TTCN_Typedescriptor("Port__Misc_ip__address", Port__Misc_ip__address_raw_, null);
+public static final TitanUniversalCharString Port__Misc_ip__address_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Misc_tcp__port_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Misc_tcp__port_descr_ = new TTCN_Typedescriptor("Port__Misc_tcp__port", Port__Misc_tcp__port_raw_, null);
+public static final TitanUniversalCharString Port__Misc_tcp__port_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor Port__Misc_new__size_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor Port__Misc_new__size_descr_ = new TTCN_Typedescriptor("Port__Misc_new__size", Port__Misc_new__size_raw_, null);
+public static final TitanUniversalCharString Port__Misc_new__size_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString Port__Misc_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor PortEvent_choice_portMisc_descr_ = new TTCN_Typedescriptor("PortEvent_choice_portMisc", null, null);
+public static final TitanUniversalCharString PortEvent_choice_portMisc_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString PortEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString PortEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_portEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_portEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_portEvent_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor StatisticsType_descr_ = new TTCN_Typedescriptor("StatisticsType", null, null);
 public static final TTCN_Typedescriptor StatisticsType_choice_descr_ = new TTCN_Typedescriptor("StatisticsType_choice", null, null);
 public static final TTCN_Typedescriptor StatisticsType_choice_verdictStatistics_descr_ = new TTCN_Typedescriptor("StatisticsType_choice_verdictStatistics", null, null);
@@ -381,6 +530,48 @@ public static final TTCN_Typedescriptor StatisticsType_choice_controlpartErrors_
 public static final TitanUniversalCharString StatisticsType_choice_controlpartErrors_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString StatisticsType_choice_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString StatisticsType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_statistics_descr_ = new TTCN_Typedescriptor("LogEventType_choice_statistics", null, null);
+public static final TitanUniversalCharString LogEventType_choice_statistics_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_descr_ = new TTCN_Typedescriptor("TimerEvent", null, null);
+public static final TTCN_Typedescriptor TimerEvent_choice_descr_ = new TTCN_Typedescriptor("TimerEvent_choice", null, null);
+public static final TTCN_Typedescriptor TimerType_descr_ = new TTCN_Typedescriptor("TimerType", null, null);
+public static final TTCN_RAWdescriptor TimerType_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor TimerType_name_descr_ = new TTCN_Typedescriptor("TimerType_name", TimerType_name_raw_, null);
+public static final TitanUniversalCharString TimerType_name_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor TimerType_value___raw_ = new TTCN_RAWdescriptor(64,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor TimerType_value___descr_ = new TTCN_Typedescriptor("TimerType_value__", TimerType_value___raw_, null);
+public static final TitanUniversalCharString TimerType_value___default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TimerType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_choice_readTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_readTimer", null, null);
+public static final TitanUniversalCharString TimerEvent_choice_readTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_choice_startTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_startTimer", null, null);
+public static final TitanUniversalCharString TimerEvent_choice_startTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerGuardType_descr_ = new TTCN_Typedescriptor("TimerGuardType", null, null);
+public static final TTCN_RAWdescriptor TimerGuardType_value___raw_ = new TTCN_RAWdescriptor(64,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor TimerGuardType_value___descr_ = new TTCN_Typedescriptor("TimerGuardType_value__", TimerGuardType_value___raw_, null);
+public static final TitanUniversalCharString TimerGuardType_value___default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TimerGuardType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_choice_guardTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_guardTimer", null, null);
+public static final TitanUniversalCharString TimerEvent_choice_guardTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_choice_stopTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_stopTimer", null, null);
+public static final TitanUniversalCharString TimerEvent_choice_stopTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_choice_timeoutTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_timeoutTimer", null, null);
+public static final TitanUniversalCharString TimerEvent_choice_timeoutTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerAnyTimeoutType_descr_ = new TTCN_Typedescriptor("TimerAnyTimeoutType", null, null);
+public static final TitanUniversalCharString TimerAnyTimeoutType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TimerEvent_choice_timeoutAnyTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_timeoutAnyTimer", null, null);
+public static final TitanUniversalCharString TimerEvent_choice_timeoutAnyTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor TimerEvent_choice_unqualifiedTimer_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor TimerEvent_choice_unqualifiedTimer_descr_ = new TTCN_Typedescriptor("TimerEvent_choice_unqualifiedTimer", TimerEvent_choice_unqualifiedTimer_raw_, null);
+public static final TitanUniversalCharString TimerEvent_choice_unqualifiedTimer_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TimerEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TimerEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_timerEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_timerEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_timerEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_userLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_userLog", null, null);
+public static final TitanUniversalCharString LogEventType_choice_userLog_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor VerdictOp_descr_ = new TTCN_Typedescriptor("VerdictOp", null, null);
+public static final TTCN_Typedescriptor VerdictOp_choice_descr_ = new TTCN_Typedescriptor("VerdictOp_choice", null, null);
 public static final TTCN_Typedescriptor SetVerdictType_descr_ = new TTCN_Typedescriptor("SetVerdictType", null, null);
 public static final TTCN_Typedescriptor SetVerdictType_newVerdict_descr_ = new TTCN_Typedescriptor("SetVerdictType_newVerdict", null, null);
 public static final TitanUniversalCharString SetVerdictType_newVerdict_default_coding = new TitanUniversalCharString("XER");
@@ -395,23 +586,12 @@ public static final TTCN_RAWdescriptor SetVerdictType_newReason_raw_ = new TTCN_
 public static final TTCN_Typedescriptor SetVerdictType_newReason_descr_ = new TTCN_Typedescriptor("SetVerdictType_newReason", SetVerdictType_newReason_raw_, null);
 public static final TitanUniversalCharString SetVerdictType_newReason_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString SetVerdictType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor VerdictType_descr_ = new TTCN_Typedescriptor("VerdictType", null, null);
-public static final TTCN_Typedescriptor VerdictType_fromVerdict_descr_ = new TTCN_Typedescriptor("VerdictType_fromVerdict", null, null);
-public static final TitanUniversalCharString VerdictType_fromVerdict_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor VerdictType_toVerdict_descr_ = new TTCN_Typedescriptor("VerdictType_toVerdict", null, null);
-public static final TitanUniversalCharString VerdictType_toVerdict_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor VerdictType_verdictReason_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor VerdictType_verdictReason_descr_ = new TTCN_Typedescriptor("VerdictType_verdictReason", VerdictType_verdictReason_raw_, null);
-public static final TitanUniversalCharString VerdictType_verdictReason_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString VerdictType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor VerdictOp_choice_setVerdict_descr_ = new TTCN_Typedescriptor("VerdictOp_choice_setVerdict", null, null);
+public static final TitanUniversalCharString VerdictOp_choice_setVerdict_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor VerdictOp_choice_getVerdict_descr_ = new TTCN_Typedescriptor("VerdictOp_choice_getVerdict", null, null);
+public static final TitanUniversalCharString VerdictOp_choice_getVerdict_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor FinalVerdictType_descr_ = new TTCN_Typedescriptor("FinalVerdictType", null, null);
 public static final TTCN_Typedescriptor FinalVerdictType_choice_descr_ = new TTCN_Typedescriptor("FinalVerdictType_choice", null, null);
-public static final TTCN_Typedescriptor FinalVerdictType_choice_info_descr_ = new TTCN_Typedescriptor("FinalVerdictType_choice_info", null, null);
-public static final TitanUniversalCharString FinalVerdictType_choice_info_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor FinalVerdictType_choice_notification_descr_ = new TTCN_Typedescriptor("FinalVerdictType_choice_notification", null, null);
-public static final TitanUniversalCharString FinalVerdictType_choice_notification_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString FinalVerdictType_choice_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString FinalVerdictType_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor FinalVerdictInfo_descr_ = new TTCN_Typedescriptor("FinalVerdictInfo", null, null);
 public static final TTCN_RAWdescriptor FinalVerdictInfo_is__ptc_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor FinalVerdictInfo_is__ptc_descr_ = new TTCN_Typedescriptor("FinalVerdictInfo_is__ptc", FinalVerdictInfo_is__ptc_raw_, null);
@@ -432,23 +612,40 @@ public static final TTCN_RAWdescriptor FinalVerdictInfo_ptc__name_raw_ = new TTC
 public static final TTCN_Typedescriptor FinalVerdictInfo_ptc__name_descr_ = new TTCN_Typedescriptor("FinalVerdictInfo_ptc__name", FinalVerdictInfo_ptc__name_raw_, null);
 public static final TitanUniversalCharString FinalVerdictInfo_ptc__name_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString FinalVerdictInfo_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Verdict_descr_ = new TTCN_Typedescriptor("Verdict", null, null);
-public static final TitanUniversalCharString Verdict_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor DefaultOp_descr_ = new TTCN_Typedescriptor("DefaultOp", null, null);
-public static final TTCN_RAWdescriptor DefaultOp_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor DefaultOp_name_descr_ = new TTCN_Typedescriptor("DefaultOp_name", DefaultOp_name_raw_, null);
-public static final TitanUniversalCharString DefaultOp_name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor DefaultOp_id_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor DefaultOp_id_descr_ = new TTCN_Typedescriptor("DefaultOp_id", DefaultOp_id_raw_, null);
-public static final TitanUniversalCharString DefaultOp_id_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor DefaultOp_end_descr_ = new TTCN_Typedescriptor("DefaultOp_end", null, null);
-public static final TitanUniversalCharString DefaultOp_end_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString DefaultOp_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor DefaultEnd_descr_ = new TTCN_Typedescriptor("DefaultEnd", null, null);
-public static final TitanUniversalCharString DefaultEnd_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor FinalVerdictType_choice_info_descr_ = new TTCN_Typedescriptor("FinalVerdictType_choice_info", null, null);
+public static final TitanUniversalCharString FinalVerdictType_choice_info_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor FinalVerdictType_choice_notification_descr_ = new TTCN_Typedescriptor("FinalVerdictType_choice_notification", null, null);
+public static final TitanUniversalCharString FinalVerdictType_choice_notification_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString FinalVerdictType_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString FinalVerdictType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor VerdictOp_choice_finalVerdict_descr_ = new TTCN_Typedescriptor("VerdictOp_choice_finalVerdict", null, null);
+public static final TitanUniversalCharString VerdictOp_choice_finalVerdict_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString VerdictOp_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString VerdictOp_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_verdictOp_descr_ = new TTCN_Typedescriptor("LogEventType_choice_verdictOp", null, null);
+public static final TitanUniversalCharString LogEventType_choice_verdictOp_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_warningLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_warningLog", null, null);
+public static final TitanUniversalCharString LogEventType_choice_warningLog_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingEvent_descr_ = new TTCN_Typedescriptor("MatchingEvent", null, null);
+public static final TTCN_Typedescriptor MatchingEvent_choice_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice", null, null);
+public static final TTCN_Typedescriptor MatchingDoneType_descr_ = new TTCN_Typedescriptor("MatchingDoneType", null, null);
+public static final TTCN_Typedescriptor MatchingDoneType_reason_descr_ = new TTCN_Typedescriptor("MatchingDoneType_reason", null, null);
+public static final TitanUniversalCharString MatchingDoneType_reason_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor MatchingDoneType_type___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor MatchingDoneType_type___descr_ = new TTCN_Typedescriptor("MatchingDoneType_type__", MatchingDoneType_type___raw_, null);
+public static final TitanUniversalCharString MatchingDoneType_type___default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor MatchingDoneType_ptc_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor MatchingDoneType_ptc_descr_ = new TTCN_Typedescriptor("MatchingDoneType_ptc", MatchingDoneType_ptc_raw_, null);
+public static final TitanUniversalCharString MatchingDoneType_ptc_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor MatchingDoneType_return__type_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor MatchingDoneType_return__type_descr_ = new TTCN_Typedescriptor("MatchingDoneType_return__type", MatchingDoneType_return__type_raw_, null);
+public static final TitanUniversalCharString MatchingDoneType_return__type_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString MatchingDoneType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingEvent_choice_matchingDone_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingDone", null, null);
+public static final TitanUniversalCharString MatchingEvent_choice_matchingDone_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingSuccessType_descr_ = new TTCN_Typedescriptor("MatchingSuccessType", null, null);
 public static final TTCN_Typedescriptor PortType_descr_ = new TTCN_Typedescriptor("PortType", null, null);
 public static final TitanUniversalCharString PortType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingSuccessType_descr_ = new TTCN_Typedescriptor("MatchingSuccessType", null, null);
 public static final TTCN_Typedescriptor MatchingSuccessType_port__type_descr_ = new TTCN_Typedescriptor("MatchingSuccessType_port__type", null, null);
 public static final TitanUniversalCharString MatchingSuccessType_port__type_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_RAWdescriptor MatchingSuccessType_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
@@ -458,6 +655,8 @@ public static final TTCN_RAWdescriptor MatchingSuccessType_info_raw_ = new TTCN_
 public static final TTCN_Typedescriptor MatchingSuccessType_info_descr_ = new TTCN_Typedescriptor("MatchingSuccessType_info", MatchingSuccessType_info_raw_, null);
 public static final TitanUniversalCharString MatchingSuccessType_info_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString MatchingSuccessType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingEvent_choice_matchingSuccess_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingSuccess", null, null);
+public static final TitanUniversalCharString MatchingEvent_choice_matchingSuccess_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor MatchingFailureType_descr_ = new TTCN_Typedescriptor("MatchingFailureType", null, null);
 public static final TTCN_Typedescriptor MatchingFailureType_port__type_descr_ = new TTCN_Typedescriptor("MatchingFailureType_port__type", null, null);
 public static final TitanUniversalCharString MatchingFailureType_port__type_default_coding = new TitanUniversalCharString("XER");
@@ -478,6 +677,8 @@ public static final TTCN_RAWdescriptor MatchingFailureType_info_raw_ = new TTCN_
 public static final TTCN_Typedescriptor MatchingFailureType_info_descr_ = new TTCN_Typedescriptor("MatchingFailureType_info", MatchingFailureType_info_raw_, null);
 public static final TitanUniversalCharString MatchingFailureType_info_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString MatchingFailureType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingEvent_choice_matchingFailure_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingFailure", null, null);
+public static final TitanUniversalCharString MatchingEvent_choice_matchingFailure_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor MatchingProblemType_descr_ = new TTCN_Typedescriptor("MatchingProblemType", null, null);
 public static final TTCN_RAWdescriptor MatchingProblemType_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor MatchingProblemType_port__name_descr_ = new TTCN_Typedescriptor("MatchingProblemType_port__name", MatchingProblemType_port__name_raw_, null);
@@ -493,92 +694,72 @@ public static final TTCN_RAWdescriptor MatchingProblemType_any__port_raw_ = new 
 public static final TTCN_Typedescriptor MatchingProblemType_any__port_descr_ = new TTCN_Typedescriptor("MatchingProblemType_any__port", MatchingProblemType_any__port_raw_, null);
 public static final TitanUniversalCharString MatchingProblemType_any__port_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString MatchingProblemType_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor MatchingDoneType_descr_ = new TTCN_Typedescriptor("MatchingDoneType", null, null);
-public static final TTCN_Typedescriptor MatchingDoneType_reason_descr_ = new TTCN_Typedescriptor("MatchingDoneType_reason", null, null);
-public static final TitanUniversalCharString MatchingDoneType_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor MatchingDoneType_type___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor MatchingDoneType_type___descr_ = new TTCN_Typedescriptor("MatchingDoneType_type__", MatchingDoneType_type___raw_, null);
-public static final TitanUniversalCharString MatchingDoneType_type___default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor MatchingDoneType_ptc_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor MatchingDoneType_ptc_descr_ = new TTCN_Typedescriptor("MatchingDoneType_ptc", MatchingDoneType_ptc_raw_, null);
-public static final TitanUniversalCharString MatchingDoneType_ptc_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor MatchingDoneType_return__type_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor MatchingDoneType_return__type_descr_ = new TTCN_Typedescriptor("MatchingDoneType_return__type", MatchingDoneType_return__type_raw_, null);
-public static final TitanUniversalCharString MatchingDoneType_return__type_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString MatchingDoneType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingEvent_choice_matchingProblem_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingProblem", null, null);
+public static final TitanUniversalCharString MatchingEvent_choice_matchingProblem_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor MatchingTimeout_descr_ = new TTCN_Typedescriptor("MatchingTimeout", null, null);
 public static final TTCN_RAWdescriptor MatchingTimeout_timer__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
 public static final TTCN_Typedescriptor MatchingTimeout_timer__name_descr_ = new TTCN_Typedescriptor("MatchingTimeout_timer__name", MatchingTimeout_timer__name_raw_, null);
 public static final TitanUniversalCharString MatchingTimeout_timer__name_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString MatchingTimeout_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorRuntime_descr_ = new TTCN_Typedescriptor("ExecutorRuntime", null, null);
-public static final TTCN_Typedescriptor ExecutorRuntime_reason_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_reason", null, null);
-public static final TitanUniversalCharString ExecutorRuntime_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorRuntime_module__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorRuntime_module__name_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_module__name", ExecutorRuntime_module__name_raw_, null);
-public static final TitanUniversalCharString ExecutorRuntime_module__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorRuntime_testcase__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorRuntime_testcase__name_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_testcase__name", ExecutorRuntime_testcase__name_raw_, null);
-public static final TitanUniversalCharString ExecutorRuntime_testcase__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorRuntime_pid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorRuntime_pid_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_pid", ExecutorRuntime_pid_raw_, null);
-public static final TitanUniversalCharString ExecutorRuntime_pid_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorRuntime_fd__setsize_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorRuntime_fd__setsize_descr_ = new TTCN_Typedescriptor("ExecutorRuntime_fd__setsize", ExecutorRuntime_fd__setsize_raw_, null);
-public static final TitanUniversalCharString ExecutorRuntime_fd__setsize_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutorRuntime_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorUnqualified_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified", null, null);
-public static final TTCN_Typedescriptor ExecutorUnqualified_reason_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_reason", null, null);
-public static final TitanUniversalCharString ExecutorUnqualified_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorUnqualified_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorUnqualified_name_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_name", ExecutorUnqualified_name_raw_, null);
-public static final TitanUniversalCharString ExecutorUnqualified_name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorUnqualified_addr_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorUnqualified_addr_descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_addr", ExecutorUnqualified_addr_raw_, null);
-public static final TitanUniversalCharString ExecutorUnqualified_addr_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorUnqualified_port___raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorUnqualified_port___descr_ = new TTCN_Typedescriptor("ExecutorUnqualified_port__", ExecutorUnqualified_port___raw_, null);
-public static final TitanUniversalCharString ExecutorUnqualified_port___default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutorUnqualified_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorConfigdata_descr_ = new TTCN_Typedescriptor("ExecutorConfigdata", null, null);
-public static final TTCN_Typedescriptor ExecutorConfigdata_reason_descr_ = new TTCN_Typedescriptor("ExecutorConfigdata_reason", null, null);
-public static final TitanUniversalCharString ExecutorConfigdata_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorConfigdata_param___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorConfigdata_param___descr_ = new TTCN_Typedescriptor("ExecutorConfigdata_param__", ExecutorConfigdata_param___raw_, null);
-public static final TitanUniversalCharString ExecutorConfigdata_param___default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutorConfigdata_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ExecutorComponent_descr_ = new TTCN_Typedescriptor("ExecutorComponent", null, null);
-public static final TTCN_Typedescriptor ExecutorComponent_reason_descr_ = new TTCN_Typedescriptor("ExecutorComponent_reason", null, null);
-public static final TitanUniversalCharString ExecutorComponent_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ExecutorComponent_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ExecutorComponent_compref_descr_ = new TTCN_Typedescriptor("ExecutorComponent_compref", ExecutorComponent_compref_raw_, null);
-public static final TitanUniversalCharString ExecutorComponent_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ExecutorComponent_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ParallelPTC_descr_ = new TTCN_Typedescriptor("ParallelPTC", null, null);
-public static final TTCN_Typedescriptor ParallelPTC_reason_descr_ = new TTCN_Typedescriptor("ParallelPTC_reason", null, null);
-public static final TitanUniversalCharString ParallelPTC_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_module___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_module___descr_ = new TTCN_Typedescriptor("ParallelPTC_module__", ParallelPTC_module___raw_, null);
-public static final TitanUniversalCharString ParallelPTC_module___default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_name_descr_ = new TTCN_Typedescriptor("ParallelPTC_name", ParallelPTC_name_raw_, null);
-public static final TitanUniversalCharString ParallelPTC_name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_compref_descr_ = new TTCN_Typedescriptor("ParallelPTC_compref", ParallelPTC_compref_raw_, null);
-public static final TitanUniversalCharString ParallelPTC_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_compname_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_compname_descr_ = new TTCN_Typedescriptor("ParallelPTC_compname", ParallelPTC_compname_raw_, null);
-public static final TitanUniversalCharString ParallelPTC_compname_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_tc__loc_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_tc__loc_descr_ = new TTCN_Typedescriptor("ParallelPTC_tc__loc", ParallelPTC_tc__loc_raw_, null);
-public static final TitanUniversalCharString ParallelPTC_tc__loc_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_alive__pid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_alive__pid_descr_ = new TTCN_Typedescriptor("ParallelPTC_alive__pid", ParallelPTC_alive__pid_raw_, null);
-public static final TitanUniversalCharString ParallelPTC_alive__pid_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParallelPTC_status_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParallelPTC_status_descr_ = new TTCN_Typedescriptor("ParallelPTC_status", ParallelPTC_status_raw_, null);
-public static final TitanUniversalCharString ParallelPTC_status_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ParallelPTC_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor MatchingEvent_choice_matchingTimeout_descr_ = new TTCN_Typedescriptor("MatchingEvent_choice_matchingTimeout", null, null);
+public static final TitanUniversalCharString MatchingEvent_choice_matchingTimeout_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString MatchingEvent_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString MatchingEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_matchingEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_matchingEvent", null, null);
+public static final TitanUniversalCharString LogEventType_choice_matchingEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_debugLog_descr_ = new TTCN_Typedescriptor("LogEventType_choice_debugLog", null, null);
+public static final TitanUniversalCharString LogEventType_choice_debugLog_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ExecutionSummaryType_descr_ = new TTCN_Typedescriptor("ExecutionSummaryType", null, null);
+public static final TTCN_RAWdescriptor ExecutionSummaryType_numberOfTestcases_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutionSummaryType_numberOfTestcases_descr_ = new TTCN_Typedescriptor("ExecutionSummaryType_numberOfTestcases", ExecutionSummaryType_numberOfTestcases_raw_, null);
+public static final TitanUniversalCharString ExecutionSummaryType_numberOfTestcases_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor ExecutionSummaryType_overallStatistics_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ExecutionSummaryType_overallStatistics_descr_ = new TTCN_Typedescriptor("ExecutionSummaryType_overallStatistics", ExecutionSummaryType_overallStatistics_raw_, null);
+public static final TitanUniversalCharString ExecutionSummaryType_overallStatistics_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ExecutionSummaryType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor LogEventType_choice_executionSummary_descr_ = new TTCN_Typedescriptor("LogEventType_choice_executionSummary", null, null);
+public static final TitanUniversalCharString LogEventType_choice_executionSummary_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor LogEventType_choice_unhandledEvent_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor LogEventType_choice_unhandledEvent_descr_ = new TTCN_Typedescriptor("LogEventType_choice_unhandledEvent", LogEventType_choice_unhandledEvent_raw_, null);
+public static final TitanUniversalCharString LogEventType_choice_unhandledEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString LogEventType_choice_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString LogEventType_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLogEvent_logEvent_descr_ = new TTCN_Typedescriptor("TitanLogEvent_logEvent", null, null);
+public static final TitanUniversalCharString TitanLogEvent_logEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TitanLogEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLog_sequence__list_0_event__list_0_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0_event__list_0", null, null);
+public static final TitanUniversalCharString TitanLog_sequence__list_0_event__list_0_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLog_sequence__list_0_event__list_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list_0_event__list", null, null);
+public static final TitanUniversalCharString TitanLog_sequence__list_0_event__list_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TitanLog_sequence__list_0_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanLog_sequence__list_descr_ = new TTCN_Typedescriptor("TitanLog_sequence__list", null, null);
+public static final TitanUniversalCharString TitanLog_sequence__list_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TitanLog_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanSingleLogEvent_descr_ = new TTCN_Typedescriptor("TitanSingleLogEvent", null, null);
+public static final TTCN_Typedescriptor TitanSingleLogEvent_entityId_descr_ = new TTCN_Typedescriptor("TitanSingleLogEvent_entityId", null, null);
+public static final TitanUniversalCharString TitanSingleLogEvent_entityId_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor TitanSingleLogEvent_event_descr_ = new TTCN_Typedescriptor("TitanSingleLogEvent_event", null, null);
+public static final TitanUniversalCharString TitanSingleLogEvent_event_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString TitanSingleLogEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor ErrorEvent_descr_ = new TTCN_Typedescriptor("ErrorEvent", null, null);
+public static final TTCN_RAWdescriptor ErrorEvent_text_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor ErrorEvent_text_descr_ = new TTCN_Typedescriptor("ErrorEvent_text", ErrorEvent_text_raw_, null);
+public static final TitanUniversalCharString ErrorEvent_text_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString ErrorEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor WarningEvent_descr_ = new TTCN_Typedescriptor("WarningEvent", null, null);
+public static final TTCN_RAWdescriptor WarningEvent_text_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor WarningEvent_text_descr_ = new TTCN_Typedescriptor("WarningEvent_text", WarningEvent_text_raw_, null);
+public static final TitanUniversalCharString WarningEvent_text_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString WarningEvent_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor VerdictType_descr_ = new TTCN_Typedescriptor("VerdictType", null, null);
+public static final TTCN_Typedescriptor VerdictType_fromVerdict_descr_ = new TTCN_Typedescriptor("VerdictType_fromVerdict", null, null);
+public static final TitanUniversalCharString VerdictType_fromVerdict_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_Typedescriptor VerdictType_toVerdict_descr_ = new TTCN_Typedescriptor("VerdictType_toVerdict", null, null);
+public static final TitanUniversalCharString VerdictType_toVerdict_default_coding = new TitanUniversalCharString("XER");
+public static final TTCN_RAWdescriptor VerdictType_verdictReason_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
+public static final TTCN_Typedescriptor VerdictType_verdictReason_descr_ = new TTCN_Typedescriptor("VerdictType_verdictReason", VerdictType_verdictReason_raw_, null);
+public static final TitanUniversalCharString VerdictType_verdictReason_default_coding = new TitanUniversalCharString("XER");
+public static final TitanUniversalCharString VerdictType_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor Parallel_descr_ = new TTCN_Typedescriptor("Parallel", null, null);
 public static final TTCN_Typedescriptor Parallel_reason_descr_ = new TTCN_Typedescriptor("Parallel_reason", null, null);
 public static final TitanUniversalCharString Parallel_reason_default_coding = new TitanUniversalCharString("XER");
@@ -614,228 +795,11 @@ public static final TitanUniversalCharString StartFunction_parameter__list_0_def
 public static final TTCN_Typedescriptor StartFunction_parameter__list_descr_ = new TTCN_Typedescriptor("StartFunction_parameter__list", null, null);
 public static final TitanUniversalCharString StartFunction_parameter__list_default_coding = new TitanUniversalCharString("XER");
 public static final TitanUniversalCharString StartFunction_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor PTC__exit_descr_ = new TTCN_Typedescriptor("PTC__exit", null, null);
-public static final TTCN_RAWdescriptor PTC__exit_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor PTC__exit_compref_descr_ = new TTCN_Typedescriptor("PTC__exit_compref", PTC__exit_compref_raw_, null);
-public static final TitanUniversalCharString PTC__exit_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor PTC__exit_pid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor PTC__exit_pid_descr_ = new TTCN_Typedescriptor("PTC__exit_pid", PTC__exit_pid_raw_, null);
-public static final TitanUniversalCharString PTC__exit_pid_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor PTC__exit_statuscode_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor PTC__exit_statuscode_descr_ = new TTCN_Typedescriptor("PTC__exit_statuscode", PTC__exit_statuscode_raw_, null);
-public static final TitanUniversalCharString PTC__exit_statuscode_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString PTC__exit_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor ParPort_descr_ = new TTCN_Typedescriptor("ParPort", null, null);
-public static final TTCN_Typedescriptor ParPort_operation_descr_ = new TTCN_Typedescriptor("ParPort_operation", null, null);
-public static final TitanUniversalCharString ParPort_operation_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParPort_srcCompref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParPort_srcCompref_descr_ = new TTCN_Typedescriptor("ParPort_srcCompref", ParPort_srcCompref_raw_, null);
-public static final TitanUniversalCharString ParPort_srcCompref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParPort_dstCompref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParPort_dstCompref_descr_ = new TTCN_Typedescriptor("ParPort_dstCompref", ParPort_dstCompref_raw_, null);
-public static final TitanUniversalCharString ParPort_dstCompref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParPort_srcPort_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParPort_srcPort_descr_ = new TTCN_Typedescriptor("ParPort_srcPort", ParPort_srcPort_raw_, null);
-public static final TitanUniversalCharString ParPort_srcPort_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor ParPort_dstPort_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor ParPort_dstPort_descr_ = new TTCN_Typedescriptor("ParPort_dstPort", ParPort_dstPort_raw_, null);
-public static final TitanUniversalCharString ParPort_dstPort_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString ParPort_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Port__Queue_descr_ = new TTCN_Typedescriptor("Port__Queue", null, null);
-public static final TTCN_Typedescriptor Port__Queue_operation_descr_ = new TTCN_Typedescriptor("Port__Queue_operation", null, null);
-public static final TitanUniversalCharString Port__Queue_operation_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Queue_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Queue_port__name_descr_ = new TTCN_Typedescriptor("Port__Queue_port__name", Port__Queue_port__name_raw_, null);
-public static final TitanUniversalCharString Port__Queue_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Queue_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Queue_compref_descr_ = new TTCN_Typedescriptor("Port__Queue_compref", Port__Queue_compref_raw_, null);
-public static final TitanUniversalCharString Port__Queue_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Queue_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Queue_msgid_descr_ = new TTCN_Typedescriptor("Port__Queue_msgid", Port__Queue_msgid_raw_, null);
-public static final TitanUniversalCharString Port__Queue_msgid_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Queue_address___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Queue_address___descr_ = new TTCN_Typedescriptor("Port__Queue_address__", Port__Queue_address___raw_, null);
-public static final TitanUniversalCharString Port__Queue_address___default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Queue_param___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Queue_param___descr_ = new TTCN_Typedescriptor("Port__Queue_param__", Port__Queue_param___raw_, null);
-public static final TitanUniversalCharString Port__Queue_param___default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Port__Queue_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Port__State_descr_ = new TTCN_Typedescriptor("Port__State", null, null);
-public static final TTCN_Typedescriptor Port__State_operation_descr_ = new TTCN_Typedescriptor("Port__State_operation", null, null);
-public static final TitanUniversalCharString Port__State_operation_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__State_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__State_port__name_descr_ = new TTCN_Typedescriptor("Port__State_port__name", Port__State_port__name_raw_, null);
-public static final TitanUniversalCharString Port__State_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Port__State_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Port__oper_descr_ = new TTCN_Typedescriptor("Port__oper", null, null);
-public static final TitanUniversalCharString Port__oper_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Proc__port__out_descr_ = new TTCN_Typedescriptor("Proc__port__out", null, null);
-public static final TTCN_RAWdescriptor Proc__port__out_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__out_port__name_descr_ = new TTCN_Typedescriptor("Proc__port__out_port__name", Proc__port__out_port__name_raw_, null);
-public static final TitanUniversalCharString Proc__port__out_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Proc__port__out_operation_descr_ = new TTCN_Typedescriptor("Proc__port__out_operation", null, null);
-public static final TitanUniversalCharString Proc__port__out_operation_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__out_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__out_compref_descr_ = new TTCN_Typedescriptor("Proc__port__out_compref", Proc__port__out_compref_raw_, null);
-public static final TitanUniversalCharString Proc__port__out_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__out_sys__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__out_sys__name_descr_ = new TTCN_Typedescriptor("Proc__port__out_sys__name", Proc__port__out_sys__name_raw_, null);
-public static final TitanUniversalCharString Proc__port__out_sys__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__out_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__out_parameter_descr_ = new TTCN_Typedescriptor("Proc__port__out_parameter", Proc__port__out_parameter_raw_, null);
-public static final TitanUniversalCharString Proc__port__out_parameter_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Proc__port__out_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Proc__port__in_descr_ = new TTCN_Typedescriptor("Proc__port__in", null, null);
-public static final TTCN_RAWdescriptor Proc__port__in_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__in_port__name_descr_ = new TTCN_Typedescriptor("Proc__port__in_port__name", Proc__port__in_port__name_raw_, null);
-public static final TitanUniversalCharString Proc__port__in_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Proc__port__in_operation_descr_ = new TTCN_Typedescriptor("Proc__port__in_operation", null, null);
-public static final TitanUniversalCharString Proc__port__in_operation_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__in_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__in_compref_descr_ = new TTCN_Typedescriptor("Proc__port__in_compref", Proc__port__in_compref_raw_, null);
-public static final TitanUniversalCharString Proc__port__in_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__in_check___raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__in_check___descr_ = new TTCN_Typedescriptor("Proc__port__in_check__", Proc__port__in_check___raw_, null);
-public static final TitanUniversalCharString Proc__port__in_check___default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__in_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__in_parameter_descr_ = new TTCN_Typedescriptor("Proc__port__in_parameter", Proc__port__in_parameter_raw_, null);
-public static final TitanUniversalCharString Proc__port__in_parameter_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Proc__port__in_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Proc__port__in_msgid_descr_ = new TTCN_Typedescriptor("Proc__port__in_msgid", Proc__port__in_msgid_raw_, null);
-public static final TitanUniversalCharString Proc__port__in_msgid_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Proc__port__in_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Msg__port__recv_descr_ = new TTCN_Typedescriptor("Msg__port__recv", null, null);
-public static final TTCN_RAWdescriptor Msg__port__recv_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__recv_port__name_descr_ = new TTCN_Typedescriptor("Msg__port__recv_port__name", Msg__port__recv_port__name_raw_, null);
-public static final TitanUniversalCharString Msg__port__recv_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Msg__port__recv_operation_descr_ = new TTCN_Typedescriptor("Msg__port__recv_operation", null, null);
-public static final TitanUniversalCharString Msg__port__recv_operation_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Msg__port__recv_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__recv_compref_descr_ = new TTCN_Typedescriptor("Msg__port__recv_compref", Msg__port__recv_compref_raw_, null);
-public static final TitanUniversalCharString Msg__port__recv_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Msg__port__recv_sys__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__recv_sys__name_descr_ = new TTCN_Typedescriptor("Msg__port__recv_sys__name", Msg__port__recv_sys__name_raw_, null);
-public static final TitanUniversalCharString Msg__port__recv_sys__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Msg__port__recv_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__recv_parameter_descr_ = new TTCN_Typedescriptor("Msg__port__recv_parameter", Msg__port__recv_parameter_raw_, null);
-public static final TitanUniversalCharString Msg__port__recv_parameter_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Msg__port__recv_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__recv_msgid_descr_ = new TTCN_Typedescriptor("Msg__port__recv_msgid", Msg__port__recv_msgid_raw_, null);
-public static final TitanUniversalCharString Msg__port__recv_msgid_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Msg__port__recv_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Msg__port__send_descr_ = new TTCN_Typedescriptor("Msg__port__send", null, null);
-public static final TTCN_RAWdescriptor Msg__port__send_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__send_port__name_descr_ = new TTCN_Typedescriptor("Msg__port__send_port__name", Msg__port__send_port__name_raw_, null);
-public static final TitanUniversalCharString Msg__port__send_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Msg__port__send_compref_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__send_compref_descr_ = new TTCN_Typedescriptor("Msg__port__send_compref", Msg__port__send_compref_raw_, null);
-public static final TitanUniversalCharString Msg__port__send_compref_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Msg__port__send_parameter_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Msg__port__send_parameter_descr_ = new TTCN_Typedescriptor("Msg__port__send_parameter", Msg__port__send_parameter_raw_, null);
-public static final TitanUniversalCharString Msg__port__send_parameter_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Msg__port__send_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Dualface__mapped_descr_ = new TTCN_Typedescriptor("Dualface__mapped", null, null);
-public static final TTCN_RAWdescriptor Dualface__mapped_incoming_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__mapped_incoming_descr_ = new TTCN_Typedescriptor("Dualface__mapped_incoming", Dualface__mapped_incoming_raw_, null);
-public static final TitanUniversalCharString Dualface__mapped_incoming_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Dualface__mapped_target__type_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__mapped_target__type_descr_ = new TTCN_Typedescriptor("Dualface__mapped_target__type", Dualface__mapped_target__type_raw_, null);
-public static final TitanUniversalCharString Dualface__mapped_target__type_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Dualface__mapped_value___raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__mapped_value___descr_ = new TTCN_Typedescriptor("Dualface__mapped_value__", Dualface__mapped_value___raw_, null);
-public static final TitanUniversalCharString Dualface__mapped_value___default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Dualface__mapped_msgid_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__mapped_msgid_descr_ = new TTCN_Typedescriptor("Dualface__mapped_msgid", Dualface__mapped_msgid_raw_, null);
-public static final TitanUniversalCharString Dualface__mapped_msgid_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Dualface__mapped_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Dualface__discard_descr_ = new TTCN_Typedescriptor("Dualface__discard", null, null);
-public static final TTCN_RAWdescriptor Dualface__discard_incoming_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__discard_incoming_descr_ = new TTCN_Typedescriptor("Dualface__discard_incoming", Dualface__discard_incoming_raw_, null);
-public static final TitanUniversalCharString Dualface__discard_incoming_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Dualface__discard_target__type_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__discard_target__type_descr_ = new TTCN_Typedescriptor("Dualface__discard_target__type", Dualface__discard_target__type_raw_, null);
-public static final TitanUniversalCharString Dualface__discard_target__type_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Dualface__discard_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__discard_port__name_descr_ = new TTCN_Typedescriptor("Dualface__discard_port__name", Dualface__discard_port__name_raw_, null);
-public static final TitanUniversalCharString Dualface__discard_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Dualface__discard_unhandled_raw_ = new TTCN_RAWdescriptor(1,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Dualface__discard_unhandled_descr_ = new TTCN_Typedescriptor("Dualface__discard_unhandled", Dualface__discard_unhandled_raw_, null);
-public static final TitanUniversalCharString Dualface__discard_unhandled_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Dualface__discard_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Setstate_descr_ = new TTCN_Typedescriptor("Setstate", null, null);
-public static final TTCN_RAWdescriptor Setstate_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Setstate_port__name_descr_ = new TTCN_Typedescriptor("Setstate_port__name", Setstate_port__name_raw_, null);
-public static final TitanUniversalCharString Setstate_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Setstate_state_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Setstate_state_descr_ = new TTCN_Typedescriptor("Setstate_state", Setstate_state_raw_, null);
-public static final TitanUniversalCharString Setstate_state_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Setstate_info_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Setstate_info_descr_ = new TTCN_Typedescriptor("Setstate_info", Setstate_info_raw_, null);
-public static final TitanUniversalCharString Setstate_info_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Setstate_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_Typedescriptor Port__Misc_descr_ = new TTCN_Typedescriptor("Port__Misc", null, null);
-public static final TTCN_Typedescriptor Port__Misc_reason_descr_ = new TTCN_Typedescriptor("Port__Misc_reason", null, null);
-public static final TitanUniversalCharString Port__Misc_reason_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Misc_port__name_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Misc_port__name_descr_ = new TTCN_Typedescriptor("Port__Misc_port__name", Port__Misc_port__name_raw_, null);
-public static final TitanUniversalCharString Port__Misc_port__name_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Misc_remote__component_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Misc_remote__component_descr_ = new TTCN_Typedescriptor("Port__Misc_remote__component", Port__Misc_remote__component_raw_, null);
-public static final TitanUniversalCharString Port__Misc_remote__component_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Misc_remote__port_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Misc_remote__port_descr_ = new TTCN_Typedescriptor("Port__Misc_remote__port", Port__Misc_remote__port_raw_, null);
-public static final TitanUniversalCharString Port__Misc_remote__port_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Misc_ip__address_raw_ = new TTCN_RAWdescriptor(0,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Misc_ip__address_descr_ = new TTCN_Typedescriptor("Port__Misc_ip__address", Port__Misc_ip__address_raw_, null);
-public static final TitanUniversalCharString Port__Misc_ip__address_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Misc_tcp__port_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Misc_tcp__port_descr_ = new TTCN_Typedescriptor("Port__Misc_tcp__port", Port__Misc_tcp__port_raw_, null);
-public static final TitanUniversalCharString Port__Misc_tcp__port_default_coding = new TitanUniversalCharString("XER");
-public static final TTCN_RAWdescriptor Port__Misc_new__size_raw_ = new TTCN_RAWdescriptor(8,raw_sign_t.SG_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,ext_bit_t.EXT_BIT_NO,raw_order_t.ORDER_LSB,raw_order_t.ORDER_LSB,top_bit_order_t.TOP_BIT_INHERITED,0,0,0,8,0,null,-1,CharCoding.UNKNOWN, null);
-public static final TTCN_Typedescriptor Port__Misc_new__size_descr_ = new TTCN_Typedescriptor("Port__Misc_new__size", Port__Misc_new__size_raw_, null);
-public static final TitanUniversalCharString Port__Misc_new__size_default_coding = new TitanUniversalCharString("XER");
-public static final TitanUniversalCharString Port__Misc_default_coding = new TitanUniversalCharString("XER");
 public static final TTCN_Typedescriptor anytype_descr_ = new TTCN_Typedescriptor("anytype", null, null);
 public static final TitanUniversalCharString anytype_default_coding = new TitanUniversalCharString("XER");
 
 public TitanLoggerApi() {
 super("TitanLoggerApi", moduleTypeEnum.TTCN3_MODULE);
-}
-
-public static void MatchingEvent_choice_matchingFailure_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(MatchingEvent_choice_matchingFailure_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger MatchingEvent_choice_matchingFailure_decoder( final TitanOctetString input_stream, final MatchingFailureType output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(MatchingEvent_choice_matchingFailure_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
 }
 
 public static void VerdictOp_choice_getVerdict_encoder(final Verdict input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
@@ -861,6 +825,42 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Verdict' does no
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(VerdictOp_choice_getVerdict_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void MatchingEvent_choice_matchingFailure_encoder(final MatchingFailureType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(MatchingEvent_choice_matchingFailure_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger MatchingEvent_choice_matchingFailure_decoder( final TitanOctetString input_stream, final MatchingFailureType output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(MatchingEvent_choice_matchingFailure_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -1060,45 +1060,45 @@ return new TitanInteger(1);
 		private final DefaultEnd end; //Referenced_Type
 
 		public DefaultOp() {
-			name = new TitanCharString();
-			id = new TitanInteger();
-			end = new DefaultEnd();
+			this.name = new TitanCharString();
+			this.id = new TitanInteger();
+			this.end = new DefaultEnd();
 		}
 
-		public DefaultOp( final TitanCharString aname, final TitanInteger aid, final DefaultEnd aend ) {
-			name = new TitanCharString( aname );
-			id = new TitanInteger( aid );
-			end = new DefaultEnd( aend );
+		public DefaultOp(final TitanCharString name, final TitanInteger id, final DefaultEnd end ) {
+			this.name = new TitanCharString( name );
+			this.id = new TitanInteger( id );
+			this.end = new DefaultEnd( end );
 		}
 
-		public DefaultOp( final DefaultOp aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public DefaultOp( final DefaultOp otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultOp.");
 			}
 			name = new TitanCharString();
 			id = new TitanInteger();
 			end = new DefaultEnd();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public DefaultOp assign(final DefaultOp aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public DefaultOp assign(final DefaultOp otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.DefaultOp");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getname().isBound() ) {
-					this.name.assign( aOtherValue.getname() );
+			if (otherValue != this) {
+				if ( otherValue.getname().isBound() ) {
+					this.name.assign( otherValue.getname() );
 				} else {
 					this.name.cleanUp();
 				}
-				if ( aOtherValue.getid().isBound() ) {
-					this.id.assign( aOtherValue.getid() );
+				if ( otherValue.getid().isBound() ) {
+					this.id.assign( otherValue.getid() );
 				} else {
 					this.id.cleanUp();
 				}
-				if ( aOtherValue.getend().isBound() ) {
-					this.end.assign( aOtherValue.getend() );
+				if ( otherValue.getend().isBound() ) {
+					this.end.assign( otherValue.getend() );
 				} else {
 					this.end.cleanUp();
 				}
@@ -1143,10 +1143,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final DefaultOp aOtherValue ) {
-			if ( !this.name.operatorEquals( aOtherValue.name ) ) { return false; }
-			if ( !this.id.operatorEquals( aOtherValue.id ) ) { return false; }
-			if ( !this.end.operatorEquals( aOtherValue.end ) ) { return false; }
+		public boolean operatorEquals( final DefaultOp otherValue) {
+			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
+			if ( !this.id.operatorEquals( otherValue.id ) ) { return false; }
+			if ( !this.end.operatorEquals( otherValue.end ) ) { return false; }
 			return true;
 		}
 
@@ -2985,30 +2985,30 @@ return new TitanInteger(1);
 		private final Optional<TitanCharString> ptc__name; //CharString_Type
 
 		public FinalVerdictInfo() {
-			is__ptc = new TitanBoolean();
-			ptc__verdict = new Verdict();
-			local__verdict = new Verdict();
-			new__verdict = new Verdict();
-			verdict__reason = new Optional<TitanCharString>(TitanCharString.class);
-			ptc__compref = new Optional<TitanInteger>(TitanInteger.class);
-			ptc__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.is__ptc = new TitanBoolean();
+			this.ptc__verdict = new Verdict();
+			this.local__verdict = new Verdict();
+			this.new__verdict = new Verdict();
+			this.verdict__reason = new Optional<TitanCharString>(TitanCharString.class);
+			this.ptc__compref = new Optional<TitanInteger>(TitanInteger.class);
+			this.ptc__name = new Optional<TitanCharString>(TitanCharString.class);
 		}
 
-		public FinalVerdictInfo( final TitanBoolean ais__ptc, final Verdict aptc__verdict, final Verdict alocal__verdict, final Verdict anew__verdict, final Optional<TitanCharString> averdict__reason, final Optional<TitanInteger> aptc__compref, final Optional<TitanCharString> aptc__name ) {
-			is__ptc = new TitanBoolean( ais__ptc );
-			ptc__verdict = new Verdict( aptc__verdict );
-			local__verdict = new Verdict( alocal__verdict );
-			new__verdict = new Verdict( anew__verdict );
-			verdict__reason = new Optional<TitanCharString>(TitanCharString.class);
-			this.verdict__reason.assign( averdict__reason );
-			ptc__compref = new Optional<TitanInteger>(TitanInteger.class);
-			this.ptc__compref.assign( aptc__compref );
-			ptc__name = new Optional<TitanCharString>(TitanCharString.class);
-			this.ptc__name.assign( aptc__name );
+		public FinalVerdictInfo(final TitanBoolean is__ptc, final Verdict ptc__verdict, final Verdict local__verdict, final Verdict new__verdict, final Optional<TitanCharString> verdict__reason, final Optional<TitanInteger> ptc__compref, final Optional<TitanCharString> ptc__name ) {
+			this.is__ptc = new TitanBoolean( is__ptc );
+			this.ptc__verdict = new Verdict( ptc__verdict );
+			this.local__verdict = new Verdict( local__verdict );
+			this.new__verdict = new Verdict( new__verdict );
+			this.verdict__reason = new Optional<TitanCharString>(TitanCharString.class);
+			this.verdict__reason.assign( verdict__reason );
+			this.ptc__compref = new Optional<TitanInteger>(TitanInteger.class);
+			this.ptc__compref.assign( ptc__compref );
+			this.ptc__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.ptc__name.assign( ptc__name );
 		}
 
-		public FinalVerdictInfo( final FinalVerdictInfo aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public FinalVerdictInfo( final FinalVerdictInfo otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictInfo.");
 			}
 			is__ptc = new TitanBoolean();
@@ -3018,47 +3018,47 @@ return new TitanInteger(1);
 			verdict__reason = new Optional<TitanCharString>(TitanCharString.class);
 			ptc__compref = new Optional<TitanInteger>(TitanInteger.class);
 			ptc__name = new Optional<TitanCharString>(TitanCharString.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public FinalVerdictInfo assign(final FinalVerdictInfo aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public FinalVerdictInfo assign(final FinalVerdictInfo otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.FinalVerdictInfo");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getis__ptc().isBound() ) {
-					this.is__ptc.assign( aOtherValue.getis__ptc() );
+			if (otherValue != this) {
+				if ( otherValue.getis__ptc().isBound() ) {
+					this.is__ptc.assign( otherValue.getis__ptc() );
 				} else {
 					this.is__ptc.cleanUp();
 				}
-				if ( aOtherValue.getptc__verdict().isBound() ) {
-					this.ptc__verdict.assign( aOtherValue.getptc__verdict() );
+				if ( otherValue.getptc__verdict().isBound() ) {
+					this.ptc__verdict.assign( otherValue.getptc__verdict() );
 				} else {
 					this.ptc__verdict.cleanUp();
 				}
-				if ( aOtherValue.getlocal__verdict().isBound() ) {
-					this.local__verdict.assign( aOtherValue.getlocal__verdict() );
+				if ( otherValue.getlocal__verdict().isBound() ) {
+					this.local__verdict.assign( otherValue.getlocal__verdict() );
 				} else {
 					this.local__verdict.cleanUp();
 				}
-				if ( aOtherValue.getnew__verdict().isBound() ) {
-					this.new__verdict.assign( aOtherValue.getnew__verdict() );
+				if ( otherValue.getnew__verdict().isBound() ) {
+					this.new__verdict.assign( otherValue.getnew__verdict() );
 				} else {
 					this.new__verdict.cleanUp();
 				}
-				if ( aOtherValue.getverdict__reason().isBound() ) {
-					this.verdict__reason.assign( aOtherValue.getverdict__reason() );
+				if ( otherValue.getverdict__reason().isBound() ) {
+					this.verdict__reason.assign( otherValue.getverdict__reason() );
 				} else {
 					this.verdict__reason.cleanUp();
 				}
-				if ( aOtherValue.getptc__compref().isBound() ) {
-					this.ptc__compref.assign( aOtherValue.getptc__compref() );
+				if ( otherValue.getptc__compref().isBound() ) {
+					this.ptc__compref.assign( otherValue.getptc__compref() );
 				} else {
 					this.ptc__compref.cleanUp();
 				}
-				if ( aOtherValue.getptc__name().isBound() ) {
-					this.ptc__name.assign( aOtherValue.getptc__name() );
+				if ( otherValue.getptc__name().isBound() ) {
+					this.ptc__name.assign( otherValue.getptc__name() );
 				} else {
 					this.ptc__name.cleanUp();
 				}
@@ -3115,14 +3115,14 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final FinalVerdictInfo aOtherValue ) {
-			if ( !this.is__ptc.operatorEquals( aOtherValue.is__ptc ) ) { return false; }
-			if ( !this.ptc__verdict.operatorEquals( aOtherValue.ptc__verdict ) ) { return false; }
-			if ( !this.local__verdict.operatorEquals( aOtherValue.local__verdict ) ) { return false; }
-			if ( !this.new__verdict.operatorEquals( aOtherValue.new__verdict ) ) { return false; }
-			if ( !this.verdict__reason.operatorEquals( aOtherValue.verdict__reason ) ) { return false; }
-			if ( !this.ptc__compref.operatorEquals( aOtherValue.ptc__compref ) ) { return false; }
-			if ( !this.ptc__name.operatorEquals( aOtherValue.ptc__name ) ) { return false; }
+		public boolean operatorEquals( final FinalVerdictInfo otherValue) {
+			if ( !this.is__ptc.operatorEquals( otherValue.is__ptc ) ) { return false; }
+			if ( !this.ptc__verdict.operatorEquals( otherValue.ptc__verdict ) ) { return false; }
+			if ( !this.local__verdict.operatorEquals( otherValue.local__verdict ) ) { return false; }
+			if ( !this.new__verdict.operatorEquals( otherValue.new__verdict ) ) { return false; }
+			if ( !this.verdict__reason.operatorEquals( otherValue.verdict__reason ) ) { return false; }
+			if ( !this.ptc__compref.operatorEquals( otherValue.ptc__compref ) ) { return false; }
+			if ( !this.ptc__name.operatorEquals( otherValue.ptc__name ) ) { return false; }
 			return true;
 		}
 
@@ -4227,29 +4227,29 @@ return new TitanInteger(1);
 		private final TimerEvent_choice choice; //TTCN3_Choice_Type
 
 		public TimerEvent() {
-			choice = new TimerEvent_choice();
+			this.choice = new TimerEvent_choice();
 		}
 
-		public TimerEvent( final TimerEvent_choice achoice ) {
-			choice = new TimerEvent_choice( achoice );
+		public TimerEvent(final TimerEvent_choice choice ) {
+			this.choice = new TimerEvent_choice( choice );
 		}
 
-		public TimerEvent( final TimerEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TimerEvent( final TimerEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerEvent.");
 			}
 			choice = new TimerEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TimerEvent assign(final TimerEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TimerEvent assign(final TimerEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TimerEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -4288,8 +4288,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TimerEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final TimerEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -4908,45 +4908,45 @@ return new TitanInteger(1);
 		private final TitanCharString info; //CharString_Type
 
 		public MatchingSuccessType() {
-			port__type = new PortType();
-			port__name = new TitanCharString();
-			info = new TitanCharString();
+			this.port__type = new PortType();
+			this.port__name = new TitanCharString();
+			this.info = new TitanCharString();
 		}
 
-		public MatchingSuccessType( final PortType aport__type, final TitanCharString aport__name, final TitanCharString ainfo ) {
-			port__type = new PortType( aport__type );
-			port__name = new TitanCharString( aport__name );
-			info = new TitanCharString( ainfo );
+		public MatchingSuccessType(final PortType port__type, final TitanCharString port__name, final TitanCharString info ) {
+			this.port__type = new PortType( port__type );
+			this.port__name = new TitanCharString( port__name );
+			this.info = new TitanCharString( info );
 		}
 
-		public MatchingSuccessType( final MatchingSuccessType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public MatchingSuccessType( final MatchingSuccessType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingSuccessType.");
 			}
 			port__type = new PortType();
 			port__name = new TitanCharString();
 			info = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public MatchingSuccessType assign(final MatchingSuccessType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public MatchingSuccessType assign(final MatchingSuccessType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.MatchingSuccessType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__type().isBound() ) {
-					this.port__type.assign( aOtherValue.getport__type() );
+			if (otherValue != this) {
+				if ( otherValue.getport__type().isBound() ) {
+					this.port__type.assign( otherValue.getport__type() );
 				} else {
 					this.port__type.cleanUp();
 				}
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getinfo().isBound() ) {
-					this.info.assign( aOtherValue.getinfo() );
+				if ( otherValue.getinfo().isBound() ) {
+					this.info.assign( otherValue.getinfo() );
 				} else {
 					this.info.cleanUp();
 				}
@@ -4991,10 +4991,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final MatchingSuccessType aOtherValue ) {
-			if ( !this.port__type.operatorEquals( aOtherValue.port__type ) ) { return false; }
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.info.operatorEquals( aOtherValue.info ) ) { return false; }
+		public boolean operatorEquals( final MatchingSuccessType otherValue) {
+			if ( !this.port__type.operatorEquals( otherValue.port__type ) ) { return false; }
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.info.operatorEquals( otherValue.info ) ) { return false; }
 			return true;
 		}
 
@@ -5753,23 +5753,23 @@ return new TitanInteger(1);
 		private final TitanCharString parameter; //CharString_Type
 
 		public Proc__port__out() {
-			port__name = new TitanCharString();
-			operation = new Port__oper();
-			compref = new TitanInteger();
-			sys__name = new TitanCharString();
-			parameter = new TitanCharString();
+			this.port__name = new TitanCharString();
+			this.operation = new Port__oper();
+			this.compref = new TitanInteger();
+			this.sys__name = new TitanCharString();
+			this.parameter = new TitanCharString();
 		}
 
-		public Proc__port__out( final TitanCharString aport__name, final Port__oper aoperation, final TitanInteger acompref, final TitanCharString asys__name, final TitanCharString aparameter ) {
-			port__name = new TitanCharString( aport__name );
-			operation = new Port__oper( aoperation );
-			compref = new TitanInteger( acompref );
-			sys__name = new TitanCharString( asys__name );
-			parameter = new TitanCharString( aparameter );
+		public Proc__port__out(final TitanCharString port__name, final Port__oper operation, final TitanInteger compref, final TitanCharString sys__name, final TitanCharString parameter ) {
+			this.port__name = new TitanCharString( port__name );
+			this.operation = new Port__oper( operation );
+			this.compref = new TitanInteger( compref );
+			this.sys__name = new TitanCharString( sys__name );
+			this.parameter = new TitanCharString( parameter );
 		}
 
-		public Proc__port__out( final Proc__port__out aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Proc__port__out( final Proc__port__out otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_out.");
 			}
 			port__name = new TitanCharString();
@@ -5777,37 +5777,37 @@ return new TitanInteger(1);
 			compref = new TitanInteger();
 			sys__name = new TitanCharString();
 			parameter = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Proc__port__out assign(final Proc__port__out aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Proc__port__out assign(final Proc__port__out otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Proc_port_out");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+			if (otherValue != this) {
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getsys__name().isBound() ) {
-					this.sys__name.assign( aOtherValue.getsys__name() );
+				if ( otherValue.getsys__name().isBound() ) {
+					this.sys__name.assign( otherValue.getsys__name() );
 				} else {
 					this.sys__name.cleanUp();
 				}
-				if ( aOtherValue.getparameter().isBound() ) {
-					this.parameter.assign( aOtherValue.getparameter() );
+				if ( otherValue.getparameter().isBound() ) {
+					this.parameter.assign( otherValue.getparameter() );
 				} else {
 					this.parameter.cleanUp();
 				}
@@ -5858,12 +5858,12 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Proc__port__out aOtherValue ) {
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.sys__name.operatorEquals( aOtherValue.sys__name ) ) { return false; }
-			if ( !this.parameter.operatorEquals( aOtherValue.parameter ) ) { return false; }
+		public boolean operatorEquals( final Proc__port__out otherValue) {
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.sys__name.operatorEquals( otherValue.sys__name ) ) { return false; }
+			if ( !this.parameter.operatorEquals( otherValue.parameter ) ) { return false; }
 			return true;
 		}
 
@@ -9467,6 +9467,42 @@ return new TitanInteger(1);
 }
 }
 
+public static void StatisticsType_choice_verdictStatistics_nonePercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(StatisticsType_choice_verdictStatistics_nonePercent_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger StatisticsType_choice_verdictStatistics_nonePercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(StatisticsType_choice_verdictStatistics_nonePercent_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 public static class TimerAnyTimeoutType extends Base_Type {
 private boolean bound_flag;
 
@@ -9733,7 +9769,7 @@ public TimerAnyTimeoutType_template assign(final Base_Type other_value) {
 if (other_value instanceof TimerAnyTimeoutType) {
 return assign((TimerAnyTimeoutType) other_value);
 }
-			throw new TtcnError(MessageFormat.format("Internal Error: value `TimerAnyTimeoutType' can not be cast to {1}", other_value));
+throw new TtcnError(MessageFormat.format("Internal Error: value `TimerAnyTimeoutType' can not be cast to {1}", other_value));
 }
 
 @Override
@@ -9741,7 +9777,7 @@ public TimerAnyTimeoutType_template assign(final Base_Template other_value) {
 if (other_value instanceof TimerAnyTimeoutType_template) {
 return assign((TimerAnyTimeoutType_template) other_value);
 }
-			throw new TtcnError(MessageFormat.format("Internal Error: value `TimerAnyTimeoutType' can not be cast to {1}_template", other_value));
+throw new TtcnError(MessageFormat.format("Internal Error: value `TimerAnyTimeoutType' can not be cast to {1}_template", other_value));
 }
 
 public TimerAnyTimeoutType_template assign(final Optional<TimerAnyTimeoutType> other_value) {
@@ -9768,11 +9804,11 @@ case ANY_OR_OMIT:
 break;
 case VALUE_LIST:
 case COMPLEMENTED_LIST:
-			list_value = new ArrayList<TimerAnyTimeoutType_template>(other_value.list_value.size());
-			for(int i = 0; i < other_value.list_value.size(); i++) {
-				final TimerAnyTimeoutType_template temp = new TimerAnyTimeoutType_template(other_value.list_value.get(i));
-				list_value.add(temp);
-			}
+list_value = new ArrayList<TimerAnyTimeoutType_template>(other_value.list_value.size());
+for(int i = 0; i < other_value.list_value.size(); i++) {
+final TimerAnyTimeoutType_template temp = new TimerAnyTimeoutType_template(other_value.list_value.get(i));
+list_value.add(temp);
+}
 break;
 default:
 throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TimerAnyTimeoutType.");
@@ -9830,8 +9866,7 @@ public TimerAnyTimeoutType valueOf() {
 if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
 throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.TimerAnyTimeoutType.");
 }
-final TimerAnyTimeoutType ret_val = new TimerAnyTimeoutType(TitanNull_Type.NULL_VALUE);
-return ret_val;
+return new TimerAnyTimeoutType(TitanNull_Type.NULL_VALUE);
 }
 
 		public TimerAnyTimeoutType_template listItem(final int list_index) {
@@ -10029,42 +10064,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void StatisticsType_choice_verdictStatistics_nonePercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(StatisticsType_choice_verdictStatistics_nonePercent_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger StatisticsType_choice_verdictStatistics_nonePercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(StatisticsType_choice_verdictStatistics_nonePercent_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void ExecutorRuntime_testcase__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -10245,6 +10244,78 @@ return new TitanInteger(1);
 }
 }
 
+public static void ParallelPTC_alive__pid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(ParallelPTC_alive__pid_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger ParallelPTC_alive__pid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(ParallelPTC_alive__pid_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void Msg__port__recv_msgid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(Msg__port__recv_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger Msg__port__recv_msgid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(Msg__port__recv_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 	public static class SetVerdictType extends Base_Type {
 		private final Verdict newVerdict; //Referenced_Type
 		private final Verdict oldVerdict; //Referenced_Type
@@ -10253,25 +10324,25 @@ return new TitanInteger(1);
 		private final Optional<TitanCharString> newReason; //CharString_Type
 
 		public SetVerdictType() {
-			newVerdict = new Verdict();
-			oldVerdict = new Verdict();
-			localVerdict = new Verdict();
-			oldReason = new Optional<TitanCharString>(TitanCharString.class);
-			newReason = new Optional<TitanCharString>(TitanCharString.class);
+			this.newVerdict = new Verdict();
+			this.oldVerdict = new Verdict();
+			this.localVerdict = new Verdict();
+			this.oldReason = new Optional<TitanCharString>(TitanCharString.class);
+			this.newReason = new Optional<TitanCharString>(TitanCharString.class);
 		}
 
-		public SetVerdictType( final Verdict anewVerdict, final Verdict aoldVerdict, final Verdict alocalVerdict, final Optional<TitanCharString> aoldReason, final Optional<TitanCharString> anewReason ) {
-			newVerdict = new Verdict( anewVerdict );
-			oldVerdict = new Verdict( aoldVerdict );
-			localVerdict = new Verdict( alocalVerdict );
-			oldReason = new Optional<TitanCharString>(TitanCharString.class);
-			this.oldReason.assign( aoldReason );
-			newReason = new Optional<TitanCharString>(TitanCharString.class);
-			this.newReason.assign( anewReason );
+		public SetVerdictType(final Verdict newVerdict, final Verdict oldVerdict, final Verdict localVerdict, final Optional<TitanCharString> oldReason, final Optional<TitanCharString> newReason ) {
+			this.newVerdict = new Verdict( newVerdict );
+			this.oldVerdict = new Verdict( oldVerdict );
+			this.localVerdict = new Verdict( localVerdict );
+			this.oldReason = new Optional<TitanCharString>(TitanCharString.class);
+			this.oldReason.assign( oldReason );
+			this.newReason = new Optional<TitanCharString>(TitanCharString.class);
+			this.newReason.assign( newReason );
 		}
 
-		public SetVerdictType( final SetVerdictType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public SetVerdictType( final SetVerdictType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.SetVerdictType.");
 			}
 			newVerdict = new Verdict();
@@ -10279,37 +10350,37 @@ return new TitanInteger(1);
 			localVerdict = new Verdict();
 			oldReason = new Optional<TitanCharString>(TitanCharString.class);
 			newReason = new Optional<TitanCharString>(TitanCharString.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public SetVerdictType assign(final SetVerdictType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public SetVerdictType assign(final SetVerdictType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.SetVerdictType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getnewVerdict().isBound() ) {
-					this.newVerdict.assign( aOtherValue.getnewVerdict() );
+			if (otherValue != this) {
+				if ( otherValue.getnewVerdict().isBound() ) {
+					this.newVerdict.assign( otherValue.getnewVerdict() );
 				} else {
 					this.newVerdict.cleanUp();
 				}
-				if ( aOtherValue.getoldVerdict().isBound() ) {
-					this.oldVerdict.assign( aOtherValue.getoldVerdict() );
+				if ( otherValue.getoldVerdict().isBound() ) {
+					this.oldVerdict.assign( otherValue.getoldVerdict() );
 				} else {
 					this.oldVerdict.cleanUp();
 				}
-				if ( aOtherValue.getlocalVerdict().isBound() ) {
-					this.localVerdict.assign( aOtherValue.getlocalVerdict() );
+				if ( otherValue.getlocalVerdict().isBound() ) {
+					this.localVerdict.assign( otherValue.getlocalVerdict() );
 				} else {
 					this.localVerdict.cleanUp();
 				}
-				if ( aOtherValue.getoldReason().isBound() ) {
-					this.oldReason.assign( aOtherValue.getoldReason() );
+				if ( otherValue.getoldReason().isBound() ) {
+					this.oldReason.assign( otherValue.getoldReason() );
 				} else {
 					this.oldReason.cleanUp();
 				}
-				if ( aOtherValue.getnewReason().isBound() ) {
-					this.newReason.assign( aOtherValue.getnewReason() );
+				if ( otherValue.getnewReason().isBound() ) {
+					this.newReason.assign( otherValue.getnewReason() );
 				} else {
 					this.newReason.cleanUp();
 				}
@@ -10360,12 +10431,12 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final SetVerdictType aOtherValue ) {
-			if ( !this.newVerdict.operatorEquals( aOtherValue.newVerdict ) ) { return false; }
-			if ( !this.oldVerdict.operatorEquals( aOtherValue.oldVerdict ) ) { return false; }
-			if ( !this.localVerdict.operatorEquals( aOtherValue.localVerdict ) ) { return false; }
-			if ( !this.oldReason.operatorEquals( aOtherValue.oldReason ) ) { return false; }
-			if ( !this.newReason.operatorEquals( aOtherValue.newReason ) ) { return false; }
+		public boolean operatorEquals( final SetVerdictType otherValue) {
+			if ( !this.newVerdict.operatorEquals( otherValue.newVerdict ) ) { return false; }
+			if ( !this.oldVerdict.operatorEquals( otherValue.oldVerdict ) ) { return false; }
+			if ( !this.localVerdict.operatorEquals( otherValue.localVerdict ) ) { return false; }
+			if ( !this.oldReason.operatorEquals( otherValue.oldReason ) ) { return false; }
+			if ( !this.newReason.operatorEquals( otherValue.newReason ) ) { return false; }
 			return true;
 		}
 
@@ -11304,65 +11375,29 @@ return new TitanInteger(1);
 }
 }
 
-public static void ParallelPTC_alive__pid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+public static void ExecutorUnqualified_addr_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TTCN_Logger.begin_event_log2str();
 coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(ParallelPTC_alive__pid_descr_, ttcnBuffer, codingType, extra_options.get());
+input_value.encode(ExecutorUnqualified_addr_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
-public static TitanInteger ParallelPTC_alive__pid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+public static TitanInteger ExecutorUnqualified_addr_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
 TTCN_Logger.begin_event_log2str();
 coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(ParallelPTC_alive__pid_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void Msg__port__recv_msgid_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(Msg__port__recv_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger Msg__port__recv_msgid_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(Msg__port__recv_msgid_descr_, ttcnBuffer, codingType, extra_options.get());
+output_value.decode(ExecutorUnqualified_addr_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -11399,42 +11434,6 @@ throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0}
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(LogEventType_choice_unhandledEvent_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void ExecutorUnqualified_addr_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(ExecutorUnqualified_addr_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger ExecutorUnqualified_addr_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(ExecutorUnqualified_addr_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -13531,33 +13530,69 @@ return new TitanInteger(1);
 }
 }
 
+public static void SetVerdictType_newReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(SetVerdictType_newReason_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger SetVerdictType_newReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(SetVerdictType_newReason_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 	public static class WarningEvent extends Base_Type {
 		private final TitanCharString text; //CharString_Type
 
 		public WarningEvent() {
-			text = new TitanCharString();
+			this.text = new TitanCharString();
 		}
 
-		public WarningEvent( final TitanCharString atext ) {
-			text = new TitanCharString( atext );
+		public WarningEvent(final TitanCharString text ) {
+			this.text = new TitanCharString( text );
 		}
 
-		public WarningEvent( final WarningEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public WarningEvent( final WarningEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.WarningEvent.");
 			}
 			text = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public WarningEvent assign(final WarningEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public WarningEvent assign(final WarningEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.WarningEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.gettext().isBound() ) {
-					this.text.assign( aOtherValue.gettext() );
+			if (otherValue != this) {
+				if ( otherValue.gettext().isBound() ) {
+					this.text.assign( otherValue.gettext() );
 				} else {
 					this.text.cleanUp();
 				}
@@ -13596,8 +13631,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final WarningEvent aOtherValue ) {
-			if ( !this.text.operatorEquals( aOtherValue.text ) ) { return false; }
+		public boolean operatorEquals( final WarningEvent otherValue) {
+			if ( !this.text.operatorEquals( otherValue.text ) ) { return false; }
 			return true;
 		}
 
@@ -14197,42 +14232,6 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.WarningEvent' do
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(WarningEvent_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void SetVerdictType_newReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(SetVerdictType_newReason_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger SetVerdictType_newReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(SetVerdictType_newReason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -15044,37 +15043,37 @@ return new TitanInteger(1);
 		private final TitanCharString name; //CharString_Type
 
 		public ComponentIDType() {
-			id = new TitanInteger();
-			name = new TitanCharString();
+			this.id = new TitanInteger();
+			this.name = new TitanCharString();
 		}
 
-		public ComponentIDType( final TitanInteger aid, final TitanCharString aname ) {
-			id = new TitanInteger( aid );
-			name = new TitanCharString( aname );
+		public ComponentIDType(final TitanInteger id, final TitanCharString name ) {
+			this.id = new TitanInteger( id );
+			this.name = new TitanCharString( name );
 		}
 
-		public ComponentIDType( final ComponentIDType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ComponentIDType( final ComponentIDType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ComponentIDType.");
 			}
 			id = new TitanInteger();
 			name = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ComponentIDType assign(final ComponentIDType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ComponentIDType assign(final ComponentIDType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ComponentIDType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getid().isBound() ) {
-					this.id.assign( aOtherValue.getid() );
+			if (otherValue != this) {
+				if ( otherValue.getid().isBound() ) {
+					this.id.assign( otherValue.getid() );
 				} else {
 					this.id.cleanUp();
 				}
-				if ( aOtherValue.getname().isBound() ) {
-					this.name.assign( aOtherValue.getname() );
+				if ( otherValue.getname().isBound() ) {
+					this.name.assign( otherValue.getname() );
 				} else {
 					this.name.cleanUp();
 				}
@@ -15116,9 +15115,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ComponentIDType aOtherValue ) {
-			if ( !this.id.operatorEquals( aOtherValue.id ) ) { return false; }
-			if ( !this.name.operatorEquals( aOtherValue.name ) ) { return false; }
+		public boolean operatorEquals( final ComponentIDType otherValue) {
+			if ( !this.id.operatorEquals( otherValue.id ) ) { return false; }
+			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
 			return true;
 		}
 
@@ -22119,38 +22118,38 @@ return new TitanInteger(1);
 		private final Optional<TitanCharString> param__; //CharString_Type
 
 		public ExecutorConfigdata() {
-			reason = new ExecutorConfigdata_reason();
-			param__ = new Optional<TitanCharString>(TitanCharString.class);
+			this.reason = new ExecutorConfigdata_reason();
+			this.param__ = new Optional<TitanCharString>(TitanCharString.class);
 		}
 
-		public ExecutorConfigdata( final ExecutorConfigdata_reason areason, final Optional<TitanCharString> aparam__ ) {
-			reason = new ExecutorConfigdata_reason( areason );
-			param__ = new Optional<TitanCharString>(TitanCharString.class);
-			this.param__.assign( aparam__ );
+		public ExecutorConfigdata(final ExecutorConfigdata_reason reason, final Optional<TitanCharString> param__ ) {
+			this.reason = new ExecutorConfigdata_reason( reason );
+			this.param__ = new Optional<TitanCharString>(TitanCharString.class);
+			this.param__.assign( param__ );
 		}
 
-		public ExecutorConfigdata( final ExecutorConfigdata aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ExecutorConfigdata( final ExecutorConfigdata otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorConfigdata.");
 			}
 			reason = new ExecutorConfigdata_reason();
 			param__ = new Optional<TitanCharString>(TitanCharString.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ExecutorConfigdata assign(final ExecutorConfigdata aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ExecutorConfigdata assign(final ExecutorConfigdata otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ExecutorConfigdata");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getparam__().isBound() ) {
-					this.param__.assign( aOtherValue.getparam__() );
+				if ( otherValue.getparam__().isBound() ) {
+					this.param__.assign( otherValue.getparam__() );
 				} else {
 					this.param__.cleanUp();
 				}
@@ -22192,9 +22191,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ExecutorConfigdata aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.param__.operatorEquals( aOtherValue.param__ ) ) { return false; }
+		public boolean operatorEquals( final ExecutorConfigdata otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.param__.operatorEquals( otherValue.param__ ) ) { return false; }
 			return true;
 		}
 
@@ -23125,53 +23124,53 @@ return new TitanInteger(1);
 		private final LocationInfo_ent__type ent__type; //TTCN3_Enumerated_Type
 
 		public LocationInfo() {
-			filename = new TitanCharString();
-			line = new TitanInteger();
-			ent__name = new TitanCharString();
-			ent__type = new LocationInfo_ent__type();
+			this.filename = new TitanCharString();
+			this.line = new TitanInteger();
+			this.ent__name = new TitanCharString();
+			this.ent__type = new LocationInfo_ent__type();
 		}
 
-		public LocationInfo( final TitanCharString afilename, final TitanInteger aline, final TitanCharString aent__name, final LocationInfo_ent__type aent__type ) {
-			filename = new TitanCharString( afilename );
-			line = new TitanInteger( aline );
-			ent__name = new TitanCharString( aent__name );
-			ent__type = new LocationInfo_ent__type( aent__type );
+		public LocationInfo(final TitanCharString filename, final TitanInteger line, final TitanCharString ent__name, final LocationInfo_ent__type ent__type ) {
+			this.filename = new TitanCharString( filename );
+			this.line = new TitanInteger( line );
+			this.ent__name = new TitanCharString( ent__name );
+			this.ent__type = new LocationInfo_ent__type( ent__type );
 		}
 
-		public LocationInfo( final LocationInfo aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public LocationInfo( final LocationInfo otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LocationInfo.");
 			}
 			filename = new TitanCharString();
 			line = new TitanInteger();
 			ent__name = new TitanCharString();
 			ent__type = new LocationInfo_ent__type();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public LocationInfo assign(final LocationInfo aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public LocationInfo assign(final LocationInfo otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.LocationInfo");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getfilename().isBound() ) {
-					this.filename.assign( aOtherValue.getfilename() );
+			if (otherValue != this) {
+				if ( otherValue.getfilename().isBound() ) {
+					this.filename.assign( otherValue.getfilename() );
 				} else {
 					this.filename.cleanUp();
 				}
-				if ( aOtherValue.getline().isBound() ) {
-					this.line.assign( aOtherValue.getline() );
+				if ( otherValue.getline().isBound() ) {
+					this.line.assign( otherValue.getline() );
 				} else {
 					this.line.cleanUp();
 				}
-				if ( aOtherValue.getent__name().isBound() ) {
-					this.ent__name.assign( aOtherValue.getent__name() );
+				if ( otherValue.getent__name().isBound() ) {
+					this.ent__name.assign( otherValue.getent__name() );
 				} else {
 					this.ent__name.cleanUp();
 				}
-				if ( aOtherValue.getent__type().isBound() ) {
-					this.ent__type.assign( aOtherValue.getent__type() );
+				if ( otherValue.getent__type().isBound() ) {
+					this.ent__type.assign( otherValue.getent__type() );
 				} else {
 					this.ent__type.cleanUp();
 				}
@@ -23219,11 +23218,11 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final LocationInfo aOtherValue ) {
-			if ( !this.filename.operatorEquals( aOtherValue.filename ) ) { return false; }
-			if ( !this.line.operatorEquals( aOtherValue.line ) ) { return false; }
-			if ( !this.ent__name.operatorEquals( aOtherValue.ent__name ) ) { return false; }
-			if ( !this.ent__type.operatorEquals( aOtherValue.ent__type ) ) { return false; }
+		public boolean operatorEquals( final LocationInfo otherValue) {
+			if ( !this.filename.operatorEquals( otherValue.filename ) ) { return false; }
+			if ( !this.line.operatorEquals( otherValue.line ) ) { return false; }
+			if ( !this.ent__name.operatorEquals( otherValue.ent__name ) ) { return false; }
+			if ( !this.ent__type.operatorEquals( otherValue.ent__type ) ) { return false; }
 			return true;
 		}
 
@@ -24047,29 +24046,29 @@ return new TitanInteger(1);
 		private final TestcaseEvent_choice choice; //TTCN3_Choice_Type
 
 		public TestcaseEvent() {
-			choice = new TestcaseEvent_choice();
+			this.choice = new TestcaseEvent_choice();
 		}
 
-		public TestcaseEvent( final TestcaseEvent_choice achoice ) {
-			choice = new TestcaseEvent_choice( achoice );
+		public TestcaseEvent(final TestcaseEvent_choice choice ) {
+			this.choice = new TestcaseEvent_choice( choice );
 		}
 
-		public TestcaseEvent( final TestcaseEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TestcaseEvent( final TestcaseEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseEvent.");
 			}
 			choice = new TestcaseEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TestcaseEvent assign(final TestcaseEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TestcaseEvent assign(final TestcaseEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TestcaseEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -24108,8 +24107,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TestcaseEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final TestcaseEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -27014,27 +27013,27 @@ return new TitanInteger(1);
 		private final TitanInteger new__size; //Integer_Type
 
 		public Port__Misc() {
-			reason = new Port__Misc_reason();
-			port__name = new TitanCharString();
-			remote__component = new TitanInteger();
-			remote__port = new TitanCharString();
-			ip__address = new TitanCharString();
-			tcp__port = new TitanInteger();
-			new__size = new TitanInteger();
+			this.reason = new Port__Misc_reason();
+			this.port__name = new TitanCharString();
+			this.remote__component = new TitanInteger();
+			this.remote__port = new TitanCharString();
+			this.ip__address = new TitanCharString();
+			this.tcp__port = new TitanInteger();
+			this.new__size = new TitanInteger();
 		}
 
-		public Port__Misc( final Port__Misc_reason areason, final TitanCharString aport__name, final TitanInteger aremote__component, final TitanCharString aremote__port, final TitanCharString aip__address, final TitanInteger atcp__port, final TitanInteger anew__size ) {
-			reason = new Port__Misc_reason( areason );
-			port__name = new TitanCharString( aport__name );
-			remote__component = new TitanInteger( aremote__component );
-			remote__port = new TitanCharString( aremote__port );
-			ip__address = new TitanCharString( aip__address );
-			tcp__port = new TitanInteger( atcp__port );
-			new__size = new TitanInteger( anew__size );
+		public Port__Misc(final Port__Misc_reason reason, final TitanCharString port__name, final TitanInteger remote__component, final TitanCharString remote__port, final TitanCharString ip__address, final TitanInteger tcp__port, final TitanInteger new__size ) {
+			this.reason = new Port__Misc_reason( reason );
+			this.port__name = new TitanCharString( port__name );
+			this.remote__component = new TitanInteger( remote__component );
+			this.remote__port = new TitanCharString( remote__port );
+			this.ip__address = new TitanCharString( ip__address );
+			this.tcp__port = new TitanInteger( tcp__port );
+			this.new__size = new TitanInteger( new__size );
 		}
 
-		public Port__Misc( final Port__Misc aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Port__Misc( final Port__Misc otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Misc.");
 			}
 			reason = new Port__Misc_reason();
@@ -27044,47 +27043,47 @@ return new TitanInteger(1);
 			ip__address = new TitanCharString();
 			tcp__port = new TitanInteger();
 			new__size = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Port__Misc assign(final Port__Misc aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Port__Misc assign(final Port__Misc otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Port_Misc");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getremote__component().isBound() ) {
-					this.remote__component.assign( aOtherValue.getremote__component() );
+				if ( otherValue.getremote__component().isBound() ) {
+					this.remote__component.assign( otherValue.getremote__component() );
 				} else {
 					this.remote__component.cleanUp();
 				}
-				if ( aOtherValue.getremote__port().isBound() ) {
-					this.remote__port.assign( aOtherValue.getremote__port() );
+				if ( otherValue.getremote__port().isBound() ) {
+					this.remote__port.assign( otherValue.getremote__port() );
 				} else {
 					this.remote__port.cleanUp();
 				}
-				if ( aOtherValue.getip__address().isBound() ) {
-					this.ip__address.assign( aOtherValue.getip__address() );
+				if ( otherValue.getip__address().isBound() ) {
+					this.ip__address.assign( otherValue.getip__address() );
 				} else {
 					this.ip__address.cleanUp();
 				}
-				if ( aOtherValue.gettcp__port().isBound() ) {
-					this.tcp__port.assign( aOtherValue.gettcp__port() );
+				if ( otherValue.gettcp__port().isBound() ) {
+					this.tcp__port.assign( otherValue.gettcp__port() );
 				} else {
 					this.tcp__port.cleanUp();
 				}
-				if ( aOtherValue.getnew__size().isBound() ) {
-					this.new__size.assign( aOtherValue.getnew__size() );
+				if ( otherValue.getnew__size().isBound() ) {
+					this.new__size.assign( otherValue.getnew__size() );
 				} else {
 					this.new__size.cleanUp();
 				}
@@ -27141,14 +27140,14 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Port__Misc aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.remote__component.operatorEquals( aOtherValue.remote__component ) ) { return false; }
-			if ( !this.remote__port.operatorEquals( aOtherValue.remote__port ) ) { return false; }
-			if ( !this.ip__address.operatorEquals( aOtherValue.ip__address ) ) { return false; }
-			if ( !this.tcp__port.operatorEquals( aOtherValue.tcp__port ) ) { return false; }
-			if ( !this.new__size.operatorEquals( aOtherValue.new__size ) ) { return false; }
+		public boolean operatorEquals( final Port__Misc otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.remote__component.operatorEquals( otherValue.remote__component ) ) { return false; }
+			if ( !this.remote__port.operatorEquals( otherValue.remote__port ) ) { return false; }
+			if ( !this.ip__address.operatorEquals( otherValue.ip__address ) ) { return false; }
+			if ( !this.tcp__port.operatorEquals( otherValue.tcp__port ) ) { return false; }
+			if ( !this.new__size.operatorEquals( otherValue.new__size ) ) { return false; }
 			return true;
 		}
 
@@ -28222,29 +28221,29 @@ return new TitanInteger(1);
 		private final TitanInteger status; //Integer_Type
 
 		public ParallelPTC() {
-			reason = new ParallelPTC_reason();
-			module__ = new TitanCharString();
-			name = new TitanCharString();
-			compref = new TitanInteger();
-			compname = new TitanCharString();
-			tc__loc = new TitanCharString();
-			alive__pid = new TitanInteger();
-			status = new TitanInteger();
+			this.reason = new ParallelPTC_reason();
+			this.module__ = new TitanCharString();
+			this.name = new TitanCharString();
+			this.compref = new TitanInteger();
+			this.compname = new TitanCharString();
+			this.tc__loc = new TitanCharString();
+			this.alive__pid = new TitanInteger();
+			this.status = new TitanInteger();
 		}
 
-		public ParallelPTC( final ParallelPTC_reason areason, final TitanCharString amodule__, final TitanCharString aname, final TitanInteger acompref, final TitanCharString acompname, final TitanCharString atc__loc, final TitanInteger aalive__pid, final TitanInteger astatus ) {
-			reason = new ParallelPTC_reason( areason );
-			module__ = new TitanCharString( amodule__ );
-			name = new TitanCharString( aname );
-			compref = new TitanInteger( acompref );
-			compname = new TitanCharString( acompname );
-			tc__loc = new TitanCharString( atc__loc );
-			alive__pid = new TitanInteger( aalive__pid );
-			status = new TitanInteger( astatus );
+		public ParallelPTC(final ParallelPTC_reason reason, final TitanCharString module__, final TitanCharString name, final TitanInteger compref, final TitanCharString compname, final TitanCharString tc__loc, final TitanInteger alive__pid, final TitanInteger status ) {
+			this.reason = new ParallelPTC_reason( reason );
+			this.module__ = new TitanCharString( module__ );
+			this.name = new TitanCharString( name );
+			this.compref = new TitanInteger( compref );
+			this.compname = new TitanCharString( compname );
+			this.tc__loc = new TitanCharString( tc__loc );
+			this.alive__pid = new TitanInteger( alive__pid );
+			this.status = new TitanInteger( status );
 		}
 
-		public ParallelPTC( final ParallelPTC aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ParallelPTC( final ParallelPTC otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelPTC.");
 			}
 			reason = new ParallelPTC_reason();
@@ -28255,52 +28254,52 @@ return new TitanInteger(1);
 			tc__loc = new TitanCharString();
 			alive__pid = new TitanInteger();
 			status = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ParallelPTC assign(final ParallelPTC aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ParallelPTC assign(final ParallelPTC otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ParallelPTC");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getmodule__().isBound() ) {
-					this.module__.assign( aOtherValue.getmodule__() );
+				if ( otherValue.getmodule__().isBound() ) {
+					this.module__.assign( otherValue.getmodule__() );
 				} else {
 					this.module__.cleanUp();
 				}
-				if ( aOtherValue.getname().isBound() ) {
-					this.name.assign( aOtherValue.getname() );
+				if ( otherValue.getname().isBound() ) {
+					this.name.assign( otherValue.getname() );
 				} else {
 					this.name.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getcompname().isBound() ) {
-					this.compname.assign( aOtherValue.getcompname() );
+				if ( otherValue.getcompname().isBound() ) {
+					this.compname.assign( otherValue.getcompname() );
 				} else {
 					this.compname.cleanUp();
 				}
-				if ( aOtherValue.gettc__loc().isBound() ) {
-					this.tc__loc.assign( aOtherValue.gettc__loc() );
+				if ( otherValue.gettc__loc().isBound() ) {
+					this.tc__loc.assign( otherValue.gettc__loc() );
 				} else {
 					this.tc__loc.cleanUp();
 				}
-				if ( aOtherValue.getalive__pid().isBound() ) {
-					this.alive__pid.assign( aOtherValue.getalive__pid() );
+				if ( otherValue.getalive__pid().isBound() ) {
+					this.alive__pid.assign( otherValue.getalive__pid() );
 				} else {
 					this.alive__pid.cleanUp();
 				}
-				if ( aOtherValue.getstatus().isBound() ) {
-					this.status.assign( aOtherValue.getstatus() );
+				if ( otherValue.getstatus().isBound() ) {
+					this.status.assign( otherValue.getstatus() );
 				} else {
 					this.status.cleanUp();
 				}
@@ -28360,15 +28359,15 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ParallelPTC aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.module__.operatorEquals( aOtherValue.module__ ) ) { return false; }
-			if ( !this.name.operatorEquals( aOtherValue.name ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.compname.operatorEquals( aOtherValue.compname ) ) { return false; }
-			if ( !this.tc__loc.operatorEquals( aOtherValue.tc__loc ) ) { return false; }
-			if ( !this.alive__pid.operatorEquals( aOtherValue.alive__pid ) ) { return false; }
-			if ( !this.status.operatorEquals( aOtherValue.status ) ) { return false; }
+		public boolean operatorEquals( final ParallelPTC otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.module__.operatorEquals( otherValue.module__ ) ) { return false; }
+			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.compname.operatorEquals( otherValue.compname ) ) { return false; }
+			if ( !this.tc__loc.operatorEquals( otherValue.tc__loc ) ) { return false; }
+			if ( !this.alive__pid.operatorEquals( otherValue.alive__pid ) ) { return false; }
+			if ( !this.status.operatorEquals( otherValue.status ) ) { return false; }
 			return true;
 		}
 
@@ -30272,42 +30271,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void StatisticsType_choice_verdictStatistics_inconc___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(StatisticsType_choice_verdictStatistics_inconc___descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger StatisticsType_choice_verdictStatistics_inconc___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(StatisticsType_choice_verdictStatistics_inconc___descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void Proc__port__in_operation_encoder(final Port__oper input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -30331,6 +30294,42 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Port_oper' does 
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_operation_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void StatisticsType_choice_verdictStatistics_inconc___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(StatisticsType_choice_verdictStatistics_inconc___descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger StatisticsType_choice_verdictStatistics_inconc___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(StatisticsType_choice_verdictStatistics_inconc___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -30600,30 +30599,30 @@ return new TitanInteger(1);
 		private final Optional<TitanCharString> timer__name; //CharString_Type
 
 		public MatchingTimeout() {
-			timer__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.timer__name = new Optional<TitanCharString>(TitanCharString.class);
 		}
 
-		public MatchingTimeout( final Optional<TitanCharString> atimer__name ) {
-			timer__name = new Optional<TitanCharString>(TitanCharString.class);
-			this.timer__name.assign( atimer__name );
+		public MatchingTimeout(final Optional<TitanCharString> timer__name ) {
+			this.timer__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.timer__name.assign( timer__name );
 		}
 
-		public MatchingTimeout( final MatchingTimeout aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public MatchingTimeout( final MatchingTimeout otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingTimeout.");
 			}
 			timer__name = new Optional<TitanCharString>(TitanCharString.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public MatchingTimeout assign(final MatchingTimeout aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public MatchingTimeout assign(final MatchingTimeout otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.MatchingTimeout");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.gettimer__name().isBound() ) {
-					this.timer__name.assign( aOtherValue.gettimer__name() );
+			if (otherValue != this) {
+				if ( otherValue.gettimer__name().isBound() ) {
+					this.timer__name.assign( otherValue.gettimer__name() );
 				} else {
 					this.timer__name.cleanUp();
 				}
@@ -30662,8 +30661,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final MatchingTimeout aOtherValue ) {
-			if ( !this.timer__name.operatorEquals( aOtherValue.timer__name ) ) { return false; }
+		public boolean operatorEquals( final MatchingTimeout otherValue) {
+			if ( !this.timer__name.operatorEquals( otherValue.timer__name ) ) { return false; }
 			return true;
 		}
 
@@ -31306,29 +31305,29 @@ return new TitanInteger(1);
 		private final VerdictOp_choice choice; //TTCN3_Choice_Type
 
 		public VerdictOp() {
-			choice = new VerdictOp_choice();
+			this.choice = new VerdictOp_choice();
 		}
 
-		public VerdictOp( final VerdictOp_choice achoice ) {
-			choice = new VerdictOp_choice( achoice );
+		public VerdictOp(final VerdictOp_choice choice ) {
+			this.choice = new VerdictOp_choice( choice );
 		}
 
-		public VerdictOp( final VerdictOp aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public VerdictOp( final VerdictOp otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictOp.");
 			}
 			choice = new VerdictOp_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public VerdictOp assign(final VerdictOp aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public VerdictOp assign(final VerdictOp otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.VerdictOp");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -31367,8 +31366,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final VerdictOp aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final VerdictOp otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -33738,6 +33737,42 @@ return new TitanInteger(1);
 }
 }
 
+public static void ExecutorRuntime_module__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(ExecutorRuntime_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger ExecutorRuntime_module__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(ExecutorRuntime_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 public static class MatchingFailureType_reason extends Base_Type {
 public enum enum_type {
 sender__does__not__match__from__clause (0),
@@ -34533,803 +34568,6 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingFailureT
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingFailureType_reason_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void ExecutorRuntime_module__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(ExecutorRuntime_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger ExecutorRuntime_module__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(ExecutorRuntime_module__name_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-	public static class TitanSingleLogEvent extends Base_Type {
-		private final ComponentIDType entityId; //Referenced_Type
-		private final TitanLogEvent event; //Referenced_Type
-
-		public TitanSingleLogEvent() {
-			entityId = new ComponentIDType();
-			event = new TitanLogEvent();
-		}
-
-		public TitanSingleLogEvent( final ComponentIDType aentityId, final TitanLogEvent aevent ) {
-			entityId = new ComponentIDType( aentityId );
-			event = new TitanLogEvent( aevent );
-		}
-
-		public TitanSingleLogEvent( final TitanSingleLogEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
-				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-			entityId = new ComponentIDType();
-			event = new TitanLogEvent();
-			assign( aOtherValue );
-		}
-
-		public TitanSingleLogEvent assign(final TitanSingleLogEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
-				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent");
-			}
-
-			if (aOtherValue != this) {
-				if ( aOtherValue.getentityId().isBound() ) {
-					this.entityId.assign( aOtherValue.getentityId() );
-				} else {
-					this.entityId.cleanUp();
-				}
-				if ( aOtherValue.getevent().isBound() ) {
-					this.event.assign( aOtherValue.getevent() );
-				} else {
-					this.event.cleanUp();
-				}
-			}
-
-			return this;
-		}
-
-		@Override
-		public TitanSingleLogEvent assign(final Base_Type otherValue) {
-			if (otherValue instanceof TitanSingleLogEvent ) {
-				return assign((TitanSingleLogEvent) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.TitanSingleLogEvent", otherValue));
-		}
-
-		public void cleanUp() {
-			entityId.cleanUp();
-			event.cleanUp();
-		}
-
-		@Override
-		public boolean isBound() {
-			if ( entityId.isBound() ) { return true; }
-			if ( event.isBound() ) { return true; }
-			return false;
-		}
-
-		@Override
-		public boolean isPresent() {
-			return isBound();
-		}
-
-		@Override
-		public boolean isValue() {
-			if ( !entityId.isValue() ) { return false; }
-			if ( !event.isValue() ) { return false; }
-			return true;
-		}
-
-		public boolean operatorEquals( final TitanSingleLogEvent aOtherValue ) {
-			if ( !this.entityId.operatorEquals( aOtherValue.entityId ) ) { return false; }
-			if ( !this.event.operatorEquals( aOtherValue.event ) ) { return false; }
-			return true;
-		}
-
-		@Override
-		public boolean operatorEquals(final Base_Type otherValue) {
-			if (otherValue instanceof TitanSingleLogEvent ) {
-				return operatorEquals((TitanSingleLogEvent) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.TitanSingleLogEvent", otherValue));
-		}
-
-		public ComponentIDType getentityId() {
-			return entityId;
-		}
-
-		public ComponentIDType constGetentityId() {
-			return entityId;
-		}
-
-		public TitanLogEvent getevent() {
-			return event;
-		}
-
-		public TitanLogEvent constGetevent() {
-			return event;
-		}
-
-		public TitanInteger sizeOf() {
-			return new TitanInteger(2);
-		}
-
-		public void log() {
-			if (!isBound()) {
-				TTCN_Logger.log_event_unbound();
-				return;
-			}
-			TTCN_Logger.log_char('{');
-			TTCN_Logger.log_event_str(" entityId := ");
-			entityId.log();
-			TTCN_Logger.log_char(',');
-			TTCN_Logger.log_event_str(" event := ");
-			event.log();
-			TTCN_Logger.log_event_str(" }");
-		}
-
-		@Override
-		public void set_implicit_omit() {
-			if (entityId.isBound()) {
-				entityId.set_implicit_omit();
-			}
-			if (event.isBound()) {
-				event.set_implicit_omit();
-			}
-		}
-
-		@Override
-		public void encode_text(final Text_Buf text_buf) {
-			entityId.encode_text(text_buf);
-			event.encode_text(text_buf);
-		}
-
-		@Override
-		public void decode_text(final Text_Buf text_buf) {
-			entityId.decode_text(text_buf);
-			event.decode_text(text_buf);
-		}
-
-@Override
-public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
-switch (p_coding) {
-case CT_RAW: {
-final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-if (p_td.raw == null) {
-TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-}
-final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
-RAW_encode(p_td, root);
-root.put_to_buf(p_buf);
-errorContext.leaveContext();
-break;
-}
-default:
-throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
-}
-}
-
-@Override
-public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
-switch (p_coding) {
-case CT_RAW: {
-final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-if (p_td.raw == null) {
-TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-}
-raw_order_t order;
-switch (p_td.raw.top_bit_order) {
-case TOP_BIT_LEFT:
-order = raw_order_t.ORDER_LSB;
-break;
-case TOP_BIT_RIGHT:
-default:
-order = raw_order_t.ORDER_MSB;
-break;
-}
-final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
-if (rawr < 0) {
-final error_type temp = error_type.values()[-rawr];
-switch (temp) {
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-break;
-case ET_UNBOUND:
-default:
-TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-break;
-}
-}
-errorContext.leaveContext();
-break;
-}
-default:
-throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
-}
-}
-
-	}
-public static class TitanSingleLogEvent_template extends Base_Template {
-
-	private ComponentIDType_template entityId; //Referenced_Type
-	private TitanLogEvent_template event; //Referenced_Type
-	//originally value_list/list_value
-	private List<TitanSingleLogEvent_template> list_value;
-
-	public ComponentIDType_template getentityId() {
-		setSpecific();
-		return entityId;
-	}
-
-	public ComponentIDType_template constGetentityId() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field entityId of a non-specific template of type @TitanLoggerApi.TitanSingleLogEvent.");
-		}
-		return entityId;
-	}
-
-	public TitanLogEvent_template getevent() {
-		setSpecific();
-		return event;
-	}
-
-	public TitanLogEvent_template constGetevent() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field event of a non-specific template of type @TitanLoggerApi.TitanSingleLogEvent.");
-		}
-		return event;
-	}
-
-	private void setSpecific() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			final template_sel old_selection = templateSelection;
-			cleanUp();
-			set_selection(template_sel.SPECIFIC_VALUE);
-			entityId = new ComponentIDType_template();
-			event = new TitanLogEvent_template();
-			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				entityId.assign(template_sel.ANY_VALUE);
-				event.assign(template_sel.ANY_VALUE);
-			}
-		}
-	}
-
-	public TitanSingleLogEvent_template() {
-// do nothing
-	}
-
-	public TitanSingleLogEvent_template(final template_sel other_value ) {
-		super( other_value );
-		checkSingleSelection( other_value );
-	}
-
-	public TitanSingleLogEvent_template( final TitanSingleLogEvent otherValue ) {
-		copyValue(otherValue);
-	}
-
-	public TitanSingleLogEvent_template( final TitanSingleLogEvent_template otherValue ) {
-		copyTemplate( otherValue );
-	}
-
-	public TitanSingleLogEvent_template( final Optional<TitanSingleLogEvent> other_value ) {
-		switch (other_value.get_selection()) {
-		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
-			break;
-		case OPTIONAL_OMIT:
-			set_selection(template_sel.OMIT_VALUE);
-			break;
-		default:
-			throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanSingleLogEvent from an unbound optional field.");
-		}
-	}
-
-	//originally operator=
-	public TitanSingleLogEvent_template assign( final template_sel other_value ) {
-		checkSingleSelection(other_value);
-		cleanUp();
-		set_selection(other_value);
-		return this;
-	}
-
-	//originally operator=
-	public TitanSingleLogEvent_template assign( final TitanSingleLogEvent other_value ) {
-		cleanUp();
-		copyValue(other_value);
-		return this;
-	}
-
-	//originally operator=
-	public TitanSingleLogEvent_template assign( final TitanSingleLogEvent_template other_value ) {
-		if (other_value != this) {
-			cleanUp();
-			copyTemplate(other_value);
-		}
-		return this;
-	}
-
-		@Override
-		public TitanSingleLogEvent_template assign(final Base_Type otherValue) {
-			if (otherValue instanceof TitanSingleLogEvent) {
-				return assign((TitanSingleLogEvent) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `TitanSingleLogEvent' can not be cast to {1}", otherValue));
-		}
-
-		@Override
-		public TitanSingleLogEvent_template assign(final Base_Template otherValue) {
-			if (otherValue instanceof TitanSingleLogEvent_template) {
-				return assign((TitanSingleLogEvent_template) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `TitanSingleLogEvent' can not be cast to {1}_template", otherValue));
-		}
-
-	public TitanSingleLogEvent_template assign( final Optional<TitanSingleLogEvent> other_value ) {
-		cleanUp();
-		switch (other_value.get_selection()) {
-		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
-			break;
-		case OPTIONAL_OMIT:
-			set_selection(template_sel.OMIT_VALUE);
-			break;
-		default:
-			throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanSingleLogEvent.");
-		}
-		return this;
-	}
-
-	private void copyValue(final TitanSingleLogEvent other_value) {
-		if (other_value.getentityId().isBound()) {
-			getentityId().assign(other_value.getentityId());
-		} else {
-			getentityId().cleanUp();
-		}
-		if (other_value.getevent().isBound()) {
-			getevent().assign(other_value.getevent());
-		} else {
-			getevent().cleanUp();
-		}
-		set_selection(template_sel.SPECIFIC_VALUE);
-	}
-
-	private void copyTemplate(final TitanSingleLogEvent_template other_value) {
-		switch (other_value.templateSelection) {
-		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getentityId().get_selection()) {
-				getentityId().cleanUp();
-			} else {
-				getentityId().assign(other_value.getentityId());
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getevent().get_selection()) {
-				getevent().cleanUp();
-			} else {
-				getevent().assign(other_value.getevent());
-			}
-			break;
-		case OMIT_VALUE:
-		case ANY_VALUE:
-		case ANY_OR_OMIT:
-			break;
-		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			list_value = new ArrayList<TitanSingleLogEvent_template>(other_value.list_value.size());
-			for(int i = 0; i < other_value.list_value.size(); i++) {
-				final TitanSingleLogEvent_template temp = new TitanSingleLogEvent_template(other_value.list_value.get(i));
-				list_value.add(temp);
-			}
-			break;
-		default:
-			throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanSingleLogEvent.");
-		}
-		set_selection(other_value);
-	}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			return isPresent_(legacy);
-		}
-
-		private boolean isPresent_(final boolean legacy) {
-			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
-		public boolean match_omit(final boolean legacy) {
-			return match_omit_(legacy);
-		}
-
-		private boolean match_omit_(final boolean legacy) {
-			if (is_ifPresent) {
-				return true;
-			}
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				if (legacy) {
-					for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
-						if (list_value.get(l_idx).match_omit_(legacy)) {
-							return templateSelection==template_sel.VALUE_LIST;
-						}
-					}
-					return templateSelection==template_sel.COMPLEMENTED_LIST;
-				} // else fall through
-			default:
-				return false;
-			}
-		}
-
-		public TitanSingleLogEvent valueOf() {
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-			final TitanSingleLogEvent ret_val = new TitanSingleLogEvent();
-			 if (entityId.isBound()) {
-				ret_val.getentityId().assign(entityId.valueOf());
-			}
-			 if (event.isBound()) {
-				ret_val.getevent().assign(event.valueOf());
-			}
-			return ret_val;
-		}
-
-		public TitanSingleLogEvent_template listItem(final int list_index) {
-			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
-				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-			if (list_index >= list_value.size()) {
-				throw new TtcnError("Index overflow in a value list template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-			return list_value.get(list_index);
-		}
-
-		public void setType(final template_sel template_type, final int list_length) {
-			if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
-				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-			cleanUp();
-			set_selection(template_type);
-			list_value = new ArrayList<TitanSingleLogEvent_template>(list_length);
-			for(int i = 0 ; i < list_length; i++) {
-				list_value.add(new TitanSingleLogEvent_template());
-			}
-		}
-
-		@Override
-		public boolean isBound() {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-				return false;
-			}
-			if (templateSelection != template_sel.SPECIFIC_VALUE) {
-				return true;
-			}
-			if (entityId.isBound()) {
-				return true;
-			}
-			if (event.isBound()) {
-				return true;
-			}
-			return false;
-		}
-
-		@Override
-		public boolean isValue() {
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-				return false;
-			}
-			if (!entityId.isValue()) {
-				return false;
-			}
-			if (!event.isValue()) {
-				return false;
-			}
-			return true;
-		}
-
-		public boolean match(final TitanSingleLogEvent other_value) {
-			return match(other_value, false);
-		}
-
-		public boolean match(final TitanSingleLogEvent other_value, final boolean legacy) {
-			if (!other_value.isBound()) {
-				return false;
-			}
-			switch (templateSelection) {
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case OMIT_VALUE:
-				return false;
-			case SPECIFIC_VALUE:
-				if(!other_value.getentityId().isBound()) {
-					return false;
-				}
-				if(!entityId.match(other_value.getentityId(), legacy)) {
-					return false;
-				}
-				if(!other_value.getevent().isBound()) {
-					return false;
-				}
-				if(!event.match(other_value.getevent(), legacy)) {
-					return false;
-				}
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).match(other_value, legacy)) {
-						return templateSelection == template_sel.VALUE_LIST;
-					}
-				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-		}
-
-	@Override
-	public boolean match(final Base_Type otherValue, final boolean legacy) {
-	if (otherValue instanceof TitanSingleLogEvent) {
-		return match((TitanSingleLogEvent)otherValue, legacy);
-	}
-
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanSingleLogEvent.");
-	}
-
-		public TitanInteger sizeOf() {
-			if (is_ifPresent) {
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent which has an ifpresent attribute.");
-			}
-			switch (templateSelection) {
-			case SPECIFIC_VALUE:
-				return new TitanInteger(2);
-			case VALUE_LIST:
-				if (list_value.isEmpty()) {
-					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing an empty list.");
-				}
-				final int item_size = list_value.get(0).sizeOf().getInt();
-				for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-					if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
-						throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing a value list with different sizes.");
-					}
-				}
-				return new TitanInteger(item_size);
-			case OMIT_VALUE:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing omit value.");
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing */? value.");
-			case COMPLEMENTED_LIST:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing complemented list.");
-			default:
-				throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-		}
-
-		public void log() {
-			switch (templateSelection) {
-			case SPECIFIC_VALUE:
-				TTCN_Logger.log_char('{');
-				TTCN_Logger.log_event_str(" entityId := ");
-				entityId.log();
-				TTCN_Logger.log_char(',');
-				TTCN_Logger.log_event_str(" event := ");
-				event.log();
-				TTCN_Logger.log_event_str(" }");
-				break;
-			case COMPLEMENTED_LIST:
-				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
-				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) {
-						TTCN_Logger.log_event_str(", ");
-					}
-					list_value.get(list_count).log();
-				}
-				TTCN_Logger.log_char(')');
-				break;
-			default:
-				log_generic();
-				break;
-			}
-			log_ifpresent();
-		}
-
-		public void log_match(final TitanSingleLogEvent match_value) {
-			log_match(match_value, false);
-		}
-
-		@Override
-		public void log_match(final Base_Type match_value, final boolean legacy) {
-			if (match_value instanceof TitanSingleLogEvent) {
-				log_match((TitanSingleLogEvent)match_value, legacy);
-				return;
-			}
-
-			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanSingleLogEvent.");
-		}
-
-		public void log_match(final TitanSingleLogEvent match_value, final boolean legacy) {
-			if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
-				if(match(match_value, legacy)) {
-					TTCN_Logger.print_logmatch_buffer();
-					TTCN_Logger.log_event_str(" matched");
-				} else {
-					if (templateSelection == template_sel.SPECIFIC_VALUE) {
-						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						if( !entityId.match(match_value.constGetentityId(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".entityId");
-							entityId.log_match(match_value.constGetentityId(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-						if( !event.match(match_value.constGetevent(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".event");
-							event.log_match(match_value.constGetevent(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-					} else {
-						TTCN_Logger.print_logmatch_buffer();
-						match_value.log();
-						TTCN_Logger.log_event_str(" with ");
-						log();
-						TTCN_Logger.log_event_str(" unmatched");
-					}
-				}
-				return;
-			}
-			if (templateSelection == template_sel.SPECIFIC_VALUE) {
-				TTCN_Logger.log_event_str("{ entityId := ");
-				entityId.log_match(match_value.constGetentityId(), legacy);
-				TTCN_Logger.log_event_str("{ event := ");
-				event.log_match(match_value.constGetevent(), legacy);
-				TTCN_Logger.log_event_str(" }");
-			} else {
-				match_value.log();
-				TTCN_Logger.log_event_str(" with ");
-				log();
-				if ( match(match_value, legacy) ) {
-					TTCN_Logger.log_event_str(" matched");
-				} else {
-					TTCN_Logger.log_event_str(" unmatched");
-				}
-			}
-		}
-
-		@Override
-		public void encode_text(final Text_Buf text_buf) {
-			encode_text_base(text_buf);
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				break;
-			case SPECIFIC_VALUE:
-				entityId.encode_text(text_buf);
-				event.encode_text(text_buf);
-				break;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
-					list_value.get(i).encode_text(text_buf);
-				}
-				break;
-			default:
-				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-		}
-
-		@Override
-		public void decode_text(final Text_Buf text_buf) {
-			cleanUp();
-			decode_text_base(text_buf);
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				break;
-			case SPECIFIC_VALUE:
-				entityId = new ComponentIDType_template();
-				entityId.decode_text(text_buf);
-				event = new TitanLogEvent_template();
-				event.decode_text(text_buf);
-				break;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST: {
-final int size = text_buf.pull_int().getInt();
-				list_value = new ArrayList<TitanSingleLogEvent_template>(size);
-				for (int i = 0; i < size; i++) {
-					final TitanSingleLogEvent_template temp = new TitanSingleLogEvent_template();
-					temp.decode_text(text_buf);
-					list_value.add(temp);
-				}
-				break;
-			}
-			default:
-				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanSingleLogEvent.");
-			}
-		}
-}
-public static void TitanSingleLogEvent_encoder(final TitanSingleLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanSingleLogEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(TitanSingleLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger TitanSingleLogEvent_decoder( final TitanOctetString input_stream, final TitanSingleLogEvent output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanSingleLogEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(TitanSingleLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -36169,6 +35407,767 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingProblemT
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingProblemType_operation_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+	public static class TitanSingleLogEvent extends Base_Type {
+		private final ComponentIDType entityId; //Referenced_Type
+		private final TitanLogEvent event; //Referenced_Type
+
+		public TitanSingleLogEvent() {
+			this.entityId = new ComponentIDType();
+			this.event = new TitanLogEvent();
+		}
+
+		public TitanSingleLogEvent(final ComponentIDType entityId, final TitanLogEvent event ) {
+			this.entityId = new ComponentIDType( entityId );
+			this.event = new TitanLogEvent( event );
+		}
+
+		public TitanSingleLogEvent( final TitanSingleLogEvent otherValue) {
+			if(!otherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+			entityId = new ComponentIDType();
+			event = new TitanLogEvent();
+			assign( otherValue );
+		}
+
+		public TitanSingleLogEvent assign(final TitanSingleLogEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
+				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TitanSingleLogEvent");
+			}
+
+			if (otherValue != this) {
+				if ( otherValue.getentityId().isBound() ) {
+					this.entityId.assign( otherValue.getentityId() );
+				} else {
+					this.entityId.cleanUp();
+				}
+				if ( otherValue.getevent().isBound() ) {
+					this.event.assign( otherValue.getevent() );
+				} else {
+					this.event.cleanUp();
+				}
+			}
+
+			return this;
+		}
+
+		@Override
+		public TitanSingleLogEvent assign(final Base_Type otherValue) {
+			if (otherValue instanceof TitanSingleLogEvent ) {
+				return assign((TitanSingleLogEvent) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.TitanSingleLogEvent", otherValue));
+		}
+
+		public void cleanUp() {
+			entityId.cleanUp();
+			event.cleanUp();
+		}
+
+		@Override
+		public boolean isBound() {
+			if ( entityId.isBound() ) { return true; }
+			if ( event.isBound() ) { return true; }
+			return false;
+		}
+
+		@Override
+		public boolean isPresent() {
+			return isBound();
+		}
+
+		@Override
+		public boolean isValue() {
+			if ( !entityId.isValue() ) { return false; }
+			if ( !event.isValue() ) { return false; }
+			return true;
+		}
+
+		public boolean operatorEquals( final TitanSingleLogEvent otherValue) {
+			if ( !this.entityId.operatorEquals( otherValue.entityId ) ) { return false; }
+			if ( !this.event.operatorEquals( otherValue.event ) ) { return false; }
+			return true;
+		}
+
+		@Override
+		public boolean operatorEquals(final Base_Type otherValue) {
+			if (otherValue instanceof TitanSingleLogEvent ) {
+				return operatorEquals((TitanSingleLogEvent) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.TitanSingleLogEvent", otherValue));
+		}
+
+		public ComponentIDType getentityId() {
+			return entityId;
+		}
+
+		public ComponentIDType constGetentityId() {
+			return entityId;
+		}
+
+		public TitanLogEvent getevent() {
+			return event;
+		}
+
+		public TitanLogEvent constGetevent() {
+			return event;
+		}
+
+		public TitanInteger sizeOf() {
+			return new TitanInteger(2);
+		}
+
+		public void log() {
+			if (!isBound()) {
+				TTCN_Logger.log_event_unbound();
+				return;
+			}
+			TTCN_Logger.log_char('{');
+			TTCN_Logger.log_event_str(" entityId := ");
+			entityId.log();
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" event := ");
+			event.log();
+			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_implicit_omit() {
+			if (entityId.isBound()) {
+				entityId.set_implicit_omit();
+			}
+			if (event.isBound()) {
+				event.set_implicit_omit();
+			}
+		}
+
+		@Override
+		public void encode_text(final Text_Buf text_buf) {
+			entityId.encode_text(text_buf);
+			event.encode_text(text_buf);
+		}
+
+		@Override
+		public void decode_text(final Text_Buf text_buf) {
+			entityId.decode_text(text_buf);
+			event.decode_text(text_buf);
+		}
+
+@Override
+public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+switch (p_coding) {
+case CT_RAW: {
+final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+if (p_td.raw == null) {
+TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+}
+final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
+RAW_encode(p_td, root);
+root.put_to_buf(p_buf);
+errorContext.leaveContext();
+break;
+}
+default:
+throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+}
+}
+
+@Override
+public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+switch (p_coding) {
+case CT_RAW: {
+final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+if (p_td.raw == null) {
+TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+}
+raw_order_t order;
+switch (p_td.raw.top_bit_order) {
+case TOP_BIT_LEFT:
+order = raw_order_t.ORDER_LSB;
+break;
+case TOP_BIT_RIGHT:
+default:
+order = raw_order_t.ORDER_MSB;
+break;
+}
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+if (rawr < 0) {
+final error_type temp = error_type.values()[-rawr];
+switch (temp) {
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+break;
+case ET_UNBOUND:
+default:
+TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+break;
+}
+}
+errorContext.leaveContext();
+break;
+}
+default:
+throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+}
+}
+
+	}
+public static class TitanSingleLogEvent_template extends Base_Template {
+
+	private ComponentIDType_template entityId; //Referenced_Type
+	private TitanLogEvent_template event; //Referenced_Type
+	//originally value_list/list_value
+	private List<TitanSingleLogEvent_template> list_value;
+
+	public ComponentIDType_template getentityId() {
+		setSpecific();
+		return entityId;
+	}
+
+	public ComponentIDType_template constGetentityId() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field entityId of a non-specific template of type @TitanLoggerApi.TitanSingleLogEvent.");
+		}
+		return entityId;
+	}
+
+	public TitanLogEvent_template getevent() {
+		setSpecific();
+		return event;
+	}
+
+	public TitanLogEvent_template constGetevent() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field event of a non-specific template of type @TitanLoggerApi.TitanSingleLogEvent.");
+		}
+		return event;
+	}
+
+	private void setSpecific() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			final template_sel old_selection = templateSelection;
+			cleanUp();
+			set_selection(template_sel.SPECIFIC_VALUE);
+			entityId = new ComponentIDType_template();
+			event = new TitanLogEvent_template();
+			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
+				entityId.assign(template_sel.ANY_VALUE);
+				event.assign(template_sel.ANY_VALUE);
+			}
+		}
+	}
+
+	public TitanSingleLogEvent_template() {
+// do nothing
+	}
+
+	public TitanSingleLogEvent_template(final template_sel other_value ) {
+		super( other_value );
+		checkSingleSelection( other_value );
+	}
+
+	public TitanSingleLogEvent_template( final TitanSingleLogEvent otherValue ) {
+		copyValue(otherValue);
+	}
+
+	public TitanSingleLogEvent_template( final TitanSingleLogEvent_template otherValue ) {
+		copyTemplate( otherValue );
+	}
+
+	public TitanSingleLogEvent_template( final Optional<TitanSingleLogEvent> other_value ) {
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copyValue(other_value.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Creating a template of type @TitanLoggerApi.TitanSingleLogEvent from an unbound optional field.");
+		}
+	}
+
+	//originally operator=
+	public TitanSingleLogEvent_template assign( final template_sel other_value ) {
+		checkSingleSelection(other_value);
+		cleanUp();
+		set_selection(other_value);
+		return this;
+	}
+
+	//originally operator=
+	public TitanSingleLogEvent_template assign( final TitanSingleLogEvent other_value ) {
+		cleanUp();
+		copyValue(other_value);
+		return this;
+	}
+
+	//originally operator=
+	public TitanSingleLogEvent_template assign( final TitanSingleLogEvent_template other_value ) {
+		if (other_value != this) {
+			cleanUp();
+			copyTemplate(other_value);
+		}
+		return this;
+	}
+
+		@Override
+		public TitanSingleLogEvent_template assign(final Base_Type otherValue) {
+			if (otherValue instanceof TitanSingleLogEvent) {
+				return assign((TitanSingleLogEvent) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `TitanSingleLogEvent' can not be cast to {1}", otherValue));
+		}
+
+		@Override
+		public TitanSingleLogEvent_template assign(final Base_Template otherValue) {
+			if (otherValue instanceof TitanSingleLogEvent_template) {
+				return assign((TitanSingleLogEvent_template) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `TitanSingleLogEvent' can not be cast to {1}_template", otherValue));
+		}
+
+	public TitanSingleLogEvent_template assign( final Optional<TitanSingleLogEvent> other_value ) {
+		cleanUp();
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copyValue(other_value.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.TitanSingleLogEvent.");
+		}
+		return this;
+	}
+
+	private void copyValue(final TitanSingleLogEvent other_value) {
+		if (other_value.getentityId().isBound()) {
+			getentityId().assign(other_value.getentityId());
+		} else {
+			getentityId().cleanUp();
+		}
+		if (other_value.getevent().isBound()) {
+			getevent().assign(other_value.getevent());
+		} else {
+			getevent().cleanUp();
+		}
+		set_selection(template_sel.SPECIFIC_VALUE);
+	}
+
+	private void copyTemplate(final TitanSingleLogEvent_template other_value) {
+		switch (other_value.templateSelection) {
+		case SPECIFIC_VALUE:
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getentityId().get_selection()) {
+				getentityId().cleanUp();
+			} else {
+				getentityId().assign(other_value.getentityId());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getevent().get_selection()) {
+				getevent().cleanUp();
+			} else {
+				getevent().assign(other_value.getevent());
+			}
+			break;
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			list_value = new ArrayList<TitanSingleLogEvent_template>(other_value.list_value.size());
+			for(int i = 0; i < other_value.list_value.size(); i++) {
+				final TitanSingleLogEvent_template temp = new TitanSingleLogEvent_template(other_value.list_value.get(i));
+				list_value.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.TitanSingleLogEvent.");
+		}
+		set_selection(other_value);
+	}
+
+		public boolean isPresent() {
+			return isPresent(false);
+		}
+
+		public boolean isPresent(final boolean legacy) {
+			return isPresent_(legacy);
+		}
+
+		private boolean isPresent_(final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return false;
+			}
+			return !match_omit_(legacy);
+		}
+
+		public boolean match_omit() {
+			return match_omit(false);
+		}
+
+		public boolean match_omit(final boolean legacy) {
+			return match_omit_(legacy);
+		}
+
+		private boolean match_omit_(final boolean legacy) {
+			if (is_ifPresent) {
+				return true;
+			}
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_OR_OMIT:
+				return true;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				if (legacy) {
+					for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
+						if (list_value.get(l_idx).match_omit_(legacy)) {
+							return templateSelection==template_sel.VALUE_LIST;
+						}
+					}
+					return templateSelection==template_sel.COMPLEMENTED_LIST;
+				} // else fall through
+			default:
+				return false;
+			}
+		}
+
+		public TitanSingleLogEvent valueOf() {
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+			final TitanSingleLogEvent ret_val = new TitanSingleLogEvent();
+			 if (entityId.isBound()) {
+				ret_val.getentityId().assign(entityId.valueOf());
+			}
+			 if (event.isBound()) {
+				ret_val.getevent().assign(event.valueOf());
+			}
+			return ret_val;
+		}
+
+		public TitanSingleLogEvent_template listItem(final int list_index) {
+			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+			if (list_index >= list_value.size()) {
+				throw new TtcnError("Index overflow in a value list template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+			return list_value.get(list_index);
+		}
+
+		public void setType(final template_sel template_type, final int list_length) {
+			if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+			cleanUp();
+			set_selection(template_type);
+			list_value = new ArrayList<TitanSingleLogEvent_template>(list_length);
+			for(int i = 0 ; i < list_length; i++) {
+				list_value.add(new TitanSingleLogEvent_template());
+			}
+		}
+
+		@Override
+		public boolean isBound() {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
+				return false;
+			}
+			if (templateSelection != template_sel.SPECIFIC_VALUE) {
+				return true;
+			}
+			if (entityId.isBound()) {
+				return true;
+			}
+			if (event.isBound()) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public boolean isValue() {
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				return false;
+			}
+			if (!entityId.isValue()) {
+				return false;
+			}
+			if (!event.isValue()) {
+				return false;
+			}
+			return true;
+		}
+
+		public boolean match(final TitanSingleLogEvent other_value) {
+			return match(other_value, false);
+		}
+
+		public boolean match(final TitanSingleLogEvent other_value, final boolean legacy) {
+			if (!other_value.isBound()) {
+				return false;
+			}
+			switch (templateSelection) {
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				return true;
+			case OMIT_VALUE:
+				return false;
+			case SPECIFIC_VALUE:
+				if(!other_value.getentityId().isBound()) {
+					return false;
+				}
+				if(!entityId.match(other_value.getentityId(), legacy)) {
+					return false;
+				}
+				if(!other_value.getevent().isBound()) {
+					return false;
+				}
+				if(!event.match(other_value.getevent(), legacy)) {
+					return false;
+				}
+				return true;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+					if (list_value.get(list_count).match(other_value, legacy)) {
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
+			default:
+				throw new TtcnError("Matching an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+		}
+
+	@Override
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
+	if (otherValue instanceof TitanSingleLogEvent) {
+		return match((TitanSingleLogEvent)otherValue, legacy);
+	}
+
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type TitanSingleLogEvent.");
+	}
+
+		public TitanInteger sizeOf() {
+			if (is_ifPresent) {
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent which has an ifpresent attribute.");
+			}
+			switch (templateSelection) {
+			case SPECIFIC_VALUE:
+				return new TitanInteger(2);
+			case VALUE_LIST:
+				if (list_value.isEmpty()) {
+					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing an empty list.");
+				}
+				final int item_size = list_value.get(0).sizeOf().getInt();
+				for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
+					if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
+						throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing a value list with different sizes.");
+					}
+				}
+				return new TitanInteger(item_size);
+			case OMIT_VALUE:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing omit value.");
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing */? value.");
+			case COMPLEMENTED_LIST:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.TitanSingleLogEvent containing complemented list.");
+			default:
+				throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+		}
+
+		public void log() {
+			switch (templateSelection) {
+			case SPECIFIC_VALUE:
+				TTCN_Logger.log_char('{');
+				TTCN_Logger.log_event_str(" entityId := ");
+				entityId.log();
+				TTCN_Logger.log_char(',');
+				TTCN_Logger.log_event_str(" event := ");
+				event.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case COMPLEMENTED_LIST:
+				TTCN_Logger.log_event_str("complement");
+			case VALUE_LIST:
+				TTCN_Logger.log_char('(');
+				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+					if (list_count > 0) {
+						TTCN_Logger.log_event_str(", ");
+					}
+					list_value.get(list_count).log();
+				}
+				TTCN_Logger.log_char(')');
+				break;
+			default:
+				log_generic();
+				break;
+			}
+			log_ifpresent();
+		}
+
+		public void log_match(final TitanSingleLogEvent match_value) {
+			log_match(match_value, false);
+		}
+
+		@Override
+		public void log_match(final Base_Type match_value, final boolean legacy) {
+			if (match_value instanceof TitanSingleLogEvent) {
+				log_match((TitanSingleLogEvent)match_value, legacy);
+				return;
+			}
+
+			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.TitanSingleLogEvent.");
+		}
+
+		public void log_match(final TitanSingleLogEvent match_value, final boolean legacy) {
+			if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
+				if(match(match_value, legacy)) {
+					TTCN_Logger.print_logmatch_buffer();
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					if (templateSelection == template_sel.SPECIFIC_VALUE) {
+						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
+						if( !entityId.match(match_value.constGetentityId(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".entityId");
+							entityId.log_match(match_value.constGetentityId(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+						if( !event.match(match_value.constGetevent(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".event");
+							event.log_match(match_value.constGetevent(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+					} else {
+						TTCN_Logger.print_logmatch_buffer();
+						match_value.log();
+						TTCN_Logger.log_event_str(" with ");
+						log();
+						TTCN_Logger.log_event_str(" unmatched");
+					}
+				}
+				return;
+			}
+			if (templateSelection == template_sel.SPECIFIC_VALUE) {
+				TTCN_Logger.log_event_str("{ entityId := ");
+				entityId.log_match(match_value.constGetentityId(), legacy);
+				TTCN_Logger.log_event_str("{ event := ");
+				event.log_match(match_value.constGetevent(), legacy);
+				TTCN_Logger.log_event_str(" }");
+			} else {
+				match_value.log();
+				TTCN_Logger.log_event_str(" with ");
+				log();
+				if ( match(match_value, legacy) ) {
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					TTCN_Logger.log_event_str(" unmatched");
+				}
+			}
+		}
+
+		@Override
+		public void encode_text(final Text_Buf text_buf) {
+			encode_text_base(text_buf);
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case SPECIFIC_VALUE:
+				entityId.encode_text(text_buf);
+				event.encode_text(text_buf);
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				text_buf.push_int(list_value.size());
+				for (int i = 0; i < list_value.size(); i++) {
+					list_value.get(i).encode_text(text_buf);
+				}
+				break;
+			default:
+				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+		}
+
+		@Override
+		public void decode_text(final Text_Buf text_buf) {
+			cleanUp();
+			decode_text_base(text_buf);
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case SPECIFIC_VALUE:
+				entityId = new ComponentIDType_template();
+				entityId.decode_text(text_buf);
+				event = new TitanLogEvent_template();
+				event.decode_text(text_buf);
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST: {
+final int size = text_buf.pull_int().getInt();
+				list_value = new ArrayList<TitanSingleLogEvent_template>(size);
+				for (int i = 0; i < size; i++) {
+					final TitanSingleLogEvent_template temp = new TitanSingleLogEvent_template();
+					temp.decode_text(text_buf);
+					list_value.add(temp);
+				}
+				break;
+			}
+			default:
+				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.TitanSingleLogEvent.");
+			}
+		}
+}
+public static void TitanSingleLogEvent_encoder(final TitanSingleLogEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanSingleLogEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(TitanSingleLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger TitanSingleLogEvent_decoder( final TitanOctetString input_stream, final TitanSingleLogEvent output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.TitanSingleLogEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(TitanSingleLogEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -37942,37 +37941,37 @@ return new TitanInteger(1);
 		private final TitanCharString testcase__name; //CharString_Type
 
 		public QualifiedName() {
-			module__name = new TitanCharString();
-			testcase__name = new TitanCharString();
+			this.module__name = new TitanCharString();
+			this.testcase__name = new TitanCharString();
 		}
 
-		public QualifiedName( final TitanCharString amodule__name, final TitanCharString atestcase__name ) {
-			module__name = new TitanCharString( amodule__name );
-			testcase__name = new TitanCharString( atestcase__name );
+		public QualifiedName(final TitanCharString module__name, final TitanCharString testcase__name ) {
+			this.module__name = new TitanCharString( module__name );
+			this.testcase__name = new TitanCharString( testcase__name );
 		}
 
-		public QualifiedName( final QualifiedName aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public QualifiedName( final QualifiedName otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.QualifiedName.");
 			}
 			module__name = new TitanCharString();
 			testcase__name = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public QualifiedName assign(final QualifiedName aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public QualifiedName assign(final QualifiedName otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.QualifiedName");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getmodule__name().isBound() ) {
-					this.module__name.assign( aOtherValue.getmodule__name() );
+			if (otherValue != this) {
+				if ( otherValue.getmodule__name().isBound() ) {
+					this.module__name.assign( otherValue.getmodule__name() );
 				} else {
 					this.module__name.cleanUp();
 				}
-				if ( aOtherValue.gettestcase__name().isBound() ) {
-					this.testcase__name.assign( aOtherValue.gettestcase__name() );
+				if ( otherValue.gettestcase__name().isBound() ) {
+					this.testcase__name.assign( otherValue.gettestcase__name() );
 				} else {
 					this.testcase__name.cleanUp();
 				}
@@ -38014,9 +38013,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final QualifiedName aOtherValue ) {
-			if ( !this.module__name.operatorEquals( aOtherValue.module__name ) ) { return false; }
-			if ( !this.testcase__name.operatorEquals( aOtherValue.testcase__name ) ) { return false; }
+		public boolean operatorEquals( final QualifiedName otherValue) {
+			if ( !this.module__name.operatorEquals( otherValue.module__name ) ) { return false; }
+			if ( !this.testcase__name.operatorEquals( otherValue.testcase__name ) ) { return false; }
 			return true;
 		}
 
@@ -38740,45 +38739,45 @@ return new TitanInteger(1);
 		private final TitanInteger intseed; //Integer_Type
 
 		public FunctionEvent_choice_random() {
-			operation = new RandomAction();
-			retval = new TitanFloat();
-			intseed = new TitanInteger();
+			this.operation = new RandomAction();
+			this.retval = new TitanFloat();
+			this.intseed = new TitanInteger();
 		}
 
-		public FunctionEvent_choice_random( final RandomAction aoperation, final TitanFloat aretval, final TitanInteger aintseed ) {
-			operation = new RandomAction( aoperation );
-			retval = new TitanFloat( aretval );
-			intseed = new TitanInteger( aintseed );
+		public FunctionEvent_choice_random(final RandomAction operation, final TitanFloat retval, final TitanInteger intseed ) {
+			this.operation = new RandomAction( operation );
+			this.retval = new TitanFloat( retval );
+			this.intseed = new TitanInteger( intseed );
 		}
 
-		public FunctionEvent_choice_random( final FunctionEvent_choice_random aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public FunctionEvent_choice_random( final FunctionEvent_choice_random otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.choice.random.");
 			}
 			operation = new RandomAction();
 			retval = new TitanFloat();
 			intseed = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public FunctionEvent_choice_random assign(final FunctionEvent_choice_random aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public FunctionEvent_choice_random assign(final FunctionEvent_choice_random otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.FunctionEvent.choice.random");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+			if (otherValue != this) {
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getretval().isBound() ) {
-					this.retval.assign( aOtherValue.getretval() );
+				if ( otherValue.getretval().isBound() ) {
+					this.retval.assign( otherValue.getretval() );
 				} else {
 					this.retval.cleanUp();
 				}
-				if ( aOtherValue.getintseed().isBound() ) {
-					this.intseed.assign( aOtherValue.getintseed() );
+				if ( otherValue.getintseed().isBound() ) {
+					this.intseed.assign( otherValue.getintseed() );
 				} else {
 					this.intseed.cleanUp();
 				}
@@ -38823,10 +38822,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final FunctionEvent_choice_random aOtherValue ) {
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.retval.operatorEquals( aOtherValue.retval ) ) { return false; }
-			if ( !this.intseed.operatorEquals( aOtherValue.intseed ) ) { return false; }
+		public boolean operatorEquals( final FunctionEvent_choice_random otherValue) {
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.retval.operatorEquals( otherValue.retval ) ) { return false; }
+			if ( !this.intseed.operatorEquals( otherValue.intseed ) ) { return false; }
 			return true;
 		}
 
@@ -39800,53 +39799,53 @@ return new TitanInteger(1);
 		private final TitanInteger msgid; //Integer_Type
 
 		public Dualface__mapped() {
-			incoming = new TitanBoolean();
-			target__type = new TitanCharString();
-			value__ = new TitanCharString();
-			msgid = new TitanInteger();
+			this.incoming = new TitanBoolean();
+			this.target__type = new TitanCharString();
+			this.value__ = new TitanCharString();
+			this.msgid = new TitanInteger();
 		}
 
-		public Dualface__mapped( final TitanBoolean aincoming, final TitanCharString atarget__type, final TitanCharString avalue__, final TitanInteger amsgid ) {
-			incoming = new TitanBoolean( aincoming );
-			target__type = new TitanCharString( atarget__type );
-			value__ = new TitanCharString( avalue__ );
-			msgid = new TitanInteger( amsgid );
+		public Dualface__mapped(final TitanBoolean incoming, final TitanCharString target__type, final TitanCharString value__, final TitanInteger msgid ) {
+			this.incoming = new TitanBoolean( incoming );
+			this.target__type = new TitanCharString( target__type );
+			this.value__ = new TitanCharString( value__ );
+			this.msgid = new TitanInteger( msgid );
 		}
 
-		public Dualface__mapped( final Dualface__mapped aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Dualface__mapped( final Dualface__mapped otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_mapped.");
 			}
 			incoming = new TitanBoolean();
 			target__type = new TitanCharString();
 			value__ = new TitanCharString();
 			msgid = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Dualface__mapped assign(final Dualface__mapped aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Dualface__mapped assign(final Dualface__mapped otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Dualface_mapped");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getincoming().isBound() ) {
-					this.incoming.assign( aOtherValue.getincoming() );
+			if (otherValue != this) {
+				if ( otherValue.getincoming().isBound() ) {
+					this.incoming.assign( otherValue.getincoming() );
 				} else {
 					this.incoming.cleanUp();
 				}
-				if ( aOtherValue.gettarget__type().isBound() ) {
-					this.target__type.assign( aOtherValue.gettarget__type() );
+				if ( otherValue.gettarget__type().isBound() ) {
+					this.target__type.assign( otherValue.gettarget__type() );
 				} else {
 					this.target__type.cleanUp();
 				}
-				if ( aOtherValue.getvalue__().isBound() ) {
-					this.value__.assign( aOtherValue.getvalue__() );
+				if ( otherValue.getvalue__().isBound() ) {
+					this.value__.assign( otherValue.getvalue__() );
 				} else {
 					this.value__.cleanUp();
 				}
-				if ( aOtherValue.getmsgid().isBound() ) {
-					this.msgid.assign( aOtherValue.getmsgid() );
+				if ( otherValue.getmsgid().isBound() ) {
+					this.msgid.assign( otherValue.getmsgid() );
 				} else {
 					this.msgid.cleanUp();
 				}
@@ -39894,11 +39893,11 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Dualface__mapped aOtherValue ) {
-			if ( !this.incoming.operatorEquals( aOtherValue.incoming ) ) { return false; }
-			if ( !this.target__type.operatorEquals( aOtherValue.target__type ) ) { return false; }
-			if ( !this.value__.operatorEquals( aOtherValue.value__ ) ) { return false; }
-			if ( !this.msgid.operatorEquals( aOtherValue.msgid ) ) { return false; }
+		public boolean operatorEquals( final Dualface__mapped otherValue) {
+			if ( !this.incoming.operatorEquals( otherValue.incoming ) ) { return false; }
+			if ( !this.target__type.operatorEquals( otherValue.target__type ) ) { return false; }
+			if ( !this.value__.operatorEquals( otherValue.value__ ) ) { return false; }
+			if ( !this.msgid.operatorEquals( otherValue.msgid ) ) { return false; }
 			return true;
 		}
 
@@ -42109,46 +42108,46 @@ return new TitanInteger(1);
 		private final Optional<TitanCharString> verdictReason; //CharString_Type
 
 		public VerdictType() {
-			fromVerdict = new Verdict();
-			toVerdict = new Verdict();
-			verdictReason = new Optional<TitanCharString>(TitanCharString.class);
+			this.fromVerdict = new Verdict();
+			this.toVerdict = new Verdict();
+			this.verdictReason = new Optional<TitanCharString>(TitanCharString.class);
 		}
 
-		public VerdictType( final Verdict afromVerdict, final Verdict atoVerdict, final Optional<TitanCharString> averdictReason ) {
-			fromVerdict = new Verdict( afromVerdict );
-			toVerdict = new Verdict( atoVerdict );
-			verdictReason = new Optional<TitanCharString>(TitanCharString.class);
-			this.verdictReason.assign( averdictReason );
+		public VerdictType(final Verdict fromVerdict, final Verdict toVerdict, final Optional<TitanCharString> verdictReason ) {
+			this.fromVerdict = new Verdict( fromVerdict );
+			this.toVerdict = new Verdict( toVerdict );
+			this.verdictReason = new Optional<TitanCharString>(TitanCharString.class);
+			this.verdictReason.assign( verdictReason );
 		}
 
-		public VerdictType( final VerdictType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public VerdictType( final VerdictType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.VerdictType.");
 			}
 			fromVerdict = new Verdict();
 			toVerdict = new Verdict();
 			verdictReason = new Optional<TitanCharString>(TitanCharString.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public VerdictType assign(final VerdictType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public VerdictType assign(final VerdictType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.VerdictType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getfromVerdict().isBound() ) {
-					this.fromVerdict.assign( aOtherValue.getfromVerdict() );
+			if (otherValue != this) {
+				if ( otherValue.getfromVerdict().isBound() ) {
+					this.fromVerdict.assign( otherValue.getfromVerdict() );
 				} else {
 					this.fromVerdict.cleanUp();
 				}
-				if ( aOtherValue.gettoVerdict().isBound() ) {
-					this.toVerdict.assign( aOtherValue.gettoVerdict() );
+				if ( otherValue.gettoVerdict().isBound() ) {
+					this.toVerdict.assign( otherValue.gettoVerdict() );
 				} else {
 					this.toVerdict.cleanUp();
 				}
-				if ( aOtherValue.getverdictReason().isBound() ) {
-					this.verdictReason.assign( aOtherValue.getverdictReason() );
+				if ( otherValue.getverdictReason().isBound() ) {
+					this.verdictReason.assign( otherValue.getverdictReason() );
 				} else {
 					this.verdictReason.cleanUp();
 				}
@@ -42193,10 +42192,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final VerdictType aOtherValue ) {
-			if ( !this.fromVerdict.operatorEquals( aOtherValue.fromVerdict ) ) { return false; }
-			if ( !this.toVerdict.operatorEquals( aOtherValue.toVerdict ) ) { return false; }
-			if ( !this.verdictReason.operatorEquals( aOtherValue.verdictReason ) ) { return false; }
+		public boolean operatorEquals( final VerdictType otherValue) {
+			if ( !this.fromVerdict.operatorEquals( otherValue.fromVerdict ) ) { return false; }
+			if ( !this.toVerdict.operatorEquals( otherValue.toVerdict ) ) { return false; }
+			if ( !this.verdictReason.operatorEquals( otherValue.verdictReason ) ) { return false; }
 			return true;
 		}
 
@@ -43009,42 +43008,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void LogEventType_choice_matchingEvent_encoder(final MatchingEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(LogEventType_choice_matchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger LogEventType_choice_matchingEvent_decoder( final TitanOctetString input_stream, final MatchingEvent output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(LogEventType_choice_matchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void DefaultOp_id_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -43068,6 +43031,42 @@ throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} en
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(DefaultOp_id_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void LogEventType_choice_matchingEvent_encoder(final MatchingEvent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(LogEventType_choice_matchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger LogEventType_choice_matchingEvent_decoder( final TitanOctetString input_stream, final MatchingEvent output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(LogEventType_choice_matchingEvent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -43977,42 +43976,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void StatisticsType_choice_controlpartFinish_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(StatisticsType_choice_controlpartFinish_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger StatisticsType_choice_controlpartFinish_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(StatisticsType_choice_controlpartFinish_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void ExecutorUnqualified_port___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -44036,6 +43999,42 @@ throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} en
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_port___descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void StatisticsType_choice_controlpartFinish_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(StatisticsType_choice_controlpartFinish_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger StatisticsType_choice_controlpartFinish_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(StatisticsType_choice_controlpartFinish_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -44981,42 +44980,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void MatchingSuccessType_port__type_encoder(final PortType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(MatchingSuccessType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger MatchingSuccessType_port__type_decoder( final TitanOctetString input_stream, final PortType output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(MatchingSuccessType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void ParPort_dstPort_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -45040,6 +45003,42 @@ throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0}
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParPort_dstPort_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void MatchingSuccessType_port__type_encoder(final PortType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(MatchingSuccessType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger MatchingSuccessType_port__type_decoder( final TitanOctetString input_stream, final PortType output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(MatchingSuccessType_port__type_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -45089,42 +45088,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void WarningEvent_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(WarningEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger WarningEvent_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(WarningEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void PortEvent_choice_portQueue_encoder(final Port__Queue input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -45161,42 +45124,78 @@ return new TitanInteger(1);
 }
 }
 
+public static void WarningEvent_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(WarningEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger WarningEvent_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(WarningEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 	public static class TimestampType extends Base_Type {
 		private final TitanInteger seconds; //Integer_Type
 		private final TitanInteger microSeconds; //Integer_Type
 
 		public TimestampType() {
-			seconds = new TitanInteger();
-			microSeconds = new TitanInteger();
+			this.seconds = new TitanInteger();
+			this.microSeconds = new TitanInteger();
 		}
 
-		public TimestampType( final TitanInteger aseconds, final TitanInteger amicroSeconds ) {
-			seconds = new TitanInteger( aseconds );
-			microSeconds = new TitanInteger( amicroSeconds );
+		public TimestampType(final TitanInteger seconds, final TitanInteger microSeconds ) {
+			this.seconds = new TitanInteger( seconds );
+			this.microSeconds = new TitanInteger( microSeconds );
 		}
 
-		public TimestampType( final TimestampType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TimestampType( final TimestampType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimestampType.");
 			}
 			seconds = new TitanInteger();
 			microSeconds = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TimestampType assign(final TimestampType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TimestampType assign(final TimestampType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TimestampType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getseconds().isBound() ) {
-					this.seconds.assign( aOtherValue.getseconds() );
+			if (otherValue != this) {
+				if ( otherValue.getseconds().isBound() ) {
+					this.seconds.assign( otherValue.getseconds() );
 				} else {
 					this.seconds.cleanUp();
 				}
-				if ( aOtherValue.getmicroSeconds().isBound() ) {
-					this.microSeconds.assign( aOtherValue.getmicroSeconds() );
+				if ( otherValue.getmicroSeconds().isBound() ) {
+					this.microSeconds.assign( otherValue.getmicroSeconds() );
 				} else {
 					this.microSeconds.cleanUp();
 				}
@@ -45238,9 +45237,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TimestampType aOtherValue ) {
-			if ( !this.seconds.operatorEquals( aOtherValue.seconds ) ) { return false; }
-			if ( !this.microSeconds.operatorEquals( aOtherValue.microSeconds ) ) { return false; }
+		public boolean operatorEquals( final TimestampType otherValue) {
+			if ( !this.seconds.operatorEquals( otherValue.seconds ) ) { return false; }
+			if ( !this.microSeconds.operatorEquals( otherValue.microSeconds ) ) { return false; }
 			return true;
 		}
 
@@ -45928,45 +45927,45 @@ return new TitanInteger(1);
 		private final TitanCharString info; //CharString_Type
 
 		public Setstate() {
-			port__name = new TitanCharString();
-			state = new TitanCharString();
-			info = new TitanCharString();
+			this.port__name = new TitanCharString();
+			this.state = new TitanCharString();
+			this.info = new TitanCharString();
 		}
 
-		public Setstate( final TitanCharString aport__name, final TitanCharString astate, final TitanCharString ainfo ) {
-			port__name = new TitanCharString( aport__name );
-			state = new TitanCharString( astate );
-			info = new TitanCharString( ainfo );
+		public Setstate(final TitanCharString port__name, final TitanCharString state, final TitanCharString info ) {
+			this.port__name = new TitanCharString( port__name );
+			this.state = new TitanCharString( state );
+			this.info = new TitanCharString( info );
 		}
 
-		public Setstate( final Setstate aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Setstate( final Setstate otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Setstate.");
 			}
 			port__name = new TitanCharString();
 			state = new TitanCharString();
 			info = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Setstate assign(final Setstate aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Setstate assign(final Setstate otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Setstate");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+			if (otherValue != this) {
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getstate().isBound() ) {
-					this.state.assign( aOtherValue.getstate() );
+				if ( otherValue.getstate().isBound() ) {
+					this.state.assign( otherValue.getstate() );
 				} else {
 					this.state.cleanUp();
 				}
-				if ( aOtherValue.getinfo().isBound() ) {
-					this.info.assign( aOtherValue.getinfo() );
+				if ( otherValue.getinfo().isBound() ) {
+					this.info.assign( otherValue.getinfo() );
 				} else {
 					this.info.cleanUp();
 				}
@@ -46011,10 +46010,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Setstate aOtherValue ) {
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.state.operatorEquals( aOtherValue.state ) ) { return false; }
-			if ( !this.info.operatorEquals( aOtherValue.info ) ) { return false; }
+		public boolean operatorEquals( final Setstate otherValue) {
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.state.operatorEquals( otherValue.state ) ) { return false; }
+			if ( !this.info.operatorEquals( otherValue.info ) ) { return false; }
 			return true;
 		}
 
@@ -46918,25 +46917,25 @@ return new TitanInteger(1);
 		private final TitanInteger msgid; //Integer_Type
 
 		public Proc__port__in() {
-			port__name = new TitanCharString();
-			operation = new Port__oper();
-			compref = new TitanInteger();
-			check__ = new TitanBoolean();
-			parameter = new TitanCharString();
-			msgid = new TitanInteger();
+			this.port__name = new TitanCharString();
+			this.operation = new Port__oper();
+			this.compref = new TitanInteger();
+			this.check__ = new TitanBoolean();
+			this.parameter = new TitanCharString();
+			this.msgid = new TitanInteger();
 		}
 
-		public Proc__port__in( final TitanCharString aport__name, final Port__oper aoperation, final TitanInteger acompref, final TitanBoolean acheck__, final TitanCharString aparameter, final TitanInteger amsgid ) {
-			port__name = new TitanCharString( aport__name );
-			operation = new Port__oper( aoperation );
-			compref = new TitanInteger( acompref );
-			check__ = new TitanBoolean( acheck__ );
-			parameter = new TitanCharString( aparameter );
-			msgid = new TitanInteger( amsgid );
+		public Proc__port__in(final TitanCharString port__name, final Port__oper operation, final TitanInteger compref, final TitanBoolean check__, final TitanCharString parameter, final TitanInteger msgid ) {
+			this.port__name = new TitanCharString( port__name );
+			this.operation = new Port__oper( operation );
+			this.compref = new TitanInteger( compref );
+			this.check__ = new TitanBoolean( check__ );
+			this.parameter = new TitanCharString( parameter );
+			this.msgid = new TitanInteger( msgid );
 		}
 
-		public Proc__port__in( final Proc__port__in aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Proc__port__in( final Proc__port__in otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Proc_port_in.");
 			}
 			port__name = new TitanCharString();
@@ -46945,42 +46944,42 @@ return new TitanInteger(1);
 			check__ = new TitanBoolean();
 			parameter = new TitanCharString();
 			msgid = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Proc__port__in assign(final Proc__port__in aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Proc__port__in assign(final Proc__port__in otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Proc_port_in");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+			if (otherValue != this) {
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getcheck__().isBound() ) {
-					this.check__.assign( aOtherValue.getcheck__() );
+				if ( otherValue.getcheck__().isBound() ) {
+					this.check__.assign( otherValue.getcheck__() );
 				} else {
 					this.check__.cleanUp();
 				}
-				if ( aOtherValue.getparameter().isBound() ) {
-					this.parameter.assign( aOtherValue.getparameter() );
+				if ( otherValue.getparameter().isBound() ) {
+					this.parameter.assign( otherValue.getparameter() );
 				} else {
 					this.parameter.cleanUp();
 				}
-				if ( aOtherValue.getmsgid().isBound() ) {
-					this.msgid.assign( aOtherValue.getmsgid() );
+				if ( otherValue.getmsgid().isBound() ) {
+					this.msgid.assign( otherValue.getmsgid() );
 				} else {
 					this.msgid.cleanUp();
 				}
@@ -47034,13 +47033,13 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Proc__port__in aOtherValue ) {
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.check__.operatorEquals( aOtherValue.check__ ) ) { return false; }
-			if ( !this.parameter.operatorEquals( aOtherValue.parameter ) ) { return false; }
-			if ( !this.msgid.operatorEquals( aOtherValue.msgid ) ) { return false; }
+		public boolean operatorEquals( final Proc__port__in otherValue) {
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.check__.operatorEquals( otherValue.check__ ) ) { return false; }
+			if ( !this.parameter.operatorEquals( otherValue.parameter ) ) { return false; }
+			if ( !this.msgid.operatorEquals( otherValue.msgid ) ) { return false; }
 			return true;
 		}
 
@@ -48005,53 +48004,53 @@ return new TitanInteger(1);
 		private final LogEventType logEvent; //Referenced_Type
 
 		public TitanLogEvent() {
-			timestamp = new TimestampType();
-			sourceInfo__list = new TitanLogEvent_sourceInfo__list();
-			severity = new TitanInteger();
-			logEvent = new LogEventType();
+			this.timestamp = new TimestampType();
+			this.sourceInfo__list = new TitanLogEvent_sourceInfo__list();
+			this.severity = new TitanInteger();
+			this.logEvent = new LogEventType();
 		}
 
-		public TitanLogEvent( final TimestampType atimestamp, final TitanLogEvent_sourceInfo__list asourceInfo__list, final TitanInteger aseverity, final LogEventType alogEvent ) {
-			timestamp = new TimestampType( atimestamp );
-			sourceInfo__list = new TitanLogEvent_sourceInfo__list( asourceInfo__list );
-			severity = new TitanInteger( aseverity );
-			logEvent = new LogEventType( alogEvent );
+		public TitanLogEvent(final TimestampType timestamp, final TitanLogEvent_sourceInfo__list sourceInfo__list, final TitanInteger severity, final LogEventType logEvent ) {
+			this.timestamp = new TimestampType( timestamp );
+			this.sourceInfo__list = new TitanLogEvent_sourceInfo__list( sourceInfo__list );
+			this.severity = new TitanInteger( severity );
+			this.logEvent = new LogEventType( logEvent );
 		}
 
-		public TitanLogEvent( final TitanLogEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TitanLogEvent( final TitanLogEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLogEvent.");
 			}
 			timestamp = new TimestampType();
 			sourceInfo__list = new TitanLogEvent_sourceInfo__list();
 			severity = new TitanInteger();
 			logEvent = new LogEventType();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TitanLogEvent assign(final TitanLogEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TitanLogEvent assign(final TitanLogEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TitanLogEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.gettimestamp().isBound() ) {
-					this.timestamp.assign( aOtherValue.gettimestamp() );
+			if (otherValue != this) {
+				if ( otherValue.gettimestamp().isBound() ) {
+					this.timestamp.assign( otherValue.gettimestamp() );
 				} else {
 					this.timestamp.cleanUp();
 				}
-				if ( aOtherValue.getsourceInfo__list().isBound() ) {
-					this.sourceInfo__list.assign( aOtherValue.getsourceInfo__list() );
+				if ( otherValue.getsourceInfo__list().isBound() ) {
+					this.sourceInfo__list.assign( otherValue.getsourceInfo__list() );
 				} else {
 					this.sourceInfo__list.cleanUp();
 				}
-				if ( aOtherValue.getseverity().isBound() ) {
-					this.severity.assign( aOtherValue.getseverity() );
+				if ( otherValue.getseverity().isBound() ) {
+					this.severity.assign( otherValue.getseverity() );
 				} else {
 					this.severity.cleanUp();
 				}
-				if ( aOtherValue.getlogEvent().isBound() ) {
-					this.logEvent.assign( aOtherValue.getlogEvent() );
+				if ( otherValue.getlogEvent().isBound() ) {
+					this.logEvent.assign( otherValue.getlogEvent() );
 				} else {
 					this.logEvent.cleanUp();
 				}
@@ -48099,11 +48098,11 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TitanLogEvent aOtherValue ) {
-			if ( !this.timestamp.operatorEquals( aOtherValue.timestamp ) ) { return false; }
-			if ( !this.sourceInfo__list.operatorEquals( aOtherValue.sourceInfo__list ) ) { return false; }
-			if ( !this.severity.operatorEquals( aOtherValue.severity ) ) { return false; }
-			if ( !this.logEvent.operatorEquals( aOtherValue.logEvent ) ) { return false; }
+		public boolean operatorEquals( final TitanLogEvent otherValue) {
+			if ( !this.timestamp.operatorEquals( otherValue.timestamp ) ) { return false; }
+			if ( !this.sourceInfo__list.operatorEquals( otherValue.sourceInfo__list ) ) { return false; }
+			if ( !this.severity.operatorEquals( otherValue.severity ) ) { return false; }
+			if ( !this.logEvent.operatorEquals( otherValue.logEvent ) ) { return false; }
 			return true;
 		}
 
@@ -48936,33 +48935,33 @@ return new TitanInteger(1);
 		private final TitanFloat errorPercent; //Float_Type
 
 		public StatisticsType_choice_verdictStatistics() {
-			none__ = new TitanInteger();
-			nonePercent = new TitanFloat();
-			pass__ = new TitanInteger();
-			passPercent = new TitanFloat();
-			inconc__ = new TitanInteger();
-			inconcPercent = new TitanFloat();
-			fail__ = new TitanInteger();
-			failPercent = new TitanFloat();
-			error__ = new TitanInteger();
-			errorPercent = new TitanFloat();
+			this.none__ = new TitanInteger();
+			this.nonePercent = new TitanFloat();
+			this.pass__ = new TitanInteger();
+			this.passPercent = new TitanFloat();
+			this.inconc__ = new TitanInteger();
+			this.inconcPercent = new TitanFloat();
+			this.fail__ = new TitanInteger();
+			this.failPercent = new TitanFloat();
+			this.error__ = new TitanInteger();
+			this.errorPercent = new TitanFloat();
 		}
 
-		public StatisticsType_choice_verdictStatistics( final TitanInteger anone__, final TitanFloat anonePercent, final TitanInteger apass__, final TitanFloat apassPercent, final TitanInteger ainconc__, final TitanFloat ainconcPercent, final TitanInteger afail__, final TitanFloat afailPercent, final TitanInteger aerror__, final TitanFloat aerrorPercent ) {
-			none__ = new TitanInteger( anone__ );
-			nonePercent = new TitanFloat( anonePercent );
-			pass__ = new TitanInteger( apass__ );
-			passPercent = new TitanFloat( apassPercent );
-			inconc__ = new TitanInteger( ainconc__ );
-			inconcPercent = new TitanFloat( ainconcPercent );
-			fail__ = new TitanInteger( afail__ );
-			failPercent = new TitanFloat( afailPercent );
-			error__ = new TitanInteger( aerror__ );
-			errorPercent = new TitanFloat( aerrorPercent );
+		public StatisticsType_choice_verdictStatistics(final TitanInteger none__, final TitanFloat nonePercent, final TitanInteger pass__, final TitanFloat passPercent, final TitanInteger inconc__, final TitanFloat inconcPercent, final TitanInteger fail__, final TitanFloat failPercent, final TitanInteger error__, final TitanFloat errorPercent ) {
+			this.none__ = new TitanInteger( none__ );
+			this.nonePercent = new TitanFloat( nonePercent );
+			this.pass__ = new TitanInteger( pass__ );
+			this.passPercent = new TitanFloat( passPercent );
+			this.inconc__ = new TitanInteger( inconc__ );
+			this.inconcPercent = new TitanFloat( inconcPercent );
+			this.fail__ = new TitanInteger( fail__ );
+			this.failPercent = new TitanFloat( failPercent );
+			this.error__ = new TitanInteger( error__ );
+			this.errorPercent = new TitanFloat( errorPercent );
 		}
 
-		public StatisticsType_choice_verdictStatistics( final StatisticsType_choice_verdictStatistics aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public StatisticsType_choice_verdictStatistics( final StatisticsType_choice_verdictStatistics otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics.");
 			}
 			none__ = new TitanInteger();
@@ -48975,62 +48974,62 @@ return new TitanInteger(1);
 			failPercent = new TitanFloat();
 			error__ = new TitanInteger();
 			errorPercent = new TitanFloat();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public StatisticsType_choice_verdictStatistics assign(final StatisticsType_choice_verdictStatistics aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public StatisticsType_choice_verdictStatistics assign(final StatisticsType_choice_verdictStatistics otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.StatisticsType.choice.verdictStatistics");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getnone__().isBound() ) {
-					this.none__.assign( aOtherValue.getnone__() );
+			if (otherValue != this) {
+				if ( otherValue.getnone__().isBound() ) {
+					this.none__.assign( otherValue.getnone__() );
 				} else {
 					this.none__.cleanUp();
 				}
-				if ( aOtherValue.getnonePercent().isBound() ) {
-					this.nonePercent.assign( aOtherValue.getnonePercent() );
+				if ( otherValue.getnonePercent().isBound() ) {
+					this.nonePercent.assign( otherValue.getnonePercent() );
 				} else {
 					this.nonePercent.cleanUp();
 				}
-				if ( aOtherValue.getpass__().isBound() ) {
-					this.pass__.assign( aOtherValue.getpass__() );
+				if ( otherValue.getpass__().isBound() ) {
+					this.pass__.assign( otherValue.getpass__() );
 				} else {
 					this.pass__.cleanUp();
 				}
-				if ( aOtherValue.getpassPercent().isBound() ) {
-					this.passPercent.assign( aOtherValue.getpassPercent() );
+				if ( otherValue.getpassPercent().isBound() ) {
+					this.passPercent.assign( otherValue.getpassPercent() );
 				} else {
 					this.passPercent.cleanUp();
 				}
-				if ( aOtherValue.getinconc__().isBound() ) {
-					this.inconc__.assign( aOtherValue.getinconc__() );
+				if ( otherValue.getinconc__().isBound() ) {
+					this.inconc__.assign( otherValue.getinconc__() );
 				} else {
 					this.inconc__.cleanUp();
 				}
-				if ( aOtherValue.getinconcPercent().isBound() ) {
-					this.inconcPercent.assign( aOtherValue.getinconcPercent() );
+				if ( otherValue.getinconcPercent().isBound() ) {
+					this.inconcPercent.assign( otherValue.getinconcPercent() );
 				} else {
 					this.inconcPercent.cleanUp();
 				}
-				if ( aOtherValue.getfail__().isBound() ) {
-					this.fail__.assign( aOtherValue.getfail__() );
+				if ( otherValue.getfail__().isBound() ) {
+					this.fail__.assign( otherValue.getfail__() );
 				} else {
 					this.fail__.cleanUp();
 				}
-				if ( aOtherValue.getfailPercent().isBound() ) {
-					this.failPercent.assign( aOtherValue.getfailPercent() );
+				if ( otherValue.getfailPercent().isBound() ) {
+					this.failPercent.assign( otherValue.getfailPercent() );
 				} else {
 					this.failPercent.cleanUp();
 				}
-				if ( aOtherValue.geterror__().isBound() ) {
-					this.error__.assign( aOtherValue.geterror__() );
+				if ( otherValue.geterror__().isBound() ) {
+					this.error__.assign( otherValue.geterror__() );
 				} else {
 					this.error__.cleanUp();
 				}
-				if ( aOtherValue.geterrorPercent().isBound() ) {
-					this.errorPercent.assign( aOtherValue.geterrorPercent() );
+				if ( otherValue.geterrorPercent().isBound() ) {
+					this.errorPercent.assign( otherValue.geterrorPercent() );
 				} else {
 					this.errorPercent.cleanUp();
 				}
@@ -49096,17 +49095,17 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final StatisticsType_choice_verdictStatistics aOtherValue ) {
-			if ( !this.none__.operatorEquals( aOtherValue.none__ ) ) { return false; }
-			if ( !this.nonePercent.operatorEquals( aOtherValue.nonePercent ) ) { return false; }
-			if ( !this.pass__.operatorEquals( aOtherValue.pass__ ) ) { return false; }
-			if ( !this.passPercent.operatorEquals( aOtherValue.passPercent ) ) { return false; }
-			if ( !this.inconc__.operatorEquals( aOtherValue.inconc__ ) ) { return false; }
-			if ( !this.inconcPercent.operatorEquals( aOtherValue.inconcPercent ) ) { return false; }
-			if ( !this.fail__.operatorEquals( aOtherValue.fail__ ) ) { return false; }
-			if ( !this.failPercent.operatorEquals( aOtherValue.failPercent ) ) { return false; }
-			if ( !this.error__.operatorEquals( aOtherValue.error__ ) ) { return false; }
-			if ( !this.errorPercent.operatorEquals( aOtherValue.errorPercent ) ) { return false; }
+		public boolean operatorEquals( final StatisticsType_choice_verdictStatistics otherValue) {
+			if ( !this.none__.operatorEquals( otherValue.none__ ) ) { return false; }
+			if ( !this.nonePercent.operatorEquals( otherValue.nonePercent ) ) { return false; }
+			if ( !this.pass__.operatorEquals( otherValue.pass__ ) ) { return false; }
+			if ( !this.passPercent.operatorEquals( otherValue.passPercent ) ) { return false; }
+			if ( !this.inconc__.operatorEquals( otherValue.inconc__ ) ) { return false; }
+			if ( !this.inconcPercent.operatorEquals( otherValue.inconcPercent ) ) { return false; }
+			if ( !this.fail__.operatorEquals( otherValue.fail__ ) ) { return false; }
+			if ( !this.failPercent.operatorEquals( otherValue.failPercent ) ) { return false; }
+			if ( !this.error__.operatorEquals( otherValue.error__ ) ) { return false; }
+			if ( !this.errorPercent.operatorEquals( otherValue.errorPercent ) ) { return false; }
 			return true;
 		}
 
@@ -50376,42 +50375,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void MatchingSuccessType_info_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(MatchingSuccessType_info_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger MatchingSuccessType_info_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(MatchingSuccessType_info_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void Msg__port__send_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -50435,6 +50398,42 @@ throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} en
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__send_compref_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void MatchingSuccessType_info_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(MatchingSuccessType_info_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger MatchingSuccessType_info_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(MatchingSuccessType_info_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -50524,29 +50523,29 @@ return new TitanInteger(1);
 		private final LogEventType_choice choice; //TTCN3_Choice_Type
 
 		public LogEventType() {
-			choice = new LogEventType_choice();
+			this.choice = new LogEventType_choice();
 		}
 
-		public LogEventType( final LogEventType_choice achoice ) {
-			choice = new LogEventType_choice( achoice );
+		public LogEventType(final LogEventType_choice choice ) {
+			this.choice = new LogEventType_choice( choice );
 		}
 
-		public LogEventType( final LogEventType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public LogEventType( final LogEventType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.LogEventType.");
 			}
 			choice = new LogEventType_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public LogEventType assign(final LogEventType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public LogEventType assign(final LogEventType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.LogEventType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -50585,8 +50584,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final LogEventType aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final LogEventType otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -51204,37 +51203,37 @@ return new TitanInteger(1);
 		private final TitanCharString port__name; //CharString_Type
 
 		public Port__State() {
-			operation = new Port__State_operation();
-			port__name = new TitanCharString();
+			this.operation = new Port__State_operation();
+			this.port__name = new TitanCharString();
 		}
 
-		public Port__State( final Port__State_operation aoperation, final TitanCharString aport__name ) {
-			operation = new Port__State_operation( aoperation );
-			port__name = new TitanCharString( aport__name );
+		public Port__State(final Port__State_operation operation, final TitanCharString port__name ) {
+			this.operation = new Port__State_operation( operation );
+			this.port__name = new TitanCharString( port__name );
 		}
 
-		public Port__State( final Port__State aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Port__State( final Port__State otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_State.");
 			}
 			operation = new Port__State_operation();
 			port__name = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Port__State assign(final Port__State aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Port__State assign(final Port__State otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Port_State");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+			if (otherValue != this) {
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
@@ -51276,9 +51275,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Port__State aOtherValue ) {
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
+		public boolean operatorEquals( final Port__State otherValue) {
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
 			return true;
 		}
 
@@ -51966,45 +51965,45 @@ return new TitanInteger(1);
 		private final TitanCharString reason; //CharString_Type
 
 		public TestcaseType() {
-			name = new QualifiedName();
-			verdict = new Verdict();
-			reason = new TitanCharString();
+			this.name = new QualifiedName();
+			this.verdict = new Verdict();
+			this.reason = new TitanCharString();
 		}
 
-		public TestcaseType( final QualifiedName aname, final Verdict averdict, final TitanCharString areason ) {
-			name = new QualifiedName( aname );
-			verdict = new Verdict( averdict );
-			reason = new TitanCharString( areason );
+		public TestcaseType(final QualifiedName name, final Verdict verdict, final TitanCharString reason ) {
+			this.name = new QualifiedName( name );
+			this.verdict = new Verdict( verdict );
+			this.reason = new TitanCharString( reason );
 		}
 
-		public TestcaseType( final TestcaseType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TestcaseType( final TestcaseType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TestcaseType.");
 			}
 			name = new QualifiedName();
 			verdict = new Verdict();
 			reason = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TestcaseType assign(final TestcaseType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TestcaseType assign(final TestcaseType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TestcaseType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getname().isBound() ) {
-					this.name.assign( aOtherValue.getname() );
+			if (otherValue != this) {
+				if ( otherValue.getname().isBound() ) {
+					this.name.assign( otherValue.getname() );
 				} else {
 					this.name.cleanUp();
 				}
-				if ( aOtherValue.getverdict().isBound() ) {
-					this.verdict.assign( aOtherValue.getverdict() );
+				if ( otherValue.getverdict().isBound() ) {
+					this.verdict.assign( otherValue.getverdict() );
 				} else {
 					this.verdict.cleanUp();
 				}
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
@@ -52049,10 +52048,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TestcaseType aOtherValue ) {
-			if ( !this.name.operatorEquals( aOtherValue.name ) ) { return false; }
-			if ( !this.verdict.operatorEquals( aOtherValue.verdict ) ) { return false; }
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
+		public boolean operatorEquals( final TestcaseType otherValue) {
+			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
+			if ( !this.verdict.operatorEquals( otherValue.verdict ) ) { return false; }
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
 			return true;
 		}
 
@@ -54364,33 +54363,69 @@ return new TitanInteger(1);
 }
 }
 
+public static void ParallelPTC_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(ParallelPTC_compref_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger ParallelPTC_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(ParallelPTC_compref_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 	public static class PortEvent extends Base_Type {
 		private final PortEvent_choice choice; //TTCN3_Choice_Type
 
 		public PortEvent() {
-			choice = new PortEvent_choice();
+			this.choice = new PortEvent_choice();
 		}
 
-		public PortEvent( final PortEvent_choice achoice ) {
-			choice = new PortEvent_choice( achoice );
+		public PortEvent(final PortEvent_choice choice ) {
+			this.choice = new PortEvent_choice( choice );
 		}
 
-		public PortEvent( final PortEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public PortEvent( final PortEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PortEvent.");
 			}
 			choice = new PortEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public PortEvent assign(final PortEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public PortEvent assign(final PortEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.PortEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -54429,8 +54464,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final PortEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final PortEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -55030,78 +55065,6 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.PortEvent' does 
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void ParallelPTC_compref_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(ParallelPTC_compref_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger ParallelPTC_compref_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(ParallelPTC_compref_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void LogEventType_choice_warningLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(LogEventType_choice_warningLog_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger LogEventType_choice_warningLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(LogEventType_choice_warningLog_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -56643,51 +56606,87 @@ return new TitanInteger(1);
 }
 }
 
+public static void LogEventType_choice_warningLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(LogEventType_choice_warningLog_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger LogEventType_choice_warningLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(LogEventType_choice_warningLog_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 	public static class Msg__port__send extends Base_Type {
 		private final TitanCharString port__name; //CharString_Type
 		private final TitanInteger compref; //Integer_Type
 		private final TitanCharString parameter; //CharString_Type
 
 		public Msg__port__send() {
-			port__name = new TitanCharString();
-			compref = new TitanInteger();
-			parameter = new TitanCharString();
+			this.port__name = new TitanCharString();
+			this.compref = new TitanInteger();
+			this.parameter = new TitanCharString();
 		}
 
-		public Msg__port__send( final TitanCharString aport__name, final TitanInteger acompref, final TitanCharString aparameter ) {
-			port__name = new TitanCharString( aport__name );
-			compref = new TitanInteger( acompref );
-			parameter = new TitanCharString( aparameter );
+		public Msg__port__send(final TitanCharString port__name, final TitanInteger compref, final TitanCharString parameter ) {
+			this.port__name = new TitanCharString( port__name );
+			this.compref = new TitanInteger( compref );
+			this.parameter = new TitanCharString( parameter );
 		}
 
-		public Msg__port__send( final Msg__port__send aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Msg__port__send( final Msg__port__send otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_send.");
 			}
 			port__name = new TitanCharString();
 			compref = new TitanInteger();
 			parameter = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Msg__port__send assign(final Msg__port__send aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Msg__port__send assign(final Msg__port__send otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Msg_port_send");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+			if (otherValue != this) {
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getparameter().isBound() ) {
-					this.parameter.assign( aOtherValue.getparameter() );
+				if ( otherValue.getparameter().isBound() ) {
+					this.parameter.assign( otherValue.getparameter() );
 				} else {
 					this.parameter.cleanUp();
 				}
@@ -56732,10 +56731,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Msg__port__send aOtherValue ) {
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.parameter.operatorEquals( aOtherValue.parameter ) ) { return false; }
+		public boolean operatorEquals( final Msg__port__send otherValue) {
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.parameter.operatorEquals( otherValue.parameter ) ) { return false; }
 			return true;
 		}
 
@@ -57630,42 +57629,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void StatisticsType_choice_verdictStatistics_fail___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(StatisticsType_choice_verdictStatistics_fail___descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger StatisticsType_choice_verdictStatistics_fail___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(StatisticsType_choice_verdictStatistics_fail___descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void Msg__port__recv_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -57689,6 +57652,42 @@ throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0}
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void StatisticsType_choice_verdictStatistics_fail___encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(StatisticsType_choice_verdictStatistics_fail___descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger StatisticsType_choice_verdictStatistics_fail___decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(StatisticsType_choice_verdictStatistics_fail___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -57922,29 +57921,29 @@ return new TitanInteger(1);
 		private final FunctionEvent_choice choice; //TTCN3_Choice_Type
 
 		public FunctionEvent() {
-			choice = new FunctionEvent_choice();
+			this.choice = new FunctionEvent_choice();
 		}
 
-		public FunctionEvent( final FunctionEvent_choice achoice ) {
-			choice = new FunctionEvent_choice( achoice );
+		public FunctionEvent(final FunctionEvent_choice choice ) {
+			this.choice = new FunctionEvent_choice( choice );
 		}
 
-		public FunctionEvent( final FunctionEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public FunctionEvent( final FunctionEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FunctionEvent.");
 			}
 			choice = new FunctionEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public FunctionEvent assign(final FunctionEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public FunctionEvent assign(final FunctionEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.FunctionEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -57983,8 +57982,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final FunctionEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final FunctionEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -58633,7 +58632,7 @@ return new TitanInteger(1);
 }
 }
 
-public static void ErrorEvent_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+public static void Msg__port__send_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
@@ -58642,11 +58641,11 @@ coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(ErrorEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
+input_value.encode(Msg__port__send_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
-public static TitanInteger ErrorEvent_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+public static TitanInteger Msg__port__send_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
@@ -58655,7 +58654,7 @@ coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(ErrorEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
+output_value.decode(Msg__port__send_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -58705,7 +58704,7 @@ return new TitanInteger(1);
 }
 }
 
-public static void Msg__port__send_port__name_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+public static void ErrorEvent_text_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
@@ -58714,11 +58713,11 @@ coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(Msg__port__send_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
+input_value.encode(ErrorEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
 ttcnBuffer.get_string(output_stream);
 }
 
-public static TitanInteger Msg__port__send_port__name_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+public static TitanInteger ErrorEvent_text_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
 if (codingType != TTCN_EncDec.coding_type.CT_XER) {
@@ -58727,43 +58726,7 @@ coding_name.log();
 throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(Msg__port__send_port__name_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void ExecutorEvent_choice_executorComponent_encoder(final ExecutorComponent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(ExecutorEvent_choice_executorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger ExecutorEvent_choice_executorComponent_decoder( final TitanOctetString input_stream, final ExecutorComponent output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(ExecutorEvent_choice_executorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
+output_value.decode(ErrorEvent_text_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -58800,6 +58763,42 @@ throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} en
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorRuntime_fd__setsize_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void ExecutorEvent_choice_executorComponent_encoder(final ExecutorComponent input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(ExecutorEvent_choice_executorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger ExecutorEvent_choice_executorComponent_decoder( final TitanOctetString input_stream, final ExecutorComponent output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorComponent' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(ExecutorEvent_choice_executorComponent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -58893,23 +58892,23 @@ return new TitanInteger(1);
 		private final TitanCharString info; //CharString_Type
 
 		public MatchingFailureType() {
-			port__type = new PortType();
-			port__name = new TitanCharString();
-			choice = new MatchingFailureType_choice();
-			reason = new MatchingFailureType_reason();
-			info = new TitanCharString();
+			this.port__type = new PortType();
+			this.port__name = new TitanCharString();
+			this.choice = new MatchingFailureType_choice();
+			this.reason = new MatchingFailureType_reason();
+			this.info = new TitanCharString();
 		}
 
-		public MatchingFailureType( final PortType aport__type, final TitanCharString aport__name, final MatchingFailureType_choice achoice, final MatchingFailureType_reason areason, final TitanCharString ainfo ) {
-			port__type = new PortType( aport__type );
-			port__name = new TitanCharString( aport__name );
-			choice = new MatchingFailureType_choice( achoice );
-			reason = new MatchingFailureType_reason( areason );
-			info = new TitanCharString( ainfo );
+		public MatchingFailureType(final PortType port__type, final TitanCharString port__name, final MatchingFailureType_choice choice, final MatchingFailureType_reason reason, final TitanCharString info ) {
+			this.port__type = new PortType( port__type );
+			this.port__name = new TitanCharString( port__name );
+			this.choice = new MatchingFailureType_choice( choice );
+			this.reason = new MatchingFailureType_reason( reason );
+			this.info = new TitanCharString( info );
 		}
 
-		public MatchingFailureType( final MatchingFailureType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public MatchingFailureType( final MatchingFailureType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingFailureType.");
 			}
 			port__type = new PortType();
@@ -58917,37 +58916,37 @@ return new TitanInteger(1);
 			choice = new MatchingFailureType_choice();
 			reason = new MatchingFailureType_reason();
 			info = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public MatchingFailureType assign(final MatchingFailureType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public MatchingFailureType assign(final MatchingFailureType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.MatchingFailureType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__type().isBound() ) {
-					this.port__type.assign( aOtherValue.getport__type() );
+			if (otherValue != this) {
+				if ( otherValue.getport__type().isBound() ) {
+					this.port__type.assign( otherValue.getport__type() );
 				} else {
 					this.port__type.cleanUp();
 				}
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getinfo().isBound() ) {
-					this.info.assign( aOtherValue.getinfo() );
+				if ( otherValue.getinfo().isBound() ) {
+					this.info.assign( otherValue.getinfo() );
 				} else {
 					this.info.cleanUp();
 				}
@@ -58998,12 +58997,12 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final MatchingFailureType aOtherValue ) {
-			if ( !this.port__type.operatorEquals( aOtherValue.port__type ) ) { return false; }
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.info.operatorEquals( aOtherValue.info ) ) { return false; }
+		public boolean operatorEquals( final MatchingFailureType otherValue) {
+			if ( !this.port__type.operatorEquals( otherValue.port__type ) ) { return false; }
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.info.operatorEquals( otherValue.info ) ) { return false; }
 			return true;
 		}
 
@@ -60368,23 +60367,23 @@ return new TitanInteger(1);
 		private final TitanCharString dstPort; //CharString_Type
 
 		public ParPort() {
-			operation = new ParPort_operation();
-			srcCompref = new TitanInteger();
-			dstCompref = new TitanInteger();
-			srcPort = new TitanCharString();
-			dstPort = new TitanCharString();
+			this.operation = new ParPort_operation();
+			this.srcCompref = new TitanInteger();
+			this.dstCompref = new TitanInteger();
+			this.srcPort = new TitanCharString();
+			this.dstPort = new TitanCharString();
 		}
 
-		public ParPort( final ParPort_operation aoperation, final TitanInteger asrcCompref, final TitanInteger adstCompref, final TitanCharString asrcPort, final TitanCharString adstPort ) {
-			operation = new ParPort_operation( aoperation );
-			srcCompref = new TitanInteger( asrcCompref );
-			dstCompref = new TitanInteger( adstCompref );
-			srcPort = new TitanCharString( asrcPort );
-			dstPort = new TitanCharString( adstPort );
+		public ParPort(final ParPort_operation operation, final TitanInteger srcCompref, final TitanInteger dstCompref, final TitanCharString srcPort, final TitanCharString dstPort ) {
+			this.operation = new ParPort_operation( operation );
+			this.srcCompref = new TitanInteger( srcCompref );
+			this.dstCompref = new TitanInteger( dstCompref );
+			this.srcPort = new TitanCharString( srcPort );
+			this.dstPort = new TitanCharString( dstPort );
 		}
 
-		public ParPort( final ParPort aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ParPort( final ParPort otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParPort.");
 			}
 			operation = new ParPort_operation();
@@ -60392,37 +60391,37 @@ return new TitanInteger(1);
 			dstCompref = new TitanInteger();
 			srcPort = new TitanCharString();
 			dstPort = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ParPort assign(final ParPort aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ParPort assign(final ParPort otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ParPort");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+			if (otherValue != this) {
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getsrcCompref().isBound() ) {
-					this.srcCompref.assign( aOtherValue.getsrcCompref() );
+				if ( otherValue.getsrcCompref().isBound() ) {
+					this.srcCompref.assign( otherValue.getsrcCompref() );
 				} else {
 					this.srcCompref.cleanUp();
 				}
-				if ( aOtherValue.getdstCompref().isBound() ) {
-					this.dstCompref.assign( aOtherValue.getdstCompref() );
+				if ( otherValue.getdstCompref().isBound() ) {
+					this.dstCompref.assign( otherValue.getdstCompref() );
 				} else {
 					this.dstCompref.cleanUp();
 				}
-				if ( aOtherValue.getsrcPort().isBound() ) {
-					this.srcPort.assign( aOtherValue.getsrcPort() );
+				if ( otherValue.getsrcPort().isBound() ) {
+					this.srcPort.assign( otherValue.getsrcPort() );
 				} else {
 					this.srcPort.cleanUp();
 				}
-				if ( aOtherValue.getdstPort().isBound() ) {
-					this.dstPort.assign( aOtherValue.getdstPort() );
+				if ( otherValue.getdstPort().isBound() ) {
+					this.dstPort.assign( otherValue.getdstPort() );
 				} else {
 					this.dstPort.cleanUp();
 				}
@@ -60473,12 +60472,12 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ParPort aOtherValue ) {
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.srcCompref.operatorEquals( aOtherValue.srcCompref ) ) { return false; }
-			if ( !this.dstCompref.operatorEquals( aOtherValue.dstCompref ) ) { return false; }
-			if ( !this.srcPort.operatorEquals( aOtherValue.srcPort ) ) { return false; }
-			if ( !this.dstPort.operatorEquals( aOtherValue.dstPort ) ) { return false; }
+		public boolean operatorEquals( final ParPort otherValue) {
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.srcCompref.operatorEquals( otherValue.srcCompref ) ) { return false; }
+			if ( !this.dstCompref.operatorEquals( otherValue.dstCompref ) ) { return false; }
+			if ( !this.srcPort.operatorEquals( otherValue.srcPort ) ) { return false; }
+			if ( !this.dstPort.operatorEquals( otherValue.dstPort ) ) { return false; }
 			return true;
 		}
 
@@ -61410,53 +61409,53 @@ return new TitanInteger(1);
 		private final TitanCharString return__type; //CharString_Type
 
 		public MatchingDoneType() {
-			reason = new MatchingDoneType_reason();
-			type__ = new TitanCharString();
-			ptc = new TitanInteger();
-			return__type = new TitanCharString();
+			this.reason = new MatchingDoneType_reason();
+			this.type__ = new TitanCharString();
+			this.ptc = new TitanInteger();
+			this.return__type = new TitanCharString();
 		}
 
-		public MatchingDoneType( final MatchingDoneType_reason areason, final TitanCharString atype__, final TitanInteger aptc, final TitanCharString areturn__type ) {
-			reason = new MatchingDoneType_reason( areason );
-			type__ = new TitanCharString( atype__ );
-			ptc = new TitanInteger( aptc );
-			return__type = new TitanCharString( areturn__type );
+		public MatchingDoneType(final MatchingDoneType_reason reason, final TitanCharString type__, final TitanInteger ptc, final TitanCharString return__type ) {
+			this.reason = new MatchingDoneType_reason( reason );
+			this.type__ = new TitanCharString( type__ );
+			this.ptc = new TitanInteger( ptc );
+			this.return__type = new TitanCharString( return__type );
 		}
 
-		public MatchingDoneType( final MatchingDoneType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public MatchingDoneType( final MatchingDoneType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingDoneType.");
 			}
 			reason = new MatchingDoneType_reason();
 			type__ = new TitanCharString();
 			ptc = new TitanInteger();
 			return__type = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public MatchingDoneType assign(final MatchingDoneType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public MatchingDoneType assign(final MatchingDoneType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.MatchingDoneType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.gettype__().isBound() ) {
-					this.type__.assign( aOtherValue.gettype__() );
+				if ( otherValue.gettype__().isBound() ) {
+					this.type__.assign( otherValue.gettype__() );
 				} else {
 					this.type__.cleanUp();
 				}
-				if ( aOtherValue.getptc().isBound() ) {
-					this.ptc.assign( aOtherValue.getptc() );
+				if ( otherValue.getptc().isBound() ) {
+					this.ptc.assign( otherValue.getptc() );
 				} else {
 					this.ptc.cleanUp();
 				}
-				if ( aOtherValue.getreturn__type().isBound() ) {
-					this.return__type.assign( aOtherValue.getreturn__type() );
+				if ( otherValue.getreturn__type().isBound() ) {
+					this.return__type.assign( otherValue.getreturn__type() );
 				} else {
 					this.return__type.cleanUp();
 				}
@@ -61504,11 +61503,11 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final MatchingDoneType aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.type__.operatorEquals( aOtherValue.type__ ) ) { return false; }
-			if ( !this.ptc.operatorEquals( aOtherValue.ptc ) ) { return false; }
-			if ( !this.return__type.operatorEquals( aOtherValue.return__type ) ) { return false; }
+		public boolean operatorEquals( final MatchingDoneType otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.type__.operatorEquals( otherValue.type__ ) ) { return false; }
+			if ( !this.ptc.operatorEquals( otherValue.ptc ) ) { return false; }
+			if ( !this.return__type.operatorEquals( otherValue.return__type ) ) { return false; }
 			return true;
 		}
 
@@ -62445,25 +62444,25 @@ return new TitanInteger(1);
 		private final TitanCharString param__; //CharString_Type
 
 		public Port__Queue() {
-			operation = new Port__Queue_operation();
-			port__name = new TitanCharString();
-			compref = new TitanInteger();
-			msgid = new TitanInteger();
-			address__ = new TitanCharString();
-			param__ = new TitanCharString();
+			this.operation = new Port__Queue_operation();
+			this.port__name = new TitanCharString();
+			this.compref = new TitanInteger();
+			this.msgid = new TitanInteger();
+			this.address__ = new TitanCharString();
+			this.param__ = new TitanCharString();
 		}
 
-		public Port__Queue( final Port__Queue_operation aoperation, final TitanCharString aport__name, final TitanInteger acompref, final TitanInteger amsgid, final TitanCharString aaddress__, final TitanCharString aparam__ ) {
-			operation = new Port__Queue_operation( aoperation );
-			port__name = new TitanCharString( aport__name );
-			compref = new TitanInteger( acompref );
-			msgid = new TitanInteger( amsgid );
-			address__ = new TitanCharString( aaddress__ );
-			param__ = new TitanCharString( aparam__ );
+		public Port__Queue(final Port__Queue_operation operation, final TitanCharString port__name, final TitanInteger compref, final TitanInteger msgid, final TitanCharString address__, final TitanCharString param__ ) {
+			this.operation = new Port__Queue_operation( operation );
+			this.port__name = new TitanCharString( port__name );
+			this.compref = new TitanInteger( compref );
+			this.msgid = new TitanInteger( msgid );
+			this.address__ = new TitanCharString( address__ );
+			this.param__ = new TitanCharString( param__ );
 		}
 
-		public Port__Queue( final Port__Queue aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Port__Queue( final Port__Queue otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Port_Queue.");
 			}
 			operation = new Port__Queue_operation();
@@ -62472,42 +62471,42 @@ return new TitanInteger(1);
 			msgid = new TitanInteger();
 			address__ = new TitanCharString();
 			param__ = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Port__Queue assign(final Port__Queue aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Port__Queue assign(final Port__Queue otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Port_Queue");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+			if (otherValue != this) {
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getmsgid().isBound() ) {
-					this.msgid.assign( aOtherValue.getmsgid() );
+				if ( otherValue.getmsgid().isBound() ) {
+					this.msgid.assign( otherValue.getmsgid() );
 				} else {
 					this.msgid.cleanUp();
 				}
-				if ( aOtherValue.getaddress__().isBound() ) {
-					this.address__.assign( aOtherValue.getaddress__() );
+				if ( otherValue.getaddress__().isBound() ) {
+					this.address__.assign( otherValue.getaddress__() );
 				} else {
 					this.address__.cleanUp();
 				}
-				if ( aOtherValue.getparam__().isBound() ) {
-					this.param__.assign( aOtherValue.getparam__() );
+				if ( otherValue.getparam__().isBound() ) {
+					this.param__.assign( otherValue.getparam__() );
 				} else {
 					this.param__.cleanUp();
 				}
@@ -62561,13 +62560,13 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Port__Queue aOtherValue ) {
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.msgid.operatorEquals( aOtherValue.msgid ) ) { return false; }
-			if ( !this.address__.operatorEquals( aOtherValue.address__ ) ) { return false; }
-			if ( !this.param__.operatorEquals( aOtherValue.param__ ) ) { return false; }
+		public boolean operatorEquals( final Port__Queue otherValue) {
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.msgid.operatorEquals( otherValue.msgid ) ) { return false; }
+			if ( !this.address__.operatorEquals( otherValue.address__ ) ) { return false; }
+			if ( !this.param__.operatorEquals( otherValue.param__ ) ) { return false; }
 			return true;
 		}
 
@@ -63529,29 +63528,29 @@ return new TitanInteger(1);
 		private final ParallelEvent_choice choice; //TTCN3_Choice_Type
 
 		public ParallelEvent() {
-			choice = new ParallelEvent_choice();
+			this.choice = new ParallelEvent_choice();
 		}
 
-		public ParallelEvent( final ParallelEvent_choice achoice ) {
-			choice = new ParallelEvent_choice( achoice );
+		public ParallelEvent(final ParallelEvent_choice choice ) {
+			this.choice = new ParallelEvent_choice( choice );
 		}
 
-		public ParallelEvent( final ParallelEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ParallelEvent( final ParallelEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ParallelEvent.");
 			}
 			choice = new ParallelEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ParallelEvent assign(final ParallelEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ParallelEvent assign(final ParallelEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ParallelEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -63590,8 +63589,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ParallelEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final ParallelEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -65048,6 +65047,1095 @@ return new TitanInteger(1);
 }
 }
 
+	public static class Msg__port__recv extends Base_Type {
+		private final TitanCharString port__name; //CharString_Type
+		private final Msg__port__recv_operation operation; //TTCN3_Enumerated_Type
+		private final TitanInteger compref; //Integer_Type
+		private final TitanCharString sys__name; //CharString_Type
+		private final TitanCharString parameter; //CharString_Type
+		private final TitanInteger msgid; //Integer_Type
+
+		public Msg__port__recv() {
+			this.port__name = new TitanCharString();
+			this.operation = new Msg__port__recv_operation();
+			this.compref = new TitanInteger();
+			this.sys__name = new TitanCharString();
+			this.parameter = new TitanCharString();
+			this.msgid = new TitanInteger();
+		}
+
+		public Msg__port__recv(final TitanCharString port__name, final Msg__port__recv_operation operation, final TitanInteger compref, final TitanCharString sys__name, final TitanCharString parameter, final TitanInteger msgid ) {
+			this.port__name = new TitanCharString( port__name );
+			this.operation = new Msg__port__recv_operation( operation );
+			this.compref = new TitanInteger( compref );
+			this.sys__name = new TitanCharString( sys__name );
+			this.parameter = new TitanCharString( parameter );
+			this.msgid = new TitanInteger( msgid );
+		}
+
+		public Msg__port__recv( final Msg__port__recv otherValue) {
+			if(!otherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_recv.");
+			}
+			port__name = new TitanCharString();
+			operation = new Msg__port__recv_operation();
+			compref = new TitanInteger();
+			sys__name = new TitanCharString();
+			parameter = new TitanCharString();
+			msgid = new TitanInteger();
+			assign( otherValue );
+		}
+
+		public Msg__port__recv assign(final Msg__port__recv otherValue ) {
+			if ( !otherValue.isBound() ) {
+				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Msg_port_recv");
+			}
+
+			if (otherValue != this) {
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
+				} else {
+					this.port__name.cleanUp();
+				}
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
+				} else {
+					this.operation.cleanUp();
+				}
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
+				} else {
+					this.compref.cleanUp();
+				}
+				if ( otherValue.getsys__name().isBound() ) {
+					this.sys__name.assign( otherValue.getsys__name() );
+				} else {
+					this.sys__name.cleanUp();
+				}
+				if ( otherValue.getparameter().isBound() ) {
+					this.parameter.assign( otherValue.getparameter() );
+				} else {
+					this.parameter.cleanUp();
+				}
+				if ( otherValue.getmsgid().isBound() ) {
+					this.msgid.assign( otherValue.getmsgid() );
+				} else {
+					this.msgid.cleanUp();
+				}
+			}
+
+			return this;
+		}
+
+		@Override
+		public Msg__port__recv assign(final Base_Type otherValue) {
+			if (otherValue instanceof Msg__port__recv ) {
+				return assign((Msg__port__recv) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.Msg_port_recv", otherValue));
+		}
+
+		public void cleanUp() {
+			port__name.cleanUp();
+			operation.cleanUp();
+			compref.cleanUp();
+			sys__name.cleanUp();
+			parameter.cleanUp();
+			msgid.cleanUp();
+		}
+
+		@Override
+		public boolean isBound() {
+			if ( port__name.isBound() ) { return true; }
+			if ( operation.isBound() ) { return true; }
+			if ( compref.isBound() ) { return true; }
+			if ( sys__name.isBound() ) { return true; }
+			if ( parameter.isBound() ) { return true; }
+			if ( msgid.isBound() ) { return true; }
+			return false;
+		}
+
+		@Override
+		public boolean isPresent() {
+			return isBound();
+		}
+
+		@Override
+		public boolean isValue() {
+			if ( !port__name.isValue() ) { return false; }
+			if ( !operation.isValue() ) { return false; }
+			if ( !compref.isValue() ) { return false; }
+			if ( !sys__name.isValue() ) { return false; }
+			if ( !parameter.isValue() ) { return false; }
+			if ( !msgid.isValue() ) { return false; }
+			return true;
+		}
+
+		public boolean operatorEquals( final Msg__port__recv otherValue) {
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.sys__name.operatorEquals( otherValue.sys__name ) ) { return false; }
+			if ( !this.parameter.operatorEquals( otherValue.parameter ) ) { return false; }
+			if ( !this.msgid.operatorEquals( otherValue.msgid ) ) { return false; }
+			return true;
+		}
+
+		@Override
+		public boolean operatorEquals(final Base_Type otherValue) {
+			if (otherValue instanceof Msg__port__recv ) {
+				return operatorEquals((Msg__port__recv) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.Msg_port_recv", otherValue));
+		}
+
+		public TitanCharString getport__name() {
+			return port__name;
+		}
+
+		public TitanCharString constGetport__name() {
+			return port__name;
+		}
+
+		public Msg__port__recv_operation getoperation() {
+			return operation;
+		}
+
+		public Msg__port__recv_operation constGetoperation() {
+			return operation;
+		}
+
+		public TitanInteger getcompref() {
+			return compref;
+		}
+
+		public TitanInteger constGetcompref() {
+			return compref;
+		}
+
+		public TitanCharString getsys__name() {
+			return sys__name;
+		}
+
+		public TitanCharString constGetsys__name() {
+			return sys__name;
+		}
+
+		public TitanCharString getparameter() {
+			return parameter;
+		}
+
+		public TitanCharString constGetparameter() {
+			return parameter;
+		}
+
+		public TitanInteger getmsgid() {
+			return msgid;
+		}
+
+		public TitanInteger constGetmsgid() {
+			return msgid;
+		}
+
+		public TitanInteger sizeOf() {
+			return new TitanInteger(6);
+		}
+
+		public void log() {
+			if (!isBound()) {
+				TTCN_Logger.log_event_unbound();
+				return;
+			}
+			TTCN_Logger.log_char('{');
+			TTCN_Logger.log_event_str(" port_name := ");
+			port__name.log();
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" operation := ");
+			operation.log();
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" compref := ");
+			compref.log();
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" sys_name := ");
+			sys__name.log();
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" parameter := ");
+			parameter.log();
+			TTCN_Logger.log_char(',');
+			TTCN_Logger.log_event_str(" msgid := ");
+			msgid.log();
+			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_implicit_omit() {
+			if (port__name.isBound()) {
+				port__name.set_implicit_omit();
+			}
+			if (operation.isBound()) {
+				operation.set_implicit_omit();
+			}
+			if (compref.isBound()) {
+				compref.set_implicit_omit();
+			}
+			if (sys__name.isBound()) {
+				sys__name.set_implicit_omit();
+			}
+			if (parameter.isBound()) {
+				parameter.set_implicit_omit();
+			}
+			if (msgid.isBound()) {
+				msgid.set_implicit_omit();
+			}
+		}
+
+		@Override
+		public void encode_text(final Text_Buf text_buf) {
+			port__name.encode_text(text_buf);
+			operation.encode_text(text_buf);
+			compref.encode_text(text_buf);
+			sys__name.encode_text(text_buf);
+			parameter.encode_text(text_buf);
+			msgid.encode_text(text_buf);
+		}
+
+		@Override
+		public void decode_text(final Text_Buf text_buf) {
+			port__name.decode_text(text_buf);
+			operation.decode_text(text_buf);
+			compref.decode_text(text_buf);
+			sys__name.decode_text(text_buf);
+			parameter.decode_text(text_buf);
+			msgid.decode_text(text_buf);
+		}
+
+@Override
+public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+switch (p_coding) {
+case CT_RAW: {
+final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+if (p_td.raw == null) {
+TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+}
+final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
+RAW_encode(p_td, root);
+root.put_to_buf(p_buf);
+errorContext.leaveContext();
+break;
+}
+default:
+throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+}
+}
+
+@Override
+public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+switch (p_coding) {
+case CT_RAW: {
+final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+if (p_td.raw == null) {
+TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+}
+raw_order_t order;
+switch (p_td.raw.top_bit_order) {
+case TOP_BIT_LEFT:
+order = raw_order_t.ORDER_LSB;
+break;
+case TOP_BIT_RIGHT:
+default:
+order = raw_order_t.ORDER_MSB;
+break;
+}
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+if (rawr < 0) {
+final error_type temp = error_type.values()[-rawr];
+switch (temp) {
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+break;
+case ET_UNBOUND:
+default:
+TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+break;
+}
+}
+errorContext.leaveContext();
+break;
+}
+default:
+throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+}
+}
+
+	}
+public static class Msg__port__recv_template extends Base_Template {
+
+	private TitanCharString_template port__name; //CharString_Type
+	private Msg__port__recv_operation_template operation; //TTCN3_Enumerated_Type
+	private TitanInteger_template compref; //Integer_Type
+	private TitanCharString_template sys__name; //CharString_Type
+	private TitanCharString_template parameter; //CharString_Type
+	private TitanInteger_template msgid; //Integer_Type
+	//originally value_list/list_value
+	private List<Msg__port__recv_template> list_value;
+
+	public TitanCharString_template getport__name() {
+		setSpecific();
+		return port__name;
+	}
+
+	public TitanCharString_template constGetport__name() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field port_name of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return port__name;
+	}
+
+	public Msg__port__recv_operation_template getoperation() {
+		setSpecific();
+		return operation;
+	}
+
+	public Msg__port__recv_operation_template constGetoperation() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field operation of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return operation;
+	}
+
+	public TitanInteger_template getcompref() {
+		setSpecific();
+		return compref;
+	}
+
+	public TitanInteger_template constGetcompref() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field compref of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return compref;
+	}
+
+	public TitanCharString_template getsys__name() {
+		setSpecific();
+		return sys__name;
+	}
+
+	public TitanCharString_template constGetsys__name() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field sys_name of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return sys__name;
+	}
+
+	public TitanCharString_template getparameter() {
+		setSpecific();
+		return parameter;
+	}
+
+	public TitanCharString_template constGetparameter() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field parameter of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return parameter;
+	}
+
+	public TitanInteger_template getmsgid() {
+		setSpecific();
+		return msgid;
+	}
+
+	public TitanInteger_template constGetmsgid() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field msgid of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return msgid;
+	}
+
+	private void setSpecific() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			final template_sel old_selection = templateSelection;
+			cleanUp();
+			set_selection(template_sel.SPECIFIC_VALUE);
+			port__name = new TitanCharString_template();
+			operation = new Msg__port__recv_operation_template();
+			compref = new TitanInteger_template();
+			sys__name = new TitanCharString_template();
+			parameter = new TitanCharString_template();
+			msgid = new TitanInteger_template();
+			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
+				port__name.assign(template_sel.ANY_VALUE);
+				operation.assign(template_sel.ANY_VALUE);
+				compref.assign(template_sel.ANY_VALUE);
+				sys__name.assign(template_sel.ANY_VALUE);
+				parameter.assign(template_sel.ANY_VALUE);
+				msgid.assign(template_sel.ANY_VALUE);
+			}
+		}
+	}
+
+	public Msg__port__recv_template() {
+// do nothing
+	}
+
+	public Msg__port__recv_template(final template_sel other_value ) {
+		super( other_value );
+		checkSingleSelection( other_value );
+	}
+
+	public Msg__port__recv_template( final Msg__port__recv otherValue ) {
+		copyValue(otherValue);
+	}
+
+	public Msg__port__recv_template( final Msg__port__recv_template otherValue ) {
+		copyTemplate( otherValue );
+	}
+
+	public Msg__port__recv_template( final Optional<Msg__port__recv> other_value ) {
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copyValue(other_value.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Creating a template of type @TitanLoggerApi.Msg_port_recv from an unbound optional field.");
+		}
+	}
+
+	//originally operator=
+	public Msg__port__recv_template assign( final template_sel other_value ) {
+		checkSingleSelection(other_value);
+		cleanUp();
+		set_selection(other_value);
+		return this;
+	}
+
+	//originally operator=
+	public Msg__port__recv_template assign( final Msg__port__recv other_value ) {
+		cleanUp();
+		copyValue(other_value);
+		return this;
+	}
+
+	//originally operator=
+	public Msg__port__recv_template assign( final Msg__port__recv_template other_value ) {
+		if (other_value != this) {
+			cleanUp();
+			copyTemplate(other_value);
+		}
+		return this;
+	}
+
+		@Override
+		public Msg__port__recv_template assign(final Base_Type otherValue) {
+			if (otherValue instanceof Msg__port__recv) {
+				return assign((Msg__port__recv) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `Msg__port__recv' can not be cast to {1}", otherValue));
+		}
+
+		@Override
+		public Msg__port__recv_template assign(final Base_Template otherValue) {
+			if (otherValue instanceof Msg__port__recv_template) {
+				return assign((Msg__port__recv_template) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `Msg__port__recv' can not be cast to {1}_template", otherValue));
+		}
+
+	public Msg__port__recv_template assign( final Optional<Msg__port__recv> other_value ) {
+		cleanUp();
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copyValue(other_value.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		return this;
+	}
+
+	private void copyValue(final Msg__port__recv other_value) {
+		if (other_value.getport__name().isBound()) {
+			getport__name().assign(other_value.getport__name());
+		} else {
+			getport__name().cleanUp();
+		}
+		if (other_value.getoperation().isBound()) {
+			getoperation().assign(other_value.getoperation());
+		} else {
+			getoperation().cleanUp();
+		}
+		if (other_value.getcompref().isBound()) {
+			getcompref().assign(other_value.getcompref());
+		} else {
+			getcompref().cleanUp();
+		}
+		if (other_value.getsys__name().isBound()) {
+			getsys__name().assign(other_value.getsys__name());
+		} else {
+			getsys__name().cleanUp();
+		}
+		if (other_value.getparameter().isBound()) {
+			getparameter().assign(other_value.getparameter());
+		} else {
+			getparameter().cleanUp();
+		}
+		if (other_value.getmsgid().isBound()) {
+			getmsgid().assign(other_value.getmsgid());
+		} else {
+			getmsgid().cleanUp();
+		}
+		set_selection(template_sel.SPECIFIC_VALUE);
+	}
+
+	private void copyTemplate(final Msg__port__recv_template other_value) {
+		switch (other_value.templateSelection) {
+		case SPECIFIC_VALUE:
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getport__name().get_selection()) {
+				getport__name().cleanUp();
+			} else {
+				getport__name().assign(other_value.getport__name());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getoperation().get_selection()) {
+				getoperation().cleanUp();
+			} else {
+				getoperation().assign(other_value.getoperation());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getcompref().get_selection()) {
+				getcompref().cleanUp();
+			} else {
+				getcompref().assign(other_value.getcompref());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getsys__name().get_selection()) {
+				getsys__name().cleanUp();
+			} else {
+				getsys__name().assign(other_value.getsys__name());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getparameter().get_selection()) {
+				getparameter().cleanUp();
+			} else {
+				getparameter().assign(other_value.getparameter());
+			}
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getmsgid().get_selection()) {
+				getmsgid().cleanUp();
+			} else {
+				getmsgid().assign(other_value.getmsgid());
+			}
+			break;
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			list_value = new ArrayList<Msg__port__recv_template>(other_value.list_value.size());
+			for(int i = 0; i < other_value.list_value.size(); i++) {
+				final Msg__port__recv_template temp = new Msg__port__recv_template(other_value.list_value.get(i));
+				list_value.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Msg_port_recv.");
+		}
+		set_selection(other_value);
+	}
+
+		public boolean isPresent() {
+			return isPresent(false);
+		}
+
+		public boolean isPresent(final boolean legacy) {
+			return isPresent_(legacy);
+		}
+
+		private boolean isPresent_(final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return false;
+			}
+			return !match_omit_(legacy);
+		}
+
+		public boolean match_omit() {
+			return match_omit(false);
+		}
+
+		public boolean match_omit(final boolean legacy) {
+			return match_omit_(legacy);
+		}
+
+		private boolean match_omit_(final boolean legacy) {
+			if (is_ifPresent) {
+				return true;
+			}
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_OR_OMIT:
+				return true;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				if (legacy) {
+					for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
+						if (list_value.get(l_idx).match_omit_(legacy)) {
+							return templateSelection==template_sel.VALUE_LIST;
+						}
+					}
+					return templateSelection==template_sel.COMPLEMENTED_LIST;
+				} // else fall through
+			default:
+				return false;
+			}
+		}
+
+		public Msg__port__recv valueOf() {
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+			final Msg__port__recv ret_val = new Msg__port__recv();
+			 if (port__name.isBound()) {
+				ret_val.getport__name().assign(port__name.valueOf());
+			}
+			 if (operation.isBound()) {
+				ret_val.getoperation().assign(operation.valueOf());
+			}
+			 if (compref.isBound()) {
+				ret_val.getcompref().assign(compref.valueOf());
+			}
+			 if (sys__name.isBound()) {
+				ret_val.getsys__name().assign(sys__name.valueOf());
+			}
+			 if (parameter.isBound()) {
+				ret_val.getparameter().assign(parameter.valueOf());
+			}
+			 if (msgid.isBound()) {
+				ret_val.getmsgid().assign(msgid.valueOf());
+			}
+			return ret_val;
+		}
+
+		public Msg__port__recv_template listItem(final int list_index) {
+			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+			if (list_index >= list_value.size()) {
+				throw new TtcnError("Index overflow in a value list template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+			return list_value.get(list_index);
+		}
+
+		public void setType(final template_sel template_type, final int list_length) {
+			if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+			cleanUp();
+			set_selection(template_type);
+			list_value = new ArrayList<Msg__port__recv_template>(list_length);
+			for(int i = 0 ; i < list_length; i++) {
+				list_value.add(new Msg__port__recv_template());
+			}
+		}
+
+		@Override
+		public boolean isBound() {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
+				return false;
+			}
+			if (templateSelection != template_sel.SPECIFIC_VALUE) {
+				return true;
+			}
+			if (port__name.isBound()) {
+				return true;
+			}
+			if (operation.isBound()) {
+				return true;
+			}
+			if (compref.isBound()) {
+				return true;
+			}
+			if (sys__name.isBound()) {
+				return true;
+			}
+			if (parameter.isBound()) {
+				return true;
+			}
+			if (msgid.isBound()) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public boolean isValue() {
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				return false;
+			}
+			if (!port__name.isValue()) {
+				return false;
+			}
+			if (!operation.isValue()) {
+				return false;
+			}
+			if (!compref.isValue()) {
+				return false;
+			}
+			if (!sys__name.isValue()) {
+				return false;
+			}
+			if (!parameter.isValue()) {
+				return false;
+			}
+			if (!msgid.isValue()) {
+				return false;
+			}
+			return true;
+		}
+
+		public boolean match(final Msg__port__recv other_value) {
+			return match(other_value, false);
+		}
+
+		public boolean match(final Msg__port__recv other_value, final boolean legacy) {
+			if (!other_value.isBound()) {
+				return false;
+			}
+			switch (templateSelection) {
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				return true;
+			case OMIT_VALUE:
+				return false;
+			case SPECIFIC_VALUE:
+				if(!other_value.getport__name().isBound()) {
+					return false;
+				}
+				if(!port__name.match(other_value.getport__name(), legacy)) {
+					return false;
+				}
+				if(!other_value.getoperation().isBound()) {
+					return false;
+				}
+				if(!operation.match(other_value.getoperation(), legacy)) {
+					return false;
+				}
+				if(!other_value.getcompref().isBound()) {
+					return false;
+				}
+				if(!compref.match(other_value.getcompref(), legacy)) {
+					return false;
+				}
+				if(!other_value.getsys__name().isBound()) {
+					return false;
+				}
+				if(!sys__name.match(other_value.getsys__name(), legacy)) {
+					return false;
+				}
+				if(!other_value.getparameter().isBound()) {
+					return false;
+				}
+				if(!parameter.match(other_value.getparameter(), legacy)) {
+					return false;
+				}
+				if(!other_value.getmsgid().isBound()) {
+					return false;
+				}
+				if(!msgid.match(other_value.getmsgid(), legacy)) {
+					return false;
+				}
+				return true;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+					if (list_value.get(list_count).match(other_value, legacy)) {
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
+			default:
+				throw new TtcnError("Matching an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+		}
+
+	@Override
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
+	if (otherValue instanceof Msg__port__recv) {
+		return match((Msg__port__recv)otherValue, legacy);
+	}
+
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type Msg__port__recv.");
+	}
+
+		public TitanInteger sizeOf() {
+			if (is_ifPresent) {
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv which has an ifpresent attribute.");
+			}
+			switch (templateSelection) {
+			case SPECIFIC_VALUE:
+				return new TitanInteger(6);
+			case VALUE_LIST:
+				if (list_value.isEmpty()) {
+					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing an empty list.");
+				}
+				final int item_size = list_value.get(0).sizeOf().getInt();
+				for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
+					if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
+						throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing a value list with different sizes.");
+					}
+				}
+				return new TitanInteger(item_size);
+			case OMIT_VALUE:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing omit value.");
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing */? value.");
+			case COMPLEMENTED_LIST:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing complemented list.");
+			default:
+				throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+		}
+
+		public void log() {
+			switch (templateSelection) {
+			case SPECIFIC_VALUE:
+				TTCN_Logger.log_char('{');
+				TTCN_Logger.log_event_str(" port_name := ");
+				port__name.log();
+				TTCN_Logger.log_char(',');
+				TTCN_Logger.log_event_str(" operation := ");
+				operation.log();
+				TTCN_Logger.log_char(',');
+				TTCN_Logger.log_event_str(" compref := ");
+				compref.log();
+				TTCN_Logger.log_char(',');
+				TTCN_Logger.log_event_str(" sys_name := ");
+				sys__name.log();
+				TTCN_Logger.log_char(',');
+				TTCN_Logger.log_event_str(" parameter := ");
+				parameter.log();
+				TTCN_Logger.log_char(',');
+				TTCN_Logger.log_event_str(" msgid := ");
+				msgid.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case COMPLEMENTED_LIST:
+				TTCN_Logger.log_event_str("complement");
+			case VALUE_LIST:
+				TTCN_Logger.log_char('(');
+				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+					if (list_count > 0) {
+						TTCN_Logger.log_event_str(", ");
+					}
+					list_value.get(list_count).log();
+				}
+				TTCN_Logger.log_char(')');
+				break;
+			default:
+				log_generic();
+				break;
+			}
+			log_ifpresent();
+		}
+
+		public void log_match(final Msg__port__recv match_value) {
+			log_match(match_value, false);
+		}
+
+		@Override
+		public void log_match(final Base_Type match_value, final boolean legacy) {
+			if (match_value instanceof Msg__port__recv) {
+				log_match((Msg__port__recv)match_value, legacy);
+				return;
+			}
+
+			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Msg_port_recv.");
+		}
+
+		public void log_match(final Msg__port__recv match_value, final boolean legacy) {
+			if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
+				if(match(match_value, legacy)) {
+					TTCN_Logger.print_logmatch_buffer();
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					if (templateSelection == template_sel.SPECIFIC_VALUE) {
+						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
+						if( !port__name.match(match_value.constGetport__name(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".port_name");
+							port__name.log_match(match_value.constGetport__name(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+						if( !operation.match(match_value.constGetoperation(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".operation");
+							operation.log_match(match_value.constGetoperation(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+						if( !compref.match(match_value.constGetcompref(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".compref");
+							compref.log_match(match_value.constGetcompref(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+						if( !sys__name.match(match_value.constGetsys__name(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".sys_name");
+							sys__name.log_match(match_value.constGetsys__name(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+						if( !parameter.match(match_value.constGetparameter(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".parameter");
+							parameter.log_match(match_value.constGetparameter(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+						if( !msgid.match(match_value.constGetmsgid(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".msgid");
+							msgid.log_match(match_value.constGetmsgid(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+					} else {
+						TTCN_Logger.print_logmatch_buffer();
+						match_value.log();
+						TTCN_Logger.log_event_str(" with ");
+						log();
+						TTCN_Logger.log_event_str(" unmatched");
+					}
+				}
+				return;
+			}
+			if (templateSelection == template_sel.SPECIFIC_VALUE) {
+				TTCN_Logger.log_event_str("{ port_name := ");
+				port__name.log_match(match_value.constGetport__name(), legacy);
+				TTCN_Logger.log_event_str("{ operation := ");
+				operation.log_match(match_value.constGetoperation(), legacy);
+				TTCN_Logger.log_event_str("{ compref := ");
+				compref.log_match(match_value.constGetcompref(), legacy);
+				TTCN_Logger.log_event_str("{ sys_name := ");
+				sys__name.log_match(match_value.constGetsys__name(), legacy);
+				TTCN_Logger.log_event_str("{ parameter := ");
+				parameter.log_match(match_value.constGetparameter(), legacy);
+				TTCN_Logger.log_event_str("{ msgid := ");
+				msgid.log_match(match_value.constGetmsgid(), legacy);
+				TTCN_Logger.log_event_str(" }");
+			} else {
+				match_value.log();
+				TTCN_Logger.log_event_str(" with ");
+				log();
+				if ( match(match_value, legacy) ) {
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					TTCN_Logger.log_event_str(" unmatched");
+				}
+			}
+		}
+
+		@Override
+		public void encode_text(final Text_Buf text_buf) {
+			encode_text_base(text_buf);
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case SPECIFIC_VALUE:
+				port__name.encode_text(text_buf);
+				operation.encode_text(text_buf);
+				compref.encode_text(text_buf);
+				sys__name.encode_text(text_buf);
+				parameter.encode_text(text_buf);
+				msgid.encode_text(text_buf);
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				text_buf.push_int(list_value.size());
+				for (int i = 0; i < list_value.size(); i++) {
+					list_value.get(i).encode_text(text_buf);
+				}
+				break;
+			default:
+				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+		}
+
+		@Override
+		public void decode_text(final Text_Buf text_buf) {
+			cleanUp();
+			decode_text_base(text_buf);
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case SPECIFIC_VALUE:
+				port__name = new TitanCharString_template();
+				port__name.decode_text(text_buf);
+				operation = new Msg__port__recv_operation_template();
+				operation.decode_text(text_buf);
+				compref = new TitanInteger_template();
+				compref.decode_text(text_buf);
+				sys__name = new TitanCharString_template();
+				sys__name.decode_text(text_buf);
+				parameter = new TitanCharString_template();
+				parameter.decode_text(text_buf);
+				msgid = new TitanInteger_template();
+				msgid.decode_text(text_buf);
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST: {
+final int size = text_buf.pull_int().getInt();
+				list_value = new ArrayList<Msg__port__recv_template>(size);
+				for (int i = 0; i < size; i++) {
+					final Msg__port__recv_template temp = new Msg__port__recv_template();
+					temp.decode_text(text_buf);
+					list_value.add(temp);
+				}
+				break;
+			}
+			default:
+				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Msg_port_recv.");
+			}
+		}
+}
+public static void Msg__port__recv_encoder(final Msg__port__recv input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(Msg__port__recv_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger Msg__port__recv_decoder( final TitanOctetString input_stream, final Msg__port__recv output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(Msg__port__recv_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 public static class StartFunction_parameter__list extends Base_Type {
 
 	private List<TitanCharString> valueElements;
@@ -66433,1095 +67521,6 @@ return new TitanInteger(1);
 }
 }
 
-	public static class Msg__port__recv extends Base_Type {
-		private final TitanCharString port__name; //CharString_Type
-		private final Msg__port__recv_operation operation; //TTCN3_Enumerated_Type
-		private final TitanInteger compref; //Integer_Type
-		private final TitanCharString sys__name; //CharString_Type
-		private final TitanCharString parameter; //CharString_Type
-		private final TitanInteger msgid; //Integer_Type
-
-		public Msg__port__recv() {
-			port__name = new TitanCharString();
-			operation = new Msg__port__recv_operation();
-			compref = new TitanInteger();
-			sys__name = new TitanCharString();
-			parameter = new TitanCharString();
-			msgid = new TitanInteger();
-		}
-
-		public Msg__port__recv( final TitanCharString aport__name, final Msg__port__recv_operation aoperation, final TitanInteger acompref, final TitanCharString asys__name, final TitanCharString aparameter, final TitanInteger amsgid ) {
-			port__name = new TitanCharString( aport__name );
-			operation = new Msg__port__recv_operation( aoperation );
-			compref = new TitanInteger( acompref );
-			sys__name = new TitanCharString( asys__name );
-			parameter = new TitanCharString( aparameter );
-			msgid = new TitanInteger( amsgid );
-		}
-
-		public Msg__port__recv( final Msg__port__recv aOtherValue ) {
-			if(!aOtherValue.isBound()) {
-				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Msg_port_recv.");
-			}
-			port__name = new TitanCharString();
-			operation = new Msg__port__recv_operation();
-			compref = new TitanInteger();
-			sys__name = new TitanCharString();
-			parameter = new TitanCharString();
-			msgid = new TitanInteger();
-			assign( aOtherValue );
-		}
-
-		public Msg__port__recv assign(final Msg__port__recv aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
-				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Msg_port_recv");
-			}
-
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
-				} else {
-					this.port__name.cleanUp();
-				}
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
-				} else {
-					this.operation.cleanUp();
-				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
-				} else {
-					this.compref.cleanUp();
-				}
-				if ( aOtherValue.getsys__name().isBound() ) {
-					this.sys__name.assign( aOtherValue.getsys__name() );
-				} else {
-					this.sys__name.cleanUp();
-				}
-				if ( aOtherValue.getparameter().isBound() ) {
-					this.parameter.assign( aOtherValue.getparameter() );
-				} else {
-					this.parameter.cleanUp();
-				}
-				if ( aOtherValue.getmsgid().isBound() ) {
-					this.msgid.assign( aOtherValue.getmsgid() );
-				} else {
-					this.msgid.cleanUp();
-				}
-			}
-
-			return this;
-		}
-
-		@Override
-		public Msg__port__recv assign(final Base_Type otherValue) {
-			if (otherValue instanceof Msg__port__recv ) {
-				return assign((Msg__port__recv) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.Msg_port_recv", otherValue));
-		}
-
-		public void cleanUp() {
-			port__name.cleanUp();
-			operation.cleanUp();
-			compref.cleanUp();
-			sys__name.cleanUp();
-			parameter.cleanUp();
-			msgid.cleanUp();
-		}
-
-		@Override
-		public boolean isBound() {
-			if ( port__name.isBound() ) { return true; }
-			if ( operation.isBound() ) { return true; }
-			if ( compref.isBound() ) { return true; }
-			if ( sys__name.isBound() ) { return true; }
-			if ( parameter.isBound() ) { return true; }
-			if ( msgid.isBound() ) { return true; }
-			return false;
-		}
-
-		@Override
-		public boolean isPresent() {
-			return isBound();
-		}
-
-		@Override
-		public boolean isValue() {
-			if ( !port__name.isValue() ) { return false; }
-			if ( !operation.isValue() ) { return false; }
-			if ( !compref.isValue() ) { return false; }
-			if ( !sys__name.isValue() ) { return false; }
-			if ( !parameter.isValue() ) { return false; }
-			if ( !msgid.isValue() ) { return false; }
-			return true;
-		}
-
-		public boolean operatorEquals( final Msg__port__recv aOtherValue ) {
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.sys__name.operatorEquals( aOtherValue.sys__name ) ) { return false; }
-			if ( !this.parameter.operatorEquals( aOtherValue.parameter ) ) { return false; }
-			if ( !this.msgid.operatorEquals( aOtherValue.msgid ) ) { return false; }
-			return true;
-		}
-
-		@Override
-		public boolean operatorEquals(final Base_Type otherValue) {
-			if (otherValue instanceof Msg__port__recv ) {
-				return operatorEquals((Msg__port__recv) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.Msg_port_recv", otherValue));
-		}
-
-		public TitanCharString getport__name() {
-			return port__name;
-		}
-
-		public TitanCharString constGetport__name() {
-			return port__name;
-		}
-
-		public Msg__port__recv_operation getoperation() {
-			return operation;
-		}
-
-		public Msg__port__recv_operation constGetoperation() {
-			return operation;
-		}
-
-		public TitanInteger getcompref() {
-			return compref;
-		}
-
-		public TitanInteger constGetcompref() {
-			return compref;
-		}
-
-		public TitanCharString getsys__name() {
-			return sys__name;
-		}
-
-		public TitanCharString constGetsys__name() {
-			return sys__name;
-		}
-
-		public TitanCharString getparameter() {
-			return parameter;
-		}
-
-		public TitanCharString constGetparameter() {
-			return parameter;
-		}
-
-		public TitanInteger getmsgid() {
-			return msgid;
-		}
-
-		public TitanInteger constGetmsgid() {
-			return msgid;
-		}
-
-		public TitanInteger sizeOf() {
-			return new TitanInteger(6);
-		}
-
-		public void log() {
-			if (!isBound()) {
-				TTCN_Logger.log_event_unbound();
-				return;
-			}
-			TTCN_Logger.log_char('{');
-			TTCN_Logger.log_event_str(" port_name := ");
-			port__name.log();
-			TTCN_Logger.log_char(',');
-			TTCN_Logger.log_event_str(" operation := ");
-			operation.log();
-			TTCN_Logger.log_char(',');
-			TTCN_Logger.log_event_str(" compref := ");
-			compref.log();
-			TTCN_Logger.log_char(',');
-			TTCN_Logger.log_event_str(" sys_name := ");
-			sys__name.log();
-			TTCN_Logger.log_char(',');
-			TTCN_Logger.log_event_str(" parameter := ");
-			parameter.log();
-			TTCN_Logger.log_char(',');
-			TTCN_Logger.log_event_str(" msgid := ");
-			msgid.log();
-			TTCN_Logger.log_event_str(" }");
-		}
-
-		@Override
-		public void set_implicit_omit() {
-			if (port__name.isBound()) {
-				port__name.set_implicit_omit();
-			}
-			if (operation.isBound()) {
-				operation.set_implicit_omit();
-			}
-			if (compref.isBound()) {
-				compref.set_implicit_omit();
-			}
-			if (sys__name.isBound()) {
-				sys__name.set_implicit_omit();
-			}
-			if (parameter.isBound()) {
-				parameter.set_implicit_omit();
-			}
-			if (msgid.isBound()) {
-				msgid.set_implicit_omit();
-			}
-		}
-
-		@Override
-		public void encode_text(final Text_Buf text_buf) {
-			port__name.encode_text(text_buf);
-			operation.encode_text(text_buf);
-			compref.encode_text(text_buf);
-			sys__name.encode_text(text_buf);
-			parameter.encode_text(text_buf);
-			msgid.encode_text(text_buf);
-		}
-
-		@Override
-		public void decode_text(final Text_Buf text_buf) {
-			port__name.decode_text(text_buf);
-			operation.decode_text(text_buf);
-			compref.decode_text(text_buf);
-			sys__name.decode_text(text_buf);
-			parameter.decode_text(text_buf);
-			msgid.decode_text(text_buf);
-		}
-
-@Override
-public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
-switch (p_coding) {
-case CT_RAW: {
-final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-if (p_td.raw == null) {
-TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-}
-final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
-RAW_encode(p_td, root);
-root.put_to_buf(p_buf);
-errorContext.leaveContext();
-break;
-}
-default:
-throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
-}
-}
-
-@Override
-public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
-switch (p_coding) {
-case CT_RAW: {
-final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-if (p_td.raw == null) {
-TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-}
-raw_order_t order;
-switch (p_td.raw.top_bit_order) {
-case TOP_BIT_LEFT:
-order = raw_order_t.ORDER_LSB;
-break;
-case TOP_BIT_RIGHT:
-default:
-order = raw_order_t.ORDER_MSB;
-break;
-}
-final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
-if (rawr < 0) {
-final error_type temp = error_type.values()[-rawr];
-switch (temp) {
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-break;
-case ET_UNBOUND:
-default:
-TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-break;
-}
-}
-errorContext.leaveContext();
-break;
-}
-default:
-throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
-}
-}
-
-	}
-public static class Msg__port__recv_template extends Base_Template {
-
-	private TitanCharString_template port__name; //CharString_Type
-	private Msg__port__recv_operation_template operation; //TTCN3_Enumerated_Type
-	private TitanInteger_template compref; //Integer_Type
-	private TitanCharString_template sys__name; //CharString_Type
-	private TitanCharString_template parameter; //CharString_Type
-	private TitanInteger_template msgid; //Integer_Type
-	//originally value_list/list_value
-	private List<Msg__port__recv_template> list_value;
-
-	public TitanCharString_template getport__name() {
-		setSpecific();
-		return port__name;
-	}
-
-	public TitanCharString_template constGetport__name() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field port_name of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return port__name;
-	}
-
-	public Msg__port__recv_operation_template getoperation() {
-		setSpecific();
-		return operation;
-	}
-
-	public Msg__port__recv_operation_template constGetoperation() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field operation of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return operation;
-	}
-
-	public TitanInteger_template getcompref() {
-		setSpecific();
-		return compref;
-	}
-
-	public TitanInteger_template constGetcompref() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field compref of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return compref;
-	}
-
-	public TitanCharString_template getsys__name() {
-		setSpecific();
-		return sys__name;
-	}
-
-	public TitanCharString_template constGetsys__name() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field sys_name of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return sys__name;
-	}
-
-	public TitanCharString_template getparameter() {
-		setSpecific();
-		return parameter;
-	}
-
-	public TitanCharString_template constGetparameter() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field parameter of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return parameter;
-	}
-
-	public TitanInteger_template getmsgid() {
-		setSpecific();
-		return msgid;
-	}
-
-	public TitanInteger_template constGetmsgid() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field msgid of a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return msgid;
-	}
-
-	private void setSpecific() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			final template_sel old_selection = templateSelection;
-			cleanUp();
-			set_selection(template_sel.SPECIFIC_VALUE);
-			port__name = new TitanCharString_template();
-			operation = new Msg__port__recv_operation_template();
-			compref = new TitanInteger_template();
-			sys__name = new TitanCharString_template();
-			parameter = new TitanCharString_template();
-			msgid = new TitanInteger_template();
-			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				port__name.assign(template_sel.ANY_VALUE);
-				operation.assign(template_sel.ANY_VALUE);
-				compref.assign(template_sel.ANY_VALUE);
-				sys__name.assign(template_sel.ANY_VALUE);
-				parameter.assign(template_sel.ANY_VALUE);
-				msgid.assign(template_sel.ANY_VALUE);
-			}
-		}
-	}
-
-	public Msg__port__recv_template() {
-// do nothing
-	}
-
-	public Msg__port__recv_template(final template_sel other_value ) {
-		super( other_value );
-		checkSingleSelection( other_value );
-	}
-
-	public Msg__port__recv_template( final Msg__port__recv otherValue ) {
-		copyValue(otherValue);
-	}
-
-	public Msg__port__recv_template( final Msg__port__recv_template otherValue ) {
-		copyTemplate( otherValue );
-	}
-
-	public Msg__port__recv_template( final Optional<Msg__port__recv> other_value ) {
-		switch (other_value.get_selection()) {
-		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
-			break;
-		case OPTIONAL_OMIT:
-			set_selection(template_sel.OMIT_VALUE);
-			break;
-		default:
-			throw new TtcnError("Creating a template of type @TitanLoggerApi.Msg_port_recv from an unbound optional field.");
-		}
-	}
-
-	//originally operator=
-	public Msg__port__recv_template assign( final template_sel other_value ) {
-		checkSingleSelection(other_value);
-		cleanUp();
-		set_selection(other_value);
-		return this;
-	}
-
-	//originally operator=
-	public Msg__port__recv_template assign( final Msg__port__recv other_value ) {
-		cleanUp();
-		copyValue(other_value);
-		return this;
-	}
-
-	//originally operator=
-	public Msg__port__recv_template assign( final Msg__port__recv_template other_value ) {
-		if (other_value != this) {
-			cleanUp();
-			copyTemplate(other_value);
-		}
-		return this;
-	}
-
-		@Override
-		public Msg__port__recv_template assign(final Base_Type otherValue) {
-			if (otherValue instanceof Msg__port__recv) {
-				return assign((Msg__port__recv) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `Msg__port__recv' can not be cast to {1}", otherValue));
-		}
-
-		@Override
-		public Msg__port__recv_template assign(final Base_Template otherValue) {
-			if (otherValue instanceof Msg__port__recv_template) {
-				return assign((Msg__port__recv_template) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `Msg__port__recv' can not be cast to {1}_template", otherValue));
-		}
-
-	public Msg__port__recv_template assign( final Optional<Msg__port__recv> other_value ) {
-		cleanUp();
-		switch (other_value.get_selection()) {
-		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
-			break;
-		case OPTIONAL_OMIT:
-			set_selection(template_sel.OMIT_VALUE);
-			break;
-		default:
-			throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		return this;
-	}
-
-	private void copyValue(final Msg__port__recv other_value) {
-		if (other_value.getport__name().isBound()) {
-			getport__name().assign(other_value.getport__name());
-		} else {
-			getport__name().cleanUp();
-		}
-		if (other_value.getoperation().isBound()) {
-			getoperation().assign(other_value.getoperation());
-		} else {
-			getoperation().cleanUp();
-		}
-		if (other_value.getcompref().isBound()) {
-			getcompref().assign(other_value.getcompref());
-		} else {
-			getcompref().cleanUp();
-		}
-		if (other_value.getsys__name().isBound()) {
-			getsys__name().assign(other_value.getsys__name());
-		} else {
-			getsys__name().cleanUp();
-		}
-		if (other_value.getparameter().isBound()) {
-			getparameter().assign(other_value.getparameter());
-		} else {
-			getparameter().cleanUp();
-		}
-		if (other_value.getmsgid().isBound()) {
-			getmsgid().assign(other_value.getmsgid());
-		} else {
-			getmsgid().cleanUp();
-		}
-		set_selection(template_sel.SPECIFIC_VALUE);
-	}
-
-	private void copyTemplate(final Msg__port__recv_template other_value) {
-		switch (other_value.templateSelection) {
-		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getport__name().get_selection()) {
-				getport__name().cleanUp();
-			} else {
-				getport__name().assign(other_value.getport__name());
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getoperation().get_selection()) {
-				getoperation().cleanUp();
-			} else {
-				getoperation().assign(other_value.getoperation());
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getcompref().get_selection()) {
-				getcompref().cleanUp();
-			} else {
-				getcompref().assign(other_value.getcompref());
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getsys__name().get_selection()) {
-				getsys__name().cleanUp();
-			} else {
-				getsys__name().assign(other_value.getsys__name());
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getparameter().get_selection()) {
-				getparameter().cleanUp();
-			} else {
-				getparameter().assign(other_value.getparameter());
-			}
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getmsgid().get_selection()) {
-				getmsgid().cleanUp();
-			} else {
-				getmsgid().assign(other_value.getmsgid());
-			}
-			break;
-		case OMIT_VALUE:
-		case ANY_VALUE:
-		case ANY_OR_OMIT:
-			break;
-		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			list_value = new ArrayList<Msg__port__recv_template>(other_value.list_value.size());
-			for(int i = 0; i < other_value.list_value.size(); i++) {
-				final Msg__port__recv_template temp = new Msg__port__recv_template(other_value.list_value.get(i));
-				list_value.add(temp);
-			}
-			break;
-		default:
-			throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.Msg_port_recv.");
-		}
-		set_selection(other_value);
-	}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			return isPresent_(legacy);
-		}
-
-		private boolean isPresent_(final boolean legacy) {
-			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
-		public boolean match_omit(final boolean legacy) {
-			return match_omit_(legacy);
-		}
-
-		private boolean match_omit_(final boolean legacy) {
-			if (is_ifPresent) {
-				return true;
-			}
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				if (legacy) {
-					for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
-						if (list_value.get(l_idx).match_omit_(legacy)) {
-							return templateSelection==template_sel.VALUE_LIST;
-						}
-					}
-					return templateSelection==template_sel.COMPLEMENTED_LIST;
-				} // else fall through
-			default:
-				return false;
-			}
-		}
-
-		public Msg__port__recv valueOf() {
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-			final Msg__port__recv ret_val = new Msg__port__recv();
-			 if (port__name.isBound()) {
-				ret_val.getport__name().assign(port__name.valueOf());
-			}
-			 if (operation.isBound()) {
-				ret_val.getoperation().assign(operation.valueOf());
-			}
-			 if (compref.isBound()) {
-				ret_val.getcompref().assign(compref.valueOf());
-			}
-			 if (sys__name.isBound()) {
-				ret_val.getsys__name().assign(sys__name.valueOf());
-			}
-			 if (parameter.isBound()) {
-				ret_val.getparameter().assign(parameter.valueOf());
-			}
-			 if (msgid.isBound()) {
-				ret_val.getmsgid().assign(msgid.valueOf());
-			}
-			return ret_val;
-		}
-
-		public Msg__port__recv_template listItem(final int list_index) {
-			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
-				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-			if (list_index >= list_value.size()) {
-				throw new TtcnError("Index overflow in a value list template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-			return list_value.get(list_index);
-		}
-
-		public void setType(final template_sel template_type, final int list_length) {
-			if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
-				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-			cleanUp();
-			set_selection(template_type);
-			list_value = new ArrayList<Msg__port__recv_template>(list_length);
-			for(int i = 0 ; i < list_length; i++) {
-				list_value.add(new Msg__port__recv_template());
-			}
-		}
-
-		@Override
-		public boolean isBound() {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-				return false;
-			}
-			if (templateSelection != template_sel.SPECIFIC_VALUE) {
-				return true;
-			}
-			if (port__name.isBound()) {
-				return true;
-			}
-			if (operation.isBound()) {
-				return true;
-			}
-			if (compref.isBound()) {
-				return true;
-			}
-			if (sys__name.isBound()) {
-				return true;
-			}
-			if (parameter.isBound()) {
-				return true;
-			}
-			if (msgid.isBound()) {
-				return true;
-			}
-			return false;
-		}
-
-		@Override
-		public boolean isValue() {
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-				return false;
-			}
-			if (!port__name.isValue()) {
-				return false;
-			}
-			if (!operation.isValue()) {
-				return false;
-			}
-			if (!compref.isValue()) {
-				return false;
-			}
-			if (!sys__name.isValue()) {
-				return false;
-			}
-			if (!parameter.isValue()) {
-				return false;
-			}
-			if (!msgid.isValue()) {
-				return false;
-			}
-			return true;
-		}
-
-		public boolean match(final Msg__port__recv other_value) {
-			return match(other_value, false);
-		}
-
-		public boolean match(final Msg__port__recv other_value, final boolean legacy) {
-			if (!other_value.isBound()) {
-				return false;
-			}
-			switch (templateSelection) {
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case OMIT_VALUE:
-				return false;
-			case SPECIFIC_VALUE:
-				if(!other_value.getport__name().isBound()) {
-					return false;
-				}
-				if(!port__name.match(other_value.getport__name(), legacy)) {
-					return false;
-				}
-				if(!other_value.getoperation().isBound()) {
-					return false;
-				}
-				if(!operation.match(other_value.getoperation(), legacy)) {
-					return false;
-				}
-				if(!other_value.getcompref().isBound()) {
-					return false;
-				}
-				if(!compref.match(other_value.getcompref(), legacy)) {
-					return false;
-				}
-				if(!other_value.getsys__name().isBound()) {
-					return false;
-				}
-				if(!sys__name.match(other_value.getsys__name(), legacy)) {
-					return false;
-				}
-				if(!other_value.getparameter().isBound()) {
-					return false;
-				}
-				if(!parameter.match(other_value.getparameter(), legacy)) {
-					return false;
-				}
-				if(!other_value.getmsgid().isBound()) {
-					return false;
-				}
-				if(!msgid.match(other_value.getmsgid(), legacy)) {
-					return false;
-				}
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).match(other_value, legacy)) {
-						return templateSelection == template_sel.VALUE_LIST;
-					}
-				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-		}
-
-	@Override
-	public boolean match(final Base_Type otherValue, final boolean legacy) {
-	if (otherValue instanceof Msg__port__recv) {
-		return match((Msg__port__recv)otherValue, legacy);
-	}
-
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type Msg__port__recv.");
-	}
-
-		public TitanInteger sizeOf() {
-			if (is_ifPresent) {
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv which has an ifpresent attribute.");
-			}
-			switch (templateSelection) {
-			case SPECIFIC_VALUE:
-				return new TitanInteger(6);
-			case VALUE_LIST:
-				if (list_value.isEmpty()) {
-					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing an empty list.");
-				}
-				final int item_size = list_value.get(0).sizeOf().getInt();
-				for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-					if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
-						throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing a value list with different sizes.");
-					}
-				}
-				return new TitanInteger(item_size);
-			case OMIT_VALUE:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing omit value.");
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing */? value.");
-			case COMPLEMENTED_LIST:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.Msg_port_recv containing complemented list.");
-			default:
-				throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-		}
-
-		public void log() {
-			switch (templateSelection) {
-			case SPECIFIC_VALUE:
-				TTCN_Logger.log_char('{');
-				TTCN_Logger.log_event_str(" port_name := ");
-				port__name.log();
-				TTCN_Logger.log_char(',');
-				TTCN_Logger.log_event_str(" operation := ");
-				operation.log();
-				TTCN_Logger.log_char(',');
-				TTCN_Logger.log_event_str(" compref := ");
-				compref.log();
-				TTCN_Logger.log_char(',');
-				TTCN_Logger.log_event_str(" sys_name := ");
-				sys__name.log();
-				TTCN_Logger.log_char(',');
-				TTCN_Logger.log_event_str(" parameter := ");
-				parameter.log();
-				TTCN_Logger.log_char(',');
-				TTCN_Logger.log_event_str(" msgid := ");
-				msgid.log();
-				TTCN_Logger.log_event_str(" }");
-				break;
-			case COMPLEMENTED_LIST:
-				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
-				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) {
-						TTCN_Logger.log_event_str(", ");
-					}
-					list_value.get(list_count).log();
-				}
-				TTCN_Logger.log_char(')');
-				break;
-			default:
-				log_generic();
-				break;
-			}
-			log_ifpresent();
-		}
-
-		public void log_match(final Msg__port__recv match_value) {
-			log_match(match_value, false);
-		}
-
-		@Override
-		public void log_match(final Base_Type match_value, final boolean legacy) {
-			if (match_value instanceof Msg__port__recv) {
-				log_match((Msg__port__recv)match_value, legacy);
-				return;
-			}
-
-			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.Msg_port_recv.");
-		}
-
-		public void log_match(final Msg__port__recv match_value, final boolean legacy) {
-			if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
-				if(match(match_value, legacy)) {
-					TTCN_Logger.print_logmatch_buffer();
-					TTCN_Logger.log_event_str(" matched");
-				} else {
-					if (templateSelection == template_sel.SPECIFIC_VALUE) {
-						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						if( !port__name.match(match_value.constGetport__name(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".port_name");
-							port__name.log_match(match_value.constGetport__name(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-						if( !operation.match(match_value.constGetoperation(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".operation");
-							operation.log_match(match_value.constGetoperation(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-						if( !compref.match(match_value.constGetcompref(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".compref");
-							compref.log_match(match_value.constGetcompref(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-						if( !sys__name.match(match_value.constGetsys__name(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".sys_name");
-							sys__name.log_match(match_value.constGetsys__name(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-						if( !parameter.match(match_value.constGetparameter(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".parameter");
-							parameter.log_match(match_value.constGetparameter(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-						if( !msgid.match(match_value.constGetmsgid(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".msgid");
-							msgid.log_match(match_value.constGetmsgid(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-					} else {
-						TTCN_Logger.print_logmatch_buffer();
-						match_value.log();
-						TTCN_Logger.log_event_str(" with ");
-						log();
-						TTCN_Logger.log_event_str(" unmatched");
-					}
-				}
-				return;
-			}
-			if (templateSelection == template_sel.SPECIFIC_VALUE) {
-				TTCN_Logger.log_event_str("{ port_name := ");
-				port__name.log_match(match_value.constGetport__name(), legacy);
-				TTCN_Logger.log_event_str("{ operation := ");
-				operation.log_match(match_value.constGetoperation(), legacy);
-				TTCN_Logger.log_event_str("{ compref := ");
-				compref.log_match(match_value.constGetcompref(), legacy);
-				TTCN_Logger.log_event_str("{ sys_name := ");
-				sys__name.log_match(match_value.constGetsys__name(), legacy);
-				TTCN_Logger.log_event_str("{ parameter := ");
-				parameter.log_match(match_value.constGetparameter(), legacy);
-				TTCN_Logger.log_event_str("{ msgid := ");
-				msgid.log_match(match_value.constGetmsgid(), legacy);
-				TTCN_Logger.log_event_str(" }");
-			} else {
-				match_value.log();
-				TTCN_Logger.log_event_str(" with ");
-				log();
-				if ( match(match_value, legacy) ) {
-					TTCN_Logger.log_event_str(" matched");
-				} else {
-					TTCN_Logger.log_event_str(" unmatched");
-				}
-			}
-		}
-
-		@Override
-		public void encode_text(final Text_Buf text_buf) {
-			encode_text_base(text_buf);
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				break;
-			case SPECIFIC_VALUE:
-				port__name.encode_text(text_buf);
-				operation.encode_text(text_buf);
-				compref.encode_text(text_buf);
-				sys__name.encode_text(text_buf);
-				parameter.encode_text(text_buf);
-				msgid.encode_text(text_buf);
-				break;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
-					list_value.get(i).encode_text(text_buf);
-				}
-				break;
-			default:
-				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-		}
-
-		@Override
-		public void decode_text(final Text_Buf text_buf) {
-			cleanUp();
-			decode_text_base(text_buf);
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				break;
-			case SPECIFIC_VALUE:
-				port__name = new TitanCharString_template();
-				port__name.decode_text(text_buf);
-				operation = new Msg__port__recv_operation_template();
-				operation.decode_text(text_buf);
-				compref = new TitanInteger_template();
-				compref.decode_text(text_buf);
-				sys__name = new TitanCharString_template();
-				sys__name.decode_text(text_buf);
-				parameter = new TitanCharString_template();
-				parameter.decode_text(text_buf);
-				msgid = new TitanInteger_template();
-				msgid.decode_text(text_buf);
-				break;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST: {
-final int size = text_buf.pull_int().getInt();
-				list_value = new ArrayList<Msg__port__recv_template>(size);
-				for (int i = 0; i < size; i++) {
-					final Msg__port__recv_template temp = new Msg__port__recv_template();
-					temp.decode_text(text_buf);
-					list_value.add(temp);
-				}
-				break;
-			}
-			default:
-				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.Msg_port_recv.");
-			}
-		}
-}
-public static void Msg__port__recv_encoder(final Msg__port__recv input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(Msg__port__recv_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger Msg__port__recv_decoder( final TitanOctetString input_stream, final Msg__port__recv output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Msg_port_recv' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(Msg__port__recv_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void TitanLogEvent_logEvent_encoder(final LogEventType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -67563,37 +67562,37 @@ return new TitanInteger(1);
 		private final TitanFloat value__; //Float_Type
 
 		public TimerType() {
-			name = new TitanCharString();
-			value__ = new TitanFloat();
+			this.name = new TitanCharString();
+			this.value__ = new TitanFloat();
 		}
 
-		public TimerType( final TitanCharString aname, final TitanFloat avalue__ ) {
-			name = new TitanCharString( aname );
-			value__ = new TitanFloat( avalue__ );
+		public TimerType(final TitanCharString name, final TitanFloat value__ ) {
+			this.name = new TitanCharString( name );
+			this.value__ = new TitanFloat( value__ );
 		}
 
-		public TimerType( final TimerType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TimerType( final TimerType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerType.");
 			}
 			name = new TitanCharString();
 			value__ = new TitanFloat();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TimerType assign(final TimerType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TimerType assign(final TimerType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TimerType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getname().isBound() ) {
-					this.name.assign( aOtherValue.getname() );
+			if (otherValue != this) {
+				if ( otherValue.getname().isBound() ) {
+					this.name.assign( otherValue.getname() );
 				} else {
 					this.name.cleanUp();
 				}
-				if ( aOtherValue.getvalue__().isBound() ) {
-					this.value__.assign( aOtherValue.getvalue__() );
+				if ( otherValue.getvalue__().isBound() ) {
+					this.value__.assign( otherValue.getvalue__() );
 				} else {
 					this.value__.cleanUp();
 				}
@@ -67635,9 +67634,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TimerType aOtherValue ) {
-			if ( !this.name.operatorEquals( aOtherValue.name ) ) { return false; }
-			if ( !this.value__.operatorEquals( aOtherValue.value__ ) ) { return false; }
+		public boolean operatorEquals( final TimerType otherValue) {
+			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
+			if ( !this.value__.operatorEquals( otherValue.value__ ) ) { return false; }
 			return true;
 		}
 
@@ -68323,29 +68322,29 @@ return new TitanInteger(1);
 		private final DefaultEvent_choice choice; //TTCN3_Choice_Type
 
 		public DefaultEvent() {
-			choice = new DefaultEvent_choice();
+			this.choice = new DefaultEvent_choice();
 		}
 
-		public DefaultEvent( final DefaultEvent_choice achoice ) {
-			choice = new DefaultEvent_choice( achoice );
+		public DefaultEvent(final DefaultEvent_choice choice ) {
+			this.choice = new DefaultEvent_choice( choice );
 		}
 
-		public DefaultEvent( final DefaultEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public DefaultEvent( final DefaultEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.DefaultEvent.");
 			}
 			choice = new DefaultEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public DefaultEvent assign(final DefaultEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public DefaultEvent assign(final DefaultEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.DefaultEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -68384,8 +68383,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final DefaultEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final DefaultEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -69989,23 +69988,23 @@ return new TitanInteger(1);
 		private final TitanBoolean any__port; //Boolean_Type
 
 		public MatchingProblemType() {
-			port__name = new TitanCharString();
-			reason = new MatchingProblemType_reason();
-			operation = new MatchingProblemType_operation();
-			check__ = new TitanBoolean();
-			any__port = new TitanBoolean();
+			this.port__name = new TitanCharString();
+			this.reason = new MatchingProblemType_reason();
+			this.operation = new MatchingProblemType_operation();
+			this.check__ = new TitanBoolean();
+			this.any__port = new TitanBoolean();
 		}
 
-		public MatchingProblemType( final TitanCharString aport__name, final MatchingProblemType_reason areason, final MatchingProblemType_operation aoperation, final TitanBoolean acheck__, final TitanBoolean aany__port ) {
-			port__name = new TitanCharString( aport__name );
-			reason = new MatchingProblemType_reason( areason );
-			operation = new MatchingProblemType_operation( aoperation );
-			check__ = new TitanBoolean( acheck__ );
-			any__port = new TitanBoolean( aany__port );
+		public MatchingProblemType(final TitanCharString port__name, final MatchingProblemType_reason reason, final MatchingProblemType_operation operation, final TitanBoolean check__, final TitanBoolean any__port ) {
+			this.port__name = new TitanCharString( port__name );
+			this.reason = new MatchingProblemType_reason( reason );
+			this.operation = new MatchingProblemType_operation( operation );
+			this.check__ = new TitanBoolean( check__ );
+			this.any__port = new TitanBoolean( any__port );
 		}
 
-		public MatchingProblemType( final MatchingProblemType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public MatchingProblemType( final MatchingProblemType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingProblemType.");
 			}
 			port__name = new TitanCharString();
@@ -70013,37 +70012,37 @@ return new TitanInteger(1);
 			operation = new MatchingProblemType_operation();
 			check__ = new TitanBoolean();
 			any__port = new TitanBoolean();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public MatchingProblemType assign(final MatchingProblemType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public MatchingProblemType assign(final MatchingProblemType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.MatchingProblemType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+			if (otherValue != this) {
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getoperation().isBound() ) {
-					this.operation.assign( aOtherValue.getoperation() );
+				if ( otherValue.getoperation().isBound() ) {
+					this.operation.assign( otherValue.getoperation() );
 				} else {
 					this.operation.cleanUp();
 				}
-				if ( aOtherValue.getcheck__().isBound() ) {
-					this.check__.assign( aOtherValue.getcheck__() );
+				if ( otherValue.getcheck__().isBound() ) {
+					this.check__.assign( otherValue.getcheck__() );
 				} else {
 					this.check__.cleanUp();
 				}
-				if ( aOtherValue.getany__port().isBound() ) {
-					this.any__port.assign( aOtherValue.getany__port() );
+				if ( otherValue.getany__port().isBound() ) {
+					this.any__port.assign( otherValue.getany__port() );
 				} else {
 					this.any__port.cleanUp();
 				}
@@ -70094,12 +70093,12 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final MatchingProblemType aOtherValue ) {
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.operation.operatorEquals( aOtherValue.operation ) ) { return false; }
-			if ( !this.check__.operatorEquals( aOtherValue.check__ ) ) { return false; }
-			if ( !this.any__port.operatorEquals( aOtherValue.any__port ) ) { return false; }
+		public boolean operatorEquals( final MatchingProblemType otherValue) {
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.operation.operatorEquals( otherValue.operation ) ) { return false; }
+			if ( !this.check__.operatorEquals( otherValue.check__ ) ) { return false; }
+			if ( !this.any__port.operatorEquals( otherValue.any__port ) ) { return false; }
 			return true;
 		}
 
@@ -70992,29 +70991,29 @@ return new TitanInteger(1);
 		private final Strings_str__list str__list; //SequenceOf_Type
 
 		public Strings() {
-			str__list = new Strings_str__list();
+			this.str__list = new Strings_str__list();
 		}
 
-		public Strings( final Strings_str__list astr__list ) {
-			str__list = new Strings_str__list( astr__list );
+		public Strings(final Strings_str__list str__list ) {
+			this.str__list = new Strings_str__list( str__list );
 		}
 
-		public Strings( final Strings aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Strings( final Strings otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Strings.");
 			}
 			str__list = new Strings_str__list();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Strings assign(final Strings aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Strings assign(final Strings otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Strings");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getstr__list().isBound() ) {
-					this.str__list.assign( aOtherValue.getstr__list() );
+			if (otherValue != this) {
+				if ( otherValue.getstr__list().isBound() ) {
+					this.str__list.assign( otherValue.getstr__list() );
 				} else {
 					this.str__list.cleanUp();
 				}
@@ -71053,8 +71052,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Strings aOtherValue ) {
-			if ( !this.str__list.operatorEquals( aOtherValue.str__list ) ) { return false; }
+		public boolean operatorEquals( final Strings otherValue) {
+			if ( !this.str__list.operatorEquals( otherValue.str__list ) ) { return false; }
 			return true;
 		}
 
@@ -71709,45 +71708,45 @@ return new TitanInteger(1);
 		private final TitanInteger statuscode; //Integer_Type
 
 		public PTC__exit() {
-			compref = new TitanInteger();
-			pid = new TitanInteger();
-			statuscode = new TitanInteger();
+			this.compref = new TitanInteger();
+			this.pid = new TitanInteger();
+			this.statuscode = new TitanInteger();
 		}
 
-		public PTC__exit( final TitanInteger acompref, final TitanInteger apid, final TitanInteger astatuscode ) {
-			compref = new TitanInteger( acompref );
-			pid = new TitanInteger( apid );
-			statuscode = new TitanInteger( astatuscode );
+		public PTC__exit(final TitanInteger compref, final TitanInteger pid, final TitanInteger statuscode ) {
+			this.compref = new TitanInteger( compref );
+			this.pid = new TitanInteger( pid );
+			this.statuscode = new TitanInteger( statuscode );
 		}
 
-		public PTC__exit( final PTC__exit aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public PTC__exit( final PTC__exit otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.PTC_exit.");
 			}
 			compref = new TitanInteger();
 			pid = new TitanInteger();
 			statuscode = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public PTC__exit assign(final PTC__exit aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public PTC__exit assign(final PTC__exit otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.PTC_exit");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+			if (otherValue != this) {
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getpid().isBound() ) {
-					this.pid.assign( aOtherValue.getpid() );
+				if ( otherValue.getpid().isBound() ) {
+					this.pid.assign( otherValue.getpid() );
 				} else {
 					this.pid.cleanUp();
 				}
-				if ( aOtherValue.getstatuscode().isBound() ) {
-					this.statuscode.assign( aOtherValue.getstatuscode() );
+				if ( otherValue.getstatuscode().isBound() ) {
+					this.statuscode.assign( otherValue.getstatuscode() );
 				} else {
 					this.statuscode.cleanUp();
 				}
@@ -71792,10 +71791,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final PTC__exit aOtherValue ) {
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.pid.operatorEquals( aOtherValue.pid ) ) { return false; }
-			if ( !this.statuscode.operatorEquals( aOtherValue.statuscode ) ) { return false; }
+		public boolean operatorEquals( final PTC__exit otherValue) {
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.pid.operatorEquals( otherValue.pid ) ) { return false; }
+			if ( !this.statuscode.operatorEquals( otherValue.statuscode ) ) { return false; }
 			return true;
 		}
 
@@ -73495,29 +73494,29 @@ return new TitanInteger(1);
 		private final TitanLog_sequence__list sequence__list; //SequenceOf_Type
 
 		public TitanLog() {
-			sequence__list = new TitanLog_sequence__list();
+			this.sequence__list = new TitanLog_sequence__list();
 		}
 
-		public TitanLog( final TitanLog_sequence__list asequence__list ) {
-			sequence__list = new TitanLog_sequence__list( asequence__list );
+		public TitanLog(final TitanLog_sequence__list sequence__list ) {
+			this.sequence__list = new TitanLog_sequence__list( sequence__list );
 		}
 
-		public TitanLog( final TitanLog aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TitanLog( final TitanLog otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.");
 			}
 			sequence__list = new TitanLog_sequence__list();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TitanLog assign(final TitanLog aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TitanLog assign(final TitanLog otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TitanLog");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getsequence__list().isBound() ) {
-					this.sequence__list.assign( aOtherValue.getsequence__list() );
+			if (otherValue != this) {
+				if ( otherValue.getsequence__list().isBound() ) {
+					this.sequence__list.assign( otherValue.getsequence__list() );
 				} else {
 					this.sequence__list.cleanUp();
 				}
@@ -73556,8 +73555,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TitanLog aOtherValue ) {
-			if ( !this.sequence__list.operatorEquals( aOtherValue.sequence__list ) ) { return false; }
+		public boolean operatorEquals( final TitanLog otherValue) {
+			if ( !this.sequence__list.operatorEquals( otherValue.sequence__list ) ) { return false; }
 			return true;
 		}
 
@@ -74174,29 +74173,29 @@ return new TitanInteger(1);
 		private final TitanCharString text; //CharString_Type
 
 		public ErrorEvent() {
-			text = new TitanCharString();
+			this.text = new TitanCharString();
 		}
 
-		public ErrorEvent( final TitanCharString atext ) {
-			text = new TitanCharString( atext );
+		public ErrorEvent(final TitanCharString text ) {
+			this.text = new TitanCharString( text );
 		}
 
-		public ErrorEvent( final ErrorEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ErrorEvent( final ErrorEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ErrorEvent.");
 			}
 			text = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ErrorEvent assign(final ErrorEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ErrorEvent assign(final ErrorEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ErrorEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.gettext().isBound() ) {
-					this.text.assign( aOtherValue.gettext() );
+			if (otherValue != this) {
+				if ( otherValue.gettext().isBound() ) {
+					this.text.assign( otherValue.gettext() );
 				} else {
 					this.text.cleanUp();
 				}
@@ -74235,8 +74234,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ErrorEvent aOtherValue ) {
-			if ( !this.text.operatorEquals( aOtherValue.text ) ) { return false; }
+		public boolean operatorEquals( final ErrorEvent otherValue) {
+			if ( !this.text.operatorEquals( otherValue.text ) ) { return false; }
 			return true;
 		}
 
@@ -74921,42 +74920,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void MatchingDoneType_ptc_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(MatchingDoneType_ptc_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger MatchingDoneType_ptc_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(MatchingDoneType_ptc_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void Msg__port__recv_parameter_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -74980,6 +74943,42 @@ throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0}
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Msg__port__recv_parameter_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void MatchingDoneType_ptc_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(MatchingDoneType_ptc_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger MatchingDoneType_ptc_decoder( final TitanOctetString input_stream, final TitanInteger output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(MatchingDoneType_ptc_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -75069,29 +75068,29 @@ return new TitanInteger(1);
 		private final ExecutorEvent_choice choice; //TTCN3_Choice_Type
 
 		public ExecutorEvent() {
-			choice = new ExecutorEvent_choice();
+			this.choice = new ExecutorEvent_choice();
 		}
 
-		public ExecutorEvent( final ExecutorEvent_choice achoice ) {
-			choice = new ExecutorEvent_choice( achoice );
+		public ExecutorEvent(final ExecutorEvent_choice choice ) {
+			this.choice = new ExecutorEvent_choice( choice );
 		}
 
-		public ExecutorEvent( final ExecutorEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ExecutorEvent( final ExecutorEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorEvent.");
 			}
 			choice = new ExecutorEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ExecutorEvent assign(final ExecutorEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ExecutorEvent assign(final ExecutorEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ExecutorEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -75130,8 +75129,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ExecutorEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final ExecutorEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -75862,27 +75861,27 @@ return new TitanInteger(1);
 		private final TitanCharString dst__port; //CharString_Type
 
 		public Parallel() {
-			reason = new Parallel_reason();
-			alive__ = new TitanBoolean();
-			function__name = new TitanCharString();
-			src__compref = new TitanInteger();
-			src__port = new TitanCharString();
-			dst__compref = new TitanInteger();
-			dst__port = new TitanCharString();
+			this.reason = new Parallel_reason();
+			this.alive__ = new TitanBoolean();
+			this.function__name = new TitanCharString();
+			this.src__compref = new TitanInteger();
+			this.src__port = new TitanCharString();
+			this.dst__compref = new TitanInteger();
+			this.dst__port = new TitanCharString();
 		}
 
-		public Parallel( final Parallel_reason areason, final TitanBoolean aalive__, final TitanCharString afunction__name, final TitanInteger asrc__compref, final TitanCharString asrc__port, final TitanInteger adst__compref, final TitanCharString adst__port ) {
-			reason = new Parallel_reason( areason );
-			alive__ = new TitanBoolean( aalive__ );
-			function__name = new TitanCharString( afunction__name );
-			src__compref = new TitanInteger( asrc__compref );
-			src__port = new TitanCharString( asrc__port );
-			dst__compref = new TitanInteger( adst__compref );
-			dst__port = new TitanCharString( adst__port );
+		public Parallel(final Parallel_reason reason, final TitanBoolean alive__, final TitanCharString function__name, final TitanInteger src__compref, final TitanCharString src__port, final TitanInteger dst__compref, final TitanCharString dst__port ) {
+			this.reason = new Parallel_reason( reason );
+			this.alive__ = new TitanBoolean( alive__ );
+			this.function__name = new TitanCharString( function__name );
+			this.src__compref = new TitanInteger( src__compref );
+			this.src__port = new TitanCharString( src__port );
+			this.dst__compref = new TitanInteger( dst__compref );
+			this.dst__port = new TitanCharString( dst__port );
 		}
 
-		public Parallel( final Parallel aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Parallel( final Parallel otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Parallel.");
 			}
 			reason = new Parallel_reason();
@@ -75892,47 +75891,47 @@ return new TitanInteger(1);
 			src__port = new TitanCharString();
 			dst__compref = new TitanInteger();
 			dst__port = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Parallel assign(final Parallel aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Parallel assign(final Parallel otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Parallel");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getalive__().isBound() ) {
-					this.alive__.assign( aOtherValue.getalive__() );
+				if ( otherValue.getalive__().isBound() ) {
+					this.alive__.assign( otherValue.getalive__() );
 				} else {
 					this.alive__.cleanUp();
 				}
-				if ( aOtherValue.getfunction__name().isBound() ) {
-					this.function__name.assign( aOtherValue.getfunction__name() );
+				if ( otherValue.getfunction__name().isBound() ) {
+					this.function__name.assign( otherValue.getfunction__name() );
 				} else {
 					this.function__name.cleanUp();
 				}
-				if ( aOtherValue.getsrc__compref().isBound() ) {
-					this.src__compref.assign( aOtherValue.getsrc__compref() );
+				if ( otherValue.getsrc__compref().isBound() ) {
+					this.src__compref.assign( otherValue.getsrc__compref() );
 				} else {
 					this.src__compref.cleanUp();
 				}
-				if ( aOtherValue.getsrc__port().isBound() ) {
-					this.src__port.assign( aOtherValue.getsrc__port() );
+				if ( otherValue.getsrc__port().isBound() ) {
+					this.src__port.assign( otherValue.getsrc__port() );
 				} else {
 					this.src__port.cleanUp();
 				}
-				if ( aOtherValue.getdst__compref().isBound() ) {
-					this.dst__compref.assign( aOtherValue.getdst__compref() );
+				if ( otherValue.getdst__compref().isBound() ) {
+					this.dst__compref.assign( otherValue.getdst__compref() );
 				} else {
 					this.dst__compref.cleanUp();
 				}
-				if ( aOtherValue.getdst__port().isBound() ) {
-					this.dst__port.assign( aOtherValue.getdst__port() );
+				if ( otherValue.getdst__port().isBound() ) {
+					this.dst__port.assign( otherValue.getdst__port() );
 				} else {
 					this.dst__port.cleanUp();
 				}
@@ -75989,14 +75988,14 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Parallel aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.alive__.operatorEquals( aOtherValue.alive__ ) ) { return false; }
-			if ( !this.function__name.operatorEquals( aOtherValue.function__name ) ) { return false; }
-			if ( !this.src__compref.operatorEquals( aOtherValue.src__compref ) ) { return false; }
-			if ( !this.src__port.operatorEquals( aOtherValue.src__port ) ) { return false; }
-			if ( !this.dst__compref.operatorEquals( aOtherValue.dst__compref ) ) { return false; }
-			if ( !this.dst__port.operatorEquals( aOtherValue.dst__port ) ) { return false; }
+		public boolean operatorEquals( final Parallel otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.alive__.operatorEquals( otherValue.alive__ ) ) { return false; }
+			if ( !this.function__name.operatorEquals( otherValue.function__name ) ) { return false; }
+			if ( !this.src__compref.operatorEquals( otherValue.src__compref ) ) { return false; }
+			if ( !this.src__port.operatorEquals( otherValue.src__port ) ) { return false; }
+			if ( !this.dst__compref.operatorEquals( otherValue.dst__compref ) ) { return false; }
+			if ( !this.dst__port.operatorEquals( otherValue.dst__port ) ) { return false; }
 			return true;
 		}
 
@@ -77031,27 +77030,27 @@ return new TitanInteger(1);
 		private final Optional<TitanInteger> fd__setsize; //Integer_Type
 
 		public ExecutorRuntime() {
-			reason = new ExecutorRuntime_reason();
-			module__name = new Optional<TitanCharString>(TitanCharString.class);
-			testcase__name = new Optional<TitanCharString>(TitanCharString.class);
-			pid = new Optional<TitanInteger>(TitanInteger.class);
-			fd__setsize = new Optional<TitanInteger>(TitanInteger.class);
+			this.reason = new ExecutorRuntime_reason();
+			this.module__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.testcase__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.pid = new Optional<TitanInteger>(TitanInteger.class);
+			this.fd__setsize = new Optional<TitanInteger>(TitanInteger.class);
 		}
 
-		public ExecutorRuntime( final ExecutorRuntime_reason areason, final Optional<TitanCharString> amodule__name, final Optional<TitanCharString> atestcase__name, final Optional<TitanInteger> apid, final Optional<TitanInteger> afd__setsize ) {
-			reason = new ExecutorRuntime_reason( areason );
-			module__name = new Optional<TitanCharString>(TitanCharString.class);
-			this.module__name.assign( amodule__name );
-			testcase__name = new Optional<TitanCharString>(TitanCharString.class);
-			this.testcase__name.assign( atestcase__name );
-			pid = new Optional<TitanInteger>(TitanInteger.class);
-			this.pid.assign( apid );
-			fd__setsize = new Optional<TitanInteger>(TitanInteger.class);
-			this.fd__setsize.assign( afd__setsize );
+		public ExecutorRuntime(final ExecutorRuntime_reason reason, final Optional<TitanCharString> module__name, final Optional<TitanCharString> testcase__name, final Optional<TitanInteger> pid, final Optional<TitanInteger> fd__setsize ) {
+			this.reason = new ExecutorRuntime_reason( reason );
+			this.module__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.module__name.assign( module__name );
+			this.testcase__name = new Optional<TitanCharString>(TitanCharString.class);
+			this.testcase__name.assign( testcase__name );
+			this.pid = new Optional<TitanInteger>(TitanInteger.class);
+			this.pid.assign( pid );
+			this.fd__setsize = new Optional<TitanInteger>(TitanInteger.class);
+			this.fd__setsize.assign( fd__setsize );
 		}
 
-		public ExecutorRuntime( final ExecutorRuntime aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ExecutorRuntime( final ExecutorRuntime otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorRuntime.");
 			}
 			reason = new ExecutorRuntime_reason();
@@ -77059,37 +77058,37 @@ return new TitanInteger(1);
 			testcase__name = new Optional<TitanCharString>(TitanCharString.class);
 			pid = new Optional<TitanInteger>(TitanInteger.class);
 			fd__setsize = new Optional<TitanInteger>(TitanInteger.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ExecutorRuntime assign(final ExecutorRuntime aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ExecutorRuntime assign(final ExecutorRuntime otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ExecutorRuntime");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getmodule__name().isBound() ) {
-					this.module__name.assign( aOtherValue.getmodule__name() );
+				if ( otherValue.getmodule__name().isBound() ) {
+					this.module__name.assign( otherValue.getmodule__name() );
 				} else {
 					this.module__name.cleanUp();
 				}
-				if ( aOtherValue.gettestcase__name().isBound() ) {
-					this.testcase__name.assign( aOtherValue.gettestcase__name() );
+				if ( otherValue.gettestcase__name().isBound() ) {
+					this.testcase__name.assign( otherValue.gettestcase__name() );
 				} else {
 					this.testcase__name.cleanUp();
 				}
-				if ( aOtherValue.getpid().isBound() ) {
-					this.pid.assign( aOtherValue.getpid() );
+				if ( otherValue.getpid().isBound() ) {
+					this.pid.assign( otherValue.getpid() );
 				} else {
 					this.pid.cleanUp();
 				}
-				if ( aOtherValue.getfd__setsize().isBound() ) {
-					this.fd__setsize.assign( aOtherValue.getfd__setsize() );
+				if ( otherValue.getfd__setsize().isBound() ) {
+					this.fd__setsize.assign( otherValue.getfd__setsize() );
 				} else {
 					this.fd__setsize.cleanUp();
 				}
@@ -77140,12 +77139,12 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ExecutorRuntime aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.module__name.operatorEquals( aOtherValue.module__name ) ) { return false; }
-			if ( !this.testcase__name.operatorEquals( aOtherValue.testcase__name ) ) { return false; }
-			if ( !this.pid.operatorEquals( aOtherValue.pid ) ) { return false; }
-			if ( !this.fd__setsize.operatorEquals( aOtherValue.fd__setsize ) ) { return false; }
+		public boolean operatorEquals( final ExecutorRuntime otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.module__name.operatorEquals( otherValue.module__name ) ) { return false; }
+			if ( !this.testcase__name.operatorEquals( otherValue.testcase__name ) ) { return false; }
+			if ( !this.pid.operatorEquals( otherValue.pid ) ) { return false; }
+			if ( !this.fd__setsize.operatorEquals( otherValue.fd__setsize ) ) { return false; }
 			return true;
 		}
 
@@ -78244,29 +78243,29 @@ return new TitanInteger(1);
 		private final FinalVerdictType_choice choice; //TTCN3_Choice_Type
 
 		public FinalVerdictType() {
-			choice = new FinalVerdictType_choice();
+			this.choice = new FinalVerdictType_choice();
 		}
 
-		public FinalVerdictType( final FinalVerdictType_choice achoice ) {
-			choice = new FinalVerdictType_choice( achoice );
+		public FinalVerdictType(final FinalVerdictType_choice choice ) {
+			this.choice = new FinalVerdictType_choice( choice );
 		}
 
-		public FinalVerdictType( final FinalVerdictType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public FinalVerdictType( final FinalVerdictType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.FinalVerdictType.");
 			}
 			choice = new FinalVerdictType_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public FinalVerdictType assign(final FinalVerdictType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public FinalVerdictType assign(final FinalVerdictType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.FinalVerdictType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -78305,8 +78304,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final FinalVerdictType aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final FinalVerdictType otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -82441,42 +82440,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void LogEventType_choice_debugLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(LogEventType_choice_debugLog_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger LogEventType_choice_debugLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(LogEventType_choice_debugLog_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static class ParallelPTC_reason extends Base_Type {
 public enum enum_type {
 init__component__start (0),
@@ -83360,6 +83323,42 @@ return new TitanInteger(1);
 }
 }
 
+public static void LogEventType_choice_debugLog_encoder(final Categorized input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(LogEventType_choice_debugLog_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger LogEventType_choice_debugLog_decoder( final TitanOctetString input_stream, final Categorized output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Categorized' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(LogEventType_choice_debugLog_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 public static void Categorized_category_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -83472,29 +83471,29 @@ return new TitanInteger(1);
 		private final TitanFloat value__; //Float_Type
 
 		public TimerGuardType() {
-			value__ = new TitanFloat();
+			this.value__ = new TitanFloat();
 		}
 
-		public TimerGuardType( final TitanFloat avalue__ ) {
-			value__ = new TitanFloat( avalue__ );
+		public TimerGuardType(final TitanFloat value__ ) {
+			this.value__ = new TitanFloat( value__ );
 		}
 
-		public TimerGuardType( final TimerGuardType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TimerGuardType( final TimerGuardType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TimerGuardType.");
 			}
 			value__ = new TitanFloat();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TimerGuardType assign(final TimerGuardType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TimerGuardType assign(final TimerGuardType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TimerGuardType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getvalue__().isBound() ) {
-					this.value__.assign( aOtherValue.getvalue__() );
+			if (otherValue != this) {
+				if ( otherValue.getvalue__().isBound() ) {
+					this.value__.assign( otherValue.getvalue__() );
 				} else {
 					this.value__.cleanUp();
 				}
@@ -83533,8 +83532,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TimerGuardType aOtherValue ) {
-			if ( !this.value__.operatorEquals( aOtherValue.value__ ) ) { return false; }
+		public boolean operatorEquals( final TimerGuardType otherValue) {
+			if ( !this.value__.operatorEquals( otherValue.value__ ) ) { return false; }
 			return true;
 		}
 
@@ -84225,45 +84224,45 @@ return new TitanInteger(1);
 		private final StartFunction_parameter__list parameter__list; //SequenceOf_Type
 
 		public StartFunction() {
-			function__name = new TitanCharString();
-			compref = new TitanInteger();
-			parameter__list = new StartFunction_parameter__list();
+			this.function__name = new TitanCharString();
+			this.compref = new TitanInteger();
+			this.parameter__list = new StartFunction_parameter__list();
 		}
 
-		public StartFunction( final TitanCharString afunction__name, final TitanInteger acompref, final StartFunction_parameter__list aparameter__list ) {
-			function__name = new TitanCharString( afunction__name );
-			compref = new TitanInteger( acompref );
-			parameter__list = new StartFunction_parameter__list( aparameter__list );
+		public StartFunction(final TitanCharString function__name, final TitanInteger compref, final StartFunction_parameter__list parameter__list ) {
+			this.function__name = new TitanCharString( function__name );
+			this.compref = new TitanInteger( compref );
+			this.parameter__list = new StartFunction_parameter__list( parameter__list );
 		}
 
-		public StartFunction( final StartFunction aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public StartFunction( final StartFunction otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StartFunction.");
 			}
 			function__name = new TitanCharString();
 			compref = new TitanInteger();
 			parameter__list = new StartFunction_parameter__list();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public StartFunction assign(final StartFunction aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public StartFunction assign(final StartFunction otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.StartFunction");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getfunction__name().isBound() ) {
-					this.function__name.assign( aOtherValue.getfunction__name() );
+			if (otherValue != this) {
+				if ( otherValue.getfunction__name().isBound() ) {
+					this.function__name.assign( otherValue.getfunction__name() );
 				} else {
 					this.function__name.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
-				if ( aOtherValue.getparameter__list().isBound() ) {
-					this.parameter__list.assign( aOtherValue.getparameter__list() );
+				if ( otherValue.getparameter__list().isBound() ) {
+					this.parameter__list.assign( otherValue.getparameter__list() );
 				} else {
 					this.parameter__list.cleanUp();
 				}
@@ -84308,10 +84307,10 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final StartFunction aOtherValue ) {
-			if ( !this.function__name.operatorEquals( aOtherValue.function__name ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
-			if ( !this.parameter__list.operatorEquals( aOtherValue.parameter__list ) ) { return false; }
+		public boolean operatorEquals( final StartFunction otherValue) {
+			if ( !this.function__name.operatorEquals( otherValue.function__name ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
+			if ( !this.parameter__list.operatorEquals( otherValue.parameter__list ) ) { return false; }
 			return true;
 		}
 
@@ -85062,42 +85061,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void StatisticsType_choice_verdictStatistics_failPercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(StatisticsType_choice_verdictStatistics_failPercent_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger StatisticsType_choice_verdictStatistics_failPercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(StatisticsType_choice_verdictStatistics_failPercent_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 	public static class ExecutorUnqualified extends Base_Type {
 		private final ExecutorUnqualified_reason reason; //TTCN3_Enumerated_Type
 		private final TitanCharString name; //CharString_Type
@@ -85105,53 +85068,53 @@ return new TitanInteger(1);
 		private final TitanInteger port__; //Integer_Type
 
 		public ExecutorUnqualified() {
-			reason = new ExecutorUnqualified_reason();
-			name = new TitanCharString();
-			addr = new TitanCharString();
-			port__ = new TitanInteger();
+			this.reason = new ExecutorUnqualified_reason();
+			this.name = new TitanCharString();
+			this.addr = new TitanCharString();
+			this.port__ = new TitanInteger();
 		}
 
-		public ExecutorUnqualified( final ExecutorUnqualified_reason areason, final TitanCharString aname, final TitanCharString aaddr, final TitanInteger aport__ ) {
-			reason = new ExecutorUnqualified_reason( areason );
-			name = new TitanCharString( aname );
-			addr = new TitanCharString( aaddr );
-			port__ = new TitanInteger( aport__ );
+		public ExecutorUnqualified(final ExecutorUnqualified_reason reason, final TitanCharString name, final TitanCharString addr, final TitanInteger port__ ) {
+			this.reason = new ExecutorUnqualified_reason( reason );
+			this.name = new TitanCharString( name );
+			this.addr = new TitanCharString( addr );
+			this.port__ = new TitanInteger( port__ );
 		}
 
-		public ExecutorUnqualified( final ExecutorUnqualified aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ExecutorUnqualified( final ExecutorUnqualified otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorUnqualified.");
 			}
 			reason = new ExecutorUnqualified_reason();
 			name = new TitanCharString();
 			addr = new TitanCharString();
 			port__ = new TitanInteger();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ExecutorUnqualified assign(final ExecutorUnqualified aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ExecutorUnqualified assign(final ExecutorUnqualified otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ExecutorUnqualified");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getname().isBound() ) {
-					this.name.assign( aOtherValue.getname() );
+				if ( otherValue.getname().isBound() ) {
+					this.name.assign( otherValue.getname() );
 				} else {
 					this.name.cleanUp();
 				}
-				if ( aOtherValue.getaddr().isBound() ) {
-					this.addr.assign( aOtherValue.getaddr() );
+				if ( otherValue.getaddr().isBound() ) {
+					this.addr.assign( otherValue.getaddr() );
 				} else {
 					this.addr.cleanUp();
 				}
-				if ( aOtherValue.getport__().isBound() ) {
-					this.port__.assign( aOtherValue.getport__() );
+				if ( otherValue.getport__().isBound() ) {
+					this.port__.assign( otherValue.getport__() );
 				} else {
 					this.port__.cleanUp();
 				}
@@ -85199,11 +85162,11 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ExecutorUnqualified aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.name.operatorEquals( aOtherValue.name ) ) { return false; }
-			if ( !this.addr.operatorEquals( aOtherValue.addr ) ) { return false; }
-			if ( !this.port__.operatorEquals( aOtherValue.port__ ) ) { return false; }
+		public boolean operatorEquals( final ExecutorUnqualified otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.name.operatorEquals( otherValue.name ) ) { return false; }
+			if ( !this.addr.operatorEquals( otherValue.addr ) ) { return false; }
+			if ( !this.port__.operatorEquals( otherValue.port__ ) ) { return false; }
 			return true;
 		}
 
@@ -86010,6 +85973,42 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.ExecutorUnqualif
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ExecutorUnqualified_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void StatisticsType_choice_verdictStatistics_failPercent_encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(StatisticsType_choice_verdictStatistics_failPercent_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger StatisticsType_choice_verdictStatistics_failPercent_decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(StatisticsType_choice_verdictStatistics_failPercent_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -86960,37 +86959,37 @@ return new TitanInteger(1);
 		private final TitanCharString text; //CharString_Type
 
 		public Categorized() {
-			category = new TitanInteger();
-			text = new TitanCharString();
+			this.category = new TitanInteger();
+			this.text = new TitanCharString();
 		}
 
-		public Categorized( final TitanInteger acategory, final TitanCharString atext ) {
-			category = new TitanInteger( acategory );
-			text = new TitanCharString( atext );
+		public Categorized(final TitanInteger category, final TitanCharString text ) {
+			this.category = new TitanInteger( category );
+			this.text = new TitanCharString( text );
 		}
 
-		public Categorized( final Categorized aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Categorized( final Categorized otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Categorized.");
 			}
 			category = new TitanInteger();
 			text = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Categorized assign(final Categorized aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Categorized assign(final Categorized otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Categorized");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getcategory().isBound() ) {
-					this.category.assign( aOtherValue.getcategory() );
+			if (otherValue != this) {
+				if ( otherValue.getcategory().isBound() ) {
+					this.category.assign( otherValue.getcategory() );
 				} else {
 					this.category.cleanUp();
 				}
-				if ( aOtherValue.gettext().isBound() ) {
-					this.text.assign( aOtherValue.gettext() );
+				if ( otherValue.gettext().isBound() ) {
+					this.text.assign( otherValue.gettext() );
 				} else {
 					this.text.cleanUp();
 				}
@@ -87032,9 +87031,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Categorized aOtherValue ) {
-			if ( !this.category.operatorEquals( aOtherValue.category ) ) { return false; }
-			if ( !this.text.operatorEquals( aOtherValue.text ) ) { return false; }
+		public boolean operatorEquals( final Categorized otherValue) {
+			if ( !this.category.operatorEquals( otherValue.category ) ) { return false; }
+			if ( !this.text.operatorEquals( otherValue.text ) ) { return false; }
 			return true;
 		}
 
@@ -89389,42 +89388,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void FinalVerdictType_choice_info_encoder(final FinalVerdictInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(FinalVerdictType_choice_info_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger FinalVerdictType_choice_info_decoder( final TitanOctetString input_stream, final FinalVerdictInfo output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(FinalVerdictType_choice_info_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void ParallelPTC_status_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -89448,6 +89411,42 @@ throw new TtcnError(MessageFormat.format("Type `integer' does not support {0} en
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(ParallelPTC_status_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void FinalVerdictType_choice_info_encoder(final FinalVerdictInfo input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(FinalVerdictType_choice_info_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger FinalVerdictType_choice_info_decoder( final TitanOctetString input_stream, final FinalVerdictInfo output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.FinalVerdictInfo' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(FinalVerdictType_choice_info_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -89574,37 +89573,37 @@ return new TitanInteger(1);
 		private final TitanCharString overallStatistics; //CharString_Type
 
 		public ExecutionSummaryType() {
-			numberOfTestcases = new TitanInteger();
-			overallStatistics = new TitanCharString();
+			this.numberOfTestcases = new TitanInteger();
+			this.overallStatistics = new TitanCharString();
 		}
 
-		public ExecutionSummaryType( final TitanInteger anumberOfTestcases, final TitanCharString aoverallStatistics ) {
-			numberOfTestcases = new TitanInteger( anumberOfTestcases );
-			overallStatistics = new TitanCharString( aoverallStatistics );
+		public ExecutionSummaryType(final TitanInteger numberOfTestcases, final TitanCharString overallStatistics ) {
+			this.numberOfTestcases = new TitanInteger( numberOfTestcases );
+			this.overallStatistics = new TitanCharString( overallStatistics );
 		}
 
-		public ExecutionSummaryType( final ExecutionSummaryType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ExecutionSummaryType( final ExecutionSummaryType otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutionSummaryType.");
 			}
 			numberOfTestcases = new TitanInteger();
 			overallStatistics = new TitanCharString();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ExecutionSummaryType assign(final ExecutionSummaryType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ExecutionSummaryType assign(final ExecutionSummaryType otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ExecutionSummaryType");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getnumberOfTestcases().isBound() ) {
-					this.numberOfTestcases.assign( aOtherValue.getnumberOfTestcases() );
+			if (otherValue != this) {
+				if ( otherValue.getnumberOfTestcases().isBound() ) {
+					this.numberOfTestcases.assign( otherValue.getnumberOfTestcases() );
 				} else {
 					this.numberOfTestcases.cleanUp();
 				}
-				if ( aOtherValue.getoverallStatistics().isBound() ) {
-					this.overallStatistics.assign( aOtherValue.getoverallStatistics() );
+				if ( otherValue.getoverallStatistics().isBound() ) {
+					this.overallStatistics.assign( otherValue.getoverallStatistics() );
 				} else {
 					this.overallStatistics.cleanUp();
 				}
@@ -89646,9 +89645,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ExecutionSummaryType aOtherValue ) {
-			if ( !this.numberOfTestcases.operatorEquals( aOtherValue.numberOfTestcases ) ) { return false; }
-			if ( !this.overallStatistics.operatorEquals( aOtherValue.overallStatistics ) ) { return false; }
+		public boolean operatorEquals( final ExecutionSummaryType otherValue) {
+			if ( !this.numberOfTestcases.operatorEquals( otherValue.numberOfTestcases ) ) { return false; }
+			if ( !this.overallStatistics.operatorEquals( otherValue.overallStatistics ) ) { return false; }
 			return true;
 		}
 
@@ -90438,42 +90437,6 @@ return new TitanInteger(1);
 }
 }
 
-public static void TimerGuardType_value___encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(TimerGuardType_value___descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger TimerGuardType_value___decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(TimerGuardType_value___descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 public static void Proc__port__in_check___encoder(final TitanBoolean input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -90497,6 +90460,42 @@ throw new TtcnError(MessageFormat.format("Type `boolean' does not support {0} en
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(Proc__port__in_check___descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void TimerGuardType_value___encoder(final TitanFloat input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(TimerGuardType_value___descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger TimerGuardType_value___decoder( final TitanOctetString input_stream, final TitanFloat output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `float' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(TimerGuardType_value___descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -90586,29 +90585,29 @@ return new TitanInteger(1);
 		private final MatchingEvent_choice choice; //TTCN3_Choice_Type
 
 		public MatchingEvent() {
-			choice = new MatchingEvent_choice();
+			this.choice = new MatchingEvent_choice();
 		}
 
-		public MatchingEvent( final MatchingEvent_choice achoice ) {
-			choice = new MatchingEvent_choice( achoice );
+		public MatchingEvent(final MatchingEvent_choice choice ) {
+			this.choice = new MatchingEvent_choice( choice );
 		}
 
-		public MatchingEvent( final MatchingEvent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public MatchingEvent( final MatchingEvent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.MatchingEvent.");
 			}
 			choice = new MatchingEvent_choice();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public MatchingEvent assign(final MatchingEvent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public MatchingEvent assign(final MatchingEvent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.MatchingEvent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
 				} else {
 					this.choice.cleanUp();
 				}
@@ -90647,8 +90646,8 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final MatchingEvent aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
+		public boolean operatorEquals( final MatchingEvent otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
 			return true;
 		}
 
@@ -91297,685 +91296,6 @@ return new TitanInteger(1);
 }
 }
 
-	public static class StatisticsType extends Base_Type {
-		private final StatisticsType_choice choice; //TTCN3_Choice_Type
-
-		public StatisticsType() {
-			choice = new StatisticsType_choice();
-		}
-
-		public StatisticsType( final StatisticsType_choice achoice ) {
-			choice = new StatisticsType_choice( achoice );
-		}
-
-		public StatisticsType( final StatisticsType aOtherValue ) {
-			if(!aOtherValue.isBound()) {
-				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.");
-			}
-			choice = new StatisticsType_choice();
-			assign( aOtherValue );
-		}
-
-		public StatisticsType assign(final StatisticsType aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
-				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.StatisticsType");
-			}
-
-			if (aOtherValue != this) {
-				if ( aOtherValue.getchoice().isBound() ) {
-					this.choice.assign( aOtherValue.getchoice() );
-				} else {
-					this.choice.cleanUp();
-				}
-			}
-
-			return this;
-		}
-
-		@Override
-		public StatisticsType assign(final Base_Type otherValue) {
-			if (otherValue instanceof StatisticsType ) {
-				return assign((StatisticsType) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.StatisticsType", otherValue));
-		}
-
-		public void cleanUp() {
-			choice.cleanUp();
-		}
-
-		@Override
-		public boolean isBound() {
-			if ( choice.isBound() ) { return true; }
-			return false;
-		}
-
-		@Override
-		public boolean isPresent() {
-			return isBound();
-		}
-
-		@Override
-		public boolean isValue() {
-			if ( !choice.isValue() ) { return false; }
-			return true;
-		}
-
-		public boolean operatorEquals( final StatisticsType aOtherValue ) {
-			if ( !this.choice.operatorEquals( aOtherValue.choice ) ) { return false; }
-			return true;
-		}
-
-		@Override
-		public boolean operatorEquals(final Base_Type otherValue) {
-			if (otherValue instanceof StatisticsType ) {
-				return operatorEquals((StatisticsType) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.StatisticsType", otherValue));
-		}
-
-		public StatisticsType_choice getchoice() {
-			return choice;
-		}
-
-		public StatisticsType_choice constGetchoice() {
-			return choice;
-		}
-
-		public TitanInteger sizeOf() {
-			return new TitanInteger(1);
-		}
-
-		public void log() {
-			if (!isBound()) {
-				TTCN_Logger.log_event_unbound();
-				return;
-			}
-			TTCN_Logger.log_char('{');
-			TTCN_Logger.log_event_str(" choice := ");
-			choice.log();
-			TTCN_Logger.log_event_str(" }");
-		}
-
-		@Override
-		public void set_implicit_omit() {
-			if (choice.isBound()) {
-				choice.set_implicit_omit();
-			}
-		}
-
-		@Override
-		public void encode_text(final Text_Buf text_buf) {
-			choice.encode_text(text_buf);
-		}
-
-		@Override
-		public void decode_text(final Text_Buf text_buf) {
-			choice.decode_text(text_buf);
-		}
-
-@Override
-public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
-switch (p_coding) {
-case CT_RAW: {
-final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
-if (p_td.raw == null) {
-TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-}
-final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
-final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
-RAW_encode(p_td, root);
-root.put_to_buf(p_buf);
-errorContext.leaveContext();
-break;
-}
-default:
-throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
-}
-}
-
-@Override
-public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
-switch (p_coding) {
-case CT_RAW: {
-final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
-if (p_td.raw == null) {
-TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
-}
-raw_order_t order;
-switch (p_td.raw.top_bit_order) {
-case TOP_BIT_LEFT:
-order = raw_order_t.ORDER_LSB;
-break;
-case TOP_BIT_RIGHT:
-default:
-order = raw_order_t.ORDER_MSB;
-break;
-}
-final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
-if (rawr < 0) {
-final error_type temp = error_type.values()[-rawr];
-switch (temp) {
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-break;
-case ET_UNBOUND:
-default:
-TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
-break;
-}
-}
-errorContext.leaveContext();
-break;
-}
-default:
-throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
-}
-}
-
-	}
-public static class StatisticsType_template extends Base_Template {
-
-	private StatisticsType_choice_template choice; //TTCN3_Choice_Type
-	//originally value_list/list_value
-	private List<StatisticsType_template> list_value;
-
-	public StatisticsType_choice_template getchoice() {
-		setSpecific();
-		return choice;
-	}
-
-	public StatisticsType_choice_template constGetchoice() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			throw new TtcnError("Accessing field choice of a non-specific template of type @TitanLoggerApi.StatisticsType.");
-		}
-		return choice;
-	}
-
-	private void setSpecific() {
-		if (templateSelection != template_sel.SPECIFIC_VALUE) {
-			final template_sel old_selection = templateSelection;
-			cleanUp();
-			set_selection(template_sel.SPECIFIC_VALUE);
-			choice = new StatisticsType_choice_template();
-			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
-				choice.assign(template_sel.ANY_VALUE);
-			}
-		}
-	}
-
-	public StatisticsType_template() {
-// do nothing
-	}
-
-	public StatisticsType_template(final template_sel other_value ) {
-		super( other_value );
-		checkSingleSelection( other_value );
-	}
-
-	public StatisticsType_template( final StatisticsType otherValue ) {
-		copyValue(otherValue);
-	}
-
-	public StatisticsType_template( final StatisticsType_template otherValue ) {
-		copyTemplate( otherValue );
-	}
-
-	public StatisticsType_template( final Optional<StatisticsType> other_value ) {
-		switch (other_value.get_selection()) {
-		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
-			break;
-		case OPTIONAL_OMIT:
-			set_selection(template_sel.OMIT_VALUE);
-			break;
-		default:
-			throw new TtcnError("Creating a template of type @TitanLoggerApi.StatisticsType from an unbound optional field.");
-		}
-	}
-
-	//originally operator=
-	public StatisticsType_template assign( final template_sel other_value ) {
-		checkSingleSelection(other_value);
-		cleanUp();
-		set_selection(other_value);
-		return this;
-	}
-
-	//originally operator=
-	public StatisticsType_template assign( final StatisticsType other_value ) {
-		cleanUp();
-		copyValue(other_value);
-		return this;
-	}
-
-	//originally operator=
-	public StatisticsType_template assign( final StatisticsType_template other_value ) {
-		if (other_value != this) {
-			cleanUp();
-			copyTemplate(other_value);
-		}
-		return this;
-	}
-
-		@Override
-		public StatisticsType_template assign(final Base_Type otherValue) {
-			if (otherValue instanceof StatisticsType) {
-				return assign((StatisticsType) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `StatisticsType' can not be cast to {1}", otherValue));
-		}
-
-		@Override
-		public StatisticsType_template assign(final Base_Template otherValue) {
-			if (otherValue instanceof StatisticsType_template) {
-				return assign((StatisticsType_template) otherValue);
-			}
-
-			throw new TtcnError(MessageFormat.format("Internal Error: value `StatisticsType' can not be cast to {1}_template", otherValue));
-		}
-
-	public StatisticsType_template assign( final Optional<StatisticsType> other_value ) {
-		cleanUp();
-		switch (other_value.get_selection()) {
-		case OPTIONAL_PRESENT:
-			copyValue(other_value.constGet());
-			break;
-		case OPTIONAL_OMIT:
-			set_selection(template_sel.OMIT_VALUE);
-			break;
-		default:
-			throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.StatisticsType.");
-		}
-		return this;
-	}
-
-	private void copyValue(final StatisticsType other_value) {
-		if (other_value.getchoice().isBound()) {
-			getchoice().assign(other_value.getchoice());
-		} else {
-			getchoice().cleanUp();
-		}
-		set_selection(template_sel.SPECIFIC_VALUE);
-	}
-
-	private void copyTemplate(final StatisticsType_template other_value) {
-		switch (other_value.templateSelection) {
-		case SPECIFIC_VALUE:
-			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getchoice().get_selection()) {
-				getchoice().cleanUp();
-			} else {
-				getchoice().assign(other_value.getchoice());
-			}
-			break;
-		case OMIT_VALUE:
-		case ANY_VALUE:
-		case ANY_OR_OMIT:
-			break;
-		case VALUE_LIST:
-		case COMPLEMENTED_LIST:
-			list_value = new ArrayList<StatisticsType_template>(other_value.list_value.size());
-			for(int i = 0; i < other_value.list_value.size(); i++) {
-				final StatisticsType_template temp = new StatisticsType_template(other_value.list_value.get(i));
-				list_value.add(temp);
-			}
-			break;
-		default:
-			throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StatisticsType.");
-		}
-		set_selection(other_value);
-	}
-
-		public boolean isPresent() {
-			return isPresent(false);
-		}
-
-		public boolean isPresent(final boolean legacy) {
-			return isPresent_(legacy);
-		}
-
-		private boolean isPresent_(final boolean legacy) {
-			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
-				return false;
-			}
-			return !match_omit_(legacy);
-		}
-
-		public boolean match_omit() {
-			return match_omit(false);
-		}
-
-		public boolean match_omit(final boolean legacy) {
-			return match_omit_(legacy);
-		}
-
-		private boolean match_omit_(final boolean legacy) {
-			if (is_ifPresent) {
-				return true;
-			}
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				if (legacy) {
-					for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
-						if (list_value.get(l_idx).match_omit_(legacy)) {
-							return templateSelection==template_sel.VALUE_LIST;
-						}
-					}
-					return templateSelection==template_sel.COMPLEMENTED_LIST;
-				} // else fall through
-			default:
-				return false;
-			}
-		}
-
-		public StatisticsType valueOf() {
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.StatisticsType.");
-			}
-			final StatisticsType ret_val = new StatisticsType();
-			 if (choice.isBound()) {
-				ret_val.getchoice().assign(choice.valueOf());
-			}
-			return ret_val;
-		}
-
-		public StatisticsType_template listItem(final int list_index) {
-			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
-				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.StatisticsType.");
-			}
-			if (list_index >= list_value.size()) {
-				throw new TtcnError("Index overflow in a value list template of type @TitanLoggerApi.StatisticsType.");
-			}
-			return list_value.get(list_index);
-		}
-
-		public void setType(final template_sel template_type, final int list_length) {
-			if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
-				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.StatisticsType.");
-			}
-			cleanUp();
-			set_selection(template_type);
-			list_value = new ArrayList<StatisticsType_template>(list_length);
-			for(int i = 0 ; i < list_length; i++) {
-				list_value.add(new StatisticsType_template());
-			}
-		}
-
-		@Override
-		public boolean isBound() {
-			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
-				return false;
-			}
-			if (templateSelection != template_sel.SPECIFIC_VALUE) {
-				return true;
-			}
-			if (choice.isBound()) {
-				return true;
-			}
-			return false;
-		}
-
-		@Override
-		public boolean isValue() {
-			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
-				return false;
-			}
-			if (!choice.isValue()) {
-				return false;
-			}
-			return true;
-		}
-
-		public boolean match(final StatisticsType other_value) {
-			return match(other_value, false);
-		}
-
-		public boolean match(final StatisticsType other_value, final boolean legacy) {
-			if (!other_value.isBound()) {
-				return false;
-			}
-			switch (templateSelection) {
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				return true;
-			case OMIT_VALUE:
-				return false;
-			case SPECIFIC_VALUE:
-				if(!other_value.getchoice().isBound()) {
-					return false;
-				}
-				if(!choice.match(other_value.getchoice(), legacy)) {
-					return false;
-				}
-				return true;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_value.get(list_count).match(other_value, legacy)) {
-						return templateSelection == template_sel.VALUE_LIST;
-					}
-				}
-				return templateSelection == template_sel.COMPLEMENTED_LIST;
-			default:
-				throw new TtcnError("Matching an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
-			}
-		}
-
-	@Override
-	public boolean match(final Base_Type otherValue, final boolean legacy) {
-	if (otherValue instanceof StatisticsType) {
-		return match((StatisticsType)otherValue, legacy);
-	}
-
-		throw new TtcnError("Internal Error: The left operand of assignment is not of type StatisticsType.");
-	}
-
-		public TitanInteger sizeOf() {
-			if (is_ifPresent) {
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType which has an ifpresent attribute.");
-			}
-			switch (templateSelection) {
-			case SPECIFIC_VALUE:
-				return new TitanInteger(1);
-			case VALUE_LIST:
-				if (list_value.isEmpty()) {
-					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing an empty list.");
-				}
-				final int item_size = list_value.get(0).sizeOf().getInt();
-				for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
-					if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
-						throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing a value list with different sizes.");
-					}
-				}
-				return new TitanInteger(item_size);
-			case OMIT_VALUE:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing omit value.");
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing */? value.");
-			case COMPLEMENTED_LIST:
-				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing complemented list.");
-			default:
-				throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
-			}
-		}
-
-		public void log() {
-			switch (templateSelection) {
-			case SPECIFIC_VALUE:
-				TTCN_Logger.log_char('{');
-				TTCN_Logger.log_event_str(" choice := ");
-				choice.log();
-				TTCN_Logger.log_event_str(" }");
-				break;
-			case COMPLEMENTED_LIST:
-				TTCN_Logger.log_event_str("complement");
-			case VALUE_LIST:
-				TTCN_Logger.log_char('(');
-				for (int list_count = 0; list_count < list_value.size(); list_count++) {
-					if (list_count > 0) {
-						TTCN_Logger.log_event_str(", ");
-					}
-					list_value.get(list_count).log();
-				}
-				TTCN_Logger.log_char(')');
-				break;
-			default:
-				log_generic();
-				break;
-			}
-			log_ifpresent();
-		}
-
-		public void log_match(final StatisticsType match_value) {
-			log_match(match_value, false);
-		}
-
-		@Override
-		public void log_match(final Base_Type match_value, final boolean legacy) {
-			if (match_value instanceof StatisticsType) {
-				log_match((StatisticsType)match_value, legacy);
-				return;
-			}
-
-			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.StatisticsType.");
-		}
-
-		public void log_match(final StatisticsType match_value, final boolean legacy) {
-			if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
-				if(match(match_value, legacy)) {
-					TTCN_Logger.print_logmatch_buffer();
-					TTCN_Logger.log_event_str(" matched");
-				} else {
-					if (templateSelection == template_sel.SPECIFIC_VALUE) {
-						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
-						if( !choice.match(match_value.constGetchoice(), legacy) ) {
-							TTCN_Logger.log_logmatch_info(".choice");
-							choice.log_match(match_value.constGetchoice(), legacy);
-							TTCN_Logger.set_logmatch_buffer_len(previous_size);
-						}
-					} else {
-						TTCN_Logger.print_logmatch_buffer();
-						match_value.log();
-						TTCN_Logger.log_event_str(" with ");
-						log();
-						TTCN_Logger.log_event_str(" unmatched");
-					}
-				}
-				return;
-			}
-			if (templateSelection == template_sel.SPECIFIC_VALUE) {
-				TTCN_Logger.log_event_str("{ choice := ");
-				choice.log_match(match_value.constGetchoice(), legacy);
-				TTCN_Logger.log_event_str(" }");
-			} else {
-				match_value.log();
-				TTCN_Logger.log_event_str(" with ");
-				log();
-				if ( match(match_value, legacy) ) {
-					TTCN_Logger.log_event_str(" matched");
-				} else {
-					TTCN_Logger.log_event_str(" unmatched");
-				}
-			}
-		}
-
-		@Override
-		public void encode_text(final Text_Buf text_buf) {
-			encode_text_base(text_buf);
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				break;
-			case SPECIFIC_VALUE:
-				choice.encode_text(text_buf);
-				break;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST:
-				text_buf.push_int(list_value.size());
-				for (int i = 0; i < list_value.size(); i++) {
-					list_value.get(i).encode_text(text_buf);
-				}
-				break;
-			default:
-				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
-			}
-		}
-
-		@Override
-		public void decode_text(final Text_Buf text_buf) {
-			cleanUp();
-			decode_text_base(text_buf);
-			switch (templateSelection) {
-			case OMIT_VALUE:
-			case ANY_VALUE:
-			case ANY_OR_OMIT:
-				break;
-			case SPECIFIC_VALUE:
-				choice = new StatisticsType_choice_template();
-				choice.decode_text(text_buf);
-				break;
-			case VALUE_LIST:
-			case COMPLEMENTED_LIST: {
-final int size = text_buf.pull_int().getInt();
-				list_value = new ArrayList<StatisticsType_template>(size);
-				for (int i = 0; i < size; i++) {
-					final StatisticsType_template temp = new StatisticsType_template();
-					temp.decode_text(text_buf);
-					list_value.add(temp);
-				}
-				break;
-			}
-			default:
-				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StatisticsType.");
-			}
-		}
-}
-public static void StatisticsType_encoder(final StatisticsType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(StatisticsType_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger StatisticsType_decoder( final TitanOctetString input_stream, final StatisticsType output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(StatisticsType_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
 	public static class Dualface__discard extends Base_Type {
 		private final TitanBoolean incoming; //Boolean_Type
 		private final TitanCharString target__type; //CharString_Type
@@ -91983,53 +91303,53 @@ return new TitanInteger(1);
 		private final TitanBoolean unhandled; //Boolean_Type
 
 		public Dualface__discard() {
-			incoming = new TitanBoolean();
-			target__type = new TitanCharString();
-			port__name = new TitanCharString();
-			unhandled = new TitanBoolean();
+			this.incoming = new TitanBoolean();
+			this.target__type = new TitanCharString();
+			this.port__name = new TitanCharString();
+			this.unhandled = new TitanBoolean();
 		}
 
-		public Dualface__discard( final TitanBoolean aincoming, final TitanCharString atarget__type, final TitanCharString aport__name, final TitanBoolean aunhandled ) {
-			incoming = new TitanBoolean( aincoming );
-			target__type = new TitanCharString( atarget__type );
-			port__name = new TitanCharString( aport__name );
-			unhandled = new TitanBoolean( aunhandled );
+		public Dualface__discard(final TitanBoolean incoming, final TitanCharString target__type, final TitanCharString port__name, final TitanBoolean unhandled ) {
+			this.incoming = new TitanBoolean( incoming );
+			this.target__type = new TitanCharString( target__type );
+			this.port__name = new TitanCharString( port__name );
+			this.unhandled = new TitanBoolean( unhandled );
 		}
 
-		public Dualface__discard( final Dualface__discard aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public Dualface__discard( final Dualface__discard otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.Dualface_discard.");
 			}
 			incoming = new TitanBoolean();
 			target__type = new TitanCharString();
 			port__name = new TitanCharString();
 			unhandled = new TitanBoolean();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public Dualface__discard assign(final Dualface__discard aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public Dualface__discard assign(final Dualface__discard otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.Dualface_discard");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getincoming().isBound() ) {
-					this.incoming.assign( aOtherValue.getincoming() );
+			if (otherValue != this) {
+				if ( otherValue.getincoming().isBound() ) {
+					this.incoming.assign( otherValue.getincoming() );
 				} else {
 					this.incoming.cleanUp();
 				}
-				if ( aOtherValue.gettarget__type().isBound() ) {
-					this.target__type.assign( aOtherValue.gettarget__type() );
+				if ( otherValue.gettarget__type().isBound() ) {
+					this.target__type.assign( otherValue.gettarget__type() );
 				} else {
 					this.target__type.cleanUp();
 				}
-				if ( aOtherValue.getport__name().isBound() ) {
-					this.port__name.assign( aOtherValue.getport__name() );
+				if ( otherValue.getport__name().isBound() ) {
+					this.port__name.assign( otherValue.getport__name() );
 				} else {
 					this.port__name.cleanUp();
 				}
-				if ( aOtherValue.getunhandled().isBound() ) {
-					this.unhandled.assign( aOtherValue.getunhandled() );
+				if ( otherValue.getunhandled().isBound() ) {
+					this.unhandled.assign( otherValue.getunhandled() );
 				} else {
 					this.unhandled.cleanUp();
 				}
@@ -92077,11 +91397,11 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final Dualface__discard aOtherValue ) {
-			if ( !this.incoming.operatorEquals( aOtherValue.incoming ) ) { return false; }
-			if ( !this.target__type.operatorEquals( aOtherValue.target__type ) ) { return false; }
-			if ( !this.port__name.operatorEquals( aOtherValue.port__name ) ) { return false; }
-			if ( !this.unhandled.operatorEquals( aOtherValue.unhandled ) ) { return false; }
+		public boolean operatorEquals( final Dualface__discard otherValue) {
+			if ( !this.incoming.operatorEquals( otherValue.incoming ) ) { return false; }
+			if ( !this.target__type.operatorEquals( otherValue.target__type ) ) { return false; }
+			if ( !this.port__name.operatorEquals( otherValue.port__name ) ) { return false; }
+			if ( !this.unhandled.operatorEquals( otherValue.unhandled ) ) { return false; }
 			return true;
 		}
 
@@ -92901,6 +92221,685 @@ return new TitanInteger(1);
 }
 }
 
+	public static class StatisticsType extends Base_Type {
+		private final StatisticsType_choice choice; //TTCN3_Choice_Type
+
+		public StatisticsType() {
+			this.choice = new StatisticsType_choice();
+		}
+
+		public StatisticsType(final StatisticsType_choice choice ) {
+			this.choice = new StatisticsType_choice( choice );
+		}
+
+		public StatisticsType( final StatisticsType otherValue) {
+			if(!otherValue.isBound()) {
+				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.StatisticsType.");
+			}
+			choice = new StatisticsType_choice();
+			assign( otherValue );
+		}
+
+		public StatisticsType assign(final StatisticsType otherValue ) {
+			if ( !otherValue.isBound() ) {
+				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.StatisticsType");
+			}
+
+			if (otherValue != this) {
+				if ( otherValue.getchoice().isBound() ) {
+					this.choice.assign( otherValue.getchoice() );
+				} else {
+					this.choice.cleanUp();
+				}
+			}
+
+			return this;
+		}
+
+		@Override
+		public StatisticsType assign(final Base_Type otherValue) {
+			if (otherValue instanceof StatisticsType ) {
+				return assign((StatisticsType) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.StatisticsType", otherValue));
+		}
+
+		public void cleanUp() {
+			choice.cleanUp();
+		}
+
+		@Override
+		public boolean isBound() {
+			if ( choice.isBound() ) { return true; }
+			return false;
+		}
+
+		@Override
+		public boolean isPresent() {
+			return isBound();
+		}
+
+		@Override
+		public boolean isValue() {
+			if ( !choice.isValue() ) { return false; }
+			return true;
+		}
+
+		public boolean operatorEquals( final StatisticsType otherValue) {
+			if ( !this.choice.operatorEquals( otherValue.choice ) ) { return false; }
+			return true;
+		}
+
+		@Override
+		public boolean operatorEquals(final Base_Type otherValue) {
+			if (otherValue instanceof StatisticsType ) {
+				return operatorEquals((StatisticsType) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to @TitanLoggerApi.StatisticsType", otherValue));
+		}
+
+		public StatisticsType_choice getchoice() {
+			return choice;
+		}
+
+		public StatisticsType_choice constGetchoice() {
+			return choice;
+		}
+
+		public TitanInteger sizeOf() {
+			return new TitanInteger(1);
+		}
+
+		public void log() {
+			if (!isBound()) {
+				TTCN_Logger.log_event_unbound();
+				return;
+			}
+			TTCN_Logger.log_char('{');
+			TTCN_Logger.log_event_str(" choice := ");
+			choice.log();
+			TTCN_Logger.log_event_str(" }");
+		}
+
+		@Override
+		public void set_implicit_omit() {
+			if (choice.isBound()) {
+				choice.set_implicit_omit();
+			}
+		}
+
+		@Override
+		public void encode_text(final Text_Buf text_buf) {
+			choice.encode_text(text_buf);
+		}
+
+		@Override
+		public void decode_text(final Text_Buf text_buf) {
+			choice.decode_text(text_buf);
+		}
+
+@Override
+public void encode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+switch (p_coding) {
+case CT_RAW: {
+final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-encoding type '%s': ", p_td.name);
+if (p_td.raw == null) {
+TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+}
+final RAW_enc_tr_pos rp = new RAW_enc_tr_pos(0, null);
+final RAW_enc_tree root = new RAW_enc_tree(false, null, rp, 1, p_td.raw);
+RAW_encode(p_td, root);
+root.put_to_buf(p_buf);
+errorContext.leaveContext();
+break;
+}
+default:
+throw new TtcnError(MessageFormat.format("Unknown coding method requested to encode type `{0}''", p_td.name));
+}
+}
+
+@Override
+public void decode(final TTCN_Typedescriptor p_td, final TTCN_Buffer p_buf, final coding_type p_coding, final int flavour) {
+switch (p_coding) {
+case CT_RAW: {
+final TTCN_EncDec_ErrorContext errorContext = new TTCN_EncDec_ErrorContext("While RAW-decoding type '%s': ", p_td.name);
+if (p_td.raw == null) {
+TTCN_EncDec_ErrorContext.error_internal("No RAW descriptor available for type '%s'.", p_td.name);
+}
+raw_order_t order;
+switch (p_td.raw.top_bit_order) {
+case TOP_BIT_LEFT:
+order = raw_order_t.ORDER_LSB;
+break;
+case TOP_BIT_RIGHT:
+default:
+order = raw_order_t.ORDER_MSB;
+break;
+}
+final int rawr = RAW_decode(p_td, p_buf, p_buf.get_len() * 8, order);
+if (rawr < 0) {
+final error_type temp = error_type.values()[-rawr];
+switch (temp) {
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+TTCN_EncDec_ErrorContext.error(temp, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+break;
+case ET_UNBOUND:
+default:
+TTCN_EncDec_ErrorContext.error(error_type.ET_INVAL_MSG, "Can not decode type '%s', because invalid or incomplete message was received", p_td.name);
+break;
+}
+}
+errorContext.leaveContext();
+break;
+}
+default:
+throw new TtcnError(MessageFormat.format("Unknown coding method requested to decode type `{0}''", p_td.name));
+}
+}
+
+	}
+public static class StatisticsType_template extends Base_Template {
+
+	private StatisticsType_choice_template choice; //TTCN3_Choice_Type
+	//originally value_list/list_value
+	private List<StatisticsType_template> list_value;
+
+	public StatisticsType_choice_template getchoice() {
+		setSpecific();
+		return choice;
+	}
+
+	public StatisticsType_choice_template constGetchoice() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			throw new TtcnError("Accessing field choice of a non-specific template of type @TitanLoggerApi.StatisticsType.");
+		}
+		return choice;
+	}
+
+	private void setSpecific() {
+		if (templateSelection != template_sel.SPECIFIC_VALUE) {
+			final template_sel old_selection = templateSelection;
+			cleanUp();
+			set_selection(template_sel.SPECIFIC_VALUE);
+			choice = new StatisticsType_choice_template();
+			if (old_selection == template_sel.ANY_VALUE || old_selection == template_sel.ANY_OR_OMIT) {
+				choice.assign(template_sel.ANY_VALUE);
+			}
+		}
+	}
+
+	public StatisticsType_template() {
+// do nothing
+	}
+
+	public StatisticsType_template(final template_sel other_value ) {
+		super( other_value );
+		checkSingleSelection( other_value );
+	}
+
+	public StatisticsType_template( final StatisticsType otherValue ) {
+		copyValue(otherValue);
+	}
+
+	public StatisticsType_template( final StatisticsType_template otherValue ) {
+		copyTemplate( otherValue );
+	}
+
+	public StatisticsType_template( final Optional<StatisticsType> other_value ) {
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copyValue(other_value.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Creating a template of type @TitanLoggerApi.StatisticsType from an unbound optional field.");
+		}
+	}
+
+	//originally operator=
+	public StatisticsType_template assign( final template_sel other_value ) {
+		checkSingleSelection(other_value);
+		cleanUp();
+		set_selection(other_value);
+		return this;
+	}
+
+	//originally operator=
+	public StatisticsType_template assign( final StatisticsType other_value ) {
+		cleanUp();
+		copyValue(other_value);
+		return this;
+	}
+
+	//originally operator=
+	public StatisticsType_template assign( final StatisticsType_template other_value ) {
+		if (other_value != this) {
+			cleanUp();
+			copyTemplate(other_value);
+		}
+		return this;
+	}
+
+		@Override
+		public StatisticsType_template assign(final Base_Type otherValue) {
+			if (otherValue instanceof StatisticsType) {
+				return assign((StatisticsType) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `StatisticsType' can not be cast to {1}", otherValue));
+		}
+
+		@Override
+		public StatisticsType_template assign(final Base_Template otherValue) {
+			if (otherValue instanceof StatisticsType_template) {
+				return assign((StatisticsType_template) otherValue);
+			}
+
+			throw new TtcnError(MessageFormat.format("Internal Error: value `StatisticsType' can not be cast to {1}_template", otherValue));
+		}
+
+	public StatisticsType_template assign( final Optional<StatisticsType> other_value ) {
+		cleanUp();
+		switch (other_value.get_selection()) {
+		case OPTIONAL_PRESENT:
+			copyValue(other_value.constGet());
+			break;
+		case OPTIONAL_OMIT:
+			set_selection(template_sel.OMIT_VALUE);
+			break;
+		default:
+			throw new TtcnError("Assignment of an unbound optional field to a template of type @TitanLoggerApi.StatisticsType.");
+		}
+		return this;
+	}
+
+	private void copyValue(final StatisticsType other_value) {
+		if (other_value.getchoice().isBound()) {
+			getchoice().assign(other_value.getchoice());
+		} else {
+			getchoice().cleanUp();
+		}
+		set_selection(template_sel.SPECIFIC_VALUE);
+	}
+
+	private void copyTemplate(final StatisticsType_template other_value) {
+		switch (other_value.templateSelection) {
+		case SPECIFIC_VALUE:
+			if (template_sel.UNINITIALIZED_TEMPLATE == other_value.getchoice().get_selection()) {
+				getchoice().cleanUp();
+			} else {
+				getchoice().assign(other_value.getchoice());
+			}
+			break;
+		case OMIT_VALUE:
+		case ANY_VALUE:
+		case ANY_OR_OMIT:
+			break;
+		case VALUE_LIST:
+		case COMPLEMENTED_LIST:
+			list_value = new ArrayList<StatisticsType_template>(other_value.list_value.size());
+			for(int i = 0; i < other_value.list_value.size(); i++) {
+				final StatisticsType_template temp = new StatisticsType_template(other_value.list_value.get(i));
+				list_value.add(temp);
+			}
+			break;
+		default:
+			throw new TtcnError("Copying an uninitialized template of type @TitanLoggerApi.StatisticsType.");
+		}
+		set_selection(other_value);
+	}
+
+		public boolean isPresent() {
+			return isPresent(false);
+		}
+
+		public boolean isPresent(final boolean legacy) {
+			return isPresent_(legacy);
+		}
+
+		private boolean isPresent_(final boolean legacy) {
+			if (templateSelection==template_sel.UNINITIALIZED_TEMPLATE) {
+				return false;
+			}
+			return !match_omit_(legacy);
+		}
+
+		public boolean match_omit() {
+			return match_omit(false);
+		}
+
+		public boolean match_omit(final boolean legacy) {
+			return match_omit_(legacy);
+		}
+
+		private boolean match_omit_(final boolean legacy) {
+			if (is_ifPresent) {
+				return true;
+			}
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_OR_OMIT:
+				return true;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				if (legacy) {
+					for (int l_idx=0; l_idx<list_value.size(); l_idx++) {
+						if (list_value.get(l_idx).match_omit_(legacy)) {
+							return templateSelection==template_sel.VALUE_LIST;
+						}
+					}
+					return templateSelection==template_sel.COMPLEMENTED_LIST;
+				} // else fall through
+			default:
+				return false;
+			}
+		}
+
+		public StatisticsType valueOf() {
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				throw new TtcnError("Performing a valueof or send operation on a non-specific template of type @TitanLoggerApi.StatisticsType.");
+			}
+			final StatisticsType ret_val = new StatisticsType();
+			 if (choice.isBound()) {
+				ret_val.getchoice().assign(choice.valueOf());
+			}
+			return ret_val;
+		}
+
+		public StatisticsType_template listItem(final int list_index) {
+			if (templateSelection != template_sel.VALUE_LIST && templateSelection != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Accessing a list element of a non-list template of type @TitanLoggerApi.StatisticsType.");
+			}
+			if (list_index >= list_value.size()) {
+				throw new TtcnError("Index overflow in a value list template of type @TitanLoggerApi.StatisticsType.");
+			}
+			return list_value.get(list_index);
+		}
+
+		public void setType(final template_sel template_type, final int list_length) {
+			if (template_type != template_sel.VALUE_LIST && template_type != template_sel.COMPLEMENTED_LIST) {
+				throw new TtcnError("Setting an invalid list for a template of type @TitanLoggerApi.StatisticsType.");
+			}
+			cleanUp();
+			set_selection(template_type);
+			list_value = new ArrayList<StatisticsType_template>(list_length);
+			for(int i = 0 ; i < list_length; i++) {
+				list_value.add(new StatisticsType_template());
+			}
+		}
+
+		@Override
+		public boolean isBound() {
+			if (templateSelection == template_sel.UNINITIALIZED_TEMPLATE && !is_ifPresent) {
+				return false;
+			}
+			if (templateSelection != template_sel.SPECIFIC_VALUE) {
+				return true;
+			}
+			if (choice.isBound()) {
+				return true;
+			}
+			return false;
+		}
+
+		@Override
+		public boolean isValue() {
+			if (templateSelection != template_sel.SPECIFIC_VALUE || is_ifPresent) {
+				return false;
+			}
+			if (!choice.isValue()) {
+				return false;
+			}
+			return true;
+		}
+
+		public boolean match(final StatisticsType other_value) {
+			return match(other_value, false);
+		}
+
+		public boolean match(final StatisticsType other_value, final boolean legacy) {
+			if (!other_value.isBound()) {
+				return false;
+			}
+			switch (templateSelection) {
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				return true;
+			case OMIT_VALUE:
+				return false;
+			case SPECIFIC_VALUE:
+				if(!other_value.getchoice().isBound()) {
+					return false;
+				}
+				if(!choice.match(other_value.getchoice(), legacy)) {
+					return false;
+				}
+				return true;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+					if (list_value.get(list_count).match(other_value, legacy)) {
+						return templateSelection == template_sel.VALUE_LIST;
+					}
+				}
+				return templateSelection == template_sel.COMPLEMENTED_LIST;
+			default:
+				throw new TtcnError("Matching an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
+			}
+		}
+
+	@Override
+	public boolean match(final Base_Type otherValue, final boolean legacy) {
+	if (otherValue instanceof StatisticsType) {
+		return match((StatisticsType)otherValue, legacy);
+	}
+
+		throw new TtcnError("Internal Error: The left operand of assignment is not of type StatisticsType.");
+	}
+
+		public TitanInteger sizeOf() {
+			if (is_ifPresent) {
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType which has an ifpresent attribute.");
+			}
+			switch (templateSelection) {
+			case SPECIFIC_VALUE:
+				return new TitanInteger(1);
+			case VALUE_LIST:
+				if (list_value.isEmpty()) {
+					throw new TtcnError("Internal error: Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing an empty list.");
+				}
+				final int item_size = list_value.get(0).sizeOf().getInt();
+				for (int l_idx = 1; l_idx < list_value.size(); l_idx++) {
+					if (list_value.get(l_idx).sizeOf().getInt() != item_size) {
+						throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing a value list with different sizes.");
+					}
+				}
+				return new TitanInteger(item_size);
+			case OMIT_VALUE:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing omit value.");
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing */? value.");
+			case COMPLEMENTED_LIST:
+				throw new TtcnError("Performing sizeof() operation on a template of type @TitanLoggerApi.StatisticsType containing complemented list.");
+			default:
+				throw new TtcnError("Performing sizeof() operation on an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
+			}
+		}
+
+		public void log() {
+			switch (templateSelection) {
+			case SPECIFIC_VALUE:
+				TTCN_Logger.log_char('{');
+				TTCN_Logger.log_event_str(" choice := ");
+				choice.log();
+				TTCN_Logger.log_event_str(" }");
+				break;
+			case COMPLEMENTED_LIST:
+				TTCN_Logger.log_event_str("complement");
+			case VALUE_LIST:
+				TTCN_Logger.log_char('(');
+				for (int list_count = 0; list_count < list_value.size(); list_count++) {
+					if (list_count > 0) {
+						TTCN_Logger.log_event_str(", ");
+					}
+					list_value.get(list_count).log();
+				}
+				TTCN_Logger.log_char(')');
+				break;
+			default:
+				log_generic();
+				break;
+			}
+			log_ifpresent();
+		}
+
+		public void log_match(final StatisticsType match_value) {
+			log_match(match_value, false);
+		}
+
+		@Override
+		public void log_match(final Base_Type match_value, final boolean legacy) {
+			if (match_value instanceof StatisticsType) {
+				log_match((StatisticsType)match_value, legacy);
+				return;
+			}
+
+			throw new TtcnError("Internal Error: value can not be cast to @TitanLoggerApi.StatisticsType.");
+		}
+
+		public void log_match(final StatisticsType match_value, final boolean legacy) {
+			if ( TTCN_Logger.matching_verbosity_t.VERBOSITY_COMPACT == TTCN_Logger.get_matching_verbosity() ) {
+				if(match(match_value, legacy)) {
+					TTCN_Logger.print_logmatch_buffer();
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					if (templateSelection == template_sel.SPECIFIC_VALUE) {
+						final int previous_size = TTCN_Logger.get_logmatch_buffer_len();
+						if( !choice.match(match_value.constGetchoice(), legacy) ) {
+							TTCN_Logger.log_logmatch_info(".choice");
+							choice.log_match(match_value.constGetchoice(), legacy);
+							TTCN_Logger.set_logmatch_buffer_len(previous_size);
+						}
+					} else {
+						TTCN_Logger.print_logmatch_buffer();
+						match_value.log();
+						TTCN_Logger.log_event_str(" with ");
+						log();
+						TTCN_Logger.log_event_str(" unmatched");
+					}
+				}
+				return;
+			}
+			if (templateSelection == template_sel.SPECIFIC_VALUE) {
+				TTCN_Logger.log_event_str("{ choice := ");
+				choice.log_match(match_value.constGetchoice(), legacy);
+				TTCN_Logger.log_event_str(" }");
+			} else {
+				match_value.log();
+				TTCN_Logger.log_event_str(" with ");
+				log();
+				if ( match(match_value, legacy) ) {
+					TTCN_Logger.log_event_str(" matched");
+				} else {
+					TTCN_Logger.log_event_str(" unmatched");
+				}
+			}
+		}
+
+		@Override
+		public void encode_text(final Text_Buf text_buf) {
+			encode_text_base(text_buf);
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case SPECIFIC_VALUE:
+				choice.encode_text(text_buf);
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST:
+				text_buf.push_int(list_value.size());
+				for (int i = 0; i < list_value.size(); i++) {
+					list_value.get(i).encode_text(text_buf);
+				}
+				break;
+			default:
+				throw new TtcnError("Text encoder: Encoding an uninitialized/unsupported template of type @TitanLoggerApi.StatisticsType.");
+			}
+		}
+
+		@Override
+		public void decode_text(final Text_Buf text_buf) {
+			cleanUp();
+			decode_text_base(text_buf);
+			switch (templateSelection) {
+			case OMIT_VALUE:
+			case ANY_VALUE:
+			case ANY_OR_OMIT:
+				break;
+			case SPECIFIC_VALUE:
+				choice = new StatisticsType_choice_template();
+				choice.decode_text(text_buf);
+				break;
+			case VALUE_LIST:
+			case COMPLEMENTED_LIST: {
+final int size = text_buf.pull_int().getInt();
+				list_value = new ArrayList<StatisticsType_template>(size);
+				for (int i = 0; i < size; i++) {
+					final StatisticsType_template temp = new StatisticsType_template();
+					temp.decode_text(text_buf);
+					list_value.add(temp);
+				}
+				break;
+			}
+			default:
+				throw new TtcnError("Text decoder: An unknown/unsupported selection was received in a template of type @TitanLoggerApi.StatisticsType.");
+			}
+		}
+}
+public static void StatisticsType_encoder(final StatisticsType input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(StatisticsType_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger StatisticsType_decoder( final TitanOctetString input_stream, final StatisticsType output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.StatisticsType' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(StatisticsType_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
 public static void TimestampType_seconds_encoder(final TitanInteger input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
 final AtomicInteger extra_options = new AtomicInteger(0);
 final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
@@ -92960,6 +92959,42 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.Dualface_mapped'
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(PortEvent_choice_dualMapped_descr_, ttcnBuffer, codingType, extra_options.get());
+switch (TTCN_EncDec.get_last_error_type()) {
+case ET_NONE:
+ttcnBuffer.cut();
+ttcnBuffer.get_string(input_stream);
+return new TitanInteger(0);
+case ET_INCOMPL_MSG:
+case ET_LEN_ERR:
+return new TitanInteger(2);
+default:
+return new TitanInteger(1);
+}
+}
+
+public static void SetVerdictType_oldReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
+input_value.encode(SetVerdictType_oldReason_descr_, ttcnBuffer, codingType, extra_options.get());
+ttcnBuffer.get_string(output_stream);
+}
+
+public static TitanInteger SetVerdictType_oldReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
+final AtomicInteger extra_options = new AtomicInteger(0);
+final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
+if (codingType != TTCN_EncDec.coding_type.CT_XER) {
+TTCN_Logger.begin_event_log2str();
+coding_name.log();
+throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
+}
+final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
+output_value.decode(SetVerdictType_oldReason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -94038,42 +94073,6 @@ throw new TtcnError(MessageFormat.format("Type `@TitanLoggerApi.MatchingEvent.ch
 }
 final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
 output_value.decode(MatchingEvent_choice_descr_, ttcnBuffer, codingType, extra_options.get());
-switch (TTCN_EncDec.get_last_error_type()) {
-case ET_NONE:
-ttcnBuffer.cut();
-ttcnBuffer.get_string(input_stream);
-return new TitanInteger(0);
-case ET_INCOMPL_MSG:
-case ET_LEN_ERR:
-return new TitanInteger(2);
-default:
-return new TitanInteger(1);
-}
-}
-
-public static void SetVerdictType_oldReason_encoder(final TitanCharString input_value, final TitanOctetString output_stream, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, true);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer();
-input_value.encode(SetVerdictType_oldReason_descr_, ttcnBuffer, codingType, extra_options.get());
-ttcnBuffer.get_string(output_stream);
-}
-
-public static TitanInteger SetVerdictType_oldReason_decoder( final TitanOctetString input_stream, final TitanCharString output_value, final TitanUniversalCharString coding_name) {
-final AtomicInteger extra_options = new AtomicInteger(0);
-final TTCN_EncDec.coding_type codingType = TTCN_EncDec.get_coding_from_str(coding_name, extra_options, false);
-if (codingType != TTCN_EncDec.coding_type.CT_XER) {
-TTCN_Logger.begin_event_log2str();
-coding_name.log();
-throw new TtcnError(MessageFormat.format("Type `charstring' does not support {0} encoding", TTCN_Logger.end_event_log2str()));
-}
-final TTCN_Buffer ttcnBuffer = new TTCN_Buffer(input_stream);
-output_value.decode(SetVerdictType_oldReason_descr_, ttcnBuffer, codingType, extra_options.get());
 switch (TTCN_EncDec.get_last_error_type()) {
 case ET_NONE:
 ttcnBuffer.cut();
@@ -95719,38 +95718,38 @@ return new TitanInteger(1);
 		private final Optional<TitanInteger> compref; //Integer_Type
 
 		public ExecutorComponent() {
-			reason = new ExecutorComponent_reason();
-			compref = new Optional<TitanInteger>(TitanInteger.class);
+			this.reason = new ExecutorComponent_reason();
+			this.compref = new Optional<TitanInteger>(TitanInteger.class);
 		}
 
-		public ExecutorComponent( final ExecutorComponent_reason areason, final Optional<TitanInteger> acompref ) {
-			reason = new ExecutorComponent_reason( areason );
-			compref = new Optional<TitanInteger>(TitanInteger.class);
-			this.compref.assign( acompref );
+		public ExecutorComponent(final ExecutorComponent_reason reason, final Optional<TitanInteger> compref ) {
+			this.reason = new ExecutorComponent_reason( reason );
+			this.compref = new Optional<TitanInteger>(TitanInteger.class);
+			this.compref.assign( compref );
 		}
 
-		public ExecutorComponent( final ExecutorComponent aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public ExecutorComponent( final ExecutorComponent otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.ExecutorComponent.");
 			}
 			reason = new ExecutorComponent_reason();
 			compref = new Optional<TitanInteger>(TitanInteger.class);
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public ExecutorComponent assign(final ExecutorComponent aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public ExecutorComponent assign(final ExecutorComponent otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.ExecutorComponent");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getreason().isBound() ) {
-					this.reason.assign( aOtherValue.getreason() );
+			if (otherValue != this) {
+				if ( otherValue.getreason().isBound() ) {
+					this.reason.assign( otherValue.getreason() );
 				} else {
 					this.reason.cleanUp();
 				}
-				if ( aOtherValue.getcompref().isBound() ) {
-					this.compref.assign( aOtherValue.getcompref() );
+				if ( otherValue.getcompref().isBound() ) {
+					this.compref.assign( otherValue.getcompref() );
 				} else {
 					this.compref.cleanUp();
 				}
@@ -95792,9 +95791,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final ExecutorComponent aOtherValue ) {
-			if ( !this.reason.operatorEquals( aOtherValue.reason ) ) { return false; }
-			if ( !this.compref.operatorEquals( aOtherValue.compref ) ) { return false; }
+		public boolean operatorEquals( final ExecutorComponent otherValue) {
+			if ( !this.reason.operatorEquals( otherValue.reason ) ) { return false; }
+			if ( !this.compref.operatorEquals( otherValue.compref ) ) { return false; }
 			return true;
 		}
 
@@ -96579,37 +96578,37 @@ return new TitanInteger(1);
 		private final TitanLog_sequence__list_0_event__list event__list; //SequenceOf_Type
 
 		public TitanLog_sequence__list_0() {
-			entityId = new ComponentIDType();
-			event__list = new TitanLog_sequence__list_0_event__list();
+			this.entityId = new ComponentIDType();
+			this.event__list = new TitanLog_sequence__list_0_event__list();
 		}
 
-		public TitanLog_sequence__list_0( final ComponentIDType aentityId, final TitanLog_sequence__list_0_event__list aevent__list ) {
-			entityId = new ComponentIDType( aentityId );
-			event__list = new TitanLog_sequence__list_0_event__list( aevent__list );
+		public TitanLog_sequence__list_0(final ComponentIDType entityId, final TitanLog_sequence__list_0_event__list event__list ) {
+			this.entityId = new ComponentIDType( entityId );
+			this.event__list = new TitanLog_sequence__list_0_event__list( event__list );
 		}
 
-		public TitanLog_sequence__list_0( final TitanLog_sequence__list_0 aOtherValue ) {
-			if(!aOtherValue.isBound()) {
+		public TitanLog_sequence__list_0( final TitanLog_sequence__list_0 otherValue) {
+			if(!otherValue.isBound()) {
 				throw new TtcnError("Copying of an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype.");
 			}
 			entityId = new ComponentIDType();
 			event__list = new TitanLog_sequence__list_0_event__list();
-			assign( aOtherValue );
+			assign( otherValue );
 		}
 
-		public TitanLog_sequence__list_0 assign(final TitanLog_sequence__list_0 aOtherValue ) {
-			if ( !aOtherValue.isBound() ) {
+		public TitanLog_sequence__list_0 assign(final TitanLog_sequence__list_0 otherValue ) {
+			if ( !otherValue.isBound() ) {
 				throw new TtcnError( "Assignment of an unbound value of type @TitanLoggerApi.TitanLog.sequence_list.oftype");
 			}
 
-			if (aOtherValue != this) {
-				if ( aOtherValue.getentityId().isBound() ) {
-					this.entityId.assign( aOtherValue.getentityId() );
+			if (otherValue != this) {
+				if ( otherValue.getentityId().isBound() ) {
+					this.entityId.assign( otherValue.getentityId() );
 				} else {
 					this.entityId.cleanUp();
 				}
-				if ( aOtherValue.getevent__list().isBound() ) {
-					this.event__list.assign( aOtherValue.getevent__list() );
+				if ( otherValue.getevent__list().isBound() ) {
+					this.event__list.assign( otherValue.getevent__list() );
 				} else {
 					this.event__list.cleanUp();
 				}
@@ -96651,9 +96650,9 @@ return new TitanInteger(1);
 			return true;
 		}
 
-		public boolean operatorEquals( final TitanLog_sequence__list_0 aOtherValue ) {
-			if ( !this.entityId.operatorEquals( aOtherValue.entityId ) ) { return false; }
-			if ( !this.event__list.operatorEquals( aOtherValue.event__list ) ) { return false; }
+		public boolean operatorEquals( final TitanLog_sequence__list_0 otherValue) {
+			if ( !this.entityId.operatorEquals( otherValue.entityId ) ) { return false; }
+			if ( !this.event__list.operatorEquals( otherValue.event__list ) ) { return false; }
 			return true;
 		}
 
@@ -98140,10 +98139,10 @@ return;
 }
 pre_init_called = true;
 final TTCN_Location current_location = TTCN_Location.enter("TitanLoggerApi.ttcn", 0, entity_type_t.LOCATION_UNKNOWN, "TitanLoggerApi");
-TitanLog_sequence__list_0_event__list_descr_.oftype_descr = TitanLog_sequence__list_0_event__list_0_descr_;
-TitanLog_sequence__list_descr_.oftype_descr = TitanLog_sequence__list_0_descr_;
 TitanLogEvent_sourceInfo__list_descr_.oftype_descr = TitanLogEvent_sourceInfo__list_0_descr_;
 Strings_str__list_descr_.oftype_descr = Strings_str__list_0_descr_;
+TitanLog_sequence__list_0_event__list_descr_.oftype_descr = TitanLog_sequence__list_0_event__list_0_descr_;
+TitanLog_sequence__list_descr_.oftype_descr = TitanLog_sequence__list_0_descr_;
 StartFunction_parameter__list_descr_.oftype_descr = StartFunction_parameter__list_0_descr_;
 current_location.leave();
 }
