@@ -52,7 +52,7 @@ public final class SyntaxHighlightPage extends PreferencePage implements IWorkbe
 	private SyntaxhighlightLabelProvider labelProvider;
 
 	private PreferenceStore tempstore;
-	private Map<String, String> possiblyChangedPreferences = new HashMap<String, String>();
+	private final Map<String, String> possiblyChangedPreferences = new HashMap<String, String>();
 
 	private final ISelectionChangedListener treeListener = new ISelectionChangedListener() {
 		/*

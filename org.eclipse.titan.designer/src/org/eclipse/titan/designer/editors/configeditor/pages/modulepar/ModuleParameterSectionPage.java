@@ -68,7 +68,7 @@ public final class ModuleParameterSectionPage extends FormPage {
 	private static final String[] COLUMN_NAMES = new String[] { "moduleName", "parameterName" };
 
 	private ScrolledForm form;
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private Text parameterValueText;
 	private boolean valueChanged = false;
 

@@ -69,9 +69,9 @@ public final class ConfigTextEditor extends AbstractDecoratedTextEditor implemen
 	private ProjectionViewer projectionViewer;
 
 	// the multipage editor which this text editor is added to
-	private ConfigEditor parentEditor;
+	private final ConfigEditor parentEditor;
 
-	private IPropertyChangeListener foldingListener = new IPropertyChangeListener() {
+	private final IPropertyChangeListener foldingListener = new IPropertyChangeListener() {
 		@Override
 		public void propertyChange(final PropertyChangeEvent event) {
 			final String property = event.getProperty();

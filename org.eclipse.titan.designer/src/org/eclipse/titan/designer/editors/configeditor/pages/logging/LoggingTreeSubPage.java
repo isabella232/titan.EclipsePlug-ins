@@ -50,8 +50,8 @@ public final class LoggingTreeSubPage {
 	private Button addPlugin;
 	private Button removeSelected;
 
-	private ConfigEditor editor;
-	private LoggingPage loggingPage;
+	private final ConfigEditor editor;
+	private final LoggingPage loggingPage;
 	private LoggingSectionHandler loggingSectionHandler;
 
 	public LoggingTreeSubPage(final ConfigEditor editor, final LoggingPage loggingPage) {

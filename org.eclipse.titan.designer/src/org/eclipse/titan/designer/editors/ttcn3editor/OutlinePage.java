@@ -47,7 +47,7 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
  * @author Kristof Szabados
  * */
 public final class OutlinePage extends ContentOutlinePage {
-	private AbstractTextEditor editor;
+	private final AbstractTextEditor editor;
 	private TreeViewer viewer;
 	private ViewerFilter hideFunctionsFilter;
 	private ViewerFilter hideTemplatesFilter;

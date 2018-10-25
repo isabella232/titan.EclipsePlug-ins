@@ -23,8 +23,8 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public final class ExternalCommandBrowser implements SelectionListener {
 
-	private Text field;
-	private IFile actualFile;
+	private final Text field;
+	private final IFile actualFile;
 
 	public ExternalCommandBrowser(final Text field, final IFile actualFile) {
 		this.field = field;

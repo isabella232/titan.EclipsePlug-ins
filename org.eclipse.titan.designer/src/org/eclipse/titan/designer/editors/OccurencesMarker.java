@@ -65,8 +65,8 @@ public abstract class OccurencesMarker {
 
 	private final ITextEditor editor;
 	private Annotation[] occurrenceAnnotations = null;
-	private MarkerJob markerJob = new MarkerJob();
-	private IPropertyChangeListener listener = null;
+	private final MarkerJob markerJob = new MarkerJob();
+	private final IPropertyChangeListener listener;
 
 	private class MarkerJob extends WorkspaceJob {
 		private IDocument document;

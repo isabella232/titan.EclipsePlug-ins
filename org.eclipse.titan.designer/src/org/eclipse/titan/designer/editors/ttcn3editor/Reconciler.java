@@ -415,7 +415,7 @@ public class Reconciler implements IReconciler {
 	private ITextViewer textViewer;
 
 	/** The reconciling strategy. */
-	private ReconcilingStrategy reconcilingStrategy;
+	private final ReconcilingStrategy reconcilingStrategy;
 
 	/**
 	 * Creates a new reconciler without configuring it.

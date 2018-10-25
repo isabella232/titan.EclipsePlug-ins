@@ -47,9 +47,9 @@ public final class RemoteHostDialog extends Dialog {
 	private Button activeButton;
 	private boolean active;
 
-	private String title;
+	private final String title;
 
-	private Image[] images = { ImageCache.getImageDescriptor("question.gif").createImage(),
+	private final Image[] images = { ImageCache.getImageDescriptor("question.gif").createImage(),
 			ImageCache.getImageDescriptor("host.gif").createImage(), ImageCache.getImageDescriptor("command.gif").createImage() };
 
 	public RemoteHostDialog(final Shell shell) {

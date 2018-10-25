@@ -81,27 +81,27 @@ public final class InternalMakefileGenerator {
 	private static final boolean USAGE_STATS = true;
 	private static final String MISSING_CYGWIN = "Makefile generation failed. No cygwin installation found! Please make sure that cygwin is installed properly.";
 
-	private IProject project;
+	private final IProject project;
 	// The OS specific path of the project, used to speed up calculations.
 	private String projectLocation;
 
-	private List<ModuleStruct> ttcn3Modules = new ArrayList<ModuleStruct>();
+	private final List<ModuleStruct> ttcn3Modules = new ArrayList<ModuleStruct>();
 	private boolean preprocess = false;
-	private List<ModuleStruct> ttcnppModules = new ArrayList<ModuleStruct>();
+	private final List<ModuleStruct> ttcnppModules = new ArrayList<ModuleStruct>();
 	private boolean ttcn3ModulesRegular = true;
 	private boolean baseTTCN3ModulesRegular = true;
-	private List<TTCN3IncludeFileStruct> ttcn3IncludeFiles = new ArrayList<TTCN3IncludeFileStruct>();
-	private List<ModuleStruct> asn1modules = new ArrayList<ModuleStruct>();
+	private final List<TTCN3IncludeFileStruct> ttcn3IncludeFiles = new ArrayList<TTCN3IncludeFileStruct>();
+	private final List<ModuleStruct> asn1modules = new ArrayList<ModuleStruct>();
 	private boolean asn1ModulesRegular = true;
 	private boolean baseASN1ModulesRegular = true;
-	private List<UserStruct> userFiles = new ArrayList<UserStruct>();
+	private final List<UserStruct> userFiles = new ArrayList<UserStruct>();
 	private boolean userHeadersRegular = true;
 	private boolean userSourcesRegular = true;
 	private boolean baseUserHeadersRegular = true;
 	private boolean baseUserSourcesRegular = true;
-	private List<OtherFileStruct> otherFiles = new ArrayList<OtherFileStruct>();
-	private List<BaseDirectoryStruct> baseDirectories = new ArrayList<BaseDirectoryStruct>();
-	private List<BaseDirectoryStruct> additionallyIncludedFolders = new ArrayList<BaseDirectoryStruct>();
+	private final List<OtherFileStruct> otherFiles = new ArrayList<OtherFileStruct>();
+	private final List<BaseDirectoryStruct> baseDirectories = new ArrayList<BaseDirectoryStruct>();
+	private final List<BaseDirectoryStruct> additionallyIncludedFolders = new ArrayList<BaseDirectoryStruct>();
 	private String workingDirectory;
 	private IPath workingDirectoryPath;
 	private boolean gnuMake = false;
@@ -122,7 +122,7 @@ public final class InternalMakefileGenerator {
 	/**
 	 * right now not set
 	 */
-	private boolean useCrossCompilation = false;
+	private final boolean useCrossCompilation = false;
 
 	private List<IProject> reachableProjects;
 	

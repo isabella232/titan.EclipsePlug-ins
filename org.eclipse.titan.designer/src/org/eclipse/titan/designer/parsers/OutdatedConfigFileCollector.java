@@ -33,9 +33,9 @@ public class OutdatedConfigFileCollector implements IResourceVisitor {
 	private static final String DOT = ".";
 	private String resourcename;
 
-	private Map<IFile, String> uptodateFiles;
-	private Set<IFile> highlySyntaxErroneousFiles;
-	private List<IFile> cfgFilesToCheck;
+	private final Map<IFile, String> uptodateFiles;
+	private final Set<IFile> highlySyntaxErroneousFiles;
+	private final List<IFile> cfgFilesToCheck;
 	private final IContainer[] workingDirectories;
 
 	public OutdatedConfigFileCollector(final IContainer[] workingDirectories, final Map<IFile, String> uptodateFiles,

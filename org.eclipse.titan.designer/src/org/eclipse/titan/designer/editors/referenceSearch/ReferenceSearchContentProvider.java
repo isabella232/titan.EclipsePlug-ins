@@ -81,7 +81,7 @@ public final class ReferenceSearchContentProvider implements ITreeContentProvide
 	} // SearchResultListener
 
 	private HashMap<IResource, ArrayList<IResource>> tree;
-	private SearchResultListener searchResultListener;
+	private final SearchResultListener searchResultListener;
 	private ReferenceSearchResult result;
 	private ReferenceSearchResultView page;
 

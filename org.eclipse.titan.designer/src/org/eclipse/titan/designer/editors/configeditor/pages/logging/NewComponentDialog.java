@@ -28,7 +28,7 @@ import org.eclipse.swt.widgets.Text;
 public class NewComponentDialog extends Dialog {
 	static final Pattern IDENTIFIER_PATTERN = Pattern.compile("[0-9a-zA-Z_]+");
 
-	private Set<String> namesTaken;
+	private final Set<String> namesTaken;
 	private Text nameText;
 	private Label errorLabel;
 	private String name;

@@ -34,15 +34,15 @@ public class ParamDialog extends TitleAreaDialog {
 	static final Pattern NAME_PATTERN = Pattern.compile("[A-Za-z][0-9A-Za-z_]*");
 	static final Pattern VALUE_PATTERN = Pattern.compile("^\"[^\"]*\"$");
 
-	private boolean isAddition;
+	private final boolean isAddition;
 
 	private Text name;
 	private Text value;
 	private String nameField;
 	private String valueField;
 
-	private LogParamEntry logentry;
-	private PluginSpecificParam param;
+	private final LogParamEntry logentry;
+	private final PluginSpecificParam param;
 
 	public ParamDialog(final Shell parentShell, final LogParamEntry logentry, final PluginSpecificParam param) {
 		super(parentShell);

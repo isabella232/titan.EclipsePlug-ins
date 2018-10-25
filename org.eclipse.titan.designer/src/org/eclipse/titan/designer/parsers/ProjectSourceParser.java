@@ -86,10 +86,10 @@ public final class ProjectSourceParser {
 
 	private static final String SOURCE_ANALYSING = "Analysing the source code of project ";
 
-	private IProject project;
+	private final IProject project;
 
-	private ProjectSourceSyntacticAnalyzer syntacticAnalyzer;
-	private ProjectSourceSemanticAnalyzer semanticAnalyzer;
+	private final ProjectSourceSyntacticAnalyzer syntacticAnalyzer;
+	private final ProjectSourceSemanticAnalyzer semanticAnalyzer;
 
 	/**
 	 * Counts how many parallel full analyzer threads are running. Should
@@ -97,7 +97,7 @@ public final class ProjectSourceParser {
 	 * existing analyzes run, which have to be checked by a subsequent
 	 * check.
 	 * */
-	private AtomicInteger fullAnalyzersRunning = new AtomicInteger();
+	private final AtomicInteger fullAnalyzersRunning = new AtomicInteger();
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastFullAnalyzes = null;
@@ -112,7 +112,7 @@ public final class ProjectSourceParser {
 	 * the existing analyzes run, which have to be checked by a subsequent
 	 * check.
 	 * */
-	private AtomicInteger syntaxAnalyzersRunning = new AtomicInteger();
+	private final AtomicInteger syntaxAnalyzersRunning = new AtomicInteger();
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastSyntaxAnalyzes = null;

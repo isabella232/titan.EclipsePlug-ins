@@ -51,8 +51,8 @@ public final class LoggingBitsSubPage {
 	private LoggingSectionHandler loggingSectionHandler;
 	private LogParamEntry selectedLogEntry;
 
-	private ConfigEditor editor;
-	private LoggingPage loggingPage;
+	private final ConfigEditor editor;
+	private final LoggingPage loggingPage;
 
 	private CheckboxTreeViewer consoleMaskViewer;
 	private CheckboxTreeViewer fileMaskViewer;

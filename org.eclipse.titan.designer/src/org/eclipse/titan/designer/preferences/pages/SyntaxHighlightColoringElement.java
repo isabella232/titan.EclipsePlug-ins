@@ -15,8 +15,8 @@ package org.eclipse.titan.designer.preferences.pages;
  */
 final class SyntaxHighlightColoringElement implements ISyntaxHighlightTreeElement {
 	private ISyntaxHighlightTreeElement parent;
-	private String name;
-	private String basePreferenceKey;
+	private final String name;
+	private final String basePreferenceKey;
 	private String words;
 
 	public SyntaxHighlightColoringElement(final String name, final String key) {

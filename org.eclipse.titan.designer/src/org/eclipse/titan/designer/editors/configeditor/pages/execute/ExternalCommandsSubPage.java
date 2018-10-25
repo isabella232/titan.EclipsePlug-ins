@@ -42,7 +42,7 @@ public final class ExternalCommandsSubPage {
 	private Text endControlPartText;
 	private Text endTestCaseText;
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ExternalCommandSectionHandler executeCommandSectionHandler;
 	private boolean valueChanged = false;
 

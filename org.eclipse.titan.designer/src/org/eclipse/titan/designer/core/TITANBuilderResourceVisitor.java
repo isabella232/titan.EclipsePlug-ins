@@ -54,7 +54,7 @@ public final class TITANBuilderResourceVisitor implements IResourceVisitor {
 	private final Map<String, IFile> excludedFiles = new HashMap<String, IFile>();
 	private final Map<String, IFile> files = new HashMap<String, IFile>();
 
-	private ResourceExclusionHelper helper;
+	private final ResourceExclusionHelper helper;
 
 	public TITANBuilderResourceVisitor(final IContainer[] workingDirectories) {
 		this.workingDirectories = workingDirectories;

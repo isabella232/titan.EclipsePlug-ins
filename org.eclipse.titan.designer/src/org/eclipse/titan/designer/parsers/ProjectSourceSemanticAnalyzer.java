@@ -62,27 +62,27 @@ public class ProjectSourceSemanticAnalyzer {
 	 * file to Module map received from the syntax analysis.
 	 * Serves as the main/reliable source of information.
 	 * */
-	private Map<IFile, Module> fileModuleMap;
+	private final Map<IFile, Module> fileModuleMap;
 
 	/**
 	 * module name to module mapping to speed up searching in the list of uptodate modules.
 	 *
 	 * Calculated during semantic check, maintained in-between semantic checks.
 	 * */
-	private Map<String, Module> moduleMap;
+	private final Map<String, Module> moduleMap;
 	/**
 	 * module name to module mapping to speed up searching in the list of outdated modules.
 	 *
 	 * Cleared during semantic check, maintained in-between semantic checks.
 	 * */
-	private Map<String, Module> outdatedModuleMap;
+	private final Map<String, Module> outdatedModuleMap;
 
 	/**
 	 * The names of the modules, which were checked at the last semantic check.
 	 *
 	 * Caculated during the semantic check, maintained in-between semantic checks.
 	 * */
-	private Set<String> semanticallyUptodateModules;
+	private final Set<String> semanticallyUptodateModules;
 
 	public ProjectSourceSemanticAnalyzer() {
 

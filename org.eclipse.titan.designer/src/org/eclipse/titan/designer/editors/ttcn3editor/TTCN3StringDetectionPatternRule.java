@@ -34,7 +34,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	private static final int UNDEFINED = -1;
 
 	/** The token to be returned on success. */
-	private IToken fToken;
+	private final IToken fToken;
 	/** The pattern's column constrain. */
 	private int fColumn = UNDEFINED;
 
@@ -42,7 +42,7 @@ public class TTCN3StringDetectionPatternRule implements IPredicateRule {
 	 * Line delimiter comparator which orders according to decreasing
 	 * delimiter length.
 	 */
-	private Comparator<char[]> fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
+	private final Comparator<char[]> fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
 	/** Cached line delimiters. */
 	private char[][] fLineDelimiters;
 	/** Cached sorted {@linkplain #fLineDelimiters}. */

@@ -73,18 +73,18 @@ import org.eclipse.ui.progress.IProgressConstants;
 public final class ProjectConfigurationParser {
 	private static final String SOURCE_ANALYSING = "Analysing the config file";
 	private static final String PARSING = "parsing";
-	private IProject project;
-	private Map<IFile, String> uptodateFiles;
-	private Set<IFile> highlySyntaxErroneousFiles;
-	private Map<IFile, String> fileMap;
-	private Map<String, CfgDefinitionInformation> definitions;
+	private final IProject project;
+	private final Map<IFile, String> uptodateFiles;
+	private final Set<IFile> highlySyntaxErroneousFiles;
+	private final Map<IFile, String> fileMap;
+	private final Map<String, CfgDefinitionInformation> definitions;
 
 	/**
 	 * Counts how many parallel analyzer threads are running. Should not be
 	 * more than 2. It can be 2 if there were changes while the existing
 	 * analyzes run, which have to be checked by a subsequent check.
 	 * */
-	private AtomicInteger analyzersRunning = new AtomicInteger();
+	private final AtomicInteger analyzersRunning = new AtomicInteger();
 	// The workspacejob of the last registered full analysis. External users
 	// might need this to synchronize to.
 	private volatile WorkspaceJob lastAnalyzes = null;

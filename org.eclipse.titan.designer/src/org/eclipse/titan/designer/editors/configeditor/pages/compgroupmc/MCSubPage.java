@@ -41,7 +41,7 @@ public final class MCSubPage {
 	private Text numHCsText;
 	private CCombo unixDomainSocketText;
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private MCSectionHandler mcSectionHandler;
 	private boolean valueChanged = false;
 

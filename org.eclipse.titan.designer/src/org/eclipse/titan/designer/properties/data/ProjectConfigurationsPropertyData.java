@@ -36,7 +36,7 @@ public class ProjectConfigurationsPropertyData {
 	public static final String CONFIGURATION_REQUIREMENTS_NODE = "ConfigurationRequirements";
 
 	public static class ConfigurationRequirement {
-		private String projectName;
+		private final String projectName;
 		private String configuration;
 
 		public ConfigurationRequirement(final String projectName, final String configuration) {

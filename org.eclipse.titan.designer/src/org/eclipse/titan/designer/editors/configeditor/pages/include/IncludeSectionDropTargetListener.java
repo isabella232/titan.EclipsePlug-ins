@@ -22,8 +22,8 @@ import org.eclipse.titan.designer.editors.configeditor.ConfigEditor;
  */
 public final class IncludeSectionDropTargetListener implements DropTargetListener {
 
-	private TableViewer viewer;
-	private ConfigEditor editor;
+	private final TableViewer viewer;
+	private final ConfigEditor editor;
 
 	public IncludeSectionDropTargetListener(final TableViewer viewer, final ConfigEditor editor) {
 		this.viewer = viewer;

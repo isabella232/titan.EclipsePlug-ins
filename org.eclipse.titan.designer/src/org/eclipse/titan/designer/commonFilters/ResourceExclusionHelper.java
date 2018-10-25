@@ -40,7 +40,7 @@ public final class ResourceExclusionHelper {
 	public static final QualifiedName EXCLUDED_FOLDER_QUALIFIER = new QualifiedName(FolderBuildPropertyData.QUALIFIER,
 			FolderBuildPropertyData.EXCLUDE_FROM_BUILD_PROPERTY);
 
-	private List<Matcher> matchers;
+	private final List<Matcher> matchers;
 
 	public ResourceExclusionHelper() {
 		this.matchers = new ArrayList<Matcher>();

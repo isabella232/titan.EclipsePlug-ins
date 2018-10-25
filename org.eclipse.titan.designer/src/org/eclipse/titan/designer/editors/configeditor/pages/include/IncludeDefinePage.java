@@ -26,10 +26,10 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * */
 public final class IncludeDefinePage extends FormPage {
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ScrolledForm form;
-	private IncludeSubPage includeSubPage;
-	private DefineSubPage defineSubPage;
+	private final IncludeSubPage includeSubPage;
+	private final DefineSubPage defineSubPage;
 
 	public IncludeDefinePage(final ConfigEditor editor) {
 		super(editor, "Include_Define_section_page", "Include and Define");

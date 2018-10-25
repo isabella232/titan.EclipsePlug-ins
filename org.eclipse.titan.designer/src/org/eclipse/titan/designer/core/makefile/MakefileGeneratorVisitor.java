@@ -52,7 +52,7 @@ public final class MakefileGeneratorVisitor implements IResourceVisitor {
 	private final String actualWorkingDirectory;
 	private final List<URI> centralStorages = new ArrayList<URI>();
 
-	private ResourceExclusionHelper helper;
+	private final ResourceExclusionHelper helper;
 
 	public MakefileGeneratorVisitor(final InternalMakefileGenerator makefileGenerator, final IProject project) {
 		this.makefileGenerator = makefileGenerator;

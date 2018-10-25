@@ -44,7 +44,7 @@ public final class ConfigEditor extends FormEditor implements IResourceChangeLis
 
 	private static final boolean CONFIG_EDITOR_TABS_VISIBLE = true;
 
-	private ConfigTextEditor editor;
+	private final ConfigTextEditor editor;
 
 	private int editorPageIndex;
 	private boolean isDirty = false;

@@ -28,11 +28,11 @@ import org.eclipse.titan.designer.productUtilities.ProductConstants;
  * */
 public class ReferenceSearchQuery implements ISearchQuery {
 
-	private ReferenceSearchResult result;
+	private final ReferenceSearchResult result;
 
-	private Module module;
-	private IProject project;
-	private ReferenceFinder referenceFinder;
+	private final Module module;
+	private final IProject project;
+	private final ReferenceFinder referenceFinder;
 
 	public ReferenceSearchQuery(final ReferenceFinder rf, final Module module, final IProject project) {
 		this.result = new ReferenceSearchResult(this);

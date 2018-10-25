@@ -30,7 +30,7 @@ public class NewPluginDialog extends Dialog {
 	static final Pattern NAME_PATTERN = Pattern.compile("[A-Za-z][0-9A-Za-z_]*");
 	static final Pattern PATH_PATTERN = Pattern.compile("[^\"]*");
 
-	private Set<String> namesTaken;
+	private final Set<String> namesTaken;
 	private Text nameText;
 	private Text pathText;
 	private Label errorLabel;

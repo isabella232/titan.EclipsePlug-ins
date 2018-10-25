@@ -63,7 +63,7 @@ public final class GroupsSubPage {
 	private Button addItem;
 	private Button removeItem;
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private GroupSectionHandler groupSectionHandler;
 	private Group selectedGroup;
 

@@ -74,10 +74,10 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 	private Composite remoteHostEditComposite;
 	private Button editHostButton;
 
-	private Image[] images = { ImageCache.getImageDescriptor("host.gif").createImage(),
+	private final Image[] images = { ImageCache.getImageDescriptor("host.gif").createImage(),
 			ImageCache.getImageDescriptor("question.gif").createImage() };
 
-	private ColumnLayoutData[] hostTableColumnLayouts = { new ColumnWeightData(40), new ColumnWeightData(60), };
+	private final ColumnLayoutData[] hostTableColumnLayouts = { new ColumnWeightData(40), new ColumnWeightData(60), };
 
 	private static class ConfigurationsContentProvider implements IStructuredContentProvider {
 		@Override
@@ -144,7 +144,7 @@ public class ProjectConfigurationsPropertyPage extends PropertyPage {
 	}
 
 	class ConfigurationSelectionDialog extends Dialog {
-		private String projectName;
+		private final String projectName;
 		private String configuration;
 
 		private Combo combo;

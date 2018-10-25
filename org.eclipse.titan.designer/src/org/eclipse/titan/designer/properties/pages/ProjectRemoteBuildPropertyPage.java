@@ -72,10 +72,10 @@ public final class ProjectRemoteBuildPropertyPage extends PropertyPage {
 	private Button copyHostButton;
 	private Button removeHostButton;
 
-	private Image[] images = { ImageCache.getImageDescriptor("question.gif").createImage(),
+	private final Image[] images = { ImageCache.getImageDescriptor("question.gif").createImage(),
 			ImageCache.getImageDescriptor("host.gif").createImage(), ImageCache.getImageDescriptor("command.gif").createImage() };
 
-	private ColumnLayoutData[] hostTableColumnLayouts = { new ColumnWeightData(10), new ColumnWeightData(30), new ColumnWeightData(60), };
+	private final ColumnLayoutData[] hostTableColumnLayouts = { new ColumnWeightData(10), new ColumnWeightData(30), new ColumnWeightData(60), };
 
 	private static class RemoteBuildContentProvider implements IStructuredContentProvider {
 		@Override

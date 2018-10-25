@@ -34,7 +34,7 @@ import org.eclipse.ui.views.contentoutline.ContentOutlinePage;
  * @author Kristof Szabados
  * */
 public final class OutlinePage extends ContentOutlinePage {
-	private ASN1Editor editor;
+	private final ASN1Editor editor;
 	private TreeViewer viewer;
 
 	public OutlinePage(final ASN1Editor editor) {

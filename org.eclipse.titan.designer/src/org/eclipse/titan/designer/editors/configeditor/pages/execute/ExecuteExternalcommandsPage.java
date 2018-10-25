@@ -27,11 +27,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * */
 public final class ExecuteExternalcommandsPage extends FormPage {
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ScrolledForm form;
 
-	private ExternalCommandsSubPage externalCommandsSubPage;
-	private ExecuteSubPage executeSubPage;
+	private final ExternalCommandsSubPage externalCommandsSubPage;
+	private final ExecuteSubPage executeSubPage;
 
 	public ExecuteExternalcommandsPage(final ConfigEditor editor) {
 		super(editor, "Execute_Externalcommands_section_page", "Execute and External commands");

@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.ComponentSectionHandler.Comp
  * */
 public final class ComponentSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private ComponentsSubPage componentsSubPage;
+	private final TableViewer viewer;
+	private final ComponentsSubPage componentsSubPage;
 
 	public ComponentSectionDragSourceListener(final ComponentsSubPage componentsSubPage, final TableViewer viewer) {
 		this.componentsSubPage = componentsSubPage;

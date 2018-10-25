@@ -53,7 +53,7 @@ public final class IncludeSubPage {
 	private Table includeElementsTable;
 	private TableViewer includeElementsTableViewer;
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private IncludeSectionHandler includeSectionHandler;
 	private Button add;
 	private Button remove;

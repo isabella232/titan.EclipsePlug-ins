@@ -64,10 +64,10 @@ public final class TestportParametersSectionPage extends FormPage {
 	private Button add;
 	private Button remove;
 
-	private String[] columnNames = new String[] { "componentName", "testportName", "parameterName" };
+	private final String[] columnNames = new String[] { "componentName", "testportName", "parameterName" };
 
 	private ScrolledForm form;
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private Text parameterValueText;
 
 	private boolean valueChanged = false;

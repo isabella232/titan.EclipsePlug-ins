@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.DefineSectionHandler.Definit
  * */
 public final class DefineSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private DefineSubPage defineSubPage;
+	private final TableViewer viewer;
+	private final DefineSubPage defineSubPage;
 
 	public DefineSectionDragSourceListener(final DefineSubPage defineSubPage, final TableViewer viewer) {
 		this.defineSubPage = defineSubPage;

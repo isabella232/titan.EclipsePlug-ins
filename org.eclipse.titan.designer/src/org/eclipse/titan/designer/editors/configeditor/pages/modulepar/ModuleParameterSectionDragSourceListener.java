@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.ModuleParameterSectionHandle
  * */
 public final class ModuleParameterSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private ModuleParameterSectionPage moduleParSubPage;
+	private final TableViewer viewer;
+	private final ModuleParameterSectionPage moduleParSubPage;
 
 	public ModuleParameterSectionDragSourceListener(final ModuleParameterSectionPage moduleParSubPage, final TableViewer viewer) {
 		this.moduleParSubPage = moduleParSubPage;

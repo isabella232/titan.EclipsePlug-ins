@@ -57,7 +57,7 @@ public final class ComponentsSubPage {
 
 	private static final String[] COLUMN_NAMES = new String[] { "componentName", "hostName" };
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ComponentSectionHandler componentsSectionHandler;
 
 	public ComponentsSubPage(final ConfigEditor editor) {

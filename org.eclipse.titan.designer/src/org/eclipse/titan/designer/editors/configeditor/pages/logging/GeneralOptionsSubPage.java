@@ -65,8 +65,8 @@ public final class GeneralOptionsSubPage {
 	private Button removePluginParameter;
 	private Button editPluginParameter;
 
-	private ConfigEditor editor;
-	private LoggingPage loggingPage;
+	private final ConfigEditor editor;
+	private final LoggingPage loggingPage;
 	private LoggingSectionHandler loggingSectionHandler;
 	private LogParamEntry selectedLogEntry;
 	private boolean valueChanged = false;

@@ -28,11 +28,11 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
  * */
 public final class ComponentsGroupsMCPage extends FormPage {
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ScrolledForm form;
-	private ComponentsSubPage componentsSubPage;
-	private GroupsSubPage groupsSubPage;
-	private MCSubPage mcsubPage;
+	private final ComponentsSubPage componentsSubPage;
+	private final GroupsSubPage groupsSubPage;
+	private final MCSubPage mcsubPage;
 
 	public ComponentsGroupsMCPage(final ConfigEditor editor) {
 		super(editor, "Components_Groups_MainController_section_page", "Components, Groups and Main Controller");

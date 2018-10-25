@@ -76,14 +76,14 @@ public final class ProjectSourceSyntacticAnalyzer {
 	private final ProjectSourceParser sourceParser;
 
 	// file, module name
-	private Map<IFile, String> uptodateFiles;
+	private final Map<IFile, String> uptodateFiles;
 	// file : these are parsed, but contain such errors that we can not
 	// determine even the module.
-	private Set<IFile> highlySyntaxErroneousFiles;
+	private final Set<IFile> highlySyntaxErroneousFiles;
 	// file, module name might be outdated
-	private Map<IFile, String> fileMap;
+	private final Map<IFile, String> fileMap;
 	// include files
-	private Map<String, IFile> includeFileMap;
+	private final Map<String, IFile> includeFileMap;
 	Map<IFile, List<TITANMarker>> unsupportedConstructMap;
 
 	private volatile boolean syntacticallyOutdated = true;
@@ -96,11 +96,11 @@ public final class ProjectSourceSyntacticAnalyzer {
 	 * order.
 	 * */
 	static final class TemporalParseData {
-		private Module module;
-		private IFile file;
-		private List<TITANMarker> unsupportedConstructs;
-		private boolean hadParseErrors;
-		private IDocument document;
+		private final Module module;
+		private final IFile file;
+		private final List<TITANMarker> unsupportedConstructs;
+		private final boolean hadParseErrors;
+		private final IDocument document;
 
 		public TemporalParseData(final Module module, final IFile file, final List<TITANMarker> unsupportedConstructs,
 				final boolean hadParseErrors, final IDocument document) {

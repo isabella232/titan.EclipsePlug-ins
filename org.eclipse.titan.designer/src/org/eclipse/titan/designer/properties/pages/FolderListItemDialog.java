@@ -22,8 +22,8 @@ import org.eclipse.titan.common.fieldeditors.TITANResourceLocator;
  * */
 public class FolderListItemDialog extends Dialog {
 
-	private String title;
-	private String itemKind;
+	private final String title;
+	private final String itemKind;
 	private String item;
 	private final String basePath;
 	private TITANResourceLocator itemText;

@@ -24,8 +24,8 @@ import org.eclipse.swt.dnd.DragSourceListener;
  */
 public final class IncludeSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private IncludeSubPage includeSubPage;
+	private final TableViewer viewer;
+	private final IncludeSubPage includeSubPage;
 
 	public IncludeSectionDragSourceListener(final IncludeSubPage includeSubPage, final TableViewer viewer) {
 		this.includeSubPage = includeSubPage;

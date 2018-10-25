@@ -50,7 +50,7 @@ public final class License {
 	private int[] versionTo = new int[3];
 	private List<String> languageList = new ArrayList<String>();
 	private List<String> encoderList = new ArrayList<String>();
-	private List<String> applicationList = new ArrayList<String>();
+	private final List<String> applicationList = new ArrayList<String>();
 	private String limitationType = "N/A";
 	private int maxPTCs;
 	private boolean isValid = false;

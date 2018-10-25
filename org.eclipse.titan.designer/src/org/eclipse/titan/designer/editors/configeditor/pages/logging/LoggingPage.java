@@ -33,12 +33,12 @@ import org.eclipse.ui.forms.widgets.ScrolledForm;
 public final class LoggingPage extends FormPage {
 
 	private ScrolledForm form;
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private LoggingSectionHandler loggingSectionHandler;
 
-	private GeneralOptionsSubPage generalOptions;
-	private LoggingTreeSubPage componentpluginSection;
-	private LoggingBitsSubPage loggingBitsSubPage;
+	private final GeneralOptionsSubPage generalOptions;
+	private final LoggingTreeSubPage componentpluginSection;
+	private final LoggingBitsSubPage loggingBitsSubPage;
 
 	public LoggingPage(final ConfigEditor editor) {
 		super(editor, "Logging", "Logging");

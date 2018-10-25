@@ -24,7 +24,7 @@ import org.eclipse.ui.texteditor.MarkerAnnotation;
  * @author Arpad Lovassy
  */
 public final class TextHover implements ITextHover {
-	private ISourceViewer sourceViewer;
+	private final ISourceViewer sourceViewer;
 
 	public TextHover(final ISourceViewer sourceViewer) {
 		this.sourceViewer = sourceViewer;

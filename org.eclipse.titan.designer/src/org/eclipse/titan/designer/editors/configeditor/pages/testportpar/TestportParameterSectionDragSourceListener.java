@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.TestportParameterSectionHand
  * */
 public final class TestportParameterSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private TestportParametersSectionPage testportParSubPage;
+	private final TableViewer viewer;
+	private final TestportParametersSectionPage testportParSubPage;
 
 	public TestportParameterSectionDragSourceListener(final TestportParametersSectionPage testportParSubPage, final TableViewer viewer) {
 		this.testportParSubPage = testportParSubPage;

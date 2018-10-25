@@ -23,8 +23,8 @@ import org.eclipse.titan.common.parsers.cfg.indices.ExecuteSectionHandler.Execut
  * */
 public final class ExecuteSectionDragSourceListener implements DragSourceListener {
 
-	private TableViewer viewer;
-	private ExecuteSubPage executeSubPage;
+	private final TableViewer viewer;
+	private final ExecuteSubPage executeSubPage;
 
 	public ExecuteSectionDragSourceListener(final ExecuteSubPage executeSubPage, final TableViewer viewer) {
 		this.executeSubPage = executeSubPage;

@@ -30,7 +30,7 @@ import org.eclipse.swt.widgets.Text;
 public class RegexpEntryDialog extends Dialog {
 	private static final String TITLE = "Regular expression";
 
-	private String title;
+	private final String title;
 	private String entry;
 	private Label entryLabel;
 	private Text entryText;

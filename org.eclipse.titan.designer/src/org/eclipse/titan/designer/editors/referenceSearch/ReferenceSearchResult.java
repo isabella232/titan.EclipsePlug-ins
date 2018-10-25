@@ -24,7 +24,7 @@ public class ReferenceSearchResult extends AbstractTextSearchResult implements I
 
 	private static final String ICON_SEARCH = "search.gif";
 
-	private ReferenceSearchQuery query;
+	private final ReferenceSearchQuery query;
 
 	public ReferenceSearchResult(final ReferenceSearchQuery query) {
 		super();

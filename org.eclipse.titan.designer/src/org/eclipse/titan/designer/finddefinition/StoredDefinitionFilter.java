@@ -47,11 +47,11 @@ public final class StoredDefinitionFilter {
 		this.currentProject = currentProject; 
 	}
 
-	private SubscribedBoolean functions;
-	private SubscribedBoolean types;
-	private SubscribedBoolean modules;
-	private SubscribedBoolean globalVariables;
-	private SubscribedBoolean workspaceScope;
+	private final SubscribedBoolean functions;
+	private final SubscribedBoolean types;
+	private final SubscribedBoolean modules;
+	private final SubscribedBoolean globalVariables;
+	private final SubscribedBoolean workspaceScope;
 
 	public static StoredDefinitionFilter getInstance(final IProject currentProject) {
 		if (instance == null) {

@@ -44,7 +44,7 @@ public final class ReferencedProjectResourceVisitor implements IResourceVisitor 
 	private final Map<String, IFile> excludedFiles = new HashMap<String, IFile>();
 	private final Map<String, IFile> files = new HashMap<String, IFile>();
 
-	private ResourceExclusionHelper helper;
+	private final ResourceExclusionHelper helper;
 
 	public ReferencedProjectResourceVisitor(final IContainer[] workingDirectories, final IPath workingDirectoryPath) {
 		this.workingDirectories = workingDirectories;

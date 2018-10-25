@@ -60,7 +60,7 @@ public final class ExecuteSubPage {
 
 	private static final String[] COLUMN_NAMES = new String[] { "moduleName", "testcaseName" };
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private ExecuteSectionHandler executeSectionHandler;
 
 	public ExecuteSubPage(final ConfigEditor editor) {

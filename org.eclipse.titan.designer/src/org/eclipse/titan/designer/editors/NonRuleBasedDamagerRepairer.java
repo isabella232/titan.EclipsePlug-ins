@@ -27,7 +27,7 @@ public final class NonRuleBasedDamagerRepairer implements IPresentationDamager, 
 
 	private IDocument fDocument;
 
-	private TextAttribute fDefaultTextAttribute;
+	private final TextAttribute fDefaultTextAttribute;
 
 	public NonRuleBasedDamagerRepairer(final TextAttribute defaultTextAttribute) {
 		fDefaultTextAttribute = defaultTextAttribute;

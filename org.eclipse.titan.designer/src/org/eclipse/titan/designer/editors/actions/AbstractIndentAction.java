@@ -38,7 +38,7 @@ public abstract class AbstractIndentAction extends AbstractHandler implements IE
 	private ISelection selection = TextSelection.emptySelection();
 
 	private MultiTextEdit multiEdit;
-	private List<String> indentArray = new ArrayList<String>();
+	private final List<String> indentArray = new ArrayList<String>();
 
 	@Override
 	public final void run(final IAction action) {

@@ -34,7 +34,7 @@ public final class DecoratorVisitor implements IResourceVisitor {
 	private boolean hasCentralStorage = false;
 	private boolean hasPreprocessable = false;
 
-	private QualifiedName centralStorageQualifier = new QualifiedName(FolderBuildPropertyData.QUALIFIER,
+	private final QualifiedName centralStorageQualifier = new QualifiedName(FolderBuildPropertyData.QUALIFIER,
 			FolderBuildPropertyData.CENTRAL_STORAGE_PROPERTY);
 
 	@Override

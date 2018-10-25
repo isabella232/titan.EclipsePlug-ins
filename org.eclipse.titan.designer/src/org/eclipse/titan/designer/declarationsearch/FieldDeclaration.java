@@ -20,8 +20,8 @@ import org.eclipse.titan.designer.AST.ReferenceFinder.Hit;
  * @author Szabolcs Beres
  * */
 class FieldDeclaration extends Declaration {
-	private Assignment ass;
-	private Identifier fieldId;
+	private final Assignment ass;
+	private final Identifier fieldId;
 
 	public FieldDeclaration(final Assignment ass, final Identifier id) {
 		this.ass = ass;

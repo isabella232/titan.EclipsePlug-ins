@@ -61,7 +61,7 @@ public final class StringDetectionPatternRule implements IPredicateRule {
 	 * Line delimiter comparator which orders according to decreasing
 	 * delimiter length.
 	 */
-	private Comparator<char[]> fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
+	private final Comparator<char[]> fLineDelimiterComparator = new DecreasingCharArrayLengthComparator();
 	/** Cached line delimiters. */
 	private char[][] fLineDelimiters;
 	/** Cached sorted {@linkplain #fLineDelimiters}. */

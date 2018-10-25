@@ -58,7 +58,7 @@ public final class DefineSubPage {
 
 	private static final String[] COLUMN_NAMES = new String[] { "definitionName", "definitionValue" };
 
-	private ConfigEditor editor;
+	private final ConfigEditor editor;
 	private DefineSectionHandler defineSectionHandler;
 
 	public DefineSubPage(final ConfigEditor editor) {
