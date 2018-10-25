@@ -252,7 +252,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateConstructor( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName ) {
-		aSb.append( "\n" );
+		aSb.append( '\n' );
 		aSb.append( MessageFormat.format( "\t\tpublic {0}() '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			if (fi.isOptional) {
@@ -280,7 +280,7 @@ public final class RecordSetCodeGenerator {
 			return;
 		}
 
-		aSb.append( "\n" );
+		aSb.append( '\n' );
 		aSb.append( MessageFormat.format( "\t\tpublic {0}(", aClassName ) );
 		boolean first = true;
 		for ( final FieldInfo fi : aNamesList ) {
@@ -320,7 +320,7 @@ public final class RecordSetCodeGenerator {
 	 * @param displayName the user readable name of the type to be generated.
 	 */
 	private static void generateConstructorCopy( final StringBuilder aSb, final List<FieldInfo> aNamesList, final String aClassName, final String displayName ) {
-		aSb.append( "\n" );
+		aSb.append( '\n' );
 		aSb.append( MessageFormat.format( "\t\tpublic {0}( final {0} otherValue) '{'\n", aClassName ) );
 		aSb.append( "\t\t\tif(!otherValue.isBound()) {\n" );
 		aSb.append( MessageFormat.format( "\t\t\t\tthrow new TtcnError(\"Copying of an unbound value of type {0}.\");\n", displayName ) );
@@ -1452,7 +1452,7 @@ public final class RecordSetCodeGenerator {
 	 */
 	private static void generateOperatorEquals( final StringBuilder aSb, final List<FieldInfo> aNamesList,
 			final String aClassName, final String classReadableName ) {
-		aSb.append( "\n" );
+		aSb.append( '\n' );
 		aSb.append( MessageFormat.format( "\t\tpublic boolean operatorEquals( final {0} otherValue) '{'\n", aClassName ) );
 		for ( final FieldInfo fi : aNamesList ) {
 			aSb.append( MessageFormat.format( "\t\t\tif ( !this.{0}.operatorEquals( otherValue.{0} ) ) '{' return false; '}'\n", fi.mVarName ) );
