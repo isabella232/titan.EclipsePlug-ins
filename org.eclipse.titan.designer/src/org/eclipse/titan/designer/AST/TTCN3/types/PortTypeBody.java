@@ -136,9 +136,9 @@ public final class PortTypeBody extends ASTNode implements ILocateableNode, IInc
 	private TypeSet inSignatures;
 	private TypeSet outSignatures;
 
-	private ArrayList<Reference> providerReferences = new ArrayList<Reference>();
-	private ArrayList<Port_Type> providerTypes = new ArrayList<Port_Type>();
-	private ArrayList<IType> mapperTypes = new ArrayList<IType>();
+	private final ArrayList<Reference> providerReferences = new ArrayList<Reference>();
+	private final ArrayList<Port_Type> providerTypes = new ArrayList<Port_Type>();
+	private final ArrayList<IType> mapperTypes = new ArrayList<IType>();
 	private TypeMappings inMappings;
 	private TypeMappings outMappings;
 

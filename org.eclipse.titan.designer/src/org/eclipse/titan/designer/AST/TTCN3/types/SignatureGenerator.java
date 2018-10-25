@@ -17,16 +17,16 @@ public final class SignatureGenerator {
 	enum signatureParamaterDirection {PAR_IN, PAR_OUT, PAR_INOUT};
 
 	public static class SignatureParameter {
-		private signatureParamaterDirection direction;
+		private final signatureParamaterDirection direction;
 
 		/** Java type name of the parameter */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the parameter */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** Parameter name */
-		private String mJavaName;
+		private final String mJavaName;
 
 		public SignatureParameter(final signatureParamaterDirection direction, final String paramType, final String paramTemplate, final String paramName) {
 			this.direction = direction;
@@ -38,10 +38,10 @@ public final class SignatureGenerator {
 
 	public static class SignatureReturnType {
 		/** Java type name of the return type */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the return type */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		public SignatureReturnType(final String paramType, final String paramTemplate) {
 			mJavaTypeName = paramType;
@@ -51,13 +51,13 @@ public final class SignatureGenerator {
 
 	public static class SignatureException {
 		/** Java type name of the exception */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template name of the exception */
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** The name to be displayed for the user */
-		private String mDisplayName;
+		private final String mDisplayName;
 
 		public SignatureException(final String paramType, final String paramTemplate, final String displayName) {
 			mJavaTypeName = paramType;
@@ -67,12 +67,12 @@ public final class SignatureGenerator {
 	}
 
 	public static class SignatureDefinition {
-		private String genName;
-		private String displayName;
-		private ArrayList<SignatureParameter> formalParameters;
-		private SignatureReturnType returnType;
-		private boolean isNoBlock;
-		private ArrayList<SignatureException> signatureExceptions;
+		private final String genName;
+		private final String displayName;
+		private final ArrayList<SignatureParameter> formalParameters;
+		private final SignatureReturnType returnType;
+		private final boolean isNoBlock;
+		private final ArrayList<SignatureException> signatureExceptions;
 
 		public SignatureDefinition(final String genName, final String displayName, final ArrayList<SignatureParameter> formalParameters, final SignatureReturnType returnType, final boolean isNoBlock, final ArrayList<SignatureException> signatureExceptions) {
 			this.genName = genName;

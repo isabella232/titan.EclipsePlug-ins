@@ -33,28 +33,28 @@ public final class RecordSetCodeGenerator {
 	public static class FieldInfo {
 
 		/** Java type name of the field */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
 		/** Java template type name of the field */
-		private String mJavaTemplateTypeName;
+		private final String mJavaTemplateTypeName;
 
 		/** Field variable name in TTCN-3 and java */
-		private String mVarName;
+		private final String mVarName;
 
 		/** The user readable name of the field, typically used in error messages */
-		private String mDisplayName;
+		private final String mDisplayName;
 
-		private boolean isOptional;
+		private final boolean isOptional;
 
-		private boolean ofType;//TODO check if this is really neded here
+		private final boolean ofType;//TODO check if this is really neded here
 
 		/** Field variable name in java getter/setter function names and parameters */
-		private String mJavaVarName;
+		private final String mJavaVarName;
 
 		/** Java AST type name (for debug purposes) */
-		private String mTTCN3TypeName;
+		private final String mTTCN3TypeName;
 	
-		private String mTypeDescriptorName;
+		private final String mTypeDescriptorName;
 
 		public boolean hasRaw;
 		public RawASTStruct raw;

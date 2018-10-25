@@ -40,7 +40,7 @@ import org.eclipse.titan.designer.parsers.CompilationTimeStamp;
  * */
 public class RefdSpec_Type extends ASN1Type implements IReferencingType {
 
-	private IType refdType;
+	private final IType refdType;
 	private boolean componentInternal;
 
 	public RefdSpec_Type(final IType type) {

@@ -28,20 +28,20 @@ public final class UnionGenerator {
 	public static class FieldInfo {
 
 		/** Java type name of the field */
-		private String mJavaTypeName;
+		private final String mJavaTypeName;
 
-		private String mJavaTemplateName;
+		private final String mJavaTemplateName;
 
 		/** Field variable name in TTCN-3 and java */
-		private String mVarName;
+		private final String mVarName;
 
 		/** The user readable name of the field, typically used in error messages */
-		private String mDisplayName;
+		private final String mDisplayName;
 
 		/** Field variable name in java getter/setter function names and parameters */
-		private String mJavaVarName;
+		private final String mJavaVarName;
 
-		private String mTypeDescriptorName;
+		private final String mTypeDescriptorName;
 
 		/**
 		 * @param fieldType the string representing the value type of this field in the generated code.

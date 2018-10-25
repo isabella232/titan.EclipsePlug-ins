@@ -101,7 +101,7 @@ public final class FormalParameter extends Definition {
 	private boolean usedAsLValue;
 	private final TemplateRestriction.Restriction_type templateRestriction;
 	private FormalParameterList myParameterList;
-	private parameterEvaluationType evaluationType;
+	private final parameterEvaluationType evaluationType;
 
 	private boolean wasAssigned;
 

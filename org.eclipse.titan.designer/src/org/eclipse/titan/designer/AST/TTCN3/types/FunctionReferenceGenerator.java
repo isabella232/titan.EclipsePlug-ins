@@ -24,8 +24,8 @@ public final class FunctionReferenceGenerator {
 	enum fatType {FUNCTION, ALTSTEP, TESTCASE};
 
 	public static class FunctionReferenceDefinition {
-		private String genName;
-		private String displayName;
+		private final String genName;
+		private final String displayName;
 		public String returnType;
 		public fatType type;
 		public boolean runsOnSelf;

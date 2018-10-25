@@ -73,7 +73,7 @@ public final class Def_Var extends Definition {
 	/**
 	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private parameterEvaluationType evaluationType;
+	private final parameterEvaluationType evaluationType;
 
 	public Def_Var( final Identifier identifier, final Type type, final Value initialValue, final parameterEvaluationType evaluationType ) {
 		super(identifier);

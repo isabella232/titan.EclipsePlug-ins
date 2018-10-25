@@ -128,7 +128,7 @@ public final class Def_Template extends Definition implements IParameterisedAssi
 	/**
 	 * normal, lazy or fuzzy evaluation should be used.
 	 */
-	private parameterEvaluationType evaluationType;
+	private final parameterEvaluationType evaluationType;
 
 	public Def_Template( final TemplateRestriction.Restriction_type templateRestriction,
 			final Identifier identifier,

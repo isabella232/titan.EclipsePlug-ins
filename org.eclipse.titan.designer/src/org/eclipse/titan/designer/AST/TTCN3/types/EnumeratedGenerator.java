@@ -23,10 +23,10 @@ public final class EnumeratedGenerator {
 	private static final String UNBOUND_VALUE ="UNBOUND_VALUE";
 
 	public static class Enum_field {
-		private String name;
-		private String displayName;
+		private final String name;
+		private final String displayName;
 
-		private long value;
+		private final long value;
 
 		public Enum_field(final String aName, final String aDisplayName, final long aValue) {
 			name = aName;
@@ -36,11 +36,11 @@ public final class EnumeratedGenerator {
 	}
 
 	public static class Enum_Defs {
-		private List<Enum_field> items;
-		private String name;
-		private String displayName;
-		private String templateName;
-		private boolean hasRaw;
+		private final List<Enum_field> items;
+		private final String name;
+		private final String displayName;
+		private final String templateName;
+		private final boolean hasRaw;
 		private long firstUnused = -1;  //first unused value for this enum type
 		private long secondUnused = -1; //second unused value for this enum type
 

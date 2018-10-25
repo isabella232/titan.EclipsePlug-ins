@@ -40,7 +40,7 @@ public final class Altstep_Applied_Statement extends Statement {
 	private final Value dereferredValue;
 	private final ParsedActualParameters actualParameterList;
 
-	private ActualParameterList actualParameterList2;
+	private final ActualParameterList actualParameterList2;
 
 	public Altstep_Applied_Statement(final Value dereferredValue, final ParsedActualParameters actualParameterList, final ActualParameterList actualParameterList2) {
 		this.dereferredValue = dereferredValue;
