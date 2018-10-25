@@ -28,46 +28,46 @@ public class TitanCharacter_String extends Base_Type {
 	private final TitanOctetString string__value; //OctetString_Type
 
 	public TitanCharacter_String() {
-		identification = new TitanCharacter_String_identification();
-		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		string__value = new TitanOctetString();
+		this.identification = new TitanCharacter_String_identification();
+		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
+		this.string__value = new TitanOctetString();
 	}
 
-	public TitanCharacter_String( final TitanCharacter_String_identification aidentification, final Optional<TitanUniversalCharString> adata__value__descriptor, final TitanOctetString astring__value ) {
-		identification = new TitanCharacter_String_identification( aidentification );
-		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		this.data__value__descriptor.assign( adata__value__descriptor );
-		string__value = new TitanOctetString( astring__value );
+	public TitanCharacter_String(final TitanCharacter_String_identification identification, final Optional<TitanUniversalCharString> data__value__descriptor, final TitanOctetString string__value ) {
+		this.identification = new TitanCharacter_String_identification( identification );
+		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
+		this.data__value__descriptor.assign( data__value__descriptor );
+		this.string__value = new TitanOctetString( string__value );
 	}
 
-	public TitanCharacter_String( final TitanCharacter_String aOtherValue ) {
-		if(!aOtherValue.isBound()) {
+	public TitanCharacter_String( final TitanCharacter_String otherValue) {
+		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.");
 		}
 		identification = new TitanCharacter_String_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		string__value = new TitanOctetString();
-		assign( aOtherValue );
+		assign( otherValue );
 	}
 
-	public TitanCharacter_String assign(final TitanCharacter_String aOtherValue ) {
-		if ( !aOtherValue.isBound() ) {
+	public TitanCharacter_String assign(final TitanCharacter_String otherValue ) {
+		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING");
 		}
 
-		if (aOtherValue != this) {
-			if ( aOtherValue.getidentification().isBound() ) {
-				this.identification.assign( aOtherValue.getidentification() );
+		if (otherValue != this) {
+			if ( otherValue.getidentification().isBound() ) {
+				this.identification.assign( otherValue.getidentification() );
 			} else {
 				this.identification.cleanUp();
 			}
-			if ( aOtherValue.getdata__value__descriptor().isBound() ) {
-				this.data__value__descriptor.assign( aOtherValue.getdata__value__descriptor() );
+			if ( otherValue.getdata__value__descriptor().isBound() ) {
+				this.data__value__descriptor.assign( otherValue.getdata__value__descriptor() );
 			} else {
 				this.data__value__descriptor.cleanUp();
 			}
-			if ( aOtherValue.getstring__value().isBound() ) {
-				this.string__value.assign( aOtherValue.getstring__value() );
+			if ( otherValue.getstring__value().isBound() ) {
+				this.string__value.assign( otherValue.getstring__value() );
 			} else {
 				this.string__value.cleanUp();
 			}
@@ -112,10 +112,10 @@ public class TitanCharacter_String extends Base_Type {
 		return true;
 	}
 
-	public boolean operatorEquals( final TitanCharacter_String aOtherValue ) {
-		if ( !this.identification.operatorEquals( aOtherValue.identification ) ) { return false; }
-		if ( !this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor ) ) { return false; }
-		if ( !this.string__value.operatorEquals( aOtherValue.string__value ) ) { return false; }
+	public boolean operatorEquals( final TitanCharacter_String otherValue) {
+		if ( !this.identification.operatorEquals( otherValue.identification ) ) { return false; }
+		if ( !this.data__value__descriptor.operatorEquals( otherValue.data__value__descriptor ) ) { return false; }
+		if ( !this.string__value.operatorEquals( otherValue.string__value ) ) { return false; }
 		return true;
 	}
 

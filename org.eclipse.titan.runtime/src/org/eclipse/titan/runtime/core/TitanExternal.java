@@ -28,46 +28,46 @@ public class TitanExternal extends Base_Type {
 	private final TitanOctetString data__value; //OctetString_Type
 
 	public TitanExternal() {
-		identification = new TitanExternal_identification();
-		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		data__value = new TitanOctetString();
+		this.identification = new TitanExternal_identification();
+		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
+		this.data__value = new TitanOctetString();
 	}
 
-	public TitanExternal( final TitanExternal_identification aidentification, final Optional<TitanUniversalCharString> adata__value__descriptor, final TitanOctetString adata__value ) {
-		identification = new TitanExternal_identification( aidentification );
-		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
-		this.data__value__descriptor.assign( adata__value__descriptor );
-		data__value = new TitanOctetString( adata__value );
+	public TitanExternal(final TitanExternal_identification identification, final Optional<TitanUniversalCharString> data__value__descriptor, final TitanOctetString data__value ) {
+		this.identification = new TitanExternal_identification( identification );
+		this.data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
+		this.data__value__descriptor.assign( data__value__descriptor );
+		this.data__value = new TitanOctetString( data__value );
 	}
 
-	public TitanExternal( final TitanExternal aOtherValue ) {
-		if(!aOtherValue.isBound()) {
+	public TitanExternal( final TitanExternal otherValue) {
+		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type EXTERNAL.");
 		}
 		identification = new TitanExternal_identification();
 		data__value__descriptor = new Optional<TitanUniversalCharString>(TitanUniversalCharString.class);
 		data__value = new TitanOctetString();
-		assign( aOtherValue );
+		assign( otherValue );
 	}
 
-	public TitanExternal assign(final TitanExternal aOtherValue ) {
-		if ( !aOtherValue.isBound() ) {
+	public TitanExternal assign(final TitanExternal otherValue ) {
+		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL");
 		}
 
-		if (aOtherValue != this) {
-			if ( aOtherValue.getidentification().isBound() ) {
-				this.identification.assign( aOtherValue.getidentification() );
+		if (otherValue != this) {
+			if ( otherValue.getidentification().isBound() ) {
+				this.identification.assign( otherValue.getidentification() );
 			} else {
 				this.identification.cleanUp();
 			}
-			if ( aOtherValue.getdata__value__descriptor().isBound() ) {
-				this.data__value__descriptor.assign( aOtherValue.getdata__value__descriptor() );
+			if ( otherValue.getdata__value__descriptor().isBound() ) {
+				this.data__value__descriptor.assign( otherValue.getdata__value__descriptor() );
 			} else {
 				this.data__value__descriptor.cleanUp();
 			}
-			if ( aOtherValue.getdata__value().isBound() ) {
-				this.data__value.assign( aOtherValue.getdata__value() );
+			if ( otherValue.getdata__value().isBound() ) {
+				this.data__value.assign( otherValue.getdata__value() );
 			} else {
 				this.data__value.cleanUp();
 			}
@@ -112,10 +112,10 @@ public class TitanExternal extends Base_Type {
 		return true;
 	}
 
-	public boolean operatorEquals( final TitanExternal aOtherValue ) {
-		if ( !this.identification.operatorEquals( aOtherValue.identification ) ) { return false; }
-		if ( !this.data__value__descriptor.operatorEquals( aOtherValue.data__value__descriptor ) ) { return false; }
-		if ( !this.data__value.operatorEquals( aOtherValue.data__value ) ) { return false; }
+	public boolean operatorEquals( final TitanExternal otherValue) {
+		if ( !this.identification.operatorEquals( otherValue.identification ) ) { return false; }
+		if ( !this.data__value__descriptor.operatorEquals( otherValue.data__value__descriptor ) ) { return false; }
+		if ( !this.data__value.operatorEquals( otherValue.data__value ) ) { return false; }
 		return true;
 	}
 

@@ -25,37 +25,37 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 	private final TitanObjectid transfer; //ObjectID_Type
 
 	public TitanCharacter_String_identification_syntaxes() {
-		abstract_ = new TitanObjectid();
-		transfer = new TitanObjectid();
+		this.abstract_ = new TitanObjectid();
+		this.transfer = new TitanObjectid();
 	}
 
-	public TitanCharacter_String_identification_syntaxes( final TitanObjectid aabstract_, final TitanObjectid atransfer ) {
-		abstract_ = new TitanObjectid( aabstract_ );
-		transfer = new TitanObjectid( atransfer );
+	public TitanCharacter_String_identification_syntaxes(final TitanObjectid abstract_, final TitanObjectid transfer ) {
+		this.abstract_ = new TitanObjectid( abstract_ );
+		this.transfer = new TitanObjectid( transfer );
 	}
 
-	public TitanCharacter_String_identification_syntaxes( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if(!aOtherValue.isBound()) {
+	public TitanCharacter_String_identification_syntaxes( final TitanCharacter_String_identification_syntaxes otherValue) {
+		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type CHARACTER STRING.identification.syntaxes.");
 		}
 		abstract_ = new TitanObjectid();
 		transfer = new TitanObjectid();
-		assign( aOtherValue );
+		assign( otherValue );
 	}
 
-	public TitanCharacter_String_identification_syntaxes assign(final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !aOtherValue.isBound() ) {
+	public TitanCharacter_String_identification_syntaxes assign(final TitanCharacter_String_identification_syntaxes otherValue ) {
+		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type CHARACTER STRING.identification.syntaxes");
 		}
 
-		if (aOtherValue != this) {
-			if ( aOtherValue.getabstract_().isBound() ) {
-				this.abstract_.assign( aOtherValue.getabstract_() );
+		if (otherValue != this) {
+			if ( otherValue.getabstract_().isBound() ) {
+				this.abstract_.assign( otherValue.getabstract_() );
 			} else {
 				this.abstract_.cleanUp();
 			}
-			if ( aOtherValue.gettransfer().isBound() ) {
-				this.transfer.assign( aOtherValue.gettransfer() );
+			if ( otherValue.gettransfer().isBound() ) {
+				this.transfer.assign( otherValue.gettransfer() );
 			} else {
 				this.transfer.cleanUp();
 			}
@@ -97,9 +97,9 @@ public class TitanCharacter_String_identification_syntaxes extends Base_Type {
 		return true;
 	}
 
-	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes aOtherValue ) {
-		if ( !this.abstract_.operatorEquals( aOtherValue.abstract_ ) ) { return false; }
-		if ( !this.transfer.operatorEquals( aOtherValue.transfer ) ) { return false; }
+	public boolean operatorEquals( final TitanCharacter_String_identification_syntaxes otherValue) {
+		if ( !this.abstract_.operatorEquals( otherValue.abstract_ ) ) { return false; }
+		if ( !this.transfer.operatorEquals( otherValue.transfer ) ) { return false; }
 		return true;
 	}
 

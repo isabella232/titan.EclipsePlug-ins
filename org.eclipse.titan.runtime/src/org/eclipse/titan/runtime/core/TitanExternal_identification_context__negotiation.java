@@ -25,37 +25,37 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 	private final TitanObjectid transfer__syntax; //ObjectID_Type
 
 	public TitanExternal_identification_context__negotiation() {
-		presentation__context__id = new TitanInteger();
-		transfer__syntax = new TitanObjectid();
+		this.presentation__context__id = new TitanInteger();
+		this.transfer__syntax = new TitanObjectid();
 	}
 
-	public TitanExternal_identification_context__negotiation( final TitanInteger apresentation__context__id, final TitanObjectid atransfer__syntax ) {
-		presentation__context__id = new TitanInteger( apresentation__context__id );
-		transfer__syntax = new TitanObjectid( atransfer__syntax );
+	public TitanExternal_identification_context__negotiation(final TitanInteger presentation__context__id, final TitanObjectid transfer__syntax ) {
+		this.presentation__context__id = new TitanInteger( presentation__context__id );
+		this.transfer__syntax = new TitanObjectid( transfer__syntax );
 	}
 
-	public TitanExternal_identification_context__negotiation( final TitanExternal_identification_context__negotiation aOtherValue ) {
-		if(!aOtherValue.isBound()) {
+	public TitanExternal_identification_context__negotiation( final TitanExternal_identification_context__negotiation otherValue) {
+		if(!otherValue.isBound()) {
 			throw new TtcnError("Copying of an unbound value of type EXTERNAL.identification.context-negotiation.");
 		}
 		presentation__context__id = new TitanInteger();
 		transfer__syntax = new TitanObjectid();
-		assign( aOtherValue );
+		assign( otherValue );
 	}
 
-	public TitanExternal_identification_context__negotiation assign(final TitanExternal_identification_context__negotiation aOtherValue ) {
-		if ( !aOtherValue.isBound() ) {
+	public TitanExternal_identification_context__negotiation assign(final TitanExternal_identification_context__negotiation otherValue ) {
+		if ( !otherValue.isBound() ) {
 			throw new TtcnError( "Assignment of an unbound value of type EXTERNAL.identification.context-negotiation");
 		}
 
-		if (aOtherValue != this) {
-			if ( aOtherValue.getpresentation__context__id().isBound() ) {
-				this.presentation__context__id.assign( aOtherValue.getpresentation__context__id() );
+		if (otherValue != this) {
+			if ( otherValue.getpresentation__context__id().isBound() ) {
+				this.presentation__context__id.assign( otherValue.getpresentation__context__id() );
 			} else {
 				this.presentation__context__id.cleanUp();
 			}
-			if ( aOtherValue.gettransfer__syntax().isBound() ) {
-				this.transfer__syntax.assign( aOtherValue.gettransfer__syntax() );
+			if ( otherValue.gettransfer__syntax().isBound() ) {
+				this.transfer__syntax.assign( otherValue.gettransfer__syntax() );
 			} else {
 				this.transfer__syntax.cleanUp();
 			}
@@ -97,9 +97,9 @@ public class TitanExternal_identification_context__negotiation extends Base_Type
 		return true;
 	}
 
-	public boolean operatorEquals( final TitanExternal_identification_context__negotiation aOtherValue ) {
-		if ( !this.presentation__context__id.operatorEquals( aOtherValue.presentation__context__id ) ) { return false; }
-		if ( !this.transfer__syntax.operatorEquals( aOtherValue.transfer__syntax ) ) { return false; }
+	public boolean operatorEquals( final TitanExternal_identification_context__negotiation otherValue) {
+		if ( !this.presentation__context__id.operatorEquals( otherValue.presentation__context__id ) ) { return false; }
+		if ( !this.transfer__syntax.operatorEquals( otherValue.transfer__syntax ) ) { return false; }
 		return true;
 	}
 
