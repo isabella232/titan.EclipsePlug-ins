@@ -606,11 +606,9 @@ public class TitanFloat_template extends Base_Template {
 		case MP_ComplementList_Template: {
 			final TitanFloat_template temp = new TitanFloat_template();
 			temp.setType(param.get_type() == type_t.MP_List_Template ?
-					template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST);
+					template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, param.get_size());
 			for (int i = 0; i < param.get_size(); i++) {
-				final TitanFloat_template tempElem = new TitanFloat_template();
-				tempElem.set_param(param.get_elem(i));
-				temp.value_list.add(tempElem);
+				temp.listItem(i).set_param(param.get_elem(i));
 			}
 			assign(temp);
 			break;
