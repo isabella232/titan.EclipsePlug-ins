@@ -300,7 +300,7 @@ public final class Charstring_Value extends Value {
 	public StringBuilder generateSingleExpression(final JavaGenData aData) {
 		//TODO register as module level charstring literal and return the literal's name
 		final StringBuilder result = new StringBuilder();
-		result.append(MessageFormat.format("\"{0}\"", getEscapedValue()));
+		result.append(MessageFormat.format("\"{0}\"", value));
 
 		return result;
 	}
@@ -308,7 +308,7 @@ public final class Charstring_Value extends Value {
 	@Override
 	/** {@inheritDoc} */
 	public StringBuilder generateCodeInit(final JavaGenData aData, final StringBuilder source, final String name) {
-		source.append(MessageFormat.format("{0}.assign(\"{1}\");\n", name, getEscapedValue()));
+		source.append(MessageFormat.format("{0}.assign(\"{1}\");\n", name, value));
 
 		return source;
 	}
@@ -326,7 +326,7 @@ public final class Charstring_Value extends Value {
 		if (s == null) {
 			return null;
 		}
-		return s.replace("\"\"", "\\\"").replace("\\", "\\\\").replace("\"", "\\\"");
+		return s.replace("\\", "\\\\").replace("\"", "\\\"");
 	}
 
 	private String getEscapedValue() {
