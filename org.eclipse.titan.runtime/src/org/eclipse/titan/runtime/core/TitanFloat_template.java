@@ -10,6 +10,7 @@ package org.eclipse.titan.runtime.core;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 
+import org.eclipse.titan.runtime.core.Base_Template.template_sel;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.basic_check_bits_t;
 import org.eclipse.titan.runtime.core.Param_Types.Module_Parameter.type_t;
@@ -205,8 +206,22 @@ public class TitanFloat_template extends Base_Template {
 	public boolean match(final Base_Type otherValue, final boolean legacy) {
 		if (otherValue instanceof TitanFloat) {
 			return match((TitanFloat) otherValue, legacy);
+		} else if(otherValue instanceof Optional<?>) {
+			switch(((Optional<?>) otherValue).get_selection()) {
+			case OPTIONAL_OMIT:
+				return match_omit(legacy);
+			case OPTIONAL_PRESENT:
+				Object val =  ( (Optional<?>) otherValue).get();
+				if( val instanceof TitanFloat ) {
+					return match((TitanFloat) val, legacy);
+				}
+				break;
+			case OPTIONAL_UNBOUND:
+				break;
+			}
 		}
-
+		//TODO: write better error log!
+		//General solution???
 		throw new TtcnError(MessageFormat.format("Internal Error: value `{0}'' can not be cast to float", otherValue));
 	}
 
