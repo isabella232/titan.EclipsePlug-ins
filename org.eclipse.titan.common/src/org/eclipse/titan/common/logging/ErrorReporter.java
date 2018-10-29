@@ -30,8 +30,11 @@ public final class ErrorReporter {
 	}
 
 	/**
-	 * A simple little static function to log an exception in the Eclipse provided error log.
-	 * @param e The exception to be logged.
+	 * A simple little static function to log an exception in the Eclipse
+	 * provided error log.
+	 * 
+	 * @param e
+	 *                The exception to be logged.
 	 */
 	public static void logExceptionStackTrace(final Exception e) {
 		final String message = e.getMessage();
@@ -39,9 +42,13 @@ public final class ErrorReporter {
 	}
 
 	/**
-	 * A simple little static function to log an exception in the Eclipse provided error log.
-	 * @param context contextual information
-	 * @param e The exception to be logged.
+	 * A simple little static function to log an exception in the Eclipse
+	 * provided error log.
+	 * 
+	 * @param context
+	 *                contextual information
+	 * @param e
+	 *                The exception to be logged.
 	 */
 	public static void logExceptionStackTrace(final String context, final Throwable e) {
 		getMyLog().log(new Status(IStatus.ERROR, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, context, e));
@@ -50,10 +57,12 @@ public final class ErrorReporter {
 	/**
 	 * STRICTLY INTERNAL
 	 *
-	 * Reports an error in the error log with a description and a full stack trace. Used to report internal (programmer) errors, that are needed to
-	 * debug a special error occurrence.
+	 * Reports an error in the error log with a description and a full stack
+	 * trace. Used to report internal (programmer) errors, that are needed
+	 * to debug a special error occurrence.
 	 *
-	 * @param description the description of error to report.
+	 * @param description
+	 *                the description of error to report.
 	 * */
 	public static void INTERNAL_ERROR(final String description) {
 		final Exception e = new Exception(description);
@@ -63,10 +72,12 @@ public final class ErrorReporter {
 	/**
 	 * STRICTLY INTERNAL
 	 *
-	 * Reports an error in the error log with a description and a full stack trace. Used to report internal (programmer) errors, that are needed to
-	 * debug a special error occurrence.
+	 * Reports an error in the error log with a description and a full stack
+	 * trace. Used to report internal (programmer) errors, that are needed
+	 * to debug a special error occurrence.
 	 *
-	 * SHOULD ONLY BE USED IF THERE IS NO WAY TO PROVIDE MEANINGFUL INFORMATION.
+	 * SHOULD ONLY BE USED IF THERE IS NO WAY TO PROVIDE MEANINGFUL
+	 * INFORMATION.
 	 * */
 	public static void INTERNAL_ERROR() {
 		final Exception e = new Exception("An INTERNAL ERROR has occured");
@@ -76,35 +87,43 @@ public final class ErrorReporter {
 	/**
 	 * Reports an error in the error log with a description.
 	 *
-	 * @param description the description of error to report.
+	 * @param description
+	 *                the description of error to report.
 	 * */
 	public static void logError(final String description) {
 		getMyLog().log(new Status(IStatus.ERROR, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, description, null));
 	}
 
 	/**
-	 * Reports a warning in the error log with a description and a full stack trace.
+	 * Reports a warning in the error log with a description and a full
+	 * stack trace.
 	 *
-	 * @param description the description of error to report.
+	 * @param description
+	 *                the description of error to report.
 	 * */
 	public static void logWarning(final String description) {
 		getMyLog().log(new Status(IStatus.WARNING, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, description, null));
 	}
 
 	/**
-	 * A simple little static function to log an exception in the Eclipse provided error log as a warning.
+	 * A simple little static function to log an exception in the Eclipse
+	 * provided error log as a warning.
 	 *
-	 * @param context contextual information
-	 * @param e The exception to be logged.
+	 * @param context
+	 *                contextual information
+	 * @param e
+	 *                The exception to be logged.
 	 */
 	public static void logWarningExceptionStackTrace(final String context, final Exception e) {
 		getMyLog().log(new Status(IStatus.WARNING, ProductConstants.PRODUCT_ID_COMMON, IStatus.OK, context, e));
 	}
 
 	/**
-	 * A simple little static function to log an exception in the Eclipse provided error log as a warning.
+	 * A simple little static function to log an exception in the Eclipse
+	 * provided error log as a warning.
 	 *
-	 * @param e The exception to be logged.
+	 * @param e
+	 *                The exception to be logged.
 	 */
 	public static void logWarningExceptionStackTrace(final Exception e) {
 		final String message = e.getMessage();
@@ -115,7 +134,8 @@ public final class ErrorReporter {
 	 * A general way to convert a stack trace list into a single string.
 	 * Useful for reporting special error messages.
 	 *
-	 * @param elements the list of stack trace elements.
+	 * @param elements
+	 *                the list of stack trace elements.
 	 * @return the string form of the stack trace.
 	 * */
 	public static String stackTraceToString(final StackTraceElement[] elements) {
@@ -135,9 +155,12 @@ public final class ErrorReporter {
 	}
 
 	/**
-	 * Sets the logger which will be used from this point.
-	 * Can be used when the default logger of the platform is not available. (e.g. when unit testing)
-	 * @param newLog The logger
+	 * Sets the logger which will be used from this point. Can be used when
+	 * the default logger of the platform is not available. (e.g. when unit
+	 * testing)
+	 * 
+	 * @param newLog
+	 *                The logger
 	 */
 	public static void setLog(final ILog newLog) {
 		log = newLog;
@@ -146,8 +169,11 @@ public final class ErrorReporter {
 
 	/**
 	 * Prints the message into the status line in a new thread
-	 * @param targetEditor the editor which the message is sent from
+	 * 
+	 * @param targetEditor
+	 *                the editor which the message is sent from
 	 * @param errorMessage
+	 *                the message
 	 */
 	public static void parallelDisplayInStatusLine(final IEditorPart targetEditor, final String errorMessage) {
 		Display.getDefault().asyncExec(new Runnable() {
@@ -162,8 +188,11 @@ public final class ErrorReporter {
 
 	/**
 	 * Displays the error message in a MessageDialog in a new thread
+	 * 
 	 * @param title
+	 *                the dialog's title, or <code>null</code> if none
 	 * @param message
+	 *                the message
 	 */
 	public static void parallelErrorDisplayInMessageDialog(final String title, final String message){
 		Display.getDefault().asyncExec(new Runnable() {
@@ -176,8 +205,11 @@ public final class ErrorReporter {
 
 	/**
 	 * Displays the warning message in a MessageDialog in a new thread
+	 * 
 	 * @param title
+	 *                the dialog's title, or <code>null</code> if none
 	 * @param message
+	 *                the message
 	 */
 	public static void parallelWarningDisplayInMessageDialog(final String title, final String message){
 		Display.getDefault().asyncExec(new Runnable() {
