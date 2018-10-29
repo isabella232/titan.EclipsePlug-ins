@@ -530,7 +530,6 @@ public final class Indexed_Template_List extends TTCN3Template {
 			return;
 		}
 
-		//FIXME actually a bit more complex
 		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		String ofTypeName;
 		switch(type.getTypetype()) {

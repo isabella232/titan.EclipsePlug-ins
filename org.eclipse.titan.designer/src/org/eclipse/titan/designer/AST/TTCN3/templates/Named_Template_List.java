@@ -673,7 +673,6 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		//FIXME actually a bit more complex
 		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		if (type == null) {
 			return;
@@ -687,8 +686,6 @@ public final class Named_Template_List extends TTCN3Template {
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 			final String fieldName = namedTemplate.getName().getName();
-			//FIXME handle needs_temp_ref case
-
 			final String generatedFieldName = FieldSubReference.getJavaGetterName(fieldName);
 			final TTCN3Template template = namedTemplate.getTemplate();
 			if (template.needsTemporaryReference()) {
