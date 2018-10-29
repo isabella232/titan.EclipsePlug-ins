@@ -563,7 +563,6 @@ public final class Named_Template_List extends TTCN3Template {
 			return;
 		}
 
-		final IType type = myGovernor.getTypeRefdLast(CompilationTimeStamp.getBaseTimestamp());
 		for (int i = 0; i < namedTemplates.getNofTemplates(); i++) {
 			final NamedTemplate namedTemplate = namedTemplates.getTemplateByIndex(i);
 
