@@ -9,6 +9,10 @@ package org.eclipse.titan.common.log.merge;
 
 import java.util.regex.Pattern;
 
+/**
+ * This enumeration represents the time stamp formats possible ni log files.
+ * This way they can be referenced with name.
+ * */
 enum TimestampFormat {
 	DATETIME_FORMAT("DateTime", "\\d\\d\\d\\d/\\w*/\\d\\d \\d\\d:\\d\\d:\\d\\d\\.\\d\\d\\d\\d\\d\\d", 27),
 	TIME_FORMAT("Time", "\\d\\d:\\d\\d:\\d\\d\\.\\d\\d\\d\\d\\d\\d", 15),
@@ -24,14 +28,23 @@ enum TimestampFormat {
 		this.formatSize = formatSize;
 	}
 
+	/**
+	 * @return the name of this timestamp format.
+	 * */
 	public String getFormatName() {
 		return formatName;
 	}
 
+	/**
+	 * @return the pattern of this timestamp format.
+	 * */
 	public Pattern getPattern() {
 		return timestampPattern;
 	}
 
+	/**
+	 * @return the size of this timestamp format in characters.
+	 * */
 	public int getFormatSize() {
 		return formatSize;
 	}

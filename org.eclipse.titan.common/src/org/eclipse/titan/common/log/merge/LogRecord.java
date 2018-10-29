@@ -7,6 +7,9 @@
  ******************************************************************************/
 package org.eclipse.titan.common.log.merge;
 
+/**
+ * Represents a single log record for merge purposes.
+ * */
 final class LogRecord {
 	private final String timestamp;
 	private final String text;
