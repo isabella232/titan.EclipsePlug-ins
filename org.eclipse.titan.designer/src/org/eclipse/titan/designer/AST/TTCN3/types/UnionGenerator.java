@@ -100,6 +100,7 @@ public final class UnionGenerator {
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tr_pos");
 		aData.addBuiltinTypeImport("RAW.RAW_enc_tree");
 		aData.addBuiltinTypeImport("TTCN_EncDec_ErrorContext");
+		aData.addBuiltinTypeImport("Param_Types.Module_Parameter");
 
 		final boolean rawNeeded = hasRaw; //TODO can be forced optionally if needed
 		if (rawNeeded) {
@@ -121,13 +122,12 @@ public final class UnionGenerator {
 		generateValueGetterSetters(source, genName, displayName, fieldInfos);
 		generateValueGetSelection(source);
 		generateValueLog(source, fieldInfos);
+		generateValueSetParam(source, displayName, fieldInfos);
 		if (fieldInfos.size() > 0) {
 			generateValueSetImplicitOmit(source, fieldInfos);
 		}
 		generateValueEncodeDecodeText(source, genName, displayName, fieldInfos);
 		generateValueEncodeDecode(source, genName, displayName, fieldInfos, rawNeeded, hasRaw, raw);
-		//FIXME implement set_param
-		source.append( "\t\t//TODO: implement set_param !\n" );
 		source.append("}\n");
 	}
 
@@ -147,6 +147,7 @@ public final class UnionGenerator {
 			final List<FieldInfo> fieldInfos, final boolean hasOptional) {
 		aData.addBuiltinTypeImport("Base_Template");
 		aData.addBuiltinTypeImport("Text_Buf");
+		aData.addBuiltinTypeImport("Param_Types.Module_Param_Name");
 		aData.addImport("java.util.ArrayList");
 
 		source.append(MessageFormat.format("public static class {0}_template extends Base_Template '{'\n", genName));
@@ -167,10 +168,10 @@ public final class UnionGenerator {
 		generateTemplateLog(source, fieldInfos);
 		generateTemplateLogMatch(source, genName, displayName, fieldInfos);
 		generateTemplateEncodeDecodeText(source, genName, displayName, fieldInfos);
+		generateTemplateSetParam(source, displayName, fieldInfos);
 
-		//FIXME implement set_param
 		//FIXME implement check_restriction
-		source.append( "\t\t//TODO: implement set_param, check_restriction !\n" );
+		source.append( "\t\t//TODO: implement check_restriction !\n" );
 		source.append("}\n");
 	}
 
@@ -464,7 +465,42 @@ public final class UnionGenerator {
 		source.append("TTCN_Logger.log_event_unbound();\n");
 		source.append("break;\n");
 		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate set_param.
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param displayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 */
+	private static void generateValueSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_VALUE.getValue(), \"union value\");\n");
+		source.append("if(param.get_type() == Module_Parameter.type_t.MP_Value_List && param.get_size() == 0) {\n");
+		source.append("return;\n");
 		source.append("}\n");
+		source.append("if (param.get_type() != Module_Parameter.type_t.MP_Assignment_List) {\n");
+		source.append("param.error(\"union value with field name was expected\");\n");
+		source.append("}\n");
+		source.append("final Module_Parameter mp_last = param.get_elem(param.get_size() - 1);\n");
+		//TODO name could be extracted for performance
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append(MessageFormat.format("if (\"{0}\".equals(mp_last.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
+			source.append(MessageFormat.format("get{0}().set_param(mp_last);\n", fieldInfo.mJavaVarName));
+			source.append("if (!field.isBound()) {\n");
+			source.append("cleanUp();\n");
+			source.append("}\n");
+			source.append("return;\n");
+			source.append("}\n");
+		}
+
+		source.append(MessageFormat.format("mp_last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", mp_last.get_id().get_name()));\n", displayName));
+		source.append("}\n\n");
 	}
 
 	/**
@@ -1500,6 +1536,85 @@ public final class UnionGenerator {
 		source.append("default:\n");
 		source.append(MessageFormat.format("throw new TtcnError(\"Text decoder: Unrecognized selector was received in a template of type {0}.\");\n", displayName));
 		source.append("}\n");
+		source.append("}\n\n");
+	}
+
+	/**
+	 * Generate set_param
+	 *
+	 * @param source where the source code is to be generated.
+	 * @param displayName the user readable name of the type to be generated.
+	 * @param fieldInfos the list of information about the fields.
+	 * */
+	private static void generateTemplateSetParam(final StringBuilder source, final String displayName, final List<FieldInfo> fieldInfos) {
+		source.append("@Override\n");
+		source.append("public void set_param(final Module_Parameter param) {\n");
+		source.append("if((param.get_id() instanceof Module_Param_Name) && param.get_id().next_name()) {\n");
+		source.append("final String param_field = param.get_id().get_current_name();\n");
+		source.append("if (param_field.charAt(0) >= '0' && param_field.charAt(0) <= '9') {\n");
+		source.append(MessageFormat.format("param.error(\"Unexpected array index in module parameter, expected a valid field name for union template type `{0}'\");\n", displayName));
+		source.append("}\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			if (i != 0) {
+				source.append(" else ");
+			}
+			source.append(MessageFormat.format("if(\"{0}\".equals(param_field)) '{'\n", fieldInfo.mDisplayName));
+			source.append("single_value.set_param(param);\n");
+			source.append("return;\n");
+			source.append("}");
+		}
+
+		source.append(" else {\n");
+		source.append(MessageFormat.format("param.error(MessageFormat.format(\"Field `'{'0'}'' not found in union template type `{0}'\", param_field));\n", displayName));
+		source.append("}\n");
+		source.append("}\n");
+
+		source.append("param.basic_check(Module_Parameter.basic_check_bits_t.BC_TEMPLATE.getValue(), \"union template\");\n");
+		source.append("switch (param.get_type()) {\n");
+		source.append("case MP_Omit:\n");
+		source.append("assign(template_sel.OMIT_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_Any:\n");
+		source.append("assign(template_sel.ANY_VALUE);\n");
+		source.append("break;\n");
+		source.append("case MP_AnyOrNone:\n");
+		source.append("assign(template_sel.ANY_OR_OMIT);\n");
+		source.append("break;\n");
+		source.append("case MP_List_Template:\n");
+		source.append("case MP_ComplementList_Template: {\n");
+		source.append("final int size = param.get_size();\n");
+		source.append("setType(param.get_type() == Module_Parameter.type_t.MP_List_Template ? template_sel.VALUE_LIST : template_sel.COMPLEMENTED_LIST, size);\n");
+		source.append("for (int i = 0; i < size; i++) {\n");
+		source.append("listItem(i).set_param(param.get_elem(i));\n");
+		source.append("}\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("case MP_Value_List:\n");
+		source.append("if (param.get_size() == 0) {\n");
+		source.append("break;\n");
+		source.append("}\n");
+		source.append(MessageFormat.format("param.type_error(\"union template\", \"{0}\");\n", displayName));
+		source.append("break;\n");
+		source.append("case MP_Assignment_List: {\n");
+		source.append("final Module_Parameter last = param.get_elem(param.get_size() - 1);\n");
+		for (int i = 0 ; i < fieldInfos.size(); i++) {
+			final FieldInfo fieldInfo = fieldInfos.get(i);
+
+			source.append(MessageFormat.format("if(\"{0}\".equals(last.get_id().get_name())) '{'\n", fieldInfo.mDisplayName));
+			source.append("getfield1().set_param(last);\n");
+			source.append("break;\n");
+			source.append("}\n");
+		}
+
+		source.append(MessageFormat.format("last.error(MessageFormat.format(\"Field '{'0'}' does not exist in type {0}.\", last.get_id().get_name()));\n", displayName));
+		source.append("break;\n");
+		source.append("}\n");
+		source.append("default:\n");
+		source.append(MessageFormat.format("param.type_error(\"union template\", \"{0}\");\n", displayName));
+		source.append("}\n");
+		source.append("is_ifPresent = param.get_ifpresent();\n");
 		source.append("}\n");
 	}
 
